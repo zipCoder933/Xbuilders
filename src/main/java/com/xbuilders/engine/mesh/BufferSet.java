@@ -1,0 +1,229 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.xbuilders.engine.mesh;
+
+import java.nio.IntBuffer;
+import java.util.ArrayList;
+
+import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.world.chunk.Chunk;
+import org.lwjgl.system.MemoryUtil;
+
+/**
+ * @author zipCoder933
+ */
+public class BufferSet {
+
+    public final static float maxMult10bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
+    public final static float maxMult12bits = (float) ((Math.pow(2, 12) / Chunk.WIDTH) - 1);
+
+
+    public static int packFirstInt(float vertX, float vertY, byte normals) {
+        int a = (int) (vertX * maxMult12bits); //A and b are 12 bits. Their range is 2^12 (0-4095)
+        int b = (int) (vertY * maxMult12bits);
+
+        //c is just a single byte
+        return (a << 20) | (b << 8) | normals; //Normals are the last 8 bits
+    }
+
+
+    public static int packSecondInt(float vertZ, float u, float v) {
+        int a = (int) (vertZ * maxMult12bits); //12 bits
+        int b = (int) (u * maxMult10bits); //10 bits
+        int c = (int) (v * maxMult10bits); //10 bits
+
+        //a = 2^12 (0-4095), b and c = 2^10 (0-1023)
+        return (a << 20) | (b << 10) | c;
+    }
+
+
+    public static int packThirdInt(int texture, int animation) {
+        // First 16 bits for texture
+        int textureBits = (texture & 0xFFFF) << 16;
+        //Remaining 16 bits for animation
+        int animationBits = (animation & 0xFFFF);
+
+        return textureBits | animationBits;
+    }
+
+
+    //-----------------------------------------------------------------------------
+
+//    /**
+//     * Packs three integer coordinates into a single integer.
+//     *
+//     * @param x The x-coordinate.
+//     * @param y The y-coordinate.
+//     * @param z The z-coordinate.
+//     * @return The packed integer.
+//     */
+//    public static int packCoords(int x, int y, int z) {
+//        // Each value is reduced to 10 bits, this integer is only wasting 2 bits
+//        return z | (x << 10) | (y << 20);
+//    }
+//
+//    /**
+//     * Unpacks an integer into a Vector3f representing coordinates.
+//     *
+//     * @param vec    The Vector3f to store the unpacked coordinates.
+//     * @param packed The packed integer containing x, y, and z coordinates.
+//     */
+//    public static void unpackCoords(Vector3f vec, int packed) {
+//        float y = (packed >> 20);
+//        float x = (packed >> 10) & 0x3FF;  // Use bitmask to get 10 bits
+//        float z = packed & 0x3FF;  // Use bitmask to get 10 bits
+//        vec.set(x, y, z);
+//    }
+
+
+    /**
+     * This is the primary memory contributor in the greedy mesher
+     */
+    public final int VECTOR_ELEMENTS = 3;
+
+
+    //<editor-fold desc="Buffer Set (Reusable IntBuffer version)">
+//    private IntBuffer verts;
+//    int indx = 0;
+//
+//    public boolean isEmpty() {
+//        return indx == 0;
+//    }
+//
+//    public void clear() {
+//        MemoryUtil.memFree(verts);
+//        indx = 0;
+//    }
+//
+//    public BufferSet() {
+//        indx = 0;
+//        verts = MemoryUtil.memAllocInt(1);
+//    }
+//
+//    public IntBuffer makeVertexSet() {
+//        verts = MemoryUtil.memRealloc(verts, indx);
+//        return verts;
+////        return null;
+//    }
+//
+//    public void vertex(int firstInt, int secondInt, int thridInt) {
+//        if (indx + 3 > verts.capacity()) verts = MemoryUtil.memRealloc(verts, indx + 30);
+//        verts.put(indx, firstInt);
+//        verts.put(indx + 1, secondInt);
+//        verts.put(indx + 2, thridInt);
+//        indx += 3;
+//    }
+//</editor-fold>
+
+    //<editor-fold desc="Buffer Set (IntBuffer version)">
+//    private IntBuffer verts;
+//    int indx;
+//
+//    public boolean isEmpty() {
+//        return indx == 0;
+//    }
+//
+//    public BufferSet() {
+//        indx = 0;
+//        verts = MemoryUtil.memAllocInt(1);
+//    }
+//
+//    public IntBuffer makeVertexSet() {
+//        verts = MemoryUtil.memRealloc(verts, indx);
+//        return verts;
+////        return null;
+//    }
+//
+//    public void vertex(int firstInt, int secondInt, int thridInt) {
+//        if (indx + 3 > verts.capacity()) verts = MemoryUtil.memRealloc(verts, indx + 30);
+//        verts.put(indx, firstInt);
+//        verts.put(indx + 1, secondInt);
+//        verts.put(indx + 2, thridInt);
+//        indx += 3;
+//    }
+//
+//
+//    private IntBuffer verts;
+//    int indx;
+//    public final static int VECTOR_ELEMENTS = 3;
+//
+//    public boolean isEmpty() {
+//        return indx == 0;
+////        return verts.isEmpty();
+//    }
+//</editor-fold>
+
+
+    //<editor-fold desc="Buffer Set (ArrayList version)">
+    private ArrayList<IntBuffer> verts = new ArrayList<>();
+    //    static boolean usedAlready = false;
+    private IntBuffer buffer;
+
+    public boolean isEmpty() {
+        return verts.isEmpty();
+    }
+
+
+    public void clear() {
+        verts.clear();
+    }
+
+    public IntBuffer makeVertexSet() {
+        //The main contributor to the memory usage is the IntBuffer
+//        if (usedAlready) return null;
+        int size = verts.size();
+//        System.out.println("Making Vertex Set of size: " + size);
+        int j = 0;
+
+        buffer = MemoryUtil.memAllocInt(size * VECTOR_ELEMENTS);
+        for (int i = 0; i < size; i++) {
+            IntBuffer vertex = verts.get(i);
+            buffer.put(j, vertex.get(0));
+            buffer.put(j + 1, vertex.get(1));
+            buffer.put(j + 2, vertex.get(2));
+            MemoryUtil.memFree(vertex);
+            j += 3;
+        }
+        clear();
+//        usedAlready = true;
+        return buffer;
+//        return null;
+    }
+
+    public void vertex(int firstInt, int secondInt, int thridInt) {
+        //The arraylist is a minor contributor to the memory usage.
+        IntBuffer vert = MemoryUtil.memAllocInt(VECTOR_ELEMENTS);
+        vert.put(0, firstInt);
+        vert.put(1, secondInt);
+        vert.put(2, thridInt);
+        verts.add(vert);
+    }
+    //</editor-fold>
+
+
+    public void vertex(float x, float y, float z,
+                       float uvX, float uvY, BlockTexture.FaceTexture texture) {
+        //, byte sun, float torch
+        vertex(packFirstInt(x, y, (byte) 0),
+                packSecondInt(z, uvX, uvY),
+                packThirdInt(texture.id, texture.animationLength));
+    }
+
+    public void vertex(float x, float y, float z,
+                       float uvX, float uvY, byte normal, BlockTexture.FaceTexture texture) {
+        vertex(packFirstInt(x, y, normal),
+                packSecondInt(z, uvX, uvY),
+                packThirdInt(texture.id, texture.animationLength));
+    }
+
+    public void vertex(float x, float y, float z,
+                       float uvX, float uvY, int normal,
+                       int texture, int animationLength) {
+        vertex(packFirstInt(x, y, (byte) normal),
+                packSecondInt(z, uvX, uvY),
+                packThirdInt(texture, animationLength));
+    }
+
+}

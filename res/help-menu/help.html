@@ -1,0 +1,288 @@
+<html>
+
+<head>
+    <title>X-Builders 2 Help Menu</title>
+    <link rel="icon" href="images/icon.ico" />
+    <link href="bootstrap.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        table td {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            padding-right: 20px;
+        }
+
+        #blockModes td {
+            padding: 5px 20px;
+            padding-right: 20px;
+        }
+
+        table th {
+            background-color: #ddd;
+            padding-right: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Press Start 2P', arial;
+            /*background-color: #eee;*/
+            padding: 5px;
+            color: #333;
+            font-size: 1em;
+        }
+
+
+        h1 {
+            font-size: 1.3em;
+            text-transform: capitalize;
+        }
+
+        h2 {
+            margin-top: 30px;
+            font-weight: 700;
+            font-size: 1em;
+            color: rgb(0, 76, 255);
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 1em;
+            margin-top: 30px;
+        }
+
+        h4 {
+            font-size: 1.05em;
+            font-weight: 700;
+
+        }
+    </style>
+</head>
+
+<body style="background-color: #eee;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-md-8" style="background-color: #fff;padding:50px 20px;">
+                <h1>X-Builders Keyboard and Mouse Reference</h1>
+
+                <h2>MOUSE ACTIONS</h2>
+                <table>
+                    <tr>
+                        <th>Mouse Button</th>
+                        <th>Corresponding Action</th>
+                    </tr>
+                    <tr>
+                        <td>Left Mouse Button</td>
+                        <td>Create block. (Can be changed with "swapMouseButtons")</td>
+                    </tr>
+                    <tr>
+                        <td>Right Mouse Button</td>
+                        <td>Delete block. (Can be changed with "swapMouseButtons")</td>
+                    </tr>
+                    <tr>
+                        <td>Center Mouse Button</td>
+                        <td>Picks selected block from world</td>
+                    </tr>
+                    <tr>
+                        <td>Mouse Scroll</td>
+                        <td>Select block from horizontal block panel</td>
+                    </tr>
+                </table>
+
+                <h2>KEY ACTIONS</h2>
+                <table>
+                    <tr>
+                        <th>Key</th>
+                        <th>Corresponding Action</th>
+                    </tr>
+                    <tr>
+                        <td>Ctrl+Shift+P</td>
+                        <td>Toggle dev stats</td>
+                    </tr>
+                    <tr>
+                        <td>Shift+T</td>
+                        <td>Toggle terrain updater</td>
+                    </tr>
+                    <tr>
+                        <td>Q</td>
+                        <td>Drop item from my item list</td>
+                    </tr>
+                    <tr>
+                        <td>Esc, M</td>
+                        <td>Toggle Game Menu</td>
+                    </tr>
+                    <tr>
+                        <td>I</td>
+                        <td>Toggle Full Block Menu</td>
+                    </tr>
+                    <tr>
+                        <td>WASD or Arrow Keys, Space Bar</td>
+                        <td>Move Player</td>
+                    </tr>
+                    <tr>
+                        <td>J</td>
+                        <td>Toggle auto-forward</td>
+                    </tr>
+                    <tr>
+                        <td>Shift</td>
+                        <td>Run (Hold down while moving)</td>
+                    </tr>
+                    <tr>
+                        <td>Space Bar</td>
+                        <td>Climb Up Ladders</td>
+                    </tr>
+                    <tr>
+                        <td>Shift</td>
+                        <td>Climb Down Ladders</td>
+                    </tr>
+                    <tr>
+                        <td>P</td>
+                        <td>Toggle pass-through mode</td>
+                    </tr>
+                    <tr>
+                        <td>F</td>
+                        <td>Fly up</td>
+                    </tr>
+                    <tr>
+                        <td>Shift+F</td>
+                        <td>(When flying): Fly down</td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td>Simulate destroy click</td>
+                    </tr>
+                    <tr>
+                        <td>+</td>
+                        <td>Simulate create click</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>Simulate middle-mouse click</td>
+                    </tr>
+                    <tr>
+                        <td> &lt </td>
+                        <td>Select <b>left</b> block from menu</td>
+                    </tr>
+                    <tr>
+                        <td> &gt </td>
+                        <td>Select <b>right</b> block from menu</td>
+                    </tr>
+                    <tr>
+                        <td>Tab</td>
+                        <td>Toggle ray, hit air mode</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl + Scroll</td>
+                        <td>Change ray air mode distance</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl + Shift + E</td>
+                        <td>Enable/Disable Entity rendering and updating</td>
+                    </tr>
+                    <tr>
+                        <td>Shift+X</td>
+                        <td>Cancel Sunlight Propagation</td>
+                    </tr>
+                </table>
+
+                <h2>BLOCK MODES</h2>
+
+
+                <h3>ACITONS</h3>
+                <table>
+                    <tr>
+                        <th>Key</th>
+                        <th>Corresponding Action</th>
+                    </tr>
+                    <tr>
+                        <td>Shift + Scroll</td>
+                        <td>Change block mode size</td>
+                    </tr>
+                    <tr>
+                        <td>R</td>
+                        <td>Rotate block paste boundary</td>
+                    </tr>
+                    <tr>
+                        <td>V</td>
+                        <td>Change anchor vertex of block paste boundary</td>
+                    </tr>
+                </table>
+
+                <h3>MODES</h3>
+                <table id="blockModes">
+                    <tr>
+                        <th>Key</th>
+                        <th>Alternative Key</th>
+                        <th>Corresponding Action</th>
+                        <th>Alternative Action<br /><span style="font-size: 0.97em; font-weight: normal;">(to toggle
+                                between alternative actions, press the hotkey again)</span></th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td></td>
+                        <td>default mode, and only places a single block.</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Ctrl+L</td>
+                        <td>Places a line of blocks.</td>
+                        <td>Erases a line of blocks.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Ctrl+R</td>
+                        <td>Repaints all of a specific selected block type within a specific radius.</td>
+                        <td>Erases all of a specific selected block type within a specific radius.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Ctrl+P</td>
+                        <td>places a 2D plane of blocks.</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Ctrl+K</td>
+                        <td>Sets a regtangular boundary of blocks</td>
+                        <td>Erases a regtangular boundary of blocks</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Ctrl+S</td>
+                        <td>Sets a sphere within the boundary</td>
+                        <td>Sets a hollow sphere within the boundary</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl+C</td>
+                        <td></td>
+                        <td>Copies a set of blocks within a boundary.</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl+V</td>
+                        <td></td>
+                        <td>Pastes a copied boundary of blocks.</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl+Shift+V</td>
+                        <td></td>
+                        <td>Pastes a copied boundary of blocks, but does not delete blocks that are already there.</td>
+                    </tr>
+
+                </table>
+
+
+                <h2>GAME SETTINGS</h2>
+                <h3>CHUNK DISTANCE</h3>
+                <p>The chunk distance option in the game's "Settings" menu controls the maximum chunk view distance. The
+                    chunks have a width of 16. So your chunk distance value should be some multiple of 16.<br>
+                    <b>(160 is the default chunk distance value.)</b>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

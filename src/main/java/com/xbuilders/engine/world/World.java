@@ -1,0 +1,528 @@
+package com.xbuilders.engine.world;
+
+import com.xbuilders.engine.player.camera.Camera;
+import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.utils.progress.ProgressData;
+import com.xbuilders.engine.world.DistanceScheduledExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.world.chunk.FutureChunk;
+
+import java.io.File;
+import java.io.IOException;
+
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.mesh.shaders.ChunkShader;
+import com.xbuilders.engine.gameScene.GameScene;
+
+import static com.xbuilders.engine.gameScene.GameScene.world;
+
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.block.BlockTextureArray;
+import com.xbuilders.engine.utils.ErrorHandler;
+
+import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+
+import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
+
+import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
+
+import com.xbuilders.engine.world.chunk.PillarInformation;
+import com.xbuilders.game.Main;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import com.xbuilders.window.development.FrameTester;
+import org.joml.*;
+
+public class World {
+    public static FrameTester frameTester = new FrameTester("World draw");
+
+    static {
+        frameTester.setStarted(true);
+        frameTester.setUpdateTimeMS(1000);
+    }
+
+    /*
+    CHUNK GENERATION PERFORMANCE
+
+    Valkyre:
+    Chunk Load distance: 5
+    Load distance in voxels: 160
+    (Minecraft has a default chunk distance of 160 blocks.)
+
+    In valkyre,With the standard chunk distanceThe FPS sometimes dips when loading lots of stuff, but not very often.
+    (But This issue is resolved when vsync is disabled.)
+
+    COMPARING PERFORMANCE
+    - When comparing the two side by side, with the same chunk distance, my preformance with that chunk distance is actually
+        at the exact same level as valkyre.
+    - Also note that valkyre has half the chunk height as my game.
+    - When valkyre loads chunks at 288 voxels away, things start getting choppy  just like my game does.
+    */
+
+    public static final int CHUNK_LOAD_THREADS = 12;
+    public static final int CHUNK_LIGHT_THREADS = 12;
+    public static final int CHUNK_MESH_THREADS = 12;
+    public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
+    public static int VIEW_DIST_MAX = Chunk.WIDTH * 30;
+    public static int DEFAULT_VIEW_DISTANCE = Chunk.WIDTH * 6;//13
+    private int maxChunksForViewDistance;
+    private final AtomicInteger viewDistance = new AtomicInteger(DEFAULT_VIEW_DISTANCE);
+
+    public final static AtomicInteger newGameTasks = new AtomicInteger(0);
+    ChunkShader chunkShader;
+
+    public void setViewDistance(int viewDistance2) {
+        viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
+        chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
+//        maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) * WORLD_CHUNK_HEIGHT;
+        maxChunksForViewDistance = Integer.MAX_VALUE;
+    }
+
+    public int getViewDistance() {
+        return viewDistance.get();
+    }
+
+
+    private final AtomicBoolean needsSorting; //Atomic variables are thread update
+    private final Vector3f lastPlayerPosition = new Vector3f();
+
+    //World boundaries
+    //chunk boundaries
+    public final static int TOP_Y_CHUNK = 0; //These are the boundaries of the world. We can set int.min and int.max if we want them to be infinite
+    public final static int BOTTOM_Y_CHUNK = (16 * 16) / Chunk.WIDTH;
+    public final static int WORLD_CHUNK_HEIGHT = BOTTOM_Y_CHUNK - TOP_Y_CHUNK;
+
+    //voxel boundaries
+    public static final int WORLD_SIZE_NEG_X = -100000; //-X
+    public static final int WORLD_TOP_Y = TOP_Y_CHUNK * Chunk.WIDTH; //up (-Y)
+    public static final int WORLD_SIZE_NEG_Z = -100000; //-Z
+
+    public static final int WORLD_SIZE_POS_X = 100000; //+X
+    public static final int WORLD_BOTTOM_Y = BOTTOM_Y_CHUNK * Chunk.WIDTH + Chunk.WIDTH; //down (+Y)
+    public static final int WORLD_SIZE_POS_Z = 100000; //+Z
+
+
+    private final SortByDistance sortByDistance = new SortByDistance();
+    private final List<Chunk> unusedChunks = new ArrayList<>();
+    public final Map<Vector3i, Chunk> chunks = new HashMap<>();
+    private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
+    private final List<Chunk> chunksToRender = new ArrayList<>();
+    public Box box;
+    private int blockTextureID;
+
+    WorldInfo info;
+    public Terrain terrain;
+
+    /**
+     * = new ScheduledThreadPoolExecutor(1, r -> { ... });: This line creates an
+     * instance of ScheduledThreadPoolExecutor. It's a type of
+     * ScheduledExecutorService that uses a pool of threads to execute
+     * tasks.<br><br>
+     * <p>
+     * - 1 specifies that the pool will have one thread. This means it will be
+     * capable of executing one task at a time.<br><br>
+     * <p>
+     * - r -> { ... } is a lambda expression that provides a ThreadFactory to
+     * the executor. It defines how threads are created. In this case, it
+     * creates a new thread, sets its name to "Generation Thread", and marks it
+     * as a daemon thread (meaning it won't prevent the JVM from exiting).
+     */
+    public static final PriorityThreadPoolExecutor generationService
+            = new PriorityThreadPoolExecutor(CHUNK_LOAD_THREADS, r -> {
+        Thread thread = new Thread(r, "Generation Thread");
+        thread.setDaemon(true);
+        return thread;
+    });
+
+    /**
+     * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh generation was the performance bottleneck.
+     * We have to be careful the settings we put here, because with the wrong settings, a task can take a lot of time to
+     * execute() and block the main render thread
+     */
+    public static final ThreadPoolExecutor meshService = new ThreadPoolExecutor(
+            CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
+            3L, TimeUnit.MILLISECONDS, //It really just came down to tuning these settings for performance
+            new LinkedBlockingQueue<Runnable>(), r -> {
+        frameTester.count("Mesh threads", 1);
+        Thread thread = new Thread(r, "Mesh Thread");
+        thread.setDaemon(true);
+        thread.setPriority(1);
+        return thread;
+    });
+
+    public static final PriorityThreadPoolExecutor lightService
+            = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS, r -> {
+        Thread thread = new Thread(r, "Light Thread");
+        thread.setDaemon(true);
+        return thread;
+    });
+
+
+    public World() {
+        this.needsSorting = new AtomicBoolean(true);
+    }
+
+    public void init(BlockTextureArray textures) throws IOException {
+        box = new Box();
+        blockTextureID = textures.createArrayTexture();
+        //Prepare for game
+        chunkShader = new ChunkShader(ItemList.blocks.textures.layerCount);
+        setViewDistance(DEFAULT_VIEW_DISTANCE);
+        chunkShader.setSkyColor(GameScene.backgroundColor);
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Chunk operations">
+    public boolean hasChunk(final Vector3i coords) {
+        return this.chunks.containsKey(coords);
+    }
+
+    public Chunk getChunk(final Vector3i coords) {
+        return this.chunks.get(coords);
+    }
+
+    public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
+        Chunk chunk = null;
+        if (!unusedChunks.isEmpty()) {
+            chunk = unusedChunks.remove(unusedChunks.size() - 1);
+        } else if (chunks.size() < maxChunksForViewDistance) {
+            chunk = new Chunk(blockTextureID);
+        }
+        if (chunk != null) {
+            float distToPlayer = MathUtils.dist(
+                    coords.x, coords.y, coords.z,
+                    lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
+            chunk.init(coords, info, terrain, futureChunks.remove(coords), distToPlayer, isTopLevel);
+            this.chunks.put(coords, chunk);
+            needsSorting.set(true);
+        }
+        return chunk;
+    }
+
+
+    public void removeChunk(final Vector3i coords) {
+        if (hasChunk(coords)) {
+            Chunk chunk = this.chunks.remove(coords);
+            chunk.save(info);
+            unusedChunks.add(chunk);
+        }
+    }
+
+    public static File chunkFile(final WorldInfo infoFile, Vector3i coords) throws IOException {
+        return new File(infoFile.getDirectory(), "\\" + coords.x + "_" + coords.y + "_" + coords.z + ".chunk");
+    }
+//</editor-fold>
+
+
+    public void newGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
+        prog.setTask("Generating chunks");
+        this.chunks.clear();
+        this.unusedChunks.clear();
+        newGameTasks.set(0);
+        this.info = info;
+        this.terrain = Main.game.findTerrainFromName(info.getTerrain());
+        prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
+    }
+
+    /*
+     * ONE VERY IMPORTANT THING is to make sure that the chunks are deleted with the same criteria that they were created with.
+     * This is so that the chunks dont end up being deleted and than recreated over and over again
+     * */
+    private boolean chunkIsWithinRange(Vector3f player, Vector3i chunk, float viewDistance) {
+//        return MathUtils.dist(
+//                player.x,
+//                player.z,
+//                chunk.x * Chunk.WIDTH,
+//                chunk.z * Chunk.WIDTH) < viewDistance.get() &&
+//                Math.abs(player.y - chunk.y * Chunk.WIDTH) < viewDistance.get();
+        return MathUtils.dist(
+                player.x,
+                player.z,
+                chunk.x * Chunk.WIDTH,
+                chunk.z * Chunk.WIDTH) < viewDistance;
+    }
+
+
+    public static final int CHUNK_QUANTITY_Y = 16;
+
+    public int addChunkPillar(int chunkX, int chunkZ, Vector3f player) {
+        int chunksGenerated = 0;
+        boolean isTopChunk = true;
+
+        Chunk[] chunkPillar = new Chunk[PillarInformation.CHUNKS_IN_PILLAR];
+        for (int y = TOP_Y_CHUNK; y <= BOTTOM_Y_CHUNK; ++y) {
+            final Vector3i coords = new Vector3i(chunkX, y, chunkZ);
+            if (!chunks.containsKey(coords)
+                    && chunkIsWithinRange(player, coords, viewDistance.get())) {
+                chunkPillar[y - TOP_Y_CHUNK] = addChunk(coords, isTopChunk);
+                isTopChunk = false;
+                chunksGenerated++;
+            } else {
+                chunkPillar[y - TOP_Y_CHUNK] = getChunk(coords);
+            }
+        }
+        chunkPillar[0].pillarInformation = new PillarInformation(chunkPillar);
+//        chunkPillar[0].pillarInformation.loadChunks(terrain, info);
+
+        return chunksGenerated;
+    }
+
+    public synchronized int fillChunksAroundPlayer(Vector3f player, boolean generateOutOfFrustum) {
+        int centerX = (int) player.x;
+        int centerY = (int) player.y;
+        int centerZ = (int) player.z;
+
+        int viewDistanceXZ = this.viewDistance.get();
+        int viewDistanceY = this.viewDistance.get();
+
+
+        final int xStart = (centerX - viewDistanceXZ) / Chunk.WIDTH;
+        final int xEnd = (centerX + viewDistanceXZ) / Chunk.WIDTH;
+        final int zStart = (centerZ - viewDistanceXZ) / Chunk.WIDTH;
+        final int zEnd = (centerZ + viewDistanceXZ) / Chunk.WIDTH;
+//        final int yStart = (centerY - viewDistanceY) / Chunk.WIDTH;
+//        final int yEnd = (centerY + viewDistanceY) / Chunk.WIDTH;
+
+        //Having fixed y bounds makes the chunk generation much faster
+
+        int chunksGenerated = 0;
+
+        for (int chunkX = xStart; chunkX < xEnd; ++chunkX) {
+            for (int chunkZ = zStart; chunkZ < zEnd; ++chunkZ) {
+                if (MathUtils.dist(
+                        player.x,
+                        player.z,
+                        chunkX * Chunk.WIDTH,
+                        chunkZ * Chunk.WIDTH) < viewDistanceXZ
+                        && (generateOutOfFrustum ||
+                        Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
+                    chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
+                }
+            }
+        }
+        return chunksGenerated;
+    }
+
+    private final List<Chunk> chunksToUnload = new ArrayList<>();
+    private long lastSaveMS;
+
+    private void updateChunksToRenderList(Vector3f playerPosition) {
+        chunksToUnload.clear();
+
+        chunks.forEach((coords, chunk) -> {
+            if (!chunkIsWithinRange(playerPosition, coords, viewDistance.get())) {
+                chunksToUnload.add(chunk);
+                chunksToRender.remove(chunk);
+            } else {
+//                frameTester.startProcess();
+                if (needsSorting.get()) {
+                    chunksToRender.add(chunk);
+                }
+                chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
+                chunk.distToPlayer = MathUtils.dist(
+                        coords.x, coords.y, coords.z,
+                        lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
+//                frameTester.endProcess("UCTRL: sorting and frustum check");
+                chunk.prepare(terrain, frame);
+            }
+        });
+        chunksToUnload.forEach(chunk -> {
+            removeChunk(chunk.position);
+        });
+        frameTester.set("all chunks", unusedChunks.size() + chunks.size());
+        frameTester.set("in-use chunks", chunks.size());
+        frameTester.set("chunksToRender", chunksToRender.size());
+        frameTester.set("unused chunks", unusedChunks.size());
+    }
+
+
+    long frame = 0;
+
+    public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) throws IOException {
+        frame++;
+        if (!lastPlayerPosition.equals(playerPosition)) {
+            needsSorting.set(true);
+            lastPlayerPosition.set(playerPosition);
+        }
+
+        if (frame % 10 == 0) {
+            frameTester.startFrame();
+            world.fillChunksAroundPlayer(playerPosition, false);
+            frameTester.endProcess("Fill chunks around player");
+        }
+
+        /*
+            If the chunks need sorting, newGame the render list
+         */
+        if (needsSorting.get()) {
+            chunksToRender.clear();
+        }
+
+        if (System.currentTimeMillis() - lastSaveMS > 25000) {
+            lastSaveMS = System.currentTimeMillis();
+            //Save chunks
+            generationService.submit(0.0f, () -> {
+                save(playerPosition);
+            });
+        }
+
+        updateChunksToRenderList(playerPosition);
+
+        //TODO: When lots of chunks are rendered, the MPF drops, even if no chunks are actually drawn...
+
+        if (needsSorting.get()) {
+            chunksToRender.sort(sortByDistance);
+            needsSorting.set(false);
+        }
+        frameTester.endProcess("Sort chunks if needed");
+
+        //ACTUALLY DRAW THE CHUNKS
+        //This is the culprit for low FPS
+        chunkShader.bind();
+        chunkShader.tickAnimation();
+
+        chunksToRender.forEach(chunk -> {
+            if (chunk.inFrustum) {
+//Drawing boxes is a major FPS bottleneck
+                frameTester.startProcess();
+                //<editor-fold defaultstate="collapsed" desc="box drawing">
+                if (Main.specialMode2) {
+                    box.set(chunk.aabb);
+                    if (chunk.meshes.isEmpty()) {
+                        box.setLineWidth(0.5f);
+                        box.setColor(new Vector4f(0.4f, 0.4f, 1f, 1));
+                    } else {
+                        box.setLineWidth(1);
+                        box.setColor(new Vector4f(0, 0, 0, 1));
+                    }
+                    box.draw(projection, view);
+                }
+                //</editor-fold>
+                frameTester.endProcess("Draw boxes");
+
+                frameTester.startProcess();
+                if (chunk.generationStatus == Chunk.GEN_COMPLETE && !chunk.meshes.opaque.empty) {
+                    chunk.updateMVP(projection, view); //we must update the MVP within each model;
+                    chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                    if (!Main.specialMode3)
+                        chunk.meshes.opaque.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation\
+                }
+                frameTester.endProcess("Draw opaque meshes");
+            }
+        });
+
+        chunksToRender.forEach(chunk -> {
+            if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE // && GameScene.rayWCC.chunk.equals(chunk.position)
+            ) {
+                if (!chunk.meshes.trans.empty) {
+                    chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                    if (!Main.specialMode3)
+                        chunk.meshes.trans.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation
+                }
+                chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
+            }
+        });
+        frameTester.endProcess("Draw transparent chunks");
+
+    }
+//<editor-fold defaultstate="collapsed" desc="block operations">
+
+    public short getBlockID(int worldX, int worldY, int worldZ) {
+        int blockX = positiveMod(worldX, Chunk.WIDTH);
+        int blockY = positiveMod(worldY, Chunk.WIDTH);
+        int blockZ = positiveMod(worldZ, Chunk.WIDTH);
+
+        int chunkX = chunkDiv(worldX);
+        int chunkY = chunkDiv(worldY);
+        int chunkZ = chunkDiv(worldZ);
+
+        Chunk chunk = getChunk(new Vector3i(chunkX, chunkY, chunkZ));
+        if (chunk == null) {
+            return 0;
+        }
+        return chunk.data.getBlock(blockX, blockY, blockZ);
+    }
+
+    public Chunk setBlock(int worldX, int worldY, int worldZ, short blockID) {
+        int blockX = positiveMod(worldX, Chunk.WIDTH);
+        int blockY = positiveMod(worldY, Chunk.WIDTH);
+        int blockZ = positiveMod(worldZ, Chunk.WIDTH);
+
+        int chunkX = chunkDiv(worldX);
+        int chunkY = chunkDiv(worldY);
+        int chunkZ = chunkDiv(worldZ);
+
+        Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
+        Chunk chunk = getChunk(pos);
+        if (chunk == null) {
+            FutureChunk futureChunk = newFutureChunk(pos);
+            futureChunk.addBlock(blockID, blockX, blockY, blockZ);
+        } else {
+            chunk.data.setBlock(blockX, blockY, blockZ, blockID);
+        }
+        return chunk;
+    }
+
+    public Block getBlock(int worldX, int worldY, int worldZ) {
+        Block block = ItemList.getBlock(getBlockID(worldX, worldY, worldZ));
+        return block == null ? BlockList.BLOCK_AIR : block;
+    }
+//</editor-fold>
+
+    public void close(Vector3f playerPos) {
+        save(playerPos);
+
+//We may or may not actually need to shutdown the services, since chunks cancel all tasks when they are disposed
+        generationService.cancelAllTasks();
+        lightService.cancelAllTasks();
+        PriorityThreadPoolExecutor.cancelAllTasks(meshService);
+
+        chunks.values().forEach((chunk) -> {
+            chunk.dispose();
+        });
+        unusedChunks.forEach((chunk) -> {
+            chunk.dispose();
+        });
+        chunks.clear();
+        unusedChunks.clear();
+        chunksToRender.clear();
+        chunksToUnload.clear();
+
+
+        System.gc();
+    }
+
+    public void save(Vector3f playerPos) {
+        System.out.println("Saving...");
+        //Save all chunks
+        Iterator<Chunk> iterator = chunks.values().iterator();
+        while (iterator.hasNext()) {
+            Chunk chunk = iterator.next();
+            chunk.save(info);
+        }
+        info.setSpawnPoint(playerPos);
+        try {
+            info.save();
+        } catch (IOException ex) {
+            ErrorHandler.handleFatalError(ex);
+        }
+    }
+
+    public FutureChunk newFutureChunk(Vector3i pos) {
+        FutureChunk futureChunk = futureChunks.get(pos);
+        if (futureChunk == null) {
+            futureChunk = new FutureChunk(pos);
+            futureChunks.put(new Vector3i(pos), futureChunk);//We have to create a new vector, because chunk vector can change when it is repurposed
+        }
+        return futureChunk;
+    }
+
+}

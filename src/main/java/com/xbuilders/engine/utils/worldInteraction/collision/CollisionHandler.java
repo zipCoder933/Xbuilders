@@ -1,0 +1,179 @@
+package com.xbuilders.engine.utils.worldInteraction.collision;
+
+import com.xbuilders.engine.items.block.construction.BlockType;
+import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.player.Player;
+import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.wcc.WCCi;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.function.Consumer;
+
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
+import static com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler.*;
+
+/**
+ * @author zipCoder933
+ */
+public class CollisionHandler {
+
+
+    //Collision handler variables
+    final private PositionHandler driver;
+    final World chunks;
+    final WCCi wcc = new WCCi();
+    final HashSet<Chunk> exploredChunks = new HashSet<>();
+    final EntityAABB myBox;
+    final EntityAABB userControlledPlayerAABB;
+    final List<Player> playerList;
+    final AABB stepBox;
+    final AABB collisionBox;
+    final CollisionData collisionData;
+    boolean setFrozen = false;
+    final Consumer<AABB> customConsumer;
+    Block b;
+    BlockData d;
+    Chunk chunk;
+
+    public CollisionHandler(World chunks, PositionHandler driver, EntityAABB entityBox,
+                            EntityAABB userControlledPlayerAABB,
+                            List<Player> playerList) {
+
+        this.userControlledPlayerAABB = userControlledPlayerAABB;
+        this.playerList = playerList;
+        this.chunks = chunks;
+        this.myBox = entityBox;
+        this.driver = driver;
+        collisionData = new CollisionData();
+        stepBox = new AABB();
+        collisionBox = new AABB();
+        customConsumer = box -> {
+            processBox(box, false); //This is not part of the problem
+            if (DRAW_COLLISION_CANDIDATES
+                    && PositionHandler.sprojection != null && PositionHandler.sview != null) {
+                driver.renderedBox.set(box);
+                driver.renderedBox.draw(PositionHandler.sprojection, PositionHandler.sview);
+            }
+        };
+    }
+
+    private boolean compareEntityAABB(Matrix4f projection, Matrix4f view, EntityAABB other) {
+        if (other != myBox) {
+            if (myBox.worldPosition.distance(other.worldPosition) < ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS) {
+                processBox(other.box, true);
+                if (DRAW_COLLISION_CANDIDATES) {
+
+                    driver.renderedBox.set(other.box);
+                    driver.renderedBox.draw(projection, view);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public synchronized void resolveCollisions(Matrix4f projection, Matrix4f view) {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            stepBox.set(myBox.box);
+            stepBox.setY(stepBox.maxPoint.y + driver.stepHeight);
+            setFrozen = false;
+            exploredChunks.clear();
+
+            //Y goes down so that we can sort blocks from top (ceiling) to bottom
+            for (int y = (int) (myBox.box.maxPoint.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y >= myBox.box.minPoint.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y--) {
+//        for (int y = (int) (myBox.box.minPoint.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y <= myBox.box.maxPoint.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y++) {
+                for (int x = (int) (myBox.box.minPoint.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.maxPoint.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
+                    for (int z = (int) (myBox.box.minPoint.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.maxPoint.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
+                        wcc.set(x, y, z);
+                        chunk = chunks.getChunk(wcc.chunk);
+                        if (chunk != null) {
+                            exploredChunks.add(chunk);
+//                            if (Main.specialMode1) {
+                            b = ItemList.blocks.getItem(chunk.data.getBlock(
+                                    wcc.chunkVoxel.x,
+                                    wcc.chunkVoxel.y,
+                                    wcc.chunkVoxel.z));
+                            if (b.isSolid()) {
+//                                    if (Main.specialMode2) {
+                                //TODO: chunk.getBlockData() is collision-handler memory culprit!!!
+                                //Its ALL in the hashmap...
+                                d = chunk.data.getBlockData(
+                                        wcc.chunkVoxel.x,
+                                        wcc.chunkVoxel.y,
+                                        wcc.chunkVoxel.z);
+//                                    }
+                                BlockType type = ItemList.blocks.getBlockType(b.type);
+                                if (type != null) type.getCollisionBoxes(customConsumer, collisionBox, b, d, x, y, z);
+                            }
+//                            }
+                        }
+                    }
+                }
+            }
+
+            for (Chunk chunk : exploredChunks) {
+                for (int i = 0; i < chunk.entities.list.size(); i++) {
+                    compareEntityAABB(projection, view, chunk.entities.list.get(i).aabb);
+                }
+            }
+            for (int i = 0; i < playerList.size(); i++) {
+                compareEntityAABB(projection, view, playerList.get(i).aabb);
+            }
+            //Comparison against user controlled player (all entity and player boxes are skipped if they match themselves)
+            compareEntityAABB(projection, view, userControlledPlayerAABB);
+
+            driver.setFrozen(setFrozen);
+        }
+    }
+
+    private void processBox(AABB box, boolean isEntity) {
+//        if (stepBox.intersects(box)) {
+//            stepWillHitCeiling = true;
+//            System.out.println("STEP HIT CEILING " + System.currentTimeMillis());
+//        }
+
+        if (box.intersects(myBox.box)) {
+            collisionData.calculateCollision(box, myBox.box);
+
+            if (isEntity) {
+                collisionData.penPerAxes.mul(0.8f);
+            }
+
+            if (Math.abs(collisionData.penPerAxes.x) > 0.6f || Math.abs(collisionData.penPerAxes.y) > 0.6f || Math.abs(collisionData.penPerAxes.z) > 0.6f) {
+                driver.velocity.y = 0;
+                driver.onGround = true;
+                setFrozen = true;
+                return;
+            }
+
+            if (collisionData.collisionNormal.y == -1) {
+                driver.velocity.y = 0;
+                driver.onGround = true;
+                myBox.box.setY(myBox.box.minPoint.y + collisionData.penPerAxes.y);
+            } else if (collisionData.collisionNormal.y == 1 && box.minPoint.y < myBox.box.minPoint.y) {
+                driver.velocity.y = 0;
+                myBox.box.setY(myBox.box.minPoint.y + collisionData.penPerAxes.y);
+            } else if (collisionData.collisionNormal.x != 0) {
+
+                if (myBox.box.maxPoint.y - box.minPoint.y < driver.stepHeight) {
+                    myBox.box.setY(myBox.box.minPoint.y - Math.abs(collisionData.penPerAxes.x));
+                } else {
+                    myBox.box.setX(myBox.box.minPoint.x + collisionData.penPerAxes.x);
+                }
+            } else if (collisionData.collisionNormal.z != 0) {
+                if (myBox.box.maxPoint.y - box.minPoint.y < driver.stepHeight) {
+                    myBox.box.setY(myBox.box.minPoint.y - Math.abs(collisionData.penPerAxes.z));
+                } else {
+                    myBox.box.setZ(myBox.box.minPoint.z + collisionData.penPerAxes.z);
+                }
+            }
+        }
+    }
+}

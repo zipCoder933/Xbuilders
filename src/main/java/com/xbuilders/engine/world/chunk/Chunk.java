@@ -1,0 +1,320 @@
+package com.xbuilders.engine.world.chunk;
+
+import com.xbuilders.engine.items.ChunkEntitySet;
+import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.Terrain.GenSession;
+import com.xbuilders.engine.world.World;
+
+import static com.xbuilders.engine.world.World.newGameTasks;
+import static com.xbuilders.engine.world.World.generationService;
+import static com.xbuilders.engine.world.World.meshService;
+
+import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.window.render.MVP;
+
+import java.io.File;
+import java.util.Objects;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.joml.Matrix4f;
+import org.joml.Vector3i;
+
+public class Chunk {
+
+    /**
+     * Mark the chunk as changed by the user (sets ownedByUser and
+     * needsToBeSaved to true)
+     */
+    public void markAsModifiedByUser() {
+        ownedByUser = true;
+        needsToBeSaved = true;
+    }
+
+    private boolean ownedByUser = false;
+    protected boolean needsToBeSaved = false;
+
+    /**
+     * @return the ownedByUser
+     */
+    public boolean isOwnedByUser() {
+        return ownedByUser;
+    }
+
+    /**
+     * Having larger chunks means a much greater preformance
+     */
+    public static final int WIDTH = 32; //The solution was just to clean+build after width change
+    public static final int HEIGHT = WIDTH;
+    public static final int HALF_WIDTH = WIDTH / 2;
+
+    public static boolean inBounds(int x, int y, int z) {
+        return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && z >= 0 && z < WIDTH;
+    }
+
+    public final ChunkVoxels data;
+    public final ChunkEntitySet entities;
+    public final Vector3i position;
+    public final Matrix4f modelMatrix;
+    public final MVP mvp;
+    public boolean inFrustum;
+    public float distToPlayer;
+    public final MeshBundle meshes;
+    public final AABB aabb;
+    public final NeighborInformation neghbors;
+    public boolean isTopChunk;
+    public PillarInformation pillarInformation;
+
+    public Chunk(int texture) {
+        mvp = new MVP();
+        data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
+        meshes = new MeshBundle(texture, this);
+        modelMatrix = new Matrix4f();
+        aabb = new AABB();
+        this.position = new Vector3i();
+        neghbors = new NeighborInformation();
+        entities = new ChunkEntitySet(this);
+    }
+
+    public void init(Vector3i position, WorldInfo info,
+                     Terrain terrain, FutureChunk futureChunk,
+                     float distToPlayer, boolean isTopChunk) {
+
+        pillarInformation = null;
+        this.isTopChunk = isTopChunk;
+
+        mesherFuture = null;
+        generationStatus = 0;
+        this.position.set(position);
+        modelMatrix.identity().setTranslation(
+                position.x * WIDTH,
+                position.y * HEIGHT,
+                position.z * WIDTH);
+        aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH,
+                WIDTH, HEIGHT, WIDTH);
+        meshes.init(position);
+        neghbors.init(position);
+        //Load the chunk
+
+        World.frameTester.startProcess();
+        loadFuture = generationService.submit(distToPlayer, () -> {
+            entities.clear();
+            data.clear();
+            try {
+                loadChunk(info, terrain, futureChunk);
+                return false;
+            } finally {
+                newGameTasks.incrementAndGet();
+            }
+        });
+        World.frameTester.endProcess("Load chunk");
+    }
+
+    protected void loadChunk(WorldInfo info, Terrain terrain, FutureChunk futureChunk) {
+        File f = info.getChunkFile(position);
+
+        if (f.exists()) {
+            ChunkSavingLoadingUtils.readChunkFromFile(this, f);
+        } else {
+            GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
+        }
+        if (futureChunk != null) {
+            futureChunk.setBlocksInChunk(this);
+        }
+        //Loading a chunk includes loading sunlight
+        generationStatus = GEN_TERRAIN_LOADED;
+    }
+
+    public void dispose() {
+        try {
+            data.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Chunk.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateMVP(Matrix4f projection, Matrix4f view) {
+        mvp.update(projection, view, modelMatrix);
+    }
+
+    public void updateMesh(int x, int y, int z) {
+        if (!neghbors.allFacingNeghborsLoaded) {
+            neghbors.cacheNeighbors();
+        }
+        generateMesh();
+        if (neghbors.allFacingNeghborsLoaded) {
+            if (x == 0) {
+                neghbors.neighbors[neghbors.NEG_X_NEIGHBOR].generateMesh();
+            } else if (x == Chunk.WIDTH - 1) {
+                neghbors.neighbors[neghbors.POS_X_NEIGHBOR].generateMesh();
+            }
+
+            if (y == 0) {
+                neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR].generateMesh();
+            } else if (y == Chunk.WIDTH - 1) {
+                neghbors.neighbors[neghbors.POS_Y_NEIGHBOR].generateMesh();
+            }
+
+            if (z == 0) {
+                neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR].generateMesh();
+            } else if (z == Chunk.WIDTH - 1) {
+                neghbors.neighbors[neghbors.POS_Z_NEIGHBOR].generateMesh();
+            }
+        }
+    }
+
+    /*
+    CHUNK GENERATION
+    - We first generate the terrain
+    - Mesh generation is the last step
+     */
+    private Future<MeshBundle> mesherFuture;
+    //    public Future<Boolean> lightFuture;
+    public Future<Boolean> loadFuture;
+
+    public int generationStatus = 0;
+    public static final int GEN_TERRAIN_LOADED = 1;
+    public static final int GEN_SUN_LOADED = 2;
+    public static final int GEN_COMPLETE = 3;
+
+    public boolean gen_terrainLoaded() {
+        return generationStatus >= Chunk.GEN_TERRAIN_LOADED;
+    }
+
+    public boolean gen_sunLoaded() {
+        return generationStatus >= Chunk.GEN_SUN_LOADED;
+    }
+
+    public boolean gen_Complete() {
+        return generationStatus == Chunk.GEN_COMPLETE;
+    }
+
+//    public static FrameTester chunkGenFrameTester = new FrameTester("Chunk generation");
+//    static {
+//        chunkGenFrameTester.setUpdateTimeMS(1000);
+//    }
+
+    public void prepare(Terrain terrain, long frame) {
+        //for sunlight generation
+//        if (isTopChunk && loadFuture != null && loadFuture.isDone() &&
+//                pillarInformation != null &&
+//                pillarInformation.isPillarLoaded()) {
+//            loadFuture = null;
+//            pillarInformation.initLighting(terrain, distToPlayer);
+//        }
+//        if (generationStatus == GEN_SUN_LOADED) {
+//            neghbors.cacheNeighbors();
+//            if (neghbors.allNeghborsLoaded) {
+//                generateMesh();
+//                generationStatus = GEN_COMPLETE;
+//            }
+//        }
+
+        //Generate the mesh
+        if (loadFuture != null && loadFuture.isDone()) {
+            /**
+             * The cacheNeighbors is still a bottleneck. I have kind of fixed it by only calling it every 10th frame
+             */
+            World.frameTester.startProcess();
+            if (frame % 10 == 0) neghbors.cacheNeighbors();
+            World.frameTester.endProcess("red Cache Neghbors");
+            if (neghbors.allNeghborsLoaded) {
+                loadFuture = null;
+                World.frameTester.startProcess();
+                mesherFuture = meshService.submit(() -> {
+                    meshes.compute();
+                    generationStatus = GEN_COMPLETE;
+                    return meshes;
+                });
+                World.frameTester.endProcess("red Compute meshes");
+            }
+        }
+
+        //send mesh to GPU
+        if (inFrustum) {
+            World.frameTester.startProcess();
+            sendMeshToGPU();
+            World.frameTester.endProcess("Send mesh to GPU");
+        }
+    }
+
+    /**
+     * Queues a task to mesh the chunk
+     */
+    public void generateMesh() {
+        if (mesherFuture != null) {
+            mesherFuture.cancel(true);
+            mesherFuture = null;
+        }
+        mesherFuture = meshService.submit(() -> {
+            meshes.compute();
+            return meshes;
+        });
+    }
+
+
+    /**
+     * sends the mesh to the GPU after meshing
+     */
+    public void sendMeshToGPU() {
+        //Send mesh to GPU if mesh thread is finished
+        if (mesherFuture != null && mesherFuture.isDone() && gen_Complete()) {
+            try {
+                mesherFuture.get().sendToGPU();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                mesherFuture = null;
+            }
+        }
+    }
+
+    Object saveLock = new Object();
+
+    /**
+     * Only saves the chunk if it is owned by the user and has changed since it
+     * was last saved.
+     *
+     * @param info
+     * @return if the chunk was really saved
+     */
+    public boolean save(WorldInfo info) {
+        if (isOwnedByUser() && needsToBeSaved) {
+            synchronized (saveLock) {
+                needsToBeSaved = false;
+                return ChunkSavingLoadingUtils.writeChunkToFile(this, info.getChunkFile(position));
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.position);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Chunk other = (Chunk) obj;
+        return Objects.equals(this.position, other.position);
+    }
+
+    @Override
+    public String toString() {
+        return "Chunk{" + position.x + "," + position.y + "," + position.z + '}';
+    }
+
+}
