@@ -121,6 +121,7 @@ public class TopMenu {
     final int windowMaxHeight = 800;
 
     public void render() {
+        GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
         if (firsttime && loadWorldOnStartup) {
             loadWorldOnInit__Dev();
             firsttime = false;

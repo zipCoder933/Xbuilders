@@ -72,6 +72,8 @@ public class ObjToBlockModel {
         }
     }
 
+
+
     public static void parseDirectory(
             VertexOperations vertOperations,
             boolean flipOrderOfIndicies,
@@ -106,6 +108,7 @@ public class ObjToBlockModel {
             }
         }, flipOrderOfIndicies, modelScale, inputFile, inputFile.getName().replace(".obj", "3.blockType"));
     }
+
 
     public static void parseFile(
             VertexOperations vertOperations,

@@ -22,6 +22,5 @@ public class RenderType {
     public static final int TRACK = 11;
     public static final int PANE = 12;
     public static final int SUNFLOWER_HEAD = 13;
-    public static final int WIRE = 14;
     public static final int TORCH = 15;
 }

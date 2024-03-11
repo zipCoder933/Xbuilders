@@ -79,6 +79,7 @@ public class MyGame extends Game {
     @Override
     public void uiDraw(MemoryStack stack) {
         if (showInventory) {
+            GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
             inventory.draw(stack);
         } else {
             hotbar.draw(stack);
@@ -171,12 +172,10 @@ public class MyGame extends Game {
         ItemList.blocks.addBlockType(RenderType.ORIENTABLE_BLOCK, new OrientableBlockRenderer());
         ItemList.blocks.addBlockType(RenderType.SLAB, new SlabRenderer());
         ItemList.blocks.addBlockType(RenderType.STAIRS, new StairsRenderer());
-        //TODO: Add more block types
-//        ItemList.blocks.addBlockType(RenderType.FENCE, new FenceRenderer());
+        ItemList.blocks.addBlockType(RenderType.FENCE, new FenceRenderer());
         ItemList.blocks.addBlockType(RenderType.WALL_ITEM, new WallItemRenderer());
 //        ItemList.blocks.addBlockType(RenderType.LAMP, new LampRenderer());
         ItemList.blocks.addBlockType(RenderType.PANE, new PaneRenderer());
-//        ItemList.blocks.addBlockType(RenderType.WIRE, new WireRenderer());
 //        ItemList.blocks.addBlockType(RenderType.TRACK, new TrackRenderer());
 //        ItemList.blocks.addBlockType(RenderType.SUNFLOWER_HEAD, new SunflowerHeadRenderer());
 //        ItemList.blocks.addBlockType(RenderType.TORCH, new TorchRenderer());

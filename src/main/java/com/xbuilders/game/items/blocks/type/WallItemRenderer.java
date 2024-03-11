@@ -23,10 +23,10 @@ public class WallItemRenderer extends BlockType {
 
     BlockModel wall0, wall1, wall2, wall3;
     public WallItemRenderer() {
-        wall0 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall0.obj"), renderSide_subBlock);
-        wall1 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall1.obj"), renderSide_subBlock);
-        wall2 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall2.obj"), renderSide_subBlock);
-        wall3 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall3.obj"), renderSide_subBlock);
+        wall0 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall0.blockType"), renderSide_subBlock);
+        wall1 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall1.blockType"), renderSide_subBlock);
+        wall2 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall2.blockType"), renderSide_subBlock);
+        wall3 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall3.blockType"), renderSide_subBlock);
     }
 
     @Override
@@ -44,13 +44,13 @@ public class WallItemRenderer extends BlockType {
     @Override
     public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, int x, int y, int z) {
         if (data == null || data.get(0) == 3) {
-            wall0.render(buffers, block, neighbors, x, y, z);
-        } else if (data.get(0) == 0) {
-            wall1.render(buffers, block, neighbors, x, y, z);
-        } else if (data.get(0) == 1) {
-            wall2.render(buffers, block, neighbors, x, y, z);
-        } else {
             wall3.render(buffers, block, neighbors, x, y, z);
+        } else if (data.get(0) == 0) {
+            wall0.render(buffers, block, neighbors, x, y, z);
+        } else if (data.get(0) == 1) {
+            wall1.render(buffers, block, neighbors, x, y, z);
+        } else {
+            wall2.render(buffers, block, neighbors, x, y, z);
         }
     }
 

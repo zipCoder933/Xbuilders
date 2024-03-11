@@ -68,6 +68,7 @@ public class GameUI {
     Crosshair crosshair;
     InfoText infoBox;
     GameMenu menu;
+    boolean writeInfo;
 
     public void windowResizeEvent(int width, int height) {
         crosshair.windowResizeEvent(width, height);
@@ -82,10 +83,11 @@ public class GameUI {
         crosshair.draw();
 
         try (MemoryStack stack = stackPush()) {
-            infoBox.draw(stack);
+            if (writeInfo) infoBox.draw(stack);
             if (gameMenuVisible) {
                 menu.draw(stack);
             } else {
+
                 game.uiDraw(stack);
             }
             //Add myGame.uiDraw right here
@@ -102,6 +104,9 @@ public class GameUI {
             switch (key) {
                 case GLFW.GLFW_KEY_M -> {
                     gameMenuVisible = !gameMenuVisible;
+                }
+                case GLFW.GLFW_KEY_J -> {
+                    writeInfo = !writeInfo;
                 }
             }
         }

@@ -27,12 +27,12 @@ public class FloorItemRenderer extends BlockType {
     BlockModel floor0, floor1, floor2, floor3;
 
     public FloorItemRenderer() {
-//        ObjToBlockModel.parseFileWithYRotations(true, 1.6f, ResourceUtils.resource("block types\\floor\\floor.obj"));
-//        ObjToBlockModel.parseFileWithYRotations(true, 1.6f, ResourceUtils.resource("block types\\wall\\wall.obj"));
-        floor0 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor0.obj"), renderSide_subBlock);
-        floor1 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor1.obj"), renderSide_subBlock);
-        floor2 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor2.obj"), renderSide_subBlock);
-        floor3 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor3.obj"), renderSide_subBlock);
+        ObjToBlockModel.parseFileWithYRotations(false, 1.6f, ResourceUtils.resource("block types\\floor\\floor.obj"));
+        ObjToBlockModel.parseFileWithYRotations(false, 1.6f, ResourceUtils.resource("block types\\wall\\wall.obj"));
+        floor0 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor0.blockType"), renderSide_subBlock);
+        floor1 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor1.blockType"), renderSide_subBlock);
+        floor2 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor2.blockType"), renderSide_subBlock);
+        floor3 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor3.blockType"), renderSide_subBlock);
     }
 
     @Override

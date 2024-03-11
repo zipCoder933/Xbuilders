@@ -15,6 +15,7 @@ import com.xbuilders.window.nuklear.components.NumberBox;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.Nuklear;
@@ -57,6 +58,7 @@ class GameMenu extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
+        GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
         NkRect windowDims = NkRect.malloc(stack);
         ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
         nk_style_set_font(ctx, uires.font_10);

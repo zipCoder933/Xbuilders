@@ -43,6 +43,13 @@ public class Camera {
             simplifiedPanTilt.x = 0;
         }
         simplifiedPanTilt.y = Math.round(tilt);
+        //Add 1 to simplifiedPanTilt.x but make it still wrap around to 0
+        switch (simplifiedPanTilt.x) {
+            case 0 -> simplifiedPanTilt.x = 1;
+            case 1 -> simplifiedPanTilt.x = 2;
+            case 2 -> simplifiedPanTilt.x = 3;
+            default -> simplifiedPanTilt.x = 0;
+        }
     }
 
     public BlockData simplifiedPanTiltAsBlockData(BlockData data) {
@@ -87,7 +94,7 @@ public class Camera {
     private Robot robot;
     private UserControlledPlayer player;
     private BaseWindow window;
-    private Matrix4f view,projection;
+    private Matrix4f view, projection;
     private World world;
 
 

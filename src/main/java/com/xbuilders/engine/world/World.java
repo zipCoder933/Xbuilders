@@ -228,8 +228,14 @@ public class World {
         this.unusedChunks.clear();
         newGameTasks.set(0);
         this.info = info;
-        this.terrain = Main.game.findTerrainFromName(info.getTerrain());
-        prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
+        try {
+            this.terrain = Main.game.findTerrainFromName(info.getTerrain());
+            prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
+        } catch (Exception e) {
+            prog.abort();
+            ErrorHandler.createPopupWindow("Error", "Terrain not found: " + info.getTerrain());
+        }
+
     }
 
     /*
