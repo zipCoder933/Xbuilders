@@ -58,7 +58,7 @@ public class TopMenu {
         return page;
     }
 
-    final boolean loadWorldOnStartup = true;
+    final boolean loadWorldOnStartup = false;
 
     NKWindow window;
     UIResources uires;

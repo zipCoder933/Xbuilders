@@ -173,7 +173,7 @@ public class MyGame extends Game {
         ItemList.blocks.addBlockType(RenderType.STAIRS, new StairsRenderer());
         //TODO: Add more block types
 //        ItemList.blocks.addBlockType(RenderType.FENCE, new FenceRenderer());
-//        ItemList.blocks.addBlockType(RenderType.WALL_ITEM, new WallItemRenderer());
+        ItemList.blocks.addBlockType(RenderType.WALL_ITEM, new WallItemRenderer());
 //        ItemList.blocks.addBlockType(RenderType.LAMP, new LampRenderer());
         ItemList.blocks.addBlockType(RenderType.PANE, new PaneRenderer());
 //        ItemList.blocks.addBlockType(RenderType.WIRE, new WireRenderer());
