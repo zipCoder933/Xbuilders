@@ -1,5 +1,7 @@
+![Xbuilders landscape](./assets/images/b.jpg)
+
 # Xbuilders
-A voxel game written in Java + LWJGL
+**A voxel game written in Java + LWJGL**
 
 ## Keys and buttons
 Key | action
@@ -24,8 +26,9 @@ Left-click|create block
 
 
 ## Overview
-This game is a minecraft like block game, with priority on performance and simplicity.
-The game has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
+This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
+
+This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
 
 ### Current features include:
 * Animated blocks
@@ -42,3 +45,23 @@ The game has a 3d grid of chunks, The world height is limited to 255 blocks, how
 * Each chunk is 32x32x32 in size. Chunks coordinates are 3D
 * The up direction is -Y, and the down direction is +Y
 * Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
+
+
+## Screenshots
+A few of the blocks currently available
+![blocks](./assets/images/a.jpg)
+
+Inside a house
+![indoors](./assets/images/c.jpg)
+
+A group of foxes
+![foxes](./assets/images/e.jpg)
+
+Lots of foxes!
+![lots of foxes](./assets/images/f.jpg)
+
+Screenshot of the inventory menu
+![inventory](./assets/images/g.jpg)
+
+Ingame screenshot:
+![ingame](./assets/images/h.jpg)
