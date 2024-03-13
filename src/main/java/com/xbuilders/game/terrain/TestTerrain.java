@@ -23,7 +23,7 @@ public class TestTerrain extends Terrain {
     }
 
     @Override
-    protected boolean generateChunkInner(Chunk chunk, GenSession session) {
+    protected void generateChunkInner(Chunk chunk, GenSession session) {
         if (chunk.position.y >= 0) {
             for (int i = 0; i < WIDTH; i++) {
                 for (int j = 0; j < WIDTH; j++) {
@@ -55,7 +55,6 @@ public class TestTerrain extends Terrain {
                 }
             }
         }
-        return false;
     }
 
 }

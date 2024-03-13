@@ -68,7 +68,7 @@ public class GameUI {
     Crosshair crosshair;
     InfoText infoBox;
     GameMenu menu;
-    boolean writeInfo;
+    boolean drawUI = true;
 
     public void windowResizeEvent(int width, int height) {
         crosshair.windowResizeEvent(width, height);
@@ -76,23 +76,25 @@ public class GameUI {
     }
 
     public void draw() {
-        if (game.menusAreOpen()) {
-            gameMenuVisible = false;
-        }
-        glDisable(GL_DEPTH_TEST);
-        crosshair.draw();
-
-        try (MemoryStack stack = stackPush()) {
-            if (writeInfo) infoBox.draw(stack);
-            if (gameMenuVisible) {
-                menu.draw(stack);
-            } else {
-
-                game.uiDraw(stack);
+        if (drawUI) {
+            if (game.menusAreOpen()) {
+                gameMenuVisible = false;
             }
-            //Add myGame.uiDraw right here
+            glDisable(GL_DEPTH_TEST);
+            crosshair.draw();
+
+            try (MemoryStack stack = stackPush()) {
+                infoBox.draw(stack);
+                if (gameMenuVisible) {
+                    menu.draw(stack);
+                } else {
+
+                    game.uiDraw(stack);
+                }
+                //Add myGame.uiDraw right here
+            }
+            window.NKrender(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
         }
-        window.NKrender(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
@@ -106,7 +108,7 @@ public class GameUI {
                     gameMenuVisible = !gameMenuVisible;
                 }
                 case GLFW.GLFW_KEY_J -> {
-                    writeInfo = !writeInfo;
+                    drawUI = !drawUI;
                 }
             }
         }

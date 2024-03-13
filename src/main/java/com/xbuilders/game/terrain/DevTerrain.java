@@ -24,7 +24,7 @@ public class DevTerrain extends Terrain {
     }
 
     @Override
-    protected boolean generateChunkInner(Chunk chunk, GenSession session) {
+    protected void generateChunkInner(Chunk chunk, GenSession session) {
         if (chunk.position.y == 0) {
             if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
                 for (int i = 0; i < WIDTH; i++) {
@@ -54,7 +54,6 @@ public class DevTerrain extends Terrain {
                 }
             }
         }
-        return false;
     }
 
 }

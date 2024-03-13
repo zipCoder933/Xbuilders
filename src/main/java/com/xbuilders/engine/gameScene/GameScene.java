@@ -142,7 +142,7 @@ public class GameScene implements WindowEvents {
     boolean holdMouse;
     public static boolean specialMode;
     public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
-    public  GameUI ui;
+    public GameUI ui;
 
     public void render() throws IOException {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
@@ -171,6 +171,7 @@ public class GameScene implements WindowEvents {
         glEnable(GL_DEPTH_TEST);   // Enable depth test
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
     }
+
 
     private void enableBackfaceCulling() {
         //If backface culling is not working, it means that another process has probably disabled it, after init3D.

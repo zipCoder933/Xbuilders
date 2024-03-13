@@ -5,12 +5,16 @@
 package com.xbuilders.window;
 
 import com.xbuilders.window.utils.texture.TextureUtils;
+
+import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+
 import org.joml.Vector2d;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
+
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
@@ -19,29 +23,30 @@ import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
+
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.ARBDebugOutput;
+import org.lwjgl.opengl.*;
+
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_SEVERITY_LOW_ARB;
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_SOURCE_API_ARB;
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_TYPE_OTHER_ARB;
 import static org.lwjgl.opengl.ARBDebugOutput.glDebugMessageControlARB;
-import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.glViewport;
-import org.lwjgl.opengl.GL43;
-import org.lwjgl.opengl.GLCapabilities;
-import org.lwjgl.opengl.GLUtil;
-import org.lwjgl.opengl.KHRDebug;
+
 import org.lwjgl.system.Callback;
 import org.lwjgl.system.MemoryStack;
+
 import static org.lwjgl.system.MemoryStack.stackPush;
+
 import org.lwjgl.system.MemoryUtil;
+
 import static org.lwjgl.system.MemoryUtil.NULL;
+
 import org.lwjgl.system.Platform;
 
 /**
- *
  * @author Patron
  */
 public abstract class BaseWindow {
@@ -52,6 +57,31 @@ public abstract class BaseWindow {
     protected GLFWFramebufferSizeCallback framebufferSizeCallback;
     protected GLCapabilities capabilities;
     private static Callback debugProc;
+
+
+    public BufferedImage readPixelsOfWindow() {
+        int WIDTH = getWidth();
+        int HEIGHT = getHeight();
+
+        ByteBuffer buffer = BufferUtils.createByteBuffer(WIDTH * HEIGHT * 4);
+
+        // Read the pixel data from the framebuffer
+        GL11.glReadPixels(0, 0, WIDTH, HEIGHT, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+
+        // Convert the raw pixel data to an image
+        BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                int i = (x + WIDTH * y) * 4;
+                int r = buffer.get(i) & 0xFF;
+                int g = buffer.get(i + 1) & 0xFF;
+                int b = buffer.get(i + 2) & 0xFF;
+                int rgb = (r << 16) | (g << 8) | b;
+                image.setRGB(x, HEIGHT - y - 1, rgb); // Flip the image vertically
+            }
+        }
+        return image;
+    }
 
     public BaseWindow() {
         cursor = new Vector2d();
@@ -85,7 +115,6 @@ public abstract class BaseWindow {
     }
 
     /**
-     *
      * @param key A key ID from the org.lwjgl.glfw.GLFW package
      * @return
      */
@@ -94,7 +123,6 @@ public abstract class BaseWindow {
     }
 
     /**
-     *
      * @param key A key ID from the org.lwjgl.glfw.GLFW package
      * @return
      */
@@ -116,6 +144,7 @@ public abstract class BaseWindow {
 //</editor-fold>
 
     //    //<editor-fold defaultstate="collapsed" desc="variables">
+
     /**
      * @return the id
      */
@@ -185,11 +214,11 @@ public abstract class BaseWindow {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
-        
+
         //Set opengl version (You can change this to your desired opengl version)
         glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 3);
-        
+
         glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
         if (Platform.get() == Platform.MACOSX) {
             glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);
@@ -246,7 +275,6 @@ public abstract class BaseWindow {
     static boolean enableDebugMessages = true;
 
     /**
-     *
      * @param enabled if we should print debug messages
      */
     public static void printDebugsEnabled(boolean enabled) {

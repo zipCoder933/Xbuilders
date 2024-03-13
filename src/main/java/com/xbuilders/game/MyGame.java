@@ -69,7 +69,7 @@ public class MyGame extends Game {
 
     @Override
     public Item getSelectedItem() {
-        return gameInfo.playerBackpack[hotbar.selectedItem];
+        return gameInfo.playerBackpack[hotbar.selectedItemIndex];
     }
 
     NKWindow window;
@@ -91,7 +91,7 @@ public class MyGame extends Game {
         this.window = window;
         try {
             hotbar = new Hotbar(ctx, window, uires);
-            inventory = new Inventory(ctx, window, uires, itemList);
+            inventory = new Inventory(ctx, window, uires, itemList,hotbar);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
         }

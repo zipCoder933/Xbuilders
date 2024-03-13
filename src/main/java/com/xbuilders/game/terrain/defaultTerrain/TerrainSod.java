@@ -9,10 +9,11 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
+import com.xbuilders.game.terrain.TreeUtils;
 
 public class TerrainSod {
 
-    private static  Block randomFlower(Terrain.GenSession session) {
+    private static Block randomFlower(Terrain.GenSession session) {
         Block block = null;
         switch (session.random.nextInt(4)) {
             case 0 -> {
@@ -35,10 +36,10 @@ public class TerrainSod {
     }
 
     public static void placeSod(Terrain terrain, final Terrain.GenSession session, final Chunk chunk,
-                                final int cx, int cy, final int cz,
-                                final int wx, final int wy, final int wz,
-                                ComplexTerrain.Biome biome,
-                                float valleyLikelyhood, float dryness, float make) {
+                                   final int cx, int cy, final int cz,
+                                   final int wx, final int wy, final int wz,
+                                   ComplexTerrain.Biome biome,
+                                   float valleyLikelyhood, float dryness, float make) {
 
         if (biome == ComplexTerrain.Biome.BEACH) {
             GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_SAND.id);
@@ -84,6 +85,10 @@ public class TerrainSod {
             GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_GRASS.id);
             GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_DIRT.id);
             GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_DIRT.id);
+            if (session.random.nextFloat() > 0.995) {
+                TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
+                session.generatedOutsideOfChunk = true;
+            }
         }
     }
 

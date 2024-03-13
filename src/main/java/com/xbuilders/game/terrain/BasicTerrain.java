@@ -24,7 +24,7 @@ public class BasicTerrain extends Terrain {
     }
 
     @Override
-    protected boolean generateChunkInner(Chunk chunk, GenSession session) {
+    protected void generateChunkInner(Chunk chunk, GenSession session) {
         boolean genOutsideBoundary = false;
         if ((chunk.position.y * Chunk.WIDTH) > MIN_HEIGHT-1) {
             for (int cx = 0; cx < WIDTH; cx++) {
@@ -53,7 +53,7 @@ public class BasicTerrain extends Terrain {
             }
 
         }
-        return genOutsideBoundary;
+        session.generatedOutsideOfChunk = genOutsideBoundary;
     }
 
 }

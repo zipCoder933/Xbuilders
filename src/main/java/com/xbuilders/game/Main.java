@@ -8,6 +8,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.preformance.MemoryProfiler;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -23,12 +24,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL32;
 
 import javax.imageio.ImageIO;
 
@@ -84,7 +81,6 @@ public class Main extends NKWindow {
 
     private void init() throws Exception {
         uiResources = new UIResources(this, ctx);
-        screenshotFramebuffer = GL30.glGenFramebuffers();
         game.initialize();
         topMenu.init(uiResources);
         gameScene.init(uiResources, game);
@@ -106,16 +102,9 @@ public class Main extends NKWindow {
 
     }
 
-    boolean screenshot = false;
-    private int screenshotFramebuffer;
-    private int textureID;
 
     private void render() throws IOException {
-        if (screenshot) {
-            textureID = BlockIconRenderer.makeBlankTexture(getWidth(), getHeight());
-            GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, screenshotFramebuffer);
-            GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, textureID, 0);
-        }
+
 
         if (isGameMode) {
             gameScene.render();
@@ -123,20 +112,39 @@ public class Main extends NKWindow {
             topMenu.render();
         }
 
-        if (screenshot) {
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
-            String formattedDateTime = currentDateTime.format(formatter);
-            File saveFile = ResourceUtils.appDataResource("screenshots\\" + formattedDateTime + ".png");
-            System.out.println("Screenshot saved to: " + saveFile.getAbsolutePath());
-            ImageIO.write(TextureUtils.getTextureAsBufferedImage(textureID), "png", saveFile);
-            GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
-            GL11.glDeleteTextures(textureID);
-            screenshot = false;
-        }
+
     }
 
     static DecimalFormat df = new DecimalFormat("####.00");
+
+    private boolean screenshot = false;
+    private boolean screenShotInitialized = false;
+
+    protected void screenshot() {
+        screenshot = true;
+    }
+
+    private void beginScreenshot() {
+        if (screenshot) {
+            screenShotInitialized = true;
+        }
+    }
+
+
+    private void endScreenshot() {
+        if (screenShotInitialized) {
+            String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
+            File saveFile = ResourceUtils.appDataResource("screenshots\\" + formattedDateTime + ".png");
+            System.out.println("Screenshot saved to: " + saveFile.getAbsolutePath());
+            try {
+                ImageIO.write(readPixelsOfWindow(), "png", saveFile);
+            } catch (IOException e) {
+                ErrorHandler.createPopupWindow("Error", "Could not save screenshot: " + e.getMessage());
+            }
+            screenShotInitialized = false;
+            screenshot = false;
+        }
+    }
 
     @Override
     public void onMPFUpdate() {
@@ -152,12 +160,18 @@ public class Main extends NKWindow {
         init();
         showWindow();
         System.out.println("Press 1 for System.GC()");
+
         while (!windowShouldClose()) {
             /* Input */
+
+            beginScreenshot();
             startFrame();
             render();
             MemoryProfiler.update();
             endFrame();
+            endScreenshot();
+
+
             if (specialMode1) {
                 System.out.println("System.GC()");
                 System.gc();
@@ -193,8 +207,8 @@ public class Main extends NKWindow {
             } else if (key == GLFW.GLFW_KEY_2) {
                 specialMode2 = !specialMode2;
                 System.out.println("Special mode (2): " + specialMode2);
-            } else if (key == GLFW.GLFW_KEY_F11) {
-                screenshot = true;
+            }  else if (key == GLFW.GLFW_KEY_F11) {
+                screenshot();
             }
         }
         if (isGameMode) {

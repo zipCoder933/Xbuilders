@@ -10,19 +10,22 @@ import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
+
 import java.io.IOException;
+
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.Nuklear;
+
 import static org.lwjgl.nuklear.Nuklear.nk_begin;
 import static org.lwjgl.nuklear.Nuklear.nk_end;
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 import static org.lwjgl.nuklear.Nuklear.nk_rect;
 import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
+
 import org.lwjgl.system.MemoryStack;
 
 /**
- *
  * @author zipCoder933
  */
 public class Inventory extends GameUIElement {
@@ -35,15 +38,18 @@ public class Inventory extends GameUIElement {
     }
 
     public Inventory(NkContext ctx, NKWindow window, UIResources uires,
-            Item[] itemList) throws IOException {
+                     Item[] itemList, Hotbar hotbar) throws IOException {
         super(ctx, window, uires);
+        this.hotbar = hotbar;
         this.itemList = itemList;
         buttonWidth = new WidgetWidthMeasurement(0);
     }
 
     int menuWidth = 700;
-    int menuHeight = 500;
-    int playerItemsHeight = 300;
+    int menuHeight = 550;
+    int itemListHeight = 300;
+    int playerItemsHeight = 450;
+    Hotbar hotbar;
     Item[] itemList;
     private Item[] playerBackpack;
 
@@ -70,7 +76,8 @@ public class Inventory extends GameUIElement {
             nk_layout_row_dynamic(ctx, 30, 1);
             Nuklear.nk_text(ctx, hoveredItem, Nuklear.NK_TEXT_ALIGN_CENTERED);
 
-            nk_layout_row_dynamic(ctx, menuHeight - playerItemsHeight - 20, 1);
+
+            nk_layout_row_dynamic(ctx, itemListHeight, 1);
             if (Nuklear.nk_group_begin(ctx, "Item List", Nuklear.NK_WINDOW_TITLE)) {
 
                 int itemID = 0;
@@ -117,13 +124,22 @@ public class Inventory extends GameUIElement {
                             break rows;
                         }
                         Item item = playerBackpack[itemID];
+
+                        if (itemID == hotbar.selectedItemIndex) {
+                            ctx.style().button().border_color().set(Theme.white);
+                        } else {
+                            ctx.style().button().border_color().set(Theme.blue);
+                        }
+
                         if (item != null) {
                             if (Nuklear.nk_widget_is_hovered(ctx)) {
                                 hoveredItem = item.toString();
                             }
-
                             if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
+                                hotbar.selectedItemIndex = itemID;
                             }
+                        } else if (Nuklear.nk_button_text(ctx, "")) {
+                            hotbar.selectedItemIndex = itemID;
                         }
                         itemID++;
                     }
@@ -137,11 +153,11 @@ public class Inventory extends GameUIElement {
     }
 
     private void addItemToBackpack(Item item) {
-        for (int i = 0; i < playerBackpack.length; i++) {
-            if (playerBackpack[i] == null) {
-                playerBackpack[i] = item;
-                break;
-            }
+        if (playerBackpack[hotbar.selectedItemIndex] == item) {
+            playerBackpack[hotbar.selectedItemIndex] = null;
+        } else {
+            playerBackpack[hotbar.selectedItemIndex] = item;
+            hotbar.changeSelectedIndex(1);
         }
     }
 

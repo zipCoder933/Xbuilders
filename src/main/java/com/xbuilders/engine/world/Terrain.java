@@ -29,6 +29,7 @@ public abstract class Terrain {
         public final HashSet<Chunk> modifiedMeshedChunks = new HashSet<>();
         public final Random random = new Random();
         public final Chunk homeChunk;
+        public boolean generatedOutsideOfChunk = false;
 
         public int randomInt(int lowerBound, int upperBound) {
             return random.nextInt(upperBound - lowerBound) + lowerBound;
@@ -61,7 +62,7 @@ public abstract class Terrain {
         return session;
     }
 
-    protected abstract boolean generateChunkInner(final Chunk p0, GenSession session);
+    protected abstract void generateChunkInner(final Chunk p0, GenSession session);
 
 //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
     public boolean spawnRulesApply(float PLAYER_HEIGHT, World chunks, int x, int y, int z) {

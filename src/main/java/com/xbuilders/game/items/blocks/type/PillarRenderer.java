@@ -24,8 +24,8 @@ public class PillarRenderer extends BlockType {
     BlockModel pillar;
 
     public PillarRenderer() {
-        ObjToBlockModel.parseFile(null, false, 1.6f,
-                ResourceUtils.resource("block types\\pillar.obj"));
+//        ObjToBlockModel.parseFile(null, false, 1.6f,
+//                ResourceUtils.resource("block types\\pillar.obj"));
 
         pillar = BlockModelLoader.load(ResourceUtils.resource("block types\\pillar.blockType"), renderSide_subBlock);
     }

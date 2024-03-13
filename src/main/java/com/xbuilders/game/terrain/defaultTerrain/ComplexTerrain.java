@@ -58,7 +58,8 @@ public class ComplexTerrain extends Terrain {
     }
 
 
-    public boolean generateChunkInner(Chunk chunk, GenSession session) {
+    public void generateChunkInner(Chunk chunk, GenSession session) {
+
         //X Axis
         for (int cx = 0; cx < WIDTH; cx++) {
             final int wx = cx + chunk.position.x * Chunk.WIDTH;
@@ -66,7 +67,7 @@ public class ComplexTerrain extends Terrain {
             for (int cz = 0; cz < WIDTH; cz++) {
                 final int wz = cz + chunk.position.z * Chunk.WIDTH;
                 //the valley percentage from -1 to 1
-                final float valleyLikelyhood = (float) noise.noise((float) (wz / 2),0, (float) (wx / 2));
+                final float valleyLikelyhood = (float) noise.noise((float) (wz / 2), 0, (float) (wx / 2));
 
                 //Y Axis
                 for (int cy = 0; cy < WIDTH; cy++) {
@@ -85,7 +86,7 @@ public class ComplexTerrain extends Terrain {
                                     GameScene.world.getBlockID(wx, wy - 1, wz) == BlockList.BLOCK_AIR.id;
                             if (placeSod) {
                                 //Terrain dryness from 0 to 1
-                                final float dryness = (float) noise.noise(wx * DRYNESS_SCALE, 0,wz * DRYNESS_SCALE) + 1;
+                                final float dryness = (float) noise.noise(wx * DRYNESS_SCALE, 0, wz * DRYNESS_SCALE) + 1;
 
                                 TerrainSod.placeSod(this, session, chunk, cx, cy, cz, wx, wy, wz,
                                         getBiomeOfVoxel(valleyLikelyhood, dryness, wx, wy, wz),
@@ -98,14 +99,13 @@ public class ComplexTerrain extends Terrain {
                 }
             }
         }
-        return false;
     }
 
     private static final double valleyHeight = 0.5;
 
     private float placeRock(double valleyLikelyhood,
-                            final int wx,  int wy, final int wz) {
-        wy-=120;
+                            final int wx, int wy, final int wz) {
+        wy -= 120;
         float noise = (float) Terrain.noise.noise(wx * TERRAIN_SCALE, wy * TERRAIN_SCALE, wz * TERRAIN_SCALE);
         if (noise > 0.59) {
             noise += (noise - 0.59);

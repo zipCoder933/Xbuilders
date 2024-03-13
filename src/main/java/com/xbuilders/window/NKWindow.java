@@ -6,11 +6,13 @@ package com.xbuilders.window;
 
 import com.xbuilders.window.render.Shader;
 import com.xbuilders.window.utils.texture.TextureUtils;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_HIDDEN;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;
@@ -56,9 +58,11 @@ import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.nglfwGetClipboardString;
+
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkMouse;
 import org.lwjgl.nuklear.NkVec2;
+
 import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_LEFT;
 import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_MIDDLE;
 import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_RIGHT;
@@ -96,20 +100,28 @@ import static org.lwjgl.nuklear.Nuklear.nk_input_scroll;
 import static org.lwjgl.nuklear.Nuklear.nk_input_unicode;
 import static org.lwjgl.nuklear.Nuklear.nnk_strlen;
 import static org.lwjgl.nuklear.Nuklear.nnk_textedit_paste;
+
 import org.lwjgl.system.MemoryStack;
+
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.system.MemoryUtil.memAddress;
 import static org.lwjgl.system.MemoryUtil.memCopy;
+
 import org.lwjgl.glfw.*;
 import org.lwjgl.nuklear.*;
+
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.joml.Vector2i;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.nuklear.Nuklear.*;
+
 import org.lwjgl.opengl.GL11;
+
 import static org.lwjgl.opengl.GL11.GL_ONE;
 import static org.lwjgl.opengl.GL11.GL_ZERO;
 import static org.lwjgl.opengl.GL11.glViewport;
@@ -165,10 +177,12 @@ import static org.lwjgl.opengl.GL20C.glUseProgram;
 import static org.lwjgl.opengl.GL20C.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30C.glBindVertexArray;
 import static org.lwjgl.opengl.GL30C.glGenVertexArrays;
+
 import org.lwjgl.stb.STBTTAlignedQuad;
 import org.lwjgl.stb.STBTTFontinfo;
 import org.lwjgl.stb.STBTTPackContext;
 import org.lwjgl.stb.STBTTPackedchar;
+
 import static org.lwjgl.stb.STBTruetype.stbtt_GetCodepointHMetrics;
 import static org.lwjgl.stb.STBTruetype.stbtt_GetFontVMetrics;
 import static org.lwjgl.stb.STBTruetype.stbtt_GetPackedQuad;
@@ -180,6 +194,7 @@ import static org.lwjgl.stb.STBTruetype.stbtt_PackSetOversampling;
 import static org.lwjgl.stb.STBTruetype.stbtt_ScaleForPixelHeight;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.*;
+
 import org.lwjgl.system.Platform;
 
 /*
@@ -208,6 +223,7 @@ public abstract class NKWindow extends BaseWindow {
     public static final int MAX_VERTEX_BUFFER = 512 * 1024;
     public static final int MAX_ELEMENT_BUFFER = 128 * 1024;
     public static final NkDrawVertexLayoutElement.Buffer VERTEX_LAYOUT;
+    public int frameCount;
 
     @Override
     public void startWindow(String title, int width, int height) {
@@ -218,6 +234,7 @@ public abstract class NKWindow extends BaseWindow {
         } catch (IOException ex) {
             Logger.getLogger(NKWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
+        frameCount = 0;
     }
 
     static {
@@ -249,18 +266,12 @@ public abstract class NKWindow extends BaseWindow {
 
             boolean press = (action == GLFW_PRESS);//if mode is press or release
             switch (key) {
-                case GLFW_KEY_DELETE ->
-                    nk_input_key(ctx, NK_KEY_DEL, press);
-                case GLFW_KEY_ENTER ->
-                    nk_input_key(ctx, NK_KEY_ENTER, press);
-                case GLFW_KEY_TAB ->
-                    nk_input_key(ctx, NK_KEY_TAB, press);
-                case GLFW_KEY_BACKSPACE ->
-                    nk_input_key(ctx, NK_KEY_BACKSPACE, press);
-                case GLFW_KEY_UP ->
-                    nk_input_key(ctx, NK_KEY_UP, press);
-                case GLFW_KEY_DOWN ->
-                    nk_input_key(ctx, NK_KEY_DOWN, press);
+                case GLFW_KEY_DELETE -> nk_input_key(ctx, NK_KEY_DEL, press);
+                case GLFW_KEY_ENTER -> nk_input_key(ctx, NK_KEY_ENTER, press);
+                case GLFW_KEY_TAB -> nk_input_key(ctx, NK_KEY_TAB, press);
+                case GLFW_KEY_BACKSPACE -> nk_input_key(ctx, NK_KEY_BACKSPACE, press);
+                case GLFW_KEY_UP -> nk_input_key(ctx, NK_KEY_UP, press);
+                case GLFW_KEY_DOWN -> nk_input_key(ctx, NK_KEY_DOWN, press);
                 case GLFW_KEY_HOME -> {
                     nk_input_key(ctx, NK_KEY_TEXT_START, press);
                     nk_input_key(ctx, NK_KEY_SCROLL_START, press);
@@ -269,12 +280,9 @@ public abstract class NKWindow extends BaseWindow {
                     nk_input_key(ctx, NK_KEY_TEXT_END, press);
                     nk_input_key(ctx, NK_KEY_SCROLL_END, press);
                 }
-                case GLFW_KEY_PAGE_DOWN ->
-                    nk_input_key(ctx, NK_KEY_SCROLL_DOWN, press);
-                case GLFW_KEY_PAGE_UP ->
-                    nk_input_key(ctx, NK_KEY_SCROLL_UP, press);
-                case GLFW_KEY_LEFT_SHIFT, GLFW_KEY_RIGHT_SHIFT ->
-                    nk_input_key(ctx, NK_KEY_SHIFT, press);
+                case GLFW_KEY_PAGE_DOWN -> nk_input_key(ctx, NK_KEY_SCROLL_DOWN, press);
+                case GLFW_KEY_PAGE_UP -> nk_input_key(ctx, NK_KEY_SCROLL_UP, press);
+                case GLFW_KEY_LEFT_SHIFT, GLFW_KEY_RIGHT_SHIFT -> nk_input_key(ctx, NK_KEY_SHIFT, press);
                 case GLFW_KEY_LEFT_CONTROL, GLFW_KEY_RIGHT_CONTROL -> {
                     if (press) {
                         nk_input_key(ctx, NK_KEY_COPY, glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS);
@@ -379,6 +387,7 @@ public abstract class NKWindow extends BaseWindow {
     public void endFrame() {
         glfwSwapBuffers(getId());
         tickMPF();
+        frameCount++;
     }
 
     @Override
@@ -495,7 +504,7 @@ public abstract class NKWindow extends BaseWindow {
                     }
                 })
                 .texture(it -> it
-                .id(fontTexID));
+                        .id(fontTexID));
 
         return default_font;
     }
@@ -705,13 +714,12 @@ public abstract class NKWindow extends BaseWindow {
 //</editor-fold>
 
     /**
-     *
-     * @param key the key
+     * @param key      the key
      * @param scancode
-     * @param action the key event action
-     * <br> public static final int GLFW_RELEASE = 0;
-     * <br>public static final int GLFW_PRESS = 1;
-     * <br> public static final int GLFW_REPEAT = 2;
+     * @param action   the key event action
+     *                 <br> public static final int GLFW_RELEASE = 0;
+     *                 <br>public static final int GLFW_PRESS = 1;
+     *                 <br> public static final int GLFW_REPEAT = 2;
      * @param mods
      */
     public abstract void keyEvent(int key, int scancode, int action, int mods);

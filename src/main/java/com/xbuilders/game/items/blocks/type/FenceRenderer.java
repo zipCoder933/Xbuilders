@@ -28,9 +28,9 @@ public class FenceRenderer extends BlockType {
     BlockModel post, boards0, boards1, boards2, boards3;
 
     public FenceRenderer() {
-        ObjToBlockModel.parseDirectory(null,
-                false, 1.6f,
-                ResourceUtils.resource("block types\\fence"));
+//        ObjToBlockModel.parseDirectory(null,
+//                false, 1.6f,
+//                ResourceUtils.resource("block types\\fence"));
         post = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\post.blockType"), renderSide_subBlock);
         boards0 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards.blockType"), renderSide_subBlock);
         boards1 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards1.blockType"), renderSide_subBlock);

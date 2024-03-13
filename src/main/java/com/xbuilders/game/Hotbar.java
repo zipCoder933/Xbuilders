@@ -7,12 +7,10 @@ package com.xbuilders.game;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.ui.Theme;
-import static com.xbuilders.engine.ui.Theme.darkBlue;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
-import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
@@ -29,7 +27,7 @@ import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 import static org.lwjgl.nuklear.Nuklear.nk_rect;
 import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
 import static org.lwjgl.nuklear.Nuklear.nk_text;
-import org.lwjgl.system.MathUtil;
+
 import org.lwjgl.system.MemoryStack;
 
 /**
@@ -55,7 +53,7 @@ public class Hotbar extends GameUIElement {
     final int ELEMENTS = 11;
     private Item[] playerBackpack;
     WidgetWidthMeasurement buttonHeight;
-    int selectedItem;
+    int selectedItemIndex;
     int pushValue;
 
     @Override
@@ -76,8 +74,8 @@ public class Hotbar extends GameUIElement {
         ctx.style().window().padding().set(0, 0);
         if (nk_begin(ctx, "hotbarA", windowDims2, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
             nk_layout_row_dynamic(ctx, 40, 1);
-            if (playerBackpack[selectedItem] != null) {
-                nk_text(ctx, playerBackpack[selectedItem].name, NK_TEXT_ALIGN_CENTERED);
+            if (playerBackpack[selectedItemIndex] != null) {
+                nk_text(ctx, playerBackpack[selectedItemIndex].name, NK_TEXT_ALIGN_CENTERED);
             }
         }
         nk_end(ctx);
@@ -102,7 +100,7 @@ public class Hotbar extends GameUIElement {
                 Item item = playerBackpack[i];
 
                 if (buttonHeight.isCalibrated()) {
-                    if (i == selectedItem) {
+                    if (i == selectedItemIndex) {
                         ctx.style().button().border_color().set(Theme.white);
                     } else {
                         ctx.style().button().border_color().set(Theme.blue);
@@ -121,28 +119,28 @@ public class Hotbar extends GameUIElement {
         Theme.resetWindowPadding(ctx);
     }
 
-    private void changeItem(float val) {
-        selectedItem += val;
-        selectedItem = MathUtils.clamp(selectedItem, 0, playerBackpack.length - 1);
+    protected void changeSelectedIndex(float increment) {
+        selectedItemIndex += increment;
+        selectedItemIndex = MathUtils.clamp(selectedItemIndex, 0, playerBackpack.length - 1);
 
-        if (selectedItem >= ELEMENTS + pushValue) {
+        if (selectedItemIndex >= ELEMENTS + pushValue) {
             pushValue++;
-        } else if (selectedItem < pushValue) {
+        } else if (selectedItemIndex < pushValue) {
             pushValue--;
         }
         pushValue = MathUtils.clamp(pushValue, 0, playerBackpack.length - ELEMENTS);
     }
 
     void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        changeItem(scroll.y());
+        changeSelectedIndex(scroll.y());
     }
 
     void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
-                changeItem(-1);
+                changeSelectedIndex(-1);
             } else if (key == GLFW.GLFW_KEY_PERIOD) {
-                changeItem(1);
+                changeSelectedIndex(1);
             }
         }
     }
