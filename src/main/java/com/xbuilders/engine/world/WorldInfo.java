@@ -129,7 +129,8 @@ public class WorldInfo {
         return "Name: " + name + "\n"
                 + "Type: " + infoFile.terrain + "\n"
                 + "Size: " + getSize() + "\n"
-                + "Last saved:\n" + getLastSaved() + "";
+                + "Last saved:\n" + getLastSaved() + "\n"
+                + "Seed: "+infoFile.seed;
     }
 
     public String getInfoFileAsJson() {

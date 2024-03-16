@@ -99,7 +99,7 @@ public class OrientableBlockRenderer extends BlockType {//TODO: Make the texture
     }
 
     private boolean sideIsVisible(Block block, Block NEG_X) {
-        return !NEG_X.isOpaque();
+        return !NEG_X.opaque;
     }
 
     @Override

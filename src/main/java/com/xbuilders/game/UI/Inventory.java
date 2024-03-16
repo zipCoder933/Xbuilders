@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game;
+package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;

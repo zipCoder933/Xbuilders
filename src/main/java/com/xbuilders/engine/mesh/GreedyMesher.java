@@ -155,7 +155,7 @@ public class GreedyMesher {
 //                            int thisPlanePacked = (thisPlaneVoxel.get(0) << 8) | (sun & 0xFF);
 //                            int nextPlanePacked = (nextPlaneVoxel.get(0) << 8) | (sun1 & 0xFF);
 
-                            short maskValue = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0) || (block.isOpaque() != block1.isOpaque())
+                            short maskValue = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0) || (block.opaque != block1.opaque)
                                     //The opaque check is to prevent transparent mesh from overriding opaque one
                                     ? (backFace //add the voxel for either this plane or the next plane depending on our direction
                                     ? nextPlaneVoxel.get(0) : thisPlaneVoxel.get(0)) : 0;
@@ -376,7 +376,7 @@ public class GreedyMesher {
                         BufferSet.packThirdInt(texture.id, texture.animationLength));
             }
 
-            if (block.isOpaque()) {
+            if (block.opaque) {
                 for (int i = 0; i < indexes.length; i++) {
                     int j = indexes[i];
                     buffers.vertex(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);

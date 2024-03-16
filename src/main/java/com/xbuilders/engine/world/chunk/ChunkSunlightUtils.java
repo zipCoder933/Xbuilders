@@ -45,7 +45,7 @@ class ChunkSunlightUtils {
                 for (Chunk pillarChunk : chunk.pillarInformation.chunks) {//Go DOWN from Y
                     for (int y = 0; y < Chunk.WIDTH; y++) {
                         Block block = ItemList.getBlock(pillarChunk.data.getBlock(x, y, z));
-                        if (block.isOpaque()) {
+                        if (block.opaque) {
                             sunVal = 0;
                         }
                         pillarChunk.data.setSun(x, y, z, sunVal);
@@ -91,7 +91,7 @@ class ChunkSunlightUtils {
                 neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
             }
         }
-        if (neigborBlock != null && !neigborBlock.isOpaque()) {
+        if (neigborBlock != null && !neigborBlock.opaque) {
             final int neighborLevel = chunk.data.getSun(x, y, z);
             if (neighborLevel + 2 <= lightLevel) {
                 chunk.data.setSun(x, y, z, (byte) (lightLevel - 1));

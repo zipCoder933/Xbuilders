@@ -43,7 +43,7 @@ public class TerrainSod {
 
         if (biome == ComplexTerrain.Biome.BEACH) {
             GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_SAND.id);
-            if (terrain.noise.noise(wx, wz) >= 0) {
+            if (terrain.noise.GetValueFractal(wx, wz) >= 0) {
                 GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_SANDSTONE.id);
                 GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_SANDSTONE.id);
                 GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_SANDSTONE.id);
@@ -53,13 +53,13 @@ public class TerrainSod {
                 GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_GRAVEL.id);
             }
         } else if (biome == ComplexTerrain.Biome.DESERT) {
-            if (terrain.noise.noise((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
+            if (terrain.noise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
                 GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_CLAY.id);
                 GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_RED_SANDSTONE.id);
                 GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_RED_SANDSTONE.id);
                 GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_RED_SANDSTONE.id);
             }
-            if (terrain.noise.noise((float) (wx / 2), (float) (wz / 2), 1000.0f) > 0.1) {
+            if (terrain.noise.GetValueFractal((float) (wx / 2), (float) (wz / 2), 1000.0f) > 0.1) {
                 GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_SAND.id);
                 GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_RED_SANDSTONE.id);
                 GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_RED_SANDSTONE.id);

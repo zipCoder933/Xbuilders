@@ -42,8 +42,8 @@ public class TestTerrain extends Terrain {
                         wy = j + (chunk.position.y * Chunk.WIDTH);
                         wz = k + (chunk.position.z * Chunk.WIDTH);
 
-                        if (noise.smoothNoise(wx * 0.1f, wy * 0.1f, wz * 0.1f) > 0) {
-                            if (noise.smoothNoise(wy * 0.02f, wz * 0.02f, wx * 0.02f) < 0) {
+                        if (noise.GetValueFractal(wx * 0.1f, wy * 0.1f, wz * 0.1f) > 0) {
+                            if (noise.GetValueFractal(wy * 0.02f, wz * 0.02f, wx * 0.02f) < 0) {
                                 chunk.data.setBlock(i, j, k, MyGame.BLOCK_GLASS.id);
                             } else {
                                 chunk.data.setBlock(i, j, k, MyGame.BLOCK_GRASS.id);

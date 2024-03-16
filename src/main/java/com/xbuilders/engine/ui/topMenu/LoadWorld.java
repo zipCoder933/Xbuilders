@@ -126,7 +126,6 @@ public class LoadWorld implements MenuPage {
     }
 
     public void loadWorld(WorldInfo currentWorld1) {
-        System.out.println("Loading world: " + currentWorld1.getDetails());
         ProgressData prog = new ProgressData("Loading world");
         menu.progress.enable(prog,
                 () -> {//update

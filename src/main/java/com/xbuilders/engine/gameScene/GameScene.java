@@ -64,7 +64,6 @@ import static org.lwjgl.opengl.GL11.glFrontFace;
  */
 public class GameScene implements WindowEvents {
 
-
     public static final World world = new World();
     public static boolean drawWireframe;
     public UserControlledPlayer player;
@@ -73,7 +72,6 @@ public class GameScene implements WindowEvents {
     NKWindow window;
 
     final Matrix4f projection, view;
-
 
     public GameScene(NKWindow window) throws Exception {
         this.window = window;
@@ -136,7 +134,6 @@ public class GameScene implements WindowEvents {
         world.init(ItemList.blocks.textures);
         ui.init();
 
-
     }
 
     boolean holdMouse;
@@ -147,18 +144,14 @@ public class GameScene implements WindowEvents {
     public void render() throws IOException {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
         GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
-
+        holdMouse = !ui.menusAreOpen() && window.windowIsFocused();
+        
         init3D();
-//        if (window.isKeyPressed(GLFW.GLFW_KEY_E))
-
-
         player.update(holdMouse);
         enableBackfaceCulling();
         world.drawChunks(projection, view, player.worldPosition);
-
         setInfoText();
         ui.draw();
-        holdMouse = !ui.menusAreOpen();
         Main.game.update();
     }
 
@@ -171,7 +164,6 @@ public class GameScene implements WindowEvents {
         glEnable(GL_DEPTH_TEST);   // Enable depth test
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
     }
-
 
     private void enableBackfaceCulling() {
         //If backface culling is not working, it means that another process has probably disabled it, after init3D.
@@ -194,9 +186,12 @@ public class GameScene implements WindowEvents {
         ui.keyEvent(key, scancode, action, mods);
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_ESCAPE -> leaveGamePage();
-                case GLFW.GLFW_KEY_P -> specialMode = !specialMode;
-                case GLFW.GLFW_KEY_Z -> drawWireframe = !drawWireframe;
+                case GLFW.GLFW_KEY_ESCAPE ->
+                    leaveGamePage();
+                case GLFW.GLFW_KEY_P ->
+                    specialMode = !specialMode;
+                case GLFW.GLFW_KEY_Z ->
+                    drawWireframe = !drawWireframe;
             }
         }
     }

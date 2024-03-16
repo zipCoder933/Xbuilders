@@ -14,7 +14,7 @@ import java.util.Random;
 
 public abstract class Terrain {
 
-    public final static PerlinNoise noise = new PerlinNoise();
+    public static FastNoise noise = new FastNoise();
     private int seed = 0;
     public final String name;
     public int MAX_HEIGHT = 10;
@@ -22,6 +22,11 @@ public abstract class Terrain {
 
     public Terrain(String name) {
         this.name = name;
+    }
+
+    public void init(int seed) {
+        noise.SetSeed(seed);
+        this.seed = seed;
     }
 
     public class GenSession {
@@ -66,9 +71,14 @@ public abstract class Terrain {
 
 //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
     public boolean spawnRulesApply(float PLAYER_HEIGHT, World chunks, int x, int y, int z) {
-        return chunks.getBlock(x, y, z).isSolid()
-                && !chunks.getBlock(x, y + 1, z).isSolid()
-                && !chunks.getBlock(x, y + 2, z).isSolid();
+        return chunks.getBlock(x, y, z).solid
+                && !chunks.getBlock(x, y + 1, z).solid
+                && !chunks.getBlock(x, y + 2, z).solid;
+    }
+
+    @Override
+    public String toString() {
+        return "Terrain{" + "seed=" + seed + ", name=" + name + '}';
     }
 
 }

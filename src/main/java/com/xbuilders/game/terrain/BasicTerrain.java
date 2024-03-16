@@ -26,7 +26,7 @@ public class BasicTerrain extends Terrain {
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
         boolean genOutsideBoundary = false;
-        if ((chunk.position.y * Chunk.WIDTH) > MIN_HEIGHT-1) {
+        if ((chunk.position.y * Chunk.WIDTH) > MIN_HEIGHT - 1) {
             for (int cx = 0; cx < WIDTH; cx++) {
                 for (int cy = 0; cy < WIDTH; cy++) {
                     for (int cz = 0; cz < WIDTH; cz++) {
@@ -36,13 +36,13 @@ public class BasicTerrain extends Terrain {
                         int wz = cz + (chunk.position.z * Chunk.WIDTH);
 
                         int heightmap = (int) MathUtils.map(
-                                (float) noise.smoothNoise(wx * 0.03f, 0, wz * 0.03f),
+                                (float) noise.GetValueFractal(wx * 0.3f, wz * 0.3f),
                                 -1, 1, MAX_HEIGHT, MIN_HEIGHT);
 
                         if (wy == heightmap) {
                             chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS.id);
                             if (session.random.nextFloat() > 0.995) {
-                                TreeUtils.makeTree(session.random, session, wx, wy+1, wz);
+                                TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
                                 genOutsideBoundary = true;
                             }
                         } else if (heightmap < wy) {

@@ -96,7 +96,7 @@ public class NaiveMesher {
 //                            System.err.println("NaiveMesher: BlockType " + block.type + " not found");
                             continue;
                         }
-                        if (block.isOpaque()) {
+                        if (block.opaque) {
                             type.constructBlock(opaqueBuffers, block, blockData, neighbors, x, y, z);
                         } else {
                             type.constructBlock(transparentBuffers, block, blockData, neighbors, x, y, z);

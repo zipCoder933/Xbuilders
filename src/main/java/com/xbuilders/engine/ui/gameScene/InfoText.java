@@ -38,7 +38,6 @@ public class InfoText extends GameUIElement {
         this.text = text;
     }
 
-    NkColor dark;
     private NkRect infoTextRect;
     TextBox box;
     private String text;
@@ -47,14 +46,13 @@ public class InfoText extends GameUIElement {
         super(ctx, window, uires);
         box = new TextBox(45);
         infoTextRect = NkRect.create().x(0).y(0).w(window.getWidth()).h(400);
-        dark = createColor(0, 0, 0, 50);
     }
 
     @Override
     public void draw(MemoryStack stack) {
-        ctx.style().window().fixed_background().data().color().set(dark);
+        ctx.style().window().fixed_background().data().color().set(Theme.transparent);
         nk_style_set_font(ctx, uires.font_8);
-        if (nk_begin(ctx, "info text", infoTextRect, NK_WINDOW_NO_SCROLLBAR)) {//NK_WINDOW_BORDER | 
+        if (nk_begin(ctx, "info text", infoTextRect, NK_WINDOW_NO_SCROLLBAR)) {
             Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
             nk_text(ctx, "Commands:", NK_LEFT);
             Nuklear.nk_layout_row_dynamic(ctx, 20, 1);

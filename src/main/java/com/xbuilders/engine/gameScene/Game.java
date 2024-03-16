@@ -43,13 +43,14 @@ public abstract class Game {
 
     public abstract void initialize() throws Exception;
 
-    public Terrain findTerrainFromName(String terrainName) {
+    public final Terrain getTerrainFromInfo(WorldInfo info) {
         for (Terrain terrain : terrainsList) {
-            if (terrain.name.equals(terrainName)) {
+            if (terrain.name.equals(info.getTerrain())) {
+                terrain.init(info.getSeed());
                 return terrain;
             }
         }
-        throw new NullPointerException("Terrain \"" + terrainName + "\" not found!");
+        throw new NullPointerException("Terrain \"" + info.getTerrain() + "\" not found!");
     }
 
     public void uiInit(NkContext ctx, NKWindow window, UIResources uires, GameUI gameUI) {

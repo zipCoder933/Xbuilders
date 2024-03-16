@@ -229,7 +229,8 @@ public class World {
         newGameTasks.set(0);
         this.info = info;
         try {
-            this.terrain = Main.game.findTerrainFromName(info.getTerrain());
+            this.terrain = Main.game.getTerrainFromInfo(info);
+            System.out.println("Loaded terrain: "+this.terrain.toString());
             prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
         } catch (Exception e) {
             prog.abort();

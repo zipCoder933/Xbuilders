@@ -37,14 +37,6 @@ class ChunkSavingLoadingUtils {
     protected static final byte SKIP_BYTE = -125;
     protected static final int METADATA_BYTES = 10;
 
-    private static void writeAndVerifyByteData(final OutputStream out, final byte[] bytes) throws IOException {
-        for (final byte b : bytes) {
-            if (b == NEWLINE_BYTE) {
-                throw new IllegalArgumentException("The byte [" + NEWLINE_BYTE + "] is forbidden for use.");
-            }
-            out.write(b);
-        }
-    }
 
     private static void writeAndVerifyByteData(final OutputStream out, final ByteBuffer buffer) throws IOException {
         for (int i = 0; i < buffer.capacity(); i++) {

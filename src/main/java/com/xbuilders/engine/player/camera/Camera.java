@@ -197,7 +197,7 @@ public class Camera {
                 if (thirdPersonDist > 0) {//Back facing view
                     RayCasting.traceSimpleRay(backRay, position, look, (int) thirdPersonDist + 1, (block, forbiddenBlock) -> {
                         Block block2 = ItemList.getBlock(block);
-                        return block != forbiddenBlock && (block2.isSolid() || block2.isOpaque());
+                        return block != forbiddenBlock && (block2.solid || block2.opaque);
                     }, world);
                     look.mul(MathUtils.clamp(backRay.distanceTraveled, 2, thirdPersonDist) - 1);
                 } else {//Front facing view (TODO: add forward ray to prevent camera collision with blocks)

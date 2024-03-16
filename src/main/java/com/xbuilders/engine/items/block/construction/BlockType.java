@@ -112,7 +112,7 @@ public abstract class BlockType {
     public static boolean shouldRenderFace_subBlock(Block thisBlock, Block neighbor) {
         if (neighbor == null) {
             return true;
-        } else if (!neighbor.isOpaque()
+        } else if (!neighbor.opaque
                 || !ItemList.blocks.getBlockType(neighbor.type).isCubeShape()) {
             return true;
         }

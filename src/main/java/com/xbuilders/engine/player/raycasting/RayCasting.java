@@ -240,7 +240,7 @@ public class RayCasting {
 
         short forbiddenBlock = 0;
         Block headBlock = chunks.getBlock(ix, iy, iz);
-        if (!headBlock.isSolid()) {
+        if (!headBlock.solid) {
             forbiddenBlock = headBlock.id;
         }
         // </editor-fold>
@@ -384,7 +384,7 @@ public class RayCasting {
 
         short forbiddenBlock = 0;
         Block headBlock = chunks.getBlock(ix, iy, iz);
-        if (!headBlock.isSolid()) {
+        if (!headBlock.solid) {
             forbiddenBlock = headBlock.id;
         }
         // </editor-fold>

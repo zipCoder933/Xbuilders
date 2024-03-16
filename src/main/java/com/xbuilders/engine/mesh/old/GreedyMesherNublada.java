@@ -103,11 +103,11 @@ public class GreedyMesherNublada {
                             voxelFace = (x[d] >= 0) ? chunkData.getBlock(x[0], x[1], x[2]) : 0;
                             voxelFace1 = (x[d] < dims[d] - 1) ? chunkData.getBlock((x[0] + q[0]), (x[1] + q[1]), (x[2] + q[2])) : 0;
 
-                            if (voxelFace != 0 && blockList.get((short) voxelFace).isTransparent()) {
+                            if (voxelFace != 0 && !blockList.get((short) voxelFace).opaque) {
                                 voxelFace = 0;
                             }
 
-                            if (voxelFace1 != 0 && blockList.get((short) voxelFace1).isTransparent()) {
+                            if (voxelFace1 != 0 && !blockList.get((short) voxelFace1).opaque) {
                                 voxelFace1 = 0;
                             }
 

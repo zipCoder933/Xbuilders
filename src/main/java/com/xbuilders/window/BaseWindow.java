@@ -14,11 +14,14 @@ import org.joml.Vector2d;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
+import static org.lwjgl.glfw.GLFW.GLFW_FOCUSED;
+import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
 
 import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
 import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
 import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
+import static org.lwjgl.glfw.GLFW.glfwGetWindowAttrib;
 import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
@@ -58,6 +61,9 @@ public abstract class BaseWindow {
     protected GLCapabilities capabilities;
     private static Callback debugProc;
 
+    public boolean windowIsFocused() {
+        return glfwGetWindowAttrib(id, GLFW_FOCUSED) == GLFW_TRUE;
+    }
 
     public BufferedImage readPixelsOfWindow() {
         int WIDTH = getWidth();
@@ -144,7 +150,6 @@ public abstract class BaseWindow {
 //</editor-fold>
 
     //    //<editor-fold defaultstate="collapsed" desc="variables">
-
     /**
      * @return the id
      */
@@ -240,7 +245,6 @@ public abstract class BaseWindow {
         //this can cap the fps to the monitors refresh rate (e.g. 60fps))
         //but it removes artifacts like "screen tearing"
         GLFW.glfwSwapInterval(1);//to disable vsync GLFW.glfwSwapInterval(0); (1 = on, 0 = off)
-
 
         centerWindow();
         setWindowSizeVariables();

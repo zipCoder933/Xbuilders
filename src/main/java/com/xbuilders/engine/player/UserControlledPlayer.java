@@ -78,12 +78,10 @@ public class UserControlledPlayer extends Player {
         this.chunks = world;
         this.projection = projection;
         this.view = view;
-        intOrientation = new Vector2i();
         camera = new Camera(this, window, view, projection, world);
         cursor = new Box();
         cursor.set(0, 0, 0, 1, 1, 1);
         cursor.setColor(new Vector4f(1, 1, 1, 1));
-        orientation = new Vector2f();
         aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
         aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0.5f, -(PLAYER_WIDTH * 0.5f));
         positionHandler = new PositionHandler(world, window, aabb, aabb, GameScene.otherPlayers);
@@ -92,8 +90,6 @@ public class UserControlledPlayer extends Player {
     }
 
     World chunks;
-    Vector2f orientation;
-    Vector2i intOrientation;
 
     // boolean
     // playerForward,playerBackward,playerUp,playerDown,playerLeft,playerRight;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game;
+package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
@@ -53,7 +53,7 @@ public class Hotbar extends GameUIElement {
     final int ELEMENTS = 11;
     private Item[] playerBackpack;
     WidgetWidthMeasurement buttonHeight;
-    int selectedItemIndex;
+    public int selectedItemIndex;
     int pushValue;
 
     @Override
@@ -131,11 +131,11 @@ public class Hotbar extends GameUIElement {
         pushValue = MathUtils.clamp(pushValue, 0, playerBackpack.length - ELEMENTS);
     }
 
-    void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+    public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         changeSelectedIndex(scroll.y());
     }
 
-    void keyEvent(int key, int scancode, int action, int mods) {
+    public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
                 changeSelectedIndex(-1);
