@@ -10,7 +10,7 @@ import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
-import com.xbuilders.engine.mesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -41,16 +41,16 @@ public class FloorItemRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, int x, int y, int z) {
+    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light,int x, int y, int z) {
 
         if (data == null || data.get(0) == 3) {
-            floor0.render(buffers, block, neighbors, x, y, z);
+            floor0.render(buffers, block, neighbors,light, x, y, z);
         } else if (data.get(0) == 0) {
-            floor1.render(buffers, block, neighbors, x, y, z);
+            floor1.render(buffers, block, neighbors,light, x, y, z);
         } else if (data.get(0) == 1) {
-            floor2.render(buffers, block, neighbors, x, y, z);
+            floor2.render(buffers, block, neighbors,light, x, y, z);
         } else {
-            floor3.render(buffers, block, neighbors, x, y, z);
+            floor3.render(buffers, block, neighbors,light, x, y, z);
         }
     }
 

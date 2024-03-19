@@ -83,6 +83,7 @@ public class Main extends NKWindow {
         uiResources = new UIResources(this, ctx);
         game.initialize();
         topMenu.init(uiResources);
+        
         gameScene.init(uiResources, game);
 
 

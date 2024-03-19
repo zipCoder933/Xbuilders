@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.mesh.shaders;
+package com.xbuilders.engine.mesh.chunkMesh;
 
-import com.xbuilders.engine.mesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.render.ShaderBase;
 import org.joml.Vector3f;

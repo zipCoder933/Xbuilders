@@ -5,12 +5,13 @@ import com.xbuilders.engine.items.block.BlockTextureArray;
 public class BlockTexture {
 
     public class FaceTexture {
+
         public final int id;
-        public int animationLength;
+        public byte animationLength;
 
         public FaceTexture(int id, int animLength) {
             this.id = id;
-            this.animationLength = animLength;
+            this.animationLength = (byte) animLength;
         }
     }
 

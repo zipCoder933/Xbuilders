@@ -5,7 +5,7 @@ import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
-import com.xbuilders.engine.mesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -31,18 +31,18 @@ public class PaneRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, int x, int y, int z) {
+    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light,int x, int y, int z) {
         if (data == null) {
-            horizontal.render(buffers, block, neighbors, x, y, z);
+            horizontal.render(buffers, block, neighbors,light, x, y, z);
         } else {
             if (data.get(1) == 0) {
                 if (data.get(0) == 1 || data.get(0) == 3) {
-                    vertical1.render(buffers, block, neighbors, x, y, z);
+                    vertical1.render(buffers, block, neighbors,light, x, y, z);
                 } else {
-                    vertical0.render(buffers, block, neighbors, x, y, z);
+                    vertical0.render(buffers, block, neighbors,light, x, y, z);
                 }
             } else {
-                horizontal.render(buffers, block, neighbors, x, y, z);
+                horizontal.render(buffers, block, neighbors,light, x, y, z);
             }
         }
     }

@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.items.block.blockIconRendering;
 
-import com.xbuilders.engine.mesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.render.ShaderBase;
 

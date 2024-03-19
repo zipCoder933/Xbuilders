@@ -277,6 +277,9 @@ public class ObjToBlockModel {
         if (flipOrderOfIndicies) {
             for (int i = face.getVertexCoordinates().length - 1; i >= 0; i--) {
                 Vector3f vertex = model.getVertexCoordinates().get(face.getVertexCoordinates()[i] - 1);
+                Vector3f normal = model.getVertexCoordinates().get(face.getNormals()[i] - 1);
+                 
+                 
                 Vector2f uv = model.getTextureCoordinates().get(face.getTextureCoords()[i] - 1);
                 vertex(vertex, uv, dim, sb);
                 vertexCount++;

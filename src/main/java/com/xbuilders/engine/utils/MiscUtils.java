@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.utils;
 
-import com.xbuilders.engine.world.chunk.MeshBundle;
+import com.xbuilders.engine.mesh.chunkMesh.ChunkMeshBundle;
 import java.util.Scanner;
 import java.util.concurrent.Future;
 import org.joml.Vector2d;

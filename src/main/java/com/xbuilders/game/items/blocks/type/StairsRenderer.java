@@ -8,7 +8,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.mesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -65,18 +65,18 @@ public class StairsRenderer extends BlockType {
 
     @Override
     public void constructBlock(BufferSet buffers, Block block, BlockData data,
-                               Block[] neighbors, int x, int y, int z) {
+                               Block[] neighbors, byte[] light,int x, int y, int z) {
 
 
         if (data == null) {
-            floor[0].render(buffers, block, neighbors, x, y, z);
+            floor[0].render(buffers, block, neighbors, light, x, y, z);
         } else {
             if (data.get(1) == 3) {
-               side[data.get(0)].render(buffers, block, neighbors, x, y, z);
+               side[data.get(0)].render(buffers, block, neighbors, light, x, y, z);
             } else if (data.get(1) >= 0) {
-                floor[data.get(0)].render(buffers, block, neighbors, x, y, z);
+                floor[data.get(0)].render(buffers, block, neighbors, light, x, y, z);
             } else {
-               ceiling[data.get(0)].render(buffers, block, neighbors, x, y, z);
+               ceiling[data.get(0)].render(buffers, block, neighbors, light, x, y, z);
             }
         }
     }

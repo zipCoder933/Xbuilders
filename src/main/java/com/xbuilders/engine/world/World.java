@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.mesh.shaders.ChunkShader;
+import com.xbuilders.engine.mesh.chunkMesh.ChunkShader;
 import com.xbuilders.engine.gameScene.GameScene;
 
 import static com.xbuilders.engine.gameScene.GameScene.world;
@@ -43,6 +43,7 @@ import com.xbuilders.window.development.FrameTester;
 import org.joml.*;
 
 public class World {
+
     public static FrameTester frameTester = new FrameTester("World draw");
 
     static {
@@ -66,8 +67,7 @@ public class World {
         at the exact same level as valkyre.
     - Also note that valkyre has half the chunk height as my game.
     - When valkyre loads chunks at 288 voxels away, things start getting choppy  just like my game does.
-    */
-
+     */
     public static final int CHUNK_LOAD_THREADS = 12;
     public static final int CHUNK_LIGHT_THREADS = 12;
     public static final int CHUNK_MESH_THREADS = 12;
@@ -91,7 +91,6 @@ public class World {
         return viewDistance.get();
     }
 
-
     private final AtomicBoolean needsSorting; //Atomic variables are thread update
     private final Vector3f lastPlayerPosition = new Vector3f();
 
@@ -109,7 +108,6 @@ public class World {
     public static final int WORLD_SIZE_POS_X = 100000; //+X
     public static final int WORLD_BOTTOM_Y = BOTTOM_Y_CHUNK * Chunk.WIDTH + Chunk.WIDTH; //down (+Y)
     public static final int WORLD_SIZE_POS_Z = 100000; //+Z
-
 
     private final SortByDistance sortByDistance = new SortByDistance();
     private final List<Chunk> unusedChunks = new ArrayList<>();
@@ -138,34 +136,34 @@ public class World {
      */
     public static final PriorityThreadPoolExecutor generationService
             = new PriorityThreadPoolExecutor(CHUNK_LOAD_THREADS, r -> {
-        Thread thread = new Thread(r, "Generation Thread");
-        thread.setDaemon(true);
-        return thread;
-    });
+                Thread thread = new Thread(r, "Generation Thread");
+                thread.setDaemon(true);
+                return thread;
+            });
 
     /**
-     * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh generation was the performance bottleneck.
-     * We have to be careful the settings we put here, because with the wrong settings, a task can take a lot of time to
-     * execute() and block the main render thread
+     * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
+     * generation was the performance bottleneck. We have to be careful the
+     * settings we put here, because with the wrong settings, a task can take a
+     * lot of time to execute() and block the main render thread
      */
     public static final ThreadPoolExecutor meshService = new ThreadPoolExecutor(
             CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
             3L, TimeUnit.MILLISECONDS, //It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-        frameTester.count("Mesh threads", 1);
-        Thread thread = new Thread(r, "Mesh Thread");
-        thread.setDaemon(true);
-        thread.setPriority(1);
-        return thread;
-    });
+                frameTester.count("Mesh threads", 1);
+                Thread thread = new Thread(r, "Mesh Thread");
+                thread.setDaemon(true);
+                thread.setPriority(1);
+                return thread;
+            });
 
     public static final PriorityThreadPoolExecutor lightService
             = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS, r -> {
-        Thread thread = new Thread(r, "Light Thread");
-        thread.setDaemon(true);
-        return thread;
-    });
-
+                Thread thread = new Thread(r, "Light Thread");
+                thread.setDaemon(true);
+                return thread;
+            });
 
     public World() {
         this.needsSorting = new AtomicBoolean(true);
@@ -207,7 +205,6 @@ public class World {
         return chunk;
     }
 
-
     public void removeChunk(final Vector3i coords) {
         if (hasChunk(coords)) {
             Chunk chunk = this.chunks.remove(coords);
@@ -221,7 +218,6 @@ public class World {
     }
 //</editor-fold>
 
-
     public void newGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
         prog.setTask("Generating chunks");
         this.chunks.clear();
@@ -230,7 +226,7 @@ public class World {
         this.info = info;
         try {
             this.terrain = Main.game.getTerrainFromInfo(info);
-            System.out.println("Loaded terrain: "+this.terrain.toString());
+            System.out.println("Loaded terrain: " + this.terrain.toString());
             prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
         } catch (Exception e) {
             prog.abort();
@@ -256,7 +252,6 @@ public class World {
                 chunk.x * Chunk.WIDTH,
                 chunk.z * Chunk.WIDTH) < viewDistance;
     }
-
 
     public static final int CHUNK_QUANTITY_Y = 16;
 
@@ -290,7 +285,6 @@ public class World {
         int viewDistanceXZ = this.viewDistance.get();
         int viewDistanceY = this.viewDistance.get();
 
-
         final int xStart = (centerX - viewDistanceXZ) / Chunk.WIDTH;
         final int xEnd = (centerX + viewDistanceXZ) / Chunk.WIDTH;
         final int zStart = (centerZ - viewDistanceXZ) / Chunk.WIDTH;
@@ -299,7 +293,6 @@ public class World {
 //        final int yEnd = (centerY + viewDistanceY) / Chunk.WIDTH;
 
         //Having fixed y bounds makes the chunk generation much faster
-
         int chunksGenerated = 0;
 
         for (int chunkX = xStart; chunkX < xEnd; ++chunkX) {
@@ -309,8 +302,8 @@ public class World {
                         player.z,
                         chunkX * Chunk.WIDTH,
                         chunkZ * Chunk.WIDTH) < viewDistanceXZ
-                        && (generateOutOfFrustum ||
-                        Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
+                        && (generateOutOfFrustum
+                        || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
                     chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
                 }
             }
@@ -350,7 +343,6 @@ public class World {
         frameTester.set("unused chunks", unusedChunks.size());
     }
 
-
     long frame = 0;
 
     public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) throws IOException {
@@ -384,7 +376,6 @@ public class World {
         updateChunksToRenderList(playerPosition);
 
         //TODO: When lots of chunks are rendered, the MPF drops, even if no chunks are actually drawn...
-
         if (needsSorting.get()) {
             chunksToRender.sort(sortByDistance);
             needsSorting.set(false);
@@ -419,8 +410,9 @@ public class World {
                 if (chunk.generationStatus == Chunk.GEN_COMPLETE && !chunk.meshes.opaque.empty) {
                     chunk.updateMVP(projection, view); //we must update the MVP within each model;
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                    if (!Main.specialMode3)
-                        chunk.meshes.opaque.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation\
+                    if (!Main.specialMode3) {
+                        chunk.meshes.opaque.draw(GameScene.drawWireframe);
+                    }
                 }
                 frameTester.endProcess("Draw opaque meshes");
             }
@@ -428,11 +420,12 @@ public class World {
 
         chunksToRender.forEach(chunk -> {
             if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE // && GameScene.rayWCC.chunk.equals(chunk.position)
-            ) {
+                    ) {
                 if (!chunk.meshes.trans.empty) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                    if (!Main.specialMode3)
+                    if (!Main.specialMode3) {
                         chunk.meshes.trans.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation
+                    }
                 }
                 chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
             }
@@ -502,7 +495,6 @@ public class World {
         unusedChunks.clear();
         chunksToRender.clear();
         chunksToUnload.clear();
-
 
         System.gc();
     }

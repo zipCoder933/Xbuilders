@@ -74,8 +74,6 @@ public class ItemList {
         allItems = concatArrays(
                 entities.getList(), tools.getList(), blocks.getList()
         );
-
-        System.out.println(Arrays.toString(allItems));
     }
 
     public static BlockData getInitialBlockData(Block block, Ray ray) {

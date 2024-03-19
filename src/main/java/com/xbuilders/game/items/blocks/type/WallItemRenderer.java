@@ -8,7 +8,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.mesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -42,15 +42,15 @@ public class WallItemRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, int x, int y, int z) {
+    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light,int x, int y, int z) {
         if (data == null || data.get(0) == 3) {
-            wall3.render(buffers, block, neighbors, x, y, z);
+            wall3.render(buffers, block, neighbors,light, x, y, z);
         } else if (data.get(0) == 0) {
-            wall0.render(buffers, block, neighbors, x, y, z);
+            wall0.render(buffers, block, neighbors,light, x, y, z);
         } else if (data.get(0) == 1) {
-            wall1.render(buffers, block, neighbors, x, y, z);
+            wall1.render(buffers, block, neighbors,light, x, y, z);
         } else {
-            wall2.render(buffers, block, neighbors, x, y, z);
+            wall2.render(buffers, block, neighbors,light, x, y, z);
         }
     }
 
