@@ -31,7 +31,7 @@ public class ResourceUtils {
         System.out.println("RESOURCES:");
         LOCAL_DIR = new File(System.getProperty("user.dir"));
         RESOURCE_DIR = new File(LOCAL_DIR, "res");
-        APP_DATA_DIR = new File(System.getenv("LOCALAPPDATA"), "xbuilders");
+        APP_DATA_DIR = new File(System.getenv("LOCALAPPDATA"), "xbuilders3");
 
         RESOURCE_DIR.mkdirs();
         APP_DATA_DIR.mkdirs();
