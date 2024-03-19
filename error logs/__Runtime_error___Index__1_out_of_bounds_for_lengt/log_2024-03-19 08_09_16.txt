@@ -1,0 +1,14 @@
+Message: 	Index -1 out of bounds for length 6
+Developer Message: 	##Runtime error##	Index -1 out of bounds for lengt
+Class: 	class java.lang.ArrayIndexOutOfBoundsException
+
+Stack trace:
+[com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel.render(BlockModel.java:56)
+ com.xbuilders.game.items.blocks.type.StairsRenderer.constructBlock(StairsRenderer.java:77)
+ com.xbuilders.engine.mesh.chunkMesh.withoutBakedLight.NaiveMesher.compute(NaiveMesher.java:102)
+ com.xbuilders.engine.mesh.chunkMesh.MeshBundle.compute(MeshBundle.java:108)
+ com.xbuilders.engine.world.chunk.Chunk.lambda$generateMesh$2(Chunk.java:253)
+ java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base/java.lang.Thread.run(Thread.java:833)]

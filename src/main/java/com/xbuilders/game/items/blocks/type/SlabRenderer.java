@@ -8,7 +8,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.mesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -83,25 +83,25 @@ public class SlabRenderer extends BlockType {
 
     @Override
     public void constructBlock(BufferSet buffers, Block block,
-                               BlockData data, Block[] neighbors,
+                               BlockData data, Block[] neighbors, byte[] light,
                                int x, int y, int z) {
 
         if (data != null && data.get(1) == -1) {
-            ceiling.render(buffers, block, neighbors, x, y, z);
+            ceiling.render(buffers, block, neighbors, light, x, y, z);
         } else if (data != null && data.get(1) == 1) {
-            floor.render(buffers, block, neighbors, x, y, z);
+            floor.render(buffers, block, neighbors, light, x, y, z);
         } else if (data != null) {
             if (data.get(0) == 0) {
-                side1.render(buffers, block, neighbors, x, y, z);
+                side1.render(buffers, block, neighbors, light, x, y, z);
             } else if (data.get(0) == 1) {
-                side2.render(buffers, block, neighbors, x, y, z);
+                side2.render(buffers, block, neighbors, light, x, y, z);
             } else if (data.get(0) == 2) {
-                side3.render(buffers, block, neighbors, x, y, z);
+                side3.render(buffers, block, neighbors, light, x, y, z);
             } else if (data.get(0) == 3) {
-                side0.render(buffers, block, neighbors, x, y, z);
+                side0.render(buffers, block, neighbors, light, x, y, z);
             }
         }
-        else side0.render(buffers, block, neighbors, x, y, z);
+        else side0.render(buffers, block, neighbors, light, x, y, z);
     }
 
     @Override

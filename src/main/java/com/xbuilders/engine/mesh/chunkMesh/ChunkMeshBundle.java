@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.world.chunk;
+package com.xbuilders.engine.mesh.chunkMesh;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.mesh.BufferSet;
-import com.xbuilders.engine.mesh.GreedyMesher;
-import com.xbuilders.engine.mesh.meshes.CompactMesh;
-import com.xbuilders.engine.mesh.NaiveMesher;
+import com.xbuilders.engine.mesh.chunkMesh.withBakedLight.GreedyMesherWithLight;
+import com.xbuilders.engine.mesh.chunkMesh.withBakedLight.NaiveMesherWithLight;
+import com.xbuilders.engine.mesh.mesh.CompactMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import org.lwjgl.system.MemoryUtil;
 /**
  * @author zipCoder933
  */
-public class MeshBundle {
+public class ChunkMeshBundle {
 
     //<editor-fold defaultstate="collapsed" desc="LOD">
     private static int LOD_LEVEL;
@@ -45,28 +45,17 @@ public class MeshBundle {
     }
 
     public static void setLOD(int level) {
+        //We want to find the closest factor of chunk.width to set to the LOD level
         List<Integer> factors = listFactors(Chunk.WIDTH);
         //Find the closest factor, and set lodLevel to that
-        boolean foundMatch = false;
         for (int i = 0; i < factors.size(); i++) {
             int factor = factors.get(i);
             if (factor >= level) {
                 LOD_LEVEL = factor;
-                foundMatch = true;
                 break;
             }
         }
-        //If the lod was larger than the chunk size, iterate again backwards
-        if (!foundMatch) {
-            for (int i = factors.size() - 1; i >= 0; i--) {
-                int factor = factors.get(i);
-                if (factor >= level) {
-                    LOD_LEVEL = factor;
-                    break;
-                }
-            }
-        }
-        System.out.println("Set LOD to: " + LOD_LEVEL);
+        System.out.println("Chunk LOD set to: " + LOD_LEVEL);
     }
 
     public static int getLOD() {
@@ -76,26 +65,24 @@ public class MeshBundle {
 
     static {
         setLOD(4);
-        System.out.println("#########################\n\nLOD: " + getLOD());
     }
 
     private IntBuffer opaqueBuffer, transBuffer;
-
     Chunk chunk;
     Vector3i position;
-    NaiveMesher naiveMesher;
-    GreedyMesher greedyMesher;
-    public CompactMesh opaque, trans;
+    NaiveMesherWithLight naiveMesher;
+    GreedyMesherWithLight greedyMesher;
+    public final CompactMesh opaque, trans;
 
-    public MeshBundle(int texture, Chunk chunk) {
+    public ChunkMeshBundle(int texture, Chunk chunk) {
         this.chunk = chunk;
         opaque = new CompactMesh();
         opaque.setTextureID(texture);
         trans = new CompactMesh();
         trans.setTextureID(texture);
 
-        greedyMesher = new GreedyMesher(chunk.data, ItemList.blocks.getIdMap());
-        naiveMesher = new NaiveMesher(chunk.data, ItemList.blocks.getIdMap(), false);
+        greedyMesher = new GreedyMesherWithLight(chunk.data, ItemList.blocks.getIdMap());
+        naiveMesher = new NaiveMesherWithLight(chunk.data, ItemList.blocks.getIdMap(), false);
     }
 
     public synchronized void init(Vector3i position) {
@@ -122,8 +109,12 @@ public class MeshBundle {
                 opaque.empty = buff.isEmpty();
                 trans.empty = transBuff.isEmpty();
 
-                if (!buff.isEmpty()) opaqueBuffer = buff.makeVertexSet();
-                if (!transBuff.isEmpty()) transBuffer = transBuff.makeVertexSet();
+                if (!buff.isEmpty()) {
+                    opaqueBuffer = buff.makeVertexSet();
+                }
+                if (!transBuff.isEmpty()) {
+                    transBuffer = transBuff.makeVertexSet();
+                }
             }
         } catch (Exception ex) {
             ErrorHandler.handleFatalError(ex);

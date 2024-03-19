@@ -21,40 +21,55 @@ vec3 map(vec3 value, vec3 inMin, vec3 inMax, vec3 outMin, vec3 outMax) {
 vec4 map(vec4 value, vec4 inMin, vec4 inMax, vec4 outMin, vec4 outMax) {
     return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
 }
- 
+
 // Interpolated values from the vertex shaders
 in vec3 UV;
-in float normals;
+in float normal;
+in float sun;
+// in float torch;
 in float fragDistance;
 
 // Ouput data
 out vec4 color;
- 
+
 // Values that stay constant for the whole mesh.
 uniform sampler2DArray textureArray;
 uniform int viewDistance;
 uniform vec3 skyColor;
- 
-void main(){
-   vec4 val = texture( textureArray, UV );
-   if(val.a == 0.0){//ditch transparent fragments
-      discard;
-   }
-   if(normals == 1.0f) val *= 0.9;
-   if(normals == 2.0f) val *= 0.85;
-   if(normals == 3.0f) val *= 0.8;
-   if(normals == 4.0f) val *= 0.75;
-   if(normals == 5.0f) val *= 0.7;
 
+void main() {
+    vec4 val = texture(textureArray, UV);
+    if (val.a == 0.0) {  // ditch transparent fragments
+        discard;
+    } else if (val.r == 0.0 && val.g == 0.0 && val.b == 0.0) {
+        color = vec4(0.0,0.0,0.0, 1.0);
+        // color=vec4(skyColor,1.0);
+        return;
+    }
 
-   float visibility = 1.0;
-   float viewGradient = 128;
-   if (fragDistance > viewDistance - viewGradient) { //Fog
-      visibility = (fragDistance - viewDistance + (viewGradient/2)) / (viewGradient/2);
-      visibility = clamp(1 - visibility, 0.0, 1.0);
-   }
-   
-   color = mix(vec4(skyColor, 1.0), val, visibility);
-   // color = val;
-   // color = vec4(map(fragDistance,0,viewDistance2,0,1),0.0,0.0,1.0);
+    // if (normal == 1.0f) val *= 0.9;
+    // if (normal == 2.0f) val *= 0.8;
+    // if (normal == 3.0f) val *= 0.7;
+    // if (normal == 4.0f) val *= 0.6;
+    // if (normal == 5.0f) val *= 0.5;
+    val *= sun;
+
+    float visibility = 1.0;
+    float viewGradient = 128;
+    if (fragDistance > viewDistance - viewGradient) {  // Fog
+        visibility = (fragDistance - viewDistance + (viewGradient / 2)) / (viewGradient / 2);
+        visibility = clamp(1 - visibility, 0.0, 1.0);
+    }
+
+    color = mix(vec4(skyColor, 1.0), val, visibility);
+
+    // // X is red, Y is green, Z is blue
+    // if (normal == 0.0f) color = vec4(1.0, 0.0, 0.0, 1.0);  // positive x
+    // if (normal == 1.0f) color = vec4(0.5, 0.0, 0.0, 1.0);  // negative x
+
+    // if (normal == 2.0f) color = vec4(0.0, 0.0, 1.0, 1.0);  // positive z
+    // if (normal == 3.0f) color = vec4(0.0, 0.0, 0.5, 1.0);  // negative z
+
+    // if (normal == 4.0f) color = vec4(0.0, 1.0, 0.0, 1.0);  // positive y
+    // if (normal == 5.0f) color = vec4(0.0, 0.5, 0.0, 1.0);  // negative y
 }

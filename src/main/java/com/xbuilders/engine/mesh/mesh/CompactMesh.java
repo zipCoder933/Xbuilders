@@ -2,27 +2,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.mesh.meshes;
-
-import org.lwjgl.opengl.*;
+package com.xbuilders.engine.mesh.mesh;
 
 import java.nio.IntBuffer;
-
-import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.GL_FILL;
+import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
+import static org.lwjgl.opengl.GL11.GL_LINE;
+import static org.lwjgl.opengl.GL11.glPolygonMode;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL33;
 
 /**
+ *
  * @author zipCoder933
  */
-public class CompactIndexedMesh implements Mesh {
+public class CompactMesh implements Mesh {
 
-    private int vao, vbo, indexVbo, textureID, vertLength;
+    private int vao, vbo, textureID, vertLength;
     public boolean empty;
     final static int VALUES_PER_VERTEX = 3;
 
-    public CompactIndexedMesh() {
+    public CompactMesh() {
         vao = GL30.glGenVertexArrays();//Every chunk gets its own VAO
-        vbo = GL30.glGenBuffers();
-        indexVbo = GL30.glGenBuffers();
+        vbo = GL15.glGenBuffers();
 
         GL30.glBindVertexArray(vao);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
@@ -43,27 +48,21 @@ public class CompactIndexedMesh implements Mesh {
         this.textureID = textureID;
     }
 
-    public void sendBuffersToGPU(int[] vertex, int[] indicies) {
+    public void sendBuffersToGPU(int[] g_vertex_buffer_data) {
         GL30.glBindVertexArray(vao);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertex, GL15.GL_STATIC_DRAW); //send data to the GPU
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, g_vertex_buffer_data, GL15.GL_STATIC_DRAW); //send data to the GPU
 
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexVbo);
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicies, GL15.GL_STATIC_DRAW);
-
-        vertLength = vertex.length / VALUES_PER_VERTEX;
+        vertLength = g_vertex_buffer_data.length / VALUES_PER_VERTEX;
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
-    public void sendBuffersToGPU(IntBuffer vertex, IntBuffer indicies) {
+        public void sendBuffersToGPU(IntBuffer g_vertex_buffer_data) {
         GL30.glBindVertexArray(vao);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertex, GL15.GL_STATIC_DRAW); //send data to the GPU
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, g_vertex_buffer_data, GL15.GL_STATIC_DRAW); //send data to the GPU
 
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexVbo);
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicies, GL15.GL_STATIC_DRAW);
-
-        vertLength = vertex.capacity() / VALUES_PER_VERTEX;
+        vertLength = g_vertex_buffer_data.capacity() / VALUES_PER_VERTEX;
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
@@ -79,7 +78,7 @@ public class CompactIndexedMesh implements Mesh {
             GL11.glLineWidth(2); //Set the line width
             GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, 0);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Enable wireframe mode
-            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength);//We can specify what vertex to start at and how many verticies to draw
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Disable wireframe mode
         }
 

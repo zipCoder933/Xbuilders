@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.mesh;
+package com.xbuilders.engine.mesh.chunkMesh.withoutBakedLight;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
@@ -58,9 +59,8 @@ public class GreedyMesher {
         return val1 == val2;
     }
 
-
     public void compute(BufferSet opaqueBuffers, BufferSet transparentBuffers,
-                        Vector3i chunkPositionOffset, MemoryStack stack, int lodLevel) {
+            Vector3i chunkPositionOffset, MemoryStack stack, int lodLevel) {
 
         /**
          * These are just working variables for the algorithm - almost all taken
@@ -73,7 +73,6 @@ public class GreedyMesher {
         final int[] du = new int[]{0, 0, 0};
         final int[] dv = new int[]{0, 0, 0};
         final IntBuffer quadSize = stack.mallocInt(2);
-
 
         /**
          * These are just working variables to hold two faces during comparison.
@@ -128,7 +127,7 @@ public class GreedyMesher {
                     min = 0;
                 }
 
-                for (x[d] = min; x[d] < max; ) {
+                for (x[d] = min; x[d] < max;) {
                     /**
                      * -------------------------------------------------------------------
                      * We compute the mask
@@ -154,11 +153,10 @@ public class GreedyMesher {
 //                            sun1 = retrieveSunForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk, block1, d, x, q);
 //                            int thisPlanePacked = (thisPlaneVoxel.get(0) << 8) | (sun & 0xFF);
 //                            int nextPlanePacked = (nextPlaneVoxel.get(0) << 8) | (sun1 & 0xFF);
-
                             short maskValue = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0) || (block.opaque != block1.opaque)
                                     //The opaque check is to prevent transparent mesh from overriding opaque one
                                     ? (backFace //add the voxel for either this plane or the next plane depending on our direction
-                                    ? nextPlaneVoxel.get(0) : thisPlaneVoxel.get(0)) : 0;
+                                            ? nextPlaneVoxel.get(0) : thisPlaneVoxel.get(0)) : 0;
                             mask.put(n++, maskValue);
                         }
                     }
@@ -171,7 +169,7 @@ public class GreedyMesher {
                     n = 0;
 
                     for (j = 0; j < dims[v]; j++) {
-                        for (i = 0; i < dims[u]; ) {
+                        for (i = 0; i < dims[u];) {
                             if (mask.get(n) != 0) {
 
                                 /*
@@ -186,13 +184,12 @@ public class GreedyMesher {
                                 dv[1] = 0;
                                 dv[2] = 0;
 
-
                                 //<editor-fold defaultstate="collapsed" desc="make the quad">
                                 //Compute the quad width
                                 for (quadSize.put(0, 1);
-                                     i + quadSize.get(0) < dims[u] && mask.get(n +
-                                             quadSize.get(0)) != 0 && equals(mask.get(n + quadSize.get(0)),
-                                             mask.get(n)); quadSize.put(0, quadSize.get(0) + 1))
+                                        i + quadSize.get(0) < dims[u] && mask.get(n
+                                        + quadSize.get(0)) != 0 && equals(mask.get(n + quadSize.get(0)),
+                                        mask.get(n)); quadSize.put(0, quadSize.get(0) + 1))
                                     ;
                                 {
                                 }
@@ -220,8 +217,8 @@ public class GreedyMesher {
                                  * all the attributes of the face - which allows for variables to be passed to shaders - for
                                  * example lighting values used to create ambient occlusion.
                                  */
-                                Mesher_makeQuad(opaqueBuffers, transparentBuffers, x, du, dv, quadSize.get(0), quadSize.get(1)
-                                        , mask.get(n), backFace, d, side, stack);
+                                Mesher_makeQuad(opaqueBuffers, transparentBuffers, x, du, dv, quadSize.get(0), quadSize.get(1),
+                                        mask.get(n), backFace, d, side, stack);
                                 //</editor-fold>
 
                                 /*
@@ -230,7 +227,7 @@ public class GreedyMesher {
                                  */
                                 for (l = 0; l < quadSize.get(1); ++l) {
                                     for (k = 0; k < quadSize.get(0); ++k) {
-                                        mask.put(n + k + l * dims[u], (short)0);
+                                        mask.put(n + k + l * dims[u], (short) 0);
                                     }
                                 }
                                 /*
@@ -269,7 +266,7 @@ public class GreedyMesher {
     }
 
     private void retrieveMaskVoxels(int[] x, int[] q, int d, Chunk backChunk, Chunk forwardChunk,
-                                    Vector3i voxelPos, ShortBuffer thisPlaneVoxel, ShortBuffer nextPlaneVoxel, int lodLevel) {
+            Vector3i voxelPos, ShortBuffer thisPlaneVoxel, ShortBuffer nextPlaneVoxel, int lodLevel) {
         //Here we retrieve two voxel faces for comparison.
         //thisPlaneVoxel literaly faces forward, while nextPlaneVoxel faces backward
         if (x[d] >= 0) { //Calculate the voxel of THIS plane
@@ -295,7 +292,6 @@ public class GreedyMesher {
         }
     }
 
-
     final int[] indexes1 = {2, 0, 1, 1, 3, 2};
     final int[] indexes2 = {2, 3, 1, 1, 0, 2};
 
@@ -303,20 +299,17 @@ public class GreedyMesher {
     final Vector2f[] uvs = {new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()};
     final Vector3i[] completeVertex = {new Vector3i(), new Vector3i(), new Vector3i(), new Vector3i()};
 
-
     // d: 0=X,1=Y,2=Z
     protected void Mesher_makeQuad(BufferSet buffers, BufferSet transBuffers, int x[], int du[], int dv[], final int w, final int h,
-                                   final short blockVal, final boolean backFace, final int d, final int side, MemoryStack stack) {
+            final short blockVal, final boolean backFace, final int d, final int side, MemoryStack stack) {
 
 //        short blockVal = (short) ((voxel >> 8) & 0xFFFF);
 //        byte sun = (byte) (voxel & 0xFF);
-
         Block block = blockMap.get(blockVal);
 
         if (block != null && block.texture != null) {
             int[] indexes = backFace ? indexes1 : indexes2;
             BlockTexture.FaceTexture texture;
-
 
 //The ONLY difference betweent this method and nublada is that nublada uses packed single integer coordinates,
 // and that uvs and vertex positions are combined
@@ -366,14 +359,13 @@ public class GreedyMesher {
                 }
             }
 
-            byte normalAndAO = (byte) side;
 
             for (int i = 0; i < 4; i++) {
                 Vector3f vertex = vertices[i];
                 completeVertex[i].set(
-                        BufferSet.packFirstInt(vertex.x, vertex.y, normalAndAO),
+                        BufferSet.packFirstInt(vertex.x, vertex.y, (byte) side, texture.animationLength),
                         BufferSet.packSecondInt(vertex.z, uvs[i].x, uvs[i].y),
-                        BufferSet.packThirdInt(texture.id, texture.animationLength));
+                        BufferSet.packThirdInt(texture.id, (byte)15));
             }
 
             if (block.opaque) {

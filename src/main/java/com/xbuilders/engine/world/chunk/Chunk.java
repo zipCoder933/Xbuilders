@@ -1,5 +1,6 @@
 package com.xbuilders.engine.world.chunk;
 
+import com.xbuilders.engine.mesh.chunkMesh.ChunkMeshBundle;
 import com.xbuilders.engine.items.ChunkEntitySet;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;
@@ -61,7 +62,7 @@ public class Chunk {
     public final MVP mvp;
     public boolean inFrustum;
     public float distToPlayer;
-    public final MeshBundle meshes;
+    public final ChunkMeshBundle meshes;
     public final AABB aabb;
     public final NeighborInformation neghbors;
     public boolean isTopChunk;
@@ -70,7 +71,7 @@ public class Chunk {
     public Chunk(int texture) {
         mvp = new MVP();
         data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
-        meshes = new MeshBundle(texture, this);
+        meshes = new ChunkMeshBundle(texture, this);
         modelMatrix = new Matrix4f();
         aabb = new AABB();
         this.position = new Vector3i();
@@ -170,7 +171,7 @@ public class Chunk {
     - We first generate the terrain
     - Mesh generation is the last step
      */
-    private Future<MeshBundle> mesherFuture;
+    private Future<ChunkMeshBundle> mesherFuture;
     //    public Future<Boolean> lightFuture;
     public Future<Boolean> loadFuture;
 

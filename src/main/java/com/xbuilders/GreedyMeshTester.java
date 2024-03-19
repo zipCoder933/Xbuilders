@@ -6,8 +6,8 @@ package com.xbuilders;
 
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.mesh.BufferSet;
-import com.xbuilders.engine.mesh.GreedyMesher;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.mesh.chunkMesh.withoutBakedLight.GreedyMesher;
 import com.xbuilders.engine.mesh.old.GreedyMesherNublada;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.PerlinNoise;

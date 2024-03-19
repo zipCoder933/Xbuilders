@@ -14,7 +14,8 @@ import java.util.Random;
 
 public abstract class Terrain {
 
-    public static FastNoise noise = new FastNoise();
+    public static final FastNoise noise = new FastNoise();
+    public static final PerlinNoise perlinNoise = new PerlinNoise(0, 150);
     private int seed = 0;
     public final String name;
     public int MAX_HEIGHT = 10;
@@ -26,6 +27,7 @@ public abstract class Terrain {
 
     public void init(int seed) {
         noise.SetSeed(seed);
+        perlinNoise.setSeed(((double) seed / Integer.MAX_VALUE) * 255);
         this.seed = seed;
     }
 

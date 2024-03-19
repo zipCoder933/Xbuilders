@@ -3,9 +3,6 @@
 // 
 package com.xbuilders.engine.world.chunk;
 
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.world.chunk.BlockData;
 
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
@@ -20,14 +17,14 @@ public class ChunkVoxels {
         this.size = new Vector3i(sizeX, sizeY, sizeZ);
         this.blockData = new HashMap<>();
         this.blocks = MemoryUtil.memAllocShort(size.x * size.y * size.z);
-        this.sun = MemoryUtil.memAlloc(size.x * size.y * size.z);
+        this.light = MemoryUtil.memAlloc(size.x * size.y * size.z);
     }
 
     public void dispose() {
         MemoryUtil.memFree(blocks);
-        MemoryUtil.memFree(sun);
+        MemoryUtil.memFree(light);
         blocks = null;
-        sun = null;
+        light = null;
     }
 
     public int getIndexOfCoords(final int x, final int y, final int z) {
@@ -39,17 +36,17 @@ public class ChunkVoxels {
     public void clear() {
         for (int i = 0; i < blocks.capacity(); i++) {
             blocks.put(i, (short) 0);
-            sun.put(i, (byte) 15);
+            light.put(i, (byte) (Math.random() * 10 + 5));
         }
         blockData.clear();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Sunlight">
-    private ByteBuffer sun;
+    private ByteBuffer light;
 
     public byte getSun(final int x, final int y, final int z) {
         try {
-            return sun.get(x + size.x * (y + size.y * z));
+            return light.get(x + size.x * (y + size.y * z));
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Block coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }
@@ -57,7 +54,7 @@ public class ChunkVoxels {
 
     public void setSun(final int x, final int y, final int z, final byte value) {
         try {
-            this.sun.put(x + size.x * (y + size.y * z), value);
+            this.light.put(x + size.x * (y + size.y * z), value);
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }

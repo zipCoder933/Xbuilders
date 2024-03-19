@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.mesh;
+package com.xbuilders.engine.mesh.chunkMesh.withoutBakedLight;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -10,6 +10,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 
 import java.util.HashMap;
 
@@ -26,18 +27,17 @@ public class NaiveMesher {
     boolean generateAll;
 
     public NaiveMesher(ChunkVoxels chunkPreMeshData, HashMap<Short, Block> blockList,
-                       boolean generateAll) {
+            boolean generateAll) {
         this.generateAll = generateAll;
         this.blockList = blockList;
         this.data = chunkPreMeshData;
         dims = new int[]{data.size.x, data.size.y, data.size.z};
     }
 
-
-
     public void compute(BufferSet opaqueBuffers, BufferSet transparentBuffers, Vector3i position) {
         Block block;
         Block[] neighbors = new Block[6];
+        byte[] light = {15, 15, 15, 15, 15, 15};
         BlockData blockData;
         for (int x = 0; x < data.size.x; ++x) {
             for (int y = 0; y < data.size.y; ++y) {
@@ -97,9 +97,9 @@ public class NaiveMesher {
                             continue;
                         }
                         if (block.opaque) {
-                            type.constructBlock(opaqueBuffers, block, blockData, neighbors, x, y, z);
+                            type.constructBlock(opaqueBuffers, block, blockData, neighbors, light, x, y, z);
                         } else {
-                            type.constructBlock(transparentBuffers, block, blockData, neighbors, x, y, z);
+                            type.constructBlock(transparentBuffers, block, blockData, neighbors, light, x, y, z);
                         }
                     }
 
