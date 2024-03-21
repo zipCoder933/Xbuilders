@@ -7,7 +7,7 @@ package com.xbuilders.engine.items.block.blockIconRendering;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.block.BlockTextureArray;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.mesh.mesh.CompactMesh;
@@ -71,7 +71,7 @@ public abstract class BlockIconRenderer {
     public int renderedTexture;
     SimpleWaitLock lock;
 
-    public BlockIconRenderer(BlockTextureArray textures, File exportDirectory) throws InterruptedException {
+    public BlockIconRenderer(BlockArrayTexture textures, File exportDirectory) throws InterruptedException {
         lock = new SimpleWaitLock();
         thread1 = new Thread(() -> {
             System.out.println("Generating icons... Image size: " + imageSize + "x" + imageSize);

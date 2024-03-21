@@ -1,6 +1,6 @@
 package com.xbuilders.engine.items.block.construction;
 
-import com.xbuilders.engine.items.block.BlockTextureArray;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
 
 public class BlockTexture {
 
@@ -15,7 +15,7 @@ public class BlockTexture {
         }
     }
 
-    public final void init(BlockTextureArray textureNameMap) {
+    public final void init(BlockArrayTexture textureNameMap) {
         POS_X = new FaceTexture(textureNameMap.getTextureLayer(POS_X_NAME), textureNameMap.getAnimationLength(POS_X_NAME));
         NEG_X = new FaceTexture(textureNameMap.getTextureLayer(NEG_X_NAME), textureNameMap.getAnimationLength(NEG_X_NAME));
         POS_Y = new FaceTexture(textureNameMap.getTextureLayer(POS_Y_NAME), textureNameMap.getAnimationLength(POS_Y_NAME));

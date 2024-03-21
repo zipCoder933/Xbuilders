@@ -49,7 +49,7 @@ class ChunkSunlightUtils {
                             sunVal = 0;
                         }
                         pillarChunk.data.setSun(x, y, z, sunVal);
-//                        if(sunVal == 0) {
+//                        if(sunVal == 15) {
 //                            queue.add(new ChunkNode(pillarChunk, x, y, z));
 //                        }
                     }
@@ -60,14 +60,14 @@ class ChunkSunlightUtils {
 //            while (!queue.isEmpty()) {
 //                ChunkNode node = queue.getAndRemove();
 //                byte lightValue = node.chunk.data.getSun(node.coords.x, node.coords.y, node.coords.z);
-////                if (lightValue > 0) {
+//                if (lightValue > 0) {
 //                    checkNeighbor(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue);
 //                    checkNeighbor(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue);
 //                    checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue);
 //                    checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z - 1, lightValue, queue);
 //                    checkNeighbor(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, lightValue, queue);
 //                    checkNeighbor(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, lightValue, queue);
-////                }
+//                }
 //            }
 
 

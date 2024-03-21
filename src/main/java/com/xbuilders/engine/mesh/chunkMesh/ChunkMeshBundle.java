@@ -106,13 +106,13 @@ public class ChunkMeshBundle {
                 greedyMesher.compute(buff, transBuff, position, stack, 1);
                 naiveMesher.compute(buff, transBuff, position);
 
-                opaque.empty = buff.isEmpty();
-                trans.empty = transBuff.isEmpty();
+                opaque.empty = buff.size()==0;
+                trans.empty = transBuff.size()==0;
 
-                if (!buff.isEmpty()) {
+                if (buff.size()!=0) {
                     opaqueBuffer = buff.makeVertexSet();
                 }
-                if (!transBuff.isEmpty()) {
+                if (transBuff.size()!=0) {
                     transBuffer = transBuff.makeVertexSet();
                 }
             }

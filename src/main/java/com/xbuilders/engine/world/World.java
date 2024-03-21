@@ -18,7 +18,7 @@ import static com.xbuilders.engine.gameScene.GameScene.world;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.block.BlockTextureArray;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
 
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
@@ -169,7 +169,7 @@ public class World {
         this.needsSorting = new AtomicBoolean(true);
     }
 
-    public void init(BlockTextureArray textures) throws IOException {
+    public void init(BlockArrayTexture textures) throws IOException {
         box = new Box();
         blockTextureID = textures.createArrayTexture();
         //Prepare for game

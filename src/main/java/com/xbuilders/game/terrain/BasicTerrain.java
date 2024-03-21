@@ -19,14 +19,14 @@ public class BasicTerrain extends Terrain {
 
     public BasicTerrain() {
         super("Basic Terrain");
-        MIN_HEIGHT = 0;
-        MAX_HEIGHT = 70;
+        MIN_HEIGHT = 70;
+        MAX_HEIGHT = 140;
     }
 
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
         boolean genOutsideBoundary = false;
-        if ((chunk.position.y * Chunk.WIDTH) > MIN_HEIGHT - 1) {
+        if ((chunk.position.y * Chunk.WIDTH) + Chunk.WIDTH > MIN_HEIGHT - 2) {
             for (int cx = 0; cx < WIDTH; cx++) {
                 for (int cy = 0; cy < WIDTH; cy++) {
                     for (int cz = 0; cz < WIDTH; cz++) {
@@ -36,7 +36,7 @@ public class BasicTerrain extends Terrain {
                         int wz = cz + (chunk.position.z * Chunk.WIDTH);
 
                         int heightmap = (int) MathUtils.map(
-                                (float) noise.GetValueFractal(wx * 0.3f, wz * 0.3f),
+                                (float) perlinNoise.noise(wx * 0.3f, wz * 0.3f),
                                 -1, 1, MAX_HEIGHT, MIN_HEIGHT);
 
                         if (wy == heightmap) {
@@ -47,6 +47,10 @@ public class BasicTerrain extends Terrain {
                             }
                         } else if (heightmap < wy) {
                             chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_DIRT.id);
+                        } else if (heightmap > wy) {
+                            if (perlinNoise.noise(wx, wy , wz ) > 0.1f) {
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE.id);
+                            }
                         }
                     }
                 }

@@ -36,7 +36,7 @@ public class Block extends Item {
         return texture != null;
     }
 
-    public final void initTextureAndIcon(BlockTextureArray textures,
+    public final void initTextureAndIcon(BlockArrayTexture textures,
                                          File blockIconDirectory,
                                          File iconDirectory,
                                          int defaultIcon) throws IOException {

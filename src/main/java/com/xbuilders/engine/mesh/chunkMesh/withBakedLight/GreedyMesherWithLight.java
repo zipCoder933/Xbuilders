@@ -358,12 +358,12 @@ public class GreedyMesherWithLight {
             if (block.opaque) {
                 for (int i = 0; i < indexes.length; i++) {
                     int j = indexes[i];
-                    buffers.vertex(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
+                    buffers.verts[0].addVert(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
                 }
             } else {
                 for (int i = 0; i < indexes.length; i++) {
                     int j = indexes[i];
-                    transBuffers.vertex(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
+                    transBuffers.verts[0].addVert(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
                 }
             }
         }

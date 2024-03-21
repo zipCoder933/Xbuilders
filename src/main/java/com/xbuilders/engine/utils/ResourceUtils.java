@@ -24,8 +24,7 @@ public class ResourceUtils {
     public static File LOCAL_DIR;
 
     //Individual paths
-    public static File BLOCK_ICON_DIR;
-    public static File DEFAULT_ICON;
+    public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, ICONS_DIR;
 
     static {
         System.out.println("RESOURCES:");
@@ -39,15 +38,17 @@ public class ResourceUtils {
         System.out.println("\tLocal path: " + LOCAL_DIR);
         System.out.println("\tResource path: " + RESOURCE_DIR);
         System.out.println("\tApp Data path: " + APP_DATA_DIR);
+
+        BLOCK_ICON_DIR = resource("items\\blocks\\icons");
+        DEFAULT_ICON = resource("items\\defaultIcon.png");
+        BLOCK_TEXTURE_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\textures");
+        ICONS_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\icons");
     }
 
     public static void initialize(boolean gameDevResources) {
         WORLDS_DIR = new File(APP_DATA_DIR, (gameDevResources ? "game_dev" : "game"));
         WORLDS_DIR.mkdirs();
         System.out.println("\tGame path: " + WORLDS_DIR);
-
-        BLOCK_ICON_DIR = resource("items\\blocks\\icons");
-        DEFAULT_ICON = resource("items\\defaultIcon.png");
     }
 
     public static File localResource(String path) {

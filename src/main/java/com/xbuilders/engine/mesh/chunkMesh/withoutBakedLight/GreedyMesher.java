@@ -299,6 +299,7 @@ public class GreedyMesher {
     final Vector2f[] uvs = {new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()};
     final Vector3i[] completeVertex = {new Vector3i(), new Vector3i(), new Vector3i(), new Vector3i()};
 
+    //TODO: Determine why nublada is 2ms faster than this. Hint: its not mesher_makeQuad()
     // d: 0=X,1=Y,2=Z
     protected void Mesher_makeQuad(BufferSet buffers, BufferSet transBuffers, int x[], int du[], int dv[], final int w, final int h,
             final short blockVal, final boolean backFace, final int d, final int side, MemoryStack stack) {
@@ -311,8 +312,6 @@ public class GreedyMesher {
             int[] indexes = backFace ? indexes1 : indexes2;
             BlockTexture.FaceTexture texture;
 
-//The ONLY difference betweent this method and nublada is that nublada uses packed single integer coordinates,
-// and that uvs and vertex positions are combined
             vertices[0].set(x[0], x[1], x[2]);
             vertices[1].set(x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]);
             vertices[2].set(x[0] + du[0], x[1] + du[1], x[2] + du[2]);
@@ -358,7 +357,7 @@ public class GreedyMesher {
                     uvs[2].set(w, 0);
                 }
             }
-
+            
 
             for (int i = 0; i < 4; i++) {
                 Vector3f vertex = vertices[i];
@@ -371,12 +370,12 @@ public class GreedyMesher {
             if (block.opaque) {
                 for (int i = 0; i < indexes.length; i++) {
                     int j = indexes[i];
-                    buffers.vertex(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
+                    buffers.verts[0].addVert(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
                 }
             } else {
                 for (int i = 0; i < indexes.length; i++) {
                     int j = indexes[i];
-                    transBuffers.vertex(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
+                    transBuffers.verts[0].addVert(completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
                 }
             }
         }

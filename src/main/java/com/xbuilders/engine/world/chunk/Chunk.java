@@ -80,8 +80,8 @@ public class Chunk {
     }
 
     public void init(Vector3i position, WorldInfo info,
-                     Terrain terrain, FutureChunk futureChunk,
-                     float distToPlayer, boolean isTopChunk) {
+            Terrain terrain, FutureChunk futureChunk,
+            float distToPlayer, boolean isTopChunk) {
 
         pillarInformation = null;
         this.isTopChunk = isTopChunk;
@@ -196,32 +196,31 @@ public class Chunk {
 //    static {
 //        chunkGenFrameTester.setUpdateTimeMS(1000);
 //    }
-
     public void prepare(Terrain terrain, long frame) {
         //for sunlight generation
-//        if (isTopChunk && loadFuture != null && loadFuture.isDone() &&
-//                pillarInformation != null &&
-//                pillarInformation.isPillarLoaded()) {
-//            loadFuture = null;
-//            pillarInformation.initLighting(terrain, distToPlayer);
-//        }
-//        if (generationStatus == GEN_SUN_LOADED) {
-//            neghbors.cacheNeighbors();
-//            if (neghbors.allNeghborsLoaded) {
-//                generateMesh();
-//                generationStatus = GEN_COMPLETE;
-//            }
-//        }
+        if (isTopChunk && loadFuture != null && loadFuture.isDone()
+                && pillarInformation != null
+                && pillarInformation.isPillarLoaded()) {
+            World.frameTester.startProcess();
+            loadFuture = null;
+            pillarInformation.initLighting(terrain, distToPlayer);
+            World.frameTester.endProcess("Gen Sunlight");
+        }
 
         //Generate the mesh
         if (loadFuture != null && loadFuture.isDone()) {
             /**
-             * The cacheNeighbors is still a bottleneck. I have kind of fixed it by only calling it every 10th frame
+             * The cacheNeighbors is still a bottleneck. I have kind of fixed it
+             * by only calling it every 10th frame
              */
             World.frameTester.startProcess();
-            if (frame % 10 == 0) neghbors.cacheNeighbors();
+            if (frame % 10 == 0) {
+                neghbors.cacheNeighbors();
+            }
             World.frameTester.endProcess("red Cache Neghbors");
-            if (neghbors.allNeghborsLoaded) {
+            if (neghbors.allNeghborsLoaded
+                    && generationStatus >= GEN_SUN_LOADED//
+                    ) {
                 loadFuture = null;
                 World.frameTester.startProcess();
                 mesherFuture = meshService.submit(() -> {
@@ -254,7 +253,6 @@ public class Chunk {
             return meshes;
         });
     }
-
 
     /**
      * sends the mesh to the GPU after meshing

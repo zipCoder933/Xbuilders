@@ -150,12 +150,9 @@ public class MyGame extends Game {
             }),};
 
         //Init blocks
-        File blockTextures = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\textures");
-        File blockIconDirectory = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\icons");
-        File iconDirectory = new File(ResourceUtils.RESOURCE_DIR + "\\items\\icons");
-        Texture defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false);
+      
 
-        ItemList.initialize(blockTextures, blockIconDirectory, iconDirectory, defaultIcon.id);
+        ItemList.initialize();
 
         ItemList.setAllItems(
                 blockList,

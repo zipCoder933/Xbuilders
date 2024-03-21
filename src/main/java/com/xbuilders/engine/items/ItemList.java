@@ -6,7 +6,10 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.window.utils.texture.Texture;
+import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,10 +60,13 @@ public class ItemList {
     public static ToolList tools;
     private static Item[] allItems;
 
-    public static void initialize(
-            File blockTextures, File blockIconDirectory, File iconDirectory, int defaultIcon) throws IOException {
+    public static void initialize() throws IOException {
 
-        ItemList.defaultIcon = defaultIcon;
+        File blockTextures = ResourceUtils.BLOCK_TEXTURE_DIR;
+        File blockIconDirectory = ResourceUtils.BLOCK_ICON_DIR;
+        File iconDirectory = ResourceUtils.ICONS_DIR;
+
+        ItemList.defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false).id;
         blocks = new BlockList(blockTextures, blockIconDirectory, iconDirectory, ItemList.defaultIcon);
         entities = new EntityList(iconDirectory, ItemList.defaultIcon);
         tools = new ToolList(iconDirectory, ItemList.defaultIcon);
@@ -85,10 +91,14 @@ public class ItemList {
             return null;
         } else {
             return switch (itemType) {
-                case BLOCK -> ItemList.getBlock(id);
-                case ENTITY_LINK -> ItemList.getEntity(id);
-                case TOOL -> ItemList.getTool(id);
-                default -> null;
+                case BLOCK ->
+                    ItemList.getBlock(id);
+                case ENTITY_LINK ->
+                    ItemList.getEntity(id);
+                case TOOL ->
+                    ItemList.getTool(id);
+                default ->
+                    null;
             };
         }
     }
@@ -96,7 +106,6 @@ public class ItemList {
     public static Block getBlock(short blockID) {
         return blocks.getIdMap().get(blockID);
     }
-
 
     public static EntityLink getEntity(short blockID) {
         return entities.getIdMap().get(blockID);

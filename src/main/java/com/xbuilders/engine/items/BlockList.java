@@ -6,25 +6,20 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockAir;
-import com.xbuilders.engine.items.block.BlockTextureArray;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.math.AABB;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author zipCoder933
  */
 public class BlockList extends ItemGroup<Block> {
 
-    public final BlockTextureArray textures;
+    public final BlockArrayTexture textures;
     private final HashMap<Integer, BlockType> blockTypes;
 
     public final static int DEFAULT_BLOCK_TYPE_ID = 0;
@@ -40,7 +35,7 @@ public class BlockList extends ItemGroup<Block> {
         this.blockIconDirectory = blockIconDirectory;
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
-        textures = new BlockTextureArray(textureDirectory);
+        textures = new BlockArrayTexture(textureDirectory);
         blockTypes = new HashMap<>();
         blockTypes.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
     }

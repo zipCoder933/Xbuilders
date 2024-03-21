@@ -3,7 +3,6 @@
 // 
 package com.xbuilders.engine.world.chunk;
 
-
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
@@ -36,7 +35,8 @@ public class ChunkVoxels {
     public void clear() {
         for (int i = 0; i < blocks.capacity(); i++) {
             blocks.put(i, (short) 0);
-            light.put(i, (byte) (Math.random() * 10 + 5));
+//            light.put(i, (byte) (Math.random() * 10 + 5));
+            light.put(i, (byte) 0);
         }
         blockData.clear();
     }

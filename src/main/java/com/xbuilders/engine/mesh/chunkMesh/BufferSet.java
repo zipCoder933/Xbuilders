@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.world.chunk.Chunk;
+import java.util.List;
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryUtil;
 
@@ -20,6 +21,7 @@ public class BufferSet {
     public final static float maxMult10bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
     public final static float maxMult12bits = (float) ((Math.pow(2, 12) / Chunk.WIDTH) - 1);
     public final static float MAX_BLOCK_ANIMATION_SIZE = 2 ^ 5 - 1;
+    public static final int VECTOR_ELEMENTS = 3;
 
     public static int packFirstInt(float vertX, float vertY, byte normals, byte animation) {
         // Scale and convert vertX and vertY to 12-bit integers
@@ -72,16 +74,14 @@ public class BufferSet {
      */
     public static void unpackCoords(Vector3f vec, int packed) {
         float y = (packed >> 20);
-        float x = (packed >> 10) & 0x3FF;  // Use bitmask to get 10 bits
-        float z = packed & 0x3FF;  // Use bitmask to get 10 bits
+        float x = (packed >> 10) & 0x3FF;  // Use bitmask to getVert 10 bits
+        float z = packed & 0x3FF;  // Use bitmask to getVert 10 bits
         vec.set(x, y, z);
     }
 
     /**
      * This is the primary memory contributor in the greedy mesher
      */
-    public final int VECTOR_ELEMENTS = 3;
-
     //<editor-fold desc="Buffer Set (Reusable IntBuffer version)">
 //    private IntBuffer verts;
 //    int indx = 0;
@@ -106,7 +106,7 @@ public class BufferSet {
 ////        return null;
 //    }
 //
-//    public void vertex(int firstInt, int secondInt, int thridInt) {
+//    public void addVert(int firstInt, int secondInt, int thridInt) {
 //        if (indx + 3 > verts.capacity()) verts = MemoryUtil.memRealloc(verts, indx + 30);
 //        verts.put(indx, firstInt);
 //        verts.put(indx + 1, secondInt);
@@ -133,7 +133,7 @@ public class BufferSet {
 ////        return null;
 //    }
 //
-//    public void vertex(int firstInt, int secondInt, int thridInt) {
+//    public void addVert(int firstInt, int secondInt, int thridInt) {
 //        if (indx + 3 > verts.capacity()) verts = MemoryUtil.memRealloc(verts, indx + 30);
 //        verts.put(indx, firstInt);
 //        verts.put(indx + 1, secondInt);
@@ -152,54 +152,47 @@ public class BufferSet {
 //    }
 //</editor-fold>
     //<editor-fold desc="Buffer Set (ArrayList version)">
-    private ArrayList<IntBuffer> verts = new ArrayList<>();
-    //    static boolean usedAlready = false;
+    public Buffer[] verts = {new Buffer()};
     private IntBuffer buffer;
 
-    public boolean isEmpty() {
-        return verts.isEmpty();
+    public int size() {
+        int size = 0;
+        for (Buffer vert : verts) {
+            size += vert.size();
+        }
+        return size;
     }
 
     public void clear() {
-        verts.clear();
+        for (Buffer vert : verts) {
+            vert.clear();
+        }
     }
 
     public IntBuffer makeVertexSet() {
-        //The main contributor to the memory usage is the IntBuffer
-//        if (usedAlready) return null;
-        int size = verts.size();
-//        System.out.println("Making Vertex Set of size: " + size);
-        int j = 0;
+        //The main contributor to the memory usage is the IntBuffer that gets created here
+        int vertIndex = 0;
+        buffer = MemoryUtil.memAllocInt(size() * VECTOR_ELEMENTS);
 
-        buffer = MemoryUtil.memAllocInt(size * VECTOR_ELEMENTS);
-        for (int i = 0; i < size; i++) {
-            IntBuffer vertex = verts.get(i);
-            buffer.put(j, vertex.get(0));
-            buffer.put(j + 1, vertex.get(1));
-            buffer.put(j + 2, vertex.get(2));
-            MemoryUtil.memFree(vertex);
-            j += 3;
+        for (int buffIndex = 0; buffIndex < verts.length; buffIndex++) {
+            for (int i = 0; i < verts[buffIndex].size(); i++) {
+                IntBuffer vertex = verts[buffIndex].getVert(i);
+                buffer.put(vertIndex, vertex.get(0));
+                buffer.put(vertIndex + 1, vertex.get(1));
+                buffer.put(vertIndex + 2, vertex.get(2));
+                MemoryUtil.memFree(vertex);
+                vertIndex += 3;
+            }
         }
         clear();
-//        usedAlready = true;
         return buffer;
-//        return null;
-    }
-
-    public void vertex(int firstInt, int secondInt, int thridInt) {
-        //The arraylist is a minor contributor to the memory usage.
-        IntBuffer vert = MemoryUtil.memAllocInt(VECTOR_ELEMENTS);
-        vert.put(0, firstInt);
-        vert.put(1, secondInt);
-        vert.put(2, thridInt);
-        verts.add(vert);
     }
     //</editor-fold>
 
     public void vertex(float x, float y, float z,
             float uvX, float uvY, byte normal,
             BlockTexture.FaceTexture texture, byte light) {
-        vertex(packFirstInt(x, y, normal, texture.animationLength),
+        verts[0].addVert(packFirstInt(x, y, normal, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.id, light));
     }
@@ -207,7 +200,7 @@ public class BufferSet {
     public void vertex(float x, float y, float z,
             float uvX, float uvY, int normal,
             BlockTexture.FaceTexture texture, byte light) {
-        vertex(packFirstInt(x, y, (byte) normal, texture.animationLength),
+        verts[0].addVert(packFirstInt(x, y, (byte) normal, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.id, light));
     }
@@ -215,7 +208,7 @@ public class BufferSet {
     public void vertex(float x, float y, float z,
             float uvX, float uvY,
             BlockTexture.FaceTexture texture, byte light) {
-        vertex(packFirstInt(x, y, (byte) 0, texture.animationLength),
+        verts[0].addVert(packFirstInt(x, y, (byte) 0, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.id, light));
     }
@@ -223,7 +216,7 @@ public class BufferSet {
     public void vertex(float x, float y, float z,
             float uvX, float uvY, byte normal,
             int texture, byte animationLength, byte light) {
-        vertex(packFirstInt(x, y, normal, animationLength),
+        verts[0].addVert(packFirstInt(x, y, normal, animationLength),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture, light));
     }

@@ -6,17 +6,23 @@ package com.xbuilders;
 
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.mesh.chunkMesh.withoutBakedLight.GreedyMesher;
+import com.xbuilders.engine.mesh.chunkMesh.withBakedLight.GreedyMesherWithLight;
 import com.xbuilders.engine.mesh.old.GreedyMesherNublada;
 import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.utils.preformance.MemoryProfiler;
 import com.xbuilders.window.utils.preformance.Stopwatch;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.MyGame;
+import java.io.IOException;
 
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
@@ -27,14 +33,15 @@ import org.lwjgl.system.MemoryUtil;
  */
 public class GreedyMeshTester {
 
-    final static Mode mode = Mode.TEST_XBUILDERS_MEMORY;
-    final static int trials = 100;
+    final static Mode mode = Mode.TEST_SPEED;
+    final static int trials = 200;
 
     public final static PerlinNoise noise = new PerlinNoise(0.0, 1000);
     static Stopwatch watch_Nublada = new Stopwatch();
+    static Stopwatch watch_XbuildersLight = new Stopwatch();
     static Stopwatch watch_Xbuilders = new Stopwatch();
     static long times_xbuilders = 0;
-    static long times_nublada = 0;
+    static long times_nublada, times_xbuilders_light;
     static ChunkVoxels voxels = new ChunkVoxels(32, 32, 32);
 
     enum Mode {
@@ -50,8 +57,10 @@ public class GreedyMeshTester {
                 for (int k = 0; k < voxels.size.z; k++) {
                     if (noise.smoothNoise(i * 0.1f, j * 0.1f, k * 0.1f) > 0) {
                         voxels.setBlock(i, j, k, MyGame.BLOCK_GRASS.id);
+                        voxels.setSun(i, j, k, (byte) 0);
                     } else {
                         voxels.setBlock(i, j, k, BlockList.BLOCK_AIR.id);
+                        voxels.setSun(i, j, k, (byte) (Math.random() * 15));
                     }
                 }
             }
@@ -64,34 +73,64 @@ public class GreedyMeshTester {
         HashMap<Short, Block> blockList = new HashMap<>();
         blockList.put(MyGame.BLOCK_GRASS.id, MyGame.BLOCK_GRASS);
         blockList.put(BlockList.BLOCK_AIR.id, BlockList.BLOCK_AIR);
+
+        try {
+            BlockArrayTexture textureMap = new BlockArrayTexture(ResourceUtils.BLOCK_TEXTURE_DIR);
+            for (Block b : blockList.values()) {
+                if (b.texture != null) {
+                    b.texture.init(textureMap);
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GreedyMeshTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         generateVoxels();
 
         GreedyMesherNublada mesher_Nublada = new GreedyMesherNublada(voxels, blockList);
         GreedyMesher mesher_Xbuilders = new GreedyMesher(voxels, blockList);
+        GreedyMesherWithLight mesher_XbuildersLight = new GreedyMesherWithLight(voxels, blockList);
 
         long startMem = MemoryProfiler.getMemoryUsed();
         long totalMemory = 0;
+        int start = 5;
 
         if (mode == Mode.TEST_SPEED) {
             for (int b = 0; b < trials; b++) {
                 generateVoxels();
 
+                //TEST XB
+                try (MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
+                    watch_Xbuilders.start();
+                    mesher_Xbuilders.compute(new BufferSet(), new BufferSet(),
+                            new Vector3i(0, 0, 0), stack, 1);
+                    watch_Xbuilders.calculateElapsedTime();
+                }
+
+                //TEST NUBLADA
                 watch_Nublada.start();
                 mesher_Nublada.compute(new Vector3i(0, 0, 0));
                 watch_Nublada.calculateElapsedTime();
 
+                //TEST XB WITH LIGHT
                 try (MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
-                    watch_Xbuilders.start();
-                    mesher_Xbuilders.compute(new BufferSet(), new BufferSet(),
-                            new Vector3i(0, 0, 0),  stack,1);
-                    watch_Xbuilders.calculateElapsedTime();
+                    watch_XbuildersLight.start();
+                    mesher_XbuildersLight.compute(new BufferSet(), new BufferSet(),
+                            new Vector3i(0, 0, 0), stack, 1);
+                    watch_XbuildersLight.calculateElapsedTime();
                 }
 
-                times_xbuilders += (watch_Xbuilders.getElapsedMilliseconds());
-                times_nublada += (watch_Nublada.getElapsedMilliseconds());
-                System.out.print("NUBLADA:\t" + watch_Nublada.toString());
-                System.out.print("\tXBUILDERS:\t" + watch_Xbuilders.toString());
-                System.out.println("\t\t (trial " + b + "/" + trials + ") (" + MemoryProfiler.getMemoryUsageAsString() + ") seed:" + noise.getSeed());
+                //CALCULATE TIMES
+                if (b > start) {
+                    times_xbuilders += (watch_Xbuilders.getElapsedMilliseconds());
+                    times_nublada += (watch_Nublada.getElapsedMilliseconds());
+                    times_xbuilders_light += (watch_XbuildersLight.getElapsedMilliseconds());
+
+                    System.out.print("NUBLADA:\t" + watch_Nublada.toString());
+                    System.out.print("\tXBUILDERS:\t" + watch_Xbuilders.toString());
+                    System.out.print("\tXBUILDERS LIGHT:\t" + watch_XbuildersLight.toString());
+                    System.out.println("\t\t (trial " + b + "/" + trials + ") (" + MemoryProfiler.getMemoryUsageAsString() + ") seed:" + noise.getSeed());
+                }
             }
         } else {
             for (int b = 0; b < trials; b++) {
@@ -131,8 +170,10 @@ public class GreedyMeshTester {
             }
         }
 
-        System.out.println("\nNUBLADA TIME AVERAGE:\t" + (times_nublada / trials) + " ms"
-                + "\nXBUILDERS TIME AVERAGE:\t" + (times_xbuilders / trials) + " ms"
+        int realTrials = (trials - start);
+        System.out.println("\nNUBLADA TIME AVERAGE:\t" + (times_nublada / realTrials) + " ms"
+                + "\nXBUILDERS TIME AVERAGE:\t" + (times_xbuilders / realTrials) + " ms"
+                + "\nXBUILDERS (W/ LIGHT) TIME AVERAGE:\t" + (times_xbuilders_light / realTrials) + " ms"
                 + "\n\nTotal Memory used:\t" + MemoryProfiler.formatBytes(totalMemory)
                 + "\nMemory used/compute (avg):\t" + MemoryProfiler.formatBytes(totalMemory / trials));
 

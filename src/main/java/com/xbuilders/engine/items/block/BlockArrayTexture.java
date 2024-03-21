@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 /**
  * @author zipCoder933
  */
-public class BlockTextureArray {
+public class BlockArrayTexture {
 
     private final HashMap<String, Integer> textureMap;
     private final HashMap<String, File> fileMap;
@@ -48,7 +48,7 @@ public class BlockTextureArray {
         return fileMap.get(name.replaceAll(fileExtensionCode, ""));
     }
 
-    public BlockTextureArray(File blockTexturesDir) throws IOException {
+    public BlockArrayTexture(File blockTexturesDir) throws IOException {
         textureMap = new HashMap<>();
         fileMap = new HashMap<>();
         animationMap = new HashMap<>();
