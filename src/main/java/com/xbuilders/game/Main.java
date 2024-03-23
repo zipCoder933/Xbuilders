@@ -138,6 +138,7 @@ public class Main extends NKWindow {
             File saveFile = ResourceUtils.appDataResource("screenshots\\" + formattedDateTime + ".png");
             System.out.println("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
+                saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);
             } catch (IOException e) {
                 ErrorHandler.createPopupWindow("Error", "Could not save screenshot: " + e.getMessage());

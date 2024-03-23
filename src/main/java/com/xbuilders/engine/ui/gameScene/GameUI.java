@@ -36,12 +36,12 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 public class GameUI {
 
     public GameUI(Game game, NkContext ctx, NKWindow window, UIResources uires) throws IOException {
+        Theme.initialize(ctx);
         this.ctx = ctx;
         this.window = window;
         this.uires = uires;
         this.game = game;
         crosshair = new Crosshair(window.getWidth(), window.getHeight());
-        Theme.initialize(ctx);
         infoBox = new InfoText(ctx, window, uires);
         game.uiInit(ctx, window, uires, this);
     }

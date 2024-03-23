@@ -1,6 +1,7 @@
 package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
@@ -31,7 +32,7 @@ import org.lwjgl.nuklear.NkVec2;
 
 public class UserControlledPlayer extends Player {
 
-    Box cursor;
+
     public Camera camera;
     BaseWindow window;
     static float speed = 10f;
@@ -42,6 +43,8 @@ public class UserControlledPlayer extends Player {
     PositionHandler positionHandler;
     boolean usePositionHandler = true;
     public PlayerServer server;
+
+    final int CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
 
 
     private void disableGravity() {
@@ -79,13 +82,12 @@ public class UserControlledPlayer extends Player {
         this.projection = projection;
         this.view = view;
         camera = new Camera(this, window, view, projection, world);
-        cursor = new Box();
-        cursor.set(0, 0, 0, 1, 1, 1);
-        cursor.setColor(new Vector4f(1, 1, 1, 1));
+
         aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
         aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0.5f, -(PLAYER_WIDTH * 0.5f));
         positionHandler = new PositionHandler(world, window, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
+        skin = new DefaultSkin(aabb);
         server = new PlayerServer(this);
     }
 
@@ -133,8 +135,11 @@ public class UserControlledPlayer extends Player {
         updatePosHandler(holdMouse);
         //The key to preventing shaking during collision is to update the camera AFTER  the position handler is done its job
         camera.update(holdMouse);
-        drawRay(camera.cursorRay);
+        camera.drawRay();
+        if (camera.getThirdPersonDist() != 0.0f) skin.render(projection, view);
     }
+
+    boolean raycastDistChanged = false;
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
@@ -163,6 +168,15 @@ public class UserControlledPlayer extends Player {
                 case GLFW.GLFW_KEY_V -> {
                     camera.cycleToNextView(10);
                 }
+                case CHANGE_RAYCAST_MODE -> {
+                    if (!raycastDistChanged) {
+                        camera.cursorRayHitAllBlocks = !camera.cursorRayHitAllBlocks;
+                        if (camera.cursorRayHitAllBlocks) {
+                            camera.cursorRayDist = 5;
+                        }
+                    }
+                    raycastDistChanged = false;
+                }
                 default -> {
                 }
             }
@@ -172,22 +186,31 @@ public class UserControlledPlayer extends Player {
     boolean lineMode = false;
 
     public void setItem(Item item) {
-        if (camera.cursorRay != null && camera.cursorRay.hitTarget) {
+        if (camera.cursorRay != null && (camera.cursorRay.hitTarget || camera.cursorRayHitAllBlocks)) {
             if (item != null) {
                 if (item.getType() == ItemType.BLOCK) {
                     Block block = (Block) item;
                     Vector3i w;
-                    if (block == BlockList.BLOCK_AIR) {
+
+                    if (block == BlockList.BLOCK_AIR || !camera.cursorRay.hitTarget) {
                         w = camera.cursorRay.getHitPositionAsInt();
                     } else {
                         w = camera.cursorRay.getHitPosPlusNormal();
                     }
+
                     WCCi wcc = new WCCi();
                     wcc.set(w);
                     setBlock(wcc, block);
                 } else if (item.getType() == ItemType.ENTITY_LINK) {
                     EntityLink entity = (EntityLink) item;
-                    Vector3i w = camera.cursorRay.getHitPosPlusNormal();
+                    Vector3i w;
+
+                    if (!camera.cursorRay.hitTarget) {
+                        w = camera.cursorRay.getHitPositionAsInt();
+                    } else {
+                        w = camera.cursorRay.getHitPosPlusNormal();
+                    }
+
                     WCCi wcc = new WCCi();
                     wcc.set(w);
                     Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
@@ -256,29 +279,17 @@ public class UserControlledPlayer extends Player {
         System.out.println("Spawn point not found");
     }
 
-    public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        if (window.isKeyPressed(CHANGE_RAYCAST_MODE) && camera.cursorRayHitAllBlocks) {
+            raycastDistChanged = true;
+            camera.cursorRayDist += scroll.y();
+            camera.cursorRayDist = MathUtils.clamp(camera.cursorRayDist, 1, 50);
+            System.out.println(camera.cursorRayDist);
+            return true;
+        }
+        return false;
     }
 
-    private void drawRay(Ray frontRay) {
-        if (frontRay.hitTarget) {
-            if (frontRay.entity != null) {
-                cursor.set(frontRay.entity.aabb.box);
-                cursor.draw(projection, view);
-            } else if (frontRay.cursorBoxes == null) {
-                cursor.set(
-                        (int) camera.cursorRay.getHitPosition().x,
-                        (int) camera.cursorRay.getHitPosition().y,
-                        (int) camera.cursorRay.getHitPosition().z,
-                        1, 1, 1);
-                cursor.draw(projection, view);
-            } else {
-                for (AABB box : frontRay.cursorBoxes) {
-                    cursor.set(box);
-                    cursor.draw(projection, view);
-                }
-            }
-        }
-    }
 
     private void removeItem() {
         if (camera.cursorRay.entity != null) {

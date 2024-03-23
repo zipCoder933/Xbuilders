@@ -145,7 +145,7 @@ public class GameScene implements WindowEvents {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
         GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         holdMouse = !ui.menusAreOpen() && window.windowIsFocused();
-        
+
         init3D();
         player.update(holdMouse);
         enableBackfaceCulling();
@@ -186,12 +186,9 @@ public class GameScene implements WindowEvents {
         ui.keyEvent(key, scancode, action, mods);
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_ESCAPE ->
-                    leaveGamePage();
-                case GLFW.GLFW_KEY_P ->
-                    specialMode = !specialMode;
-                case GLFW.GLFW_KEY_Z ->
-                    drawWireframe = !drawWireframe;
+                case GLFW.GLFW_KEY_ESCAPE -> leaveGamePage();
+                case GLFW.GLFW_KEY_P -> specialMode = !specialMode;
+                case GLFW.GLFW_KEY_Z -> drawWireframe = !drawWireframe;
             }
         }
     }
@@ -204,10 +201,11 @@ public class GameScene implements WindowEvents {
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        boolean letUIHandleScroll = true;
         if (!ui.menusAreOpen()) {
-            player.mouseScrollEvent(scroll, xoffset, yoffset);
+            letUIHandleScroll = !player.mouseScrollEvent(scroll, xoffset, yoffset);
         }
-        ui.mouseScrollEvent(scroll, xoffset, yoffset);
+        if (letUIHandleScroll) ui.mouseScrollEvent(scroll, xoffset, yoffset);
     }
 
     private void leaveGamePage() {
@@ -228,14 +226,14 @@ public class GameScene implements WindowEvents {
             wcc2.set(player.worldPosition);
             text += "\nPlayer pos: " + MiscUtils.printVector(player.worldPosition);
 
-            if (player.camera.cursorRay.hitTarget) {
+            if (player.camera.cursorRay.hitTarget || player.camera.cursorRayHitAllBlocks) {
 
                 if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
                     rayWCC.set(player.camera.cursorRay.getHitPosPlusNormal());
-                    text += "\nRay+normal: \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                    text += "\nRay+normal (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                 } else {
                     rayWCC.set(player.camera.cursorRay.getHitPositionAsInt());
-                    text += "\nRay: \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                    text += "\nRay (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                 }
 
                 Chunk chunk = world.getChunk(rayWCC.chunk);
@@ -255,7 +253,8 @@ public class GameScene implements WindowEvents {
                 }
 
             }
-            text += "\nPlayer pan/tilt: " + MiscUtils.printVector(player.camera.simplifiedPanTilt);
+            ;
+            text += "\nPlayer camera: " + player.camera.toString();
             text += "\nSpecial Mode: " + specialMode;
         } catch (Exception ex) {
             text = "Error";

@@ -90,7 +90,12 @@ public class FrameTester extends JFrame {
         endProcess(String.join(" > ", names));
     }
 
-    public void endProcess(String name) {
+    /**
+     * 
+     * @param name
+     * @return elapsed milliseconds
+     */
+    public long endProcess(String name) {
         if (frameStarted) {
             stopwatch.calculateElapsedTime();
 
@@ -99,10 +104,12 @@ public class FrameTester extends JFrame {
             }
             processList.get(name).totalTime += stopwatch.getElapsedNanoseconds();
             processTimeNanos += stopwatch.getElapsedNanoseconds();
-
+            long elapsedMS = stopwatch.getElapsedMilliseconds();
 //            System.out.println("process " + name + ", time " + stopwatch.getElapsedMicroseconds());
             stopwatch.start();
+            return elapsedMS;
         }
+        return 0;
     }
 
     public static String formatTime(long nanoseconds) {

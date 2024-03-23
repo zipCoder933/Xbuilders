@@ -71,38 +71,8 @@ public class RayCasting {
         return tmin;
     }
 
-    /**
-     * Checks against all of the entity AABBs but does NOT clear the entityList
-     *
-     * @param ray
-     * @param entityList
-     * @return the closest AABB
-     */
-    private static AABBNode isIntersectingBoxSet(Ray ray, List<AABBNode> entityList) {
-        float closestDistance = Float.MAX_VALUE;
-        AABBNode node = null;
-        for (int i = 0; i < entityList.size(); i++) {
-            AABBNode aabb = entityList.get(i);
-            float distance = getAABBIntersectionDistance(ray.origin, ray.direction,
-                    aabb.box.minPoint, aabb.box.maxPoint);
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                node = aabb;
-            }
-        }
-        return node;
-    }
 
-    /**
-     * Checks against all block and entity AABBs. clears the entity list when
-     * done
-     *
-     * @param ray
-     * @param aabbList
-     * @param entityList
-     * @return the closest AABB
-     */
-    private static AABBNode isIntersectingAABB(Ray ray, List<AABB> aabbList, List<AABBNode> entityList) {
+    private static AABBNode findClosestAABB(Ray ray, List<AABB> aabbList, List<AABBNode> entityList) {
         float closestDistance = Float.MAX_VALUE;
         AABBNode node = null;
         if (aabbList == null || entityList == null) {
@@ -112,7 +82,7 @@ public class RayCasting {
         for (int i = 0; i < entityList.size(); i++) {
             AABBNode aabb = entityList.get(i);
             float distance = getAABBIntersectionDistance(ray.origin, ray.direction,
-                    aabb.box.minPoint, aabb.box.maxPoint);
+                    aabb.getBox().minPoint, aabb.getBox().maxPoint);
             if (distance < closestDistance) {
                 closestDistance = distance;
                 node = aabb;
@@ -125,7 +95,7 @@ public class RayCasting {
             float distance = getAABBIntersectionDistance(ray.origin, ray.direction, aabb.minPoint, aabb.maxPoint);
             if (distance < closestDistance) {
                 closestDistance = distance;
-                node = new AABBNode(null, aabb, null);
+                node = new AABBNode(aabb, null);
             }
         }
         return node;
@@ -172,6 +142,11 @@ public class RayCasting {
     @FunctionalInterface
     public interface HitBlockCriteria {
         boolean shouldHitBlock(short block, short forbiddenBlock);
+    }
+
+    @FunctionalInterface
+    public interface HitEntityCriteria {
+        boolean shouldHitEntity(Entity entity);
     }
 
     public static void traceSimpleRay(
@@ -261,10 +236,9 @@ public class RayCasting {
                             wcc.chunkVoxel.y,
                             wcc.chunkVoxel.z);
 
-                    if (block != BlockList.BLOCK_AIR.id &&
-                            (blockCriteria == null ?
-                                    block != forbiddenBlock :
-                                    blockCriteria.shouldHitBlock(block, forbiddenBlock))
+                    if (blockCriteria == null ?
+                            block != BlockList.BLOCK_AIR.id && block != forbiddenBlock :
+                            blockCriteria.shouldHitBlock(block, forbiddenBlock)
                     ) {
                         ray.hitTarget = true;
                         if (ray.hitTarget) {
@@ -318,22 +292,36 @@ public class RayCasting {
     }
 
     private static class AABBNode {
-
-        ArrayList<AABB> cursorBoxes;
-        AABB box;
+        List<AABB> boxes;
         Entity entity;
 
-        public AABBNode(ArrayList<AABB> cursorBoxes, AABB box, Entity e) {
-            this.cursorBoxes = cursorBoxes;
-            this.box = box;
+        public AABB getBox() {
+            return boxes.get(0);
+        }
+
+        public AABBNode(List<AABB> boxes, Entity e) {
+            this.boxes = boxes;
             this.entity = e;
         }
 
         public AABBNode(AABB box, Entity e) {
-            this.cursorBoxes = null;
-            this.box = box;
+            this.boxes = new ArrayList<>();
+            boxes.add(box);
             this.entity = e;
         }
+    }
+
+
+    public static void traceComplexRay(Ray ray, Vector3f origin, Vector3f direction, int maxDistance, World chunks) {
+        traceComplexRay(
+                ray,
+                origin,
+                direction,
+                maxDistance,
+                null,
+                null,
+                chunks
+        );
     }
 
     public static void traceComplexRay(
@@ -341,6 +329,8 @@ public class RayCasting {
             Vector3f origin,
             Vector3f direction,
             int maxDistance,
+            HitBlockCriteria blockCriteria,
+            HitEntityCriteria entityCriteria,
             World chunks) {
 
         // <editor-fold defaultstate="collapsed" desc="Setting up">
@@ -390,7 +380,7 @@ public class RayCasting {
         // </editor-fold>
 
         HashSet<Chunk> traversedChunks = new HashSet<>();
-        ArrayList<AABBNode> entityNodes = new ArrayList<>();
+        ArrayList<AABBNode> entityAABBList = new ArrayList<>();
 
         // main update along raycast vector
         while (t <= maxDistance) {
@@ -408,7 +398,7 @@ public class RayCasting {
                         //Add entities in chunk
                         for (int i = 0; i < chunk.entities.list.size(); i++) {
                             Entity entity = chunk.entities.list.get(i);
-                            entityNodes.add(new AABBNode(entity.aabb.box, entity));
+                            entityAABBList.add(new AABBNode(entity.aabb.box, entity));
                         }
 
                         traversedChunks.add(chunk);
@@ -419,35 +409,39 @@ public class RayCasting {
                             wcc.chunkVoxel.y,
                             wcc.chunkVoxel.z);
 
-                    boolean blockIsHittable = block != BlockList.BLOCK_AIR.id && block != forbiddenBlock;
 
-                    if (blockIsHittable) {
+                    if (blockCriteria == null ?
+                            block != BlockList.BLOCK_AIR.id && block != forbiddenBlock :
+                            blockCriteria.shouldHitBlock(block, forbiddenBlock)) {//If block is hittable
                         Block realBlock = ItemList.getBlock(block);
                         BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         BlockType blockType = ItemList.blocks.getBlockType(realBlock.type);
 
-                        if ((blockType != null && !blockType.isCubeShape()) || !entityNodes.isEmpty()) {
-                            ArrayList<AABB> boxList = new ArrayList<>();
+                        if ((blockType != null && !blockType.isCubeShape()) || !entityAABBList.isEmpty()) {
 
+                            //Get the list of non cubic block voxels
+                            ArrayList<AABB> voxelAABBList = new ArrayList<>();
                             if (blockType != null) {
                                 blockType.getCursorBoxes((box) -> {
-                                    boxList.add(new AABB(box));
+                                    voxelAABBList.add(new AABB(box));
                                 }, new AABB(), realBlock, data, ix, iy, iz);
                             }
 
-                            AABBNode node = isIntersectingAABB(ray, boxList, entityNodes);
+                            //Find the closest AABB
+                            AABBNode node = findClosestAABB(ray, voxelAABBList, entityAABBList);
+
                             if (node != null) {
                                 if (node.entity != null) {
                                     ray.hitTarget = true;
                                     ray.entity = node.entity;
-                                    ray.cursorBoxes = node.cursorBoxes;
+                                    ray.cursorBoxes = node.boxes;
                                     ray.hitNormal.set(getRayNormalFromAABB(ray.origin, ray.direction,
-                                            node.box.minPoint, node.box.maxPoint));
-                                } else if (node.box != null) {
+                                            node.getBox().minPoint, node.getBox().maxPoint));
+                                } else if (node.getBox() != null) {
                                     ray.hitTarget = true;
-                                    ray.cursorBoxes = boxList;
+                                    ray.cursorBoxes = voxelAABBList;
                                     ray.hitNormal.set(getRayNormalFromAABB(ray.origin, ray.direction,
-                                            node.box.minPoint, node.box.maxPoint));
+                                            node.getBox().minPoint, node.getBox().maxPoint));
                                 }
                             }
                         } else {
@@ -503,17 +497,42 @@ public class RayCasting {
             ray.distanceTraveled = t;
         }
 
-        AABBNode node = isIntersectingBoxSet(ray, entityNodes);
-        if (node != null && node.entity != null) {
-            ray.hitTarget = true;
-            ray.entity = node.entity;
-            ray.hitNormal.set(getRayNormalFromAABB(
-                    ray.origin, ray.direction,
-                    node.box.minPoint, node.box.maxPoint));
+        //If we didnt hit anything, check the entity nodes anyway
+        AABBNode entityNode = null;
+
+        //Find the closest intersecting entity AABB
+        float closestDistance = ray.distanceTraveled;
+        for (int i = 0; i < entityAABBList.size(); i++) {
+            AABBNode aabb = entityAABBList.get(i);
+            float distance = getAABBIntersectionDistance(ray.origin, ray.direction,
+                    aabb.getBox().minPoint, aabb.getBox().maxPoint);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                entityNode = aabb;
+            }
         }
 
-        if (ray.getHitNormal() == null) { //If we didnt hit anything, we still need to initialize the normal
-            ray.hitNormal.set(0, 0, 0);
+        //If it exists, the ray hit an entity
+        if (entityNode != null && entityNode.entity != null) {
+            ray.hitTarget = true;
+            ray.entity = entityNode.entity;
+            ray.hitNormal.set(getRayNormalFromAABB(
+                    ray.origin, ray.direction,
+                    entityNode.getBox().minPoint, entityNode.getBox().maxPoint));
+        } else {//Advance the raycast
+            //The normal still exists even if we didnt hit anything
+            if (steppedIndex == 0) {
+                ray.hitNormal.x = -stepx;
+            }
+            if (steppedIndex == 1) {
+                ray.hitNormal.y = -stepy;
+            }
+            if (steppedIndex == 2) {
+                ray.hitNormal.z = -stepz;
+            }
+            ray.hitPostition.x = ix;
+            ray.hitPostition.y = iy;
+            ray.hitPostition.z = iz;
         }
     }
 

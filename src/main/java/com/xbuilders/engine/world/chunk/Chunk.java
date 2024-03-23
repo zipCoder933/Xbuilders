@@ -2,6 +2,7 @@ package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.mesh.chunkMesh.ChunkMeshBundle;
 import com.xbuilders.engine.items.ChunkEntitySet;
+import com.xbuilders.engine.utils.BFS.HashQueue;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.Terrain.GenSession;
@@ -12,6 +13,7 @@ import static com.xbuilders.engine.world.World.generationService;
 import static com.xbuilders.engine.world.World.meshService;
 
 import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.wcc.ChunkNode;
 import com.xbuilders.window.render.MVP;
 
 import java.io.File;
@@ -80,9 +82,9 @@ public class Chunk {
     }
 
     public void init(Vector3i position, WorldInfo info,
-            Terrain terrain, FutureChunk futureChunk,
-            float distToPlayer, boolean isTopChunk) {
-
+                     Terrain terrain, FutureChunk futureChunk,
+                     float distToPlayer, boolean isTopChunk) {
+        lightQueue.clear();
         pillarInformation = null;
         this.isTopChunk = isTopChunk;
 
@@ -196,15 +198,17 @@ public class Chunk {
 //    static {
 //        chunkGenFrameTester.setUpdateTimeMS(1000);
 //    }
+
+    final HashQueue<ChunkNode> lightQueue = new HashQueue<>();
+
     public void prepare(Terrain terrain, long frame) {
         //for sunlight generation
         if (isTopChunk && loadFuture != null && loadFuture.isDone()
                 && pillarInformation != null
                 && pillarInformation.isPillarLoaded()) {
-            World.frameTester.startProcess();
+
             loadFuture = null;
-            pillarInformation.initLighting(terrain, distToPlayer);
-            World.frameTester.endProcess("Gen Sunlight");
+            pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
         }
 
         //Generate the mesh
@@ -220,7 +224,7 @@ public class Chunk {
             World.frameTester.endProcess("red Cache Neghbors");
             if (neghbors.allNeghborsLoaded
                     && generationStatus >= GEN_SUN_LOADED//
-                    ) {
+            ) {
                 loadFuture = null;
                 World.frameTester.startProcess();
                 mesherFuture = meshService.submit(() -> {

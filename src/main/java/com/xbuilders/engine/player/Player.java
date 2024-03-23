@@ -9,20 +9,21 @@ import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.network.PlayerServer;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+
 import org.joml.Vector3f;
 
 /**
- *
  * @author zipCoder933
  */
 public class Player {
 
     public final static boolean simulatedServer = true;
-
+    public Skin skin;
     private static File playerModelFile;
     public String name;
     public byte color;

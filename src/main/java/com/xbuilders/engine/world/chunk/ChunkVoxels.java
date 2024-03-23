@@ -3,6 +3,8 @@
 // 
 package com.xbuilders.engine.world.chunk;
 
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.ItemList;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
@@ -31,14 +33,16 @@ public class ChunkVoxels {
     }
 
     public final Vector3i size;
+    public boolean blocksAreEmpty = true;
 
     public void clear() {
         for (int i = 0; i < blocks.capacity(); i++) {
             blocks.put(i, (short) 0);
 //            light.put(i, (byte) (Math.random() * 10 + 5));
-            light.put(i, (byte) 0);
+            light.put(i, (byte) 15);
         }
         blockData.clear();
+        blocksAreEmpty = true;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Sunlight">
@@ -74,6 +78,9 @@ public class ChunkVoxels {
 
     public void setBlock(final int x, final int y, final int z, final short value) {
         try {
+            if (value != ItemList.blocks.BLOCK_AIR.id) {
+                blocksAreEmpty = false;
+            }
             this.blocks.put(x + size.x * (y + size.y * z), value);
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
