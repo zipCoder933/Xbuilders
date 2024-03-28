@@ -8,16 +8,20 @@ package com.xbuilders.engine.ui.topMenu;
  * Copyright LWJGL. All rights reserved.
  * License terms: https://www.lwjgl.org/license
  */
+
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.TextBox;
+
 import java.io.IOException;
 import java.nio.IntBuffer;
+
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
+
 import static org.lwjgl.nuklear.Nuklear.*;
 import static org.lwjgl.system.MemoryStack.*;
 
@@ -88,6 +92,7 @@ public class NewWorld implements MenuPage {
             info.makeNew(name, size, terrain, seed);
             WorldsHandler.makeNewWorld(info);
         } catch (IOException ex) {
+            menu.popupMessage.show("Error", ex.getMessage());
             return false;
         }
         return true;

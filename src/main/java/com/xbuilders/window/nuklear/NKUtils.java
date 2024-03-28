@@ -14,12 +14,16 @@ import static org.lwjgl.nuklear.Nuklear.nk_text;
  */
 public class NKUtils {
 
-    public static void text(NkContext ctx, String text, int lineHeight, int alignment) {
+    public static int text(NkContext ctx, String text, int lineHeight, int alignment) {
+        int height = 0;
         nk_layout_row_dynamic(ctx, lineHeight, 1);
         String[] splitText = text.split("\n");
         for (int i = 0; i < splitText.length; i++) {
             nk_text(ctx, splitText[i], alignment);
+            height += lineHeight;
         }
+
+        return height;
     }
 
 //    private static void drawTextWithShadow(NkContext ctx, String text,

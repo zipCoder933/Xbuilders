@@ -59,7 +59,7 @@ public class WorldsHandler {
                     worlds.add(info);
                 } catch (IOException ex) {
                     System.out.println("Error loading world " + subDir);
-                    ex.printStackTrace();
+//                    ex.printStackTrace();
                 }
             }
         }

@@ -131,12 +131,20 @@ public class WCCi {
         vec.set(blockX, blockY, blockZ);
     }
 
-    public static Vector3i chunkSpaceToWorldSpace(final Vector3i chunkPos,
+    public static Vector3i chunkSpaceToWorldSpace(
+            final Vector3i chunkPos,
             final int worldX, final int worldY, final int worldZ) {
         return new Vector3i(
                 worldX + chunkPos.x * Chunk.WIDTH,
                 worldY + chunkPos.y * Chunk.WIDTH,
                 worldZ + chunkPos.z * Chunk.WIDTH);
+    }
+
+    public static Vector3i chunkSpaceToWorldSpace(WCCi wcc) {
+        return new Vector3i(
+                wcc.chunk.x * Chunk.WIDTH + wcc.chunkVoxel.x,
+                wcc.chunk.y * Chunk.WIDTH + wcc.chunkVoxel.y,
+                wcc.chunk.z * Chunk.WIDTH + wcc.chunkVoxel.z);
     }
     // </editor-fold>
 }

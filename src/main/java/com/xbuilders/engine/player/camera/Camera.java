@@ -53,6 +53,10 @@ public class Camera {
     private final World world;
     public boolean cursorRayHitAllBlocks = false;
 
+    public boolean cursorRayHitTarget() {
+        return cursorRayHitAllBlocks || cursorRay.hitTarget;
+    }
+
     private void calculateCameraOrientation() {
         normalizedPan = (float) ((float) pan / MathUtils.TWO_PI);
         if (normalizedPan < 0) {

@@ -85,4 +85,15 @@ public class CompactMesh implements Mesh {
         GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, textureID);//required to assign texture to mesh
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want
     }
+
+    @Override
+    public String toString() {
+        return "CompactMesh{" +
+                "vao=" + vao +
+                ", vbo=" + vbo +
+                ", textureID=" + textureID +
+                ", vertLength=" + vertLength +
+                ", empty=" + empty +
+                '}';
+    }
 }

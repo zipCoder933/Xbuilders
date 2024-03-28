@@ -8,6 +8,7 @@ package com.xbuilders.engine.ui.topMenu;
  * Copyright LWJGL. All rights reserved.
  * License terms: https://www.lwjgl.org/license
  */
+
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.game.Main;
@@ -17,14 +18,17 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
+
 import java.io.IOException;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
+
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -43,7 +47,8 @@ public class LoadWorld implements MenuPage {
 //        image = new NkImage(texture.buffer);
 //       image = nk_image_id(texture.id, image);
     }
-// Texture texture;
+
+    // Texture texture;
     NkContext ctx;
     TopMenu menu;
     NKWindow window;
@@ -84,7 +89,7 @@ public class LoadWorld implements MenuPage {
                     currentWorld = worlds.get(i);
                 }
             }
-            
+
             Theme.resetEntireButtonStyle(ctx);
             nk_group_end(ctx);
 
@@ -107,11 +112,15 @@ public class LoadWorld implements MenuPage {
                 if (nk_button_label(ctx, "DELETE WORLD")) {
                     try {
                         WorldsHandler.deleteWorld(currentWorld);
+                    } catch (IOException ex) {
+                        menu.popupMessage.show("Error Deleting World", ex.getMessage());
+                    }
+                    try {
                         WorldsHandler.listWorlds(worlds);
-                        currentWorld = null;
                     } catch (IOException ex) {
                         ErrorHandler.handleFatalError(ex);
                     }
+                    currentWorld = null;
                 }
             }
 

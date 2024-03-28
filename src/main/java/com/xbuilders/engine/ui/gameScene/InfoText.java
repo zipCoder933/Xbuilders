@@ -6,8 +6,11 @@ package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.ui.Theme;
+
 import static com.xbuilders.engine.ui.Theme.createColor;
 import static com.xbuilders.engine.ui.Theme.gray;
+import static org.lwjgl.nuklear.Nuklear.*;
+
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
@@ -16,17 +19,9 @@ import org.lwjgl.nuklear.NkColor;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.Nuklear;
-import static org.lwjgl.nuklear.Nuklear.NK_LEFT;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_BORDER;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_NO_SCROLLBAR;
-import static org.lwjgl.nuklear.Nuklear.nk_begin;
-import static org.lwjgl.nuklear.Nuklear.nk_end;
-import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
-import static org.lwjgl.nuklear.Nuklear.nk_text;
 import org.lwjgl.system.MemoryStack;
 
 /**
- *
  * @author zipCoder933
  */
 public class InfoText extends GameUIElement {
@@ -52,12 +47,11 @@ public class InfoText extends GameUIElement {
     public void draw(MemoryStack stack) {
         ctx.style().window().fixed_background().data().color().set(Theme.transparent);
         nk_style_set_font(ctx, uires.font_8);
-        if (nk_begin(ctx, "info text", infoTextRect, NK_WINDOW_NO_SCROLLBAR)) {
+        if (nk_begin(ctx, "info text", infoTextRect, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_NO_INPUT)) {
             Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
-            nk_text(ctx, "Commands:", NK_LEFT);
-            Nuklear.nk_layout_row_dynamic(ctx, 20, 1);
-            box.render(ctx);
-
+//            nk_text(ctx, "Commands:", NK_LEFT);
+//            Nuklear.nk_layout_row_dynamic(ctx, 20, 1);
+//            box.render(ctx);
             if (text != null) {
                 NKUtils.text(ctx, text, 10, NK_LEFT);
             }

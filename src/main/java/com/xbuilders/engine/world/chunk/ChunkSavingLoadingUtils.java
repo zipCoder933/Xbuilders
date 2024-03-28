@@ -138,7 +138,7 @@ class ChunkSavingLoadingUtils {
 
     private static Entity readEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
 //        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
-        final short entityID = (short) readShort(bytes[start.get() + 1], bytes[start.get() + 2]);
+        final short entityID = (short) readShort(bytes[start.get()+1], bytes[start.get() + 2]);
         EntityLink link = ItemList.getEntity(entityID);
         start.set(start.get() + 3);
 
@@ -160,7 +160,6 @@ class ChunkSavingLoadingUtils {
         if (bytes[start.get()] != ENTITY_BYTE) {
             start.set(start.get() - 1);
         }
-
 //        System.out.println("Ending value: " + printSubList(bytes, start.get(), 5));
         return link.makeNew(chunk,
                 chunkVox.x + chunk.position.x * Chunk.WIDTH,
@@ -238,15 +237,19 @@ class ChunkSavingLoadingUtils {
 //                Files.write(new File(f.getParent() + "/" + f.getName() + ".formatted").toPath(), str.getBytes());
 
 
-                //Read entities
+                //Load the entities
+                boolean hasEntities = false;
                 while (bytes[start.get()] == ENTITY_BYTE) {
                     Entity entity = readEntity(chunk, bytes, start);
                     chunk.entities.list.add(entity);
+                    hasEntities = true;
                 }
-                start.set(start.get() + 1);  //We have to move 1 byte past the entity newline byte to start reading voxels
-//                System.out.println("Voxel byte: " + printSubList(bytes, start.get(), 10));
+                if(hasEntities) {
+                    start.set(start.get() + 1);  //We have to move 1 byte past the entity newline byte to start reading voxels
+                }
+//                System.out.println("Voxels start byte: " + printSubList(bytes, start.get(), 10));
 
-                //Read voxels
+                //Load the voxels
                 chunkVoxels:
                 for (int y = chunk.data.size.y - 1; y >= 0; y--) {
                     for (int x = 0; x < chunk.data.size.x; ++x) {

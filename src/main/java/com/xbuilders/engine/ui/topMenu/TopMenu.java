@@ -62,6 +62,7 @@ public class TopMenu {
 
     NKWindow window;
     UIResources uires;
+    public PopupMessage popupMessage;
 
     private MenuHome menuHome;
     private LoadWorld loadWorld;
@@ -113,6 +114,7 @@ public class TopMenu {
         hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true);
         joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false);
         settings = new Settings(window.ctx, window, this);
+        popupMessage = new PopupMessage(window.ctx, window, uires);
     }
 
     boolean firsttime = true;
@@ -164,6 +166,7 @@ public class TopMenu {
                 case SETTINGS ->
                     settings.layout(stack, windowDims, titleYEnd);
             }
+            popupMessage.draw(stack);
         }
 
         glClearColor(0, .5f, 1f, 1f);

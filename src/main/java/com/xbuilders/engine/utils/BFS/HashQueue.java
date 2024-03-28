@@ -33,16 +33,6 @@ public class HashQueue<T> extends HashSet<T>{
     }
 
     /**
-     * Removes an element from the hashset. Hashsets are unordered, however it
-     * should remove the first element added
-     *
-     */
-    public void remove() {
-        T node = this.stream().findFirst().get();
-        this.remove(node);
-    }
-
-    /**
      * Gets an element from the hashset. Hashsets are unordered, however it
      * should return and remove the first element added
      *

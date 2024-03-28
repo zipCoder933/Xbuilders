@@ -1,6 +1,8 @@
 package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
+import com.xbuilders.engine.player.pipeline.BlockEvent;
+import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -43,6 +45,7 @@ public class UserControlledPlayer extends Player {
     PositionHandler positionHandler;
     boolean usePositionHandler = true;
     public PlayerServer server;
+    public BlockEventPipeline eventPipeline;
 
     final int CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
 
@@ -88,6 +91,7 @@ public class UserControlledPlayer extends Player {
         positionHandler = new PositionHandler(world, window, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
         skin = new DefaultSkin(aabb);
+        eventPipeline = new BlockEventPipeline(world);
         server = new PlayerServer(this);
     }
 
@@ -96,6 +100,7 @@ public class UserControlledPlayer extends Player {
     // boolean
     // playerForward,playerBackward,playerUp,playerDown,playerLeft,playerRight;
     public void update(boolean holdMouse) {
+        eventPipeline.resolve();
         if (window.isKeyPressed(GLFW.GLFW_KEY_UP)) {
             worldPosition.add(
                     camera.cameraForward.x * speed * window.getFrameDelta(),
@@ -186,13 +191,13 @@ public class UserControlledPlayer extends Player {
     boolean lineMode = false;
 
     public void setItem(Item item) {
-        if (camera.cursorRay != null && (camera.cursorRay.hitTarget || camera.cursorRayHitAllBlocks)) {
+        if (camera.cursorRay != null && camera.cursorRayHitTarget()) {
             if (item != null) {
                 if (item.getType() == ItemType.BLOCK) {
                     Block block = (Block) item;
                     Vector3i w;
 
-                    if (block == BlockList.BLOCK_AIR || !camera.cursorRay.hitTarget) {
+                    if (block == BlockList.BLOCK_AIR || !camera.cursorRayHitTarget()) {
                         w = camera.cursorRay.getHitPositionAsInt();
                     } else {
                         w = camera.cursorRay.getHitPosPlusNormal();
@@ -205,7 +210,7 @@ public class UserControlledPlayer extends Player {
                     EntityLink entity = (EntityLink) item;
                     Vector3i w;
 
-                    if (!camera.cursorRay.hitTarget) {
+                    if (!camera.cursorRayHitTarget()) {
                         w = camera.cursorRay.getHitPositionAsInt();
                     } else {
                         w = camera.cursorRay.getHitPosPlusNormal();
@@ -226,6 +231,7 @@ public class UserControlledPlayer extends Player {
     private void setBlock(WCCi wcc, Block block) {
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
+            Block prevBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
             chunk.markAsModifiedByUser();
             chunk.data.setBlock(
                     wcc.chunkVoxel.x,
@@ -244,11 +250,7 @@ public class UserControlledPlayer extends Player {
                         wcc.chunkVoxel.z,
                         type.getInitialBlockData(data, this));
             }
-
-            chunk.updateMesh(
-                    wcc.chunkVoxel.x,
-                    wcc.chunkVoxel.y,
-                    wcc.chunkVoxel.z);
+            eventPipeline.addEvent(wcc, new BlockEvent(prevBlock, block));
         }
     }
 
@@ -267,7 +269,7 @@ public class UserControlledPlayer extends Player {
         int radius = Chunk.HALF_WIDTH;
         for (int x = -radius; x < radius; x++) {
             for (int z = -radius; z < radius; z++) {
-                for (int y = terrain.MAX_HEIGHT; y > terrain.MIN_HEIGHT; y--) {
+                for (int y = terrain.MIN_HEIGHT; y < terrain.MAX_HEIGHT; y++) {
                     if (terrain.spawnRulesApply(PLAYER_HEIGHT, chunks, x, y, z)) {
                         System.out.println("Found new spawn point!");
                         worldPosition.set(x, y + PLAYER_HEIGHT + 0.5f, z);
@@ -284,7 +286,6 @@ public class UserControlledPlayer extends Player {
             raycastDistChanged = true;
             camera.cursorRayDist += scroll.y();
             camera.cursorRayDist = MathUtils.clamp(camera.cursorRayDist, 1, 50);
-            System.out.println(camera.cursorRayDist);
             return true;
         }
         return false;

@@ -136,10 +136,10 @@ public class World {
      */
     public static final PriorityThreadPoolExecutor generationService
             = new PriorityThreadPoolExecutor(CHUNK_LOAD_THREADS, r -> {
-                Thread thread = new Thread(r, "Generation Thread");
-                thread.setDaemon(true);
-                return thread;
-            });
+        Thread thread = new Thread(r, "Generation Thread");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     /**
      * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
@@ -151,19 +151,19 @@ public class World {
             CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
             3L, TimeUnit.MILLISECONDS, //It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-                frameTester.count("Mesh threads", 1);
-                Thread thread = new Thread(r, "Mesh Thread");
-                thread.setDaemon(true);
-                thread.setPriority(1);
-                return thread;
-            });
+        frameTester.count("Mesh threads", 1);
+        Thread thread = new Thread(r, "Mesh Thread");
+        thread.setDaemon(true);
+        thread.setPriority(1);
+        return thread;
+    });
 
     public static final PriorityThreadPoolExecutor lightService
             = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS, r -> {
-                Thread thread = new Thread(r, "Light Thread");
-                thread.setDaemon(true);
-                return thread;
-            });
+        Thread thread = new Thread(r, "Light Thread");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     public World() {
         this.needsSorting = new AtomicBoolean(true);
@@ -407,20 +407,22 @@ public class World {
                 frameTester.endProcess("Draw boxes");
 
                 frameTester.startProcess();
-                if (chunk.generationStatus == Chunk.GEN_COMPLETE && !chunk.meshes.opaque.empty) {
+                if (chunk.generationStatus == Chunk.GEN_COMPLETE) {
                     chunk.updateMVP(projection, view); //we must update the MVP within each model;
-                    chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                    if (!Main.specialMode3) {
-                        chunk.meshes.opaque.draw(GameScene.drawWireframe);
+                    if (!chunk.meshes.opaque.empty) {
+                        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                        if (!Main.specialMode3) {
+                            chunk.meshes.opaque.draw(GameScene.drawWireframe);
+                        }
                     }
+
                 }
                 frameTester.endProcess("Draw opaque meshes");
             }
         });
 
         chunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE // && GameScene.rayWCC.chunk.equals(chunk.position)
-                    ) {
+            if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE) {
                 if (!chunk.meshes.trans.empty) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                     if (!Main.specialMode3) {

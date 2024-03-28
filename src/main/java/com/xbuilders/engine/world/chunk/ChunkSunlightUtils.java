@@ -26,7 +26,7 @@ import org.joml.Vector3i;
 /**
  * @author zipCoder933
  */
-class ChunkSunlightUtils {
+public class ChunkSunlightUtils {
 
 //    private static boolean isNeghboringDarkness(HashQueue<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
 //        if (x - 1 >= 0) {

@@ -6,6 +6,8 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.camera.FrustumCullingTester;
+import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
+import org.lwjgl.system.MathUtil;
 
 /**
  * @author zipCoder933
@@ -59,12 +62,20 @@ public class ChunkEntitySet {
 
                 if (!e.chunkPosition.chunk.equals(e.chunk.position)) { //Switch chunks
                     Chunk toChunk = GameScene.world.chunks.get(e.chunkPosition.chunk);
-                    if (toChunk != null) {
+                    if (toChunk != null && toChunk.gen_Complete()) {
+                        //If the chunk exists, AND it's generated, add the entity to the new chunk
 //                        System.out.println("SWITCHING FROM " + MiscUtils.printVector(e.chunkPosition.chunk) + " TO " + toChunk);
 //                        e.renderThisFrame = false;
                         e.chunk = toChunk;
                         toChunk.entities.list.add(e);
                         list.remove(i);
+                    } else {
+                        //Otherwise, clamp entity position to the existing chunk
+                        e.worldPosition.set(
+                                MathUtils.clamp(e.worldPosition.x, e.chunk.position.x, e.chunk.position.x + Chunk.WIDTH - 1),
+                                MathUtils.clamp(e.worldPosition.y, e.chunk.position.y, e.chunk.position.y + Chunk.HEIGHT - 1),
+                                MathUtils.clamp(e.worldPosition.z, e.chunk.position.z, e.chunk.position.z + Chunk.WIDTH - 1));
+                        e.updatePosition();
                     }
                 }
             }
