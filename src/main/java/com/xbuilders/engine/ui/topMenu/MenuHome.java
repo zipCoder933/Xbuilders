@@ -10,6 +10,7 @@ package com.xbuilders.engine.ui.topMenu;
  */
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
+import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
@@ -51,7 +52,7 @@ public class MenuHome implements MenuPage {
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, menu.uires.font_8);
             nk_layout_row_dynamic(ctx, 40, 1);
-            nk_label(ctx, "Version 1.0.3", NK_TEXT_CENTERED);
+            nk_label(ctx, "Devmode: "+ Main.devMode, NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, menu.uires.font_12);
 

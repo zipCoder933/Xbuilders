@@ -55,14 +55,15 @@ public class PillarInformation {
         try {
             lightService.submit(dist, () -> {
 //                System.err.println("Started loading sunlight");
-                World.frameTester.startProcess();
+//                World.frameTester.startProcess();
                 ChunkSunlightUtils.generateSunlight(queue, chunks[0], terrain);
                 //Generate all meshes
                 for (Chunk c : chunks) {
                     c.generationStatus = Chunk.GEN_SUN_LOADED;
                 }
                 World.newGameTasks.incrementAndGet();
-                System.out.println("Elapsed sun gen MS: " + World.frameTester.endProcess("green Generate SUNLIGHT"));
+//                int timeMS = World.frameTester.endProcess("green Generate SUNLIGHT");
+//                System.out.println("Elapsed sun gen MS: " + timeMS);
 //                System.err.println("Done.");
             });
         } catch (Exception e) {

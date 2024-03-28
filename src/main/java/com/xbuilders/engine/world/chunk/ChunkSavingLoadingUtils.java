@@ -18,8 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -28,17 +28,58 @@ import org.lwjgl.system.MemoryStack;
 
 /**
  * @author zipCoder933
+ * <p>
+ * The chunk file is formatted as follows:
+ * 10 bytes of metadata, followed by the entities and finally the voxels
+ * <p>
+ * <p>
+ * An example of how voxel is written:
+ * pipe  id  id  blockData...  \n
+ * Air is written like:
+ * \n
+ * (The pipe byte at the beginning  of the line is used to prevent the first byte of the block id from being confused with newline byte)
+ * <p>
+ * <p>
+ * <p>
+ * An example of how entity is written
+ * entity id id x x y y z z  data... \n
  */
 class ChunkSavingLoadingUtils {
 
     public static final byte NEWLINE_BYTE = Byte.MIN_VALUE;
     protected static final byte PIPE_BYTE = -127;
     protected static final byte ENTITY_BYTE = -126;
-    protected static final byte SKIP_BYTE = -125;
+    protected static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected static final int METADATA_BYTES = 10;
 
 
-    private static void writeAndVerifyByteData(final OutputStream out, final ByteBuffer buffer) throws IOException {
+    private static String printSubList(byte[] bytes, int target, int radius) {
+        int start = MathUtils.clamp(target - radius, 0, bytes.length - 1);
+        int end = MathUtils.clamp(target + radius, 0, bytes.length - 1);
+        String str = "🎯=" + target + "(";
+        for (int i = start; i < end; i++) {
+            if (i == target) {
+                str += ("<" + bytes[i] + "> ");
+            } else {
+                str += (bytes[i] + " ");
+            }
+        }
+        return str + ")";
+    }
+
+    private static String printBytesFormatted(byte[] bytes) {
+        String str = "";
+        for (int i = 0; i < bytes.length; i++) {
+            if (bytes[i] == NEWLINE_BYTE) str += "-128\n";
+            else if (bytes[i] == PIPE_BYTE) str += "| ";
+            else if (bytes[i] == BYTE_SKIP_ALL_VOXELS) str += "SKIP ";
+            else if (bytes[i] == ENTITY_BYTE) str += "ENTITY ";
+            else str += bytes[i] + " ";
+        }
+        return str;
+    }
+
+    private static void writeAndVerifyBuffer(final OutputStream out, final ByteBuffer buffer) throws IOException {
         for (int i = 0; i < buffer.capacity(); i++) {
             byte b = buffer.get(i);
             if (b == NEWLINE_BYTE) {
@@ -71,15 +112,15 @@ class ChunkSavingLoadingUtils {
         writeUnsignedShort(out, (int) (vec.z * maxMult16bits));
     }
 
-    private static Vector3f readChunkVoxelCoords(IntBuffer start, byte[] bytes) {
-        float x = readShort(bytes[start.get(0)], bytes[start.get(0) + 1]);
-        float y = readShort(bytes[start.get(0) + 2], bytes[start.get(0) + 3]);
-        float z = readShort(bytes[start.get(0) + 4], bytes[start.get(0) + 5]);
+    private static Vector3f readChunkVoxelCoords(AtomicInteger start, byte[] bytes) {
+        float x = readShort(bytes[start.get()], bytes[start.get() + 1]);
+        float y = readShort(bytes[start.get() + 2], bytes[start.get() + 3]);
+        float z = readShort(bytes[start.get() + 4], bytes[start.get() + 5]);
         x = x / maxMult16bits;
         y = y / maxMult16bits;
         z = z / maxMult16bits;
 //        System.out.println("Reading as " + x + ", " + y + ", " + z);
-        start.put(0, start.get(0) + 6);
+        start.set(start.get() + 6);
         return new Vector3f(x, y, z);
     }
 
@@ -95,10 +136,11 @@ class ChunkSavingLoadingUtils {
         out2.write(NEWLINE_BYTE);
     }
 
-    private static Entity readEntity(Chunk chunk, final byte[] bytes, IntBuffer start) {
-        final short entityID = (short) readShort(bytes[start.get(0) + 1], bytes[start.get(0) + 2]);
+    private static Entity readEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
+//        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
+        final short entityID = (short) readShort(bytes[start.get() + 1], bytes[start.get() + 2]);
         EntityLink link = ItemList.getEntity(entityID);
-        start.put(0, start.get(0) + 3);
+        start.set(start.get() + 3);
 
         //Read position
         Vector3f chunkVox = readChunkVoxelCoords(start, bytes);
@@ -106,8 +148,8 @@ class ChunkSavingLoadingUtils {
         //Read entity data
         ArrayList<Byte> entityBytes = new ArrayList<>();
         while (true) {
-            final byte b = bytes[start.get(0)];
-            start.put(0, start.get(0) + 1);
+            final byte b = bytes[start.get()];
+            start.set(start.get() + 1);
             if (b == NEWLINE_BYTE) {
                 break;
             } else {
@@ -115,10 +157,11 @@ class ChunkSavingLoadingUtils {
             }
         }
 
-        if (bytes[start.get(0)] != ENTITY_BYTE) {
-            start.put(0, start.get(0) - 1);
+        if (bytes[start.get()] != ENTITY_BYTE) {
+            start.set(start.get() - 1);
         }
 
+//        System.out.println("Ending value: " + printSubList(bytes, start.get(), 5));
         return link.makeNew(chunk,
                 chunkVox.x + chunk.position.x * Chunk.WIDTH,
                 chunkVox.y + chunk.position.y * Chunk.WIDTH,
@@ -146,13 +189,14 @@ class ChunkSavingLoadingUtils {
                     for (int y = chunk.data.size.y - 1; y >= 0; y--) {
                         for (int x = 0; x < chunk.data.size.x; ++x) {
                             for (int z = 0; z < chunk.data.size.z; ++z) {
+
                                 short block = chunk.data.getBlock(x, y, z);
                                 if (block != BlockList.BLOCK_AIR.id) {
                                     out.write(PIPE_BYTE);
                                     writeShort(out, block);
                                     final BlockData blockData = chunk.data.getBlockData(x, y, z);
                                     if (blockData != null) {
-                                        writeAndVerifyByteData(out, blockData.buff);
+                                        writeAndVerifyBuffer(out, blockData.buff);
                                     }
                                 }
                                 out.write(NEWLINE_BYTE);
@@ -161,7 +205,7 @@ class ChunkSavingLoadingUtils {
                         }
                     }
                 } else {
-                    out.write(SKIP_BYTE);
+                    out.write(BYTE_SKIP_ALL_VOXELS);
                 }
 
             } catch (FileNotFoundException ex) {
@@ -178,53 +222,42 @@ class ChunkSavingLoadingUtils {
         return true;
     }
 
-    private static void printSubList(byte[] bytes, int target, int radius) {
-        int start = MathUtils.clamp(target - radius, 0, bytes.length - 1);
-        int end = MathUtils.clamp(target + radius, 0, bytes.length - 1);
-
-        for (int i = start; i < end; i++) {
-            if (i == target) {
-                System.out.print("<" + bytes[i] + "> ");
-            } else {
-                System.out.print(bytes[i] + " ");
-            }
-        }
-        System.out.println();
-    }
 
     protected static boolean readChunkFromFile(final Chunk chunk, final File f) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer start = stack.mallocInt(1);
-            start.put(0, 0);
+            AtomicInteger start = new AtomicInteger(0);
+            start.set(0);
 
             try (FileInputStream fis = new FileInputStream(f); GZIPInputStream input = new GZIPInputStream(fis)) {
                 byte[] metadata = input.readNBytes(METADATA_BYTES);
                 final byte[] bytes = input.readAllBytes();
 
-                //Read entities
-                while (bytes[start.get(0)] == ENTITY_BYTE) {
-//                    System.out.print("\nStarting to read entity: ");
-//                    printSubList(bytes, start.get(0), 5);
+                //Print bytes formatted
+//                System.out.println("SAVING FORMATTED BYTES");
+//                String str = printBytesFormatted(bytes);
+//                Files.write(new File(f.getParent() + "/" + f.getName() + ".formatted").toPath(), str.getBytes());
 
+
+                //Read entities
+                while (bytes[start.get()] == ENTITY_BYTE) {
                     Entity entity = readEntity(chunk, bytes, start);
                     chunk.entities.list.add(entity);
-
-//                    System.out.print("Ending value: ");
-//                    printSubList(bytes, start.get(0), 5);
                 }
+                start.set(start.get() + 1);  //We have to move 1 byte past the entity newline byte to start reading voxels
+//                System.out.println("Voxel byte: " + printSubList(bytes, start.get(), 10));
+
                 //Read voxels
-                Label_0186:
+                chunkVoxels:
                 for (int y = chunk.data.size.y - 1; y >= 0; y--) {
                     for (int x = 0; x < chunk.data.size.x; ++x) {
                         for (int z = 0; z < chunk.data.size.z; ++z) {
-                            final byte startByte = bytes[start.get(0)];
-                            if (startByte == SKIP_BYTE) {
-                                start.put(0, start.get(0) + 1);
-                                continue Label_0186;
-                            }
-                            if (startByte == NEWLINE_BYTE) {
-                                start.put(0, start.get(0) + 1);
-                            } else {
+                            final byte startByte = bytes[start.get()];
+                            if (startByte == BYTE_SKIP_ALL_VOXELS) {
+                                start.set(start.get() + 1);
+                                continue chunkVoxels;
+                            } else if (startByte == NEWLINE_BYTE) { //Newline means end of voxel
+                                start.set(start.get() + 1);
+                            } else { //Every non air voxel starts with pipe byte
                                 readVoxel(bytes, chunk, x, y, z, start);
                             }
                         }
@@ -247,25 +280,25 @@ class ChunkSavingLoadingUtils {
     private static void readVoxel(
             final byte[] bytes,
             final Chunk chunk, final int x, final int y,
-            final int z, IntBuffer start) {
+            final int z, AtomicInteger start) {
 
-        final short blockID = (short) readShort(bytes[start.get(0) + 1], bytes[start.get(0) + 2]);
+        final short blockID = (short) readShort(bytes[start.get() + 1], bytes[start.get() + 2]);
         chunk.data.setBlock(x, y, z, blockID);
 
-        start.put(0, start.get(0) + 3);
+        start.set(start.get() + 3);
         final ArrayList<Byte> blockDataBytes = new ArrayList<>();
         while (true) {
-            final byte b3 = bytes[start.get(0)];
+            final byte b3 = bytes[start.get()];
             if (b3 == NEWLINE_BYTE) {
                 break;
             }
             blockDataBytes.add(b3);
-            start.put(0, start.get(0) + 1);
+            start.set(start.get() + 1);
         }
         if (!blockDataBytes.isEmpty()) {
             BlockData data = new BlockData(blockDataBytes);
             chunk.data.setBlockData(x, y, z, data);
         }
-        start.put(0, start.get(0) + 1);
+        start.set(start.get() + 1);
     }
 }
