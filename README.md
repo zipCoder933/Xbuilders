@@ -1,4 +1,6 @@
+<!---
 ![Xbuilders landscape](./assets/images/b.jpg)
+-->
 
 # Xbuilders
 **A voxel game written in Java + LWJGL**
@@ -46,7 +48,7 @@ This game can run at top performance at up to a 400 voxel view radius. It has a 
 * The up direction is -Y, and the down direction is +Y
 * Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
 
-
+<!---
 ## Screenshots
 A few of the blocks currently available
 ![blocks](./assets/images/a.jpg)
@@ -65,3 +67,5 @@ Screenshot of the inventory menu
 
 Ingame screenshot:
 ![ingame](./assets/images/h.jpg)
+
+-->
