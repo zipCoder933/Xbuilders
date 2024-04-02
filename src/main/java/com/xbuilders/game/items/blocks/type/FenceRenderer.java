@@ -9,16 +9,13 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.items.blocks.RenderType;
 
 import java.util.function.Consumer;
-
-import static com.xbuilders.engine.items.BlockList.DEFAULT_BLOCK_TYPE_ID;
 
 /**
  * @author zipCoder933
@@ -47,7 +44,7 @@ public class FenceRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors,byte[] light, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
 
         post.render(buffers, block, neighbors,light, x, y, z);
 

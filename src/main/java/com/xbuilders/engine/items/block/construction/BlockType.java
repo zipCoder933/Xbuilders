@@ -7,7 +7,7 @@ package com.xbuilders.engine.items.block.construction;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.utils.math.AABB;
@@ -42,10 +42,10 @@ public abstract class BlockType {
         }
     };
 
-    public abstract void constructBlock(BufferSet buffers,
-            Block block, BlockData data,
-            Block[] neighbors, byte[] lightValues,
-            int x, int y, int z);
+    public abstract void constructBlock(VertexSet buffers,
+                                        Block block, BlockData data,
+                                        Block[] neighbors, byte[] lightValues,
+                                        int x, int y, int z);
 
     public Vector3f[] rotateYAxis(Block[] neighbors, Vector3f[] verts, int rotation) {
         Vector3f[] rotatedVerts = rotateVerticiesYAxis(verts, rotation);

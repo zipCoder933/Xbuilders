@@ -4,9 +4,9 @@
  */
 package com.xbuilders.engine.items.block.construction;
 
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
 import com.xbuilders.engine.utils.math.AABB;
 
 import java.util.function.Consumer;
@@ -21,9 +21,9 @@ public class DefaultBlockType extends BlockType {
     }
 
     @Override
-    public void constructBlock(BufferSet buffer,
-            Block block, BlockData data, Block[] neighbors, byte[] light,
-            int x, int y, int z) {
+    public void constructBlock(VertexSet buffer,
+                               Block block, BlockData data, Block[] neighbors, byte[] light,
+                               int x, int y, int z) {
         BlockTexture.FaceTexture texLayer;
 
         if (sideIsVisible(block, neighbors[NEG_X])) {

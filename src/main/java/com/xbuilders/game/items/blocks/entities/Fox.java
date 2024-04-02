@@ -6,8 +6,8 @@ package com.xbuilders.game.items.blocks.entities;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Entity;
-import com.xbuilders.engine.items.entity.rendering.EntityMesh;
-import com.xbuilders.engine.items.entity.rendering.EntityShader;
+import com.xbuilders.engine.rendering.entity.EntityMesh;
+import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -85,6 +85,7 @@ public class Fox extends Entity {
                 texture = TextureUtils.loadTexture(
                         ResourceUtils.RESOURCE_DIR.getAbsolutePath() + "\\items\\entity\\animal\\fox\\red.png", false).id;
                 body.loadFromOBJ(loadModel);
+                body.setTextureID(texture);
             } catch (IOException ex) {
                 ErrorHandler.handleFatalError(ex);
             }
@@ -209,7 +210,7 @@ public class Fox extends Entity {
 
             mvp.update(projection, view, bodyMatrix);
             mvp.sendToShader(bodyShader.getID(), bodyShader.mvpUniform);
-            body.draw(texture, false);
+            body.draw(false);
 
             pos.update(projection, view);
         }

@@ -5,18 +5,14 @@
 package com.xbuilders.game.items.blocks.type;
 
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 
@@ -41,7 +37,7 @@ public class FloorItemRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(BufferSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light,int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
 
         if (data == null || data.get(0) == 3) {
             floor0.render(buffers, block, neighbors,light, x, y, z);

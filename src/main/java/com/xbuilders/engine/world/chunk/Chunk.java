@@ -1,6 +1,6 @@
 package com.xbuilders.engine.world.chunk;
 
-import com.xbuilders.engine.mesh.chunkMesh.ChunkMeshBundle;
+import com.xbuilders.engine.rendering.chunk.ChunkMeshBundle;
 import com.xbuilders.engine.items.ChunkEntitySet;
 import com.xbuilders.engine.utils.BFS.HashQueue;
 import com.xbuilders.engine.utils.math.AABB;

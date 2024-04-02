@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.items.block.blockIconRendering;
 
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.render.ShaderBase;
 
@@ -25,8 +25,8 @@ public class BlockShader extends ShaderBase {
         maxMult12bitsUniform = getUniformLocation("maxMult12bits");
         maxMult10bitsUniform = getUniformLocation("maxMult10bits");
         textureLayerCountUniform = getUniformLocation("textureLayerCount");
-        loadFloat(maxMult10bitsUniform, BufferSet.maxMult10bits);
-        loadFloat(maxMult12bitsUniform, BufferSet.maxMult12bits);
+        loadFloat(maxMult10bitsUniform, VertexSet.maxMult10bits);
+        loadFloat(maxMult12bitsUniform, VertexSet.maxMult12bits);
         loadInt(textureLayerCountUniform, textureLayers - 1);
     }
 

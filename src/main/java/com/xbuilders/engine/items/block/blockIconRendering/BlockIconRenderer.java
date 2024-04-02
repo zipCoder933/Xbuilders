@@ -9,8 +9,9 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
-import com.xbuilders.engine.mesh.mesh.CompactMesh;
+import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.preformance.SimpleWaitLock;
@@ -169,23 +170,24 @@ public abstract class BlockIconRenderer {
     }
 
     private boolean makeBlockMesh(Block block) {
-        BufferSet buffers = new BufferSet();
+        TraditionalVertexSet buffers = new TraditionalVertexSet();
         BlockType type = ItemList.blocks.getBlockType(block.type);
         if (type == null) {
             return false;
         }
         Block[] blockNeghbors = new Block[]{BlockList.BLOCK_AIR,
-            BlockList.BLOCK_AIR,
-            BlockList.BLOCK_AIR,
-            BlockList.BLOCK_AIR,
-            BlockList.BLOCK_AIR,
-            BlockList.BLOCK_AIR};
+                BlockList.BLOCK_AIR,
+                BlockList.BLOCK_AIR,
+                BlockList.BLOCK_AIR,
+                BlockList.BLOCK_AIR,
+                BlockList.BLOCK_AIR};
         byte[] lightNeghbors = new byte[]{15, 15, 15, 15, 15, 15};
 
         type.constructBlock(buffers, block, null,
                 blockNeghbors, lightNeghbors, 0, 0, 0);
 
         mesh.sendBuffersToGPU(buffers.makeVertexSet());
+        buffers.reset();
         mesh.empty = false;
         return true;
     }
@@ -213,7 +215,7 @@ public abstract class BlockIconRenderer {
 
     /**
      * @param horizontalOrbit in radians
-     * @param verticalOrbit in radians
+     * @param verticalOrbit   in radians
      * @param distance
      * @return the view matrix
      */

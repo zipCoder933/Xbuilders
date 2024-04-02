@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.mesh.chunkMesh.ChunkShader;
+import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.gameScene.GameScene;
 
 import static com.xbuilders.engine.gameScene.GameScene.world;
@@ -409,10 +409,10 @@ public class World {
                 frameTester.startProcess();
                 if (chunk.generationStatus == Chunk.GEN_COMPLETE) {
                     chunk.updateMVP(projection, view); //we must update the MVP within each model;
-                    if (!chunk.meshes.opaque.empty) {
+                    if (!chunk.meshes.opaqueMesh.empty) {
                         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                         if (!Main.specialMode3) {
-                            chunk.meshes.opaque.draw(GameScene.drawWireframe);
+                            chunk.meshes.opaqueMesh.draw(GameScene.drawWireframe);
                         }
                     }
 
@@ -423,10 +423,10 @@ public class World {
 
         chunksToRender.forEach(chunk -> {
             if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE) {
-                if (!chunk.meshes.trans.empty) {
+                if (!chunk.meshes.transMesh.empty) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                     if (!Main.specialMode3) {
-                        chunk.meshes.trans.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation
+                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation
                     }
                 }
                 chunk.entities.draw(projection, view, Camera.frustum, playerPosition);

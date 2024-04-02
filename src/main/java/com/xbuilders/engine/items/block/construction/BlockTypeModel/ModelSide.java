@@ -1,7 +1,7 @@
 package com.xbuilders.engine.items.block.construction.BlockTypeModel;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 
 public class ModelSide {
 
@@ -12,8 +12,8 @@ public class ModelSide {
         vertices = new ModelVertex[vertexCount];
     }
 
-    public void render(int x, int y, int z, BufferSet buff, BlockTexture.FaceTexture texture,
-            byte[] light) {
+    public void render(int x, int y, int z, VertexSet buff, BlockTexture.FaceTexture texture,
+                       byte[] light) {
         
         for (int i = 0; i < vertices.length; i++) {
             ModelVertex vertex = vertices[i];

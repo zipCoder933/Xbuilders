@@ -7,7 +7,7 @@ package com.xbuilders.game.items.blocks.type;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 
@@ -20,9 +20,9 @@ import java.util.function.Consumer;
 public class OrientableBlockRenderer extends BlockType {//TODO: Make the texture depend on the orientation of the block, store the orientation in the BlockData
 
     @Override
-    public void constructBlock(BufferSet buffer,
-            Block block, BlockData data, Block[] neighbors, byte[] light,
-            int x, int y, int z) {
+    public void constructBlock(VertexSet buffer,
+                               Block block, BlockData data, Block[] neighbors, byte[] light,
+                               int x, int y, int z) {
         BlockTexture.FaceTexture texLayer;
 
         if (sideIsVisible(block, neighbors[NEG_X])) {

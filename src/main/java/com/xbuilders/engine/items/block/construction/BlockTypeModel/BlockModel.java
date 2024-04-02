@@ -3,7 +3,7 @@ package com.xbuilders.engine.items.block.construction.BlockTypeModel;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 
 public class BlockModel {
 
@@ -28,7 +28,7 @@ public class BlockModel {
         public boolean shouldRenderSide(Block thisBlock, Block neighbor);
     }
 
-    public void render(BufferSet buff, Block block, Block[] neighbors, byte[] lightValues, int x, int y, int z) {
+    public void render(VertexSet buff, Block block, Block[] neighbors, byte[] lightValues, int x, int y, int z) {
         BlockTexture.FaceTexture texture;
         //Side-1 is the side of the face that is touching the outside of the block (BlockType.side)
         for (int side = 0; side < sides.length; side++) {

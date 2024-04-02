@@ -7,7 +7,7 @@ package com.xbuilders.game.items.blocks.type;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.mesh.chunkMesh.BufferSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 
@@ -40,9 +40,9 @@ public class SpriteRenderer extends BlockType {
         1, 7, 5,};
 
     @Override
-    public void constructBlock(BufferSet buffers,
-            Block block, BlockData data, Block[] neighbors, byte[] light,
-            int x, int y, int z) {
+    public void constructBlock(VertexSet buffers,
+                               Block block, BlockData data, Block[] neighbors, byte[] light,
+                               int x, int y, int z) {
 
         BlockTexture.FaceTexture texLayer = block.texture.getNEG_X();
 
