@@ -44,20 +44,41 @@ public class WCCi {
         this.chunkVoxel = block;
     }
 
-    public WCCi set(Vector3i vec) {
-        return set(vec.x, vec.y, vec.z);
+    /**
+     * Set WCC from world position
+     *
+     * @param worldCoords world position
+     * @return
+     */
+    public WCCi set(Vector3i worldCoords) {
+        return set(worldCoords.x, worldCoords.y, worldCoords.z);
     }
 
     /*   public static WCCi getNeighboringWCC(final Vector3i currentChunk, ) {
         return new WCCi(getNeighboringSubChunk(currentChunk, x, y, z), normalizeToChunkSpace(x, y, z));
     }*/
 
-    public WCCi getNeighboring(Vector3i chunkPos, final int x, final int y, final int z) {
+    /**
+     * Tunes the WCC to the proper chunk/block position. If the chunk coords are off the chunk,
+     * they will be adjusted to fit the neighboring chunk
+     * <p>
+     * chunkPos - chunk coords
+     * x, y, z - block coords
+     */
+    public WCCi setNeighboring(Vector3i chunkPos, final int x, final int y, final int z) {
         getNeighboringChunk(this.chunk, chunkPos, x, y, z);
         normalizeToChunkSpace(this.chunkVoxel, x, y, z);
         return this;
     }
-    public WCCi getNeighboring(Vector3i chunkPos, Vector3i blockPos) {
+
+    /**
+     * Tunes the WCC to the proper chunk/block position. If the chunk coords are off the chunk,
+     * they will be adjusted to fit the neighboring chunk
+     * <p>
+     * chunkPos - chunk coords
+     * x, y, z - block coords
+     */
+    public WCCi setNeighboring(Vector3i chunkPos, Vector3i blockPos) {
         getNeighboringChunk(this.chunk, chunkPos, blockPos.x, blockPos.y, blockPos.z);
         normalizeToChunkSpace(this.chunkVoxel, blockPos.x, blockPos.y, blockPos.z);
         return this;

@@ -1,13 +1,11 @@
-package com.xbuilders.engine.world.chunk;
+package com.xbuilders.engine.world.chunk.pillar;
 
 import com.xbuilders.engine.utils.BFS.HashQueue;
-import com.xbuilders.engine.world.DistanceScheduledExecutor.PriorityCallable;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.ChunkNode;
-
-import java.util.HashMap;
 
 import static com.xbuilders.engine.world.World.generationService;
 import static com.xbuilders.engine.world.World.lightService;

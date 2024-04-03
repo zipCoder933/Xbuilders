@@ -13,6 +13,7 @@ import static com.xbuilders.engine.world.World.generationService;
 import static com.xbuilders.engine.world.World.meshService;
 
 import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.world.wcc.ChunkNode;
 import com.xbuilders.window.render.MVP;
 
@@ -55,6 +56,14 @@ public class Chunk {
 
     public static boolean inBounds(int x, int y, int z) {
         return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && z >= 0 && z < WIDTH;
+    }
+
+    public static boolean inBoundsXZ(int x) {
+        return x >= 0 && x < WIDTH;
+    }
+
+    public static boolean inBoundsY(int y) {
+        return y >= 0 && y < HEIGHT;
     }
 
     public final ChunkVoxels data;
@@ -115,7 +124,7 @@ public class Chunk {
         World.frameTester.endProcess("Load chunk");
     }
 
-    protected void loadChunk(WorldInfo info, Terrain terrain, FutureChunk futureChunk) {
+    public void loadChunk(WorldInfo info, Terrain terrain, FutureChunk futureChunk) {
         File f = info.getChunkFile(position);
 
         if (f.exists()) {

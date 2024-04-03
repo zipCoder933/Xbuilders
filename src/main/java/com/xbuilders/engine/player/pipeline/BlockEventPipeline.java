@@ -44,6 +44,17 @@ public class BlockEventPipeline {
                 System.out.println("Propagating");
                 SunlightUtils.addBrightestNeighboringNode(sunQueue, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 SunlightUtils.propagateSunlight(sunQueue, affectedChunks);
+                sunQueue.clear();
+            } else if (!v.previousBlock.opaque && v.currentBlock.opaque) {
+                System.out.println("Erasing");//TODO: Add repropagating and optimize both light algorithms for multi-block light updating (See XB2 code for this)
+                SunlightUtils.addDarkNodesForSunlightErasure(sunQueue, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                HashSet<ChunkNode> totalNodes = new HashSet<>();//I think total nodes is suppsed to be for repropagating light
+                SunlightUtils.eraseSunlight(sunQueue, affectedChunks, totalNodes);
+//                System.out.println("Re-propagating");
+//                sunQueue.clear();
+//                sunQueue.addAll(totalNodes);
+//                SunlightUtils.propagateSunlight(sunQueue, affectedChunks);
+                sunQueue.clear();
             }
             affectedChunks.add(chunk);
         });

@@ -1,9 +1,10 @@
 package com.xbuilders.engine.world.light;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.ChunkNode;
@@ -14,6 +15,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * We can save time in propagation by using BFS to propagate downward instead of setting the nodes initially.
+ * <p>
+ * BLOCK TRANSPARENT-> OPAQUE LIGHT DE-PROGATION
+ * 1. We first black out everything underneath the block
+ * 2. We Erase any light that is around the block that may now be occluded by the darkness
+ * 2.1. We only erase light that is lower than 15 (not in direct line of sky)
+ * 2.2. If there is light that is separated by darkness, and we cannot reach it with our erasure BFS, that means that the light will not be effected by our erasure
+ * 3. We re-propagate the light from the edge of the erased area
+ */
 public class SunlightUtils {
     public static void addBrightestNeighboringNode(List<ChunkNode> queue, final Chunk c, final int x, final int y, final int z) {
         AtomicInteger brightestSunlight = new AtomicInteger(0);
@@ -21,37 +32,37 @@ public class SunlightUtils {
         WCCi wcc = new WCCi();
 //        System.out.println("Searching for brightest node " + x + " " + y + " " + z);
 
-        wcc.getNeighboring(c.position, x, y - 1, z);
+        wcc.setNeighboring(c.position, x, y - 1, z);
         ChunkNode node = checkNeighbor_getBrightestNeighboringNode(wcc, brightestSunlight);
         if (node != null) {
             brightestNode = node;
         }
 
-        wcc.getNeighboring(c.position, x - 1, y, z);
+        wcc.setNeighboring(c.position, x - 1, y, z);
         node = checkNeighbor_getBrightestNeighboringNode(wcc, brightestSunlight);
         if (node != null) {
             brightestNode = node;
         }
 
-        wcc.getNeighboring(c.position, x, y, z - 1);
+        wcc.setNeighboring(c.position, x, y, z - 1);
         node = checkNeighbor_getBrightestNeighboringNode(wcc, brightestSunlight);
         if (node != null) {
             brightestNode = node;
         }
 
-        wcc.getNeighboring(c.position, x + 1, y, z);
+        wcc.setNeighboring(c.position, x + 1, y, z);
         node = checkNeighbor_getBrightestNeighboringNode(wcc, brightestSunlight);
         if (node != null) {
             brightestNode = node;
         }
 
-        wcc.getNeighboring(c.position, x, y, z + 1);
+        wcc.setNeighboring(c.position, x, y, z + 1);
         node = checkNeighbor_getBrightestNeighboringNode(wcc, brightestSunlight);
         if (node != null) {
             brightestNode = node;
         }
 
-        wcc.getNeighboring(c.position, x, y + 1, z);
+        wcc.setNeighboring(c.position, x, y + 1, z);
         node = checkNeighbor_getBrightestNeighboringNode(wcc, brightestSunlight);
         if (node != null) {
             brightestNode = node;
@@ -98,47 +109,88 @@ public class SunlightUtils {
 //        }
 //    }
 
-    public static synchronized void eraseSection(List<ChunkNode> queue, HashSet<ChunkNode> totalNodes) {
+
+    /**
+     * Put the x y z position on the actual block that was turned to opaque, NOT below it
+     *
+     * @param queue
+     * @param chunk
+     * @param x
+     * @param y
+     * @param z
+     */
+    public static void addDarkNodesForSunlightErasure(List<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
+        Block block = BlockList.BLOCK_AIR;
+
+        while (true) {
+            y++;
+            if (chunk.inBoundsY(y)) {
+                block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+            } else {
+                WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
+                chunk = GameScene.world.getChunk(newCoords.chunk);
+                x = newCoords.chunkVoxel.x;
+                y = newCoords.chunkVoxel.y;
+                z = newCoords.chunkVoxel.z;
+                if (chunk != null) {
+                    block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                }
+            }
+            if (block.opaque) {
+                break;
+            } else {
+//                chunk.data.setSun(x, y, z, (byte) 0);
+                queue.add(new ChunkNode(chunk, x, y, z));
+            }
+        }
+    }
+
+    public static void eraseSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks,
+                                     HashSet<ChunkNode> totalNodes) {
+
         long timeStart = System.currentTimeMillis();
         while (queue.size() > 0 && System.currentTimeMillis() - timeStart < 10000L) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
             byte lightValue = node.chunk.data.getSun(node.coords.x, node.coords.y, node.coords.z);
             node.chunk.data.setSun(node.coords.x, node.coords.y, node.coords.z, (byte) 0);
+            affectedChunks.add(node.chunk);
             totalNodes.remove(node);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue, totalNodes);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y, node.coords.z - 1, lightValue, queue, totalNodes);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, lightValue, queue, totalNodes);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, lightValue, queue, totalNodes);
+            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue, totalNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y, node.coords.z - 1, lightValue, queue, totalNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, lightValue, queue, totalNodes, true);
+            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, lightValue, queue, totalNodes, false);
         }
         queue.clear();
     }
 
-    private static void checkNeighborErase(Chunk chunk, int x, int y, int z, int centerLightLevel, List<ChunkNode> queue, HashSet<ChunkNode> totalNodes) {
-//        byte thisLevel;
-//        if (chunk.inBounds(x, y, z)) {
-//            thisLevel = chunk.data.getSun(x, y, z);
-//        } else {
-//            WCCi newCoords = WCCi.getNeighboringChunk(chunk.position, x, y, z);
-//            chunk = GameScene.world.getChunk(newCoords.chunk);
-//            x = newCoords.chunkVoxel.x;
-//            y = newCoords.chunkVoxel.y;
-//            z = newCoords.chunkVoxel.z;
-//            if (chunk == null) {
-//                return;
-//            }
-//            thisLevel = chunk.data.getSun(x, y, z);
-//        }
-//        if (thisLevel > 0) {
-//            ChunkNode node = new ChunkNode(chunk, x, y, z);
-//            if (centerLightLevel >= thisLevel && thisLevel < 15) {
-//                queue.add(node);
-//            } else if (thisLevel > 1) {
-//                totalNodes.add(node);
-//            }
-//        }
+    private static void checkNeighborErase(Chunk chunk, int x, int y, int z, int centerLightLevel,
+                                           List<ChunkNode> queue, HashSet<ChunkNode> totalNodes,
+                                           boolean isBelow) {
+        byte thisLevel;
+        if (chunk.inBounds(x, y, z)) {
+            thisLevel = chunk.data.getSun(x, y, z);
+        } else {
+            WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
+            chunk = GameScene.world.getChunk(newCoords.chunk);
+            x = newCoords.chunkVoxel.x;
+            y = newCoords.chunkVoxel.y;
+            z = newCoords.chunkVoxel.z;
+            if (chunk == null) {
+                return;
+            }
+            thisLevel = chunk.data.getSun(x, y, z);
+        }
+        if (thisLevel > 0) {
+            ChunkNode node = new ChunkNode(chunk, x, y, z);
+            if (centerLightLevel >= thisLevel && thisLevel < 15) {
+                queue.add(node);
+            } else if (thisLevel > 1) {
+                totalNodes.add(node);
+            }
+        }
     }
 
     public static void propagateSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks) {

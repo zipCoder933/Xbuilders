@@ -27,7 +27,7 @@ import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
 
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
-import com.xbuilders.engine.world.chunk.PillarInformation;
+import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
