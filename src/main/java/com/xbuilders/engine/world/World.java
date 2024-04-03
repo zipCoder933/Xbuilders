@@ -68,9 +68,9 @@ public class World {
     - Also note that valkyre has half the chunk height as my game.
     - When valkyre loads chunks at 288 voxels away, things start getting choppy  just like my game does.
      */
-    public static final int CHUNK_LOAD_THREADS = 12;
-    public static final int CHUNK_LIGHT_THREADS = 12;
-    public static final int CHUNK_MESH_THREADS = 12;
+    public static final int CHUNK_LOAD_THREADS = 24;
+    public static final int CHUNK_LIGHT_THREADS = 24;
+    public static final int CHUNK_MESH_THREADS = 24;
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
     public static int VIEW_DIST_MAX = Chunk.WIDTH * 30;
     public static int DEFAULT_VIEW_DISTANCE = Chunk.WIDTH * 6;//13

@@ -86,6 +86,7 @@ public abstract class VertexSet {
      */
     public abstract void reset();
 
+//    public abstract void makeVertexSet();
     public abstract void sendToMesh(CompactMesh mesh);
 
     public abstract void vertex(int layer, int a, int b, int c);

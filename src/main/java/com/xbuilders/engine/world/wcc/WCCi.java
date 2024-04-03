@@ -4,9 +4,14 @@
 package com.xbuilders.engine.world.wcc;
 
 import com.xbuilders.engine.utils.MiscUtils;
+
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+
+import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
+
 import java.nio.IntBuffer;
+
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
@@ -14,6 +19,10 @@ public class WCCi {
 
     public final Vector3i chunk;
     public final Vector3i chunkVoxel;
+
+    public Chunk getChunk(World world) {
+        return world.getChunk(chunk);
+    }
 
     public WCCi() {
         this.chunk = new Vector3i();
@@ -39,6 +48,21 @@ public class WCCi {
         return set(vec.x, vec.y, vec.z);
     }
 
+    /*   public static WCCi getNeighboringWCC(final Vector3i currentChunk, ) {
+        return new WCCi(getNeighboringSubChunk(currentChunk, x, y, z), normalizeToChunkSpace(x, y, z));
+    }*/
+
+    public WCCi getNeighboring(Vector3i chunkPos, final int x, final int y, final int z) {
+        getNeighboringChunk(this.chunk, chunkPos, x, y, z);
+        normalizeToChunkSpace(this.chunkVoxel, x, y, z);
+        return this;
+    }
+    public WCCi getNeighboring(Vector3i chunkPos, Vector3i blockPos) {
+        getNeighboringChunk(this.chunk, chunkPos, blockPos.x, blockPos.y, blockPos.z);
+        normalizeToChunkSpace(this.chunkVoxel, blockPos.x, blockPos.y, blockPos.z);
+        return this;
+    }
+
     public WCCi set(final int worldX, final int worldY, final int worldZ) {
         int blockX = positiveMod(worldX, Chunk.WIDTH);
         int blockY = positiveMod(worldY, Chunk.WIDTH);
@@ -61,10 +85,10 @@ public class WCCi {
     }
 
     // <editor-fold defaultstate="collapsed" desc="static methods">
+
     /**
      * The chunk coordinate should START when the chunk-block coordinate is at
      * 0, and END when the block PASSES chunk width-1.
-     *
      *
      * @param worldN the world coordinate
      * @return the chunk coordinate
@@ -89,9 +113,9 @@ public class WCCi {
         }
     }
 
-    public static void getNeighboringChunk(Vector3i vec, 
-            final Vector3i chunkPos,
-            final int x, final int y, final int z) {
+    public static void getNeighboringChunk(Vector3i vec,
+                                           final Vector3i chunkPos,
+                                           final int x, final int y, final int z) {
         int coordsX = chunkPos.x;
         int coordsY = chunkPos.y;
         int coordsZ = chunkPos.z;
@@ -114,7 +138,7 @@ public class WCCi {
     }
 
     public static void getChunkAtWorldPos(final Vector3i vec,
-            final int worldX, final int worldY, final int worldZ) {
+                                          final int worldX, final int worldY, final int worldZ) {
 
         int chunkX = chunkDiv(worldX);
         int chunkY = chunkDiv(worldY);
@@ -123,8 +147,8 @@ public class WCCi {
     }
 
     public static void normalizeToChunkSpace(Vector3i vec,
-            final int worldX, final int worldY, final int worldZ) {
-        
+                                             final int worldX, final int worldY, final int worldZ) {
+
         int blockX = positiveMod(worldX, Chunk.WIDTH);
         int blockY = positiveMod(worldY, Chunk.WIDTH);
         int blockZ = positiveMod(worldZ, Chunk.WIDTH);

@@ -3,6 +3,8 @@
 // 
 package com.xbuilders.engine.world.wcc;
 
+import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
 import java.util.Objects;
 import org.joml.Vector3i;
@@ -15,6 +17,11 @@ public class ChunkNode {
     public ChunkNode(final Chunk chunk, final Vector3i coords) {
         this.coords = coords;
         this.chunk = chunk;
+    }
+
+    public ChunkNode(WCCi coords, World world) {
+        this.coords = coords.chunkVoxel;
+        this.chunk = coords.getChunk(world);
     }
 
     public ChunkNode(final Chunk chunk, final int x, final int y, final int z) {
@@ -33,6 +40,12 @@ public class ChunkNode {
         hash = 29 * hash + Objects.hashCode(this.chunk);
         hash = 29 * hash + Objects.hashCode(this.coords);
         return hash;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ChunkNode{" + "chunk=" + chunk + ", coords=" + MiscUtils.printVector(coords) + '}';
     }
 
     @Override

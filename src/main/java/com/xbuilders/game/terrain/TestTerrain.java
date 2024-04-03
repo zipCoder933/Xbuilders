@@ -5,56 +5,63 @@
 package com.xbuilders.game.terrain;
 
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
+
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
+
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.game.MyGame;
+
 import java.util.Random;
 
 /**
- *
  * @author zipCoder933
  */
 public class TestTerrain extends Terrain {
 
     public TestTerrain() {
         super("Test Terrain");
+        MIN_HEIGHT = 90;
+        MAX_HEIGHT = 140;
     }
 
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
-        if (chunk.position.y >= 0) {
-            for (int i = 0; i < WIDTH; i++) {
-                for (int j = 0; j < WIDTH; j++) {
-                    for (int k = 0; k < WIDTH; k++) {
-                        chunk.data.setBlock(i, j, k, BlockList.BLOCK_AIR.id);
-                    }
-                }
-            }
-        } else {
-            int wx, wy, wz;
-            for (int i = 0; i < WIDTH; i++) {
-                for (int j = 0; j < WIDTH; j++) {
-                    for (int k = 0; k < WIDTH; k++) {
+        boolean genOutsideBoundary = false;
+        if ((chunk.position.y * Chunk.WIDTH) + Chunk.WIDTH > MIN_HEIGHT - 2) {
+            for (int cx = 0; cx < WIDTH; cx++) {
+                for (int cy = 0; cy < WIDTH; cy++) {
+                    for (int cz = 0; cz < WIDTH; cz++) {
 
-                        wx = i + (chunk.position.x * Chunk.WIDTH);
-                        wy = j + (chunk.position.y * Chunk.WIDTH);
-                        wz = k + (chunk.position.z * Chunk.WIDTH);
+                        int wx = cx + (chunk.position.x * Chunk.WIDTH);
+                        int wy = cy + (chunk.position.y * Chunk.WIDTH);
+                        int wz = cz + (chunk.position.z * Chunk.WIDTH);
 
-                        if (noise.GetValueFractal(wx * 0.1f, wy * 0.1f, wz * 0.1f) > 0) {
-                            if (noise.GetValueFractal(wy * 0.02f, wz * 0.02f, wx * 0.02f) < 0) {
-                                chunk.data.setBlock(i, j, k, MyGame.BLOCK_GLASS.id);
+
+                        if (wy >= MAX_HEIGHT) {
+                            if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS.id);
                             } else {
-                                chunk.data.setBlock(i, j, k, MyGame.BLOCK_GRASS.id);
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE.id);
                             }
-                        } else {
-                            chunk.data.setBlock(i, j, k, BlockList.BLOCK_AIR.id);
+                            if (wy == MAX_HEIGHT && session.random.nextFloat() > 0.995) {
+                                TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
+                                genOutsideBoundary = true;
+                            }
+                        } else if (wy == MIN_HEIGHT && perlinNoise.noise(wx * 0.3f, wz * 0.3f) > -0.1f) {
+                            if (perlinNoise.noise(wx, wy, wz) > -0.1f) {
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRANITE.id);
+                            }
                         }
                     }
                 }
             }
+
         }
+        session.generatedOutsideOfChunk = genOutsideBoundary;
     }
 
 }

@@ -5,6 +5,7 @@
 package com.xbuilders.engine.rendering.chunk;
 
 import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet_ResizableIntArray;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet_ResizableIntBuffer;
 import com.xbuilders.engine.rendering.chunk.withBakedLight.GreedyMesherWithLight;
@@ -67,8 +68,8 @@ public class ChunkMeshBundle {
         setLOD(4);
     }
 
-    final VertexSet_ResizableIntBuffer opaqueBuffer = new VertexSet_ResizableIntBuffer();
-    final VertexSet_ResizableIntBuffer transBuffer = new VertexSet_ResizableIntBuffer();
+    final TraditionalVertexSet opaqueBuffer = new TraditionalVertexSet();
+    final TraditionalVertexSet transBuffer = new TraditionalVertexSet();
 
     Chunk chunk;
     Vector3i position;
