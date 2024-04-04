@@ -12,6 +12,9 @@ import java.util.HashMap;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryUtil;
 
+/**
+ * If not having vector3i coords to get/set with this, becomes a sufficient annoyance, I will add a vector3i to match every method.
+ */
 public class ChunkVoxels {
 
     public ChunkVoxels(final int sizeX, final int sizeY, final int sizeZ) {
@@ -100,6 +103,9 @@ public class ChunkVoxels {
         return blockData.get(val);//Causes all the overhead
         //        return blockData[val];
     }
+//    public BlockData getBlockData(Vector3i pos) {
+//        return getBlockData(pos.x, pos.y, pos.z);
+//    }
 
     public void setBlockData(final int x, final int y, final int z, final BlockData b) {
         this.blockData.put(x + this.size.x * (y + this.size.y * z), b);

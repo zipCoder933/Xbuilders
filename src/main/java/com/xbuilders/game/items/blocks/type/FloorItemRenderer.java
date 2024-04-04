@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.blocks.type;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -21,6 +22,11 @@ import java.util.function.Consumer;
  */
 public class FloorItemRenderer extends BlockType {
     BlockModel floor0, floor1, floor2, floor3;
+
+    public boolean allowToBeSet(Block block, BlockData blockData, int worldX, int worldY, int worldZ) {
+        return !GameScene.world.getBlock(worldX, worldY + 1, worldZ).liquid
+                && !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isAir();
+    }
 
     public FloorItemRenderer() {
 //        ObjToBlockModel.parseFileWithYRotations(false, 1.6f, ResourceUtils.resource("block types\\floor\\floor.obj"));
@@ -40,13 +46,13 @@ public class FloorItemRenderer extends BlockType {
     public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
 
         if (data == null || data.get(0) == 3) {
-            floor0.render(buffers, block, neighbors,light, x, y, z);
+            floor0.render(buffers, block, neighbors, light, x, y, z);
         } else if (data.get(0) == 0) {
-            floor1.render(buffers, block, neighbors,light, x, y, z);
+            floor1.render(buffers, block, neighbors, light, x, y, z);
         } else if (data.get(0) == 1) {
-            floor2.render(buffers, block, neighbors,light, x, y, z);
+            floor2.render(buffers, block, neighbors, light, x, y, z);
         } else {
-            floor3.render(buffers, block, neighbors,light, x, y, z);
+            floor3.render(buffers, block, neighbors, light, x, y, z);
         }
     }
 

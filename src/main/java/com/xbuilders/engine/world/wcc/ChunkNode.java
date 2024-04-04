@@ -6,61 +6,53 @@ package com.xbuilders.engine.world.wcc;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
+
 import java.util.Objects;
+
 import org.joml.Vector3i;
 
 public class ChunkNode {
 
     public Chunk chunk;
-    public Vector3i coords;
+   public int x, y, z;
 
-    public ChunkNode(final Chunk chunk, final Vector3i coords) {
-        this.coords = coords;
-        this.chunk = chunk;
-    }
 
     public ChunkNode(WCCi coords, World world) {
-        this.coords = coords.chunkVoxel;
+        this.x = coords.chunkVoxel.x;
+        this.y = coords.chunkVoxel.y;
+        this.z = coords.chunkVoxel.z;
         this.chunk = coords.getChunk(world);
     }
 
     public ChunkNode(final Chunk chunk, final int x, final int y, final int z) {
-        this.coords = new Vector3i(x, y, z);
+        this.x = x;
+        this.y = y;
+        this.z = z;
         this.chunk = chunk;
     }
 
     public void set(Chunk chunk, int x, int y, int z) {
-        this.coords.set(x, y, z);
+        this.x = x;
+        this.y = y;
+        this.z = z;
         this.chunk = chunk;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.chunk);
-        hash = 29 * hash + Objects.hashCode(this.coords);
-        return hash;
+        return Objects.hash(chunk, x, y, z);
     }
-
 
     @Override
     public String toString() {
-        return "ChunkNode{" + "chunk=" + chunk + ", coords=" + MiscUtils.printVector(coords) + '}';
+        return "ChunkNode{" + "chunk=" + chunk + ", coords=" + x + ", " + y + ", " + z + '}';
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (this.getClass() != obj.getClass()) {
-            return false;
-        }
-        final ChunkNode other = (ChunkNode) obj;
-        return Objects.equals(this.chunk, other.chunk) && Objects.equals(this.coords, other.coords);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChunkNode chunkNode = (ChunkNode) o;
+        return x == chunkNode.x && y == chunkNode.y && z == chunkNode.z && Objects.equals(chunk, chunkNode.chunk);
     }
-
 }

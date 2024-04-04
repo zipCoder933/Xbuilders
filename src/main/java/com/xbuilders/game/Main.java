@@ -174,10 +174,10 @@ public class Main extends NKWindow {
             endScreenshot();
 
 
-            if (specialMode1) {
+            if (devkey1_SystemCG) {
                 System.out.println("System.GC()");
                 System.gc();
-                specialMode1 = false;
+                devkey1_SystemCG = false;
             }
         }
         terminate();
@@ -193,24 +193,28 @@ public class Main extends NKWindow {
         gameScene.windowResizeEvent(width, height);
     }
 
-    public static boolean specialMode3;
-    public static boolean specialMode1;
-    public static boolean specialMode2;
+    public static boolean devkey3;
+    public static boolean devkey1_SystemCG;
+    public static boolean devkey2;
+    public static boolean devkeyF12;
 
     @Override
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             if (key == GLFW.GLFW_KEY_3) {
-                specialMode3 = !specialMode3;
-                System.out.println("Special mode (3): " + specialMode3);
+                devkey3 = !devkey3;
+                System.out.println("Special mode (3): " + devkey3);
             } else if (key == GLFW.GLFW_KEY_1) {
-                specialMode1 = !specialMode1;
-                System.out.println("Special mode(1): " + specialMode1);
+                devkey1_SystemCG = !devkey1_SystemCG;
+                System.out.println("Special mode(1): " + devkey1_SystemCG);
             } else if (key == GLFW.GLFW_KEY_2) {
-                specialMode2 = !specialMode2;
-                System.out.println("Special mode (2): " + specialMode2);
+                devkey2 = !devkey2;
+                System.out.println("Special mode (2): " + devkey2);
             }  else if (key == GLFW.GLFW_KEY_F11) {
                 screenshot();
+            }else if(key == GLFW.GLFW_KEY_F12){
+                devkeyF12 = !devkeyF12;
+                System.out.println("Light repropagation: " + devkeyF12);
             }
         }
         if (isGameMode) {

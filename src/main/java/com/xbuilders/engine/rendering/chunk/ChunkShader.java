@@ -6,6 +6,7 @@ package com.xbuilders.engine.rendering.chunk;
 
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.game.Main;
 import com.xbuilders.window.render.ShaderBase;
 import org.joml.Vector3f;
 
@@ -47,6 +48,7 @@ public class ChunkShader extends ShaderBase {
     }
 
     public void setViewDistance(int viewDistance) {
+        if (Main.devMode) viewDistance = Integer.MAX_VALUE;
         loadInt(viewDistanceUniform, viewDistance);
     }
 

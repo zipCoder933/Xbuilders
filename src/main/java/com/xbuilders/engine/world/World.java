@@ -4,6 +4,7 @@ import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.DistanceScheduledExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.FutureChunk;
 
 import java.io.File;
@@ -73,6 +74,7 @@ public class World {
     public static final int CHUNK_MESH_THREADS = 24;
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
     public static int VIEW_DIST_MAX = Chunk.WIDTH * 30;
+    public static int MIN_FOG_DISTANCE = Chunk.WIDTH * 6;
     public static int DEFAULT_VIEW_DISTANCE = Chunk.WIDTH * 6;//13
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(DEFAULT_VIEW_DISTANCE);
@@ -392,7 +394,7 @@ public class World {
 //Drawing boxes is a major FPS bottleneck
                 frameTester.startProcess();
                 //<editor-fold defaultstate="collapsed" desc="box drawing">
-                if (Main.specialMode2) {
+                if (Main.devkey2) {
                     box.set(chunk.aabb);
                     if (chunk.meshes.isEmpty()) {
                         box.setLineWidth(0.5f);
@@ -411,7 +413,7 @@ public class World {
                     chunk.updateMVP(projection, view); //we must update the MVP within each model;
                     if (!chunk.meshes.opaqueMesh.empty) {
                         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                        if (!Main.specialMode3) {
+                        if (!Main.devkey3) {
                             chunk.meshes.opaqueMesh.draw(GameScene.drawWireframe);
                         }
                     }
@@ -425,7 +427,7 @@ public class World {
             if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE) {
                 if (!chunk.meshes.transMesh.empty) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                    if (!Main.specialMode3) {
+                    if (!Main.devkey3) {
                         chunk.meshes.transMesh.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation
                     }
                 }
@@ -477,6 +479,22 @@ public class World {
         Block block = ItemList.getBlock(getBlockID(worldX, worldY, worldZ));
         return block == null ? BlockList.BLOCK_AIR : block;
     }
+
+    public BlockData getBlockData(int worldX, int worldY, int worldZ) {
+        int blockX = positiveMod(worldX, Chunk.WIDTH);
+        int blockY = positiveMod(worldY, Chunk.WIDTH);
+        int blockZ = positiveMod(worldZ, Chunk.WIDTH);
+
+        int chunkX = chunkDiv(worldX);
+        int chunkY = chunkDiv(worldY);
+        int chunkZ = chunkDiv(worldZ);
+
+        Chunk chunk = getChunk(new Vector3i(chunkX, chunkY, chunkZ));
+        if (chunk == null) {
+            return null;
+        }
+        return chunk.data.getBlockData(blockX, blockY, blockZ);
+    }
 //</editor-fold>
 
     public void close(Vector3f playerPos) {
@@ -525,5 +543,4 @@ public class World {
         }
         return futureChunk;
     }
-
 }

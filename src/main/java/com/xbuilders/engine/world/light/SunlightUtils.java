@@ -2,7 +2,6 @@ package com.xbuilders.engine.world.light;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -26,7 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 3. We re-propagate the light from the edge of the erased area
  */
 public class SunlightUtils {
-    public static void addBrightestNeighboringNode(List<ChunkNode> queue, final Chunk c, final int x, final int y, final int z) {
+    public static void addInitialNodesForSunlightPropagation(List<ChunkNode> queue, final Chunk c, final int x, final int y, final int z) {
+        //In this method, We just get the brightest neighboring node and add it to the queue
         AtomicInteger brightestSunlight = new AtomicInteger(0);
         ChunkNode brightestNode = null;
         WCCi wcc = new WCCi();
@@ -119,8 +119,9 @@ public class SunlightUtils {
      * @param y
      * @param z
      */
-    public static void addDarkNodesForSunlightErasure(List<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
+    public static void addInitialNodesForSunlightErasure(List<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
         Block block = BlockList.BLOCK_AIR;
+        queue.add(new ChunkNode(chunk, x, y, z));
 
         while (true) {
             y++;
@@ -143,25 +144,26 @@ public class SunlightUtils {
                 queue.add(new ChunkNode(chunk, x, y, z));
             }
         }
+//        System.out.println("Initial nodes: " + queue.size());
     }
 
     public static void eraseSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks,
-                                     HashSet<ChunkNode> totalNodes) {
+                                     HashSet<ChunkNode> repropagationNodes) {
 
         long timeStart = System.currentTimeMillis();
         while (queue.size() > 0 && System.currentTimeMillis() - timeStart < 10000L) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
-            byte lightValue = node.chunk.data.getSun(node.coords.x, node.coords.y, node.coords.z);
-            node.chunk.data.setSun(node.coords.x, node.coords.y, node.coords.z, (byte) 0);
+            byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
+            node.chunk.data.setSun(node.x, node.y, node.z, (byte) 0);
             affectedChunks.add(node.chunk);
-            totalNodes.remove(node);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, totalNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue, totalNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y, node.coords.z - 1, lightValue, queue, totalNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, lightValue, queue, totalNodes, true);
-            SunlightUtils.checkNeighborErase(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, lightValue, queue, totalNodes, false);
+            repropagationNodes.remove(node);
+            SunlightUtils.checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, repropagationNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, repropagationNodes, false);
+            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, repropagationNodes, true);
+            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, repropagationNodes, false);
         }
         queue.clear();
     }
@@ -193,18 +195,17 @@ public class SunlightUtils {
         }
     }
 
-    public static void propagateSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks) {
-        int originalSize = queue.size();
+    public static void propagateSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks, boolean propagateDownward) {
         while (queue.size() > 0) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
-            byte lightValue = node.chunk.data.getSun(node.coords.x, node.coords.y, node.coords.z);
-            SunlightUtils.checkNeighbor(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z - 1, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, lightValue, queue, affectedChunks, true);
-            SunlightUtils.checkNeighbor(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, lightValue, queue, affectedChunks, false);
+            byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
+            SunlightUtils.checkNeighbor(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, affectedChunks, false);
+            SunlightUtils.checkNeighbor(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, affectedChunks, false);
+            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, affectedChunks, false);
+            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, affectedChunks, false);
+            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, affectedChunks, propagateDownward);
+            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, affectedChunks, false);
 //            System.out.println("Queue size: " + queue.size());
         }
         queue.clear();

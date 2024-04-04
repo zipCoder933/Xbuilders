@@ -66,7 +66,7 @@ public class GameScene implements WindowEvents {
 
     public static final World world = new World();
     public static boolean drawWireframe;
-    public UserControlledPlayer player;
+    public static UserControlledPlayer player;
     public static List<Player> otherPlayers;
 
     NKWindow window;

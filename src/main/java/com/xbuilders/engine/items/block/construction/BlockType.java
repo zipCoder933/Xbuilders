@@ -27,6 +27,10 @@ public abstract class BlockType {
     public static final int POS_Y = 4;
     public static final int NEG_Y = 5;
 
+    public boolean allowToBeSet(Block block, BlockData blockData, int worldX, int worldY, int worldZ) {
+        return true;
+    }
+
     public final static BlockModel.ShouldRenderSide renderSide_subBlock = new BlockModel.ShouldRenderSide() {
         @Override
         public boolean shouldRenderSide(Block thisBlock, Block neighbor) {

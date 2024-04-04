@@ -217,25 +217,25 @@ public class ChunkSunlightUtils {
 
         while (!queue.isEmpty()) {
             ChunkNode node = queue.getAndRemove();
-//            node.chunk.data.setSun(node.coords.x, node.coords.y, node.coords.z, (byte) 10); //KEEP. used to visualize where the nodes are placed initially
+//            node.chunk.data.setSun(node.x, node.y, node.z, (byte) 10); //KEEP. used to visualize where the nodes are placed initially
 
-            byte lightValue = node.chunk.data.getSun(node.coords.x, node.coords.y, node.coords.z);
+            byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
 
             //Checking neighbors in the queue might be faster?
 //            if (lightValue == 0) {
-//                checkForLightNeighbor(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, queue);
-//                checkForLightNeighbor(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, queue);
-//                checkForLightNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, queue);
-//                checkForLightNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z - 1, queue);
-//                checkForLightNeighbor(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, queue);
-//                checkForLightNeighbor(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, queue);
+//                checkForLightNeighbor(node.chunk, node.x - 1, node.y, node.z, queue);
+//                checkForLightNeighbor(node.chunk, node.x + 1, node.y, node.z, queue);
+//                checkForLightNeighbor(node.chunk, node.x, node.y, node.z + 1, queue);
+//                checkForLightNeighbor(node.chunk, node.x, node.y, node.z - 1, queue);
+//                checkForLightNeighbor(node.chunk, node.x, node.y + 1, node.z, queue);
+//                checkForLightNeighbor(node.chunk, node.x, node.y - 1, node.z, queue);
 //            } else {
-            checkNeighbor(node.chunk, node.coords.x - 1, node.coords.y, node.coords.z, lightValue, queue, false);
-            checkNeighbor(node.chunk, node.coords.x + 1, node.coords.y, node.coords.z, lightValue, queue, false);
-            checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z + 1, lightValue, queue, false);
-            checkNeighbor(node.chunk, node.coords.x, node.coords.y, node.coords.z - 1, lightValue, queue, false);
-            checkNeighbor(node.chunk, node.coords.x, node.coords.y + 1, node.coords.z, lightValue, queue, true);
-            checkNeighbor(node.chunk, node.coords.x, node.coords.y - 1, node.coords.z, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, true);
+            checkNeighbor(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, false);
 //            }
         }
 

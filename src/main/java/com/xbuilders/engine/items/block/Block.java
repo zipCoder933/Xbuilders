@@ -4,8 +4,11 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.player.pipeline.BlockHistory;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
+import org.joml.Vector3i;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +26,19 @@ public class Block extends Item {
     public byte falloff = 1;
     private Consumer<Block> initializationCallback = null;
 
+    /**
+     * @param x
+     * @param y
+     * @param z
+     * @param data
+     * @return if the block should be set
+     */
+    public boolean setBlockEvent(int x, int y, int z, BlockData data) {
+        return true;
+    }
+
+    public void onLocalChange(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition) {
+    }
 
     public int playerHeadEnterBlockEvent() {
         return -1;

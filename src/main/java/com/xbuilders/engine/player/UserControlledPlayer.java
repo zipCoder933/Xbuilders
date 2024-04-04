@@ -1,7 +1,7 @@
 package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.player.pipeline.BlockEvent;
+import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
@@ -13,14 +13,11 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
-import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.network.PlayerServer;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.Main;
@@ -87,7 +84,7 @@ public class UserControlledPlayer extends Player {
         camera = new Camera(this, window, view, projection, world);
 
         aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
-        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0.5f, -(PLAYER_WIDTH * 0.5f));
+        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), -0.5f, -(PLAYER_WIDTH * 0.5f));
         positionHandler = new PositionHandler(world, window, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
         skin = new DefaultSkin(aabb);
@@ -100,7 +97,7 @@ public class UserControlledPlayer extends Player {
     // boolean
     // playerForward,playerBackward,playerUp,playerDown,playerLeft,playerRight;
     public void update(boolean holdMouse) {
-        eventPipeline.resolve();
+        eventPipeline.resolve(this);
         if (window.isKeyPressed(GLFW.GLFW_KEY_UP)) {
             worldPosition.add(
                     camera.cameraForward.x * speed * window.getFrameDelta(),
@@ -228,29 +225,17 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    private void setBlock(WCCi wcc, Block block) {
+    public void setBlock(int worldX, int worldY, int worldZ, Block block) {
+        WCCi wcc = new WCCi();
+        wcc.set(worldX, worldY, worldZ);
+        setBlock(wcc, block);
+    }
+
+    public void setBlock(WCCi wcc, Block block) {
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
             Block prevBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
-            chunk.markAsModifiedByUser();
-            chunk.data.setBlock(
-                    wcc.chunkVoxel.x,
-                    wcc.chunkVoxel.y,
-                    wcc.chunkVoxel.z, block.id);
-
-            BlockData data = chunk.data.getBlockData(
-                    wcc.chunkVoxel.x,
-                    wcc.chunkVoxel.y,
-                    wcc.chunkVoxel.z);
-
-            BlockType type = ItemList.blocks.getBlockType(block.type);
-            if (type != null) {
-                chunk.data.setBlockData(wcc.chunkVoxel.x,
-                        wcc.chunkVoxel.y,
-                        wcc.chunkVoxel.z,
-                        type.getInitialBlockData(data, this));
-            }
-            eventPipeline.addEvent(wcc, new BlockEvent(prevBlock, block));
+            eventPipeline.addEvent(wcc, new BlockHistory(prevBlock, block));
         }
     }
 
