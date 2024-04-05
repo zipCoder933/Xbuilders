@@ -5,6 +5,9 @@
 package com.xbuilders.game.items.blocks.type;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -34,17 +37,23 @@ public class WallItemRenderer extends BlockType {
     public boolean allowToBeSet(Block block, BlockData data, int worldX, int worldY, int worldZ) {
         Block testBlock;
         if (data == null || data.get(0) == 3) {
-            testBlock = GameScene.world.getBlock(worldX-1, worldY, worldZ);
+            testBlock = GameScene.world.getBlock(worldX - 1, worldY, worldZ);
         } else if (data.get(0) == 0) {
-            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ-1);
+            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ - 1);
         } else if (data.get(0) == 1) {
-            testBlock = GameScene.world.getBlock(worldX+1, worldY, worldZ);
+            testBlock = GameScene.world.getBlock(worldX + 1, worldY, worldZ);
         } else {
-            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ+1);
+            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ + 1);
+        }
+
+        BlockType itemType = ItemList.blocks.getBlockType(testBlock.type);
+        if (itemType == null) {
+            return false;
         }
 
         return !testBlock.liquid
-                && !testBlock.isAir();
+                && !testBlock.isAir() &&
+                (testBlock.solid || itemType.isCubeShape());
     }
 
     @Override
@@ -83,5 +92,11 @@ public class WallItemRenderer extends BlockType {
             }
             consumer.accept(box);
         }
+    }
+
+
+    @Override
+    public boolean isClimbable() {
+        return true;
     }
 }

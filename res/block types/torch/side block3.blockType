@@ -1,0 +1,74 @@
+
+
+FACE	CENTER	(texture)POS-Y	(vert-count)54
+VERT	(vert)0.45	0.54	0.56	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)0.36	0.45	0.44	(uv)0.4375	0.503195	(normal)0
+VERT	(vert)0.45	0.54	0.44	(uv)0.4375	0.385548	(normal)0
+
+VERT	(vert)0.45	0.54	0.44	(uv)0.4375	0.385548	(normal)0
+VERT	(vert)-0.08	0.9	0.44	(uv)0.5625	0.973784	(normal)0
+VERT	(vert)0.01	0.99	0.44	(uv)0.4375	0.973784	(normal)0
+
+VERT	(vert)0.45	0.54	0.56	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)0.01	0.99	0.44	(uv)0.4375	0.973784	(normal)0
+VERT	(vert)0.01	0.99	0.56	(uv)0.5625	0.973784	(normal)0
+
+VERT	(vert)0.36	0.45	0.44	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)-0.08	0.9	0.56	(uv)0.4375	0.973784	(normal)0
+VERT	(vert)-0.08	0.9	0.44	(uv)0.5625	0.973784	(normal)0
+
+VERT	(vert)-0.08	0.9	0.56	(uv)0.4375	0.973784	(normal)0
+VERT	(vert)0.45	0.54	0.56	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)0.01	0.99	0.56	(uv)0.5625	0.973784	(normal)0
+
+VERT	(vert)0.45	0.57	0.41000003	(uv)0.25	1.0	(normal)0
+VERT	(vert)0.28	-0.49	0.59000003	(uv)0.0	0.0	(normal)0
+VERT	(vert)0.45	-0.49	0.41000003	(uv)0.25	0.0	(normal)0
+
+VERT	(vert)0.28	0.57	0.59000003	(uv)0.25	1.0	(normal)0
+VERT	(vert)0.45	-0.49	0.41000003	(uv)0.0	0.0	(normal)0
+VERT	(vert)0.28	-0.49	0.59000003	(uv)0.25	0.0	(normal)0
+
+VERT	(vert)0.45	-0.49	0.59000003	(uv)0.25	0.0	(normal)0
+VERT	(vert)0.28	0.57	0.41000003	(uv)0.0	1.0	(normal)0
+VERT	(vert)0.28	-0.49	0.41000003	(uv)0.0	0.0	(normal)0
+
+VERT	(vert)0.28	0.57	0.41000003	(uv)0.25	1.0	(normal)0
+VERT	(vert)0.45	-0.49	0.59000003	(uv)0.0	0.0	(normal)0
+VERT	(vert)0.28	-0.49	0.41000003	(uv)0.25	0.0	(normal)0
+
+VERT	(vert)0.45	0.54	0.56	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)0.36	0.45	0.56	(uv)0.5625	0.503195	(normal)0
+VERT	(vert)0.36	0.45	0.44	(uv)0.4375	0.503195	(normal)0
+
+VERT	(vert)0.45	0.54	0.44	(uv)0.4375	0.385548	(normal)0
+VERT	(vert)0.36	0.45	0.44	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)-0.08	0.9	0.44	(uv)0.5625	0.973784	(normal)0
+
+VERT	(vert)0.45	0.54	0.56	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)0.45	0.54	0.44	(uv)0.4375	0.385548	(normal)0
+VERT	(vert)0.01	0.99	0.44	(uv)0.4375	0.973784	(normal)0
+
+VERT	(vert)0.36	0.45	0.44	(uv)0.5625	0.385548	(normal)0
+VERT	(vert)0.36	0.45	0.56	(uv)0.4375	0.385548	(normal)0
+VERT	(vert)-0.08	0.9	0.56	(uv)0.4375	0.973784	(normal)0
+
+VERT	(vert)-0.08	0.9	0.56	(uv)0.4375	0.973784	(normal)0
+VERT	(vert)0.36	0.45	0.56	(uv)0.4375	0.385548	(normal)0
+VERT	(vert)0.45	0.54	0.56	(uv)0.5625	0.385548	(normal)0
+
+VERT	(vert)0.45	0.57	0.41000003	(uv)0.25	1.0	(normal)0
+VERT	(vert)0.28	0.57	0.59000003	(uv)0.0	1.0	(normal)0
+VERT	(vert)0.28	-0.49	0.59000003	(uv)0.0	0.0	(normal)0
+
+VERT	(vert)0.28	0.57	0.59000003	(uv)0.25	1.0	(normal)0
+VERT	(vert)0.45	0.57	0.41000003	(uv)0.0	1.0	(normal)0
+VERT	(vert)0.45	-0.49	0.41000003	(uv)0.0	0.0	(normal)0
+
+VERT	(vert)0.45	-0.49	0.59000003	(uv)0.25	0.0	(normal)0
+VERT	(vert)0.45	0.57	0.59000003	(uv)0.25	1.0	(normal)0
+VERT	(vert)0.28	0.57	0.41000003	(uv)0.0	1.0	(normal)0
+
+VERT	(vert)0.28	0.57	0.41000003	(uv)0.25	1.0	(normal)0
+VERT	(vert)0.45	0.57	0.59000003	(uv)0.0	1.0	(normal)0
+VERT	(vert)0.45	-0.49	0.59000003	(uv)0.0	0.0	(normal)0

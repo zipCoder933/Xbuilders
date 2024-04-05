@@ -24,6 +24,7 @@ import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
 
 import java.io.IOException;
+import java.lang.Math;
 
 import org.joml.*;
 import org.lwjgl.glfw.GLFW;
@@ -39,6 +40,7 @@ public class UserControlledPlayer extends Player {
     final static float PLAYER_WIDTH = 0.8f;
     Matrix4f projection;
     Matrix4f view;
+    boolean isClimbing = false;
     PositionHandler positionHandler;
     boolean usePositionHandler = true;
     public PlayerServer server;
@@ -94,44 +96,117 @@ public class UserControlledPlayer extends Player {
 
     World chunks;
 
+    public boolean leftKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
+    }
+
+    public boolean rightKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_RIGHT) || window.isKeyPressed(GLFW.GLFW_KEY_D);
+    }
+
+    public boolean forwardKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
+    }
+
+    public boolean backwardKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
+    }
+
+    public boolean jumpKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_SPACE);
+    }
+
+    public boolean upKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
+                !window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
+    }
+
+    public boolean downKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
+                window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
+    }
+
+    public boolean upKeyPressed(int key) {
+        return key == GLFW.GLFW_KEY_F &&
+                key != GLFW.GLFW_KEY_LEFT_SHIFT;
+    }
+
+    public boolean downKeyPressed(int key) {
+        return key == GLFW.GLFW_KEY_F &&
+                key == GLFW.GLFW_KEY_LEFT_SHIFT;
+    }
+
+    private Block getBlockAtHeadPos() {
+        return GameScene.world.getBlock(
+                (int) Math.floor(worldPosition.x),
+                (int) Math.floor(worldPosition.y),
+                (int) Math.floor(worldPosition.z));
+    }
+
+    private boolean isInsideOfLadder() {
+        return ItemList.blocks.getBlockType(getBlockAtHeadPos().type).isClimbable()
+                || ItemList.blocks.getBlockType(GameScene.world.getBlock(
+                (int) Math.floor(worldPosition.x),
+                (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
+                (int) Math.floor(worldPosition.z)).type).isClimbable();
+    }
+
     // boolean
     // playerForward,playerBackward,playerUp,playerDown,playerLeft,playerRight;
     public void update(boolean holdMouse) {
         eventPipeline.resolve(this);
-        if (window.isKeyPressed(GLFW.GLFW_KEY_UP)) {
+        if (forwardKeyPressed()) {
             worldPosition.add(
                     camera.cameraForward.x * speed * window.getFrameDelta(),
                     camera.cameraForward.y * speed * window.getFrameDelta(),
                     camera.cameraForward.z * speed * window.getFrameDelta());
         }
-        if (window.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+        if (backwardKeyPressed()) {
             worldPosition.sub(
                     camera.cameraForward.x * speed * window.getFrameDelta(),
                     camera.cameraForward.y * speed * window.getFrameDelta(),
                     camera.cameraForward.z * speed * window.getFrameDelta());
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+        if (leftKeyPressed()) {
             worldPosition.sub(
                     camera.right.x * speed * window.getFrameDelta(),
                     camera.right.y * speed * window.getFrameDelta(),
                     camera.right.z * speed * window.getFrameDelta());
         }
-        if (window.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+        if (rightKeyPressed()) {
             worldPosition.add(
                     camera.right.x * speed * window.getFrameDelta(),
                     camera.right.y * speed * window.getFrameDelta(),
                     camera.right.z * speed * window.getFrameDelta());
         }
 
-        if (window.isKeyPressed(GLFW.GLFW_KEY_W)) {
-            worldPosition.sub(0, speed * window.getFrameDelta(), 0);
-            disableGravity();
 
-        }
-        if (window.isKeyPressed(GLFW.GLFW_KEY_S)) {
-            worldPosition.add(0, speed * window.getFrameDelta(), 0);
-            disableGravity();
+        if (isInsideOfLadder()) {
+            if (downKeyPressed()) {
+                isClimbing = true;
+                canFly = false;
+                worldPosition.add(0, speed * 0.5f * window.getFrameDelta(), 0);
+            } else if (upKeyPressed()) {
+                isClimbing = true;
+                canFly = false;
+                worldPosition.sub(0, speed * 0.5f * window.getFrameDelta(), 0);
+            }
+            positionHandler.setGravityEnabled(false);
+        } else {
+            if (isClimbing) {
+                positionHandler.setGravityEnabled(true);
+                isClimbing = false;
+            } else if (canFly) {
+                if (upKeyPressed()) {
+                    worldPosition.sub(0, speed * window.getFrameDelta(), 0);
+                    disableGravity();
+                }
+                if (downKeyPressed()) {
+                    worldPosition.add(0, speed * window.getFrameDelta(), 0);
+                    disableGravity();
+                }
+            }
         }
 
         updatePosHandler(holdMouse);
@@ -142,32 +217,31 @@ public class UserControlledPlayer extends Player {
     }
 
     boolean raycastDistChanged = false;
+    boolean canFly = true;
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
+            if (key == GLFW.GLFW_KEY_RIGHT_ALT) {
+                speed = 60.0f;
+            } else speed = 10f;
+
             switch (key) {
                 case GLFW.GLFW_KEY_SPACE -> {
                     jump();
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
+            if (upKeyPressed(key) || downKeyPressed(key)) canFly = true;
             switch (key) {
                 case GLFW.GLFW_KEY_MINUS -> removeItem();
                 case GLFW.GLFW_KEY_EQUAL -> setItem(Main.game.getSelectedItem());
-                case GLFW.GLFW_KEY_F -> {
-                    if (speed == 60.0) {
-                        speed = 10f;
-                    } else {
-                        speed = 60.0f;
-                    }
-                }
                 case GLFW.GLFW_KEY_L -> {
                     lineMode = !lineMode;
                 }
                 case GLFW.GLFW_KEY_P -> {
                     usePositionHandler = !usePositionHandler;
                 }
-                case GLFW.GLFW_KEY_V -> {
+                case GLFW.GLFW_KEY_O -> {
                     camera.cycleToNextView(10);
                 }
                 case CHANGE_RAYCAST_MODE -> {

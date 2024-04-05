@@ -47,11 +47,7 @@ public class BlockEventPipeline {
                 wcc.chunkVoxel.x,
                 wcc.chunkVoxel.y,
                 wcc.chunkVoxel.z, block.id);
-
-
         if (type != null) {
-
-
             chunk.data.setBlockData(wcc.chunkVoxel.x,
                     wcc.chunkVoxel.y,
                     wcc.chunkVoxel.z,

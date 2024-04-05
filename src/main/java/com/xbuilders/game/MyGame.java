@@ -7,6 +7,7 @@ package com.xbuilders.game;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.items.blocks.Plant;
+import com.xbuilders.game.items.blocks.TrackPiece;
 import com.xbuilders.game.items.blocks.entities.Fox;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.items.BlockList;
@@ -172,10 +173,10 @@ public class MyGame extends Game {
         ItemList.blocks.addBlockType(RenderType.STAIRS, new StairsRenderer());
         ItemList.blocks.addBlockType(RenderType.FENCE, new FenceRenderer());
         ItemList.blocks.addBlockType(RenderType.WALL_ITEM, new WallItemRenderer());
-//        ItemList.blocks.addBlockType(RenderType.LAMP, new LampRenderer());
+        ItemList.blocks.addBlockType(RenderType.LAMP, new LampRenderer());
         ItemList.blocks.addBlockType(RenderType.PANE, new PaneRenderer());
 //        ItemList.blocks.addBlockType(RenderType.TRACK, new TrackRenderer());
-//        ItemList.blocks.addBlockType(RenderType.TORCH, new TorchRenderer());
+        ItemList.blocks.addBlockType(RenderType.TORCH, new TorchRenderer());
         ItemList.blocks.addBlockType(RenderType.PILLAR, new PillarRenderer());
 
         itemList = ItemList.getAllItems();
@@ -409,7 +410,7 @@ public class MyGame extends Game {
     public static final Block BLOCK_BUBBLE_CORAL_FAN = new Block(152, "Bubble Coral Fan", new BlockTexture("bubble coral fan.png", "bubble coral fan.png", "bubble coral fan.png"), true, false, RenderType.SPRITE);
     public static final Block BLOCK_JUNGLE_GRASS = new Block(153, "Jungle Grass", new BlockTexture("jungle grass.png", "dirt.png", "jungle grass side.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_LILY_PAD = new Block(154, "Lily Pad", new BlockTexture("lily pad.png", "lily pad.png", "lily pad.png"), true, true, RenderType.FLOOR);
-    public static final Block BLOCK_TRACK = new Block(155, "Track", new BlockTexture("track.png", "track.png", "track.png"), true, false, RenderType.FLOOR);
+    public static final Block BLOCK_TRACK = new TrackPiece(155, "Track", new BlockTexture("track.png", "track.png", "track.png"));
     public static final Block BLOCK_WOOL_MAGENTA = new Block(156, "Wool Magenta", new BlockTexture("wool magenta.png", "wool magenta.png", "wool magenta.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_WOOL_BLACK = new Block(157, "Wool Black", new BlockTexture("wool black.png", "wool black.png", "wool black.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_GRANITE_BRICK_STAIRS = new Block(158, "Granite Brick Stairs", new BlockTexture("granite brick.png", "granite brick.png", "granite brick.png"), true, false, RenderType.STAIRS);
