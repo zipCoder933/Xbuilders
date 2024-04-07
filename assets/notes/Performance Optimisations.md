@@ -28,3 +28,26 @@ When you're dealing with unknown or dynamic sizes for data that needs to be sent
 ### Using resizable int intBuffer to store vertex data to be sent to the GPU
 * <b>I tried this using resizable int array and resizable int buffer. the memory usage is not any better than the old way. the memory still yo-yo's up and down like before.</b>
 * I still dont understand the role of buffer.flip and buffer.clear, there are many aspects to this that will help in making the buffer more stable. For example, I Fixed it now, but before, the JVM would crash if i changed the size of the buffer using memory.realloc
+
+
+
+
+
+
+# Major Game optimizations
+https://youtu.be/40JzyaOYJeY?feature=shared
+https://youtu.be/5zlfJW2VGLM?feature=shared
+
+## Summary
+* Reducing memory is a major optimization and does increase fps
+    * Pack all vertex data as much as possible
+* Reduce the amount of triangles drawn
+    * Use greedy meshing
+* https://youtu.be/hf27qsQPRLQ?feature=shared
+    * When drawing distant chunks, the FPS can lag. Not because there are too many triangles, but because small triangles can bottleneck the GPU
+        * To solve this, use LOD to prevent small triangles.
+* Give the GPU a list of all meshes and ask it to draw all of them (render all meshes with only 1 draw call)
+    * Use one long buffer to store the data for all chunks and give this buffer to the GPU. This significantly reduces the amount of communication between the CPU and GPU
+    * We also need to tell the GPU where we want each mesh to be drawn, see can use SSBOs for that
+* https://youtu.be/YNFaOnhaaso?feature=shared
+    * It takes 2-3 frames for a new mesh to be sent to the GPU. You can use a special optimization to keep rendering the existing mesh until the new mesh is ready. This prevents fps lag
