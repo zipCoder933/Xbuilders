@@ -1,16 +1,16 @@
 # STEPS TO XB2
 Generally, the only things I have left to getting to the XB2 game is:
 1. torchlight
-2. sun and torch saving in chunk
-3. water/fire/grass propagation with cellular autonoma
-4. adding all entities, block events and terrains
-    a. trees
-    b. ADD ALL block events including TNT
-    c. all animals, vehicles and banners
-    d. adding doors, trapdoors and fence gates as blocks
-6. block setting tools (copy/paste/create boundary/ spheres)
-6. (OPTIONAL, BUT IMPORTANT): save chunks in 2x2x2 chunk reigons
-7. a conversion tool to convert xb2 worlds to xb3
+    - sun and torch saving in chunk
+        - (OPTIONAL, BUT IMPORTANT): save chunks in 2x2x2 chunk reigons
+2. water/fire/grass propagation with cellular autonoma
+3. adding all entities, block events and terrains
+    - trees
+    - ADD ALL block events including TNT
+    - all animals, vehicles and banners
+    - adding doors, trapdoors and fence gates as blocks
+4. block setting tools (copy/paste/create boundary/ spheres)
+5. a conversion tool to convert xb2 worlds to xb3
 
 ## BLOCK EVENTS
 * I started by allowing block types to choose how they want to exist. Certain conditions around the block would make it not allowed to be there
