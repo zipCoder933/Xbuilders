@@ -10,6 +10,7 @@ import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.light.SunlightUtils;
+import com.xbuilders.engine.world.light.TorchUtils;
 import com.xbuilders.engine.world.wcc.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
@@ -81,6 +82,7 @@ public class BlockEventPipeline {
                         System.out.println("Propagating");
                         SunlightUtils.addInitialNodesForSunlightPropagation(sunQueue, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         SunlightUtils.propagateSunlight(sunQueue, affectedChunks, true);
+                        TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         sunQueue.clear();
                     } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
                         System.out.println("Erasing");
@@ -91,8 +93,16 @@ public class BlockEventPipeline {
                         sunQueue.clear();
                         sunQueue.addAll(repropagationNodes);
                         SunlightUtils.propagateSunlight(sunQueue, affectedChunks, false);
+                        TorchUtils.transparentToOpaque(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         sunQueue.clear();
                     }
+
+                    if(!blockHist.previousBlock.luminous && blockHist.currentBlock.luminous){
+                        TorchUtils.setTorch(affectedChunks,chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, (byte) 1);
+                    }else if(blockHist.previousBlock.luminous && !blockHist.currentBlock.luminous){
+                        TorchUtils.removeTorchlight(affectedChunks,chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.previousBlock.falloff);
+                    }
+
                     affectedChunks.add(chunk);
                     startLocalChange(worldPos, blockHist);
                 }

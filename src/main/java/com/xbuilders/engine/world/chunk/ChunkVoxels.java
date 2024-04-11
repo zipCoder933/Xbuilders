@@ -6,12 +6,10 @@ package com.xbuilders.engine.world.chunk;
 import com.xbuilders.engine.items.ItemList;
 
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
 
-import com.xbuilders.engine.world.light.TorchChannelSet;
+import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryUtil;
 
@@ -24,17 +22,14 @@ public class ChunkVoxels {
         this.size = new Vector3i(sizeX, sizeY, sizeZ);
         this.blockData = new HashMap<>();
         this.blocks = MemoryUtil.memAllocShort(size.x * size.y * size.z);
-        this.sun = MemoryUtil.memAlloc(size.x * size.y * size.z);
-        this.torch = MemoryUtil.memAllocShort(size.x * size.y * size.z);
+        this.light = MemoryUtil.memAlloc(size.x * size.y * size.z);
     }
 
     public void dispose() {
         MemoryUtil.memFree(blocks);
-        MemoryUtil.memFree(sun);
-        MemoryUtil.memFree(torch);
+        MemoryUtil.memFree(light);
         blocks = null;
-        sun = null;
-        torch = null;
+        light = null;
     }
 
     public int getIndexOfCoords(final int x, final int y, final int z) {
@@ -48,62 +43,56 @@ public class ChunkVoxels {
         blockData.clear();
         for (int i = 0; i < blocks.capacity(); i++) {
             blocks.put(i, (short) 0);
-            sun.put(i, (byte) 15);
-            torch.put(i, (short) 0);
+            light.put(i, (byte) ((15 << 4))); // Set first 4 bits to 15, last 4 bits to 0
         }
         blocksAreEmpty = true;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Sunlight">
-    private ByteBuffer sun;
-    private ShortBuffer torch;
+    private ByteBuffer light;
 
     //DATA STRUCTURE FOR TORCHLIGHT
-    //We cant use float datatype for sun and torch because bitwise operations on floats are not supported
-    //It also isnt a good idea to put everything on one number because we want sunlight to have faster access
-
-    //We dont need torchChannel set to store torchlight anymore, instead we are using 4 bits for each channel
-    //sun:   SSSSS0000
-    //torch: 11112222 33334444
-    //Where the channel is the falloff / 4
-
+    //We are going to try doing a single channel of torchlight instead of having multiple channels of torchlight
 
     public byte getSun(final int x, final int y, final int z) {
         try {
-         return sun.get(x + size.x * (y + size.y * z));
+            return (byte) ((light.get(x + size.x * (y + size.y * z)) & 0b11110000) >> 4);
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Block coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }
     }
 
-    public void setSun(final int x, final int y, final int z, final byte value) {
+    public void setSun(final int x, final int y, final int z, final int newVal) {
         try {
-            this.sun.put(x + size.x * (y + size.y * z), value);
+            byte origVal = this.light.get(x + size.x * (y + size.y * z));
+            this.light.put(x + size.x * (y + size.y * z),
+                    (byte) ((origVal & 0b00001111) | (newVal << 4)));
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }
     }
 
-    public TorchChannelSet getTorch(final int x, final int y, final int z) {
+    public int getTorch(final int x, final int y, final int z) {
         try {
-            return new TorchChannelSet(torch.get(x + size.x * (y + size.y * z)));
+            return (this.light.get(x + size.x * (y + size.y * z)) & 0b00001111);
         } catch (IndexOutOfBoundsException ex) {
-            throw new IndexOutOfBoundsException("Block coordinates " + x + ", " + y + ", " + z + " out of bounds!");
+            throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }
     }
 
-    public void setTorch(final int x, final int y, final int z, final byte faloff, final byte value) {
+    public void setTorch(final int x, final int y, final int z, int newVal) {
         try {
-            this.torch.put(x + size.x * (y + size.y * z), value);
+            //Set the last 4 bytes to the new value
+            byte origVal = this.light.get(x + size.x * (y + size.y * z));
+            this.light.put(x + size.x * (y + size.y * z),
+                    (byte) ((origVal & 0b11110000) | (newVal & 0b00001111)));
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }
     }
 
     public byte getPackedSunAndTorch(final int x, final int y, final int z) {
-        int sun = this.getSun(x, y, z) & 0x0F;
-        int torch2 = torch.get(x + size.x * (y + size.y * z)) & 0x0F;
-        return (byte) ((sun << 4) | torch2);
+        return this.light.get(x + size.x * (y + size.y * z));
     }
 
 

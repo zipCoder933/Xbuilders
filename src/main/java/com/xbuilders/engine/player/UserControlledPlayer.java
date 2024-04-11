@@ -221,7 +221,7 @@ public class UserControlledPlayer extends Player {
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
-            if (key == GLFW.GLFW_KEY_RIGHT_ALT) {
+            if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
                 speed = 60.0f;
             } else speed = 10f;
 
@@ -233,6 +233,7 @@ public class UserControlledPlayer extends Player {
         } else if (action == GLFW.GLFW_RELEASE) {
             if (upKeyPressed(key) || downKeyPressed(key)) canFly = true;
             switch (key) {
+                case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = 10f;
                 case GLFW.GLFW_KEY_MINUS -> removeItem();
                 case GLFW.GLFW_KEY_EQUAL -> setItem(Main.game.getSelectedItem());
                 case GLFW.GLFW_KEY_L -> {

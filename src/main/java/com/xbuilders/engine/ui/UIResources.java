@@ -19,7 +19,7 @@ import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
  */
 public class UIResources {
 
-    public NkUserFont font_22,font_18, font_12, font_10, font_8;
+    public NkUserFont font_22,font_18, font_12, font_10, font_8, font_6;
     ByteBuffer fontBuffer;
 
     public UIResources(NKWindow window, NkContext ctx) throws IOException {
@@ -32,6 +32,7 @@ public class UIResources {
         font_12 = window.TTF_assignToNewTexture(fontBuffer, 12);
         font_10 = window.TTF_assignToNewTexture(fontBuffer, 10);
         font_8 = window.TTF_assignToNewTexture(fontBuffer, 8);
+        font_6 = window.TTF_assignToNewTexture(fontBuffer, 6);
 
         //VERY IMPORTANT: a font must be specified before anything can be drawn
         nk_style_set_font(ctx, font_8);

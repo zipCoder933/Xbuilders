@@ -39,7 +39,7 @@ public class InfoText extends GameUIElement {
 
     public InfoText(NkContext ctx, NKWindow window, UIResources uires) {
         super(ctx, window, uires);
-        box = new TextBox(45);
+        box = new TextBox(100);
         infoTextRect = NkRect.create().x(0).y(0).w(window.getWidth()).h(400);
     }
 
