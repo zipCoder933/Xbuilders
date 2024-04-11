@@ -2,7 +2,7 @@
 Generally, the only things I have left to getting to the XB2 game is:
 1. torchlight
     - sun and torch saving in chunk
-        - (OPTIONAL, BUT IMPORTANT): save chunks in 2x2x2 chunk reigons
+      - (OPTIONAL, BUT IMPORTANT): save chunks in 2x2x2 chunk reigons
 2. water/fire/grass propagation with cellular autonoma
 3. adding all entities, block events and terrains
     - trees
@@ -11,6 +11,13 @@ Generally, the only things I have left to getting to the XB2 game is:
     - adding doors, trapdoors and fence gates as blocks
 4. block setting tools (copy/paste/create boundary/ spheres)
 5. a conversion tool to convert xb2 worlds to xb3
+
+## Do we really need multiple channels for light falloff?
+- We only need to know falloff when we are PROPAGATING
+- We cant know falloff by looking at neighbors. Only by tracing back to the source
+  - The falloff rates get jumbled when they overlap each other. 
+  - 
+TLDR: We can do it with 1 channel but it might be slower to update because we have to trace our way back from each and then re-propagate each one from the source
 
 ## BLOCK EVENTS
 * I started by allowing block types to choose how they want to exist. Certain conditions around the block would make it not allowed to be there

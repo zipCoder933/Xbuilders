@@ -10,6 +10,7 @@ layout(location = 0) in uvec3 vertex;
 out vec3 UV;
 out float normal;
 out float sun;
+out float torch;
 // out float torch;
 out float fragDistance;
  
@@ -44,9 +45,13 @@ void main(){
     //THIRD INTEGER
     packedInt = uint(vertex.z);
     // Extract the texture value (16 bits) by shifting right by 16 bits
-    uint textureID = (packedInt >> 16) & 0xFFFF;
-    // Extract the light value (16 bits) by masking with 0xFFFF
-    sun = (packedInt & 0xFFFFu) / 15.0;
+    uint textureID = (packedInt >> 16) & 0xFFFFu;
+
+    // Extract the next 4 bits as sunlight and the rest of the bits as torchlight
+    uint packedSun = (packedInt >> 4) & 0xFu;
+    uint packedTorch = packedInt & 0xFu;
+    sun = float(packedSun) / 15.0;
+    torch = float(packedTorch) / 15.0;
   
     
     //----------------------------------------

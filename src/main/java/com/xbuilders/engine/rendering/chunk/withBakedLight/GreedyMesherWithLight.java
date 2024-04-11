@@ -68,7 +68,7 @@ public class GreedyMesherWithLight {
 
         ShortBuffer thisPlaneVoxel = stack.mallocShort(1);
         ShortBuffer nextPlaneVoxel = stack.mallocShort(1);
-        byte sun, sun1;
+        int light, light1;
         Block block, block1;
 
         for (boolean backFace = true, b = false; b != backFace; backFace = backFace && b, b = !b) {
@@ -136,10 +136,10 @@ public class GreedyMesherWithLight {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 
-                            sun = retrieveSunForThisPlane(thisPlaneVoxel.get(0), backChunk, forwardChunk, block, d, x, q);
-                            sun1 = retrieveSunForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk, block1, d, x, q);
-                            int thisPlanePacked = (thisPlaneVoxel.get(0) << 8) | (sun & 0xFF);
-                            int nextPlanePacked = (nextPlaneVoxel.get(0) << 8) | (sun1 & 0xFF);
+                            light = retrieveLightForThisPlane(thisPlaneVoxel.get(0), backChunk, forwardChunk, block, d, x, q);
+                            light1 = retrieveLightForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk, block1, d, x, q);
+                            int thisPlanePacked = (thisPlaneVoxel.get(0) << 8) | (light & 0xFF);//the first byte is the block id, the second is the light
+                            int nextPlanePacked = (nextPlaneVoxel.get(0) << 8) | (light1 & 0xFF);
 
                             int maskValue = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0) || (block.opaque != block1.opaque)
                                     //The opaque check is to prevent transparent mesh from overriding opaque one
@@ -291,8 +291,9 @@ public class GreedyMesherWithLight {
     protected void Mesher_makeQuad(VertexSet buffers, VertexSet transBuffers, int x[], int du[], int dv[], final int w, final int h,
                                    final int voxel, final boolean backFace, final int d, final int side, MemoryStack stack) {
 
-        short blockVal = (short) ((voxel >> 8) & 0xFFFF);
-        byte sun = (byte) (voxel & 0xFF);
+        short blockVal = (short) ((voxel >> 8) & 0xFFFF);//Block ID
+        byte light = (byte) (voxel & 0xFF); //Light value (packed)
+
 
         Block block = blockMap.get(blockVal);
 
@@ -350,10 +351,15 @@ public class GreedyMesherWithLight {
 
             for (int i = 0; i < 4; i++) {
                 Vector3f vertex = vertices[i];
+//
+//                int sun = 3 & 0xF;
+//                int torch = 0 & 0xF;
+//             byte  light2 = ((sun << 4) | torch);
+
                 completeVertex[i].set(
                         VertexSet.packFirstInt(vertex.x, vertex.y, (byte) side, texture.animationLength),
                         VertexSet.packSecondInt(vertex.z, uvs[i].x, uvs[i].y),
-                        VertexSet.packThirdInt(texture.id, sun));
+                        VertexSet.packThirdInt(texture.id, light));
             }
 
             if (block.opaque) {
@@ -370,41 +376,40 @@ public class GreedyMesherWithLight {
         }
     }
 
-    private byte retrieveSunForThisPlane(short thisPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block, int d, int[] x, int[] q) {
+    private byte retrieveLightForThisPlane(short thisPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block, int d, int[] x, int[] q) {
 //        //This plane = top face, +X face and +Z face (x and z assuming you are starting from the center of the chunk and moving outwards)
         if (thisPlaneVoxel != 0) {
             if (!block.opaque) {
                 if (x[d] >= 0) {
-                    return chunkVoxels.getSun(x[0], x[1], x[2]);
+                    return chunkVoxels.getPackedSunAndTorch(x[0], x[1], x[2]);
                 } else if (backChunk != null) {
-                    return backChunk.data.getSun(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
+                    return backChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
                 }
             } else {
                 if (x[d] + 1 < dims[d]) {
-                    return chunkVoxels.getSun(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
+                    return chunkVoxels.getPackedSunAndTorch(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                 } else if (forwardChunk != null) {
-                    byte sun = forwardChunk.data.getSun(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
-                    return sun;
+                   return forwardChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
                 }
             }
         }
         return 0;
     }
 
-    private byte retrieveSunForNextPlane(short nextPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block1, int d, int[] x, int[] q) {
+    private byte retrieveLightForNextPlane(short nextPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block1, int d, int[] x, int[] q) {
         //next plane = bottom face, -X face and -Z face (x and z assuming you are starting from the center of the chunk and moving outwards)
         if (nextPlaneVoxel != 0) {
             if (!block1.opaque) {
                 if (x[d] + 1 < dims[d]) { //we changed <dims[d]-1 to dims[d]. Investigate if we need to switch this in the voxel plane as well
-                    return chunkVoxels.getSun(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
+                    return chunkVoxels.getPackedSunAndTorch(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                 } else if (forwardChunk != null) {
-                    return forwardChunk.data.getSun(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
+                    return forwardChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
                 }
             } else {
                 if (x[d] >= 0) {
-                    return chunkVoxels.getSun(x[0], x[1], x[2]);
+                    return chunkVoxels.getPackedSunAndTorch(x[0], x[1], x[2]);
                 } else if (backChunk != null) {
-                    return backChunk.data.getSun(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
+                    return backChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
                 }
             }
         }

@@ -26,7 +26,7 @@ vec4 map(vec4 value, vec4 inMin, vec4 inMax, vec4 outMin, vec4 outMax) {
 in vec3 UV;
 in float normal;
 in float sun;
-// in float torch;
+in float torch;
 in float fragDistance;
 
 // Ouput data
@@ -52,7 +52,7 @@ void main() {
     // if (normal == 3.0f) val *= 0.7;
     // if (normal == 4.0f) val *= 0.6;
     // if (normal == 5.0f) val *= 0.5;
-    val *= sun;
+    val *= max(torch,sun);
 
     float visibility = 1.0;
     float viewGradient = 128;
@@ -62,6 +62,7 @@ void main() {
     }
 
     color = mix(vec4(skyColor, 1.0), val, visibility);
+//      color = vec4(sun,sun,sun,1.0);
 
     // // X is red, Y is green, Z is blue
     // if (normal == 0.0f) color = vec4(1.0, 0.0, 0.0, 1.0);  // positive x

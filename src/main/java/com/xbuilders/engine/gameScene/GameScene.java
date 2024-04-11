@@ -251,6 +251,10 @@ public class GameScene implements WindowEvents {
                             rayWCC.chunkVoxel.z);
                     text += "\nblock data: " + (data == null ? "null" : data.toString());
                     text += "\nsun: " + (sun);
+                    text += "\ntorch: " + chunk.data.getTorch(
+                            rayWCC.chunkVoxel.x,
+                            rayWCC.chunkVoxel.y,
+                            rayWCC.chunkVoxel.z);
                 }
 
             }

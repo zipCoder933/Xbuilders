@@ -3,12 +3,15 @@
 // 
 package com.xbuilders.engine.world.chunk;
 
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
+
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
 
+import com.xbuilders.engine.world.light.TorchChannelSet;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryUtil;
 
@@ -21,14 +24,17 @@ public class ChunkVoxels {
         this.size = new Vector3i(sizeX, sizeY, sizeZ);
         this.blockData = new HashMap<>();
         this.blocks = MemoryUtil.memAllocShort(size.x * size.y * size.z);
-        this.light = MemoryUtil.memAlloc(size.x * size.y * size.z);
+        this.sun = MemoryUtil.memAlloc(size.x * size.y * size.z);
+        this.torch = MemoryUtil.memAllocShort(size.x * size.y * size.z);
     }
 
     public void dispose() {
         MemoryUtil.memFree(blocks);
-        MemoryUtil.memFree(light);
+        MemoryUtil.memFree(sun);
+        MemoryUtil.memFree(torch);
         blocks = null;
-        light = null;
+        sun = null;
+        torch = null;
     }
 
     public int getIndexOfCoords(final int x, final int y, final int z) {
@@ -39,21 +45,32 @@ public class ChunkVoxels {
     public boolean blocksAreEmpty = true;
 
     public void clear() {
+        blockData.clear();
         for (int i = 0; i < blocks.capacity(); i++) {
             blocks.put(i, (short) 0);
-//            light.put(i, (byte) (Math.random() * 10 + 5));
-            light.put(i, (byte) 15);
+            sun.put(i, (byte) 15);
+            torch.put(i, (short) 0);
         }
-        blockData.clear();
         blocksAreEmpty = true;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Sunlight">
-    private ByteBuffer light;
+    private ByteBuffer sun;
+    private ShortBuffer torch;
+
+    //DATA STRUCTURE FOR TORCHLIGHT
+    //We cant use float datatype for sun and torch because bitwise operations on floats are not supported
+    //It also isnt a good idea to put everything on one number because we want sunlight to have faster access
+
+    //We dont need torchChannel set to store torchlight anymore, instead we are using 4 bits for each channel
+    //sun:   SSSSS0000
+    //torch: 11112222 33334444
+    //Where the channel is the falloff / 4
+
 
     public byte getSun(final int x, final int y, final int z) {
         try {
-            return light.get(x + size.x * (y + size.y * z));
+         return sun.get(x + size.x * (y + size.y * z));
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Block coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }
@@ -61,11 +78,35 @@ public class ChunkVoxels {
 
     public void setSun(final int x, final int y, final int z, final byte value) {
         try {
-            this.light.put(x + size.x * (y + size.y * z), value);
+            this.sun.put(x + size.x * (y + size.y * z), value);
         } catch (IndexOutOfBoundsException ex) {
             throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
         }
     }
+
+    public TorchChannelSet getTorch(final int x, final int y, final int z) {
+        try {
+            return new TorchChannelSet(torch.get(x + size.x * (y + size.y * z)));
+        } catch (IndexOutOfBoundsException ex) {
+            throw new IndexOutOfBoundsException("Block coordinates " + x + ", " + y + ", " + z + " out of bounds!");
+        }
+    }
+
+    public void setTorch(final int x, final int y, final int z, final byte faloff, final byte value) {
+        try {
+            this.torch.put(x + size.x * (y + size.y * z), value);
+        } catch (IndexOutOfBoundsException ex) {
+            throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
+        }
+    }
+
+    public byte getPackedSunAndTorch(final int x, final int y, final int z) {
+        int sun = this.getSun(x, y, z) & 0x0F;
+        int torch2 = torch.get(x + size.x * (y + size.y * z)) & 0x0F;
+        return (byte) ((sun << 4) | torch2);
+    }
+
+
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Blocks">

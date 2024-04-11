@@ -158,7 +158,7 @@ public class Main extends NKWindow {
 
     private void run() throws Exception {
         initGLFW();
-        startWindow("TEST WINDOW", 800, 600);
+        startWindow("TEST WINDOW", 700, 500);
         init();
         showWindow();
         System.out.println("Press 1 for System.GC()");

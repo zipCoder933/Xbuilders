@@ -39,13 +39,13 @@ public abstract class VertexSet {
         return (a << 20) | (b << 10) | c;
     }
 
-    public static int packThirdInt(int texture, int light) {
+    public static int packThirdInt(int texture, byte light) {
         // First 16 bits for texture
         int textureBits = (texture & 0xFFFF) << 16;
-        //Remaining 16 bits for animation
-        int animationBits = (light & 0xFFFF);
+        //Remaining 16 bits for light
+        int lightBits = (light & 0xFFFF);
 
-        return textureBits | animationBits;
+        return textureBits | lightBits;
     }
 
     /**
