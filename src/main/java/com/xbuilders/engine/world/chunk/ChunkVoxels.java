@@ -94,6 +94,10 @@ public class ChunkVoxels {
         return this.light.get(x + size.x * (y + size.y * z));
     }
 
+    public void setPackedLight(final int x, final int y, final int z, byte value) {
+        this.light.put(x + size.x * (y + size.y * z), value);
+    }
+
 
 //</editor-fold>
 

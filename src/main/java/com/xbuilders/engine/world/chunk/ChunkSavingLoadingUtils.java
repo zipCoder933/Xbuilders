@@ -138,7 +138,7 @@ class ChunkSavingLoadingUtils {
 
     private static Entity readEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
 //        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
-        final short entityID = (short) readShort(bytes[start.get()+1], bytes[start.get() + 2]);
+        final short entityID = (short) readShort(bytes[start.get() + 1], bytes[start.get() + 2]);
         EntityLink link = ItemList.getEntity(entityID);
         start.set(start.get() + 3);
 
@@ -194,8 +194,7 @@ class ChunkSavingLoadingUtils {
                                 //one MAJOR TODO is that the light byte may = newline. This will cause a problem.
                                 //Solution, instead of writing a newline, include a line byte, telling the reader how many bytes are in the line
 
-//                                out.write(chunk.data.getPackedLight(x, y, z));
-
+                                out.write(chunk.data.getPackedLight(x, y, z));
                                 short block = chunk.data.getBlock(x, y, z);
                                 if (block != BlockList.BLOCK_AIR.id) {
                                     writeShort(out, block);
@@ -251,7 +250,7 @@ class ChunkSavingLoadingUtils {
                     chunk.entities.list.add(entity);
                     hasEntities = true;
                 }
-                if(hasEntities) {
+                if (hasEntities) {
                     start.set(start.get() + 1);  //We have to move 1 byte past the entity newline byte to start reading voxels
                 }
 //                System.out.println("Voxels start byte: " + printSubList(bytes, start.get(), 10));
@@ -292,10 +291,12 @@ class ChunkSavingLoadingUtils {
             final Chunk chunk, final int x, final int y,
             final int z, AtomicInteger start) {
 
-        final short blockID = (short) readShort(bytes[start.get() + 1], bytes[start.get() + 2]);
+        //Read light and block id
+        chunk.data.setPackedLight(x, y, z, bytes[start.get() + 1]);
+        final short blockID = (short) readShort(bytes[start.get() + 2], bytes[start.get() + 3]);
         chunk.data.setBlock(x, y, z, blockID);
+        start.set(start.get() + 4);//3 bytes + 1
 
-        start.set(start.get() + 3);
         final ArrayList<Byte> blockDataBytes = new ArrayList<>();
         while (true) {
             final byte b3 = bytes[start.get()];
