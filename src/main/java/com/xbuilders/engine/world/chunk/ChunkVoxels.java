@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
 
-import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryUtil;
 
@@ -91,7 +90,7 @@ public class ChunkVoxels {
         }
     }
 
-    public byte getPackedSunAndTorch(final int x, final int y, final int z) {
+    public byte getPackedLight(final int x, final int y, final int z) {
         return this.light.get(x + size.x * (y + size.y * z));
     }
 

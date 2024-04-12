@@ -381,15 +381,15 @@ public class GreedyMesherWithLight {
         if (thisPlaneVoxel != 0) {
             if (!block.opaque) {
                 if (x[d] >= 0) {
-                    return chunkVoxels.getPackedSunAndTorch(x[0], x[1], x[2]);
+                    return chunkVoxels.getPackedLight(x[0], x[1], x[2]);
                 } else if (backChunk != null) {
-                    return backChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
+                    return backChunk.data.getPackedLight(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
                 }
             } else {
                 if (x[d] + 1 < dims[d]) {
-                    return chunkVoxels.getPackedSunAndTorch(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
+                    return chunkVoxels.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                 } else if (forwardChunk != null) {
-                   return forwardChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
+                   return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
                 }
             }
         }
@@ -401,15 +401,15 @@ public class GreedyMesherWithLight {
         if (nextPlaneVoxel != 0) {
             if (!block1.opaque) {
                 if (x[d] + 1 < dims[d]) { //we changed <dims[d]-1 to dims[d]. Investigate if we need to switch this in the voxel plane as well
-                    return chunkVoxels.getPackedSunAndTorch(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
+                    return chunkVoxels.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                 } else if (forwardChunk != null) {
-                    return forwardChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
+                    return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
                 }
             } else {
                 if (x[d] >= 0) {
-                    return chunkVoxels.getPackedSunAndTorch(x[0], x[1], x[2]);
+                    return chunkVoxels.getPackedLight(x[0], x[1], x[2]);
                 } else if (backChunk != null) {
-                    return backChunk.data.getPackedSunAndTorch(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
+                    return backChunk.data.getPackedLight(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
                 }
             }
         }

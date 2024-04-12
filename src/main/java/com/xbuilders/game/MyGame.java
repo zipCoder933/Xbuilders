@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.items.blocks.Plant;
@@ -18,7 +19,6 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.ui.UIResources;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.game.items.blocks.RenderType;
@@ -29,8 +29,6 @@ import com.xbuilders.game.terrain.TestTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.ComplexTerrain;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.utils.texture.Texture;
-import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -241,10 +239,10 @@ public class MyGame extends Game {
     public static final Block BLOCK_GRAVEL = new Block(10, "Gravel", new BlockTexture("gravel.png", "gravel.png", "gravel.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_OAK_LOG = new Block(11, "Oak Log", new BlockTexture("oak log.png", "oak log.png", "oak log side.png"), true, true, RenderType.ORIENTABLE_BLOCK);
     public static final Block BLOCK_OAK_LEAVES = new Block(12, "Oak Leaves", new BlockTexture("oak leaves.png", "oak leaves.png", "oak leaves.png"), false, false, BlockList.DEFAULT_BLOCK_TYPE_ID);
-    public static final Block BLOCK_SEA_LIGHT = new Block(13, "Sea Light", new BlockTexture("sea light.png", "sea light.png", "sea light.png"),(b)->{
+    public static final Block BLOCK_SEA_LIGHT = new Block(13, "Sea Light", new BlockTexture("sea light.png", "sea light.png", "sea light.png"), (b) -> {
         b.opaque = false;
         b.solid = true;
-        b.luminous = true;
+        b.torchlightStartingValue = 15;
     });
     public static final Block BLOCK_PLANT_GRASS = new Block(14, "Plant Grass", new BlockTexture("plant grass.png", "plant grass.png", "plant grass.png"), false, false, RenderType.SPRITE);
     public static final Block BLOCK_BAMBOO = new Block(15, "Bamboo", new BlockTexture("bamboo.png", "bamboo.png", "bamboo.png"), false, false, RenderType.SPRITE);
@@ -255,8 +253,8 @@ public class MyGame extends Game {
     public static final Block BLOCK_TORCH = new Block(20, "Torch", new BlockTexture("torch.png"), (b) -> {
         b.opaque = false;
         b.solid = false;
-        b.luminous = true;
         b.type = RenderType.TORCH;
+        b.torchlightStartingValue = 15;
         b.setIcon("torch.png");
     });
     public static final Block BLOCK_WATER = new Block(21, "Water", new BlockTexture("water.png", "water.png", "water.png"), false, false);
@@ -267,6 +265,7 @@ public class MyGame extends Game {
             new BlockTexture("lava.png", "lava.png", "lava.png"), (b) -> {
         b.opaque = false;
         b.solid = false;
+        b.torchlightStartingValue = 5;
         b.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
         System.out.println("Lava animation length: " + b.texture.getNEG_X().animationLength);
         b.texture.getNEG_Y().animationLength = 1;
@@ -312,7 +311,7 @@ public class MyGame extends Game {
     public static final Block BLOCK_JUNGLE_FENCE = new Block(40, "Jungle Fence", new BlockTexture("jungle planks.png", "jungle planks.png", "jungle planks.png"), true, false, RenderType.FENCE);
     public static final Block BLOCK_RED_FLOWER = new Block(41, "Red Flower", new BlockTexture("red flower.png", "red flower.png", "red flower.png"), false, false, RenderType.SPRITE);
     public static final Block BLOCK_TALL_DRY_GRASS = new Block(42, "Tall Dry Grass", new BlockTexture("tall dry grass.png", "tall dry grass.png", "tall dry grass.png"), false, false, RenderType.SPRITE);
-    public static final Block BLOCK_RED_CANDLE = new Block(43, "Red Candle", new BlockTexture("red candle.png", "red candle.png", "red candle.png"), false, false, RenderType.SPRITE);
+
     public static final Block BLOCK_YELLOW_FLOWER = new Block(44, "Yellow Flower", new BlockTexture("yellow flower.png", "yellow flower.png", "yellow flower.png"), false, false, RenderType.SPRITE);
     public static final Block BLOCK_COAL_ORE = new Block(45, "Coal Ore", new BlockTexture("coal ore.png", "coal ore.png", "coal ore.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_COAL_BLOCK = new Block(46, "Coal Block", new BlockTexture("coal.png", "coal.png", "coal.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
@@ -323,10 +322,10 @@ public class MyGame extends Game {
     public static final Block BLOCK_BEEHIVE = new Block(52, "Beehive", new BlockTexture("beehive.png", "beehive bottom.png", "beehive side.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_DIORITE = new Block(53, "Diorite", new BlockTexture("diorite.png", "diorite.png", "diorite.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_POLISHED_DIORITE = new Block(54, "Polished Diorite", new BlockTexture("polished diorite.png", "polished diorite.png", "polished diorite.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
-    public static final Block BLOCK_EDISON_LIGHT = new Block(55, "Edison Light", new BlockTexture("edison light.png", "edison light.png", "edison light.png") ,(b)->{
+    public static final Block BLOCK_EDISON_LIGHT = new Block(55, "Edison Light", new BlockTexture("edison light.png", "edison light.png", "edison light.png"), (b) -> {
         b.opaque = false;
         b.solid = true;
-        b.luminous = true;
+        b.torchlightStartingValue = 15;
     });
     public static final Block BLOCK_POLISHED_ANDESITE = new Block(56, "Polished Andesite", new BlockTexture("polished andesite.png", "polished andesite.png", "polished andesite.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_SPRUCE_PLANKS = new Block(57, "Spruce Planks", new BlockTexture("spruce planks.png", "spruce planks.png", "spruce planks.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
@@ -384,7 +383,39 @@ public class MyGame extends Game {
     public static final Block BLOCK_PALISADE_STONE = new Block(110, "Palisade Stone", new BlockTexture("palisade stone.png", "palisade stone.png", "palisade stone side.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_RED_SANDSTONE = new Block(111, "Red Sandstone", new BlockTexture("red sandstone.png", "red sandstone bottom.png", "red sandstone side.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_FIRE_CORAL_BLOCK = new Block(112, "Fire Coral Block", new BlockTexture("fire coral.png", "fire coral.png", "fire coral.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
-    public static final Block BLOCK_CANDLE = new Block(113, "Candle", new BlockTexture("candle.png", "candle.png", "candle.png"), false, false, RenderType.SPRITE);
+
+    public static final Block BLOCK_CANDLE = new Block(113, "Candle", new BlockTexture("candle.png", "candle.png", "candle.png"), (b) -> {
+        b.solid = false;
+        b.type = RenderType.SPRITE;
+        b.opaque = false;
+        b.torchlightStartingValue = 6;
+    });
+    public static final Block BLOCK_RED_CANDLE = new Block(43, "Red Candle", new BlockTexture("red candle.png", "red candle.png", "red candle.png"), (b) -> {
+        b.solid = false;
+        b.type = RenderType.SPRITE;
+        b.opaque = false;
+        b.torchlightStartingValue = 6;
+    });
+    public static final Block BLOCK_GREEN_CANDLE = new Block(218, "Green Candle", new BlockTexture("green candle.png", "green candle.png", "green candle.png"), (b) -> {
+        b.solid = false;
+        b.type = RenderType.SPRITE;
+        b.opaque = false;
+        b.torchlightStartingValue = 6;
+    });
+    public static final Block BLOCK_YELLOW_CANDLE = new Block(216, "Yellow Candle", new BlockTexture("yellow candle.png", "yellow candle.png", "yellow candle.png"), (b) -> {
+        b.solid = false;
+        b.type = RenderType.SPRITE;
+        b.opaque = false;
+        b.torchlightStartingValue = 6;
+    });
+    public static final Block BLOCK_BLUE_CANDLE = new Block(220, "Blue Candle", new BlockTexture("blue candle.png", "blue candle.png", "blue candle.png"), (b) -> {
+        b.solid = false;
+        b.type = RenderType.SPRITE;
+        b.opaque = false;
+        b.torchlightStartingValue = 6;
+    });
+
+
     public static final Block BLOCK_PALISADE_STONE_2 = new Block(114, "Palisade Stone 2", new BlockTexture("palisade stone 2.png", "palisade stone 2.png", "palisade stone 2.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_FIRE_CORAL = new Block(115, "Fire Coral", new BlockTexture("fire coral.png", "fire coral.png", "fire coral.png"), true, false, RenderType.SPRITE);
     public static final Block BLOCK_TALL_GRASS = new Block(116, "Tall Grass", new BlockTexture("tall grass.png", "tall grass.png", "tall grass.png"), false, false, RenderType.SPRITE);
@@ -426,21 +457,20 @@ public class MyGame extends Game {
     public static final Block BLOCK_CEMENT = new Block(159, "Cement", new BlockTexture("cement.png", "cement.png", "cement.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_OAK_SAPLING = new Block(160, "Oak Sapling", new BlockTexture("oak sapling.png", "oak sapling.png", "oak sapling.png"), false, false, RenderType.SPRITE);
     public static final Block BLOCK_BIRCH_SAPLING = new Block(161, "Birch Sapling", new BlockTexture("birch sapling.png", "birch sapling.png", "birch sapling.png"), false, false, RenderType.SPRITE);
-    public static final Block BLOCK_ELECTRIC_LIGHT = new Block(174, "Electric Light", new BlockTexture("electric light.png", "electric light.png", "electric light.png"),(b)->{
+    public static final Block BLOCK_ELECTRIC_LIGHT = new Block(174, "Electric Light", new BlockTexture("electric light.png", "electric light.png", "electric light.png"), (b) -> {
         b.opaque = false;
         b.solid = true;
         b.type = RenderType.LAMP;
-        b.luminous = true;
+        b.torchlightStartingValue = 15;
     });
     public static final Block BLOCK_RED_PALISADE_SANDSTONE = new Block(175, "Red Palisade Sandstone", new BlockTexture("red palisade sandstone.png", "red palisade sandstone.png", "red palisade sandstone side.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_PHANTOM_SANDSTONE = new Block(176, "Phantom Sandstone", new BlockTexture("sandstone.png", "sandstone bottom.png", "sandstone side.png"), false, false, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_PALISADE_SANDSTONE = new Block(177, "Palisade Sandstone", new BlockTexture("palisade sandstone.png", "palisade sandstone.png", "palisade sandstone side.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
-    public static final Block BLOCK_GLOW_ROCK = new Block(178, "Glow Rock", new BlockTexture("glow rock.png", "glow rock.png", "glow rock.png"),(b)->{
+    public static final Block BLOCK_GLOW_ROCK = new Block(178, "Glow Rock", new BlockTexture("glow rock.png", "glow rock.png", "glow rock.png"), (b) -> {
         b.opaque = false;
         b.solid = true;
         b.type = RenderType.LAMP;
-        b.falloff = 7;
-        b.luminous = true;
+        b.torchlightStartingValue = 7;
     });
     public static final Block BLOCK_BLACK_STAINED_GLASS = new Block(179, "Black-Stained Glass", new BlockTexture("black stained glass.png", "black stained glass.png", "black stained glass.png"), true, false, BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_BLUE_STAINED_GLASS = new Block(180, "Blue-Stained Glass", new BlockTexture("blue stained glass.png", "blue stained glass.png", "blue stained glass.png"), true, false, BlockList.DEFAULT_BLOCK_TYPE_ID);
@@ -479,11 +509,9 @@ public class MyGame extends Game {
     public static final Block BLOCK_POLISHED_ANDESITE_SLAB = new Block(213, "Polished Andesite Slab", new BlockTexture("polished andesite.png", "polished andesite.png", "polished andesite.png"), true, false, RenderType.SLAB);
     public static final Block BLOCK_IRON_LADDER = new Block(214, "Iron Ladder", new BlockTexture("iron ladder.png", "iron ladder.png", "iron ladder.png"), false, false, RenderType.WALL_ITEM);
     public static final Block BLOCK_RED_VINES_FLAT = new Block(215, "Red Vines Flat", new BlockTexture("red vines flat.png", "red vines flat.png", "red vines flat.png"), true, false, RenderType.WALL_ITEM);
-    public static final Block BLOCK_YELLOW_CANDLE = new Block(216, "Yellow Candle", new BlockTexture("yellow candle.png", "yellow candle.png", "yellow candle.png"), false, false, RenderType.SPRITE);
     public static final Block BLOCK_CAVE_VINES = new Block(217, "Cave Vines", new BlockTexture("cave vines flat.png", "cave vines flat.png", "cave vines flat.png"), true, false, RenderType.SPRITE);
-    public static final Block BLOCK_GREEN_CANDLE = new Block(218, "Green Candle", new BlockTexture("green candle.png", "green candle.png", "green candle.png"), false, false, RenderType.SPRITE);
+
     public static final Block BLOCK_GRANITE = new Block(219, "Granite", new BlockTexture("granite.png", "granite.png", "granite.png"), true, true, BlockList.DEFAULT_BLOCK_TYPE_ID);
-    public static final Block BLOCK_BLUE_CANDLE = new Block(220, "Blue Candle", new BlockTexture("blue candle.png", "blue candle.png", "blue candle.png"), false, false, RenderType.SPRITE);
     public static final Block BLOCK_RED_VINES = new Block(221, "Red Vines", new BlockTexture("red vines flat.png", "red vines flat.png", "red vines flat.png"), false, false, RenderType.SPRITE);
     public static final Block BLOCK_FLAT_VINES = new Block(222, "Flat Vines", new BlockTexture("vines.png", "vines.png", "vines.png"), true, false, RenderType.WALL_ITEM);
     public static final Block BLOCK_DARK_OAK_LADDER = new Block(223, "Dark Oak Ladder", new BlockTexture("dark oak ladder.png", "dark oak ladder.png", "dark oak ladder.png"), false, false, RenderType.WALL_ITEM);
@@ -676,8 +704,8 @@ public class MyGame extends Game {
     public static final Block BLOCK_BLUE_TORCH = new Block(413, "Blue Torch", new BlockTexture("blue torch.png", "blue torch.png", "blue torch.png"), (b) -> {
         b.opaque = false;
         b.solid = false;
-        b.luminous = true;
         b.type = RenderType.TORCH;
+        b.torchlightStartingValue = 15;
         b.setIcon("blue_torch.png");
     });
     public static final Block BLOCK_CEMENT_STAIRS = new Block(414, "Cement Stairs", new BlockTexture("cement.png", "cement.png", "cement.png"), true, false, RenderType.STAIRS);
@@ -790,17 +818,15 @@ public class MyGame extends Game {
     public static final Block BLOCK_GREEN_MARBLE_TILE_PILLAR = new Block(521, "Green Marble Tile Pillar", new BlockTexture("green marble tile.png", "green marble tile.png", "green marble tile.png"), true, false, RenderType.PILLAR);
     public static final Block BLOCK_ORANGE_MARBLE_TILE_PILLAR = new Block(522, "Orange Marble Tile Pillar", new BlockTexture("orange marble tile.png", "orange marble tile.png", "orange marble tile.png"), true, false, RenderType.PILLAR);
     public static final Block BLOCK_MARBLE_TILE_PILLAR = new Block(523, "Marble Tile Pillar", new BlockTexture("marble tile.png", "marble tile.png", "marble tile.png"), true, false, RenderType.PILLAR);
-    public static final Block BLOCK_LAMP = new Block(524, "Lamp", new BlockTexture("lamp.png", "lamp.png", "lamp.png"),(b)->{
+    public static final Block BLOCK_LAMP = new Block(524, "Lamp", new BlockTexture("lamp.png", "lamp.png", "lamp.png"), (b) -> {
         b.opaque = false;
         b.solid = true;
         b.type = RenderType.LAMP;
-        b.luminous = true;
     });
-    public static final Block BLOCK_BLUE_LAMP = new Block(525, "Blue Lamp", new BlockTexture("blue lamp.png", "blue lamp.png", "blue lamp.png"),(b)->{
+    public static final Block BLOCK_BLUE_LAMP = new Block(525, "Blue Lamp", new BlockTexture("blue lamp.png", "blue lamp.png", "blue lamp.png"), (b) -> {
         b.opaque = false;
         b.solid = true;
         b.type = RenderType.LAMP;
-        b.luminous = true;
     });
     public static final Block BLOCK_GLASS_PANE = new Block(526, "Glass Pane", new BlockTexture("glass.png", "glass.png", "glass.png"), true, false, RenderType.PANE);
     public static final Block BLOCK_YELLOW_STAINED_GLASS_PANE = new Block(527, "Yellow-Stained Glass Pane", new BlockTexture("yellow stained glass.png", "yellow stained glass.png", "yellow stained glass.png"), true, false, RenderType.PANE);

@@ -189,15 +189,22 @@ class ChunkSavingLoadingUtils {
                         for (int x = 0; x < chunk.data.size.x; ++x) {
                             for (int z = 0; z < chunk.data.size.z; ++z) {
 
+                                //L (ID ID DATA...) NEWLINE
+                                //()==optional
+                                //one MAJOR TODO is that the light byte may = newline. This will cause a problem.
+                                //Solution, instead of writing a newline, include a line byte, telling the reader how many bytes are in the line
+
+//                                out.write(chunk.data.getPackedLight(x, y, z));
+
                                 short block = chunk.data.getBlock(x, y, z);
                                 if (block != BlockList.BLOCK_AIR.id) {
-                                    out.write(PIPE_BYTE);
                                     writeShort(out, block);
                                     final BlockData blockData = chunk.data.getBlockData(x, y, z);
                                     if (blockData != null) {
                                         writeAndVerifyBuffer(out, blockData.buff);
                                     }
                                 }
+
                                 out.write(NEWLINE_BYTE);
 
                             }

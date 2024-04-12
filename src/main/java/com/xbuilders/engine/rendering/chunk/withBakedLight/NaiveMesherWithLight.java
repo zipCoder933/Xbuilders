@@ -61,68 +61,68 @@ public class NaiveMesherWithLight {
                 for (int z = 0; z < data.size.z; ++z) {
 
                     block = ItemList.getBlock(data.getBlock(x, y, z));
-                    byte centerLight = data.getPackedSunAndTorch(x, y, z);
+                    byte centerLight = data.getPackedLight(x, y, z);
 
                     if (!block.isAir() && (block.type != BlockList.DEFAULT_BLOCK_TYPE_ID || generateAll)) {
 
                         if (x > 0) {
                             neighbors[BlockType.NEG_X] = ItemList.getBlock(data.getBlock(x - 1, y, z));
-                            lightNeghbors[BlockType.NEG_X] = block.opaque ? data.getPackedSunAndTorch(x - 1, y, z) : centerLight;
+                            lightNeghbors[BlockType.NEG_X] = block.opaque ? data.getPackedLight(x - 1, y, z) : centerLight;
                         } else if (negXNeghbor != null) {
                             neighbors[BlockType.NEG_X] = ItemList
                                     .getBlock(negXNeghbor.data.getBlock(negXNeghbor.data.size.x - 1, y, z));
-                            lightNeghbors[BlockType.NEG_X] = negXNeghbor.data.getPackedSunAndTorch(negXNeghbor.data.size.x - 1, y, z);
+                            lightNeghbors[BlockType.NEG_X] = negXNeghbor.data.getPackedLight(negXNeghbor.data.size.x - 1, y, z);
                         } else {
                             neighbors[BlockType.NEG_X] = BlockList.BLOCK_AIR;
                         }
 
                         if (x < data.size.x - 1) {
                             neighbors[BlockType.POS_X] = ItemList.getBlock(data.getBlock(x + 1, y, z));
-                            lightNeghbors[BlockType.POS_X] = block.opaque ? data.getPackedSunAndTorch(x + 1, y, z) : centerLight;
+                            lightNeghbors[BlockType.POS_X] = block.opaque ? data.getPackedLight(x + 1, y, z) : centerLight;
                         } else if (posXNeghbor != null) {
                             neighbors[BlockType.POS_X] = ItemList.getBlock(posXNeghbor.data.getBlock(0, y, z));
-                            lightNeghbors[BlockType.POS_X] = posXNeghbor.data.getPackedSunAndTorch(0, y, z);
+                            lightNeghbors[BlockType.POS_X] = posXNeghbor.data.getPackedLight(0, y, z);
                         } else {
                             neighbors[BlockType.POS_X] = BlockList.BLOCK_AIR;
                         }
 
                         if (y > 0) {
                             neighbors[BlockType.NEG_Y] = ItemList.getBlock(data.getBlock(x, y - 1, z));
-                            lightNeghbors[BlockType.NEG_Y] = block.opaque ? data.getPackedSunAndTorch(x, y - 1, z) : centerLight;
+                            lightNeghbors[BlockType.NEG_Y] = block.opaque ? data.getPackedLight(x, y - 1, z) : centerLight;
                         } else if (negYNeghbor != null) {
                             neighbors[BlockType.NEG_Y] = ItemList.getBlock(negYNeghbor.data.getBlock(x, negYNeghbor.data.size.y - 1, z));
-                            lightNeghbors[BlockType.NEG_Y] = negYNeghbor.data.getPackedSunAndTorch(x, negYNeghbor.data.size.y - 1, z);
+                            lightNeghbors[BlockType.NEG_Y] = negYNeghbor.data.getPackedLight(x, negYNeghbor.data.size.y - 1, z);
                         }else {
                             neighbors[BlockType.NEG_Y] = BlockList.BLOCK_AIR;
                         }
 
                         if (y < data.size.y - 1) {
                             neighbors[BlockType.POS_Y] = ItemList.getBlock(data.getBlock(x, y + 1, z));
-                            lightNeghbors[BlockType.POS_Y] = block.opaque ? data.getPackedSunAndTorch(x, y + 1, z) : centerLight;
+                            lightNeghbors[BlockType.POS_Y] = block.opaque ? data.getPackedLight(x, y + 1, z) : centerLight;
                         } else if (posYNeghbor != null) {
                             neighbors[BlockType.POS_Y] = ItemList.getBlock(posYNeghbor.data.getBlock(x, 0, z));
-                            lightNeghbors[BlockType.POS_Y] = posYNeghbor.data.getPackedSunAndTorch(x, 0, z);
+                            lightNeghbors[BlockType.POS_Y] = posYNeghbor.data.getPackedLight(x, 0, z);
                         } else {
                             neighbors[BlockType.POS_Y] = BlockList.BLOCK_AIR;
                         }
 
                         if (z > 0) {
                             neighbors[BlockType.NEG_Z] = ItemList.getBlock(data.getBlock(x, y, z - 1));
-                            lightNeghbors[BlockType.NEG_Z] = block.opaque ? data.getPackedSunAndTorch(x, y, z - 1) : centerLight;
+                            lightNeghbors[BlockType.NEG_Z] = block.opaque ? data.getPackedLight(x, y, z - 1) : centerLight;
                         } else if (negZNeghbor != null) {
                             neighbors[BlockType.NEG_Z] = ItemList.getBlock(negZNeghbor.data.getBlock(x, y, negZNeghbor.data.size.z - 1));
-                            lightNeghbors[BlockType.NEG_Z] = negZNeghbor.data.getPackedSunAndTorch(x, y, negZNeghbor.data.size.z - 1);
+                            lightNeghbors[BlockType.NEG_Z] = negZNeghbor.data.getPackedLight(x, y, negZNeghbor.data.size.z - 1);
                         }else {
                             neighbors[BlockType.NEG_Z] = BlockList.BLOCK_AIR;
                         }
 
                         if (z < data.size.z - 1) {
                             neighbors[BlockType.POS_Z] = ItemList.getBlock(data.getBlock(x, y, z + 1));
-                            lightNeghbors[BlockType.POS_Z] = block.opaque ? data.getPackedSunAndTorch(x, y, z + 1) : centerLight;
+                            lightNeghbors[BlockType.POS_Z] = block.opaque ? data.getPackedLight(x, y, z + 1) : centerLight;
                         } else if (posZNeghbor != null) {
                             neighbors[BlockType.POS_Z] = ItemList
                                     .getBlock(posZNeghbor.data.getBlock(x, y, 0));
-                            lightNeghbors[BlockType.POS_Z] = posZNeghbor.data.getPackedSunAndTorch(x, y, 0);
+                            lightNeghbors[BlockType.POS_Z] = posZNeghbor.data.getPackedLight(x, y, 0);
                         } else {
                             neighbors[BlockType.POS_Z] = BlockList.BLOCK_AIR;
                         }

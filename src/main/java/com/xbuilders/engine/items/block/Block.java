@@ -22,9 +22,12 @@ public class Block extends Item {
     public boolean solid = true;
     public boolean liquid = false;
     public boolean opaque = true;
-    public boolean luminous = false;
-    public byte falloff = 1;
+    public byte torchlightStartingValue = 0;
     private Consumer<Block> initializationCallback = null;
+
+    public final boolean isLuminous() {
+        return torchlightStartingValue > 0;
+    }
 
     /**
      * @param x

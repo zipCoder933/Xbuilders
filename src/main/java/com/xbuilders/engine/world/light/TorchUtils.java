@@ -6,31 +6,49 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class TorchUtils {
-
-    //TODO: Make multi falloff rate work with only 1 torch channel
-
     public static void transparentToOpaque(HashSet<Chunk> affectedChunks, final Chunk chunk, final int x, final int y, final int z) {
-        final List<ChunkNode> queue = new ArrayList<>();
-        queue.add(new ChunkNode(chunk, x, y, z));
-        final HashSet<ChunkNode> edges = eraseSection(affectedChunks, queue);
+        final List<TorchNode> queue = new ArrayList<>();
+        queue.add(new TorchNode(chunk, x, y, z));
+        final HashSet<TorchNode> edges = eraseSection(affectedChunks, queue);
         queue.clear();
         queue.addAll(edges);
-        continueBFS(affectedChunks, queue, (byte) 1);
+        continueBFS(affectedChunks, queue);
     }
 
     public static void opaqueToTransparent(HashSet<Chunk> affectedChunks, final Chunk chunk, final int x, final int y, final int z) {
-        final List<ChunkNode> queue = new ArrayList<>();
+        final List<TorchNode> queue = new ArrayList<>();
         startingNodesForPropagation(queue, chunk, x, y, z);
-        continueBFS(affectedChunks, queue, (byte) 1);
+        continueBFS(affectedChunks, queue);
     }
 
-    protected static void startingNodesForPropagation(List<ChunkNode> queue, final Chunk chunk, final int x, final int y, final int z) {
+    public static void setTorch(HashSet<Chunk> affectedChunks, final Chunk chunk,
+                                final int x, final int y, final int z, byte startingValue) {
+        final List<TorchNode> queue = new ArrayList<>();
+        startingValue = (byte) MathUtils.clamp(startingValue, 0, 15);
+        queue.add(new TorchNode(chunk, x, y, z, startingValue));
+        affectedChunks.add(chunk);
+        continueBFS(affectedChunks, queue);
+    }
+
+    public static void removeTorch(HashSet<Chunk> affectedChunks, final Chunk chunk, final int x, final int y, final int z) {
+        if (chunk.data.getTorch(x, y, z) > 0) {
+            final List<TorchNode> queue = new ArrayList<>();
+            queue.add(new TorchNode(chunk, x, y, z));
+            final HashSet<TorchNode> edges = eraseSection(affectedChunks, queue);
+            queue.clear();
+            queue.addAll(edges);
+            continueBFS(affectedChunks, queue);
+        }
+    }
+
+    protected static void startingNodesForPropagation(List<TorchNode> queue, final Chunk chunk, final int x, final int y, final int z) {
         findNeg2(chunk, x + 1, y, z, queue);
         findNeg2(chunk, x - 1, y, z, queue);
         findNeg2(chunk, x, y + 1, z, queue);
@@ -39,7 +57,7 @@ public class TorchUtils {
         findNeg2(chunk, x, y, z - 1, queue);
     }
 
-    private static void findNeg2(Chunk chunk, int x, int y, int z, final List<ChunkNode> queue) {
+    private static void findNeg2(Chunk chunk, int x, int y, int z, final List<TorchNode> queue) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
             chunk = wcc.getChunk(GameScene.world);
@@ -50,60 +68,34 @@ public class TorchUtils {
             y = wcc.chunkVoxel.y;
             z = wcc.chunkVoxel.z;
         }
-        if (chunk.data.getTorch(x, y, z) > 0) {
-            queue.add(new ChunkNode(chunk, x, y, z));
+        if (chunk.data.getTorch(x, y, z) > 1) {
+            queue.add(new TorchNode(chunk, x, y, z));
         }
     }
 
 
-    //------------------------------------------------------------------
-    //------------------------------------------------------------------
-    //General utilities
-    //------------------------------------------------------------------
-    //------------------------------------------------------------------
-
-    public static boolean isTorchAtThisPosition(final Chunk chunk, final int x, final int y, final int z) {
-        return chunk.data.getTorch(x, y, z) == 15;
-    }
-
-    public static void setTorch(HashSet<Chunk> affectedChunks, final Chunk chunk, final int x, final int y, final int z, byte lightFallof) {
-        if (!isTorchAtThisPosition(chunk, x, y, z)) {
-            lightFallof = (byte) MathUtils.clamp(lightFallof, 1, 15);
-            final List<ChunkNode> queue = new ArrayList<>();
-            queue.add(new ChunkNode(chunk, x, y, z));
-            chunk.data.setTorch(x, y, z, (byte) 15);
-            affectedChunks.add(chunk);
-            continueBFS(affectedChunks, queue, lightFallof);
-        }
-    }
-
-    public static void removeTorchlight(HashSet<Chunk> affectedChunks, final Chunk chunk, final int x, final int y, final int z, final byte lightFalloff) {
-        if (chunk.data.getTorch(x, y, z) == 15) {
-            final List<ChunkNode> queue = new ArrayList<>();
-            queue.add(new ChunkNode(chunk, x, y, z));
-            final HashSet<ChunkNode> edges = eraseSection(affectedChunks, queue);
-            queue.clear();
-            queue.addAll(edges);
-            continueBFS(affectedChunks, queue, lightFalloff);
-        }
-    }
-
-
-    public static void continueBFS(HashSet<Chunk> affectedChunks, final List<ChunkNode> queue, final byte falloff) {
+    public static void continueBFS(HashSet<Chunk> affectedChunks,
+                                   final List<TorchNode> queue) {
         while (queue.size() > 0) {
-            final ChunkNode node = queue.remove(0);
-            final int lightValue = node.chunk.data.getTorch(node.x, node.y, node.z);
-            checkNeighborCont(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, falloff, affectedChunks);
-            checkNeighborCont(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, falloff, affectedChunks);
-            checkNeighborCont(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, falloff, affectedChunks);
-            checkNeighborCont(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, falloff, affectedChunks);
-            checkNeighborCont(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, falloff, affectedChunks);
-            checkNeighborCont(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, falloff, affectedChunks);
+            final TorchNode node = queue.remove(0);
+            int lightValue = node.chunk.data.getTorch(node.x, node.y, node.z);
+            if (node.lightVal > -1) {//If the node has its own light value
+                //(We may not need to do this if we just set the light value before continueBFS is called)
+                node.chunk.data.setTorch(node.x, node.y, node.z, Math.max(lightValue, node.lightVal));//Make sure the light value is greater than the light value of the node
+                lightValue = node.lightVal;
+                affectedChunks.add(node.chunk);
+            }
+            checkNeighborCont(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, affectedChunks);
+            checkNeighborCont(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, affectedChunks);
+            checkNeighborCont(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, affectedChunks);
+            checkNeighborCont(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, affectedChunks);
+            checkNeighborCont(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, affectedChunks);
+            checkNeighborCont(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, affectedChunks);
         }
     }
 
     private static void checkNeighborCont(Chunk chunk, int x, int y, int z, final int lightLevel,
-                                          final List<ChunkNode> queue, final byte lightFallof, HashSet<Chunk> affectedChunks) {
+                                          final List<TorchNode> queue, HashSet<Chunk> affectedChunks) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
             chunk = wcc.getChunk(GameScene.world);
@@ -116,33 +108,36 @@ public class TorchUtils {
         }
         final int neighborLevel = chunk.data.getTorch(x, y, z);
         final Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+        if ((!block.opaque || block.isLuminous()) && neighborLevel + 2 <= lightLevel) {
+            chunk.data.setTorch(x, y, z, lightLevel - 1);
 
-        if ((!block.opaque || block.luminous) && neighborLevel + (lightFallof + 1) <= lightLevel) {
-            chunk.data.setTorch(x, y, z, (byte) (lightLevel - lightFallof));
             affectedChunks.add(chunk);
-            queue.add(new ChunkNode(chunk, x, y, z));
+            queue.add(new TorchNode(chunk, x, y, z));
         }
     }
 
-    public static HashSet<ChunkNode> eraseSection(HashSet<Chunk> affectedChunks, final List<ChunkNode> queue) {
-        final HashSet<ChunkNode> edgeNodes = new HashSet<ChunkNode>();
+    public static HashSet<TorchNode> eraseSection(HashSet<Chunk> affectedChunks, final List<TorchNode> queue) {
+        final HashSet<TorchNode> repropagationNodes = new HashSet<>();
         while (queue.size() > 0) {
-            final ChunkNode node = queue.remove(0);
+            final TorchNode node = queue.remove(0);
             final int lightValue = node.chunk.data.getTorch(node.x, node.y, node.z);
             affectedChunks.add(node.chunk);
             node.chunk.data.setTorch(node.x, node.y, node.z, (byte) 0);
-            checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, edgeNodes);
-            checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, edgeNodes);
-            checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, edgeNodes);
-            checkNeighborErase(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, edgeNodes);
-            checkNeighborErase(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, edgeNodes);
-            checkNeighborErase(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, edgeNodes);
+            checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, repropagationNodes);
+            checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, repropagationNodes);
+            checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, repropagationNodes);
+            checkNeighborErase(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, repropagationNodes);
+            checkNeighborErase(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, repropagationNodes);
+            checkNeighborErase(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, repropagationNodes);
         }
-        return edgeNodes;
+//        for (TorchNode node : repropagationNodes) {
+//            node.chunk.data.setTorch(node.x, node.y, node.z, node.lightVal);
+//        }
+        return repropagationNodes;
     }
 
     private static void checkNeighborErase(Chunk chunk, int x, int y, int z, final int lightLevel,
-                                           final List<ChunkNode> queue, final HashSet<ChunkNode> edgeNodes) {
+                                           final List<TorchNode> queue, final HashSet<TorchNode> repropagation) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
             chunk = wcc.getChunk(GameScene.world);
@@ -155,9 +150,13 @@ public class TorchUtils {
         }
         final int neighborLevel = chunk.data.getTorch(x, y, z);
         if (neighborLevel < lightLevel) {
-            queue.add(new ChunkNode(chunk, x, y, z));
+            Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+            if (block.isLuminous()) {//Instead of deleting source light of other torches, reset its original light value
+                repropagation.add(new TorchNode(chunk, x, y, z, block.torchlightStartingValue));
+            }
+            queue.add(new TorchNode(chunk, x, y, z));
         } else {
-            edgeNodes.add(new ChunkNode(chunk, x, y, z));
+            repropagation.add(new TorchNode(chunk, x, y, z));
         }
     }
 }

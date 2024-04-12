@@ -15,10 +15,7 @@ import com.xbuilders.engine.world.wcc.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BlockEventPipeline {
@@ -41,8 +38,8 @@ public class BlockEventPipeline {
     List<ChunkNode> sunQueue = new ArrayList<>();
     HashSet<Chunk> affectedChunks = new HashSet<>();
 
-    private void setBlock(Chunk chunk, Block block, BlockData data, BlockType type,
-                          WCCi wcc, UserControlledPlayer player) {
+    private void resolveQueue_setBlock(Chunk chunk, Block block, BlockData data, BlockType type,
+                                       WCCi wcc, UserControlledPlayer player) {
         chunk.markAsModifiedByUser();
         chunk.data.setBlock(
                 wcc.chunkVoxel.x,
@@ -56,16 +53,36 @@ public class BlockEventPipeline {
         }
     }
 
+    int framesThatHadEvents = 0;
+
+    //By limiting the number of frames in a row we can prevent block events that are called in an infinite loop
+    //Note that this does not prevent the pipeline from handling existing events, it just
+    // prevents block.setBlockEvent() and block.onLocalChange() from being called
+    final int MAX_FRAMES_WITH_EVENTS_IN_A_ROW = 10;
 
     public void resolve(UserControlledPlayer player) {
-        events.forEach((worldPos, blockHist) -> {
+        if (events.isEmpty()) {
+            framesThatHadEvents = 0;
+            return;
+        }
+
+        HashMap<Vector3i, BlockHistory> eventsCopy = new HashMap<>(events);
+        events.clear(); //We want to clear the old events before iterating over and picking up new ones
+
+        framesThatHadEvents++;
+        System.out.println(eventsCopy.size() + " Block Events ("+framesThatHadEvents+" frames in row)");
+        boolean allowBlockEvents = framesThatHadEvents < MAX_FRAMES_WITH_EVENTS_IN_A_ROW;
+
+        eventsCopy.forEach((worldPos, blockHist) -> {
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
-            System.out.println("Block Event: " + worldPos + " -> " + blockHist);
 
             //Should we set the block?
-            if (blockHist.currentBlock.setBlockEvent(worldPos.x, worldPos.y, worldPos.z,
-                    chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z))) {
+            boolean shouldSet = allowBlockEvents ?
+                    blockHist.currentBlock.setBlockEvent(worldPos.x, worldPos.y, worldPos.z,
+                            chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z)) :
+                    false;
+            if (allowBlockEvents) {
 
                 BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);//Test if the blockType is ok with setting
 
@@ -76,7 +93,7 @@ public class BlockEventPipeline {
                 data = type.getInitialBlockData(data, player);
 
                 if (type == null || type.allowToBeSet(blockHist.currentBlock, data, worldPos.x, worldPos.y, worldPos.z)) {
-                    setBlock(chunk, blockHist.currentBlock, data, type, wcc, player);
+                    resolveQueue_setBlock(chunk, blockHist.currentBlock, data, type, wcc, player);
 
                     if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
                         System.out.println("Propagating");
@@ -97,14 +114,15 @@ public class BlockEventPipeline {
                         sunQueue.clear();
                     }
 
-                    if(!blockHist.previousBlock.luminous && blockHist.currentBlock.luminous){
-                        TorchUtils.setTorch(affectedChunks,chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, (byte) 1);
-                    }else if(blockHist.previousBlock.luminous && !blockHist.currentBlock.luminous){
-                        TorchUtils.removeTorchlight(affectedChunks,chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.previousBlock.falloff);
+                    if (!blockHist.previousBlock.isLuminous() && blockHist.currentBlock.isLuminous()) {
+                        TorchUtils.setTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z,
+                                blockHist.currentBlock.torchlightStartingValue);
+                    } else if (blockHist.previousBlock.isLuminous() && !blockHist.currentBlock.isLuminous()) {
+                        TorchUtils.removeTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
 
                     affectedChunks.add(chunk);
-                    startLocalChange(worldPos, blockHist);
+                    startLocalChange(worldPos, blockHist, allowBlockEvents);
                 }
             }
         });
@@ -116,30 +134,27 @@ public class BlockEventPipeline {
                     wcc.chunkVoxel.z);
         }
         affectedChunks.clear();
-        events.clear();
     }
 
-    public static void startLocalChange(Vector3i originPos, BlockHistory hist) {
-        checkAndStartBlock(originPos.x, originPos.y - 1, originPos.z, originPos, hist);
-        checkAndStartBlock(originPos.x, originPos.y + 1, originPos.z, originPos, hist);
-
-        checkAndStartBlock(originPos.x - 1, originPos.y, originPos.z, originPos, hist);
-        checkAndStartBlock(originPos.x + 1, originPos.y, originPos.z, originPos, hist);
-        checkAndStartBlock(originPos.x, originPos.y, originPos.z - 1, originPos, hist);
-        checkAndStartBlock(originPos.x, originPos.y, originPos.z + 1, originPos, hist);
-
-        checkAndStartBlock(originPos.x - 1, originPos.y - 1, originPos.z, originPos, hist);
-        checkAndStartBlock(originPos.x + 1, originPos.y - 1, originPos.z, originPos, hist);
-        checkAndStartBlock(originPos.x, originPos.y - 1, originPos.z - 1, originPos, hist);
-        checkAndStartBlock(originPos.x, originPos.y - 1, originPos.z + 1, originPos, hist);
-
-        checkAndStartBlock(originPos.x - 1, originPos.y + 1, originPos.z, originPos, hist);
-        checkAndStartBlock(originPos.x + 1, originPos.y + 1, originPos.z, originPos, hist);
-        checkAndStartBlock(originPos.x, originPos.y + 1, originPos.z - 1, originPos, hist);
-        checkAndStartBlock(originPos.x, originPos.y + 1, originPos.z + 1, originPos, hist);
+    private void startLocalChange(Vector3i originPos, BlockHistory hist, boolean dispatchBlockEvent) {
+        checkAndStartBlock(originPos.x, originPos.y - 1, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x, originPos.y + 1, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x - 1, originPos.y, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x + 1, originPos.y, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x, originPos.y, originPos.z - 1, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x, originPos.y, originPos.z + 1, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x - 1, originPos.y - 1, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x + 1, originPos.y - 1, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x, originPos.y - 1, originPos.z - 1, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x, originPos.y - 1, originPos.z + 1, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x - 1, originPos.y + 1, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x + 1, originPos.y + 1, originPos.z, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x, originPos.y + 1, originPos.z - 1, originPos, hist, dispatchBlockEvent);
+        checkAndStartBlock(originPos.x, originPos.y + 1, originPos.z + 1, originPos, hist, dispatchBlockEvent);
     }
 
-    private static void checkAndStartBlock(int x, int y, int z, Vector3i originPos, BlockHistory hist) {
+    private void checkAndStartBlock(int x, int y, int z, Vector3i originPos, BlockHistory hist,
+                                    boolean dispatchBlockEvent) {
         WCCi wcc = new WCCi().set(x, y, z);
         Chunk chunk = wcc.getChunk(GameScene.world);
         if (chunk != null) {
@@ -147,8 +162,13 @@ public class BlockEventPipeline {
             if (!targetBlockID.isAir()) {
                 BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 if (!ItemList.blocks.getBlockType(targetBlockID.type).allowToBeSet(hist.currentBlock, data, x, y, z)) {
+
+                    //Set to air
+                    short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, BlockList.BLOCK_AIR.id);
-                } else targetBlockID.onLocalChange(hist, originPos, new Vector3i(x, y, z));
+                    addEvent(wcc, new BlockHistory(previousBlock, BlockList.BLOCK_AIR.id));
+
+                } else if (dispatchBlockEvent) targetBlockID.onLocalChange(hist, originPos, new Vector3i(x, y, z));
             }
         }
     }
