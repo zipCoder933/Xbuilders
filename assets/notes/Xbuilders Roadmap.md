@@ -1,26 +1,17 @@
-# STEPS TO XB2
-Generally, the only things I have left to getting to the XB2 game is:
-## 1. sun and torch saving in chunk
-A file line for a block looks like this:
-
-    L (ID ID DATA...) NEWLINE
-    ()==optional
-
-one MAJOR TODO is that the light byte may equal the newline. This will cause a problem.
-
-Solutions:
-* instead of writing a newline, include a line byte, telling the reader how many bytes are in the line. Block data cannot exceed 256-N bytes
-* After the real newline character, The next newline will only count if it is 3+ after original newline
-                    
-
-## 2. save chunks in 2x2x2 chunk reigons
+## 1. Fix bugs and add important features
+* BUG: voxels from a previous game show up in new chunks
+* Chunks must be loaded COMPLETELY before the user enters the game
+* Player spawn position must actually work
+* save chunks in 2x2x2 chunk reigons (Could wait)
 ## 2. water/fire/grass propagation with cellular autonoma
 ## 3. adding all entities, block events and terrains
-    - trees
-    - ADD ALL block events including TNT
-    - all animals, vehicles and banners
-    - adding doors, trapdoors and fence gates as blocks
+- trees
+- ADD ALL block events including TNT
+- all animals, vehicles and banners
+- adding doors, trapdoors and fence gates as blocks
 ## 4. block setting tools (copy/paste/create boundary/ spheres)
+* Tab = change raycast hit all blocks
+* 
 ## 5. a conversion tool to convert xb2 worlds to xb3
 
 ## BLOCK EVENTS

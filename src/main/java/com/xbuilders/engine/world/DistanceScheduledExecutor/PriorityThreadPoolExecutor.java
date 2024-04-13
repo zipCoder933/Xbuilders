@@ -104,12 +104,7 @@ public class PriorityThreadPoolExecutor extends ThreadPoolExecutor {
     }
 
     public void cancelAllTasks() {
-        for (Runnable scheduledTask : this.getQueue()) {
-            // Cast to access the Future method cancel
-            Future<?> future = (Future<?>) scheduledTask;
-            // Cancel scheduled but not started tasks
-            future.cancel(false);
-        }
+        cancelAllTasks(this);
     }
 
     public static void cancelAllTasks(ThreadPoolExecutor executor) {
@@ -118,7 +113,14 @@ public class PriorityThreadPoolExecutor extends ThreadPoolExecutor {
             Future<?> future = (Future<?>) scheduledTask;
             // Cancel scheduled but not started tasks
             future.cancel(false);
+
+            //Wait for the task to finish
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException ex) {
+            }
         }
+
     }
 
 

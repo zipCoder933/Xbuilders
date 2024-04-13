@@ -129,10 +129,10 @@ public class GreedyMesherWithLight {
                             block = blockMap.get(thisPlaneVoxel.get(0));
                             block1 = blockMap.get(nextPlaneVoxel.get(0));
 
-                            if (block.isAir() || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block == null || block.isAir() || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
                                 thisPlaneVoxel.put(0, (short) 0);
                             }
-                            if (block1.isAir() || block1.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block1 == null || block1.isAir() || block1.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 
@@ -389,7 +389,7 @@ public class GreedyMesherWithLight {
                 if (x[d] + 1 < dims[d]) {
                     return chunkVoxels.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                 } else if (forwardChunk != null) {
-                   return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
+                    return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
                 }
             }
         }

@@ -119,7 +119,7 @@ public class World {
     public Box box;
     private int blockTextureID;
 
-    WorldInfo info;
+    public WorldInfo info;
     public Terrain terrain;
 
     /**
@@ -497,6 +497,7 @@ public class World {
     }
 //</editor-fold>
 
+
     public void close(Vector3f playerPos) {
         save(playerPos);
 
@@ -511,12 +512,16 @@ public class World {
         unusedChunks.forEach((chunk) -> {
             chunk.dispose();
         });
+
+
         chunks.clear();
         unusedChunks.clear();
         chunksToRender.clear();
         chunksToUnload.clear();
 
         System.gc();
+        info = null;
+        terrain = null;
     }
 
     public void save(Vector3f playerPos) {

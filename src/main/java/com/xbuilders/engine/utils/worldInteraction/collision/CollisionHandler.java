@@ -100,7 +100,7 @@ public class CollisionHandler {
                                     wcc.chunkVoxel.x,
                                     wcc.chunkVoxel.y,
                                     wcc.chunkVoxel.z));
-                            if (b.solid) {
+                            if (b != null && b.solid) {
 //                                    if (Main.specialMode2) {
                                 //TODO: chunk.getBlockData() is collision-handler memory culprit!!!
                                 //Its ALL in the hashmap...

@@ -415,7 +415,7 @@ public class RayCasting {
                             blockCriteria.shouldHitBlock(block, forbiddenBlock)) {//If block is hittable
                         Block realBlock = ItemList.getBlock(block);
                         BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                        BlockType blockType = ItemList.blocks.getBlockType(realBlock.type);
+                        BlockType blockType = realBlock == null ? null : ItemList.blocks.getBlockType(realBlock.type);
 
                         if ((blockType != null && !blockType.isCubeShape()) || !entityAABBList.isEmpty()) {
 

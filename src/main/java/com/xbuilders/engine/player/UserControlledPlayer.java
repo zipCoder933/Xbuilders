@@ -65,10 +65,10 @@ public class UserControlledPlayer extends Player {
     }
 
     private void jump() {
-        if (usePositionHandler) {
-            positionHandler.jump();
-            positionHandler.setGravityEnabled(true);
-        }
+        if (usePositionHandler) positionHandler.jump();
+        usePositionHandler = true;
+        positionHandler.collisionsEnabled = true;
+        positionHandler.setGravityEnabled(true);
     }
 
     public UserControlledPlayer(UserID user) throws IOException {

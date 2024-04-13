@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
@@ -28,26 +29,13 @@ import org.lwjgl.system.MemoryStack;
 
 /**
  * @author zipCoder933
- * <p>
- * The chunk file is formatted as follows:
- * 10 bytes of metadata, followed by the entities and finally the voxels
- * <p>
- * <p>
- * An example of how voxel is written:
- * pipe  id  id  blockData...  \n
- * Air is written like:
- * \n
- * (The pipe byte at the beginning  of the line is used to prevent the first byte of the block id from being confused with newline byte)
- * <p>
- * <p>
- * <p>
- * An example of how entity is written
- * entity id id x x y y z z  data... \n
+ * <br>
+ * <h2>all Information about the format of the chunk files are saved in the "Chunk saving and loading.md" file</h2>
  */
 class ChunkSavingLoadingUtils {
 
     public static final byte NEWLINE_BYTE = Byte.MIN_VALUE;
-    protected static final byte PIPE_BYTE = -127;
+    protected static final byte VOXEL_BYTE = -127;
     protected static final byte ENTITY_BYTE = -126;
     protected static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected static final int METADATA_BYTES = 10;
@@ -70,8 +58,8 @@ class ChunkSavingLoadingUtils {
     private static String printBytesFormatted(byte[] bytes) {
         String str = "";
         for (int i = 0; i < bytes.length; i++) {
-            if (bytes[i] == NEWLINE_BYTE) str += "-128\n";
-            else if (bytes[i] == PIPE_BYTE) str += "| ";
+            if (bytes[i] == NEWLINE_BYTE) str += "(-128\n)";
+            else if (bytes[i] == VOXEL_BYTE) str += "VOXEL ";
             else if (bytes[i] == BYTE_SKIP_ALL_VOXELS) str += "SKIP ";
             else if (bytes[i] == ENTITY_BYTE) str += "ENTITY ";
             else str += bytes[i] + " ";
@@ -188,24 +176,7 @@ class ChunkSavingLoadingUtils {
                     for (int y = chunk.data.size.y - 1; y >= 0; y--) {
                         for (int x = 0; x < chunk.data.size.x; ++x) {
                             for (int z = 0; z < chunk.data.size.z; ++z) {
-
-                                //L (ID ID DATA...) NEWLINE
-                                //()==optional
-                                //one MAJOR TODO is that the light byte may = newline. This will cause a problem.
-                                //Solution, instead of writing a newline, include a line byte, telling the reader how many bytes are in the line
-
-                                out.write(chunk.data.getPackedLight(x, y, z));
-                                short block = chunk.data.getBlock(x, y, z);
-                                if (block != BlockList.BLOCK_AIR.id) {
-                                    writeShort(out, block);
-                                    final BlockData blockData = chunk.data.getBlockData(x, y, z);
-                                    if (blockData != null) {
-                                        writeAndVerifyBuffer(out, blockData.buff);
-                                    }
-                                }
-
-                                out.write(NEWLINE_BYTE);
-
+                                writeVoxel(chunk, out, fout, x, y, z);
                             }
                         }
                     }
@@ -237,11 +208,10 @@ class ChunkSavingLoadingUtils {
                 byte[] metadata = input.readNBytes(METADATA_BYTES);
                 final byte[] bytes = input.readAllBytes();
 
-                //Print bytes formatted
-//                System.out.println("SAVING FORMATTED BYTES");
+//                //Print bytes formatted
 //                String str = printBytesFormatted(bytes);
 //                Files.write(new File(f.getParent() + "/" + f.getName() + ".formatted").toPath(), str.getBytes());
-
+//                System.out.println("SAVED FORMATTED BYTES");
 
                 //Load the entities
                 boolean hasEntities = false;
@@ -286,16 +256,33 @@ class ChunkSavingLoadingUtils {
         return true;
     }
 
+    private static void writeVoxel(Chunk chunk, GZIPOutputStream out, XBFilterOutputStream fout, int x, int y, int z) throws IOException {
+        //VOXEL, LIGHT, BLOCK ID, BLOCK ID, BLOCK DATA...
+        out.write(VOXEL_BYTE);
+        out.write(chunk.data.getPackedLight(x, y, z));
+
+        short block = chunk.data.getBlock(x, y, z);
+        writeShort(out, block);
+        final BlockData blockData = chunk.data.getBlockData(x, y, z);
+        if (block != BlockList.BLOCK_AIR.id && blockData != null) {
+            writeAndVerifyBuffer(out, blockData.buff);
+        }
+
+
+        out.write(NEWLINE_BYTE);
+    }
+
     private static void readVoxel(
             final byte[] bytes,
             final Chunk chunk, final int x, final int y,
             final int z, AtomicInteger start) {
 
-        //Read light and block id
+        //Read light
         chunk.data.setPackedLight(x, y, z, bytes[start.get() + 1]);
+        //Read block id
         final short blockID = (short) readShort(bytes[start.get() + 2], bytes[start.get() + 3]);
         chunk.data.setBlock(x, y, z, blockID);
-        start.set(start.get() + 4);//3 bytes + 1
+        start.set(start.get() + 4);
 
         final ArrayList<Byte> blockDataBytes = new ArrayList<>();
         while (true) {

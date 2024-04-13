@@ -104,7 +104,7 @@ public class GameUI {
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_M -> {
+                case GLFW.GLFW_KEY_ESCAPE -> {
                     gameMenuVisible = !gameMenuVisible;
                 }
                 case GLFW.GLFW_KEY_J -> {

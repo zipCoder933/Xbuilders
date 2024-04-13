@@ -1,5 +1,7 @@
 package com.xbuilders.engine.world.chunk;
 
+import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.rendering.chunk.ChunkMeshBundle;
 import com.xbuilders.engine.items.ChunkEntitySet;
 import com.xbuilders.engine.utils.BFS.HashQueue;
@@ -112,8 +114,6 @@ public class Chunk {
 
         World.frameTester.startProcess();
         loadFuture = generationService.submit(distToPlayer, () -> {
-            entities.clear();
-            data.clear();
             try {
                 loadChunk(info, terrain, futureChunk);
                 return false;
@@ -125,18 +125,23 @@ public class Chunk {
     }
 
     public void loadChunk(WorldInfo info, Terrain terrain, FutureChunk futureChunk) {
+        entities.clear();
+        data.clear();
         File f = info.getChunkFile(position);
 
+        boolean needsSunGeneration = true;
         if (f.exists()) {
             ChunkSavingLoadingUtils.readChunkFromFile(this, f);
+            needsSunGeneration = false;
         } else {
             GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
         }
         if (futureChunk != null) {
             futureChunk.setBlocksInChunk(this);
+            needsSunGeneration = true;
         }
         //Loading a chunk includes loading sunlight
-        generationStatus = GEN_TERRAIN_LOADED;
+        generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_TERRAIN_LOADED;
     }
 
     public void dispose() {
@@ -237,6 +242,7 @@ public class Chunk {
                 loadFuture = null;
                 World.frameTester.startProcess();
                 mesherFuture = meshService.submit(() -> {
+                    if (GameScene.world.info == null) return null; //Quick fix. TODO: remove this
                     meshes.compute();
                     generationStatus = GEN_COMPLETE;
                     return meshes;

@@ -186,7 +186,6 @@ public class GameScene implements WindowEvents {
         ui.keyEvent(key, scancode, action, mods);
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_ESCAPE -> leaveGamePage();
                 case GLFW.GLFW_KEY_P -> specialMode = !specialMode;
                 case GLFW.GLFW_KEY_Z -> drawWireframe = !drawWireframe;
             }
