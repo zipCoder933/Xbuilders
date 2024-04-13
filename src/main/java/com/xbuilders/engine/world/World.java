@@ -77,7 +77,7 @@ public class World {
     public static int MIN_FOG_DISTANCE = Chunk.WIDTH * 6;
     public static int DEFAULT_VIEW_DISTANCE = Chunk.WIDTH * 6;//13
     private int maxChunksForViewDistance;
-    private final AtomicInteger viewDistance = new AtomicInteger(DEFAULT_VIEW_DISTANCE);
+    private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
 
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
     ChunkShader chunkShader;
@@ -394,7 +394,7 @@ public class World {
 //Drawing boxes is a major FPS bottleneck
                 frameTester.startProcess();
                 //<editor-fold defaultstate="collapsed" desc="box drawing">
-                if (Main.devkey2) {
+                if (Main.devkeyF1) {
                     box.set(chunk.aabb);
                     if (chunk.meshes.isEmpty()) {
                         box.setLineWidth(0.5f);
@@ -413,7 +413,7 @@ public class World {
                     chunk.updateMVP(projection, view); //we must update the MVP within each model;
                     if (!chunk.meshes.opaqueMesh.empty) {
                         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                        if (!Main.devkey3) {
+                        if (!Main.devkeyF3) {
                             chunk.meshes.opaqueMesh.draw(GameScene.drawWireframe);
                         }
                     }
@@ -427,7 +427,7 @@ public class World {
             if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE) {
                 if (!chunk.meshes.transMesh.empty) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                    if (!Main.devkey3) {
+                    if (!Main.devkeyF3) {
                         chunk.meshes.transMesh.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation
                     }
                 }

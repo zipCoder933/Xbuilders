@@ -174,10 +174,10 @@ public class Main extends NKWindow {
             endScreenshot();
 
 
-            if (devkey1_SystemCG) {
+            if (devkeyF2_SystemCG) {
                 System.out.println("System.GC()");
                 System.gc();
-                devkey1_SystemCG = false;
+                devkeyF2_SystemCG = false;
             }
         }
         terminate();
@@ -193,23 +193,23 @@ public class Main extends NKWindow {
         gameScene.windowResizeEvent(width, height);
     }
 
-    public static boolean devkey3;
-    public static boolean devkey1_SystemCG;
-    public static boolean devkey2;
+    public static boolean devkeyF3;
+    public static boolean devkeyF2_SystemCG;
+    public static boolean devkeyF1;
     public static boolean devkeyF12;
 
     @Override
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-            if (key == GLFW.GLFW_KEY_3) {
-                devkey3 = !devkey3;
-                System.out.println("Special mode (3): " + devkey3);
-            } else if (key == GLFW.GLFW_KEY_1) {
-                devkey1_SystemCG = !devkey1_SystemCG;
-                System.out.println("Special mode(1): " + devkey1_SystemCG);
-            } else if (key == GLFW.GLFW_KEY_2) {
-                devkey2 = !devkey2;
-                System.out.println("Special mode (2): " + devkey2);
+            if (key == GLFW.GLFW_KEY_F3) {
+                devkeyF3 = !devkeyF3;
+                System.out.println("Special mode (F3): " + devkeyF3);
+            } else if (key == GLFW.GLFW_KEY_F2) {
+                devkeyF2_SystemCG = !devkeyF2_SystemCG;
+                System.out.println("Special mode(F2): " + devkeyF2_SystemCG);
+            } else if (key == GLFW.GLFW_KEY_F1) {
+                devkeyF1 = !devkeyF1;
+                System.out.println("Special mode (F1): " + devkeyF1);
             }  else if (key == GLFW.GLFW_KEY_F11) {
                 screenshot();
             }else if(key == GLFW.GLFW_KEY_F12){

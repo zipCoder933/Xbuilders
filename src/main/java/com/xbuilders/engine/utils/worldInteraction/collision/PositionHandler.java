@@ -114,16 +114,16 @@ public class PositionHandler {
             }
 
 
-            aabb.box.setX(aabb.box.minPoint.x + velocity.x);
-            aabb.box.setY(aabb.box.minPoint.y - velocity.y);
-            aabb.box.setZ(aabb.box.minPoint.z + velocity.z);
+            aabb.box.setX(aabb.box.min.x + velocity.x);
+            aabb.box.setY(aabb.box.min.y - velocity.y);
+            aabb.box.setZ(aabb.box.min.z + velocity.z);
         }
         if (collisionsEnabled) {
             collisionHandler.resolveCollisions(projection, view);
         }
-        aabb.worldPosition.x = aabb.box.minPoint.x - aabb.offset.x;
-        aabb.worldPosition.y = aabb.box.minPoint.y - aabb.offset.y;
-        aabb.worldPosition.z = aabb.box.minPoint.z - aabb.offset.z;
+        aabb.worldPosition.x = aabb.box.min.x - aabb.offset.x;
+        aabb.worldPosition.y = aabb.box.min.y - aabb.offset.y;
+        aabb.worldPosition.z = aabb.box.min.z - aabb.offset.z;
     }
 
 

@@ -163,21 +163,27 @@ public class Chunk {
         generateMesh();
         if (neghbors.allFacingNeghborsLoaded) {
             if (x == 0) {
-                neghbors.neighbors[neghbors.NEG_X_NEIGHBOR].generateMesh();
+                if (neghbors.neighbors[neghbors.NEG_X_NEIGHBOR] != null)
+                    neghbors.neighbors[neghbors.NEG_X_NEIGHBOR].generateMesh();
             } else if (x == Chunk.WIDTH - 1) {
-                neghbors.neighbors[neghbors.POS_X_NEIGHBOR].generateMesh();
+                if (neghbors.neighbors[neghbors.POS_X_NEIGHBOR] != null)
+                    neghbors.neighbors[neghbors.POS_X_NEIGHBOR].generateMesh();
             }
 
             if (y == 0) {
-                neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR].generateMesh();
+                if (neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR] != null)
+                    neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR].generateMesh();
             } else if (y == Chunk.WIDTH - 1) {
-                neghbors.neighbors[neghbors.POS_Y_NEIGHBOR].generateMesh();
+                if (neghbors.neighbors[neghbors.POS_Y_NEIGHBOR] != null)
+                    neghbors.neighbors[neghbors.POS_Y_NEIGHBOR].generateMesh();
             }
 
             if (z == 0) {
-                neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR].generateMesh();
+                if (neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR] != null)
+                    neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR].generateMesh();
             } else if (z == Chunk.WIDTH - 1) {
-                neghbors.neighbors[neghbors.POS_Z_NEIGHBOR].generateMesh();
+                if (neghbors.neighbors[neghbors.POS_Z_NEIGHBOR] != null)
+                    neghbors.neighbors[neghbors.POS_Z_NEIGHBOR].generateMesh();
             }
         }
     }

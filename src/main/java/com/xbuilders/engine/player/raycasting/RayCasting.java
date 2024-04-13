@@ -82,7 +82,7 @@ public class RayCasting {
         for (int i = 0; i < entityList.size(); i++) {
             AABBNode aabb = entityList.get(i);
             float distance = getAABBIntersectionDistance(ray.origin, ray.direction,
-                    aabb.getBox().minPoint, aabb.getBox().maxPoint);
+                    aabb.getBox().min, aabb.getBox().max);
             if (distance < closestDistance) {
                 closestDistance = distance;
                 node = aabb;
@@ -92,7 +92,7 @@ public class RayCasting {
 
         for (int i = 0; i < aabbList.size(); i++) {
             AABB aabb = aabbList.get(i);
-            float distance = getAABBIntersectionDistance(ray.origin, ray.direction, aabb.minPoint, aabb.maxPoint);
+            float distance = getAABBIntersectionDistance(ray.origin, ray.direction, aabb.min, aabb.max);
             if (distance < closestDistance) {
                 closestDistance = distance;
                 node = new AABBNode(aabb, null);
@@ -436,12 +436,12 @@ public class RayCasting {
                                     ray.entity = node.entity;
                                     ray.cursorBoxes = node.boxes;
                                     ray.hitNormal.set(getRayNormalFromAABB(ray.origin, ray.direction,
-                                            node.getBox().minPoint, node.getBox().maxPoint));
+                                            node.getBox().min, node.getBox().max));
                                 } else if (node.getBox() != null) {
                                     ray.hitTarget = true;
                                     ray.cursorBoxes = voxelAABBList;
                                     ray.hitNormal.set(getRayNormalFromAABB(ray.origin, ray.direction,
-                                            node.getBox().minPoint, node.getBox().maxPoint));
+                                            node.getBox().min, node.getBox().max));
                                 }
                             }
                         } else {
@@ -505,7 +505,7 @@ public class RayCasting {
         for (int i = 0; i < entityAABBList.size(); i++) {
             AABBNode aabb = entityAABBList.get(i);
             float distance = getAABBIntersectionDistance(ray.origin, ray.direction,
-                    aabb.getBox().minPoint, aabb.getBox().maxPoint);
+                    aabb.getBox().min, aabb.getBox().max);
             if (distance < closestDistance) {
                 closestDistance = distance;
                 entityNode = aabb;
@@ -518,7 +518,7 @@ public class RayCasting {
             ray.entity = entityNode.entity;
             ray.hitNormal.set(getRayNormalFromAABB(
                     ray.origin, ray.direction,
-                    entityNode.getBox().minPoint, entityNode.getBox().maxPoint));
+                    entityNode.getBox().min, entityNode.getBox().max));
         } else {//Advance the raycast
             //The normal still exists even if we didnt hit anything
             if (steppedIndex == 0) {

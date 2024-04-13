@@ -82,15 +82,15 @@ public class CollisionHandler {
     public synchronized void resolveCollisions(Matrix4f projection, Matrix4f view) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             stepBox.set(myBox.box);
-            stepBox.setY(stepBox.maxPoint.y + driver.stepHeight);
+            stepBox.setY(stepBox.max.y + driver.stepHeight);
             setFrozen = false;
             exploredChunks.clear();
 
             //Y goes down so that we can sort blocks from top (ceiling) to bottom
-            for (int y = (int) (myBox.box.maxPoint.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y >= myBox.box.minPoint.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y--) {
+            for (int y = (int) (myBox.box.max.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y >= myBox.box.min.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y--) {
 //        for (int y = (int) (myBox.box.minPoint.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y <= myBox.box.maxPoint.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y++) {
-                for (int x = (int) (myBox.box.minPoint.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.maxPoint.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
-                    for (int z = (int) (myBox.box.minPoint.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.maxPoint.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
+                for (int x = (int) (myBox.box.min.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.max.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
+                    for (int z = (int) (myBox.box.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.max.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
                         wcc.set(x, y, z);
                         chunk = chunks.getChunk(wcc.chunk);
                         if (chunk != null) {
@@ -156,22 +156,22 @@ public class CollisionHandler {
             if (collisionData.collisionNormal.y == -1) {
                 driver.velocity.y = 0;
                 driver.onGround = true;
-                myBox.box.setY(myBox.box.minPoint.y + collisionData.penPerAxes.y);
-            } else if (collisionData.collisionNormal.y == 1 && box.minPoint.y < myBox.box.minPoint.y) {
+                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
+            } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) {
                 driver.velocity.y = 0;
-                myBox.box.setY(myBox.box.minPoint.y + collisionData.penPerAxes.y);
+                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
             } else if (collisionData.collisionNormal.x != 0) {
 
-                if (myBox.box.maxPoint.y - box.minPoint.y < driver.stepHeight) {
-                    myBox.box.setY(myBox.box.minPoint.y - Math.abs(collisionData.penPerAxes.x));
+                if (myBox.box.max.y - box.min.y < driver.stepHeight) {
+                    myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.x));
                 } else {
-                    myBox.box.setX(myBox.box.minPoint.x + collisionData.penPerAxes.x);
+                    myBox.box.setX(myBox.box.min.x + collisionData.penPerAxes.x);
                 }
             } else if (collisionData.collisionNormal.z != 0) {
-                if (myBox.box.maxPoint.y - box.minPoint.y < driver.stepHeight) {
-                    myBox.box.setY(myBox.box.minPoint.y - Math.abs(collisionData.penPerAxes.z));
+                if (myBox.box.max.y - box.min.y < driver.stepHeight) {
+                    myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.z));
                 } else {
-                    myBox.box.setZ(myBox.box.minPoint.z + collisionData.penPerAxes.z);
+                    myBox.box.setZ(myBox.box.min.z + collisionData.penPerAxes.z);
                 }
             }
         }

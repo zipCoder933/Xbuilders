@@ -9,6 +9,7 @@ import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
@@ -78,16 +79,21 @@ public class Box {
 
     public void set(AABB box) {
         setSize(
-                box.maxPoint.x - box.minPoint.x,
-                box.maxPoint.y - box.minPoint.y,
-                box.maxPoint.z - box.minPoint.z);
+                box.max.x - box.min.x,
+                box.max.y - box.min.y,
+                box.max.z - box.min.z);
 
-        position.identity().translation(box.minPoint);
+        position.identity().translation(box.min);
     }
 
-    public void set(float startX, float startY, float startZ, float lengthX, float lengthY, float lengthZ) {
+    public void setPosAndSize(float startX, float startY, float startZ, float lengthX, float lengthY, float lengthZ) {
         setSize(lengthX, lengthY, lengthZ);
         position.identity().translation(startX, startY, startZ);
+    }
+
+    public void set(Vector3i start, Vector3i end) {
+        setSize(end.x - start.x, end.y - start.y, end.z - start.z);
+        position.identity().translation(start.x, start.y, start.z);
     }
 
     float MAX_z, MAX_x, MAX_y;

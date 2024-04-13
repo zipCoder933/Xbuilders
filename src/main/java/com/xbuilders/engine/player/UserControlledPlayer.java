@@ -3,6 +3,7 @@ package com.xbuilders.engine.player;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
+import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -45,6 +46,7 @@ public class UserControlledPlayer extends Player {
     boolean usePositionHandler = true;
     public PlayerServer server;
     public BlockEventPipeline eventPipeline;
+
 
     final int CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
 
@@ -212,12 +214,22 @@ public class UserControlledPlayer extends Player {
         updatePosHandler(holdMouse);
         //The key to preventing shaking during collision is to update the camera AFTER  the position handler is done its job
         camera.update(holdMouse);
-        camera.drawRay();
+
+        camera.cursorRay.drawRay();
         if (camera.getThirdPersonDist() != 0.0f) skin.render(projection, view);
     }
 
     boolean raycastDistChanged = false;
     boolean canFly = true;
+
+    public void mouseButtonEvent(int button, int action, int mods) {
+        if (camera.cursorRay.createClickEvent(button, action, mods)) {
+            setItem(Main.game.getSelectedItem());
+        } else if (camera.cursorRay.destroyClickEvent(button, action, mods)) {
+            removeItem();
+        }
+    }
+
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
@@ -247,8 +259,8 @@ public class UserControlledPlayer extends Player {
                 }
                 case CHANGE_RAYCAST_MODE -> {
                     if (!raycastDistChanged) {
-                        camera.cursorRayHitAllBlocks = !camera.cursorRayHitAllBlocks;
-                        if (camera.cursorRayHitAllBlocks) {
+                        camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
+                        if (camera.cursorRay.cursorRayHitAllBlocks) {
                             camera.cursorRayDist = 5;
                         }
                     }
@@ -263,14 +275,14 @@ public class UserControlledPlayer extends Player {
     boolean lineMode = false;
 
     public void setItem(Item item) {
-        if (camera.cursorRay != null && camera.cursorRayHitTarget()) {
+        if (camera.cursorRay != null && camera.cursorRay.hitTarget()) {
             if (item != null) {
                 if (item.getType() == ItemType.BLOCK) {
                     Block block = (Block) item;
                     Vector3i w;
 
-                    if (block == BlockList.BLOCK_AIR || !camera.cursorRayHitTarget()) {
-                        w = camera.cursorRay.getHitPositionAsInt();
+                    if (block == BlockList.BLOCK_AIR || !camera.cursorRay.hitTarget()) {
+                        w = camera.cursorRay.getHitPos();
                     } else {
                         w = camera.cursorRay.getHitPosPlusNormal();
                     }
@@ -282,8 +294,8 @@ public class UserControlledPlayer extends Player {
                     EntityLink entity = (EntityLink) item;
                     Vector3i w;
 
-                    if (!camera.cursorRayHitTarget()) {
-                        w = camera.cursorRay.getHitPositionAsInt();
+                    if (!camera.cursorRay.hitTarget()) {
+                        w = camera.cursorRay.getHitPos();
                     } else {
                         w = camera.cursorRay.getHitPosPlusNormal();
                     }
@@ -314,15 +326,6 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public void mouseButtonEvent(int button, int action, int mods) {
-        if (action == GLFW.GLFW_PRESS) {
-            if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-                setItem(Main.game.getSelectedItem());
-            } else if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
-                removeItem();
-            }
-        }
-    }
 
     public void setNewSpawnPoint(Terrain terrain) {
         System.out.println("Setting new spawn point...");
@@ -342,7 +345,7 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (window.isKeyPressed(CHANGE_RAYCAST_MODE) && camera.cursorRayHitAllBlocks) {
+        if (window.isKeyPressed(CHANGE_RAYCAST_MODE) && camera.cursorRay.cursorRayHitAllBlocks) {
             raycastDistChanged = true;
             camera.cursorRayDist += scroll.y();
             camera.cursorRayDist = MathUtils.clamp(camera.cursorRayDist, 1, 50);
@@ -353,11 +356,12 @@ public class UserControlledPlayer extends Player {
 
 
     private void removeItem() {
-        if (camera.cursorRay.entity != null) {
+        if (camera.cursorRay.getEntity() != null) {
             System.out.println("Deleting entity");
-            camera.cursorRay.entity.destroy();
+            camera.cursorRay.getEntity().destroy();
         } else {
-            setBlock(new WCCi().set(camera.cursorRay.getHitPositionAsInt()), BlockList.BLOCK_AIR);
+            System.out.println("Deleting block at " + camera.cursorRay.getHitPos());
+            setBlock(new WCCi().set(camera.cursorRay.getHitPos()), BlockList.BLOCK_AIR);
         }
     }
 

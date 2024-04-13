@@ -225,13 +225,13 @@ public class GameScene implements WindowEvents {
             wcc2.set(player.worldPosition);
             text += "\nPlayer pos: " + MiscUtils.printVector(player.worldPosition);
 
-            if (player.camera.cursorRay.hitTarget || player.camera.cursorRayHitAllBlocks) {
+            if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {
 
                 if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
                     rayWCC.set(player.camera.cursorRay.getHitPosPlusNormal());
                     text += "\nRay+normal (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                 } else {
-                    rayWCC.set(player.camera.cursorRay.getHitPositionAsInt());
+                    rayWCC.set(player.camera.cursorRay.getHitPos());
                     text += "\nRay (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                 }
 

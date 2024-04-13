@@ -75,7 +75,7 @@ public class FrustumCullingTester {
     }
 
     public boolean isAABBInside(AABB aabb) {
-        return frustumIntersection.testAab(aabb.minPoint, aabb.maxPoint);
+        return frustumIntersection.testAab(aabb.min, aabb.max);
     }
 
     public boolean isSphereInside(Vector3f center, float radius) {

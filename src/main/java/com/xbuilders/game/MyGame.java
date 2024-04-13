@@ -7,6 +7,7 @@ package com.xbuilders.game;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
+import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.items.blocks.Plant;
 import com.xbuilders.game.items.blocks.TrackPiece;
 import com.xbuilders.game.items.blocks.entities.Fox;
@@ -67,6 +68,7 @@ public class MyGame extends Game {
 
     Inventory inventory;
     Hotbar hotbar;
+    BlockTools blockTools;
 
     @Override
     public Item getSelectedItem() {
@@ -83,6 +85,7 @@ public class MyGame extends Game {
             GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
             inventory.draw(stack);
         } else {
+            blockTools.draw(stack);
             hotbar.draw(stack);
         }
     }
@@ -93,6 +96,7 @@ public class MyGame extends Game {
         try {
             hotbar = new Hotbar(ctx, window, uires);
             inventory = new Inventory(ctx, window, uires, itemList, hotbar);
+            blockTools = new BlockTools(ctx, window, uires);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,7 +105,9 @@ public class MyGame extends Game {
     @Override
     public void uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (!showInventory) {
-            hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
+            if(!blockTools.mouseScrollEvent(scroll, xoffset, yoffset)) {
+                hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
+            }
         }
     }
 
@@ -113,7 +119,9 @@ public class MyGame extends Game {
             }
         }
         if (!showInventory) {
-            hotbar.keyEvent(key, scancode, action, mods);
+            if(!blockTools.keyEvent(key, scancode, action, mods)) {
+                hotbar.keyEvent(key, scancode, action, mods);
+            }
         }
     }
 

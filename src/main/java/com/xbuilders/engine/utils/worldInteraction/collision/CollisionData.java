@@ -7,7 +7,6 @@ package com.xbuilders.engine.utils.worldInteraction.collision;
 import com.xbuilders.engine.utils.math.AABB;
 import java.nio.FloatBuffer;
 import org.joml.*;
-import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 /**
@@ -34,8 +33,8 @@ public class CollisionData {
         new Vector3i(0, 0, -1), new Vector3i(0, 0, 1),};
 
     public void calculateCollision(AABB thisBox, AABB other) {
-        Vector3f boxAPos = thisBox.minPoint;
-        Vector3f boxBPos = other.minPoint;
+        Vector3f boxAPos = thisBox.min;
+        Vector3f boxBPos = other.min;
         Vector3f maxA = new Vector3f(boxAPos).add(thisBox.getXLength(), thisBox.getYLength(), thisBox.getZLength());
         Vector3f maxB = new Vector3f(boxBPos).add(other.getXLength(), other.getYLength(), other.getZLength());
         penetration.put(0, Float.MAX_VALUE);

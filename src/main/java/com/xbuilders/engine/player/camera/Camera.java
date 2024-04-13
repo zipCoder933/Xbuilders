@@ -1,6 +1,5 @@
 package com.xbuilders.engine.player.camera;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
@@ -10,20 +9,16 @@ import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.window.BaseWindow;
 
 import java.awt.*;
+import java.lang.Math;
 import java.nio.IntBuffer;
 
-import org.joml.Matrix4f;
-import org.joml.Vector2i;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import org.joml.*;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryUtil;
 
@@ -37,7 +32,7 @@ public class Camera {
     public int cursorRayDist = 1000;//Max distance for front ray
     public final int maxCursorRayDist = 1000;//Max distance for front ray for cursor raycaster
     private float tilt, pan, normalizedPan;
-    public final Ray cursorRay, cameraViewRay;
+    public final Ray cameraViewRay;
     private float thirdPersonDist = 0;
     public final static FrustumCullingTester frustum = new FrustumCullingTester();
     public static final double HALF_PI = Math.PI / 2;
@@ -49,13 +44,11 @@ public class Camera {
     private Robot robot;
     private final UserControlledPlayer player;
     private final BaseWindow window;
-    private final Matrix4f view, projection;
+    protected final Matrix4f view, projection;
     private final World world;
-    public boolean cursorRayHitAllBlocks = false;
 
-    public boolean cursorRayHitTarget() {
-        return cursorRayHitAllBlocks || cursorRay.hitTarget;
-    }
+
+
 
     private void calculateCameraOrientation() {
         normalizedPan = (float) ((float) pan / MathUtils.TWO_PI);
@@ -125,7 +118,7 @@ public class Camera {
         windowX = MemoryUtil.memAllocInt(1);
         windowY = MemoryUtil.memAllocInt(1);
         simplifiedPanTilt = new Vector2i();
-        cursorRay = new Ray();
+     cursorRay = new CursorRay(this);
         cameraViewRay = new Ray();
 
         try {
@@ -138,16 +131,11 @@ public class Camera {
         position = new Vector3f();
         right = new Vector3f(1f, 0f, 0f);
         look = new Vector3f(0f, 0.5f, 1f);
-
         pan = 0;
         tilt = 0f;
-
-        cursor = new Box();
-        cursor.set(0, 0, 0, 1, 1, 1);
-        cursor.setColor(new Vector4f(1, 1, 1, 1));
-        // frustum.setCamInternals(game.cameraFOV, game.getCameraRatio(),
-        // game.cameraNearDist, game.cameraFarDist);
     }
+
+   public final CursorRay cursorRay;
 
     public void hideMouse() {
         GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
@@ -238,11 +226,11 @@ public class Camera {
                 }
             }
 
-            if (cursorRayHitAllBlocks) cursorRayDist = MathUtils.clamp(cursorRayDist, 1, maxCursorRayDist);
+            if (cursorRay.cursorRayHitAllBlocks) cursorRayDist = MathUtils.clamp(cursorRayDist, 1, maxCursorRayDist);
             else cursorRayDist = maxCursorRayDist;
-            RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, cursorRayDist,
+            RayCasting.traceComplexRay(cursorRay.cursorRay, position, cursorRaycastLook, cursorRayDist,
                     ((block, forbiddenBlock) -> {
-                        if (cursorRayHitAllBlocks) {
+                        if (cursorRay.cursorRayHitAllBlocks) {
                             return block != forbiddenBlock;
                         } else return block != BlockList.BLOCK_AIR.id &&
                                 block != forbiddenBlock;
@@ -263,30 +251,9 @@ public class Camera {
         frustum.update(projection, view);
     }
 
-    Box cursor;
 
-    public void drawRay() {
-        if (cursorRay.hitTarget || cursorRayHitAllBlocks) {
-            if (cursorRay.entity != null) {
-                cursor.set(cursorRay.entity.aabb.box);
-                cursor.draw(projection, view);
-            } else if (cursorRay.cursorBoxes == null) {
-                cursor.set(
-                        (int) cursorRay.getHitPosition().x,
-                        (int) cursorRay.getHitPosition().y,
-                        (int) cursorRay.getHitPosition().z,
-                        1, 1, 1);
-                cursor.draw(projection, view);
-            } else {
-                for (AABB box : cursorRay.cursorBoxes) {
-                    cursor.set(box);
-                    cursor.draw(projection, view);
-                }
-            }
-        }
-    }
 
     public String toString() {
-        return "Camera: pan\\tilt:(" + MiscUtils.printVector(player.camera.simplifiedPanTilt) + "), thirdPersonDist:" + thirdPersonDist + " cursorHitAll:" + cursorRayHitAllBlocks;
+        return "Camera: pan\\tilt:(" + MiscUtils.printVector(player.camera.simplifiedPanTilt) + "), thirdPersonDist:" + thirdPersonDist + " cursorHitAll:" + cursorRay.cursorRayHitAllBlocks;
     }
 }
