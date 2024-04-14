@@ -1,10 +1,25 @@
 # Managable To-Do List
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in less than 2 hours:
-1. Add block boundary set/ delete in xbuilders 3 game
-    * Add basic tool framework with very basic ui
-    * Add player boundary mode
-2. Add JSON settings
-3. Make chunks load light and meshes before the user enters the game
+1. Implement multithreaded bulk block setting and multithreaded block events
+2. Add line, and fill tools and Add JSON settings
+    1. Add additional framework for parameters in the context of future UI solutions 
+3. Add copy/paste tools
+4. Make chunks load light and meshes before the user enters the game and Player spawn position must actually work and Add banners
+5. BUG: voxels from a previous game show up in new chunks
+6. ADD ALL block events
+    1. Add TNT (skip billboard holograms for now)
+    2. Add tall grass
+    3. Add track setting events
+    4. Add trees
+7. Import a few xbuilders terrains
+8. Add all animals, and All vehicles
+9. Add doors trapdoors and fence gates as blocks
+10. Make framework for cellular automata that can run things like water propagation, grass, etc
+11. Water propagation 
+12. Make a conversion tool to convert xb2 worlds to xb3
+13. Unknowns bugfixes and stability improvements 
+
+Assuming each of these items took 2 hours, i would have xbuilders 3 ready by 1 month
 
 ## Features that must be implemented to get to XB2
 * Bugfixes
