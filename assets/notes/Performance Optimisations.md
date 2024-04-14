@@ -3,24 +3,53 @@
 * https://www.toptal.com/full-stack/code-optimization
 
 ## Summary:
-* Optimisation should be the last thing you do.
-    * Get your program to work properly first, and then profile it to see if it needs further work.
-    * optimization should always be saved for last. doing it too early auses you to waste time optimizing things that may not even need optimization at the expense of time and code maintainability
-* make programatic benchmarks and testing algorithms to test for bugs and bottlenecks.
-    * trying to guess what the bottleneck really is, rarely works
-    * "profile your code - and concentrate your efforts where they can do some good;"
+### Optimisation should be the last thing you do.
+* Get your program to work properly first, and then profile it to see if it needs further work.
+* optimization should always be saved for THE VERY LAST! doing it too early causes you to waste time optimizing things that may not even need optimization, at the expense of time and maintainability.
+### make programatic benchmarks and testing algorithms to test for bugs and bottlenecks.
+* trying to guess what the bottleneck really is, rarely works
+* "profile your code - and concentrate your efforts where they can do some good;"
 
 ## From www.toptal.com/full-stack/code-optimization
-"Now that you’ve used profiling to identify your system’s bottleneck, now you can actually attempt to optimize, confident that your optimization is worth doing. You can also prove how effective (or ineffective) your attempt was, thanks to those baseline benchmarks you did along the way."
+
+
+Let’s start by listening to the advice of the sages as we explore together Jackson’s famous code optimization rules:
+1. Don’t do it.
+2. (For experts only!) Don’t do it yet.
+
+### But We Still Haven’t Optimized!
+Now that your algorithm is implemented, and you have proven its output to be correct, congratulations! You have a baseline!
+
+Finally, it’s time to… optimize, right? Nope, still Don’t do it yet. It’s time to take your baseline and do a nice benchmark. Set a threshold for your expectations around this and stick it in your test suite. Then if something suddenly makes this code slower—even if it still works—you’ll know before it goes out the door.
+
+Still hold off on optimization, until you have a whole piece of the relevant user experience implemented. Until that point, you may be targeting an entirely different part of the code than you need to.
+
+Go finish your app (or component), if you haven’t already, setting all your algorithmic benchmark baselines as you go.
+
+Once this is done, this is a great time to create and benchmark end-to-end tests covering the most common real-world usage scenarios of your system.
+
+Maybe you’ll find that everything is fine.
+
+Or maybe you’ve determined that, in its real-life context, something is too slow or takes too much memory.
+
+OK, Now You Can Optimize
+
+There’s only one way to be objective about it. It’s time to break out flame graphs and other profiling tools. Experienced engineers may or may not guess better more often than novices, but that’s not the point: The only way to know for sure is to profile. This is always the first thing to do in the process of optimizing code for performance.
+
+You can profile during a given end-to-end test to get at what will really make the largest impact. (And later, after deploying, monitoring usage patterns is a great way to stay on top of which aspects of your system are the most relevant to measure in the future.)
+
+Note that you are not trying to use the profiler right to its full depth—you’re looking more for function-level profiling than statement-level profiling, generally, because your goal at this point is only to find out which algorithm is the bottleneck.
+
+**Now that you’ve used profiling to identify your system’s bottleneck, now you can actually attempt to optimize, confident that your optimization is worth doing. You can also prove how effective (or ineffective) your attempt was, thanks to those baseline benchmarks you did along the way.**
 
 
 
-## Cautionary notes (from cell-auto.com/optimisation/)
+## Cautionary notes (from www.cell-auto.com/optimisation/)
 We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil.
 - Donald Knuth
 
 I'm sure you've heard this before, but I have to say it again.
-**Optimisation is probably the last thing you should be doing. **Get your program to work properly first, and then profile it, and see if it needs further work.
+**Optimisation is probably the last thing you should be doing.** Get your program to work properly first, and then profile it, and see if it needs further work.
 
 ### The Pareto Principal
 
