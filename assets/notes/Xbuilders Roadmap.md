@@ -35,11 +35,11 @@ All block tools that use a block boudnary have 2 other parameters
 
 ## BLOCK EVENTS
 * I started by allowing block types to choose how they want to exist. Certain conditions around the block would make it not allowed to be there
-* TODO:Track setting events and local change events
-    * Set all track blocks to class TrackPiece
-* TODO:Plant growth
-    * block events should run in their own thread unless they are fast
-        * make a way for events to "shutdown" safely
+    * make a way for events to "shutdown" safely
+    * find a way to intelligently execute block events on other threads
+* when too many block events are called, it pauses the frame.
+    * a solution would to be to shuttle all remaining events after the threshold limit per frame is set to a thread pool
+        * I might also need to cancel/limit block set and local change events when doing it in bulk, as it would slow things down too
 
 ## WATER/FIRE/GRASS PROPAGATION WITH CELLULAR AUTOMATA
 * we can use cellular autonoma interface so that the usage is essentially an abstraction of what is really going on
