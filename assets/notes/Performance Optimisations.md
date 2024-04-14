@@ -2,7 +2,7 @@
 * https://cell-auto.com/optimisation/
 * https://www.toptal.com/full-stack/code-optimization
 
-## summary:
+## Summary:
 * Optimisation should be the last thing you do.
     * Get your program to work properly first, and then profile it to see if it needs further work.
     * optimization should always be saved for last. doing it too early auses you to waste time optimizing things that may not even need optimization at the expense of time and code maintainability
@@ -10,7 +10,10 @@
     * trying to guess what the bottleneck really is, rarely works
     * "profile your code - and concentrate your efforts where they can do some good;"
 
+## From www.toptal.com/full-stack/code-optimization
 "Now that you’ve used profiling to identify your system’s bottleneck, now you can actually attempt to optimize, confident that your optimization is worth doing. You can also prove how effective (or ineffective) your attempt was, thanks to those baseline benchmarks you did along the way."
+
+
 
 ## Cautionary notes (from cell-auto.com/optimisation/)
 We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil.
