@@ -26,10 +26,10 @@ bugfixes and optimizations **(save all optimizations for last.)**
 2. BUG: voxels from a previous game show up in new chunks
 
 we can calculate the number of weeks it will take with the folowing formula:
-$number of weeks = total hours / hours spent per week$
+$$ number of weeks = total hours / hours spent per week $$
 
 assuming you spent 1hr/day for 6 days a week, it would take about 50 days to complete everything in this list, assuming each item took 2.4 hours
-$weeks = (18 tasks)(2.4h) / (1h)(6d) = 7.2 weeks$
+$$ weeks = (18 tasks)(2.4h) / (1h)(6d) = 7.2 weeks $$
 
 
 ## Features that must be implemented to get to XB2
