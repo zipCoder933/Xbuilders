@@ -2,6 +2,9 @@
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
 1. succesfully resolve queue on thread pool (or just another thread) when handling lots of block events
 2. Add multithreaded block events
+    * you could try making every block event on a separate thread pool than bulk block threads
+    * make every event on its own thread, but if after .1ms it hasnt stopped, send it to thread pool?
+    * maybe there is a way to start it on our own thread but move it to a separate thread
 2. Add line, and fill tools
     1. If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions 
 3. Add copy/paste tools
