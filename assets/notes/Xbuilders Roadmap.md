@@ -1,6 +1,7 @@
 # Managable To-Do List
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
-1. Implement multithreaded bulk block setting and multithreaded block events
+1. succesfully resolve queue on thread pool (or just another thread) when handling lots of block events
+2. Add multithreaded block events
 2. Add line, and fill tools
     1. If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions 
 3. Add copy/paste tools

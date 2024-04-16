@@ -233,11 +233,8 @@ public class UserControlledPlayer extends Player {
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
-            if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
-                speed = 60.0f;
-            } else speed = 10f;
-
             switch (key) {
+                case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = 75f;
                 case GLFW.GLFW_KEY_SPACE -> {
                     jump();
                 }

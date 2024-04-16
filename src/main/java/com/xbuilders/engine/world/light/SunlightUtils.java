@@ -92,22 +92,28 @@ public class SunlightUtils {
         return null;
     }
 
-//    public static synchronized void updateFromQueue(List<ChunkNode> opaqueToTransparent, List<ChunkNode> transparentToOpaque) {
-//        if (transparentToOpaque.size() > 0) {
-//            HashSet<ChunkNode> adjacentNodes = new HashSet<>();
-//            SunlightUtils.eraseSection(transparentToOpaque, adjacentNodes);
-//            if (!adjacentNodes.isEmpty()) {
-//                transparentToOpaque.clear();
-//                transparentToOpaque.addAll(opaqueToTransparent);
-//                transparentToOpaque.addAll(adjacentNodes);
-//                SunlightUtils.propagateSunlight(transparentToOpaque);
-//            } else if (opaqueToTransparent.size() > 0) {
-//                SunlightUtils.propagateSunlight(opaqueToTransparent);
-//            }
-//        } else if (opaqueToTransparent.size() > 0) {
-//            SunlightUtils.propagateSunlight(opaqueToTransparent);
-//        }
-//    }
+    public static synchronized void updateFromQueue(
+            List<ChunkNode> opaqueToTransparent,
+            List<ChunkNode> transparentToOpaque,
+            HashSet<Chunk> affectedChunks) {
+
+        if (transparentToOpaque.size() > 0) {
+            HashSet<ChunkNode> repropagationNodes = new HashSet<>();
+            eraseSunlight(transparentToOpaque, affectedChunks, repropagationNodes);
+            if (!repropagationNodes.isEmpty()) {
+                transparentToOpaque.clear();
+                transparentToOpaque.addAll(opaqueToTransparent);
+                transparentToOpaque.addAll(repropagationNodes);
+                propagateSunlight(transparentToOpaque, affectedChunks, true);
+            } else if (opaqueToTransparent.size() > 0) {
+                propagateSunlight(opaqueToTransparent, affectedChunks, true);
+            }
+        } else if (opaqueToTransparent.size() > 0) {
+            propagateSunlight(opaqueToTransparent, affectedChunks, true);
+        }
+        opaqueToTransparent.clear();
+        transparentToOpaque.clear();
+    }
 
 
     /**
@@ -158,12 +164,12 @@ public class SunlightUtils {
             node.chunk.data.setSun(node.x, node.y, node.z, (byte) 0);
             affectedChunks.add(node.chunk);
             repropagationNodes.remove(node);
-            SunlightUtils.checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, repropagationNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, repropagationNodes, false);
-            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, repropagationNodes, true);
-            SunlightUtils.checkNeighborErase(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, repropagationNodes, false);
+            checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
+            checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
+            checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, repropagationNodes, false);
+            checkNeighborErase(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, repropagationNodes, false);
+            checkNeighborErase(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, repropagationNodes, true);
+            checkNeighborErase(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, repropagationNodes, false);
         }
         queue.clear();
     }
@@ -200,12 +206,12 @@ public class SunlightUtils {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
-            SunlightUtils.checkNeighbor(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, affectedChunks, false);
-            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, affectedChunks, propagateDownward);
-            SunlightUtils.checkNeighbor(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, affectedChunks, false);
+            checkNeighbor(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, affectedChunks, false);
+            checkNeighbor(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, affectedChunks, false);
+            checkNeighbor(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, affectedChunks, false);
+            checkNeighbor(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, affectedChunks, false);
+            checkNeighbor(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, affectedChunks, propagateDownward);
+            checkNeighbor(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, affectedChunks, false);
 //            System.out.println("Queue size: " + queue.size());
         }
         queue.clear();
