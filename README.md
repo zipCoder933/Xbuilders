@@ -73,7 +73,7 @@ Ingame screenshot:
 
 
 
-# Managable To-Do List
+# Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
 we can calculate the number of weeks it will take with the folowing formula:
 `number of weeks = total hours / hours spent per week
@@ -82,14 +82,11 @@ we can calculate the number of weeks it will take with the folowing formula:
 assuming you spent 1hr/day for 6 days a week, it would take about 50 days to complete everything in this list, assuming each item took 2.4 hours:
 `weeks = (18 tasks)(2.4h) / (1h)(6d) = 7.2 weeks`
 
-3. succesfully resolve queue on thread pool (or just another thread) when handling lots of block events
-2. Add line, and fill tools
-  1. If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions
-3. Add copy/paste tools
-6. ADD ALL block events
-  1. Add TNT (skip billboard holograms for now)
-  2. Add tall grass
-  3. Add track setting events
+1. Add plant growth
+1. Add fill tools and Add copy/paste tools
+   * If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions
+   * Add the necissary features of the tools by changing the framework to support it. Dont use workarounds.
+   * I want to see the range of the tools,for example, the line tool should show a cursor line, instead of the regular cursor
 4. Add banners
 7. Import a few xbuilders terrains
 8. Add all animals
@@ -101,15 +98,74 @@ assuming you spent 1hr/day for 6 days a week, it would take about 50 days to com
 4. Add JSON settings
 12. Make a conversion tool to convert xb2 worlds to xb3
 
-## Optimizations **(save all optimizations for last.)**
+# Optimizations/Q.O.L. features **(save all optimizations for last.)**
 1. Make chunks load light and meshes before the user enters the game
 2. Player spawn position must actually work
 
-## Bugfixes
+# Bugfixes
 * voxels from a previous game show up in new chunks
-* torch blocks cause weird mesh artifact when placed on edge of chunk
-  * This is due to the packing of vertex positions. When a torch is placed on the edge of the chunk, the verticies go outside of the packed range. For example, they may go slightly below 0, or slightly above 32
+* When setting LOTS of opaque blocks, it sometimes doesnt erase the light, causing small shadows, or nothing at all, It could even cause a random collection of blocks instead of all of them
+  * When the loaded chunk is loaded from disk, sunlight is fixed, indicating that the world generation, generates sunlight on chunks that it isnt supposed to.
+* Determine if we need to erase block data when blocks are deleted
+* Tnt does not clear itself properly, it leaves active tnt's behind that keeps detonating each other
 
+### torch blocks cause weird mesh artifact when placed on edge of chunk
+![2024-04-17 21-41-00.png](\assets\notes\2024-04-17%2021-41-00.png)
+This is due to the packing of vertex positions. When a torch is placed on the edge of the chunk, the verticies go outside of the packed range. For example, they may go slightly below 0, or slightly above 32
+
+
+### When setting LOTS of blocks, it somehow gets separated into multiple queues that get cleared in adjacent frames, instead of getting processed in one resolve() on another thread
+Observe the faulty code:
+```dtd
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+25801 Block Events (1 frames in row)
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+8208 Block Events (2 frames in row)
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+4055 Block Events (3 frames in row)
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+1787 Block Events (4 frames in row)
+Opaque to transparent: 0
+Transparent to opaque: 0
+Done. Chunks affected: 32
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+1963 Block Events (5 frames in row)
+Opaque to transparent: 0
+Transparent to opaque: 0
+Done. Chunks affected: 32
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+1421 Block Events (6 frames in row)
+Opaque to transparent: 0
+Transparent to opaque: 0
+Done. Chunks affected: 24
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+948 Block Events (7 frames in row)
+Opaque to transparent: 0
+Transparent to opaque: 0
+Done. Chunks affected: 16
+Opaque to transparent: 38
+Transparent to opaque: 0
+Done. Chunks affected: 24
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+6870 Block Events (8 frames in row)
+Opaque to transparent: 0
+Transparent to opaque: 0
+Done. Chunks affected: 24
+
+UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
+24 Block Events (9 frames in row)
+Opaque to transparent: 0
+Transparent to opaque: 0
+Done. Chunks affected: 11
+Saving...
+```
 
 ## Features that must be implemented to get to XB2
 * Bugfixes

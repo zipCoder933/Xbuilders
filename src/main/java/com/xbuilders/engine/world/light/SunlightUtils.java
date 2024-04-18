@@ -100,8 +100,9 @@ public class SunlightUtils {
         if (transparentToOpaque.size() > 0) {
             HashSet<ChunkNode> repropagationNodes = new HashSet<>();
             eraseSunlight(transparentToOpaque, affectedChunks, repropagationNodes);
+            transparentToOpaque.clear();
+            
             if (!repropagationNodes.isEmpty()) {
-                transparentToOpaque.clear();
                 transparentToOpaque.addAll(opaqueToTransparent);
                 transparentToOpaque.addAll(repropagationNodes);
                 propagateSunlight(transparentToOpaque, affectedChunks, true);

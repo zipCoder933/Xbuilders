@@ -26,7 +26,7 @@ public class Block extends Item {
     public boolean liquid = false;
     public boolean opaque = true;
     public byte torchlightStartingValue = 0;
-    private Consumer<Block> initializationCallback = null;
+    public Consumer<Block> initializationCallback = null;
 
     public final boolean isLuminous() {
         return torchlightStartingValue > 0;
@@ -37,38 +37,28 @@ public class Block extends Item {
     @FunctionalInterface
     public interface SetBlockEvent {
 
-        /**
-         * Sets a block event at the specified coordinates with the given block data.
-         *
-         * @param x    the x-coordinate of the block
-         * @param y    the y-coordinate of the block
-         * @param z    the z-coordinate of the block
-         * @param data the block data to set
-         * @return true if the block event was successfully set, false otherwise
-         */
         public void run(int x, int y, int z, BlockData data);
+    }
+
+    @FunctionalInterface
+    public interface RemoveBlockEvent {
+
+        public void run(int x, int y, int z);
     }
 
     //A functional interface for onLocalChange
     @FunctionalInterface
     public interface OnLocalChange {
 
-        /**
-         * A description of the entire Java function.
-         *
-         * @param history         description of parameter
-         * @param changedPosition description of parameter
-         * @param thisPosition    description of parameter
-         * @return description of return value
-         */
         public void run(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition);
     }
 
     SetBlockEvent setBlockEvent = null;
     OnLocalChange onLocalChange = null;
+    RemoveBlockEvent removeBlockEvent = null;
     boolean setBlockEvent_runOnAnotherThread = false;
 
-    public boolean allowSet(int worldX, int worldY, int worldZ, BlockData blockData) {
+    public boolean allowExistence(int worldX, int worldY, int worldZ) {
         return true;
     }
 
@@ -77,20 +67,21 @@ public class Block extends Item {
         this.setBlockEvent_runOnAnotherThread = runOnAnotherThread;
     }
 
+    public void removeBlockEvent(RemoveBlockEvent removeBlockEvent) {
+        this.removeBlockEvent = removeBlockEvent;
+    }
+
     public void onLocalChange(OnLocalChange onLocalChange) {
         this.onLocalChange = onLocalChange;
     }
 
-    public boolean allowSet(Vector3i worldPos, BlockData data) {
-        if (allowSet(worldPos.x, worldPos.y, worldPos.z, data)) {//Check if the block is allowed to be set
-            BlockType type = ItemList.blocks.getBlockType(this.type);//Test if the blockType is ok with setting
-            if (type == null || type.allowToBeSet(this, data, worldPos.x, worldPos.y, worldPos.z)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
+
+    public void run_RemoveBlockEvent(Vector3i worldPos) {
+        if (removeBlockEvent != null) {
+            removeBlockEvent.run(worldPos.x, worldPos.y, worldPos.z);
+        }
+    }
 
     public void run_SetBlockEvent(ThreadPoolExecutor eventThread, Vector3i worldPos, BlockData data) {
         if (setBlockEvent != null) {

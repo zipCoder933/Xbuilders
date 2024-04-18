@@ -26,7 +26,7 @@ public class LampRenderer extends BlockType {
     BlockModel[] fenceSide, sideBlock;
 
     @Override
-    public boolean allowToBeSet(Block block, BlockData blockData, int worldX, int worldY, int worldZ) {
+    public boolean allowExistence(Block block,  int worldX, int worldY, int worldZ) {
         return sideIsSolid(GameScene.world.getBlock(worldX, worldY + 1, worldZ)) ||
                 sideIsSolid(GameScene.world.getBlock(worldX + 1, worldY, worldZ)) ||
                 sideIsSolid(GameScene.world.getBlock(worldX - 1, worldY, worldZ)) ||

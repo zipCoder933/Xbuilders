@@ -15,6 +15,7 @@ import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.engine.utils.network.PlayerServer;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.Terrain;
@@ -44,8 +45,50 @@ public class UserControlledPlayer extends Player {
     public PlayerServer server;
     public BlockEventPipeline eventPipeline;
 
+    //Keys
+    public static final int CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
+    public static final int CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
+    public static final int DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
 
-    final int CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
+    public boolean leftKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
+    }
+
+    public boolean rightKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_RIGHT) || window.isKeyPressed(GLFW.GLFW_KEY_D);
+    }
+
+    public boolean forwardKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
+    }
+
+    public boolean backwardKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
+    }
+
+    public boolean jumpKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_SPACE);
+    }
+
+    public boolean upKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
+                !window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
+    }
+
+    public boolean downKeyPressed() {
+        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
+                window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
+    }
+
+    public boolean upKeyPressed(int key) {
+        return key == GLFW.GLFW_KEY_F &&
+                key != GLFW.GLFW_KEY_LEFT_SHIFT;
+    }
+
+    public boolean downKeyPressed(int key) {
+        return key == GLFW.GLFW_KEY_F &&
+                key == GLFW.GLFW_KEY_LEFT_SHIFT;
+    }
 
 
     private void disableGravity() {
@@ -93,47 +136,16 @@ public class UserControlledPlayer extends Player {
         server = new PlayerServer(this);
     }
 
+    public void startGame() {
+        eventPipeline.startGame();
+    }
+
+    public void stopGame() {
+        eventPipeline.endGame();
+    }
+
     World chunks;
 
-    public boolean leftKeyPressed() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
-    }
-
-    public boolean rightKeyPressed() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_RIGHT) || window.isKeyPressed(GLFW.GLFW_KEY_D);
-    }
-
-    public boolean forwardKeyPressed() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
-    }
-
-    public boolean backwardKeyPressed() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
-    }
-
-    public boolean jumpKeyPressed() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_SPACE);
-    }
-
-    public boolean upKeyPressed() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
-                !window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
-    }
-
-    public boolean downKeyPressed() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
-                window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
-    }
-
-    public boolean upKeyPressed(int key) {
-        return key == GLFW.GLFW_KEY_F &&
-                key != GLFW.GLFW_KEY_LEFT_SHIFT;
-    }
-
-    public boolean downKeyPressed(int key) {
-        return key == GLFW.GLFW_KEY_F &&
-                key == GLFW.GLFW_KEY_LEFT_SHIFT;
-    }
 
     private Block getBlockAtHeadPos() {
         return GameScene.world.getBlock(
@@ -310,6 +322,20 @@ public class UserControlledPlayer extends Player {
         WCCi wcc = new WCCi();
         wcc.set(worldX, worldY, worldZ);
         setBlock(block, wcc);
+    }
+
+    public void setBlock(Block block, int worldX, int worldY, int worldZ, BlockData blockData) {
+        WCCi wcc = new WCCi();
+        wcc.set(worldX, worldY, worldZ);
+        Chunk chunk = chunks.getChunk(wcc.chunk);
+        if (chunk != null) {
+            Block prevBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+            eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(prevBlock, block, blockData));
+        }
+    }
+
+    public void setBlock(BlockData blockData, int worldX, int worldY, int worldZ) {
+        eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(blockData));
     }
 
     public void setBlock(Block block, WCCi wcc) {

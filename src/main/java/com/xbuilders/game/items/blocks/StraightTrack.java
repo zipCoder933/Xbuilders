@@ -1,141 +1,138 @@
-//package com.xbuilders.game.items.blocks;
-//
-//import com.xbuilders.engine.gameScene.GameScene;
-//import com.xbuilders.engine.items.BlockList;
-//import com.xbuilders.engine.items.block.Block;
-//import com.xbuilders.engine.items.block.construction.BlockTexture;
-//import com.xbuilders.engine.player.pipeline.BlockHistory;
-//import org.joml.Vector3i;
-//
-//import java.util.ArrayList;
-//
-//public class StraightTrack extends Block {
-//
-//    public StraightTrack(int id, String name, BlockTexture texture) {
-//        super(id, name, texture);
-//        solid = false;
-//        opaque = false;
-//        type = RenderType.FLOOR;
-//    }
-//
-//    private void addNeighbor(ArrayList<Vector3i> trackPositions, int x2, int y2, int z2) {
-//        Block b = GameScene.world.getBlock(x2, y2, z2);
-//        if (MinecartUtils.isTrack(b)) {
-//            trackPositions.add(new Vector3i(x2, y2, z2));
-//        }
-//    }
-//
-//    private boolean changeBlock(int x, int y, int z) {
-//        ArrayList<Vector3i> trackPositions = new ArrayList<>();
-//        BlockOrientation orientation = new BlockOrientation((byte) 0, (byte) 0);
-//        addNeighbor(trackPositions, x + 1, y, z);
-//        addNeighbor(trackPositions, x - 1, y, z);
-//        addNeighbor(trackPositions, x, y, z + 1);
-//        addNeighbor(trackPositions, x, y, z - 1);
-//
-//        addNeighbor(trackPositions, x + 1, y + 1, z);
-//        addNeighbor(trackPositions, x - 1, y + 1, z);
-//        addNeighbor(trackPositions, x, y + 1, z + 1);
-//        addNeighbor(trackPositions, x, y + 1, z - 1);
-//
-//        addNeighbor(trackPositions, x + 1, y - 1, z);
-//        addNeighbor(trackPositions, x - 1, y - 1, z);
-//        addNeighbor(trackPositions, x, y - 1, z + 1);
-//        addNeighbor(trackPositions, x, y - 1, z - 1);
-//
-//        boolean curvedTrack = false;
-//        boolean straightTrack = false;
-//
-//        if (!trackPositions.isEmpty()) {
-//            if (isTrackAtPos2(trackPositions, x - 1, y, z) && isTrackAtPos2(trackPositions, x, y, z - 1)) {
-//                orientation.setXZ((byte) 2);
-//                GameItems.CURVED_TRACK.set(x, y, z, orientation);
-//                curvedTrack = true;
-//                return true;
-//            } else if (isTrackAtPos2(trackPositions, x + 1, y, z) && isTrackAtPos2(trackPositions, x, y, z - 1)) {
-//                orientation.setXZ((byte) 3);
-//                GameItems.CURVED_TRACK.set(x, y, z, orientation);
-//                curvedTrack = true;
-//                return true;
-//            } else if (isTrackAtPos2(trackPositions, x - 1, y, z) && isTrackAtPos2(trackPositions, x, y, z + 1)) {
-//                orientation.setXZ((byte) 1);
-//                GameItems.CURVED_TRACK.set(x, y, z, orientation);
-//                curvedTrack = true;
-//                return true;
-//            } else if (isTrackAtPos2(trackPositions, x + 1, y, z) && isTrackAtPos2(trackPositions, x, y, z + 1)) {
-//                orientation.setXZ((byte) 0);
-//                GameItems.CURVED_TRACK.set(x, y, z, orientation);
-//                curvedTrack = true;
-//                return true;
-//            } //=====================
-//            else if (isTrackAtPos2(trackPositions, x - 1, y, z) || isTrackAtPos2(trackPositions, x + 1, y, z)) {
-//                orientation.setXZ((byte) 1);
-//                straightTrack = true;
-//                this.set(x, y, z, orientation);
-//            } else if (isTrackAtPos2(trackPositions, x, y, z - 1) || isTrackAtPos2(trackPositions, x, y, z + 1)) {
-//                orientation.setXZ((byte) 0);
-//                this.set(x, y, z, orientation);
-//                straightTrack = true;
-//            }
-//        }
-//        if (!curvedTrack) {
-//            if (isTrackAtPos(trackPositions, x + 1, y - 1, z)) {
-//                orientation.setXZ((byte) 1);
-//                GameItems.RAISED_TRACK.set(x, y, z, orientation);
-//                return true;
-//            } else if (isTrackAtPos(trackPositions, x - 1, y - 1, z)) {
-//                orientation.setXZ((byte) 3);
-//                GameItems.RAISED_TRACK.set(x, y, z, orientation);
-//                return true;
-//            } else if (isTrackAtPos(trackPositions, x, y - 1, z + 1)) {
-//                orientation.setXZ((byte) 2);
-//                GameItems.RAISED_TRACK.set(x, y, z, orientation);
-//                return true;
-//            } else if (isTrackAtPos(trackPositions, x, y - 1, z - 1)) {
-//                orientation.setXZ((byte) 0);
-//                GameItems.RAISED_TRACK.set(x, y, z, orientation);
-//                return true;
-//            }
-//        }
-//        return straightTrack;
-//    }
-//
-//    public static boolean isNotSecure(int x, int y, int z) {
-//        Block b = GameScene.world.getBlock(x, y + 1, z);
-//        return (MinecartUtils.isTrack(b) || !b.isSolid());
-//    }
-//
-//    @Override
-//    public boolean setBlock(int x, int y, int z, BlockData data) {
-//        if (isNotSecure(getPointerHandler(), x, y, z)) {
-//            return false;
-//        }
-//        if (!changeBlock(x, y, z)) {
-//            this.set(x, y, z, data);
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    @Override
-//    public void onLocalChange(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition) {
-//        int x = changedPosition.x;
-//        int y = changedPosition.y;
-//        int z = changedPosition.z;
-//        if (isNotSecure(getPointerHandler(), x, y, z)) {
-//            BlockList.BLOCK_AIR.set(x, y, z);
-//        } else {
-//            changeBlock(x, y, z);
-//        }
-//    }
-//
-//    private boolean isTrackAtPos(ArrayList<Vector3i> trackPositions, int x, int y, int z) {
-//        return trackPositions.contains(new Vector3i(x, y, z));
-//    }
-//
-//    private boolean isTrackAtPos2(ArrayList<Vector3i> trackPositions, int x, int y, int z) {
-//        return trackPositions.contains(new Vector3i(x, y, z))
-//                || trackPositions.contains(new Vector3i(x, y + 1, z))
-//                || trackPositions.contains(new Vector3i(x, y - 1, z));
-//    }
-//}
+package com.xbuilders.game.items.blocks;
+
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.player.pipeline.BlockHistory;
+import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.game.MyGame;
+import org.joml.Vector3i;
+
+import java.util.ArrayList;
+
+public class StraightTrack extends Block {
+
+    public StraightTrack(int id) {
+        super(id, "Track", new BlockTexture("track.png", "track.png", "track.png"));
+        solid = false;
+        opaque = false;
+        type = RenderType.FLOOR;
+
+        onLocalChange(((history, changedPosition, thisPosition) -> {
+            int x = thisPosition.x;
+            int y = thisPosition.y;
+            int z = thisPosition.z;
+            changeBlock(x, y, z);
+        }));
+        setBlockEvent(false, (x, y, z, data) -> {
+            changeBlock(x, y, z);
+        });
+    }
+
+    private void addNeighbor(ArrayList<Vector3i> trackPositions, int x2, int y2, int z2) {
+        Block b = GameScene.world.getBlock(x2, y2, z2);
+        if (isTrack(b)) {
+            trackPositions.add(new Vector3i(x2, y2, z2));
+        }
+    }
+
+    public static boolean isTrack(Block block) {
+        return block == MyGame.BLOCK_TRACK
+                || block == MyGame.BLOCK_RAISED_TRACK
+                || block == MyGame.BLOCK_CROSSTRACK
+                || block == MyGame.BLOCK_CURVED_TRACK
+                || block == MyGame.BLOCK_SWITCH_JUNCTION
+                || block == MyGame.BLOCK_MERGE_TRACK
+                || block == MyGame.BLOCK_TRACK_STOP;
+    }
+
+    private void changeBlock(int x, int y, int z) {
+        ArrayList<Vector3i> trackNeighbors = new ArrayList<>();
+        BlockData orientation = new BlockData(new byte[]{0, 0});
+
+//        orientation.set(0, (byte) (Math.random() * 4));
+//        GameScene.player.setBlock(this, x, y, z, orientation);
+
+        addNeighbor(trackNeighbors, x + 1, y, z);
+        addNeighbor(trackNeighbors, x - 1, y, z);
+        addNeighbor(trackNeighbors, x, y, z + 1);
+        addNeighbor(trackNeighbors, x, y, z - 1);
+
+        addNeighbor(trackNeighbors, x + 1, y + 1, z);
+        addNeighbor(trackNeighbors, x - 1, y + 1, z);
+        addNeighbor(trackNeighbors, x, y + 1, z + 1);
+        addNeighbor(trackNeighbors, x, y + 1, z - 1);
+
+        addNeighbor(trackNeighbors, x + 1, y - 1, z);
+        addNeighbor(trackNeighbors, x - 1, y - 1, z);
+        addNeighbor(trackNeighbors, x, y - 1, z + 1);
+        addNeighbor(trackNeighbors, x, y - 1, z - 1);
+
+        boolean curvedTrack = false;
+        boolean straightTrack = false;
+
+        if (!trackNeighbors.isEmpty()) {
+            if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
+                orientation.set(0, (byte) 3);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                curvedTrack = true;
+                return;
+            } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
+                orientation.set(0, (byte) 0);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                curvedTrack = true;
+                return;
+            } else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
+                orientation.set(0, (byte) 2);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                curvedTrack = true;
+                return;
+            } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
+                orientation.set(0, (byte) 1);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                curvedTrack = true;
+                return;
+            } //=====================
+            else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) || isTrackAtPos2(trackNeighbors, x + 1, y, z)) {
+                orientation.set(0, (byte) 2);
+                straightTrack = true;
+                GameScene.player.setBlock(this, x, y, z, orientation);
+            } else if (isTrackAtPos2(trackNeighbors, x, y, z - 1) || isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
+                orientation.set(0, (byte) 1);
+                GameScene.player.setBlock(this, x, y, z, orientation);
+                straightTrack = true;
+            }
+        }
+        if (!curvedTrack) {
+            if (isTrackAtPos(trackNeighbors, x + 1, y - 1, z)) {
+                orientation.set(0, (byte) 2);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                return;
+            } else if (isTrackAtPos(trackNeighbors, x - 1, y - 1, z)) {
+                orientation.set(0, (byte) 0);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                return;
+            } else if (isTrackAtPos(trackNeighbors, x, y - 1, z + 1)) {
+                orientation.set(0, (byte) 3);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                return;
+            } else if (isTrackAtPos(trackNeighbors, x, y - 1, z - 1)) {
+                orientation.set(0, (byte) 1);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                return;
+            }
+        }
+    }
+
+
+    private boolean isTrackAtPos(ArrayList<Vector3i> trackPositions, int x, int y, int z) {
+        return trackPositions.contains(new Vector3i(x, y, z));
+    }
+
+    private boolean isTrackAtPos2(ArrayList<Vector3i> trackPositions, int x, int y, int z) {
+        return trackPositions.contains(new Vector3i(x, y, z))
+                || trackPositions.contains(new Vector3i(x, y + 1, z))
+                || trackPositions.contains(new Vector3i(x, y - 1, z));
+    }
+}

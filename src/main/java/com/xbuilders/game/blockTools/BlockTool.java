@@ -40,4 +40,8 @@ public abstract class BlockTool {
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         return false;
     }
+
+    public boolean mouseButtonEvent(int button, int action, int mods) {
+        return false;
+    }
 }

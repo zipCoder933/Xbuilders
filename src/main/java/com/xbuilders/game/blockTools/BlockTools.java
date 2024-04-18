@@ -61,7 +61,6 @@ public class BlockTools extends GameUIElement {
     }
 
     /**
-     *
      * @param scroll
      * @param xoffset
      * @param yoffset
@@ -76,7 +75,6 @@ public class BlockTools extends GameUIElement {
     }
 
     /**
-     *
      * @param key
      * @param scancode
      * @param action
@@ -110,5 +108,9 @@ public class BlockTools extends GameUIElement {
             tools.get(i).blockBoundarySetEvent(aabb, created);
         });
         else GameScene.player.camera.cursorRay.disableBoundaryMode();
+    }
+
+    public boolean mouseButtonEvent(int button, int action, int mods) {
+        return tools.get(selectedTool).mouseButtonEvent(button, action, mods);
     }
 }

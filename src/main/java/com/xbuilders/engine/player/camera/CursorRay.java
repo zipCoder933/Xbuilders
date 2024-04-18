@@ -73,7 +73,7 @@ public class CursorRay {
 
     public boolean createClickEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
-            if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            if (button == UserControlledPlayer.CREATE_MOUSE_BUTTON) {
                 if (useBoundary) {
                     boundaryClickEvent(true);
                     return false;
@@ -86,7 +86,7 @@ public class CursorRay {
 
     public boolean destroyClickEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
-            if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+            if (button == UserControlledPlayer.DELETE_MOUSE_BUTTON) {
                 if (useBoundary) {
                     boundaryClickEvent(false);
                     return false;

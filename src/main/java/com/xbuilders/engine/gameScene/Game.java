@@ -4,16 +4,14 @@
  */
 package com.xbuilders.engine.gameScene;
 
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.window.NKWindow;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
@@ -39,7 +37,7 @@ public abstract class Game {
         terrainsList = new ArrayList<>();
     }
 
-    public abstract void newGame(WorldInfo worldInfo);
+    public abstract void startGame(WorldInfo worldInfo);
 
     public abstract void initialize() throws Exception;
 
@@ -72,10 +70,10 @@ public abstract class Game {
 
     public abstract boolean menusAreOpen();
 
-    public abstract void uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset);
+    public abstract boolean uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset);
 
-    public abstract void uiKeyEvent(int key, int scancode, int action, int mods);
+    public abstract boolean uiKeyEvent(int key, int scancode, int action, int mods);
 
-    public abstract void uiMouseButtonEvent(int button, int action, int mods);
+    public abstract boolean uiMouseButtonEvent(int button, int action, int mods);
 
 }

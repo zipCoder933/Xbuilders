@@ -4,12 +4,11 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.game.items.blocks.*;
 import com.xbuilders.game.items.blocks.trees.*;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.blockTools.BlockTools;
-import com.xbuilders.game.items.blocks.Plant;
-import com.xbuilders.game.items.blocks.TrackPiece;
 import com.xbuilders.game.items.entities.Fox;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.items.BlockList;
@@ -22,7 +21,6 @@ import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
-import com.xbuilders.game.items.blocks.RenderType;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
@@ -72,19 +70,16 @@ public class MyGame extends Game {
 
     @Override
     public Item getSelectedItem() {
-        return gameInfo.playerBackpack[hotbar.selectedItemIndex];
+        return gameInfo.playerBackpack[hotbar.getSelectedItemIndex()];
     }
 
     NKWindow window;
 
-    boolean showInventory;
 
     @Override
     public void uiDraw(MemoryStack stack) {
-        if (showInventory) {
-            GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-            inventory.draw(stack);
-        } else {
+        inventory.draw(stack);
+        if (!inventory.isOpen()) {
             blockTools.draw(stack);
             hotbar.draw(stack);
         }
@@ -103,39 +98,44 @@ public class MyGame extends Game {
     }
 
     @Override
-    public void uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (!showInventory) {
+    public boolean uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        if (!inventory.isOpen()) {
             if (!blockTools.mouseScrollEvent(scroll, xoffset, yoffset)) {
                 hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
             }
         }
+        return false;
     }
 
     @Override
-    public void uiKeyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE) {
-            switch (key) {
-                case GLFW.GLFW_KEY_I -> showInventory = !showInventory;
-            }
-        }
-        if (!showInventory) {
+    public boolean uiKeyEvent(int key, int scancode, int action, int mods) {
+        inventory.keyEvent(key, scancode, action, mods);
+        if (!inventory.isOpen()) {
             if (!blockTools.keyEvent(key, scancode, action, mods)) {
                 hotbar.keyEvent(key, scancode, action, mods);
             }
         }
+        return false;
     }
 
     @Override
-    public void uiMouseButtonEvent(int button, int action, int mods) {
+    public boolean uiMouseButtonEvent(int button, int action, int mods) {
+        if (!inventory.isOpen()) {
+            if (!blockTools.mouseButtonEvent(button, action, mods)) {
+                hotbar.mouseButtonEvent(button, action, mods);
+            }
+        }
+        return false;
     }
 
     @Override
     public void initialize() throws Exception {
         System.out.println("Initializing items...");
         Block[] blockList = new Block[]{
-                BLOCK_BEDROCK, BLOCK_BIRCH_LOG, BLOCK_BIRCH_LEAVES, BLOCK_BRICK, BLOCK_VINES, BLOCK_DIRT, BLOCK_PANSIES, BLOCK_GLASS, BLOCK_GRASS, BLOCK_GRAVEL, BLOCK_OAK_LOG, BLOCK_OAK_LEAVES, BLOCK_SEA_LIGHT, BLOCK_PLANT_GRASS, BLOCK_BAMBOO, BLOCK_SAND, BLOCK_SANDSTONE, BLOCK_ANDESITE, BLOCK_STONE_BRICK, BLOCK_TORCH, BLOCK_WATER, BLOCK_WOOL, BLOCK_SNOW, BLOCK_BOOKSHELF, BLOCK_LAVA, BLOCK_TALL_DRY_GRASS_TOP, BLOCK_CRACKED_STONE, BLOCK_STONE_WITH_VINES, BLOCK_TNT_ACTIVE, BLOCK_JUNGLE_PLANKS, BLOCK_JUNGLE_PLANKS_SLAB, BLOCK_JUNGLE_PLANKS_STAIRS, BLOCK_HONEYCOMB_BLOCK, BLOCK_MOSAIC_BAMBOO_WOOD, BLOCK_MUSIC_BOX, BLOCK_CAKE, BLOCK_JUNGLE_SAPLING, BLOCK_OBSIDIAN, BLOCK_BURGUNDY_BRICK, BLOCK_JUNGLE_FENCE, BLOCK_RED_FLOWER, BLOCK_TALL_DRY_GRASS, BLOCK_RED_CANDLE, BLOCK_YELLOW_FLOWER, BLOCK_COAL_ORE, BLOCK_COAL_BLOCK, BLOCK_JUNGLE_LEAVES, BLOCK_JUNGLE_LOG, BLOCK_TALL_GRASS_TOP,
+                BLOCK_BEDROCK, BLOCK_BIRCH_LOG, BLOCK_BIRCH_LEAVES, BLOCK_BRICK, BLOCK_VINES, BLOCK_DIRT, BLOCK_PANSIES, BLOCK_GLASS, BLOCK_GRASS, BLOCK_GRAVEL, BLOCK_OAK_LOG, BLOCK_OAK_LEAVES, BLOCK_SEA_LIGHT, BLOCK_PLANT_GRASS, BLOCK_BAMBOO, BLOCK_SAND, BLOCK_SANDSTONE, BLOCK_ANDESITE, BLOCK_STONE_BRICK, BLOCK_TORCH, BLOCK_WATER, BLOCK_WOOL, BLOCK_SNOW, BLOCK_BOOKSHELF, BLOCK_LAVA, BLOCK_TALL_DRY_GRASS.topBlock, BLOCK_TALL_DRY_GRASS.bottomBlock, BLOCK_CRACKED_STONE, BLOCK_STONE_WITH_VINES, BLOCK_TNT_ACTIVE, BLOCK_JUNGLE_PLANKS, BLOCK_JUNGLE_PLANKS_SLAB, BLOCK_JUNGLE_PLANKS_STAIRS, BLOCK_HONEYCOMB_BLOCK, BLOCK_MOSAIC_BAMBOO_WOOD, BLOCK_MUSIC_BOX, BLOCK_CAKE, BLOCK_JUNGLE_SAPLING, BLOCK_OBSIDIAN, BLOCK_BURGUNDY_BRICK, BLOCK_JUNGLE_FENCE, BLOCK_RED_FLOWER, BLOCK_RED_CANDLE, BLOCK_YELLOW_FLOWER, BLOCK_COAL_ORE, BLOCK_COAL_BLOCK, BLOCK_JUNGLE_LEAVES, BLOCK_JUNGLE_LOG,
+                BLOCK_TALL_GRASS.topBlock, BLOCK_TALL_GRASS.bottomBlock,
                 BLOCK_CONTROL_PANEL, BLOCK_BEEHIVE, BLOCK_DIORITE, BLOCK_POLISHED_DIORITE, BLOCK_EDISON_LIGHT, BLOCK_POLISHED_ANDESITE, BLOCK_SPRUCE_PLANKS, BLOCK_AZURE_BLUET, BLOCK_DANDELION, BLOCK_BLUE_ORCHID, BLOCK_FERN, BLOCK_GRANITE_BRICK, BLOCK_ACACIA_PLANKS, BLOCK_AMETHYST_CRYSTAL, BLOCK_CLAY, BLOCK_YELLOW_CONCRETE, BLOCK_YELLOW_GLAZED_TERACOTTA, BLOCK_BLACK_CONCRETE, BLOCK_BLACK_GLAZED_TERACOTTA, BLOCK_BLUE_CONCRETE, BLOCK_BLUE_GLAZED_TERACOTTA, BLOCK_BROWN_CONCRETE, BLOCK_BROWN_GLAZED_TERACOTTA, BLOCK_CYAN_CONCRETE, BLOCK_CYAN_GLAZED_TERACOTTA, BLOCK_GREY_CONCRETE, BLOCK_GREY_GLAZED_TERACOTTA, BLOCK_GREEN_CONCRETE, BLOCK_GREEN_GLAZED_TERACOTTA, BLOCK_LIGHT_BLUE_CONCRETE, BLOCK_LIGHT_BLUE_GLAZED_TERACOTTA, BLOCK_LIGHT_GREY_CONCRETE, BLOCK_LIGHT_GREY_GLAZED_TERACOTTA, BLOCK_LIME_CONCRETE, BLOCK_LIME_GLAZED_TERACOTTA, BLOCK_MAGENTA_CONCRETE, BLOCK_MAGENTA_GLAZED_TERACOTTA, BLOCK_ORANGE_CONCRETE, BLOCK_ORANGE_GLAZED_TERACOTTA, BLOCK_PINK_CONCRETE, BLOCK_PINK_GLAZED_TERACOTTA, BLOCK_PURPLE_CONCRETE, BLOCK_PURPLE_GLAZED_TERACOTTA, BLOCK_RED_CONCRETE, BLOCK_RED_GLAZED_TERACOTTA, BLOCK_WHITE_CONCRETE, BLOCK_WHITE_GLAZED_TERACOTTA, BLOCK_BRAIN_CORAL, BLOCK_DIAMOND_ORE, BLOCK_QUARTZ_PILLAR_BLOCK,
-                BLOCK_COBBLESTONE, BLOCK_WOOL_TURQUOISE, BLOCK_WOOL_ORANGE, BLOCK_RED_SAND, BLOCK_WATERMELON, BLOCK_PHANTOM_STONE, BLOCK_PHANTOM_STONE_BRICK, BLOCK_CACTUS, BLOCK_PALISADE_STONE, BLOCK_RED_SANDSTONE, BLOCK_FIRE_CORAL_BLOCK, BLOCK_CANDLE, BLOCK_PALISADE_STONE_2, BLOCK_FIRE_CORAL, BLOCK_TALL_GRASS, BLOCK_HORN_CORAL_BLOCK, BLOCK_GOLD_BLOCK, BLOCK_HORN_CORAL_FAN, BLOCK_TNT, BLOCK_WHEAT, BLOCK_CARROTS__PLANT, BLOCK_MINI_CACTUS, BLOCK_MUSHROOM, BLOCK_MUSHROOM_2, BLOCK_ROSES, BLOCK_WOOL_PURPLE, BLOCK_BIRCH_PLANKS, BLOCK_RED_STAINED_WOOD, BLOCK_OAK_PLANKS, BLOCK_WOOL_RED, BLOCK_WOOL_PINK, BLOCK_WOOL_YELLOW, BLOCK_WOOL_BROWN, BLOCK_TUBE_CORAL_BLOCK, BLOCK_TUBE_CORAL, BLOCK_TUBE_CORAL_FAN, BLOCK_WOOL_DEEP_BLUE, BLOCK_WOOL_SKY_BLUE, BLOCK_WOOL_DARK_GREEN, BLOCK_WOOL_GREEN, BLOCK_WOOL_GREY, BLOCK_BRAIN_CORAL_BLOCK, BLOCK_DIAMOND_BLOCK, BLOCK_IRON_BLOCK, BLOCK_POTATOES_PLANT, BLOCK_HONEYCOMB_BLOCK_STAIRS, BLOCK_OAK_FENCE, BLOCK_BIRCH_FENCE, BLOCK_BUBBLE_CORAL_BLOCK, BLOCK_BUBBLE_CORAL,
+                BLOCK_COBBLESTONE, BLOCK_WOOL_TURQUOISE, BLOCK_WOOL_ORANGE, BLOCK_RED_SAND, BLOCK_WATERMELON, BLOCK_PHANTOM_STONE, BLOCK_PHANTOM_STONE_BRICK, BLOCK_CACTUS, BLOCK_PALISADE_STONE, BLOCK_RED_SANDSTONE, BLOCK_FIRE_CORAL_BLOCK, BLOCK_CANDLE, BLOCK_PALISADE_STONE_2, BLOCK_FIRE_CORAL, BLOCK_HORN_CORAL_BLOCK, BLOCK_GOLD_BLOCK, BLOCK_HORN_CORAL_FAN, BLOCK_TNT, BLOCK_WHEAT, BLOCK_CARROTS__PLANT, BLOCK_MINI_CACTUS, BLOCK_MUSHROOM, BLOCK_MUSHROOM_2, BLOCK_ROSES, BLOCK_WOOL_PURPLE, BLOCK_BIRCH_PLANKS, BLOCK_RED_STAINED_WOOD, BLOCK_OAK_PLANKS, BLOCK_WOOL_RED, BLOCK_WOOL_PINK, BLOCK_WOOL_YELLOW, BLOCK_WOOL_BROWN, BLOCK_TUBE_CORAL_BLOCK, BLOCK_TUBE_CORAL, BLOCK_TUBE_CORAL_FAN, BLOCK_WOOL_DEEP_BLUE, BLOCK_WOOL_SKY_BLUE, BLOCK_WOOL_DARK_GREEN, BLOCK_WOOL_GREEN, BLOCK_WOOL_GREY, BLOCK_BRAIN_CORAL_BLOCK, BLOCK_DIAMOND_BLOCK, BLOCK_IRON_BLOCK, BLOCK_POTATOES_PLANT, BLOCK_HONEYCOMB_BLOCK_STAIRS, BLOCK_OAK_FENCE, BLOCK_BIRCH_FENCE, BLOCK_BUBBLE_CORAL_BLOCK, BLOCK_BUBBLE_CORAL,
                 BLOCK_BUBBLE_CORAL_FAN, BLOCK_JUNGLE_GRASS, BLOCK_LILY_PAD, BLOCK_TRACK, BLOCK_WOOL_MAGENTA, BLOCK_WOOL_BLACK, BLOCK_GRANITE_BRICK_STAIRS, BLOCK_CEMENT, BLOCK_OAK_SAPLING, BLOCK_BIRCH_SAPLING, BLOCK_WHEAT_SEEDS, BLOCK_CARROT_SEEDS, BLOCK_POTATO_SEEDS, BLOCK_A1, BLOCK_A2, BLOCK_B1, BLOCK_B2, BLOCK_B3, BLOCK_B4, BLOCK_B5, BLOCK_B6, BLOCK_ELECTRIC_LIGHT, BLOCK_RED_PALISADE_SANDSTONE, BLOCK_PHANTOM_SANDSTONE, BLOCK_PALISADE_SANDSTONE, BLOCK_GLOW_ROCK, BLOCK_BLACK_STAINED_GLASS, BLOCK_BLUE_STAINED_GLASS, BLOCK_BROWN_STAINED_GLASS, BLOCK_CYAN_STAINED_GLASS, BLOCK_GREY_STAINED_GLASS, BLOCK_GREEN_STAINED_GLASS, BLOCK_LIGHT_BLUE_STAINED_GLASS, BLOCK_LIGHT_GREY_STAINED_GLASS, BLOCK_LIME_STAINED_GLASS, BLOCK_MAGENTA_STAINED_GLASS, BLOCK_ORANGE_STAINED_GLASS, BLOCK_PINK_STAINED_GLASS, BLOCK_PURPLE_STAINED_GLASS, BLOCK_RED_STAINED_GLASS, BLOCK_WHITE_STAINED_GLASS, BLOCK_YELLOW_STAINED_GLASS, BLOCK_DARK_OAK_FENCE, BLOCK_BIRCH_PLANKS_STAIRS, BLOCK_OAK_PLANKS_STAIRS, BLOCK_DARK_OAK_PLANKS_STAIRS, BLOCK_HONEYCOMB_BLOCK_SLAB, BLOCK_JUNGLE_GRASS_PLANT, BLOCK_PRISMARINE_BRICK_STAIRS, BLOCK_SANDSTONE_STAIRS,
                 BLOCK_CAVE_VINES_FLAT, BLOCK_POLISHED_DIORITE_STAIRS, BLOCK_BIRCH_PLANKS_SLAB, BLOCK_OAK_PLANKS_SLAB, BLOCK_DARK_OAK_PLANKS_SLAB, BLOCK_BAMBOO_WOOD_STAIRS, BLOCK_STONE_BRICK_SLAB, BLOCK_RED_SANDSTONE_SLAB, BLOCK_SANDSTONE_SLAB, BLOCK_DRY_GRASS, BLOCK_POLISHED_ANDESITE_SLAB, BLOCK_IRON_LADDER, BLOCK_RED_VINES_FLAT, BLOCK_YELLOW_CANDLE, BLOCK_CAVE_VINES, BLOCK_GREEN_CANDLE, BLOCK_GRANITE, BLOCK_BLUE_CANDLE, BLOCK_RED_VINES, BLOCK_FLAT_VINES, BLOCK_DARK_OAK_LADDER, BLOCK_DRY_GRASS_PLANT, BLOCK_ACACIA_LEAVES, BLOCK_ACACIA_LOG, BLOCK_FIRE_CORAL_FAN, BLOCK_LAPIS_LAZUL_ORE, BLOCK_LAPIS_LAZUL_BLOCK, BLOCK_ACACIA_SAPLING, BLOCK_IRON_ORE, BLOCK_BRAIN_CORAL_FAN, BLOCK_WHITE_ROSE, BLOCK_GOLD_ORE, BLOCK_HORN_CORAL, BLOCK_RED_ROSE, BLOCK_EMERALD_ORE, BLOCK_EMERALD_BLOCK, BLOCK_BLACK_EYE_SUSAN, BLOCK_ORANGE_TULIP, BLOCK_DEAD_BUSH, BLOCK_HAY_BAIL, BLOCK_POLISHED_ANDESITE_STAIRS, BLOCK_POLISHED_DIORITE_SLAB, BLOCK_CURVED_TRACK, BLOCK_BEETS, BLOCK_BEETROOT_SEEDS, BLOCK_BAMBOO_LADDER, BLOCK_ACACIA_FENCE, BLOCK_ACACIA_PLANKS_STAIRS, BLOCK_ACACIA_PLANKS_SLAB, BLOCK_RAISED_TRACK,
                 BLOCK_SEA_GRASS, BLOCK_BLUE_STAINED_WOOD, BLOCK_RUBY_CRYSTAL, BLOCK_JADE_CRYSTAL, BLOCK_AQUAMARINE_CRYSTAL, BLOCK_BAMBOO_WOOD_SLAB, BLOCK_RED_SANDSTONE_STAIRS, BLOCK_STONE_BRICK_STAIRS, BLOCK_STONE_BRICK_FENCE, BLOCK_BRICK_STAIRS, BLOCK_BRICK_SLAB, BLOCK_SNOW_BLOCK, BLOCK_COBBLESTONE_STAIRS, BLOCK_COBBLESTONE_SLAB, BLOCK_PALISADE_STONE_STAIRS, BLOCK_PALISADE_STONE_SLAB, BLOCK_PALISADE_STONE_FENCE, BLOCK_PALISADE_STONE_2_STAIRS, BLOCK_PALISADE_STONE_2_SLAB, BLOCK_PALISADE_STONE_2_FENCE, BLOCK_POLISHED_DIORITE_FENCE, BLOCK_POLISHED_ANDESITE_FENCE, BLOCK_CRACKED_STONE_STAIRS, BLOCK_CRACKED_STONE_SLAB, BLOCK_CRACKED_STONE_FENCE, BLOCK_STONE_WITH_VINES_STAIRS, BLOCK_STONE_WITH_VINES_SLAB, BLOCK_STONE_WITH_VINES_FENCE, BLOCK_BURGUNDY_BRICK_STAIRS, BLOCK_BURGUNDY_BRICK_SLAB, BLOCK_BURGUNDY_BRICK_FENCE, BLOCK_SWITCH_JUNCTION, BLOCK_TRACK_STOP, BLOCK_RED_PALISADE_SANDSTONE_STAIRS, BLOCK_RED_PALISADE_SANDSTONE_SLAB, BLOCK_RED_PALISADE_SANDSTONE_FENCE, BLOCK_PALISADE_SANDSTONE_STAIRS, BLOCK_PALISADE_SANDSTONE_SLAB, BLOCK_PALISADE_SANDSTONE_FENCE, BLOCK_WOOL_STAIRS, BLOCK_WOOL_SLAB, BLOCK_WOOL_GREY_STAIRS, BLOCK_WOOL_GREY_SLAB, BLOCK_WOOL_RED_STAIRS, BLOCK_WOOL_RED_SLAB, BLOCK_WOOL_PINK_STAIRS, BLOCK_WOOL_PINK_SLAB, BLOCK_WOOL_ORANGE_STAIRS, BLOCK_WOOL_ORANGE_SLAB, BLOCK_WOOL_YELLOW_STAIRS,
@@ -175,7 +175,7 @@ public class MyGame extends Game {
         ItemList.blocks.addBlockType(RenderType.WALL_ITEM, new WallItemRenderer());
         ItemList.blocks.addBlockType(RenderType.LAMP, new LampRenderer());
         ItemList.blocks.addBlockType(RenderType.PANE, new PaneRenderer());
-//        ItemList.blocks.addBlockType(RenderType.TRACK, new TrackRenderer());
+        ItemList.blocks.addBlockType(RenderType.RAISED_TRACK, new RaisedTrackRenderer());
         ItemList.blocks.addBlockType(RenderType.TORCH, new TorchRenderer());
         ItemList.blocks.addBlockType(RenderType.PILLAR, new PillarRenderer());
         //Set items AFTER setting block types
@@ -188,13 +188,13 @@ public class MyGame extends Game {
 
     @Override
     public boolean menusAreOpen() {
-        return showInventory;
+        return inventory.isOpen();
     }
 
     WorldInfo currentWorld;
 
     @Override
-    public void newGame(WorldInfo worldInfo) {
+    public void startGame(WorldInfo worldInfo) {
         this.currentWorld = worldInfo;
         try {
             File f = new File(currentWorld.getDirectory() + "\\game.json");
@@ -304,7 +304,6 @@ public class MyGame extends Game {
     public static final Block BLOCK_B6 = new Plant(173, "B6 hidden", new BlockTexture("b6.png", "b6.png", "b6.png"));
 
 
-    public static final Block BLOCK_TALL_DRY_GRASS_TOP = new Block(26, "tall dry grass top (hidden)", new BlockTexture("tall dry grass top.png", "tall dry grass top.png", "tall dry grass top.png"), RenderType.SPRITE);
     public static final Block BLOCK_CRACKED_STONE = new Block(27, "Cracked Stone", new BlockTexture("cracked stone.png", "cracked stone.png", "cracked stone.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_STONE_WITH_VINES = new Block(28, "Stone with Vines", new BlockTexture("stone with vines.png", "stone with vines.png", "stone with vines.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_TNT_ACTIVE = new Block(29, "TNT Active hidden", new BlockTexture("tnt active.png", "tnt active bottom.png", "tnt active side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
@@ -321,14 +320,17 @@ public class MyGame extends Game {
     public static final Block BLOCK_BURGUNDY_BRICK = new Block(39, "Burgundy Brick", new BlockTexture("burgundy brick.png", "burgundy brick.png", "burgundy brick.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_JUNGLE_FENCE = new Block(40, "Jungle Fence", new BlockTexture("jungle planks.png", "jungle planks.png", "jungle planks.png"), RenderType.FENCE);
     public static final Block BLOCK_RED_FLOWER = new Block(41, "Red Flower", new BlockTexture("red flower.png", "red flower.png", "red flower.png"), RenderType.SPRITE);
-    public static final Block BLOCK_TALL_DRY_GRASS = new Block(42, "Tall Dry Grass", new BlockTexture("tall dry grass.png", "tall dry grass.png", "tall dry grass.png"), RenderType.SPRITE);
+    public static final VerticalPairedBlock BLOCK_TALL_DRY_GRASS = new VerticalPairedBlock("Tall Dry Grass", 26, 42, new BlockTexture("tall dry grass top.png"), new BlockTexture("tall dry grass.png"), RenderType.SPRITE);
+
 
     public static final Block BLOCK_YELLOW_FLOWER = new Block(44, "Yellow Flower", new BlockTexture("yellow flower.png", "yellow flower.png", "yellow flower.png"), RenderType.SPRITE);
     public static final Block BLOCK_COAL_ORE = new Block(45, "Coal Ore", new BlockTexture("coal ore.png", "coal ore.png", "coal ore.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_COAL_BLOCK = new Block(46, "Coal Block", new BlockTexture("coal.png", "coal.png", "coal.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_JUNGLE_LEAVES = new Block(47, "Jungle Leaves", new BlockTexture("jungle leaves.png", "jungle leaves.png", "jungle leaves.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_JUNGLE_LOG = new Block(48, "Jungle Log", new BlockTexture("jungle log.png", "jungle log.png", "jungle log side.png"), RenderType.ORIENTABLE_BLOCK);
-    public static final Block BLOCK_TALL_GRASS_TOP = new Block(49, "tall grass top (hidden)", new BlockTexture("tall grass top.png", "tall grass top.png", "tall grass top.png"), RenderType.SPRITE);
+
+    public static final VerticalPairedBlock BLOCK_TALL_GRASS = new VerticalPairedBlock("Tall Grass", 116, 49, new BlockTexture("tall grass top.png"), new BlockTexture("tall grass.png"), RenderType.SPRITE);
+
     public static final Block BLOCK_CONTROL_PANEL = new Block(50, "Control Panel", new BlockTexture("control l.png", "control l side.png", "control l side.png"), RenderType.SLAB);
     public static final Block BLOCK_BEEHIVE = new Block(52, "Beehive", new BlockTexture("beehive.png", "beehive bottom.png", "beehive side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_DIORITE = new Block(53, "Diorite", new BlockTexture("diorite.png", "diorite.png", "diorite.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
@@ -429,11 +431,14 @@ public class MyGame extends Game {
 
     public static final Block BLOCK_PALISADE_STONE_2 = new Block(114, "Palisade Stone 2", new BlockTexture("palisade stone 2.png", "palisade stone 2.png", "palisade stone 2.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_FIRE_CORAL = new Block(115, "Fire Coral", new BlockTexture("fire coral.png", "fire coral.png", "fire coral.png"), RenderType.SPRITE);
-    public static final Block BLOCK_TALL_GRASS = new Block(116, "Tall Grass", new BlockTexture("tall grass.png", "tall grass.png", "tall grass.png"), RenderType.SPRITE);
     public static final Block BLOCK_HORN_CORAL_BLOCK = new Block(117, "Horn Coral Block", new BlockTexture("horn coral.png", "horn coral.png", "horn coral.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_GOLD_BLOCK = new Block(118, "Gold Block", new BlockTexture("gold.png", "gold.png", "gold.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_HORN_CORAL_FAN = new Block(119, "Horn Coral Fan", new BlockTexture("horn coral fan.png", "horn coral fan.png", "horn coral fan.png"), RenderType.SPRITE);
-    public static final Block BLOCK_TNT = new Block(120, "TNT", new BlockTexture("tnt.png", "tnt bottom.png", "tnt side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
+    public static final Block BLOCK_TNT = new Block(120, "TNT", new BlockTexture("tnt.png", "tnt bottom.png", "tnt side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID, (b) -> {
+        b.setBlockEvent(true, (x, y, z, blockData) -> {
+            TNTUtils.startTNT(b, 5, 5000, x, y, z);
+        });
+    });
     public static final Block BLOCK_WOOL_PURPLE = new Block(127, "Wool Purple", new BlockTexture("wool purple.png", "wool purple.png", "wool purple.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_BIRCH_PLANKS = new Block(128, "Birch Planks", new BlockTexture("bookshelf.png", "bookshelf.png", "bookshelf.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_RED_STAINED_WOOD = new Block(129, "Red Stained Wood", new BlockTexture("red stained wood.png", "red stained wood.png", "red stained wood.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
@@ -461,7 +466,7 @@ public class MyGame extends Game {
     public static final Block BLOCK_BUBBLE_CORAL_FAN = new Block(152, "Bubble Coral Fan", new BlockTexture("bubble coral fan.png", "bubble coral fan.png", "bubble coral fan.png"), RenderType.SPRITE);
     public static final Block BLOCK_JUNGLE_GRASS = new Block(153, "Jungle Grass", new BlockTexture("jungle grass.png", "dirt.png", "jungle grass side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_LILY_PAD = new Block(154, "Lily Pad", new BlockTexture("lily pad.png", "lily pad.png", "lily pad.png"), RenderType.FLOOR);
-    public static final Block BLOCK_TRACK = new TrackPiece(155, "Track", new BlockTexture("track.png", "track.png", "track.png"));
+    public static final Block BLOCK_TRACK = new StraightTrack(155);
     public static final Block BLOCK_WOOL_MAGENTA = new Block(156, "Wool Magenta", new BlockTexture("wool magenta.png", "wool magenta.png", "wool magenta.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_WOOL_BLACK = new Block(157, "Wool Black", new BlockTexture("wool black.png", "wool black.png", "wool black.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_GRANITE_BRICK_STAIRS = new Block(158, "Granite Brick Stairs", new BlockTexture("granite brick.png", "granite brick.png", "granite brick.png"), RenderType.STAIRS);
@@ -573,7 +578,7 @@ public class MyGame extends Game {
     public static final Block BLOCK_ACACIA_FENCE = new Block(249, "Acacia Fence", new BlockTexture("acacia planks.png", "acacia planks.png", "acacia planks.png"), RenderType.FENCE);
     public static final Block BLOCK_ACACIA_PLANKS_STAIRS = new Block(250, "Acacia Planks Stairs", new BlockTexture("acacia planks.png", "acacia planks.png", "acacia planks.png"), RenderType.STAIRS);
     public static final Block BLOCK_ACACIA_PLANKS_SLAB = new Block(251, "Acacia Planks Slab", new BlockTexture("acacia planks.png", "acacia planks.png", "acacia planks.png"), RenderType.SLAB);
-    public static final Block BLOCK_RAISED_TRACK = new Block(252, "Raised Track hidden", new BlockTexture("track.png", "track.png", "track.png"), RenderType.TRACK);
+    public static final Block BLOCK_RAISED_TRACK = new Block(252, "Raised Track hidden", new BlockTexture("track.png", "track.png", "track.png"), RenderType.RAISED_TRACK);
     public static final Block BLOCK_SEA_GRASS = new Block(253, "Sea Grass", new BlockTexture("sea grass.png", "sea grass.png", "sea grass.png"), RenderType.SPRITE);
     public static final Block BLOCK_BLUE_STAINED_WOOD = new Block(254, "Blue Stained Wood", new BlockTexture("blue stained wood.png", "blue stained wood.png", "blue stained wood.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_RUBY_CRYSTAL = new Block(255, "Ruby Crystal", new BlockTexture("ruby crystal.png", "ruby crystal.png", "ruby crystal.png"), RenderType.SPRITE);
@@ -880,7 +885,11 @@ public class MyGame extends Game {
     public static final Block BLOCK_START_BOUNDARY_BLOCK = new Block(543, "Start Boundary Block", new BlockTexture("start boundary.png", "start boundary.png", "start boundary side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_PASTE_BLOCK = new Block(544, "Paste Block", new BlockTexture("paste.png", "paste.png", "paste.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_YELLOW_CHISELED_MARBLE_TILE = new Block(545, "Yellow Chiseled Marble Tile", new BlockTexture("yellow chiseled marble tile.png", "yellow chiseled marble tile.png", "yellow chiseled marble tile.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
-    public static final Block BLOCK_MEGA_TNT = new Block(548, "Mega TNT", new BlockTexture("tnt.png", "tnt bottom.png", "mega tnt side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
+    public static final Block BLOCK_MEGA_TNT = new Block(548, "Mega TNT", new BlockTexture("tnt.png", "tnt bottom.png", "mega tnt side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID, (b) -> {
+        b.setBlockEvent(true, (x, y, z, blockData) -> {
+            TNTUtils.startTNT(b, 10, 5000, x, y, z);
+        });
+    });
     public static final Block BLOCK_CROSSTRACK = new Block(550, "CrossTrack", new BlockTexture("crosstrack.png", "crosstrack.png", "crosstrack.png"), RenderType.FLOOR);
     public static final Block BLOCK_ADDITIVE_PASTE_BLOCK = new Block(551, "Additive Paste Block", new BlockTexture("additive paste.png", "additive paste.png", "additive paste.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_PASTE_ROTATE_BLOCK = new Block(552, "Paste Rotate Block", new BlockTexture("paste rotate.png", "paste rotate.png", "paste rotate side.png"), RenderType.SLAB);

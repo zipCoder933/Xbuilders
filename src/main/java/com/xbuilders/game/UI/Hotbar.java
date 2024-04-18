@@ -4,6 +4,8 @@
  */
 package com.xbuilders.game.UI;
 
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.ui.Theme;
@@ -53,7 +55,7 @@ public class Hotbar extends GameUIElement {
     final int ELEMENTS = 11;
     private Item[] playerBackpack;
     WidgetWidthMeasurement buttonHeight;
-    public int selectedItemIndex;
+    private int selectedItemIndex;
     int pushValue;
 
     @Override
@@ -74,8 +76,8 @@ public class Hotbar extends GameUIElement {
         ctx.style().window().padding().set(0, 0);
         if (nk_begin(ctx, "hotbarA", windowDims2, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
             nk_layout_row_dynamic(ctx, 40, 1);
-            if (playerBackpack[selectedItemIndex] != null) {
-                nk_text(ctx, playerBackpack[selectedItemIndex].name, NK_TEXT_ALIGN_CENTERED);
+            if (playerBackpack[getSelectedItemIndex()] != null) {
+                nk_text(ctx, playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
             }
         }
         nk_end(ctx);
@@ -90,8 +92,8 @@ public class Hotbar extends GameUIElement {
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
             //Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (playerBackpack[selectedItemIndex] != null) {
-                nk_text(ctx, playerBackpack[selectedItemIndex].name, NK_TEXT_ALIGN_CENTERED);
+            if (playerBackpack[getSelectedItemIndex()] != null) {
+                nk_text(ctx, playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
             }
 
             nk_layout_row_dynamic(ctx, buttonHeight.width, ELEMENTS);
@@ -105,7 +107,7 @@ public class Hotbar extends GameUIElement {
                 Item item = playerBackpack[i];
 
                 if (buttonHeight.isCalibrated()) {
-                    if (i == selectedItemIndex) {
+                    if (i == getSelectedItemIndex()) {
                         ctx.style().button().border_color().set(Theme.white);
                     } else {
                         ctx.style().button().border_color().set(Theme.blue);
@@ -126,14 +128,23 @@ public class Hotbar extends GameUIElement {
 
     protected void changeSelectedIndex(float increment) {
         selectedItemIndex += increment;
-        selectedItemIndex = MathUtils.clamp(selectedItemIndex, 0, playerBackpack.length - 1);
+        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerBackpack.length - 1));
 
-        if (selectedItemIndex >= ELEMENTS + pushValue) {
+        if (getSelectedItemIndex() >= ELEMENTS + pushValue) {
             pushValue++;
-        } else if (selectedItemIndex < pushValue) {
+        } else if (getSelectedItemIndex() < pushValue) {
             pushValue--;
         }
         pushValue = MathUtils.clamp(pushValue, 0, playerBackpack.length - ELEMENTS);
+    }
+
+    public void setSelectedIndex(int index) {
+        selectedItemIndex = MathUtils.clamp(index, 0, playerBackpack.length - 1);
+        pushValue = MathUtils.clamp(selectedItemIndex, 0, playerBackpack.length - ELEMENTS);
+    }
+
+    public int getSelectedItemIndex() {
+        return selectedItemIndex;
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
@@ -149,5 +160,36 @@ public class Hotbar extends GameUIElement {
             }
         }
     }
+
+    public void mouseButtonEvent(int button, int action, int mods) {
+        if (action == GLFW.GLFW_RELEASE && button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+            CursorRay ray = GameScene.player.camera.cursorRay;
+            if (ray.hitTarget()) {
+                acquireItem(GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z));
+            }
+        }
+    }
+
+    private void acquireItem(Item item) {
+        //First check if the player already has the item
+        for (int i = 0; i < playerBackpack.length; i++) {
+            if (playerBackpack[i] != null && playerBackpack[i].equals(item)) {
+                setSelectedIndex(i);
+                return;
+            }
+        }
+        //otherwise add it
+        for (int i = 0; i < playerBackpack.length; i++) {
+            if (playerBackpack[i] == null) {
+                playerBackpack[i] = item;
+                setSelectedIndex(i);
+                return;
+            }
+        }
+        //If there is no room, then remove the first item
+        playerBackpack[0] = item;
+        setSelectedIndex(0);
+    }
+
 
 }

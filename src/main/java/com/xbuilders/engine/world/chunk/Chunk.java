@@ -36,6 +36,8 @@ public class Chunk {
     public void markAsModifiedByUser() {
         ownedByUser = true;
         needsToBeSaved = true;
+        //We dont have to make a needs to be saved call because it wont get saved unless it is owned by the user
+        //And we wont ever need to mark as needs to be saved if it is not owned by the user, because it won't be saved
     }
 
     private boolean ownedByUser = false;

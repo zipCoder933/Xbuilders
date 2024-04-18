@@ -84,7 +84,8 @@ public class GameScene implements WindowEvents {
 
     public void close() throws IOException {
         System.out.println("Closing...");
-        world.close(player.worldPosition);
+        player.stopGame();
+        world.stopGame(player.worldPosition);
         Main.game.saveState();
     }
 
@@ -111,7 +112,8 @@ public class GameScene implements WindowEvents {
                 waitForTasksToComplete(prog);
             }
             default -> {
-                Main.game.newGame(worldInfo);
+                Main.game.startGame(worldInfo);
+                player.startGame();
                 prog.finish();
                 setProjection();
             }
@@ -193,10 +195,10 @@ public class GameScene implements WindowEvents {
     }
 
     public void mouseButtonEvent(int button, int action, int mods) {
+        ui.mouseButtonEvent(button, action, mods);
         if (!ui.menusAreOpen()) {
             player.mouseButtonEvent(button, action, mods);
         }
-        ui.mouseButtonEvent(button, action, mods);
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {

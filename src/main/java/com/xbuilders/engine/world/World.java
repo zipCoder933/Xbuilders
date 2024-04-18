@@ -498,7 +498,7 @@ public class World {
 //</editor-fold>
 
 
-    public void close(Vector3f playerPos) {
+    public void stopGame(Vector3f playerPos) {
         save(playerPos);
 
 //We may or may not actually need to shutdown the services, since chunks cancel all tasks when they are disposed

@@ -49,7 +49,7 @@ public class SpriteRenderer extends BlockType {
             1, 7, 5,};
 
 
-    public boolean allowToBeSet(Block block, BlockData blockData, int worldX, int worldY, int worldZ) {
+    public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
         return !GameScene.world.getBlock(worldX, worldY + 1, worldZ).liquid
                 && !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isAir();
     }

@@ -101,22 +101,24 @@ public class GameUI {
         game.uiMouseScrollEvent(scroll, xoffset, yoffset);
     }
 
-    public void keyEvent(int key, int scancode, int action, int mods) {
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
                 case GLFW.GLFW_KEY_ESCAPE -> {
                     gameMenuVisible = !gameMenuVisible;
+
                 }
                 case GLFW.GLFW_KEY_J -> {
                     drawUI = !drawUI;
+
                 }
             }
         }
-        game.uiKeyEvent(key, scancode, action, mods);
+        return game.uiKeyEvent(key, scancode, action, mods);
     }
 
-    public void mouseButtonEvent(int button, int action, int mods) {
-        game.uiMouseButtonEvent(button, action, mods);
+    public boolean mouseButtonEvent(int button, int action, int mods) {
+        return game.uiMouseButtonEvent(button, action, mods);
     }
 
 }

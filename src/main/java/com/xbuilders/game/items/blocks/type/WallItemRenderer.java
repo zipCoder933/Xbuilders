@@ -38,7 +38,7 @@ public class WallItemRenderer extends BlockType {
         wall3 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall3.blockType"), renderSide_subBlock);
     }
 
-    public boolean allowToBeSet(Block block, BlockData data, int worldX, int worldY, int worldZ) {
+    public boolean allowExistence(Block block, BlockData data, int worldX, int worldY, int worldZ) {
         Block testBlock;
         if (data == null || data.get(0) == 3) {
             testBlock = GameScene.world.getBlock(worldX - 1, worldY, worldZ);
