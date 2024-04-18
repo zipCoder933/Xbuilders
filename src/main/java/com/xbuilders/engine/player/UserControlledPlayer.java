@@ -1,9 +1,7 @@
 package com.xbuilders.engine.player;
 
-import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
-import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -20,7 +18,6 @@ import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
 
@@ -286,7 +283,7 @@ public class UserControlledPlayer extends Player {
 
                     WCCi wcc = new WCCi();
                     wcc.set(w);
-                    setBlock(wcc, block);
+                    setBlock(block, wcc);
                 } else if (item.getType() == ItemType.ENTITY_LINK) {
                     EntityLink entity = (EntityLink) item;
                     Vector3i w;
@@ -309,13 +306,13 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public void setBlock(int worldX, int worldY, int worldZ, Block block) {
+    public void setBlock(Block block, int worldX, int worldY, int worldZ) {
         WCCi wcc = new WCCi();
         wcc.set(worldX, worldY, worldZ);
-        setBlock(wcc, block);
+        setBlock(block, wcc);
     }
 
-    public void setBlock(WCCi wcc, Block block) {
+    public void setBlock(Block block, WCCi wcc) {
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
             Block prevBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
@@ -358,7 +355,7 @@ public class UserControlledPlayer extends Player {
             camera.cursorRay.getEntity().destroy();
         } else {
             System.out.println("Deleting block at " + camera.cursorRay.getHitPos());
-            setBlock(new WCCi().set(camera.cursorRay.getHitPos()), BlockList.BLOCK_AIR);
+            setBlock(BlockList.BLOCK_AIR, new WCCi().set(camera.cursorRay.getHitPos()));
         }
     }
 

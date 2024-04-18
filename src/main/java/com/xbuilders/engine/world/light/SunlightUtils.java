@@ -6,7 +6,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.ChunkNode;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 

@@ -1,10 +1,15 @@
 # Managable To-Do List
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
-1. succesfully resolve queue on thread pool (or just another thread) when handling lots of block events
+we can calculate the number of weeks it will take with the folowing formula:
+`number of weeks = total hours / hours spent per week
+`
+
+assuming you spent 1hr/day for 6 days a week, it would take about 50 days to complete everything in this list, assuming each item took 2.4 hours: 
+`weeks = (18 tasks)(2.4h) / (1h)(6d) = 7.2 weeks`
+
+3. succesfully resolve queue on thread pool (or just another thread) when handling lots of block events
 2. Add multithreaded block events
-    * you could try making every block event on a separate thread pool than bulk block threads
-    * make every event on its own thread, but if after .1ms it hasnt stopped, send it to thread pool?
-    * maybe there is a way to start it on our own thread but move it to a separate thread
+    * Test by adding tree set events
 2. Add line, and fill tools
     1. If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions 
 3. Add copy/paste tools
@@ -12,7 +17,7 @@ We split the implementation features into a list of items that can be completed 
     1. Add TNT (skip billboard holograms for now)
     2. Add tall grass
     3. Add track setting events
-4. Add trees and Add banners
+4. Add banners
 7. Import a few xbuilders terrains
 8. Add all animals
 9. add All vehicles
@@ -23,19 +28,13 @@ We split the implementation features into a list of items that can be completed 
 4. Add JSON settings
 12. Make a conversion tool to convert xb2 worlds to xb3
 
-bugfixes and optimizations **(save all optimizations for last.)**
-
+## Optimizations **(save all optimizations for last.)**
 1. Make chunks load light and meshes before the user enters the game
 2. Player spawn position must actually work
-2. BUG: voxels from a previous game show up in new chunks
 
-we can calculate the number of weeks it will take with the folowing formula:
-
-number of weeks = total hours / hours spent per week
-
-assuming you spent 1hr/day for 6 days a week, it would take about 50 days to complete everything in this list, assuming each item took 2.4 hours
-
-weeks = (18 tasks)(2.4h) / (1h)(6d) = 7.2 weeks
+## Bugfixes
+*  BUG: voxels from a previous game show up in new chunks 
+* BUG: Torchlights cause weird mesh artifact when placed on edge of chunk
 
 
 ## Features that must be implemented to get to XB2

@@ -159,8 +159,6 @@ public class MyGame extends Game {
         //Init blocks
 
 
-        ItemList.initialize();
-
         ItemList.setAllItems(
                 blockList,
                 entityList, null);

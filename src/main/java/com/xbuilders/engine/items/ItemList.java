@@ -55,21 +55,20 @@ public class ItemList {
     }
 
     private static int defaultIcon;
-    public static BlockList blocks;
-    public static EntityList entities;
-    public static ToolList tools;
+    public static final BlockList blocks  =new BlockList();
+    public static final EntityList entities = new EntityList();
+    public static final ToolList tools = new ToolList();
     private static Item[] allItems;
 
     public static void initialize() throws IOException {
-
         File blockTextures = ResourceUtils.BLOCK_TEXTURE_DIR;
         File blockIconDirectory = ResourceUtils.BLOCK_ICON_DIR;
         File iconDirectory = ResourceUtils.ICONS_DIR;
 
         ItemList.defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false).id;
-        blocks = new BlockList(blockTextures, blockIconDirectory, iconDirectory, ItemList.defaultIcon);
-        entities = new EntityList(iconDirectory, ItemList.defaultIcon);
-        tools = new ToolList(iconDirectory, ItemList.defaultIcon);
+        blocks.init(blockTextures, blockIconDirectory, iconDirectory, ItemList.defaultIcon);
+        entities.init(iconDirectory, ItemList.defaultIcon);
+        tools.init(iconDirectory, ItemList.defaultIcon);
     }
 
     public static void setAllItems(Block[] blockList, EntityLink[] entityList, Tool[] toolList) {

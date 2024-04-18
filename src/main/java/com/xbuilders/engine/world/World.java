@@ -455,7 +455,7 @@ public class World {
         return chunk.data.getBlock(blockX, blockY, blockZ);
     }
 
-    public Chunk setBlock(int worldX, int worldY, int worldZ, short blockID) {
+    public Chunk setBlock(short blockID, int worldX, int worldY, int worldZ) {
         int blockX = positiveMod(worldX, Chunk.WIDTH);
         int blockY = positiveMod(worldY, Chunk.WIDTH);
         int blockZ = positiveMod(worldZ, Chunk.WIDTH);

@@ -17,7 +17,7 @@ public class ToolList extends ItemGroup<Tool> {
     File iconDirectory;
     int defaultIcon;
 
-    public ToolList(File iconDirectory, int defaultIcon) throws IOException {
+    public void init(File iconDirectory, int defaultIcon) throws IOException {
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
     }

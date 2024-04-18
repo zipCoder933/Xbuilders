@@ -11,7 +11,6 @@ import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.utils.math.AABB;
-import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 
@@ -26,6 +25,8 @@ public abstract class BlockType {
     public static final int NEG_Z = 3;
     public static final int POS_Y = 4;
     public static final int NEG_Y = 5;
+
+    public Consumer<Block> initializationCallback = null;
 
     public boolean allowToBeSet(Block block, BlockData blockData, int worldX, int worldY, int worldZ) {
         return true;

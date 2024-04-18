@@ -11,7 +11,7 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.light.TorchUtils;
-import com.xbuilders.engine.world.wcc.ChunkNode;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
@@ -93,7 +93,7 @@ public class BlockEventPipeline {
         boolean allowBlockEvents = framesThatHadEvents < MAX_FRAMES_WITH_EVENTS_IN_A_ROW;
         System.out.println("\nUPDATING EVENTS: \tMultiThreaded: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
 
-//        if (multiThreadedMode) { //TODO: Successfully implemented multithreaded block setting
+//        if (multiThreadedMode) { //TODO: Successfully implement multithreaded block setting
 //            eventThread.execute(() -> resolveQueue(events, allowBlockEvents, player));
 //            return;
 //        } else
@@ -125,51 +125,45 @@ public class BlockEventPipeline {
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
 
-            //Should we set the block?
-            boolean shouldSet = allowBlockEvents ?
-                    blockHist.currentBlock.setBlockEvent(worldPos.x, worldPos.y, worldPos.z,
-                            chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z)) :
-                    false;
-            if (allowBlockEvents) {
-                BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);//Test if the blockType is ok with setting
-
-                BlockData data = chunk.data.getBlockData(
-                        wcc.chunkVoxel.x,
-                        wcc.chunkVoxel.y,
-                        wcc.chunkVoxel.z);
+            BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            if (blockHist.currentBlock.allowSet(worldPos, data)) {  //Should we set the block?
+                BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);
                 data = type.getInitialBlockData(data, player);
+                //We Actually set the block here
+                resolveQueue_setBlock(chunk, blockHist.currentBlock, data, type, wcc, player);
 
-                if (type == null || type.allowToBeSet(blockHist.currentBlock, data, worldPos.x, worldPos.y, worldPos.z)) {
-                    //We Actually set the block here
-                    resolveQueue_setBlock(chunk, blockHist.currentBlock, data, type, wcc, player);
-
-                    if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightPropagation(opaqueToTransparent, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                        //We dont have to propagate or erase here as we are doing it in the step
+                // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
+                if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
+                    SunlightUtils.addInitialNodesForSunlightPropagation(opaqueToTransparent, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                    //We dont have to propagate or erase here as we are doing it in the step
 //                        SunlightUtils.propagateSunlight(opaqueToTransparent, affectedChunks, true);
 //                        TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
 //                        opaqueToTransparent.clear();
-                    } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightErasure(transparentToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                        //We dont have to propagate or erase here as we are doing it in the step
-                        //                        HashSet<ChunkNode> repropagationNodes = new HashSet<>();//I think total nodes is suppsed to be for repropagating light
+                } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
+                    SunlightUtils.addInitialNodesForSunlightErasure(transparentToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                    //We dont have to propagate or erase here as we are doing it in the step
+                    //                        HashSet<ChunkNode> repropagationNodes = new HashSet<>();//I think total nodes is suppsed to be for repropagating light
 //                        SunlightUtils.eraseSunlight(opaqueToTransparent, affectedChunks, repropagationNodes);
 //                        opaqueToTransparent.clear();
 //                        opaqueToTransparent.addAll(repropagationNodes);
 //                        SunlightUtils.propagateSunlight(opaqueToTransparent, affectedChunks, false);
 //                        TorchUtils.transparentToOpaque(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
 //                        opaqueToTransparent.clear();
-                    }
-
-                    if (!blockHist.previousBlock.isLuminous() && blockHist.currentBlock.isLuminous()) {
-                        TorchUtils.setTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z,
-                                blockHist.currentBlock.torchlightStartingValue);
-                    } else if (blockHist.previousBlock.isLuminous() && !blockHist.currentBlock.isLuminous()) {
-                        TorchUtils.removeTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                    }
-                    affectedChunks.add(chunk);
-                    startLocalChange(worldPos, blockHist, allowBlockEvents);
                 }
+
+                if (!blockHist.previousBlock.isLuminous() && blockHist.currentBlock.isLuminous()) {
+                    TorchUtils.setTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z,
+                            blockHist.currentBlock.torchlightStartingValue);
+                } else if (blockHist.previousBlock.isLuminous() && !blockHist.currentBlock.isLuminous()) {
+                    TorchUtils.removeTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                }
+// </editor-fold>
+
+                affectedChunks.add(chunk);
+
+                //Block events:
+                startLocalChange(worldPos, blockHist, allowBlockEvents);
+                blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos, data); //Run the block event
             }
         });
 
@@ -224,7 +218,7 @@ public class BlockEventPipeline {
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, BlockList.BLOCK_AIR.id);
                     addEvent(wcc, new BlockHistory(previousBlock, BlockList.BLOCK_AIR.id));
 
-                } else if (dispatchBlockEvent) targetBlockID.onLocalChange(hist, originPos, new Vector3i(x, y, z));
+                } else if (dispatchBlockEvent) targetBlockID.run_OnLocalChange(hist, originPos, new Vector3i(x, y, z));
             }
         }
     }

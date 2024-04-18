@@ -10,6 +10,7 @@ import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.utils.ErrorHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,8 +20,8 @@ import java.util.HashMap;
  */
 public class BlockList extends ItemGroup<Block> {
 
-    public final BlockArrayTexture textures;
-    private final HashMap<Integer, BlockType> blockTypes;
+    public BlockArrayTexture textures;
+    private final HashMap<Integer, BlockType> blockTypes = new HashMap<>();
 
     public final static int DEFAULT_BLOCK_TYPE_ID = 0;
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
@@ -28,7 +29,11 @@ public class BlockList extends ItemGroup<Block> {
     File blockIconDirectory, iconDirectory;
     int defaultIcon;
 
-    public BlockList(File textureDirectory,
+    public BlockList() {
+        blockTypes.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
+    }
+
+    public void init(File textureDirectory,
                      File blockIconDirectory,
                      File iconDirectory,
                      int defaultIcon) throws IOException {
@@ -36,8 +41,6 @@ public class BlockList extends ItemGroup<Block> {
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
         textures = new BlockArrayTexture(textureDirectory);
-        blockTypes = new HashMap<>();
-        blockTypes.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
     }
 
     @Override

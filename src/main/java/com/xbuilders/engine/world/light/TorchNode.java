@@ -2,7 +2,6 @@ package com.xbuilders.engine.world.light;
 
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
 
 import java.util.Objects;

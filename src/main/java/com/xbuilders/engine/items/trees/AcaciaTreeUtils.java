@@ -1,0 +1,105 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.xbuilders.engine.items.trees;
+
+import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.game.MyGame;
+import org.joml.Vector3i;
+
+import java.util.Random;
+
+import static com.xbuilders.engine.items.trees.TreeUtils.randomInt;
+
+/**
+ * @author zipCoder933
+ */
+public class AcaciaTreeUtils {
+
+    private static void treeBush(int x, int y, int z, int bushRadius) {
+        TreeUtils.roundedSquareLeavesLayer(x, y, z, bushRadius, MyGame.BLOCK_ACACIA_LEAVES);
+        TreeUtils.diamondLeavesLayer(x, y - 1, z, bushRadius, MyGame.BLOCK_ACACIA_LEAVES);
+    }
+
+    public static void plantTree(Random rand, int x, int y, int z) {
+        int height = randomInt(rand, 3, 4);
+        for (int k = 0; k < height; k++) {
+            TreeUtils.setBlockAndOverride(MyGame.BLOCK_ACACIA_LOG, x, y - (height - 1) + k, z);
+        }
+
+        int length = randomInt(rand, 2, 4);
+        int xDir = randomInt(rand, -1, 1);
+        int zDir = 0;
+        if (xDir == 0) {
+            zDir = rand.nextBoolean() ? -1 : 1;
+        }
+        Vector3i vec = TreeUtils.generateBranch(x, y - height + 1, z, length, xDir, zDir, MyGame.BLOCK_ACACIA_LOG);
+        TreeUtils.setBlockAndOverride(MyGame.BLOCK_ACACIA_LOG, vec.x, vec.y - 1, vec.z);
+        treeBush(vec.x, vec.y - 1, vec.z, randomInt(rand, 3, 4));
+
+        if (rand.nextBoolean()) {
+            if (xDir == 0) {
+                zDir = 0 - zDir;
+            } else {
+                xDir = 0 - xDir;
+            }
+        } else {
+            if (xDir == 0) {
+                xDir += randomInt(rand, -1, 1);
+                zDir = 0;
+            } else {
+                zDir += randomInt(rand, -1, 1);
+                xDir = 0;
+            }
+        }
+        length = randomInt(rand, 3, 4);
+        vec = TreeUtils.generateBranch(x, y - height + 1, z, length, xDir, zDir, MyGame.BLOCK_ACACIA_LOG);
+        TreeUtils.setBlockAndOverride(MyGame.BLOCK_ACACIA_LOG, vec.x, vec.y - 1, vec.z);
+        treeBush(vec.x, vec.y - 1, vec.z, randomInt(rand, 2, 3));
+    }
+
+    private static void treeBush(Terrain.GenSession terrain, Chunk sourceChunk, int x, int y, int z, int bushRadius) {
+        TreeUtils.roundedSquareLeavesLayer(terrain, sourceChunk, x, y, z, bushRadius, MyGame.BLOCK_ACACIA_LEAVES);
+        TreeUtils.diamondLeavesLayer(terrain, sourceChunk, x, y - 1, z, bushRadius, MyGame.BLOCK_ACACIA_LEAVES);
+    }
+
+    public static void plantTree(Terrain.GenSession terrain, Chunk sourceChunk, int x, int y, int z) {
+        int height = randomInt(terrain.random, 3, 4);
+        for (int k = 0; k < height; k++) {
+            terrain.setBlockWorld(MyGame.BLOCK_ACACIA_LOG, x, y - (height - 1) + k, z);
+        }
+
+        int length = randomInt(terrain.random, 2, 4);
+        int xDir = randomInt(terrain.random, -1, 1);
+        int zDir = 0;
+        if (xDir == 0) {
+            zDir = terrain.random.nextBoolean() ? -1 : 1;
+        }
+        Vector3i vec = TreeUtils.generateBranch(terrain, sourceChunk, x, y - height + 1, z, length, xDir, zDir, MyGame.BLOCK_ACACIA_LOG);
+        terrain.setBlockWorld(MyGame.BLOCK_ACACIA_LOG, vec.x, vec.y - 1, vec.z);
+        treeBush(terrain, sourceChunk, vec.x, vec.y - 1, vec.z, randomInt(terrain.random, 3, 4));
+
+        if (terrain.random.nextBoolean()) {
+            if (xDir == 0) {
+                zDir = 0 - zDir;
+            } else {
+                xDir = 0 - xDir;
+            }
+        } else {
+            if (xDir == 0) {
+                xDir += randomInt(terrain.random, -1, 1);
+                zDir = 0;
+            } else {
+                zDir += randomInt(terrain.random, -1, 1);
+                xDir = 0;
+            }
+        }
+        length = randomInt(terrain.random, 3, 4);
+        vec = TreeUtils.generateBranch(terrain, sourceChunk, x, y - height + 1, z, length, xDir, zDir, MyGame.BLOCK_ACACIA_LOG);
+        terrain.setBlockWorld(MyGame.BLOCK_ACACIA_LOG, vec.x, vec.y - 1, vec.z);
+        treeBush(terrain, sourceChunk, vec.x, vec.y - 1, vec.z, randomInt(terrain.random, 2, 3));
+    }
+
+}

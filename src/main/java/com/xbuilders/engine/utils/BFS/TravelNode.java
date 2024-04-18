@@ -1,0 +1,33 @@
+package com.xbuilders.engine.utils.BFS;
+
+import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
+
+import java.util.Objects;
+
+public class TravelNode {
+
+    public int x, y, z;
+    public int travel = 0;
+
+    public TravelNode(final int x, final int y, final int z, final int travel) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.travel = travel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TravelNode that = (TravelNode) o;
+        return x == that.x && y == that.y && z == that.z && travel == that.travel;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z, travel);
+    }
+}

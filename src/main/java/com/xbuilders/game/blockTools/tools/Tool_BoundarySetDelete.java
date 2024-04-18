@@ -24,7 +24,7 @@ public class Tool_BoundarySetDelete extends BlockTool {
         for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {
             for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
                 for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
-                    GameScene.player.setBlock(x, y, z, block);
+                    GameScene.player.setBlock(block, x, y, z);
                 }
             }
         }

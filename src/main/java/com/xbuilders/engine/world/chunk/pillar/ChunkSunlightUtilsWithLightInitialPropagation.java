@@ -2,7 +2,7 @@ package com.xbuilders.engine.world.chunk.pillar;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.ChunkNode;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.BFS.HashQueue;

@@ -5,7 +5,7 @@ import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.ChunkNode;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 
 import static com.xbuilders.engine.world.World.generationService;
 import static com.xbuilders.engine.world.World.lightService;

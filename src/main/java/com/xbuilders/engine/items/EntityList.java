@@ -17,8 +17,7 @@ public class EntityList extends ItemGroup<EntityLink> {
     File blockIconDirectory, iconDirectory;
     int defaultIcon;
 
-    public EntityList(File iconDirectory, int defaultIcon) {
-        super();
+    public void init(File iconDirectory, int defaultIcon) {
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
     }

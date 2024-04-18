@@ -1,6 +1,5 @@
 package com.xbuilders.engine.world.chunk;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.rendering.chunk.ChunkMeshBundle;
 import com.xbuilders.engine.items.ChunkEntitySet;
@@ -16,7 +15,7 @@ import static com.xbuilders.engine.world.World.meshService;
 
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
-import com.xbuilders.engine.world.wcc.ChunkNode;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.window.render.MVP;
 
 import java.io.File;

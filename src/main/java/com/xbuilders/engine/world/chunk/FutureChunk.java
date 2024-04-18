@@ -1,12 +1,8 @@
 package com.xbuilders.engine.world.chunk;
 
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.ChunkNode;
-import org.joml.Vector2i;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class FutureChunk {

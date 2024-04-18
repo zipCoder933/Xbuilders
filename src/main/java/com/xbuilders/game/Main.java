@@ -80,10 +80,12 @@ public class Main extends NKWindow {
     }
 
     private void init() throws Exception {
+        ItemList.initialize();
         uiResources = new UIResources(this, ctx);
         game.initialize();
+
         topMenu.init(uiResources);
-        
+
         gameScene.init(uiResources, game);
 
 
@@ -210,9 +212,9 @@ public class Main extends NKWindow {
             } else if (key == GLFW.GLFW_KEY_F1) {
                 devkeyF1 = !devkeyF1;
                 System.out.println("Special mode (F1): " + devkeyF1);
-            }  else if (key == GLFW.GLFW_KEY_F11) {
+            } else if (key == GLFW.GLFW_KEY_F11) {
                 screenshot();
-            }else if(key == GLFW.GLFW_KEY_F12){
+            } else if (key == GLFW.GLFW_KEY_F12) {
                 devkeyF12 = !devkeyF12;
                 System.out.println("Light repropagation: " + devkeyF12);
             }

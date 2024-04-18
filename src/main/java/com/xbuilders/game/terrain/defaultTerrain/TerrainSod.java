@@ -42,49 +42,49 @@ public class TerrainSod {
                                    float valleyLikelyhood, float dryness, float make) {
 
         if (biome == ComplexTerrain.Biome.BEACH) {
-            GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_SAND.id);
+            GameScene.world.setBlock(MyGame.BLOCK_SAND.id, wx, wy, wz);
             if (terrain.noise.GetValueFractal(wx, wz) >= 0) {
-                GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_SANDSTONE.id);
-                GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_SANDSTONE.id);
-                GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_SANDSTONE.id);
+                GameScene.world.setBlock(MyGame.BLOCK_SANDSTONE.id, wx, wy + 1, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_SANDSTONE.id, wx, wy + 2, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_SANDSTONE.id, wx, wy + 3, wz);
             } else {
-                GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_GRAVEL.id);
-                GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_GRAVEL.id);
-                GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_GRAVEL.id);
+                GameScene.world.setBlock(MyGame.BLOCK_GRAVEL.id, wx, wy + 1, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_GRAVEL.id, wx, wy + 2, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_GRAVEL.id, wx, wy + 3, wz);
             }
         } else if (biome == ComplexTerrain.Biome.DESERT) {
             if (terrain.noise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
-                GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_CLAY.id);
-                GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_RED_SANDSTONE.id);
-                GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_RED_SANDSTONE.id);
-                GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_RED_SANDSTONE.id);
+                GameScene.world.setBlock(MyGame.BLOCK_CLAY.id, wx, wy, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 1, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 2, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 3, wz);
             }
             if (terrain.noise.GetValueFractal((float) (wx / 2), (float) (wz / 2), 1000.0f) > 0.1) {
-                GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_SAND.id);
-                GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_RED_SANDSTONE.id);
-                GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_RED_SANDSTONE.id);
-                GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_RED_SANDSTONE.id);
+                GameScene.world.setBlock(MyGame.BLOCK_SAND.id, wx, wy, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 1, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 2, wz);
+                GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 3, wz);
             }
-            GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_RED_SAND.id);
-            GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_SANDSTONE.id);
-            GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_RED_SANDSTONE.id);
-            GameScene.world.setBlock(wx, wy + 3, wz, MyGame.BLOCK_RED_SANDSTONE.id);
+            GameScene.world.setBlock(MyGame.BLOCK_RED_SAND.id, wx, wy, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_SANDSTONE.id, wx, wy + 1, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 2, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE.id, wx, wy + 3, wz);
         } else if (biome == ComplexTerrain.Biome.SNOWY) {
-            GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_SNOW.id);
-            GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_DIRT.id);
-            GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_DIRT.id);
+            GameScene.world.setBlock(MyGame.BLOCK_SNOW.id, wx, wy, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 1, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 2, wz);
         } else if (biome == ComplexTerrain.Biome.SAVANNAH) {
-            GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_DRY_GRASS.id);
-            GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_DIRT.id);
-            GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_DIRT.id);
+            GameScene.world.setBlock(MyGame.BLOCK_DRY_GRASS.id, wx, wy, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 1, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 2, wz);
         } else if (biome == ComplexTerrain.Biome.JUNGLE) {
-            GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_JUNGLE_GRASS.id);
-            GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_DIRT.id);
-            GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_DIRT.id);
+            GameScene.world.setBlock(MyGame.BLOCK_JUNGLE_GRASS.id, wx, wy, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 1, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 2, wz);
         } else {
-            GameScene.world.setBlock(wx, wy, wz, MyGame.BLOCK_GRASS.id);
-            GameScene.world.setBlock(wx, wy + 1, wz, MyGame.BLOCK_DIRT.id);
-            GameScene.world.setBlock(wx, wy + 2, wz, MyGame.BLOCK_DIRT.id);
+            GameScene.world.setBlock(MyGame.BLOCK_GRASS.id, wx, wy, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 1, wz);
+            GameScene.world.setBlock(MyGame.BLOCK_DIRT.id, wx, wy + 2, wz);
             if (session.random.nextFloat() > 0.995) {
                 TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
                 session.generatedOutsideOfChunk = true;
