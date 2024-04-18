@@ -27,6 +27,10 @@ public class PillarRenderer extends BlockType {
 //                ResourceUtils.resource("block types\\pillar.obj"));
 
         pillar = BlockModelLoader.load(ResourceUtils.resource("block types\\pillar.blockType"), renderSide_subBlock);
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
     }
 
     @Override

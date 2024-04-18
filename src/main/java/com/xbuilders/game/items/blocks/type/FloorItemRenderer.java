@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 public class FloorItemRenderer extends BlockType {
     BlockModel floor0, floor1, floor2, floor3;
 
+
     public boolean allowToBeSet(Block block, BlockData blockData, int worldX, int worldY, int worldZ) {
         return !GameScene.world.getBlock(worldX, worldY + 1, worldZ).liquid
                 && !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isAir();
@@ -35,6 +36,10 @@ public class FloorItemRenderer extends BlockType {
         floor1 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor1.blockType"), renderSide_subBlock);
         floor2 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor2.blockType"), renderSide_subBlock);
         floor3 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor3.blockType"), renderSide_subBlock);
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
     }
 
     @Override

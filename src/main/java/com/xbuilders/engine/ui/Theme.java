@@ -51,7 +51,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 public class Theme {
 
     public static NkColor transparent, backgroundColor, buttonColor, buttonHover,
-            gray, blue, darkBlue, white, black;
+            gray,lightGray, blue, darkBlue, white, black;
 
     public static void initialize(NkContext context) {
         try (MemoryStack stack = stackPush()) {
@@ -62,6 +62,7 @@ public class Theme {
             buttonHover = createColor(50, 50, 50, 255);
 
             gray = createColor(20, 20, 20, 255);
+            lightGray = createColor(120, 120, 120, 255);
             blue = createColor(80, 80, 255, 255);
             darkBlue = createColor(40, 40, 230, 255);
             white = createColor(255, 255, 255, 255);
@@ -117,6 +118,10 @@ public class Theme {
     public static void resetWindowColor(NkContext context) {
         context.style().window().fixed_background().data().color().set(Theme.backgroundColor);
         context.style().window().border_color().set(Theme.blue);
+    }
+
+    public static void resetTextColor(NkContext context) {
+        context.style().text().color().set(Theme.white);
     }
 
     public static void resetEntireButtonStyle(NkContext context) {

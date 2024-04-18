@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.blocks.entities;
+package com.xbuilders.game.items.entities;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Entity;
@@ -14,8 +14,8 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.game.items.blocks.entities.mobile.AnimalAction;
-import com.xbuilders.game.items.blocks.entities.mobile.AnimalRandom;
+import com.xbuilders.game.items.entities.mobile.AnimalAction;
+import com.xbuilders.game.items.entities.mobile.AnimalRandom;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.obj.OBJ;

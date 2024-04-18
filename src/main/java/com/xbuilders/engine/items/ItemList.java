@@ -55,7 +55,7 @@ public class ItemList {
     }
 
     private static int defaultIcon;
-    public static final BlockList blocks  =new BlockList();
+    public static final BlockList blocks = new BlockList();
     public static final EntityList entities = new EntityList();
     public static final ToolList tools = new ToolList();
     private static Item[] allItems;
@@ -90,14 +90,10 @@ public class ItemList {
             return null;
         } else {
             return switch (itemType) {
-                case BLOCK ->
-                    ItemList.getBlock(id);
-                case ENTITY_LINK ->
-                    ItemList.getEntity(id);
-                case TOOL ->
-                    ItemList.getTool(id);
-                default ->
-                    null;
+                case BLOCK -> ItemList.getBlock(id);
+                case ENTITY_LINK -> ItemList.getEntity(id);
+                case TOOL -> ItemList.getTool(id);
+                default -> null;
             };
         }
     }

@@ -21,6 +21,14 @@ import org.joml.Vector3f;
  */
 public class SpriteRenderer extends BlockType {
 
+    public SpriteRenderer() {
+        super();
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = false;
+        };
+    }
+
     static Vector3f[] vertices = {
             new Vector3f(0, 0, 0),//0
             new Vector3f(1, 0, 0),//1
@@ -42,8 +50,8 @@ public class SpriteRenderer extends BlockType {
 
 
     public boolean allowToBeSet(Block block, BlockData blockData, int worldX, int worldY, int worldZ) {
-        return !GameScene.world.getBlock(worldX, worldY+1, worldZ).liquid
-                && !GameScene.world.getBlock(worldX, worldY+1, worldZ).isAir();
+        return !GameScene.world.getBlock(worldX, worldY + 1, worldZ).liquid
+                && !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isAir();
     }
 
     @Override

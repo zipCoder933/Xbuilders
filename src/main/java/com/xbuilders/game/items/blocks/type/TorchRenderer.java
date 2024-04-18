@@ -40,6 +40,10 @@ public class TorchRenderer extends BlockType {
 
 
     public TorchRenderer() {
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
 //        ObjToBlockModel.parseFile(null, false,
 //                1.6f, ResourceUtils.resource("block types\\torch\\torch.obj"));
 //        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,

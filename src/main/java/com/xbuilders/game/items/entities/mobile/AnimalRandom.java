@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.blocks.entities.mobile;
+package com.xbuilders.game.items.entities.mobile;
 
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.MathUtils;

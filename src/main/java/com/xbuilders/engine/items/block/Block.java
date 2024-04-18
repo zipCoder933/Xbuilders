@@ -8,7 +8,6 @@ import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3i;
@@ -130,6 +129,18 @@ public class Block extends Item {
         if (this.texture != null) {
             this.texture.init(textures);
         }
+
+
+//        //Run our custom callback first if we dont have a block type
+//        if (ItemList.blocks.getBlockType(type) == null && initializationCallback != null) {
+//            initializationCallback.accept(this);
+//        }
+        //Run initialization callbacks
+        if (ItemList.blocks.getBlockType(type) != null) {
+            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(type).initializationCallback;
+            if (typeInitCallback != null) typeInitCallback.accept(this);
+        }
+        //Run our custom initialization callback last
         if (initializationCallback != null) {
             initializationCallback.accept(this);
         }
@@ -161,59 +172,32 @@ public class Block extends Item {
         super(id, name, ItemType.BLOCK);
         this.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
-        //TODO: the item list initialization callback does not work here because item list must be initialized first
-//        //Run initialization callbacks
-//        Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(id).initializationCallback;
-//        if (typeInitCallback != null) typeInitCallback.accept(this);
     }
 
     public Block(int id, String name, BlockTexture texture) {
         super(id, name, ItemType.BLOCK);
         this.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
-        this.solid = true;
-        this.opaque = true;
         this.texture = texture;
-//        //Run initialization callbacks
-//        Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(id).initializationCallback;
-//        if (typeInitCallback != null) typeInitCallback.accept(this);
+    }
+
+    public Block(int id, String name, BlockTexture texture, int renderType) {
+        super(id, name, ItemType.BLOCK);
+        this.texture = texture;
+        this.type = renderType;
+    }
+
+    public Block(int id, String name, BlockTexture texture, int renderType, Consumer<Block> initialization) {
+        super(id, name, ItemType.BLOCK);
+        this.texture = texture;
+        this.type = renderType;
+        this.initializationCallback = initialization;
     }
 
     public Block(int id, String name, BlockTexture texture, Consumer<Block> initialization) {
         super(id, name, ItemType.BLOCK);
         this.texture = texture;
-
-//        //Run initialization callbacks
-//        Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(id).initializationCallback;
-//        if (typeInitCallback != null) typeInitCallback.accept(this);
-        //Execute our custom callback last
-        this.initializationCallback = initialization;
-    }
-
-
-    public Block(int id, String name, BlockTexture texture, boolean solid, boolean opaque) {
-        super(id, name, ItemType.BLOCK);
-        this.texture = texture;
         this.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
-
-//        //Run initialization callbacks
-//        Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(id).initializationCallback;
-//        if (typeInitCallback != null) typeInitCallback.accept(this);
-
-        this.solid = solid;
-        this.opaque = opaque;
-    }
-
-    public Block(int id, String name, BlockTexture texture, boolean solid, boolean opaque, int renderType) {
-        super(id, name, ItemType.BLOCK);
-        this.texture = texture;
-        this.type = renderType;
-
-//        //Run initialization callbacks
-//        Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(id).initializationCallback;
-//        if (typeInitCallback != null) typeInitCallback.accept(this);
-
-        this.solid = solid;
-        this.opaque = opaque;
+        this.initializationCallback = initialization;
     }
 
 

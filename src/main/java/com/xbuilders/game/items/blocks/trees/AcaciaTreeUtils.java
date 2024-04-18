@@ -2,22 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items.trees;
+package com.xbuilders.game.items.blocks.trees;
 
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
 import org.joml.Vector3i;
 
 import java.util.Random;
 
-import static com.xbuilders.engine.items.trees.TreeUtils.randomInt;
+import static com.xbuilders.game.items.blocks.trees.TreeUtils.randomInt;
 
 /**
  * @author zipCoder933
  */
 public class AcaciaTreeUtils {
-
+    public static final Block.SetBlockEvent setBlockEvent = new Block.SetBlockEvent() {
+        @Override
+        public void run(int x, int y, int z, BlockData data) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            plantTree(new Random(), x, y, z);
+        }
+    };
     private static void treeBush(int x, int y, int z, int bushRadius) {
         TreeUtils.roundedSquareLeavesLayer(x, y, z, bushRadius, MyGame.BLOCK_ACACIA_LEAVES);
         TreeUtils.diamondLeavesLayer(x, y - 1, z, bushRadius, MyGame.BLOCK_ACACIA_LEAVES);

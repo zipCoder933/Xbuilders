@@ -58,6 +58,10 @@ public class SlabRenderer extends BlockType {
         side1 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\side1.blockType"), renderSide);
         side2 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\side2.blockType"), renderSide);
         side3 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\side3.blockType"), renderSide);
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
     }
 
 

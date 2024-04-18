@@ -13,6 +13,7 @@ import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 
 import java.io.IOException;
 
+import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.Nuklear;
@@ -43,15 +44,21 @@ public class Inventory extends GameUIElement {
         this.hotbar = hotbar;
         this.itemList = itemList;
         buttonWidth = new WidgetWidthMeasurement(0);
+        searchBox = new TextBox(25);
+        searchBox.setOnSelectEvent(() -> {
+            searchBox.setValueAsString("");
+        });
     }
 
     int menuWidth = 700;
     int menuHeight = 550;
     int itemListHeight = 300;
     int playerItemsHeight = 450;
+    int maxColumns = 11;
     Hotbar hotbar;
     Item[] itemList;
     private Item[] playerBackpack;
+    TextBox searchBox;
 
     WidgetWidthMeasurement buttonWidth;
     String hoveredItem = "";
@@ -71,37 +78,50 @@ public class Inventory extends GameUIElement {
                 menuWidth, menuHeight, windowDims2);
 
         if (nk_begin(ctx, "Item List", windowDims2, Nuklear.NK_WINDOW_TITLE | Nuklear.NK_WINDOW_NO_SCROLLBAR)) {
-            ctx.style().button().padding().set(0, 0);
-
-            nk_layout_row_dynamic(ctx, 30, 1);
+            nk_layout_row_dynamic(ctx, 20, 1);
+            ctx.style().text().color().set(Theme.lightGray);
             Nuklear.nk_text(ctx, hoveredItem, Nuklear.NK_TEXT_ALIGN_CENTERED);
+            Theme.resetTextColor(ctx);
+
+            //Draw a search bar
+            nk_layout_row_dynamic(ctx, 20, 1);
+            Nuklear.nk_label(ctx, "Search Item List", Nuklear.NK_TEXT_LEFT);
+            nk_layout_row_dynamic(ctx, 25, 1);
+            searchBox.render(ctx);
+
+            ctx.style().button().padding().set(0, 0);
 
 
             nk_layout_row_dynamic(ctx, itemListHeight, 1);
             if (Nuklear.nk_group_begin(ctx, "Item List", Nuklear.NK_WINDOW_TITLE)) {
 
+                String searchCriteria = searchBox.getValueAsString();
+                if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
+                    searchCriteria = null;
+                } else searchCriteria = searchCriteria.toLowerCase();
+
                 int itemID = 0;
                 rows:
                 while (true) {
-                    nk_layout_row_dynamic(ctx, buttonWidth.width, 11);
+                    nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);//row
                     cols:
-                    for (int i = 0; i < 11; i++) {
+                    for (int column = 0; column < maxColumns; ) {
                         if (itemID >= itemList.length) {
                             break rows;
                         }
+
                         Item item = itemList[itemID];
-
-                        if (Nuklear.nk_widget_is_hovered(ctx)) {
-                            hoveredItem = item.toString();
+                        if (searchCriteria == null || item.name == null ||
+                                item.name.toLowerCase().contains(searchCriteria)) {
+                            if (Nuklear.nk_widget_is_hovered(ctx)) {
+                                hoveredItem = item.toString();
+                            }
+                            if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
+                                addItemToBackpack(item);
+                            }
+                            buttonWidth.measure(ctx, stack);
+                            column++;
                         }
-
-                        if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
-                            System.out.println(item.toString());
-                            addItemToBackpack(item);
-                        }
-
-                        buttonWidth.measure(ctx, stack);
-
                         itemID++;
                     }
                 }
@@ -117,9 +137,9 @@ public class Inventory extends GameUIElement {
                 int itemID = 0;
                 rows:
                 while (true) {
-                    nk_layout_row_dynamic(ctx, buttonWidth.width, 11);
+                    nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
                     cols:
-                    for (int i = 0; i < 11; i++) {
+                    for (int i = 0; i < maxColumns; i++) {
                         if (itemID >= playerBackpack.length) {
                             break rows;
                         }

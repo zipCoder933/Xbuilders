@@ -27,6 +27,10 @@ public class PaneRenderer extends BlockType {
         horizontal = BlockModelLoader.load(ResourceUtils.resource("block types\\pane\\horizontal.blockType"), renderSide_subBlock);
         vertical0 = BlockModelLoader.load(ResourceUtils.resource("block types\\pane\\vertical0.blockType"), renderSide_subBlock);
         vertical1 = BlockModelLoader.load(ResourceUtils.resource("block types\\pane\\vertical1.blockType"), renderSide_subBlock);
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
     }
 
     @Override

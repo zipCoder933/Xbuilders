@@ -28,6 +28,10 @@ public class WallItemRenderer extends BlockType {
     BlockModel wall0, wall1, wall2, wall3;
 
     public WallItemRenderer() {
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
         wall0 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall0.blockType"), renderSide_subBlock);
         wall1 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall1.blockType"), renderSide_subBlock);
         wall2 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall2.blockType"), renderSide_subBlock);

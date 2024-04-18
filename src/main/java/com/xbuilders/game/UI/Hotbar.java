@@ -16,6 +16,7 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.nuklear.Nuklear;
+
 import static org.lwjgl.nuklear.Nuklear.NK_TEXT_ALIGN_CENTERED;
 import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_BORDER;
 import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_NO_INPUT;
@@ -31,7 +32,6 @@ import static org.lwjgl.nuklear.Nuklear.nk_text;
 import org.lwjgl.system.MemoryStack;
 
 /**
- *
  * @author zipCoder933
  */
 public class Hotbar extends GameUIElement {
@@ -49,7 +49,7 @@ public class Hotbar extends GameUIElement {
     }
 
     int menuWidth = 650;
-    int menuHeight = 65;
+    int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
     private Item[] playerBackpack;
     WidgetWidthMeasurement buttonHeight;
@@ -88,8 +88,13 @@ public class Hotbar extends GameUIElement {
         ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
         ctx.style().window().padding().set(4, 4);
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
-            nk_layout_row_dynamic(ctx, buttonHeight.width, ELEMENTS);
+            //Draw the name of the item
+            nk_layout_row_dynamic(ctx, 20, 1);
+            if (playerBackpack[selectedItemIndex] != null) {
+                nk_text(ctx, playerBackpack[selectedItemIndex].name, NK_TEXT_ALIGN_CENTERED);
+            }
 
+            nk_layout_row_dynamic(ctx, buttonHeight.width, ELEMENTS);
             int i = 0;
             for (int j = 0; j < ELEMENTS; j++) {
                 i = j + pushValue;

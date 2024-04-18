@@ -26,6 +26,10 @@ public class StairsRenderer extends BlockType {
     BlockModel[] ceiling = new BlockModel[4];
 
     public StairsRenderer() {
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
 //        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
 //                ResourceUtils.resource("block types\\stairs\\side.obj"));
 //        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,

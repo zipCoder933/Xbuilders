@@ -14,8 +14,8 @@ import org.joml.Vector3f;
  */
 public abstract class VertexSet {
     //<editor-fold defaultstate="collapsed" desc="Vertex packing">
-    public final static float maxMult10bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
-    public final static float maxMult12bits = (float) ((Math.pow(2, 12) / Chunk.WIDTH) - 1);
+    public final static float maxMult10bits = (float) ((Math.pow(2, 10) / (Chunk.WIDTH)) - 1);//Note that ANYTHING that goes outside this range will cause mesh artifacts
+    public final static float maxMult12bits = (float) ((Math.pow(2, 12) / (Chunk.WIDTH)) - 1);
     public final static float MAX_BLOCK_ANIMATION_SIZE = 2 ^ 5 - 1;
     public static final int VECTOR_ELEMENTS = 3;
 

@@ -33,6 +33,10 @@ public class FenceRenderer extends BlockType {
         boards1 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards1.blockType"), renderSide_subBlock);
         boards2 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards2.blockType"), renderSide_subBlock);
         boards3 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards3.blockType"), renderSide_subBlock);
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
     }
 
     private boolean isSolid(Block block) {

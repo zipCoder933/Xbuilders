@@ -107,6 +107,10 @@ public class LampRenderer extends BlockType {
             sideBlock[i] = BlockModelLoader.load(ResourceUtils.resource("block types\\lamp\\side block" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
         }
+        initializationCallback = (b) -> {
+            b.opaque = false;
+            b.solid = true;
+        };
     }
 
     final float ONE_SIXTEENTH = 0.0625f;
