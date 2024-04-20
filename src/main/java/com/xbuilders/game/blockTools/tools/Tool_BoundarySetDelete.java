@@ -32,12 +32,6 @@ public class Tool_BoundarySetDelete extends BlockTool {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE) {
-            if (key == GLFW.GLFW_KEY_K) {
-                GameScene.player.camera.cursorRay.boundary_useHitPos = !GameScene.player.camera.cursorRay.boundary_useHitPos;
-                return true;
-            }
-        }
         return false;
     }
 }

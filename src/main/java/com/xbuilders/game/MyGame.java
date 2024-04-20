@@ -288,7 +288,6 @@ public class MyGame extends Game {
     public static final Block BLOCK_MUSHROOM = new Plant(124, "Mushroom", new BlockTexture("mushroom.png", "mushroom.png", "mushroom.png"));
     public static final Block BLOCK_MUSHROOM_2 = new Plant(125, "Mushroom 2", new BlockTexture("mushroom 2.png", "mushroom 2.png", "mushroom 2.png"));
     public static final Block BLOCK_ROSES = new Plant(126, "Roses", new BlockTexture("roses.png", "roses.png", "roses.png"));
-    public static final Block BLOCK_WHEAT_SEEDS = new Plant(162, "Wheat Seeds", new BlockTexture("wheat seeds.png", "wheat seeds.png", "wheat seeds.png"));
     public static final Block BLOCK_CARROT_SEEDS = new Plant(163, "Carrot Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"));
     public static final Block BLOCK_POTATO_SEEDS = new Plant(165, "Potato Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"));
     public static final Block BLOCK_BEETS = new Plant(246, "Beets hidden", new BlockTexture("beets.png", "beets.png", "beets.png"));
@@ -302,6 +301,8 @@ public class MyGame extends Game {
     public static final Block BLOCK_B4 = new Plant(171, "B4 hidden", new BlockTexture("b4.png", "b4.png", "b4.png"));
     public static final Block BLOCK_B5 = new Plant(172, "B5 hidden", new BlockTexture("b5.png", "b5.png", "b5.png"));
     public static final Block BLOCK_B6 = new Plant(173, "B6 hidden", new BlockTexture("b6.png", "b6.png", "b6.png"));
+
+    public static final Block BLOCK_WHEAT_SEEDS = new Plant(162, "Wheat Seeds", new BlockTexture("wheat seeds.png"), BLOCK_B1, BLOCK_B2, BLOCK_B3, BLOCK_B5, BLOCK_B6, BLOCK_WHEAT);
 
 
     public static final Block BLOCK_CRACKED_STONE = new Block(27, "Cracked Stone", new BlockTexture("cracked stone.png", "cracked stone.png", "cracked stone.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);

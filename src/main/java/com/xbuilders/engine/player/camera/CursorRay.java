@@ -1,18 +1,22 @@
 package com.xbuilders.engine.player.camera;
 
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
+import com.xbuilders.engine.player.raycasting.RayCasting;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
+import com.xbuilders.engine.world.World;
+import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class CursorRay {
 
@@ -53,8 +57,9 @@ public class CursorRay {
 
     //Boundary mode:
     private boolean useBoundary = false;
-    private boolean boundary_setStartNode = false;
+    private boolean boundary_isStartNodeSet = false;
     public boolean boundary_useHitPos = false;
+    public boolean boundary_lockToPlane = false;
     private BiConsumer<AABB, Boolean> boundaryConsumer;
     private final Vector3i boundary_startNode = new Vector3i();
     private final Vector3i boundary_endNode = new Vector3i();
@@ -62,7 +67,7 @@ public class CursorRay {
 
     public void enableBoundaryMode(BiConsumer<AABB, Boolean> createBoundaryConsumer) {
         useBoundary = true;
-        boundary_setStartNode = false;
+        boundary_isStartNodeSet = false;
         this.boundaryConsumer = createBoundaryConsumer;
     }
 
@@ -98,14 +103,30 @@ public class CursorRay {
     }
 
     private void boundaryClickEvent(boolean create) {
-        if (!boundary_setStartNode) {
-            setBoundaryNode(boundary_startNode);
-            boundary_setStartNode = true;
+        if (!boundary_isStartNodeSet) {
+            setBoundaryStartNode(boundary_startNode);
+            boundary_isStartNodeSet = true;
         } else {
             if (boundaryConsumer != null) boundaryConsumer.accept(boundary_aabb, create);
             makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
-            boundary_setStartNode = false;
+            boundary_isStartNodeSet = false;
         }
+    }
+
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
+        if (action == GLFW.GLFW_RELEASE) {
+            if (useBoundary) {
+                if (key == GLFW.GLFW_KEY_K) {
+                    boundary_useHitPos = !boundary_useHitPos;
+                    return true;
+                } else if (key == GLFW.GLFW_KEY_L) {
+                    System.out.println("Locking to plane: " + boundary_lockToPlane);
+                    boundary_lockToPlane = !boundary_lockToPlane;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void makeAABBFrom2Points(Vector3i start, Vector3i end, AABB aabb) {
@@ -124,20 +145,24 @@ public class CursorRay {
                 (int) MathUtils.dist(minZ, maxZ + 1));
     }
 
-    private void setBoundaryNode(Vector3i node) {
-        if (boundary_useHitPos) node.set(getHitPos());
+    private void setBoundaryStartNode(Vector3i node) {
+        if (boundary_useHitPos || (boundary_lockToPlane && boundary_isStartNodeSet)) node.set(getHitPos());
         else node.set(getHitPosPlusNormal());
+    }
+
+    private void setBoundaryEndNode(Vector3i node) {
+        setBoundaryStartNode(node);
     }
 
 
     public void drawRay() {
         if (cursorRay.hitTarget || cursorRayHitAllBlocks) {
             if (useBoundary) {
-                if (!boundary_setStartNode) {
-                    setBoundaryNode(boundary_startNode);
+                if (!boundary_isStartNodeSet) {
+                    setBoundaryStartNode(boundary_startNode);
                     boundary_aabb.setPosAndSize(boundary_startNode.x, boundary_startNode.y, boundary_startNode.z, 1, 1, 1);
                 } else {
-                    setBoundaryNode(boundary_endNode);
+                    setBoundaryEndNode(boundary_endNode);
                     makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
                 }
 
@@ -163,4 +188,41 @@ public class CursorRay {
         }
     }
 
+    public int cursorRayDist = 1000;//Max distance for front ray
+    public final int maxCursorRayDist = 1000;//Max distance for front ray for cursor raycaster
+
+    public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
+        if (cursorRayHitAllBlocks) cursorRayDist = MathUtils.clamp(cursorRayDist, 1, maxCursorRayDist);
+        else cursorRayDist = maxCursorRayDist;
+
+        Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
+
+        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, cursorRayDist,
+                ((block, forbiddenBlock, rx, ry, rz) -> {
+                    //block ray if we are locking boundary to plane
+                    if (useBoundary && boundary_lockToPlane && boundary_isStartNodeSet) {
+                        if (simplifiedPanTilt.y != 0) {
+                            if (ry == boundary_startNode.y) {
+                                return true;
+                            }
+                        } else if (simplifiedPanTilt.x == 1 || simplifiedPanTilt.x == 3) {
+                            if (rx == boundary_startNode.x) {
+                                return true;
+                            }
+                        } else {
+                            if (rz == boundary_startNode.z) {
+                                return true;
+                            }
+                        }
+                    }
+                    if (cursorRayHitAllBlocks) {
+                        return block != forbiddenBlock;
+                    } else return block != BlockList.BLOCK_AIR.id &&
+                            block != forbiddenBlock;
+                }),
+                ((entity) -> {
+                    return true;
+                }),
+                world);
+    }
 }

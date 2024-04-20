@@ -29,8 +29,7 @@ public class Camera {
     public final Vector3f cursorRaycastLook = new Vector3f();
     public final Vector3f cameraRaycastLook = new Vector3f();
     public final Vector3f cameraForward = new Vector3f();
-    public int cursorRayDist = 1000;//Max distance for front ray
-    public final int maxCursorRayDist = 1000;//Max distance for front ray for cursor raycaster
+
     private float tilt, pan, normalizedPan;
     public final Ray cameraViewRay;
     private float thirdPersonDist = 0;
@@ -46,8 +45,6 @@ public class Camera {
     private final BaseWindow window;
     protected final Matrix4f view, projection;
     private final World world;
-
-
 
 
     private void calculateCameraOrientation() {
@@ -118,7 +115,7 @@ public class Camera {
         windowX = MemoryUtil.memAllocInt(1);
         windowY = MemoryUtil.memAllocInt(1);
         simplifiedPanTilt = new Vector2i();
-     cursorRay = new CursorRay(this);
+        cursorRay = new CursorRay(this);
         cameraViewRay = new Ray();
 
         try {
@@ -135,7 +132,7 @@ public class Camera {
         tilt = 0f;
     }
 
-   public final CursorRay cursorRay;
+    public final CursorRay cursorRay;
 
     public void hideMouse() {
         GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
@@ -207,7 +204,7 @@ public class Camera {
                     cameraRaycastLook.set(0).sub(look);
                 }
                 RayCasting.traceSimpleRay(cameraViewRay, position, cameraRaycastLook, (int) thirdPersonDist2 + 1,
-                        ((block, forbiddenBlock) -> {
+                        ((block, forbiddenBlock, rx, ry, rz) -> {
                             Block block2 = ItemList.getBlock(block);
                             return block != BlockList.BLOCK_AIR.id &&
                                     block != forbiddenBlock
@@ -226,22 +223,7 @@ public class Camera {
                 }
             }
 
-            if (cursorRay.cursorRayHitAllBlocks) cursorRayDist = MathUtils.clamp(cursorRayDist, 1, maxCursorRayDist);
-            else cursorRayDist = maxCursorRayDist;
-            RayCasting.traceComplexRay(cursorRay.cursorRay, position, cursorRaycastLook, cursorRayDist,
-                    ((block, forbiddenBlock) -> {
-                        if (cursorRay.cursorRayHitAllBlocks) {
-                            return block != forbiddenBlock;
-                        } else return block != BlockList.BLOCK_AIR.id &&
-                                block != forbiddenBlock;
-                    }),
-                    ((entity) -> {
-//                        if (player.positionLock != null) {
-//                            return entity != player.positionLock.entity;
-//                        }
-                        return true;
-                    }),
-                    world);
+            cursorRay.cast(position, cursorRaycastLook, GameScene.world);
 
             view.identity().lookAt(position, target, up);
 
@@ -250,7 +232,6 @@ public class Camera {
         //We must update the frustum AFTER we update the camera
         frustum.update(projection, view);
     }
-
 
 
     public String toString() {

@@ -241,7 +241,8 @@ public class UserControlledPlayer extends Player {
 
 
     public void keyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_PRESS) {
+        if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
+        } else if (action == GLFW.GLFW_PRESS) {
             switch (key) {
                 case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = 75f;
                 case GLFW.GLFW_KEY_SPACE -> {
@@ -267,7 +268,7 @@ public class UserControlledPlayer extends Player {
                     if (!raycastDistChanged) {
                         camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
                         if (camera.cursorRay.cursorRayHitAllBlocks) {
-                            camera.cursorRayDist = 5;
+                            camera.cursorRay.cursorRayDist = 5;
                         }
                     }
                     raycastDistChanged = false;
@@ -367,8 +368,8 @@ public class UserControlledPlayer extends Player {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (window.isKeyPressed(CHANGE_RAYCAST_MODE) && camera.cursorRay.cursorRayHitAllBlocks) {
             raycastDistChanged = true;
-            camera.cursorRayDist += scroll.y();
-            camera.cursorRayDist = MathUtils.clamp(camera.cursorRayDist, 1, 50);
+            camera.cursorRay.cursorRayDist += scroll.y();
+            camera.cursorRay.cursorRayDist = MathUtils.clamp(camera.cursorRay.cursorRayDist, 1, 50);
             return true;
         }
         return false;

@@ -109,11 +109,6 @@ assuming you spent 1hr/day for 6 days a week, it would take about 50 days to com
 * Determine if we need to erase block data when blocks are deleted
 * Tnt does not clear itself properly, it leaves active tnt's behind that keeps detonating each other
 
-### torch blocks cause weird mesh artifact when placed on edge of chunk
-![2024-04-17 21-41-00.png](\assets\notes\2024-04-17%2021-41-00.png)
-This is due to the packing of vertex positions. When a torch is placed on the edge of the chunk, the verticies go outside of the packed range. For example, they may go slightly below 0, or slightly above 32
-
-
 ### When setting LOTS of blocks, it somehow gets separated into multiple queues that get cleared in adjacent frames, instead of getting processed in one resolve() on another thread
 Observe the faulty code:
 ```dtd
@@ -166,20 +161,6 @@ Transparent to opaque: 0
 Done. Chunks affected: 11
 Saving...
 ```
-
-## Features that must be implemented to get to XB2
-* Bugfixes
-  * BUG: voxels from a previous game show up in new chunks
-* Important features
-  * Chunks must be loaded COMPLETELY before the user enters the game
-  * Player spawn position must actually work
-  * save chunks in 2x2x2 chunk reigons (Could wait)
-* adding all entities, block events and terrains
-  - trees
-  - ADD ALL block events including TNT
-  - all animals, vehicles and banners
-  - adding doors, trapdoors and fence gates as blocks
-* a conversion tool to convert xb2 worlds to xb3
 
 # Information about features (dont delete)
 ## GAME BLOCK TOOLS

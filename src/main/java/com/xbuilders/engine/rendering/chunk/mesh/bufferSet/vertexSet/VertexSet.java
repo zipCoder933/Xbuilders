@@ -14,15 +14,29 @@ import org.joml.Vector3f;
  */
 public abstract class VertexSet {
     //<editor-fold defaultstate="collapsed" desc="Vertex packing">
+
+
+    /**
+     * The vertex are packed and unpacked as follows:
+     * We add 1 to value, before converting. This changes the range FROM (0 to 31) TO (-1 to 30)
+     * In order to allow the vertex positions to go above 32, we subtract from maxMult12bits
+     * maxMult12bits = maxMult12bits - X;
+     * <p>
+     * float val = 5.234f; //(our vertex)
+     * int converted = (int) ((val + 1) * maxMult12bits);
+     * float unconverted = ((float) (converted) / maxMult12bits) - 1;
+     */
     public final static float maxMult10bits = (float) ((Math.pow(2, 10) / (Chunk.WIDTH)) - 1);//Note that ANYTHING that goes outside this range will cause mesh artifacts
-    public final static float maxMult12bits = (float) ((Math.pow(2, 12) / (Chunk.WIDTH)) - 1);
+    public final static float maxMult12bits = (float) ((Math.pow(2, 12) / (Chunk.WIDTH)) - 6);
+
+
     public final static float MAX_BLOCK_ANIMATION_SIZE = 2 ^ 5 - 1;
     public static final int VECTOR_ELEMENTS = 3;
 
     public static int packFirstInt(float vertX, float vertY, byte normals, byte animation) {
         // Scale and convert vertX and vertY to 12-bit integers
-        int a = (int) (vertX * maxMult12bits); // A and b are 12 bits (0-4095)
-        int b = (int) (vertY * maxMult12bits);
+        int a = (int) ((vertX + 1) * maxMult12bits); // A and b are 12 bits (0-4095)
+        int b = (int) ((vertY + 1) * maxMult12bits);
 
         // Pack the values into a single integer
         // VertX is shifted to the left by 20 bits, VertY by 8 bits, Normals by 5 bits, and Animation by 0 bits
@@ -31,7 +45,7 @@ public abstract class VertexSet {
     }
 
     public static int packSecondInt(float vertZ, float u, float v) {
-        int a = (int) (vertZ * maxMult12bits); //12 bits
+        int a = (int) ((vertZ + 1) * maxMult12bits); //12 bits
         int b = (int) (u * maxMult10bits); //10 bits
         int c = (int) (v * maxMult10bits); //10 bits
 
@@ -86,7 +100,7 @@ public abstract class VertexSet {
      */
     public abstract void reset();
 
-//    public abstract void makeVertexSet();
+    //    public abstract void makeVertexSet();
     public abstract void sendToMesh(CompactMesh mesh);
 
     public abstract void vertex(int layer, int a, int b, int c);

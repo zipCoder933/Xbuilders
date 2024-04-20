@@ -141,7 +141,7 @@ public class RayCasting {
 
     @FunctionalInterface
     public interface HitBlockCriteria {
-        boolean shouldHitBlock(short block, short forbiddenBlock);
+        boolean shouldHitBlock(short block, short forbiddenBlock, int x, int y, int z);
     }
 
     @FunctionalInterface
@@ -238,7 +238,7 @@ public class RayCasting {
 
                     if (blockCriteria == null ?
                             block != BlockList.BLOCK_AIR.id && block != forbiddenBlock :
-                            blockCriteria.shouldHitBlock(block, forbiddenBlock)
+                            blockCriteria.shouldHitBlock(block, forbiddenBlock, ix, iy, iz)
                     ) {
                         ray.hitTarget = true;
                         if (ray.hitTarget) {
@@ -412,7 +412,7 @@ public class RayCasting {
 
                     if (blockCriteria == null ?
                             block != BlockList.BLOCK_AIR.id && block != forbiddenBlock :
-                            blockCriteria.shouldHitBlock(block, forbiddenBlock)) {//If block is hittable
+                            blockCriteria.shouldHitBlock(block, forbiddenBlock, ix, iy, iz)) {//If block is hittable
                         Block realBlock = ItemList.getBlock(block);
                         BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         BlockType blockType = realBlock == null ? null : ItemList.blocks.getBlockType(realBlock.type);
