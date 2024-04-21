@@ -79,28 +79,25 @@ we can calculate the number of weeks it will take with the folowing formula:
 `number of weeks = total hours / hours spent per week
 `
 
-assuming you spent 1hr/day for 6 days a week, it would take about 50 days to complete everything in this list, assuming each item took 2.4 hours:
-`weeks = (18 tasks)(2.4h) / (1h)(6d) = 7.2 weeks`
-
-1. Add plant growth
-1. Add fill tools and Add copy/paste tools
+1. Add plant growth (beets/carrots/potatoes)
+1. Add copy/paste tools
    * If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions
    * Add the necissary features of the tools by changing the framework to support it. Dont use workarounds.
    * I want to see the range of the tools,for example, the line tool should show a cursor line, instead of the regular cursor
 4. Add banners
-7. Import a few xbuilders terrains
+7. Import default v2, moon shallow and simple terrains from xb2
 8. Add all animals
 9. add All vehicles
 9. Add doors as blocks
 10. add trapdoors and fence gates as blocks
 10. Make framework for cellular automata that can run things like water propagation, grass, etc
 11. Water propagation
-4. Add JSON settings
 12. Make a conversion tool to convert xb2 worlds to xb3
 
 # Optimizations/Q.O.L. features **(save all optimizations for last.)**
 1. Make chunks load light and meshes before the user enters the game
 2. Player spawn position must actually work
+4. Add JSON settings
 
 # Bugfixes
 * voxels from a previous game show up in new chunks
@@ -159,8 +156,12 @@ UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
 Opaque to transparent: 0
 Transparent to opaque: 0
 Done. Chunks affected: 11
-Saving...
 ```
+
+possible culprits
+* the events are dispatched on a frame that has block events
+  * count how many block events that are set when boundary is set
+  * 
 
 # Information about features (dont delete)
 ## GAME BLOCK TOOLS
