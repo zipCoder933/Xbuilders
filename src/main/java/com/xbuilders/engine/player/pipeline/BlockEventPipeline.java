@@ -34,7 +34,9 @@ public class BlockEventPipeline {
             }
             if (event.previousBlock != event.currentBlock || event.updateBlockData) {
                 blockChangesThisFrame++;
-                events.put(position, event);
+                synchronized (eventClearLock) {
+                    events.put(position, event);
+                }
             }
         }
     }
@@ -43,9 +45,10 @@ public class BlockEventPipeline {
         addEvent(WCCi.chunkSpaceToWorldSpace(wcc), event);
     }
 
-    Map<Vector3i, BlockHistory> events = new ConcurrentHashMap<>();
+    Map<Vector3i, BlockHistory> events = new HashMap<>();
     WCCi wcc = new WCCi();
     World world;
+    final Object eventClearLock = new Object();
 
     /**
      * corePoolSize: The number of threads to keep in the pool, even if they are idle.
@@ -96,25 +99,28 @@ public class BlockEventPipeline {
         framesThatHadEvents++;
         boolean multiThreadedMode = blockChangesThisFrame > 100 || lightChangesThisFrame > 20;
         boolean allowBlockEvents = framesThatHadEvents < MAX_FRAMES_WITH_EVENTS_IN_A_ROW;
-        System.out.println("\nUPDATING EVENTS: \tMultiThreaded: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
+        System.out.println("\nUPDATING " + events.size() + " EVENTS (" + framesThatHadEvents + " frames in row): \tMultiThread: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
 
         if (multiThreadedMode) { //TODO: Successfully implement multithreaded block setting
-            bulkBlockThread.execute(() -> resolveQueue(events, allowBlockEvents, player));
+            bulkBlockThread.execute(() -> resolveQueue(allowBlockEvents, player));
             return;
         } else
-            resolveQueue(events, allowBlockEvents, player);
+            resolveQueue(allowBlockEvents, player);
 
         lightChangesThisFrame = 0;
         blockChangesThisFrame = 0;
     }
 
-    private void resolveQueue(Map<Vector3i, BlockHistory> queue, boolean allowBlockEvents, UserControlledPlayer player) {
-        HashMap<Vector3i, BlockHistory> eventsCopy = new HashMap<>(queue);
+    private void resolveQueue(boolean allowBlockEvents, UserControlledPlayer player) {
+        HashMap<Vector3i, BlockHistory> eventsCopy;
+        synchronized (eventClearLock) {
+            eventsCopy = new HashMap<>(events);
+            events.clear(); //We want to clear the old events before iterating over and picking up new ones
+        }
+
         List<ChunkNode> opaqueToTransparent = new ArrayList<>();
         List<ChunkNode> transparentToOpaque = new ArrayList<>();
 
-        queue.clear(); //We want to clear the old events before iterating over and picking up new ones
-        System.out.println(eventsCopy.size() + " Block Events (" + framesThatHadEvents + " frames in row)");
 
         eventsCopy.forEach((worldPos, blockHist) -> {
             wcc.set(worldPos);

@@ -6,7 +6,6 @@ import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.game.blockTools.tools.DefaultTool;
 import com.xbuilders.game.blockTools.tools.Tool_BoundarySetDelete;
-import com.xbuilders.game.blockTools.tools.Tool_SimpleLine;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.nuklear.Nuklear.*;
-import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class BlockTools extends GameUIElement {
 
@@ -27,7 +25,7 @@ public class BlockTools extends GameUIElement {
         super(ctx, window, uires);
         tools.add(new DefaultTool());
         tools.add(new Tool_BoundarySetDelete());
-        tools.add(new Tool_SimpleLine());
+//        tools.add(new Tool_SimpleLine());
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();

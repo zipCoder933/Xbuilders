@@ -160,7 +160,7 @@ public class Main extends NKWindow {
 
     private void run() throws Exception {
         initGLFW();
-        startWindow("TEST WINDOW", 850, 650);
+        startWindow("TEST WINDOW", 650, 450);
         init();
         showWindow();
         System.out.println("Press 1 for System.GC()");
