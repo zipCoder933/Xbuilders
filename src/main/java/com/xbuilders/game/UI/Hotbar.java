@@ -151,22 +151,30 @@ public class Hotbar extends GameUIElement {
         changeSelectedIndex(scroll.y());
     }
 
+    final int PICK_KEY = GLFW.GLFW_KEY_0;
+
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
                 changeSelectedIndex(-1);
             } else if (key == GLFW.GLFW_KEY_PERIOD) {
                 changeSelectedIndex(1);
+            }else if(key == PICK_KEY){
+                pickItem();
             }
         }
     }
 
     public void mouseButtonEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE && button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-            CursorRay ray = GameScene.player.camera.cursorRay;
-            if (ray.hitTarget()) {
-                acquireItem(GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z));
-            }
+            pickItem();
+        }
+    }
+
+    private void pickItem() {
+        CursorRay ray = GameScene.player.camera.cursorRay;
+        if (ray.hitTarget()) {
+            acquireItem(GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z));
         }
     }
 

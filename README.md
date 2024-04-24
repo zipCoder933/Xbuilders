@@ -5,73 +5,6 @@
 # Xbuilders
 **A voxel game written in Java + LWJGL**
 
-<!---
-## Keys and buttons
-Key | action
---|--
-W|up/fly
-S|down
-spacebar|jump/enable gravity
-P|toggle collisions
-arrow keys|move horizontally
-F|toggle fast movement
-M|toggle menu
-ESC|leave world/exit game
-I|toggle inventory
-F11|save screenshot
-
-
-Mouse | action
---|--
-Scroll|select block
-Right-click|delete block
-Left-click|create block
-
-
-## Overview
-This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
-
-This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
-
-### Current features include:
-* Animated blocks
-* Multiple block types, including stairs, slabs, pillars, ladders, floor items (tracks, etc.) and ladders
-* Entities (including animals)
-  * Current entities include a Fox (animal)
-* A UI main screen
-* World saving/loading
-* Fast chunk generation with greedy meshing
-* Support for large chunk distances (up to 400 voxel radius)
-
-### Things to know:
-* I use LWJGL's Nublada GUI library that is builtin to LWJGL to do all of the UI rendering.
-* Each chunk is 32x32x32 in size. Chunks coordinates are 3D
-* The up direction is -Y, and the down direction is +Y
-* Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
-
-
-## Screenshots
-A few of the blocks currently available
-![blocks](./assets/images/a.jpg)
-
-Inside a house
-![indoors](./assets/images/c.jpg)
-
-A group of foxes
-![foxes](./assets/images/e.jpg)
-
-Lots of foxes!
-![lots of foxes](./assets/images/f.jpg)
-
-Screenshot of the inventory menu
-![inventory](./assets/images/g.jpg)
-
-Ingame screenshot:
-![ingame](./assets/images/h.jpg)
-
--->
-
-
 
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
@@ -79,7 +12,6 @@ we can calculate the number of weeks it will take with the folowing formula:
 `number of weeks = total hours / hours spent per week
 `
 
-1. Add plant growth (beets/carrots/potatoes)
 1. Add copy/paste tools
    * If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions
    * Add the necissary features of the tools by changing the framework to support it. Dont use workarounds.
@@ -93,6 +25,7 @@ we can calculate the number of weeks it will take with the folowing formula:
 10. Make framework for cellular automata that can run things like water propagation, grass, etc
 11. Water propagation
 12. Make a conversion tool to convert xb2 worlds to xb3
+13. Ambient occlusion in chunk mesh
 
 # Optimizations/Q.O.L. features **(save all optimizations for last.)**
 1. Make chunks load light and meshes before the user enters the game
@@ -101,8 +34,6 @@ we can calculate the number of weeks it will take with the folowing formula:
 
 # Bugfixes
 * voxels from a previous game show up in new chunks
-* When setting LOTS of opaque blocks, it sometimes doesnt erase the light, causing small shadows, or nothing at all, It could even cause a random collection of blocks instead of all of them
-  * When the loaded chunk is loaded from disk, sunlight is fixed, indicating that the world generation, generates sunlight on chunks that it isnt supposed to.
 * Determine if we need to erase block data when blocks are deleted
 * Tnt does not clear itself properly, it leaves active tnt's behind that keeps detonating each other
 
@@ -197,3 +128,76 @@ on a separate thread
   - a node will be deleted if it is too far from player
 
 - grass, that is dependent on the amount of time since placed, can store a timestamp in its block data?
+
+
+
+
+
+
+
+
+<!---
+## Keys and buttons
+Key | action
+--|--
+W|up/fly
+S|down
+spacebar|jump/enable gravity
+P|toggle collisions
+arrow keys|move horizontally
+F|toggle fast movement
+M|toggle menu
+ESC|leave world/exit game
+I|toggle inventory
+F11|save screenshot
+
+
+Mouse | action
+--|--
+Scroll|select block
+Right-click|delete block
+Left-click|create block
+
+
+## Overview
+This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
+
+This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
+
+### Current features include:
+* Animated blocks
+* Multiple block types, including stairs, slabs, pillars, ladders, floor items (tracks, etc.) and ladders
+* Entities (including animals)
+  * Current entities include a Fox (animal)
+* A UI main screen
+* World saving/loading
+* Fast chunk generation with greedy meshing
+* Support for large chunk distances (up to 400 voxel radius)
+
+### Things to know:
+* I use LWJGL's Nublada GUI library that is builtin to LWJGL to do all of the UI rendering.
+* Each chunk is 32x32x32 in size. Chunks coordinates are 3D
+* The up direction is -Y, and the down direction is +Y
+* Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
+
+
+## Screenshots
+A few of the blocks currently available
+![blocks](./assets/images/a.jpg)
+
+Inside a house
+![indoors](./assets/images/c.jpg)
+
+A group of foxes
+![foxes](./assets/images/e.jpg)
+
+Lots of foxes!
+![lots of foxes](./assets/images/f.jpg)
+
+Screenshot of the inventory menu
+![inventory](./assets/images/g.jpg)
+
+Ingame screenshot:
+![ingame](./assets/images/h.jpg)
+
+-->

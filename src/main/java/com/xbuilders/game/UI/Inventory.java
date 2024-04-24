@@ -135,8 +135,7 @@ public class Inventory extends GameUIElement {
                             }
 
                             Item item = itemList[itemID];
-                            if (searchCriteria == null || item.name == null ||
-                                    item.name.toLowerCase().contains(searchCriteria)) {
+                            if (isVisible(item) && matchesSearch(item, searchCriteria)) {
                                 if (Nuklear.nk_widget_is_hovered(ctx)) {
                                     hoveredItem = item.toString();
                                 }
@@ -197,6 +196,15 @@ public class Inventory extends GameUIElement {
         if (nk_window_is_hidden(ctx, WINDOW_TITLE)) {
             isOpen = false;
         }
+    }
+
+    private boolean isVisible(Item item) {
+        return item.name != null && !item.name.toLowerCase().contains("hidden");
+    }
+
+    private boolean matchesSearch(Item item, String searchCriteria) {
+        return searchCriteria == null || item.name == null ||
+                item.name.toLowerCase().contains(searchCriteria);
     }
 
 

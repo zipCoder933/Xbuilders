@@ -79,7 +79,7 @@ public class BlockEventPipeline {
         bulkBlockThread.shutdown();
     }
 
-    HashSet<Chunk> affectedChunks = new HashSet<>();
+
 
 
     int blockChangesThisFrame, lightChangesThisFrame;
@@ -117,7 +117,7 @@ public class BlockEventPipeline {
             eventsCopy = new HashMap<>(events);
             events.clear(); //We want to clear the old events before iterating over and picking up new ones
         }
-
+        HashSet<Chunk> affectedChunks = new HashSet<>();
         List<ChunkNode> opaqueToTransparent = new ArrayList<>();
         List<ChunkNode> transparentToOpaque = new ArrayList<>();
 

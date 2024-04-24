@@ -156,9 +156,7 @@ public class SunlightUtils {
 
     public static void eraseSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks,
                                      HashSet<ChunkNode> repropagationNodes) {
-
-        long timeStart = System.currentTimeMillis();
-        while (queue.size() > 0 && System.currentTimeMillis() - timeStart < 10000L) {
+        while (queue.size() > 0) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
