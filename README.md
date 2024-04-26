@@ -1,8 +1,7 @@
-<!---
-![Xbuilders landscape](./assets/images/b.jpg)
--->
 
-# Xbuilders
+![Xbuilders landscape](./assets/images/b.jpg)
+
+# Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
 
