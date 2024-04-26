@@ -12,24 +12,18 @@ we can calculate the number of weeks it will take with the folowing formula:
 `
 
 1. Add copy/paste tools
-   * If tool parameters become too un-maintainable, add some additional framework for parameters in the context of future UI solutions
-   * Add the necissary features of the tools by changing the framework to support it. Dont use workarounds.
-   * I want to see the range of the tools,for example, the line tool should show a cursor line, instead of the regular cursor
-4. Add banners
-7. Import default v2, moon shallow and simple terrains from xb2
-8. Add all animals
-9. add All vehicles
+7. Import a few terrains from xb2
 9. Add doors as blocks
 10. add trapdoors and fence gates as blocks
-10. Make framework for cellular automata that can run things like water propagation, grass, etc
-11. Water propagation
-12. Make a conversion tool to convert xb2 worlds to xb3
-13. Ambient occlusion in chunk mesh
-
-# Optimizations/Q.O.L. features **(save all optimizations for last.)**
-1. Make chunks load light and meshes before the user enters the game
-2. Player spawn position must actually work
-4. Add JSON settings
+10. load/write to chunks as regions
+   1. include file version as metadata
+   12. Make a conversion tool to convert xb2 worlds to xb3
+8.  Add more animals
+9. important features
+   1. Make chunks load light and meshes before the user enters the game
+   2. Player spawn position must actually work
+   4. Add JSON settings
+10. bugfixes and performance optimizations
 
 # Bugfixes
 * voxels from a previous game show up in new chunks
