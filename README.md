@@ -7,18 +7,15 @@
 
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
-we can calculate the number of weeks it will take with the folowing formula:
-`number of weeks = total hours / hours spent per week
-`
 
 1. Add copy/paste tools
 7. Import a few terrains from xb2
 9. Add doors as blocks
+10. load most of the blocks as JSON files
 10. add trapdoors and fence gates as blocks
 10. load/write to chunks as regions
    1. include file version as metadata
    12. Make a conversion tool to convert xb2 worlds to xb3
-8.  Add more animals
 9. important features
    1. Make chunks load light and meshes before the user enters the game
    2. Player spawn position must actually work
@@ -30,62 +27,9 @@ we can calculate the number of weeks it will take with the folowing formula:
 * Determine if we need to erase block data when blocks are deleted
 * Tnt does not clear itself properly, it leaves active tnt's behind that keeps detonating each other
 
-### When setting LOTS of blocks, it somehow gets separated into multiple queues that get cleared in adjacent frames, instead of getting processed in one resolve() on another thread
-Observe the faulty code:
-```dtd
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-25801 Block Events (1 frames in row)
 
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-8208 Block Events (2 frames in row)
 
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-4055 Block Events (3 frames in row)
 
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-1787 Block Events (4 frames in row)
-Opaque to transparent: 0
-Transparent to opaque: 0
-Done. Chunks affected: 32
-
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-1963 Block Events (5 frames in row)
-Opaque to transparent: 0
-Transparent to opaque: 0
-Done. Chunks affected: 32
-
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-1421 Block Events (6 frames in row)
-Opaque to transparent: 0
-Transparent to opaque: 0
-Done. Chunks affected: 24
-
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-948 Block Events (7 frames in row)
-Opaque to transparent: 0
-Transparent to opaque: 0
-Done. Chunks affected: 16
-Opaque to transparent: 38
-Transparent to opaque: 0
-Done. Chunks affected: 24
-
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-6870 Block Events (8 frames in row)
-Opaque to transparent: 0
-Transparent to opaque: 0
-Done. Chunks affected: 24
-
-UPDATING EVENTS: 	MultiThreaded: true allowBlockEvents: true
-24 Block Events (9 frames in row)
-Opaque to transparent: 0
-Transparent to opaque: 0
-Done. Chunks affected: 11
-```
-
-possible culprits
-* the events are dispatched on a frame that has block events
-  * count how many block events that are set when boundary is set
-  * 
 
 # Information about features (dont delete)
 ## GAME BLOCK TOOLS
