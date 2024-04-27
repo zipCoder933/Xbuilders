@@ -4,6 +4,11 @@
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
+#multiplayer
+a super easy way to do multiplayer could be
+* each player owns a set of chunks thay modified. 
+* those chunks are read only to others
+* periodically, the updated chunks are all sent to other players to be loaded in world or saved on disk
 
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
