@@ -8,25 +8,22 @@
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
 
-1. bugfixes
+# Bugfixes (FIX FIRST)
+1. voxels from a previous game show up in new chunks
+2. Determine if we need to erase block data when blocks are deleted
+3. Tnt does not clear itself properly, it leaves active tnt's behind that keeps detonating each other
+
+# Features
 1. Add copy/paste tools
 9. Add doors as blocks
 10. fix parameters of some of the blocks (leaves,etc)
-10. load/write to chunks as regions
-   1. include file version as metadata
-      * don't delete legacy saving/loading classes, and instead put them into the conversion tool
-   12. Make a conversion tool in the game to convert xb2 worlds to xb3
 9. important features
    1. Make chunks load light and meshes before the user enters the game
    2. Player spawn position must actually work
    4. Add JSON settings
    5. unlimited view range switch
-10. bugfixes and performance optimizations
+10. performance optimizations
 
-# Bugfixes
-* voxels from a previous game show up in new chunks
-* Determine if we need to erase block data when blocks are deleted
-* Tnt does not clear itself properly, it leaves active tnt's behind that keeps detonating each other
 
 
 
