@@ -23,8 +23,6 @@ public class Plant extends Block {
                 }
             });
         }
-
-
     }
 
     public static void growPlant(long growSpeed, final int x, final int y, final int z,
