@@ -4,6 +4,16 @@
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
+## Current features include:
+* Animated blocks
+* Multiple block types, including stairs, slabs, pillars, ladders, floor items (tracks, etc.) and ladders
+* Entities (including animals)
+  * Current entities include a Fox (animal)
+* A UI main screen
+* World saving/loading
+* Fast chunk generation with greedy meshing
+* Support for large chunk distances (up to 400 voxel radius)
+
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
   * `[LWJGL] [ThreadLocalUtil] Unsupported JNI version detected, this may result in a crash. Please inform LWJGL developers.`
@@ -16,13 +26,12 @@
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
 
 ## Features
-1. Add copy/paste tools
-9. Add doors as blocks
-10. fix parameters of some of the blocks (leaves,etc)
-9. important features
-   2. Player spawn position must actually work
-   4. Add JSON settings
-10. performance optimizations
+* Add copy/paste tools
+* Add doors as blocks
+* fix parameters of some of the blocks (leaves,etc)
+* Player spawn position must be set in a safe place when entering the world
+* Add JSON settings
+* performance optimizations when traveling thru world
 
 
 # multiplayer
@@ -104,15 +113,7 @@ This game is a minecraft like block game, written in Java, with priority on **pe
 
 This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
 
-### Current features include:
-* Animated blocks
-* Multiple block types, including stairs, slabs, pillars, ladders, floor items (tracks, etc.) and ladders
-* Entities (including animals)
-  * Current entities include a Fox (animal)
-* A UI main screen
-* World saving/loading
-* Fast chunk generation with greedy meshing
-* Support for large chunk distances (up to 400 voxel radius)
+
 
 ## Screenshots
 A few of the blocks currently available
