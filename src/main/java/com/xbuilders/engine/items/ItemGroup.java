@@ -49,6 +49,10 @@ abstract class ItemGroup<T extends Item> {
         int highestId = 0;
         idMap.clear();
         for (int i = 0; i < inputItems.length; i++) {
+            if(inputItems[i] == null) {
+                System.err.println("item at index " + i + " is null");
+                continue;
+            }
             short id = inputItems[i].id;
             if (idMap.containsKey(id)) {
                 System.err.println("Block " + inputItems[i] + " ID conflicts with an existing ID: " + id);

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Birch Leaves",
+    "id": 3,
+    "texture": {
+      "pos_y": "birch leaves.png",
+      "pos_x": "birch leaves.png",
+      "pos_z": "birch leaves.png",
+      "neg_z": "birch leaves.png",
+      "neg_x": "birch leaves.png",
+      "neg_y": "birch leaves.png"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0
+  },
+  {
+    "name": "Oak Leaves",
+    "id": 12,
+    "texture": {
+      "pos_y": "oak leaves.png",
+      "pos_x": "oak leaves.png",
+      "pos_z": "oak leaves.png",
+      "neg_z": "oak leaves.png",
+      "neg_x": "oak leaves.png",
+      "neg_y": "oak leaves.png"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0
+  },
+  {
+    "name": "Jungle Leaves",
+    "id": 47,
+    "texture": {
+      "pos_y": "jungle leaves.png",
+      "pos_x": "jungle leaves.png",
+      "pos_z": "jungle leaves.png",
+      "neg_z": "jungle leaves.png",
+      "neg_x": "jungle leaves.png",
+      "neg_y": "jungle leaves.png"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0
+  },
+  {
+    "name": "Acacia Leaves",
+    "id": 225,
+    "texture": {
+      "pos_y": "acacia leaves.png",
+      "pos_x": "acacia leaves.png",
+      "pos_z": "acacia leaves.png",
+      "neg_z": "acacia leaves.png",
+      "neg_x": "acacia leaves.png",
+      "neg_y": "acacia leaves.png"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0
+  },
+  {
+    "name": "Spruce Leaves",
+    "id": 733,
+    "texture": {
+      "pos_y": "spruce leaves.png",
+      "pos_x": "spruce leaves.png",
+      "pos_z": "spruce leaves.png",
+      "neg_z": "spruce leaves.png",
+      "neg_x": "spruce leaves.png",
+      "neg_y": "spruce leaves.png"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0
+  }
+]
