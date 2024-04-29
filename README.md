@@ -4,6 +4,10 @@
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
+## Important notes
+* The JVM version must be 17. If it is higher the following message will show in output:
+  * `[LWJGL] [ThreadLocalUtil] Unsupported JNI version detected, this may result in a crash. Please inform LWJGL developers.`
+
 # multiplayer
 a super easy way to do multiplayer could be
 * each player owns a set of chunks thay modified. 
@@ -12,11 +16,6 @@ a super easy way to do multiplayer could be
 
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
-
-# Bugfixes (FIX FIRST)
-1. voxels from a previous game show up in new chunks
-2. Determine if we need to erase block data when blocks are deleted
-3. Tnt does not clear itself properly, it leaves active tnt's behind that keeps detonating each other
 
 # Features
 1. Add copy/paste tools

@@ -1,21 +1,21 @@
-package com.xbuilders.engine.world.DistanceScheduledExecutor;
+package com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-class PriorityFuture<T> implements RunnableFuture<T> {
+public class PriorityFuture<T> implements RunnableFuture<T> {
 
     private RunnableFuture<T> src;
-    private float priority;
+    private long priority;
 
-    public PriorityFuture(RunnableFuture<T> other, float priority) {
+    public PriorityFuture(RunnableFuture<T> other, long priority) {
         this.src = other;
         this.priority = priority;
     }
 
-    public float getPriority() {
+    public long getPriority() {
         return priority;
     }
 

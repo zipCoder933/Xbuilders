@@ -17,7 +17,7 @@ public class VerticalPairedBlock {
         topBlock = new Block(id_top, name, texture_top, renderType);
         bottomBlock = new Block(id_bottom, name, texture_bottom, renderType);
 
-        topBlock.setBlockEvent(false, (x, y, z, data) -> {
+        topBlock.setBlockEvent( (x, y, z, data) -> {
             GameScene.player.setBlock(bottomBlock, x, y + 1, z);
         });
         topBlock.removeBlockEvent((x, y, z) -> {
@@ -26,7 +26,7 @@ public class VerticalPairedBlock {
             }
         });
 
-        bottomBlock.setBlockEvent(false, (x, y, z, data) -> {
+        bottomBlock.setBlockEvent( (x, y, z, data) -> {
             GameScene.player.setBlock(topBlock, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent((x, y, z) -> {

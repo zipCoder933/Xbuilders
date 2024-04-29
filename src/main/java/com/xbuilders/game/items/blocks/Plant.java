@@ -16,7 +16,7 @@ public class Plant extends Block {
         this.type = RenderType.SPRITE;
 
         if (stages.length > 0) {
-            setBlockEvent(true, (x, y, z, data) -> {
+            setBlockEvent_multithreaded((x, y, z, data) -> {
                 boolean wasSet = false;
                 if (cropPlantable(x, y, z)) {
                     growPlant(2200, x, y, z, this, stages);

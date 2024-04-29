@@ -1,12 +1,13 @@
 package com.xbuilders.engine.items.block;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.ItemType;
-import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -14,7 +15,6 @@ import org.joml.Vector3i;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Consumer;
 
 public class Block extends Item {
@@ -53,18 +53,23 @@ public class Block extends Item {
         public void run(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition);
     }
 
+    SetBlockEvent multithreadedSetBlockEvent = null;
     SetBlockEvent setBlockEvent = null;
+
     OnLocalChange onLocalChange = null;
     RemoveBlockEvent removeBlockEvent = null;
-    boolean setBlockEvent_runOnAnotherThread = false;
+
 
     public boolean allowExistence(int worldX, int worldY, int worldZ) {
         return true;
     }
 
-    public void setBlockEvent(boolean runOnAnotherThread, SetBlockEvent setBlockEvent) {
+    public void setBlockEvent(SetBlockEvent setBlockEvent) {
         this.setBlockEvent = setBlockEvent;
-        this.setBlockEvent_runOnAnotherThread = runOnAnotherThread;
+    }
+
+    public void setBlockEvent_multithreaded(SetBlockEvent setBlockEvent) {
+        this.multithreadedSetBlockEvent = setBlockEvent;
     }
 
     public void removeBlockEvent(RemoveBlockEvent removeBlockEvent) {
@@ -76,20 +81,19 @@ public class Block extends Item {
     }
 
 
-
     public void run_RemoveBlockEvent(Vector3i worldPos) {
         if (removeBlockEvent != null) {
             removeBlockEvent.run(worldPos.x, worldPos.y, worldPos.z);
         }
     }
 
-    public void run_SetBlockEvent(ThreadPoolExecutor eventThread, Vector3i worldPos, BlockData data) {
+    public void run_SetBlockEvent(PriorityThreadPoolExecutor eventThread, Vector3i worldPos, BlockData data) {
         if (setBlockEvent != null) {
-            if (setBlockEvent_runOnAnotherThread) {
-                eventThread.submit(() -> setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, data));
-            } else {
-                setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, data);
-            }
+            setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, data);
+        }
+        if (multithreadedSetBlockEvent != null) {
+            eventThread.submit(System.currentTimeMillis(),
+                    () -> multithreadedSetBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, data));
         }
     }
 

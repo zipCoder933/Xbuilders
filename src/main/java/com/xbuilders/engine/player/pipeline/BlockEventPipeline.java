@@ -6,6 +6,8 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -16,10 +18,7 @@ import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class BlockEventPipeline {
 
@@ -59,13 +58,14 @@ public class BlockEventPipeline {
      * threadFactory: The factory to use when creating new threads.
      * handler: The handler to use when tasks cannot be executed.
      */
-    ThreadPoolExecutor eventThread, bulkBlockThread;
+    ThreadPoolExecutor bulkBlockThread;
+    PriorityThreadPoolExecutor eventThread;
 
     public void startGame() {
-        eventThread = new ThreadPoolExecutor(
-                15, 15,
-                100L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>());
+        eventThread = new PriorityThreadPoolExecutor(
+                100, 1000,
+                0L, TimeUnit.MILLISECONDS,
+                new HighValueComparator());
 
         bulkBlockThread = new ThreadPoolExecutor(
                 5, 5,
@@ -78,8 +78,6 @@ public class BlockEventPipeline {
         eventThread.shutdown();
         bulkBlockThread.shutdown();
     }
-
-
 
 
     int blockChangesThisFrame, lightChangesThisFrame;

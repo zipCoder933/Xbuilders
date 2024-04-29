@@ -1,12 +1,20 @@
-package com.xbuilders.engine.world.DistanceScheduledExecutor;
+package com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor;
 
 import java.util.concurrent.Callable;
 
 public abstract class PriorityCallable<T> implements Callable<T> {
-    public final float priority;
+    public final long priority;
+
+    public PriorityCallable(long priority) {
+        this.priority = priority;
+    }
 
     public PriorityCallable(float priority) {
-        this.priority = priority;
+        this.priority = (long) priority;
+    }
+
+    public PriorityCallable(int priority) {
+        this.priority = (long) priority;
     }
 }
 

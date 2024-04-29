@@ -3,11 +3,12 @@ package com.xbuilders.engine.world;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
-import com.xbuilders.engine.world.DistanceScheduledExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.LowValueComparator;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.FutureChunk;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -141,7 +142,7 @@ public class World {
         Thread thread = new Thread(r, "Generation Thread");
         thread.setDaemon(true);
         return thread;
-    });
+    }, new LowValueComparator());
 
     /**
      * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
@@ -165,7 +166,7 @@ public class World {
         Thread thread = new Thread(r, "Light Thread");
         thread.setDaemon(true);
         return thread;
-    });
+    }, new LowValueComparator());
 
     public World() {
         this.needsSorting = new AtomicBoolean(true);
@@ -214,16 +215,13 @@ public class World {
             unusedChunks.add(chunk);
         }
     }
-
-    public static File chunkFile(final WorldInfo infoFile, Vector3i coords) throws IOException {
-        return new File(infoFile.getDirectory(), "\\" + coords.x + "_" + coords.y + "_" + coords.z + ".chunk");
-    }
 //</editor-fold>
 
     public void newGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
         prog.setTask("Generating chunks");
         this.chunks.clear();
         this.unusedChunks.clear();
+        this.futureChunks.clear(); //Important!
         newGameTasks.set(0);
         this.info = info;
         try {
@@ -235,6 +233,32 @@ public class World {
             ErrorHandler.createPopupWindow("Error", "Terrain not found: " + info.getTerrain());
         }
 
+    }
+
+    public void stopGame(Vector3f playerPos) {
+        save(playerPos);
+
+//We may or may not actually need to shutdown the services, since chunks cancel all tasks when they are disposed
+        ExecutorServiceUtils.cancelAllTasks(generationService);
+        ExecutorServiceUtils.cancelAllTasks(lightService);
+        ExecutorServiceUtils.cancelAllTasks(meshService);
+
+        chunks.values().forEach((chunk) -> {
+            chunk.dispose();
+        });
+        unusedChunks.forEach((chunk) -> {
+            chunk.dispose();
+        });
+
+        chunks.clear();
+        unusedChunks.clear();
+        chunksToRender.clear();
+        chunksToUnload.clear();
+        futureChunks.clear(); //Important!
+
+        System.gc();
+        info = null;
+        terrain = null;
     }
 
     /*
@@ -333,7 +357,7 @@ public class World {
                         coords.x, coords.y, coords.z,
                         lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
 //                frameTester.endProcess("UCTRL: sorting and frustum check");
-                chunk.prepare(terrain, frame);
+                chunk.prepare(terrain, frame, false);
             }
         });
         chunksToUnload.forEach(chunk -> {
@@ -497,32 +521,6 @@ public class World {
     }
 //</editor-fold>
 
-
-    public void stopGame(Vector3f playerPos) {
-        save(playerPos);
-
-//We may or may not actually need to shutdown the services, since chunks cancel all tasks when they are disposed
-        generationService.cancelAllTasks();
-        lightService.cancelAllTasks();
-        PriorityThreadPoolExecutor.cancelAllTasks(meshService);
-
-        chunks.values().forEach((chunk) -> {
-            chunk.dispose();
-        });
-        unusedChunks.forEach((chunk) -> {
-            chunk.dispose();
-        });
-
-
-        chunks.clear();
-        unusedChunks.clear();
-        chunksToRender.clear();
-        chunksToUnload.clear();
-
-        System.gc();
-        info = null;
-        terrain = null;
-    }
 
     public void save(Vector3f playerPos) {
         System.out.println("Saving...");

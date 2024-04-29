@@ -489,9 +489,7 @@ public class MyGame extends Game {
     public static final Block BLOCK_GOLD_BLOCK = new Block(118, "Gold Block", new BlockTexture("gold.png", "gold.png", "gold.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_HORN_CORAL_FAN = new Block(119, "Horn Coral Fan", new BlockTexture("horn coral fan.png", "horn coral fan.png", "horn coral fan.png"), RenderType.SPRITE);
     public static final Block BLOCK_TNT = new Block(120, "TNT", new BlockTexture("tnt.png", "tnt bottom.png", "tnt side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID, (b) -> {
-        b.setBlockEvent(true, (x, y, z, blockData) -> {
-            TNTUtils.startTNT(b, 5, 5000, x, y, z);
-        });
+        TNTUtils.setTNTEvents(b,5,1000);
     });
     public static final Block BLOCK_WOOL_PURPLE = new Block(127, "Wool Purple", new BlockTexture("wool purple.png", "wool purple.png", "wool purple.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_BIRCH_PLANKS = new Block(128, "Birch Planks", new BlockTexture("bookshelf.png", "bookshelf.png", "bookshelf.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
@@ -529,22 +527,22 @@ public class MyGame extends Game {
     //Saplings
     public static final Block BLOCK_OAK_SAPLING = new Block(160, "Oak Sapling",
             new BlockTexture("oak sapling.png"), RenderType.SPRITE, (b) -> {
-        b.setBlockEvent(true, OakTreeUtils.setBlockEvent);
+        b.setBlockEvent(OakTreeUtils.setBlockEvent);
     });
     public static final Block BLOCK_BIRCH_SAPLING = new Block(161, "Birch Sapling", new BlockTexture("birch sapling.png", "birch sapling.png", "birch sapling.png"), RenderType.SPRITE, (b) -> {
-        b.setBlockEvent(true, BirchTreeUtils.setBlockEvent);
+        b.setBlockEvent(BirchTreeUtils.setBlockEvent);
     });
     public static final Block BLOCK_ACACIA_SAPLING = new Block(230, "Acacia Sapling", new BlockTexture("acacia sapling.png", "acacia sapling.png", "acacia sapling.png")
             , RenderType.SPRITE, (b) -> {
-        b.setBlockEvent(true, AcaciaTreeUtils.setBlockEvent);
+        b.setBlockEvent(AcaciaTreeUtils.setBlockEvent);
     });
     public static final Block BLOCK_JUNGLE_SAPLING = new Block(37, "Jungle Sapling", new BlockTexture("jungle sapling.png", "jungle sapling.png", "jungle sapling.png")
             , RenderType.SPRITE, (b) -> {
-        b.setBlockEvent(true, JungleTreeUtils.setBlockEvent);
+        b.setBlockEvent(JungleTreeUtils.setBlockEvent);
     });
     public static final Block BLOCK_SPRUCE_SAPLING = new Block(734, "Spruce Sapling", new BlockTexture("spruce sapling.png", "spruce sapling.png", "spruce sapling.png")
             , RenderType.SPRITE, (b) -> {
-        b.setBlockEvent(true, SpruceTreeUtils.setBlockEvent);
+        b.setBlockEvent(SpruceTreeUtils.setBlockEvent);
     });
 
 
@@ -940,9 +938,7 @@ public class MyGame extends Game {
     public static final Block BLOCK_PASTE_BLOCK = new Block(544, "Paste Block", new BlockTexture("paste.png", "paste.png", "paste.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_YELLOW_CHISELED_MARBLE_TILE = new Block(545, "Yellow Chiseled Marble Tile", new BlockTexture("yellow chiseled marble tile.png", "yellow chiseled marble tile.png", "yellow chiseled marble tile.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_MEGA_TNT = new Block(548, "Mega TNT", new BlockTexture("tnt.png", "tnt bottom.png", "mega tnt side.png"), BlockList.DEFAULT_BLOCK_TYPE_ID, (b) -> {
-        b.setBlockEvent(true, (x, y, z, blockData) -> {
-            TNTUtils.startTNT(b, 10, 5000, x, y, z);
-        });
+        TNTUtils.setTNTEvents(b,15,1000);
     });
     public static final Block BLOCK_CROSSTRACK = new Block(550, "CrossTrack", new BlockTexture("crosstrack.png", "crosstrack.png", "crosstrack.png"), RenderType.FLOOR);
     public static final Block BLOCK_ADDITIVE_PASTE_BLOCK = new Block(551, "Additive Paste Block", new BlockTexture("additive paste.png", "additive paste.png", "additive paste.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);

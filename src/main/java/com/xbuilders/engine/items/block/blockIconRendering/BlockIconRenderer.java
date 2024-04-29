@@ -49,6 +49,7 @@ import static org.lwjgl.opengl.GL11.glCullFace;
 import static org.lwjgl.opengl.GL11.glDepthFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glFrontFace;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 import org.lwjgl.opengl.GL11C;
 import org.lwjgl.opengl.GL20;
@@ -79,7 +80,7 @@ public abstract class BlockIconRenderer {
             //<editor-fold defaultstate="collapsed" desc="initialize">
             synchronized (BaseWindow.windowCreateLock) {
                 // Create first window
-                window1 = glfwCreateWindow(imageSize, imageSize, "Window 1", 0, 0);
+                window1 = glfwCreateWindow(imageSize, imageSize, "Window 1", NULL, NULL);
                 if (window1 == 0) {
                     throw new IllegalStateException("Failed to create window 1");
                 }

@@ -1,4 +1,7 @@
-package com.xbuilders.engine.world.DistanceScheduledExecutor;
+package com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor;
+
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.LowValueComparator;
 
 import java.util.concurrent.*;
 
@@ -6,10 +9,8 @@ class TestPQ {
 
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int nThreads = 2;
-        int qInitialSize = 10;
-
-        PriorityThreadPoolExecutor exec = new PriorityThreadPoolExecutor(nThreads);
+        PriorityThreadPoolExecutor exec = new PriorityThreadPoolExecutor(1, 5,
+                0, TimeUnit.MILLISECONDS, new HighValueComparator());
 
 //        ExecutorService exec = new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS,
 //                new PriorityBlockingQueue<Runnable>(qInitialSize, new PriorityFutureComparator())) {
@@ -26,7 +27,7 @@ class TestPQ {
 //        };
 
         for (int i = 0; i < 20; i++) {
-            float priority = (float) (Math.random() * 100);
+            int priority = (int) (Math.random() * 100);
 
             exec.submit(priority, () -> {
                 System.out.println("Hello world " + priority);

@@ -37,7 +37,6 @@ public class PillarInformation {
 
     public boolean isPillarLoaded() {
         for (Chunk chunk : chunks) {
-            chunk.neghbors.cacheNeighbors();
             if (!chunk.gen_terrainLoaded()) {
                 return false;
             }

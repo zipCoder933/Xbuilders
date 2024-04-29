@@ -64,6 +64,7 @@ import static org.lwjgl.opengl.GL11.glFrontFace;
  */
 public class GameScene implements WindowEvents {
 
+    final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static boolean drawWireframe;
     public static UserControlledPlayer player;
@@ -89,7 +90,7 @@ public class GameScene implements WindowEvents {
         Main.game.saveState();
     }
 
-    final AtomicInteger anyChunkIncomplete = new AtomicInteger(0);
+    int completeChunks, framesWithCompleteChunkValue;
 
     public void newGameUpdate(WorldInfo worldInfo, ProgressData prog) {
         switch (prog.stage) {
@@ -110,6 +111,29 @@ public class GameScene implements WindowEvents {
             }
             case 1 -> {
                 waitForTasksToComplete(prog);
+            }
+            case 2 -> {
+                if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING) {
+                    prog.setTask("Preparing chunks");
+                    AtomicInteger finishedChunks = new AtomicInteger();
+                    world.chunks.forEach((vec, c) -> { //For simplicity, We call the same prepare method the same as in world class
+                        c.prepare(world.terrain, 0, true);
+                        if (c.gen_Complete()) {
+                            finishedChunks.getAndIncrement();
+                        }
+                    });
+
+                    prog.bar.setProgress(finishedChunks.get(), world.chunks.size() / 2);
+                    if (finishedChunks.get() != completeChunks) {
+                        completeChunks = finishedChunks.get();
+                        framesWithCompleteChunkValue = 0;
+                    } else {
+                        framesWithCompleteChunkValue++; //We cant easily determine how many chunks can be loaded, so we just wait
+                        if (framesWithCompleteChunkValue > 50) {
+                            prog.stage++;
+                        }
+                    }
+                } else prog.stage++;
             }
             default -> {
                 Main.game.startGame(worldInfo);
@@ -234,7 +258,7 @@ public class GameScene implements WindowEvents {
                     text += "\nRay+normal (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                 } else {
                     rayWCC.set(player.camera.cursorRay.getHitPos());
-                    text += "\nRay (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                    text += "\nRay hit (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                 }
 
                 Chunk chunk = world.getChunk(rayWCC.chunk);
@@ -263,7 +287,8 @@ public class GameScene implements WindowEvents {
             text += "\nPlayer camera: " + player.camera.toString();
             text += "\nSpecial Mode: " + specialMode;
         } catch (Exception ex) {
-            text = "Error";
+            text = "Error: " + ex.getMessage();
+            ex.printStackTrace();
         }
         ui.setInfoText(text);
     }

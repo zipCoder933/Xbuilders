@@ -222,34 +222,32 @@ public class Chunk {
 
     final HashQueue<ChunkNode> lightQueue = new HashQueue<>();
 
-    public void prepare(Terrain terrain, long frame) {
-        //for sunlight generation
-        if (isTopChunk && loadFuture != null && loadFuture.isDone()
-                && pillarInformation != null
-                && pillarInformation.isPillarLoaded()) {
-
-            loadFuture = null;
-            pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
-        }
-
-        //Generate the mesh
+    public void prepare(Terrain terrain, long frame, boolean isSettingUpWorld) {
         if (loadFuture != null && loadFuture.isDone()) {
+
+            if (isTopChunk && pillarInformation != null
+                    && pillarInformation.isPillarLoaded()) {
+                loadFuture = null;
+                pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
+            }
+
             /**
              * The cacheNeighbors is still a bottleneck. I have kind of fixed it
              * by only calling it every 10th frame
              */
             World.frameTester.startProcess();
-            if (frame % 10 == 0) {
+            if (frame % 10 == 0 || isSettingUpWorld) {
                 neghbors.cacheNeighbors();
             }
             World.frameTester.endProcess("red Cache Neghbors");
+
             if (neghbors.allNeghborsLoaded
-                    && generationStatus >= GEN_SUN_LOADED//
+                    && generationStatus >= GEN_SUN_LOADED
             ) {
                 loadFuture = null;
                 World.frameTester.startProcess();
                 mesherFuture = meshService.submit(() -> {
-                    if (GameScene.world.info == null) return null; //Quick fix. TODO: remove this
+                    if (GameScene.world.info == null) return null; //Quick fix. TODO: remove this line
                     meshes.compute();
                     generationStatus = GEN_COMPLETE;
                     return meshes;
@@ -259,7 +257,7 @@ public class Chunk {
         }
 
         //send mesh to GPU
-        if (inFrustum) {
+        if (inFrustum || isSettingUpWorld) {
             World.frameTester.startProcess();
             sendMeshToGPU();
             World.frameTester.endProcess("Send mesh to GPU");

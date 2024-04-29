@@ -63,7 +63,7 @@ public class PositionHandler {
     final static float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
     final static float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
 
-    static final float GRAVITY = 0.0004f;
+    static final float GRAVITY = 0.0005f;
 
 
     public PositionHandler(World chunks, BaseWindow window,
@@ -129,7 +129,7 @@ public class PositionHandler {
 
     public final void jump() {
         if (onGround && isGravityEnabled()) {
-            this.velocity.y += GRAVITY * 50.0f * window.getMsPerFrame();
+            this.velocity.y += GRAVITY * 20.0f * window.getMsPerFrame();
             onGround = false;
         }
     }

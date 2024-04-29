@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
  * @author zipCoder933
  */
 public class BlockData {
@@ -59,6 +58,14 @@ public class BlockData {
 
     @Override
     public String toString() {
-        return Arrays.toString(buff.array());
+        StringBuilder sb = new StringBuilder().append("[");
+
+        for (int i = 0; i < buff.capacity(); i++) {
+            sb.append(buff.get(i));
+            if(i < buff.capacity() - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.append("]").toString();
     }
 }
