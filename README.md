@@ -7,28 +7,29 @@
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
   * `[LWJGL] [ThreadLocalUtil] Unsupported JNI version detected, this may result in a crash. Please inform LWJGL developers.`
-
-# multiplayer
-a super easy way to do multiplayer could be
-* each player owns a set of chunks thay modified. 
-* those chunks are read only to others
-* periodically, the updated chunks are all sent to other players to be loaded in world or saved on disk
+* I use LWJGL's Nublada GUI library that is builtin to LWJGL to do all of the UI rendering.
+* Each chunk is 32x32x32 in size. Chunks coordinates are 3D
+* The up direction is -Y, and the down direction is +Y
+* Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
 
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
 
-# Features
+## Features
 1. Add copy/paste tools
 9. Add doors as blocks
 10. fix parameters of some of the blocks (leaves,etc)
 9. important features
-   1. Make chunks load light and meshes before the user enters the game
    2. Player spawn position must actually work
    4. Add JSON settings
-   5. unlimited view range switch
 10. performance optimizations
 
 
+# multiplayer
+a super easy way to do multiplayer could be
+* each player owns a set of chunks thay modified.
+* those chunks are read only to others
+* periodically, the updated chunks are all sent to other players to be loaded in world or saved on disk
 
 
 
@@ -112,13 +113,6 @@ This game can run at top performance at up to a 400 voxel view radius. It has a 
 * World saving/loading
 * Fast chunk generation with greedy meshing
 * Support for large chunk distances (up to 400 voxel radius)
-
-### Things to know:
-* I use LWJGL's Nublada GUI library that is builtin to LWJGL to do all of the UI rendering.
-* Each chunk is 32x32x32 in size. Chunks coordinates are 3D
-* The up direction is -Y, and the down direction is +Y
-* Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
-
 
 ## Screenshots
 A few of the blocks currently available
