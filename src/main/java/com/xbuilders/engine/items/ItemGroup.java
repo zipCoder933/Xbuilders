@@ -43,6 +43,9 @@ abstract class ItemGroup<T extends Item> {
     }
 
     protected int assignIDMapAndCheckIDs(T[] inputItems) {
+        //get typename of t
+        String typename = inputItems.getClass().getComponentType().getSimpleName();
+        System.out.println("\nChecking IDs for " + typename);
         int highestId = 0;
         idMap.clear();
         for (int i = 0; i < inputItems.length; i++) {
@@ -56,7 +59,7 @@ abstract class ItemGroup<T extends Item> {
             }
         }
         System.out.println("\t(The highest item ID is: " + highestId + ")");
-        System.out.println("\tID Gaps: ");
+        System.out.print("\tID Gaps: ");
         for (int id = 1; id < highestId; id++) {
             boolean found = false;
             for (Item item : inputItems) {

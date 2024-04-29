@@ -4,7 +4,7 @@
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
-#multiplayer
+# multiplayer
 a super easy way to do multiplayer could be
 * each player owns a set of chunks thay modified. 
 * those chunks are read only to others

@@ -4,6 +4,9 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.engine.utils.ArrayUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.blocks.*;
 import com.xbuilders.game.items.blocks.trees.*;
 import com.xbuilders.game.UI.Hotbar;
@@ -34,6 +37,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -127,6 +132,51 @@ public class MyGame extends Game {
         return false;
     }
 
+    private static Block[] getAllJsonBlocks(File jsonDirectory) {
+        System.out.println("Adding all json blocks from " + jsonDirectory.getAbsolutePath());
+        if (!jsonDirectory.exists()) jsonDirectory.mkdirs();
+        Block[] allBlocks = new Block[0];
+        try {
+            for (File file : jsonDirectory.listFiles()) {
+                if (!file.getName().endsWith(".json")) continue;
+                System.out.println("\tAdding all json blocks from " + file.getAbsolutePath());
+                String jsonString = Files.readString(file.toPath());
+                Block[] jsonBlocks2 = JsonManager.gson_jsonBlock.fromJson(jsonString, Block[].class);
+                if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
+                    //append to list
+                    allBlocks = ArrayUtils.concatArrays(allBlocks, jsonBlocks2);
+                }
+            }
+            return allBlocks;
+        } catch (IOException e) {
+            ErrorHandler.handleFatalError(e);
+        }
+        return null;
+    }
+
+
+    public static void exportBlocksToJson(Block[] list, File out) {
+        //Save list as json
+        try {
+            String jsonString = JsonManager.gson_jsonBlock.toJson(list);
+            Files.writeString(out.toPath(), jsonString);
+            System.out.println("Saved " + list.length + " blocks to " + out.getAbsolutePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void exportBlocksToJson(List<Block> list, File out) {
+        //Save list as json
+        try {
+            String jsonString = JsonManager.gson_jsonBlock.toJson(list);
+            Files.writeString(out.toPath(), jsonString);
+            System.out.println("Saved " + list.size() + " blocks to " + out.getAbsolutePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void initialize() throws Exception {
         System.out.println("Initializing items...");
@@ -147,6 +197,8 @@ public class MyGame extends Game {
                 BLOCK_BURGUNDY_CHISELED_MARBLE_TILE_STAIRS, BLOCK_BURGUNDY_CHISELED_MARBLE_TILE_SLAB, BLOCK_BURGUNDY_CHISELED_MARBLE_TILE_PILLAR, BLOCK_PASTEL_BLUE_MARBLE_TILE_STAIRS, BLOCK_PASTEL_BLUE_MARBLE_TILE_SLAB, BLOCK_PASTEL_BLUE_MARBLE_TILE_PILLAR, BLOCK_PASTEL_GREEN_MARBLE_TILE_STAIRS, BLOCK_PASTEL_GREEN_MARBLE_TILE_SLAB, BLOCK_PASTEL_GREEN_MARBLE_TILE_PILLAR, BLOCK_MAGENTA_MARBLE_TILE_STAIRS, BLOCK_MAGENTA_MARBLE_TILE_SLAB, BLOCK_MAGENTA_MARBLE_TILE_PILLAR, BLOCK_PASTEL_RED_CHISELED_MARBLE_TILE_STAIRS, BLOCK_PASTEL_RED_CHISELED_MARBLE_TILE_SLAB, BLOCK_PASTEL_RED_CHISELED_MARBLE_TILE_PILLAR, BLOCK_PINK_MARBLE_TILE_STAIRS, BLOCK_PINK_MARBLE_TILE_SLAB, BLOCK_PINK_MARBLE_TILE_PILLAR, BLOCK_PURPLE_MARBLE_TILE_STAIRS, BLOCK_PURPLE_MARBLE_TILE_SLAB, BLOCK_PURPLE_MARBLE_TILE_PILLAR, BLOCK_BURGUNDY_MARBLE_TILE_STAIRS, BLOCK_BURGUNDY_MARBLE_TILE_SLAB, BLOCK_BURGUNDY_MARBLE_TILE_PILLAR, BLOCK_PASTEL_RED_MARBLE_TILE_STAIRS, BLOCK_PASTEL_RED_MARBLE_TILE_SLAB, BLOCK_PASTEL_RED_MARBLE_TILE_PILLAR, BLOCK_YELLOW_CHISELED_MARBLE_TILE_STAIRS, BLOCK_YELLOW_CHISELED_MARBLE_TILE_SLAB, BLOCK_YELLOW_CHISELED_MARBLE_TILE_PILLAR, BLOCK_BLACK_CHISELED_MARBLE_TILE_STAIRS, BLOCK_BLACK_CHISELED_MARBLE_TILE_SLAB, BLOCK_BLACK_CHISELED_MARBLE_TILE_PILLAR, BLOCK_BLUE_CHISELED_MARBLE_TILE_STAIRS, BLOCK_BLUE_CHISELED_MARBLE_TILE_SLAB, BLOCK_BLUE_CHISELED_MARBLE_TILE_PILLAR, BLOCK_BROWN_CHISELED_MARBLE_TILE_STAIRS, BLOCK_BROWN_CHISELED_MARBLE_TILE_SLAB, BLOCK_BROWN_CHISELED_MARBLE_TILE_PILLAR, BLOCK_CYAN_CHISELED_MARBLE_TILE_STAIRS, BLOCK_CYAN_CHISELED_MARBLE_TILE_SLAB, BLOCK_CYAN_CHISELED_MARBLE_TILE_PILLAR, BLOCK_GREY_CHISELED_MARBLE_TILE_STAIRS, BLOCK_GREY_CHISELED_MARBLE_TILE_SLAB, BLOCK_GREY_CHISELED_MARBLE_TILE_PILLAR, BLOCK_GREEN_CHISELED_MARBLE_TILE_STAIRS, BLOCK_GREEN_CHISELED_MARBLE_TILE_SLAB, BLOCK_GREEN_CHISELED_MARBLE_TILE_PILLAR, BLOCK_PASTEL_BLUE_CHISELED_MARBLE_TILE_STAIRS, BLOCK_PASTEL_BLUE_CHISELED_MARBLE_TILE_SLAB,
                 BLOCK_PASTEL_BLUE_CHISELED_MARBLE_TILE_PILLAR, BLOCK_PASTEL_GREEN_CHISELED_MARBLE_TILE_STAIRS, BLOCK_PASTEL_GREEN_CHISELED_MARBLE_TILE_SLAB, BLOCK_PASTEL_GREEN_CHISELED_MARBLE_TILE_PILLAR, BLOCK_MAGENTA_CHISELED_MARBLE_TILE_STAIRS, BLOCK_MAGENTA_CHISELED_MARBLE_TILE_SLAB, BLOCK_MAGENTA_CHISELED_MARBLE_TILE_PILLAR, BLOCK_ORANGE_CHISELED_MARBLE_TILE_STAIRS, BLOCK_ORANGE_CHISELED_MARBLE_TILE_SLAB, BLOCK_ORANGE_CHISELED_MARBLE_TILE_PILLAR, BLOCK_PINK_CHISELED_MARBLE_TILE_STAIRS, BLOCK_PINK_CHISELED_MARBLE_TILE_SLAB, BLOCK_GREY_STAINED_WOOD, BLOCK_GREEN_STAINED_WOOD, BLOCK_LIGHT_BLUE_STAINED_WOOD, BLOCK_LIME_STAINED_WOOD, BLOCK_MAGENTA_STAINED_WOOD, BLOCK_ORANGE_STAINED_WOOD, BLOCK_PINK_STAINED_WOOD, BLOCK_PURPLE_STAINED_WOOD, BLOCK_WHITE_SPACE_TILE_STAIRS, BLOCK_WHITE_STAINED_WOOD, BLOCK_ENGRAVED_SANDSTONE_2, BLOCK_ENGRAVED_RED_SANDSTONE_2, BLOCK_PEONY_BUSH, BLOCK_ICE_BLOCK_STAIRS, BLOCK_ICE_BLOCK_SLAB, BLOCK_SOLAR_PANEL, BLOCK_MOSAIC_BAMBOO_WOOD_STAIRS, BLOCK_MOSAIC_BAMBOO_WOOD_SLAB, BLOCK_MOSAIC_BAMBOO_WOOD_FENCE, BLOCK_YELLOW_STAINED_WOOD_STAIRS, BLOCK_YELLOW_STAINED_WOOD_SLAB, BLOCK_YELLOW_STAINED_WOOD_FENCE, BLOCK_BLACK_STAINED_WOOD_STAIRS, BLOCK_BLACK_STAINED_WOOD_SLAB, BLOCK_BLACK_STAINED_WOOD_FENCE, BLOCK_BLUE_STAINED_WOOD_STAIRS, BLOCK_BLUE_STAINED_WOOD_SLAB, BLOCK_BLUE_STAINED_WOOD_FENCE, BLOCK_CYAN_STAINED_WOOD_STAIRS, BLOCK_CYAN_STAINED_WOOD_SLAB, BLOCK_CYAN_STAINED_WOOD_FENCE, BLOCK_GREY_STAINED_WOOD_STAIRS, BLOCK_GREY_STAINED_WOOD_SLAB, BLOCK_GREY_STAINED_WOOD_FENCE, BLOCK_GREEN_STAINED_WOOD_STAIRS, BLOCK_GREEN_STAINED_WOOD_SLAB, BLOCK_GREEN_STAINED_WOOD_FENCE, BLOCK_LIGHT_BLUE_STAINED_WOOD_STAIRS,
                 BLOCK_LIGHT_BLUE_STAINED_WOOD_SLAB, BLOCK_LIGHT_BLUE_STAINED_WOOD_FENCE, BLOCK_LIME_STAINED_WOOD_STAIRS, BLOCK_LIME_STAINED_WOOD_SLAB, BLOCK_LIME_STAINED_WOOD_FENCE, BLOCK_MAGENTA_STAINED_WOOD_STAIRS, BLOCK_MAGENTA_STAINED_WOOD_SLAB, BLOCK_MAGENTA_STAINED_WOOD_FENCE, BLOCK_ORANGE_STAINED_WOOD_STAIRS, BLOCK_ORANGE_STAINED_WOOD_SLAB, BLOCK_ORANGE_STAINED_WOOD_FENCE, BLOCK_PINK_STAINED_WOOD_STAIRS, BLOCK_PINK_STAINED_WOOD_SLAB, BLOCK_PINK_STAINED_WOOD_FENCE, BLOCK_PURPLE_STAINED_WOOD_STAIRS, BLOCK_PURPLE_STAINED_WOOD_SLAB, BLOCK_PURPLE_STAINED_WOOD_FENCE, BLOCK_RED_STAINED_WOOD_STAIRS, BLOCK_RED_STAINED_WOOD_SLAB, BLOCK_RED_STAINED_WOOD_FENCE, BLOCK_WHITE_STAINED_WOOD_STAIRS, BLOCK_WHITE_STAINED_WOOD_SLAB, BLOCK_WHITE_STAINED_WOOD_FENCE, BLOCK_WHITE_SPACE_TILE, BLOCK_GRAY_SPACE_TILE, BLOCK_WHITE_SPACE_TILE_SLAB, BLOCK_GRAY_SPACE_TILE_STAIRS, BLOCK_GRAY_SPACE_TILE_SLAB, BLOCK_SPRUCE_LOG, BLOCK_SPRUCE_LEAVES, BLOCK_SPRUCE_SAPLING, BLOCK_PASTE_VERTEX_BLOCK, BLOCK_MERGE_TRACK,};
+
+//        exportBlocksToJson(blockList, ResourceUtils.resource("items\\blocks\\blocks.json"));
 
         EntityLink[] entityList = new EntityLink[]{
                 new EntityLink(0, "Fox Animal",
@@ -300,9 +352,9 @@ public class MyGame extends Game {
     public static final Block BLOCK_BEETS = new Plant(246, "Beets hidden", new BlockTexture("beets.png", "beets.png", "beets.png"));
     public static final Block BLOCK_POTATOES_PLANT = new Plant(146, "Potatoes hidden<PLANT>", new BlockTexture("potatoes plant.png", "potatoes plant.png", "potatoes plant.png"));
 
-    public static final Block BLOCK_BEETROOT_SEEDS = new Plant(247, "Beetroot Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"),BLOCK_A1,BLOCK_A2, BLOCK_BEETS);
-    public static final Block BLOCK_CARROT_SEEDS = new Plant(163, "Carrot Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"),BLOCK_A1,BLOCK_A2, BLOCK_CARROTS);
-    public static final Block BLOCK_POTATO_SEEDS = new Plant(165, "Potato Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"),BLOCK_A1,BLOCK_A2, BLOCK_POTATOES_PLANT);
+    public static final Block BLOCK_BEETROOT_SEEDS = new Plant(247, "Beetroot Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"), BLOCK_A1, BLOCK_A2, BLOCK_BEETS);
+    public static final Block BLOCK_CARROT_SEEDS = new Plant(163, "Carrot Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"), BLOCK_A1, BLOCK_A2, BLOCK_CARROTS);
+    public static final Block BLOCK_POTATO_SEEDS = new Plant(165, "Potato Seeds", new BlockTexture("carrot seeds.png", "carrot seeds.png", "carrot seeds.png"), BLOCK_A1, BLOCK_A2, BLOCK_POTATOES_PLANT);
     public static final Block BLOCK_WHEAT_SEEDS = new Plant(162, "Wheat Seeds", new BlockTexture("wheat seeds.png"), BLOCK_B1, BLOCK_B2, BLOCK_B3, BLOCK_B5, BLOCK_B6, BLOCK_WHEAT);
 
 

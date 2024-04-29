@@ -4,34 +4,24 @@
  */
 package com.xbuilders.engine.utils.json;
 
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemTypeAdapter;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.game.MyGame;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.xbuilders.engine.items.block.construction.BlockTexture;
 
 /**
- *
  * @author zipCoder933
  */
 public class JsonManager {
+    public static BlockTextureTypeAdapter textureAdapter = new BlockTextureTypeAdapter();
+    public static Gson gson = new GsonBuilder()
+            .registerTypeHierarchyAdapter(Item.class, new ItemTypeAdapter())
+            .create();
 
-    public final Gson gson;
-
-    public JsonManager() {
-        gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(Item.class, new ItemTypeAdapter())//Make it work for all extended classes
-                //                   .registerTypeAdapter(Block.class, new ItemTypeAdapter())
-                .create();
-    }
-
+    public static Gson gson_jsonBlock = new GsonBuilder()
+            .registerTypeHierarchyAdapter(Block.class, new BlockTypeAdapter())
+            .registerTypeAdapter(BlockTexture.class, textureAdapter)
+            .create();
 }
