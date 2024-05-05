@@ -18,7 +18,7 @@ By easily interpolating light values between vertices, we not only get smooth li
 2. We could calculate the interpolated values for each face as if it was a perfect cube and assign the values to each face of our model that has the same normal as the calculated faces
 	
 ## Implementation in greedy meshing 
-* For each greedy quad, we will have to get 9 light values instead of 1.
-* We can pack these nine 4 bit values into a 36 bit number and only merge faces if the 2 numbers are the same
-	* When we render the quad, we unpack the light values and interpolate them for each vertex
-        * NOTE: to save memory and time, it might be better to interpolate the light values for each vertex ahead of time. That means we only have 4 values to remember when comparing quads, making a 16 bit number instead of 36
+1. For each greedy quad, we will have to get 9 light values instead of 1.
+2. We can pack these nine 4 bit values into a 36 bit number and only merge faces if the 2 numbers are the same
+3. When we render the quad, we unpack the light values and interpolate them for each vertex
+	* NOTE: to save memory and time, it might be better to interpolate the light values for each vertex ahead of time. That means we only have 4 values to remember when comparing quads, making a 16 bit number instead of 36
