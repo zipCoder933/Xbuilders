@@ -8,6 +8,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
+import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -30,12 +31,12 @@ public class StairsRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
         };
-//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-//                ResourceUtils.resource("block types\\stairs\\side.obj"));
-//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-//                ResourceUtils.resource("block types\\stairs\\floor.obj"));
-//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-//                ResourceUtils.resource("block types\\stairs\\ceiling.obj"));
+        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+                ResourceUtils.resource("block types\\stairs\\side.obj"));
+        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+                ResourceUtils.resource("block types\\stairs\\floor.obj"));
+        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+                ResourceUtils.resource("block types\\stairs\\ceiling.obj"));
 
         BlockModel.ShouldRenderSide renderSide = new BlockModel.ShouldRenderSide() {
             @Override

@@ -92,7 +92,7 @@ public class GreedyMesherWithLight {
                 if (d == 0) {
                     side = backFace ? BlockType.NEG_X : BlockType.POS_X;
                 } else if (d == 1) {
-                    side = backFace ? BlockType.NEG_Y : BlockType.POS_Y;
+                    side = backFace ? BlockType.POS_Y : BlockType.NEG_Y;
                 } else if (d == 2) {
                     side = backFace ? BlockType.NEG_Z : BlockType.POS_Z;
                 }
@@ -323,7 +323,7 @@ public class GreedyMesherWithLight {
                     uvs[0].set(h, 0);
                 }
                 case 1 -> {
-                    if (backFace) {
+                    if (!backFace) {
                         texture = block.texture.getNEG_Y();
                     } else {
                         texture = block.texture.getPOS_Y();

@@ -24,7 +24,7 @@ public abstract class Item {
     public final String name;
     private int icon = 0;
     private final NkImage NKicon;
-    protected String iconFilename;
+    public String iconFilename;
 
     /**
      * @return the type

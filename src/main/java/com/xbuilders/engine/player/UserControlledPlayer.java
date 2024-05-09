@@ -37,6 +37,7 @@ public class UserControlledPlayer extends Player {
     static float speed = 10f;
     final static float PLAYER_HEIGHT = 2.0f;
     final static float PLAYER_WIDTH = 0.8f;
+    final static float FLY_SPEED = 5f;
     Matrix4f projection;
     Matrix4f view;
     boolean isClimbing = false;
@@ -155,8 +156,8 @@ public class UserControlledPlayer extends Player {
     }
 
     private boolean isInsideOfLadder() {
-        return ItemList.blocks.getBlockType(getBlockAtHeadPos().type).isClimbable()
-                || ItemList.blocks.getBlockType(GameScene.world.getBlock(
+        return ItemList.blocks.getBlockTypeID(getBlockAtHeadPos().type).isClimbable()
+                || ItemList.blocks.getBlockTypeID(GameScene.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                 (int) Math.floor(worldPosition.z)).type).isClimbable();
@@ -197,11 +198,11 @@ public class UserControlledPlayer extends Player {
             if (downKeyPressed()) {
                 isClimbing = true;
                 canFly = false;
-                worldPosition.add(0, speed * 0.5f * window.getFrameDelta(), 0);
+                worldPosition.add(0, FLY_SPEED * window.getFrameDelta(), 0);
             } else if (upKeyPressed()) {
                 isClimbing = true;
                 canFly = false;
-                worldPosition.sub(0, speed * 0.5f * window.getFrameDelta(), 0);
+                worldPosition.sub(0, FLY_SPEED * window.getFrameDelta(), 0);
             }
             positionHandler.setGravityEnabled(false);
         } else {
@@ -296,7 +297,7 @@ public class UserControlledPlayer extends Player {
 
                     WCCi wcc = new WCCi();
                     wcc.set(w);
-                    setBlock(block, wcc);
+                    setBlock(block.id, wcc);
                 } else if (item.getType() == ItemType.ENTITY_LINK) {
                     EntityLink entity = (EntityLink) item;
                     Vector3i w;
@@ -319,18 +320,18 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public void setBlock(Block block, int worldX, int worldY, int worldZ) {
+    public void setBlock(short block, int worldX, int worldY, int worldZ) {
         WCCi wcc = new WCCi();
         wcc.set(worldX, worldY, worldZ);
         setBlock(block, wcc);
     }
 
-    public void setBlock(Block block, int worldX, int worldY, int worldZ, BlockData blockData) {
+    public void setBlock(short block, int worldX, int worldY, int worldZ, BlockData blockData) {
         WCCi wcc = new WCCi();
         wcc.set(worldX, worldY, worldZ);
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
-            Block prevBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+            short prevBlock =chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(prevBlock, block, blockData));
         }
     }
@@ -339,10 +340,10 @@ public class UserControlledPlayer extends Player {
         eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(blockData));
     }
 
-    public void setBlock(Block block, WCCi wcc) {
+    public void setBlock(short block, WCCi wcc) {
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
-            Block prevBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+            short prevBlock =chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             eventPipeline.addEvent(wcc, new BlockHistory(prevBlock, block));
         }
     }
@@ -382,7 +383,7 @@ public class UserControlledPlayer extends Player {
             camera.cursorRay.getEntity().destroy();
         } else {
             System.out.println("Deleting block at " + camera.cursorRay.getHitPos());
-            setBlock(BlockList.BLOCK_AIR, new WCCi().set(camera.cursorRay.getHitPos()));
+            setBlock(BlockList.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
         }
     }
 

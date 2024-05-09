@@ -122,7 +122,7 @@ public abstract class BlockType {
         if (neighbor == null) {
             return true;
         } else if (!neighbor.opaque
-                || !ItemList.blocks.getBlockType(neighbor.type).isCubeShape()) {
+                || !ItemList.blocks.getBlockTypeID(neighbor.type).isCubeShape()) {
             return true;
         }
         return false;

@@ -43,9 +43,9 @@ public class TestTerrain extends Terrain {
 
                         if (wy >= MAX_HEIGHT) {
                             if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS.id);
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
                             } else {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE.id);
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
                             }
                             if (wy == MAX_HEIGHT && session.random.nextFloat() > 0.995) {
                                 TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
@@ -53,7 +53,7 @@ public class TestTerrain extends Terrain {
                             }
                         } else if (wy == MIN_HEIGHT && perlinNoise.noise(wx * 0.3f, wz * 0.3f) > -0.1f) {
                             if (perlinNoise.noise(wx, wy, wz) > -0.1f) {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRANITE.id);
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRANITE);
                             }
                         }
                     }

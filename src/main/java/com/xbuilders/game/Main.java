@@ -107,15 +107,11 @@ public class Main extends NKWindow {
 
 
     private void render() throws IOException {
-
-
         if (isGameMode) {
             gameScene.render();
         } else {
             topMenu.render();
         }
-
-
     }
 
     static DecimalFormat df = new DecimalFormat("####.00");
@@ -132,7 +128,6 @@ public class Main extends NKWindow {
             screenShotInitialized = true;
         }
     }
-
 
     private void endScreenshot() {
         if (screenShotInitialized) {

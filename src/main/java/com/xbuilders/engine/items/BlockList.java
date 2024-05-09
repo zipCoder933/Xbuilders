@@ -22,6 +22,7 @@ public class BlockList extends ItemGroup<Block> {
 
     public BlockArrayTexture textures;
     private final HashMap<Integer, BlockType> blockTypes = new HashMap<>();
+    private final HashMap<String, Integer> stringBlockTypes = new HashMap<>();
 
     public final static int DEFAULT_BLOCK_TYPE_ID = 0;
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
@@ -61,10 +62,11 @@ public class BlockList extends ItemGroup<Block> {
         }
     }
 
-    public void addBlockType(int typeID, BlockType type) {
+    public void addBlockType(String typeName, int typeID, BlockType type) {
         if (blockTypes.containsKey(typeID)) {
             throw new IllegalArgumentException("Type ID " + DEFAULT_BLOCK_TYPE_ID + " already in use");
         }
+        stringBlockTypes.put(typeName.toLowerCase().trim(), typeID);
         blockTypes.put(typeID, type);
     }
 
@@ -75,9 +77,15 @@ public class BlockList extends ItemGroup<Block> {
 //        });
 //    }
 
-    public BlockType getBlockType(int typeID) {
+    public BlockType getBlockTypeID(int typeID) {
         BlockType type = blockTypes.get(typeID);
         return type;
+    }
+
+    public Integer getBlockTypeID(String type) {
+        type = type.toLowerCase().trim();
+        if (stringBlockTypes.containsKey(type)) return stringBlockTypes.get(type);
+        else throw new IllegalArgumentException("Block type \"" + type + "\" not recognized");
     }
 
     public float calculateTextureLayer(int textureLayer) {

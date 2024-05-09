@@ -126,7 +126,7 @@ public class BlockEventPipeline {
             if (chunk == null) return;
 
             if (!blockHist.previousBlock.equals(blockHist.currentBlock)) { //If the 2 blocks are different
-                BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);
+                BlockType type = ItemList.blocks.getBlockTypeID(blockHist.currentBlock.type);
                 if (type == null) return;
 
                 if (blockHist.currentBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z)
@@ -243,8 +243,8 @@ public class BlockEventPipeline {
         Chunk chunk = wcc.getChunk(GameScene.world);
         if (chunk != null) {
             Block targetBlockID = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
-            if (!targetBlockID.isAir()) {
-                if (!ItemList.blocks.getBlockType(targetBlockID.type).allowExistence(hist.currentBlock, x, y, z)) {
+            if (targetBlockID != null && !targetBlockID.isAir()) {
+                if (!ItemList.blocks.getBlockTypeID(targetBlockID.type).allowExistence(hist.currentBlock, x, y, z)) {
 
                     //Set to air
                     short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);

@@ -1,6 +1,5 @@
 package com.xbuilders.engine.items.block;
 
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
@@ -131,8 +130,8 @@ public class Block extends Item {
 //            initializationCallback.accept(this);
 //        }
         //Run initialization callbacks
-        if (ItemList.blocks.getBlockType(type) != null) {
-            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(type).initializationCallback;
+        if (ItemList.blocks.getBlockTypeID(type) != null) {
+            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockTypeID(type).initializationCallback;
             if (typeInitCallback != null) typeInitCallback.accept(this);
         }
         //Run our custom initialization callback last

@@ -7,40 +7,39 @@ import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.game.MyGame;
 
-public class Plant extends Block {
+public class Plant {
 
-    public Plant(int id, String name, BlockTexture texture, Block... stages) {
-        super(id, name, texture);
-        solid = false;
-        opaque = false;
-        this.type = RenderType.SPRITE;
+    public static void makePlant(Block block, short... stages) {
+        block.solid = false;
+        block.opaque = false;
+        block.type = RenderType.SPRITE;
 
         if (stages.length > 0) {
-            setBlockEvent_multithreaded((x, y, z, data) -> {
+            block.setBlockEvent_multithreaded((x, y, z, data) -> {
                 boolean wasSet = false;
                 if (cropPlantable(x, y, z)) {
-                    growPlant(2200, x, y, z, this, stages);
+                    growPlant(2200, x, y, z, block.id, stages);
                 }
             });
         }
     }
 
     public static void growPlant(long growSpeed, final int x, final int y, final int z,
-                                 final Block initialSeed, final Block... stages) {
+                                 final short initialSeed, final short... stages) {
 
-        Block lastStage = initialSeed;
+        short lastStage = initialSeed;
 
         int i = 0;
         try {
-            for (Block stage : stages) {
+            for (short stage : stages) {
                 Thread.sleep(growSpeed);
-                if (GameScene.world.getBlock(x, y, z) == lastStage
+                if (GameScene.world.getBlockID(x, y, z) == lastStage
                         && cropPlantable(x, y, z)) {
                     GameScene.player.setBlock(stage, x, y, z);
                     lastStage = stage;
                 } else {
                     if (i == 0) {
-                        GameScene.player.setBlock(BlockList.BLOCK_AIR, x, y, z);
+                        GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y, z);
                     }
                     return;
                 }
@@ -58,7 +57,7 @@ public class Plant extends Block {
     }
 
     public static boolean cropPlantable(final int x, final int y, final int z) {
-        return GameScene.world.getBlock(x, y + 1, z) == MyGame.BLOCK_FARMLAND;
+        return GameScene.world.getBlockID(x, y + 1, z) == MyGame.BLOCK_FARMLAND;
     }
 
     public static boolean plantable(final int x, final int y, final int z) {
@@ -66,12 +65,12 @@ public class Plant extends Block {
     }
 
     public static boolean blockIsGrassSnowOrDirt(Block block) {
-        return block == MyGame.BLOCK_FARMLAND
-                || block == MyGame.BLOCK_DIRT
-                || block == MyGame.BLOCK_GRASS
-                || block == MyGame.BLOCK_SNOW
-                || block == MyGame.BLOCK_JUNGLE_GRASS
-                || block == MyGame.BLOCK_DRY_GRASS;
+        return block.id == MyGame.BLOCK_FARMLAND
+                || block.id == MyGame.BLOCK_DIRT
+                || block.id == MyGame.BLOCK_GRASS
+                || block.id == MyGame.BLOCK_SNOW
+                || block.id == MyGame.BLOCK_JUNGLE_GRASS
+                || block.id == MyGame.BLOCK_DRY_GRASS;
     }
 
 

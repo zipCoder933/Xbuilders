@@ -157,7 +157,7 @@ public class ObjToBlockModel {
             for (Map.Entry<Integer, String> set : faces.entrySet()) {
                 int dim = set.getKey();
                 if (dim == 0) {
-                    str.append("\n\nFACE\tCENTER\t(texture)POS-Y\t(vert-count)" + vertCounts.get(dim) + "\n")
+                    str.append("\n\nFACE\tCENTER\t(texture)NEG-Y\t(vert-count)" + vertCounts.get(dim) + "\n")
                             .append(set.getValue());
                 } else {
                     str.append("\n\nFACE\t" + dimToStr(dim) + "\t(texture)" + dimToStr(dim) + "\t(vert-count)" + vertCounts.get(dim) + "\n"
@@ -214,7 +214,7 @@ public class ObjToBlockModel {
                     }
                 }
                 case 2 -> {
-                    if (vertex.y != 1.0) {
+                    if (vertex.y != 0.0) {
                         return false;
                     }
                 }
@@ -229,7 +229,7 @@ public class ObjToBlockModel {
                     }
                 }
                 case -2 -> {
-                    if (vertex.y != 0.0) {
+                    if (vertex.y != 1.0) {
                         return false;
                     }
                 }

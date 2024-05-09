@@ -1,6 +1,6 @@
 
 
-FACE	CENTER	(texture)POS-Y	(vert-count)108
+FACE	CENTER	(texture)NEG-Y	(vert-count)108
 VERT	(vert)0.69	0.12	0.12	(uv)0.6875	0.25	(normal)0
 VERT	(vert)0.31	0.12	0.5	(uv)0.3125	0.625	(normal)0
 VERT	(vert)0.31	0.12	0.13	(uv)0.3125	0.25	(normal)0

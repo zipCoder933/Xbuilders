@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Test Block",
+        "id": 1001,
+        "texture": {
+            "neg_y": "test\\neg y",
+            "pos_x": "test\\pos x",
+            "pos_z": "test\\pos z",
+            "neg_z": "test\\neg z",
+            "neg_x": "test\\neg x",
+            "pos_y": "test\\pos y"
+        },
+        "solid": true,
+        "opaque": false,
+        "torch": 0,
+        "type": 0
+    },
+    {
+        "name": "Test Orientable",
+        "id": 1002,
+        "texture": {
+            "neg_y": "test\\neg y",
+            "pos_x": "test\\pos x",
+            "pos_z": "test\\pos z",
+            "neg_z": "test\\neg z",
+            "neg_x": "test\\neg x",
+            "pos_y": "test\\pos y"
+        },
+        "solid": true,
+        "opaque": false,
+        "torch": 0,
+        "type": "orientable"
+    },
+    {
+        "name": "Test Slab",
+        "id": 1003,
+        "texture": {
+            "neg_y": "test\\neg y",
+            "pos_x": "test\\pos x",
+            "pos_z": "test\\pos z",
+            "neg_z": "test\\neg z",
+            "neg_x": "test\\neg x",
+            "pos_y": "test\\pos y"
+        },
+        "solid": true,
+        "opaque": false,
+        "torch": 0,
+        "type": 4
+    }
+]

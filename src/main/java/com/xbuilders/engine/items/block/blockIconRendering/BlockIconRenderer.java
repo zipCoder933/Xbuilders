@@ -11,7 +11,6 @@ import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.preformance.SimpleWaitLock;
@@ -172,7 +171,7 @@ public abstract class BlockIconRenderer {
 
     private boolean makeBlockMesh(Block block) {
         TraditionalVertexSet buffers = new TraditionalVertexSet();
-        BlockType type = ItemList.blocks.getBlockType(block.type);
+        BlockType type = ItemList.blocks.getBlockTypeID(block.type);
         if (type == null) {
             return false;
         }

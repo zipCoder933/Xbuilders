@@ -8,11 +8,13 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
+import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 
@@ -24,24 +26,15 @@ public class SlabRenderer extends BlockType {
     BlockModel ceiling, floor, side0, side1, side2, side3;
 
     public SlabRenderer() {
-//        ObjToBlockModel.parseFile(new ObjToBlockModel.VertexOperations() {
-//            @Override
-//            public void applyOperations(Vector3f vertex) {
-//                rotateVerticiesY90DegreeIncrements(vertex, 1);
-//            }
-//        }, false, 1.6f, ResourceUtils.resource("block types\\slab\\side0.obj"),"side1.blockType");
-//        ObjToBlockModel.parseFile(new ObjToBlockModel.VertexOperations() {
-//            @Override
-//            public void applyOperations(Vector3f vertex) {
-//                rotateVerticiesY90DegreeIncrements(vertex, 2);
-//            }
-//        }, false, 1.6f, ResourceUtils.resource("block types\\slab\\side0.obj"),"side2.blockType");
-//        ObjToBlockModel.parseFile(new ObjToBlockModel.VertexOperations() {
-//            @Override
-//            public void applyOperations(Vector3f vertex) {
-//                rotateVerticiesY90DegreeIncrements(vertex, 3);
-//            }
-//        }, false, 1.6f, ResourceUtils.resource("block types\\slab\\side0.obj"),"side3.blockType");
+//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+//                ResourceUtils.resource("block types\\slab\\sideSlab.obj"));
+//
+//        ObjToBlockModel.parseFile(null,false, 1.6f,
+//                ResourceUtils.resource("block types\\slab\\ceilingSlab.obj"));
+//
+//        ObjToBlockModel.parseFile(null,false, 1.6f,
+//                ResourceUtils.resource("block types\\slab\\floorSlab.obj"));
+
 
         BlockModel.ShouldRenderSide renderSide = new BlockModel.ShouldRenderSide() {
             @Override
@@ -54,10 +47,10 @@ public class SlabRenderer extends BlockType {
         ceiling = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\ceilingSlab.blockType"), renderSide);
         floor = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\floorSlab.blockType"), renderSide);
 
-        side0 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\side0.blockType"), renderSide);
-        side1 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\side1.blockType"), renderSide);
-        side2 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\side2.blockType"), renderSide);
-        side3 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\side3.blockType"), renderSide);
+        side0 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab0.blockType"), renderSide);
+        side1 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab1.blockType"), renderSide);
+        side2 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab2.blockType"), renderSide);
+        side3 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab3.blockType"), renderSide);
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;

@@ -2,7 +2,6 @@ package com.xbuilders.engine.items.block.construction.BlockTypeModel;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 
 public class BlockModel {
@@ -35,17 +34,17 @@ public class BlockModel {
             if (sides[side] != null
                     && (side == 0 || shouldRenderSide.shouldRenderSide(block, neighbors[side - 1]))) {
                 switch (sides[side].textureSide) {
-                    case BlockType.POS_X ->
+                    case SIDE_POS_X ->
                         texture = block.texture.getPOS_X();
-                    case BlockType.NEG_X ->
+                    case SIDE_NEG_X ->
                         texture = block.texture.getNEG_X();
-                    case BlockType.POS_Z ->
+                    case SIDE_POS_Z ->
                         texture = block.texture.getPOS_Z();
-                    case BlockType.NEG_Z ->
+                    case SIDE_NEG_Z ->
                         texture = block.texture.getNEG_Z();
-                    case BlockType.POS_Y ->
+                    case SIDE_POS_Y ->
                         texture = block.texture.getPOS_Y();
-                    case BlockType.NEG_Y ->
+                    case SIDE_NEG_Y ->
                         texture = block.texture.getNEG_Y();
                     default ->
                         texture = block.texture.getPOS_Y();

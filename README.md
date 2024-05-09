@@ -23,18 +23,22 @@
 * Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
 
 # Managable To-Do List towards XBuilders 2
-We split the implementation features into a list of items that can be completed in a very short time period. Each item should be able to be completed in roughly 2 hours:
+We split the implementation features into a list of items that can be completed in a very short (~1h) time period.
 
 ## Features
+* add all block set/remove events again
+  * add tall grass
+* Fix orientable blocks
+* add door blocks
+  * add click events
 * Add copy/paste tools
-* Add doors as blocks
-* fix parameters of some of the blocks (leaves,etc)
 * Player spawn position must be set in a safe place when entering the world
 * Add JSON settings
+
+## Optimizations
 * performance optimizations when traveling thru world
 
-
-# multiplayer
+# Multiplayer
 a super easy way to do multiplayer could be
 * each player owns a set of chunks thay modified.
 * those chunks are read only to others

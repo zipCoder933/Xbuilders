@@ -40,16 +40,16 @@ public class BasicTerrain extends Terrain {
                                 -1, 1, MAX_HEIGHT, MIN_HEIGHT);
 
                         if (wy == heightmap) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS.id);
+                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
                             if (session.random.nextFloat() > 0.995) {
                                 TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
                                 genOutsideBoundary = true;
                             }
                         } else if (heightmap < wy) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_DIRT.id);
+                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_DIRT);
                         } else if (heightmap > wy) {
                             if (perlinNoise.noise(wx, wy , wz ) > 0.1f) {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE.id);
+                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
                             }
                         }
                     }

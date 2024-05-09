@@ -55,8 +55,8 @@ public abstract class Terrain {
             random.setSeed(FastNoise.Hash3D(seed, chunk.position.x, chunk.position.y, chunk.position.z));
         }
 
-        public void setBlockWorld(Block block, int x, int y, int z) {
-            Chunk chunk = GameScene.world.setBlock(block.id, x, y, z);
+        public void setBlockWorld(short block, int x, int y, int z) {
+            Chunk chunk = GameScene.world.setBlock(block, x, y, z);
             if (chunk != null && !homeChunk.position.equals(chunk.position)) {
                 modifiedMeshedChunks.add(chunk);
             }

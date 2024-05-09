@@ -5,6 +5,7 @@
 package com.xbuilders.game.items.blocks.trees;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.BFS.HashQueue;
 import com.xbuilders.engine.utils.BFS.TravelNode;
@@ -24,7 +25,7 @@ class TreeUtils {
         return rand.nextInt((max - min) + 1) + min;
     }
 
-    public static void squareLeavesLayer(int x, int y, int z, int radius, Block leaves) {
+    public static void squareLeavesLayer(int x, int y, int z, int radius, short leaves) {
         int lowerBoundX = x - radius;
         int upperBoundX = x + radius;
         int lowerBoundZ = z - radius;
@@ -39,7 +40,7 @@ class TreeUtils {
         }
     }
 
-    public static void squareLeavesLayer(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int radius, Block leaves) {
+    public static void squareLeavesLayer(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int radius, short leaves) {
         int lowerBoundX = x - radius;
         int upperBoundX = x + radius;
         int lowerBoundZ = z - radius;
@@ -54,7 +55,7 @@ class TreeUtils {
         }
     }
 
-    public static void roundedSquareLeavesLayer(int x, int y, int z, int radius, Block leaves) {
+    public static void roundedSquareLeavesLayer(int x, int y, int z, int radius, short leaves) {
         int lowerBoundX = x - radius;
         int upperBoundX = x + radius;
         int lowerBoundZ = z - radius;
@@ -73,7 +74,7 @@ class TreeUtils {
         }
     }
 
-    public static void roundedSquareLeavesLayer(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int radius, Block leaves) {
+    public static void roundedSquareLeavesLayer(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int radius, short leaves) {
         int lowerBoundX = x - radius;
         int upperBoundX = x + radius;
         int lowerBoundZ = z - radius;
@@ -94,19 +95,19 @@ class TreeUtils {
         }
     }
 
-    public static void setBlock(Block b, int x, int y, int z) {
+    public static void setBlock(short id, int x, int y, int z) {
         if (!GameScene.world.getBlock(x, y, z).solid) {
-            GameScene.player.setBlock(b, x, y, z);
+            GameScene.player.setBlock(id, x, y, z);
         }
     }
 
-    public static void setBlockAndOverride(Block b, int x, int y, int z) {
-        GameScene.player.setBlock(b, x, y, z);
+    public static void setBlockAndOverride(short id, int x, int y, int z) {
+        GameScene.player.setBlock(id, x, y, z);
     }
 
     //Terrain generators create terrains in world space,
     //so there is nothing we have to change here.
-    public static void diamondLeavesLayer(int x, int y, int z, int travelDist, Block leaves) {
+    public static void diamondLeavesLayer(int x, int y, int z, int travelDist, short leaves) {
         HashSet<TravelNode> exploredNodes = new HashSet<>();
         HashQueue<TravelNode> queue = new HashQueue<>();
         queue.add(new TravelNode(x, y, z, 0));
@@ -125,7 +126,7 @@ class TreeUtils {
     }
 
 
-    public static void diamondLeavesLayer(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int travelDist, Block leaves) {
+    public static void diamondLeavesLayer(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int travelDist, short leaves) {
         HashQueue<TravelNode> queue = new HashQueue<>();
         queue.add(new TravelNode(x, y, z, 0));
 
@@ -145,7 +146,7 @@ class TreeUtils {
         }
     }
 
-    public static Vector3i generateBranch(int x, int y, int z, int length, int xDir, int zDir, Block logType) {
+    public static Vector3i generateBranch(int x, int y, int z, int length, int xDir, int zDir, short logType) {
         for (int i = 0; i < length; i++) {
             x += xDir;
             z += zDir;
@@ -155,7 +156,7 @@ class TreeUtils {
         return new Vector3i(x, y, z);
     }
 
-    public static Vector3i generateBranch(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int length, int xDir, int zDir, Block logType) {
+    public static Vector3i generateBranch(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int length, int xDir, int zDir, short logType) {
         for (int i = 0; i < length; i++) {
             x += xDir;
             z += zDir;

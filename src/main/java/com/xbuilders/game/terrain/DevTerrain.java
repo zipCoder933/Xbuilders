@@ -40,8 +40,8 @@ public class DevTerrain extends Terrain {
 
                     if (wy >= heightmap) {
                         if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_SAND.id);
-                        } else chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE.id);
+                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_SAND);
+                        } else chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
                     }
                 }
             }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.imageio.ImageIO;
 
 /**
@@ -31,7 +32,10 @@ public class BlockArrayTexture {
     private static final String fileExtensionCode = "\\.(?i)(jpg|jpeg|png|gif|bmp|ico|tiff)$";
 
     public int getTextureLayer(String name) {
-        Integer key = textureMap.get(name.replaceAll(fileExtensionCode, ""));
+        name = name.replaceAll(fileExtensionCode, "")
+                .replaceAll("\\\\","/");
+
+        Integer key = textureMap.get(name);
 
         if (key == null) {
             throw new NoSuchFieldError("Texture \"" + name + "\" not found!");
@@ -48,6 +52,8 @@ public class BlockArrayTexture {
         return fileMap.get(name.replaceAll(fileExtensionCode, ""));
     }
 
+    AtomicInteger index = new AtomicInteger();
+
     public BlockArrayTexture(File blockTexturesDir) throws IOException {
         textureMap = new HashMap<>();
         fileMap = new HashMap<>();
@@ -61,40 +67,51 @@ public class BlockArrayTexture {
 
         BufferedImage img = ImageIO.read(files[0]);
         textureSize = img.getWidth();
-        int index = 1;
+
         List<TextureFile> imageFiles = new ArrayList<>();
-        for (int i = 0; i < files.length; i++) {
-            String name = files[i].getName();
-            String path = files[i].getAbsolutePath();
-
-            if (name.toLowerCase().endsWith(".png")
-                    || name.toLowerCase().endsWith(".jpg")
-                    || name.toLowerCase().endsWith(".jpeg")) {
-                name = name.replaceAll(fileExtensionCode, "");
-
-                textureMap.put(name, index);
-                fileMap.put(name, files[i]);
-
-                BufferedImage image = ImageIO.read(files[i]);
-                if (image.getWidth() < image.getHeight()) {//if the image is not square, split it up
-                    int lengthMultiplier = image.getHeight() / image.getWidth();
-                    for (int j = 0; j < lengthMultiplier; j++) {
-                        imageFiles.add(new TextureFile(path, 0, j * image.getWidth(), image.getWidth(), image.getWidth()));
-                        index++;
-                    }
-                    animationMap.put(name, lengthMultiplier);
-                } else {
-                    imageFiles.add(new TextureFile(path));
-                    index++;
-                }
-            }
-        }
+        index.set(1);
+        indexDirectory(blockTexturesDir, files, imageFiles);
         filePaths = new TextureFile[imageFiles.size()];
         for (int i = 0; i < filePaths.length; i++) {
             filePaths[i] = imageFiles.get(i);
         }
         layerCount = filePaths.length;
         System.out.println("Loaded " + layerCount + " Block texture files. Size: " + textureSize + " x " + textureSize);
+    }
+
+    private void indexDirectory(File baseDir, File[] files, List<TextureFile> imageFiles) throws IOException {
+        System.out.println("Indexing directory: " + files[0].getParentFile().getAbsolutePath());
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isDirectory()) indexDirectory(baseDir, files[i].listFiles(), imageFiles);
+            else {
+                String name = files[i].getName();
+                if (name.toLowerCase().endsWith(".png")
+                        || name.toLowerCase().endsWith(".jpg")
+                        || name.toLowerCase().endsWith(".jpeg")) {
+
+                    name = files[i].getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1)
+                            .replaceAll("\\\\", "/").replaceAll(fileExtensionCode, "");
+
+//                    System.out.println("\t"+name+" ("+index.get()+")");
+                    String path = files[i].getAbsolutePath();
+                    textureMap.put(name, index.get());
+                    fileMap.put(name, files[i]);
+
+                    BufferedImage image = ImageIO.read(files[i]);
+                    if (image.getWidth() < image.getHeight()) {//if the image is not square, split it up
+                        int lengthMultiplier = image.getHeight() / image.getWidth();
+                        for (int j = 0; j < lengthMultiplier; j++) {
+                            imageFiles.add(new TextureFile(path, 0, j * image.getWidth(), image.getWidth(), image.getWidth()));
+                            index.getAndAdd(1);
+                        }
+                        animationMap.put(name, lengthMultiplier);
+                    } else {
+                        imageFiles.add(new TextureFile(path));
+                        index.getAndAdd(1);
+                    }
+                }
+            }
+        }
     }
 
     /**

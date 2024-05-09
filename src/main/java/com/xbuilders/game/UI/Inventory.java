@@ -4,14 +4,17 @@
  */
 package com.xbuilders.game.UI;
 
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
@@ -29,10 +32,10 @@ import static org.lwjgl.nuklear.Nuklear.*;
 public class Inventory extends GameUIElement {
 
     /**
-     * @param playerBackpack the playerBackpack to set
+     * @param playerInfo the playerBackpack to set
      */
-    public void setPlayerBackpack(Item[] playerBackpack) {
-        this.playerBackpack = playerBackpack;
+    public void setPlayerInfo(MyGame.GameInfo playerInfo) {
+        this.playerInfo = playerInfo;
     }
 
     public Inventory(NkContext ctx, NKWindow window, UIResources uires,
@@ -52,14 +55,14 @@ public class Inventory extends GameUIElement {
         setOpen(false);
     }
 
-    int menuWidth = 700;
-    int menuHeight = 550;
-    int itemListHeight = 300;
-    int playerItemsHeight = 450;
-    int maxColumns = 11;
+    final int menuWidth = 700;
+    final int menuHeight = 550;
+    final int itemListHeight = 250;
+    final int backpackMenuSize = menuHeight; //Its ok since this is the last row
+    final int maxColumns = 11;
     Hotbar hotbar;
     Item[] itemList;
-    private Item[] playerBackpack;
+    private MyGame.GameInfo playerInfo;
     TextBox searchBox;
 
     WidgetWidthMeasurement buttonWidth;
@@ -116,79 +119,9 @@ public class Inventory extends GameUIElement {
                 searchBox.render(ctx);
 
                 ctx.style().button().padding().set(0, 0);
-                nk_layout_row_dynamic(ctx, itemListHeight, 1);
+                inventoryGroup(stack);
+                backpackGroup();
 
-                if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE)) {
-                    String searchCriteria = searchBox.getValueAsString();
-                    if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
-                        searchCriteria = null;
-                    } else searchCriteria = searchCriteria.toLowerCase();
-
-                    int itemID = 0;
-                    rows:
-                    while (true) {
-                        nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);//row
-                        cols:
-                        for (int column = 0; column < maxColumns; ) {
-                            if (itemID >= itemList.length) {
-                                break rows;
-                            }
-
-                            Item item = itemList[itemID];
-                            if (isVisible(item) && matchesSearch(item, searchCriteria)) {
-                                if (Nuklear.nk_widget_is_hovered(ctx)) {
-                                    hoveredItem = item.toString();
-                                }
-                                if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
-                                    addItemToBackpack(item);
-                                }
-                                buttonWidth.measure(ctx, stack);
-                                column++;
-                            }
-                            itemID++;
-                        }
-                    }
-
-                }
-                Nuklear.nk_group_end(ctx);
-
-                nk_layout_row_dynamic(ctx, playerItemsHeight, 1);
-                if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
-                    playerItemsHeight = (int) ((buttonWidth.width * 2) + 50);
-
-                    int itemID = 0;
-                    rows:
-                    while (true) {
-                        nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
-                        cols:
-                        for (int i = 0; i < maxColumns; i++) {
-                            if (itemID >= playerBackpack.length) {
-                                break rows;
-                            }
-                            Item item = playerBackpack[itemID];
-
-                            if (itemID == hotbar.getSelectedItemIndex()) {
-                                ctx.style().button().border_color().set(Theme.white);
-                            } else {
-                                ctx.style().button().border_color().set(Theme.blue);
-                            }
-
-                            if (item != null) {
-                                if (Nuklear.nk_widget_is_hovered(ctx)) {
-                                    hoveredItem = item.toString();
-                                }
-                                if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
-                                    hotbar.setSelectedIndex(itemID);
-                                }
-                            } else if (Nuklear.nk_button_text(ctx, "")) {
-                                hotbar.setSelectedIndex(itemID);
-                            }
-                            itemID++;
-                        }
-                    }
-
-                }
-                Nuklear.nk_group_end(ctx);
                 Theme.resetEntireButtonStyle(ctx);
             }
             nk_end(ctx);
@@ -196,6 +129,104 @@ public class Inventory extends GameUIElement {
         if (nk_window_is_hidden(ctx, WINDOW_TITLE)) {
             isOpen = false;
         }
+    }
+
+    private void inventoryGroup(MemoryStack stack) {
+        nk_layout_row_dynamic(ctx, itemListHeight, 1);
+        if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE)) {
+            String searchCriteria = searchBox.getValueAsString();
+            if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
+                searchCriteria = null;
+            } else searchCriteria = searchCriteria.toLowerCase();
+
+            int itemID = 0;
+            rows:
+            while (true) {
+                nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);//row
+                cols:
+                for (int column = 0; column < maxColumns; ) {
+                    if (itemID >= itemList.length) {
+                        break rows;
+                    }
+
+                    Item item = itemList[itemID];
+                    if (isVisible(item) && matchesSearch(item, searchCriteria)) {
+                        if (Nuklear.nk_widget_is_hovered(ctx)) {
+                            hoveredItem = item.toString();
+                        }
+                        if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
+                            addItemToBackpack(item);
+                        }
+                        buttonWidth.measure(ctx, stack);
+                        column++;
+                    }
+                    itemID++;
+                }
+            }
+
+        }
+        Nuklear.nk_group_end(ctx);
+    }
+
+    private void backpackGroup() {
+        nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
+        if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
+            nk_layout_row_dynamic(ctx, 20, 2);
+            if (Nuklear.nk_button_label(ctx, "Organize")) {
+                organizeBackpack();
+            } else if (Nuklear.nk_button_label(ctx, "Remove")) {
+                playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = null;
+            }
+
+
+            int itemID = 0;
+            rows:
+            while (true) {
+                nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
+                cols:
+                for (int i = 0; i < maxColumns; i++) {
+                    if (itemID >= playerInfo.playerBackpack.length) {
+                        break rows;
+                    }
+                    Item item = playerInfo.playerBackpack[itemID];
+
+                    if (itemID == hotbar.getSelectedItemIndex()) {
+                        ctx.style().button().border_color().set(Theme.white);
+                    } else {
+                        ctx.style().button().border_color().set(Theme.blue);
+                    }
+
+                    if (item != null) {
+                        if (Nuklear.nk_widget_is_hovered(ctx)) {
+                            hoveredItem = item.toString();
+                        }
+                        if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
+                            hotbar.setSelectedIndex(itemID);
+                        }
+                    } else if (Nuklear.nk_button_text(ctx, "")) {
+                        hotbar.setSelectedIndex(itemID);
+                    }
+                    itemID++;
+                }
+            }
+        }
+        Nuklear.nk_group_end(ctx);
+    }
+
+    private void organizeBackpack() {
+        HashSet<Item> newBackpack = new HashSet();
+        for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
+            if (playerInfo.playerBackpack[i] != null) {
+                newBackpack.add(playerInfo.playerBackpack[i]);
+            }
+            playerInfo.playerBackpack[i] = null;
+        }
+        int index = 0;
+        for (Item item : newBackpack) {
+            playerInfo.playerBackpack[index] = item;
+            index++;
+        }
+        hotbar.setSelectedIndex(0);
     }
 
     private boolean isVisible(Item item) {
@@ -209,10 +240,17 @@ public class Inventory extends GameUIElement {
 
 
     private void addItemToBackpack(Item item) {
-        if (playerBackpack[hotbar.getSelectedItemIndex()] == item) {
-            playerBackpack[hotbar.getSelectedItemIndex()] = null;
+        if (playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] == item) {
+            playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = null;
         } else {
-            playerBackpack[hotbar.getSelectedItemIndex()] = item;
+            for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
+                if (playerInfo.playerBackpack[i] == null) {
+                    playerInfo.playerBackpack[i] = item;
+                    hotbar.setSelectedIndex(i);
+                    return;
+                }
+            }
+            playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = item;
             hotbar.changeSelectedIndex(1);
         }
     }

@@ -38,13 +38,13 @@ public class StraightTrack extends Block {
     }
 
     public static boolean isTrack(Block block) {
-        return block == MyGame.BLOCK_TRACK
-                || block == MyGame.BLOCK_RAISED_TRACK
-                || block == MyGame.BLOCK_CROSSTRACK
-                || block == MyGame.BLOCK_CURVED_TRACK
-                || block == MyGame.BLOCK_SWITCH_JUNCTION
-                || block == MyGame.BLOCK_MERGE_TRACK
-                || block == MyGame.BLOCK_TRACK_STOP;
+        return block.id == MyGame.BLOCK_TRACK
+                || block.id == MyGame.BLOCK_RAISED_TRACK
+                || block.id == MyGame.BLOCK_CROSSTRACK
+                || block.id == MyGame.BLOCK_CURVED_TRACK
+                || block.id == MyGame.BLOCK_SWITCH_JUNCTION
+                || block.id == MyGame.BLOCK_MERGE_TRACK
+                || block.id == MyGame.BLOCK_TRACK_STOP;
     }
 
     private void changeBlock(int x, int y, int z) {
@@ -97,10 +97,10 @@ public class StraightTrack extends Block {
             else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) || isTrackAtPos2(trackNeighbors, x + 1, y, z)) {
                 orientation.set(0, (byte) 2);
                 straightTrack = true;
-                GameScene.player.setBlock(this, x, y, z, orientation);
+                GameScene.player.setBlock(this.id, x, y, z, orientation);
             } else if (isTrackAtPos2(trackNeighbors, x, y, z - 1) || isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(this, x, y, z, orientation);
+                GameScene.player.setBlock(this.id, x, y, z, orientation);
                 straightTrack = true;
             }
         }

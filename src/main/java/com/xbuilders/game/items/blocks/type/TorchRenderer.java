@@ -44,12 +44,12 @@ public class TorchRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
         };
-//        ObjToBlockModel.parseFile(null, false,
-//                1.6f, ResourceUtils.resource("block types\\torch\\torch.obj"));
-//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-//                ResourceUtils.resource("block types\\torch\\side.obj"));
-//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-//                ResourceUtils.resource("block types\\torch\\side block.obj"));
+        ObjToBlockModel.parseFile(null, false,
+                1.6f, ResourceUtils.resource("block types\\torch\\torch.obj"));
+        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+                ResourceUtils.resource("block types\\torch\\side.obj"));
+        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+                ResourceUtils.resource("block types\\torch\\side block.obj"));
 
         torch = BlockModelLoader.load(ResourceUtils.resource("block types\\torch\\torch.blockType"),
                 (t, n) -> shouldRenderFace_subBlock(t, n));

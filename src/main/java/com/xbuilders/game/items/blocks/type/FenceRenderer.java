@@ -9,6 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
+import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -25,9 +26,9 @@ public class FenceRenderer extends BlockType {
     BlockModel post, boards0, boards1, boards2, boards3;
 
     public FenceRenderer() {
-//        ObjToBlockModel.parseDirectory(null,
-//                false, 1.6f,
-//                ResourceUtils.resource("block types\\fence"));
+        ObjToBlockModel.parseDirectory(null,
+                false, 1.6f,
+                ResourceUtils.resource("block types\\fence"));
         post = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\post.blockType"), renderSide_subBlock);
         boards0 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards.blockType"), renderSide_subBlock);
         boards1 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards1.blockType"), renderSide_subBlock);

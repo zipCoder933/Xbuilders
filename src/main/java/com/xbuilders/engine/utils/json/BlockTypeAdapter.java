@@ -9,8 +9,10 @@ package com.xbuilders.engine.utils.json;
  */
 
 import com.google.gson.*;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.items.block.construction.BlockType;
 
 import java.lang.reflect.Type;
 
@@ -23,7 +25,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("name", src.name);
         jsonObject.addProperty("id", src.id);
         jsonObject.add("texture", JsonManager.textureAdapter.serialize(src.texture, typeOfSrc, context));
-
+        jsonObject.addProperty("icon", src.iconFilename);
         jsonObject.addProperty("solid", src.solid);
         jsonObject.addProperty("opaque", src.opaque);
         jsonObject.addProperty("torch", src.torchlightStartingValue);
@@ -45,8 +47,26 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         if (jsonObject.has("solid")) block.solid = jsonObject.get("solid").getAsBoolean();
         if (jsonObject.has("opaque")) block.opaque = jsonObject.get("opaque").getAsBoolean();
         if (jsonObject.has("torch")) block.torchlightStartingValue = jsonObject.get("torch").getAsByte();
-        if (jsonObject.has("type")) block.type = jsonObject.get("type").getAsInt();
+
+        if (jsonObject.has("type")) {
+            String typeStr = jsonObject.get("type").getAsString();
+            if (typeStr == null || isInteger(typeStr)) {//If the type is an integer
+                block.type = jsonObject.get("type").getAsInt();
+            } else { //Otherwise it's a string
+                block.type = ItemList.blocks.getBlockTypeID(typeStr);
+            }
+        }
+        if (jsonObject.has("icon")) block.iconFilename = jsonObject.get("icon").getAsString();
 
         return block;
+    }
+
+    private boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

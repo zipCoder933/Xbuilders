@@ -11,6 +11,7 @@ import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import org.lwjgl.glfw.GLFW;
@@ -39,10 +40,10 @@ import org.lwjgl.system.MemoryStack;
 public class Hotbar extends GameUIElement {
 
     /**
-     * @param playerBackpack the playerBackpack to set
+     * @param playerInfo the playerBackpack to set
      */
-    public void setPlayerBackpack(Item[] playerBackpack) {
-        this.playerBackpack = playerBackpack;
+    public void setPlayerInfo(MyGame.GameInfo playerInfo) {
+        this.playerInfo = playerInfo;
     }
 
     public Hotbar(NkContext ctx, NKWindow window, UIResources uires) {
@@ -53,7 +54,7 @@ public class Hotbar extends GameUIElement {
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    private Item[] playerBackpack;
+    private MyGame.GameInfo playerInfo;
     WidgetWidthMeasurement buttonHeight;
     private int selectedItemIndex;
     int pushValue;
@@ -76,8 +77,8 @@ public class Hotbar extends GameUIElement {
         ctx.style().window().padding().set(0, 0);
         if (nk_begin(ctx, "hotbarA", windowDims2, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
             nk_layout_row_dynamic(ctx, 40, 1);
-            if (playerBackpack[getSelectedItemIndex()] != null) {
-                nk_text(ctx, playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
+            if (playerInfo.playerBackpack[getSelectedItemIndex()] != null) {
+                nk_text(ctx, playerInfo.playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
             }
         }
         nk_end(ctx);
@@ -92,8 +93,8 @@ public class Hotbar extends GameUIElement {
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
             //Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (playerBackpack[getSelectedItemIndex()] != null) {
-                nk_text(ctx, playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
+            if (playerInfo.playerBackpack[getSelectedItemIndex()] != null) {
+                nk_text(ctx, playerInfo.playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
             }
 
             nk_layout_row_dynamic(ctx, buttonHeight.width, ELEMENTS);
@@ -101,10 +102,10 @@ public class Hotbar extends GameUIElement {
             for (int j = 0; j < ELEMENTS; j++) {
                 i = j + pushValue;
 
-                if (i >= playerBackpack.length) {
+                if (i >= playerInfo.playerBackpack.length) {
                     break;
                 }
-                Item item = playerBackpack[i];
+                Item item = playerInfo.playerBackpack[i];
 
                 if (buttonHeight.isCalibrated()) {
                     if (i == getSelectedItemIndex()) {
@@ -128,19 +129,19 @@ public class Hotbar extends GameUIElement {
 
     protected void changeSelectedIndex(float increment) {
         selectedItemIndex += increment;
-        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerBackpack.length - 1));
+        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerInfo.playerBackpack.length - 1));
 
         if (getSelectedItemIndex() >= ELEMENTS + pushValue) {
             pushValue++;
         } else if (getSelectedItemIndex() < pushValue) {
             pushValue--;
         }
-        pushValue = MathUtils.clamp(pushValue, 0, playerBackpack.length - ELEMENTS);
+        pushValue = MathUtils.clamp(pushValue, 0, playerInfo.playerBackpack.length - ELEMENTS);
     }
 
     public void setSelectedIndex(int index) {
-        selectedItemIndex = MathUtils.clamp(index, 0, playerBackpack.length - 1);
-        pushValue = MathUtils.clamp(selectedItemIndex, 0, playerBackpack.length - ELEMENTS);
+        selectedItemIndex = MathUtils.clamp(index, 0, playerInfo.playerBackpack.length - 1);
+        pushValue = MathUtils.clamp(selectedItemIndex, 0, playerInfo.playerBackpack.length - ELEMENTS);
     }
 
     public int getSelectedItemIndex() {
@@ -180,22 +181,22 @@ public class Hotbar extends GameUIElement {
 
     private void acquireItem(Item item) {
         //First check if the player already has the item
-        for (int i = 0; i < playerBackpack.length; i++) {
-            if (playerBackpack[i] != null && playerBackpack[i].equals(item)) {
+        for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
+            if (playerInfo.playerBackpack[i] != null && playerInfo.playerBackpack[i].equals(item)) {
                 setSelectedIndex(i);
                 return;
             }
         }
         //otherwise add it
-        for (int i = 0; i < playerBackpack.length; i++) {
-            if (playerBackpack[i] == null) {
-                playerBackpack[i] = item;
+        for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
+            if (playerInfo.playerBackpack[i] == null) {
+                playerInfo.playerBackpack[i] = item;
                 setSelectedIndex(i);
                 return;
             }
         }
         //If there is no room, then remove the first item
-        playerBackpack[0] = item;
+        playerInfo.playerBackpack[0] = item;
         setSelectedIndex(0);
     }
 

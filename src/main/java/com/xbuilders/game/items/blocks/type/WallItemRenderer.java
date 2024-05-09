@@ -5,9 +5,7 @@
 package com.xbuilders.game.items.blocks.type;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -50,7 +48,7 @@ public class WallItemRenderer extends BlockType {
             testBlock = GameScene.world.getBlock(worldX, worldY, worldZ + 1);
         }
 
-        BlockType itemType = ItemList.blocks.getBlockType(testBlock.type);
+        BlockType itemType = ItemList.blocks.getBlockTypeID(testBlock.type);
         if (itemType == null) {
             return false;
         }
