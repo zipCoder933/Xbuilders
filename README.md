@@ -25,6 +25,9 @@
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short (~1h) time period.
 
+## Bugfixes
+* (i think) when there is a null block when a chunk loads from the file, it causes some error that prevents the chunk from fully loading. instead, treat (dont replace) the unknown block like air
+
 ## Features
 * add all block set/remove events again
   * add tall grass
@@ -38,7 +41,7 @@ We split the implementation features into a list of items that can be completed 
 ## Optimizations
 * performance optimizations when traveling thru world
 
-# Multiplayer
+## Multiplayer
 a super easy way to do multiplayer could be
 * each player owns a set of chunks thay modified.
 * those chunks are read only to others
