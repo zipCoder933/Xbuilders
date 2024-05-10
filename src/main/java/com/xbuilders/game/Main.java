@@ -7,6 +7,8 @@ package com.xbuilders.game;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
+import com.xbuilders.engine.settings.EngineSettings;
+import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -31,15 +33,25 @@ import javax.imageio.ImageIO;
 
 public class Main extends NKWindow {
 
-    //We can still have static variables, but we want to use dependency injection,
-    //and make all classes ask for the object instead of directly acsessing it
-    //In summary, we want ALL classes to be easily seprable, to make the code more flexible.
+    // We can still have static variables, but we want to use dependency injection,
+    // and make all classes ask for the object instead of directly acsessing it
+    // In summary, we want ALL classes to be easily seprable, to make the code more
+    // flexible.
     public static void goToGamePage() {
         isGameMode = true;
     }
 
     public static void goToMenuPage() {
         isGameMode = false;
+    }
+
+    public static EngineSettings settings;
+
+    //We only need saving functionality to be public
+    private final static EngineSettingsUtils settingsUtils = new EngineSettingsUtils();
+
+    public static void saveSettings(){
+        settingsUtils.save(settings);
     }
 
     private static boolean isGameMode = false;
@@ -62,6 +74,7 @@ public class Main extends NKWindow {
                 }
             }
             ResourceUtils.initialize(devMode);
+           
             new Main().run();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,6 +82,7 @@ public class Main extends NKWindow {
     }
 
     public Main() throws IOException, Exception {
+        settings = settingsUtils.load();
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
 
@@ -88,23 +102,21 @@ public class Main extends NKWindow {
 
         gameScene.init(uiResources, game);
 
-
         if (generateIcons) {
             BlockIconRenderer iconRenderer = new BlockIconRenderer(
                     ItemList.blocks.textures,
                     ResourceUtils.resource("items\\blocks\\icons")) {
                 @Override
                 public boolean shouldMakeIcon(Block block) {
-                    return block.type != RenderType.SPRITE && block.type != RenderType.FLOOR && block.type != RenderType.WALL_ITEM;
+                    return block.type != RenderType.SPRITE && block.type != RenderType.FLOOR
+                            && block.type != RenderType.WALL_ITEM;
                 }
             };
             iconRenderer.saveAllIcons();
             System.exit(0);
         }
 
-
     }
-
 
     private void render() throws IOException {
         if (isGameMode) {
@@ -147,8 +159,9 @@ public class Main extends NKWindow {
 
     @Override
     public void onMPFUpdate() {
-        //Lower MPF is better. Since we are matching the FPS to the monitors refresh rate, the FPS will not exceed 60fps.
-        //Our goal is to get as close to 16.666 MPF (60 FPS) as possible
+        // Lower MPF is better. Since we are matching the FPS to the monitors refresh
+        // rate, the FPS will not exceed 60fps.
+        // Our goal is to get as close to 16.666 MPF (60 FPS) as possible
         String formattedNumber = df.format(getMsPerFrame());
         setTitle("Xbuilders   mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString());
     }
@@ -169,7 +182,6 @@ public class Main extends NKWindow {
             MemoryProfiler.update();
             endFrame();
             endScreenshot();
-
 
             if (devkeyF2_SystemCG) {
                 System.out.println("System.GC()");

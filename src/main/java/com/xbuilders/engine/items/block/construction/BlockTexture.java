@@ -78,4 +78,8 @@ public class BlockTexture {
         NEG_Z_NAME = index;
     }
 
+    public String toString() {
+        return POS_Y_NAME + " " + NEG_Y_NAME + " " + POS_X_NAME + " " + NEG_X_NAME + " " + POS_Z_NAME + " " + NEG_Z_NAME;
+    }
+
 }

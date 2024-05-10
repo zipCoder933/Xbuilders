@@ -26,17 +26,14 @@
 We split the implementation features into a list of items that can be completed in a very short (~1h) time period.
 
 ## Bugfixes
-* (i think) when there is a null block when a chunk loads from the file, it causes some error that prevents the chunk from fully loading. instead, treat (dont replace) the unknown block like air
+* ~~(i think) when there is a null block when a chunk loads from the file, it causes some error that prevents the chunk from fully loading. instead, treat (dont replace) the unknown block like air~~
+  * Pretty sure I solved this simply by returning unkknown when the item list doesnt have that block
+  * However, There are probbably other instabilities that need to be fixed
 
 ## Features
-* add all block set/remove events again
-  * add tall grass
-* Fix orientable blocks
-* add door blocks
-  * add click events
 * Add copy/paste tools
+* Add a conversion tool from XB2 to XB3
 * Player spawn position must be set in a safe place when entering the world
-* Add JSON settings
 
 ## Optimizations
 * performance optimizations when traveling thru world

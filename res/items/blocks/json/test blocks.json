@@ -1,7 +1,7 @@
 [
     {
         "name": "Test Block",
-        "id": 1001,
+        "id": -1,
         "texture": {
             "neg_y": "test\\neg y",
             "pos_x": "test\\pos x",
@@ -17,7 +17,7 @@
     },
     {
         "name": "Test Orientable",
-        "id": 1002,
+        "id": -2,
         "texture": {
             "neg_y": "test\\neg y",
             "pos_x": "test\\pos x",
@@ -33,7 +33,7 @@
     },
     {
         "name": "Test Slab",
-        "id": 1003,
+        "id": -3,
         "texture": {
             "neg_y": "test\\neg y",
             "pos_x": "test\\pos x",
@@ -49,7 +49,7 @@
     },
     {
         "name": "Test Trapdoor",
-        "id": 1004,
+        "id": -4,
         "texture": {
             "neg_y": "test\\neg y",
             "pos_x": "test\\pos x",
@@ -65,7 +65,7 @@
     },
     {
         "name": "Test Fence Gate",
-        "id": 1005,
+        "id": -5,
         "texture": {
             "neg_y": "test\\neg y",
             "pos_x": "test\\pos x",
@@ -81,7 +81,7 @@
     },
     {
         "name": "Test Door Half",
-        "id": 1006,
+        "id": -6,
         "texture": {
             "neg_y": "test\\neg y",
             "pos_x": "test\\pos x",

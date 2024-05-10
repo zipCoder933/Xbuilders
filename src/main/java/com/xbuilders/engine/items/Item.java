@@ -7,7 +7,9 @@ package com.xbuilders.engine.items;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.nuklear.NkImage;
@@ -17,8 +19,10 @@ import org.lwjgl.nuklear.NkImage;
  */
 public abstract class Item {
 
-    private final ArrayList<String> tags;
-    public final short id; //Does not have to be unsigned. We dont want more than 32,000 blocks anyway
+    public final ArrayList<String> tags;
+    public final HashMap<String, String> properties = new HashMap<>();
+
+    public final short id; //TODO: Find a way to represent block ID as an unsigned short (up to 65,000 IDs)
 
     public final ItemType itemType;
     public final String name;
@@ -40,7 +44,7 @@ public abstract class Item {
             throw new IllegalArgumentException("Item ID Can not exceed " + Short.MAX_VALUE);
         }
         this.id = (short) id;
-        this.name = name.trim();
+        this.name = MiscUtils.capitalizeWords(name.trim()); //We can auto-format the name
         NKicon = NkImage.create();
     }
 

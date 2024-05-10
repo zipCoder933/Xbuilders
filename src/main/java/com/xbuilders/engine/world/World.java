@@ -54,21 +54,24 @@ public class World {
     }
 
     /*
-    CHUNK GENERATION PERFORMANCE
-
-    Valkyre:
-    Chunk Load distance: 5
-    Load distance in voxels: 160
-    (Minecraft has a default chunk distance of 160 blocks.)
-
-    In valkyre,With the standard chunk distanceThe FPS sometimes dips when loading lots of stuff, but not very often.
-    (But This issue is resolved when vsync is disabled.)
-
-    COMPARING PERFORMANCE
-    - When comparing the two side by side, with the same chunk distance, my preformance with that chunk distance is actually
-        at the exact same level as valkyre.
-    - Also note that valkyre has half the chunk height as my game.
-    - When valkyre loads chunks at 288 voxels away, things start getting choppy  just like my game does.
+     * CHUNK GENERATION PERFORMANCE
+     * 
+     * Valkyre:
+     * Chunk Load distance: 5
+     * Load distance in voxels: 160
+     * (Minecraft has a default chunk distance of 160 blocks.)
+     * 
+     * In valkyre,With the standard chunk distanceThe FPS sometimes dips when
+     * loading lots of stuff, but not very often.
+     * (But This issue is resolved when vsync is disabled.)
+     * 
+     * COMPARING PERFORMANCE
+     * - When comparing the two side by side, with the same chunk distance, my
+     * preformance with that chunk distance is actually
+     * at the exact same level as valkyre.
+     * - Also note that valkyre has half the chunk height as my game.
+     * - When valkyre loads chunks at 288 voxels away, things start getting choppy
+     * just like my game does.
      */
     public static final int CHUNK_LOAD_THREADS = 24;
     public static final int CHUNK_LIGHT_THREADS = 24;
@@ -76,7 +79,7 @@ public class World {
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
     public static int VIEW_DIST_MAX = Chunk.WIDTH * 30;
     public static int MIN_FOG_DISTANCE = Chunk.WIDTH * 6;
-    public static int DEFAULT_VIEW_DISTANCE = Chunk.WIDTH * 4;//13
+    public static int DEFAULT_VIEW_DISTANCE = (int) (Chunk.WIDTH * 3);// 13
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
 
@@ -85,8 +88,13 @@ public class World {
 
     public void setViewDistance(int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
+        // Settings
+        Main.settings.viewDistance = viewDistance.get();
+        Main.saveSettings();
+
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
-//        maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) * WORLD_CHUNK_HEIGHT;
+        // maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) *
+        // WORLD_CHUNK_HEIGHT;
         maxChunksForViewDistance = Integer.MAX_VALUE;
     }
 
@@ -94,23 +102,24 @@ public class World {
         return viewDistance.get();
     }
 
-    private final AtomicBoolean needsSorting; //Atomic variables are thread update
+    private final AtomicBoolean needsSorting; // Atomic variables are thread update
     private final Vector3f lastPlayerPosition = new Vector3f();
 
-    //World boundaries
-    //chunk boundaries
-    public final static int TOP_Y_CHUNK = 0; //These are the boundaries of the world. We can set int.min and int.max if we want them to be infinite
+    // World boundaries
+    // chunk boundaries
+    public final static int TOP_Y_CHUNK = 0; // These are the boundaries of the world. We can set int.min and int.max if
+                                             // we want them to be infinite
     public final static int BOTTOM_Y_CHUNK = (16 * 16) / Chunk.WIDTH;
     public final static int WORLD_CHUNK_HEIGHT = BOTTOM_Y_CHUNK - TOP_Y_CHUNK;
 
-    //voxel boundaries
-    public static final int WORLD_SIZE_NEG_X = -100000; //-X
-    public static final int WORLD_TOP_Y = TOP_Y_CHUNK * Chunk.WIDTH; //up (-Y)
-    public static final int WORLD_SIZE_NEG_Z = -100000; //-Z
+    // voxel boundaries
+    public static final int WORLD_SIZE_NEG_X = -100000; // -X
+    public static final int WORLD_TOP_Y = TOP_Y_CHUNK * Chunk.WIDTH; // up (-Y)
+    public static final int WORLD_SIZE_NEG_Z = -100000; // -Z
 
-    public static final int WORLD_SIZE_POS_X = 100000; //+X
-    public static final int WORLD_BOTTOM_Y = BOTTOM_Y_CHUNK * Chunk.WIDTH + Chunk.WIDTH; //down (+Y)
-    public static final int WORLD_SIZE_POS_Z = 100000; //+Z
+    public static final int WORLD_SIZE_POS_X = 100000; // +X
+    public static final int WORLD_BOTTOM_Y = BOTTOM_Y_CHUNK * Chunk.WIDTH + Chunk.WIDTH; // down (+Y)
+    public static final int WORLD_SIZE_POS_Z = 100000; // +Z
 
     private final SortByDistance sortByDistance = new SortByDistance();
     private final List<Chunk> unusedChunks = new ArrayList<>();
@@ -127,22 +136,24 @@ public class World {
      * = new ScheduledThreadPoolExecutor(1, r -> { ... });: This line creates an
      * instance of ScheduledThreadPoolExecutor. It's a type of
      * ScheduledExecutorService that uses a pool of threads to execute
-     * tasks.<br><br>
+     * tasks.<br>
+     * <br>
      * <p>
      * - 1 specifies that the pool will have one thread. This means it will be
-     * capable of executing one task at a time.<br><br>
+     * capable of executing one task at a time.<br>
+     * <br>
      * <p>
      * - r -> { ... } is a lambda expression that provides a ThreadFactory to
      * the executor. It defines how threads are created. In this case, it
      * creates a new thread, sets its name to "Generation Thread", and marks it
      * as a daemon thread (meaning it won't prevent the JVM from exiting).
      */
-    public static final PriorityThreadPoolExecutor generationService
-            = new PriorityThreadPoolExecutor(CHUNK_LOAD_THREADS, r -> {
-        Thread thread = new Thread(r, "Generation Thread");
-        thread.setDaemon(true);
-        return thread;
-    }, new LowValueComparator());
+    public static final PriorityThreadPoolExecutor generationService = new PriorityThreadPoolExecutor(
+            CHUNK_LOAD_THREADS, r -> {
+                Thread thread = new Thread(r, "Generation Thread");
+                thread.setDaemon(true);
+                return thread;
+            }, new LowValueComparator());
 
     /**
      * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
@@ -152,21 +163,21 @@ public class World {
      */
     public static final ThreadPoolExecutor meshService = new ThreadPoolExecutor(
             CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
-            3L, TimeUnit.MILLISECONDS, //It really just came down to tuning these settings for performance
+            3L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-        frameTester.count("Mesh threads", 1);
-        Thread thread = new Thread(r, "Mesh Thread");
-        thread.setDaemon(true);
-        thread.setPriority(1);
-        return thread;
-    });
+                frameTester.count("Mesh threads", 1);
+                Thread thread = new Thread(r, "Mesh Thread");
+                thread.setDaemon(true);
+                thread.setPriority(1);
+                return thread;
+            });
 
-    public static final PriorityThreadPoolExecutor lightService
-            = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS, r -> {
-        Thread thread = new Thread(r, "Light Thread");
-        thread.setDaemon(true);
-        return thread;
-    }, new LowValueComparator());
+    public static final PriorityThreadPoolExecutor lightService = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS,
+            r -> {
+                Thread thread = new Thread(r, "Light Thread");
+                thread.setDaemon(true);
+                return thread;
+            }, new LowValueComparator());
 
     public World() {
         this.needsSorting = new AtomicBoolean(true);
@@ -175,13 +186,14 @@ public class World {
     public void init(BlockArrayTexture textures) throws IOException {
         box = new Box();
         blockTextureID = textures.createArrayTexture();
-        //Prepare for game
+        // Prepare for game
         chunkShader = new ChunkShader(ItemList.blocks.textures.layerCount);
-        setViewDistance(DEFAULT_VIEW_DISTANCE);
+
+        setViewDistance(Main.settings.viewDistance);
         chunkShader.setSkyColor(GameScene.backgroundColor);
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Chunk operations">
+    // <editor-fold defaultstate="collapsed" desc="Chunk operations">
     public boolean hasChunk(final Vector3i coords) {
         return this.chunks.containsKey(coords);
     }
@@ -215,13 +227,13 @@ public class World {
             unusedChunks.add(chunk);
         }
     }
-//</editor-fold>
+    // </editor-fold>
 
     public void newGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
         prog.setTask("Generating chunks");
         this.chunks.clear();
         this.unusedChunks.clear();
-        this.futureChunks.clear(); //Important!
+        this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
         this.info = info;
         try {
@@ -238,7 +250,8 @@ public class World {
     public void stopGame(Vector3f playerPos) {
         save(playerPos);
 
-//We may or may not actually need to shutdown the services, since chunks cancel all tasks when they are disposed
+        // We may or may not actually need to shutdown the services, since chunks cancel
+        // all tasks when they are disposed
         ExecutorServiceUtils.cancelAllTasks(generationService);
         ExecutorServiceUtils.cancelAllTasks(lightService);
         ExecutorServiceUtils.cancelAllTasks(meshService);
@@ -254,7 +267,7 @@ public class World {
         unusedChunks.clear();
         chunksToRender.clear();
         chunksToUnload.clear();
-        futureChunks.clear(); //Important!
+        futureChunks.clear(); // Important!
 
         System.gc();
         info = null;
@@ -262,16 +275,18 @@ public class World {
     }
 
     /*
-     * ONE VERY IMPORTANT THING is to make sure that the chunks are deleted with the same criteria that they were created with.
-     * This is so that the chunks dont end up being deleted and than recreated over and over again
-     * */
+     * ONE VERY IMPORTANT THING is to make sure that the chunks are deleted with the
+     * same criteria that they were created with.
+     * This is so that the chunks dont end up being deleted and than recreated over
+     * and over again
+     */
     private boolean chunkIsWithinRange(Vector3f player, Vector3i chunk, float viewDistance) {
-//        return MathUtils.dist(
-//                player.x,
-//                player.z,
-//                chunk.x * Chunk.WIDTH,
-//                chunk.z * Chunk.WIDTH) < viewDistance.get() &&
-//                Math.abs(player.y - chunk.y * Chunk.WIDTH) < viewDistance.get();
+        // return MathUtils.dist(
+        // player.x,
+        // player.z,
+        // chunk.x * Chunk.WIDTH,
+        // chunk.z * Chunk.WIDTH) < viewDistance.get() &&
+        // Math.abs(player.y - chunk.y * Chunk.WIDTH) < viewDistance.get();
         return MathUtils.dist(
                 player.x,
                 player.z,
@@ -298,7 +313,7 @@ public class World {
             }
         }
         chunkPillar[0].pillarInformation = new PillarInformation(chunkPillar);
-//        chunkPillar[0].pillarInformation.loadChunks(terrain, info);
+        // chunkPillar[0].pillarInformation.loadChunks(terrain, info);
 
         return chunksGenerated;
     }
@@ -315,10 +330,10 @@ public class World {
         final int xEnd = (centerX + viewDistanceXZ) / Chunk.WIDTH;
         final int zStart = (centerZ - viewDistanceXZ) / Chunk.WIDTH;
         final int zEnd = (centerZ + viewDistanceXZ) / Chunk.WIDTH;
-//        final int yStart = (centerY - viewDistanceY) / Chunk.WIDTH;
-//        final int yEnd = (centerY + viewDistanceY) / Chunk.WIDTH;
+        // final int yStart = (centerY - viewDistanceY) / Chunk.WIDTH;
+        // final int yEnd = (centerY + viewDistanceY) / Chunk.WIDTH;
 
-        //Having fixed y bounds makes the chunk generation much faster
+        // Having fixed y bounds makes the chunk generation much faster
         int chunksGenerated = 0;
 
         for (int chunkX = xStart; chunkX < xEnd; ++chunkX) {
@@ -329,7 +344,7 @@ public class World {
                         chunkX * Chunk.WIDTH,
                         chunkZ * Chunk.WIDTH) < viewDistanceXZ
                         && (generateOutOfFrustum
-                        || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
+                                || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
                     chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
                 }
             }
@@ -348,7 +363,7 @@ public class World {
                 chunksToUnload.add(chunk);
                 chunksToRender.remove(chunk);
             } else {
-//                frameTester.startProcess();
+                // frameTester.startProcess();
                 if (needsSorting.get()) {
                     chunksToRender.add(chunk);
                 }
@@ -356,7 +371,7 @@ public class World {
                 chunk.distToPlayer = MathUtils.dist(
                         coords.x, coords.y, coords.z,
                         lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
-//                frameTester.endProcess("UCTRL: sorting and frustum check");
+                // frameTester.endProcess("UCTRL: sorting and frustum check");
                 chunk.prepare(terrain, frame, false);
             }
         });
@@ -385,7 +400,7 @@ public class World {
         }
 
         /*
-            If the chunks need sorting, newGame the render list
+         * If the chunks need sorting, newGame the render list
          */
         if (needsSorting.get()) {
             chunksToRender.clear();
@@ -393,7 +408,7 @@ public class World {
 
         if (System.currentTimeMillis() - lastSaveMS > 25000) {
             lastSaveMS = System.currentTimeMillis();
-            //Save chunks
+            // Save chunks
             generationService.submit(0.0f, () -> {
                 save(playerPosition);
             });
@@ -401,23 +416,24 @@ public class World {
 
         updateChunksToRenderList(playerPosition);
 
-        //TODO: When lots of chunks are rendered, the MPF drops, even if no chunks are actually drawn...
+        // TODO: When lots of chunks are rendered, the MPF drops, even if no chunks are
+        // actually drawn...
         if (needsSorting.get()) {
             chunksToRender.sort(sortByDistance);
             needsSorting.set(false);
         }
         frameTester.endProcess("Sort chunks if needed");
 
-        //ACTUALLY DRAW THE CHUNKS
-        //This is the culprit for low FPS
+        // ACTUALLY DRAW THE CHUNKS
+        // This is the culprit for low FPS
         chunkShader.bind();
         chunkShader.tickAnimation();
 
         chunksToRender.forEach(chunk -> {
             if (chunk.inFrustum) {
-//Drawing boxes is a major FPS bottleneck
+                // Drawing boxes is a major FPS bottleneck
                 frameTester.startProcess();
-                //<editor-fold defaultstate="collapsed" desc="box drawing">
+                // <editor-fold defaultstate="collapsed" desc="box drawing">
                 if (Main.devkeyF1) {
                     box.set(chunk.aabb);
                     if (chunk.meshes.isEmpty()) {
@@ -429,12 +445,12 @@ public class World {
                     }
                     box.draw(projection, view);
                 }
-                //</editor-fold>
+                // </editor-fold>
                 frameTester.endProcess("Draw boxes");
 
                 frameTester.startProcess();
                 if (chunk.generationStatus == Chunk.GEN_COMPLETE) {
-                    chunk.updateMVP(projection, view); //we must update the MVP within each model;
+                    chunk.updateMVP(projection, view); // we must update the MVP within each model;
                     if (!chunk.meshes.opaqueMesh.empty) {
                         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                         if (!Main.devkeyF3) {
@@ -452,7 +468,8 @@ public class World {
                 if (!chunk.meshes.transMesh.empty) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                     if (!Main.devkeyF3) {
-                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);//For some reason rendering meshes slows the game down during generation
+                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);// For some reason rendering meshes slows
+                                                                             // the game down during generation
                     }
                 }
                 chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
@@ -461,7 +478,7 @@ public class World {
         frameTester.endProcess("Draw transparent chunks");
 
     }
-//<editor-fold defaultstate="collapsed" desc="block operations">
+    // <editor-fold defaultstate="collapsed" desc="block operations">
 
     public short getBlockID(int worldX, int worldY, int worldZ) {
         int blockX = positiveMod(worldX, Chunk.WIDTH);
@@ -473,10 +490,30 @@ public class World {
         int chunkZ = chunkDiv(worldZ);
 
         Chunk chunk = getChunk(new Vector3i(chunkX, chunkY, chunkZ));
-        if (chunk == null) { //By default, all get block events should return air otherwise the chunk will be null
+        if (chunk == null) { // By default, all get block events should return air otherwise the chunk will
+                             // be null
             return 0;
         }
         return chunk.data.getBlock(blockX, blockY, blockZ);
+    }
+
+    public Chunk setBlockData(BlockData data, int worldX, int worldY, int worldZ) {
+        int blockX = positiveMod(worldX, Chunk.WIDTH);
+        int blockY = positiveMod(worldY, Chunk.WIDTH);
+        int blockZ = positiveMod(worldZ, Chunk.WIDTH);
+
+        int chunkX = chunkDiv(worldX);
+        int chunkY = chunkDiv(worldY);
+        int chunkZ = chunkDiv(worldZ);
+
+        Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
+        Chunk chunk = getChunk(pos);
+        if (chunk == null) {
+            // FutureChunk futureChunk = newFutureChunk(pos);
+        } else {
+            chunk.data.setBlockData(blockX, blockY, blockZ, data);
+        }
+        return chunk;
     }
 
     public Chunk setBlock(short blockID, int worldX, int worldY, int worldZ) {
@@ -519,12 +556,11 @@ public class World {
         }
         return chunk.data.getBlockData(blockX, blockY, blockZ);
     }
-//</editor-fold>
-
+    // </editor-fold>
 
     public void save(Vector3f playerPos) {
-        System.out.println("Saving...");
-        //Save all chunks
+        // System.out.println("Saving...");
+        // Save all chunks
         Iterator<Chunk> iterator = chunks.values().iterator();
         while (iterator.hasNext()) {
             Chunk chunk = iterator.next();
@@ -542,8 +578,10 @@ public class World {
         FutureChunk futureChunk = futureChunks.get(pos);
         if (futureChunk == null) {
             futureChunk = new FutureChunk(pos);
-            futureChunks.put(new Vector3i(pos), futureChunk);//We have to create a new vector, because chunk vector can change when it is repurposed
+            futureChunks.put(new Vector3i(pos), futureChunk);// We have to create a new vector, because chunk vector can
+                                                             // change when it is repurposed
         }
         return futureChunk;
     }
+
 }

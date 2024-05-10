@@ -28,10 +28,10 @@ public class TrapdoorRenderer extends BlockType {
     BlockModel closed0, closed1, closed2, closed3;
 
     public TrapdoorRenderer() {
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\trapdoor\\open.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\trapdoor\\closed.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\trapdoor\\open.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\trapdoor\\closed.obj"));
 
         initializationCallback = (b) -> {
             b.opaque = false;
@@ -95,7 +95,7 @@ public class TrapdoorRenderer extends BlockType {
         }
     }
 
-    final float width = 4;
+    final float width = 3;
     final float offset = (16 - width);
 
     @Override

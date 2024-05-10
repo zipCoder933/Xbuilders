@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.blocks.type;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -14,6 +15,7 @@ import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.game.items.blocks.RenderType;
 
 import java.util.function.Consumer;
 
@@ -34,6 +36,18 @@ public class FenceGateRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
+            b.setBlockEvent((x, y, z, bd) -> {
+                // Get blocks at neighboring block locaitons
+                Block block = GameScene.world.getBlock(x - 1, y, z);
+                Block block2 = GameScene.world.getBlock(x + 1, y, z);
+                Block block3 = GameScene.world.getBlock(x, y, z - 1);
+                Block block4 = GameScene.world.getBlock(x, y, z + 1);
+                if (block.type == RenderType.FENCE && block2.type == RenderType.FENCE) {
+                    bd.set(0, (byte) 0);
+                } else if (block3.type == RenderType.FENCE && block4.type == RenderType.FENCE) {
+                    bd.set(0, (byte) 1);
+                }
+            });
             b.clickEvent((x, y, z, bd) -> {
                 bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
             });
@@ -64,7 +78,8 @@ public class FenceGateRenderer extends BlockType {
     @Override
     public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
         BlockData bd = new BlockData(2);
-        player.camera.simplifiedPanTiltAsBlockData(bd);
+        int rotation = GameScene.player.camera.simplifiedPanTilt.x;
+        bd.set(0, (byte) rotation);
         bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
         return bd;
     }
@@ -99,7 +114,7 @@ public class FenceGateRenderer extends BlockType {
     }
 
     final float width = 4;
-    final float offset = (ONE_SIXTEENTH / 2) + ((ONE_SIXTEENTH * width)*1.5f);
+    final float offset = (ONE_SIXTEENTH / 2) + ((ONE_SIXTEENTH * width) * 1.5f);
 
     @Override
     public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
@@ -117,7 +132,7 @@ public class FenceGateRenderer extends BlockType {
 
     @Override
     public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        getCursorBoxes(consumer, box, block, data, x, y, z);
+        if (data.get(1) == 1)
+            getCursorBoxes(consumer, box, block, data, x, y, z);
     }
-
 }

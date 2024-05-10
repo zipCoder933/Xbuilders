@@ -69,7 +69,7 @@ public class Hotbar extends GameUIElement {
         ctx.style().button().padding().set(0, 0);
         nk_style_set_font(ctx, uires.font_8);
 
-//<editor-fold defaultstate="collapsed" desc="Draw title text">
+        // <editor-fold defaultstate="collapsed" desc="Draw title text">
         nk_rect(
                 window.getWidth() / 2 - (menuWidth / 2),
                 window.getHeight() - menuHeight - 20 - 20,
@@ -82,7 +82,7 @@ public class Hotbar extends GameUIElement {
             }
         }
         nk_end(ctx);
-//</editor-fold>
+        // </editor-fold>
 
         nk_rect(
                 window.getWidth() / 2 - (menuWidth / 2),
@@ -91,7 +91,7 @@ public class Hotbar extends GameUIElement {
         ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
         ctx.style().window().padding().set(4, 4);
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
-            //Draw the name of the item
+            // Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
             if (playerInfo.playerBackpack[getSelectedItemIndex()] != null) {
                 nk_text(ctx, playerInfo.playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
@@ -160,7 +160,7 @@ public class Hotbar extends GameUIElement {
                 changeSelectedIndex(-1);
             } else if (key == GLFW.GLFW_KEY_PERIOD) {
                 changeSelectedIndex(1);
-            }else if(key == PICK_KEY){
+            } else if (key == PICK_KEY) {
                 pickItem();
             }
         }
@@ -180,14 +180,16 @@ public class Hotbar extends GameUIElement {
     }
 
     private void acquireItem(Item item) {
-        //First check if the player already has the item
+        if (item.name.toLowerCase().contains("hidden") || item.getTags().contains("hidden"))
+            return;
+        // First check if the player already has the item
         for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
             if (playerInfo.playerBackpack[i] != null && playerInfo.playerBackpack[i].equals(item)) {
                 setSelectedIndex(i);
                 return;
             }
         }
-        //otherwise add it
+        // otherwise add it
         for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
             if (playerInfo.playerBackpack[i] == null) {
                 playerInfo.playerBackpack[i] = item;
@@ -195,10 +197,9 @@ public class Hotbar extends GameUIElement {
                 return;
             }
         }
-        //If there is no room, then remove the first item
+        // If there is no room, then remove the first item
         playerInfo.playerBackpack[0] = item;
         setSelectedIndex(0);
     }
-
 
 }

@@ -4,7 +4,10 @@
  */
 package com.xbuilders.game.items.blocks.type;
 
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -14,7 +17,10 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.game.items.blocks.BlockEventUtils;
+import com.xbuilders.game.items.blocks.RenderType;
 
 import java.util.function.Consumer;
 
@@ -30,21 +36,70 @@ public class DoorHalfRenderer extends BlockType {
     BlockModel right_closed0, right_closed1, right_closed2, right_closed3;
 
     public DoorHalfRenderer() {
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\door\\left closed.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\door\\left open.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\door\\right closed.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\door\\right open.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\door\\left closed.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\door\\left open.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\door\\right closed.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\door\\right open.obj"));
 
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
-            b.clickEvent((x, y, z, bd) -> {
-                bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
-            });
+
+            if (b.properties.containsKey("vertical-pair") && b.properties.containsKey("placement")
+                    && b.properties.get("placement").equals("bottom")) { // If this is the bottom of a pair
+                // System.out.println("DOOR: "+b.properties);
+                short top = Short.parseShort(b.properties.get("vertical-pair"));
+                Block topBlock = ItemList.getBlock(top);
+                Block bottomBlock = b;
+
+                topBlock.setBlockEvent((x, y, z, data) -> { //KEEP THIS!
+                    GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
+                });
+
+                topBlock.removeBlockEvent((x, y, z) -> {
+                    if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
+                        GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y + 1, z);
+                    }
+                });
+
+                bottomBlock.setBlockEvent((x, y, z, data) -> {
+                    GameScene.player.setBlock(topBlock.id, x, y - 1, z);
+                    boolean right = orientRightOrLeft(data, x, y, z);
+                    //We cant change right/left here because that will get overridden when initial block data gets written
+                    //A solution to this is when the initialBlockData is called, it returns the existing data if it is already set
+                    GameScene.world.setBlockData(data, x, y - 1, z);
+                });
+
+                bottomBlock.removeBlockEvent((x, y, z) -> {
+                    if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
+                        GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y - 1, z);
+                    }
+                });
+
+                topBlock.clickEvent((x, y, z, bd) -> {
+                    bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
+                    // Transfer block data to bottom block
+                    GameScene.world.setBlockData(bd, x, y + 1, z);
+                });
+                bottomBlock.clickEvent((x, y, z, bd) -> {
+                    bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
+                    // Transfer block data to top block
+                    GameScene.world.setBlockData(bd, x, y - 1, z);
+                });
+
+            } else {// If this is a single door
+                b.setBlockEvent((x, y, z, data) -> {
+                    boolean right = orientRightOrLeft(data, x, y, z);
+                });
+                b.clickEvent((x, y, z, bd) -> {
+                    bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
+                    GameScene.world.setBlockData(bd, x, y - 1, z);
+                });
+            }
         };
 
         BlockModel.ShouldRenderSide renderSide = new BlockModel.ShouldRenderSide() {
@@ -92,12 +147,42 @@ public class DoorHalfRenderer extends BlockType {
                 renderSide);
     }
 
+    private boolean orientRightOrLeft(BlockData data, int x, int y, int z) {
+        // Get blocks at neighboring block locaitons
+        boolean right = true;
+        int xzOrientation = data.get(0);
+        if (xzOrientation == 1) {
+            if (GameScene.world.getBlock((int) x - 1, (int) y, (int) z).solid) {
+                right = false;
+            }
+        } else if (xzOrientation == 2) {
+            if (GameScene.world.getBlock((int) x, (int) y, (int) z - 1).solid) {
+                right = false;
+            }
+        } else if (xzOrientation == 3) {
+            if (GameScene.world.getBlock((int) x + 1, (int) y, (int) z).solid) {
+                right = false;
+            }
+        } else {
+            if (GameScene.world.getBlock((int) x, (int) y, (int) z + 1).solid) {
+                right = false;
+            }
+        }
+        data.set(2, (byte) (right ? 1 : 0));
+        return right;
+    }
+
     @Override
     public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+        //If we already set the block data for this block, skip making new stuff
+        if(existingData!=null && existingData.size() == 3) return existingData;
+
         BlockData bd = new BlockData(3);
-        bd.set(0, (byte) GameScene.player.camera.simplifiedPanTilt.x);
-        bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed), (0=left, 1=right)
-        bd.set(2, (byte) 1);
+        byte rotation = (byte) GameScene.player.camera.simplifiedPanTilt.x;
+        rotation = (byte) MathUtils.positiveMod((rotation - 1), 4);
+        bd.set(0, rotation);// rotation
+        bd.set(1, (byte) 1); // (0 = open, 1 = closed),
+        bd.set(2, (byte) 1);// (0=left, 1=right)
         return bd;
     }
 
@@ -155,7 +240,7 @@ public class DoorHalfRenderer extends BlockType {
         }
     }
 
-    final float width = 4;
+    final float width = 3.3f;
     final float offset = (ONE_SIXTEENTH / 2) - (ONE_SIXTEENTH * width) / 2;
     final float open_offset = (16 - width);
 
@@ -165,15 +250,20 @@ public class DoorHalfRenderer extends BlockType {
             boolean open = data.get(1) == 0;
             boolean left = data.get(2) == 0;
 
-            byte rotation = data.get(0); // Rotation stays from range 0-3
-            //If closed, offset rotation by 1
-            if (!open)
-                rotation = (byte) ((rotation - 1) % 4);
-           
+            int rotation = data.get(0); // Rotation stays from range 0-3
+            // If closed, offset rotation by 1
+            if (open) {
+                if (left) {
+                    rotation = MathUtils.positiveMod((rotation - 1), 4);
+                } else {
+                    rotation = MathUtils.positiveMod((rotation + 1), 4);
+                }
+            }
+
             switch (rotation) {
-                case 1 -> box.setPosAndSize(x + ONE_SIXTEENTH * open_offset, y, z, ONE_SIXTEENTH * width, 1, 1);
-                case 2 -> box.setPosAndSize(x, y, z + ONE_SIXTEENTH * open_offset, 1, 1, ONE_SIXTEENTH * width);
-                case 3 -> box.setPosAndSize(x, y, z, ONE_SIXTEENTH * width, 1, 1);
+                case 2 -> box.setPosAndSize(x + ONE_SIXTEENTH * open_offset, y, z, ONE_SIXTEENTH * width, 1, 1);
+                case 3 -> box.setPosAndSize(x, y, z + ONE_SIXTEENTH * open_offset, 1, 1, ONE_SIXTEENTH * width);
+                case 0 -> box.setPosAndSize(x, y, z, ONE_SIXTEENTH * width, 1, 1);
                 default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * width);
             }
 

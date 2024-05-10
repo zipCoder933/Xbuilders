@@ -39,7 +39,7 @@ public class Inventory extends GameUIElement {
     }
 
     public Inventory(NkContext ctx, NKWindow window, UIResources uires,
-                     Item[] itemList, Hotbar hotbar) throws IOException {
+            Item[] itemList, Hotbar hotbar) throws IOException {
         super(ctx, window, uires);
         this.hotbar = hotbar;
         this.itemList = itemList;
@@ -49,7 +49,7 @@ public class Inventory extends GameUIElement {
             searchBox.setValueAsString("");
         });
 
-        //We have to create the window initially
+        // We have to create the window initially
         nk_begin(ctx, WINDOW_TITLE, NkRect.create(), windowFlags);
         nk_end(ctx);
         setOpen(false);
@@ -58,7 +58,7 @@ public class Inventory extends GameUIElement {
     final int menuWidth = 700;
     final int menuHeight = 550;
     final int itemListHeight = 250;
-    final int backpackMenuSize = menuHeight; //Its ok since this is the last row
+    final int backpackMenuSize = menuHeight; // Its ok since this is the last row
     final int maxColumns = 11;
     Hotbar hotbar;
     Item[] itemList;
@@ -112,7 +112,7 @@ public class Inventory extends GameUIElement {
                 Nuklear.nk_text(ctx, hoveredItem, Nuklear.NK_TEXT_ALIGN_CENTERED);
                 Theme.resetTextColor(ctx);
 
-                //Draw a search bar
+                // Draw a search bar
                 nk_layout_row_dynamic(ctx, 20, 1);
                 Nuklear.nk_label(ctx, "Search Item List", Nuklear.NK_TEXT_LEFT);
                 nk_layout_row_dynamic(ctx, 25, 1);
@@ -137,14 +137,13 @@ public class Inventory extends GameUIElement {
             String searchCriteria = searchBox.getValueAsString();
             if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
                 searchCriteria = null;
-            } else searchCriteria = searchCriteria.toLowerCase();
+            } else
+                searchCriteria = searchCriteria.toLowerCase();
 
             int itemID = 0;
-            rows:
-            while (true) {
-                nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);//row
-                cols:
-                for (int column = 0; column < maxColumns; ) {
+            rows: while (true) {
+                nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);// row
+                cols: for (int column = 0; column < maxColumns;) {
                     if (itemID >= itemList.length) {
                         break rows;
                     }
@@ -171,20 +170,21 @@ public class Inventory extends GameUIElement {
     private void backpackGroup() {
         nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
         if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
-            nk_layout_row_dynamic(ctx, 20, 2);
+            nk_layout_row_dynamic(ctx, 20, 3);
             if (Nuklear.nk_button_label(ctx, "Organize")) {
                 organizeBackpack();
             } else if (Nuklear.nk_button_label(ctx, "Remove")) {
                 playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = null;
+            } else if (Nuklear.nk_button_label(ctx, "Clear")) {
+                for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
+                    playerInfo.playerBackpack[i] = null;
+                }
             }
 
-
             int itemID = 0;
-            rows:
-            while (true) {
+            rows: while (true) {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
-                cols:
-                for (int i = 0; i < maxColumns; i++) {
+                cols: for (int i = 0; i < maxColumns; i++) {
                     if (itemID >= playerInfo.playerBackpack.length) {
                         break rows;
                     }
@@ -238,7 +238,6 @@ public class Inventory extends GameUIElement {
                 item.name.toLowerCase().contains(searchCriteria);
     }
 
-
     private void addItemToBackpack(Item item) {
         if (playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] == item) {
             playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = null;
@@ -260,11 +259,14 @@ public class Inventory extends GameUIElement {
             switch (key) {
                 case GLFW.GLFW_KEY_I -> {
                     if (isOpen()) {
-                        if (canCloseWithKeyEvents()) setOpen(false);
-                    } else setOpen(true);
+                        if (canCloseWithKeyEvents())
+                            setOpen(false);
+                    } else
+                        setOpen(true);
                 }
                 case GLFW.GLFW_KEY_ESCAPE -> {
-                    if (canCloseWithKeyEvents()) setOpen(false);
+                    if (canCloseWithKeyEvents())
+                        setOpen(false);
                 }
             }
         }

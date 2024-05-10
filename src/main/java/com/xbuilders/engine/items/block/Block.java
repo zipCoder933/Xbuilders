@@ -11,6 +11,7 @@ import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityTh
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.game.items.blocks.RenderType;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3i;
@@ -171,12 +172,17 @@ public class Block extends Item {
         if (initIcon(iconDirectory, defaultIcon)) {
             //Init the regular icon
         } else if (this.texture != null) {
+
+
             File blockIcon = new File(blockIconDirectory, id + ".png");
             if (blockIcon.exists()) {
                 Texture icon = TextureUtils.loadTexture(blockIcon.getAbsolutePath(), true);
                 super.setIcon(icon.id);
-            } else {
-                File file = textures.getTextureFile(this.texture.POS_Y_NAME);
+            } else {//If there is no generated block icon, default to the texture
+                File file = textures.getTextureFile(this.texture.NEG_Y_NAME);
+
+                if(type == RenderType.TRAPDOOR)System.out.println("Loading default texture for " + name+", textures: "+this.texture.toString());
+
                 if (file != null) {
                     Texture tex = TextureUtils.loadTexture(
                             file.getAbsolutePath(), false);

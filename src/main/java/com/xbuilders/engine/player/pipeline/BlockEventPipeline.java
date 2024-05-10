@@ -189,8 +189,7 @@ public class BlockEventPipeline {
 
 
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
-        System.out.println("Opaque to transparent: " + opaqueToTransparent.size());
-        System.out.println("Transparent to opaque: " + transparentToOpaque.size());
+        System.out.println("Opaque to trans: " + opaqueToTransparent.size()+"; Trans to opaque: " + transparentToOpaque.size());
 
         if (opaqueToTransparent.size() > 10000 || transparentToOpaque.size() > 10000) {
             System.out.println("Pre-Updating Meshes");

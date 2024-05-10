@@ -14,6 +14,9 @@ import org.joml.Vector4d;
 import org.joml.Vector4f;
 import org.joml.Vector4i;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 /**
  *
  * @author zipCoder933
@@ -22,7 +25,7 @@ public class MiscUtils {
 
     // Define the characters for encoding
     private final static String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-// Base of the encoding system
+    // Base of the encoding system
     private final static int base = 42;
 
     public static String encodeNumber(long number) {
@@ -47,6 +50,23 @@ public class MiscUtils {
         // This means that if the sum of the coordinates is even, the point is black;
         // otherwise, it is white
         return (x + y + z) % 2 == 0;
+    }
+
+    public static String capitalizeWords(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        Pattern pattern = Pattern.compile("\\b(\\w)");
+        Matcher matcher = pattern.matcher(input);
+        StringBuffer sb = new StringBuffer();
+
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+
+        return sb.toString();
     }
 
     // Print Vector methods

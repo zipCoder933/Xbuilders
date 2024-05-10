@@ -32,9 +32,7 @@ public class BlockArrayTexture {
     private static final String fileExtensionCode = "\\.(?i)(jpg|jpeg|png|gif|bmp|ico|tiff)$";
 
     public int getTextureLayer(String name) {
-        name = name.replaceAll(fileExtensionCode, "")
-                .replaceAll("\\\\","/");
-
+        name = formatFilepath(name);
         Integer key = textureMap.get(name);
 
         if (key == null) {
@@ -44,12 +42,16 @@ public class BlockArrayTexture {
     }
 
     public int getAnimationLength(String name) {
-        Integer value = animationMap.get(name.replaceAll(fileExtensionCode, ""));
+        Integer value = animationMap.get(formatFilepath(name));
         return value == null ? 1 : value;
     }
 
     public File getTextureFile(String name) {
-        return fileMap.get(name.replaceAll(fileExtensionCode, ""));
+        return fileMap.get(formatFilepath(name));
+    }
+
+    private String formatFilepath(String path){
+        return path.replaceAll("\\\\", "/").replaceAll(fileExtensionCode, "");
     }
 
     AtomicInteger index = new AtomicInteger();
@@ -89,8 +91,8 @@ public class BlockArrayTexture {
                         || name.toLowerCase().endsWith(".jpg")
                         || name.toLowerCase().endsWith(".jpeg")) {
 
-                    name = files[i].getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1)
-                            .replaceAll("\\\\", "/").replaceAll(fileExtensionCode, "");
+                    name = files[i].getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1);
+                    name = formatFilepath(name);
 
 //                    System.out.println("\t"+name+" ("+index.get()+")");
                     String path = files[i].getAbsolutePath();
