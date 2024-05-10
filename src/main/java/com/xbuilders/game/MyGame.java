@@ -198,6 +198,7 @@ public class MyGame extends Game {
         ItemList.blocks.addBlockType("pillar", RenderType.PILLAR, new PillarRenderer());
         ItemList.blocks.addBlockType("trapdoor", RenderType.TRAPDOOR, new TrapdoorRenderer());
         ItemList.blocks.addBlockType("fence gate", RenderType.FENCE_GATE, new FenceGateRenderer());
+        ItemList.blocks.addBlockType("door half", RenderType.DOOR_HALF, new DoorHalfRenderer());
 
 
         System.out.println("Initializing items...");

@@ -4,7 +4,6 @@
  */
 package com.xbuilders.window.demos;
 
-import com.lwjgltest.utils.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.Window;
 import org.joml.Matrix4f;
@@ -51,6 +50,10 @@ public class CameraNavigator {
         return viewMatrix;
     }
 
+    private static float clamp(float value, float min, float max) {
+        return Math.min(Math.max(value, min), max);
+    }
+
 // Define a method that takes in two floats and four booleans representing the mouse position and keyboard buttons respectively
     public void update() {
         if (window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
@@ -73,7 +76,7 @@ public class CameraNavigator {
         }
 
         // Clamp the pitch angle to avoid gimbal lock
-        pitch = MathUtils.clamp(pitch, -70, 70);
+        pitch = clamp(pitch, -70, 70);
 
         // Calculate the camera direction vector based on the yaw and pitch angles
         cameraFront.x = (float) Math.cos(Math.toRadians(yaw)) * (float) Math.cos(Math.toRadians(pitch));

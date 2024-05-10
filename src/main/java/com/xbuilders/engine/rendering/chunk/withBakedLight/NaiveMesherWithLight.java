@@ -12,6 +12,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.HashMap;
@@ -63,22 +64,26 @@ public class NaiveMesherWithLight {
                     block = ItemList.getBlock(data.getBlock(x, y, z));
                     byte centerLight = data.getPackedLight(x, y, z);
 
-                    if (block != null && !block.isAir() && (block.type != BlockList.DEFAULT_BLOCK_TYPE_ID || generateAll)) {
+                    if (block != null && !block.isAir()
+                            && (block.type != BlockList.DEFAULT_BLOCK_TYPE_ID || generateAll)) {
 
                         if (x > 0) {
                             neighbors[BlockType.NEG_X] = ItemList.getBlock(data.getBlock(x - 1, y, z));
-                            lightNeghbors[BlockType.NEG_X] = block.opaque ? data.getPackedLight(x - 1, y, z) : centerLight;
+                            lightNeghbors[BlockType.NEG_X] = block.opaque ? data.getPackedLight(x - 1, y, z)
+                                    : centerLight;
                         } else if (negXNeghbor != null) {
                             neighbors[BlockType.NEG_X] = ItemList
                                     .getBlock(negXNeghbor.data.getBlock(negXNeghbor.data.size.x - 1, y, z));
-                            lightNeghbors[BlockType.NEG_X] = negXNeghbor.data.getPackedLight(negXNeghbor.data.size.x - 1, y, z);
+                            lightNeghbors[BlockType.NEG_X] = negXNeghbor.data
+                                    .getPackedLight(negXNeghbor.data.size.x - 1, y, z);
                         } else {
                             neighbors[BlockType.NEG_X] = BlockList.BLOCK_AIR;
                         }
 
                         if (x < data.size.x - 1) {
                             neighbors[BlockType.POS_X] = ItemList.getBlock(data.getBlock(x + 1, y, z));
-                            lightNeghbors[BlockType.POS_X] = block.opaque ? data.getPackedLight(x + 1, y, z) : centerLight;
+                            lightNeghbors[BlockType.POS_X] = block.opaque ? data.getPackedLight(x + 1, y, z)
+                                    : centerLight;
                         } else if (posXNeghbor != null) {
                             neighbors[BlockType.POS_X] = ItemList.getBlock(posXNeghbor.data.getBlock(0, y, z));
                             lightNeghbors[BlockType.POS_X] = posXNeghbor.data.getPackedLight(0, y, z);
@@ -88,17 +93,21 @@ public class NaiveMesherWithLight {
 
                         if (y > 0) {
                             neighbors[BlockType.POS_Y] = ItemList.getBlock(data.getBlock(x, y - 1, z));
-                            lightNeghbors[BlockType.POS_Y] = block.opaque ? data.getPackedLight(x, y - 1, z) : centerLight;
+                            lightNeghbors[BlockType.POS_Y] = block.opaque ? data.getPackedLight(x, y - 1, z)
+                                    : centerLight;
                         } else if (negYNeghbor != null) {
-                            neighbors[BlockType.POS_Y] = ItemList.getBlock(negYNeghbor.data.getBlock(x, negYNeghbor.data.size.y - 1, z));
-                            lightNeghbors[BlockType.POS_Y] = negYNeghbor.data.getPackedLight(x, negYNeghbor.data.size.y - 1, z);
-                        }else {
+                            neighbors[BlockType.POS_Y] = ItemList
+                                    .getBlock(negYNeghbor.data.getBlock(x, negYNeghbor.data.size.y - 1, z));
+                            lightNeghbors[BlockType.POS_Y] = negYNeghbor.data.getPackedLight(x,
+                                    negYNeghbor.data.size.y - 1, z);
+                        } else {
                             neighbors[BlockType.POS_Y] = BlockList.BLOCK_AIR;
                         }
 
                         if (y < data.size.y - 1) {
                             neighbors[BlockType.NEG_Y] = ItemList.getBlock(data.getBlock(x, y + 1, z));
-                            lightNeghbors[BlockType.NEG_Y] = block.opaque ? data.getPackedLight(x, y + 1, z) : centerLight;
+                            lightNeghbors[BlockType.NEG_Y] = block.opaque ? data.getPackedLight(x, y + 1, z)
+                                    : centerLight;
                         } else if (posYNeghbor != null) {
                             neighbors[BlockType.NEG_Y] = ItemList.getBlock(posYNeghbor.data.getBlock(x, 0, z));
                             lightNeghbors[BlockType.NEG_Y] = posYNeghbor.data.getPackedLight(x, 0, z);
@@ -108,17 +117,21 @@ public class NaiveMesherWithLight {
 
                         if (z > 0) {
                             neighbors[BlockType.NEG_Z] = ItemList.getBlock(data.getBlock(x, y, z - 1));
-                            lightNeghbors[BlockType.NEG_Z] = block.opaque ? data.getPackedLight(x, y, z - 1) : centerLight;
+                            lightNeghbors[BlockType.NEG_Z] = block.opaque ? data.getPackedLight(x, y, z - 1)
+                                    : centerLight;
                         } else if (negZNeghbor != null) {
-                            neighbors[BlockType.NEG_Z] = ItemList.getBlock(negZNeghbor.data.getBlock(x, y, negZNeghbor.data.size.z - 1));
-                            lightNeghbors[BlockType.NEG_Z] = negZNeghbor.data.getPackedLight(x, y, negZNeghbor.data.size.z - 1);
-                        }else {
+                            neighbors[BlockType.NEG_Z] = ItemList
+                                    .getBlock(negZNeghbor.data.getBlock(x, y, negZNeghbor.data.size.z - 1));
+                            lightNeghbors[BlockType.NEG_Z] = negZNeghbor.data.getPackedLight(x, y,
+                                    negZNeghbor.data.size.z - 1);
+                        } else {
                             neighbors[BlockType.NEG_Z] = BlockList.BLOCK_AIR;
                         }
 
                         if (z < data.size.z - 1) {
                             neighbors[BlockType.POS_Z] = ItemList.getBlock(data.getBlock(x, y, z + 1));
-                            lightNeghbors[BlockType.POS_Z] = block.opaque ? data.getPackedLight(x, y, z + 1) : centerLight;
+                            lightNeghbors[BlockType.POS_Z] = block.opaque ? data.getPackedLight(x, y, z + 1)
+                                    : centerLight;
                         } else if (posZNeghbor != null) {
                             neighbors[BlockType.POS_Z] = ItemList
                                     .getBlock(posZNeghbor.data.getBlock(x, y, 0));
@@ -130,14 +143,20 @@ public class NaiveMesherWithLight {
                         blockData = data.getBlockData(x, y, z);
                         BlockType type = ItemList.blocks.getBlockTypeID(block.type);
                         if (type == null) {
-                            // System.err.println("NaiveMesherWithLight: BlockType " + block.type + " not found");
+                            // System.err.println("NaiveMesherWithLight: BlockType " + block.type + " not
+                            // found");
                             continue;
                         }
-                        if (block.opaque) {
-                            type.constructBlock(opaqueBuffers, block, blockData, neighbors, lightNeghbors, x, y, z);
-                        } else {
-                            type.constructBlock(transparentBuffers, block, blockData, neighbors, lightNeghbors, x, y,
-                                    z);
+                        try {
+                            if (block.opaque) {
+                                type.constructBlock(opaqueBuffers, block, blockData, neighbors, lightNeghbors, x, y, z);
+                            } else {
+                                type.constructBlock(transparentBuffers, block, blockData, neighbors, lightNeghbors, x,
+                                        y,
+                                        z);
+                            }
+                        } catch (Exception e) {
+                            ErrorHandler.saveErrorToLogFile(e);
                         }
                     }
 

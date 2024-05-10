@@ -78,5 +78,21 @@
         "opaque": false,
         "torch": 0,
         "type": "fence gate"
+    },
+    {
+        "name": "Test Door Half",
+        "id": 1006,
+        "texture": {
+            "neg_y": "test\\neg y",
+            "pos_x": "test\\pos x",
+            "pos_z": "test\\pos z",
+            "neg_z": "test\\neg z",
+            "neg_x": "test\\neg x",
+            "pos_y": "test\\pos y"
+        },
+        "solid": true,
+        "opaque": false,
+        "torch": 0,
+        "type": "door half"
     }
 ]

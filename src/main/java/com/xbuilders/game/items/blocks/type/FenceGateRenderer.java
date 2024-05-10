@@ -43,7 +43,7 @@ public class FenceGateRenderer extends BlockType {
             @Override
             public boolean shouldRenderSide(Block thisBlock, Block neighbor) {
                 return shouldRenderFace_subBlock(thisBlock, neighbor);
-//                return neighbor.isSolid();
+                // return neighbor.isSolid();
             }
         };
 
@@ -51,43 +51,55 @@ public class FenceGateRenderer extends BlockType {
         open1 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\open1.blockType"), renderSide);
         open2 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\open2.blockType"), renderSide);
         open3 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\open3.blockType"), renderSide);
-        closed0 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed0.blockType"), renderSide);
-        closed1 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed1.blockType"), renderSide);
-        closed2 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed2.blockType"), renderSide);
-        closed3 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed3.blockType"), renderSide);
+        closed0 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed0.blockType"),
+                renderSide);
+        closed1 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed1.blockType"),
+                renderSide);
+        closed2 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed2.blockType"),
+                renderSide);
+        closed3 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence gate\\closed3.blockType"),
+                renderSide);
     }
 
     @Override
     public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
         BlockData bd = new BlockData(2);
         player.camera.simplifiedPanTiltAsBlockData(bd);
-        bd.set(1, (byte) 1); //(xz orientation), (0 = open, 1 = closed)
+        bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
         return bd;
     }
-
 
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
+            int y, int z) {
         boolean open = data.get(1) == 0;
         if (data == null || data.get(0) == 3) {
-            if (open) open3.render(buffers, block, neighbors, light, x, y, z);
-            else closed3.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open3.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed3.render(buffers, block, neighbors, light, x, y, z);
         } else if (data.get(0) == 0) {
-            if (open) open0.render(buffers, block, neighbors, light, x, y, z);
-            else closed0.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open0.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed0.render(buffers, block, neighbors, light, x, y, z);
         } else if (data.get(0) == 1) {
-            if (open) open1.render(buffers, block, neighbors, light, x, y, z);
-            else closed1.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open1.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed1.render(buffers, block, neighbors, light, x, y, z);
         } else {
-            if (open) open2.render(buffers, block, neighbors, light, x, y, z);
-            else closed2.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open2.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed2.render(buffers, block, neighbors, light, x, y, z);
         }
     }
 
     final float width = 4;
-    final float offset = (ONE_SIXTEENTH/2);
+    final float offset = (ONE_SIXTEENTH / 2) + ((ONE_SIXTEENTH * width)*1.5f);
 
     @Override
     public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {

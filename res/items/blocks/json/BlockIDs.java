@@ -781,3 +781,4 @@ public static short BLOCK_TESTORIENTABLE = 1002;
 public static short BLOCK_TESTSLAB = 1003;
 public static short BLOCK_TESTTRAPDOOR = 1004;
 public static short BLOCK_TESTFENCEGATE = 1005;
+public static short BLOCK_TESTDOORHALF = 1006;

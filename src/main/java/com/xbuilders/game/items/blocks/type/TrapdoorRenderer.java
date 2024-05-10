@@ -44,7 +44,7 @@ public class TrapdoorRenderer extends BlockType {
             @Override
             public boolean shouldRenderSide(Block thisBlock, Block neighbor) {
                 return shouldRenderFace_subBlock(thisBlock, neighbor);
-//                return neighbor.isSolid();
+                // return neighbor.isSolid();
             }
         };
 
@@ -62,30 +62,36 @@ public class TrapdoorRenderer extends BlockType {
     public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
         BlockData bd = new BlockData(2);
         player.camera.simplifiedPanTiltAsBlockData(bd);
-        bd.set(1, (byte) 1); //(xz orientation), (0 = open, 1 = closed)
+        bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
         return bd;
     }
-
-
-
 
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
+            int y, int z) {
         boolean open = data.get(1) == 0;
         if (data == null || data.get(0) == 3) {
-            if (open) open3.render(buffers, block, neighbors, light, x, y, z);
-            else closed3.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open3.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed3.render(buffers, block, neighbors, light, x, y, z);
         } else if (data.get(0) == 0) {
-            if (open) open0.render(buffers, block, neighbors, light, x, y, z);
-            else closed0.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open0.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed0.render(buffers, block, neighbors, light, x, y, z);
         } else if (data.get(0) == 1) {
-            if (open) open1.render(buffers, block, neighbors, light, x, y, z);
-            else closed1.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open1.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed1.render(buffers, block, neighbors, light, x, y, z);
         } else {
-            if (open) open2.render(buffers, block, neighbors, light, x, y, z);
-            else closed2.render(buffers, block, neighbors, light, x, y, z);
+            if (open)
+                open2.render(buffers, block, neighbors, light, x, y, z);
+            else
+                closed2.render(buffers, block, neighbors, light, x, y, z);
         }
     }
 
@@ -96,7 +102,7 @@ public class TrapdoorRenderer extends BlockType {
     public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         if (data != null) {
             if (data.get(1) == 1) {
-                box.setPosAndSize(x, y+ ONE_SIXTEENTH * offset, z, 1, ONE_SIXTEENTH * width, 1);
+                box.setPosAndSize(x, y + ONE_SIXTEENTH * offset, z, 1, ONE_SIXTEENTH * width, 1);
             } else {
                 switch (data.get(0)) {
                     case 1 -> box.setPosAndSize(x + ONE_SIXTEENTH * offset, y, z, ONE_SIXTEENTH * width, 1, 1);
@@ -113,6 +119,5 @@ public class TrapdoorRenderer extends BlockType {
     public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         getCursorBoxes(consumer, box, block, data, x, y, z);
     }
-
 
 }

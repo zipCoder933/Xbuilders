@@ -6,6 +6,7 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.player.Player;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.wcc.WCCi;
@@ -24,8 +25,7 @@ import static com.xbuilders.engine.utils.worldInteraction.collision.PositionHand
  */
 public class CollisionHandler {
 
-
-    //Collision handler variables
+    // Collision handler variables
     final private PositionHandler driver;
     final World chunks;
     final WCCi wcc = new WCCi();
@@ -43,8 +43,8 @@ public class CollisionHandler {
     Chunk chunk;
 
     public CollisionHandler(World chunks, PositionHandler driver, EntityAABB entityBox,
-                            EntityAABB userControlledPlayerAABB,
-                            List<Player> playerList) {
+            EntityAABB userControlledPlayerAABB,
+            List<Player> playerList) {
 
         this.userControlledPlayerAABB = userControlledPlayerAABB;
         this.playerList = playerList;
@@ -55,7 +55,7 @@ public class CollisionHandler {
         stepBox = new AABB();
         collisionBox = new AABB();
         customConsumer = box -> {
-            processBox(box, false); //This is not part of the problem
+            processBox(box, false); // This is not part of the problem
             if (DRAW_COLLISION_CANDIDATES
                     && PositionHandler.sprojection != null && PositionHandler.sview != null) {
                 driver.renderedBox.set(box);
@@ -86,33 +86,43 @@ public class CollisionHandler {
             setFrozen = false;
             exploredChunks.clear();
 
-            //Y goes down so that we can sort blocks from top (ceiling) to bottom
-            for (int y = (int) (myBox.box.max.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y >= myBox.box.min.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y--) {
-//        for (int y = (int) (myBox.box.minPoint.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y <= myBox.box.maxPoint.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y++) {
-                for (int x = (int) (myBox.box.min.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.max.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
-                    for (int z = (int) (myBox.box.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.max.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
+            // Y goes down so that we can sort blocks from top (ceiling) to bottom
+            for (int y = (int) (myBox.box.max.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y >= myBox.box.min.y
+                    - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y--) {
+                // for (int y = (int) (myBox.box.minPoint.y -
+                // BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); y <= myBox.box.maxPoint.y +
+                // BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; y++) {
+                for (int x = (int) (myBox.box.min.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.max.x
+                        + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
+                    for (int z = (int) (myBox.box.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.max.z
+                            + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
                         wcc.set(x, y, z);
                         chunk = chunks.getChunk(wcc.chunk);
                         if (chunk != null) {
                             exploredChunks.add(chunk);
-//                            if (Main.specialMode1) {
+                            // if (Main.specialMode1) {
                             b = ItemList.blocks.getItem(chunk.data.getBlock(
                                     wcc.chunkVoxel.x,
                                     wcc.chunkVoxel.y,
                                     wcc.chunkVoxel.z));
                             if (b != null && b.solid) {
-//                                    if (Main.specialMode2) {
-                                //TODO: chunk.getBlockData() is collision-handler memory culprit!!!
-                                //Its ALL in the hashmap...
+                                // if (Main.specialMode2) {
+                                // TODO: chunk.getBlockData() is collision-handler memory culprit!!!
+                                // Its ALL in the hashmap...
                                 d = chunk.data.getBlockData(
                                         wcc.chunkVoxel.x,
                                         wcc.chunkVoxel.y,
                                         wcc.chunkVoxel.z);
-//                                    }
+                                // }
                                 BlockType type = ItemList.blocks.getBlockTypeID(b.type);
-                                if (type != null) type.getCollisionBoxes(customConsumer, collisionBox, b, d, x, y, z);
+                                try {
+                                    if (type != null)
+                                        type.getCollisionBoxes(customConsumer, collisionBox, b, d, x, y, z);
+                                } catch (Exception e) {
+                                    ErrorHandler.saveErrorToLogFile(e);
+                                }
                             }
-//                            }
+                            // }
                         }
                     }
                 }
@@ -126,7 +136,8 @@ public class CollisionHandler {
             for (int i = 0; i < playerList.size(); i++) {
                 compareEntityAABB(projection, view, playerList.get(i).aabb);
             }
-            //Comparison against user controlled player (all entity and player boxes are skipped if they match themselves)
+            // Comparison against user controlled player (all entity and player boxes are
+            // skipped if they match themselves)
             compareEntityAABB(projection, view, userControlledPlayerAABB);
 
             driver.setFrozen(setFrozen);
@@ -134,10 +145,10 @@ public class CollisionHandler {
     }
 
     private void processBox(AABB box, boolean isEntity) {
-//        if (stepBox.intersects(box)) {
-//            stepWillHitCeiling = true;
-//            System.out.println("STEP HIT CEILING " + System.currentTimeMillis());
-//        }
+        // if (stepBox.intersects(box)) {
+        // stepWillHitCeiling = true;
+        // System.out.println("STEP HIT CEILING " + System.currentTimeMillis());
+        // }
 
         if (box.intersects(myBox.box)) {
             collisionData.calculateCollision(box, myBox.box);
@@ -146,7 +157,8 @@ public class CollisionHandler {
                 collisionData.penPerAxes.mul(0.8f);
             }
 
-            if (Math.abs(collisionData.penPerAxes.x) > 0.6f || Math.abs(collisionData.penPerAxes.y) > 0.6f || Math.abs(collisionData.penPerAxes.z) > 0.6f) {
+            if (Math.abs(collisionData.penPerAxes.x) > 0.6f || Math.abs(collisionData.penPerAxes.y) > 0.6f
+                    || Math.abs(collisionData.penPerAxes.z) > 0.6f) {
                 driver.velocity.y = 0;
                 driver.onGround = true;
                 setFrozen = true;

@@ -781,3 +781,4 @@ public static Block BLOCK_TESTORIENTABLE = ItemList.getBlock((short)(short)1002)
 public static Block BLOCK_TESTSLAB = ItemList.getBlock((short)(short)1003);
 public static Block BLOCK_TESTTRAPDOOR = ItemList.getBlock((short)(short)1004);
 public static Block BLOCK_TESTFENCEGATE = ItemList.getBlock((short)(short)1005);
+public static Block BLOCK_TESTDOORHALF = ItemList.getBlock((short)(short)1006);

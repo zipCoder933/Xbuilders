@@ -1,0 +1,60 @@
+
+
+FACE	CENTER	(texture)NEG-Y	(vert-count)6
+VERT	(vert)1.0	1.0	0.81	(uv)1.0	0.0	(normal)0
+VERT	(vert)0.0	0.0	0.81	(uv)0.0	1.0	(normal)0
+VERT	(vert)0.0	1.0	0.81	(uv)0.0	0.0	(normal)0
+
+VERT	(vert)1.0	1.0	0.81	(uv)1.0	0.0	(normal)0
+VERT	(vert)1.0	0.0	0.81	(uv)1.0	1.0	(normal)0
+VERT	(vert)0.0	0.0	0.81	(uv)0.0	1.0	(normal)0
+
+
+FACE	NEG_X	(texture)NEG_X	(vert-count)6
+VERT	(vert)0.0	1.0	0.81	(uv)0.0	0.0	(normal)-1
+VERT	(vert)0.0	0.0	1.0	(uv)0.1875	1.0	(normal)-1
+VERT	(vert)0.0	1.0	1.0	(uv)0.1875	0.0	(normal)-1
+
+VERT	(vert)0.0	1.0	0.81	(uv)0.0	0.0	(normal)-1
+VERT	(vert)0.0	0.0	0.81	(uv)0.0	1.0	(normal)-1
+VERT	(vert)0.0	0.0	1.0	(uv)0.1875	1.0	(normal)-1
+
+
+FACE	POS_X	(texture)POS_X	(vert-count)6
+VERT	(vert)1.0	1.0	1.0	(uv)0.8125	-0.0	(normal)1
+VERT	(vert)1.0	0.0	0.81	(uv)1.0	1.0	(normal)1
+VERT	(vert)1.0	1.0	0.81	(uv)1.0	0.0	(normal)1
+
+VERT	(vert)1.0	1.0	1.0	(uv)0.8125	-0.0	(normal)1
+VERT	(vert)1.0	0.0	1.0	(uv)0.8125	1.0	(normal)1
+VERT	(vert)1.0	0.0	0.81	(uv)1.0	1.0	(normal)1
+
+
+FACE	NEG_Y	(texture)NEG_Y	(vert-count)6
+VERT	(vert)0.0	1.0	0.81	(uv)1.0	0.1875	(normal)-2
+VERT	(vert)1.0	1.0	1.0	(uv)0.0	0.0	(normal)-2
+VERT	(vert)1.0	1.0	0.81	(uv)0.0	0.1875	(normal)-2
+
+VERT	(vert)0.0	1.0	0.81	(uv)1.0	0.1875	(normal)-2
+VERT	(vert)0.0	1.0	1.0	(uv)1.0	0.0	(normal)-2
+VERT	(vert)1.0	1.0	1.0	(uv)0.0	0.0	(normal)-2
+
+
+FACE	POS_Y	(texture)POS_Y	(vert-count)6
+VERT	(vert)1.0	0.0	1.0	(uv)0.0	0.1875	(normal)2
+VERT	(vert)0.0	0.0	0.81	(uv)1.0	0.0	(normal)2
+VERT	(vert)1.0	0.0	0.81	(uv)0.0	0.0	(normal)2
+
+VERT	(vert)1.0	0.0	1.0	(uv)0.0	0.1875	(normal)2
+VERT	(vert)0.0	0.0	1.0	(uv)1.0	0.1875	(normal)2
+VERT	(vert)0.0	0.0	0.81	(uv)1.0	0.0	(normal)2
+
+
+FACE	POS_Z	(texture)POS_Z	(vert-count)6
+VERT	(vert)0.0	1.0	1.0	(uv)0.0	0.0	(normal)3
+VERT	(vert)1.0	0.0	1.0	(uv)1.0	1.0	(normal)3
+VERT	(vert)1.0	1.0	1.0	(uv)1.0	0.0	(normal)3
+
+VERT	(vert)0.0	1.0	1.0	(uv)0.0	0.0	(normal)3
+VERT	(vert)0.0	0.0	1.0	(uv)0.0	1.0	(normal)3
+VERT	(vert)1.0	0.0	1.0	(uv)1.0	1.0	(normal)3
