@@ -23,4 +23,6 @@ public class RenderType {
     public static final int PANE = 12;
     public static final int SUNFLOWER_HEAD = 13;
     public static final int TORCH = 15;
+    public static final int TRAPDOOR = 16;
+    public static final int FENCE_GATE = 17;
 }

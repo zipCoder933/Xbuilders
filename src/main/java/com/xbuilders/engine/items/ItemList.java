@@ -99,15 +99,15 @@ public class ItemList {
     }
 
     public static Block getBlock(short blockID) {
-        return blocks.getIdMap().get(blockID);
+        return blocks.getItem(blockID);
     }
 
     public static EntityLink getEntity(short blockID) {
-        return entities.getIdMap().get(blockID);
+        return entities.getItem(blockID);
     }
 
     public static Tool getTool(short blockID) {
-        return tools.getIdMap().get(blockID);
+        return tools.getItem(blockID);
     }
 
     private static Item[] concatArrays(Item[]... arrays) {

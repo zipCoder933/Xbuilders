@@ -46,5 +46,37 @@
         "opaque": false,
         "torch": 0,
         "type": 4
+    },
+    {
+        "name": "Test Trapdoor",
+        "id": 1004,
+        "texture": {
+            "neg_y": "test\\neg y",
+            "pos_x": "test\\pos x",
+            "pos_z": "test\\pos z",
+            "neg_z": "test\\neg z",
+            "neg_x": "test\\neg x",
+            "pos_y": "test\\pos y"
+        },
+        "solid": true,
+        "opaque": false,
+        "torch": 0,
+        "type": "trapdoor"
+    },
+    {
+        "name": "Test Fence Gate",
+        "id": 1005,
+        "texture": {
+            "neg_y": "test\\neg y",
+            "pos_x": "test\\pos x",
+            "pos_z": "test\\pos z",
+            "neg_z": "test\\neg z",
+            "neg_x": "test\\neg x",
+            "pos_y": "test\\pos y"
+        },
+        "solid": true,
+        "opaque": false,
+        "torch": 0,
+        "type": "fence gate"
     }
 ]

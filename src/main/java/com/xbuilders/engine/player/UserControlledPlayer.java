@@ -244,10 +244,13 @@ public class UserControlledPlayer extends Player {
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
-            switch (key) {
-                case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = 75f;
-                case GLFW.GLFW_KEY_SPACE -> {
-                    jump();
+            if (key == GLFW.GLFW_KEY_LEFT_SHIFT && !downKeyPressed()) {
+                speed = 75f;
+            } else {
+                switch (key) {
+                    case GLFW.GLFW_KEY_SPACE -> {
+                        jump();
+                    }
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
@@ -331,7 +334,7 @@ public class UserControlledPlayer extends Player {
         wcc.set(worldX, worldY, worldZ);
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
-            short prevBlock =chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            short prevBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(prevBlock, block, blockData));
         }
     }
@@ -343,7 +346,7 @@ public class UserControlledPlayer extends Player {
     public void setBlock(short block, WCCi wcc) {
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
-            short prevBlock =chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            short prevBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             eventPipeline.addEvent(wcc, new BlockHistory(prevBlock, block));
         }
     }

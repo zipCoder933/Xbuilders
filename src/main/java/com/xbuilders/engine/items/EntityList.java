@@ -28,7 +28,7 @@ public class EntityList extends ItemGroup<EntityLink> {
             itemList = new EntityLink[0];
             return;
         }
-        assignIDMapAndCheckIDs(inputBlocks);
+        setIdMap(inputBlocks);
         itemList = new EntityLink[idMap.size()];
         int i = 0;
         try {

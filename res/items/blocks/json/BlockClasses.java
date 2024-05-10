@@ -779,3 +779,5 @@ public static Block BLOCK_YELLOWSIDING = ItemList.getBlock((short)(short)799);
 public static Block BLOCK_TESTBLOCK = ItemList.getBlock((short)(short)1001);
 public static Block BLOCK_TESTORIENTABLE = ItemList.getBlock((short)(short)1002);
 public static Block BLOCK_TESTSLAB = ItemList.getBlock((short)(short)1003);
+public static Block BLOCK_TESTTRAPDOOR = ItemList.getBlock((short)(short)1004);
+public static Block BLOCK_TESTFENCEGATE = ItemList.getBlock((short)(short)1005);

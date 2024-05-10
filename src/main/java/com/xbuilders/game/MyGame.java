@@ -196,6 +196,8 @@ public class MyGame extends Game {
         ItemList.blocks.addBlockType("track", RenderType.RAISED_TRACK, new RaisedTrackRenderer());
         ItemList.blocks.addBlockType("torch", RenderType.TORCH, new TorchRenderer());
         ItemList.blocks.addBlockType("pillar", RenderType.PILLAR, new PillarRenderer());
+        ItemList.blocks.addBlockType("trapdoor", RenderType.TRAPDOOR, new TrapdoorRenderer());
+        ItemList.blocks.addBlockType("fence gate", RenderType.FENCE_GATE, new FenceGateRenderer());
 
 
         System.out.println("Initializing items...");

@@ -4,8 +4,6 @@
  */
 package com.xbuilders.engine.items;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -42,7 +40,7 @@ abstract class ItemGroup<T extends Item> {
         return idMap.get(id);
     }
 
-    protected int assignIDMapAndCheckIDs(T[] inputItems) {
+    protected int setIdMap(T[] inputItems) {
         //get typename of t
         String typename = inputItems.getClass().getComponentType().getSimpleName();
         System.out.println("\nChecking IDs for " + typename);

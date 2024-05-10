@@ -27,6 +27,13 @@ public class BlockList extends ItemGroup<Block> {
     public final static int DEFAULT_BLOCK_TYPE_ID = 0;
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
     public final static Block BLOCK_AIR = new BlockAir();
+    public final static Block BLOCK_UNKNOWN = new Block(0, "Unknown");
+
+    static {
+        BLOCK_UNKNOWN.opaque = false;
+        BLOCK_UNKNOWN.solid = true;
+    }
+
     File blockIconDirectory, iconDirectory;
     int defaultIcon;
 
@@ -46,7 +53,7 @@ public class BlockList extends ItemGroup<Block> {
 
     @Override
     public void setItems(Block[] inputBlocks) {
-        assignIDMapAndCheckIDs(inputBlocks);
+        setIdMap(inputBlocks);
         idMap.put(BLOCK_AIR.id, BLOCK_AIR);
         try {
             itemList = new Block[getIdMap().size() + 1];
@@ -94,4 +101,10 @@ public class BlockList extends ItemGroup<Block> {
         return (float) Math.max(0, Math.min(d, type));
     }
 
+    @Override
+    public Block getItem(short blockID) {
+        Block block = getIdMap().get(blockID);
+        if (block == null) block = BLOCK_UNKNOWN; //Important to prevent bugs with proceses not knowing how to handle null blocks
+        return block;
+    }
 }

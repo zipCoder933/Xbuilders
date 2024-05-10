@@ -3,6 +3,8 @@ package com.xbuilders.engine.player.camera;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
@@ -10,6 +12,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.BlockData;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -79,11 +82,16 @@ public class CursorRay {
     public boolean createClickEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (button == UserControlledPlayer.CREATE_MOUSE_BUTTON) {
-                if (useBoundary) {
-                    boundaryClickEvent(true);
-                    return false;
+                Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
+                block.run_ClickEvent(getHitPos());
+
+                if (block.clickThrough()) {
+                    if (useBoundary) {
+                        boundaryClickEvent(true);
+                        return false;
+                    }
                 }
-                return true; //If we want to permit the click event to continue
+                return block.clickThrough(); //If we want to permit the click event to continue
             }
         }
         return false;

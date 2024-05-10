@@ -31,12 +31,12 @@ public class StairsRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
         };
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\stairs\\side.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\stairs\\floor.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\stairs\\ceiling.obj"));
+//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+//                ResourceUtils.resource("block types\\stairs\\side.obj"));
+//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+//                ResourceUtils.resource("block types\\stairs\\floor.obj"));
+//        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+//                ResourceUtils.resource("block types\\stairs\\ceiling.obj"));
 
         BlockModel.ShouldRenderSide renderSide = new BlockModel.ShouldRenderSide() {
             @Override

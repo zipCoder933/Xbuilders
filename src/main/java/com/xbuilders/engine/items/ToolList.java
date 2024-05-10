@@ -28,7 +28,7 @@ public class ToolList extends ItemGroup<Tool> {
             itemList = new Tool[0];
             return;
         }
-        assignIDMapAndCheckIDs(inputBlocks);
+        setIdMap(inputBlocks);
         itemList = new Tool[idMap.size()];
         int i = 0;
         try {

@@ -86,11 +86,11 @@ public class ErrorHandler {
     public static void saveErrorToLogFile(Throwable ex, String devMessage) {
         String date = dateFormat.format(new Date());
 
-        System.out.println("\nError logged at " + date
+        System.err.println("\nError logged at " + date
                 + "\nDEV MESSAGE: " + devMessage);
 
         if (ex != null) {
-            System.out.println("\nSTACK TRACE:");
+            System.err.println("\nSTACK TRACE:");
             ex.printStackTrace();
         }
 

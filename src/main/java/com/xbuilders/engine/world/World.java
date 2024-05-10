@@ -76,7 +76,7 @@ public class World {
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
     public static int VIEW_DIST_MAX = Chunk.WIDTH * 30;
     public static int MIN_FOG_DISTANCE = Chunk.WIDTH * 6;
-    public static int DEFAULT_VIEW_DISTANCE = Chunk.WIDTH * 6;//13
+    public static int DEFAULT_VIEW_DISTANCE = Chunk.WIDTH * 4;//13
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
 
@@ -473,7 +473,7 @@ public class World {
         int chunkZ = chunkDiv(worldZ);
 
         Chunk chunk = getChunk(new Vector3i(chunkX, chunkY, chunkZ));
-        if (chunk == null) {
+        if (chunk == null) { //By default, all get block events should return air otherwise the chunk will be null
             return 0;
         }
         return chunk.data.getBlock(blockX, blockY, blockZ);

@@ -1,5 +1,6 @@
 package com.xbuilders.engine.items.block;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
@@ -8,6 +9,8 @@ import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3i;
@@ -45,6 +48,12 @@ public class Block extends Item {
         public void run(int x, int y, int z);
     }
 
+    @FunctionalInterface
+    public interface ClickEvent {
+
+        public void run(int x, int y, int z, BlockData data);
+    }
+
     //A functional interface for onLocalChange
     @FunctionalInterface
     public interface OnLocalChange {
@@ -54,9 +63,9 @@ public class Block extends Item {
 
     SetBlockEvent multithreadedSetBlockEvent = null;
     SetBlockEvent setBlockEvent = null;
-
     OnLocalChange onLocalChange = null;
     RemoveBlockEvent removeBlockEvent = null;
+    ClickEvent clickEvent = null;
 
 
     public boolean allowExistence(int worldX, int worldY, int worldZ) {
@@ -71,6 +80,10 @@ public class Block extends Item {
         this.multithreadedSetBlockEvent = setBlockEvent;
     }
 
+    public void clickEvent(ClickEvent clickEvent) {
+        this.clickEvent = clickEvent;
+    }
+
     public void removeBlockEvent(RemoveBlockEvent removeBlockEvent) {
         this.removeBlockEvent = removeBlockEvent;
     }
@@ -79,6 +92,21 @@ public class Block extends Item {
         this.onLocalChange = onLocalChange;
     }
 
+    public boolean clickThrough() {
+        return clickEvent == null;
+    }
+
+    public void run_ClickEvent(Vector3i worldPos) {
+        if (clickEvent != null) {
+            WCCi wcc = new WCCi();
+            wcc.set(worldPos);
+            Chunk chunk = wcc.getChunk(GameScene.world);
+            if(chunk == null) return;
+            BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            clickEvent.run(worldPos.x, worldPos.y, worldPos.z, data);
+            chunk.updateMesh(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+        }
+    }
 
     public void run_RemoveBlockEvent(Vector3i worldPos) {
         if (removeBlockEvent != null) {

@@ -234,7 +234,7 @@ public class SunlightUtils {
                 neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
             } else return;
         }
-        if (!neigborBlock.opaque) {
+        if (neigborBlock!= null && !neigborBlock.opaque) {
             if (isBelowNode && lightLevel == 15) {
                 chunk.data.setSun(x, y, z, (byte) 15);
                 affectedChunks.add(chunk);

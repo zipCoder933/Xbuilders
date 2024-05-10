@@ -28,78 +28,78 @@ public class OrientableBlockRenderer extends BlockType {//TODO: Make the texture
         if (sideIsVisible(block, neighbors[NEG_X])) {
             texLayer = (block.texture.getNEG_X());
             //NEG_X FACE:
-            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, NEG_X, texLayer, light[NEG_X]);
-            buffer.vertex(x, y, z, /* uvs */ 0.0f, 0.0f, NEG_X, texLayer, light[NEG_X]);
-            buffer.vertex(x, y, 1.0f + z, /* uvs */ 1.0f, 0.0f, NEG_X, texLayer, light[NEG_X]);
+            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f,NEG_X,  texLayer, light[NEG_X]);
+            buffer.vertex(x, y, z, /* uvs */ 0.0f, 0.0f,NEG_X,  texLayer, light[NEG_X]);
+            buffer.vertex(x, y, 1.0f + z, /* uvs */ 1.0f, 0.0f,NEG_X,  texLayer, light[NEG_X]);
 
-            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, NEG_X, texLayer, light[NEG_X]);
-            buffer.vertex(x, 1.0f + y, z, /* uvs */ 0.0f, 1.0f, NEG_X, texLayer, light[NEG_X]);
-            buffer.vertex(x, y, z, /* uvs */ 0.0f, 0.0f, NEG_X, texLayer, light[NEG_X]);
+            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f,NEG_X,  texLayer, light[NEG_X]);
+            buffer.vertex(x, 1.0f + y, z, /* uvs */ 0.0f, 1.0f,NEG_X,  texLayer, light[NEG_X]);
+            buffer.vertex(x, y, z, /* uvs */ 0.0f, 0.0f,NEG_X,  texLayer, light[NEG_X]);
         }
 
         if (sideIsVisible(block, neighbors[POS_X])) {
             texLayer = (block.texture.getPOS_X());
             //POS_X FACE:
-            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f, POS_X, texLayer, light[POS_X]);
-            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f, POS_X, texLayer, light[POS_X]);
-            buffer.vertex(1.0f + x, y, z, /* uvs */ 1.0f, 0.0f, POS_X, texLayer, light[POS_X]);
+            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f,POS_X,  texLayer, light[POS_X]);
+            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f,POS_X,  texLayer, light[POS_X]);
+            buffer.vertex(1.0f + x, y, z, /* uvs */ 1.0f, 0.0f,POS_X,  texLayer, light[POS_X]);
 
-            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f, POS_X, texLayer, light[POS_X]);
-            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f, POS_X, texLayer, light[POS_X]);
-            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f, POS_X, texLayer, light[POS_X]);
+            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f,POS_X,  texLayer, light[POS_X]);
+            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f,POS_X,  texLayer, light[POS_X]);
+            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f,POS_X,  texLayer, light[POS_X]);
         }
 
         if (sideIsVisible(block, neighbors[NEG_Y])) {
             texLayer = (block.texture.getNEG_Y());
             //NEG_Y FACE:
-            buffer.vertex(1.0f + x, y, z, /* uvs */ 1.0f, 0.0f, NEG_Y, texLayer, light[NEG_Y]);
-            buffer.vertex(x, y, 1.0f + z, /* uvs */ -0.0f, 1.0f, NEG_Y, texLayer, light[NEG_Y]);
-            buffer.vertex(x, y, z, /* uvs */ 0.0f, 0.0f, NEG_Y, texLayer, light[NEG_Y]);
+            buffer.vertex(1.0f + x, y, z, /* uvs */ 1.0f, 0.0f,NEG_Y,  texLayer, light[NEG_Y]);
+            buffer.vertex(x, y, 1.0f + z, /* uvs */ -0.0f, 1.0f,NEG_Y,  texLayer, light[NEG_Y]);
+            buffer.vertex(x, y, z, /* uvs */ 0.0f, 0.0f,NEG_Y,  texLayer, light[NEG_Y]);
 
-            buffer.vertex(1.0f + x, y, z, /* uvs */ 1.0f, 0.0f, NEG_Y, texLayer, light[NEG_Y]);
-            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 1.0f, 1.0f, NEG_Y, texLayer, light[NEG_Y]);
-            buffer.vertex(x, y, 1.0f + z, /* uvs */ -0.0f, 1.0f, NEG_Y, texLayer, light[NEG_Y]);
+            buffer.vertex(1.0f + x, y, z, /* uvs */ 1.0f, 0.0f,NEG_Y,  texLayer, light[NEG_Y]);
+            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 1.0f, 1.0f,NEG_Y,  texLayer, light[NEG_Y]);
+            buffer.vertex(x, y, 1.0f + z, /* uvs */ -0.0f, 1.0f,NEG_Y,  texLayer, light[NEG_Y]);
         }
 
         if (sideIsVisible(block, neighbors[NEG_Z])) {
             texLayer = (block.texture.getNEG_Z());
             //NEG_Z FACE:
-            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f, NEG_Z, texLayer, light[NEG_Z]);
-            buffer.vertex(1.0f + x, y, z, /* uvs */ 0.0f, 0.0f, NEG_Z, texLayer, light[NEG_Z]);
-            buffer.vertex(x, y, z, /* uvs */ 1.0f, 0.0f, NEG_Z, texLayer, light[NEG_Z]);
+            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f, NEG_Z,  texLayer, light[NEG_Z]);
+            buffer.vertex(1.0f + x, y, z, /* uvs */ 0.0f, 0.0f, NEG_Z,  texLayer, light[NEG_Z]);
+            buffer.vertex(x, y, z, /* uvs */ 1.0f, 0.0f, NEG_Z,  texLayer, light[NEG_Z]);
 
-            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f, NEG_Z, texLayer, light[NEG_Z]);
-            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 0.0f, 1.0f, NEG_Z, texLayer, light[NEG_Z]);
-            buffer.vertex(1.0f + x, y, z, /* uvs */ 0.0f, 0.0f, NEG_Z, texLayer, light[NEG_Z]);
+            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 1.0f, NEG_Z,  texLayer, light[NEG_Z]);
+            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 0.0f, 1.0f, NEG_Z,  texLayer, light[NEG_Z]);
+            buffer.vertex(1.0f + x, y, z, /* uvs */ 0.0f, 0.0f, NEG_Z,  texLayer, light[NEG_Z]);
         }
 
         if (sideIsVisible(block, neighbors[POS_Y])) {
             texLayer = (block.texture.getPOS_Y());
             //POS_Y FACE:
-            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 0.0f, POS_Y, texLayer, light[POS_Y]);
-            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f, POS_Y, texLayer, light[POS_Y]);
-            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 0.0f, 0.0f, POS_Y, texLayer, light[POS_Y]);
+            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 0.0f, POS_Y,  texLayer, light[POS_Y]);
+            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f, POS_Y,  texLayer, light[POS_Y]);
+            buffer.vertex(1.0f + x, 1.0f + y, z, /* uvs */ 0.0f, 0.0f, POS_Y,  texLayer, light[POS_Y]);
 
-            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 0.0f, POS_Y, texLayer, light[POS_Y]);
-            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, POS_Y, texLayer, light[POS_Y]);
-            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f, POS_Y, texLayer, light[POS_Y]);
+            buffer.vertex(x, 1.0f + y, z, /* uvs */ 1.0f, 0.0f, POS_Y,  texLayer, light[POS_Y]);
+            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, POS_Y,  texLayer, light[POS_Y]);
+            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f, POS_Y,  texLayer, light[POS_Y]);
         }
 
         if (sideIsVisible(block, neighbors[POS_Z])) {
             texLayer = (block.texture.getPOS_Z());
             //POS_Z FACE:
-            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, POS_Z, texLayer, light[POS_Z]);
-            buffer.vertex(x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f, POS_Z, texLayer, light[POS_Z]);
-            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 1.0f, 0.0f, POS_Z, texLayer, light[POS_Z]);
+            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, POS_Z,  texLayer, light[POS_Z]);
+            buffer.vertex(x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f, POS_Z,  texLayer, light[POS_Z]);
+            buffer.vertex(1.0f + x, y, 1.0f + z, /* uvs */ 1.0f, 0.0f, POS_Z,  texLayer, light[POS_Z]);
 
-            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, POS_Z, texLayer, light[POS_Z]);
-            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f, POS_Z, texLayer, light[POS_Z]);
-            buffer.vertex(x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f, POS_Z, texLayer, light[POS_Z]);
+            buffer.vertex(1.0f + x, 1.0f + y, 1.0f + z, /* uvs */ 1.0f, 1.0f, POS_Z,  texLayer, light[POS_Z]);
+            buffer.vertex(x, 1.0f + y, 1.0f + z, /* uvs */ 0.0f, 1.0f, POS_Z,  texLayer, light[POS_Z]);
+            buffer.vertex(x, y, 1.0f + z, /* uvs */ 0.0f, 0.0f, POS_Z,  texLayer, light[POS_Z]);
         }
     }
 
-    private boolean sideIsVisible(Block block, Block neghbor) {
-        return block.opaque != neghbor.opaque;
+    private boolean sideIsVisible(Block block, Block NEG_X) {
+        return !NEG_X.opaque;
     }
 
     @Override
