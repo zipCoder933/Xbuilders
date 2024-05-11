@@ -22,6 +22,11 @@
 * The up direction is -Y, and the down direction is +Y
 * Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
 
+### Textures
+Textures taken mostly from Pixel Perfection, with some handcrafted ones, and textures taken from open source minetest texture packs as well:
+* https://github.com/Athemis/PixelPerfectionCE/tree/master
+* https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
+
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short (~1h) time period.
 
