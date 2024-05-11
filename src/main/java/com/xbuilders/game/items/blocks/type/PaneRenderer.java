@@ -21,9 +21,9 @@ public class PaneRenderer extends BlockType {
     public PaneRenderer() {
         super();
 
-        ObjToBlockModel.parseFileWithYRotations( false,
-                1.6f, ResourceUtils.resource("block types\\pane\\vertical.obj"));
-        ObjToBlockModel.parseFile(null, false, 1.6f, ResourceUtils.resource("block types\\pane\\horizontal.obj"));
+        // ObjToBlockModel.parseFileWithYRotations( false,
+        //         1.6f, ResourceUtils.resource("block types\\pane\\vertical.obj"));
+        // ObjToBlockModel.parseFile(null, false, 1.6f, ResourceUtils.resource("block types\\pane\\horizontal.obj"));
 
         horizontal = BlockModelLoader.load(ResourceUtils.resource("block types\\pane\\horizontal.blockType"), renderSide_subBlock);
         vertical0 = BlockModelLoader.load(ResourceUtils.resource("block types\\pane\\vertical0.blockType"), renderSide_subBlock);

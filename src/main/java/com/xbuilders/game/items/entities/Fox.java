@@ -14,6 +14,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
+import com.xbuilders.game.items.entities.mobile.Animal;
 import com.xbuilders.game.items.entities.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.mobile.AnimalRandom;
 import com.xbuilders.window.BaseWindow;
@@ -32,44 +33,36 @@ import org.joml.Vector2f;
 /**
  * @author zipCoder933
  */
-public class Fox extends Entity {
+public class Fox extends Animal {
 
-    //    Box box;
-    PositionHandler pos;
-    BaseWindow window;
-    Player player;
+    // Box box;
+
     static EntityMesh body;
     static EntityShader bodyShader;
     MVP mvp;
     Matrix4f bodyMatrix;
     static int texture;
+    private float maxSpeed = 0.17f;
+    final String textureName;
     float activity = 0.5f;
 
     public void setActivity(float activity) {
         this.activity = MathUtils.clamp(activity, 0, 1);
     }
 
-    public Fox(BaseWindow window, Player player) {
+    public Fox(BaseWindow window, Player player,String textureName) {
+        super(window, player);
+        this.textureName = textureName;
         aabb.size.set(0.5f, 0.8f, 0.5f);
         aabb.offset.set(-(aabb.size.x / 2), 0, -(aabb.size.z / 2));
         aabb.update();
-        this.window = window;
-        this.player = player;
+
         bodyMatrix = new Matrix4f();
         frustumSphereRadius = 2;
     }
 
-    int time = 0;
-    private float maxSpeed = 0.17f;
-
     @Override
-    public void initialize(ArrayList<Byte> bytes) {
-//        box = new Box();
-//        box.setColor(new Vector4f(1, 0, 1, 1));
-//        box.setLineWidth(5);
-        pos = new PositionHandler(GameScene.world, window, aabb, player.aabb, GameScene.otherPlayers);
-        pos.setGravityEnabled(true);
-
+    public void animalInit(ArrayList<Byte> bytes) {
         mvp = new MVP();
 
         /**
@@ -83,7 +76,8 @@ public class Fox extends Entity {
 
                 OBJ loadModel = OBJLoader.loadModel(ResourceUtils.resource("items\\entity\\animal\\fox\\body.obj"));
                 texture = TextureUtils.loadTexture(
-                        ResourceUtils.RESOURCE_DIR.getAbsolutePath() + "\\items\\entity\\animal\\fox\\red.png", false).id;
+                        ResourceUtils.RESOURCE_DIR.getAbsolutePath() + "\\items\\entity\\animal\\fox\\"+textureName,
+                        false).id;
                 body.loadFromOBJ(loadModel);
                 body.setTextureID(texture);
             } catch (IOException ex) {
@@ -92,13 +86,11 @@ public class Fox extends Entity {
         }
     }
 
-    Vector2f direction = new Vector2f();
-    double yRotDegrees;
-    AnimalRandom random = new AnimalRandom();
+
     AnimalAction action = null;
 
+ 
     public void move() {
-        time += 1;
         if (action == null || action.pastDuration()) {
             if (action == null) {
                 action = newRandomAction(null);
@@ -146,12 +138,14 @@ public class Fox extends Entity {
 
         long actionDuration = 0;
 
-        /*if (distToPlayer < 5 && playerHasAnimalFeed()) {
-            actionType = AnimalAction.ActionType.FOLLOW;
-            tameAnimal();
-            actionDuration = getRandom().nextLong(4000, 25000);
-            actionVelocity = getMaxSpeed() / 2;
-        } else*/
+        /*
+         * if (distToPlayer < 5 && playerHasAnimalFeed()) {
+         * actionType = AnimalAction.ActionType.FOLLOW;
+         * tameAnimal();
+         * actionDuration = getRandom().nextLong(4000, 25000);
+         * actionVelocity = getMaxSpeed() / 2;
+         * } else
+         */
         if (actionType == AnimalAction.ActionType.TURN) {
             actionDuration = 50 + (random.nextInt(100));
             float rotationAction = MathUtils.clamp(activity, 0.2f, 1);
@@ -187,34 +181,37 @@ public class Fox extends Entity {
         return action;
     }
 
+ 
 
-    public void goForward(float amount) {
-        Vector2f vec = TrigUtils.getCircumferencePoint(-yRotDegrees, amount);
-        worldPosition.add(vec.x, 0, vec.y);
-    }
+    private long lastJumpTime = 0;
 
     @Override
     public void draw(Matrix4f projection, Matrix4f view) {
         if (inFrustum) {
             move();
 
-
-//        box.setToAABB(projection, view, aabb.box);
-//        box.draw();
+            // box.setToAABB(projection, view, aabb.box);
+            // box.draw();
             bodyShader.bind();
             float rotationRadians = (float) Math.toRadians(yRotDegrees);
             bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
-            //This just has to happen because the OBJ model is upside down
-            bodyMatrix.rotateZ((float) Math.PI).translate(0,-0.8f,0);//.rotateLocalY(rotationRadians);
+            // This just has to happen because the OBJ model is upside down
+            bodyMatrix.rotateZ((float) Math.PI).translate(0, -0.8f, 0);// .rotateLocalY(rotationRadians);
 
             mvp.update(projection, view, bodyMatrix);
             mvp.sendToShader(bodyShader.getID(), bodyShader.mvpUniform);
             body.draw(false);
 
             pos.update(projection, view);
+            if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.01
+                    || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.01) {
+                if (System.currentTimeMillis() - lastJumpTime > 1000) {
+                    lastJumpTime = System.currentTimeMillis();
+                    pos.jump();
+                }
+            }
         }
     }
-
 
 }

@@ -292,8 +292,20 @@ public class MyGame extends Game {
         blockList = ArrayUtils.concatenateArrays(blockList, blocks);
 
         EntityLink[] entityList = new EntityLink[]{
-                new EntityLink(0, "Fox Animal",
-                        () -> new Fox((BaseWindow) window, Main.gameScene.player),
+                        new EntityLink(0, "Red Fox",
+                        () -> new Fox((BaseWindow) window, Main.gameScene.player,"red.png"),
+                        (e) -> {
+                            e.setIcon("egg.png");
+                        }),
+
+                        new EntityLink(1, "Gray Fox",
+                        () -> new Fox((BaseWindow) window, Main.gameScene.player,"gray.png"),
+                        (e) -> {
+                            e.setIcon("egg.png");
+                        }),
+
+                        new EntityLink(2, "White Fox",
+                        () -> new Fox((BaseWindow) window, Main.gameScene.player,"white.png"),
                         (e) -> {
                             e.setIcon("egg.png");
                         }),};

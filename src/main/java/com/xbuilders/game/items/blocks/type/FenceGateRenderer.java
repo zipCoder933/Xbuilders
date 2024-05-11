@@ -28,10 +28,10 @@ public class FenceGateRenderer extends BlockType {
     BlockModel closed0, closed1, closed2, closed3;
 
     public FenceGateRenderer() {
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\fence gate\\open.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\fence gate\\closed.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\fence gate\\open.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\fence gate\\closed.obj"));
 
         initializationCallback = (b) -> {
             b.opaque = false;

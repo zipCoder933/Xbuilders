@@ -35,7 +35,7 @@ public class CollisionHandler {
     final List<Player> playerList;
     final AABB stepBox;
     final AABB collisionBox;
-    final CollisionData collisionData;
+    public final CollisionData collisionData;
     boolean setFrozen = false;
     final Consumer<AABB> customConsumer;
     Block b;

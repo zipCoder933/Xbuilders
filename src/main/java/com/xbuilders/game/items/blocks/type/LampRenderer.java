@@ -90,12 +90,12 @@ public class LampRenderer extends BlockType {
 
 
     public LampRenderer() {
-        ObjToBlockModel.parseFile(null, false,
-                1.6f, ResourceUtils.resource("block types\\lamp\\lamp.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\lamp\\side.obj"));
-        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
-                ResourceUtils.resource("block types\\lamp\\side block.obj"));
+        // ObjToBlockModel.parseFile(null, false,
+        //         1.6f, ResourceUtils.resource("block types\\lamp\\lamp.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\lamp\\side.obj"));
+        // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
+        //         ResourceUtils.resource("block types\\lamp\\side block.obj"));
 
         lamp = BlockModelLoader.load(ResourceUtils.resource("block types\\lamp\\lamp.blockType"),
                 (t, n) -> shouldRenderFace_subBlock(t, n));

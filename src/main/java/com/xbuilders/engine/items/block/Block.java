@@ -180,9 +180,6 @@ public class Block extends Item {
                 super.setIcon(icon.id);
             } else {//If there is no generated block icon, default to the texture
                 File file = textures.getTextureFile(this.texture.NEG_Y_NAME);
-
-                if(type == RenderType.TRAPDOOR)System.out.println("Loading default texture for " + name+", textures: "+this.texture.toString());
-
                 if (file != null) {
                     Texture tex = TextureUtils.loadTexture(
                             file.getAbsolutePath(), false);
