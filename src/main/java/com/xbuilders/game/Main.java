@@ -47,10 +47,10 @@ public class Main extends NKWindow {
 
     public static EngineSettings settings;
 
-    //We only need saving functionality to be public
+    // We only need saving functionality to be public
     private final static EngineSettingsUtils settingsUtils = new EngineSettingsUtils();
 
-    public static void saveSettings(){
+    public static void saveSettings() {
         settingsUtils.save(settings);
     }
 
@@ -60,7 +60,10 @@ public class Main extends NKWindow {
     public static GameScene gameScene;
     public static UserID user;
     UIResources uiResources;
+    
+    File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
     static boolean generateIcons = false;
+
     public static boolean devMode = false;
 
     public static void main(String[] args) {
@@ -74,7 +77,7 @@ public class Main extends NKWindow {
                 }
             }
             ResourceUtils.initialize(devMode);
-           
+
             new Main().run();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,7 +85,7 @@ public class Main extends NKWindow {
     }
 
     public Main() throws IOException, Exception {
-        
+
         settings = settingsUtils.load();
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
@@ -107,16 +110,10 @@ public class Main extends NKWindow {
 
         gameScene.init(uiResources, game);
 
-        if (generateIcons) {
+        if (generateIcons || !blockIconsDirectory.exists()) {
             BlockIconRenderer iconRenderer = new BlockIconRenderer(
                     ItemList.blocks.textures,
-                    ResourceUtils.resource("items\\blocks\\icons")) {
-                @Override
-                public boolean shouldMakeIcon(Block block) {
-                    return block.type != RenderType.SPRITE && block.type != RenderType.FLOOR
-                            && block.type != RenderType.WALL_ITEM;
-                }
-            };
+                    blockIconsDirectory);
             iconRenderer.saveAllIcons();
             System.exit(0);
         }

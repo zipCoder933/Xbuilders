@@ -27,6 +27,7 @@ public abstract class BlockType {
     public static final int NEG_Y = 5;
 
     public Consumer<Block> initializationCallback = null;
+    public boolean generate3DIcon = true;
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
         return true;

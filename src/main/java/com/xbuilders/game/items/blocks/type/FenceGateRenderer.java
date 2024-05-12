@@ -89,7 +89,7 @@ public class FenceGateRenderer extends BlockType {
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
             int y, int z) {
-        boolean open = data.get(1) == 0;
+        boolean open = data != null && data.get(1) == 0;
         if (data == null || data.get(0) == 3) {
             if (open)
                 open3.render(buffers, block, neighbors, light, x, y, z);

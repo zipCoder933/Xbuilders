@@ -56,9 +56,12 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
 
 /**
+ * IF THE RESULTING IMAGES ARE EMPTY, THE MOST LIKELY CULPRIT IS THAT THE
+ * ICON.RTT.VS WAS NOT UPDATED TO MATCH CHUNK.VS
+ * 
  * @author zipCoder933
  */
-public abstract class BlockIconRenderer {
+public class BlockIconRenderer {
 
     Thread thread1;
     long window1 = 0;
@@ -76,12 +79,12 @@ public abstract class BlockIconRenderer {
         lock = new SimpleWaitLock();
         thread1 = new Thread(() -> {
             System.out.println("Generating icons... Image size: " + imageSize + "x" + imageSize);
-            //<editor-fold defaultstate="collapsed" desc="initialize">
+            // <editor-fold defaultstate="collapsed" desc="initialize">
             synchronized (BaseWindow.windowCreateLock) {
                 // Create first window
-                window1 = glfwCreateWindow(imageSize, imageSize, "Window 1", NULL, NULL);
+                window1 = glfwCreateWindow(imageSize, imageSize, "Icon Generator", NULL, NULL);
                 if (window1 == 0) {
-                    throw new IllegalStateException("Failed to create window 1");
+                    throw new IllegalStateException("Failed to create icon gnerator window");
                 }
             }
             glfwMakeContextCurrent(window1);
@@ -103,16 +106,16 @@ public abstract class BlockIconRenderer {
             /**
              * Set the list of draw buffers.
              */
-            int[] drawBuffers = {GL30.GL_COLOR_ATTACHMENT0};
+            int[] drawBuffers = { GL30.GL_COLOR_ATTACHMENT0 };
             GL20.glDrawBuffers(drawBuffers);
 
-            glEnable(GL_DEPTH_TEST);   // Enable depth test
+            glEnable(GL_DEPTH_TEST); // Enable depth test
             glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
             glEnable(GL_CULL_FACE); // enable face culling
             glFrontFace(GL_CCW);// specify the winding order of front-facing triangles
             glCullFace(GL_BACK);// specify which faces to cull
-            glEnable(GL_BLEND); //Enable transparency
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //Enable transparency
+            glEnable(GL_BLEND); // Enable transparency
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable transparency
 
             try {
                 shader = new BlockShader(textures.layerCount);
@@ -125,14 +128,14 @@ public abstract class BlockIconRenderer {
                 blockMVP.sendToShader(shader.getID(), shader.mvpUniform);
                 mesh = new CompactMesh();
                 mesh.setTextureID(textures.createArrayTexture());
-//</editor-fold>
+                // </editor-fold>
 
                 Block[] list = ItemList.blocks.getList();
-
+                exportDirectory.mkdirs();
                 for (int i = 0; !glfwWindowShouldClose(window1); i++) {
                     GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebuffer);
                     GL11.glViewport(0, 0, imageSize, imageSize);
-                    GL11C.glClearColor(0, 0, 0, 0); //Set the background color
+                    GL11C.glClearColor(0, 0, 0, 0); // Set the background color
                     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
                     if (i >= list.length) {
@@ -156,15 +159,22 @@ public abstract class BlockIconRenderer {
         lock.lock();
     }
 
-    public abstract boolean shouldMakeIcon(Block block);
+    public boolean shouldMakeIcon(Block block) {
+        BlockType type = ItemList.blocks.getBlockTypeID(block.type);
+        if (type == null || !type.generate3DIcon || block.texture == null) {
+            return false;
+        }
+        return true;
+    }
 
     private void generateAndSaveIcon(Block block, File baseFile, int renderedTexture) throws IOException {
         if (block.texture != null && shouldMakeIcon(block)) {
             if (makeBlockMesh(block)) {
-                System.out.println("\tblock: " + block);
+                System.out.println("\tblock: "+block.id+" (" + block.name+")");
                 shader.bind();
                 mesh.draw(false);
-                TextureUtils.saveTextureAsPNG(renderedTexture, new File(baseFile, block.id + ".png"));
+                File outFile = new File(baseFile, block.id + ".png");
+                TextureUtils.saveTextureAsPNG(renderedTexture, outFile);
             }
         }
     }
@@ -175,13 +185,13 @@ public abstract class BlockIconRenderer {
         if (type == null) {
             return false;
         }
-        Block[] blockNeghbors = new Block[]{BlockList.BLOCK_AIR,
+        Block[] blockNeghbors = new Block[] { BlockList.BLOCK_AIR,
                 BlockList.BLOCK_AIR,
                 BlockList.BLOCK_AIR,
                 BlockList.BLOCK_AIR,
                 BlockList.BLOCK_AIR,
-                BlockList.BLOCK_AIR};
-        byte[] lightNeghbors = new byte[]{15, 15, 15, 15, 15, 15};
+                BlockList.BLOCK_AIR };
+        byte[] lightNeghbors = new byte[] { 15, 15, 15, 15, 15, 15 };
 
         type.constructBlock(buffers, block, null,
                 blockNeghbors, lightNeghbors, 0, 0, 0);
@@ -220,7 +230,8 @@ public abstract class BlockIconRenderer {
      * @return the view matrix
      */
     private Matrix4f calculateOrbitingViewMatrix(float horizontalOrbit, float verticalOrbit, float distance) {
-        // Calculate the camera position based on horizontal and vertical orbits and distance
+        // Calculate the camera position based on horizontal and vertical orbits and
+        // distance
         float x = distance * (float) Math.cos(verticalOrbit) * (float) Math.sin(horizontalOrbit);
         float y = distance * (float) Math.sin(verticalOrbit);
         float z = distance * (float) Math.cos(verticalOrbit) * (float) Math.cos(horizontalOrbit);
@@ -231,8 +242,7 @@ public abstract class BlockIconRenderer {
         return new Matrix4f().lookAt(
                 cameraPosition,
                 target,
-                up
-        );
+                up);
     }
 
 }

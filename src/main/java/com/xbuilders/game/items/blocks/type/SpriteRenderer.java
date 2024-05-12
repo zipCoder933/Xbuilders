@@ -23,6 +23,7 @@ public class SpriteRenderer extends BlockType {
 
     public SpriteRenderer() {
         super();
+        generate3DIcon = false;
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = false;

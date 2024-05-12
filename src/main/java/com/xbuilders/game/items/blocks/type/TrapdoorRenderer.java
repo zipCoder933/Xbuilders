@@ -32,7 +32,7 @@ public class TrapdoorRenderer extends BlockType {
         //         ResourceUtils.resource("block types\\trapdoor\\open.obj"));
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\trapdoor\\closed.obj"));
-
+        generate3DIcon = false;
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
@@ -71,7 +71,7 @@ public class TrapdoorRenderer extends BlockType {
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
             int y, int z) {
-        boolean open = data.get(1) == 0;
+        boolean open = data != null && data.get(1) == 0;
         if (data == null || data.get(0) == 3) {
             if (open)
                 open3.render(buffers, block, neighbors, light, x, y, z);

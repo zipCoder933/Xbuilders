@@ -30,6 +30,7 @@ public class WallItemRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
         };
+        generate3DIcon = false;
         wall0 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall0.blockType"), renderSide_subBlock);
         wall1 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall1.blockType"), renderSide_subBlock);
         wall2 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall2.blockType"), renderSide_subBlock);

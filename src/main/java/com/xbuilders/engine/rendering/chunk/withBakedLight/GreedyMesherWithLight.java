@@ -103,8 +103,8 @@ public class GreedyMesherWithLight {
 
                 // We create the mask here (We MUST use it this way IF the chunk dimensions are
                 // not cubic)
-                final IntBuffer mask = stack.mallocInt(dims[u] * dims[v]);
-                // final IntBuffer lightMask = stack.mallocInt(dims[u] * dims[v]); //TODO: Implement lightmask
+                final IntBuffer mask = stack.mallocInt(dims[u] * dims[v]); //TODO: Either change this from intbuffer to long buffer or add another mask
+                // Implement lightmask
 
                 /*
                  * We move through the d from front to back
@@ -149,21 +149,24 @@ public class GreedyMesherWithLight {
                             light1 = retrieveLightForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk, block1,
                                     d, x, q);
 
-                            //The first 16 bits are for the block ID, we also need an additional 32 bits for the light
-                            //The light has 8 bits for torch and sun, x4= 32 bits
+                            // The first 16 bits are for the block ID, we also need an additional 32 bits
+                            // for the light
+                            // The light has 8 bits for torch and sun, x4= 32 bits, this mask wont be enough unless we use a long
                             int thisPlanePacked = (thisPlaneVoxel.get(0) << 16) | (light & 0xFFFF);
                             int nextPlanePacked = (nextPlaneVoxel.get(0) << 16) | (light1 & 0xFFFF);
 
-                            int maskValue = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0)
-                                    || (block.opaque != block1.opaque)
-                                            // The opaque check is to prevent transparent mesh from overriding opaque
-                                            // one
-                                            ? (backFace // add the voxel for either this plane or the next plane
-                                                        // depending on our direction
-                                                    ? nextPlanePacked
-                                                    : thisPlanePacked)
-                                            : 0;
-                            mask.put(n++, maskValue);
+                            boolean draw = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0)
+                                    || (block.opaque != block1.opaque);
+                            // The opaque check is to prevent transparent mesh from overriding opaque
+
+                            int maskValue = draw
+                                    ? (backFace // add the voxel for either this plane or the next plane
+                                                // depending on our direction
+                                            ? nextPlanePacked
+                                            : thisPlanePacked)
+                                    : 0;
+                            mask.put(n, maskValue);
+                            n++;
                         }
                     }
 
@@ -331,12 +334,11 @@ public class GreedyMesherWithLight {
         byte l_rb = (byte) packedLight; // bottom right
 
         // if (smoothLighting) { //We need a 32 bit number for the light not 16
-        //     l_lt = (byte) ((packedLight >> 8) & 0xF);
-        //     l_rt = (byte) ((packedLight >> 16) & 0xF);
-        //     l_lb = (byte) ((packedLight >> 24) & 0xF);
-        //     l_rb = (byte) ((packedLight >> 32) & 0xF);
+        // l_lt = (byte) ((packedLight >> 8) & 0xF);
+        // l_rt = (byte) ((packedLight >> 16) & 0xF);
+        // l_lb = (byte) ((packedLight >> 24) & 0xF);
+        // l_rb = (byte) ((packedLight >> 32) & 0xF);
         // }
-
 
         Block block = blockMap.get(blockVal);
 
@@ -435,8 +437,6 @@ public class GreedyMesherWithLight {
         }
     }
 
-
-
     private int retrieveLightForThisPlane(short thisPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block,
             int d, int[] x, int[] q) {
         // //This plane = top face, +X face and +Z face (x and z assuming you are
@@ -447,7 +447,7 @@ public class GreedyMesherWithLight {
                 byte rightTop = 0;
                 byte leftBottom = 0;
                 byte rightBottom = 15;
-                //Pack the light values
+                // Pack the light values
                 return (leftTop | (rightTop << 8) | (leftBottom << 16) | (rightBottom << 24));
             } else {// Flat lighting
                 if (!block.opaque) {
@@ -481,7 +481,7 @@ public class GreedyMesherWithLight {
                 byte rightTop = 0;
                 byte leftBottom = 0;
                 byte rightBottom = 15;
-                //Pack the light values
+                // Pack the light values
                 return (leftTop | (rightTop << 8) | (leftBottom << 16) | (rightBottom << 24));
             } else {// Flat lighting
                 if (!block1.opaque) {

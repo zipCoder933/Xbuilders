@@ -36,6 +36,7 @@ public class DoorHalfRenderer extends BlockType {
     BlockModel right_closed0, right_closed1, right_closed2, right_closed3;
 
     public DoorHalfRenderer() {
+        generate3DIcon = false;
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\door\\left closed.obj"));
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
@@ -191,8 +192,8 @@ public class DoorHalfRenderer extends BlockType {
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
             int y, int z) {
-        boolean open = data.get(1) == 0;
-        boolean left = data.get(2) == 0;
+        boolean open = data!=null && data.get(1) == 0;
+        boolean left = data!=null && data.get(2) == 0;
         if (left) {
             if (data == null || data.get(0) == 3) {
                 if (open)

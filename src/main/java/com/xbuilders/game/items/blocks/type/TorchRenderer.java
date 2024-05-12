@@ -40,6 +40,7 @@ public class TorchRenderer extends BlockType {
 
 
     public TorchRenderer() {
+        generate3DIcon = false;
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;

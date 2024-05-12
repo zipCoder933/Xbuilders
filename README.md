@@ -35,6 +35,8 @@ There are 2 blender profiles, one for blocks and one for entities
     * If we manually flip the model in the code, we also flip the normals
       * A solution would be to let the normals be flipped in the blender, however it may make things problematic for design
       * Overall, the easiest solution that works is just to have a negative Y blender profile
+### Icon generation
+IF THE RESULTING IMAGES ARE EMPTY, THE MOST LIKELY CULPRIT IS THAT THE ICON.RTT.VS SHADER WAS NOT UPDATED TO MATCH CHUNK.VS SHADER
 
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short (~1h) time period.
