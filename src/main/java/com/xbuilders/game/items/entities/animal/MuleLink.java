@@ -1,0 +1,26 @@
+package com.xbuilders.game.items.entities.animal;
+
+import com.xbuilders.engine.items.Entity;
+import com.xbuilders.window.BaseWindow;
+
+import java.util.ArrayList;
+
+public class MuleLink extends HorseLink {
+
+    public MuleLink(BaseWindow window, int id, String name, String textureName) {
+        super(window, id, name, textureName);
+        bodyModel = "items\\entity\\animal\\horse\\mule\\body.obj";
+        legModel = "items\\entity\\animal\\horse\\mule\\leg.obj";
+        texturePre = "items\\entity\\animal\\horse\\";
+    }
+
+    @Override
+    public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
+        super.initializeEntity(e, loadBytes);
+        HorseMule a = (HorseMule) e; //Cast the entity to a fox
+        a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables
+        a.legXSpacing = 0.35f * a.SCALE;
+        a.legZSpacing = 0.8f * a.SCALE;
+        a.legYSpacing = -1f * a.SCALE;
+    }
+}

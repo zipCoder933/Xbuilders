@@ -72,12 +72,11 @@ public class GameScene implements WindowEvents {
 
     NKWindow window;
 
-    final Matrix4f projection, view;
+    public final static Matrix4f projection = new Matrix4f();
+    public final static Matrix4f view = new Matrix4f();
 
     public GameScene(NKWindow window) throws Exception {
         this.window = window;
-        projection = new Matrix4f();
-        view = new Matrix4f();
         specialMode = true;
         player = new UserControlledPlayer(Main.user);
         otherPlayers = new ArrayList<>();

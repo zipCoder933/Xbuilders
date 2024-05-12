@@ -6,7 +6,6 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.camera.FrustumCullingTester;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
-import org.lwjgl.system.MathUtil;
 
 /**
  * @author zipCoder933
@@ -48,10 +46,10 @@ public class ChunkEntitySet {
             if (e.destroyMode) {
                 list.remove(i);
             } else {
-                if (e.isNew) {//Initialize entity on the main thread
-                    e.initialize(e.loadBytes);
+                if (e.needsInitialization) {//Initialize entity on the main thread
+                    e.link.initializeEntity(e, e.loadBytes); //Sometimes the entity link has static variables, this is an attempt to fix that
                     e.loadBytes = null;
-                    e.isNew = false;
+                    e.needsInitialization = false;
                     e.updatePosition();
                 }
                 e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);

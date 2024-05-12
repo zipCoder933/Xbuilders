@@ -6,30 +6,27 @@ package com.xbuilders.game;
 
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.blocks.*;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.items.blocks.trees.*;
-import com.xbuilders.game.items.entities.Fox;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.game.items.blocks.type.*;
+import com.xbuilders.game.items.entities.animal.*;
 import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.TestTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.ComplexTerrain;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.NKWindow;
 
 import java.io.File;
@@ -39,12 +36,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
@@ -57,6 +51,7 @@ public class MyGame extends Game {
 
     public static class GameInfo {
         public final Item[] playerBackpack;
+
         public GameInfo() {
             playerBackpack = new Item[22];
         }
@@ -141,7 +136,6 @@ public class MyGame extends Game {
         try {
             for (File file : jsonDirectory.listFiles()) {
                 if (!file.getName().endsWith(".json")) continue;
-                System.out.println("\tAdding all json blocks from " + file.getAbsolutePath());
                 String jsonString = Files.readString(file.toPath());
                 Block[] jsonBlocks2 = JsonManager.gson_jsonBlock.fromJson(jsonString, Block[].class);
                 if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
@@ -209,7 +203,7 @@ public class MyGame extends Game {
         // int i=0;
         // syBlocks.clear();
         // for(File tex : ResourceUtils.resource("items\\blocks\\textures\\trapdoor").listFiles()) {
-            
+
         //         Block fenceGate = new Block(blockID, 
         //                     tex.getName().replace(".png", "")+" trapdoor", 
         //                      new BlockTexture("trapdoor\\"+tex.getName()));
@@ -262,7 +256,7 @@ public class MyGame extends Game {
     }
 
     @Override
-    public void initialize() throws Exception {
+    public void initialize(NKWindow window) throws Exception {
 
         //Add block types FIRST. We need them to be able to setup blocks properly
         ItemList.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
@@ -292,23 +286,46 @@ public class MyGame extends Game {
         blockList = ArrayUtils.concatenateArrays(blockList, blocks);
 
         EntityLink[] entityList = new EntityLink[]{
-                        new EntityLink(0, "Red Fox",
-                        () -> new Fox((BaseWindow) window, Main.gameScene.player,"red.png"),
-                        (e) -> {
-                            e.setIcon("egg.png");
-                        }),
+                //Foxes
+                new FoxLink(window, 0, "Red Fox", "red.png"),
+                new FoxLink(window, 1, "Gray Fox", "gray.png"),
+                new FoxLink(window, 2, "White Fox", "white.png"),
+                //Cats
+                new CatLink(window, 3, "Black Cat", "black.png"),
+                new CatLink(window, 4, "British Shorthair Cat", "british_shorthair.png"),
+                new CatLink(window, 5, "Calico Cat", "calico.png"),
+                new CatLink(window, 6, "Calico Cat", "calico2.png"),
+                new CatLink(window, 7, "Jellie Cat", "jellie.png"),
+                new CatLink(window, 8, "Ocelot", "ocelot.png"),
+                new CatLink(window, 9, "Persian Cat", "persian.png"),
+                new CatLink(window, 10, "Ragdoll Cat", "ragdoll.png"),
+                new CatLink(window, 11, "Red Cat", "red.png"),
+                new CatLink(window, 12, "Siamese Cat", "siamese.png"),
+                new CatLink(window, 13, "Tabby Cat", "tabby.png"),
+                new CatLink(window, 14, "White Cat", "white.png"),
+                //Rabbits
+                new RabbitLink(window, 15, "Black Rabbit", "black.png"),
+                new RabbitLink(window, 16, "White Rabbit", "white.png"),
+                new RabbitLink(window, 17, "Brown Rabbit", "brown.png"),
+                new RabbitLink(window, 18, "Caerbannog Rabbit", "caerbannog.png"),
+                new RabbitLink(window, 19, "Gold Rabbit", "gold.png"),
+                new RabbitLink(window, 20, "Salt Rabbit", "salt.png"),
+                new RabbitLink(window, 21, "Toast Rabbit", "toast.png"),
+                new RabbitLink(window, 22, "White Splotched Rabbit", "white_splotched.png"),
 
-                        new EntityLink(1, "Gray Fox",
-                        () -> new Fox((BaseWindow) window, Main.gameScene.player,"gray.png"),
-                        (e) -> {
-                            e.setIcon("egg.png");
-                        }),
+                //Horses
+                new HorseLink(window, 23, "Black Horse", "black.png"),
+                new HorseLink(window, 24, "Brown Horse", "brown.png"),
+                new HorseLink(window, 25, "Chestnut Horse", "chestnut.png"),
+                new HorseLink(window, 26, "Creamy Horse", "creamy.png"),
+                new HorseLink(window, 27, "Dark Brown Horse", "darkbrown.png"),
+                new HorseLink(window, 28, "White Horse", "white.png"),
+                new HorseLink(window, 29, "Gray Horse", "gray.png"),
+                //Mules
+                new MuleLink(window, 30, "Mule", "mule.png"),
+                new MuleLink(window, 31, "Donkey", "donkey.png"),
+        };
 
-                        new EntityLink(2, "White Fox",
-                        () -> new Fox((BaseWindow) window, Main.gameScene.player,"white.png"),
-                        (e) -> {
-                            e.setIcon("egg.png");
-                        }),};
 
         //Add terrains
         terrainsList.add(new TestTerrain());

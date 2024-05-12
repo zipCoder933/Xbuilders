@@ -27,6 +27,15 @@ Textures taken mostly from Pixel Perfection, with some handcrafted ones, and tex
 * https://github.com/Athemis/PixelPerfectionCE/tree/master
 * https://github.com/Wallbraker/PixelPerfection?tab=readme-ov-file
 
+### Blender profiles
+There are 2 blender profiles, one for blocks and one for entities
+* The block profile has +Y as up direction
+* The entity profile has -Y as up direction
+  * LETS JUST LEAVE IT! it works, and its easier than any other solution.
+    * If we manually flip the model in the code, we also flip the normals
+      * A solution would be to let the normals be flipped in the blender, however it may make things problematic for design
+      * Overall, the easiest solution that works is just to have a negative Y blender profile
+
 # Managable To-Do List towards XBuilders 2
 We split the implementation features into a list of items that can be completed in a very short (~1h) time period.
 
@@ -36,9 +45,14 @@ We split the implementation features into a list of items that can be completed 
   * However, There are probbably other instabilities that need to be fixed
 
 ## Features
+* Add dogs
+  * Needs individual legs like horses
+* Add sea turtles
+* Add parrots
 * Add copy/paste tools
 * Add a conversion tool from XB2 to XB3
 * Player spawn position must be set in a safe place when entering the world
+* Smooth lighting w/ AO for mesh
 
 ## Optimizations
 * performance optimizations when traveling thru world

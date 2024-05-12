@@ -39,7 +39,7 @@ public abstract class Game {
 
     public abstract void startGame(WorldInfo worldInfo);
 
-    public abstract void initialize() throws Exception;
+    public abstract void initialize(NKWindow window) throws Exception;
 
     public final Terrain getTerrainFromInfo(WorldInfo info) {
         for (Terrain terrain : terrainsList) {

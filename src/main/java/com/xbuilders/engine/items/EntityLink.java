@@ -5,12 +5,12 @@
 package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.world.chunk.Chunk;
+
 import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- *
  * @author zipCoder933
  */
 public class EntityLink extends Item {
@@ -41,5 +41,9 @@ public class EntityLink extends Item {
             return entity;
         }
         return null;
+    }
+
+    public void initializeEntity(Entity entity, ArrayList<Byte> loadBytes) {
+        entity.initialize(loadBytes);
     }
 }

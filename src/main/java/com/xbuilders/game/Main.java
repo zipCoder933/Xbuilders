@@ -96,7 +96,7 @@ public class Main extends NKWindow {
     private void init() throws Exception {
         ItemList.initialize();
         uiResources = new UIResources(this, ctx);
-        game.initialize();
+        game.initialize(this);
 
         topMenu.init(uiResources);
 

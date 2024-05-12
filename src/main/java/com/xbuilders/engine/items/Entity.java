@@ -12,8 +12,8 @@ import com.xbuilders.engine.world.wcc.WCCf;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
+import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -27,18 +27,19 @@ public abstract class Entity {
     public EntityAABB aabb;
     public final WCCf chunkPosition;
     public final Vector3f worldPosition;
+    public final MVP mvp = new MVP();
     boolean destroyMode = false;
     Chunk chunk;
-    public float frustumSphereRadius = 1;
-    protected boolean isNew;
-    public boolean inFrustum;
+    public float frustumSphereRadius = 1; //Each entity has a sphere that is used for frustum culling. This defines its radius.
+    protected boolean needsInitialization;
+    public boolean inFrustum; //This value is automatically set by the frustum culling tester
     public float distToPlayer;
 
     public Entity() {
         aabb = new EntityAABB();
         worldPosition = aabb.worldPosition;
         chunkPosition = new WCCf();
-        isNew = true;
+        needsInitialization = true;
     }
 
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.

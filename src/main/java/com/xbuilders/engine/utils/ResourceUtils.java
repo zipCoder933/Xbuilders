@@ -12,7 +12,6 @@ import java.io.RandomAccessFile;
 import java.nio.channels.Channel;
 
 /**
- *
  * @author zipCoder933
  */
 public class ResourceUtils {
@@ -56,6 +55,9 @@ public class ResourceUtils {
     }
 
     public static File resource(String path) {
+        if (path.startsWith(RESOURCE_DIR.getAbsolutePath())) {
+            return new File(path);
+        }
         return new File(RESOURCE_DIR, path);
     }
 

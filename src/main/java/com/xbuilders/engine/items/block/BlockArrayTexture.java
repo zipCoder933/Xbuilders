@@ -82,7 +82,7 @@ public class BlockArrayTexture {
     }
 
     private void indexDirectory(File baseDir, File[] files, List<TextureFile> imageFiles) throws IOException {
-        System.out.println("Indexing directory: " + files[0].getParentFile().getAbsolutePath());
+//        System.out.println("Indexing directory: " + files[0].getParentFile().getAbsolutePath());
         for (int i = 0; i < files.length; i++) {
             if (files[i].isDirectory()) indexDirectory(baseDir, files[i].listFiles(), imageFiles);
             else {
