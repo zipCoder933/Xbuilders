@@ -21,4 +21,11 @@ By easily interpolating light values between vertices, we not only get smooth li
 1. For each greedy quad, we will have to get 9 light values instead of 1.
 2. We can pack these nine 4 bit values into a 36 bit number and only merge faces if the 2 numbers are the same
 3. When we render the quad, we unpack the light values and interpolate them for each vertex
-	* NOTE: to save memory and time, it might be better to interpolate the light values for each vertex ahead of time. That means we only have 4 values to remember when comparing quads, making a 16 bit number instead of 36
+	* NOTE: to save memory and time, it might be better to interpolate the light values for each vertex ahead of time. That means we only have 4 values to remember when comparing quads, saving memory
+
+### memory
+* Packed light with a single torch channel uses up 8 bits, if we had rgb lighting, it would be 16 bits
+* We need to have a separate light mask instead of packing the light and block ID into 1 mask
+	* with both in the same mask, we run into. 2 problems:
+		1. 16 for block id + 32 for light = 48. that means we have 16 bits left over if we use a long data type for the mask
+		2. if we use RGb light, the entire 4 light values use 16b*4 = 64 bits. (1 long)
