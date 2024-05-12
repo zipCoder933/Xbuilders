@@ -420,7 +420,7 @@
         }
     },
     {
-        "name": "Gray 1 Door (Top, Hidden)",
+        "name": "Gray Space Door (Top, Hidden)",
         "id": 898,
         "texture": {
             "pos_y": "door\\gray 1_0_0.png",
@@ -441,7 +441,7 @@
         }
     },
     {
-        "name": "Gray 2 Control-Panel Door (Top, Hidden)",
+        "name": "Gray Space Control-Panel Door (Top, Hidden)",
         "id": 899,
         "texture": {
             "pos_y": "door\\gray 2 control-panel_0_0.png",
@@ -1239,7 +1239,7 @@
         }
     },
     {
-        "name": "Acacia2 Door",
+        "name": "Acacia Door 2",
         "id": 937,
         "texture": {
             "pos_y": "door\\acacia2_0_1.png",
@@ -1249,7 +1249,7 @@
             "neg_x": "door\\acacia2_0_1.png",
             "neg_y": "door\\acacia2_0_1.png"
         },
-        "icon": "icon_0_0.png",
+        "icon": "door\\acacia.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1271,7 +1271,7 @@
             "neg_x": "door\\acacia_0_1.png",
             "neg_y": "door\\acacia_0_1.png"
         },
-        "icon": "icon_1_0.png",
+        "icon": "door\\acaica2.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1293,7 +1293,7 @@
             "neg_x": "door\\bamboo 2_0_1.png",
             "neg_y": "door\\bamboo 2_0_1.png"
         },
-        "icon": "icon_2_0.png",
+        "icon": "door\\bamboo 2.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1315,7 +1315,7 @@
             "neg_x": "door\\bamboo_0_1.png",
             "neg_y": "door\\bamboo_0_1.png"
         },
-        "icon": "icon_3_0.png",
+        "icon": "door\\bamboo.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1337,7 +1337,7 @@
             "neg_x": "door\\birch_0_1.png",
             "neg_y": "door\\birch_0_1.png"
         },
-        "icon": "icon_4_0.png",
+        "icon": "door\\birch.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1359,7 +1359,7 @@
             "neg_x": "door\\cladded blue_0_1.png",
             "neg_y": "door\\cladded blue_0_1.png"
         },
-        "icon": "icon_5_0.png",
+        "icon": "door\\cladded.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1381,7 +1381,7 @@
             "neg_x": "door\\cladded green_0_1.png",
             "neg_y": "door\\cladded green_0_1.png"
         },
-        "icon": "icon_6_0.png",
+        "icon": "door\\cladded.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1403,7 +1403,7 @@
             "neg_x": "door\\cladded magenta_0_1.png",
             "neg_y": "door\\cladded magenta_0_1.png"
         },
-        "icon": "icon_7_0.png",
+        "icon": "door\\cladded.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1425,7 +1425,7 @@
             "neg_x": "door\\cladded_0_1.png",
             "neg_y": "door\\cladded_0_1.png"
         },
-        "icon": "icon_8_0.png",
+        "icon": "door\\cladded.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1447,7 +1447,7 @@
             "neg_x": "door\\french bamboo windows_0_1.png",
             "neg_y": "door\\french bamboo windows_0_1.png"
         },
-        "icon": "icon_9_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1469,7 +1469,7 @@
             "neg_x": "door\\french bamboo_0_1.png",
             "neg_y": "door\\french bamboo_0_1.png"
         },
-        "icon": "icon_10_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1491,7 +1491,7 @@
             "neg_x": "door\\french blue windows_0_1.png",
             "neg_y": "door\\french blue windows_0_1.png"
         },
-        "icon": "icon_11_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1513,7 +1513,7 @@
             "neg_x": "door\\french blue_0_1.png",
             "neg_y": "door\\french blue_0_1.png"
         },
-        "icon": "icon_12_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1535,7 +1535,7 @@
             "neg_x": "door\\french green windows_0_1.png",
             "neg_y": "door\\french green windows_0_1.png"
         },
-        "icon": "icon_13_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1557,7 +1557,7 @@
             "neg_x": "door\\french green_0_1.png",
             "neg_y": "door\\french green_0_1.png"
         },
-        "icon": "icon_14_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1579,7 +1579,7 @@
             "neg_x": "door\\french magenta windows_0_1.png",
             "neg_y": "door\\french magenta windows_0_1.png"
         },
-        "icon": "icon_15_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1601,7 +1601,7 @@
             "neg_x": "door\\french magenta_0_1.png",
             "neg_y": "door\\french magenta_0_1.png"
         },
-        "icon": "icon_16_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1623,7 +1623,7 @@
             "neg_x": "door\\french windows_0_1.png",
             "neg_y": "door\\french windows_0_1.png"
         },
-        "icon": "icon_17_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1645,7 +1645,7 @@
             "neg_x": "door\\french_0_1.png",
             "neg_y": "door\\french_0_1.png"
         },
-        "icon": "icon_18_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1667,7 +1667,7 @@
             "neg_x": "door\\glass_0_1.png",
             "neg_y": "door\\glass_0_1.png"
         },
-        "icon": "icon_19_0.png",
+        "icon": "door\\glass.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1679,7 +1679,7 @@
         }
     },
     {
-        "name": "Gray 1 Door",
+        "name": "Gray Space Door",
         "id": 957,
         "texture": {
             "pos_y": "door\\gray 1_0_1.png",
@@ -1689,7 +1689,7 @@
             "neg_x": "door\\gray 1_0_1.png",
             "neg_y": "door\\gray 1_0_1.png"
         },
-        "icon": "icon_20_0.png",
+        "icon": "door\\space (4).png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1701,7 +1701,7 @@
         }
     },
     {
-        "name": "Gray 2 Control-Panel Door",
+        "name": "Gray Space Control-Panel Door",
         "id": 958,
         "texture": {
             "pos_y": "door\\gray 2 control-panel_0_1.png",
@@ -1711,7 +1711,7 @@
             "neg_x": "door\\gray 2 control-panel_0_1.png",
             "neg_y": "door\\gray 2 control-panel_0_1.png"
         },
-        "icon": "icon_21_0.png",
+        "icon": "door\\space (1).png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1723,7 +1723,7 @@
         }
     },
     {
-        "name": "Gray 2 Door",
+        "name": "Gray Space Door",
         "id": 959,
         "texture": {
             "pos_y": "door\\gray 2_0_1.png",
@@ -1733,7 +1733,7 @@
             "neg_x": "door\\gray 2_0_1.png",
             "neg_y": "door\\gray 2_0_1.png"
         },
-        "icon": "icon_22_0.png",
+        "icon": "door\\space (1).png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1755,7 +1755,7 @@
             "neg_x": "door\\italian bamboo windows_0_1.png",
             "neg_y": "door\\italian bamboo windows_0_1.png"
         },
-        "icon": "icon_23_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1777,7 +1777,7 @@
             "neg_x": "door\\italian bamboo_0_1.png",
             "neg_y": "door\\italian bamboo_0_1.png"
         },
-        "icon": "icon_24_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1799,7 +1799,7 @@
             "neg_x": "door\\italian blue windows_0_1.png",
             "neg_y": "door\\italian blue windows_0_1.png"
         },
-        "icon": "icon_25_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1821,7 +1821,7 @@
             "neg_x": "door\\italian blue_0_1.png",
             "neg_y": "door\\italian blue_0_1.png"
         },
-        "icon": "icon_26_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1843,7 +1843,7 @@
             "neg_x": "door\\italian green windows_0_1.png",
             "neg_y": "door\\italian green windows_0_1.png"
         },
-        "icon": "icon_27_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1865,7 +1865,7 @@
             "neg_x": "door\\italian green_0_1.png",
             "neg_y": "door\\italian green_0_1.png"
         },
-        "icon": "icon_28_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1887,7 +1887,7 @@
             "neg_x": "door\\italian magenta windows_0_1.png",
             "neg_y": "door\\italian magenta windows_0_1.png"
         },
-        "icon": "icon_29_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1909,7 +1909,7 @@
             "neg_x": "door\\italian magenta_0_1.png",
             "neg_y": "door\\italian magenta_0_1.png"
         },
-        "icon": "icon_30_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1931,7 +1931,7 @@
             "neg_x": "door\\italian windows_0_1.png",
             "neg_y": "door\\italian windows_0_1.png"
         },
-        "icon": "icon_31_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1953,7 +1953,7 @@
             "neg_x": "door\\italian_0_1.png",
             "neg_y": "door\\italian_0_1.png"
         },
-        "icon": "icon_32_0.png",
+        "icon": "door\\italian.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1975,7 +1975,7 @@
             "neg_x": "door\\jungle 2_0_1.png",
             "neg_y": "door\\jungle 2_0_1.png"
         },
-        "icon": "icon_33_0.png",
+        "icon": "door\\jungle2.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -1997,7 +1997,7 @@
             "neg_x": "door\\jungle_0_1.png",
             "neg_y": "door\\jungle_0_1.png"
         },
-        "icon": "icon_34_0.png",
+        "icon": "door\\jungle.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2019,7 +2019,7 @@
             "neg_x": "door\\oak 2_0_1.png",
             "neg_y": "door\\oak 2_0_1.png"
         },
-        "icon": "icon_35_0.png",
+        "icon": "door\\icon_0_0.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2041,7 +2041,7 @@
             "neg_x": "door\\oak renaissance_0_1.png",
             "neg_y": "door\\oak renaissance_0_1.png"
         },
-        "icon": "icon_36_0.png",
+        "icon": "door\\icon_17_0.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2063,7 +2063,7 @@
             "neg_x": "door\\oak_0_1.png",
             "neg_y": "door\\oak_0_1.png"
         },
-        "icon": "icon_37_0.png",
+        "icon": "door\\icon_6_0.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2085,7 +2085,7 @@
             "neg_x": "door\\oval bamboo_0_1.png",
             "neg_y": "door\\oval bamboo_0_1.png"
         },
-        "icon": "icon_38_0.png",
+        "icon": "door\\oval.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2107,7 +2107,7 @@
             "neg_x": "door\\oval blue_0_1.png",
             "neg_y": "door\\oval blue_0_1.png"
         },
-        "icon": "icon_39_0.png",
+        "icon": "door\\oval.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2129,7 +2129,7 @@
             "neg_x": "door\\oval green_0_1.png",
             "neg_y": "door\\oval green_0_1.png"
         },
-        "icon": "icon_40_0.png",
+        "icon": "door\\oval.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2151,7 +2151,7 @@
             "neg_x": "door\\oval magenta_0_1.png",
             "neg_y": "door\\oval magenta_0_1.png"
         },
-        "icon": "icon_41_0.png",
+        "icon": "door\\oval.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2173,7 +2173,7 @@
             "neg_x": "door\\oval_0_1.png",
             "neg_y": "door\\oval_0_1.png"
         },
-        "icon": "icon_42_0.png",
+        "icon": "door\\oval.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2195,7 +2195,7 @@
             "neg_x": "door\\party blue_0_1.png",
             "neg_y": "door\\party blue_0_1.png"
         },
-        "icon": "icon_43_0.png",
+        "icon": "door\\party blue.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2217,7 +2217,7 @@
             "neg_x": "door\\party green_0_1.png",
             "neg_y": "door\\party green_0_1.png"
         },
-        "icon": "icon_44_0.png",
+        "icon": "door\\party green.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2239,7 +2239,7 @@
             "neg_x": "door\\party magenta_0_1.png",
             "neg_y": "door\\party magenta_0_1.png"
         },
-        "icon": "icon_45_0.png",
+        "icon": "door\\party magenta.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2261,7 +2261,7 @@
             "neg_x": "door\\party purple_0_1.png",
             "neg_y": "door\\party purple_0_1.png"
         },
-        "icon": "icon_46_0.png",
+        "icon": "door\\party purple.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2283,7 +2283,7 @@
             "neg_x": "door\\party red_0_1.png",
             "neg_y": "door\\party red_0_1.png"
         },
-        "icon": "icon_47_0.png",
+        "icon": "door\\party red.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2305,7 +2305,7 @@
             "neg_x": "door\\party yellow_0_1.png",
             "neg_y": "door\\party yellow_0_1.png"
         },
-        "icon": "icon_48_0.png",
+        "icon": "door\\party yellow.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2327,7 +2327,7 @@
             "neg_x": "door\\red_0_1.png",
             "neg_y": "door\\red_0_1.png"
         },
-        "icon": "icon_49_0.png",
+        "icon": "door\\red.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2349,7 +2349,7 @@
             "neg_x": "door\\spruce 2_0_1.png",
             "neg_y": "door\\spruce 2_0_1.png"
         },
-        "icon": "icon_50_0.png",
+        "icon": "door\\icon_6_0.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2371,7 +2371,7 @@
             "neg_x": "door\\spruce_0_1.png",
             "neg_y": "door\\spruce_0_1.png"
         },
-        "icon": "icon_51_0.png",
+        "icon": "door\\spruce.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2393,7 +2393,7 @@
             "neg_x": "door\\steel_0_1.png",
             "neg_y": "door\\steel_0_1.png"
         },
-        "icon": "icon_52_0.png",
+        "icon": "door\\icon_7_0.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2415,7 +2415,7 @@
             "neg_x": "door\\warped_0_1.png",
             "neg_y": "door\\warped_0_1.png"
         },
-        "icon": "icon_53_0.png",
+        "icon": "door\\warped.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2437,7 +2437,7 @@
             "neg_x": "door\\web_0_1.png",
             "neg_y": "door\\web_0_1.png"
         },
-        "icon": "icon_54_0.png",
+        "icon": "door\\web.png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2449,7 +2449,7 @@
         }
     },
     {
-        "name": "White 1 Door",
+        "name": "White Space Door",
         "id": 992,
         "texture": {
             "pos_y": "door\\white 1_0_1.png",
@@ -2459,7 +2459,7 @@
             "neg_x": "door\\white 1_0_1.png",
             "neg_y": "door\\white 1_0_1.png"
         },
-        "icon": "icon_55_0.png",
+        "icon": "door\\space (2).png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2471,7 +2471,7 @@
         }
     },
     {
-        "name": "White 2 Control-Panel Door",
+        "name": "White Space Control-Panel Door",
         "id": 993,
         "texture": {
             "pos_y": "door\\white 2 control-panel_0_1.png",
@@ -2481,7 +2481,7 @@
             "neg_x": "door\\white 2 control-panel_0_1.png",
             "neg_y": "door\\white 2 control-panel_0_1.png"
         },
-        "icon": "icon_56_0.png",
+        "icon": "door\\space (3).png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2493,7 +2493,7 @@
         }
     },
     {
-        "name": "White 2 Door",
+        "name": "White Space Door",
         "id": 994,
         "texture": {
             "pos_y": "door\\white 2_0_1.png",
@@ -2503,7 +2503,7 @@
             "neg_x": "door\\white 2_0_1.png",
             "neg_y": "door\\white 2_0_1.png"
         },
-        "icon": "icon_57_0.png",
+        "icon": "door\\space (3).png",
         "solid": true,
         "opaque": false,
         "torch": 0,
@@ -2525,7 +2525,7 @@
             "neg_x": "door\\white_0_1.png",
             "neg_y": "door\\white_0_1.png"
         },
-        "icon": "icon_58_0.png",
+        "icon": "door\\generic.png",
         "solid": true,
         "opaque": false,
         "torch": 0,

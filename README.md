@@ -53,6 +53,8 @@ We split the implementation features into a list of items that can be completed 
 * Add a conversion tool from XB2 to XB3
 * Player spawn position must be set in a safe place when entering the world
 * Smooth lighting w/ AO for mesh
+  * We need to have a separate buffer for the light values
+    * With single color lighting, we room to spare and with rgb lighting, the light channel alone takes up 1 long.
 
 ## Optimizations
 * performance optimizations when traveling thru world

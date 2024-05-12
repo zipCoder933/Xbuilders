@@ -1510,12 +1510,12 @@
         "name": "Brain Coral",
         "id": 98,
         "texture": {
-            "neg_y": "brain coral",
-            "pos_x": "brain coral",
-            "pos_z": "brain coral",
-            "neg_z": "brain coral",
-            "neg_x": "brain coral",
-            "pos_y": "brain coral"
+            "neg_y": "brain coral fan",
+            "pos_x": "brain coral fan",
+            "pos_z": "brain coral fan",
+            "neg_z": "brain coral fan",
+            "neg_x": "brain coral fan",
+            "pos_y": "brain coral fan"
         },
         "solid": true,
         "opaque": false,
@@ -1752,12 +1752,12 @@
         "name": "Fire Coral",
         "id": 115,
         "texture": {
-            "neg_y": "fire coral",
-            "pos_x": "fire coral",
-            "pos_z": "fire coral",
-            "neg_z": "fire coral",
-            "neg_x": "fire coral",
-            "pos_y": "fire coral"
+            "neg_y": "fire coral fan",
+            "pos_x": "fire coral fan",
+            "pos_z": "fire coral fan",
+            "neg_z": "fire coral fan",
+            "neg_x": "fire coral fan",
+            "pos_y": "fire coral fan"
         },
         "solid": true,
         "opaque": false,
@@ -2088,12 +2088,12 @@
         "name": "Tube Coral",
         "id": 136,
         "texture": {
-            "neg_y": "tube coral",
-            "pos_x": "tube coral",
-            "pos_z": "tube coral",
-            "neg_z": "tube coral",
-            "neg_x": "tube coral",
-            "pos_y": "tube coral"
+            "neg_y": "tube coral fan",
+            "pos_x": "tube coral fan",
+            "pos_z": "tube coral fan",
+            "neg_z": "tube coral fan",
+            "neg_x": "tube coral fan",
+            "pos_y": "tube coral fan"
         },
         "solid": true,
         "opaque": false,
@@ -2200,12 +2200,12 @@
         "name": "Brain Coral Block",
         "id": 143,
         "texture": {
-            "neg_y": "brain coral",
-            "pos_x": "brain coral",
-            "pos_z": "brain coral",
-            "neg_z": "brain coral",
-            "neg_x": "brain coral",
-            "pos_y": "brain coral"
+            "neg_y": "brain coral block",
+            "pos_x": "brain coral block",
+            "pos_z": "brain coral block",
+            "neg_z": "brain coral block",
+            "neg_x": "brain coral block",
+            "pos_y": "brain coral block"
         },
         "solid": true,
         "opaque": true,
@@ -2328,12 +2328,12 @@
         "name": "Bubble Coral",
         "id": 151,
         "texture": {
-            "neg_y": "bubble coral",
-            "pos_x": "bubble coral",
-            "pos_z": "bubble coral",
-            "neg_z": "bubble coral",
-            "neg_x": "bubble coral",
-            "pos_y": "bubble coral"
+            "neg_y": "bubble coral fan",
+            "pos_x": "bubble coral fan",
+            "pos_z": "bubble coral fan",
+            "neg_z": "bubble coral fan",
+            "neg_x": "bubble coral fan",
+            "pos_y": "bubble coral fan"
         },
         "solid": true,
         "opaque": false,
@@ -3612,12 +3612,12 @@
         "name": "Horn Coral",
         "id": 235,
         "texture": {
-            "neg_y": "horn coral",
-            "pos_x": "horn coral",
-            "pos_z": "horn coral",
-            "neg_z": "horn coral",
-            "neg_x": "horn coral",
-            "pos_y": "horn coral"
+            "neg_y": "horn coral fan",
+            "pos_x": "horn coral fan",
+            "pos_z": "horn coral fan",
+            "neg_z": "horn coral fan",
+            "neg_x": "horn coral fan",
+            "pos_y": "horn coral fan"
         },
         "solid": true,
         "opaque": false,
@@ -11545,70 +11545,6 @@
         "opaque": true,
         "torch": 0,
         "type": 10
-    },
-    {
-        "name": "Red Wire",
-        "id": 737,
-        "texture": {
-            "neg_y": "red wire",
-            "pos_x": "red wire",
-            "pos_z": "red wire",
-            "neg_z": "red wire",
-            "neg_x": "red wire",
-            "pos_y": "red wire"
-        },
-        "solid": false,
-        "opaque": false,
-        "torch": 0,
-        "type": 14
-    },
-    {
-        "name": "Green Wire",
-        "id": 738,
-        "texture": {
-            "neg_y": "green wire",
-            "pos_x": "green wire",
-            "pos_z": "green wire",
-            "neg_z": "green wire",
-            "neg_x": "green wire",
-            "pos_y": "green wire"
-        },
-        "solid": false,
-        "opaque": false,
-        "torch": 0,
-        "type": 14
-    },
-    {
-        "name": "Blue Wire",
-        "id": 739,
-        "texture": {
-            "neg_y": "blue wire",
-            "pos_x": "blue wire",
-            "pos_z": "blue wire",
-            "neg_z": "blue wire",
-            "neg_x": "blue wire",
-            "pos_y": "blue wire"
-        },
-        "solid": false,
-        "opaque": false,
-        "torch": 0,
-        "type": 14
-    },
-    {
-        "name": "Gray Wire",
-        "id": 740,
-        "texture": {
-            "neg_y": "gray wire",
-            "pos_x": "gray wire",
-            "pos_z": "gray wire",
-            "neg_z": "gray wire",
-            "neg_x": "gray wire",
-            "pos_y": "gray wire"
-        },
-        "solid": false,
-        "opaque": false,
-        "torch": 0,
-        "type": 14
     },
     {
         "name": "20 HP Engine",

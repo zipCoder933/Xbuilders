@@ -82,6 +82,7 @@ public class Main extends NKWindow {
     }
 
     public Main() throws IOException, Exception {
+        
         settings = settingsUtils.load();
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
@@ -91,9 +92,13 @@ public class Main extends NKWindow {
         gameScene = new GameScene(this);
         setMpfUpdateInterval(200);
         MemoryProfiler.setIntervalMS(500);
+
     }
 
     private void init() throws Exception {
+        setIcon(ResourceUtils.resource("icon16.png").getAbsolutePath(),
+                ResourceUtils.resource("icon32.png").getAbsolutePath(),
+                ResourceUtils.resource("icon256.png").getAbsolutePath());
         ItemList.initialize();
         uiResources = new UIResources(this, ctx);
         game.initialize(this);

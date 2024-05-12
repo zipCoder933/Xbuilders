@@ -1,14 +1,25 @@
-# smooth lighting in mesh
+# Smooth lighting in Chunk Mesh
 By easily interpolating light values between vertices, we not only get smooth lighting, but also ambient occlusion and flat lighting. (see  https://youtu.be/ouNONhk3tnw?t=65&feature=shared)
 
 
-## A few important notes
-* if the vertex sampled all 8 voxel positions, it would result in the model picking up its own light values which would usually be 0. this is not good
-* to solve this, we only sample the 4 light values that are parallel with the face normal instead.
-	* This way, we not only get smooth lighting but we get flat shading and ambient occlusion for free!
-	* To see how all that works, observe the photo: note how the corners are dark but that does not effect neighboring faces.
+
+## Details
+if the vertex sampled all 8 voxel positions, it would result in the model picking up its own light values which would usually be 0. this is not good
+* ![alt text](images\\s1.png)
+
+to solve this, we only sample the 4 light values that are parallel with the face normal instead.
+* ![alt text](images\\s2.png)
+
+This way, we not only get smooth lighting but we get flat shading and ambient occlusion for free!
+
+To see how all that works, observe the photo: note how the corners are dark but that does not effect neighboring faces.
+* ![alt text](images\\s4.png)
+
+Observe in the below image:
+Based on the orientation of the face (shown in yellow), we retrieve the 4 voxels (outlined in black) touching the vertex (red) and then we average all 4 voxels together.
 	
-	
+![alt text](images\\s3.png)
+
 ## Possible naïve or greedy optimizations:
 * If a block is transparent, we could just return the light value within it
     * Probs not a good idea. Although it would save compute, I would miss out on ambient occlusion for all transparent blocks

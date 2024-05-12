@@ -91,7 +91,7 @@ public class MyGame extends Game {
         this.window = window;
         try {
             hotbar = new Hotbar(ctx, window, uires);
-            inventory = new Inventory(ctx, window, uires, ItemList.getAllItems(), hotbar);
+            inventory = new Inventory(ctx, ItemList.getAllItems(), window, uires, hotbar);
             blockTools = new BlockTools(ctx, window, uires);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);

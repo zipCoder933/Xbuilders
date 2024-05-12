@@ -4,11 +4,16 @@
  */
 package com.xbuilders.window;
 
+import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.window.utils.IOUtil;
+import com.xbuilders.window.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
-
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+
+import javax.imageio.ImageIO;
 
 import org.joml.Vector2d;
 import org.lwjgl.BufferUtils;
@@ -29,8 +34,10 @@ import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.*;
+import org.lwjgl.stb.STBImage;
 
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_SEVERITY_LOW_ARB;
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_SOURCE_API_ARB;
@@ -45,8 +52,13 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 
 import org.lwjgl.system.MemoryUtil;
 
-import static org.lwjgl.system.MemoryUtil.NULL;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
+import org.lwjgl.glfw.GLFWImage;
+
+import static org.lwjgl.stb.STBImage.*;
+import static org.lwjgl.system.MemoryUtil.*;
 import org.lwjgl.system.Platform;
 
 /**
@@ -60,6 +72,102 @@ public abstract class BaseWindow {
     protected GLFWFramebufferSizeCallback framebufferSizeCallback;
     protected GLCapabilities capabilities;
     private static Callback debugProc;
+
+    // From
+    // https://gamedev.stackexchange.com/questions/105555/setting-window-icon-using-glfw-lwjgl-3
+    public void setIcon(String icon16Path, String icon32Path, String icon256Path) throws Exception {
+        ByteBuffer icon16, icon32, icon256;
+        try {
+            icon16 = IOUtil.ioResourceToByteBuffer(icon16Path, 2048);
+            icon32 = IOUtil.ioResourceToByteBuffer(icon32Path, 4096);
+            icon256 = IOUtil.ioResourceToByteBuffer(icon256Path, 1262144);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        IntBuffer w = memAllocInt(1);
+        IntBuffer h = memAllocInt(1);
+        IntBuffer comp = memAllocInt(1);
+
+        try (GLFWImage.Buffer icons = GLFWImage.malloc(2)) {
+            ByteBuffer pixels16 = stbi_load_from_memory(icon16, w, h, comp, 4);
+            icons.position(0)
+                    .width(w.get(0))
+                    .height(h.get(0))
+                    .pixels(pixels16);
+
+            ByteBuffer pixels32 = stbi_load_from_memory(icon32, w, h, comp, 4);
+            icons.position(1)
+                    .width(w.get(0))
+                    .height(h.get(0))
+                    .pixels(pixels32);
+
+            ByteBuffer pixels256 = stbi_load_from_memory(icon256, w, h, comp, 4);
+            icons.position(2)
+                    .width(w.get(0))
+                    .height(h.get(0))
+                    .pixels(pixels256);
+
+            icons.position(0);
+            GLFW.glfwSetWindowIcon(id, icons);
+
+            stbi_image_free(pixels32);
+            stbi_image_free(pixels16);
+        }
+        // Display.setIcon(new ByteBuffer[] {
+        // new ImageIOImageData().imageToByteBuffer(ImageIO.read(new
+        // File("res/game/gameIcon.png")), false, false, null),
+        // new ImageIOImageData().imageToByteBuffer(ImageIO.read(new
+        // File("res/game/gameIcon.png")), false, false, null)
+        // });
+
+        // IntBuffer w = MemoryUtil.memAllocInt(1);
+        // IntBuffer h = MemoryUtil.memAllocInt(1);
+        // IntBuffer comp = MemoryUtil.memAllocInt(1);
+
+        // File image = new File(path);
+        // if(!image.exists()) {
+        // throw new RuntimeException("File not found: " + path);
+        // }
+
+        // // Icons
+        // {
+        // ByteBuffer icon16;
+        // ByteBuffer icon32;
+        // try {
+        // icon16 = MiscUtils.ioResourceToByteBuffer(path, 2048);
+        // icon32 = MiscUtils.ioResourceToByteBuffer(path, 4096);
+        // } catch (Exception e) {
+        // throw new RuntimeException(e);
+        // }
+
+        // try (GLFWImage.Buffer icons = GLFWImage.malloc(2)) {
+        // ByteBuffer pixels16 = STBImage.stbi_load_from_memory(icon16, w, h, comp, 4);
+        // icons
+        // .position(0)
+        // .width(w.get(0))
+        // .height(h.get(0))
+        // .pixels(pixels16);
+
+        // ByteBuffer pixels32 = STBImage.stbi_load_from_memory(icon32, w, h, comp, 4);
+        // icons
+        // .position(1)
+        // .width(w.get(0))
+        // .height(h.get(0))
+        // .pixels(pixels32);
+
+        // icons.position(0);
+        // GLFW.glfwSetWindowIcon(id, icons);
+
+        // STBImage.stbi_image_free(pixels32);
+        // STBImage.stbi_image_free(pixels16);
+        // }
+        // }
+
+        // MemoryUtil.memFree(comp);
+        // MemoryUtil.memFree(h);
+        // MemoryUtil.memFree(w);
+    }
 
     public boolean windowIsFocused() {
         return glfwGetWindowAttrib(id, GLFW_FOCUSED) == GLFW_TRUE;
@@ -93,7 +201,8 @@ public abstract class BaseWindow {
         cursor = new Vector2d();
     }
 
-    //<editor-fold defaultstate="collapsed" desc="glfw implentations / random methods">
+    // <editor-fold defaultstate="collapsed" desc="glfw implentations / random
+    // methods">
     public void setTitle(String title) {
         GLFW.glfwSetWindowTitle(getId(), title);
     }
@@ -107,7 +216,7 @@ public abstract class BaseWindow {
     }
 
     public void centerWindow() {
-        //vidmode gets the info about the monitor
+        // vidmode gets the info about the monitor
         GLFWVidMode vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
         try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1);
@@ -115,8 +224,7 @@ public abstract class BaseWindow {
             GLFW.glfwGetWindowSize(getId(), pWidth, pHeight);
             GLFW.glfwSetWindowPos(getId(),
                     (vidmode.width() - pWidth.get(0)) / 2,
-                    (vidmode.height() - pHeight.get(0)) / 2
-            );
+                    (vidmode.height() - pHeight.get(0)) / 2);
         }
     }
 
@@ -147,9 +255,9 @@ public abstract class BaseWindow {
     public boolean windowShouldClose() {
         return GLFW.glfwWindowShouldClose(getId());
     }
-//</editor-fold>
+    // </editor-fold>
 
-    //    //<editor-fold defaultstate="collapsed" desc="variables">
+    // //<editor-fold defaultstate="collapsed" desc="variables">
     /**
      * @return the id
      */
@@ -211,7 +319,7 @@ public abstract class BaseWindow {
     public Vector2d getCursorVector() {
         return cursor;
     }
-    ////</editor-fold>
+    //// </editor-fold>
 
     public static final Object windowCreateLock = new Object();
 
@@ -220,7 +328,7 @@ public abstract class BaseWindow {
         glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
 
-        //Set opengl version (You can change this to your desired opengl version)
+        // Set opengl version (You can change this to your desired opengl version)
         glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 3);
 
@@ -236,41 +344,42 @@ public abstract class BaseWindow {
                 throw new RuntimeException("Failed to create the GLFW window \"" + title + "\"");
             }
         }
-        //all subsequent operations are directed to this window
+        // all subsequent operations are directed to this window
         glfwMakeContextCurrent(getId());
-        //Init framebufferSizeCallback event
+        // Init framebufferSizeCallback event
         initCallbacks();
 
-        //Enable V-sync (synchronizes the fps to the monitor update time,
-        //this can cap the fps to the monitors refresh rate (e.g. 60fps))
-        //but it removes artifacts like "screen tearing"
-        GLFW.glfwSwapInterval(1);//to disable vsync GLFW.glfwSwapInterval(0); (1 = on, 0 = off)
+        // Enable V-sync (synchronizes the fps to the monitor update time,
+        // this can cap the fps to the monitors refresh rate (e.g. 60fps))
+        // but it removes artifacts like "screen tearing"
+        GLFW.glfwSwapInterval(1);// to disable vsync GLFW.glfwSwapInterval(0); (1 = on, 0 = off)
 
         centerWindow();
         setWindowSizeVariables();
 
-        //create and initialize capabilites
+        // create and initialize capabilites
         capabilities = GL.createCapabilities();
 
-        //<editor-fold defaultstate="collapsed" desc="Init debugs">
+        // <editor-fold defaultstate="collapsed" desc="Init debugs">
         if (debugProc == null) {
             debugProc = GLUtil.setupDebugMessageCallback();
             if (capabilities.OpenGL43) {
-                GL43.glDebugMessageControl(GL43.GL_DEBUG_SOURCE_API, GL43.GL_DEBUG_TYPE_OTHER, GL43.GL_DEBUG_SEVERITY_NOTIFICATION, (IntBuffer) null, false);
+                GL43.glDebugMessageControl(GL43.GL_DEBUG_SOURCE_API, GL43.GL_DEBUG_TYPE_OTHER,
+                        GL43.GL_DEBUG_SEVERITY_NOTIFICATION, (IntBuffer) null, false);
             } else if (capabilities.GL_KHR_debug) {
                 KHRDebug.glDebugMessageControl(
                         KHRDebug.GL_DEBUG_SOURCE_API,
                         KHRDebug.GL_DEBUG_TYPE_OTHER,
                         KHRDebug.GL_DEBUG_SEVERITY_NOTIFICATION,
                         (IntBuffer) null,
-                        false
-                );
+                        false);
             } else if (capabilities.GL_ARB_debug_output) {
-                glDebugMessageControlARB(GL_DEBUG_SOURCE_API_ARB, GL_DEBUG_TYPE_OTHER_ARB, GL_DEBUG_SEVERITY_LOW_ARB, (IntBuffer) null, false);
+                glDebugMessageControlARB(GL_DEBUG_SOURCE_API_ARB, GL_DEBUG_TYPE_OTHER_ARB, GL_DEBUG_SEVERITY_LOW_ARB,
+                        (IntBuffer) null, false);
             }
             GL43.glDebugMessageCallback(BaseWindow::debugCallback, NULL);
         }
-        //</editor-fold>
+        // </editor-fold>
 
         startMPF();
     }
@@ -285,7 +394,8 @@ public abstract class BaseWindow {
         enableDebugMessages = enabled;
     }
 
-    private static void debugCallback(int source, int type, int id, int severity, int length, long message, long userParam) {
+    private static void debugCallback(int source, int type, int id, int severity, int length, long message,
+            long userParam) {
         if (enableDebugMessages) {
             ByteBuffer buffer = MemoryUtil.memByteBuffer(message, length);
             String debugMessage = MemoryUtil.memASCII(buffer);
@@ -307,7 +417,7 @@ public abstract class BaseWindow {
                 setWindowSizeVariables();
                 glViewport(0, 0, width, height);
                 windowResizeEvent(width, height);
-//                glfwMakeContextCurrent(NULL);
+                // glfwMakeContextCurrent(NULL);
             }
         };
         GLFW.glfwSetFramebufferSizeCallback(getId(), framebufferSizeCallback);
@@ -322,7 +432,7 @@ public abstract class BaseWindow {
      */
     public abstract void windowResizeEvent(final int width, final int height);
 
-    //<editor-fold defaultstate="collapsed" desc="MPF">
+    // <editor-fold defaultstate="collapsed" desc="MPF">
     private double lastTime;
     private int nbFrames;
     private double updateIntervalSec = 1.0;
@@ -358,7 +468,7 @@ public abstract class BaseWindow {
     }
 
     public void onMPFUpdate() {
-//        System.out.println(getMsPerFrame() + " ms/frame\n");
+        // System.out.println(getMsPerFrame() + " ms/frame\n");
     }
 
     /**
@@ -380,7 +490,7 @@ public abstract class BaseWindow {
         frameDelta = (System.nanoTime() - timer) / 1000000000f;
         timer = System.nanoTime();
 
-        //do {// Measure speed
+        // do {// Measure speed
         double currentTime = glfwGetTime();
         nbFrames++;
         if (currentTime - lastTime >= updateIntervalSec) {// If last prinf() was more than 1 sec ago
@@ -390,9 +500,9 @@ public abstract class BaseWindow {
             nbFrames = 0;
             lastTime += updateIntervalSec;
         }
-        //}
+        // }
     }
-//</editor-fold>
+    // </editor-fold>
 
     /**
      * Closes and cleans up the current window
@@ -424,9 +534,9 @@ public abstract class BaseWindow {
     }
 
     /*
-// GLFW key event action constants
-int GLFW_PRESS = 1;
-int GLFW_RELEASE = 0;
-int GLFW_REPEAT = 2;
+     * // GLFW key event action constants
+     * int GLFW_PRESS = 1;
+     * int GLFW_RELEASE = 0;
+     * int GLFW_REPEAT = 2;
      */
 }

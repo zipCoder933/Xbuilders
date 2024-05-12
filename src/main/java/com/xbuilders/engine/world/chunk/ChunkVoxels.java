@@ -91,6 +91,7 @@ public class ChunkVoxels {
     }
 
     public byte getPackedLight(final int x, final int y, final int z) {
+        //Returns an 8 bit packed value
         return this.light.get(x + size.x * (y + size.y * z));
     }
 

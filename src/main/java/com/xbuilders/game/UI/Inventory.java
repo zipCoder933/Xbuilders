@@ -7,6 +7,8 @@ package com.xbuilders.game.UI;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.game.MyGame;
@@ -14,7 +16,11 @@ import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
@@ -38,11 +44,11 @@ public class Inventory extends GameUIElement {
         this.playerInfo = playerInfo;
     }
 
-    public Inventory(NkContext ctx, NKWindow window, UIResources uires,
-            Item[] itemList, Hotbar hotbar) throws IOException {
+    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, UIResources uires,
+            Hotbar hotbar) throws IOException {
         super(ctx, window, uires);
         this.hotbar = hotbar;
-        this.itemList = itemList;
+        setItemList(itemList);
         buttonWidth = new WidgetWidthMeasurement(0);
         searchBox = new TextBox(25);
         searchBox.setOnSelectEvent(() -> {
@@ -54,6 +60,62 @@ public class Inventory extends GameUIElement {
         nk_end(ctx);
         setOpen(false);
     }
+
+    public void setItemList(Item[] itemList) {
+        List<Item> items = new ArrayList<>();
+
+        // Only keep items that are visible
+        for (int i = 0; i < itemList.length; i++) {
+            if (itemList[i] == null || !isVisible(itemList[i]))
+                continue;
+            items.add(itemList[i]);
+        }
+
+        // TODO: Figure out how to effectively sort items
+        // Sort items by value in ascending order
+        Collections.sort(items, comparator);
+
+        // Convert arraylist to array
+        this.itemList = new Item[items.size()];
+        for (int i = 0; i < items.size(); i++) {
+            this.itemList[i] = items.get(i);
+        }
+    }
+
+    private boolean isVisible(Item item) {
+        return item.name != null && !item.name.toLowerCase().contains("hidden");
+    }
+
+    Comparator<Item> comparator = new Comparator<Item>() {
+        @Override
+        public int compare(Item o1, Item o2) {
+            if (o1 == null && o2 == null) {
+                return 0;
+            } else if (o1 == null) {
+                return -1;
+            } else if (o2 == null) {
+                return 1;
+            } else {
+                for (String tag : o1.getTags()) {  // If 2 items have a shared tag
+                    if (o2.getTags().equals(tag)) {
+                        return 0;
+                    }
+                }
+                if (o1.itemType.equals(o2.itemType)) { // Else if 2 items have the same type
+                    if (o1.itemType == ItemType.BLOCK) {
+                        Block b1 = (Block) o1;
+                        Block b2 = (Block) o2;
+                        if (b1.type == b2.type) {
+                            // System.out.println("Same block: " + b1.type);
+                            return 0;
+                        } else
+                            return b1.type > b2.type ? 1 : -1;
+                    }
+                }
+                return 1;
+            }
+        };
+    };
 
     final int menuWidth = 700;
     final int menuHeight = 550;
@@ -227,10 +289,6 @@ public class Inventory extends GameUIElement {
             index++;
         }
         hotbar.setSelectedIndex(0);
-    }
-
-    private boolean isVisible(Item item) {
-        return item.name != null && !item.name.toLowerCase().contains("hidden");
     }
 
     private boolean matchesSearch(Item item, String searchCriteria) {
