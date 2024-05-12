@@ -38,9 +38,10 @@ Based on the orientation of the face (shown in yellow), we retrieve the 4 voxels
 	* NOTE: to save memory and time, it might be better to interpolate the light values for each vertex ahead of time. That means we only have 4 values to remember when comparing quads, saving memory
 
 ### Memory
-* Packed light with a single torch channel uses up 8 bits, if we had rgb lighting, it would be 16 bits
+* Our current Packed light with a single torch channel uses up 8 bits = 32 bits for our light
+* if we had rgb lighting, it would be 16 bits = 64 bits for light
 
-Should we need to separate the light mask from the block ID mask?
+Should to separate the light mask from the block ID mask?
 * with both in the same mask, we run into. 2 problems:
 	1. 16 for block id + 32 for light = 48. that means we have 16 bits left over if we use a long data type for the mask
 	2. if we use RGB light, the entire 4 light values use 16 * 4 = 64 bits. (1 long)
