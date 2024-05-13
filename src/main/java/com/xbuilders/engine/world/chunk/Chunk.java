@@ -83,12 +83,12 @@ public class Chunk {
     public PillarInformation pillarInformation;
 
     public Chunk(int texture) {
+        this.position = new Vector3i();
         mvp = new MVP();
         data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
         meshes = new ChunkMeshBundle(texture, this);
         modelMatrix = new Matrix4f();
         aabb = new AABB();
-        this.position = new Vector3i();
         neghbors = new NeighborInformation();
         entities = new ChunkEntitySet(this);
     }
@@ -109,7 +109,7 @@ public class Chunk {
                 position.z * WIDTH);
         aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH,
                 WIDTH, HEIGHT, WIDTH);
-        meshes.init(position);
+        meshes.init();
         neghbors.init(position);
         //Load the chunk
 

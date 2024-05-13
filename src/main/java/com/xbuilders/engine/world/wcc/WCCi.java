@@ -134,7 +134,16 @@ public class WCCi {
         }
     }
 
-    public static void getNeighboringChunk(Vector3i vec,
+    /**
+     * Updates the given Vector3i object with the neighboring chunk coordinates based on the provided chunk coordinates and block coordinates.
+     *
+     * @param newChunkPos the Vector3i object to be updated with the neighboring chunk coordinates
+     * @param chunkPos    the Vector3i object representing the current chunk coordinates
+     * @param x           the x-coordinate of the block
+     * @param y           the y-coordinate of the block
+     * @param z           the z-coordinate of the block
+     */
+    public static void getNeighboringChunk(Vector3i newChunkPos,
                                            final Vector3i chunkPos,
                                            final int x, final int y, final int z) {
         int coordsX = chunkPos.x;
@@ -155,7 +164,30 @@ public class WCCi {
         } else if (z >= Chunk.WIDTH) {
             ++coordsZ;
         }
-        vec.set(coordsX, coordsY, coordsZ);
+        newChunkPos.set(coordsX, coordsY, coordsZ);
+    }
+
+    public static Chunk getNeighboringChunk(World world, final Vector3i chunkPos,
+                                            final int x, final int y, final int z) {
+        int coordsX = chunkPos.x;
+        int coordsY = chunkPos.y;
+        int coordsZ = chunkPos.z;
+        if (x < 0) {
+            --coordsX;
+        } else if (x >= Chunk.WIDTH) {
+            ++coordsX;
+        }
+        if (y < 0) {
+            --coordsY;
+        } else if (y >= Chunk.WIDTH) {
+            ++coordsY;
+        }
+        if (z < 0) {
+            --coordsZ;
+        } else if (z >= Chunk.WIDTH) {
+            ++coordsZ;
+        }
+        return world.getChunk(new Vector3i(coordsX, coordsY, coordsZ));
     }
 
     public static void getChunkAtWorldPos(final Vector3i vec,

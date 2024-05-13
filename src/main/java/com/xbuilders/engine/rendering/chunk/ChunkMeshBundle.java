@@ -72,7 +72,7 @@ public class ChunkMeshBundle {
     final TraditionalVertexSet transBuffer = new TraditionalVertexSet();
 
     Chunk chunk;
-    Vector3i position;
+
     NaiveMesherWithLight naiveMesher;
     GreedyMesherWithLight greedyMesher;
     public final CompactMesh opaqueMesh, transMesh;
@@ -84,12 +84,11 @@ public class ChunkMeshBundle {
         transMesh = new CompactMesh();
         transMesh.setTextureID(texture);
 
-        greedyMesher = new GreedyMesherWithLight(chunk.data, ItemList.blocks.getIdMap());
+        greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position,ItemList.blocks.getIdMap());
         naiveMesher = new NaiveMesherWithLight(chunk.data, ItemList.blocks.getIdMap(), false);
     }
 
-    public synchronized void init(Vector3i position) {
-        this.position = position;
+    public synchronized void init() {
         opaqueMesh.empty = true;
         transMesh.empty = true;
     }
@@ -105,8 +104,8 @@ public class ChunkMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                greedyMesher.compute(opaqueBuffer, transBuffer, position, stack, 1);
-                naiveMesher.compute(opaqueBuffer, transBuffer, position);
+                greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1);
+                naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position);
 
                 opaqueMesh.empty = opaqueBuffer.size() == 0;
                 transMesh.empty = transBuffer.size() == 0;
