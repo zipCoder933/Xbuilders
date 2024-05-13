@@ -31,22 +31,16 @@ Textures taken mostly from Pixel Perfection, with some handcrafted ones, and tex
 There are 2 blender profiles, one for blocks and one for entities
 * The block profile has +Y as up direction
 * The entity profile has -Y as up direction
-  * LETS JUST LEAVE IT! it works, and its easier than any other solution.
-    * If we manually flip the model in the code, we also flip the normals
-      * A solution would be to let the normals be flipped in the blender, however it may make things problematic for design
-      * Overall, the easiest solution that works is just to have a negative Y blender profile
+
 ### Icon generation
-IF THE RESULTING IMAGES ARE EMPTY, THE MOST LIKELY CULPRIT IS THAT THE ICON.RTT.VS SHADER WAS NOT UPDATED TO MATCH CHUNK.VS SHADER
+If the resulting icons from icon generation are empty, the most likely cause would be that the iconRTT.vs vertex shader was not updated to match the chunk vertex shader
 
-# Managable To-Do List towards XBuilders 2
-We split the implementation features into a list of items that can be completed in a very short (~1h) time period.
-
-## Bugfixes
+## TODO Bugfixes
 * ~~(i think) when there is a null block when a chunk loads from the file, it causes some error that prevents the chunk from fully loading. instead, treat (dont replace) the unknown block like air~~
   * Pretty sure I solved this simply by returning unkknown when the item list doesnt have that block
   * However, There are probbably other instabilities that need to be fixed
 
-## Features
+## TODO Features
 * Add dogs
   * Needs individual legs like horses
 * Add sea turtles
@@ -58,16 +52,14 @@ We split the implementation features into a list of items that can be completed 
   * We need to have a separate buffer for the light values
     * With single color lighting, we room to spare and with rgb lighting, the light channel alone takes up 1 long.
 
-## Optimizations
+## TODO Optimizations
 * performance optimizations when traveling thru world
 
-## Multiplayer
+## TODO Multiplayer
 a super easy way to do multiplayer could be
 * each player owns a set of chunks thay modified.
 * those chunks are read only to others
 * periodically, the updated chunks are all sent to other players to be loaded in world or saved on disk
-
-
 
 
 # Information about features (dont delete)
