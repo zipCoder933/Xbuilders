@@ -47,12 +47,11 @@ void main() {
         return;
     }
 
-    // if (normal == 1.0f) val *= 0.9;
-    // if (normal == 2.0f) val *= 0.8;
-    // if (normal == 3.0f) val *= 0.7;
-    // if (normal == 4.0f) val *= 0.6;
-    // if (normal == 5.0f) val *= 0.5;
-    val *= max(torch,sun);
+    float sun2 = sun;
+    if (normal == 1.0f) sun2 *= 0.8;
+    if (normal == 4.0f) sun2 *= 0.9;
+    if (normal == 5.0f) sun2 *= 0.9;
+    val *= max(torch,sun2);
 
     float visibility = 1.0;
     float viewGradient = 128;

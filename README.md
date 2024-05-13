@@ -35,7 +35,13 @@ There are 2 blender profiles, one for blocks and one for entities
 ### Icon generation
 If the resulting icons from icon generation are empty, the most likely cause would be that the iconRTT.vs vertex shader was not updated to match the chunk vertex shader
 
-## TODO Bugfixes
+
+## TODO Optimizations and bufgixes
+* performance optimizations when traveling thru world (IMPORTANT)
+* If a naive meshed block is next to another chunk, the block is black
+  * ![bug.png](assets\notes\images\bug.png)
+* The game crashes randomly when starting up
+  * I think the cause is from the byte-buffers not being handled in a safe manner
 * ~~(i think) when there is a null block when a chunk loads from the file, it causes some error that prevents the chunk from fully loading. instead, treat (dont replace) the unknown block like air~~
   * Pretty sure I solved this simply by returning unkknown when the item list doesnt have that block
   * However, There are probbably other instabilities that need to be fixed
@@ -43,17 +49,17 @@ If the resulting icons from icon generation are empty, the most likely cause wou
 ## TODO Features
 * Add dogs
   * Needs individual legs like horses
-* Add sea turtles
 * Add parrots
 * Add copy/paste tools
+  * Simplify block tool controls
+* Make water propagate and have a special LIQUID block type builtin
+  * Player behavior with water
+  * Add sea turtles
+  * Add fish
+  * Add special water mesh
 * Add a conversion tool from XB2 to XB3
 * Player spawn position must be set in a safe place when entering the world
-* Smooth lighting w/ AO for mesh
-  * We need to have a separate buffer for the light values
-    * With single color lighting, we room to spare and with rgb lighting, the light channel alone takes up 1 long.
 
-## TODO Optimizations
-* performance optimizations when traveling thru world
 
 ## TODO Multiplayer
 a super easy way to do multiplayer could be
