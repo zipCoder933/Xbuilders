@@ -11,7 +11,7 @@
             "pos_y": "test\\pos y"
         },
         "solid": true,
-        "opaque": false,
+        "opaque": true,
         "torch": 0,
         "type": 0
     },
