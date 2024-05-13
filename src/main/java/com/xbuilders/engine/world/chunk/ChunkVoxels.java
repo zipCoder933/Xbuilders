@@ -61,6 +61,7 @@ public class ChunkVoxels {
         }
     }
 
+
     public void setSun(final int x, final int y, final int z, final int newVal) {
         try {
             byte origVal = this.light.get(x + size.x * (y + size.y * z));
