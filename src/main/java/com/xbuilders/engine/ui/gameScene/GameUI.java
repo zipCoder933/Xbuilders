@@ -10,14 +10,17 @@ package com.xbuilders.engine.ui.gameScene;
  */
 
 import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.utils.rendering.rect.Rect;
 import com.xbuilders.window.NKWindow;
 
 import static com.xbuilders.window.NKWindow.*;
 
 import java.io.IOException;
 
+import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 
@@ -48,6 +51,7 @@ public class GameUI {
 
     public void init() {
         menu = new GameMenu(ctx, window, uires);
+        overlay = new Rect();
     }
 
     public void setInfoText(String text) {
@@ -64,6 +68,7 @@ public class GameUI {
     NKWindow window;
     UIResources uires;
     Game game;
+    Rect overlay;
 
     Crosshair crosshair;
     InfoText infoBox;
@@ -77,6 +82,8 @@ public class GameUI {
 
     public void draw() {
         if (drawUI) {
+//            overlay.quad.updateMVP(GameScene.projection, GameScene.view, new Matrix4f());
+//            overlay.draw(true);
             if (game.menusAreOpen()) {
                 gameMenuVisible = false;
             }

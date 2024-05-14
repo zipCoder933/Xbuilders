@@ -315,10 +315,11 @@
             "neg_x": "water",
             "pos_y": "water"
         },
-        "solid": true,
-        "opaque": true,
+        "solid": false,
+        "opaque": false,
+        "colorInPlayerHead": [0,100,255],
         "torch": 0,
-        "type": 2
+        "type": "liquid"
     },
     {
         "name": "Wool",
@@ -379,10 +380,11 @@
             "neg_x": "lava",
             "pos_y": "lava"
         },
-        "solid": true,
-        "opaque": true,
+        "colorInPlayerHead": [255,50,50],
+        "solid": false,
+        "opaque": false,
         "torch": 15,
-        "type": 2
+        "type": "liquid"
     },
     {
         "name": "tall dry grass top (hidden)",

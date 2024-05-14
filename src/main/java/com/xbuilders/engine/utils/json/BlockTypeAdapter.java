@@ -32,6 +32,10 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("opaque", src.opaque);
         jsonObject.addProperty("torch", src.torchlightStartingValue);
         jsonObject.addProperty("type", src.type);
+        if (src.colorInPlayerHead != null) {
+            JsonElement colorElement = context.serialize(src.colorInPlayerHead);
+            jsonObject.add("colorInPlayerHead", colorElement);
+        }
         // Export tags (arraylist)
         JsonElement tagsElement = context.serialize(src.tags);
         jsonObject.add("tags", tagsElement);
@@ -78,6 +82,11 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             for (JsonElement tagElement : tagsArray) {
                 block.tags.add(tagElement.getAsString());
             }
+        }
+
+        if (jsonObject.has("colorInPlayerHead")) {
+            JsonElement colorElement = jsonObject.get("colorInPlayerHead");
+            block.colorInPlayerHead = context.deserialize(colorElement, float[].class);
         }
 
         // Import properties (hashmap)

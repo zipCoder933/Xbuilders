@@ -50,7 +50,25 @@ public class PositionHandler {
     private boolean gravityEnabled;
     public boolean onGround;
     public final BaseWindow window;
+
     public final float friction = 0.75f;
+
+    public float gravity = DEFAULT_GRAVITY;
+    public float terminalVelocity = 0.5f;
+
+    public static final float DEFAULT_GRAVITY = 0.0005f;
+    public static final float DEFAULT_TERMINAL_VELOCITY = 0.2f;
+
+    public void setFallMedium(float gravity, float terminalVelocity) {
+        this.gravity = gravity;
+        this.terminalVelocity = terminalVelocity;
+    }
+
+    public void resetFallMedium() {
+        this.gravity = DEFAULT_GRAVITY;
+        this.terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
+    }
+
     public boolean collisionsEnabled = true;
     public Box renderedBox;
     EntityAABB aabb;
@@ -62,8 +80,6 @@ public class PositionHandler {
     final static boolean DRAW_COLLISION_CANDIDATES = false;
     final static float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
     final static float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
-
-    static final float GRAVITY = 0.0005f;
 
 
     public PositionHandler(World chunks, BaseWindow window,
@@ -105,12 +121,14 @@ public class PositionHandler {
             velocity.x *= friction;
             velocity.z *= friction;
             if (collisionsEnabled && isGravityEnabled()) {
-                this.velocity.sub(0, (float) (GRAVITY * window.getMsPerFrame()), 0);
+                this.velocity.sub(0, (float) (gravity * window.getMsPerFrame()), 0);
             } else {
                 velocity.y *= friction;
             }
             if (velocity.y < 0.00001f) {
                 onGround = true;
+            } else if (velocity.y > terminalVelocity) {
+                velocity.y = terminalVelocity;
             }
 
 
@@ -129,7 +147,7 @@ public class PositionHandler {
 
     public final void jump() {
         if (onGround && isGravityEnabled()) {
-            this.velocity.y += GRAVITY * 20.0f * window.getMsPerFrame();
+            this.velocity.y += gravity * 20.0f * window.getMsPerFrame();
             onGround = false;
         }
     }

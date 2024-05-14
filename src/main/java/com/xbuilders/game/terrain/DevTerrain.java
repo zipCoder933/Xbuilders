@@ -4,18 +4,13 @@
  */
 package com.xbuilders.game.terrain;
 
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.game.MyGame;
-
-import java.util.Random;
 
 /**
  * @author zipCoder933
@@ -24,8 +19,8 @@ public class DevTerrain extends Terrain {
 
     public DevTerrain() {
         super("Dev Terrain");
-        MIN_HEIGHT = 70;
-        MAX_HEIGHT = 140;
+        MIN_SURFACE_HEIGHT = 195;
+        MAX_SURFACE_HEIGHT = 201;
     }
 
     @Override

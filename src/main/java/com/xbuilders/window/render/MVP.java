@@ -41,6 +41,11 @@ public class MVP {
         mvp.get(buffer);
     }
 
+    public void update(Matrix4f matrix){
+        mvp.set(matrix);
+        mvp.get(buffer);
+    }
+
     public void update(final Matrix4f projection, final Matrix4f view, final Matrix4f... model) {
         mvp.identity().mul(projection).mul(view);
         for (int i = 0; i < model.length; i++) {

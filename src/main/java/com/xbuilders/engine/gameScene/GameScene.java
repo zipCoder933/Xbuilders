@@ -97,7 +97,6 @@ public class GameScene implements WindowEvents {
                 if (worldInfo.getSpawnPoint() == null) {
                     player.worldPosition.set(0, 0, 0);
                     world.newGame(prog, worldInfo, new Vector3f(0, 0, 0));
-                    player.setNewSpawnPoint(world.terrain);
                 } else {
                     System.out.println("Loading spawn point: " + player.worldPosition);
                     player.worldPosition.set(
@@ -135,6 +134,10 @@ public class GameScene implements WindowEvents {
                 } else prog.stage++;
             }
             default -> {
+                if(worldInfo.getSpawnPoint() == null){
+                    //Find spawn point
+                    player.setNewSpawnPoint(world.terrain);
+                }
                 Main.game.startGame(worldInfo);
                 player.startGame();
                 prog.finish();

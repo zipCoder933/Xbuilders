@@ -8,6 +8,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -18,8 +19,8 @@ public abstract class Terrain {
     public static final PerlinNoise perlinNoise = new PerlinNoise(0, 150);
     private int seed = 0;
     public final String name;
-    public int MAX_HEIGHT = 10;
-    public int MIN_HEIGHT = -100;
+    public int MAX_SURFACE_HEIGHT = 10;
+    public int MIN_SURFACE_HEIGHT = -100;
 
     public Terrain(String name) {
         this.name = name;
@@ -71,11 +72,20 @@ public abstract class Terrain {
 
     protected abstract void generateChunkInner(final Chunk p0, GenSession session);
 
-//    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
-    public boolean spawnRulesApply(float PLAYER_HEIGHT, World chunks, int x, int y, int z) {
-        return chunks.getBlock(x, y, z).solid
-                && !chunks.getBlock(x, y + 1, z).solid
-                && !chunks.getBlock(x, y + 2, z).solid;
+    //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
+    public boolean spawnRulesApply(float PLAYER_HEIGHT, World world,
+                                   int playerFeetX, int playerFeetY, int playerFeetZ) {
+        WCCi wcc = new WCCi();
+        wcc.set(playerFeetX, playerFeetY - 3, playerFeetZ);
+        Chunk chunk = world.chunks.get(wcc.chunk);
+        if (chunk != null && chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z) < 5) {
+            return false;//We cant spawn in darkness
+        }
+        Block footBlock = world.getBlock(playerFeetX, playerFeetY, playerFeetZ);
+        return footBlock.solid && footBlock.opaque
+                && !world.getBlock(playerFeetX, playerFeetY - 1, playerFeetZ).solid
+                && !world.getBlock(playerFeetX, playerFeetY - 2, playerFeetZ).solid
+                && !world.getBlock(playerFeetX, playerFeetY - 3, playerFeetZ).solid;
     }
 
     @Override

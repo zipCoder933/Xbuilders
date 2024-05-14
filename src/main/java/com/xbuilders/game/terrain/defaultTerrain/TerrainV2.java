@@ -1,8 +1,6 @@
 package com.xbuilders.game.terrain.defaultTerrain;
 
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -22,8 +20,8 @@ public class TerrainV2 extends Terrain {
 
     public TerrainV2(boolean caves) {
         super("Default Terrain" + (caves ? " w/ Caves" : ""));
-        MIN_HEIGHT = 0;
-        MAX_HEIGHT = 257;
+        MIN_SURFACE_HEIGHT = 0;
+        MAX_SURFACE_HEIGHT = 257;
         this.caves = caves;
         fern = MyGame.BLOCK_FERN;
         deadBush = MyGame.BLOCK_DEAD_BUSH;
@@ -172,6 +170,7 @@ public class TerrainV2 extends Terrain {
 
     final float OCEAN_THRESH = 25;
     final float MOUNTAIN_THRESH = 20;
+    final float caveFrequency = 6.0f;
 
     public float valley(final int wx, final int wz) {
         return getValueFractal((float) wz - 10000, (float) wx);
@@ -232,7 +231,7 @@ public class TerrainV2 extends Terrain {
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
 
-        final float caveFrequency = MathUtils.clamp(3.9f * getFrequency(), 7.0f, 7.5f);
+
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
                 final int wx = x + chunk.position.x * Chunk.WIDTH;

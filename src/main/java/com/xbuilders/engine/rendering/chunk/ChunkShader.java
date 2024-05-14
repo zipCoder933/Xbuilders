@@ -48,7 +48,6 @@ public class ChunkShader extends ShaderBase {
     }
 
     public void setViewDistance(int viewDistance) {
-        if (Main.devMode) viewDistance = Integer.MAX_VALUE;
         loadInt(viewDistanceUniform, viewDistance);
     }
 

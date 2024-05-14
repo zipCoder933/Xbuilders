@@ -122,12 +122,19 @@ public class CursorRay {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE) {
+        if (action == GLFW.GLFW_PRESS) {
             if (useBoundary) {
                 if (key == GLFW.GLFW_KEY_K) {
-                    boundary_useHitPos = !boundary_useHitPos;
-                    return true;
-                } else if (key == GLFW.GLFW_KEY_P) {
+                    boundary_useHitPos = true;
+                    return false;
+                }
+            }
+        } else if (action == GLFW.GLFW_RELEASE) {
+            if (useBoundary) {
+                if (key == GLFW.GLFW_KEY_K) {
+                    boundary_useHitPos = false;
+                    return false;
+                } else if (key == GLFW.GLFW_KEY_L) {
                     System.out.println("Locking to plane: " + boundary_lockToPlane);
                     boundary_lockToPlane = !boundary_lockToPlane;
                     return true;

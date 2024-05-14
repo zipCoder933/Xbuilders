@@ -9,6 +9,7 @@ import com.xbuilders.engine.items.block.BlockAir;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
+import com.xbuilders.engine.items.block.construction.LiquidBlockType;
 import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.File;
@@ -25,7 +26,9 @@ public class BlockList extends ItemGroup<Block> {
     private final HashMap<String, Integer> stringBlockTypes = new HashMap<>();
 
     public final static int DEFAULT_BLOCK_TYPE_ID = 0;
+    public final static int LIQUID_BLOCK_TYPE_ID = -1;
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
+    public final static LiquidBlockType liquidBlockType = new LiquidBlockType();
     public final static Block BLOCK_AIR = new BlockAir();
     public final static Block BLOCK_UNKNOWN = new Block(0, "Unknown");
 
@@ -39,6 +42,7 @@ public class BlockList extends ItemGroup<Block> {
 
     public BlockList() {
         blockTypes.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
+        addBlockType("liquid", LIQUID_BLOCK_TYPE_ID, liquidBlockType);
     }
 
     public void init(File textureDirectory,

@@ -102,6 +102,8 @@ public class Chunk {
     public void init(Vector3i position, WorldInfo info,
             Terrain terrain, FutureChunk futureChunk,
             float distToPlayer, boolean isTopChunk) {
+        entities.clear();
+        data.clear();
         generationStatus = 0;
         loadFuture = null;
         mesherFuture = null;
@@ -141,8 +143,6 @@ public class Chunk {
     }
 
     public void loadChunk(WorldInfo info, Terrain terrain, FutureChunk futureChunk) {
-        entities.clear();
-        data.clear();
         File f = info.getChunkFile(position);
 
         try {
@@ -289,7 +289,7 @@ public class Chunk {
      * Queues a task to mesh the chunk
      */
     public void generateMesh() {
-        // generationStatus = GEN_COMPLETE;
+         generationStatus = GEN_COMPLETE;
         if (mesherFuture != null) {
             mesherFuture.cancel(true);
             mesherFuture = null;

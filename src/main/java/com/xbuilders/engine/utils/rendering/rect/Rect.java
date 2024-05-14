@@ -37,21 +37,24 @@ public class Rect {
     static final int[] indicies = {0, 1, 2, 2, 3, 0};
     public IndexedTexturedMesh quad;
 
-    public Rect(int texID) {
+    public Rect() {
         quad = new IndexedTexturedMesh();
         quad.sendBuffersToGPU(vertices, uv, indicies);
+    }
+
+    public void setTextureID(int texID) {
         quad.setTextureID(texID);
     }
 
     public void draw(boolean wireframe) {
-        if (wireframe) {
+        if (true) {
             GL11.glLineWidth(2); //Set the line width
             GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, 0);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Enable wireframe mode
             quad.draw();
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Disable wireframe mode
         }
-        quad.draw();
+//        quad.draw();
     }
 
 }

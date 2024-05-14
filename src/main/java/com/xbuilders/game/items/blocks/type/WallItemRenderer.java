@@ -5,6 +5,7 @@
 package com.xbuilders.game.items.blocks.type;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -54,7 +55,7 @@ public class WallItemRenderer extends BlockType {
             return false;
         }
 
-        return !testBlock.liquid
+        return testBlock.type != BlockList.LIQUID_BLOCK_TYPE_ID
                 && !testBlock.isAir() &&
                 (testBlock.solid || itemType.isCubeShape());
     }

@@ -5,18 +5,17 @@
 package com.xbuilders.window.demos;
 
 import com.xbuilders.window.render.MVP;
-import com.xbuilders.window.render.Shader;
+
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 /**
- *
  * @author Patron
  */
 public class IndexedTexturedMesh {
@@ -24,48 +23,22 @@ public class IndexedTexturedMesh {
     int vertBuffer;
     int uvBuffer;
     int indiciesBuffer;
+    Vector4f color = new Vector4f(1, 1, 1, 1);
     public final int vao;
     private int textureID, vertLength;
-    public MVP mvp;
-    int mvpUniform;
-    Shader shader;
+    private MVP mvp;
+    BasicShader shader;
 
-    static final String vertShader = """
-                             #version 330 core
-                             layout(location = 0) in vec3 vertexPosition_modelspace;
-                             layout(location = 1) in vec2 vertexUV;
-                              
-                             out vec2 UV;
-                             uniform mat4 MVP;
-                              
-                             void main(){
-                                 gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
-                                 UV = vertexUV;
-                             }
-                             """;
-
-    static final String fragShader = """
-                            #version 330 core
-                             
-                            in vec2 UV;
-                            out vec3 color;
-                            uniform sampler2D myTextureSampler;
-                             
-                            void main(){
-                                color = texture( myTextureSampler, UV ).rgb;
-                            }
-                            """;
 
     public IndexedTexturedMesh() {
         vao = GL30.glGenVertexArrays();
         GL30.glBindVertexArray(vao); //Every mesh should have its own VAO
 
         try {
-            shader = new Shader(vertShader, fragShader);
-        } catch (IOException ex) {
-            Logger.getLogger(IndexedTexturedMesh.class.getName()).log(Level.SEVERE, null, ex);
+            shader = new BasicShader();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        mvpUniform = shader.getUniformLocation("MVP");
 
         vertBuffer = GL30.glGenBuffers();
         uvBuffer = GL30.glGenBuffers();
@@ -91,10 +64,10 @@ public class IndexedTexturedMesh {
         GL30.glBindVertexArray(0);
     }
 
-    public void updateMVP(Matrix4f projection, Matrix4f view, Matrix4f model) {
+    public void updateMVP(Matrix4f mat) {
         GL30.glBindVertexArray(vao);
-        mvp.update(projection, view, model);
-        mvp.sendToShader(shader.getID(), mvpUniform);
+        this.mvp.update(mat);
+        mvp.sendToShader(shader.getID(), shader.mvpUniform);
     }
 
     /**
@@ -102,6 +75,14 @@ public class IndexedTexturedMesh {
      */
     public void setTextureID(int textureID) {
         this.textureID = textureID;
+        color = null;
+    }
+
+    public void setColor(Vector4f color) {
+        if (color == null) color = new Vector4f(1, 1, 1, 1);
+        color.set(color);
+        textureID = 0;
+        shader.loadVec4f(shader.colorUniform, color);
     }
 
     public void sendBuffersToGPU(float[] g_vertex_buffer_data, float[] g_uv_buffer_data, int[] indicies) {
@@ -119,7 +100,7 @@ public class IndexedTexturedMesh {
     public void draw() {
         GL30.glBindVertexArray(vao);
         shader.bind();
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);//required to assign texture to mesh
+        if (textureID != 0) GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);//required to assign texture to mesh
         //and to draw the mesh, simply replace glDrawArrays by this...
         // Draw the triangles !
         GL15.glDrawElements(

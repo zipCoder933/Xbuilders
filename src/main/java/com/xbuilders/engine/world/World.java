@@ -215,6 +215,7 @@ public class World {
                     lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
             chunk.init(coords, info, terrain, futureChunks.remove(coords), distToPlayer, isTopLevel);
             this.chunks.put(coords, chunk);
+            this.chunksToRender.remove(chunk);
             needsSorting.set(true);
         }
         return chunk;

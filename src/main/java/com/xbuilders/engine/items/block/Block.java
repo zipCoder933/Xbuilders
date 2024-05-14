@@ -26,13 +26,17 @@ public class Block extends Item {
     public final BlockTexture texture;
     public int type = 0;
     public boolean solid = true;
-    public boolean liquid = false;
     public boolean opaque = true;
     public byte torchlightStartingValue = 0;
     public Consumer<Block> initializationCallback = null;
+    public float[] colorInPlayerHead = null;//If set to null, we default to drawing block texture in player head
 
     public final boolean isLuminous() {
         return torchlightStartingValue > 0;
+    }
+
+    public final boolean isLiquid() {
+        return type == BlockList.LIQUID_BLOCK_TYPE_ID;
     }
 
     // <editor-fold defaultstate="collapsed" desc="block events">
@@ -102,7 +106,7 @@ public class Block extends Item {
             WCCi wcc = new WCCi();
             wcc.set(worldPos);
             Chunk chunk = wcc.getChunk(GameScene.world);
-            if(chunk == null) return;
+            if (chunk == null) return;
             BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             clickEvent.run(worldPos.x, worldPos.y, worldPos.z, data);
             chunk.updateMesh(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
@@ -149,7 +153,7 @@ public class Block extends Item {
                                          File blockIconDirectory,
                                          File iconDirectory,
                                          int defaultIcon) throws IOException {
-        if (this.texture != null) {
+        if (this.texture != null) { //ALWAYS init the texture first
             this.texture.init(textures);
         }
 

@@ -120,7 +120,7 @@ public abstract class BlockType {
     // return verts2;
     // }
 
-    public static boolean shouldRenderFace_subBlock(Block thisBlock, Block neighbor) {
+    public final static boolean shouldRenderFace_subBlock(Block thisBlock, Block neighbor) {
         if (neighbor == null) {
             return true;
         } else {

@@ -36,29 +36,32 @@ There are 2 blender profiles, one for blocks and one for entities
 If the resulting icons from icon generation are empty, the most likely cause would be that the iconRTT.vs vertex shader was not updated to match the chunk vertex shader
 
 
-## TODO Optimizations and bufgixes
-* performance optimizations when traveling thru world (IMPORTANT)
-* If a naive meshed block is next to another chunk, the block is black
-  * ![bug.png](assets\notes\images\bug.png)
-* The game crashes randomly when starting up
-  * I think the cause is from the byte-buffers not being handled in a safe manner
-
 ## FIXED Bugs (watch out!)
 * I fixed a bug that prevented chunks from loading when blocks are set outside chunk voxel bounds
 
+
+## TODO Optimizations and bufgixes
+* **performance optimizations when traveling thru world (IMPORTANT)**
+* If a naive meshed block is next to another chunk, the block is black
+  * ![bug.png](assets\notes\images\bug.png)
+* **The game sometimes crashes**
+  * I think the cause is from the byte-buffers not being handled in a safe manner
+
 ## TODO Features
-* Add dogs
-  * Needs individual legs like horses
-* Add parrots
-* Add copy/paste tools
-  * Simplify block tool controls
-* Make water propagate and have a special LIQUID block type builtin
-  * Player behavior with water
+* **Water**
+  * Make water overlay using a quad
+    * Make and test quad in another setting
+  * Water live propagation
+* **Finish animals**
   * Add sea turtles
   * Add fish
-  * Add special water mesh
-* Add a conversion tool from XB2 to XB3
-* Player spawn position must be set in a safe place when entering the world
+  * Add dogs
+    * Needs individual legs like horses
+  * Add parrots
+* **Add copy/paste tools**
+  * Simplify block tool controls
+* **Add a conversion tool from XB2 to XB3**
+
 
 
 ## TODO Multiplayer

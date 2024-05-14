@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player;
 
+import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -157,9 +158,9 @@ public class UserControlledPlayer extends Player {
     private boolean isInsideOfLadder() {
         BlockType type = ItemList.blocks.getBlockTypeID(getBlockAtHeadPos().type);
         BlockType belowType = ItemList.blocks.getBlockTypeID(GameScene.world.getBlock(
-            (int) Math.floor(worldPosition.x),
-            (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
-            (int) Math.floor(worldPosition.z)).type);
+                (int) Math.floor(worldPosition.x),
+                (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
+                (int) Math.floor(worldPosition.z)).type);
 
         if (type == null || belowType == null)
             return false;
@@ -168,9 +169,24 @@ public class UserControlledPlayer extends Player {
                 || belowType.isClimbable();
     }
 
-    // boolean
+    Block headPosBlock = BlockList.BLOCK_AIR;
+
     // playerForward,playerBackward,playerUp,playerDown,playerLeft,playerRight;
     public void update(boolean holdMouse) {
+        Block newBlock = getBlockAtHeadPos();
+        if (newBlock != headPosBlock) {
+            headPosBlock = getBlockAtHeadPos();
+            BlockType btype = ItemList.blocks.getBlockTypeID(newBlock.type);
+            if (newBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
+                positionHandler.velocity.set(0, 0, 0);
+                positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 4,
+                        PositionHandler.DEFAULT_TERMINAL_VELOCITY / 30);
+            } else if (newBlock.isAir()) {
+                positionHandler.resetFallMedium();
+            }
+//            newBlock.colorInPlayerHead
+        }
+
         eventPipeline.resolve(this);
         if (forwardKeyPressed()) {
             worldPosition.add(
@@ -256,6 +272,12 @@ public class UserControlledPlayer extends Player {
                     case GLFW.GLFW_KEY_SPACE -> {
                         jump();
                     }
+                    case CHANGE_RAYCAST_MODE -> {
+                        camera.cursorRay.cursorRayHitAllBlocks = true;
+                        if (camera.cursorRay.cursorRayHitAllBlocks) {
+                            camera.cursorRay.cursorRayDist = 6;
+                        }
+                    }
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
@@ -275,13 +297,8 @@ public class UserControlledPlayer extends Player {
                     camera.cycleToNextView(10);
                 }
                 case CHANGE_RAYCAST_MODE -> {
-                    if (!raycastDistChanged) {
-                        camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
-                        if (camera.cursorRay.cursorRayHitAllBlocks) {
-                            camera.cursorRay.cursorRayDist = 5;
-                        }
-                    }
-                    raycastDistChanged = false;
+                    camera.cursorRay.cursorRayHitAllBlocks = false;
+                    raycastDistChanged = true;
                 }
                 default -> {
                 }
@@ -362,15 +379,16 @@ public class UserControlledPlayer extends Player {
         int radius = Chunk.HALF_WIDTH;
         for (int x = -radius; x < radius; x++) {
             for (int z = -radius; z < radius; z++) {
-                for (int y = terrain.MIN_HEIGHT; y < terrain.MAX_HEIGHT; y++) {
+                for (int y = terrain.MIN_SURFACE_HEIGHT - 10; y < terrain.MAX_SURFACE_HEIGHT + 10; y++) {
                     if (terrain.spawnRulesApply(PLAYER_HEIGHT, chunks, x, y, z)) {
                         System.out.println("Found new spawn point!");
-                        worldPosition.set(x, y + PLAYER_HEIGHT + 0.5f, z);
+                        worldPosition.set(x, y - PLAYER_HEIGHT - 0.5f, z);
                         return;
                     }
                 }
             }
         }
+        worldPosition.set(0, terrain.MIN_SURFACE_HEIGHT - PLAYER_HEIGHT - 0.5f, 0);
         System.out.println("Spawn point not found");
     }
 
@@ -393,5 +411,6 @@ public class UserControlledPlayer extends Player {
             setBlock(BlockList.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
         }
     }
+
 
 }
