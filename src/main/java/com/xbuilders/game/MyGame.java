@@ -16,6 +16,7 @@ import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.ui.UIResources;
@@ -26,7 +27,8 @@ import com.xbuilders.game.items.entities.animal.*;
 import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.TestTerrain;
-import com.xbuilders.game.terrain.defaultTerrain.ComplexTerrain;
+import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
+import com.xbuilders.game.terrain.defaultTerrain.TerrainV2;
 import com.xbuilders.window.NKWindow;
 
 import java.io.File;
@@ -330,6 +332,8 @@ public class MyGame extends Game {
         //Add terrains
         terrainsList.add(new TestTerrain());
         terrainsList.add(new BasicTerrain());
+        terrainsList.add(new TerrainV2(true));
+        terrainsList.add(new TerrainV2(false));
         terrainsList.add(new DevTerrain());
         terrainsList.add(new ComplexTerrain());
 
@@ -1183,7 +1187,8 @@ public class MyGame extends Game {
     public static short BLOCK_WHITE_SIDING = 797;
     public static short BLOCK_YELLOW_SEAT = 798;
     public static short BLOCK_YELLOW_SIDING = 799;
-
+    // public static final Block BLOCK_SEA_GRASS = new Block(253, "Sea Grass", new BlockTexture("sea grass.png"), RenderType.SPRITE);
+    
 
 
     /*

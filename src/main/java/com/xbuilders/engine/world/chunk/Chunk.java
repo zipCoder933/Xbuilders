@@ -142,7 +142,9 @@ public class Chunk {
             needsSunGeneration = true;
         }
         //Loading a chunk includes loading sunlight
-        generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_TERRAIN_LOADED;
+     
+        generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_TERRAIN_LOADED; 
+          System.out.println("Chunk Loaded "+generationStatus);
     }
 
     public void dispose() {
@@ -226,7 +228,7 @@ public class Chunk {
         if (loadFuture != null && loadFuture.isDone()) {
 
             if (isTopChunk && pillarInformation != null
-                    && pillarInformation.isPillarLoaded()) {
+            && pillarInformation.isPillarLoaded()  ) {//When there is an unknown block, we get hung up here
                 loadFuture = null;
                 pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
             }
@@ -250,6 +252,7 @@ public class Chunk {
                     if (GameScene.world.info == null) return null; //Quick fix. TODO: remove this line
                     meshes.compute();
                     generationStatus = GEN_COMPLETE;
+                //   if(!meshes.isEmpty())  System.out.println("Mesh computed!");
                     return meshes;
                 });
                 World.frameTester.endProcess("red Compute meshes");
@@ -268,6 +271,7 @@ public class Chunk {
      * Queues a task to mesh the chunk
      */
     public void generateMesh() {
+        // generationStatus = GEN_COMPLETE;
         if (mesherFuture != null) {
             mesherFuture.cancel(true);
             mesherFuture = null;

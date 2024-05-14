@@ -8,6 +8,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.EntityLink;
@@ -31,7 +32,6 @@ import org.lwjgl.nuklear.NkVec2;
 
 public class UserControlledPlayer extends Player {
 
-
     public Camera camera;
     BaseWindow window;
     static float speed = 10f;
@@ -46,7 +46,7 @@ public class UserControlledPlayer extends Player {
     public PlayerServer server;
     public BlockEventPipeline eventPipeline;
 
-    //Keys
+    // Keys
     public static final int CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
     public static final int CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
     public static final int DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
@@ -91,13 +91,12 @@ public class UserControlledPlayer extends Player {
                 key == GLFW.GLFW_KEY_LEFT_SHIFT;
     }
 
-
     private void disableGravity() {
         positionHandler.setGravityEnabled(false);
     }
 
     public void setColor(float r, float g, float b) {
-//        positionHandler.color.set(r, g, b, 1);
+        // positionHandler.color.set(r, g, b, 1);
     }
 
     private void updatePosHandler(boolean holdMouse) {
@@ -108,7 +107,8 @@ public class UserControlledPlayer extends Player {
     }
 
     private void jump() {
-        if (usePositionHandler) positionHandler.jump();
+        if (usePositionHandler)
+            positionHandler.jump();
         usePositionHandler = true;
         positionHandler.collisionsEnabled = true;
         positionHandler.setGravityEnabled(true);
@@ -147,7 +147,6 @@ public class UserControlledPlayer extends Player {
 
     World chunks;
 
-
     private Block getBlockAtHeadPos() {
         return GameScene.world.getBlock(
                 (int) Math.floor(worldPosition.x),
@@ -156,11 +155,17 @@ public class UserControlledPlayer extends Player {
     }
 
     private boolean isInsideOfLadder() {
-        return ItemList.blocks.getBlockTypeID(getBlockAtHeadPos().type).isClimbable()
-                || ItemList.blocks.getBlockTypeID(GameScene.world.getBlock(
-                (int) Math.floor(worldPosition.x),
-                (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
-                (int) Math.floor(worldPosition.z)).type).isClimbable();
+        BlockType type = ItemList.blocks.getBlockTypeID(getBlockAtHeadPos().type);
+        BlockType belowType = ItemList.blocks.getBlockTypeID(GameScene.world.getBlock(
+            (int) Math.floor(worldPosition.x),
+            (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
+            (int) Math.floor(worldPosition.z)).type);
+
+        if (type == null || belowType == null)
+            return false;
+
+        return (type.isClimbable())
+                || belowType.isClimbable();
     }
 
     // boolean
@@ -193,7 +198,6 @@ public class UserControlledPlayer extends Player {
                     camera.right.z * speed * window.getFrameDelta());
         }
 
-
         if (isInsideOfLadder()) {
             if (downKeyPressed()) {
                 isClimbing = true;
@@ -222,11 +226,13 @@ public class UserControlledPlayer extends Player {
         }
 
         updatePosHandler(holdMouse);
-        //The key to preventing shaking during collision is to update the camera AFTER  the position handler is done its job
+        // The key to preventing shaking during collision is to update the camera AFTER
+        // the position handler is done its job
         camera.update(holdMouse);
 
         camera.cursorRay.drawRay();
-        if (camera.getThirdPersonDist() != 0.0f) skin.render(projection, view);
+        if (camera.getThirdPersonDist() != 0.0f)
+            skin.render(projection, view);
     }
 
     boolean raycastDistChanged = false;
@@ -239,7 +245,6 @@ public class UserControlledPlayer extends Player {
             removeItem();
         }
     }
-
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
@@ -254,7 +259,8 @@ public class UserControlledPlayer extends Player {
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (upKeyPressed(key) || downKeyPressed(key)) canFly = true;
+            if (upKeyPressed(key) || downKeyPressed(key))
+                canFly = true;
             switch (key) {
                 case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = 10f;
                 case GLFW.GLFW_KEY_MINUS -> removeItem();
@@ -351,7 +357,6 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-
     public void setNewSpawnPoint(Terrain terrain) {
         System.out.println("Setting new spawn point...");
         int radius = Chunk.HALF_WIDTH;
@@ -378,7 +383,6 @@ public class UserControlledPlayer extends Player {
         }
         return false;
     }
-
 
     private void removeItem() {
         if (camera.cursorRay.getEntity() != null) {

@@ -119,6 +119,7 @@ public class ChunkMeshBundle {
             }
         } catch (Exception ex) {
             ErrorHandler.saveErrorToLogFile(ex);
+            ex.printStackTrace();
         }
     }
 

@@ -144,7 +144,7 @@ public class SunlightUtils {
                     block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
                 }
             }
-            if (block.opaque) {
+            if (block == null || block.opaque) {
                 break;
             } else {
 //                chunk.data.setSun(x, y, z, (byte) 0);

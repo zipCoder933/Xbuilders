@@ -42,9 +42,9 @@ public class BlockList extends ItemGroup<Block> {
     }
 
     public void init(File textureDirectory,
-                     File blockIconDirectory,
-                     File iconDirectory,
-                     int defaultIcon) throws IOException {
+            File blockIconDirectory,
+            File iconDirectory,
+            int defaultIcon) throws IOException {
         this.blockIconDirectory = blockIconDirectory;
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
@@ -77,34 +77,39 @@ public class BlockList extends ItemGroup<Block> {
         blockTypes.put(typeID, type);
     }
 
-//    public HashMap<Integer,AABBIterator> getTypeCollision_AABBIterator(AABB box){
-//        HashMap<Integer,AABBIterator> map = new HashMap<>();
-//        blockTypes.forEach((int val, BlockType type) -> {
-//               map.put(val, value).getCollisionBoxes(box);
-//        });
-//    }
+    // public HashMap<Integer,AABBIterator> getTypeCollision_AABBIterator(AABB box){
+    // HashMap<Integer,AABBIterator> map = new HashMap<>();
+    // blockTypes.forEach((int val, BlockType type) -> {
+    // map.put(val, value).getCollisionBoxes(box);
+    // });
+    // }
 
     public BlockType getBlockTypeID(int typeID) {
         BlockType type = blockTypes.get(typeID);
+        if (type == null) //To make the code more robust
+            return defaultBlockType;
         return type;
     }
 
     public Integer getBlockTypeID(String type) {
         type = type.toLowerCase().trim();
-        if (stringBlockTypes.containsKey(type)) return stringBlockTypes.get(type);
-        else throw new IllegalArgumentException("Block type \"" + type + "\" not recognized");
+        if (stringBlockTypes.containsKey(type))
+            return stringBlockTypes.get(type);
+        else
+            throw new IllegalArgumentException("Block type \"" + type + "\" not recognized");
     }
 
     public float calculateTextureLayer(int textureLayer) {
-        int d = textures.layerCount - 1;//layer count
-        double type = Math.floor(textureLayer - 0.5f);//-1+0.5
+        int d = textures.layerCount - 1;// layer count
+        double type = Math.floor(textureLayer - 0.5f);// -1+0.5
         return (float) Math.max(0, Math.min(d, type));
     }
 
     @Override
     public Block getItem(short blockID) {
         Block block = getIdMap().get(blockID);
-        if (block == null) block = BLOCK_UNKNOWN; //Important to prevent bugs with proceses not knowing how to handle null blocks
+        if (block == null)
+            block = BLOCK_UNKNOWN; // Important to prevent bugs with proceses not knowing how to handle null blocks
         return block;
     }
 }

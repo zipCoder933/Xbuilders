@@ -47,10 +47,20 @@ void main() {
         return;
     }
 
+    /*
+    POS_X = 0;
+    NEG_X = 1;
+    POS_Z = 2;
+    NEG_Z = 3;
+    NEG_Y = 4;
+    POS_Y = 5;
+    */
+
     float sun2 = sun;
-    if (normal == 1.0f) sun2 *= 0.8;
-    if (normal == 4.0f) sun2 *= 0.9;
-    if (normal == 5.0f) sun2 *= 0.9;
+    if (normal == 2.0f) sun2 *= 0.9;
+    if (normal == 1.0f) sun2 *= 0.85;
+    if (normal == 3.0f) sun2 *= 0.8;
+    if (normal == 5.0f) sun2 *= 0.7;
     val *= max(torch,sun2);
 
     float visibility = 1.0;

@@ -1,7 +1,7 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.game.terrain.defaultTerrain;
+package com.xbuilders.game.terrain.complexTerrain;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
