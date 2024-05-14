@@ -42,7 +42,9 @@ If the resulting icons from icon generation are empty, the most likely cause wou
   * ![bug.png](assets\notes\images\bug.png)
 * The game crashes randomly when starting up
   * I think the cause is from the byte-buffers not being handled in a safe manner
-* If there is a block that is unrecognized by the itemlist, the chunk cant load the sunlight as a pillar because not all chunks load?
+
+## FIXED Bugs (watch out!)
+* I fixed a bug that prevented chunks from loading when blocks are set outside chunk voxel bounds
 
 ## TODO Features
 * Add dogs

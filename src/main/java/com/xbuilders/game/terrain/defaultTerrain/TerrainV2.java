@@ -47,6 +47,8 @@ public class TerrainV2 extends Terrain {
 
     private void plantSod(GenSession session, int x, int y, int z, int wx, int wy, int wz, float alpha, Biome biome,
             Chunk chunk) {
+        if (y - 2 < 0 || y+1>=Chunk.WIDTH)
+            return;
         float f = session.random.nextFloat();
         boolean makePlants = true;
         if (f < 0.02 && wy < WATER_LEVEL - 1) {
@@ -105,8 +107,10 @@ public class TerrainV2 extends Terrain {
                                 chunk.data.setBlock(x, y - 1, z, MyGame.BLOCK_TUBE_CORAL_FAN);
                             }
                             default -> {
-                                // chunk.data.setBlock(x, y - 1, z, MyGame.BLOCK_SEA_GRASS.id); //TODO: Add seagrass as JSON block
-                                //When we load seagrass without putting it int he block list, the chunk cant load because it doesnt know what kind of block it is
+                                // chunk.data.setBlock(x, y - 1, z, MyGame.BLOCK_SEA_GRASS.id); //TODO: Add
+                                // seagrass as JSON block
+                                // When we load seagrass without putting it int he block list, the chunk cant
+                                // load because it doesnt know what kind of block it is
                             }
                         }
                     }
@@ -254,7 +258,7 @@ public class TerrainV2 extends Terrain {
                         biome = getBiomeOfVoxel(valley, heat, heightmap, wx, y, wz);
                         final float alpha = getValueFractal((float) wx * 3, (float) wz * 3 -
                                 500.0f);
-                        // plantSod(session, x, y, z, wx, wy, wz, alpha, biome, chunk);
+                        plantSod(session, x, y, z, wx, wy, wz, alpha, biome, chunk);
                     } else if (wy > heightmap && wy < heightmap + 3) {
                         if (chunk.data.getBlock(x, y, z) == BlockList.BLOCK_AIR.id) {
                             chunk.data.setBlock(x, y, z, MyGame.BLOCK_DIRT);
@@ -263,9 +267,6 @@ public class TerrainV2 extends Terrain {
                             (!caves || getValueFractal(wx * caveFrequency, wy * 14.0f, wz *
                                     caveFrequency) <= 0.25)) {
                         chunk.data.setBlock(x, y, z, MyGame.BLOCK_STONE);
-                        // if(session.random.nextFloat()>0.9){
-                        //     chunk.data.setBlock(wx, wy, wz, (short)1273);
-                        // }
                         placeWater = false;
                     } else if (wy == WATER_LEVEL && heat < -0.6f) {
                         chunk.data.setBlock(x, y, z, MyGame.BLOCK_ICE_BLOCK);

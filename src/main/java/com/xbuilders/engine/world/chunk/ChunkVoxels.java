@@ -13,15 +13,19 @@ import org.joml.Vector3i;
 import org.lwjgl.system.MemoryUtil;
 
 /**
- * If not having vector3i coords to get/set with this, becomes a sufficient annoyance, I will add a vector3i to match every method.
+ * If not having vector3i coords to get/set with this, becomes a sufficient
+ * annoyance, I will add a vector3i to match every method.
  */
 public class ChunkVoxels {
+
+    final int dataSize;
 
     public ChunkVoxels(final int sizeX, final int sizeY, final int sizeZ) {
         this.size = new Vector3i(sizeX, sizeY, sizeZ);
         this.blockData = new HashMap<>();
         this.blocks = MemoryUtil.memAllocShort(size.x * size.y * size.z);
         this.light = MemoryUtil.memAlloc(size.x * size.y * size.z);
+        dataSize = blocks.capacity();
     }
 
     public void dispose() {
@@ -32,7 +36,13 @@ public class ChunkVoxels {
     }
 
     public int getIndexOfCoords(final int x, final int y, final int z) {
-        return x + this.size.x * (y + this.size.y * z);
+        int indx = x + this.size.x * (y + this.size.y * z);
+        if (indx >= dataSize || indx < 0) {// IMPORTANT: If we set a block out of bounds, it overflows and causes chunk
+                                           // blocks to get mangled
+            throw new IndexOutOfBoundsException(
+                    "Chunk voxel coordinates (" + x + ", " + y + ", " + z + ") out of bounds!");
+        }
+        return indx;
     }
 
     public final Vector3i size;
@@ -47,103 +57,92 @@ public class ChunkVoxels {
         blocksAreEmpty = true;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Sunlight">
+    // <editor-fold defaultstate="collapsed" desc="Sunlight">
     private ByteBuffer light;
 
-    //DATA STRUCTURE FOR TORCHLIGHT
-    //We are going to try doing a single channel of torchlight instead of having multiple channels of torchlight
+    // DATA STRUCTURE FOR TORCHLIGHT
+    // We are going to try doing a single channel of torchlight instead of having
+    // multiple channels of torchlight
 
     public byte getSun(final int x, final int y, final int z) {
-        try {
-            return (byte) ((light.get(x + size.x * (y + size.y * z)) & 0b11110000) >> 4);
-        } catch (IndexOutOfBoundsException ex) {
-            throw new IndexOutOfBoundsException("Block coordinates " + x + ", " + y + ", " + z + " out of bounds!");
-        }
+        return (byte) ((light.get(getIndexOfCoords(x, y, z)) & 0b11110000) >> 4);
     }
 
-
     public void setSun(final int x, final int y, final int z, final int newVal) {
-        try {
-            byte origVal = this.light.get(x + size.x * (y + size.y * z));
-            this.light.put(x + size.x * (y + size.y * z),
-                    (byte) ((origVal & 0b00001111) | (newVal << 4)));
-        } catch (IndexOutOfBoundsException ex) {
-            throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
-        }
+        byte origVal = this.light.get(getIndexOfCoords(x, y, z));
+        this.light.put(getIndexOfCoords(x, y, z),
+                (byte) ((origVal & 0b00001111) | (newVal << 4)));
+
     }
 
     public int getTorch(final int x, final int y, final int z) {
-        try {
-            return (this.light.get(x + size.x * (y + size.y * z)) & 0b00001111);
-        } catch (IndexOutOfBoundsException ex) {
-            throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
-        }
+        return (this.light.get(getIndexOfCoords(x, y, z)) & 0b00001111);
+
     }
 
     public void setTorch(final int x, final int y, final int z, int newVal) {
-        try {
-            //Set the last 4 bytes to the new value
-            byte origVal = this.light.get(x + size.x * (y + size.y * z));
-            this.light.put(x + size.x * (y + size.y * z),
-                    (byte) ((origVal & 0b11110000) | (newVal & 0b00001111)));
-        } catch (IndexOutOfBoundsException ex) {
-            throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
-        }
+        // Set the last 4 bytes to the new value
+        byte origVal = this.light.get(getIndexOfCoords(x, y, z));
+        this.light.put(getIndexOfCoords(x, y, z),
+                (byte) ((origVal & 0b11110000) | (newVal & 0b00001111)));
+
     }
 
     public byte getPackedLight(final int x, final int y, final int z) {
-        //Returns an 8 bit packed value
-        return this.light.get(x + size.x * (y + size.y * z));
+        // Returns an 8 bit packed value
+        return this.light.get(getIndexOfCoords(x, y, z));
     }
 
     public void setPackedLight(final int x, final int y, final int z, byte value) {
-        this.light.put(x + size.x * (y + size.y * z), value);
+        this.light.put(getIndexOfCoords(x, y, z), value);
     }
 
+    // </editor-fold>
 
-//</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Blocks">
+    // <editor-fold defaultstate="collapsed" desc="Blocks">
     private ShortBuffer blocks;
 
     public short getBlock(final int x, final int y, final int z) {
-        try {
-            return blocks.get(x + size.x * (y + size.y * z));
-        } catch (IndexOutOfBoundsException ex) {
-            throw new IndexOutOfBoundsException("Block coordinates " + x + ", " + y + ", " + z + " out of bounds!");
-        }
+        return blocks.get(getIndexOfCoords(x, y, z));
     }
 
     public void setBlock(final int x, final int y, final int z, final short value) {
-        try {
+        // try {//TODO: Decide if we should throw an error if we set blocks out of bounds or just ignore it
+            this.blocks.put(getIndexOfCoords(x, y, z), value);
             if (value != ItemList.blocks.BLOCK_AIR.id) {
                 blocksAreEmpty = false;
             }
-            this.blocks.put(x + size.x * (y + size.y * z), value);
-        } catch (IndexOutOfBoundsException ex) {
-            throw new IndexOutOfBoundsException("Coordinates " + x + ", " + y + ", " + z + " out of bounds!");
-        }
+        // } catch (IndexOutOfBoundsException e) {
+        //     // Do nothing
+        // }
     }
-//</editor-fold>
+    
+    public void setBlockData(final int x, final int y, final int z, final BlockData b) {
+        // try {
+            this.blockData.put(x + this.size.x * (y + this.size.y * z), b);
+        // } catch (IndexOutOfBoundsException e) {
+        //     // Do nothing
+        // }
+    }
 
-    //<editor-fold defaultstate="collapsed" desc="Block Data">
-    //    private BlockData[] blockData;
-    //The keys in a hashmap are non eligeble for garbage colleciton unless the whole hashmap is unreachable.
-    //Somehow, acessing items from this hashmap has been the main contributor to memory usage in collision handling
+    // <editor-fold defaultstate="collapsed" desc="Block Data">
+    // private BlockData[] blockData;
+    // The keys in a hashmap are non eligeble for garbage colleciton unless the
+    // whole hashmap is unreachable.
+    // Somehow, acessing items from this hashmap has been the main contributor to
+    // memory usage in collision handling
     private HashMap<Integer, BlockData> blockData;
 
     public BlockData getBlockData(final int x, final int y, final int z) {
-        int val = x + this.size.x * (y + this.size.y * z); //Causes no overhead
-        //        TODO: blockData.get() is what is driving up all of the memory usage in collision handler
-        return blockData.get(val);//Causes all the overhead
-        //        return blockData[val];
+        int val = getIndexOfCoords(x, y, z); // Causes no overhead
+        // TODO: blockData.get() is what is driving up all of the memory usage in
+        // collision handler
+        return blockData.get(val);// Causes all the overhead
+        // return blockData[val];
     }
-//    public BlockData getBlockData(Vector3i pos) {
-//        return getBlockData(pos.x, pos.y, pos.z);
-//    }
+    // public BlockData getBlockData(Vector3i pos) {
+    // return getBlockData(pos.x, pos.y, pos.z);
+    // }
 
-    public void setBlockData(final int x, final int y, final int z, final BlockData b) {
-        this.blockData.put(x + this.size.x * (y + this.size.y * z), b);
-    }
-    //</editor-fold>
+    // </editor-fold>
 }

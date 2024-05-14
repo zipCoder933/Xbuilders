@@ -15,6 +15,7 @@ import static com.xbuilders.engine.world.World.meshService;
 
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.window.render.MVP;
 
@@ -144,21 +145,23 @@ public class Chunk {
         data.clear();
         File f = info.getChunkFile(position);
 
-        boolean needsSunGeneration = true;
-        if (f.exists()) {
-            ChunkSavingLoadingUtils.readChunkFromFile(this, f);
-            needsSunGeneration = false;
-        } else {
-            GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
+        try {
+            boolean needsSunGeneration = true;
+            if (f.exists()) {
+                ChunkSavingLoadingUtils.readChunkFromFile(this, f);
+                needsSunGeneration = false;
+            } else {
+                GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
+            }
+            if (futureChunk != null) {
+                futureChunk.setBlocksInChunk(this);
+                needsSunGeneration = true;
+            }
+            // Loading a chunk includes loading sunlight
+            generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED;
+        } catch (Exception ex) {//For some reason we have to catch incoming errors otherwise they wont be visible
+            ErrorHandler.handleFatalError("Error loading chunk", ex);
         }
-        if (futureChunk != null) {
-            futureChunk.setBlocksInChunk(this);
-            needsSunGeneration = true;
-        }
-        // Loading a chunk includes loading sunlight
-
-        generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED;
-        // System.out.println("Chunk Loaded " + generationStatus);
     }
 
     public void dispose() {
@@ -243,7 +246,7 @@ public class Chunk {
         if (loadFuture != null && loadFuture.isDone()) {
 
             if (isTopChunk && pillarInformation != null
-                    && pillarInformation.isPillarLoaded()) {// When there is an unknown block, we get hung up here
+                    && pillarInformation.isPillarLoaded()) {
                 loadFuture = null;
                 pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
             }

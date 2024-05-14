@@ -263,6 +263,7 @@ public class GameScene implements WindowEvents {
                 Chunk chunk = world.getChunk(rayWCC.chunk);
                 if (chunk != null) {
                     text += "\nchunk gen status: " + chunk.generationStatus;
+                    text += "\npillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                     text += "\nchunk mesh: " + chunk.meshes;
                     BlockData data = chunk.data.getBlockData(
                             rayWCC.chunkVoxel.x,

@@ -31,15 +31,13 @@ public class PillarInformation {
         return true;
     }
 
-    public Chunk getPillarKeystone() {
+    public Chunk getTopPillar() {
         return chunks[0];
     }
 
     public boolean isPillarLoaded() {
         for (Chunk chunk : chunks) {
             if (!chunk.gen_terrainLoaded()) {
-                System.err.println("Chunk " + chunk + " not loaded: load-future:" + (chunk.loadFuture == null ? "null"
-                        : chunk.loadFuture.isDone()));
                 return false;
             }
         }

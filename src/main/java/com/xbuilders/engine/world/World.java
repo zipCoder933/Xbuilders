@@ -312,7 +312,9 @@ public class World {
                 chunkPillar[y - TOP_Y_CHUNK] = getChunk(coords);
             }
         }
-        chunkPillar[0].pillarInformation = new PillarInformation(chunkPillar);
+        for (Chunk chunk : chunkPillar) {
+            chunk.pillarInformation = new PillarInformation(chunkPillar);
+        }
         // chunkPillar[0].pillarInformation.loadChunks(terrain, info);
 
         return chunksGenerated;
