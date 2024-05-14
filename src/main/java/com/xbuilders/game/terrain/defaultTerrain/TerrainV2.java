@@ -263,9 +263,9 @@ public class TerrainV2 extends Terrain {
                             (!caves || getValueFractal(wx * caveFrequency, wy * 14.0f, wz *
                                     caveFrequency) <= 0.25)) {
                         chunk.data.setBlock(x, y, z, MyGame.BLOCK_STONE);
-                        if(session.random.nextFloat()>0.9){
-                            chunk.data.setBlock(wx, wy, wz, (short)1273);
-                        }
+                        // if(session.random.nextFloat()>0.9){
+                        //     chunk.data.setBlock(wx, wy, wz, (short)1273);
+                        // }
                         placeWater = false;
                     } else if (wy == WATER_LEVEL && heat < -0.6f) {
                         chunk.data.setBlock(x, y, z, MyGame.BLOCK_ICE_BLOCK);

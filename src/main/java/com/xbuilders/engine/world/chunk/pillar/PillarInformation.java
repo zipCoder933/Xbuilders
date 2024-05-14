@@ -38,6 +38,8 @@ public class PillarInformation {
     public boolean isPillarLoaded() {
         for (Chunk chunk : chunks) {
             if (!chunk.gen_terrainLoaded()) {
+                System.err.println("Chunk " + chunk + " not loaded: load-future:" + (chunk.loadFuture == null ? "null"
+                        : chunk.loadFuture.isDone()));
                 return false;
             }
         }

@@ -36,8 +36,10 @@ public class Chunk {
     public void markAsModifiedByUser() {
         ownedByUser = true;
         needsToBeSaved = true;
-        //We dont have to make a needs to be saved call because it wont get saved unless it is owned by the user
-        //And we wont ever need to mark as needs to be saved if it is not owned by the user, because it won't be saved
+        // We dont have to make a needs to be saved call because it wont get saved
+        // unless it is owned by the user
+        // And we wont ever need to mark as needs to be saved if it is not owned by the
+        // user, because it won't be saved
     }
 
     private boolean ownedByUser = false;
@@ -53,7 +55,7 @@ public class Chunk {
     /**
      * Having larger chunks means a much greater preformance
      */
-    public static final int WIDTH = 32; //The solution was just to clean+build after width change
+    public static final int WIDTH = 32; // The solution was just to clean+build after width change
     public static final int HEIGHT = WIDTH;
     public static final int HALF_WIDTH = WIDTH / 2;
 
@@ -81,6 +83,9 @@ public class Chunk {
     public final NeighborInformation neghbors;
     public boolean isTopChunk;
     public PillarInformation pillarInformation;
+    Terrain terrain;
+    WorldInfo info;
+    FutureChunk futureChunk;
 
     public Chunk(int texture) {
         this.position = new Vector3i();
@@ -94,14 +99,14 @@ public class Chunk {
     }
 
     public void init(Vector3i position, WorldInfo info,
-                     Terrain terrain, FutureChunk futureChunk,
-                     float distToPlayer, boolean isTopChunk) {
+            Terrain terrain, FutureChunk futureChunk,
+            float distToPlayer, boolean isTopChunk) {
+        generationStatus = 0;
+        loadFuture = null;
+        mesherFuture = null;
         lightQueue.clear();
         pillarInformation = null;
         this.isTopChunk = isTopChunk;
-
-        mesherFuture = null;
-        generationStatus = 0;
         this.position.set(position);
         modelMatrix.identity().setTranslation(
                 position.x * WIDTH,
@@ -111,9 +116,19 @@ public class Chunk {
                 WIDTH, HEIGHT, WIDTH);
         meshes.init();
         neghbors.init(position);
-        //Load the chunk
+        // Load the chunk
+
+        this.info = info;
+        this.terrain = terrain;
+        this.distToPlayer = distToPlayer;
+        this.futureChunk = futureChunk;
 
         World.frameTester.startProcess();
+        load();
+        World.frameTester.endProcess("Load chunk");
+    }
+
+    public void load() {
         loadFuture = generationService.submit(distToPlayer, () -> {
             try {
                 loadChunk(info, terrain, futureChunk);
@@ -122,7 +137,6 @@ public class Chunk {
                 newGameTasks.incrementAndGet();
             }
         });
-        World.frameTester.endProcess("Load chunk");
     }
 
     public void loadChunk(WorldInfo info, Terrain terrain, FutureChunk futureChunk) {
@@ -141,10 +155,10 @@ public class Chunk {
             futureChunk.setBlocksInChunk(this);
             needsSunGeneration = true;
         }
-        //Loading a chunk includes loading sunlight
-     
-        generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_TERRAIN_LOADED; 
-          System.out.println("Chunk Loaded "+generationStatus);
+        // Loading a chunk includes loading sunlight
+
+        generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED;
+        // System.out.println("Chunk Loaded " + generationStatus);
     }
 
     public void dispose() {
@@ -192,12 +206,12 @@ public class Chunk {
     }
 
     /*
-    CHUNK GENERATION
-    - We first generate the terrain
-    - Mesh generation is the last step
+     * CHUNK GENERATION
+     * - We first generate the terrain
+     * - Mesh generation is the last step
      */
     private Future<ChunkMeshBundle> mesherFuture;
-    //    public Future<Boolean> lightFuture;
+    // public Future<Boolean> lightFuture;
     public Future<Boolean> loadFuture;
 
     public int generationStatus = 0;
@@ -214,13 +228,14 @@ public class Chunk {
     }
 
     public boolean gen_Complete() {
-        return generationStatus == Chunk.GEN_COMPLETE;
+        return generationStatus >= Chunk.GEN_COMPLETE;
     }
 
-//    public static FrameTester chunkGenFrameTester = new FrameTester("Chunk generation");
-//    static {
-//        chunkGenFrameTester.setUpdateTimeMS(1000);
-//    }
+    // public static FrameTester chunkGenFrameTester = new FrameTester("Chunk
+    // generation");
+    // static {
+    // chunkGenFrameTester.setUpdateTimeMS(1000);
+    // }
 
     final HashQueue<ChunkNode> lightQueue = new HashQueue<>();
 
@@ -228,7 +243,7 @@ public class Chunk {
         if (loadFuture != null && loadFuture.isDone()) {
 
             if (isTopChunk && pillarInformation != null
-            && pillarInformation.isPillarLoaded()  ) {//When there is an unknown block, we get hung up here
+                    && pillarInformation.isPillarLoaded()) {// When there is an unknown block, we get hung up here
                 loadFuture = null;
                 pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
             }
@@ -244,22 +259,22 @@ public class Chunk {
             World.frameTester.endProcess("red Cache Neghbors");
 
             if (neghbors.allNeghborsLoaded
-                    && generationStatus >= GEN_SUN_LOADED
-            ) {
+                    && generationStatus >= GEN_SUN_LOADED) {
                 loadFuture = null;
                 World.frameTester.startProcess();
                 mesherFuture = meshService.submit(() -> {
-                    if (GameScene.world.info == null) return null; //Quick fix. TODO: remove this line
+                    if (GameScene.world.info == null)
+                        return null; // Quick fix. TODO: remove this line
                     meshes.compute();
                     generationStatus = GEN_COMPLETE;
-                //   if(!meshes.isEmpty())  System.out.println("Mesh computed!");
+                    // if(!meshes.isEmpty()) System.out.println("Mesh computed!");
                     return meshes;
                 });
                 World.frameTester.endProcess("red Compute meshes");
             }
         }
 
-        //send mesh to GPU
+        // send mesh to GPU
         if (inFrustum || isSettingUpWorld) {
             World.frameTester.startProcess();
             sendMeshToGPU();
@@ -286,7 +301,7 @@ public class Chunk {
      * sends the mesh to the GPU after meshing
      */
     public void sendMeshToGPU() {
-        //Send mesh to GPU if mesh thread is finished
+        // Send mesh to GPU if mesh thread is finished
         if (mesherFuture != null && mesherFuture.isDone() && gen_Complete()) {
             try {
                 mesherFuture.get().sendToGPU();
