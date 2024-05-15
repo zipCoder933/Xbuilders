@@ -38,6 +38,8 @@ If the resulting icons from icon generation are empty, the most likely cause wou
 
 ## FIXED Bugs (watch out!)
 * I fixed a bug that prevented chunks from loading when blocks are set outside chunk voxel bounds
+  * IF YOU ARE USING BYTEBUFFERS FOR CHUNK DATA:
+    * Make sure that the chunkVoxels class prevents bytes from being written to the data if they are out of bounds
 
 
 ## TODO Optimizations and bufgixes
@@ -45,7 +47,9 @@ If the resulting icons from icon generation are empty, the most likely cause wou
 * If a naive meshed block is next to another chunk, the block is black
   * ![bug.png](assets\notes\images\bug.png)
 * **The game sometimes crashes**
-  * I think the cause is from the byte-buffers not being handled in a safe manner
+  * I think the cause of this could be from the byte-buffers not being handled in a safe manner. Byte buffers+off-heap memory can cause crashes if not handled properly.
+  * TODO: Switch out chunk voxels to use arrays instead of off-heap buffers
+  * TODO: Learn how to safely handle buffers and implmement those principles in all of the code
 
 ## TODO Features
 * **Water**

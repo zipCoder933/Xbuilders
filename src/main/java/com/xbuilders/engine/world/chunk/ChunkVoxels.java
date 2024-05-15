@@ -17,7 +17,7 @@ import org.lwjgl.system.MemoryUtil;
  * annoyance, I will add a vector3i to match every method.
  */
 public class ChunkVoxels {
-
+//TODO: Switch out chunk voxels to use arrays instead of off-heap buffers
     final int dataSize;
 
     public ChunkVoxels(final int sizeX, final int sizeY, final int sizeZ) {
