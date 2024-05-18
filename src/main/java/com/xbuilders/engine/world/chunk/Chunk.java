@@ -280,6 +280,7 @@ public class Chunk {
         // send mesh to GPU
         if (inFrustum || isSettingUpWorld) {
             World.frameTester.startProcess();
+            entities.chunkUpdatedMesh =true;
             sendMeshToGPU();
             World.frameTester.endProcess("Send mesh to GPU");
         }

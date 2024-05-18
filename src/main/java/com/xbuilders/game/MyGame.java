@@ -324,6 +324,12 @@ public class MyGame extends Game {
                 //Mules
                 new MuleLink(window, 30, "Mule", "mule.png"),
                 new MuleLink(window, 31, "Donkey", "donkey.png"),
+
+                //Dogs
+                new DogLink(window, 32, "Black Dog", "black.png"),
+                new DogLink(window, 33, "Brown Dog", "brown.png"),
+                new DogLink(window, 34, "Gold Dog", "gold.png"),
+                new DogLink(window, 35, "White Dog", "white.png"),
         };
 
 

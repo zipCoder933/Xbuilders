@@ -37,13 +37,14 @@ public abstract class Entity {
     private void getLightForPosition() {
         Chunk chunk = GameScene.world.getChunk(chunkPosition.chunk);
         byte light = (byte) 0b11110000;
+
         if (chunk != null) {
             light = chunk.data.getPackedLight(
                     (int) Math.floor(chunkPosition.chunkVoxel.x),
                     (int) Math.floor(chunkPosition.chunkVoxel.y),
                     (int) Math.floor(chunkPosition.chunkVoxel.z));
 
-            for (int i = 1; i < 4; i++) {
+            for (int i = 1; i < 3; i++) { //Go up, if the block is in an opaque block
                 if (light == 0) {
                     WCCi wcc = new WCCi();
                     wcc.set((int) Math.floor(worldPosition.x),
@@ -58,19 +59,11 @@ public abstract class Entity {
                     }
                 } else break;
             }
-
-            //Unpack light
-//            light = ChunkVoxels.unpackLight(light);
-
         }
-        sunValue = 1;
-        torchValue = 1;
-//
-//        sunValue = ( float)  /15;
-//        torchValue = (float) chunk.data.getTorch(
-//                (int) Math.floor(chunkPosition.chunkVoxel.x),
-//                (int) Math.floor(chunkPosition.chunkVoxel.y),
-//                (int) Math.floor(chunkPosition.chunkVoxel.z)) / 15;
+
+        //Unpack light
+        sunValue = (float) ChunkVoxels.getSun(light) / 15;
+        torchValue = (float) ChunkVoxels.getTorch(light) / 15;
     }
 
     private float sunValue;
@@ -136,6 +129,10 @@ public abstract class Entity {
         }
     }
 
+    protected void hidden_entityOnChunkMeshChanged(){
+        getLightForPosition();
+    }
+
 
     public abstract void draw(Matrix4f projection, Matrix4f view);
 
@@ -153,4 +150,7 @@ public abstract class Entity {
     }
 
 
+    public boolean run_ClickEvent() {
+        return false;
+    }
 }

@@ -25,7 +25,6 @@ public class StaticLandAnimalLink extends EntityLink {
     public StaticLandAnimalLink(BaseWindow window, int id, String name, String modelName, String textureName) {
         super(id, name, () -> new StaticLandAnimal(window));
         //"\\items\\entity\\animal\\fox\\" +
-        //
         this.textureName = textureName;
         this.modelName = modelName;
         setIcon("egg.png");

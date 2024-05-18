@@ -12,6 +12,7 @@ public class MuleLink extends HorseLink {
         bodyModel = "items\\entity\\animal\\horse\\mule\\body.obj";
         legModel = "items\\entity\\animal\\horse\\mule\\leg.obj";
         texturePre = "items\\entity\\animal\\horse\\";
+        setIcon("mule egg.png");
     }
 
     @Override

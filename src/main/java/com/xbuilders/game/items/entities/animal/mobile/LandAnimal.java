@@ -1,11 +1,7 @@
 package com.xbuilders.game.items.entities.animal.mobile;
 
-import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.BaseWindow;
-import org.joml.Matrix4f;
-
-import java.util.ArrayList;
 
 public abstract class LandAnimal extends Animal {
 
@@ -14,7 +10,7 @@ public abstract class LandAnimal extends Animal {
     }
 
     long actionDuration = 0;
-    AnimalAction action = null;
+    public AnimalAction currentAction = null;
     private float activity = 0.5f;
     private float maxSpeed = 0.17f;
 
@@ -73,6 +69,9 @@ public abstract class LandAnimal extends Animal {
             if (!inFrustum) {
                 action.velocity *= 1.5;
             }
+        } else if (actionType == AnimalAction.ActionType.IDLE) {
+            int inverseDuration = ((int) (1 - activity) * 10) + 1;
+            actionDuration = random.nextInt(50, inverseDuration * 1000);
         } else {
             if (activity > 0.8) {
                 actionDuration = random.nextInt(-40, 200);
@@ -95,21 +94,21 @@ public abstract class LandAnimal extends Animal {
         if (freezeMode) {
             return;
         }
-        if (action == null || action.pastDuration()) {
-            if (action == null) {
-                action = newRandomAction(null);
+        if (currentAction == null || currentAction.pastDuration()) {
+            if (currentAction == null) {
+                currentAction = newRandomAction(null);
             } else {
-                action = newRandomAction(action.type);
+                currentAction = newRandomAction(currentAction.type);
             }
         }
 
-        if (null != action.type) {
-            switch (action.type) {
+        if (null != currentAction.type) {
+            switch (currentAction.type) {
                 case TURN:
-                    yRotDegrees = (yRotDegrees + action.velocity);
+                    yRotDegrees = (yRotDegrees + currentAction.velocity);
                     break;
                 case WALK:
-                    goForward(action.velocity);
+                    goForward(currentAction.velocity);
                     break;
                 default:
             }

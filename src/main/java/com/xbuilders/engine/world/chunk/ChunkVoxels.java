@@ -56,8 +56,8 @@ public class ChunkVoxels {
     public void clear() {
         blockData.clear();
         for (int i = 0; i < dataSize; i++) {
-            blocks[i] =  (short) 0;
-            light[i] =  (byte) ((15 << 4)); // Set first 4 bits to 15, last 4 bits to 0
+            blocks[i] = (short) 0;
+            light[i] = (byte) ((15 << 4)); // Set first 4 bits to 15, last 4 bits to 0
         }
         blocksAreEmpty = true;
     }
@@ -73,22 +73,30 @@ public class ChunkVoxels {
         return (byte) ((light[getIndexOfCoords(x, y, z)] & 0b11110000) >> 4);
     }
 
+    public byte getTorch(final int x, final int y, final int z) {
+        return (byte) (this.light[getIndexOfCoords(x, y, z)] & 0b00001111);
+    }
+
+    public static byte getSun(byte packed) {
+        return (byte) ((packed & 0b11110000) >> 4);
+    }
+
+    public static byte getTorch(byte packed) {
+        return (byte) (packed & 0b00001111);
+    }
+
     public void setSun(final int x, final int y, final int z, final int newVal) {
         byte origVal = this.light[getIndexOfCoords(x, y, z)];
-        this.light[getIndexOfCoords(x, y, z)]=
+        this.light[getIndexOfCoords(x, y, z)] =
                 (byte) ((origVal & 0b00001111) | (newVal << 4));
 
     }
 
-    public int getTorch(final int x, final int y, final int z) {
-        return (this.light[getIndexOfCoords(x, y, z)] & 0b00001111);
-
-    }
 
     public void setTorch(final int x, final int y, final int z, int newVal) {
         // Set the last 4 bytes to the new value
         byte origVal = this.light[getIndexOfCoords(x, y, z)];
-        this.light[getIndexOfCoords(x, y, z)]=
+        this.light[getIndexOfCoords(x, y, z)] =
                 (byte) ((origVal & 0b11110000) | (newVal & 0b00001111));
 
     }
@@ -99,7 +107,7 @@ public class ChunkVoxels {
     }
 
     public void setPackedLight(final int x, final int y, final int z, byte value) {
-        this.light[getIndexOfCoords(x, y, z)]= value;
+        this.light[getIndexOfCoords(x, y, z)] = value;
     }
 
     // </editor-fold>

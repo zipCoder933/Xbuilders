@@ -35,6 +35,11 @@ public class AnimalAction {
         this.type = type;
         this.createdTimeMS = System.currentTimeMillis();
     }
+    public AnimalAction(ActionType type, long duration) {
+        this.type = type;
+        this.createdTimeMS = System.currentTimeMillis();
+        this.duration = duration;
+    }
 
     public long getTimeSinceCreatedMS() {
         return System.currentTimeMillis() - createdTimeMS;

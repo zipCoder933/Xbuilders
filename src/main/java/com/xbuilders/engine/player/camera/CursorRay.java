@@ -80,19 +80,30 @@ public class CursorRay {
     public boolean createClickEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (button == UserControlledPlayer.CREATE_MOUSE_BUTTON) {
-                Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
-                block.run_ClickEvent(getHitPos());
-
-                if (block.clickThrough()) {
+                boolean clickThrough = clickEvent();
+                if (clickThrough) {
                     if (useBoundary) {
                         boundaryClickEvent(true);
                         return false;
                     }
                 }
-                return block.clickThrough(); //If we want to permit the click event to continue
+                return clickThrough;
             }
         }
         return false;
+    }
+
+    private boolean clickEvent() {
+        if (cursorRay.entity != null) {
+            return cursorRay.entity.run_ClickEvent();
+        } else {
+            Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
+            block.run_ClickEvent(getHitPos());
+            if (block.clickThrough()) {
+
+            }
+            return block.clickThrough(); //If we want to permit the click event to continue
+        }
     }
 
     public boolean destroyClickEvent(int button, int action, int mods) {

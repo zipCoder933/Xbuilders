@@ -20,6 +20,7 @@ import org.joml.Vector3i;
  */
 public class ChunkEntitySet {
 
+    public boolean chunkUpdatedMesh;
     Chunk thisChunk;
     //    FrustumCullingTester frustum;
     public final ArrayList<Entity> list;
@@ -55,6 +56,9 @@ public class ChunkEntitySet {
                 e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);
                 e.distToPlayer = e.worldPosition.distance(playerPos);
                 e.hidden_drawEntity(projection, view);
+                if(chunkUpdatedMesh){
+                    e.hidden_entityOnChunkMeshChanged();
+                }
                 e.updatePosition();
 
 
@@ -78,6 +82,7 @@ public class ChunkEntitySet {
                 }
             }
         }
+        chunkUpdatedMesh = false;
     }
 
 }

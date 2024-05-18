@@ -5,6 +5,8 @@ import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.game.items.entities.animal.mobile.Animal;
+import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
@@ -19,12 +21,13 @@ import java.util.Objects;
 
 public class HorseLink extends EntityLink {
 
-    EntityMesh body,saddle;
+    EntityMesh body, saddle, sitting;
     String textureName;
     LegPair legs;
     protected String bodyModel = "items\\entity\\animal\\horse\\horse\\body.obj";
     protected String legModel = "items\\entity\\animal\\horse\\horse\\leg.obj";
     protected String texturePre = "items\\entity\\animal\\horse\\";
+    protected String sittingModel = null;
 
 
     public HorseLink(BaseWindow window, int id, String name, String textureName) {
@@ -49,6 +52,12 @@ public class HorseLink extends EntityLink {
                 body = new EntityMesh();
                 body.loadFromOBJ(OBJLoader.loadModel(bodyOBJ));
                 body.setTextureID(texture);
+
+                if (sittingModel != null) {
+                    sitting = new EntityMesh();
+                    sitting.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(sittingModel)));
+                    sitting.setTextureID(texture);
+                }
 
                 EntityMesh legsModel = new EntityMesh();
                 legsModel.loadFromOBJ(OBJLoader.loadModel(legOBJ));
@@ -97,7 +106,7 @@ public class HorseLink extends EntityLink {
 
         private long lastJumpTime = 0;
         private float legMovement = 0;
-        public final float SCALE = 0.6f;
+        public float SCALE = 0.6f;
         protected float legXSpacing = 0.32f * SCALE;
         protected float legZSpacing = 0.9f * SCALE;
         protected float legYSpacing = -1.3f * SCALE;
@@ -115,23 +124,38 @@ public class HorseLink extends EntityLink {
 
                 mvp.update(projection, view, bodyMatrix);
                 mvp.sendToShader(shader.getID(), shader.mvpUniform);
-                link.body.draw(false);
 
-
-                //Z is the directon of the horse
-                link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
-                link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
+                if (currentAction.type == AnimalAction.ActionType.IDLE
+                        && link.sitting != null
+                        && currentAction.duration > 1000) {
+                    link.sitting.draw(false);
+                } else {
+                    link.body.draw(false);
+                    //Z is the directon of the horse
+                    link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
+                    link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
+                }
 
 
                 pos.update(projection, view);
-//                if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
-//                        || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02) {
-//                    if (System.currentTimeMillis() - lastJumpTime > 2000) {
-//                        lastJumpTime = System.currentTimeMillis();
-//                        pos.jump();
-//                    }
-//                }
+                if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
+                        || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02) {
+                    if (System.currentTimeMillis() - lastJumpTime > 2000) {
+                        lastJumpTime = System.currentTimeMillis();
+                        pos.jump();
+                    }
+                }
             }
+        }
+
+
+        @Override
+        public boolean run_ClickEvent() {
+            if (currentAction.type == AnimalAction.ActionType.IDLE) {
+                currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);
+            } else currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 10 * 1000);
+
+            return false;
         }
     }
 }

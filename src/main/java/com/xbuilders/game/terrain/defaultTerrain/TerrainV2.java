@@ -13,13 +13,15 @@ public class TerrainV2 extends Terrain {
 
     short fern, deadBush;
     final int WORLD_HEIGHT_OFFSET = 138;
-    final int WATER_LEVEL = WORLD_HEIGHT_OFFSET + 20;
+    final int OCEAN_LEVEL = 25; //Used to deepen lakes in heightmap generation
+    final int WATER_LEVEL = WORLD_HEIGHT_OFFSET + (OCEAN_LEVEL - 5); //5 blocks above ocean level
+    final float MOUNTAIN_THRESH = 20;
 
     boolean caves = false;
-    boolean mountains = true;
+//    boolean mountains = true;
 
     public TerrainV2(boolean caves) {
-        super("Default Terrain" + (caves ? " w/ Caves" : ""));
+        super("Default Terrain" + (caves ? " + Caves" : ""));
         MIN_SURFACE_HEIGHT = 0;
         MAX_SURFACE_HEIGHT = 257;
         this.caves = caves;
@@ -28,15 +30,15 @@ public class TerrainV2 extends Terrain {
         // utils = new DefaultTerrainUtils(this, WATER_LEVEL);
     }
 
-    public int getHeightmapOfVoxel(int x, int z) {
-        return getHeightmapOfVoxel(valley(x, z), x, z);
+    public int getTerrainHeight(int x, int z) {
+        return getTerrainHeight(valley(x, z), x, z);
     }
 
     public Biome getBiomeOfVoxel(int x, int y, int z) {
         return getBiomeOfVoxel(
                 valley(x, z),
                 getHeat(x, z),
-                getHeightmapOfVoxel(x, z),
+                getTerrainHeight(x, z),
                 x, y, z);
     }
 
@@ -170,27 +172,33 @@ public class TerrainV2 extends Terrain {
         }
     }
 
-    final float OCEAN_THRESH = 25;
-    final float MOUNTAIN_THRESH = 20;
     final float caveFrequency = 6.0f;
 
     public float valley(final int wx, final int wz) {
-        return getValueFractal((float) wz - 10000, (float) wx);
+        float val = getValueFractal((float) (wz * 0.5) - 10000, (float) (wx * 0.5));
+//        if (val < 0) { //We want less valley to be more common
+//            val *= 4;
+//            if (val < -1) val = -1;
+//        }
+        return val;
     }
 
-    public int getHeightmapOfVoxel(float valley, final int wx, final int wz) {
+    public int getTerrainHeight(float valley, final int wx, final int wz) {
         int val = (int) (getValueFractal((float) wx, (float) wz) * 50f);
 
-        if (val > OCEAN_THRESH) {
-            val = (int) (((val - OCEAN_THRESH) * 1.5f) + OCEAN_THRESH);
+        if (val > OCEAN_LEVEL) { //Deepen the oceans and lakes
+            val = (int) (((val - OCEAN_LEVEL) * 1.7f) + OCEAN_LEVEL);
         }
         // else if (val < -MOUNTAIN_THRESH) {
         // val = (int) (((val + MOUNTAIN_THRESH) * 2f) - MOUNTAIN_THRESH);
         // }
-        if (val < 0) {// If the height value is less than 0, normalize it
-            val = (int) MathUtils.map(valley, -1, 1, val, val / 10f);// Normalize for valleys
-        }
 
+        if (valley > 0) { //Valley only applies if the value is greater than 0
+            val = (int) MathUtils.map(valley,
+                    0, 1, //From 0-1
+                    val, //Regular terrain
+                    (val / 5f) - 5); //Raised, flattened terrain
+        }
         return WORLD_HEIGHT_OFFSET + val;
     }
 
@@ -219,7 +227,7 @@ public class TerrainV2 extends Terrain {
     }
 
     private float getFrequency() {
-        return 2.0f;
+        return 0.9f;
     }
 
     private float getValueFractal(float x, float y, float z) {
@@ -239,7 +247,7 @@ public class TerrainV2 extends Terrain {
                 final int wx = x + chunk.position.x * Chunk.WIDTH;
                 final int wz = z + chunk.position.z * Chunk.WIDTH;
                 final float valley = valley(wx, wz);
-                final int heightmap = getHeightmapOfVoxel(valley, wx, wz);
+                final int heightmap = getTerrainHeight(valley, wx, wz);
                 boolean placeWater = true;
                 float heat = getHeat(wx, wz);
                 Biome biome = Biome.DEFAULT;
