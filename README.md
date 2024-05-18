@@ -58,8 +58,6 @@ If the resulting icons from icon generation are empty, the most likely cause wou
 * **Finish animals**
   * Add sea turtles
   * Add fish
-  * Add dogs
-    * Needs individual legs like horses
   * Add parrots
 * **Add copy/paste tools**
   * Simplify block tool controls
