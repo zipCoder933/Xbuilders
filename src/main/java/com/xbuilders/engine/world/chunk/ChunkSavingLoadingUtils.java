@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -67,15 +66,15 @@ class ChunkSavingLoadingUtils {
         return str;
     }
 
-    private static void writeAndVerifyBuffer(final OutputStream out, final ByteBuffer buffer) throws IOException {
-        for (int i = 0; i < buffer.capacity(); i++) {
-            byte b = buffer.get(i);
-            if (b == NEWLINE_BYTE) {
-                throw new IllegalArgumentException("The byte [" + NEWLINE_BYTE + "] is forbidden for use.");
-            }
-            out.write(b);
-        }
-    }
+//    private static void writeAndVerifyBuffer(final OutputStream out, final ByteBuffer buffer) throws IOException {
+//        for (int i = 0; i < buffer.capacity(); i++) {
+//            byte b = buffer.get(i);
+//            if (b == NEWLINE_BYTE) {
+//                throw new IllegalArgumentException("The byte [" + NEWLINE_BYTE + "] is forbidden for use.");
+//            }
+//            out.write(b);
+//        }
+//    }
 
     private static void writeShort(OutputStream out, final short x) throws IOException {
         out.write((byte) (x & 0xFF));
@@ -265,10 +264,8 @@ class ChunkSavingLoadingUtils {
         writeShort(out, block);
         final BlockData blockData = chunk.data.getBlockData(x, y, z);
         if (block != BlockList.BLOCK_AIR.id && blockData != null) {
-            writeAndVerifyBuffer(out, blockData.buff);
+            blockData.write(fout);
         }
-
-
         out.write(NEWLINE_BYTE);
     }
 

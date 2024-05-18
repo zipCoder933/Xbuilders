@@ -49,12 +49,11 @@ If the resulting icons from icon generation are empty, the most likely cause wou
 * **The game sometimes crashes**
   * I think the cause of this could be from the byte-buffers not being handled in a safe manner. Byte buffers+off-heap memory can cause crashes if not handled properly.
   * TODO: Switch out chunk voxels to use arrays instead of off-heap buffers
+    * Do a search of the ENTIRE project to find all bytebuffers, shortbuffers, floatbuffers and intbuffers
   * TODO: Learn how to safely handle buffers and implmement those principles in all of the code
 
 ## TODO Features
 * **Water**
-  * Make water overlay using a quad
-    * Make and test quad in another setting
   * Water live propagation
 * **Finish animals**
   * Add sea turtles
