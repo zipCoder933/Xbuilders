@@ -1,5 +1,6 @@
 package com.xbuilders.game.blockTools.tools;
 
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemType;
@@ -11,8 +12,18 @@ import org.lwjgl.glfw.GLFW;
 
 public class Tool_BoundarySetDelete extends BlockTool {
     public Tool_BoundarySetDelete() {
-        super("Block Boundary", new int[]{GLFW.GLFW_KEY_2});
+        super("Boundary");
         useBlockBoundary = true;
+    }
+
+    public String getName() {
+        return name + (GameScene.player.camera.cursorRay.boundary_lockToPlane ? " Plane" : "");
+    }
+
+    @Override
+    public boolean shouldActivate(int key, int scancode, int action, int mods) {
+        if (key == GLFW.GLFW_KEY_2) return true;
+        return false;
     }
 
     @Override

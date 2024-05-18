@@ -109,18 +109,18 @@ public class HorseLink extends EntityLink {
 
                 // box.setToAABB(projection, view, aabb.box);
                 // box.draw();
-                bodyShader.bind();
+                shader.bind();
                 float rotationRadians = (float) Math.toRadians(yRotDegrees);
                 bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
                 mvp.update(projection, view, bodyMatrix);
-                mvp.sendToShader(bodyShader.getID(), bodyShader.mvpUniform);
+                mvp.sendToShader(shader.getID(), shader.mvpUniform);
                 link.body.draw(false);
 
 
                 //Z is the directon of the horse
-                link.legs.draw(projection, view, bodyMatrix, bodyShader, legXSpacing, legYSpacing, legZSpacing, legMovement);
-                link.legs.draw(projection, view, bodyMatrix, bodyShader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
+                link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
+                link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
 
 
                 pos.update(projection, view);

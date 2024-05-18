@@ -4,7 +4,9 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.game.blockTools.tools.CopyTool;
 import com.xbuilders.game.blockTools.tools.DefaultTool;
+import com.xbuilders.game.blockTools.tools.PasteTool;
 import com.xbuilders.game.blockTools.tools.Tool_BoundarySetDelete;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
@@ -25,7 +27,8 @@ public class BlockTools extends GameUIElement {
         super(ctx, window, uires);
         tools.add(new DefaultTool());
         tools.add(new Tool_BoundarySetDelete());
-//        tools.add(new Tool_SimpleLine());
+        tools.add(new CopyTool());
+        tools.add(new PasteTool());
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();
@@ -83,12 +86,10 @@ public class BlockTools extends GameUIElement {
         boolean allowToolParameters = true;
         if (action == GLFW.GLFW_RELEASE) {
             for (int i = 0; i < tools.size(); i++) {
-                for (int j = 0; j < tools.get(i).activationKeys.length; j++) {
-                    if (key == tools.get(i).activationKeys[j]) {
-                        selectTool(i);
-                        allowToolParameters = false;
-                        break;
-                    }
+                if (tools.get(i).shouldActivate(key, scancode, action, mods)) {
+                    selectTool(i);
+                    allowToolParameters = false;
+                    break;
                 }
             }
         } else if (action == GLFW.GLFW_PRESS) {

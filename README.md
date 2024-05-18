@@ -52,16 +52,10 @@ If the resulting icons from icon generation are empty, the most likely cause wou
   * TODO: Learn how to safely handle buffers and implmement those principles in all of the code
 
 ## TODO Features
-* **Water**
-  * Make water overlay using a quad
-    * Make and test quad in another setting
-  * Water live propagation
 * **Finish animals**
-  * Add sea turtles
-  * Add fish
+  * light at entity feet
   * Add dogs
     * Needs individual legs like horses
-  * Add parrots
 * **Add copy/paste tools**
   * Simplify block tool controls
 * **Add a conversion tool from XB2 to XB3**

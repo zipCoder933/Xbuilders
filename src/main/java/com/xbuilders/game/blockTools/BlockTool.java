@@ -5,14 +5,18 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
 public abstract class BlockTool {
-    String name;
-    int[] activationKeys;
+    public final String name;
     public boolean useBlockBoundary = false;
 
-    public BlockTool(String name, int[] activationKeys) {
+    public BlockTool(String name) {
         this.name = name;
-        this.activationKeys = activationKeys;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public abstract boolean shouldActivate(int key, int scancode, int action, int mods);
 
     public void blockBoundarySetEvent(AABB aabb,boolean created) {
         System.out.println("Block boundary event: " + aabb+" "+(created?"Created":"Deleted"));

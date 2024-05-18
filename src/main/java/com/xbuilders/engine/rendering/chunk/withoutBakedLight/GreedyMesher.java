@@ -25,14 +25,6 @@ import java.util.HashMap;
  * @author zipCoder933
  */
 public class GreedyMesher {
-    //TODO: Change greedy mesher to use indexed meshing
-    //Nublada does not actually use indexed meshing, it is just regular meshes with indexes attached to vertices
-    //If I want to do indexed meshes, I need some sort of hashmap like thing, and than compute the indexes later
-
-    /*
-     * These are just constants to keep track of which face we're dealing with - their actual
-     * values are unimportant - only that they're constant.
-     */
     private static final int NEG_X = 0;
     private static final int POS_X = 1;
 
@@ -149,10 +141,6 @@ public class GreedyMesher {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 
-//                            sun = retrieveSunForThisPlane(thisPlaneVoxel.get(0), backChunk, forwardChunk, block, d, x, q);
-//                            sun1 = retrieveSunForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk, block1, d, x, q);
-//                            int thisPlanePacked = (thisPlaneVoxel.get(0) << 8) | (sun & 0xFF);
-//                            int nextPlanePacked = (nextPlaneVoxel.get(0) << 8) | (sun1 & 0xFF);
                             short maskValue = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0) || (block.opaque != block1.opaque)
                                     //The opaque check is to prevent transparent mesh from overriding opaque one
                                     ? (backFace //add the voxel for either this plane or the next plane depending on our direction
@@ -380,45 +368,4 @@ public class GreedyMesher {
             }
         }
     }
-
-//    private byte retrieveSunForThisPlane(short thisPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block, int d, int[] x, int[] q) {
-////        //This plane = top face, +X face and +Z face (x and z assuming you are starting from the center of the chunk and moving outwards)
-//        if (thisPlaneVoxel != 0) {
-//            if (block.isTransparent()) {
-//                if (x[d] >= 0) {
-//                    return chunkVoxels.getSun(x[0], x[1], x[2]);
-//                } else if (backChunk != null) {
-//                    return backChunk.data.getSun(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
-//                }
-//            } else {
-//                if (x[d] + 1 < dims[d]) {
-//                    return chunkVoxels.getSun(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
-//                } else if (forwardChunk != null) {
-//                    byte sun = forwardChunk.data.getSun(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
-//                    return sun;
-//                }
-//            }
-//        }
-//        return 0;
-//    }
-//
-//    private byte retrieveSunForNextPlane(short nextPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block1, int d, int[] x, int[] q) {
-//        //next plane = bottom face, -X face and -Z face (x and z assuming you are starting from the center of the chunk and moving outwards)
-//        if (nextPlaneVoxel != 0) {
-//            if (block1.isTransparent()) {
-//                if (x[d] + 1 < dims[d]) { //we changed <dims[d]-1 to dims[d]. Investigate if we need to switch this in the voxel plane as well
-//                    return chunkVoxels.getSun(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
-//                } else if (forwardChunk != null) {
-//                    return forwardChunk.data.getSun(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
-//                }
-//            } else {
-//                if (x[d] >= 0) {
-//                    return chunkVoxels.getSun(x[0], x[1], x[2]);
-//                } else if (backChunk != null) {
-//                    return backChunk.data.getSun(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
-//                }
-//            }
-//        }
-//        return 0;
-//    }
 }

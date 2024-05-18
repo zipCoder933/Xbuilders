@@ -3,12 +3,10 @@ package com.xbuilders.game.items.entities.animal;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
-import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
-import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -17,7 +15,6 @@ import org.joml.Matrix4f;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public class StaticLandAnimalLink extends EntityLink {
 
@@ -88,14 +85,14 @@ public class StaticLandAnimalLink extends EntityLink {
 
                 // box.setToAABB(projection, view, aabb.box);
                 // box.draw();
-                bodyShader.bind();
+                shader.bind();
 
 
                 float rotationRadians = (float) Math.toRadians(yRotDegrees);
                 bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
                 mvp.update(projection, view, bodyMatrix);
-                mvp.sendToShader(bodyShader.getID(), bodyShader.mvpUniform);
+                mvp.sendToShader(shader.getID(), shader.mvpUniform);
                 link.body.draw(false);
 
                 pos.update(projection, view);

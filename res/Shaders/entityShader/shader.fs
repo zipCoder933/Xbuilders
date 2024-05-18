@@ -3,6 +3,8 @@
 in vec2 UV;
 in float normals;
 out vec4 color;
+float sun;
+float torch;
 uniform sampler2D tex;
  
 void main(){

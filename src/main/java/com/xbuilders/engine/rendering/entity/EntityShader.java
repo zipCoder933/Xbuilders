@@ -15,13 +15,15 @@ import java.io.IOException;
  */
 public class EntityShader extends ShaderBase {
 
-    public final int mvpUniform;
+    public final int mvpUniform,sunUniform,torchUniform;
 
     public EntityShader() throws IOException {
         init(
                 ResourceUtils.localResource("/res/shaders/entityShader/shader.vs"),
                 ResourceUtils.localResource("/res/shaders/entityShader/shader.fs"));
         mvpUniform = getUniformLocation("MVP");
+        sunUniform = getUniformLocation("sun");
+        torchUniform = getUniformLocation("torch");
 //        textureUniform = getUniformLocation("texture");
     }
 
