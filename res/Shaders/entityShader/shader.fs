@@ -3,8 +3,8 @@
 in vec2 UV;
 in float normals;
 out vec4 color;
-float sun;
-float torch;
+uniform float sun;
+uniform float torch;
 uniform sampler2D tex;
  
 void main(){
@@ -18,6 +18,7 @@ void main(){
    // if(normals == 4.0f) val *= 0.6;
    // if(normals == 5.0f) val *= 0.5;
    color = val;
+   color.rgb *= max(sun,torch);
    // color = vec4(UV.x,UV.y,0.0,1.0);
    // color = vec4(1.0, 1.0, 1.0, 1.0);
 }

@@ -32,12 +32,12 @@ public class EntityList extends ItemGroup<EntityLink> {
         itemList = new EntityLink[idMap.size()];
         int i = 0;
         try {
-            for (EntityLink block : getIdMap().values()) {
-                itemList[i] = block;
-                if (block.initializationCallback != null) {
-                    block.initializationCallback.accept(block);
+            for (EntityLink entity : getIdMap().values()) {
+                itemList[i] = entity;
+                if (entity.initializationCallback != null) {
+                    entity.initializationCallback.accept(entity);
                 }
-                block.initIcon(iconDirectory, defaultIcon);
+                entity.initIcon(iconDirectory, defaultIcon);
                 i++;
             }
         } catch (IOException e) {

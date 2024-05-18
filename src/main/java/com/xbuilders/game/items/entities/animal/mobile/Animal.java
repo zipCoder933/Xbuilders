@@ -7,14 +7,12 @@ package com.xbuilders.game.items.entities.animal.mobile;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.window.BaseWindow;
 
 import org.joml.Vector2f;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 

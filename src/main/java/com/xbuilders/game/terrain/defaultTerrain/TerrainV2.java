@@ -198,8 +198,8 @@ public class TerrainV2 extends Terrain {
         return (float) (getValueFractal((float) x / 5, (float) z / 5) + 1) / 2.0f;
     }
 
-    public Biome getBiomeOfVoxel(float valley, float heat, int heightmap, final int x, final int y, final int z) {
-        if (y > WATER_LEVEL - 10) {
+    public Biome getBiomeOfVoxel(float valley, float heat, int heightmap, final int wx, final int wy, final int wz) {
+        if (wy > WATER_LEVEL - 10) {
             return Biome.BEACH;
         }
 
@@ -254,7 +254,7 @@ public class TerrainV2 extends Terrain {
                      * chunk.data.setBlock(x, y, z, MyGame.BLOCK_STONE);
                      * }
                      */ else if (wy == heightmap && wy > 1) {// Place sod
-                        biome = getBiomeOfVoxel(valley, heat, heightmap, wx, y, wz);
+                        biome = getBiomeOfVoxel(valley, heat, heightmap, wx, wy, wz);
                         final float alpha = getValueFractal((float) wx * 3, (float) wz * 3 -
                                 500.0f);
                         plantSod(session, x, y, z, wx, wy, wz, alpha, biome, chunk);

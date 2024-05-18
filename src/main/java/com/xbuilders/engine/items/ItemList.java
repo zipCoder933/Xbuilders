@@ -8,12 +8,10 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * I have chosen to make ItemList fully static. There will only ever be one, and

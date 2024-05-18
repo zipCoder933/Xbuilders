@@ -44,6 +44,7 @@ public class EntityLink extends Item {
     }
 
     public void initializeEntity(Entity entity, ArrayList<Byte> loadBytes) {
-        entity.initialize(loadBytes);
+        entity.hidden_entityInitialize(loadBytes);
+
     }
 }

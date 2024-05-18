@@ -9,12 +9,14 @@ import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.engine.world.wcc.WCCf;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -31,26 +33,44 @@ public abstract class Entity {
      */
     public static EntityShader shader;
 
-    static {
-        if (shader == null) {
-            try {
-                shader = new EntityShader();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     private void getLightForPosition() {
         Chunk chunk = GameScene.world.getChunk(chunkPosition.chunk);
-        sunValue = (float) chunk.data.getSun(
-                (int) Math.floor(chunkPosition.chunkVoxel.x),
-                (int) Math.floor(chunkPosition.chunkVoxel.y),
-                (int) Math.floor(chunkPosition.chunkVoxel.z)) / 15;
-        torchValue = (float) chunk.data.getTorch(
-                (int) Math.floor(chunkPosition.chunkVoxel.x),
-                (int) Math.floor(chunkPosition.chunkVoxel.y),
-                (int) Math.floor(chunkPosition.chunkVoxel.z)) / 15;
+        byte light = (byte) 0b11110000;
+        if (chunk != null) {
+            light = chunk.data.getPackedLight(
+                    (int) Math.floor(chunkPosition.chunkVoxel.x),
+                    (int) Math.floor(chunkPosition.chunkVoxel.y),
+                    (int) Math.floor(chunkPosition.chunkVoxel.z));
+
+            for (int i = 1; i < 4; i++) {
+                if (light == 0) {
+                    WCCi wcc = new WCCi();
+                    wcc.set((int) Math.floor(worldPosition.x),
+                            (int) Math.floor(worldPosition.y - i),
+                            (int) Math.floor(worldPosition.z));
+                    chunk = GameScene.world.getChunk(wcc.chunk);
+                    if (chunk != null) {
+                        light = chunk.data.getPackedLight(
+                                wcc.chunkVoxel.x,
+                                wcc.chunkVoxel.y,
+                                wcc.chunkVoxel.z);
+                    }
+                } else break;
+            }
+
+            //Unpack light
+//            light = ChunkVoxels.unpackLight(light);
+
+        }
+        sunValue = 1;
+        torchValue = 1;
+//
+//        sunValue = ( float)  /15;
+//        torchValue = (float) chunk.data.getTorch(
+//                (int) Math.floor(chunkPosition.chunkVoxel.x),
+//                (int) Math.floor(chunkPosition.chunkVoxel.y),
+//                (int) Math.floor(chunkPosition.chunkVoxel.z)) / 15;
     }
 
     private float sunValue;
@@ -78,6 +98,31 @@ public abstract class Entity {
         needsInitialization = true;
     }
 
+    /**
+     * Private entity drawing method, used to do things before and after the entity is drawn
+     */
+    protected void hidden_drawEntity(Matrix4f projection, Matrix4f view) {
+        if (shader == null) {
+            try {
+                shader = new EntityShader();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (inFrustum) {
+            shader.loadFloat(shader.sunUniform, sunValue);
+            shader.loadFloat(shader.torchUniform, torchValue);
+            mvp.sendToShader(shader.getID(), shader.mvpUniform);
+        }
+        draw(projection, view);
+    }
+
+    protected void hidden_entityInitialize(ArrayList<Byte> loadBytes) {
+        getLightForPosition();
+        initialize(loadBytes);
+    }
+
+
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.
     public abstract void initialize(ArrayList<Byte> bytes);
 
@@ -90,6 +135,7 @@ public abstract class Entity {
             prevWorldPosition.set(worldPosition);
         }
     }
+
 
     public abstract void draw(Matrix4f projection, Matrix4f view);
 
@@ -105,5 +151,6 @@ public abstract class Entity {
     public void destroy() {
         destroyMode = true;
     }
+
 
 }

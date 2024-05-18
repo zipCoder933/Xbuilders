@@ -54,7 +54,7 @@ public class ChunkEntitySet {
                 }
                 e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);
                 e.distToPlayer = e.worldPosition.distance(playerPos);
-                e.draw(projection, view);
+                e.hidden_drawEntity(projection, view);
                 e.updatePosition();
 
 

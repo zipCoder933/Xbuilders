@@ -209,7 +209,7 @@ public class Main extends NKWindow {
 
     @Override
     public void keyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE) {
+        if (devMode && action == GLFW.GLFW_RELEASE) {
             if (key == GLFW.GLFW_KEY_F3) {
                 devkeyF3 = !devkeyF3;
                 System.out.println("Special mode (F3): " + devkeyF3);
