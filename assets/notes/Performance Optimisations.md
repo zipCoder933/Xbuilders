@@ -101,6 +101,12 @@ TLDR: When flying fast through the world, and with a large render distance, the 
     * I think the GC is the cause of the choppiness that occurs when driving thru big worlds.
     * This is definitely true, when the GC is set to 8GB, there is choppiness that occurs when the GC cleans out, this especially happens when GC is cleaned manually.
 
+# Memory optimizations
+READ THIS FIRST!
+https://stackoverflow.com/questions/28615939/what-are-some-best-practices-to-build-memory-efficient-java-applications#:~:text=1%20Layout%20data%20structures%20in%20%28parallel%29%20arrays%20of,objects%2C%20use%20object%20pools%2C%20ThreadLocals%205%20Go%20off-heap
+
+See my onenote page on bytebuffers
+
 ## What could be the cause of the memory stacking up?
 * Its not the greedy mesher. The mesher only uses about 11kb per compute
     * Deduce why basic terrain uses significantly less memory than complex (default) terrain

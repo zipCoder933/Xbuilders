@@ -70,7 +70,7 @@ public class Camera {
 
     public BlockData simplifiedPanTiltAsBlockData(BlockData data) {
         if (data.size() != 2) {
-            data.setSize(2);
+            data = new BlockData(2);
         }
         data.set(0, (byte) simplifiedPanTilt.x);
         data.set(1, (byte) simplifiedPanTilt.y);
