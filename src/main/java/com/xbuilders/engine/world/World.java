@@ -25,7 +25,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 
-import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
+import com.xbuilders.engine.rendering.wireframeBox.Box;
 
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
@@ -530,7 +530,7 @@ public class World {
 
         Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
         Chunk chunk = getChunk(pos);
-        if (chunk == null) {
+        if (chunk == null) { //We automatically set the block on a future chunk
             FutureChunk futureChunk = newFutureChunk(pos);
             futureChunk.addBlock(blockID, blockX, blockY, blockZ);
         } else {

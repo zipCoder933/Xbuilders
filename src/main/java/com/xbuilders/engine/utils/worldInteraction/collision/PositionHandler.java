@@ -5,7 +5,7 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
+import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.window.BaseWindow;
 
@@ -147,7 +147,7 @@ public class PositionHandler {
 
     public final void jump() {
         if (onGround && isGravityEnabled()) {
-            this.velocity.y += gravity * 20.0f * window.getMsPerFrame();
+            this.velocity.y += 0.0005f * 20.0f * window.getMsPerFrame();
             onGround = false;
         }
     }

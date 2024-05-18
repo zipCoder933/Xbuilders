@@ -69,7 +69,7 @@ public class DefaultTerrainUtils {
     //     return true;
     // }
 
-    public static void randomFlower(GenSession session, final Chunk chunk, final int cx, final int wy, final int cz) {
+    public static short randomFlower(GenSession session) {
         short block = 0;
         switch (session.random.nextInt(4)) {
             case 0 -> {
@@ -88,7 +88,8 @@ public class DefaultTerrainUtils {
                 block = MyGame.BLOCK_BLUE_ORCHID;
             }
         }
-        chunk.data.setBlock(cx, wy, cz,block);
+
+        return block;
     }
 
     // public void propagateCoral(final int x, final int y, final int z, final Block block, final Block coralBlock1, final Block coralBlock2) {

@@ -86,7 +86,12 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
 
         if (jsonObject.has("colorInPlayerHead")) {
             JsonElement colorElement = jsonObject.get("colorInPlayerHead");
-            block.colorInPlayerHead = context.deserialize(colorElement, float[].class);
+            float[] jsonColor = context.deserialize(colorElement, float[].class);
+            block.colorInPlayerHead[0] = jsonColor[0];
+            block.colorInPlayerHead[1] = jsonColor[1];
+            block.colorInPlayerHead[2] = jsonColor[2];
+            if(jsonColor.length >= 4) block.colorInPlayerHead[3] = jsonColor[3];
+            else block.colorInPlayerHead[3] = 1.0f;
         }
 
         // Import properties (hashmap)

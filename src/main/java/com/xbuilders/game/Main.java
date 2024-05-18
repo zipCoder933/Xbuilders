@@ -5,7 +5,6 @@
 package com.xbuilders.game;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.settings.EngineSettingsUtils;
@@ -16,7 +15,6 @@ import com.xbuilders.engine.utils.preformance.MemoryProfiler;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.game.items.blocks.RenderType;
 import com.xbuilders.window.NKWindow;
 
 import java.io.*;
@@ -98,6 +96,7 @@ public class Main extends NKWindow {
 
     }
 
+
     private void init() throws Exception {
         setIcon(ResourceUtils.resource("icon16.png").getAbsolutePath(),
                 ResourceUtils.resource("icon32.png").getAbsolutePath(),
@@ -117,7 +116,6 @@ public class Main extends NKWindow {
             iconRenderer.saveAllIcons();
             System.exit(0);
         }
-
     }
 
     private void render() throws IOException {

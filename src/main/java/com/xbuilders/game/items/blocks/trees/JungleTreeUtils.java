@@ -5,7 +5,6 @@
 package com.xbuilders.game.items.blocks.trees;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -116,18 +115,18 @@ public class JungleTreeUtils {
         VineBranchPair vb = setVinesAndBranches(terrain.random, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-           terrain.setBlockWorld(MyGame.BLOCK_JUNGLE_LOG, x, y - k, z);
+           terrain.setBlockWorld(x, y - k, z, MyGame.BLOCK_JUNGLE_LOG);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {
                         if (branch.x != x && branch.z != z) {
-                            terrain.setBlockWorld(MyGame.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
+                            terrain.setBlockWorld(branch.x, y - k, branch.z, MyGame.BLOCK_JUNGLE_LEAVES);
                         }
                     }
                 }
                 for (Vector3i vine : vb.vines) {
                     if (vine.x != x && vine.z != z) {
-                        terrain.setBlockWorld(MyGame.BLOCK_VINES, vine.x, y - k, vine.z);
+                        terrain.setBlockWorld(vine.x, y - k, vine.z, MyGame.BLOCK_VINES);
                     }
                 }
             }

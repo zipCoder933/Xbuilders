@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.utils.rendering.wireframeBox;
+package com.xbuilders.engine.rendering.wireframeBox;
 
 import com.xbuilders.window.render.ShaderBase;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.joml.Matrix4f;
+
 import org.joml.Vector4f;
 
 /**

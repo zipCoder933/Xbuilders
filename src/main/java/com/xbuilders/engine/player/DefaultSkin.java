@@ -1,6 +1,6 @@
 package com.xbuilders.engine.player;
 
-import com.xbuilders.engine.utils.rendering.wireframeBox.Box;
+import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;

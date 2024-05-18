@@ -106,6 +106,8 @@ public abstract class ShaderBase {
         GL20.glBindAttribLocation(programID, attribute, variableName);
     }
 
+
+
 //<editor-fold defaultstate="collapsed" desc="sending uniforms">
     /**
      * Alternative way to send uniforms is like so:

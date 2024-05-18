@@ -56,8 +56,8 @@ public abstract class Terrain {
             random.setSeed(FastNoise.Hash3D(seed, chunk.position.x, chunk.position.y, chunk.position.z));
         }
 
-        public void setBlockWorld(short block, int x, int y, int z) {
-            Chunk chunk = GameScene.world.setBlock(block, x, y, z);
+        public void setBlockWorld(int x, int y, int z, short block) {
+            Chunk chunk = GameScene.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
             if (chunk != null && !homeChunk.position.equals(chunk.position)) {
                 modifiedMeshedChunks.add(chunk);
             }

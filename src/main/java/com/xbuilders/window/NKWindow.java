@@ -619,7 +619,6 @@ public abstract class NKWindow extends BaseWindow {
     public void disableNuklear() {
         // Reset to defaults (chatgpt)
         glBlendFunc(GL_ONE, GL_ZERO);
-
         // default OpenGL state
         glUseProgram(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);

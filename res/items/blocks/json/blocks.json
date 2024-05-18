@@ -317,8 +317,25 @@
         },
         "solid": false,
         "opaque": false,
-        "colorInPlayerHead": [0,100,255],
+        "colorInPlayerHead": [0,0.2,1,0.5],
         "torch": 0,
+        "type": "liquid"
+    },
+    {
+        "name": "Lava",
+        "id": 25,
+        "texture": {
+            "neg_y": "lava",
+            "pos_x": "lava",
+            "pos_z": "lava",
+            "neg_z": "lava",
+            "neg_x": "lava",
+            "pos_y": "lava"
+        },
+        "colorInPlayerHead": [1,0.2,0,0.5],
+        "solid": false,
+        "opaque": false,
+        "torch": 15,
         "type": "liquid"
     },
     {
@@ -368,23 +385,6 @@
         "opaque": true,
         "torch": 0,
         "type": 0
-    },
-    {
-        "name": "Lava",
-        "id": 25,
-        "texture": {
-            "neg_y": "lava",
-            "pos_x": "lava",
-            "pos_z": "lava",
-            "neg_z": "lava",
-            "neg_x": "lava",
-            "pos_y": "lava"
-        },
-        "colorInPlayerHead": [255,50,50],
-        "solid": false,
-        "opaque": false,
-        "torch": 15,
-        "type": "liquid"
     },
     {
         "name": "tall dry grass top (hidden)",

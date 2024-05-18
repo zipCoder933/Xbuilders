@@ -1,6 +1,5 @@
 package com.xbuilders.engine.player;
 
-import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -33,6 +32,7 @@ import org.lwjgl.nuklear.NkVec2;
 
 public class UserControlledPlayer extends Player {
 
+
     public Camera camera;
     BaseWindow window;
     static float speed = 10f;
@@ -47,10 +47,12 @@ public class UserControlledPlayer extends Player {
     public PlayerServer server;
     public BlockEventPipeline eventPipeline;
 
-    // Keys
-    public static final int CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
+    //Mouse buttons
     public static final int CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
     public static final int DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
+    // Keys
+    public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
+    private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
 
     public boolean leftKeyPressed() {
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
@@ -175,8 +177,20 @@ public class UserControlledPlayer extends Player {
     public void update(boolean holdMouse) {
         Block newBlock = getBlockAtHeadPos();
         if (newBlock != headPosBlock) {
+            if (newBlock.isAir()) {//Air is always transparent
+                GameScene.ui.setOverlayColor(0, 0, 0, 0);
+            } else if (newBlock.opaque
+                    && newBlock.colorInPlayerHead[3] == 0
+                    && usePositionHandler) { //If we are opaque, don't have a color and we are not in passthrough mode
+                GameScene.ui.setOverlayColor(0, 0, 0, 1);
+            } else {
+                GameScene.ui.setOverlayColor(
+                        newBlock.colorInPlayerHead[0],
+                        newBlock.colorInPlayerHead[1],
+                        newBlock.colorInPlayerHead[2],
+                        newBlock.colorInPlayerHead[3]);
+            }
             headPosBlock = getBlockAtHeadPos();
-            BlockType btype = ItemList.blocks.getBlockTypeID(newBlock.type);
             if (newBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.velocity.set(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 4,
@@ -184,7 +198,6 @@ public class UserControlledPlayer extends Player {
             } else if (newBlock.isAir()) {
                 positionHandler.resetFallMedium();
             }
-//            newBlock.colorInPlayerHead
         }
 
         eventPipeline.resolve(this);
@@ -272,7 +285,7 @@ public class UserControlledPlayer extends Player {
                     case GLFW.GLFW_KEY_SPACE -> {
                         jump();
                     }
-                    case CHANGE_RAYCAST_MODE -> {
+                    case KEY_CHANGE_RAYCAST_MODE -> {
                         camera.cursorRay.cursorRayHitAllBlocks = true;
                         if (camera.cursorRay.cursorRayHitAllBlocks) {
                             camera.cursorRay.cursorRayDist = 6;
@@ -290,13 +303,13 @@ public class UserControlledPlayer extends Player {
                 case GLFW.GLFW_KEY_L -> {
                     lineMode = !lineMode;
                 }
-                case GLFW.GLFW_KEY_P -> {
+                case KEY_TOGGLE_PASSTHROUGH -> {
                     usePositionHandler = !usePositionHandler;
                 }
                 case GLFW.GLFW_KEY_O -> {
                     camera.cycleToNextView(10);
                 }
-                case CHANGE_RAYCAST_MODE -> {
+                case KEY_CHANGE_RAYCAST_MODE -> {
                     camera.cursorRay.cursorRayHitAllBlocks = false;
                     raycastDistChanged = true;
                 }
@@ -393,7 +406,7 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (window.isKeyPressed(CHANGE_RAYCAST_MODE) && camera.cursorRay.cursorRayHitAllBlocks) {
+        if (window.isKeyPressed(KEY_CHANGE_RAYCAST_MODE) && camera.cursorRay.cursorRayHitAllBlocks) {
             raycastDistChanged = true;
             camera.cursorRay.cursorRayDist += scroll.y();
             camera.cursorRay.cursorRayDist = MathUtils.clamp(camera.cursorRay.cursorRayDist, 1, 50);

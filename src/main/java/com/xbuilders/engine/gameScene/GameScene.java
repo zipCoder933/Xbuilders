@@ -167,7 +167,7 @@ public class GameScene implements WindowEvents {
     boolean holdMouse;
     public static boolean specialMode;
     public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
-    public GameUI ui;
+    public static GameUI ui;
 
     public void render() throws IOException {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
@@ -180,6 +180,9 @@ public class GameScene implements WindowEvents {
         world.drawChunks(projection, view, player.worldPosition);
         setInfoText();
         ui.draw();
+
+
+
         Main.game.update();
     }
 

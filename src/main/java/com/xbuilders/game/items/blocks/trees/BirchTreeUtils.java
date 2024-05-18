@@ -48,7 +48,7 @@ public class BirchTreeUtils {
     public static void plantTree(Terrain.GenSession terrain, Chunk source, int x, int y, int z) {
         int height = randomInt(terrain.random, 5, 7);
         for (int k = 0; k < height; k++) {
-            terrain.setBlockWorld(MyGame.BLOCK_BIRCH_LOG, x, y - k, z);
+            terrain.setBlockWorld(x, y - k, z, MyGame.BLOCK_BIRCH_LOG);
         }
 
         TreeUtils.roundedSquareLeavesLayer(terrain, source, x, y - height + 2, z, 2, MyGame.BLOCK_BIRCH_LEAVES);

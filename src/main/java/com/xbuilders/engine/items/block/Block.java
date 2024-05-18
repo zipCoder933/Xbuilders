@@ -29,7 +29,8 @@ public class Block extends Item {
     public boolean opaque = true;
     public byte torchlightStartingValue = 0;
     public Consumer<Block> initializationCallback = null;
-    public float[] colorInPlayerHead = null;//If set to null, we default to drawing block texture in player head
+    public final float[] colorInPlayerHead = {0, 0, 0, 0};//If set to null, we default to drawing block texture in player head
+
 
     public final boolean isLuminous() {
         return torchlightStartingValue > 0;

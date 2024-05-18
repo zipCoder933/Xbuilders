@@ -10,26 +10,27 @@ package com.xbuilders.engine.ui.gameScene;
  */
 
 import com.xbuilders.engine.gameScene.Game;
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
-import com.xbuilders.engine.utils.rendering.rect.Rect;
+import com.xbuilders.engine.ui.RectOverlay;
 import com.xbuilders.window.NKWindow;
-
-import static com.xbuilders.window.NKWindow.*;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL11C;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
 
-import org.joml.Matrix4f;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.*;
-
-import static org.lwjgl.nuklear.Nuklear.*;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.glDisable;
-
-import org.lwjgl.system.MemoryStack;
-
+import static com.xbuilders.window.NKWindow.MAX_ELEMENT_BUFFER;
+import static com.xbuilders.window.NKWindow.MAX_VERTEX_BUFFER;
+import static org.lwjgl.nuklear.Nuklear.NK_ANTI_ALIASING_ON;
+import static org.lwjgl.opengl.GL11.GL_ONE;
+import static org.lwjgl.opengl.GL11.GL_ZERO;
+import static org.lwjgl.opengl.GL11C.*;
+import static org.lwjgl.opengl.GL14C.GL_FUNC_ADD;
+import static org.lwjgl.opengl.GL14C.glBlendEquation;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
 /**
@@ -51,7 +52,8 @@ public class GameUI {
 
     public void init() {
         menu = new GameMenu(ctx, window, uires);
-        overlay = new Rect();
+        overlay = new RectOverlay();
+        overlay.setColor(0, 0, 0, 0);
     }
 
     public void setInfoText(String text) {
@@ -68,7 +70,7 @@ public class GameUI {
     NKWindow window;
     UIResources uires;
     Game game;
-    Rect overlay;
+    private RectOverlay overlay;
 
     Crosshair crosshair;
     InfoText infoBox;
@@ -80,14 +82,17 @@ public class GameUI {
         infoBox.windowResizeEvent(width, height);
     }
 
+    public void setOverlayColor(float r, float g, float b, float a) {
+        overlay.setColor(r, g, b, a);
+    }
+
     public void draw() {
         if (drawUI) {
-//            overlay.quad.updateMVP(GameScene.projection, GameScene.view, new Matrix4f());
-//            overlay.draw(true);
             if (game.menusAreOpen()) {
                 gameMenuVisible = false;
             }
-            glDisable(GL_DEPTH_TEST);
+            initGLForUI();
+            overlay.draw();
             crosshair.draw();
 
             try (MemoryStack stack = stackPush()) {
@@ -95,13 +100,27 @@ public class GameUI {
                 if (gameMenuVisible) {
                     menu.draw(stack);
                 } else {
-
                     game.uiDraw(stack);
                 }
                 //Add myGame.uiDraw right here
             }
             window.NKrender(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
         }
+    }
+
+    private void initGLForUI() {
+        //Some of these parameters allow the overlay to be seen
+        // setup global state
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        GL11C.glDisable(GL_CULL_FACE); //Disable backface culling
+        glEnable(GL_SCISSOR_TEST);
+        glBlendFunc(GL_ONE, GL_ZERO);
+        GL11C.glDisable(GL_SCISSOR_TEST);
+        GL11.glDisable(GL11.GL_DEPTH_TEST); //Disable depth test
+        //enable transparency
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
