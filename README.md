@@ -1,4 +1,4 @@
-
+<!---
 ![Xbuilders landscape](./assets/images/b.jpg)
 
 # Xbuilders 3
@@ -13,6 +13,7 @@
 * World saving/loading
 * Fast chunk generation with greedy meshing
 * Support for large chunk distances (up to 400 voxel radius)
+--->
 
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
@@ -59,6 +60,12 @@ If the resulting icons from icon generation are empty, the most likely cause wou
   * Add sea turtles
   * Add fish
   * Add parrots
+* **Finish entities**
+  * Minecarts
+  * boats
+  * banners
+  * custom vehicles
+* **player skins**
 * **Add copy/paste tools**
   * Simplify block tool controls
 * **Add a conversion tool from XB2 to XB3**
