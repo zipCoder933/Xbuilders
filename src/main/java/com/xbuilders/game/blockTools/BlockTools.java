@@ -57,7 +57,7 @@ public class BlockTools extends GameUIElement {
 
         if (nk_begin(ctx, "Block Tools", windowDims, Nuklear.NK_WINDOW_NO_SCROLLBAR)) {
             nk_layout_row_dynamic(ctx, menuHeight, 1);
-            Nuklear.nk_text(ctx, tools.get(selectedTool).name, Nuklear.NK_TEXT_ALIGN_CENTERED);
+            Nuklear.nk_text(ctx, tools.get(selectedTool).getName(), Nuklear.NK_TEXT_ALIGN_CENTERED);
         }
     }
 

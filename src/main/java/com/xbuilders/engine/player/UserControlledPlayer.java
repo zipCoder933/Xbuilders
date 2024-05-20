@@ -38,7 +38,10 @@ public class UserControlledPlayer extends Player {
     static float speed = 10f;
     final static float PLAYER_HEIGHT = 2.0f;
     final static float PLAYER_WIDTH = 0.8f;
+
     final static float FLY_SPEED = 5f;
+    final float DEFAULT_SPEED = 12;
+
     Matrix4f projection;
     Matrix4f view;
     boolean isClimbing = false;
@@ -55,6 +58,7 @@ public class UserControlledPlayer extends Player {
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
     private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
+
 
     public boolean leftKeyPressed() {
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
@@ -82,12 +86,10 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean downKeyPressed() {
-        down = true;
         return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
                 window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
     }
 
-    boolean down = false;
 
     public boolean upKeyPressed(int key) {
         return key == GLFW.GLFW_KEY_F &&
@@ -95,8 +97,6 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean downKeyPressed(int key) {
-        down = true;
-        speed = 10f;
         return key == GLFW.GLFW_KEY_F &&
                 key == GLFW.GLFW_KEY_LEFT_SHIFT;
     }
@@ -250,12 +250,10 @@ public class UserControlledPlayer extends Player {
                     isClimbing = false;
                 } else if (canFly) {
                     if (upKeyPressed()) {
-                        worldPosition.sub(0, speed * window.getFrameDelta(), 0);
-
+                        worldPosition.sub(0, FLY_SPEED * window.getFrameDelta(), 0);
                         disableGravity();
                     } else if (downKeyPressed()) {
-                        worldPosition.add(0, speed * window.getFrameDelta(), 0);
-
+                        worldPosition.add(0, FLY_SPEED * window.getFrameDelta(), 0);
                         disableGravity();
                     }
                 }
@@ -263,7 +261,6 @@ public class UserControlledPlayer extends Player {
         }
 
         if (usePositionHandler) {
-            positionHandler.collisionsEnabled = holdMouse;
             positionHandler.update(projection, view);
             aabb.isSolid = true;
         } else {
@@ -294,8 +291,8 @@ public class UserControlledPlayer extends Player {
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
-            if (key == GLFW.GLFW_KEY_LEFT_SHIFT && !down) {
-                speed = 75f;
+            if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
+                speed = DEFAULT_SPEED * 3;
             } else {
                 switch (key) {
                     case GLFW.GLFW_KEY_SPACE -> {
@@ -313,27 +310,26 @@ public class UserControlledPlayer extends Player {
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            down = false;
-            if (upKeyPressed(key) || downKeyPressed(key))
-                canFly = true;
-            switch (key) {
-                case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = 10f;
-                case GLFW.GLFW_KEY_MINUS -> removeItem();
-                case GLFW.GLFW_KEY_EQUAL -> setItem(Main.game.getSelectedItem());
-                case GLFW.GLFW_KEY_L -> {
-                    lineMode = !lineMode;
-                }
-                case KEY_TOGGLE_PASSTHROUGH -> {
-                    usePositionHandler = !usePositionHandler;
-                }
-                case GLFW.GLFW_KEY_O -> {
-                    camera.cycleToNextView(10);
-                }
-                case KEY_CHANGE_RAYCAST_MODE -> {
-                    camera.cursorRay.cursorRayHitAllBlocks = false;
-                    raycastDistChanged = true;
-                }
-                default -> {
+            if (upKeyPressed(key)) canFly = true;
+            else {
+                switch (key) {
+                    case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = DEFAULT_SPEED;
+                    case GLFW.GLFW_KEY_L -> {
+                        lineMode = !lineMode;
+                    }
+                    case KEY_TOGGLE_PASSTHROUGH -> {
+                        System.out.println("PASSTHROUGH: " + !usePositionHandler);
+                        positionHandler.collisionsEnabled = !positionHandler.collisionsEnabled;
+                    }
+                    case GLFW.GLFW_KEY_O -> {
+                        camera.cycleToNextView(10);
+                    }
+                    case KEY_CHANGE_RAYCAST_MODE -> {
+                        camera.cursorRay.cursorRayHitAllBlocks = false;
+                        raycastDistChanged = true;
+                    }
+                    default -> {
+                    }
                 }
             }
         }
