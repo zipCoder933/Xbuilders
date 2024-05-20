@@ -7,7 +7,6 @@ package com.xbuilders.engine.rendering.chunk.mesh;
 import java.nio.IntBuffer;
 
 import com.xbuilders.engine.rendering.Mesh;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntBuffer;
 import com.xbuilders.window.BaseWindow;
 import org.lwjgl.opengl.GL11;
 
@@ -27,8 +26,15 @@ import org.lwjgl.opengl.GL33;
 public class CompactMesh implements Mesh {
 
     private int vao, vbo, textureID, vertLength;
-    public boolean empty;
     final static int VALUES_PER_VERTEX = 3;
+
+    public boolean isEmpty(){
+        return vertLength == 0;
+    }
+
+    public void reset(){
+        vertLength = 0;
+    }
 
     public CompactMesh() {
         vao = GL30.glGenVertexArrays();//Every chunk gets its own VAO
@@ -86,6 +92,9 @@ public class CompactMesh implements Mesh {
     }
 
     public void draw(boolean wireframe) {
+        if(isEmpty()){
+            return;
+        }
         GL30.glBindVertexArray(vao);
 
         if (wireframe) {
@@ -107,9 +116,8 @@ public class CompactMesh implements Mesh {
         return "CompactMesh{" +
                 "vao=" + vao +
                 ", vbo=" + vbo +
-                ", textureID=" + textureID +
+                ", texture=" + textureID +
                 ", vertLength=" + vertLength +
-                ", empty=" + empty +
                 '}';
     }
 }

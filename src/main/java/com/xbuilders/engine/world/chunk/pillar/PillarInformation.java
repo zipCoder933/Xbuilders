@@ -61,8 +61,8 @@ public class PillarInformation {
                 ChunkSunlightUtils.generateSunlight(queue, chunks[0], terrain);
                 // Generate all meshes
                 for (Chunk c : chunks) {
-                    if (c.gen_terrainLoaded())
-                        c.generationStatus = Chunk.GEN_SUN_LOADED;
+                    if (c.getGenerationStatus() >= Chunk.GEN_TERRAIN_LOADED)
+                        c.setGenerationStatus(Chunk.GEN_SUN_LOADED);
                 }
                 World.newGameTasks.incrementAndGet();
                 // int timeMS = World.frameTester.endProcess("green Generate SUNLIGHT");

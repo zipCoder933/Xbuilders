@@ -100,11 +100,11 @@ public class Chunk {
     }
 
     public void init(Vector3i position, WorldInfo info,
-            Terrain terrain, FutureChunk futureChunk,
-            float distToPlayer, boolean isTopChunk) {
+                     Terrain terrain, FutureChunk futureChunk,
+                     float distToPlayer, boolean isTopChunk) {
         entities.clear();
         data.clear();
-        generationStatus = 0;
+        generationStatus = 0;//The only time we can reset the generation status
         loadFuture = null;
         mesherFuture = null;
         lightQueue.clear();
@@ -158,7 +158,7 @@ public class Chunk {
                 needsSunGeneration = true;
             }
             // Loading a chunk includes loading sunlight
-            generationStatus = needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED;
+            setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED);
         } catch (Exception ex) {//For some reason we have to catch incoming errors otherwise they wont be visible
             ErrorHandler.handleFatalError("Error loading chunk", ex);
         }
@@ -217,21 +217,32 @@ public class Chunk {
     // public Future<Boolean> lightFuture;
     public Future<Boolean> loadFuture;
 
-    public int generationStatus = 0;
+    private int generationStatus = 0;
     public static final int GEN_TERRAIN_LOADED = 1;
     public static final int GEN_SUN_LOADED = 2;
     public static final int GEN_COMPLETE = 3;
 
+
+    public int getGenerationStatus() {
+        return generationStatus;
+    }
+
+    public void setGenerationStatus(int newGenStatus) {
+        if (this.generationStatus < newGenStatus) {//Only update if we are PROGRESSING the generation status
+            this.generationStatus = newGenStatus;
+        }
+    }
+
     public boolean gen_terrainLoaded() {
-        return generationStatus >= Chunk.GEN_TERRAIN_LOADED;
+        return getGenerationStatus() >= Chunk.GEN_TERRAIN_LOADED;
     }
 
     public boolean gen_sunLoaded() {
-        return generationStatus >= Chunk.GEN_SUN_LOADED;
+        return getGenerationStatus() >= Chunk.GEN_SUN_LOADED;
     }
 
     public boolean gen_Complete() {
-        return generationStatus >= Chunk.GEN_COMPLETE;
+        return getGenerationStatus() >= Chunk.GEN_COMPLETE;
     }
 
     // public static FrameTester chunkGenFrameTester = new FrameTester("Chunk
@@ -251,36 +262,37 @@ public class Chunk {
                 pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
             }
 
-            /**
-             * The cacheNeighbors is still a bottleneck. I have kind of fixed it
-             * by only calling it every 10th frame
-             */
-            World.frameTester.startProcess();
-            if (frame % 10 == 0 || isSettingUpWorld) {
-                neghbors.cacheNeighbors();
-            }
-            World.frameTester.endProcess("red Cache Neghbors");
-
-            if (neghbors.allNeghborsLoaded
-                    && generationStatus >= GEN_SUN_LOADED) {
-                loadFuture = null;
+            if (getGenerationStatus() == GEN_SUN_LOADED) {
+                /**
+                 * The cacheNeighbors is still a bottleneck. I have kind of fixed it
+                 * by only calling it every 10th frame
+                 */
                 World.frameTester.startProcess();
-                mesherFuture = meshService.submit(() -> {
-                    if (GameScene.world.info == null)
-                        return null; // Quick fix. TODO: remove this line
-                    meshes.compute();
-                    generationStatus = GEN_COMPLETE;
-                    // if(!meshes.isEmpty()) System.out.println("Mesh computed!");
-                    return meshes;
-                });
-                World.frameTester.endProcess("red Compute meshes");
+                if (frame % 10 == 0 || isSettingUpWorld) {
+                    neghbors.cacheNeighbors();
+                }
+                World.frameTester.endProcess("red Cache Neghbors");
+
+                if (neghbors.allNeghborsLoaded) {
+                    loadFuture = null;
+                    World.frameTester.startProcess();
+                    mesherFuture = meshService.submit(() -> {
+                        if (GameScene.world.info == null)
+                            return null; // Quick fix. TODO: remove this line
+                        meshes.compute();
+                        setGenerationStatus(GEN_COMPLETE);
+                        // if(!meshes.isEmpty()) System.out.println("Mesh computed!");
+                        return meshes;
+                    });
+                    World.frameTester.endProcess("red Compute meshes");
+                }
             }
         }
 
         // send mesh to GPU
         if (inFrustum || isSettingUpWorld) {
             World.frameTester.startProcess();
-            entities.chunkUpdatedMesh =true;
+            entities.chunkUpdatedMesh = true;
             sendMeshToGPU();
             World.frameTester.endProcess("Send mesh to GPU");
         }
@@ -290,7 +302,7 @@ public class Chunk {
      * Queues a task to mesh the chunk
      */
     public void generateMesh() {
-         generationStatus = GEN_COMPLETE;
+        setGenerationStatus(GEN_COMPLETE);
         if (mesherFuture != null) {
             mesherFuture.cancel(true);
             mesherFuture = null;

@@ -112,10 +112,10 @@ public class GreedyMesher {
                 int max = dims[d];
 
                 //If the chunk is not terrainLoaded, dont draw the side that it is on
-                if (forwardChunk == null || forwardChunk.generationStatus < Chunk.GEN_TERRAIN_LOADED) {
+                if (forwardChunk == null || forwardChunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
                     max = dims[d] - 1;
                 }
-                if (backChunk == null || backChunk.generationStatus < Chunk.GEN_TERRAIN_LOADED) {
+                if (backChunk == null || backChunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
                     min = 0;
                 }
 

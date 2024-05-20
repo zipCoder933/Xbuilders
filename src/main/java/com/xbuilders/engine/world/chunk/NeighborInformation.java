@@ -95,7 +95,7 @@ public class NeighborInformation {
         if (allChunksCreated) {
             for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
                 Chunk chunk = neighbors[i];
-                if (chunk != null && chunk.generationStatus < Chunk.GEN_TERRAIN_LOADED) {
+                if (chunk != null && chunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
                     allNeghborsLoaded2 = false;
                     if (i < 6) {
                         facingchunksLoaded2 = false;
@@ -127,7 +127,7 @@ public class NeighborInformation {
                         XYFacingNeghborsLoaded2 = false;
                     }
                 } else {
-                    if (chunk.generationStatus < Chunk.GEN_TERRAIN_LOADED) {
+                    if (chunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
                         allNeghborsLoaded2 = false;
                         if (i < 6) {
                             facingchunksLoaded2 = false;
@@ -152,7 +152,7 @@ public class NeighborInformation {
         sb.append("Neighbors " + MiscUtils.printVector(this.thisChunkCoordinates) + ": ");
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
             Chunk c = neighbors[i];
-            sb.append(c == null ? "N" : (c.generationStatus));
+            sb.append(c == null ? "N" : (c.getGenerationStatus()));
             if (i < NEIGHBOR_VECTORS.length - 1) sb.append(" ");
         }
         sb.append(" all-loaded: " + allNeghborsLoaded + ", all-facing: " + allFacingNeghborsLoaded);

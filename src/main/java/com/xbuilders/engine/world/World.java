@@ -452,9 +452,9 @@ public class World {
                 frameTester.endProcess("Draw boxes");
 
                 frameTester.startProcess();
-                if (chunk.generationStatus == Chunk.GEN_COMPLETE) {
+                if (chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
                     chunk.updateMVP(projection, view); // we must update the MVP within each model;
-                    if (!chunk.meshes.opaqueMesh.empty) {
+                    if (!chunk.meshes.opaqueMesh.isEmpty()) {
                         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                         if (!Main.devkeyF3) {
                             chunk.meshes.opaqueMesh.draw(GameScene.drawWireframe);
@@ -467,8 +467,8 @@ public class World {
         });
 
         chunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum && chunk.generationStatus == Chunk.GEN_COMPLETE) {
-                if (!chunk.meshes.transMesh.empty) {
+            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+                if (!chunk.meshes.transMesh.isEmpty()) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                     if (!Main.devkeyF3) {
                         chunk.meshes.transMesh.draw(GameScene.drawWireframe);// For some reason rendering meshes slows

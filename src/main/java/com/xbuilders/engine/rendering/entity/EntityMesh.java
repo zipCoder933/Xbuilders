@@ -7,20 +7,22 @@ package com.xbuilders.engine.rendering.entity;
 import com.xbuilders.engine.rendering.Mesh;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
+
 import java.io.IOException;
+
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.GL_FILL;
 import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
 import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
+
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL33;
 
 /**
- *
  * @author zipCoder933
  */
 public class EntityMesh implements Mesh {
@@ -29,10 +31,10 @@ public class EntityMesh implements Mesh {
     private final int positionVBO;
     private final int uvVBO;
     private int textureID;
-//    private final int normalVBO;
+    //    private final int normalVBO;
     private int vertLength;
 
-    public EntityMesh() throws IOException {
+    public EntityMesh() {
         vao = GL30.glGenVertexArrays();
         positionVBO = GL15.glGenBuffers();
         uvVBO = GL15.glGenBuffers();

@@ -37,11 +37,13 @@ There are 2 blender profiles, one for blocks and one for entities
 If the resulting icons from icon generation are empty, the most likely cause would be that the iconRTT.vs vertex shader was not updated to match the chunk vertex shader
 
 
-## FIXED Bugs (watch out!)
+## FIXED Bugs (watch for these!)
 * I fixed a bug that prevented chunks from loading when blocks are set outside chunk voxel bounds
   * IF YOU ARE USING BYTEBUFFERS FOR CHUNK DATA:
     * Make sure that the chunkVoxels class prevents bytes from being written to the data if they are out of bounds
-
+* **Fixed a bug where some chunks dont load meshes**
+  * The issue was that the generation status was set to 2 after being set to 3
+  * The solution was to only update the generation status if the new value was higher
 
 ## TODO Optimizations and bufgixes
 * **performance optimizations when traveling thru world (IMPORTANT)**
@@ -56,15 +58,16 @@ If the resulting icons from icon generation are empty, the most likely cause wou
 ## TODO Features
 * **Water**
   * Water live propagation
-* **Finish animals**
+* **Finish entities**
+  * Add saddle tools
+    * Allow to ride horse
+  * Minecarts
+    * boats
+    * custom vehicles
+  * banners
   * Add sea turtles
   * Add fish
   * Add parrots
-* **Finish entities**
-  * Minecarts
-  * boats
-  * banners
-  * custom vehicles
 * **player skins**
 * **Add copy/paste tools**
   * Simplify block tool controls

@@ -198,7 +198,6 @@ public class BlockIconRenderer {
 
         mesh.sendBuffersToGPU(buffers.makeVertexSet());
         buffers.reset();
-        mesh.empty = false;
         return true;
     }
 

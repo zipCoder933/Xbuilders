@@ -89,8 +89,8 @@ public class ChunkMeshBundle {
     }
 
     public synchronized void init() {
-        opaqueMesh.empty = true;
-        transMesh.empty = true;
+        opaqueMesh.reset();
+        transMesh.reset();
     }
 
     public boolean meshesHaveAllSides;
@@ -101,14 +101,13 @@ public class ChunkMeshBundle {
             try (MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
                 meshesHaveAllSides = chunk.neghbors.allFacingNeghborsLoaded;
 
+                //We should guarantee that the buffers get sent to the mesh, because we determine
+                //if a mesh is empty by the size of the verteces
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
                 greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1);
                 naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position);
-
-                opaqueMesh.empty = opaqueBuffer.size() == 0;
-                transMesh.empty = transBuffer.size() == 0;
 
                 if (opaqueBuffer.size() != 0) {
                     opaqueBuffer.makeVertexSet();
@@ -129,7 +128,7 @@ public class ChunkMeshBundle {
     }
 
     public boolean isEmpty() {
-        return opaqueMesh.empty && transMesh.empty;
+        return opaqueMesh.isEmpty() && transMesh.isEmpty();
     }
 
     @Override
