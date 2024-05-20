@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 
 public abstract class QuadPedalLandAnimalLink extends EntityLink {
 
-    EntityMesh body, saddle, sitting;
+    EntityMesh body, sitting;
     String textureName;
     LegPair legs;
     protected String bodyPath = "items\\entity\\animal\\horse\\horse\\body.obj";

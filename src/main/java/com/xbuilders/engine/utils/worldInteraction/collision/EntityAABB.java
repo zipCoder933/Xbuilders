@@ -42,4 +42,5 @@ public class EntityAABB {
     public final AABB box;
     public final Vector3f offset;
     public final Vector3f size;
+    public boolean isSolid = true;
 }

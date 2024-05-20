@@ -1,5 +1,7 @@
 package com.xbuilders.game.items.entities.animal;
 
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
@@ -84,7 +86,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
     @Override
     public boolean run_ClickEvent() {
         if (link.rideable) {
-
+            GameScene.player.positionLock = new PositionLock(this, 0);
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);

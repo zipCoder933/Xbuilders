@@ -64,13 +64,12 @@ public class CollisionHandler {
         };
     }
 
-    private boolean compareEntityAABB(Matrix4f projection, Matrix4f view, EntityAABB other) {
-        if (other != myBox) {
-            if (myBox.worldPosition.distance(other.worldPosition) < ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS) {
-                processBox(other.box, true);
+    private boolean compareEntityAABB(Matrix4f projection, Matrix4f view, EntityAABB entityBox) {
+        if (entityBox != myBox && entityBox.isSolid) {
+            if (myBox.worldPosition.distance(entityBox.worldPosition) < ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS) {
+                processBox(entityBox.box, true);
                 if (DRAW_COLLISION_CANDIDATES) {
-
-                    driver.renderedBox.set(other.box);
+                    driver.renderedBox.set(entityBox.box);
                     driver.renderedBox.draw(projection, view);
                 }
                 return true;

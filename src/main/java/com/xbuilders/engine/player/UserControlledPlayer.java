@@ -46,6 +46,8 @@ public class UserControlledPlayer extends Player {
     boolean usePositionHandler = true;
     public PlayerServer server;
     public BlockEventPipeline eventPipeline;
+    public PositionLock positionLock;
+
 
     //Mouse buttons
     public static final int CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
@@ -80,9 +82,12 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean downKeyPressed() {
+        down = true;
         return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
                 window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
     }
+
+    boolean down = false;
 
     public boolean upKeyPressed(int key) {
         return key == GLFW.GLFW_KEY_F &&
@@ -90,6 +95,8 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean downKeyPressed(int key) {
+        down = true;
+        speed = 10f;
         return key == GLFW.GLFW_KEY_F &&
                 key == GLFW.GLFW_KEY_LEFT_SHIFT;
     }
@@ -102,12 +109,6 @@ public class UserControlledPlayer extends Player {
         // positionHandler.color.set(r, g, b, 1);
     }
 
-    private void updatePosHandler(boolean holdMouse) {
-        if (usePositionHandler) {
-            positionHandler.collisionsEnabled = holdMouse;
-            positionHandler.update(projection, view);
-        }
-    }
 
     private void jump() {
         if (usePositionHandler)
@@ -201,60 +202,75 @@ public class UserControlledPlayer extends Player {
         }
 
         eventPipeline.resolve(this);
-        if (forwardKeyPressed()) {
-            worldPosition.add(
-                    camera.cameraForward.x * speed * window.getFrameDelta(),
-                    camera.cameraForward.y * speed * window.getFrameDelta(),
-                    camera.cameraForward.z * speed * window.getFrameDelta());
-        }
-        if (backwardKeyPressed()) {
-            worldPosition.sub(
-                    camera.cameraForward.x * speed * window.getFrameDelta(),
-                    camera.cameraForward.y * speed * window.getFrameDelta(),
-                    camera.cameraForward.z * speed * window.getFrameDelta());
-        }
-
-        if (leftKeyPressed()) {
-            worldPosition.sub(
-                    camera.right.x * speed * window.getFrameDelta(),
-                    camera.right.y * speed * window.getFrameDelta(),
-                    camera.right.z * speed * window.getFrameDelta());
-        }
-        if (rightKeyPressed()) {
-            worldPosition.add(
-                    camera.right.x * speed * window.getFrameDelta(),
-                    camera.right.y * speed * window.getFrameDelta(),
-                    camera.right.z * speed * window.getFrameDelta());
-        }
-
-        if (isInsideOfLadder()) {
-            if (downKeyPressed()) {
-                isClimbing = true;
-                canFly = false;
-                worldPosition.add(0, FLY_SPEED * window.getFrameDelta(), 0);
-            } else if (upKeyPressed()) {
-                isClimbing = true;
-                canFly = false;
-                worldPosition.sub(0, FLY_SPEED * window.getFrameDelta(), 0);
-            }
-            positionHandler.setGravityEnabled(false);
+        if (positionLock != null) {
+            worldPosition.set(positionLock.getPosition());
+            usePositionHandler = false;
         } else {
-            if (isClimbing) {
-                positionHandler.setGravityEnabled(true);
-                isClimbing = false;
-            } else if (canFly) {
-                if (upKeyPressed()) {
-                    worldPosition.sub(0, speed * window.getFrameDelta(), 0);
-                    disableGravity();
-                }
+            usePositionHandler = true;
+            if (forwardKeyPressed()) {
+                worldPosition.add(
+                        camera.cameraForward.x * speed * window.getFrameDelta(),
+                        camera.cameraForward.y * speed * window.getFrameDelta(),
+                        camera.cameraForward.z * speed * window.getFrameDelta());
+            }
+            if (backwardKeyPressed()) {
+                worldPosition.sub(
+                        camera.cameraForward.x * speed * window.getFrameDelta(),
+                        camera.cameraForward.y * speed * window.getFrameDelta(),
+                        camera.cameraForward.z * speed * window.getFrameDelta());
+            }
+
+            if (leftKeyPressed()) {
+                worldPosition.sub(
+                        camera.right.x * speed * window.getFrameDelta(),
+                        camera.right.y * speed * window.getFrameDelta(),
+                        camera.right.z * speed * window.getFrameDelta());
+            }
+            if (rightKeyPressed()) {
+                worldPosition.add(
+                        camera.right.x * speed * window.getFrameDelta(),
+                        camera.right.y * speed * window.getFrameDelta(),
+                        camera.right.z * speed * window.getFrameDelta());
+            }
+
+            if (isInsideOfLadder()) {
                 if (downKeyPressed()) {
-                    worldPosition.add(0, speed * window.getFrameDelta(), 0);
-                    disableGravity();
+                    isClimbing = true;
+                    canFly = false;
+                    worldPosition.add(0, FLY_SPEED * window.getFrameDelta(), 0);
+                } else if (upKeyPressed()) {
+                    isClimbing = true;
+                    canFly = false;
+                    worldPosition.sub(0, FLY_SPEED * window.getFrameDelta(), 0);
+                }
+                positionHandler.setGravityEnabled(false);
+            } else {
+                if (isClimbing) {
+                    positionHandler.setGravityEnabled(true);
+                    isClimbing = false;
+                } else if (canFly) {
+                    if (upKeyPressed()) {
+                        worldPosition.sub(0, speed * window.getFrameDelta(), 0);
+
+                        disableGravity();
+                    } else if (downKeyPressed()) {
+                        worldPosition.add(0, speed * window.getFrameDelta(), 0);
+
+                        disableGravity();
+                    }
                 }
             }
         }
 
-        updatePosHandler(holdMouse);
+        if (usePositionHandler) {
+            positionHandler.collisionsEnabled = holdMouse;
+            positionHandler.update(projection, view);
+            aabb.isSolid = true;
+        } else {
+            aabb.isSolid = false;
+            aabb.update();
+        }
+
         // The key to preventing shaking during collision is to update the camera AFTER
         // the position handler is done its job
         camera.update(holdMouse);
@@ -278,11 +294,14 @@ public class UserControlledPlayer extends Player {
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
-            if (key == GLFW.GLFW_KEY_LEFT_SHIFT && !downKeyPressed()) {
+            if (key == GLFW.GLFW_KEY_LEFT_SHIFT && !down) {
                 speed = 75f;
             } else {
                 switch (key) {
                     case GLFW.GLFW_KEY_SPACE -> {
+                        if (positionLock != null) {
+                            positionLock = null;
+                        }
                         jump();
                     }
                     case KEY_CHANGE_RAYCAST_MODE -> {
@@ -294,6 +313,7 @@ public class UserControlledPlayer extends Player {
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
+            down = false;
             if (upKeyPressed(key) || downKeyPressed(key))
                 canFly = true;
             switch (key) {
