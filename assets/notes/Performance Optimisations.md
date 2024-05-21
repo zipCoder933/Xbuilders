@@ -11,8 +11,6 @@
 * "profile your code - and concentrate your efforts where they can do some good;"
 
 ## From www.toptal.com/full-stack/code-optimization
-
-
 Let’s start by listening to the advice of the sages as we explore together Jackson’s famous code optimization rules:
 1. Don’t do it.
 2. (For experts only!) Don’t do it yet.
@@ -44,7 +42,7 @@ Note that you are not trying to use the profiler right to its full depth—you�
 
 
 
-## Cautionary notes (from www.cell-auto.com/optimisation/)
+## www.cell-auto.com/optimisation/
 We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil.
 - Donald Knuth
 
@@ -52,7 +50,6 @@ I'm sure you've heard this before, but I have to say it again.
 **Optimisation is probably the last thing you should be doing.** Get your program to work properly first, and then profile it, and see if it needs further work.
 
 ### The Pareto Principal
-
 This is often known as the 80/20 rule. Some think that should be called the 90/10 rule.
 There are various statements of it that relate to computer programming:
 
@@ -72,17 +69,14 @@ Optimisation is the sworn enemy of maintainable, comprehensiblle code. In some c
 
 ### Meddling
 Optimisation can introduce bugs that were not present before. To a first approximation, if your program works, leave it well alone.
-Optimising as-you-go
 
+### Optimising as-you-go
 The general rule of thumb is don't optimise as you go along.
 You might think this will avoid a costly rewrite when you find the program does not perform - but in practice optimisation can be applied more effectively and efficiently to an existing working program.
 
 It's harder to predict where the bottlenecks are going to be than it is to use tools to measure what the code is doing once it has been written.
 
 There is sometimes a place for optimising as you go - but it is usually not a good idea.
-
-### Cost
-Programmer time is expensive. Hardware is often relatively cheap - and Moore's law suggests it will get cheaper as time passes. Make sure you don't make the wrong tradeoff here.
 
 ### Proverbs
 * The best is the enemy of the good.
