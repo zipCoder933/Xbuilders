@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.engine.items.Tool;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -23,6 +24,9 @@ import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.items.entities.animal.*;
+import com.xbuilders.game.items.tools.AnimalFeed;
+import com.xbuilders.game.items.tools.Hoe;
+import com.xbuilders.game.items.tools.Saddle;
 import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.TestTerrain;
@@ -332,6 +336,12 @@ public class MyGame extends Game {
                 new DogLink(window, 35, "White Dog", "white.png"),
         };
 
+        Tool[] tools = new Tool[]{
+            new Saddle(),
+            new Hoe(),
+            new AnimalFeed()
+        };
+
 
         //Add terrains
         terrainsList.add(new TestTerrain());
@@ -342,7 +352,7 @@ public class MyGame extends Game {
         terrainsList.add(new ComplexTerrain());
 
         //Set items AFTER setting block types
-        ItemList.setAllItems(blockList, entityList, null);
+        ItemList.setAllItems(blockList, entityList, tools);
         initializeAllItems();
     }
 

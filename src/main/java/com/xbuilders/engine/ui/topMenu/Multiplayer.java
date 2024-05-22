@@ -145,7 +145,7 @@ public class Multiplayer implements MenuPage {
         }
         return info;
     }
-    
+
     protected static boolean hasWorld(String data) throws IOException {
         String[] dataStr = data.split("\n");
         String name = dataStr[0];
@@ -182,7 +182,7 @@ public class Multiplayer implements MenuPage {
                                 String message = NetworkUtils.getMessageAsString(data);
                                 prog.setTask("Message from server: " + message);
                                 if (header == WORLD_INFO) {
-//                                    WorldInfo newWorld = 
+//                                    WorldInfo newWorld =
 //                                    WorldsHandler.makeNewWorld(newWorld);
                                 }
                             });

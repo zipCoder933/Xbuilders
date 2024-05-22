@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.player.Player;
@@ -134,7 +136,7 @@ public class GameScene implements WindowEvents {
                 } else prog.stage++;
             }
             default -> {
-                if(worldInfo.getSpawnPoint() == null){
+                if (worldInfo.getSpawnPoint() == null) {
                     //Find spawn point
                     player.setNewSpawnPoint(world.terrain);
                 }
@@ -158,8 +160,8 @@ public class GameScene implements WindowEvents {
     public void init(UIResources uiResources, MyGame game) throws IOException {
         setProjection();
         ui = new GameUI(Main.game, window.ctx, window, uiResources);
-        player.init(window, world, projection, view);
         world.init(ItemList.blocks.textures);
+        player.init(window, world, projection, view);
         ui.init();
 
     }
@@ -180,7 +182,6 @@ public class GameScene implements WindowEvents {
         world.drawChunks(projection, view, player.worldPosition);
         setInfoText();
         ui.draw();
-
 
 
         Main.game.update();
@@ -268,21 +269,24 @@ public class GameScene implements WindowEvents {
 
                 Chunk chunk = world.getChunk(rayWCC.chunk);
                 if (chunk != null) {
-                    text += "\nchunk gen status: " + chunk.getGenerationStatus();
-                    text += "\npillar loaded: " + chunk.pillarInformation.isPillarLoaded();
+                    text += "\nchunk gen status: " + chunk.getGenerationStatus()+", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                     text += "\nchunk mesh: " + chunk.meshes;
                     BlockData data = chunk.data.getBlockData(
                             rayWCC.chunkVoxel.x,
                             rayWCC.chunkVoxel.y,
                             rayWCC.chunkVoxel.z);
+                    Block block = ItemList.getBlock(chunk.data.getBlock(
+                            rayWCC.chunkVoxel.x,
+                            rayWCC.chunkVoxel.y,
+                            rayWCC.chunkVoxel.z)
+                    );
 
                     byte sun = chunk.data.getSun(
                             rayWCC.chunkVoxel.x,
                             rayWCC.chunkVoxel.y,
                             rayWCC.chunkVoxel.z);
-                    text += "\nblock data: " + (data == null ? "null" : data.toString());
-                    text += "\nsun: " + (sun);
-                    text += "\ntorch: " + chunk.data.getTorch(
+                    text += "\nblock: " + block + " data: " + (data == null ? "null" : data.toString());
+                    text += "\nsun: " + (sun)+", torch: " + chunk.data.getTorch(
                             rayWCC.chunkVoxel.x,
                             rayWCC.chunkVoxel.y,
                             rayWCC.chunkVoxel.z);

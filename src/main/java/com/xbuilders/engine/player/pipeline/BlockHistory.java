@@ -38,4 +38,13 @@ public class BlockHistory {
         this.data = data;
         updateBlockData = true;
     }
+
+    public String toString() {
+        return "BlockHistory{" +
+                "previousBlock=" + previousBlock +
+                ", currentBlock=" + currentBlock +
+                ", data=" + data +
+                ", updateBlockData=" + updateBlockData +
+                '}';
+    }
 }

@@ -172,7 +172,7 @@ public class TerrainV2 extends Terrain {
         }
     }
 
-    final float caveFrequency = 6.0f;
+    final float caveFrequency = 5.0f;
 
     public float valley(final int wx, final int wz) {
         float val = getValueFractal((float) (wz * 0.5) - 10000, (float) (wx * 0.5));

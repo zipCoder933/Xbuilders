@@ -55,16 +55,16 @@ public class World {
 
     /*
      * CHUNK GENERATION PERFORMANCE
-     * 
+     *
      * Valkyre:
      * Chunk Load distance: 5
      * Load distance in voxels: 160
      * (Minecraft has a default chunk distance of 160 blocks.)
-     * 
+     *
      * In valkyre,With the standard chunk distanceThe FPS sometimes dips when
      * loading lots of stuff, but not very often.
      * (But This issue is resolved when vsync is disabled.)
-     * 
+     *
      * COMPARING PERFORMANCE
      * - When comparing the two side by side, with the same chunk distance, my
      * preformance with that chunk distance is actually
@@ -84,7 +84,7 @@ public class World {
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
 
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
-    ChunkShader chunkShader;
+    public ChunkShader chunkShader;
 
     public void setViewDistance(int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
@@ -108,7 +108,7 @@ public class World {
     // World boundaries
     // chunk boundaries
     public final static int TOP_Y_CHUNK = 0; // These are the boundaries of the world. We can set int.min and int.max if
-                                             // we want them to be infinite
+    // we want them to be infinite
     public final static int BOTTOM_Y_CHUNK = (16 * 16) / Chunk.WIDTH;
     public final static int WORLD_CHUNK_HEIGHT = BOTTOM_Y_CHUNK - TOP_Y_CHUNK;
 
@@ -150,10 +150,10 @@ public class World {
      */
     public static final PriorityThreadPoolExecutor generationService = new PriorityThreadPoolExecutor(
             CHUNK_LOAD_THREADS, r -> {
-                Thread thread = new Thread(r, "Generation Thread");
-                thread.setDaemon(true);
-                return thread;
-            }, new LowValueComparator());
+        Thread thread = new Thread(r, "Generation Thread");
+        thread.setDaemon(true);
+        return thread;
+    }, new LowValueComparator());
 
     /**
      * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
@@ -165,12 +165,12 @@ public class World {
             CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
             3L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-                frameTester.count("Mesh threads", 1);
-                Thread thread = new Thread(r, "Mesh Thread");
-                thread.setDaemon(true);
-                thread.setPriority(1);
-                return thread;
-            });
+        frameTester.count("Mesh threads", 1);
+        Thread thread = new Thread(r, "Mesh Thread");
+        thread.setDaemon(true);
+        thread.setPriority(1);
+        return thread;
+    });
 
     public static final PriorityThreadPoolExecutor lightService = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS,
             r -> {
@@ -347,7 +347,7 @@ public class World {
                         chunkX * Chunk.WIDTH,
                         chunkZ * Chunk.WIDTH) < viewDistanceXZ
                         && (generateOutOfFrustum
-                                || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
+                        || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
                     chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
                 }
             }
@@ -472,7 +472,7 @@ public class World {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                     if (!Main.devkeyF3) {
                         chunk.meshes.transMesh.draw(GameScene.drawWireframe);// For some reason rendering meshes slows
-                                                                             // the game down during generation
+                        // the game down during generation
                     }
                 }
                 chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
@@ -494,7 +494,7 @@ public class World {
 
         Chunk chunk = getChunk(new Vector3i(chunkX, chunkY, chunkZ));
         if (chunk == null) { // By default, all get block events should return air otherwise the chunk will
-                             // be null
+            // be null
             return 0;
         }
         return chunk.data.getBlock(blockX, blockY, blockZ);
@@ -582,7 +582,7 @@ public class World {
         if (futureChunk == null) {
             futureChunk = new FutureChunk(pos);
             futureChunks.put(new Vector3i(pos), futureChunk);// We have to create a new vector, because chunk vector can
-                                                             // change when it is repurposed
+            // change when it is repurposed
         }
         return futureChunk;
     }

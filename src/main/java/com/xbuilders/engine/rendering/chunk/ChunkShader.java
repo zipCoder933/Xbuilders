@@ -6,6 +6,7 @@ package com.xbuilders.engine.rendering.chunk;
 
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.render.ShaderBase;
 import org.joml.Vector3f;
@@ -23,7 +24,8 @@ public class ChunkShader extends ShaderBase {
             textureLayerCountUniform,
             viewDistanceUniform,
             skyColorUniform,
-            animationTimeUniform;
+            animationTimeUniform,
+            flashlightDistanceUniform;
 
     int animationTime = 0;
     long lastTick = 0;
@@ -40,11 +42,17 @@ public class ChunkShader extends ShaderBase {
         viewDistanceUniform = getUniformLocation("viewDistance");
         skyColorUniform = getUniformLocation("skyColor");
         animationTimeUniform = getUniformLocation("animationTime");
+        flashlightDistanceUniform = getUniformLocation("flashlightDistance");
 
 
         loadFloat(maxMult10bitsUniform, VertexSet.maxMult10bits);
         loadFloat(maxMult12bitsUniform, VertexSet.maxMult12bits);
         loadInt(textureLayerCountUniform, textureLayers - 1);
+    }
+
+    public void setFlashlightDistance(float distance) {
+        distance = MathUtils.clamp(distance, 0, 100);
+        loadFloat(flashlightDistanceUniform, distance);
     }
 
     public void setViewDistance(int viewDistance) {

@@ -137,17 +137,8 @@ public class Block extends Item {
     }
     // </editor-fold>
 
-
-    public int playerHeadEnterBlockEvent() {
-        return -1;
-    }
-
     public boolean isAir() {
         return false;
-    }
-
-    public boolean hasTexture() {
-        return texture != null;
     }
 
     public final void initTextureAndIcon(BlockArrayTexture textures,

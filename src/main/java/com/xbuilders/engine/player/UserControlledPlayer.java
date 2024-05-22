@@ -39,8 +39,9 @@ public class UserControlledPlayer extends Player {
     final static float PLAYER_HEIGHT = 2.0f;
     final static float PLAYER_WIDTH = 0.8f;
 
-    final static float FLY_SPEED = 5f;
-    final float DEFAULT_SPEED = 12;
+    final static float FLY_SPEED = 12f;
+    final float DEFAULT_SPEED = 12f;
+    final float RUN_SPEED = DEFAULT_SPEED*5;
 
     Matrix4f projection;
     Matrix4f view;
@@ -139,6 +140,7 @@ public class UserControlledPlayer extends Player {
         skin = new DefaultSkin(aabb);
         eventPipeline = new BlockEventPipeline(world);
         server = new PlayerServer(this);
+        GameScene.world.chunkShader.setFlashlightDistance(20f);
     }
 
     public void startGame() {
@@ -151,15 +153,22 @@ public class UserControlledPlayer extends Player {
 
     World chunks;
 
-    private Block getBlockAtHeadPos() {
+    private Block getBlockAtPlayerHead() {
         return GameScene.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z));
     }
 
+    private Block getBlockAtCameraPos() {
+        return GameScene.world.getBlock(
+                (int) Math.floor(camera.position.x),
+                (int) Math.floor(camera.position.y),
+                (int) Math.floor(camera.position.z));
+    }
+
     private boolean isInsideOfLadder() {
-        BlockType type = ItemList.blocks.getBlockTypeID(getBlockAtHeadPos().type);
+        BlockType type = ItemList.blocks.getBlockTypeID(getBlockAtPlayerHead().type);
         BlockType belowType = ItemList.blocks.getBlockTypeID(GameScene.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
@@ -172,31 +181,37 @@ public class UserControlledPlayer extends Player {
                 || belowType.isClimbable();
     }
 
-    Block headPosBlock = BlockList.BLOCK_AIR;
+    Block cameraBlock, playerBlock;
 
     // playerForward,playerBackward,playerUp,playerDown,playerLeft,playerRight;
     public void update(boolean holdMouse) {
-        Block newBlock = getBlockAtHeadPos();
-        if (newBlock != headPosBlock) {
-            if (newBlock.isAir()) {//Air is always transparent
+        Block newCameraBlock = getBlockAtCameraPos();
+        if (newCameraBlock != cameraBlock) {
+            cameraBlock = newCameraBlock;
+            if (newCameraBlock.isAir()) {//Air is always transparent
                 GameScene.ui.setOverlayColor(0, 0, 0, 0);
-            } else if (newBlock.opaque
-                    && newBlock.colorInPlayerHead[3] == 0
-                    && usePositionHandler) { //If we are opaque, don't have a color and we are not in passthrough mode
+            } else if (newCameraBlock.opaque
+                    && newCameraBlock.colorInPlayerHead[3] == 0
+                    && positionHandler.collisionsEnabled
+                    && !Main.devMode) { //If we are opaque, don't have a color and we are not in passthrough mode
                 GameScene.ui.setOverlayColor(0, 0, 0, 1);
             } else {
                 GameScene.ui.setOverlayColor(
-                        newBlock.colorInPlayerHead[0],
-                        newBlock.colorInPlayerHead[1],
-                        newBlock.colorInPlayerHead[2],
-                        newBlock.colorInPlayerHead[3]);
+                        newCameraBlock.colorInPlayerHead[0],
+                        newCameraBlock.colorInPlayerHead[1],
+                        newCameraBlock.colorInPlayerHead[2],
+                        newCameraBlock.colorInPlayerHead[3]);
             }
-            headPosBlock = getBlockAtHeadPos();
-            if (newBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
+        }
+
+        Block newPlayerBlock = getBlockAtPlayerHead();
+        if (newPlayerBlock != playerBlock) {
+            playerBlock = newPlayerBlock;
+            if (newCameraBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.velocity.set(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 4,
                         PositionHandler.DEFAULT_TERMINAL_VELOCITY / 30);
-            } else if (newBlock.isAir()) {
+            } else if (newCameraBlock.isAir()) {
                 positionHandler.resetFallMedium();
             }
         }
@@ -292,7 +307,7 @@ public class UserControlledPlayer extends Player {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
-                speed = DEFAULT_SPEED * 3;
+                speed = RUN_SPEED;
             } else {
                 switch (key) {
                     case GLFW.GLFW_KEY_SPACE -> {

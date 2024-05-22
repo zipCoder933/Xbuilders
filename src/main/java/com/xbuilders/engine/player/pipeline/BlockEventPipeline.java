@@ -124,7 +124,7 @@ public class BlockEventPipeline {
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
-
+            System.out.println("\tBlock: " + blockHist.toString());
             if (!blockHist.previousBlock.equals(blockHist.currentBlock)) { //If the 2 blocks are different
                 BlockType type = ItemList.blocks.getBlockTypeID(blockHist.currentBlock.type);
                 if (type == null) return;
@@ -174,8 +174,8 @@ public class BlockEventPipeline {
                     affectedChunks.add(chunk);
 
                     //Block events:
-                    startLocalChange(worldPos, blockHist, allowBlockEvents);
                     if (allowBlockEvents) {
+                        startLocalChange(worldPos, blockHist, allowBlockEvents);
                         blockHist.previousBlock.run_RemoveBlockEvent(worldPos);
                         blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos, data); //Run the block event
                     }
@@ -189,7 +189,7 @@ public class BlockEventPipeline {
 
 
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
-        System.out.println("Opaque to trans: " + opaqueToTransparent.size()+"; Trans to opaque: " + transparentToOpaque.size());
+        System.out.println("\tOpaque to trans: " + opaqueToTransparent.size()+"; Trans to opaque: " + transparentToOpaque.size());
 
         if (opaqueToTransparent.size() > 10000 || transparentToOpaque.size() > 10000) {
             System.out.println("Pre-Updating Meshes");

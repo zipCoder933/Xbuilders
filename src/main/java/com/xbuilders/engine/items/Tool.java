@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.items;
 
+import com.xbuilders.engine.player.camera.CursorRay;
 import java.util.function.Consumer;
 
 /**
@@ -22,4 +23,41 @@ public class Tool extends Item {
         super(id, name, ItemType.TOOL);
         this.initializationCallback = initializationCallback;
     }
+
+    // <editor-fold defaultstate="collapsed" desc="tool events">
+    //Create a functional interface for setBlockEvent
+
+
+    //A functional interface for onLocalChange
+    @FunctionalInterface
+    public interface OnClickEvent {
+
+        public void run(CursorRay ray);
+    }
+
+    OnClickEvent createClickEvent = null;
+    OnClickEvent deleteClickEvent = null;
+
+
+    public void setCreateClickEvent(OnClickEvent createClickEvent) {
+        this.createClickEvent = createClickEvent;
+    }
+
+
+    public void setDeleteClickEvent(OnClickEvent deleteClickEvent) {
+        this.deleteClickEvent = deleteClickEvent;
+    }
+
+    public void run_createClickEvent(CursorRay ray) {
+        if (createClickEvent != null) {
+            createClickEvent.run(ray);
+        }
+    }
+
+    public void run_deleteClickEvent(CursorRay ray) {
+        if (deleteClickEvent != null) {
+            deleteClickEvent.run(ray);
+        }
+    }
+    // </editor-fold>
 }

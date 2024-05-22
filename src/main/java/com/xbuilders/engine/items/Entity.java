@@ -33,6 +33,9 @@ public abstract class Entity {
      */
     public static EntityShader shader;
 
+    public boolean isRidingThis() {
+        return GameScene.player.positionLock != null && GameScene.player.positionLock.entity == this;
+    }
 
     private void getLightForPosition() {
         Chunk chunk = GameScene.world.getChunk(chunkPosition.chunk);
@@ -129,7 +132,7 @@ public abstract class Entity {
         }
     }
 
-    protected void hidden_entityOnChunkMeshChanged(){
+    protected void hidden_entityOnChunkMeshChanged() {
         getLightForPosition();
     }
 

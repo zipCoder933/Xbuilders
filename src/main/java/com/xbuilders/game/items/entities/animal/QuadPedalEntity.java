@@ -40,10 +40,28 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
     protected float legZSpacing = 0.9f * SCALE;
     protected float legYSpacing = -1.3f * SCALE;
 
+
     @Override
     public void draw(Matrix4f projection, Matrix4f view) {
         if (inFrustum) {
-            move();
+
+
+            if (isRidingThis()) {
+                float rotSpeed = 0.5f;
+                if (GameScene.player.forwardKeyPressed()) {
+                    goForward(0.2f);
+                    rotSpeed = 3;
+                    currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
+                } else move();
+
+                if (GameScene.player.leftKeyPressed()) {
+                    yRotDegrees -= rotSpeed;
+                } else if (GameScene.player.rightKeyPressed()) {
+                    yRotDegrees += rotSpeed;
+                }
+            } else move();
+
+
             shader.bind();
             float rotationRadians = (float) Math.toRadians(yRotDegrees);
             bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
@@ -66,7 +84,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
             pos.update(projection, view);
             if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
                     || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02) {
-                if (System.currentTimeMillis() - lastJumpTime > 2000) {
+                if (System.currentTimeMillis() - lastJumpTime > 500) {
                     lastJumpTime = System.currentTimeMillis();
                     pos.jump();
                 }

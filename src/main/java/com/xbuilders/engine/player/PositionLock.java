@@ -13,9 +13,9 @@ public class PositionLock {
         this.entity = lock;
         System.out.println(lock.aabb.offset.x + " " + lock.aabb.offset.y + " " + lock.aabb.offset.z);
         this.playerDisplacement = new Matrix4f().translate(
-                lock.aabb.offset.x / 2,
+                0,
                 yOffset - GameScene.player.aabb.size.y,
-                lock.aabb.offset.z / 2);
+                0);
     }
 
     public final Entity entity;

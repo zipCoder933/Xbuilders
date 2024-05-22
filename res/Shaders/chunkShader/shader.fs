@@ -36,6 +36,7 @@ out vec4 color;
 uniform sampler2DArray textureArray;
 uniform int viewDistance;
 uniform vec3 skyColor;
+uniform float flashlightDistance;
 
 void main() {
     vec4 val = texture(textureArray, UV);
@@ -54,12 +55,20 @@ void main() {
     // NEG_Z = 3;
     // NEG_Y = 4;
     // POS_Y = 5;
+    float flashlight = 0;
+    if(fragDistance < flashlightDistance){
+        flashlight = map(fragDistance,0,flashlightDistance,1,0);
+    }
+
+
     float sun2 = sun;
     if (normal == 2.0f) sun2 *= 0.9;
     if (normal == 1.0f) sun2 *= 0.85;
     if (normal == 3.0f) sun2 *= 0.8;
     if (normal == 5.0f) sun2 *= 0.7;
-    val.rgb *= max(torch,sun2);
+    val.rgb *= max(flashlight, max(torch,sun2));
+
+   
 
     //Fog visiblity
     float visibility = 1.0;
