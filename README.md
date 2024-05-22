@@ -3,6 +3,8 @@
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
+# Why XB3 over XB2?
+
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
   * `[LWJGL] [ThreadLocalUtil] Unsupported JNI version detected, this may result in a crash. Please inform LWJGL developers.`
