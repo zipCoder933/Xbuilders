@@ -3,17 +3,20 @@ package com.xbuilders.game.blockTools.tools;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.blockTools.BlockTool;
+import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
 public class Tool_BoundarySetDelete extends BlockTool {
-    public Tool_BoundarySetDelete() {
-        super("Boundary");
-        useBlockBoundary = true;
+    public Tool_BoundarySetDelete(BlockTools tools) {
+        super("Boundary", tools);
     }
 
     public String getName() {
@@ -27,7 +30,18 @@ public class Tool_BoundarySetDelete extends BlockTool {
     }
 
     @Override
-    public void blockBoundarySetEvent(AABB aabb, boolean created) {
+    public void activate() {
+        GameScene.player.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
+            blockBoundarySetEvent(aabb, created);
+        });
+    }
+
+    @Override
+    public boolean setBlock(Item item, CursorRay ray, BlockData data, boolean isCreationMode) {
+        return false;
+    }
+
+    private void blockBoundarySetEvent(AABB aabb, boolean created) {
         if (Main.game.getSelectedItem() == null || Main.game.getSelectedItem().getType() != ItemType.BLOCK) return;
         Block block = (Block) Main.game.getSelectedItem();
         if (!created) block = BlockList.BLOCK_AIR;

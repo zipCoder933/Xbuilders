@@ -4,7 +4,9 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Tool;
+import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -52,6 +54,10 @@ import org.lwjgl.system.MemoryStack;
  * @author zipCoder933
  */
 public class MyGame extends Game {
+
+    public boolean drawCursor(CursorRay cursorRay) {
+        return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
+    }
 
     public static class GameInfo {
         public final Item[] playerBackpack;
@@ -337,9 +343,9 @@ public class MyGame extends Game {
         };
 
         Tool[] tools = new Tool[]{
-            new Saddle(),
-            new Hoe(),
-            new AnimalFeed()
+                new Saddle(),
+                new Hoe(),
+                new AnimalFeed()
         };
 
 

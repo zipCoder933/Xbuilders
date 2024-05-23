@@ -1,11 +1,12 @@
 package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.game.blockTools.BlockTool;
+import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
 public class DefaultTool extends BlockTool {
-    public DefaultTool() {
-        super("Default");
+    public DefaultTool(BlockTools tools) {
+        super("Default",tools);
     }
 
     @Override

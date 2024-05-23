@@ -147,20 +147,8 @@ public class BlockEventPipeline {
                     // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
                     if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
                         SunlightUtils.addInitialNodesForSunlightPropagation(opaqueToTransparent, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                        //We dont have to propagate or erase here as we are doing it in the step
-//                        SunlightUtils.propagateSunlight(opaqueToTransparent, affectedChunks, true);
-//                        TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-//                        opaqueToTransparent.clear();
                     } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
                         SunlightUtils.addInitialNodesForSunlightErasure(transparentToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                        //We dont have to propagate or erase here as we are doing it in the step
-                        //                        HashSet<ChunkNode> repropagationNodes = new HashSet<>();//I think total nodes is suppsed to be for repropagating light
-//                        SunlightUtils.eraseSunlight(opaqueToTransparent, affectedChunks, repropagationNodes);
-//                        opaqueToTransparent.clear();
-//                        opaqueToTransparent.addAll(repropagationNodes);
-//                        SunlightUtils.propagateSunlight(opaqueToTransparent, affectedChunks, false);
-//                        TorchUtils.transparentToOpaque(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-//                        opaqueToTransparent.clear();
                     }
 
                     if (!blockHist.previousBlock.isLuminous() && blockHist.currentBlock.isLuminous()) {

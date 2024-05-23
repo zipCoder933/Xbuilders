@@ -27,7 +27,7 @@ in vec3 UV;
 in float normal;
 in float sun;
 in float torch;
-in float fragDistance;
+in vec3 position;
 
 // Ouput data
 out vec4 color;
@@ -56,6 +56,8 @@ void main() {
     // NEG_Y = 4;
     // POS_Y = 5;
     float flashlight = 0;
+    float fragDistance = length(position);
+    
     if(fragDistance < flashlightDistance){
         flashlight = map(fragDistance,0,flashlightDistance,1,0);
     }

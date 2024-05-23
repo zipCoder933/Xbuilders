@@ -4,6 +4,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.game.MyGame;
 import com.xbuilders.game.blockTools.tools.CopyTool;
 import com.xbuilders.game.blockTools.tools.DefaultTool;
 import com.xbuilders.game.blockTools.tools.PasteTool;
@@ -25,10 +26,10 @@ public class BlockTools extends GameUIElement {
 
     public BlockTools(NkContext ctx, NKWindow window, UIResources uires) {
         super(ctx, window, uires);
-        tools.add(new DefaultTool());
-        tools.add(new Tool_BoundarySetDelete());
-        tools.add(new CopyTool());
-        tools.add(new PasteTool());
+        tools.add(new DefaultTool(this));
+        tools.add(new Tool_BoundarySetDelete(this));
+        tools.add(new CopyTool(this));
+        tools.add(new PasteTool(this));
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();
@@ -57,7 +58,7 @@ public class BlockTools extends GameUIElement {
 
         if (nk_begin(ctx, "Block Tools", windowDims, Nuklear.NK_WINDOW_NO_SCROLLBAR)) {
             nk_layout_row_dynamic(ctx, menuHeight, 1);
-            Nuklear.nk_text(ctx, tools.get(selectedTool).getName(), Nuklear.NK_TEXT_ALIGN_CENTERED);
+            Nuklear.nk_text(ctx, tools.get(selectedTool).toolDescription(), Nuklear.NK_TEXT_ALIGN_CENTERED);
         }
     }
 
@@ -102,14 +103,16 @@ public class BlockTools extends GameUIElement {
     }
 
     private void selectTool(int i) {
+        tools.get(selectedTool).deactivate();
         selectedTool = i;
-        if (tools.get(i).useBlockBoundary) GameScene.player.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
-            tools.get(i).blockBoundarySetEvent(aabb, created);
-        });
-        else GameScene.player.camera.cursorRay.disableBoundaryMode();
+        tools.get(selectedTool).activate();
     }
 
     public boolean mouseButtonEvent(int button, int action, int mods) {
         return tools.get(selectedTool).mouseButtonEvent(button, action, mods);
+    }
+
+    public BlockTool getSelectedTool() {
+        return tools.get(selectedTool);
     }
 }

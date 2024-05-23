@@ -11,8 +11,7 @@ out vec3 UV;
 out float normal;
 out float sun;
 out float torch;
-// out float torch;
-out float fragDistance;
+out vec3 position;
 
 // Values that stay constant for the whole mesh.
 uniform mat4 MVP;
@@ -65,6 +64,7 @@ void main()
 
     // Output position of the vertex, in clip space : MVP * position
     gl_Position = MVP * vec4(vertX, vertY, vertZ, 1);
-    fragDistance = length(gl_Position.xyz);
+
+    position = gl_Position.xyz; //Position is just For fragment shader
     UV = vec3(u, v, textureLayer);
 }
