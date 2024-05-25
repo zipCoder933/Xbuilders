@@ -37,15 +37,18 @@ uniform sampler2DArray textureArray;
 uniform int viewDistance;
 uniform vec3 skyColor;
 uniform float flashlightDistance;
+uniform vec4 solidColor;
 
 void main() {
+
+    if (solidColor.a > 0.0) {
+        color = solidColor;
+        return;
+    } 
+
     vec4 val = texture(textureArray, UV);
     if (val.a == 0.0) {  // ditch transparent fragments
         discard;
-    } else if (val.r == 0.0 && val.g == 0.0 && val.b == 0.0) {
-        color = vec4(0.0,0.0,0.0, 1.0);
-        // color=vec4(skyColor,1.0);
-        return;
     }
     
     //Light
@@ -68,9 +71,8 @@ void main() {
     if (normal == 1.0f) sun2 *= 0.85;
     if (normal == 3.0f) sun2 *= 0.8;
     if (normal == 5.0f) sun2 *= 0.7;
-    val.rgb *= max(flashlight, max(torch,sun2));
 
-   
+    val.rgb *= max(flashlight, max(torch,sun2));
 
     //Fog visiblity
     float visibility = 1.0;

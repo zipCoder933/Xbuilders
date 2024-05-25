@@ -13,14 +13,14 @@ import java.io.IOException;
 /**
  * @author zipCoder933
  */
-public class BlockShader extends ShaderBase {
+public class IconGenShader extends ShaderBase {
 
     public final int mvpUniform, maxMult12bitsUniform, maxMult10bitsUniform, textureLayerCountUniform;
 
-    public BlockShader(int textureLayers) throws IOException {
+    public IconGenShader(int textureLayers) throws IOException {
         init(
-                ResourceUtils.localResource("/res/Shaders/iconRTT/iconRTT.vs"),
-                ResourceUtils.localResource("/res/Shaders/iconRTT/iconRTT.fs"));
+                ResourceUtils.localResource("res/Shaders/blockShader/vertex.glsl"),
+                ResourceUtils.localResource("res/Shaders/blockShader/frag_icon.glsl"));
         mvpUniform = getUniformLocation("MVP");
         maxMult12bitsUniform = getUniformLocation("maxMult12bits");
         maxMult10bitsUniform = getUniformLocation("maxMult10bits");

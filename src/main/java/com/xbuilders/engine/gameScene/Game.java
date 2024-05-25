@@ -8,6 +8,7 @@ import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.window.NKWindow;
@@ -48,7 +49,9 @@ public abstract class Game {
                 return terrain;
             }
         }
-        throw new NullPointerException("Terrain \"" + info.getTerrain() + "\" not found!");
+        ErrorHandler.createPopupWindow("Terrain does not exist under that name",
+                "Terrain \"" + info.getTerrain() + "\" not found!");
+        return terrainsList.get(0);
     }
 
     public void uiInit(NkContext ctx, NKWindow window, UIResources uires, GameUI gameUI) {

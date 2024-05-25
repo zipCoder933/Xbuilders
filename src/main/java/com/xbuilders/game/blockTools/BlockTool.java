@@ -8,11 +8,9 @@ import org.joml.Matrix4f;
 import org.lwjgl.nuklear.NkVec2;
 
 public abstract class BlockTool {
+
     public final String name;
     public final BlockTools blockTools;
-
-    public boolean usesSize = false;
-    int size;
 
     public BlockTool(String name, BlockTools blockTools) {
         this.name = name;
@@ -21,7 +19,7 @@ public abstract class BlockTool {
 
 
     public String toolDescription() {
-        return name + (usesSize ? " (x" + size + ")" : "");
+        return name;
     }
 
     public abstract boolean shouldActivate(int key, int scancode, int action, int mods);
@@ -67,6 +65,16 @@ public abstract class BlockTool {
     }
 
     public boolean mouseButtonEvent(int button, int action, int mods) {
+        return false;
+    }
+
+    /**
+     * Only activates when user does Shift+scroll for tool size
+     *
+     * @param scroll -1 for up, 1 for down
+     * @return
+     */
+    public boolean mouseToolScrollEvent(int scroll) {
         return false;
     }
 }

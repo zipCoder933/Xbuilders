@@ -99,11 +99,7 @@ public abstract class Entity {
      */
     protected void hidden_drawEntity(Matrix4f projection, Matrix4f view) {
         if (shader == null) {
-            try {
-                shader = new EntityShader();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            shader = new EntityShader();
         }
         if (inFrustum) {
             shader.loadFloat(shader.sunUniform, sunValue);

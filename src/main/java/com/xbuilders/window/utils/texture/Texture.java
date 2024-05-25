@@ -27,4 +27,8 @@ public class Texture {
 
     public ByteBuffer buffer;
     public final int id, width, height;
+
+    public String toString() {
+        return "Texture: " + id + " " + width + "x" + height;
+    }
 }

@@ -21,20 +21,16 @@ import org.joml.Vector3i;
  */
 public class NaiveMesher {
 
-    ChunkVoxels data;
-    int[] dims;
-    HashMap<Short, Block> blockList;
     boolean generateAll;
 
-    public NaiveMesher(ChunkVoxels chunkPreMeshData, HashMap<Short, Block> blockList,
-            boolean generateAll) {
+    public NaiveMesher(boolean generateAll) {
         this.generateAll = generateAll;
-        this.blockList = blockList;
-        this.data = chunkPreMeshData;
-        dims = new int[]{data.size.x, data.size.y, data.size.z};
     }
 
-    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, Vector3i position) {
+    public void compute(ChunkVoxels data,
+                        VertexSet opaqueBuffers,
+                        VertexSet transparentBuffers,
+                        Vector3i position) {
         Block block;
         Block[] neighbors = new Block[6];
         byte[] light = {15, 15, 15, 15, 15, 15};

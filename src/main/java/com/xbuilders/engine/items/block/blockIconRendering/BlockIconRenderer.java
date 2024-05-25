@@ -66,7 +66,7 @@ public class BlockIconRenderer {
     Thread thread1;
     long window1 = 0;
     CompactMesh mesh;
-    BlockShader shader;
+    IconGenShader shader;
     Matrix4f projection, view, model;
     MVP blockMVP;
     int framebuffer;
@@ -118,7 +118,7 @@ public class BlockIconRenderer {
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable transparency
 
             try {
-                shader = new BlockShader(textures.layerCount);
+                shader = new IconGenShader(textures.layerCount);
                 shader.bind();
                 projection = new Matrix4f().ortho(-viewProj, viewProj, -viewProj, viewProj, 0.1f, 100f);
                 view = calculateOrbitingViewMatrix((float) Math.toRadians(45), (float) Math.toRadians(-25), 1);
@@ -127,7 +127,7 @@ public class BlockIconRenderer {
                 blockMVP.update(projection, view, model);
                 blockMVP.sendToShader(shader.getID(), shader.mvpUniform);
                 mesh = new CompactMesh();
-                mesh.setTextureID(textures.createArrayTexture());
+                mesh.setTextureID(textures.createNewArrayTexture());
                 // </editor-fold>
 
                 Block[] list = ItemList.blocks.getList();

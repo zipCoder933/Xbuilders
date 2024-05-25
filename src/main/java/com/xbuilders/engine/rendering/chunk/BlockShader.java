@@ -4,19 +4,24 @@
  */
 package com.xbuilders.engine.rendering.chunk;
 
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
+import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.Main;
 import com.xbuilders.window.render.ShaderBase;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
  * @author zipCoder933
  */
-public class ChunkShader extends ShaderBase {
+public class BlockShader extends ShaderBase {
 
     public final int mvpUniform,
             maxMult12bitsUniform,
@@ -25,16 +30,38 @@ public class ChunkShader extends ShaderBase {
             viewDistanceUniform,
             skyColorUniform,
             animationTimeUniform,
-            flashlightDistanceUniform;
+            flashlightDistanceUniform,
+            colorUniform;
 
     int animationTime = 0;
     long lastTick = 0;
     final int ANIMATION_SPEED = 100;
 
-    public ChunkShader(int textureLayers) throws IOException {
-        init(
-                ResourceUtils.localResource("/res/shaders/chunkShader/shader.vs"),
-                ResourceUtils.localResource("/res/shaders/chunkShader/shader.fs"));
+    public final static int FRAG_MODE_CHUNK = 0;
+    public final static int FRAG_MODE_DIRECT = 1;
+    public final static int FRAG_MODE_TEST = 2;
+
+
+    public BlockShader(int fragmentShader) {
+        int textureLayers = ItemList.blocks.textures.layerCount;
+        try {
+            File fragShader = null;
+            switch (fragmentShader) {
+                case FRAG_MODE_CHUNK:
+                    fragShader = ResourceUtils.localResource("/res/shaders/blockShader/frag.glsl");
+                    break;
+                case FRAG_MODE_DIRECT:
+                    fragShader = ResourceUtils.localResource("/res/shaders/blockShader/frag_direct.glsl");
+                    break;
+                case FRAG_MODE_TEST:
+                    fragShader = ResourceUtils.localResource("/res/shaders/blockShader/frag_test.glsl");
+                    break;
+            }
+            init(ResourceUtils.localResource("/res/shaders/blockShader/vertex.glsl"),
+                    fragShader);
+        } catch (IOException e) {
+            ErrorHandler.handleFatalError(e);
+        }
         mvpUniform = getUniformLocation("MVP");
         maxMult12bitsUniform = getUniformLocation("maxMult12bits");
         maxMult10bitsUniform = getUniformLocation("maxMult10bits");
@@ -43,7 +70,7 @@ public class ChunkShader extends ShaderBase {
         skyColorUniform = getUniformLocation("skyColor");
         animationTimeUniform = getUniformLocation("animationTime");
         flashlightDistanceUniform = getUniformLocation("flashlightDistance");
-
+        colorUniform= getUniformLocation("solidColor");
 
         loadFloat(maxMult10bitsUniform, VertexSet.maxMult10bits);
         loadFloat(maxMult12bitsUniform, VertexSet.maxMult12bits);
@@ -57,6 +84,14 @@ public class ChunkShader extends ShaderBase {
 
     public void setViewDistance(int viewDistance) {
         loadInt(viewDistanceUniform, viewDistance);
+    }
+
+    public void setColorMode(float r, float g, float b) {
+        loadVec4f(colorUniform, new Vector4f(r, g, b, 1));
+    }
+
+    public void setTextureMode(){
+        loadVec4f(colorUniform, new Vector4f(0));
     }
 
     public void tickAnimation() {

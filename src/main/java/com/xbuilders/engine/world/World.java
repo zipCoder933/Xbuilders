@@ -12,7 +12,7 @@ import com.xbuilders.engine.world.chunk.FutureChunk;
 import java.io.IOException;
 
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.rendering.chunk.ChunkShader;
+import com.xbuilders.engine.rendering.chunk.BlockShader;
 import com.xbuilders.engine.gameScene.GameScene;
 
 import static com.xbuilders.engine.gameScene.GameScene.world;
@@ -84,7 +84,7 @@ public class World {
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
 
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
-    public ChunkShader chunkShader;
+    public BlockShader chunkShader;
 
     public void setViewDistance(int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
@@ -185,9 +185,9 @@ public class World {
 
     public void init(BlockArrayTexture textures) throws IOException {
         box = new Box();
-        blockTextureID = textures.createArrayTexture();
+        blockTextureID = textures.getTexture().id;
         // Prepare for game
-        chunkShader = new ChunkShader(ItemList.blocks.textures.layerCount);
+        chunkShader = new BlockShader(BlockShader.FRAG_MODE_CHUNK);
 
         setViewDistance(Main.settings.viewDistance);
         chunkShader.setSkyColor(GameScene.backgroundColor);

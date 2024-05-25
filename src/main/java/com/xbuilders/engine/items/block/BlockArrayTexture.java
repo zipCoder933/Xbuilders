@@ -4,10 +4,10 @@
  */
 package com.xbuilders.engine.items.block;
 
+import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureFile;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +28,11 @@ public class BlockArrayTexture {
     public final int layerCount;
     private final int textureSize;
     private TextureFile[] filePaths;
+    final Texture texture;
+
+    public Texture getTexture() {
+        return texture;
+    }
 
     private static final String fileExtensionCode = "\\.(?i)(jpg|jpeg|png|gif|bmp|ico|tiff)$";
 
@@ -50,7 +55,7 @@ public class BlockArrayTexture {
         return fileMap.get(formatFilepath(name));
     }
 
-    private String formatFilepath(String path){
+    private String formatFilepath(String path) {
         return path.replaceAll("\\\\", "/").replaceAll(fileExtensionCode, "");
     }
 
@@ -78,7 +83,12 @@ public class BlockArrayTexture {
             filePaths[i] = imageFiles.get(i);
         }
         layerCount = filePaths.length;
-        System.out.println("Loaded " + layerCount + " Block texture files. Size: " + textureSize + " x " + textureSize);
+        System.out.println("Block Texture loaded; Layers: " + layerCount + "; Size: " + textureSize + " x " + textureSize);
+        this.texture = TextureUtils.makeTextureArray(textureSize, textureSize, false, filePaths);
+    }
+
+    public int createNewArrayTexture() throws IOException {
+        return TextureUtils.makeTextureArray(textureSize, textureSize, false, filePaths).id;
     }
 
     private void indexDirectory(File baseDir, File[] files, List<TextureFile> imageFiles) throws IOException {
@@ -91,7 +101,7 @@ public class BlockArrayTexture {
                         || name.toLowerCase().endsWith(".jpg")
                         || name.toLowerCase().endsWith(".jpeg")) {
 
-                    name = files[i].getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1);
+                    name = files[i].getAbsolutePath().substring(baseDir.getAbsolutePath().length() + 1);
                     name = formatFilepath(name);
 
 //                    System.out.println("\t"+name+" ("+index.get()+")");
@@ -116,11 +126,5 @@ public class BlockArrayTexture {
         }
     }
 
-    /**
-     * @return the texture ID
-     * @throws IOException
-     */
-    public int createArrayTexture() throws IOException {
-        return (TextureUtils.makeTextureArray(textureSize, textureSize, false, filePaths).id);
-    }
+
 }

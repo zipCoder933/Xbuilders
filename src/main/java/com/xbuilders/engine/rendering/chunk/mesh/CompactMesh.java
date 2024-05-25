@@ -7,6 +7,7 @@ package com.xbuilders.engine.rendering.chunk.mesh;
 import java.nio.IntBuffer;
 
 import com.xbuilders.engine.rendering.Mesh;
+import com.xbuilders.engine.rendering.chunk.BlockShader;
 import com.xbuilders.window.BaseWindow;
 import org.lwjgl.opengl.GL11;
 
@@ -28,11 +29,11 @@ public class CompactMesh implements Mesh {
     private int vao, vbo, textureID, vertLength;
     final static int VALUES_PER_VERTEX = 3;
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return vertLength == 0;
     }
 
-    public void reset(){
+    public void reset() {
         vertLength = 0;
     }
 
@@ -92,23 +93,33 @@ public class CompactMesh implements Mesh {
     }
 
     public void draw(boolean wireframe) {
-        if(isEmpty()){
+        if (isEmpty()) {
             return;
         }
         GL30.glBindVertexArray(vao);
-
         if (wireframe) {
             BaseWindow.printDebugsEnabled(false);
-            GL11.glLineWidth(1); //Set the line width
+            GL11.glLineWidth(2); //Set the line width
             BaseWindow.printDebugsEnabled(true);
             GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, 0);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Enable wireframe mode
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength);//We can specify what vertex to start at and how many verticies to draw
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Disable wireframe mode
+        } else {
+            GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, textureID);//required to assign texture to mesh
+            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want}
         }
+    }
 
-        GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, textureID);//required to assign texture to mesh
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want
+    public void draw(BlockShader shader, boolean wireframe) {
+        shader.bind();
+        if (wireframe) {
+            shader.setColorMode(1,1,1);
+            draw(true);
+            shader.setTextureMode();
+        }
+        draw(false);
+        shader.unbind();
     }
 
     @Override

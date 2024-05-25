@@ -6,6 +6,7 @@ package com.xbuilders.engine.rendering.chunk.withoutBakedLight;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
@@ -35,13 +36,9 @@ public class GreedyMesher {
     private static final int NEG_Y = 5;
 
     ChunkVoxels chunkVoxels;
-    final int[] dims;
-    HashMap<Short, Block> blockMap;
+    int[] dims;
 
-    public GreedyMesher(ChunkVoxels voxels, HashMap<Short, Block> blockMap) {
-        this.chunkVoxels = voxels;
-        this.blockMap = blockMap;
-        dims = new int[]{voxels.size.x, voxels.size.y, voxels.size.z};
+    public GreedyMesher() {
     }
 
     /**
@@ -51,9 +48,10 @@ public class GreedyMesher {
         return val1 == val2;
     }
 
-    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers,
+    public void compute(ChunkVoxels voxels, VertexSet opaqueBuffers, VertexSet transparentBuffers,
                         Vector3i chunkPositionOffset, MemoryStack stack, int lodLevel) {
-
+        this.chunkVoxels = voxels;
+        this.dims = new int[]{voxels.size.x, voxels.size.y, voxels.size.z};
         /**
          * These are just working variables for the algorithm - almost all taken
          * directly from Mikola Lysenko's javascript implementation.
@@ -119,7 +117,7 @@ public class GreedyMesher {
                     min = 0;
                 }
 
-                for (x[d] = min; x[d] < max;) {
+                for (x[d] = min; x[d] < max; ) {
                     /**
                      * -------------------------------------------------------------------
                      * We compute the mask
@@ -131,8 +129,8 @@ public class GreedyMesher {
                         for (x[u] = 0; x[u] < dims[u]; x[u]++) {
                             retrieveMaskVoxels(x, q, d, backChunk, forwardChunk, voxelPos,
                                     thisPlaneVoxel, nextPlaneVoxel, lodLevel);
-                            block = blockMap.get(thisPlaneVoxel.get(0));
-                            block1 = blockMap.get(nextPlaneVoxel.get(0));
+                            block = ItemList.blocks.getIdMap().get(thisPlaneVoxel.get(0));
+                            block1 = ItemList.blocks.getIdMap().get(nextPlaneVoxel.get(0));
 
                             if (block.isAir() || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
                                 thisPlaneVoxel.put(0, (short) 0);
@@ -144,7 +142,7 @@ public class GreedyMesher {
                             short maskValue = (thisPlaneVoxel.get(0) == 0 || nextPlaneVoxel.get(0) == 0) || (block.opaque != block1.opaque)
                                     //The opaque check is to prevent transparent mesh from overriding opaque one
                                     ? (backFace //add the voxel for either this plane or the next plane depending on our direction
-                                            ? nextPlaneVoxel.get(0) : thisPlaneVoxel.get(0)) : 0;
+                                    ? nextPlaneVoxel.get(0) : thisPlaneVoxel.get(0)) : 0;
                             mask.put(n++, maskValue);
                         }
                     }
@@ -157,7 +155,7 @@ public class GreedyMesher {
                     n = 0;
 
                     for (j = 0; j < dims[v]; j++) {
-                        for (i = 0; i < dims[u];) {
+                        for (i = 0; i < dims[u]; ) {
                             if (mask.get(n) != 0) {
 
                                 /*
@@ -175,9 +173,9 @@ public class GreedyMesher {
                                 //<editor-fold defaultstate="collapsed" desc="make the quad">
                                 //Compute the quad width
                                 for (quadSize.put(0, 1);
-                                        i + quadSize.get(0) < dims[u] && mask.get(n
-                                        + quadSize.get(0)) != 0 && equals(mask.get(n + quadSize.get(0)),
-                                        mask.get(n)); quadSize.put(0, quadSize.get(0) + 1))
+                                     i + quadSize.get(0) < dims[u] && mask.get(n
+                                             + quadSize.get(0)) != 0 && equals(mask.get(n + quadSize.get(0)),
+                                             mask.get(n)); quadSize.put(0, quadSize.get(0) + 1))
                                     ;
                                 {
                                 }
@@ -254,7 +252,7 @@ public class GreedyMesher {
     }
 
     private void retrieveMaskVoxels(int[] x, int[] q, int d, Chunk backChunk, Chunk forwardChunk,
-            Vector3i voxelPos, ShortBuffer thisPlaneVoxel, ShortBuffer nextPlaneVoxel, int lodLevel) {
+                                    Vector3i voxelPos, ShortBuffer thisPlaneVoxel, ShortBuffer nextPlaneVoxel, int lodLevel) {
         //Here we retrieve two voxel faces for comparison.
         //thisPlaneVoxel literaly faces forward, while nextPlaneVoxel faces backward
         if (x[d] >= 0) { //Calculate the voxel of THIS plane
@@ -294,7 +292,7 @@ public class GreedyMesher {
 
 //        short blockVal = (short) ((voxel >> 8) & 0xFFFF);
 //        byte sun = (byte) (voxel & 0xFF);
-        Block block = blockMap.get(blockVal);
+        Block block = ItemList.blocks.getIdMap().get(blockVal);
 
         if (block != null && block.texture != null) {
             int[] indexes = backFace ? indexes1 : indexes2;
@@ -345,25 +343,25 @@ public class GreedyMesher {
                     uvs[2].set(w, 0);
                 }
             }
-            
+
 
             for (int i = 0; i < 4; i++) {
                 Vector3f vertex = vertices[i];
                 completeVertex[i].set(
                         VertexSet.packFirstInt(vertex.x, vertex.y, (byte) side, texture.animationLength),
                         VertexSet.packSecondInt(vertex.z, uvs[i].x, uvs[i].y),
-                        VertexSet.packThirdInt(texture.id, (byte)15));
+                        VertexSet.packThirdInt(texture.id, (byte) 15));
             }
 
             if (block.opaque) {
                 for (int i = 0; i < indexes.length; i++) {
                     int j = indexes[i];
-                    buffers.vertex(0,completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
+                    buffers.vertex(0, completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
                 }
             } else {
                 for (int i = 0; i < indexes.length; i++) {
                     int j = indexes[i];
-                    transBuffers.vertex(0,completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
+                    transBuffers.vertex(0, completeVertex[j].x, completeVertex[j].y, completeVertex[j].z);
                 }
             }
         }
