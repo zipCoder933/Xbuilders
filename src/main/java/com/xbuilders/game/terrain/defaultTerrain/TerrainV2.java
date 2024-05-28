@@ -275,10 +275,12 @@ public class TerrainV2 extends Terrain {
                                     caveFrequency) <= 0.25)) {
                         chunk.data.setBlock(x, y, z, MyGame.BLOCK_STONE);
                         placeWater = false;
-                    } else if (wy == WATER_LEVEL && heat < -0.6f) {
-                        chunk.data.setBlock(x, y, z, MyGame.BLOCK_ICE_BLOCK);
-                    } else if (wy > WATER_LEVEL && placeWater) {
-                        chunk.data.setBlock(x, y, z, MyGame.BLOCK_WATER);
+                    } else if (wy <= heightmap) {
+                        if (wy == WATER_LEVEL && heat < -0.6f) {
+                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_ICE_BLOCK);
+                        } else if (wy > WATER_LEVEL && placeWater) {
+                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_WATER);
+                        }
                     }
 
                 }

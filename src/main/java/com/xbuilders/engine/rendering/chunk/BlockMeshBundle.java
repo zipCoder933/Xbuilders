@@ -7,18 +7,11 @@ package com.xbuilders.engine.rendering.chunk;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.rendering.chunk.withBakedLight.GreedyMesherWithLight;
-import com.xbuilders.engine.rendering.chunk.withBakedLight.NaiveMesherWithLight;
-import com.xbuilders.engine.rendering.chunk.withoutBakedLight.GreedyMesher;
 import com.xbuilders.engine.rendering.chunk.withoutBakedLight.NaiveMesher;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author zipCoder933
@@ -43,8 +36,8 @@ public class BlockMeshBundle {
     }
 
     public synchronized void init() {
-        opaqueMesh.reset();
-        transMesh.reset();
+        opaqueMesh.makeEmpty();
+        transMesh.makeEmpty();
     }
 
 

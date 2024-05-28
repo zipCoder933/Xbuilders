@@ -6,8 +6,6 @@ package com.xbuilders.engine.rendering.chunk;
 
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet_ResizableIntArray;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet_ResizableIntBuffer;
 import com.xbuilders.engine.rendering.chunk.withBakedLight.GreedyMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.withBakedLight.NaiveMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
@@ -17,7 +15,6 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
 /**
@@ -84,13 +81,13 @@ public class ChunkMeshBundle {
         transMesh = new CompactMesh();
         transMesh.setTextureID(texture);
 
-        greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position,ItemList.blocks.getIdMap());
+        greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position, ItemList.blocks.getIdMap());
         naiveMesher = new NaiveMesherWithLight(chunk.data, ItemList.blocks.getIdMap(), false);
     }
 
     public synchronized void init() {
-        opaqueMesh.reset();
-        transMesh.reset();
+        opaqueMesh.makeEmpty();
+        transMesh.makeEmpty();
     }
 
     public boolean meshesHaveAllSides;
@@ -108,13 +105,8 @@ public class ChunkMeshBundle {
 
                 greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1);
                 naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position);
-
-                if (opaqueBuffer.size() != 0) {
-                    opaqueBuffer.makeVertexSet();
-                }
-                if (transBuffer.size() != 0) {
-                    transBuffer.makeVertexSet();
-                }
+                opaqueBuffer.makeVertexSet(); //Buffer will automatically not make verteces if it is empty
+                transBuffer.makeVertexSet();
             }
         } catch (Exception ex) {
             ErrorHandler.saveErrorToLogFile(ex);

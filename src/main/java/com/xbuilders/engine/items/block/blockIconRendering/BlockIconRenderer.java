@@ -196,7 +196,8 @@ public class BlockIconRenderer {
         type.constructBlock(buffers, block, null,
                 blockNeghbors, lightNeghbors, 0, 0, 0);
 
-        mesh.sendBuffersToGPU(buffers.makeVertexSet());
+        buffers.makeVertexSet();
+        buffers.sendToMesh(mesh);
         buffers.reset();
         return true;
     }

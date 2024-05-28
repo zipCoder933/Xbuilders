@@ -33,7 +33,7 @@ public class CompactMesh implements Mesh {
         return vertLength == 0;
     }
 
-    public void reset() {
+    public void makeEmpty() {
         vertLength = 0;
     }
 
@@ -62,28 +62,32 @@ public class CompactMesh implements Mesh {
 
 
     public void sendBuffersToGPU(IntBuffer g_vertex_buffer_data) {
+        vertLength = g_vertex_buffer_data.capacity() / VALUES_PER_VERTEX;
+
+
         GL30.glBindVertexArray(vao);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, g_vertex_buffer_data, GL15.GL_STATIC_DRAW); //send data to the GPU
-
-        vertLength = g_vertex_buffer_data.capacity() / VALUES_PER_VERTEX;
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
     public void sendBuffersToGPU(int[] g_vertex_buffer_data, int size) {
+        vertLength = size / VALUES_PER_VERTEX;
+
+
         GL30.glBindVertexArray(vao);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, g_vertex_buffer_data, GL15.GL_STATIC_DRAW); //send data to the GPU
-
-        vertLength = size / VALUES_PER_VERTEX;
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
     public void sendBuffersToGPU(IntBuffer g_vertex_buffer_data, int size) {
+        vertLength = size / VALUES_PER_VERTEX;
+
+
         GL30.glBindVertexArray(vao);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, g_vertex_buffer_data, GL15.GL_STATIC_DRAW); //send data to the GPU
-        vertLength = size / VALUES_PER_VERTEX;
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
@@ -114,7 +118,7 @@ public class CompactMesh implements Mesh {
     public void draw(BlockShader shader, boolean wireframe) {
         shader.bind();
         if (wireframe) {
-            shader.setColorMode(1,1,1);
+            shader.setColorMode(1, 1, 1);
             draw(true);
             shader.setTextureMode();
         }

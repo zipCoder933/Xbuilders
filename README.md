@@ -15,14 +15,8 @@
 
 ## TODO Optimizations + Bufgixes
 * **performance optimizations when traveling thru world (IMPORTANT)**
-* If a naive meshed block is next to another chunk, the block is black
-  * ![bug.png](assets\notes\images\bug.png)
 * There is a bug where when too many block events are queued, the chunk does not update until the large ones are done
 * Sometimes block events keep recurring over and over again even though allowBlockEvents is false
-* After a chunk is updated, Some sprites still persist in mesh even if they are not actually in voxel data
-* There are sometimes dark (14) sun values that can be left behind when bulk block setting is done
-* **SUPER IMPORTANT! DO THIS FIRST!!!** There is a new rendering bottleneck (possibly surrounding chunk drawing?)
-  * Figure out how to fix it
 * **The game sometimes crashes**
   * https://inside.java/2020/12/03/crash-outside-the-jvm/
   * I think the cause of this could be from the byte-buffers not being handled in a safe manner. Byte buffers+off-heap memory can cause crashes if not handled properly.
@@ -43,8 +37,6 @@
   * Add fish
   * Add parrots
 * **player skins**
-* **Add copy/paste tools**
-  * Simplify block tool controls
 * **Add a conversion tool from XB2 to XB3**
   * Make all entity and tools match xb2 ids
 
@@ -55,6 +47,10 @@
 * **Fixed a bug where some chunks dont load meshes**
   * The issue was that the generation status was set to 2 after being set to 3
   * The solution was to only update the generation status if the new value was higher
+* There was one time when there was a rendering bottleneck when drawing chunks
+* After a chunk is updated, Some sprites still persist in mesh even if they are not actually in voxel data
+  * The culprit to this was that the buffers were not updating unnless they were not empty, and so they wouldnt send to GPU
+  * To prevent future bugs, MAKE SURE that the mesh is marked as empty if there is no vertex data to send
 
 ### Textures
 Textures taken mostly from Pixel Perfection, with some handcrafted ones, and textures taken from open source minetest texture packs as well:

@@ -31,11 +31,11 @@ public class NaiveMesherWithLight {
     boolean generateAll;
 
     public NaiveMesherWithLight(ChunkVoxels chunkPreMeshData, HashMap<Short, Block> blockList,
-            boolean generateAll) {
+                                boolean generateAll) {
         this.generateAll = generateAll;
         this.blockList = blockList;
         this.data = chunkPreMeshData;
-        dims = new int[] { data.size.x, data.size.y, data.size.z };
+        dims = new int[]{data.size.x, data.size.y, data.size.z};
     }
 
     public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, Vector3i chunkPosition) {
@@ -74,10 +74,12 @@ public class NaiveMesherWithLight {
                         } else if (negXNeghbor != null) {
                             neighbors[BlockType.NEG_X] = ItemList
                                     .getBlock(negXNeghbor.data.getBlock(negXNeghbor.data.size.x - 1, y, z));
-                            lightNeghbors[BlockType.NEG_X] = negXNeghbor.data
-                                    .getPackedLight(negXNeghbor.data.size.x - 1, y, z);
+                            lightNeghbors[BlockType.NEG_X] = block.opaque ? negXNeghbor.data
+                                    .getPackedLight(negXNeghbor.data.size.x - 1, y, z)
+                                    : centerLight;
                         } else {
                             neighbors[BlockType.NEG_X] = BlockList.BLOCK_AIR;
+                            lightNeghbors[BlockType.NEG_X] = 15;
                         }
 
                         if (x < data.size.x - 1) {
@@ -86,9 +88,11 @@ public class NaiveMesherWithLight {
                                     : centerLight;
                         } else if (posXNeghbor != null) {
                             neighbors[BlockType.POS_X] = ItemList.getBlock(posXNeghbor.data.getBlock(0, y, z));
-                            lightNeghbors[BlockType.POS_X] = posXNeghbor.data.getPackedLight(0, y, z);
+                            lightNeghbors[BlockType.POS_X] = block.opaque ? posXNeghbor.data.getPackedLight(0, y, z)
+                                    : centerLight;
                         } else {
                             neighbors[BlockType.POS_X] = BlockList.BLOCK_AIR;
+                            lightNeghbors[BlockType.POS_X] = 15;
                         }
 
                         if (y > 0) {
@@ -98,10 +102,12 @@ public class NaiveMesherWithLight {
                         } else if (negYNeghbor != null) {
                             neighbors[BlockType.POS_Y] = ItemList
                                     .getBlock(negYNeghbor.data.getBlock(x, negYNeghbor.data.size.y - 1, z));
-                            lightNeghbors[BlockType.POS_Y] = negYNeghbor.data.getPackedLight(x,
-                                    negYNeghbor.data.size.y - 1, z);
+                            lightNeghbors[BlockType.POS_Y] = block.opaque ? negYNeghbor.data.getPackedLight(x,
+                                    negYNeghbor.data.size.y - 1, z)
+                                    : centerLight;
                         } else {
                             neighbors[BlockType.POS_Y] = BlockList.BLOCK_AIR;
+                            lightNeghbors[BlockType.POS_Y] = 15;
                         }
 
                         if (y < data.size.y - 1) {
@@ -110,9 +116,11 @@ public class NaiveMesherWithLight {
                                     : centerLight;
                         } else if (posYNeghbor != null) {
                             neighbors[BlockType.NEG_Y] = ItemList.getBlock(posYNeghbor.data.getBlock(x, 0, z));
-                            lightNeghbors[BlockType.NEG_Y] = posYNeghbor.data.getPackedLight(x, 0, z);
+                            lightNeghbors[BlockType.NEG_Y] = block.opaque ? posYNeghbor.data.getPackedLight(x, 0, z)
+                                    : centerLight;
                         } else {
                             neighbors[BlockType.NEG_Y] = BlockList.BLOCK_AIR;
+                            lightNeghbors[BlockType.NEG_Y] = 15;
                         }
 
                         if (z > 0) {
@@ -122,10 +130,12 @@ public class NaiveMesherWithLight {
                         } else if (negZNeghbor != null) {
                             neighbors[BlockType.NEG_Z] = ItemList
                                     .getBlock(negZNeghbor.data.getBlock(x, y, negZNeghbor.data.size.z - 1));
-                            lightNeghbors[BlockType.NEG_Z] = negZNeghbor.data.getPackedLight(x, y,
-                                    negZNeghbor.data.size.z - 1);
+                            lightNeghbors[BlockType.NEG_Z] = block.opaque ? negZNeghbor.data.getPackedLight(x, y,
+                                    negZNeghbor.data.size.z - 1)
+                                    : centerLight;
                         } else {
                             neighbors[BlockType.NEG_Z] = BlockList.BLOCK_AIR;
+                            lightNeghbors[BlockType.NEG_Z] = 15;
                         }
 
                         if (z < data.size.z - 1) {
@@ -135,16 +145,16 @@ public class NaiveMesherWithLight {
                         } else if (posZNeghbor != null) {
                             neighbors[BlockType.POS_Z] = ItemList
                                     .getBlock(posZNeghbor.data.getBlock(x, y, 0));
-                            lightNeghbors[BlockType.POS_Z] = posZNeghbor.data.getPackedLight(x, y, 0);
+                            lightNeghbors[BlockType.POS_Z] = block.opaque ? posZNeghbor.data.getPackedLight(x, y, 0)
+                                    : centerLight;
                         } else {
                             neighbors[BlockType.POS_Z] = BlockList.BLOCK_AIR;
+                            lightNeghbors[BlockType.POS_Z] = 15;
                         }
 
                         blockData = data.getBlockData(x, y, z);
                         BlockType type = ItemList.blocks.getBlockTypeID(block.type);
                         if (type == null) {
-                            // System.err.println("NaiveMesherWithLight: BlockType " + block.type + " not
-                            // found");
                             continue;
                         }
                         try {

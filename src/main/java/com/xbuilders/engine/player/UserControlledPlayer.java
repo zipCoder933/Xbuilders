@@ -59,7 +59,8 @@ public class UserControlledPlayer extends Player {
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
     private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
-
+    public static final int KEY_CREATE_MOUSE_BUTTON = GLFW.GLFW_KEY_EQUAL;
+    public static final int KEY_DELETE_MOUSE_BUTTON = GLFW.GLFW_KEY_MINUS;
 
     public boolean leftKeyPressed() {
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
@@ -346,6 +347,16 @@ public class UserControlledPlayer extends Player {
                     case KEY_CHANGE_RAYCAST_MODE -> {
                         camera.cursorRay.cursorRayHitAllBlocks = false;
                         raycastDistChanged = true;
+                    }
+                    case KEY_CREATE_MOUSE_BUTTON -> {
+                        if (!camera.cursorRay.createClickEvent()) {
+                            setItem(Main.game.getSelectedItem());
+                        }
+                    }
+                    case KEY_DELETE_MOUSE_BUTTON -> {
+                        if (!camera.cursorRay.destroyClickEvent()) {
+                            removeItem();
+                        }
                     }
                     default -> {
                     }

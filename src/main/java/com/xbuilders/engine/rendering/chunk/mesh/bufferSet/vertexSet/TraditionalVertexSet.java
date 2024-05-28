@@ -21,16 +21,17 @@ public class TraditionalVertexSet extends VertexSet {
         return size;
     }
 
-    private void clear() {//Clear the arraylists
-        for (TemporaryVertexList vert : verts) {
-            vert.clear();
-        }
-    }
 
-    public IntBuffer makeVertexSet() {     //The main contributor to the memory usage is the IntBuffer that gets created here
+    public void makeVertexSet() {     //The main contributor to the memory usage is the IntBuffer that gets created here
+        int size = size();
+        if (size == 0) { //This not only skips the creation of the buffer, but also prevents empty vertex sets from being created
+            reset(); //Reset makes the buffer null, preventing it from being sent to the mesh
+            return;
+        }
+
         int vertIndex = 0;
 //        buffer.resize(size() * BufferSet.VECTOR_ELEMENTS);
-        buffer = MemoryUtil.memAllocInt(size() * VECTOR_ELEMENTS);
+        buffer = MemoryUtil.memAllocInt(size * VECTOR_ELEMENTS);
 
         for (int buffIndex = 0; buffIndex < verts.length; buffIndex++) {
             for (int i = 0; i < verts[buffIndex].size(); i++) {
@@ -43,21 +44,21 @@ public class TraditionalVertexSet extends VertexSet {
             }
         }
 //        buffer.flip();
-        clear();
-        return buffer;
+        for (TemporaryVertexList vert : verts) {
+            vert.clear();
+        }
     }
 
     public void sendToMesh(CompactMesh mesh) {
-        if (buffer == null) {
-            return;
+        mesh.makeEmpty();//This is crucial, so that empty meshes are declared as empty
+        if (buffer != null) {//If the buffer is not null, send it to the mesh
+            mesh.sendBuffersToGPU(buffer);
+            reset();
         }
-        mesh.sendBuffersToGPU(buffer);
-        reset();
     }
 
     public void reset() {
-        if (buffer != null)
-            MemoryUtil.memFree(buffer);
+        if (buffer != null) MemoryUtil.memFree(buffer);
         buffer = null;
     }
     //</editor-fold>
