@@ -21,7 +21,7 @@
 * Sometimes block events keep recurring over and over again even though allowBlockEvents is false
 * After a chunk is updated, Some sprites still persist in mesh even if they are not actually in voxel data
 * There are sometimes dark (14) sun values that can be left behind when bulk block setting is done
-* There is a new rendering bottleneck (possibly surrounding chunk drawing?)
+* **SUPER IMPORTANT! DO THIS FIRST!!!** There is a new rendering bottleneck (possibly surrounding chunk drawing?)
   * Figure out how to fix it
 * **The game sometimes crashes**
   * https://inside.java/2020/12/03/crash-outside-the-jvm/
