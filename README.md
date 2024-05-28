@@ -24,6 +24,7 @@
 * There is a new rendering bottleneck (possibly surrounding chunk drawing?)
   * Figure out how to fix it
 * **The game sometimes crashes**
+  * https://inside.java/2020/12/03/crash-outside-the-jvm/
   * I think the cause of this could be from the byte-buffers not being handled in a safe manner. Byte buffers+off-heap memory can cause crashes if not handled properly.
   * TODO: Switch out chunk voxels to use arrays instead of off-heap buffers
     * Do a search of the ENTIRE project to find all bytebuffers, shortbuffers, floatbuffers and intbuffers
