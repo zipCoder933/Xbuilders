@@ -432,6 +432,8 @@ public class World {
         chunkShader.bind();
         chunkShader.tickAnimation();
 
+
+
         chunksToRender.forEach(chunk -> {
             if (chunk.inFrustum) {
                 // Drawing boxes is a major FPS bottleneck
@@ -466,6 +468,7 @@ public class World {
             }
         });
 
+        frameTester.startProcess();
         chunksToRender.forEach(chunk -> {
             if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
                 if (!chunk.meshes.transMesh.isEmpty()) {

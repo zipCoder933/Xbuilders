@@ -6,10 +6,12 @@ package com.xbuilders.game;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Tool;
+import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.items.blocks.*;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
@@ -59,6 +61,11 @@ public class MyGame extends Game {
         return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
     }
 
+    public boolean setBlock(final CursorRay ray, boolean isCreationMode) {
+        Item item = getSelectedItem();
+        return blockTools.getSelectedTool().setBlock(item, ray, isCreationMode);
+    }
+
     public static class GameInfo {
         public final Item[] playerBackpack;
 
@@ -102,7 +109,7 @@ public class MyGame extends Game {
         try {
             hotbar = new Hotbar(ctx, window, uires);
             inventory = new Inventory(ctx, ItemList.getAllItems(), window, uires, hotbar);
-            blockTools = new BlockTools(ctx, window, uires);
+            blockTools = new BlockTools(ctx, window, uires,GameScene.player.camera.cursorRay);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
         }

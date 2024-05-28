@@ -78,47 +78,48 @@ public class CursorRay {
         boundaryConsumer = null;
     }
 
-    public boolean createClickEvent(int button, int action, int mods) {
-        if (action == GLFW.GLFW_PRESS) {
-            if (button == UserControlledPlayer.CREATE_MOUSE_BUTTON) {
-                boolean clickThrough = clickEvent();
-                if (clickThrough) {
-                    if (useBoundary) {
-                        boundaryClickEvent(true);
-                        return false;
-                    }
-                }
-                return clickThrough;
-            }
+    /**
+     * @return if the event was consumed
+     */
+    public boolean createClickEvent() {
+        if (Main.game.setBlock(this, true)) {
+            return true;
+        } else if (itemClickEvent()) {
+            return true;
+        } else if (useBoundary) {
+            boundaryClickEvent(true);
+            return true;
         }
         return false;
     }
 
-    private boolean clickEvent() {
+    /**
+     * @return if the event was consumed
+     */
+    public boolean destroyClickEvent() {
+        if (Main.game.setBlock(this, false)) {
+            return true;
+        } else if (useBoundary) {
+            boundaryClickEvent(false);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * @return if the event was consumed
+     */
+    private boolean itemClickEvent() {
         if (cursorRay.entity != null) {
             return cursorRay.entity.run_ClickEvent();
         } else {
             Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
             block.run_ClickEvent(getHitPos());
-            if (block.clickThrough()) {
-
-            }
-            return block.clickThrough(); //If we want to permit the click event to continue
+            return !block.clickThrough(); //If the event was consumed
         }
     }
 
-    public boolean destroyClickEvent(int button, int action, int mods) {
-        if (action == GLFW.GLFW_PRESS) {
-            if (button == UserControlledPlayer.DELETE_MOUSE_BUTTON) {
-                if (useBoundary) {
-                    boundaryClickEvent(false);
-                    return false;
-                }
-                return true; //If we want to permit the click event to continue
-            }
-        }
-        return false;
-    }
 
     private void boundaryClickEvent(boolean create) {
         if (!boundary_isStartNodeSet) {

@@ -21,6 +21,8 @@
 * Sometimes block events keep recurring over and over again even though allowBlockEvents is false
 * After a chunk is updated, Some sprites still persist in mesh even if they are not actually in voxel data
 * There are sometimes dark (14) sun values that can be left behind when bulk block setting is done
+* There is a new rendering bottleneck (possibly surrounding chunk drawing?)
+  * Figure out how to fix it
 * **The game sometimes crashes**
   * I think the cause of this could be from the byte-buffers not being handled in a safe manner. Byte buffers+off-heap memory can cause crashes if not handled properly.
   * TODO: Switch out chunk voxels to use arrays instead of off-heap buffers

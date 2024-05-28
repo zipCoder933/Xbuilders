@@ -44,11 +44,11 @@ public class ChunkVoxels {
     public int getIndexOfCoords(final int x, final int y, final int z) {
         int indx = x + this.size.x * (y + this.size.y * z);
         //We only have to check for boundaries if this is a byte buffer
-//        if (indx >= dataSize || indx < 0) {// IMPORTANT: If we set a block out of bounds, it overflows and causes chunk
-//                                           // blocks to get mangled
-//            throw new IndexOutOfBoundsException(
-//                    "Chunk voxel coordinates (" + x + ", " + y + ", " + z + ") out of bounds!");
-//        }
+        if (indx >= dataSize || indx < 0) {// IMPORTANT: If we set a block out of bounds, it overflows and causes chunk
+                                           // blocks to get mangled
+            throw new IndexOutOfBoundsException(
+                    "Chunk voxel coordinates (" + x + ", " + y + ", " + z + ") out of bounds!");
+        }
         return indx;
     }
 

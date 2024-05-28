@@ -1,6 +1,7 @@
 package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
@@ -24,12 +25,12 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public class BlockTools extends GameUIElement {
 
-    public BlockTools(NkContext ctx, NKWindow window, UIResources uires) {
+    public BlockTools(NkContext ctx, NKWindow window, UIResources uires, CursorRay cursorRay) {
         super(ctx, window, uires);
-        tools.add(new DefaultTool(this));
-        tools.add(new Tool_BoundarySetDelete(this));
-        tools.add(new CopyTool(this));
-        tools.add(new PasteTool(this));
+        tools.add(new DefaultTool(this, cursorRay));
+        tools.add(new Tool_BoundarySetDelete(this, cursorRay));
+        tools.add(new CopyTool(this, cursorRay));
+        tools.add(new PasteTool(this, cursorRay));
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();

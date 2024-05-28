@@ -1,5 +1,6 @@
 package com.xbuilders.game.blockTools;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.math.AABB;
@@ -11,10 +12,12 @@ public abstract class BlockTool {
 
     public final String name;
     public final BlockTools blockTools;
+    public final CursorRay cursorRay;
 
-    public BlockTool(String name, BlockTools blockTools) {
+    public BlockTool(String name, BlockTools blockTools, CursorRay cursorRay) {
         this.name = name;
         this.blockTools = blockTools;
+        this.cursorRay = cursorRay;
     }
 
 
@@ -38,7 +41,7 @@ public abstract class BlockTool {
     }
 
 
-    public boolean setBlock(Item item, final CursorRay ray, final BlockData data, boolean isCreationMode) {
+    public boolean setBlock(Item item, final CursorRay ray, boolean isCreationMode) {
         return false;
     }
 

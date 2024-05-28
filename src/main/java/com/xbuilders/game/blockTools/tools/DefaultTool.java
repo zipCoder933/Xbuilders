@@ -1,12 +1,13 @@
 package com.xbuilders.game.blockTools.tools;
 
+import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
 public class DefaultTool extends BlockTool {
-    public DefaultTool(BlockTools tools) {
-        super("Default",tools);
+    public DefaultTool(BlockTools tools, CursorRay cursorRay) {
+        super("Default",tools,cursorRay);
     }
 
     @Override

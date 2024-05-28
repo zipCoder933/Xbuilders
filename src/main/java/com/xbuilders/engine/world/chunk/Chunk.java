@@ -262,17 +262,7 @@ public class Chunk {
                 pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
             }
 
-            if (getGenerationStatus() == GEN_SUN_LOADED) {
-                /**
-                 * The cacheNeighbors is still a bottleneck. I have kind of fixed it
-                 * by only calling it every 10th frame
-                 */
-                World.frameTester.startProcess();
-                if (frame % 10 == 0 || isSettingUpWorld) {
-                    neghbors.cacheNeighbors();
-                }
-                World.frameTester.endProcess("red Cache Neghbors");
-
+            if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {
                 if (neghbors.allNeghborsLoaded) {
                     loadFuture = null;
                     World.frameTester.startProcess();
@@ -285,6 +275,16 @@ public class Chunk {
                         return meshes;
                     });
                     World.frameTester.endProcess("red Compute meshes");
+                }else{
+                    /**
+                     * The cacheNeighbors is still a bottleneck. I have kind of fixed it
+                     * by only calling it every 10th frame
+                     */
+                    World.frameTester.startProcess();
+                    if (frame % 20 == 0 || isSettingUpWorld) {
+                        neghbors.cacheNeighbors();
+                    }
+                    World.frameTester.endProcess("red Cache Neghbors");
                 }
             }
         }

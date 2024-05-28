@@ -41,7 +41,7 @@ public class UserControlledPlayer extends Player {
 
     final static float FLY_SPEED = 12f;
     final float DEFAULT_SPEED = 12f;
-    final float RUN_SPEED = DEFAULT_SPEED*5;
+    final float RUN_SPEED = DEFAULT_SPEED * 5;
 
     Matrix4f projection;
     Matrix4f view;
@@ -296,10 +296,14 @@ public class UserControlledPlayer extends Player {
     boolean canFly = true;
 
     public void mouseButtonEvent(int button, int action, int mods) {
-        if (camera.cursorRay.createClickEvent(button, action, mods)) {
-            setItem(Main.game.getSelectedItem());
-        } else if (camera.cursorRay.destroyClickEvent(button, action, mods)) {
-            removeItem();
+        if (action == GLFW.GLFW_PRESS) {
+            if (button == UserControlledPlayer.CREATE_MOUSE_BUTTON
+                    && !camera.cursorRay.createClickEvent()) {
+                setItem(Main.game.getSelectedItem());
+            } else if (button == UserControlledPlayer.DELETE_MOUSE_BUTTON
+                    && !camera.cursorRay.destroyClickEvent()) {
+                removeItem();
+            }
         }
     }
 

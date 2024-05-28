@@ -124,7 +124,7 @@ public class BlockEventPipeline {
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
-            System.out.println("\tBlock: " + blockHist.toString());
+//            System.out.println("\tBlock: " + blockHist.toString());
             if (!blockHist.previousBlock.equals(blockHist.currentBlock)) { //If the 2 blocks are different
                 BlockType type = ItemList.blocks.getBlockTypeID(blockHist.currentBlock.type);
                 if (type == null) return;

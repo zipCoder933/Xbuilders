@@ -163,7 +163,7 @@ public class GameScene implements WindowEvents {
         world.init(ItemList.blocks.textures);
         player.init(window, world, projection, view);
         ui.init();
-
+        Main.game.uiInit(window.ctx, window, uiResources, ui);
     }
 
     boolean holdMouse;

@@ -149,6 +149,10 @@ public abstract class Entity {
     }
 
 
+    /**
+     *
+     * @return if we want to permit the click event to continue
+     */
     public boolean run_ClickEvent() {
         return false;
     }

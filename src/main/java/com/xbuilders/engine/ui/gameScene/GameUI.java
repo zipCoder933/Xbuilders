@@ -47,7 +47,6 @@ public class GameUI {
         this.game = game;
         crosshair = new Crosshair(window.getWidth(), window.getHeight());
         infoBox = new InfoText(ctx, window, uires);
-        game.uiInit(ctx, window, uires, this);
     }
 
     public void init() {

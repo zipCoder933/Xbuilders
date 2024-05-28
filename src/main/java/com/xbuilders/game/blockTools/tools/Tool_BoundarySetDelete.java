@@ -15,8 +15,8 @@ import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
 public class Tool_BoundarySetDelete extends BlockTool {
-    public Tool_BoundarySetDelete(BlockTools tools) {
-        super("Boundary", tools);
+    public Tool_BoundarySetDelete(BlockTools tools, CursorRay cursorRay) {
+        super("Boundary", tools, cursorRay);
     }
 
     public String getName() {
@@ -36,10 +36,6 @@ public class Tool_BoundarySetDelete extends BlockTool {
         });
     }
 
-    @Override
-    public boolean setBlock(Item item, CursorRay ray, BlockData data, boolean isCreationMode) {
-        return false;
-    }
 
     private void blockBoundarySetEvent(AABB aabb, boolean created) {
         if (Main.game.getSelectedItem() == null || Main.game.getSelectedItem().getType() != ItemType.BLOCK) return;
