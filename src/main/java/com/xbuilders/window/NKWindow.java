@@ -4,6 +4,7 @@
  */
 package com.xbuilders.window;
 
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.window.render.Shader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
@@ -682,7 +683,11 @@ public abstract class NKWindow extends BaseWindow {
 
                 nk_buffer_init_fixed(vbuf, vertices/*, max_vertex_buffer*/);
                 nk_buffer_init_fixed(ebuf, elements/*, max_element_buffer*/);
-                nk_convert(ctx, cmds, vbuf, ebuf, config);//TODO: This seems to be causing a lot of crashes
+                try {
+                    nk_convert(ctx, cmds, vbuf, ebuf, config);//TODO: This seems to be causing a lot of crashes
+                } catch (Throwable e) { //We will see if his helps anything
+                    ErrorHandler.handleFatalError(e);
+                }
             }
             glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
             glUnmapBuffer(GL_ARRAY_BUFFER);
