@@ -682,7 +682,7 @@ public abstract class NKWindow extends BaseWindow {
 
                 nk_buffer_init_fixed(vbuf, vertices/*, max_vertex_buffer*/);
                 nk_buffer_init_fixed(ebuf, elements/*, max_element_buffer*/);
-                nk_convert(ctx, cmds, vbuf, ebuf, config);
+                nk_convert(ctx, cmds, vbuf, ebuf, config);//TODO: This seems to be causing a lot of crashes
             }
             glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
             glUnmapBuffer(GL_ARRAY_BUFFER);

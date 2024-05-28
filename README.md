@@ -17,8 +17,21 @@
 * **performance optimizations when traveling thru world (IMPORTANT)**
 * There is a bug where when too many block events are queued, the chunk does not update until the large ones are done
 * Sometimes block events keep recurring over and over again even though allowBlockEvents is false
-* **The game sometimes crashes**
-  * https://inside.java/2020/12/03/crash-outside-the-jvm/
+
+### The game sometimes crashes
+https://inside.java/2020/12/03/crash-outside-the-jvm/
+**FROM NOW ON:** Record every log file that you get and put the traces here:
+Most of them seem to be coming from here:
+
+* J 3998  org.lwjgl.nuklear.Nuklear.nnk_convert(JJJJJ)I (0 bytes) @ 0x0000019cf26002fe [0x0000019cf26002a0+0x000000000000005e]
+* J 5054 c1 org.lwjgl.nuklear.Nuklear.nk_convert(Lorg/lwjgl/nuklear/NkContext;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkConvertConfig;)I (39 bytes) @ 0x0000019ceb11ff0c [0x0000019ceb11f900+0x000000000000060c]
+* J 3978 c1 com.xbuilders.window.NKWindow.NKrender(III)V (645 bytes) @ 0x0000019ceaa6c0bc [0x0000019ceaa69ae0+0x00000000000025dc]
+* j  com.xbuilders.engine.ui.gameScene.GameUI.draw()V+113
+* j  com.xbuilders.engine.gameScene.GameScene.render()V+101
+* J 5062 c1 com.xbuilders.game.Main.render()V (22 bytes) @ 0x0000019ceb121444 [0x0000019ceb121360+0x00000000000000e4]
+* j  com.xbuilders.game.Main.run()V+49
+* j  com.xbuilders.game.Main.main([Ljava/lang/String;)V+75
+
   * I think the cause of this could be from the byte-buffers not being handled in a safe manner. Byte buffers+off-heap memory can cause crashes if not handled properly.
   * TODO: Switch out chunk voxels to use arrays instead of off-heap buffers
     * Do a search of the ENTIRE project to find all bytebuffers, shortbuffers, floatbuffers and intbuffers
