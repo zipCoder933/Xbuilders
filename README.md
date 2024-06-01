@@ -6,7 +6,23 @@
 ## Overview
 This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
 
+The game uses greedy meshing to generate chunks and supports light, custom block types and mobile entities.
+
 This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
+
+## Current Features
+I plan on adding all the features from XBuilders 2 into this game, For now, here are the currenly available features in XBuilders 3
+* Block tools
+  * Block boundary
+  * Copy/Paste
+* Decorative blocks
+  * slab,stairs,fence,fence gate, trapdoor, door, pillar, floor item, vines, torch, lamp and glass pane
+* Animals (Entity)
+  * Fox, horse, dog, rabbit and cat
+* Torchlight and sunlight
+* Growable trees
+* Smooth mesh lighting
+* Animated block textures
 
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
@@ -18,6 +34,7 @@ This game can run at top performance at up to a 400 voxel view radius. It has a 
 
 ## TODO Optimizations + Bufgixes
 * **performance optimizations when traveling thru world (IMPORTANT)**
+* For some reason FPS slows down to about 30FPS when living in complex terrains like default terrain or complex terrain
 * There is a bug where when too many block events are queued, the chunk does not update until the large ones are done
 * Sometimes block events keep recurring over and over again even though allowBlockEvents is false
 
