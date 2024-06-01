@@ -1,7 +1,12 @@
-# (![Xbuilders landscape]&#40;./assets/images/b.jpg&#41;)
+![Xbuilders landscape](./assets/images/b.jpg)
 
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
+
+## Overview
+This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
+
+This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
 
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
@@ -106,10 +111,7 @@ Right-click|delete block
 Left-click|create block
 
 
-## Overview
-This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
 
-This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
 
 
 
