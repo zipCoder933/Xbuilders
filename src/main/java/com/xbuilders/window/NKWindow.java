@@ -224,7 +224,7 @@ public abstract class NKWindow extends BaseWindow {
     public static final int MAX_VERTEX_BUFFER = 512 * 1024;
     public static final int MAX_ELEMENT_BUFFER = 128 * 1024;
     public static final NkDrawVertexLayoutElement.Buffer VERTEX_LAYOUT;
-    public int frameCount;
+
 
     @Override
     public void startWindow(String title, int width, int height) {
@@ -235,7 +235,6 @@ public abstract class NKWindow extends BaseWindow {
         } catch (IOException ex) {
             Logger.getLogger(NKWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        frameCount = 0;
     }
 
     static {
@@ -388,7 +387,6 @@ public abstract class NKWindow extends BaseWindow {
     public void endFrame() {
         glfwSwapBuffers(getId());
         tickMPF();
-        frameCount++;
     }
 
     @Override
@@ -683,11 +681,7 @@ public abstract class NKWindow extends BaseWindow {
 
                 nk_buffer_init_fixed(vbuf, vertices/*, max_vertex_buffer*/);
                 nk_buffer_init_fixed(ebuf, elements/*, max_element_buffer*/);
-                try {
-                    nk_convert(ctx, cmds, vbuf, ebuf, config);//TODO: This seems to be causing a lot of crashes
-                } catch (Throwable e) { //We will see if his helps anything
-                    ErrorHandler.handleFatalError(e);
-                }
+                nk_convert(ctx, cmds, vbuf, ebuf, config);//TODO: This line is causing a lot of crashes
             }
             glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
             glUnmapBuffer(GL_ARRAY_BUFFER);

@@ -25,14 +25,14 @@ public class DevTerrain extends Terrain {
 
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
-//        System.out.println("Generating Dev Terrain");
-        for (int cx = 0; cx < WIDTH; cx++) {
-            for (int cy = 0; cy < WIDTH; cy++) {
+        int wy;
+        int heightmap = 200;
+
+        for (int cy = 0; cy < WIDTH; cy++) {
+            wy = cy + (chunk.position.y * Chunk.WIDTH);
+
+            for (int cx = 0; cx < WIDTH; cx++) {
                 for (int cz = 0; cz < WIDTH; cz++) {
-
-                    int wy = cy + (chunk.position.y * Chunk.WIDTH);
-                    int heightmap = 200;
-
                     if (wy >= heightmap) {
                         if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
                             chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_SAND);

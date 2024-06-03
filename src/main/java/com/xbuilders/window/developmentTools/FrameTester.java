@@ -1,4 +1,4 @@
-package com.xbuilders.window.development;
+package com.xbuilders.window.developmentTools;
 
 import com.xbuilders.window.utils.preformance.Stopwatch;
 
@@ -10,8 +10,17 @@ import java.util.Map;
 
 public class FrameTester extends JFrame {
     private JEditorPane editorPane;
-    private final Stopwatch stopwatch = new Stopwatch();
+    private final Stopwatch processWatch = new Stopwatch();
+    private final Stopwatch frameWatch = new Stopwatch();
     long lastUpdate = 0;
+    boolean enabled = true;
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        setVisible(enabled);
+    }
+
+//    GraphPanel percentPanel = new GraphPanel();
     private int updateTimeMS = 500;
 
     public void setUpdateTimeMS(int updateTimeMS) {
@@ -24,9 +33,8 @@ public class FrameTester extends JFrame {
     boolean frameStarted = false;
 
     //For the current period, a period ends when the updateStatus() method is called
-    private long processTimeNanos = 0;
+    private long timeOfAllProcesses = 0;
     private int periodFrameCount = 0;
-    private long periodStartNanos = 0;
 
 
     public void setStarted(boolean started) {
@@ -39,20 +47,33 @@ public class FrameTester extends JFrame {
     }
 
     static class TimeList {
+
         public long totalTime = 0;
     }
 
+    long totalPeriodTime = 0;
 
-    public void startFrame() {
-        if (started) {
-            if (System.currentTimeMillis() - lastUpdate > updateTimeMS) {
-                updateStatus();
-                lastUpdate = System.currentTimeMillis();
-            }
+    public void __startFrame() {
+        if (started && enabled) {
+            frameWatch.start();
+            processWatch.start();
+        }
+    }
 
-            stopwatch.start();
+    public void __endFrame() {
+        if (started && enabled) {
+            frameWatch.calculateElapsedTime();
+//            if(periodFrameCount % 10 == 0)System.out.println("Frame time: " + frameWatch.getElapsedMilliseconds());
+            totalPeriodTime += frameWatch.getElapsedNanoseconds();
             periodFrameCount++;
-//            System.out.println("\n\nstart frame");
+
+            if (System.currentTimeMillis() - lastUpdate > updateTimeMS) {
+                updateStatus(totalPeriodTime);
+                lastUpdate = System.currentTimeMillis();
+                timeOfAllProcesses = 0;
+                periodFrameCount = 0;
+                totalPeriodTime = 0;
+            }
         } else if (frameStarted) {
             //Finish up if it was stopped
             processList.clear();
@@ -63,7 +84,7 @@ public class FrameTester extends JFrame {
 
     public void startProcess() {
         if (frameStarted) {
-            stopwatch.start();
+            processWatch.start();
         }
     }
 
@@ -81,33 +102,23 @@ public class FrameTester extends JFrame {
             if (!counterList.containsKey(name)) {
                 counterList.put(name, 0L);
             }
-            counterList.put(name, (long)value);
+            counterList.put(name, (long) value);
         }
     }
-
-
-    public void endProcess(String... names) {
-        endProcess(String.join(" > ", names));
-    }
-
     /**
-     * 
      * @param name
      * @return elapsed milliseconds
      */
     public long endProcess(String name) {
         if (frameStarted) {
-            stopwatch.calculateElapsedTime();
-
             if (!processList.containsKey(name)) {
                 processList.put(name, new TimeList());
             }
-            processList.get(name).totalTime += stopwatch.getElapsedNanoseconds();
-            processTimeNanos += stopwatch.getElapsedNanoseconds();
-            long elapsedMS = stopwatch.getElapsedMilliseconds();
-//            System.out.println("process " + name + ", time " + stopwatch.getElapsedMicroseconds());
-            stopwatch.start();
-            return elapsedMS;
+            processWatch.calculateElapsedTime();
+            processList.get(name).totalTime += processWatch.getElapsedNanoseconds();
+            timeOfAllProcesses += processWatch.getElapsedNanoseconds();
+            processWatch.start();
+            return processWatch.getElapsedMilliseconds();
         }
         return 0;
     }
@@ -127,18 +138,26 @@ public class FrameTester extends JFrame {
     private final String startHtml = "<html><style>" +
             "table, th, td {border: 1px solid black;}" +
             ".bar{width: 80px; height: 10px;background-color: #ddd; }" +
-            ".bar div{background-color: blue; height: 10px;}</style><body><b>This period:</b>";
+            ".bar div{background-color: blue; height: 10px;}</style><body><p>This period:</p>";
 
 
-    private void updateStatus() {
+    private void updateStatus(long totalPeriodTime) {
         StringBuilder sb = new StringBuilder();
         sb.append(startHtml);
+        sb.append("Period time: ").append(formatTime(totalPeriodTime)).append("<br>");
+        sb.append("Process time: ").append(formatTime(timeOfAllProcesses)).append("<br>");
+        sb.append("Frames: ").append(periodFrameCount).append("<br>");
 
-        long periodTimeNanos = System.nanoTime() - periodStartNanos;
-        periodStartNanos = System.nanoTime();
-        sb.append("<br>Total Period Time: ").append(formatTime(periodTimeNanos));
-        sb.append("<br>Total Process Time: ").append(formatTime(processTimeNanos));
-        sb.append("<br>Total frames: ").append(periodFrameCount);
+        if (periodFrameCount > 0 && totalPeriodTime > 0) {
+            long timeGap = totalPeriodTime - timeOfAllProcesses;
+            double gapPercent = ((double) timeGap / totalPeriodTime) * 100;
+
+            sb.append("<br>Un-measured time: ").append(Math.round(gapPercent)).append("%");
+            sb.append("<br><b>Period time/frame: ").append(formatTime(totalPeriodTime / periodFrameCount));
+            sb.append("<br>Process time/frame: ").append(formatTime(timeOfAllProcesses / periodFrameCount))
+                    .append("</b>");
+        }
+
 
         sb.append("<table><tr>" +
                 "<th>Name</th>" +
@@ -152,10 +171,10 @@ public class FrameTester extends JFrame {
             if (name.startsWith("red ")) {
                 color = "red";
                 name = name.replaceFirst("red", "");
-            }if (name.startsWith("green ")) {
+            } else if (name.startsWith("green ")) {
                 color = "green";
                 name = name.replaceFirst("green", "");
-            }if (name.startsWith("black ")){
+            } else if (name.startsWith("black ")) {
                 color = "black";
                 name = name.replaceFirst("black", "");
             }
@@ -163,8 +182,10 @@ public class FrameTester extends JFrame {
 
             long totalTime = entry.getValue().totalTime; //The total time this period
             long averageTime = entry.getValue().totalTime / periodFrameCount; //The average time per frame
-            double usagePercent = (double) totalTime / processTimeNanos; //The percentage of the total time used
+            double usagePercent = (double) totalTime / timeOfAllProcesses; //The percentage of the total time used
             entry.getValue().totalTime = 0;
+
+//            if(averageTime > LogThreshold)
 
             sb.append("<tr><td>")
                     .append(name).append("</td><td>")
@@ -195,8 +216,7 @@ public class FrameTester extends JFrame {
 
         sb.append("</body></html>");
 
-        processTimeNanos = 0;
-        periodFrameCount = 0;
+
 
         editorPane.setText(sb.toString());
     }
@@ -229,21 +249,33 @@ public class FrameTester extends JFrame {
         JScrollPane scrollPane = new JScrollPane(editorPane);
         add(scrollPane, BorderLayout.CENTER);
 
+//        add(percentPanel, BorderLayout.SOUTH);
+
         // Set up the JFrame
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // Run the frame creation on the Swing event dispatch thread
-        SwingUtilities.invokeLater(() -> {
+        if(enabled) {
             setVisible(true);
-        });
+        }
     }
+
+//    public void updateMemoryPanel(){
+//        double kb = MemoryProfiler.getMemoryUsed() / 1024; //In KB
+//        double percent = MemoryProfiler.getMemoryUsagePercent();
+//
+//        percentPanel.addDataPoint(percent, 100);
+////        usedPanel.addDataPoint(kb, 100);
+////        usedPanel.update();
+//        percentPanel.update();
+//    }
 
     public static void main(String[] args) {
         FrameTester tester = new FrameTester("Test");
 
         while (true) {
             try {
-                tester.startFrame();
+                tester.__startFrame();
                 Thread.sleep(1);
                 tester.endProcess("1ms a");
                 Thread.sleep(1);

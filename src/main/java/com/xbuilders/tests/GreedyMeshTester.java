@@ -14,7 +14,7 @@
 //import com.xbuilders.engine.utils.MiscUtils;
 //import com.xbuilders.engine.utils.ResourceUtils;
 //import com.xbuilders.engine.utils.math.PerlinNoise;
-//import com.xbuilders.engine.utils.preformance.MemoryProfiler;
+//import com.xbuilders.window.development.MemoryProfiler;
 //import com.xbuilders.window.utils.preformance.Stopwatch;
 //import com.xbuilders.engine.world.chunk.ChunkVoxels;
 //import com.xbuilders.game.MyGame;

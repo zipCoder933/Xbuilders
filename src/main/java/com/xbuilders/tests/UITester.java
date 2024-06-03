@@ -10,7 +10,7 @@ import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.preformance.MemoryProfiler;
+import com.xbuilders.window.developmentTools.MemoryProfiler;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.NKWindow;

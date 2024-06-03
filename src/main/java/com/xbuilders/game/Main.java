@@ -11,7 +11,8 @@ import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.preformance.MemoryProfiler;
+import com.xbuilders.window.developmentTools.MemoryGraph;
+import com.xbuilders.window.developmentTools.MemoryProfiler;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.UserID;
@@ -24,12 +25,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.xbuilders.window.developmentTools.FrameTester;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
 import javax.imageio.ImageIO;
 
 public class Main extends NKWindow {
+
+    public static FrameTester frameTester = new FrameTester("Game frame tester");
+    public static FrameTester dummyTester = new FrameTester("");
+    public static MemoryGraph memoryGraph = new MemoryGraph();
+    static {
+        dummyTester.setEnabled(false);
+        frameTester.setStarted(true);
+        frameTester.setUpdateTimeMS(1000);
+    }
 
     // We can still have static variables, but we want to use dependency injection,
     // and make all classes ask for the object instead of directly acsessing it
@@ -91,7 +102,7 @@ public class Main extends NKWindow {
         game = new MyGame();
         topMenu = new TopMenu(this);
         gameScene = new GameScene(this);
-        setMpfUpdateInterval(200);
+        setMpfUpdateInterval(500);
         MemoryProfiler.setIntervalMS(500);
 
     }
@@ -175,12 +186,16 @@ public class Main extends NKWindow {
 
         while (!windowShouldClose()) {
             /* Input */
-
-            beginScreenshot();
+            beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
             startFrame();
+
+            frameTester.__startFrame();
             render();
             MemoryProfiler.update();
-            endFrame();
+            memoryGraph.update();
+            frameTester.__endFrame();
+
+            endFrame();//EndFrame takes the most time, becuase we have vsync turned on
             endScreenshot();
 
             if (devkeyF2_SystemCG) {
@@ -203,6 +218,7 @@ public class Main extends NKWindow {
     }
 
     public static boolean devkeyF3;
+    public static boolean devkeyF4;
     public static boolean devkeyF2_SystemCG;
     public static boolean devkeyF1;
     public static boolean devkeyF12;
@@ -213,6 +229,9 @@ public class Main extends NKWindow {
             if (key == GLFW.GLFW_KEY_F3) {
                 devkeyF3 = !devkeyF3;
                 System.out.println("Special mode (F3): " + devkeyF3);
+            }else if (key == GLFW.GLFW_KEY_F4) {
+                devkeyF4 = !devkeyF4;
+                System.out.println("Special mode (F4): " + devkeyF4);
             } else if (key == GLFW.GLFW_KEY_F2) {
                 devkeyF2_SystemCG = !devkeyF2_SystemCG;
                 System.out.println("Special mode(F2): " + devkeyF2_SystemCG);

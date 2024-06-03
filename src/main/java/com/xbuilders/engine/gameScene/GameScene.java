@@ -4,7 +4,6 @@
  */
 package com.xbuilders.engine.gameScene;
 
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.ItemList;
@@ -66,11 +65,15 @@ import static org.lwjgl.opengl.GL11.glFrontFace;
  */
 public class GameScene implements WindowEvents {
 
+
+
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static boolean drawWireframe;
     public static UserControlledPlayer player;
     public static List<Player> otherPlayers;
+
+
 
     NKWindow window;
 
@@ -172,15 +175,22 @@ public class GameScene implements WindowEvents {
     public static GameUI ui;
 
     public void render() throws IOException {
+        Main.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
         GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         holdMouse = !ui.menusAreOpen() && window.windowIsFocused();
+        Main.frameTester.endProcess("Clearing buffer");
 
         init3D();
+        Main.frameTester.startProcess();
         player.update(holdMouse);
+        Main.frameTester.endProcess("Updating player");
         enableBackfaceCulling();
+        Main.frameTester.startProcess();
         world.drawChunks(projection, view, player.worldPosition);
+        Main.frameTester.endProcess("Drawing chunks");
         setInfoText();
+
         ui.draw();
 
 
@@ -269,7 +279,7 @@ public class GameScene implements WindowEvents {
 
                 Chunk chunk = world.getChunk(rayWCC.chunk);
                 if (chunk != null) {
-                    text += "\nchunk gen status: " + chunk.getGenerationStatus()+", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
+                    text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                     text += "\nchunk mesh: " + chunk.meshes;
                     BlockData data = chunk.data.getBlockData(
                             rayWCC.chunkVoxel.x,
@@ -286,7 +296,7 @@ public class GameScene implements WindowEvents {
                             rayWCC.chunkVoxel.y,
                             rayWCC.chunkVoxel.z);
                     text += "\nblock: " + block + " data: " + (data == null ? "null" : data.toString());
-                    text += "\nsun: " + (sun)+", torch: " + chunk.data.getTorch(
+                    text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(
                             rayWCC.chunkVoxel.x,
                             rayWCC.chunkVoxel.y,
                             rayWCC.chunkVoxel.z);

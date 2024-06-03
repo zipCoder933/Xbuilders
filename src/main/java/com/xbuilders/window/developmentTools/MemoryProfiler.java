@@ -1,5 +1,8 @@
-package com.xbuilders.engine.utils.preformance;
+package com.xbuilders.window.developmentTools;
 
+/**
+ * This entire class is static
+ */
 public class MemoryProfiler {
 
     /**

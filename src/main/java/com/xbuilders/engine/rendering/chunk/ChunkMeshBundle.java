@@ -82,7 +82,7 @@ public class ChunkMeshBundle {
         transMesh.setTextureID(texture);
 
         greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position, ItemList.blocks.getIdMap());
-        naiveMesher = new NaiveMesherWithLight(chunk.data, ItemList.blocks.getIdMap(), false);
+        naiveMesher = new NaiveMesherWithLight(chunk.data, ItemList.blocks.getIdMap());
     }
 
     public synchronized void init() {
@@ -103,8 +103,8 @@ public class ChunkMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1);
-                naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position);
+                greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1,false);
+                naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position,false);
                 opaqueBuffer.makeVertexSet(); //Buffer will automatically not make verteces if it is empty
                 transBuffer.makeVertexSet();
             }

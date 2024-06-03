@@ -7,7 +7,7 @@ package com.xbuilders.tests;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.preformance.MemoryProfiler;
+import com.xbuilders.window.developmentTools.MemoryProfiler;
 import com.xbuilders.window.Window;
 import com.xbuilders.window.demos.CameraNavigator;
 import com.xbuilders.window.render.MVP;

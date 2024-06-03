@@ -41,17 +41,11 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.xbuilders.window.development.FrameTester;
+import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
 
 public class World {
-
-    public static FrameTester frameTester = new FrameTester("World draw");
-
-    static {
-        frameTester.setStarted(true);
-        frameTester.setUpdateTimeMS(1000);
-    }
+    public static FrameTester frameTester = Main.dummyTester;
 
     /*
      * CHUNK GENERATION PERFORMANCE
@@ -82,10 +76,8 @@ public class World {
     public static int DEFAULT_VIEW_DISTANCE = (int) (Chunk.WIDTH * 3);// 13
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
-
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
     public BlockShader chunkShader;
-
     public void setViewDistance(int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
@@ -397,7 +389,7 @@ public class World {
         }
 
         if (frame % 10 == 0) {
-            frameTester.startFrame();
+            frameTester.startProcess();
             world.fillChunksAroundPlayer(playerPosition, false);
             frameTester.endProcess("Fill chunks around player");
         }
@@ -431,7 +423,6 @@ public class World {
         // This is the culprit for low FPS
         chunkShader.bind();
         chunkShader.tickAnimation();
-
 
 
         chunksToRender.forEach(chunk -> {
@@ -482,8 +473,8 @@ public class World {
             }
         });
         frameTester.endProcess("Draw transparent chunks");
-
     }
+
     // <editor-fold defaultstate="collapsed" desc="block operations">
 
     public short getBlockID(int worldX, int worldY, int worldZ) {

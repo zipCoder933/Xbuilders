@@ -777,7 +777,7 @@ CodeHeap 'non-nmethods': size=5760Kb used=2782Kb max_used=2838Kb free=2977Kb
 Compilation events (20 events):
 Event: 5.606 Thread 0x0000024c34aae810 3582       4       sun.misc.Unsafe::getByte (9 bytes)
 Event: 5.607 Thread 0x0000024c34aae810 nmethod 3582 0x0000024c2873d910 code [0x0000024c2873daa0, 0x0000024c2873db50]
-Event: 5.623 Thread 0x0000024c34ab16d0 3585       3       com.xbuilders.window.development.FrameTester::set (52 bytes)
+Event: 5.623 Thread 0x0000024c34ab16d0 3585       3       com.xbuilders.window.developmentTools.FrameTester::set (52 bytes)
 Event: 5.623 Thread 0x0000024c34aae810 3587       4       org.joml.Matrix4f::mulAffineR (738 bytes)
 Event: 5.623 Thread 0x0000024c34ab16d0 nmethod 3585 0x0000024c21092e90 code [0x0000024c21093080, 0x0000024c21093518]
 Event: 5.623 Thread 0x0000024c34ab16d0 3588       3       java.lang.Float::toString (5 bytes)

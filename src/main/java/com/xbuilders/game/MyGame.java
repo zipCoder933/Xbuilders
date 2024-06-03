@@ -6,12 +6,10 @@ package com.xbuilders.game;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Tool;
-import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.items.blocks.*;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
@@ -35,7 +33,7 @@ import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.TestTerrain;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
-import com.xbuilders.game.terrain.defaultTerrain.TerrainV2;
+import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.window.NKWindow;
 
 import java.io.File;
@@ -359,8 +357,8 @@ public class MyGame extends Game {
         //Add terrains
         terrainsList.add(new TestTerrain());
         terrainsList.add(new BasicTerrain());
-        terrainsList.add(new TerrainV2(true));
-        terrainsList.add(new TerrainV2(false));
+        terrainsList.add(new DefaultTerrain(true));
+        terrainsList.add(new DefaultTerrain(false));
         terrainsList.add(new DevTerrain());
         terrainsList.add(new ComplexTerrain());
 

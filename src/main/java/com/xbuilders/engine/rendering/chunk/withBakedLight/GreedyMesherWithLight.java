@@ -37,7 +37,7 @@ public class GreedyMesherWithLight {
     final int[] dims;
     final Vector3i chunkPosition;
     HashMap<Short, Block> blockMap;
-    final static boolean smoothLighting = true;
+    boolean smoothLighting = true;
 
     // Variables used for greedy meshing
     int j, k, l, u, v, n, side = 0;
@@ -70,7 +70,9 @@ public class GreedyMesherWithLight {
         return mask.get(indx2) == mask.get(indx1) && lightMask.get(indx2) == lightMask.get(indx1);
     }
 
-    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, MemoryStack stack, int lodLevel) {
+    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, MemoryStack stack,
+                        int lodLevel,boolean smoothLighting) {
+        this.smoothLighting = smoothLighting;
         /**
          * These are just working variables for the algorithm - almost all taken
          * directly from Mikola Lysenko's javascript implementation.

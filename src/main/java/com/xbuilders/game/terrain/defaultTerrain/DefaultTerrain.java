@@ -9,7 +9,7 @@ import com.xbuilders.game.items.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain.Biome;
 
-public class TerrainV2 extends Terrain {
+public class DefaultTerrain extends Terrain {
 
     short fern, deadBush;
     final int WORLD_HEIGHT_OFFSET = 138;
@@ -20,7 +20,7 @@ public class TerrainV2 extends Terrain {
     boolean caves = false;
 //    boolean mountains = true;
 
-    public TerrainV2(boolean caves) {
+    public DefaultTerrain(boolean caves) {
         super("Default Terrain" + (caves ? " + Caves" : ""));
         MIN_SURFACE_HEIGHT = 0;
         MAX_SURFACE_HEIGHT = 257;
@@ -238,22 +238,25 @@ public class TerrainV2 extends Terrain {
         return noise.GetValueFractal(x * getFrequency(), y * getFrequency());
     }
 
+
+
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
-
+        int wx, wy, wz, heightmap;
+        float valley, heat;
+        Biome biome = Biome.DEFAULT;
 
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
-                final int wx = x + chunk.position.x * Chunk.WIDTH;
-                final int wz = z + chunk.position.z * Chunk.WIDTH;
-                final float valley = valley(wx, wz);
-                final int heightmap = getTerrainHeight(valley, wx, wz);
+                wx = x + chunk.position.x * Chunk.WIDTH;
+                wz = z + chunk.position.z * Chunk.WIDTH;
+                valley = valley(wx, wz);
+                heightmap = getTerrainHeight(valley, wx, wz);
                 boolean placeWater = true;
-                float heat = getHeat(wx, wz);
-                Biome biome = Biome.DEFAULT;
+                heat = getHeat(wx, wz);
 
                 for (int y = 0; y < Chunk.WIDTH; y++) {
-                    int wy = y + (chunk.position.y * Chunk.WIDTH);
+                    wy = y + (chunk.position.y * Chunk.WIDTH);
 
                     if (wy > 252) {
                         chunk.data.setBlock(x, y, z, MyGame.BLOCK_BEDROCK);

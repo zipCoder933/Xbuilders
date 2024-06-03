@@ -74,9 +74,9 @@ public class Stopwatch {
      * Calculate the elapsed time.
      */
     public void calculateElapsedTime() {
-        if (startTime == -1) {
-            throw new IllegalAccessError("Stopwatch has not been started yet.");
-        }
+//        if (startTime == -1) {
+//            throw new IllegalAccessError("Stopwatch has not been started yet.");
+//        }
 
         //If we wanted the time as congruent time units, we would need to subtract the lower times from the higher times,
         //however we DON'T want to do that with these variables because these variables are SUPPOSED to INDEPENDENTLY

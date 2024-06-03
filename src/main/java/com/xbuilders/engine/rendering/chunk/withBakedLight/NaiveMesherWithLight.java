@@ -30,15 +30,14 @@ public class NaiveMesherWithLight {
     HashMap<Short, Block> blockList;
     boolean generateAll;
 
-    public NaiveMesherWithLight(ChunkVoxels chunkPreMeshData, HashMap<Short, Block> blockList,
-                                boolean generateAll) {
+    public NaiveMesherWithLight(ChunkVoxels chunkPreMeshData, HashMap<Short, Block> blockList) {
         this.generateAll = generateAll;
         this.blockList = blockList;
         this.data = chunkPreMeshData;
         dims = new int[]{data.size.x, data.size.y, data.size.z};
     }
 
-    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, Vector3i chunkPosition) {
+    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, Vector3i chunkPosition,boolean generateAll) {
         Block block;
         Block[] neighbors = new Block[6];
         byte[] lightNeghbors = new byte[6];
