@@ -15,6 +15,7 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.xbuilders.game.Main;
 import org.lwjgl.system.MemoryStack;
 
 /**
@@ -70,7 +71,7 @@ public class ChunkMeshBundle {
 
     Chunk chunk;
 
-    NaiveMesherWithLight naiveMesher;
+    NaiveMesherWithLight naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
     GreedyMesherWithLight greedyMesher;
     public final CompactMesh opaqueMesh, transMesh;
 
@@ -81,8 +82,8 @@ public class ChunkMeshBundle {
         transMesh = new CompactMesh();
         transMesh.setTextureID(texture);
 
-        greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position, ItemList.blocks.getIdMap());
-        naiveMesher = new NaiveMesherWithLight(chunk.data, ItemList.blocks.getIdMap());
+        greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position);
+        naiveMesher = new NaiveMesherWithLight(chunk.data);
     }
 
     public synchronized void init() {
@@ -103,10 +104,14 @@ public class ChunkMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1,false);
-                naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position,false);
+//                if(Main.devkeyF4) {
+                    greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
+                    naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position, false);
+//                }
+
                 opaqueBuffer.makeVertexSet(); //Buffer will automatically not make verteces if it is empty
                 transBuffer.makeVertexSet();
+
             }
         } catch (Exception ex) {
             ErrorHandler.saveErrorToLogFile(ex);

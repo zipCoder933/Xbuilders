@@ -12,8 +12,6 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.items.BlockList;
 
-import java.util.HashMap;
-
 import org.joml.Vector3i;
 
 /**
@@ -86,7 +84,7 @@ public class NaiveMesher {
                         }
 
                         blockData = data.getBlockData(x, y, z);
-                        BlockType type = ItemList.blocks.getBlockTypeID(block.type);
+                        BlockType type = ItemList.blocks.getBlockType(block.type);
                         if (block.opaque) {
                             type.constructBlock(opaqueBuffers, block, blockData, neighbors, light, x, y, z);
                         } else {

@@ -17,6 +17,10 @@ public class ToolList extends ItemGroup<Tool> {
     File iconDirectory;
     int defaultIcon;
 
+    public ToolList() {
+        super(Tool.class);
+    }
+
     public void init(File iconDirectory, int defaultIcon) throws IOException {
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
@@ -24,16 +28,10 @@ public class ToolList extends ItemGroup<Tool> {
 
     @Override
     public void setItems(Tool[] inputBlocks) {
-        if (inputBlocks == null) {
-            itemList = new Tool[0];
-            return;
-        }
-        setIdMap(inputBlocks);
-        itemList = new Tool[idMap.size()];
+        setList(inputBlocks);
         int i = 0;
         try {
-            for (Tool block : getIdMap().values()) {
-                itemList[i] = block;
+            for (Tool block : getList()) {
                 if (block.initializationCallback != null) {
                     block.initializationCallback.accept(block);
                 }

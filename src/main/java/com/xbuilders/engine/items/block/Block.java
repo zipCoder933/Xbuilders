@@ -11,7 +11,6 @@ import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityTh
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.items.blocks.RenderType;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3i;
@@ -155,8 +154,8 @@ public class Block extends Item {
 //            initializationCallback.accept(this);
 //        }
         //Run initialization callbacks
-        if (ItemList.blocks.getBlockTypeID(type) != null) {
-            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockTypeID(type).initializationCallback;
+        if (ItemList.blocks.getBlockType(type) != null) {
+            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(type).initializationCallback;
             if (typeInitCallback != null) typeInitCallback.accept(this);
         }
         //Run our custom initialization callback last

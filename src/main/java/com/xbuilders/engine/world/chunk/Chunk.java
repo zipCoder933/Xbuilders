@@ -158,7 +158,7 @@ public class Chunk {
                 needsSunGeneration = true;
             }
             // Loading a chunk includes loading sunlight
-            setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED);
+            setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED); //TODO: The world updates sunlight in pillars, therefore setting light to sun_loaded makes no difference because the pillar doesnt know how if a chunk doesnt have sunlight
         } catch (Exception ex) {//For some reason we have to catch incoming errors otherwise they wont be visible
             ErrorHandler.handleFatalError("Error loading chunk", ex);
         }

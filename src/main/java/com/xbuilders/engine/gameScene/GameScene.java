@@ -66,13 +66,11 @@ import static org.lwjgl.opengl.GL11.glFrontFace;
 public class GameScene implements WindowEvents {
 
 
-
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static boolean drawWireframe;
     public static UserControlledPlayer player;
     public static List<Player> otherPlayers;
-
 
 
     NKWindow window;
@@ -295,7 +293,9 @@ public class GameScene implements WindowEvents {
                             rayWCC.chunkVoxel.x,
                             rayWCC.chunkVoxel.y,
                             rayWCC.chunkVoxel.z);
-                    text += "\nblock: " + block + " data: " + (data == null ? "null" : data.toString());
+                    text += "\nblock: " + block + " data: "
+                            + (data == null ? "null" : data.toString())
+                            + " type: " + ItemList.blocks.getBlockType(block.type);
                     text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(
                             rayWCC.chunkVoxel.x,
                             rayWCC.chunkVoxel.y,

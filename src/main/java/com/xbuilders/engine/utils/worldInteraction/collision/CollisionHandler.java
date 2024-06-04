@@ -113,7 +113,7 @@ public class CollisionHandler {
                                         wcc.chunkVoxel.y,
                                         wcc.chunkVoxel.z);
                                 // }
-                                BlockType type = ItemList.blocks.getBlockTypeID(b.type);
+                                BlockType type = ItemList.blocks.getBlockType(b.type);
                                 try {
                                     if (type != null)
                                         type.getCollisionBoxes(customConsumer, collisionBox, b, d, x, y, z);

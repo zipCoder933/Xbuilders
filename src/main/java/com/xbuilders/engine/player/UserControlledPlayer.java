@@ -169,8 +169,8 @@ public class UserControlledPlayer extends Player {
     }
 
     private boolean isInsideOfLadder() {
-        BlockType type = ItemList.blocks.getBlockTypeID(getBlockAtPlayerHead().type);
-        BlockType belowType = ItemList.blocks.getBlockTypeID(GameScene.world.getBlock(
+        BlockType type = ItemList.blocks.getBlockType(getBlockAtPlayerHead().type);
+        BlockType belowType = ItemList.blocks.getBlockType(GameScene.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                 (int) Math.floor(worldPosition.z)).type);

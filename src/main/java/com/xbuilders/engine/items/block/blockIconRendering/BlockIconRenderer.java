@@ -160,7 +160,7 @@ public class BlockIconRenderer {
     }
 
     public boolean shouldMakeIcon(Block block) {
-        BlockType type = ItemList.blocks.getBlockTypeID(block.type);
+        BlockType type = ItemList.blocks.getBlockType(block.type);
         if (type == null || !type.generate3DIcon || block.texture == null) {
             return false;
         }
@@ -181,7 +181,7 @@ public class BlockIconRenderer {
 
     private boolean makeBlockMesh(Block block) {
         TraditionalVertexSet buffers = new TraditionalVertexSet();
-        BlockType type = ItemList.blocks.getBlockTypeID(block.type);
+        BlockType type = ItemList.blocks.getBlockType(block.type);
         if (type == null) {
             return false;
         }

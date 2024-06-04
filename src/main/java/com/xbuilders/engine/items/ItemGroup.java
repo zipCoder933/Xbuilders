@@ -7,27 +7,22 @@ package com.xbuilders.engine.items;
 import java.util.HashMap;
 
 /**
- *
- * @author zipCoder933
  * @param <T>
+ * @author zipCoder933
  */
 abstract class ItemGroup<T extends Item> {
 
-    protected final HashMap<Short, T> idMap;
-    protected T[] itemList;
+    final Class<T> type;
+    protected final IntMap<T> idMap;
+    private T[] itemList;
 
-    public ItemGroup() {
-        idMap = new HashMap<>();
+
+    public ItemGroup(Class<T> type) {
+        this.type = type;
+        idMap = new IntMap<>(type);
     }
 
     public abstract void setItems(T[] inputBlocks);
-
-    /**
-     * @return the idMap
-     */
-    public HashMap<Short, T> getIdMap() {
-        return idMap;
-    }
 
     /**
      * @return the items
@@ -40,22 +35,22 @@ abstract class ItemGroup<T extends Item> {
         return idMap.get(id);
     }
 
-    protected int setIdMap(T[] inputItems) {
+    protected int setList(T[] inputItems) {
         //get typename of t
         String typename = inputItems.getClass().getComponentType().getSimpleName();
         System.out.println("\nChecking IDs for " + typename);
         int highestId = 0;
-        idMap.clear();
+        HashMap<Integer, T> map = new HashMap<>();
         for (int i = 0; i < inputItems.length; i++) {
-            if(inputItems[i] == null) {
+            if (inputItems[i] == null) {
                 System.err.println("item at index " + i + " is null");
                 continue;
             }
-            short id = inputItems[i].id;
-            if (idMap.containsKey(id)) {
+            int id = inputItems[i].id;
+            if (map.get(id) != null) {
                 System.err.println("Block " + inputItems[i] + " ID conflicts with an existing ID: " + id);
             }
-            idMap.put(id, inputItems[i]);
+            map.put(id, inputItems[i]);
             if (id > highestId) {
                 highestId = id;
             }
@@ -75,6 +70,8 @@ abstract class ItemGroup<T extends Item> {
             }
         }
         System.out.println("");
+        idMap.setList(map);
+        itemList = inputItems;
         return highestId;
     }
 }

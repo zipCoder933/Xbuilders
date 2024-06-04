@@ -129,8 +129,8 @@ public class GreedyMesher {
                         for (x[u] = 0; x[u] < dims[u]; x[u]++) {
                             retrieveMaskVoxels(x, q, d, backChunk, forwardChunk, voxelPos,
                                     thisPlaneVoxel, nextPlaneVoxel, lodLevel);
-                            block = ItemList.blocks.getIdMap().get(thisPlaneVoxel.get(0));
-                            block1 = ItemList.blocks.getIdMap().get(nextPlaneVoxel.get(0));
+                            block = ItemList.getBlock(thisPlaneVoxel.get(0));
+                            block1 = ItemList.getBlock(nextPlaneVoxel.get(0));
 
                             if (block.isAir() || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
                                 thisPlaneVoxel.put(0, (short) 0);
@@ -292,7 +292,7 @@ public class GreedyMesher {
 
 //        short blockVal = (short) ((voxel >> 8) & 0xFFFF);
 //        byte sun = (byte) (voxel & 0xFF);
-        Block block = ItemList.blocks.getIdMap().get(blockVal);
+        Block block = ItemList.getBlock(blockVal);
 
         if (block != null && block.texture != null) {
             int[] indexes = backFace ? indexes1 : indexes2;

@@ -6,6 +6,7 @@ package com.xbuilders.engine.rendering.chunk.withBakedLight;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -36,7 +37,6 @@ public class GreedyMesherWithLight {
     ChunkVoxels chunkVoxels;
     final int[] dims;
     final Vector3i chunkPosition;
-    HashMap<Short, Block> blockMap;
     boolean smoothLighting = true;
 
     // Variables used for greedy meshing
@@ -55,10 +55,8 @@ public class GreedyMesherWithLight {
     final byte[] light = { (byte) 0, (byte) 0, (byte) 0, (byte) 0 };
     final Vector3i[] completeVertex = { new Vector3i(), new Vector3i(), new Vector3i(), new Vector3i() };
 
-    public GreedyMesherWithLight(ChunkVoxels voxels, Vector3i chunkPosition,
-            HashMap<Short, Block> blockMap) {
+    public GreedyMesherWithLight(ChunkVoxels voxels, Vector3i chunkPosition) {
         this.chunkVoxels = voxels;
-        this.blockMap = blockMap;
         this.chunkPosition = chunkPosition;
         dims = new int[] { voxels.size.x, voxels.size.y, voxels.size.z };
     }
@@ -172,8 +170,8 @@ public class GreedyMesherWithLight {
                         for (x[u] = 0; x[u] < dims[u]; x[u]++) {
                             retrieveMaskVoxels(x, q, d, backChunk, forwardChunk, voxelPos,
                                     thisPlaneVoxel, nextPlaneVoxel, lodLevel);
-                            block = blockMap.get(thisPlaneVoxel.get(0));
-                            block1 = blockMap.get(nextPlaneVoxel.get(0));
+                            block = ItemList.getBlock(thisPlaneVoxel.get(0));
+                            block1 = ItemList.getBlock(nextPlaneVoxel.get(0));
 
                             if (block == null || block.isAir() || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
                                 thisPlaneVoxel.put(0, (short) 0);
@@ -373,7 +371,7 @@ public class GreedyMesherWithLight {
             l_rb = (byte) ((packedLight >> 24) & 0xFF);
         }
 
-        Block block = blockMap.get(blockVal);
+        Block block = ItemList.getBlock(blockVal);
 
         if (block != null && block.texture != null) {
             int[] indexes = backFace ? indexes1 : indexes2;

@@ -12,7 +12,6 @@ import com.google.gson.*;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.items.block.construction.BlockType;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -70,7 +69,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             if (typeStr == null || isInteger(typeStr)) {// If the type is an integer
                 block.type = jsonObject.get("type").getAsInt();
             } else { // Otherwise it's a string
-                block.type = ItemList.blocks.getBlockTypeID(typeStr);
+                block.type = ItemList.blocks.getBlockType(typeStr);
             }
         }
         if (jsonObject.has("icon"))

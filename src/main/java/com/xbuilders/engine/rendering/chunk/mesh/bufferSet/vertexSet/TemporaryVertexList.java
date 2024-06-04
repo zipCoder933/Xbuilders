@@ -31,8 +31,7 @@ class TemporaryVertexList {
         return verts1.get(index);
     }
 
-    public void addVert(int firstInt, int secondInt, int thridInt) {
-        //The arraylist is a minor contributor to the memory usage.
+    public void addVert(int firstInt, int secondInt, int thridInt) {  //The arraylist is a minor contributor to the memory usage.
         IntBuffer vert = MemoryUtil.memAllocInt(VertexSet.VECTOR_ELEMENTS);
         vert.put(0, firstInt);
         vert.put(1, secondInt);

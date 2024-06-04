@@ -242,7 +242,7 @@ public class DefaultTerrain extends Terrain {
 
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
-        int wx, wy, wz, heightmap;
+        int wx, wy, wz, heightmap; //IMPORTANT: We cant put this outside generateChunkInner() because multiple chunks are generated at the same time
         float valley, heat;
         Biome biome = Biome.DEFAULT;
 
@@ -285,10 +285,8 @@ public class DefaultTerrain extends Terrain {
                             chunk.data.setBlock(x, y, z, MyGame.BLOCK_WATER);
                         }
                     }
-
                 }
             }
         }
-
     }
 }

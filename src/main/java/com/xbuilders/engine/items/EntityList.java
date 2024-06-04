@@ -17,6 +17,10 @@ public class EntityList extends ItemGroup<EntityLink> {
     File blockIconDirectory, iconDirectory;
     int defaultIcon;
 
+    public EntityList() {
+        super(EntityLink.class);
+    }
+
     public void init(File iconDirectory, int defaultIcon) {
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
@@ -24,16 +28,11 @@ public class EntityList extends ItemGroup<EntityLink> {
 
     @Override
     public void setItems(EntityLink[] inputBlocks) {
-        if (inputBlocks == null) {
-            itemList = new EntityLink[0];
-            return;
-        }
-        setIdMap(inputBlocks);
-        itemList = new EntityLink[idMap.size()];
+        setList(inputBlocks);
+
         int i = 0;
         try {
-            for (EntityLink entity : getIdMap().values()) {
-                itemList[i] = entity;
+            for (EntityLink entity : getList()) {//in
                 if (entity.initializationCallback != null) {
                     entity.initializationCallback.accept(entity);
                 }

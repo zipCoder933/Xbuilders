@@ -50,7 +50,7 @@ public class WallItemRenderer extends BlockType {
             testBlock = GameScene.world.getBlock(worldX, worldY, worldZ + 1);
         }
 
-        BlockType itemType = ItemList.blocks.getBlockTypeID(testBlock.type);
+        BlockType itemType = ItemList.blocks.getBlockType(testBlock.type);
         if (itemType == null) {
             return false;
         }

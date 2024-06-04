@@ -49,9 +49,9 @@ public abstract class BlockType {
     };
 
     public abstract void constructBlock(VertexSet buffers,
-            Block block, BlockData data,
-            Block[] neighbors, byte[] lightValues,
-            int x, int y, int z);
+                                        Block block, BlockData data,
+                                        Block[] neighbors, byte[] lightValues,
+                                        int x, int y, int z);
 
     // public Vector3f[] rotateYAxis(Block[] neighbors, Vector3f[] verts, int
     // rotation) {
@@ -124,7 +124,7 @@ public abstract class BlockType {
         if (neighbor == null) {
             return true;
         } else {
-            BlockType type = ItemList.blocks.getBlockTypeID(neighbor.type);
+            BlockType type = ItemList.blocks.getBlockType(neighbor.type);
             if (!neighbor.opaque || (type == null) || !type.isCubeShape()) {
                 return true;
             }
@@ -146,4 +146,9 @@ public abstract class BlockType {
         return false;
     }
 
+    public String toString() {
+        return name == null ? "Unnamed" : name;
+    }
+
+    public String name;
 }
