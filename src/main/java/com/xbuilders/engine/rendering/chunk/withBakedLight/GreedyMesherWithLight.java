@@ -19,6 +19,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
@@ -41,25 +42,30 @@ public class GreedyMesherWithLight {
 
     // Variables used for greedy meshing
     int j, k, l, u, v, n, side = 0;
-    final int[] x = new int[] { 0, 0, 0 };
-    final int[] q = new int[] { 0, 0, 0 };
-    final int[] du = new int[] { 0, 0, 0 };
-    final int[] dv = new int[] { 0, 0, 0 };
-    final int[] normal = new int[] { 0, 0, 0 };
+    final int[] x = new int[]{0, 0, 0};
+    final int[] q = new int[]{0, 0, 0};
+    final int[] du = new int[]{0, 0, 0};
+    final int[] dv = new int[]{0, 0, 0};
+    final int[] normal = new int[]{0, 0, 0};
 
     // Variables used for quad generaiton
-    final static int[] indexes1 = { 2, 0, 1, 1, 3, 2 }; // Constant
-    final static int[] indexes2 = { 2, 3, 1, 1, 0, 2 }; // Constant
-    final Vector3f[] vertices = { new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f() };
-    final Vector2f[] uvs = { new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f() };
-    final byte[] light = { (byte) 0, (byte) 0, (byte) 0, (byte) 0 };
-    final Vector3i[] completeVertex = { new Vector3i(), new Vector3i(), new Vector3i(), new Vector3i() };
+    final static int[] indexes1 = {2, 0, 1, 1, 3, 2}; // Constant
+    final static int[] indexes2 = {2, 3, 1, 1, 0, 2}; // Constant
+    final Vector3f[] vertices = {new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f()};
+    final Vector2f[] uvs = {new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()};
+    final byte[] light = {(byte) 0, (byte) 0, (byte) 0, (byte) 0};
+    final Vector3i[] completeVertex = {new Vector3i(), new Vector3i(), new Vector3i(), new Vector3i()};
 
     public GreedyMesherWithLight(ChunkVoxels voxels, Vector3i chunkPosition) {
         this.chunkVoxels = voxels;
         this.chunkPosition = chunkPosition;
-        dims = new int[] { voxels.size.x, voxels.size.y, voxels.size.z };
+        dims = new int[]{voxels.size.x, voxels.size.y, voxels.size.z};
+        mask = MemoryUtil.memAllocInt(Chunk.WIDTH * Chunk.HEIGHT);
+        lightMask = MemoryUtil.memAllocInt(Chunk.WIDTH * Chunk.HEIGHT);
     }
+
+    final IntBuffer mask;
+    final IntBuffer lightMask;
 
     /**
      * Check if 2 voxel faces are the same
@@ -69,7 +75,7 @@ public class GreedyMesherWithLight {
     }
 
     public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, MemoryStack stack,
-                        int lodLevel,boolean smoothLighting) {
+                        int lodLevel, boolean smoothLighting) {
         this.smoothLighting = smoothLighting;
         /**
          * These are just working variables for the algorithm - almost all taken
@@ -105,8 +111,10 @@ public class GreedyMesherWithLight {
          * We create a mask - this will contain the groups of matching voxel faces
          * as we proceed through the chunk in 6 directions - once for each face.
          */
-        final IntBuffer mask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT); //TODO: We could reuse this mask since chunks size is constant
-        final IntBuffer lightMask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT);
+        for (int in = 0; in < mask.capacity(); in++) {
+            mask.put(in, 0);
+            lightMask.put(in, 0);
+        }
 
         for (boolean backFace = true, b = false; b != backFace; backFace = backFace && b, b = !b) {
             for (int d = 0; d < 3; d++) {
@@ -124,7 +132,7 @@ public class GreedyMesherWithLight {
                 q[d] = 1;
 
                 normal[0] = 0;// Normal is similar to q, but if we are on the negative side of the plane, it
-                              // is negative
+                // is negative
                 normal[1] = 0;
                 normal[2] = 0;
                 normal[d] = backFace ? -1 : 1;
@@ -161,7 +169,7 @@ public class GreedyMesherWithLight {
                     min = 0;
                 }
 
-                for (x[d] = min; x[d] < max;) {
+                for (x[d] = min; x[d] < max; ) {
                     /**
                      * -------------------------------------------------------------------
                      * We compute the mask
@@ -190,19 +198,19 @@ public class GreedyMesherWithLight {
 
                             int maskValue = draw
                                     ? (backFace // add the voxel for either this plane or the next plane
-                                            // depending on our direction
-                                            ? nextPlaneVoxel.get(0)
-                                            : thisPlaneVoxel.get(0))
+                                    // depending on our direction
+                                    ? nextPlaneVoxel.get(0)
+                                    : thisPlaneVoxel.get(0))
                                     : 0;
                             mask.put(n, maskValue);
 
                             int lightValue = draw
                                     ? (backFace // add the voxel for either this plane or the next plane
-                                            // depending on our direction
-                                            ? retrieveLightForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk,
-                                                    block1, d, backFace, x, q)
-                                            : retrieveLightForThisPlane(thisPlaneVoxel.get(0), backChunk, forwardChunk,
-                                                    block, d, backFace, x, q))
+                                    // depending on our direction
+                                    ? retrieveLightForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk,
+                                    block1, d, backFace, x, q)
+                                    : retrieveLightForThisPlane(thisPlaneVoxel.get(0), backChunk, forwardChunk,
+                                    block, d, backFace, x, q))
                                     : 0;
                             lightMask.put(n, lightValue);
                             n++;
@@ -217,7 +225,7 @@ public class GreedyMesherWithLight {
                     n = 0;
 
                     for (j = 0; j < dims[v]; j++) {
-                        for (i = 0; i < dims[u];) {
+                        for (i = 0; i < dims[u]; ) {
                             if (mask.get(n) != 0) {
 
                                 /*
@@ -240,8 +248,8 @@ public class GreedyMesherWithLight {
 
                                         equals(mask, lightMask, n + quadSize.get(0), n);
 
-                                        quadSize.put(0,
-                                                quadSize.get(0) + 1))
+                                     quadSize.put(0,
+                                             quadSize.get(0) + 1))
                                     ;
                                 {
                                 }
@@ -326,7 +334,7 @@ public class GreedyMesherWithLight {
     }
 
     private void retrieveMaskVoxels(int[] x, int[] q, int d, Chunk backChunk, Chunk forwardChunk,
-            Vector3i voxelPos, ShortBuffer thisPlaneVoxel, ShortBuffer nextPlaneVoxel, int lodLevel) {
+                                    Vector3i voxelPos, ShortBuffer thisPlaneVoxel, ShortBuffer nextPlaneVoxel, int lodLevel) {
         // Here we retrieve two voxel faces for comparison.
         // thisPlaneVoxel literaly faces forward, while nextPlaneVoxel faces backward
         if (x[d] >= 0) { // Calculate the voxel of THIS plane
@@ -357,9 +365,9 @@ public class GreedyMesherWithLight {
 
     // d: 0=X,1=Y,2=Z
     protected void Mesher_makeQuad(VertexSet buffers, VertexSet transBuffers, int x[], int du[], int dv[], final int w,
-            final int h,
-            short blockVal, int packedLight,
-            final boolean backFace, final int d, final int side, MemoryStack stack) {
+                                   final int h,
+                                   short blockVal, int packedLight,
+                                   final boolean backFace, final int d, final int side, MemoryStack stack) {
 
         // packedLight = 0b11111111000000001111111100000000;// For testing purposes
 
@@ -499,17 +507,17 @@ public class GreedyMesherWithLight {
     }
 
     private int[] getCoords(int x[], int xOffset, int yOffset, int[] normal, int u, int v, boolean backFace) {
-        int[] pos = { x[0] + normal[0], x[1] + normal[1], x[2] + normal[2] };
+        int[] pos = {x[0] + normal[0], x[1] + normal[1], x[2] + normal[2]};
         pos[u] += backFace ? -yOffset : yOffset;
         pos[v] += backFace ? -xOffset : xOffset;
         return pos;
     }
 
     private int retrieveSmoothLight(short thisPlaneVoxel, Chunk backChunk,
-            Chunk frontChunk, Block block,
-            boolean backFace,
-            int x, int y, int z, // origin
-            int[] normal) {
+                                    Chunk frontChunk, Block block,
+                                    boolean backFace,
+                                    int x, int y, int z, // origin
+                                    int[] normal) {
 
         if (thisPlaneVoxel == 0) //Skip if this is air
             return 0;
@@ -518,7 +526,7 @@ public class GreedyMesherWithLight {
                 a2, b2, c2,
                 a3, b3, c3;
 
-        int origin[] = { x, y, z };
+        int origin[] = {x, y, z};
 
         int[] pos = getCoords(origin, -1, -1, normal, u, v, backFace);
         // System.out.print("a1=(" + pos[0] + " " + pos[1] + " " + pos[2] + ") ");
@@ -608,8 +616,8 @@ public class GreedyMesherWithLight {
     }
 
     private int retrieveLightForThisPlane(short thisPlaneVoxel,
-            Chunk backChunk, Chunk forwardChunk, Block block,
-            int d, boolean backFace, int[] x, int[] q) {
+                                          Chunk backChunk, Chunk forwardChunk, Block block,
+                                          int d, boolean backFace, int[] x, int[] q) {
         // //This plane = top face, +X face and +Z face (x and z assuming you are
         // starting from the center of the chunk and moving outwards)
         if (thisPlaneVoxel != 0) {
@@ -653,7 +661,7 @@ public class GreedyMesherWithLight {
     // }
 
     private int retrieveLightForNextPlane(short nextPlaneVoxel, Chunk backChunk, Chunk forwardChunk, Block block1,
-            int d, boolean backFace, int[] x, int[] q) {
+                                          int d, boolean backFace, int[] x, int[] q) {
         // next plane = bottom face, -X face and -Z face (x and z assuming you are
         // starting from the center of the chunk and moving outwards)
         if (nextPlaneVoxel != 0) {
