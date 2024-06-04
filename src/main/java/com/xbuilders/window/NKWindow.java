@@ -109,7 +109,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.system.MemoryUtil.memAddress;
 import static org.lwjgl.system.MemoryUtil.memCopy;
 
-import org.lwjgl.glfw.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.nuklear.Nuklear.*;
 import org.lwjgl.nuklear.*;
 
 import java.util.*;
@@ -118,8 +119,7 @@ import java.util.logging.Logger;
 
 import org.joml.Vector2i;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.nuklear.Nuklear.*;
+
 
 import org.lwjgl.opengl.GL11;
 

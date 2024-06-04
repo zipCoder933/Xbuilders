@@ -5,29 +5,23 @@
 package com.xbuilders.engine.world.chunk.pillar;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.utils.BFS.HashQueue;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.MathUtils;
-
-import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
-
 import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
+import org.joml.Vector3i;
+
+import java.util.ArrayList;
 
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
-
-import com.xbuilders.engine.world.wcc.WCCi;
-
-import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
-
-import org.joml.Vector3i;
 
 /**
  * @author zipCoder933
  */
-public class ChunkSunlightUtils {
+public class ChunkSunlightGenerator {
 
     private static boolean isNeghboringDarkness(Chunk chunk, int x, int y, int z) {
         if (x - 1 >= 0) {
@@ -74,77 +68,66 @@ public class ChunkSunlightUtils {
                 return true;
             }
         }
-
         return false;
     }
 
-    private static void addNodeToChunk(HashQueue<ChunkNode> queue, ChunkNode node, Chunk neghbor) {
-        queue.add(node);
-//        if (neghbor.gen_sunLoaded()) queue.add(node);
-//        else
-//            neghbor.lightQueue.add(node); //The neghbor will alwyas be the pillar because we are propigating from the pillar
-    }
 
-    private static void addAnyBrightNeighbors(HashQueue<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
+    private static void addAnyBrightNeighbors(ArrayList<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
         //Negative x
         if (x - 1 >= 0) {
             if (chunk.data.getSun(x - 1, y, z) > 0) {
-                queue.add(new ChunkNode(chunk, x - 1, y, z));
+                addNodeToQueue(queue, chunk, x - 1, y, z);
             }
         } else {
             Chunk neghboringChunk = GameScene.world
                     .getChunk(new Vector3i(chunk.position.x - 1, chunk.position.y, chunk.position.z));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(neghboringChunk.data.size.x - 1, y, z) > 0) {
-                ChunkNode node = new ChunkNode(neghboringChunk, neghboringChunk.data.size.x - 1, y, z);
-                addNodeToChunk(queue, node, neghboringChunk);
+                addNodeToInitialQueue(queue, neghboringChunk, neghboringChunk.data.size.x - 1, y, z, neghboringChunk);
             }
         }
 
         //Positive x
         if (x + 1 < WIDTH) {
             if (chunk.data.getSun(x + 1, y, z) > 0) {
-                queue.add(new ChunkNode(chunk, x + 1, y, z));
+                addNodeToQueue(queue, chunk, x + 1, y, z);
             }
         } else {
             Chunk neghboringChunk = GameScene.world
                     .getChunk(new Vector3i(chunk.position.x + 1, chunk.position.y, chunk.position.z));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(0, y, z) > 0) {
-                ChunkNode node = (new ChunkNode(neghboringChunk, 0, y, z));
-                addNodeToChunk(queue, node, neghboringChunk);
+                addNodeToInitialQueue(queue, neghboringChunk, 0, y, z, neghboringChunk);
             }
         }
 
         //Negative z
         if (z - 1 >= 0) {
             if (chunk.data.getSun(x, y, z - 1) > 0) {
-                queue.add(new ChunkNode(chunk, x, y, z - 1));
+                addNodeToQueue(queue, chunk, x, y, z - 1);
             }
         } else {
             Chunk neghboringChunk = GameScene.world
                     .getChunk(new Vector3i(chunk.position.x, chunk.position.y, chunk.position.z - 1));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(x, y, neghboringChunk.data.size.z - 1) > 0) {
-                ChunkNode node = (new ChunkNode(neghboringChunk, x, y, neghboringChunk.data.size.z - 1));
-                addNodeToChunk(queue, node, neghboringChunk);
+                addNodeToInitialQueue(queue, neghboringChunk, x, y, neghboringChunk.data.size.z - 1, neghboringChunk);
             }
         }
 
         //Positive z
         if (z + 1 < WIDTH) {
             if (chunk.data.getSun(x, y, z + 1) > 0) {
-                queue.add(new ChunkNode(chunk, x, y, z + 1));
+                addNodeToQueue(queue, chunk, x, y, z + 1);
             }
         } else {
             Chunk neghboringChunk = GameScene.world
                     .getChunk(new Vector3i(chunk.position.x, chunk.position.y, chunk.position.z + 1));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(x, y, 0) > 0) {
-                ChunkNode node = (new ChunkNode(neghboringChunk, x, y, 0));
-                addNodeToChunk(queue, node, neghboringChunk);
+                addNodeToInitialQueue(queue, neghboringChunk, x, y, 0, neghboringChunk);
             }
         }
     }
 
-    static boolean generateSunlight(HashQueue<ChunkNode> queue, Chunk pillarChunk1, Terrain terrain) {
-
+    static boolean generateSunlight(Chunk pillarChunk1, Terrain terrain) {
+        ArrayList<ChunkNode> queue = new ArrayList<>();
         /**
          * Placing nodes:
          * - We cant add neghbors of dark nodes because we dont know what chunks or parts of a chunk have been lighted.
@@ -203,10 +186,10 @@ public class ChunkSunlightUtils {
                         if (!block.opaque) {
                             int sun = chunk.data.getSun(x, y, z);
                             if (sun == 0) {
-//                                queue.add(new ChunkNode(chunk, x, y, z));
+//                                addNodeToQueue(queue,chunk, x, y, z));
                                 addAnyBrightNeighbors(queue, chunk, x, y, z);
                                 break yLoop; //If we propagate downward via BFS, we dont have to check the rest of the chunk.
-                                            // This also saves time because addAnyBrightNeighbors() takes a relatively fair amount of time
+                                // This also saves time because addAnyBrightNeighbors() takes a relatively fair amount of time
                             }
                         }
                     }
@@ -216,7 +199,7 @@ public class ChunkSunlightUtils {
 
 
         while (!queue.isEmpty()) {
-            ChunkNode node = queue.getAndRemove();
+            ChunkNode node = queue.remove(0);
 //            node.chunk.data.setSun(node.x, node.y, node.z, (byte) 10); //KEEP. used to visualize where the nodes are placed initially
 
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
@@ -243,7 +226,7 @@ public class ChunkSunlightUtils {
     }
 
     //DO NOT DELETE THIS CODE!!! KEPT FOR TESTING AND POSSIBLY FUTURE USE
-//    private static void checkForLightNeighbor(Chunk chunk, int x, int y, int z, HashQueue<ChunkNode> queue) {
+//    private static void checkForLightNeighbor(Chunk chunk, int x, int y, int z, ArrayList<ChunkNode> queue) {
 //        int neighborLevel = 0;
 //        if (Chunk.inBounds(x, y, z)) {
 //            neighborLevel = chunk.data.getSun(x, y, z);
@@ -265,7 +248,7 @@ public class ChunkSunlightUtils {
 //    }
 
     private static synchronized void checkNeighbor(Chunk chunk, int x, int y, int z, final byte lightLevel,
-                                                   final HashQueue<ChunkNode> queue, boolean isBelow) {
+                                                   final ArrayList<ChunkNode> queue, boolean isBelow) {
         Block neigborBlock;
         if (Chunk.inBounds(x, y, z)) {
             neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
@@ -287,15 +270,26 @@ public class ChunkSunlightUtils {
         if (!neigborBlock.opaque) {
             if (isBelow && lightLevel == 15) {
                 chunk.data.setSun(x, y, z, (byte) 15);
-                queue.add(new ChunkNode(chunk, x, y, z));
+                addNodeToQueue(queue, chunk, x, y, z);
             } else {
                 final int neighborLevel = chunk.data.getSun(x, y, z);
                 if (neighborLevel + 2 <= lightLevel) {
                     chunk.data.setSun(x, y, z, (byte) (lightLevel - 1));
-                    queue.add(new ChunkNode(chunk, x, y, z));
+                    addNodeToQueue(queue, chunk, x, y, z);
                 }
             }
         }
+    }
+
+    private static void addNodeToInitialQueue(ArrayList<ChunkNode> queue,
+                                              Chunk chunk, int x, int y, int z,
+                                              Chunk neghbor) {
+//Add initially before BFS propagation
+        queue.add(new ChunkNode(chunk, x, y, z));
+    }
+
+    private static void addNodeToQueue(ArrayList<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
+        queue.add(new ChunkNode(chunk, x, y, z));
     }
 
 }

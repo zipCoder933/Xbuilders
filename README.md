@@ -43,6 +43,36 @@ https://inside.java/2020/12/03/crash-outside-the-jvm/
 **FROM NOW ON:** Record every log file that you get and put the traces here:
 Most of them seem to be coming from here:
 
+```java
+ // load draw vertices & elements directly into vertex + element buffer
+ByteBuffer vertices = Objects.requireNonNull(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, max_vertex_buffer, null));
+ByteBuffer elements = Objects.requireNonNull(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY, max_element_buffer, null));
+try (MemoryStack stack = stackPush()) {
+    // fill convert configuration
+    NkConvertConfig config = NkConvertConfig.calloc(stack)
+            .vertex_layout(VERTEX_LAYOUT)
+            .vertex_size(20)
+            .vertex_alignment(4)
+            .tex_null(null_texture)
+            .circle_segment_count(22)
+            .curve_segment_count(22)
+            .arc_segment_count(22)
+            .global_alpha(1.0f)
+            .shape_AA(AA)
+            .line_AA(AA);
+
+    // setup buffers to load vertices and elements
+    NkBuffer vbuf = NkBuffer.malloc(stack);
+    NkBuffer ebuf = NkBuffer.malloc(stack);
+
+    nk_buffer_init_fixed(vbuf, vertices/*, max_vertex_buffer*/);
+    nk_buffer_init_fixed(ebuf, elements/*, max_element_buffer*/);
+    nk_convert(ctx, cmds, vbuf, ebuf, config);//<-- This line is causing a lot of crashes
+}
+glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+glUnmapBuffer(GL_ARRAY_BUFFER);
+```
+
 * J 3998  org.lwjgl.nuklear.Nuklear.nnk_convert(JJJJJ)I (0 bytes) @ 0x0000019cf26002fe [0x0000019cf26002a0+0x000000000000005e]
 * J 5054 c1 org.lwjgl.nuklear.Nuklear.nk_convert(Lorg/lwjgl/nuklear/NkContext;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkConvertConfig;)I (39 bytes) @ 0x0000019ceb11ff0c [0x0000019ceb11f900+0x000000000000060c]
 * J 3978 c1 com.xbuilders.window.NKWindow.NKrender(III)V (645 bytes) @ 0x0000019ceaa6c0bc [0x0000019ceaa69ae0+0x00000000000025dc]

@@ -6,12 +6,12 @@ package com.xbuilders.game.items.blocks.trees;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.utils.BFS.HashQueue;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3i;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -108,11 +108,11 @@ class TreeUtils {
     //so there is nothing we have to change here.
     public static void diamondLeavesLayer(int x, int y, int z, int travelDist, short leaves) {
         HashSet<TravelNode> exploredNodes = new HashSet<>();
-        HashQueue<TravelNode> queue = new HashQueue<>();
+        ArrayList<TravelNode> queue = new ArrayList<>();
         queue.add(new TravelNode(x, y, z, 0));
 
         while (!queue.isEmpty()) {
-            TravelNode node = queue.getAndRemove();
+            TravelNode node = queue.remove(0);
             if (!exploredNodes.contains(node) && node.travel < travelDist) {
                 setBlock(leaves, node.x, node.y, node.z);
                 queue.add(new TravelNode(node.x + 1, node.y, node.z, node.travel + 1));
@@ -126,11 +126,11 @@ class TreeUtils {
 
 
     public static void diamondLeavesLayer(Terrain.GenSession terrain, Chunk source, int x, int y, int z, int travelDist, short leaves) {
-        HashQueue<TravelNode> queue = new HashQueue<>();
+        ArrayList<TravelNode> queue = new ArrayList<>();
         queue.add(new TravelNode(x, y, z, 0));
 
         while (!queue.isEmpty()) {
-            TravelNode node = queue.getAndRemove();
+            TravelNode node = queue.remove(0);
             Block block = GameScene.world.getBlock(node.x, node.y, node.z);
 
             if (!block.equals(leaves) && node.travel < travelDist) {

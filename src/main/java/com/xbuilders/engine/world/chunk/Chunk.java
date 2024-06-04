@@ -1,23 +1,18 @@
 package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.rendering.chunk.ChunkMeshBundle;
 import com.xbuilders.engine.items.ChunkEntitySet;
-import com.xbuilders.engine.utils.BFS.HashQueue;
+import com.xbuilders.engine.rendering.chunk.ChunkMeshBundle;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.Terrain.GenSession;
 import com.xbuilders.engine.world.World;
-
-import static com.xbuilders.engine.world.World.newGameTasks;
-import static com.xbuilders.engine.world.World.generationService;
-import static com.xbuilders.engine.world.World.meshService;
-
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.window.render.MVP;
+import org.joml.Matrix4f;
+import org.joml.Vector3i;
 
 import java.io.File;
 import java.util.Objects;
@@ -25,8 +20,7 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.joml.Matrix4f;
-import org.joml.Vector3i;
+import static com.xbuilders.engine.world.World.*;
 
 public class Chunk {
 
@@ -107,7 +101,6 @@ public class Chunk {
         generationStatus = 0;//The only time we can reset the generation status
         loadFuture = null;
         mesherFuture = null;
-        lightQueue.clear();
         pillarInformation = null;
         this.isTopChunk = isTopChunk;
         this.position.set(position);
@@ -251,7 +244,6 @@ public class Chunk {
     // chunkGenFrameTester.setUpdateTimeMS(1000);
     // }
 
-    final HashQueue<ChunkNode> lightQueue = new HashQueue<>();
 
     public void prepare(Terrain terrain, long frame, boolean isSettingUpWorld) {
         if (loadFuture != null && loadFuture.isDone()) {
@@ -259,7 +251,7 @@ public class Chunk {
             if (isTopChunk && pillarInformation != null
                     && pillarInformation.isPillarLoaded()) {
                 loadFuture = null;
-                pillarInformation.initLighting(lightQueue, terrain, distToPlayer);
+                pillarInformation.initLighting(null, terrain, distToPlayer);
             }
 
             if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {

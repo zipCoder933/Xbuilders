@@ -13,7 +13,7 @@ import com.xbuilders.engine.world.wcc.WCCi;
 public class ChunkNode {
 
     public Chunk chunk;
-   public int x, y, z;
+    public int x, y, z;
 
 
     public ChunkNode(WCCi coords, World world) {
@@ -40,6 +40,7 @@ public class ChunkNode {
     @Override
     public int hashCode() {
         return Objects.hash(chunk, x, y, z);
+        //(x ^ (x >> 32) ^ y ^ (y >> 32) ^ z ^ (z >> 32));//Generating efficient hashcode is CRUCIAL!
     }
 
     @Override

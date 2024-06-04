@@ -1589,7 +1589,7 @@ Event: 1.313 Loaded shared library C:\Users\sampw\AppData\Local\Temp\lwjgl_sampw
 
 Deoptimization events (20 events):
 Event: 14.587 Thread 0x0000019d14ab3c90 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000019cf27f7920 relative=0x0000000000000ae0
-Event: 14.587 Thread 0x0000019d14ab3c90 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000019cf27f7920 method=com.xbuilders.engine.world.chunk.pillar.ChunkSunlightUtils.addAnyBrightNeighbors(Lcom/xbuilders/engine/utils/BFS/HashQueue;Lcom/xbuilders/engine/world/chunk/Chunk;III)V @ 55
+Event: 14.587 Thread 0x0000019d14ab3c90 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000019cf27f7920 method=com.xbuilders.engine.world.chunk.pillar.ChunkSunlightGenerator.addAnyBrightNeighbors(Lcom/xbuilders/engine/utils/BFS/HashQueue;Lcom/xbuilders/engine/world/chunk/Chunk;III)V @ 55
 Event: 14.599 Thread 0x0000019d14ab3c90 DEOPT PACKING pc=0x0000019cf27f7920 sp=0x0000007b4d7fef90
 Event: 14.599 Thread 0x0000019d14ab3c90 DEOPT UNPACKING pc=0x0000019cf1e169a3 sp=0x0000007b4d7fef48 mode 2
 Event: 14.880 Thread 0x0000019cdcf1bfb0 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000019cf28246cc relative=0x0000000000000fac

@@ -1,24 +1,18 @@
 package com.xbuilders.engine.world.chunk.pillar;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.utils.BFS.HashQueue;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.MathUtils;
-
-import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
-
 import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
+import org.joml.Vector3i;
+
+import java.util.ArrayList;
 
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
-
-import com.xbuilders.engine.world.wcc.WCCi;
-
-import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
-
-import org.joml.Vector3i;
 
 /**
  * This class assumes that we START with darkness and add the light nodes before the BFS
@@ -75,14 +69,14 @@ public class ChunkSunlightUtilsWithLightInitialPropagation {
         return false;
     }
 
-    private static void addNodeToChunk(HashQueue<ChunkNode> queue, ChunkNode node, Chunk neghbor) {
+    private static void addNodeToChunk(ArrayList<ChunkNode> queue, ChunkNode node, Chunk neghbor) {
         queue.add(node);
 //        if (neghbor.gen_sunLoaded()) queue.add(node);
 //        else
 //            neghbor.lightQueue.add(node); //The neghbor will alwyas be the pillar because we are propigating from the pillar
     }
 
-    private static void addAnyBrightNeighbors(HashQueue<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
+    private static void addAnyBrightNeighbors(ArrayList<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
         //Negative x
         if (x - 1 >= 0) {
             if (chunk.data.getSun(x - 1, y, z) > 0) {
@@ -140,7 +134,7 @@ public class ChunkSunlightUtilsWithLightInitialPropagation {
         }
     }
 
-    static boolean generateSunlight(HashQueue<ChunkNode> queue, Chunk pillarChunk1, Terrain terrain) {
+    static boolean generateSunlight(ArrayList<ChunkNode> queue, Chunk pillarChunk1, Terrain terrain) {
 
         /**
          * Placing nodes:
@@ -177,7 +171,7 @@ public class ChunkSunlightUtilsWithLightInitialPropagation {
 
 
         while (!queue.isEmpty()) {
-            ChunkNode node = queue.getAndRemove();
+            ChunkNode node = queue.remove(0);
 //            node.chunk.data.setSun(node.x, node.y, node.z, (byte) 10); //KEEP. used to visualize where the nodes are placed initially
 
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
@@ -204,7 +198,7 @@ public class ChunkSunlightUtilsWithLightInitialPropagation {
     }
 
     //DO NOT DELETE THIS CODE!!! KEPT FOR TESTING AND POSSIBLY FUTURE USE
-//    private static void checkForLightNeighbor(Chunk chunk, int x, int y, int z, HashQueue<ChunkNode> queue) {
+//    private static void checkForLightNeighbor(Chunk chunk, int x, int y, int z, ArrayList<ChunkNode> queue) {
 //        int neighborLevel = 0;
 //        if (Chunk.inBounds(x, y, z)) {
 //            neighborLevel = chunk.data.getSun(x, y, z);
@@ -226,7 +220,7 @@ public class ChunkSunlightUtilsWithLightInitialPropagation {
 //    }
 
     private static synchronized void checkNeighbor(Chunk chunk, int x, int y, int z, final byte lightLevel,
-                                                   final HashQueue<ChunkNode> queue, boolean isBelow) {
+                                                   final ArrayList<ChunkNode> queue, boolean isBelow) {
         Block neigborBlock;
         if (Chunk.inBounds(x, y, z)) {
             neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));

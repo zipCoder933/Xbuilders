@@ -1,11 +1,12 @@
 package com.xbuilders.engine.world.chunk.pillar;
 
-import com.xbuilders.engine.utils.BFS.HashQueue;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
+
+import java.util.ArrayList;
 
 import static com.xbuilders.engine.world.World.generationService;
 import static com.xbuilders.engine.world.World.lightService;
@@ -53,12 +54,12 @@ public class PillarInformation {
     // boundaries and tell the top chunk that it is the top chunk, so that it knows
     // to generate its own sunlight
     // Also, we need to check the entire pillar before generating sunlight.
-    public void initLighting(HashQueue<ChunkNode> queue, Terrain terrain, float dist) {
+    public void initLighting(ArrayList<ChunkNode> queue, Terrain terrain, float dist) {
         try {
             lightService.submit(dist, () -> {
                 // System.err.println("Started loading sunlight");
                 // World.frameTester.startProcess();
-                ChunkSunlightUtils.generateSunlight(queue, chunks[0], terrain);
+//                ChunkSunlightGenerator.generateSunlight(chunks[0], terrain);
                 // Generate all meshes
                 for (Chunk c : chunks) {
                     if (c.getGenerationStatus() >= Chunk.GEN_TERRAIN_LOADED)

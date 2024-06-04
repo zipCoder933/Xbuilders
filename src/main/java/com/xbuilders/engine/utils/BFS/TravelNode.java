@@ -28,6 +28,6 @@ public class TravelNode {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, z, travel);
+        return (x ^ (x >> 32) ^ y ^ (y >> 32) ^ z ^ (z >> 32));//Generating efficient hashcode is CRUCIAL!
     }
 }
