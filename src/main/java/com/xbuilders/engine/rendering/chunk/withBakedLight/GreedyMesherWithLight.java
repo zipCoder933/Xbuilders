@@ -115,6 +115,10 @@ public class GreedyMesherWithLight {
             mask.put(in, 0);
             lightMask.put(in, 0);
         }
+        //If we experience problems with reusing of the mask:
+        //Note: since stack.malloc is the most efficient way to allocate memory, reusing the mask may not be much of an optimization.
+//        IntBuffer mask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT);
+//        IntBuffer lightMask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT);
 
         for (boolean backFace = true, b = false; b != backFace; backFace = backFace && b, b = !b) {
             for (int d = 0; d < 3; d++) {
@@ -150,7 +154,7 @@ public class GreedyMesherWithLight {
                     side = backFace ? BlockType.NEG_Z : BlockType.POS_Z;
                 }
 
-//                // We can also create the mask here (We MUST use it this way IF the chunk dimensions are not cubic)
+//                // We could also create the mask here, but this probbly isnt the most optimal way to do it
 //                final IntBuffer mask = stack.mallocInt(dims[u] * dims[v]);
 //                final IntBuffer lightMask = stack.mallocInt(dims[u] * dims[v]);// Implement lightmask
 
