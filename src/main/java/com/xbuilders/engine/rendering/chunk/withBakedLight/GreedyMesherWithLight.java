@@ -105,7 +105,7 @@ public class GreedyMesherWithLight {
          * We create a mask - this will contain the groups of matching voxel faces
          * as we proceed through the chunk in 6 directions - once for each face.
          */
-        final IntBuffer mask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT);
+        final IntBuffer mask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT); //TODO: We could reuse this mask since chunks size is constant
         final IntBuffer lightMask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT);
 
         for (boolean backFace = true, b = false; b != backFace; backFace = backFace && b, b = !b) {
