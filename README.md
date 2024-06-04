@@ -3,12 +3,19 @@
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
-## IMPORTANT OPTIMIZATION NOTES
+## OPTIMIZATION NOTES
 * The optimization for memory manegment when traveling thru the world isnt finished yet
-  * the memory culprit in this case is still the naive and greedy meshers
-  * there is still some memory optimizations to do, its alot better than before but could still be improved
-  * **Very Important**: When sunlight generation is enabled, the memory usage is far greater than before
-    * not sure if it is because of the sublight nodes, or the greedy mesher playing a role in that...
+
+the only bottleneckes are:
+  * greedy mesher
+  * naive mesher
+    * (unless it is generating the whole mesh, the contribution is minor)
+  * sunlight generation
+
+notes:
+  * hashmaps and hashsets are major bottlenecks. avoid these whenever possible
+
+
 
 ## Overview
 This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
