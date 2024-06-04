@@ -104,8 +104,8 @@ public class ChunkMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                if(Main.devkeyF4) {
-                    greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);}
+//                if(Main.devkeyF4) {
+                    greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
                     naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position, false); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
 //                }
 

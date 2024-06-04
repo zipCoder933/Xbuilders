@@ -101,6 +101,13 @@ public class GreedyMesherWithLight {
         ShortBuffer nextPlaneVoxel = stack.mallocShort(1);
         Block block, block1;
 
+        /*
+         * We create a mask - this will contain the groups of matching voxel faces
+         * as we proceed through the chunk in 6 directions - once for each face.
+         */
+        final IntBuffer mask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT);
+        final IntBuffer lightMask = stack.mallocInt(Chunk.WIDTH * Chunk.HEIGHT);
+
         for (boolean backFace = true, b = false; b != backFace; backFace = backFace && b, b = !b) {
             for (int d = 0; d < 3; d++) {
 
@@ -135,12 +142,9 @@ public class GreedyMesherWithLight {
                     side = backFace ? BlockType.NEG_Z : BlockType.POS_Z;
                 }
 
-                // We create the mask here (We MUST use it this way IF the chunk dimensions are
-                // not cubic)
-                final IntBuffer mask = stack.mallocInt(dims[u] * dims[v]); // TODO: Either change this from intbuffer to
-                // long buffer or add another mask
-                // Implement lightmask
-                final IntBuffer lightMask = stack.mallocInt(dims[u] * dims[v]);
+//                // We can also create the mask here (We MUST use it this way IF the chunk dimensions are not cubic)
+//                final IntBuffer mask = stack.mallocInt(dims[u] * dims[v]);
+//                final IntBuffer lightMask = stack.mallocInt(dims[u] * dims[v]);// Implement lightmask
 
                 /*
                  * We move through the d from front to back
