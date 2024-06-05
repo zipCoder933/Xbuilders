@@ -37,7 +37,7 @@ I plan on adding all the features from XBuilders 2 into this game, For now, here
 * There is a bug where when too many block events are queued, the chunk does not update until the large ones are done
 * Sometimes block events keep recurring over and over again even though allowBlockEvents is false
 
-## Performance optimizations when traveling thru world
+### Performance optimizations when traveling thru world
 * The optimization for memory manegment when traveling thru the world isnt finished yet
 the only bottleneckes are:
 * greedy mesher
@@ -50,6 +50,8 @@ notes:
 
 
 ### The game sometimes crashes
+BUG REPORT: https://github.com/LWJGL/lwjgl3/issues/986
+
 https://inside.java/2020/12/03/crash-outside-the-jvm/
 **FROM NOW ON:** Record every log file that you get and put the traces here:
 Most of them seem to be coming from here:
