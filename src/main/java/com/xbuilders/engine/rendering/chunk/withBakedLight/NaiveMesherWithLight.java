@@ -77,7 +77,9 @@ public class NaiveMesherWithLight {
 
 
                     if (block != null && !block.isAir()
-                            && (block.type != BlockList.DEFAULT_BLOCK_TYPE_ID || generateAll)) {
+                            && (generateAll ||
+                            !ItemList.blocks.getBlockType(block.type).useInGreedyMesher)
+                    ) {
 
 
                         //The code that assigns neighbors produces the most memory:

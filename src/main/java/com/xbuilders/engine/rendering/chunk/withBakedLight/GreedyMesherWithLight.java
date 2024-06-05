@@ -58,6 +58,8 @@ public class GreedyMesherWithLight {
         lightMask = MemoryUtil.memAllocInt(Chunk.WIDTH * Chunk.HEIGHT);
     }
 
+
+
     final IntBuffer mask;
     final IntBuffer lightMask;
 
@@ -183,10 +185,10 @@ public class GreedyMesherWithLight {
                             block = ItemList.getBlock(thisPlaneVoxel.get(0));
                             block1 = ItemList.getBlock(nextPlaneVoxel.get(0));
 
-                            if (block == null || block.isAir() || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block == null || block.isAir() || !ItemList.blocks.getBlockType(block.type).useInGreedyMesher) {
                                 thisPlaneVoxel.put(0, (short) 0);
                             }
-                            if (block1 == null || block1.isAir() || block1.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block1 == null || block1.isAir() || !ItemList.blocks.getBlockType(block1.type).useInGreedyMesher) {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 

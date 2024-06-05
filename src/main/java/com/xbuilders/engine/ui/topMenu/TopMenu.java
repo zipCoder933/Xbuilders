@@ -172,7 +172,7 @@ public class TopMenu {
         glClearColor(0, .5f, 1f, 1f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        window.NKrender(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
+        window.NKrender();
     }
 
     public void disposeEvent() {

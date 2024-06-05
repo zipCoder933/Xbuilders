@@ -111,6 +111,7 @@ import static org.lwjgl.system.MemoryUtil.memCopy;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.nuklear.Nuklear.*;
+
 import org.lwjgl.nuklear.*;
 
 import java.util.*;
@@ -118,7 +119,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.joml.Vector2i;
-
 
 
 import org.lwjgl.opengl.GL11;
@@ -633,7 +633,15 @@ public abstract class NKWindow extends BaseWindow {
      * everything back into a default state. Make sure to either a.) save and
      * restore or b.) reset your own state after rendering the UI.
      */
-    public void NKrender(int AA, int max_vertex_buffer, int max_element_buffer) {
+
+    //This prevents the byteBuffers from being garbage collected before the render is done with them, thus preventing a JVM crash
+    private ByteBuffer vertices, elements; //Used to fix the crash bug (https://github.com/LWJGL/lwjgl3/issues/986)
+
+    private static final int AA = NK_ANTI_ALIASING_ON;
+    private static final int max_vertex_buffer = MAX_VERTEX_BUFFER;
+    private static final int max_element_buffer = MAX_ELEMENT_BUFFER;
+
+    public void NKrender() {
         try (MemoryStack stack = stackPush()) {
             enableNuklear();
             // setup program
@@ -659,8 +667,8 @@ public abstract class NKWindow extends BaseWindow {
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, max_element_buffer, GL_STREAM_DRAW);
 
             // load draw vertices & elements directly into vertex + element buffer
-            ByteBuffer vertices = Objects.requireNonNull(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, max_vertex_buffer, null));
-            ByteBuffer elements = Objects.requireNonNull(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY, max_element_buffer, null));
+            vertices = Objects.requireNonNull(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, max_vertex_buffer, null));
+            elements = Objects.requireNonNull(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY, max_element_buffer, null));
             try (MemoryStack stack = stackPush()) {
                 // fill convert configuration
                 NkConvertConfig config = NkConvertConfig.calloc(stack)

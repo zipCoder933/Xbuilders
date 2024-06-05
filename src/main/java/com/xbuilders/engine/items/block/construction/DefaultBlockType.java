@@ -18,6 +18,7 @@ public class DefaultBlockType extends BlockType {
 
     public DefaultBlockType() {
         super();
+        useInGreedyMesher = true;
     }
 
     @Override

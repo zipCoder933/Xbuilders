@@ -103,7 +103,7 @@ public class GameUI {
                 }
                 //Add myGame.uiDraw right here
             }
-            window.NKrender(NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
+            window.NKrender();
         }
     }
 
