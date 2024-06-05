@@ -5,6 +5,7 @@ import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,7 @@ public class PillarInformation {
             lightService.submit(dist, () -> {
                 // System.err.println("Started loading sunlight");
                 // World.frameTester.startProcess();
-//                ChunkSunlightGenerator.generateSunlight(chunks[0], terrain);
+             ChunkSunlightGenerator.generateSunlight(chunks[0], terrain);
                 // Generate all meshes
                 for (Chunk c : chunks) {
                     if (c.getGenerationStatus() >= Chunk.GEN_TERRAIN_LOADED)

@@ -5,6 +5,7 @@
 package com.xbuilders.engine.rendering.chunk.mesh;
 
 import com.xbuilders.engine.rendering.Mesh;
+import com.xbuilders.game.Main;
 import org.lwjgl.opengl.*;
 
 import java.nio.IntBuffer;
@@ -86,6 +87,6 @@ public class CompactIndexedMesh implements Mesh {
         }
 
         GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, textureID);//required to assign texture to mesh
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want
+         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want
     }
 }

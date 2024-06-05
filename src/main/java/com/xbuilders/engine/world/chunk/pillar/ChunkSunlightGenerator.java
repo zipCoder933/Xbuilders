@@ -12,9 +12,13 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.game.Main;
 import org.joml.Vector3i;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 
@@ -126,6 +130,7 @@ public class ChunkSunlightGenerator {
         }
     }
 
+
     static boolean generateSunlight(Chunk pillarChunk1, Terrain terrain) {
         ArrayList<ChunkNode> queue = new ArrayList<>();
         /**
@@ -199,7 +204,7 @@ public class ChunkSunlightGenerator {
 
 
         while (!queue.isEmpty()) {
-            ChunkNode node = queue.remove(0);
+            ChunkNode node = removeNode(queue);
 //            node.chunk.data.setSun(node.x, node.y, node.z, (byte) 10); //KEEP. used to visualize where the nodes are placed initially
 
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
@@ -284,12 +289,44 @@ public class ChunkSunlightGenerator {
     private static void addNodeToInitialQueue(ArrayList<ChunkNode> queue,
                                               Chunk chunk, int x, int y, int z,
                                               Chunk neghbor) {
-//Add initially before BFS propagation
-        queue.add(new ChunkNode(chunk, x, y, z));
+
+//        if (Main.devkeyF4) {
+            queue.add(new ChunkNode(chunk, x, y, z));
+//        } else {
+//
+////Add initially before BFS propagation
+//            if (unusedNodes.isEmpty()) {
+//                queue.add(new ChunkNode(chunk, x, y, z));
+//                Main.frameTester.count("New sun nodes", 1);
+//            } else {
+//                ChunkNode node = unusedNodes.remove(0);
+//                node.set(chunk, x, y, z);
+//                queue.add(node);
+//            }
+//        }
     }
 
     private static void addNodeToQueue(ArrayList<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
-        queue.add(new ChunkNode(chunk, x, y, z));
+//        if (Main.devkeyF4) {
+            queue.add(new ChunkNode(chunk, x, y, z));
+//        } else {
+//            if (unusedNodes.isEmpty()) {
+//                queue.add(new ChunkNode(chunk, x, y, z));
+//                Main.frameTester.count("New sun nodes", 1);
+//            } else {
+//                ChunkNode node = unusedNodes.remove(0);
+//                node.set(chunk, x, y, z);
+//                queue.add(node);
+//            }
+//        }
+    }
+
+//    private static final List<ChunkNode> unusedNodes = Collections.synchronizedList(new ArrayList<ChunkNode>());
+
+    private static ChunkNode removeNode(ArrayList<ChunkNode> queue) {
+        ChunkNode node = queue.remove(0);
+//        if (!Main.devkeyF4) unusedNodes.add(node);
+        return node;
     }
 
 }

@@ -8,6 +8,7 @@ import java.nio.IntBuffer;
 
 import com.xbuilders.engine.rendering.Mesh;
 import com.xbuilders.engine.rendering.chunk.BlockShader;
+import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
 import org.lwjgl.opengl.GL11;
 

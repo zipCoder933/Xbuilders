@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.items;
 
+import com.xbuilders.engine.utils.IntMap;
+
 import java.util.HashMap;
 
 /**

@@ -3,20 +3,6 @@
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 
-## OPTIMIZATION NOTES
-* The optimization for memory manegment when traveling thru the world isnt finished yet
-
-the only bottleneckes are:
-  * greedy mesher
-  * naive mesher
-    * (unless it is generating the whole mesh, the contribution is minor)
-  * sunlight generation
-
-notes:
-  * hashmaps and hashsets are major bottlenecks. avoid these whenever possible
-
-
-
 ## Overview
 This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
 
@@ -47,10 +33,21 @@ I plan on adding all the features from XBuilders 2 into this game, For now, here
 * Textures are sourced from Pixel perfection along with a few other open source minetest texture packs. Additionally, I have handcrafted a few of my own textures as well.
 
 ## TODO Optimizations + Bufgixes
-* **performance optimizations when traveling thru world (IMPORTANT)**
 * For some reason FPS slows down to about 30FPS when living in complex terrains like default terrain or complex terrain
 * There is a bug where when too many block events are queued, the chunk does not update until the large ones are done
 * Sometimes block events keep recurring over and over again even though allowBlockEvents is false
+
+## Performance optimizations when traveling thru world
+* The optimization for memory manegment when traveling thru the world isnt finished yet
+the only bottleneckes are:
+* greedy mesher
+* naive mesher
+  * (unless it is generating the whole mesh, the contribution is minor)
+* sunlight generation
+
+notes:
+* hashmaps and hashsets are major bottlenecks. avoid these whenever possible
+
 
 ### The game sometimes crashes
 https://inside.java/2020/12/03/crash-outside-the-jvm/

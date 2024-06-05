@@ -15,6 +15,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.game.Main;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -48,13 +49,6 @@ public class GreedyMesherWithLight {
     final int[] dv = new int[]{0, 0, 0};
     final int[] normal = new int[]{0, 0, 0};
 
-    // Variables used for quad generaiton
-    final static int[] indexes1 = {2, 0, 1, 1, 3, 2}; // Constant
-    final static int[] indexes2 = {2, 3, 1, 1, 0, 2}; // Constant
-    final Vector3f[] vertices = {new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f()};
-    final Vector2f[] uvs = {new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()};
-    final byte[] light = {(byte) 0, (byte) 0, (byte) 0, (byte) 0};
-    final Vector3i[] completeVertex = {new Vector3i(), new Vector3i(), new Vector3i(), new Vector3i()};
 
     public GreedyMesherWithLight(ChunkVoxels voxels, Vector3i chunkPosition) {
         this.chunkVoxels = voxels;
@@ -97,12 +91,12 @@ public class GreedyMesherWithLight {
         u = 0;
         v = 0;
         final IntBuffer quadSize = stack.mallocInt(2);
+        int maskValue, lightMaskValue;
 
         /**
          * These are just working variables to hold two faces during comparison.
          */
         Vector3i voxelPos = new Vector3i(stack.mallocInt(3));
-
         ShortBuffer thisPlaneVoxel = stack.mallocShort(1);
         ShortBuffer nextPlaneVoxel = stack.mallocShort(1);
         Block block, block1;
@@ -200,7 +194,7 @@ public class GreedyMesherWithLight {
                                     || (block.opaque != block1.opaque);
                             // The opaque check is to prevent transparent mesh from overriding opaque
 
-                            int maskValue = draw
+                            maskValue = draw
                                     ? (backFace // add the voxel for either this plane or the next plane
                                     // depending on our direction
                                     ? nextPlaneVoxel.get(0)
@@ -208,15 +202,13 @@ public class GreedyMesherWithLight {
                                     : 0;
                             mask.put(n, maskValue);
 
-                            int lightValue = draw
+                            lightMaskValue = draw
                                     ? (backFace // add the voxel for either this plane or the next plane
                                     // depending on our direction
-                                    ? retrieveLightForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk,
-                                    block1, d, backFace, x, q)
-                                    : retrieveLightForThisPlane(thisPlaneVoxel.get(0), backChunk, forwardChunk,
-                                    block, d, backFace, x, q))
+                                    ? retrieveLightForNextPlane(nextPlaneVoxel.get(0), backChunk, forwardChunk, block1, d, backFace, x, q)
+                                    : retrieveLightForThisPlane(thisPlaneVoxel.get(0), backChunk, forwardChunk, block, d, backFace, x, q))
                                     : 0;
-                            lightMask.put(n, lightValue);
+                            lightMask.put(n, lightMaskValue);
                             n++;
                         }
                     }
@@ -367,6 +359,15 @@ public class GreedyMesherWithLight {
         }
     }
 
+    // Variables used for quad generaiton
+    final static int[] indexes1 = {2, 0, 1, 1, 3, 2}; // Constant
+    final static int[] indexes2 = {2, 3, 1, 1, 0, 2}; // Constant
+    final Vector3f[] vertices = {new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f()};
+    final Vector2f[] uvs = {new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()};
+    final byte[] light = {(byte) 0, (byte) 0, (byte) 0, (byte) 0};
+    final Vector3i[] completeVertex = {new Vector3i(), new Vector3i(), new Vector3i(), new Vector3i()};
+    byte l_lt, l_rt, l_lb, l_rb;
+
     // d: 0=X,1=Y,2=Z
     protected void Mesher_makeQuad(VertexSet buffers, VertexSet transBuffers, int x[], int du[], int dv[], final int w,
                                    final int h,
@@ -375,10 +376,10 @@ public class GreedyMesherWithLight {
 
         // packedLight = 0b11111111000000001111111100000000;// For testing purposes
 
-        byte l_lt = (byte) packedLight; // top left
-        byte l_rt = (byte) packedLight; // top right
-        byte l_lb = (byte) packedLight; // bottom left
-        byte l_rb = (byte) packedLight; // bottom right
+        l_lt = (byte) packedLight; // top left
+        l_rt = (byte) packedLight; // top right
+        l_lb = (byte) packedLight; // bottom left
+        l_rb = (byte) packedLight; // bottom right
 
         if (smoothLighting) { // We need a 32 bit number for the light not 16
             l_lb = (byte) ((packedLight >> 0) & 0xFF);
@@ -517,18 +518,25 @@ public class GreedyMesherWithLight {
         return pos;
     }
 
+    //Variables used for smooth light generation
+    //TODO: If I ever implement multithreaded greedy meshing, these variables need to be in the method!
+    byte a1, b1, c1,
+            a2, b2, c2,
+            a3, b3, c3;
+    byte a1Sun, b1Sun, c1Sun,
+            a2Sun, b2Sun, c2Sun,
+            a3Sun, b3Sun, c3Sun;
+    byte a1Torch, b1Torch, c1Torch,
+            a2Torch, b2Torch, c2Torch,
+            a3Torch, b3Torch, c3Torch;
+
     private int retrieveSmoothLight(short thisPlaneVoxel, Chunk backChunk,
                                     Chunk frontChunk, Block block,
                                     boolean backFace,
                                     int x, int y, int z, // origin
                                     int[] normal) {
-
         if (thisPlaneVoxel == 0) //Skip if this is air
             return 0;
-
-        byte a1, b1, c1,
-                a2, b2, c2,
-                a3, b3, c3;
 
         int origin[] = {x, y, z};
 
@@ -570,13 +578,7 @@ public class GreedyMesherWithLight {
 
         // We have to separate the channels, average them for each vertex and them pack
         // them back together
-        byte a1Sun, b1Sun, c1Sun,
-                a2Sun, b2Sun, c2Sun,
-                a3Sun, b3Sun, c3Sun;
 
-        byte a1Torch, b1Torch, c1Torch,
-                a2Torch, b2Torch, c2Torch,
-                a3Torch, b3Torch, c3Torch;
 
         a1Sun = (byte) ((a1 & 0b11110000) >> 4);
         b1Sun = (byte) ((b1 & 0b11110000) >> 4);

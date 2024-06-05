@@ -1,6 +1,7 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.player.camera.Camera;
+import com.xbuilders.engine.utils.Vector3iMap;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -45,7 +46,7 @@ import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
 
 public class World {
-    public static FrameTester frameTester = Main.dummyTester;
+    public static FrameTester frameTester = Main.frameTester;
 
     /*
      * CHUNK GENERATION PERFORMANCE
@@ -78,6 +79,7 @@ public class World {
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
     public BlockShader chunkShader;
+
     public void setViewDistance(int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
@@ -115,7 +117,7 @@ public class World {
 
     private final SortByDistance sortByDistance = new SortByDistance();
     private final List<Chunk> unusedChunks = new ArrayList<>();
-    public final Map<Vector3i, Chunk> chunks = new HashMap<>();
+    public final Map<Vector3i, Chunk> chunks = new HashMap();
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
     private final List<Chunk> chunksToRender = new ArrayList<>();
     public Box box;
@@ -249,9 +251,7 @@ public class World {
         ExecutorServiceUtils.cancelAllTasks(lightService);
         ExecutorServiceUtils.cancelAllTasks(meshService);
 
-        chunks.values().forEach((chunk) -> {
-            chunk.dispose();
-        });
+        chunks.forEach((coords, chunk) -> chunk.dispose());
         unusedChunks.forEach((chunk) -> {
             chunk.dispose();
         });

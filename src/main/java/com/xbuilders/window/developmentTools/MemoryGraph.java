@@ -28,8 +28,8 @@ public class MemoryGraph extends JPanel {
         //Add a label for the percent panel
         JLabel percentLabel = new JLabel("Memory Usage Percent");
         panel.add(percentLabel, BorderLayout.NORTH);
-        percentPanel.setPreferredSize(new Dimension(450, 200));
-        percentPanel.setYBounds(0, 1);
+        percentPanel.setPreferredSize(new Dimension(500, 200));
+        percentPanel.setYBounds(0.2, 0.8);
         panel.add(percentPanel, BorderLayout.CENTER);
 
         frame.pack();
@@ -48,7 +48,7 @@ public class MemoryGraph extends JPanel {
     public void update() {
         double kb = MemoryProfiler.getMemoryUsed() / 1024; //In KB
         double percent = MemoryProfiler.getMemoryUsagePercent();
-        percentPanel.addDataPoint(percent, 300);
+        percentPanel.addDataPoint(percent, 2000);
         percentPanel.update();
     }
 }

@@ -105,8 +105,8 @@ public class ChunkMeshBundle {
                 transBuffer.reset();
 
 //                if(Main.devkeyF4) {
-                    greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
-//                    naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position, false); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
+                greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
+                naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position, false); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
 //                }
 
                 opaqueBuffer.makeVertexSet(); //Buffer will automatically not make verteces if it is empty

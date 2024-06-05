@@ -11,6 +11,7 @@ import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.items.block.construction.LiquidBlockType;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.IntMap;
 
 import java.io.File;
 import java.io.IOException;
