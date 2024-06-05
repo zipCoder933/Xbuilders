@@ -2,6 +2,7 @@
 
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
+** the repository is currently not accepting contributions **
 
 ## Overview
 This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
