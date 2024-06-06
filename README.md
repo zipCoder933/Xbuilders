@@ -1,18 +1,12 @@
-[//]: # (![Xbuilders landscape]&#40;./assets/images/b.jpg&#41;)
 
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
 ** the repository is currently not accepting contributions **
 
-## Overview
-This game is a minecraft like block game, written in Java, with priority on **performance** and **simplicity**.
-
-The game uses greedy meshing to generate chunks and supports light, custom block types and mobile entities.
-
-This game can run at top performance at up to a 400 voxel view radius. It has a 3d grid of chunks, The world height is limited to 255 blocks, however that is self imposed primarly due to preformance and sunlight generation in the future, and can be easily bypassed.
+# GIVE IT UP!!!
 
 
-
+<!--
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
   * `[LWJGL] [ThreadLocalUtil] Unsupported JNI version detected, this may result in a crash. Please inform LWJGL developers.`
@@ -75,110 +69,4 @@ There are 2 blender profiles, one for blocks and one for entities
 ### Icon generation
 If the resulting icons from icon generation are empty, the most likely cause would be that the iconRTT.vs vertex shader was not updated to match the chunk vertex shader
 
-[//]: # (## Current Features)
-
-[//]: # (I plan on adding all the features from XBuilders 2 into this game, For now, here are the currenly available features in XBuilders 3)
-
-[//]: # (* Block tools)
-
-[//]: # (  * Block boundary)
-
-[//]: # (  * Copy/Paste)
-
-[//]: # (* Decorative blocks)
-
-[//]: # (  * slab,stairs,fence,fence gate, trapdoor, door, pillar, floor item, vines, torch, lamp and glass pane)
-
-[//]: # (* Animals &#40;Entity&#41;)
-
-[//]: # (  * Fox, horse, dog, rabbit and cat)
-
-[//]: # (* Torchlight and sunlight)
-
-[//]: # (* Growable trees)
-
-[//]: # (* Smooth mesh lighting)
-
-[//]: # (* Animated block textures)
-
-[//]: # (* Growable trees)
-
-[//]: # (* Smooth mesh lighting)
-
-[//]: # (* Animated block textures)
-
-[//]: # ()
-[//]: # ()
-[//]: # (## Keys and buttons)
-
-[//]: # (Key | action)
-
-[//]: # (--|--)
-
-[//]: # (W|up/fly)
-
-[//]: # (S|down)
-
-[//]: # (spacebar|jump/enable gravity)
-
-[//]: # (P|toggle collisions)
-
-[//]: # (arrow keys|move horizontally)
-
-[//]: # (F|toggle fast movement)
-
-[//]: # (M|toggle menu)
-
-[//]: # (ESC|leave world/exit game)
-
-[//]: # (I|toggle inventory)
-
-[//]: # (F11|save screenshot)
-
-[//]: # ()
-[//]: # ()
-[//]: # (Mouse | action)
-
-[//]: # (--|--)
-
-[//]: # (Scroll|select block)
-
-[//]: # (Right-click|delete block)
-
-[//]: # (Left-click|create block)
-
-
-
-
-[//]: # ()
-[//]: # ()
-[//]: # (## Screenshots)
-
-[//]: # (A few of the blocks currently available)
-
-[//]: # (![blocks]&#40;./assets/images/a.jpg&#41;)
-
-[//]: # ()
-[//]: # (Inside a house)
-
-[//]: # (![indoors]&#40;./assets/images/c.jpg&#41;)
-
-[//]: # ()
-[//]: # (A group of foxes)
-
-[//]: # (![foxes]&#40;./assets/images/e.jpg&#41;)
-
-[//]: # ()
-[//]: # (Lots of foxes!)
-
-[//]: # (![lots of foxes]&#40;./assets/images/f.jpg&#41;)
-
-[//]: # ()
-[//]: # (Screenshot of the inventory menu)
-
-[//]: # (![inventory]&#40;./assets/images/g.jpg&#41;)
-
-[//]: # ()
-[//]: # (Ingame screenshot:)
-
-[//]: # (![ingame]&#40;./assets/images/h.jpg&#41;)
+-->
