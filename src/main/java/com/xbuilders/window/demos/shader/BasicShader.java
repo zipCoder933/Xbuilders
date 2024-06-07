@@ -1,11 +1,11 @@
 package com.xbuilders.window.demos.shader;
 
 
-import com.xbuilders.window.render.ShaderBase;
+import com.xbuilders.window.render.Shader;
 import org.joml.Vector4f;
 import java.io.IOException;
 
-public class BasicShader extends ShaderBase {
+public class BasicShader extends Shader {
 
     static final String vertShader = """
             #version 330 core

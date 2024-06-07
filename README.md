@@ -1,7 +1,6 @@
 
 # Xbuilders 3
 **A voxel game written in Java + LWJGL**
-** the repository is currently not accepting contributions **
 
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:

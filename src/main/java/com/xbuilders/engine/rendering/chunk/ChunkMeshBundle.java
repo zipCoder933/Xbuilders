@@ -4,12 +4,14 @@
  */
 package com.xbuilders.engine.rendering.chunk;
 
+import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
 import com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.ArrayList;
@@ -72,11 +74,13 @@ public class ChunkMeshBundle {
 
     Mesher naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
     Mesher greedyMesher;
-    public final CompactMesh opaqueMesh, transMesh;
+    public final CompactOcclusionMesh opaqueMesh;
+    public final CompactMesh transMesh;
 
     public ChunkMeshBundle(int texture, Chunk chunk) {
         this.chunk = chunk;
-        opaqueMesh = new CompactMesh();
+
+        opaqueMesh = new CompactOcclusionMesh();
         opaqueMesh.setTextureID(texture);
         transMesh = new CompactMesh();
         transMesh.setTextureID(texture);
@@ -85,9 +89,10 @@ public class ChunkMeshBundle {
         naiveMesher = new NaiveMesherWithLight(chunk.data, chunk.position, false);
     }
 
-    public synchronized void init() {
+    public synchronized void init(AABB bounds) {
         opaqueMesh.makeEmpty();
         transMesh.makeEmpty();
+        opaqueMesh.init(bounds);
     }
 
     public boolean meshesHaveAllSides;

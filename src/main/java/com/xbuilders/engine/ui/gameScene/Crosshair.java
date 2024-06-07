@@ -6,9 +6,9 @@ package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.Shader;
-import com.xbuilders.window.render.ShaderBase;
+
 import java.io.IOException;
-import org.lwjgl.opengl.GL11;
+
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
@@ -21,12 +21,9 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform2f;
-import static org.lwjgl.opengl.GL20.glUniform2i;
-import static org.lwjgl.opengl.GL20.glUniform4f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL32;
 
 /**
  *

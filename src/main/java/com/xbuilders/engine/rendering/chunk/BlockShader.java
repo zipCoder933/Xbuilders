@@ -5,13 +5,11 @@
 package com.xbuilders.engine.rendering.chunk;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.block.BlockArrayTexture;
-import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.window.render.ShaderBase;
+import com.xbuilders.window.render.Shader;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -21,7 +19,7 @@ import java.io.IOException;
 /**
  * @author zipCoder933
  */
-public class BlockShader extends ShaderBase {
+public class BlockShader extends Shader {
 
     public final int mvpUniform,
             maxMult12bitsUniform,

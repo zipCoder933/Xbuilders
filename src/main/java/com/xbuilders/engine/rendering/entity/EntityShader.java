@@ -6,14 +6,14 @@ package com.xbuilders.engine.rendering.entity;
 
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.window.render.ShaderBase;
+import com.xbuilders.window.render.Shader;
 
 import java.io.IOException;
 
 /**
  * @author zipCoder933
  */
-public class EntityShader extends ShaderBase {
+public class EntityShader extends Shader {
 
     public final int mvpUniform, sunUniform, torchUniform;
 

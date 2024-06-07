@@ -110,7 +110,7 @@ public class Chunk {
                 position.z * WIDTH);
         aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH,
                 WIDTH, HEIGHT, WIDTH);
-        meshes.init();
+        meshes.init(aabb);
         neghbors.init(position);
         // Load the chunk
 

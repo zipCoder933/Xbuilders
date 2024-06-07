@@ -1,7 +1,6 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.player.camera.Camera;
-import com.xbuilders.engine.utils.Vector3iMap;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -115,7 +114,8 @@ public class World {
     public static final int WORLD_BOTTOM_Y = BOTTOM_Y_CHUNK * Chunk.WIDTH + Chunk.WIDTH; // down (+Y)
     public static final int WORLD_SIZE_POS_Z = 100000; // +Z
 
-    private final SortByDistance sortByDistance = new SortByDistance();
+    private SortByDistanceToPlayer sortByDistance;
+
     private final List<Chunk> unusedChunks = new ArrayList<>();
     public final Map<Vector3i, Chunk> chunks = new HashMap();
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
@@ -175,6 +175,7 @@ public class World {
 
     public World() {
         this.needsSorting = new AtomicBoolean(true);
+
     }
 
     public void init(BlockArrayTexture textures) throws IOException {
@@ -185,6 +186,7 @@ public class World {
 
         setViewDistance(Main.settings.viewDistance);
         chunkShader.setSkyColor(GameScene.backgroundColor);
+        sortByDistance = new SortByDistanceToPlayer(GameScene.player.worldPosition);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Chunk operations">
@@ -382,6 +384,7 @@ public class World {
     long frame = 0;
 
     public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) throws IOException {
+       //<editor-fold defaultstate="collapsed" desc="chunk updating">
         frame++;
         if (!lastPlayerPosition.equals(playerPosition)) {
             needsSorting.set(true);
@@ -410,14 +413,12 @@ public class World {
         }
 
         updateChunksToRenderList(playerPosition);
-
-        // TODO: When lots of chunks are rendered, the MPF drops, even if no chunks are
-        // actually drawn...
         if (needsSorting.get()) {
             chunksToRender.sort(sortByDistance);
             needsSorting.set(false);
         }
         frameTester.endProcess("Sort chunks if needed");
+        //</editor-fold>
 
         // ACTUALLY DRAW THE CHUNKS
         // This is the culprit for low FPS
