@@ -7,7 +7,8 @@ package com.xbuilders.engine.rendering.chunk;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.rendering.chunk.withoutBakedLight.NaiveMesher;
+import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesher;
+import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
@@ -21,11 +22,6 @@ public class BlockMeshBundle {
 
     final TraditionalVertexSet opaqueBuffer = new TraditionalVertexSet();
     final TraditionalVertexSet transBuffer = new TraditionalVertexSet();
-
-
-    static final NaiveMesher naiveMesher = new NaiveMesher(true);
-//    static final GreedyMesher greedyMesher = new GreedyMesher();
-
     public final CompactMesh opaqueMesh, transMesh;
 
     public BlockMeshBundle() {
@@ -47,8 +43,8 @@ public class BlockMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                naiveMesher.compute(voxels, opaqueBuffer, transBuffer, new Vector3i(0, 0, 0));
-//                greedyMesher.compute(voxels, opaqueBuffer, transBuffer, new Vector3i(0, 0, 0), stack, 1);
+                new NaiveMesher(voxels, new Vector3i(0, 0, 0), true)
+                        .compute(opaqueBuffer, transBuffer, stack, 1, false);
 
                 if (opaqueBuffer.size() != 0) {
                     opaqueBuffer.makeVertexSet();

@@ -4,10 +4,10 @@
  */
 package com.xbuilders.engine.rendering.chunk;
 
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.rendering.chunk.withBakedLight.GreedyMesherWithLight;
-import com.xbuilders.engine.rendering.chunk.withBakedLight.NaiveMesherWithLight;
+import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
+import com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight;
+import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -15,7 +15,6 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.xbuilders.game.Main;
 import org.lwjgl.system.MemoryStack;
 
 /**
@@ -71,8 +70,8 @@ public class ChunkMeshBundle {
 
     Chunk chunk;
 
-    NaiveMesherWithLight naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
-    GreedyMesherWithLight greedyMesher;
+    Mesher naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
+    Mesher greedyMesher;
     public final CompactMesh opaqueMesh, transMesh;
 
     public ChunkMeshBundle(int texture, Chunk chunk) {
@@ -83,7 +82,7 @@ public class ChunkMeshBundle {
         transMesh.setTextureID(texture);
 
         greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position);
-        naiveMesher = new NaiveMesherWithLight(chunk.data);
+        naiveMesher = new NaiveMesherWithLight(chunk.data, chunk.position, false);
     }
 
     public synchronized void init() {
@@ -104,10 +103,8 @@ public class ChunkMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-//                if(Main.devkeyF4) {
                 greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
-                naiveMesher.compute(opaqueBuffer, transBuffer, chunk.position, false); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
-//                }
+                naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
 
                 opaqueBuffer.makeVertexSet(); //Buffer will automatically not make verteces if it is empty
                 transBuffer.makeVertexSet();

@@ -58,7 +58,7 @@ public class BlockEventPipeline {
      * threadFactory: The factory to use when creating new threads.
      * handler: The handler to use when tasks cannot be executed.
      */
-    ThreadPoolExecutor bulkBlockThread;
+    PriorityThreadPoolExecutor bulkBlockThread;
     PriorityThreadPoolExecutor eventThread;
 
     public void startGame() {
@@ -67,10 +67,10 @@ public class BlockEventPipeline {
                 0L, TimeUnit.MILLISECONDS,
                 new HighValueComparator());
 
-        bulkBlockThread = new ThreadPoolExecutor(
+        bulkBlockThread = new PriorityThreadPoolExecutor(
                 5, 5,
                 100L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>());
+                new HighValueComparator());
     }
 
     public void endGame() {
@@ -99,17 +99,16 @@ public class BlockEventPipeline {
         boolean allowBlockEvents = framesThatHadEvents < MAX_FRAMES_WITH_EVENTS_IN_A_ROW;
         System.out.println("\nUPDATING " + events.size() + " EVENTS (" + framesThatHadEvents + " frames in row): \tMultiThread: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
 
-        if (multiThreadedMode) { //TODO: Successfully implement multithreaded block setting
-            bulkBlockThread.execute(() -> resolveQueue(allowBlockEvents, player));
-            return;
-        } else
-            resolveQueue(allowBlockEvents, player);
-
         lightChangesThisFrame = 0;
         blockChangesThisFrame = 0;
+
+        if (multiThreadedMode) {
+            bulkBlockThread.submit(System.currentTimeMillis(),
+                    () -> resolveQueue(allowBlockEvents, framesThatHadEvents, player));
+        } else resolveQueue(allowBlockEvents, framesThatHadEvents, player);
     }
 
-    private void resolveQueue(boolean allowBlockEvents, UserControlledPlayer player) {
+    private void resolveQueue(boolean allowBlockEvents, int framesInARow, UserControlledPlayer player) {
         HashMap<Vector3i, BlockHistory> eventsCopy;
         synchronized (eventClearLock) {
             eventsCopy = new HashMap<>(events);
@@ -119,12 +118,12 @@ public class BlockEventPipeline {
         List<ChunkNode> opaqueToTransparent = new ArrayList<>();
         List<ChunkNode> transparentToOpaque = new ArrayList<>();
 
+        System.out.println("EVENTS SIZE: " + eventsCopy.size());
 
         eventsCopy.forEach((worldPos, blockHist) -> {
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
-//            System.out.println("\tBlock: " + blockHist.toString());
             if (!blockHist.previousBlock.equals(blockHist.currentBlock)) { //If the 2 blocks are different
                 BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);
                 if (type == null) return;
@@ -177,7 +176,7 @@ public class BlockEventPipeline {
 
 
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
-        System.out.println("\tOpaque to trans: " + opaqueToTransparent.size()+"; Trans to opaque: " + transparentToOpaque.size());
+        System.out.println("\tOpaque to trans: " + opaqueToTransparent.size() + "; Trans to opaque: " + transparentToOpaque.size());
 
         if (opaqueToTransparent.size() > 10000 || transparentToOpaque.size() > 10000) {
             System.out.println("Pre-Updating Meshes");

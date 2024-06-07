@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.chunk.withBakedLight;
+package com.xbuilders.engine.rendering.chunk.meshers;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -16,28 +16,24 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import org.joml.Vector3i;
+import org.lwjgl.system.MemoryStack;
 
 /**
  * @author zipCoder933
  */
-public class NaiveMesherWithLight {
+public class NaiveMesherWithLight extends Mesher {
 
     ChunkVoxels data;
-
-    int[] dims;
     boolean generateAll;
 
-    public NaiveMesherWithLight(ChunkVoxels chunkPreMeshData) {
+    public NaiveMesherWithLight(ChunkVoxels chunkPreMeshData, Vector3i chunkPositionOffset, boolean generateAll) {
+        super(chunkPreMeshData, chunkPositionOffset);
         this.generateAll = generateAll;
         this.data = chunkPreMeshData;
-        dims = new int[]{data.size.x, data.size.y, data.size.z};
     }
 
-    Block block;
-    BlockData blockData;
     Block[] neighbors = new Block[6];
     byte[] lightNeghbors = new byte[6];
-
     Chunk negXNeghbor;
     Chunk posXNeghbor;
     Chunk negYNeghbor;
@@ -46,7 +42,8 @@ public class NaiveMesherWithLight {
     Chunk posZNeghbor;
     BlockType type;
 
-    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers, Vector3i chunkPosition, boolean generateAll) {
+    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers,
+                        MemoryStack stack, int lodLevel, boolean smoothShading) {
         Block block = null;
         BlockData blockData = null;
 

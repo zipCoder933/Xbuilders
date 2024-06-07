@@ -146,7 +146,6 @@ public class CursorRay {
                     boundary_useHitPos = false;
                     return false;
                 } else if (key == GLFW.GLFW_KEY_L) {
-                    System.out.println("Locking to plane: " + boundary_lockToPlane);
                     boundary_lockToPlane = !boundary_lockToPlane;
                     return true;
                 }

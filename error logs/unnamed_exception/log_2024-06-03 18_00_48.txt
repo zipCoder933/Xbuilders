@@ -5,7 +5,7 @@ Class: 	class java.lang.NullPointerException
 Stack trace:
 [com.xbuilders.engine.items.block.construction.DefaultBlockType.sideIsVisible(DefaultBlockType.java:103)
  com.xbuilders.engine.items.block.construction.DefaultBlockType.constructBlock(DefaultBlockType.java:29)
- com.xbuilders.engine.rendering.chunk.withBakedLight.NaiveMesherWithLight.compute(NaiveMesherWithLight.java:177)
+ com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight.compute(NaiveMesherWithLight.java:177)
  com.xbuilders.engine.rendering.chunk.ChunkMeshBundle.compute(ChunkMeshBundle.java:109)
  com.xbuilders.engine.world.chunk.Chunk.lambda$prepare$1(Chunk.java:272)
  java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)

@@ -19,7 +19,7 @@ public class Tool_BoundarySetDelete extends BlockTool {
         super("Boundary", tools, cursorRay);
     }
 
-    public String getName() {
+    public String toolDescription() {
         return name + (GameScene.player.camera.cursorRay.boundary_lockToPlane ? " Plane" : "");
     }
 

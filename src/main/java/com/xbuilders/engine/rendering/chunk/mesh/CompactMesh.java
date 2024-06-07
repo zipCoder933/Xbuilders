@@ -12,6 +12,7 @@ import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
 import org.lwjgl.opengl.GL11;
 
+import static org.lwjgl.opengl.ARBOcclusionQuery.glGenQueriesARB;
 import static org.lwjgl.opengl.GL11.GL_FILL;
 import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
 import static org.lwjgl.opengl.GL11.GL_LINE;

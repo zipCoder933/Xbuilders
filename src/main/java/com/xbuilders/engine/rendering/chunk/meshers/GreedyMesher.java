@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.chunk.withoutBakedLight;
+package com.xbuilders.engine.rendering.chunk.meshers;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
@@ -20,12 +20,11 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-import java.util.HashMap;
 
 /**
  * @author zipCoder933
  */
-public class GreedyMesher {
+public class GreedyMesher extends Mesher {
     private static final int NEG_X = 0;
     private static final int POS_X = 1;
 
@@ -35,10 +34,11 @@ public class GreedyMesher {
     private static final int POS_Y = 4;
     private static final int NEG_Y = 5;
 
-    ChunkVoxels chunkVoxels;
     int[] dims;
 
-    public GreedyMesher() {
+    public GreedyMesher(ChunkVoxels voxels, Vector3i chunkPositionOffset) {
+        super(voxels, chunkPositionOffset);
+        this.dims = new int[]{voxels.size.x, voxels.size.y, voxels.size.z};
     }
 
     /**
@@ -48,10 +48,11 @@ public class GreedyMesher {
         return val1 == val2;
     }
 
-    public void compute(ChunkVoxels voxels, VertexSet opaqueBuffers, VertexSet transparentBuffers,
-                        Vector3i chunkPositionOffset, MemoryStack stack, int lodLevel) {
-        this.chunkVoxels = voxels;
-        this.dims = new int[]{voxels.size.x, voxels.size.y, voxels.size.z};
+    @Override
+    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers,
+                        MemoryStack stack,
+                        int lodLevel, boolean smoothShading) {
+
         /**
          * These are just working variables for the algorithm - almost all taken
          * directly from Mikola Lysenko's javascript implementation.
@@ -89,8 +90,8 @@ public class GreedyMesher {
                 q[2] = 0;
                 q[d] = 1;
 
-                Chunk forwardChunk = GameScene.world.getChunk(new Vector3i(chunkPositionOffset.x + q[0], chunkPositionOffset.y + q[1], chunkPositionOffset.z + q[2]));
-                Chunk backChunk = GameScene.world.getChunk(new Vector3i(chunkPositionOffset.x - q[0], chunkPositionOffset.y - q[1], chunkPositionOffset.z - q[2]));
+                Chunk forwardChunk = GameScene.world.getChunk(new Vector3i(chunkPosition.x + q[0], chunkPosition.y + q[1], chunkPosition.z + q[2]));
+                Chunk backChunk = GameScene.world.getChunk(new Vector3i(chunkPosition.x - q[0], chunkPosition.y - q[1], chunkPosition.z - q[2]));
 
                 if (d == 0) {
                     side = backFace ? NEG_X : POS_X;

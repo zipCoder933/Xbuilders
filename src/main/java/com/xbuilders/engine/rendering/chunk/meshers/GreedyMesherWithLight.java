@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.chunk.withBakedLight;
+package com.xbuilders.engine.rendering.chunk.meshers;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
@@ -15,7 +14,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Main;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -24,21 +22,18 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-import java.util.HashMap;
 
 /**
  * @author zipCoder933
  */
-public class GreedyMesherWithLight {
+public class GreedyMesherWithLight extends Mesher {
     // Nublada does not actually use indexed meshing, it is just regular meshes with
     // indexes attached to vertices
     // If I want to do indexed meshes, I need some sort of hashmap like thing, and
     // than compute the indexes later
 
     // Constants
-    ChunkVoxels chunkVoxels;
     final int[] dims;
-    final Vector3i chunkPosition;
     boolean smoothLighting = true;
 
     // Variables used for greedy meshing
@@ -51,8 +46,7 @@ public class GreedyMesherWithLight {
 
 
     public GreedyMesherWithLight(ChunkVoxels voxels, Vector3i chunkPosition) {
-        this.chunkVoxels = voxels;
-        this.chunkPosition = chunkPosition;
+        super(voxels, chunkPosition);
         dims = new int[]{voxels.size.x, voxels.size.y, voxels.size.z};
         mask = MemoryUtil.memAllocInt(Chunk.WIDTH * Chunk.HEIGHT);
         lightMask = MemoryUtil.memAllocInt(Chunk.WIDTH * Chunk.HEIGHT);

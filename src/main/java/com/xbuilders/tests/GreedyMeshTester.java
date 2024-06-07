@@ -8,7 +8,7 @@
 //import com.xbuilders.engine.items.block.Block;
 //import com.xbuilders.engine.items.block.BlockArrayTexture;
 //import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.BufferSet;
-//import com.xbuilders.engine.rendering.chunk.withoutBakedLight.GreedyMesher;
+//import com.xbuilders.engine.rendering.chunk.meshers.GreedyMesher;
 //import com.xbuilders.engine.rendering.chunk.withBakedLight.GreedyMesherWithLight;
 //import com.xbuilders.engine.rendering.old.GreedyMesherNublada;
 //import com.xbuilders.engine.utils.MiscUtils;
