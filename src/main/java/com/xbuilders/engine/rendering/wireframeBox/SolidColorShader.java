@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.rendering.wireframeBox;
 
-import com.xbuilders.window.render.ShaderBase;
+import com.xbuilders.window.render.Shader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +15,7 @@ import org.joml.Vector4f;
  *
  * @author zipCoder933
  */
-public class SolidColorShader extends ShaderBase {
+public class SolidColorShader extends Shader {
 
     public int colorUnifrom, mvpUniform;
 

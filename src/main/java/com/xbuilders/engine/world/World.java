@@ -384,6 +384,7 @@ public class World {
     long frame = 0;
 
     public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) throws IOException {
+       //<editor-fold defaultstate="collapsed" desc="chunk updating">
         frame++;
         if (!lastPlayerPosition.equals(playerPosition)) {
             needsSorting.set(true);
@@ -412,14 +413,12 @@ public class World {
         }
 
         updateChunksToRenderList(playerPosition);
-
-        // TODO: When lots of chunks are rendered, the MPF drops, even if no chunks are
-        // actually drawn...
         if (needsSorting.get()) {
             chunksToRender.sort(sortByDistance);
             needsSorting.set(false);
         }
         frameTester.endProcess("Sort chunks if needed");
+        //</editor-fold>
 
         // ACTUALLY DRAW THE CHUNKS
         // This is the culprit for low FPS

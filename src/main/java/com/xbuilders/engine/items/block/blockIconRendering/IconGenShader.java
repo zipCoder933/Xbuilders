@@ -6,14 +6,14 @@ package com.xbuilders.engine.items.block.blockIconRendering;
 
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.window.render.ShaderBase;
+import com.xbuilders.window.render.Shader;
 
 import java.io.IOException;
 
 /**
  * @author zipCoder933
  */
-public class IconGenShader extends ShaderBase {
+public class IconGenShader extends Shader {
 
     public final int mvpUniform, maxMult12bitsUniform, maxMult10bitsUniform, textureLayerCountUniform;
 
