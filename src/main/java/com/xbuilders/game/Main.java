@@ -36,6 +36,7 @@ public class Main extends NKWindow {
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
     public static MemoryGraph memoryGraph = new MemoryGraph();
+
     static {
         dummyTester.setEnabled(false);
         frameTester.setStarted(true);
@@ -69,7 +70,7 @@ public class Main extends NKWindow {
     public static GameScene gameScene;
     public static UserID user;
     UIResources uiResources;
-    
+
     File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
     static boolean generateIcons = false;
 
@@ -87,14 +88,14 @@ public class Main extends NKWindow {
             }
             ResourceUtils.initialize(devMode);
 
-            new Main().run();
+            new Main();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public Main() throws IOException, Exception {
-
+    public Main() throws Exception {
+        super();
         settings = settingsUtils.load();
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
@@ -105,6 +106,35 @@ public class Main extends NKWindow {
         setMpfUpdateInterval(500);
         MemoryProfiler.setIntervalMS(500);
 
+        //Create the window
+        initGLFW();
+        startWindow("TEST WINDOW", 850, 650);
+        GLFW.glfwSwapInterval(0);//Disable vsync
+        init();
+        showWindow();
+        System.out.println("Press 1 for System.GC()");
+
+        while (!windowShouldClose()) {
+            /* Input */
+            beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
+            startFrame();
+
+            frameTester.__startFrame();
+            render();
+            MemoryProfiler.update();
+            memoryGraph.update();
+            frameTester.__endFrame();
+
+            endFrame();//EndFrame takes the most time, becuase we have vsync turned on
+            endScreenshot();
+
+            if (devkeyF2_SystemCG) {
+                System.out.println("System.GC()");
+                System.gc();
+                devkeyF2_SystemCG = false;
+            }
+        }
+        terminate();
     }
 
 
@@ -177,35 +207,6 @@ public class Main extends NKWindow {
         setTitle("Xbuilders   mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString());
     }
 
-    private void run() throws Exception {
-        initGLFW();
-        startWindow("TEST WINDOW", 850, 650);
-        init();
-        showWindow();
-        System.out.println("Press 1 for System.GC()");
-
-        while (!windowShouldClose()) {
-            /* Input */
-            beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
-            startFrame();
-
-            frameTester.__startFrame();
-            render();
-            MemoryProfiler.update();
-            memoryGraph.update();
-            frameTester.__endFrame();
-
-            endFrame();//EndFrame takes the most time, becuase we have vsync turned on
-            endScreenshot();
-
-            if (devkeyF2_SystemCG) {
-                System.out.println("System.GC()");
-                System.gc();
-                devkeyF2_SystemCG = false;
-            }
-        }
-        terminate();
-    }
 
     @Override
     public void disposeEvent() {
@@ -229,7 +230,7 @@ public class Main extends NKWindow {
             if (key == GLFW.GLFW_KEY_F3) {
                 devkeyF3 = !devkeyF3;
                 System.out.println("Special mode (F3): " + devkeyF3);
-            }else if (key == GLFW.GLFW_KEY_F4) {
+            } else if (key == GLFW.GLFW_KEY_F4) {
                 devkeyF4 = !devkeyF4;
                 System.out.println("Special mode (F4): " + devkeyF4);
             } else if (key == GLFW.GLFW_KEY_F2) {
