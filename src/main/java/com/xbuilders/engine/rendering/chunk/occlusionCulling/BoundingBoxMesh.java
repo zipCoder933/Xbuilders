@@ -1,5 +1,6 @@
 package com.xbuilders.engine.rendering.chunk.occlusionCulling;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
@@ -10,11 +11,29 @@ import java.nio.FloatBuffer;
 public class BoundingBoxMesh {
     private int vaoId;
     private int vboId;
-    final int verts;
+    int verts;
     private float[] vertices; // 8 vertices of the box, each with 3 coordinates
 
 
-    public BoundingBoxMesh(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    public BoundingBoxMesh() {
+        // Create the VAO
+        vaoId = GL30.glGenVertexArrays();
+        GL30.glBindVertexArray(vaoId);
+
+        // Create the VBO and buffer the vertices
+        vboId = GL15.glGenBuffers();
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
+
+        // Define structure of the data
+        GL30.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
+        GL30.glEnableVertexAttribArray(0);
+
+        // Unbind the VBO and VAO
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+        GL30.glBindVertexArray(0);
+    }
+
+    public void setBounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         // Initialize the vertices of the bounding box
         this.vertices = new float[]{
                 minX, minY, minZ, // triangle 1 : begin
@@ -55,25 +74,10 @@ public class BoundingBoxMesh {
                 maxX, minY, maxZ
         };
         verts = vertices.length / 3;
-        // Create the VAO
-        vaoId = GL30.glGenVertexArrays();
+
         GL30.glBindVertexArray(vaoId);
-
-        // Create the VBO and buffer the vertices
-        vboId = GL15.glGenBuffers();
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId);
-        FloatBuffer vertexBuffer = MemoryUtil.memAllocFloat(vertices.length);
-        vertexBuffer.put(vertices).flip();
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertexBuffer, GL15.GL_STATIC_DRAW);
-        MemoryUtil.memFree(vertexBuffer);
-
-        // Define structure of the data
-        GL30.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0);
-        GL30.glEnableVertexAttribArray(0);
-
-        // Unbind the VBO and VAO
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-        GL30.glBindVertexArray(0);
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vertices, GL15.GL_STATIC_DRAW);
     }
 
     public void render() {
@@ -81,6 +85,13 @@ public class BoundingBoxMesh {
         GL30.glBindVertexArray(vaoId);
         // Draw the bounding box as triangles
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, verts);
+    }
+
+    public void renderWireframe() {
+        GL30.glPolygonMode(GL30.GL_FRONT_AND_BACK, GL30.GL_LINE);
+        GL30.glBindVertexArray(vaoId);
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, verts);
+        GL30.glPolygonMode(GL30.GL_FRONT_AND_BACK, GL30.GL_FILL);
     }
 
     public void cleanup() {

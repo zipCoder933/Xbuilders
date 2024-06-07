@@ -109,7 +109,7 @@ public class Main extends NKWindow {
         //Create the window
         initGLFW();
         startWindow("TEST WINDOW", 850, 650);
-        GLFW.glfwSwapInterval(0);//Disable vsync
+//        GLFW.glfwSwapInterval(0);//Disable vsync
         init();
         showWindow();
         System.out.println("Press 1 for System.GC()");

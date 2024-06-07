@@ -1,14 +1,14 @@
 package com.xbuilders.engine.rendering.chunk.mesh;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.rendering.chunk.occlusionCulling.BoundingBoxMesh;
+import com.xbuilders.engine.rendering.chunk.occlusionCulling.EmptyShader;
 import com.xbuilders.engine.utils.math.AABB;
-import org.joml.Matrix4f;
+import com.xbuilders.window.render.MVP;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
-import java.io.IOException;
-
-public class CompactOcclusionMesh extends CompactMesh{
+public class CompactOcclusionMesh extends CompactMesh {
 
     long lastQueryTime = 0;
     BoundingBoxMesh boundingBox;
@@ -16,11 +16,24 @@ public class CompactOcclusionMesh extends CompactMesh{
     boolean queried = false;
     int queryId;
 
-    public CompactOcclusionMesh(AABB boundaries) throws IOException {
+
+    public boolean isVisible() {
+        return samplesPassedLastFrame > 0;
+    }
+
+    public CompactOcclusionMesh() {
         this.samplesPassedLastFrame = 0;
-        boundingBox = new BoundingBoxMesh(boundaries.min.x, boundaries.min.y, boundaries.min.z,
-                boundaries.max.x, boundaries.max.y, boundaries.max.z);
+        boundingBox = new BoundingBoxMesh();
         queryId = GL30.glGenQueries(); // Create an occlusion query
+
+        if (boundaryShader == null) {
+            boundaryShader = new EmptyShader();
+        }
+    }
+
+    public void init(AABB boundaries) {
+        boundingBox.setBounds(boundaries.min.x, boundaries.min.y, boundaries.min.z,
+                boundaries.max.x, boundaries.max.y, boundaries.max.z);
     }
 
     /*
@@ -60,6 +73,22 @@ The basic layout for query occlusion culling is:
                 lastQueryTime = System.currentTimeMillis();
             }
         }
+    }
+
+    public static EmptyShader boundaryShader;
+    final static MVP boundaryMVP = new MVP();
+
+    public static void startInvisible() {
+        boundaryShader.bind();
+        boundaryMVP.update(GameScene.projection, GameScene.view);
+        boundaryMVP.sendToShader(boundaryShader.getID(), boundaryShader.mvpUniform);
+    }
+
+
+    public void draw(boolean wireframe) {
+        super.draw(wireframe);
+        startInvisible();
+        boundingBox.renderWireframe();
     }
 
     public void drawInvisible() {
