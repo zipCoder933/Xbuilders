@@ -16,7 +16,7 @@ public class DefaultSkin extends Skin {
 
     @Override
     public void render(Matrix4f projection, Matrix4f view) {
-        box.set(position.box);
-        box.draw(projection, view);
+//        box.set(position.box);
+//        box.draw(projection, view);
     }
 }

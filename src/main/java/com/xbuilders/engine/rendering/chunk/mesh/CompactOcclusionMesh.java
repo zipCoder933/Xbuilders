@@ -26,7 +26,7 @@ public class CompactOcclusionMesh extends CompactMesh {
         boundingBox = new BoundingBoxMesh();
         queryId = GL30.glGenQueries(); // Create an occlusion query
 
-        if (boundaryShader == null) {
+        if (boundaryShader == null) { //Initialize the boundary shader
             boundaryShader = new EmptyShader();
         }
     }
@@ -60,13 +60,16 @@ The basic layout for query occlusion culling is:
 */
 
 
-    public void drawVisible(boolean wireframe) {
+    public void getQueryResult(){
         if (queried)
             samplesPassedLastFrame = GL30.glGetQueryObjecti(queryId, GL15.GL_QUERY_RESULT);// Get the query result
-        if (samplesPassedLastFrame > 0) {
+    }
+
+    public void drawVisible(boolean wireframe) {
+        if (samplesPassedLastFrame > 0 && !isEmpty()) {
             boolean canQuery = System.currentTimeMillis() - lastQueryTime > 1000;
             if (canQuery) GL30.glBeginQuery(GL15.GL_SAMPLES_PASSED, queryId); //Start the occlusion query
-            draw(wireframe);
+            super.draw(wireframe);
             if (canQuery) {
                 GL30.glEndQuery(GL15.GL_SAMPLES_PASSED); // End the occlusion query
                 queried = true;
@@ -75,28 +78,59 @@ The basic layout for query occlusion culling is:
         }
     }
 
-    public static EmptyShader boundaryShader;
+    public void drawBoundingBoxWithWireframe() {
+        boundaryShader.bind();
+        boundaryMVP.update(GameScene.projection, GameScene.view);
+        boundaryMVP.sendToShader(boundaryShader.getID(), boundaryShader.mvpUniform);
+        boundingBox.renderWireframe();
+        boundaryShader.unbind();
+    }
+
+    private static EmptyShader boundaryShader;
     final static MVP boundaryMVP = new MVP();
 
     public static void startInvisible() {
         boundaryShader.bind();
         boundaryMVP.update(GameScene.projection, GameScene.view);
         boundaryMVP.sendToShader(boundaryShader.getID(), boundaryShader.mvpUniform);
+        //Disable depth mask and color mask
+        GL30.glDepthMask(false);
+        GL30.glColorMask(false, false, false, false);
+//        GL30.glDisable(GL30.GL_DEPTH_TEST);//Disable depth test
+        GL30.glDisable(GL30.GL_CULL_FACE);  //Disable backface culling
     }
 
-
-    public void draw(boolean wireframe) {
-        super.draw(wireframe);
-        startInvisible();
-        boundingBox.renderWireframe();
+    public static void endInvisible() {
+        boundaryShader.unbind();
+//        GL30.glEnable(GL30.GL_DEPTH_TEST);  //Enable depth test
+        GL30.glDepthMask(true);
+        GL30.glColorMask(true, true, true, true);
+        GameScene.enableBackfaceCulling(); //Enable backface culling
     }
 
     public void drawInvisible() {
+        /**
+         * If we are inside the bounding box, the object is not visible becuase backface culling is enabled.
+         * A few solutions?
+         *  * If the player distance is less than chunk width (gives us a bit of margin)
+         *  * If the boundaries of the player head are within the chunkAABB (could have edge cases)
+         *  * Disable backface culling if we are drawing bounding boxes
+         */
         if (samplesPassedLastFrame == 0) {
+//            boolean canQuery = System.currentTimeMillis() - lastQueryTime > 500; //For testing purposes
+//            if (canQuery) lastQueryTime = System.currentTimeMillis();
+//            else return;
+
             GL30.glBeginQuery(GL15.GL_SAMPLES_PASSED, queryId); //Start the occlusion query
             boundingBox.render();
             GL30.glEndQuery(GL15.GL_SAMPLES_PASSED); // End the occlusion query
             queried = true;
         }
+    }
+
+    public String toString() {
+        return "Samples: " + samplesPassedLastFrame
+                +"; Last query ms: " + (System.currentTimeMillis() - lastQueryTime)
+                +"; Empty: "+isEmpty();
     }
 }

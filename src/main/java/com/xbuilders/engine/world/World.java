@@ -1,6 +1,7 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.player.camera.Camera;
+import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -25,7 +26,6 @@ import com.xbuilders.engine.utils.ErrorHandler;
 
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 
-import com.xbuilders.engine.rendering.wireframeBox.Box;
 
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
@@ -119,8 +119,7 @@ public class World {
     private final List<Chunk> unusedChunks = new ArrayList<>();
     public final Map<Vector3i, Chunk> chunks = new HashMap();
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
-    private final List<Chunk> chunksToRender = new ArrayList<>();
-    public Box box;
+    private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
 
     public WorldInfo info;
@@ -179,7 +178,7 @@ public class World {
     }
 
     public void init(BlockArrayTexture textures) throws IOException {
-        box = new Box();
+
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new BlockShader(BlockShader.FRAG_MODE_CHUNK);
@@ -211,7 +210,7 @@ public class World {
                     lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
             chunk.init(coords, info, terrain, futureChunks.remove(coords), distToPlayer, isTopLevel);
             this.chunks.put(coords, chunk);
-            this.chunksToRender.remove(chunk);
+            this.sortedChunksToRender.remove(chunk);
             needsSorting.set(true);
         }
         return chunk;
@@ -260,7 +259,7 @@ public class World {
 
         chunks.clear();
         unusedChunks.clear();
-        chunksToRender.clear();
+        sortedChunksToRender.clear();
         chunksToUnload.clear();
         futureChunks.clear(); // Important!
 
@@ -358,11 +357,11 @@ public class World {
         chunks.forEach((coords, chunk) -> {
             if (!chunkIsWithinRange(playerPosition, coords, viewDistance.get())) {
                 chunksToUnload.add(chunk);
-                chunksToRender.remove(chunk);
+                sortedChunksToRender.remove(chunk);
             } else {
                 // frameTester.startProcess();
                 if (needsSorting.get()) {
-                    chunksToRender.add(chunk);
+                    sortedChunksToRender.add(chunk);
                 }
                 chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
                 chunk.distToPlayer = MathUtils.dist(
@@ -377,14 +376,14 @@ public class World {
         });
         frameTester.set("all chunks", unusedChunks.size() + chunks.size());
         frameTester.set("in-use chunks", chunks.size());
-        frameTester.set("chunksToRender", chunksToRender.size());
+        frameTester.set("chunksToRender", sortedChunksToRender.size());
         frameTester.set("unused chunks", unusedChunks.size());
     }
 
     long frame = 0;
 
     public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) throws IOException {
-       //<editor-fold defaultstate="collapsed" desc="chunk updating">
+        //<editor-fold defaultstate="collapsed" desc="chunk updating">
         frame++;
         if (!lastPlayerPosition.equals(playerPosition)) {
             needsSorting.set(true);
@@ -401,7 +400,7 @@ public class World {
          * If the chunks need sorting, newGame the render list
          */
         if (needsSorting.get()) {
-            chunksToRender.clear();
+            sortedChunksToRender.clear();
         }
 
         if (System.currentTimeMillis() - lastSaveMS > 25000) {
@@ -414,66 +413,81 @@ public class World {
 
         updateChunksToRenderList(playerPosition);
         if (needsSorting.get()) {
-            chunksToRender.sort(sortByDistance);
+            sortedChunksToRender.sort(sortByDistance);
             needsSorting.set(false);
         }
+        // <editor-fold defaultstate="collapsed" desc="For testing sorted chunk distance (KEEP THIS!)">
+//        int i = 0; //For testing sorted chunk distance (KEEP THIS!)
+//        for (Chunk chunk : sortedChunksToRender) {
+//            if (chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+//                chunk.updateMVP(projection, view); // we must update the MVP within each model;
+//                chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+//                chunk.meshes.opaqueMesh.draw(true);
+//                chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
+//                i++;
+//                if (i > 0) break;
+//            }
+//        }
+// </editor-fold>
         frameTester.endProcess("Sort chunks if needed");
         //</editor-fold>
 
-        // ACTUALLY DRAW THE CHUNKS
-        // This is the culprit for low FPS
+            /*
+The basic layout for query occlusion culling is:
+
+1. Create the query (or queries).
+2. Render loop:
+	a. Do AI / physics etc...
+	b. Rendering:
+		i. Check the query result from the previous frame.
+		ii. Issue query begin:
+			1. If the object was visible in the last frame:
+				a. Enable rendering to screen.
+				b. Enable or disable writing to depth buffer (depends on whether the object is translucent or opaque).
+				c. Render the object itself.
+			2. If the object wasn't visible in the last frame:
+				a. Disable rendering to screen.
+				b. Disable writing to depth buffer.
+				c. "Render" the object's bounding box.
+		iii. (End query)
+		iv. (Repeat for every object in scene.)
+	c. Swap buffers.
+(End of render loop)
+*/
+
+
+        //Render visible opaque meshes
         chunkShader.bind();
         chunkShader.tickAnimation();
-
-
-        chunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum) {
-                // Drawing boxes is a major FPS bottleneck
-                frameTester.startProcess();
-                // <editor-fold defaultstate="collapsed" desc="box drawing">
-                if (Main.devkeyF1) {
-                    box.set(chunk.aabb);
-                    if (chunk.meshes.isEmpty()) {
-                        box.setLineWidth(0.5f);
-                        box.setColor(new Vector4f(0.4f, 0.4f, 1f, 1));
-                    } else {
-                        box.setLineWidth(1);
-                        box.setColor(new Vector4f(0, 0, 0, 1));
-                    }
-                    box.draw(projection, view);
-                }
-                // </editor-fold>
-                frameTester.endProcess("Draw boxes");
-
-                frameTester.startProcess();
-                if (chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
-                    chunk.updateMVP(projection, view); // we must update the MVP within each model;
-                    if (!chunk.meshes.opaqueMesh.isEmpty()) {
-                        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                        if (!Main.devkeyF3) {
-                            chunk.meshes.opaqueMesh.draw(GameScene.drawWireframe);
-                        }
-                    }
-
-                }
-                frameTester.endProcess("Draw opaque meshes");
+        sortedChunksToRender.forEach(chunk -> {//TODO: The chunk in front doesnt have any samples?
+            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+                chunk.updateMVP(projection, view); // we must update the MVP within each model;
+                chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                chunk.meshes.opaqueMesh.getQueryResult();
+                chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
             }
         });
-
-        frameTester.startProcess();
-        chunksToRender.forEach(chunk -> {
+        //Render invisible opaque meshes
+        CompactOcclusionMesh.startInvisible();
+        sortedChunksToRender.forEach(chunk -> {
             if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
-                if (!chunk.meshes.transMesh.isEmpty()) {
+                chunk.meshes.opaqueMesh.drawInvisible();
+            }
+        });
+        CompactOcclusionMesh.endInvisible();
+
+        sortedChunksToRender.forEach(chunk -> {
+            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+                if ( !chunk.meshes.transMesh.isEmpty() &&
+                                (chunk.meshes.opaqueMesh.isEmpty() || chunk.meshes.opaqueMesh.isVisible()) //If we are invisible, it could be that there is no opaque mesh
+                ) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                    if (!Main.devkeyF3) {
-                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);// For some reason rendering meshes slows
-                        // the game down during generation
-                    }
+                    chunk.meshes.transMesh.draw(GameScene.drawWireframe);
                 }
                 chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
             }
         });
-        frameTester.endProcess("Draw transparent chunks");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="block operations">

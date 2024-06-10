@@ -14,7 +14,7 @@ import java.util.Comparator;
  */
 class SortByDistanceToPlayer implements Comparator<Chunk> {
 
-    Vector3f playerPos;
+    final Vector3f playerPos;
 
     public SortByDistanceToPlayer(Vector3f playerPos) {
         this.playerPos = playerPos;
@@ -22,8 +22,14 @@ class SortByDistanceToPlayer implements Comparator<Chunk> {
 
     @Override
     public int compare(Chunk chunk, Chunk chunk1) {
-        float d1 = playerPos.distance(chunk.position.x, chunk.position.y, chunk.position.z);
-        float d2 = playerPos.distance(chunk1.position.x, chunk1.position.y, chunk1.position.z);
+        float d1 = playerPos.distance(
+                (chunk.position.x * Chunk.WIDTH) + Chunk.HALF_WIDTH,
+                (chunk.position.y * Chunk.WIDTH) + Chunk.HALF_WIDTH,
+                (chunk.position.z * Chunk.WIDTH) + Chunk.HALF_WIDTH);
+        float d2 = playerPos.distance(
+                (chunk1.position.x * Chunk.WIDTH) + Chunk.HALF_WIDTH,
+                (chunk1.position.y * Chunk.WIDTH) + Chunk.HALF_WIDTH,
+                (chunk1.position.z * Chunk.WIDTH) + Chunk.HALF_WIDTH);
         return Float.compare(d1, d2);
     }
 

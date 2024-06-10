@@ -205,7 +205,7 @@ public class GameScene implements WindowEvents {
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
     }
 
-    private void enableBackfaceCulling() {
+    public static void enableBackfaceCulling() {
         //If backface culling is not working, it means that another process has probably disabled it, after init3D.
         glEnable(GL_CULL_FACE); // enable face culling
         glFrontFace(GL_CCW);// specify the winding order of frontRay-facing triangles

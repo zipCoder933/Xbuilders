@@ -19,6 +19,7 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL11C;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
@@ -87,6 +88,7 @@ public class GameUI {
 
     public void draw() {
         if (drawUI) {
+            GL30.glDepthMask(false);
             if (game.menusAreOpen()) {
                 gameMenuVisible = false;
             }
@@ -104,6 +106,7 @@ public class GameUI {
                 //Add myGame.uiDraw right here
             }
             window.NKrender();
+            GL30.glDepthMask(true);
         }
     }
 
