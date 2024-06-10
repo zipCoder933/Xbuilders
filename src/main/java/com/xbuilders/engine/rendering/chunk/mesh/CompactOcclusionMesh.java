@@ -117,7 +117,7 @@ The basic layout for query occlusion culling is:
          *  * Disable backface culling if we are drawing bounding boxes
          */
         if (samplesPassedLastFrame == 0) {
-//            boolean canQuery = System.currentTimeMillis() - lastQueryTime > 500; //For testing purposes
+//            boolean canQuery = System.currentTimeMillis() - lastQueryTime > 200; //For testing purposes
 //            if (canQuery) lastQueryTime = System.currentTimeMillis();
 //            else return;
 
