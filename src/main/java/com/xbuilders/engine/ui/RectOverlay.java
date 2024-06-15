@@ -5,8 +5,8 @@
 package com.xbuilders.engine.ui;
 
 import com.xbuilders.window.render.Shader;
-import com.xbuilders.window.vao.IndexVBO;
-import com.xbuilders.window.vao.VBO;
+import com.xbuilders.window.utils.vbo.IndexVBO;
+import com.xbuilders.window.utils.vbo.VBO;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
