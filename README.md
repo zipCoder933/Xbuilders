@@ -1,8 +1,9 @@
 ![Xbuilders landscape](assets/images/b.jpg)
 
 # Xbuilders 3
-**A voxel game written in Java + LWJGL**
-This game was created from the ground up as a replacement for Xbuilders2.
+**A voxel game written in Java + LWJGL.**
+
+This game was created from the ground up as a replacement for Xbuilders 2.
 
 ## Important notes
 * The JVM version must be 17. If it is higher the following message will show in output:
