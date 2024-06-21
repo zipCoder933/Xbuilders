@@ -214,7 +214,7 @@ public class GameScene implements WindowEvents {
 
     private void setProjection() {
         projection.identity().perspective(
-                (float) Math.toRadians(60.0f), //Fov
+                (float) Math.toRadians(70.0f), //Fov
                 (float) window.getWidth() / (float) window.getHeight(), //screen ratio
                 0.1f, 10000.0f); //display range (clipping planes)
     }
