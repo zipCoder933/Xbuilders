@@ -72,7 +72,6 @@ public class World {
     public static final int CHUNK_MESH_THREADS = 24;
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
     public static int VIEW_DIST_MAX = Chunk.WIDTH * 30;
-    public static int MIN_FOG_DISTANCE = Chunk.WIDTH * 6;
     public static int DEFAULT_VIEW_DISTANCE = (int) (Chunk.WIDTH * 3);// 13
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
@@ -456,6 +455,21 @@ The basic layout for query occlusion culling is:
 */
 
 
+        //Render transparent meshes first!
+        //TODO: Because the transparent meshes are occluding the opaque meshes, the opaque meshes are shown as invisible for a frame
+        //As long as we check if the opaque mesh is empty OR visible, we dont have to worry about only seeing the visible mesh
+        sortedChunksToRender.forEach(chunk -> {
+            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+                if (!chunk.meshes.transMesh.isEmpty()) {
+                    if ((chunk.meshes.opaqueMesh.isVisible() || chunk.meshes.opaqueMesh.isEmpty())) {
+                        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);
+                    }
+                }
+                chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
+            }
+        });
+
         //Render visible opaque meshes
         chunkShader.bind();
         chunkShader.tickAnimation();
@@ -475,19 +489,6 @@ The basic layout for query occlusion culling is:
             }
         });
         CompactOcclusionMesh.endInvisible();
-
-        sortedChunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
-                if ( !chunk.meshes.transMesh.isEmpty() &&
-                                (chunk.meshes.opaqueMesh.isEmpty() || chunk.meshes.opaqueMesh.isVisible()) //If we are invisible, it could be that there is no opaque mesh
-                ) {
-                    chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                    chunk.meshes.transMesh.draw(GameScene.drawWireframe);
-                }
-                chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
-            }
-        });
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="block operations">

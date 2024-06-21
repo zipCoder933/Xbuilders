@@ -68,7 +68,7 @@ public class BlockShader extends Shader {
         skyColorUniform = getUniformLocation("skyColor");
         animationTimeUniform = getUniformLocation("animationTime");
         flashlightDistanceUniform = getUniformLocation("flashlightDistance");
-        colorUniform= getUniformLocation("solidColor");
+        colorUniform = getUniformLocation("solidColor");
 
         loadFloat(maxMult10bitsUniform, VertexSet.maxMult10bits);
         loadFloat(maxMult12bitsUniform, VertexSet.maxMult12bits);
@@ -88,7 +88,7 @@ public class BlockShader extends Shader {
         loadVec4f(colorUniform, new Vector4f(r, g, b, 1));
     }
 
-    public void setTextureMode(){
+    public void setTextureMode() {
         loadVec4f(colorUniform, new Vector4f(0));
     }
 

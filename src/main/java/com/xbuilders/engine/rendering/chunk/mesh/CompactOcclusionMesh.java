@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL30;
 public class CompactOcclusionMesh extends CompactMesh {
 
     long lastQueryTime = 0;
-    BoundingBoxMesh boundingBox;
+    public final BoundingBoxMesh boundingBox;
     int samplesPassedLastFrame = 0;
     boolean queried = false;
     int queryId;
@@ -21,19 +21,14 @@ public class CompactOcclusionMesh extends CompactMesh {
         return samplesPassedLastFrame > 0;
     }
 
-    public CompactOcclusionMesh() {
+    public CompactOcclusionMesh(BoundingBoxMesh boundingBox) {
         this.samplesPassedLastFrame = 0;
-        boundingBox = new BoundingBoxMesh();
+        this.boundingBox = boundingBox;
         queryId = GL30.glGenQueries(); // Create an occlusion query
 
         if (boundaryShader == null) { //Initialize the boundary shader
             boundaryShader = new EmptyShader();
         }
-    }
-
-    public void init(AABB boundaries) {
-        boundingBox.setBounds(boundaries.min.x, boundaries.min.y, boundaries.min.z,
-                boundaries.max.x, boundaries.max.y, boundaries.max.z);
     }
 
     /*
@@ -60,10 +55,11 @@ The basic layout for query occlusion culling is:
 */
 
 
-    public void getQueryResult(){
+    public void getQueryResult() {
         if (queried)
             samplesPassedLastFrame = GL30.glGetQueryObjecti(queryId, GL15.GL_QUERY_RESULT);// Get the query result
     }
+
 
     public void drawVisible(boolean wireframe) {
         if (samplesPassedLastFrame > 0 && !isEmpty()) {
@@ -75,6 +71,17 @@ The basic layout for query occlusion culling is:
                 queried = true;
                 lastQueryTime = System.currentTimeMillis();
             }
+        }
+    }
+
+    public void drawAndCheck(boolean wireframe) {
+        boolean canQuery = System.currentTimeMillis() - lastQueryTime > 1000;
+        if (canQuery) GL30.glBeginQuery(GL15.GL_SAMPLES_PASSED, queryId); //Start the occlusion query
+        super.draw(wireframe);
+        if (canQuery) {
+            GL30.glEndQuery(GL15.GL_SAMPLES_PASSED); // End the occlusion query
+            queried = true;
+            lastQueryTime = System.currentTimeMillis();
         }
     }
 
@@ -130,7 +137,7 @@ The basic layout for query occlusion culling is:
 
     public String toString() {
         return "Samples: " + samplesPassedLastFrame
-                +"; Last query ms: " + (System.currentTimeMillis() - lastQueryTime)
-                +"; Empty: "+isEmpty();
+                + "; Last query ms: " + (System.currentTimeMillis() - lastQueryTime)
+                + "; Empty: " + isEmpty();
     }
 }

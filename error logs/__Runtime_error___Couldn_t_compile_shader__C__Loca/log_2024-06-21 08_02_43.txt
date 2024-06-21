@@ -1,0 +1,19 @@
+Message: 	Couldn't compile shader "C:\Local Files\github\Xbuilders\res\shaders\blockShader\frag.glsl":
+Fragment shader failed to compile with the following errors:
+ERROR: 0:80: error(#143) Undeclared identifier: visibility
+ERROR: 0:82: error(#143) Undeclared identifier: visibility
+ERROR: error(#273) 2 compilation errors.  No code generated
+
+
+Developer Message: 	##Runtime error##	Couldn't compile shader "C:\Loca
+Class: 	class java.io.IOException
+
+Stack trace:
+[com.xbuilders.window.render.Shader.loadShader(Shader.java:250)
+ com.xbuilders.window.render.Shader.init(Shader.java:63)
+ com.xbuilders.engine.rendering.chunk.BlockShader.<init>(BlockShader.java:58)
+ com.xbuilders.engine.world.World.init(World.java:183)
+ com.xbuilders.engine.gameScene.GameScene.init(GameScene.java:164)
+ com.xbuilders.game.Main.init(Main.java:151)
+ com.xbuilders.game.Main.<init>(Main.java:113)
+ com.xbuilders.game.Main.main(Main.java:91)]

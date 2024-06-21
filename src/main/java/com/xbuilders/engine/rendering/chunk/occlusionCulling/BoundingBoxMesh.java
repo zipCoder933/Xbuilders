@@ -1,6 +1,7 @@
 package com.xbuilders.engine.rendering.chunk.occlusionCulling;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.utils.math.AABB;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
@@ -31,6 +32,11 @@ public class BoundingBoxMesh {
         // Unbind the VBO and VAO
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
         GL30.glBindVertexArray(0);
+    }
+
+    public void setBounds(AABB boundaries) {
+        setBounds(boundaries.min.x, boundaries.min.y, boundaries.min.z,
+                boundaries.max.x, boundaries.max.y, boundaries.max.z);
     }
 
     public void setBounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {

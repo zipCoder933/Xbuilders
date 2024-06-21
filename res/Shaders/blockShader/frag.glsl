@@ -40,52 +40,52 @@ uniform float flashlightDistance;
 uniform vec4 solidColor;
 
 void main() {
-
     if (solidColor.a > 0.0) {
         color = solidColor;
         return;
-    } 
+    }
 
     vec4 val = texture(textureArray, UV);
     if (val.a == 0.0) {  // ditch transparent fragments
         discard;
     }
-    
-    //Light
-    // POS_X = 0;
-    // NEG_X = 1;
-    // POS_Z = 2;
-    // NEG_Z = 3;
-    // NEG_Y = 4;
-    // POS_Y = 5;
+
+    // Light
+    //  POS_X = 0;
+    //  NEG_X = 1;
+    //  POS_Z = 2;
+    //  NEG_Z = 3;
+    //  NEG_Y = 4;
+    //  POS_Y = 5;
     float flashlight = 0;
     float fragDistance = length(position);
-    
-    if(fragDistance < flashlightDistance){
-        flashlight = map(fragDistance,0,flashlightDistance,1,0);
+
+    if (fragDistance < flashlightDistance) {
+        flashlight = map(fragDistance, 0, flashlightDistance, 1, 0);
     }
 
-
+    //Normal lighting
     float sun2 = sun;
     if (normal == 2.0f) sun2 *= 0.9;
     if (normal == 1.0f) sun2 *= 0.85;
     if (normal == 3.0f) sun2 *= 0.8;
     if (normal == 5.0f) sun2 *= 0.7;
 
-    val.rgb *= max(flashlight, max(torch,sun2));
+    val.rgb *= max(flashlight, max(torch, sun2));
 
-    //Fog visiblity
+    // Fog visiblity
+    float fogGradient = 20; //The length of the fog gradient
+    float fogStart = viewDistance - fogGradient - fogGradient; //Start of fog
     float visibility = 1.0;
-    float viewGradient = 128;
-    if (fragDistance > viewDistance - viewGradient) {  // Fog
-        visibility = (fragDistance - viewDistance + (viewGradient / 2)) / (viewGradient / 2);
-        visibility = clamp(1 - visibility, 0.0, 1.0);
+    if (fragDistance > fogStart) {
+        visibility = map(fragDistance, fogStart, fogStart + fogGradient, 1.0, 0.0);
+        visibility = clamp(visibility, 0.0, 1.0);
     }
+
+    //The final color
     color = mix(vec4(skyColor, 1.0), val, visibility);
 
-
-
-//      color = vec4(sun,sun,sun,1.0);
+    //      color = vec4(sun,sun,sun,1.0);
     // // X is red, Y is green, Z is blue
     // if (normal == 0.0f) color = vec4(1.0, 0.0, 0.0, 1.0);  // positive x
     // if (normal == 1.0f) color = vec4(0.5, 0.0, 0.0, 1.0);  // negative x

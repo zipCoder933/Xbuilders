@@ -9,7 +9,7 @@ import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.Traditional
 import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
 import com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight;
-import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
+import com.xbuilders.engine.rendering.chunk.occlusionCulling.BoundingBoxMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -74,15 +74,17 @@ public class ChunkMeshBundle {
 
     Mesher naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
     Mesher greedyMesher;
+    public final BoundingBoxMesh boundMesh;
     public final CompactOcclusionMesh opaqueMesh;
-    public final CompactMesh transMesh;
+    public final CompactOcclusionMesh transMesh;
 
     public ChunkMeshBundle(int texture, Chunk chunk) {
         this.chunk = chunk;
 
-        opaqueMesh = new CompactOcclusionMesh();
+        boundMesh = new BoundingBoxMesh();
+        opaqueMesh = new CompactOcclusionMesh(boundMesh);
         opaqueMesh.setTextureID(texture);
-        transMesh = new CompactMesh();
+        transMesh = new CompactOcclusionMesh(boundMesh); //We only need transparent mesh to be an occlusion If we have to check it if it is occluding the opaque mesh
         transMesh.setTextureID(texture);
 
         greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position);
@@ -92,7 +94,7 @@ public class ChunkMeshBundle {
     public synchronized void init(AABB bounds) {
         opaqueMesh.makeEmpty();
         transMesh.makeEmpty();
-        opaqueMesh.init(bounds);
+        boundMesh.setBounds(bounds);
     }
 
     public boolean meshesHaveAllSides;
@@ -128,6 +130,10 @@ public class ChunkMeshBundle {
 
     public boolean isEmpty() {
         return opaqueMesh.isEmpty() && transMesh.isEmpty();
+    }
+
+    public boolean isVisible() {
+        return opaqueMesh.isVisible() || transMesh.isVisible();
     }
 
     @Override
