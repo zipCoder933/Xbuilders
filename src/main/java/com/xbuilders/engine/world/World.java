@@ -474,8 +474,7 @@ The basic layout for query occlusion culling is:
         });
         CompactOcclusionMesh.endInvisible();
 
-        //TODO: Because the transparent meshes are occluding the opaque meshes, the opaque meshes are shown as invisible for a frame
-        //As long as we check if the opaque mesh is empty OR visible, we dont have to worry about only seeing the visible mesh
+        //TODO: Because the opaque mesh is invisible, the transparent mesh stutters one frame every second.
         sortedChunksToRender.forEach(chunk -> {
             if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
                 if (!chunk.meshes.transMesh.isEmpty()) {
