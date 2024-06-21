@@ -454,22 +454,6 @@ The basic layout for query occlusion culling is:
 (End of render loop)
 */
 
-
-        //Render transparent meshes first!
-        //TODO: Because the transparent meshes are occluding the opaque meshes, the opaque meshes are shown as invisible for a frame
-        //As long as we check if the opaque mesh is empty OR visible, we dont have to worry about only seeing the visible mesh
-        sortedChunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
-                if (!chunk.meshes.transMesh.isEmpty()) {
-                    if ((chunk.meshes.opaqueMesh.isVisible() || chunk.meshes.opaqueMesh.isEmpty())) {
-                        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);
-                    }
-                }
-                chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
-            }
-        });
-
         //Render visible opaque meshes
         chunkShader.bind();
         chunkShader.tickAnimation();
@@ -489,6 +473,20 @@ The basic layout for query occlusion culling is:
             }
         });
         CompactOcclusionMesh.endInvisible();
+
+        //TODO: Because the transparent meshes are occluding the opaque meshes, the opaque meshes are shown as invisible for a frame
+        //As long as we check if the opaque mesh is empty OR visible, we dont have to worry about only seeing the visible mesh
+        sortedChunksToRender.forEach(chunk -> {
+            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+                if (!chunk.meshes.transMesh.isEmpty()) {
+                    if ((chunk.meshes.opaqueMesh.isVisible() || chunk.meshes.opaqueMesh.isEmpty())) {
+                        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);
+                    }
+                }
+                chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
+            }
+        });
     }
 
     // <editor-fold defaultstate="collapsed" desc="block operations">
