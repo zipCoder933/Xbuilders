@@ -15,7 +15,8 @@ public class CompactOcclusionMesh extends CompactMesh {
     int samplesPassedLastFrame = 0;
     boolean queried = false;
     int queryId;
-
+    private static EmptyShader boundaryShader;
+    final static MVP boundaryMVP = new MVP();
 
     public boolean isVisible() {
         return samplesPassedLastFrame > 0;
@@ -25,7 +26,6 @@ public class CompactOcclusionMesh extends CompactMesh {
         this.samplesPassedLastFrame = 0;
         this.boundingBox = boundingBox;
         queryId = GL30.glGenQueries(); // Create an occlusion query
-
         if (boundaryShader == null) { //Initialize the boundary shader
             boundaryShader = new EmptyShader();
         }
@@ -93,8 +93,7 @@ The basic layout for query occlusion culling is:
         boundaryShader.unbind();
     }
 
-    private static EmptyShader boundaryShader;
-    final static MVP boundaryMVP = new MVP();
+
 
     public static void startInvisible() {
         boundaryShader.bind();

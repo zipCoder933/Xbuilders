@@ -26,7 +26,6 @@ import com.xbuilders.engine.utils.ErrorHandler;
 
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 
-
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
@@ -92,6 +91,14 @@ public class World {
 
     public int getViewDistance() {
         return viewDistance.get();
+    } //The view distance reffers to rendering distance.
+
+    public int getCreationViewDistance() {
+        return viewDistance.get() + Chunk.WIDTH;
+    }
+
+    public int getDeletionViewDistance() {
+        return viewDistance.get() + (Chunk.WIDTH * 6);
     }
 
     private final AtomicBoolean needsSorting; // Atomic variables are thread update
@@ -142,10 +149,10 @@ public class World {
      */
     public static final PriorityThreadPoolExecutor generationService = new PriorityThreadPoolExecutor(
             CHUNK_LOAD_THREADS, r -> {
-        Thread thread = new Thread(r, "Generation Thread");
-        thread.setDaemon(true);
-        return thread;
-    }, new LowValueComparator());
+                Thread thread = new Thread(r, "Generation Thread");
+                thread.setDaemon(true);
+                return thread;
+            }, new LowValueComparator());
 
     /**
      * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
@@ -157,12 +164,12 @@ public class World {
             CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
             3L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-        frameTester.count("Mesh threads", 1);
-        Thread thread = new Thread(r, "Mesh Thread");
-        thread.setDaemon(true);
-        thread.setPriority(1);
-        return thread;
-    });
+                frameTester.count("Mesh threads", 1);
+                Thread thread = new Thread(r, "Mesh Thread");
+                thread.setDaemon(true);
+                thread.setPriority(1);
+                return thread;
+            });
 
     public static final PriorityThreadPoolExecutor lightService = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS,
             r -> {
@@ -237,7 +244,6 @@ public class World {
             prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
         } catch (Exception e) {
             prog.abort();
-            ErrorHandler.createPopupWindow("Error", "Terrain not found: " + info.getTerrain());
         }
 
     }
@@ -274,12 +280,6 @@ public class World {
      * and over again
      */
     private boolean chunkIsWithinRange(Vector3f player, Vector3i chunk, float viewDistance) {
-        // return MathUtils.dist(
-        // player.x,
-        // player.z,
-        // chunk.x * Chunk.WIDTH,
-        // chunk.z * Chunk.WIDTH) < viewDistance.get() &&
-        // Math.abs(player.y - chunk.y * Chunk.WIDTH) < viewDistance.get();
         return MathUtils.dist(
                 player.x,
                 player.z,
@@ -297,7 +297,7 @@ public class World {
         for (int y = TOP_Y_CHUNK; y <= BOTTOM_Y_CHUNK; ++y) {
             final Vector3i coords = new Vector3i(chunkX, y, chunkZ);
             if (!chunks.containsKey(coords)
-                    && chunkIsWithinRange(player, coords, viewDistance.get())) {
+                    && chunkIsWithinRange(player, coords, getCreationViewDistance())) {
                 chunkPillar[y - TOP_Y_CHUNK] = addChunk(coords, isTopChunk);
                 isTopChunk = false;
                 chunksGenerated++;
@@ -318,8 +318,8 @@ public class World {
         int centerY = (int) player.y;
         int centerZ = (int) player.z;
 
-        int viewDistanceXZ = this.viewDistance.get();
-        int viewDistanceY = this.viewDistance.get();
+        int viewDistanceXZ = getCreationViewDistance();
+        int viewDistanceY = getCreationViewDistance();
 
         final int xStart = (centerX - viewDistanceXZ) / Chunk.WIDTH;
         final int xEnd = (centerX + viewDistanceXZ) / Chunk.WIDTH;
@@ -339,7 +339,7 @@ public class World {
                         chunkX * Chunk.WIDTH,
                         chunkZ * Chunk.WIDTH) < viewDistanceXZ
                         && (generateOutOfFrustum
-                        || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
+                                || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
                     chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
                 }
             }
@@ -353,8 +353,10 @@ public class World {
     private void updateChunksToRenderList(Vector3f playerPosition) {
         chunksToUnload.clear();
 
+        int removalViewDistance = getDeletionViewDistance();
+
         chunks.forEach((coords, chunk) -> {
-            if (!chunkIsWithinRange(playerPosition, coords, viewDistance.get())) {
+            if (!chunkIsWithinRange(playerPosition, coords, removalViewDistance)) {
                 chunksToUnload.add(chunk);
                 sortedChunksToRender.remove(chunk);
             } else {
@@ -382,7 +384,7 @@ public class World {
     long frame = 0;
 
     public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) throws IOException {
-        //<editor-fold defaultstate="collapsed" desc="chunk updating">
+        // <editor-fold defaultstate="collapsed" desc="chunk updating">
         frame++;
         if (!lastPlayerPosition.equals(playerPosition)) {
             needsSorting.set(true);
@@ -415,68 +417,82 @@ public class World {
             sortedChunksToRender.sort(sortByDistance);
             needsSorting.set(false);
         }
-        // <editor-fold defaultstate="collapsed" desc="For testing sorted chunk distance (KEEP THIS!)">
-//        int i = 0; //For testing sorted chunk distance (KEEP THIS!)
-//        for (Chunk chunk : sortedChunksToRender) {
-//            if (chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
-//                chunk.updateMVP(projection, view); // we must update the MVP within each model;
-//                chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-//                chunk.meshes.opaqueMesh.draw(true);
-//                chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
-//                i++;
-//                if (i > 0) break;
-//            }
-//        }
-// </editor-fold>
+        // <editor-fold defaultstate="collapsed" desc="For testing sorted chunk distance
+        // (KEEP THIS!)">
+        // int i = 0; //For testing sorted chunk distance (KEEP THIS!)
+        // for (Chunk chunk : sortedChunksToRender) {
+        // if (chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+        // chunk.updateMVP(projection, view); // we must update the MVP within each
+        // model;
+        // chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+        // chunk.meshes.opaqueMesh.draw(true);
+        // chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
+        // i++;
+        // if (i > 0) break;
+        // }
+        // }
+        // </editor-fold>
         frameTester.endProcess("Sort chunks if needed");
-        //</editor-fold>
+        // </editor-fold>
 
-            /*
-The basic layout for query occlusion culling is:
+        /*
+         * The basic layout for query occlusion culling is:
+         * 
+         * 1. Create the query (or queries).
+         * 2. Render loop:
+         * a. Do AI / physics etc...
+         * b. Rendering:
+         * i. Check the query result from the previous frame.
+         * ii. Issue query begin:
+         * 1. If the object was visible in the last frame:
+         * a. Enable rendering to screen.
+         * b. Enable or disable writing to depth buffer (depends on whether the object
+         * is translucent or opaque).
+         * c. Render the object itself.
+         * 2. If the object wasn't visible in the last frame:
+         * a. Disable rendering to screen.
+         * b. Disable writing to depth buffer.
+         * c. "Render" the object's bounding box.
+         * iii. (End query)
+         * iv. (Repeat for every object in scene.)
+         * c. Swap buffers.
+         * (End of render loop)
+         */
 
-1. Create the query (or queries).
-2. Render loop:
-	a. Do AI / physics etc...
-	b. Rendering:
-		i. Check the query result from the previous frame.
-		ii. Issue query begin:
-			1. If the object was visible in the last frame:
-				a. Enable rendering to screen.
-				b. Enable or disable writing to depth buffer (depends on whether the object is translucent or opaque).
-				c. Render the object itself.
-			2. If the object wasn't visible in the last frame:
-				a. Disable rendering to screen.
-				b. Disable writing to depth buffer.
-				c. "Render" the object's bounding box.
-		iii. (End query)
-		iv. (Repeat for every object in scene.)
-	c. Swap buffers.
-(End of render loop)
-*/
+        // Render visible opaque meshes
+        int viewDistance = getViewDistance();
 
-        //Render visible opaque meshes
         chunkShader.bind();
         chunkShader.tickAnimation();
-        sortedChunksToRender.forEach(chunk -> {//TODO: The chunk in front doesnt have any samples?
-            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+        sortedChunksToRender.forEach(chunk -> {// TODO: The chunk in front doesnt have any samples?
+            if (chunk.inFrustum
+                    && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
+                    && chunkIsWithinRange(playerPosition, chunk.position, viewDistance)) {
+
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                 chunk.meshes.opaqueMesh.getQueryResult();
                 chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
             }
         });
-        //Render invisible opaque meshes
+        // Render invisible opaque meshes
         CompactOcclusionMesh.startInvisible();
         sortedChunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+            if (chunk.inFrustum
+                    && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
+                    && chunkIsWithinRange(playerPosition, chunk.position, viewDistance)) {
                 chunk.meshes.opaqueMesh.drawInvisible();
             }
         });
         CompactOcclusionMesh.endInvisible();
 
-        //TODO: Because the opaque mesh is invisible, the transparent mesh stutters one frame every second.
+        // Render transparent meshes
+        // TODO: Because the opaque mesh is invisible, the transparent mesh stutters one
+        // frame every second.
         sortedChunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
+            if (chunk.inFrustum
+                    && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
+                    && chunkIsWithinRange(playerPosition, chunk.position, viewDistance)) {
                 if (!chunk.meshes.transMesh.isEmpty()) {
                     if ((chunk.meshes.opaqueMesh.isVisible() || chunk.meshes.opaqueMesh.isEmpty())) {
                         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
@@ -537,7 +553,7 @@ The basic layout for query occlusion culling is:
 
         Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
         Chunk chunk = getChunk(pos);
-        if (chunk == null) { //We automatically set the block on a future chunk
+        if (chunk == null) { // We automatically set the block on a future chunk
             FutureChunk futureChunk = newFutureChunk(pos);
             futureChunk.addBlock(blockID, blockX, blockY, blockZ);
         } else {

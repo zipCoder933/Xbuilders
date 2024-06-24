@@ -13,8 +13,7 @@
 * https://www.reddit.com/r/opengl/comments/1d8tb6v/low_fps_when_drawing_lots_of_triangles_what_to_do/
 * https://www.reddit.com/r/gamedev/comments/1d8tdlk/lots_of_triangles_low_fps/
 * https://www.reddit.com/r/VoxelGameDev/comments/1d8t945/low_fps_with_lots_of_triangles_what_to_do/
-* **Implement occlusion culling first! (occlusion culling with openGL ARB occlusion query)**
-    * **Use the one-note page to learn how to do it** Its a lot easier than it seems!
+
 * PROFILE THE CODE FIRST TO DETERMINE REAL BOTTLENECK
 
 ### Performance optimizations when traveling thru world

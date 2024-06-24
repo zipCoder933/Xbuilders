@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bugs and Performance.md" beforeDir="false" afterPath="$PROJECT_DIR$/Bugs and Performance.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/Shaders/blockShader/frag.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/res/Shaders/blockShader/frag.glsl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/CursorRay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/CursorRay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/chunk/mesh/CompactOcclusionMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/chunk/mesh/CompactOcclusionMesh.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,7 +37,8 @@
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders&quot;
   }
 }</component>
   <component name="RunManager">

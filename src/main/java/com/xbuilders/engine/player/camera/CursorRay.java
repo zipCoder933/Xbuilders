@@ -56,8 +56,7 @@ public class CursorRay {
     protected final Ray cursorRay;
     public boolean cursorRayHitAllBlocks = false;
 
-
-    //Boundary mode:
+    // Boundary mode:
     private boolean useBoundary = false;
     private boolean boundary_isStartNodeSet = false;
     public boolean boundary_useHitPos = false;
@@ -106,7 +105,6 @@ public class CursorRay {
         return false;
     }
 
-
     /**
      * @return if the event was consumed
      */
@@ -116,17 +114,17 @@ public class CursorRay {
         } else {
             Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
             block.run_ClickEvent(getHitPos());
-            return !block.clickThrough(); //If the event was consumed
+            return !block.clickThrough(); // If the event was consumed
         }
     }
-
 
     private void boundaryClickEvent(boolean create) {
         if (!boundary_isStartNodeSet) {
             setBoundaryStartNode(boundary_startNode);
             boundary_isStartNodeSet = true;
         } else {
-            if (boundaryConsumer != null) boundaryConsumer.accept(boundary_aabb, create);
+            if (boundaryConsumer != null)
+                boundaryConsumer.accept(boundary_aabb, create);
             makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
             boundary_isStartNodeSet = false;
         }
@@ -171,21 +169,23 @@ public class CursorRay {
     }
 
     private void setBoundaryStartNode(Vector3i node) {
-        if (boundary_useHitPos || (boundary_lockToPlane && boundary_isStartNodeSet)) node.set(getHitPos());
-        else node.set(getHitPosPlusNormal());
+        if (boundary_useHitPos || (boundary_lockToPlane && boundary_isStartNodeSet))
+            node.set(getHitPos());
+        else
+            node.set(getHitPosPlusNormal());
     }
 
     private void setBoundaryEndNode(Vector3i node) {
         setBoundaryStartNode(node);
     }
 
-
     public void drawRay() {
         if (cursorRay.hitTarget || cursorRayHitAllBlocks) {
             if (useBoundary) {
                 if (!boundary_isStartNodeSet) {
                     setBoundaryStartNode(boundary_startNode);
-                    boundary_aabb.setPosAndSize(boundary_startNode.x, boundary_startNode.y, boundary_startNode.z, 1, 1, 1);
+                    boundary_aabb.setPosAndSize(boundary_startNode.x, boundary_startNode.y, boundary_startNode.z, 1, 1,
+                            1);
                 } else {
                     setBoundaryEndNode(boundary_endNode);
                     makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
@@ -214,18 +214,20 @@ public class CursorRay {
         }
     }
 
-    public int cursorRayDist = 1000;//Max distance for front ray
-    public final int maxCursorRayDist = 1000;//Max distance for front ray for cursor raycaster
+    public int cursorRayDist = 1000;// Max distance for front ray
+    public final int maxCursorRayDist = 1000;// Max distance for front ray for cursor raycaster
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
-        if (cursorRayHitAllBlocks) cursorRayDist = MathUtils.clamp(cursorRayDist, 1, maxCursorRayDist);
-        else cursorRayDist = maxCursorRayDist;
+        if (cursorRayHitAllBlocks)
+            cursorRayDist = MathUtils.clamp(cursorRayDist, 1, maxCursorRayDist);
+        else
+            cursorRayDist = maxCursorRayDist;
 
         Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
 
         RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, cursorRayDist,
                 ((block, forbiddenBlock, rx, ry, rz) -> {
-                    //block ray if we are locking boundary to plane
+                    // block ray if we are locking boundary to plane
                     if (useBoundary && boundary_lockToPlane && boundary_isStartNodeSet) {
                         if (simplifiedPanTilt.y != 0) {
                             if (ry == boundary_startNode.y) {
@@ -243,12 +245,23 @@ public class CursorRay {
                     }
                     if (cursorRayHitAllBlocks) {
                         return block != forbiddenBlock;
-                    } else return block != BlockList.BLOCK_AIR.id &&
-                            block != forbiddenBlock;
+                    } else
+                        return block != BlockList.BLOCK_AIR.id &&
+                                block != forbiddenBlock;
                 }),
                 ((entity) -> {
                     return true;
                 }),
                 world);
+
+        if (useBoundary && boundary_lockToPlane && boundary_isStartNodeSet) {
+            if (simplifiedPanTilt.y != 0) {
+                cursorRay.hitPostition.y = boundary_startNode.y;
+            } else if (simplifiedPanTilt.x == 1 || simplifiedPanTilt.x == 3) {
+                cursorRay.hitPostition.x = boundary_startNode.x;
+            } else {
+                cursorRay.hitPostition.z = boundary_startNode.z;
+            }
+        }
     }
 }

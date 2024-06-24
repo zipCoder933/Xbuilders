@@ -49,9 +49,8 @@ public abstract class Game {
                 return terrain;
             }
         }
-        ErrorHandler.createPopupWindow("Terrain does not exist under that name",
-                "Terrain \"" + info.getTerrain() + "\" not found!");
-        return terrainsList.get(0);
+        throw new RuntimeException("Terrain \"" + info.getTerrain() + "\" not found!");
+//        return terrainsList.get(0);
     }
 
     public void uiInit(NkContext ctx, NKWindow window, UIResources uires, GameUI gameUI) {

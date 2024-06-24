@@ -74,12 +74,12 @@ void main() {
     val.rgb *= max(flashlight, max(torch, sun2));
 
     // Fog visiblity
-    float fogGradient = 20; //The length of the fog gradient
-    float fogStart = viewDistance - fogGradient - fogGradient; //Start of fog
+    float fogGradient = 32; //The length of the fog gradient
+    float fogStart = viewDistance - fogGradient; //Start of fog
     float visibility = 1.0;
     if (fragDistance > fogStart) {
         visibility = map(fragDistance, fogStart, fogStart + fogGradient, 1.0, 0.0);
-        visibility = clamp(visibility, 0.0, 1.0);
+        visibility = clamp(visibility, 0.1, 1.0);
     }
 
     //The final color
