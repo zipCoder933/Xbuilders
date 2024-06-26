@@ -37,6 +37,8 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class Inventory extends GameUIElement {
 
+    public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
+
     /**
      * @param playerInfo the playerBackpack to set
      */
@@ -315,7 +317,7 @@ public class Inventory extends GameUIElement {
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_I -> {
+                case KEY_OPEN_INVENTORY -> {
                     if (isOpen()) {
                         if (canCloseWithKeyEvents())
                             setOpen(false);

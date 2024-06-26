@@ -20,6 +20,8 @@ import org.joml.Vector3i;
  */
 public class ChunkEntitySet {
 
+    public static final int MAX_ENTITY_DIST = 50;
+
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
     //    FrustumCullingTester frustum;
@@ -55,8 +57,11 @@ public class ChunkEntitySet {
                 }
                 e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);
                 e.distToPlayer = e.worldPosition.distance(playerPos);
-                e.hidden_drawEntity(projection, view);
-                if(chunkUpdatedMesh){
+
+
+                if (e.distToPlayer < MAX_ENTITY_DIST) e.hidden_drawEntity(projection, view);
+
+                if (chunkUpdatedMesh) {
                     e.hidden_entityOnChunkMeshChanged();
                 }
                 e.updatePosition();
