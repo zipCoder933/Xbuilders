@@ -41,7 +41,7 @@ public class UserControlledPlayer extends Player {
 
     final static float FLY_SPEED = 12f;
     final float DEFAULT_SPEED = 12f;
-    final float RUN_SPEED = DEFAULT_SPEED * 5;//XB2: runSpeed = 7.0f;
+    final float RUN_SPEED = DEFAULT_SPEED * 2.5f;//XB2 runSpeed = 12f * 2.5f
 
     Matrix4f projection;
     Matrix4f view;
