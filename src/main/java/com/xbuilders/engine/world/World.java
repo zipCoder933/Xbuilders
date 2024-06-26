@@ -150,10 +150,10 @@ public class World {
      */
     public static final PriorityThreadPoolExecutor generationService = new PriorityThreadPoolExecutor(
             CHUNK_LOAD_THREADS, r -> {
-                Thread thread = new Thread(r, "Generation Thread");
-                thread.setDaemon(true);
-                return thread;
-            }, new LowValueComparator());
+        Thread thread = new Thread(r, "Generation Thread");
+        thread.setDaemon(true);
+        return thread;
+    }, new LowValueComparator());
 
     /**
      * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
@@ -165,12 +165,12 @@ public class World {
             CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
             3L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-                frameTester.count("Mesh threads", 1);
-                Thread thread = new Thread(r, "Mesh Thread");
-                thread.setDaemon(true);
-                thread.setPriority(1);
-                return thread;
-            });
+        frameTester.count("Mesh threads", 1);
+        Thread thread = new Thread(r, "Mesh Thread");
+        thread.setDaemon(true);
+        thread.setPriority(1);
+        return thread;
+    });
 
     public static final PriorityThreadPoolExecutor lightService = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS,
             r -> {
@@ -340,7 +340,7 @@ public class World {
                         chunkX * Chunk.WIDTH,
                         chunkZ * Chunk.WIDTH) < viewDistanceXZ
                         && (generateOutOfFrustum
-                                || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
+                        || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
                     chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
                 }
             }
@@ -363,7 +363,10 @@ public class World {
             } else {
                 // frameTester.startProcess();
                 if (needsSorting.get()) {
-                    sortedChunksToRender.add(chunk);
+                    //Dont add chunk unless it is within the view distance
+                    if (chunkIsWithinRange(playerPosition, chunk.position, viewDistance.get())) {
+                        sortedChunksToRender.add(chunk);
+                    }
                 }
                 chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
                 chunk.distToPlayer = MathUtils.dist(
@@ -438,7 +441,7 @@ public class World {
 
         /*
          * The basic layout for query occlusion culling is:
-         * 
+         *
          * 1. Create the query (or queries).
          * 2. Render loop:
          * a. Do AI / physics etc...
