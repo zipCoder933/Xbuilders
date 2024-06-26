@@ -130,22 +130,21 @@ public class CursorRay {
         }
     }
 
+    public static final int BOUNDARY_USE_HIT_POS_KEY = GLFW.GLFW_KEY_K;
+
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (useBoundary) {
-                if (key == GLFW.GLFW_KEY_K) {
+                if (key == BOUNDARY_USE_HIT_POS_KEY) {
                     boundary_useHitPos = true;
                     return false;
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
             if (useBoundary) {
-                if (key == GLFW.GLFW_KEY_K) {
+                if (key == BOUNDARY_USE_HIT_POS_KEY) {
                     boundary_useHitPos = false;
                     return false;
-                } else if (key == GLFW.GLFW_KEY_L) {
-                    boundary_lockToPlane = !boundary_lockToPlane;
-                    return true;
                 }
             }
         }

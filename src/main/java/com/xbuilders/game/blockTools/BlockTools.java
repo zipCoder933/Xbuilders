@@ -1,15 +1,10 @@
 package com.xbuilders.game.blockTools;
 
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
-import com.xbuilders.game.MyGame;
-import com.xbuilders.game.blockTools.tools.CopyTool;
-import com.xbuilders.game.blockTools.tools.DefaultTool;
-import com.xbuilders.game.blockTools.tools.PasteTool;
-import com.xbuilders.game.blockTools.tools.Tool_BoundarySetDelete;
+import com.xbuilders.game.blockTools.tools.*;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
@@ -28,7 +23,8 @@ public class BlockTools extends GameUIElement {
     public BlockTools(NkContext ctx, NKWindow window, UIResources uires, CursorRay cursorRay) {
         super(ctx, window, uires);
         tools.add(new DefaultTool(this, cursorRay));
-        tools.add(new Tool_BoundarySetDelete(this, cursorRay));
+        tools.add(new PlaneTool(this, cursorRay));
+        tools.add(new BoundaryTool(this, cursorRay));
         tools.add(new CopyTool(this, cursorRay));
         tools.add(new PasteTool(this, cursorRay));
     }

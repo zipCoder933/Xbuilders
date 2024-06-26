@@ -66,11 +66,12 @@ public class World {
      * - When valkyre loads chunks at 288 voxels away, things start getting choppy
      * just like my game does.
      */
-    public static final int CHUNK_LOAD_THREADS = 24;
-    public static final int CHUNK_LIGHT_THREADS = 24;
-    public static final int CHUNK_MESH_THREADS = 24;
+    public static final int CHUNK_LOAD_THREADS = 12; //Redicing the number of threads helps performance
+    public static final int CHUNK_LIGHT_THREADS = 1;
+    public static final int CHUNK_MESH_THREADS = 1;
+
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
-    public static int VIEW_DIST_MAX = Chunk.WIDTH * 30;
+    public static int VIEW_DIST_MAX = Chunk.WIDTH * 7;
     public static int DEFAULT_VIEW_DISTANCE = (int) (Chunk.WIDTH * 3);// 13
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
