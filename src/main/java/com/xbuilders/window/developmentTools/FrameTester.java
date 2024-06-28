@@ -16,6 +16,7 @@ public class FrameTester extends JFrame {
     boolean enabled = true;
 
     public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
         this.enabled = enabled;
         setVisible(enabled);
     }
@@ -254,10 +255,6 @@ public class FrameTester extends JFrame {
         // Set up the JFrame
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // Run the frame creation on the Swing event dispatch thread
-        if(enabled) {
-            setVisible(true);
-        }
     }
 
 //    public void updateMemoryPanel(){

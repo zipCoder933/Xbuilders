@@ -6,7 +6,6 @@ import java.awt.*;
 public class MemoryGraph extends JPanel {
     GraphPanel percentPanel;
 
-
     public MemoryGraph() {
 //        usedPanel = new GraphPanel();
         percentPanel = new GraphPanel();
@@ -29,7 +28,7 @@ public class MemoryGraph extends JPanel {
         JLabel percentLabel = new JLabel("Memory Usage Percent");
         panel.add(percentLabel, BorderLayout.NORTH);
         percentPanel.setPreferredSize(new Dimension(500, 200));
-//        percentPanel.setYBounds(0.2, 0.8);
+        percentPanel.setYBounds(0, 1);
         panel.add(percentPanel, BorderLayout.CENTER);
 
         frame.pack();

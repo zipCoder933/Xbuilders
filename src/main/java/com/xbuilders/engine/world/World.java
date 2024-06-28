@@ -490,15 +490,13 @@ public class World {
         });
         CompactOcclusionMesh.endInvisible();
 
-        // Render transparent meshes
-        // TODO: Because the opaque mesh is invisible, the transparent mesh stutters one
-        // frame every second.
+
         sortedChunksToRender.forEach(chunk -> {
             if (chunk.inFrustum
                     && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
                     && chunkIsWithinRange(playerPosition, chunk.position, viewDistance)) {
                 if (!chunk.meshes.transMesh.isEmpty()) {
-                    if ((chunk.meshes.opaqueMesh.isVisible() || chunk.meshes.opaqueMesh.isEmpty())) {
+                    if ((chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty())) {
                         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                         chunk.meshes.transMesh.draw(GameScene.drawWireframe);
                     }

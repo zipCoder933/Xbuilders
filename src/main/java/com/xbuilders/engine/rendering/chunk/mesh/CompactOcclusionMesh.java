@@ -13,6 +13,7 @@ public class CompactOcclusionMesh extends CompactMesh {
     long lastQueryTime = 0;
     public final BoundingBoxMesh boundingBox;
     int samplesPassedLastFrame = 0;
+    int framesWithNoSamples = 0;
     boolean queried = false;
     int queryId;
     private static EmptyShader boundaryShader;
@@ -20,6 +21,17 @@ public class CompactOcclusionMesh extends CompactMesh {
 
     public boolean isVisible() {
         return samplesPassedLastFrame > 0;
+    }
+
+
+    public boolean isVisibleSafe(int frameThreshold) {
+        /**
+         * Because the opaque mesh is not visible, even though the transparent mesh is still visible,
+         * the transparent mesh stutters one frame every second.
+         * To fix this, we just count the number of frames with no samples passed.
+         * If the number is over 2 frames minimum, than we can officially declare the mesh to be invisible
+         */
+        return isVisible() || framesWithNoSamples < frameThreshold;
     }
 
     public CompactOcclusionMesh(BoundingBoxMesh boundingBox) {
@@ -56,8 +68,11 @@ The basic layout for query occlusion culling is:
 
 
     public void getQueryResult() {
-        if (queried)
+        if (queried) {
             samplesPassedLastFrame = GL30.glGetQueryObjecti(queryId, GL15.GL_QUERY_RESULT);// Get the query result
+            if (samplesPassedLastFrame == 0) framesWithNoSamples++;
+            else framesWithNoSamples = 0;
+        }
     }
 
 
@@ -92,7 +107,6 @@ The basic layout for query occlusion culling is:
         boundingBox.renderWireframe();
         boundaryShader.unbind();
     }
-
 
 
     public static void startInvisible() {
@@ -139,4 +153,5 @@ The basic layout for query occlusion culling is:
                 + "; Last query ms: " + (System.currentTimeMillis() - lastQueryTime)
                 + "; Empty: " + isEmpty();
     }
+
 }

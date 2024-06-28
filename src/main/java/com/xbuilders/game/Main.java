@@ -35,13 +35,8 @@ public class Main extends NKWindow {
 
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
-    public static MemoryGraph memoryGraph = new MemoryGraph();
+    private static MemoryGraph memoryGraph; //Make this priviate because it is null by default
 
-    static {
-        dummyTester.setEnabled(false);
-        frameTester.setStarted(true);
-        frameTester.setUpdateTimeMS(1000);
-    }
 
     // We can still have static variables, but we want to use dependency injection,
     // and make all classes ask for the object instead of directly acsessing it
@@ -86,6 +81,17 @@ public class Main extends NKWindow {
                     System.out.println("Dev mode enabled");
                 }
             }
+
+            dummyTester.setEnabled(false);
+            if (devMode) {
+                frameTester.setEnabled(true);
+                frameTester.setStarted(true);
+                frameTester.setUpdateTimeMS(1000);
+                memoryGraph = new MemoryGraph();
+            } else {
+                frameTester.setEnabled(false);
+            }
+
             ResourceUtils.initialize(devMode);
 
             new Main();
@@ -122,7 +128,7 @@ public class Main extends NKWindow {
             frameTester.__startFrame();
             render();
             MemoryProfiler.update();
-            memoryGraph.update();
+            if (memoryGraph != null) memoryGraph.update();
             frameTester.__endFrame();
 
             endFrame();//EndFrame takes the most time, becuase we have vsync turned on
