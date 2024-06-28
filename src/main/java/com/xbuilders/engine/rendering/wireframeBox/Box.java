@@ -51,7 +51,7 @@ public class Box {
 
 
     public void setPosition(Vector3f pos) {
-        position.set(0, 0, 0).translation(pos);
+        position.identity().translation(pos);
     }
 
     public Box() {

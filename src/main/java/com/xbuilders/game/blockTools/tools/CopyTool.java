@@ -35,9 +35,9 @@ public class CopyTool extends BlockTool {
 
     private void blockBoundarySetEvent(AABB aabb, boolean created) {
         PasteTool.clipboard = new ChunkVoxels(
-                (int) (aabb.getXLength() + 1),
-                (int) (aabb.getYLength() + 1),
-                (int) (aabb.getZLength() + 1));
+                (int) (aabb.getXLength() ),
+                (int) (aabb.getYLength() ),
+                (int) (aabb.getZLength() ));
 
         for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {
             for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
@@ -51,6 +51,8 @@ public class CopyTool extends BlockTool {
             }
         }
         PasteTool.mesh.compute(PasteTool.clipboard);
+        PasteTool.box.setPosAndSize(0, 0, 0,
+                aabb.getXLength(), aabb.getYLength(), aabb.getZLength());
         PasteTool.mesh.sendToGPU();
     }
 

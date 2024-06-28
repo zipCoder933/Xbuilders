@@ -6,5 +6,6 @@ Xbuilders 3 performance is very clearly better than xb2.
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
 4. Make a launcher that can launch XB2 or XB3
+5. paste rotate tool
+6. player must be able to jump underwater
 5. Fix any bugs that arise
-7. add flowing liquid
