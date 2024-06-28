@@ -36,15 +36,8 @@ import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
-import static org.lwjgl.opengl.GL11.GL_BACK;
-import static org.lwjgl.opengl.GL11.GL_CCW;
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.GL_LESS;
-import static org.lwjgl.opengl.GL11.glCullFace;
-import static org.lwjgl.opengl.GL11.glDepthFunc;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glFrontFace;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengles.GLES20.GL_BLEND;
 
 /**
  * This is a Java greedy meshing implementation based on the javascript
@@ -179,12 +172,18 @@ public class GameScene implements WindowEvents {
         holdMouse = !ui.menusAreOpen() && window.windowIsFocused();
         Main.frameTester.endProcess("Clearing buffer");
 
-        init3D();
+        glEnable(GL_DEPTH_TEST);   // Enable depth test
+        glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
+
         Main.frameTester.startProcess();
         player.update(holdMouse);
         Main.frameTester.endProcess("Updating player");
         enableBackfaceCulling();
         Main.frameTester.startProcess();
+
+        glEnable(GL_BLEND); //Enable transparency
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         world.drawChunks(projection, view, player.worldPosition);
         Main.frameTester.endProcess("Drawing chunks");
         setInfoText();
@@ -200,10 +199,6 @@ public class GameScene implements WindowEvents {
         ui.windowResizeEvent(width, height);
     }
 
-    private void init3D() {
-        glEnable(GL_DEPTH_TEST);   // Enable depth test
-        glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
-    }
 
     public static void enableBackfaceCulling() {
         //If backface culling is not working, it means that another process has probably disabled it, after init3D.
@@ -226,6 +221,7 @@ public class GameScene implements WindowEvents {
         ui.keyEvent(key, scancode, action, mods);
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
+                case GLFW.GLFW_KEY_F3 -> debugText = !debugText;
                 case GLFW.GLFW_KEY_P -> specialMode = !specialMode;
                 case GLFW.GLFW_KEY_Z -> drawWireframe = !drawWireframe;
             }
@@ -256,6 +252,7 @@ public class GameScene implements WindowEvents {
         }
     }
 
+    boolean debugText = false;
     public static WCCi rayWCC = new WCCi();
 
     private void setInfoText() {
@@ -278,7 +275,9 @@ public class GameScene implements WindowEvents {
                 Chunk chunk = world.getChunk(rayWCC.chunk);
                 if (chunk != null) {
                     text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
+                    text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
                     text += "\nchunk mesh: " + chunk.meshes;
+
                     BlockData data = chunk.data.getBlockData(
                             rayWCC.chunkVoxel.x,
                             rayWCC.chunkVoxel.y,
@@ -310,6 +309,8 @@ public class GameScene implements WindowEvents {
             text = "Error: " + ex.getMessage();
             ex.printStackTrace();
         }
-        ui.setInfoText(text);
+        if (Main.devMode || debugText) {
+            ui.setInfoText(text);
+        }
     }
 }
