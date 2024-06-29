@@ -366,5 +366,4 @@ public class Chunk {
     public String toString() {
         return "Chunk{" + position.x + "," + position.y + "," + position.z + '}';
     }
-
 }

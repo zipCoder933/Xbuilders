@@ -1,5 +1,6 @@
 package com.xbuilders.engine.world;
 
+import com.xbuilders.engine.items.ChunkEntitySet;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -464,15 +465,10 @@ public class World {
          */
 
         // Render visible opaque meshes
-        int viewDistance = getViewDistance();
-
         chunkShader.bind();
         chunkShader.tickAnimation();
         sortedChunksToRender.forEach(chunk -> {// TODO: The chunk in front doesnt have any samples?
-            if (chunk.inFrustum
-                    && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
-                    && chunkIsWithinRange(playerPosition, chunk.position, viewDistance)) {
-
+            if (chunkIsVisible(chunk, playerPosition)) {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                 chunk.meshes.opaqueMesh.getQueryResult();
@@ -482,28 +478,38 @@ public class World {
         // Render invisible opaque meshes
         CompactOcclusionMesh.startInvisible();
         sortedChunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum
-                    && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
-                    && chunkIsWithinRange(playerPosition, chunk.position, viewDistance)) {
+            if (chunkIsVisible(chunk, playerPosition)) {
                 chunk.meshes.opaqueMesh.drawInvisible();
             }
         });
         CompactOcclusionMesh.endInvisible();
 
-
+        //Draw entities
+        //The entities must be drawn BEFORE the transparent meshes, otherwise they will not be visible over the transparent meshes
+        ChunkEntitySet.startDraw(projection, view);
         sortedChunksToRender.forEach(chunk -> {
-            if (chunk.inFrustum
-                    && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
-                    && chunkIsWithinRange(playerPosition, chunk.position, viewDistance)) {
-                if (!chunk.meshes.transMesh.isEmpty()) {
-                    if ((chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty())) {
-                        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-                        chunk.meshes.transMesh.draw(GameScene.drawWireframe);
-                    }
-                }
-                chunk.entities.draw(projection, view, Camera.frustum, playerPosition);
+            if (chunkIsVisible(chunk, playerPosition)) {
+                chunk.entities.draw(Camera.frustum, playerPosition);
             }
         });
+
+        //Draw transparent meshes
+        sortedChunksToRender.forEach(chunk -> {
+            if (!chunk.meshes.transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
+                if (chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty()) {
+                    chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                    chunk.meshes.transMesh.draw(GameScene.drawWireframe);
+                }
+            }
+        });
+
+
+    }
+
+    private boolean chunkIsVisible(Chunk chunk, Vector3f playerPosition) {
+        return chunk.inFrustum
+                && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
+                && chunkIsWithinRange(playerPosition, chunk.position, getViewDistance());
     }
 
     // <editor-fold defaultstate="collapsed" desc="block operations">

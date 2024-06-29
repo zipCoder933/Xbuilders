@@ -22,7 +22,7 @@ import org.joml.Vector3i;
  */
 public class ChunkEntitySet {
 
-    public static final int MAX_ENTITY_DIST = 50;
+    public static final int MAX_ENTITY_DIST = 100;
 
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
@@ -45,13 +45,15 @@ public class ChunkEntitySet {
         list.add(e);
     }
 
-    public void draw(Matrix4f projection, Matrix4f view, FrustumCullingTester frustum, Vector3f playerPos) {
+    public static void startDraw(Matrix4f projection, Matrix4f view){
         if (Entity.shader == null) {//Unless another entity uses a different shader, we only need to bind once
             Entity.shader = new EntityShader();
         }
         Entity.shader.bind();
         Entity.shader.updateProjectionViewMatrix(projection, view);
+    }
 
+    public void draw(FrustumCullingTester frustum, Vector3f playerPos) {
         for (int i = list.size() - 1; i >= 0; i--) {
             Entity e = list.get(i);
             if (e.destroyMode) {
