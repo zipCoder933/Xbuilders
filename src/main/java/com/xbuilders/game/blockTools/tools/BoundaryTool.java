@@ -2,14 +2,19 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.HashSet;
 
 public class BoundaryTool extends BlockTool {
     public BoundaryTool(BlockTools tools, CursorRay cursorRay) {
@@ -40,13 +45,27 @@ public class BoundaryTool extends BlockTool {
         Block block = (Block) Main.game.getSelectedItem();
         if (!created) block = BlockList.BLOCK_AIR;
 
+        HashSet<Chunk> foundChunks = new HashSet<Chunk>();
+        WCCi wcc = new WCCi();
+
         for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {
             for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
                 for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
                     GameScene.player.setBlock(block.id, x, y, z);
+                    foundChunks.add(wcc.set(x, y, z).getChunk(GameScene.world));
                 }
             }
         }
+        //Deleate all entities within aabb
+//        for (Chunk chunk : foundChunks) { //TODO: Fix this
+//            for (Entity entity : chunk.entities.list) {
+//                if (entity.worldPosition.x >= aabb.min.x && entity.worldPosition.x <= aabb.max.x
+//                        && entity.worldPosition.y >= aabb.min.y && entity.worldPosition.y <= aabb.max.y
+//                        && entity.worldPosition.z >= aabb.min.z && entity.worldPosition.z <= aabb.max.z) {
+//                    entity.destroy();
+//                }
+//            }
+//        }
     }
 
     @Override

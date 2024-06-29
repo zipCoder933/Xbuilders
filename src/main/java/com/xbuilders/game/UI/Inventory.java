@@ -47,7 +47,7 @@ public class Inventory extends GameUIElement {
     }
 
     public Inventory(NkContext ctx, Item[] itemList, NKWindow window, UIResources uires,
-            Hotbar hotbar) throws IOException {
+                     Hotbar hotbar) throws IOException {
         super(ctx, window, uires);
         this.hotbar = hotbar;
         setItemList(itemList);
@@ -98,6 +98,8 @@ public class Inventory extends GameUIElement {
             } else if (o2 == null) {
                 return 1;
             } else {
+
+
                 for (String tag : o1.getTags()) {  // If 2 items have a shared tag
                     if (o2.getTags().equals(tag)) {
                         return 0;
@@ -114,9 +116,23 @@ public class Inventory extends GameUIElement {
                             return b1.type > b2.type ? 1 : -1;
                     }
                 }
+
+
+                //Tools come before blocks and Blocks come before entities
+                if (o1.itemType == ItemType.TOOL && o2.itemType != ItemType.TOOL) {
+                    return -1;
+                } else if (o1.itemType != ItemType.TOOL && o2.itemType == ItemType.TOOL) {
+                    return 1;
+                } else if (o1.itemType == ItemType.ENTITY_LINK && o2.itemType != ItemType.ENTITY_LINK) {
+                    return 1;
+                } else if (o1.itemType != ItemType.ENTITY_LINK && o2.itemType == ItemType.ENTITY_LINK) {
+                    return -1;
+                }
                 return 1;
             }
-        };
+        }
+
+        ;
     };
 
     final int menuWidth = 700;
@@ -198,6 +214,11 @@ public class Inventory extends GameUIElement {
     private void inventoryGroup(MemoryStack stack) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE)) {
+
+
+            drawScrollBar(stack);
+
+
             String searchCriteria = searchBox.getValueAsString();
             if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
                 searchCriteria = null;
@@ -205,9 +226,11 @@ public class Inventory extends GameUIElement {
                 searchCriteria = searchCriteria.toLowerCase();
 
             int itemID = 0;
-            rows: while (true) {
+            rows:
+            while (true) {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);// row
-                cols: for (int column = 0; column < maxColumns;) {
+                cols:
+                for (int column = 0; column < maxColumns; ) {
                     if (itemID >= itemList.length) {
                         break rows;
                     }
@@ -231,6 +254,38 @@ public class Inventory extends GameUIElement {
         Nuklear.nk_group_end(ctx);
     }
 
+    private void drawScrollBar(MemoryStack stack) {
+//        Nuklear.nnk_group_scrolled_offset_begin(ctx, scrollY); //TODO: Study how to increase scrolling speed or add a scrollbar
+//
+//        int contentHeight = itemListHeight;
+//        int windowHeight = window.getHeight();
+//        // Enable a scrolling region
+//        Nuklear.nk_group_begin(ctx, "ScrollingRegion", NK_WINDOW_BORDER);
+//        Nuklear.nk_layout_row_dynamic(ctx, contentHeight, 1);
+//
+//        // Render content that exceeds windowHeight here
+//
+//        // Example of a scrollbar (you need to implement this)
+//        float scrollY = 0.0f; // Vertical scroll position (should be dynamic)
+//        float scrollBarHeight = windowHeight; // Height of the scrollbar
+//
+//        Nuklear.nk_layout_row_begin(ctx, NK_STATIC, scrollBarHeight, 2);
+//        Nuklear.nk_layout_row_push(ctx, 0.85f);
+//
+////        // Example of rendering a basic scrollbar
+////        Nuklear.nk_style_set_color(ctx, Nuklear.NK_COLOR_SCROLLBAR, nk_rgb(150, 150, 150));
+////        Nuklear.nk_style_set_color(ctx, Nuklear.NK_COLOR_SCROLLBAR_CURSOR, nk_rgb(180, 180, 180));
+//
+//        float[] value = new float[]{scrollY};
+//
+//        if (Nuklear.nk_slider_float(ctx, 0, value, 100, 0.1f)) {
+//            scrollY = Nuklear.nk_slide_float(ctx, 0, scrollY, contentHeight - windowHeight, 1.0f);
+//        }
+//        Nuklear.nk_layout_row_end(ctx);
+//
+//        Nuklear.nk_group_end(ctx);
+    }
+
     private void backpackGroup() {
         nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
         if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
@@ -246,9 +301,11 @@ public class Inventory extends GameUIElement {
             }
 
             int itemID = 0;
-            rows: while (true) {
+            rows:
+            while (true) {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
-                cols: for (int i = 0; i < maxColumns; i++) {
+                cols:
+                for (int i = 0; i < maxColumns; i++) {
                     if (itemID >= playerInfo.playerBackpack.length) {
                         break rows;
                     }
