@@ -57,6 +57,7 @@ public class BoundaryTool extends BlockTool {
             }
         }
         //Deleate all entities within aabb
+        //We should delete entities within boundary wether we are creating or not
 //        for (Chunk chunk : foundChunks) { //TODO: Fix this
 //            for (Entity entity : chunk.entities.list) {
 //                if (entity.worldPosition.x >= aabb.min.x && entity.worldPosition.x <= aabb.max.x
