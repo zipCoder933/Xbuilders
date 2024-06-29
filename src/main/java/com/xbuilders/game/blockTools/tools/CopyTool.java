@@ -50,10 +50,7 @@ public class CopyTool extends BlockTool {
                 }
             }
         }
-        PasteTool.mesh.compute(PasteTool.clipboard);
-        PasteTool.box.setPosAndSize(0, 0, 0,
-                aabb.getXLength(), aabb.getYLength(), aabb.getZLength());
-        PasteTool.mesh.sendToGPU();
+        PasteTool.updateMesh();
     }
 
 

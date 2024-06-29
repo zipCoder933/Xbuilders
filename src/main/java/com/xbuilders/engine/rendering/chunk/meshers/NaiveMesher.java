@@ -42,7 +42,7 @@ public class NaiveMesher extends Mesher {
 
                     block = ItemList.getBlock(chunkVoxels.getBlock(x, y, z));
 
-                    if (!block.isAir() && (block.type != BlockList.DEFAULT_BLOCK_TYPE_ID || generateAll)) {
+                    if (!block.isAir() && (generateAll || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID)) {
 
                         if (x > 0) {
                             neighbors[BlockType.NEG_X] = ItemList.getBlock(chunkVoxels.getBlock(x - 1, y, z));

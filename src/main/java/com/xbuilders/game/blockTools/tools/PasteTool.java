@@ -2,15 +2,15 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.ChunkEntitySet;
+import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.rendering.chunk.BlockMeshBundle;
 import com.xbuilders.engine.rendering.chunk.BlockShader;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
-import com.xbuilders.game.MyGame;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.window.render.MVP;
@@ -18,6 +18,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.ArrayList;
 
 public class PasteTool extends BlockTool {
     public PasteTool(BlockTools tools, CursorRay cursorRay) {
@@ -33,8 +35,15 @@ public class PasteTool extends BlockTool {
 
     MVP mvp = new MVP();
     public static ChunkVoxels clipboard = new ChunkVoxels(16, 16, 16);
+    public static ArrayList<Entity> clipboard_entities = new ArrayList<>(); //TODO: Add clipboard entities
     static BlockMeshBundle mesh = new BlockMeshBundle();
     static Box box = new Box();
+
+    public static void updateMesh(){
+        mesh.compute(clipboard);
+        box.setPosAndSize(0, 0, 0, clipboard.size.x, clipboard.size.y, clipboard.size.z);
+        mesh.sendToGPU();
+    }
 
     static {
         box.setLineWidth(2);
@@ -126,6 +135,42 @@ public class PasteTool extends BlockTool {
         return true;
     }
 
+    public static void rotatePasteBox() {
+        if (clipboard != null) {
+            clipboard_entities.clear();
+            ChunkVoxels newClipboard = new ChunkVoxels(
+                    clipboard.size.z,
+                    clipboard.size.y,
+                    clipboard.size.x);
+            for (int x = 0; x < clipboard.size.x; x++) {
+                for (int y = 0; y < clipboard.size.y; y++) {
+                    for (int z = 0; z < clipboard.size.z; z++) {
+                        int newX = (clipboard.size.z - 1) - z;
+                        int newZ = x;
+                        int newY = y;
+
+                        newClipboard.setBlock(
+                                newX, newY, newZ, clipboard.getBlock(x, y, z));
+
+                        BlockData data = clipboard.getBlockData(x, y, z);
+                        if (data != null && data.size() == 2) { //If the data is an orientation
+                            //xz=0; y=1
+
+                            byte val = (byte) (data.get(0) + 1);
+                            if (val > 3) {
+                                val = (byte) 0;
+                            }
+                            newClipboard.setBlockData(newX, newY, newZ, data);
+
+                        }
+                    }
+                }
+            }
+            clipboard = newClipboard;
+        }
+        updateMesh();
+    }
+
     boolean additionMode = false;
     Vector3i offset = new Vector3i();
     int offsetMaxMode = 8;
@@ -142,7 +187,7 @@ public class PasteTool extends BlockTool {
                 additionMode = !additionMode;
                 return true;
             } else if (key == GLFW.GLFW_KEY_R) {
-                //TODO: Rotate the paste
+                rotatePasteBox();
                 return true;
             }
         }

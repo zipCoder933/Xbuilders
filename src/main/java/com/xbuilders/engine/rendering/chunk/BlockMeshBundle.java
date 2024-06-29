@@ -24,11 +24,14 @@ public class BlockMeshBundle {
     final TraditionalVertexSet transBuffer = new TraditionalVertexSet();
     public final CompactMesh opaqueMesh, transMesh;
 
+    private NaiveMesher naiveMesher;
+
     public BlockMeshBundle() {
         opaqueMesh = new CompactMesh();
         opaqueMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
         transMesh = new CompactMesh();
         transMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
+
     }
 
     public synchronized void init() {
@@ -42,9 +45,8 @@ public class BlockMeshBundle {
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 opaqueBuffer.reset();
                 transBuffer.reset();
-
-                new NaiveMesher(voxels, new Vector3i(0, 0, 0), true)
-                        .compute(opaqueBuffer, transBuffer, stack, 1, false);
+                naiveMesher = new NaiveMesher(voxels, new Vector3i(0, 0, 0), true);
+                naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, false);
 
                 if (opaqueBuffer.size() != 0) {
                     opaqueBuffer.makeVertexSet();

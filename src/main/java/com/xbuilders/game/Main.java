@@ -114,7 +114,7 @@ public class Main extends NKWindow {
 
         //Create the window
         initGLFW();
-        startWindow("TEST WINDOW", 850, 650);
+        startWindow("XBuilders", 850, 650);
 //        GLFW.glfwSwapInterval(0);//Disable vsync
         init();
         showWindow();
