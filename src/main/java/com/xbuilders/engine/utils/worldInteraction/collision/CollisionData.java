@@ -15,6 +15,8 @@ import org.lwjgl.system.MemoryUtil;
  */
 public class CollisionData {
 
+    public boolean sideCollision;
+    public boolean sideCollisionIsEntity;
     public Vector3i collisionNormal;//just a pointer to one of the 6 possible faces
     public final FloatBuffer penetration;//penetration amount
     public final FloatBuffer distances; //a list of distances

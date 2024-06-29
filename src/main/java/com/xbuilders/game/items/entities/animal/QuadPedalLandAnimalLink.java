@@ -5,13 +5,9 @@ import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
-import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
-import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
-import org.joml.Matrix4f;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,7 +84,7 @@ public abstract class QuadPedalLandAnimalLink extends EntityLink {
     public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
         initMesh(ResourceUtils.resource(bodyPath)
                 , ResourceUtils.resource(legPath));
-        e.initialize(loadBytes); //Initialize the animal
+        e.initializeOnDraw(loadBytes); //Initialize the animal
         QuadPedalEntity a = (QuadPedalEntity) e; //Cast the entity to a fox
         a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables
     }

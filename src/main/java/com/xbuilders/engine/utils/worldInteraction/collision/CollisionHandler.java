@@ -43,8 +43,8 @@ public class CollisionHandler {
     Chunk chunk;
 
     public CollisionHandler(World chunks, PositionHandler driver, EntityAABB entityBox,
-            EntityAABB userControlledPlayerAABB,
-            List<Player> playerList) {
+                            EntityAABB userControlledPlayerAABB,
+                            List<Player> playerList) {
 
         this.userControlledPlayerAABB = userControlledPlayerAABB;
         this.playerList = playerList;
@@ -79,6 +79,9 @@ public class CollisionHandler {
     }
 
     public synchronized void resolveCollisions(Matrix4f projection, Matrix4f view) {
+        collisionData.sideCollision = false;
+        collisionData.sideCollisionIsEntity = false;
+
         try (MemoryStack stack = MemoryStack.stackPush()) {
             stepBox.set(myBox.box);
             stepBox.setY(stepBox.max.y + driver.stepHeight);
@@ -172,16 +175,19 @@ public class CollisionHandler {
                 driver.velocity.y = 0;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
             } else if (collisionData.collisionNormal.x != 0) {
-
                 if (myBox.box.max.y - box.min.y < driver.stepHeight) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.x));
                 } else {
+                    collisionData.sideCollision = true;
+                    collisionData.sideCollisionIsEntity = isEntity;
                     myBox.box.setX(myBox.box.min.x + collisionData.penPerAxes.x);
                 }
             } else if (collisionData.collisionNormal.z != 0) {
                 if (myBox.box.max.y - box.min.y < driver.stepHeight) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.z));
                 } else {
+                    collisionData.sideCollision = true;
+                    collisionData.sideCollisionIsEntity = isEntity;
                     myBox.box.setZ(myBox.box.min.z + collisionData.penPerAxes.z);
                 }
             }

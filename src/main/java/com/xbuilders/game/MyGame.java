@@ -25,7 +25,9 @@ import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.game.items.blocks.type.*;
+import com.xbuilders.game.items.entities.BannerEntityLink;
 import com.xbuilders.game.items.entities.animal.*;
+import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
 import com.xbuilders.game.items.tools.AnimalFeed;
 import com.xbuilders.game.items.tools.Hoe;
 import com.xbuilders.game.items.tools.Saddle;
@@ -107,7 +109,7 @@ public class MyGame extends Game {
         try {
             hotbar = new Hotbar(ctx, window, uires);
             inventory = new Inventory(ctx, ItemList.getAllItems(), window, uires, hotbar);
-            blockTools = new BlockTools(ctx, window, uires,GameScene.player.camera.cursorRay);
+            blockTools = new BlockTools(ctx, window, uires, GameScene.player.camera.cursorRay);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -270,6 +272,21 @@ public class MyGame extends Game {
         // exportBlocksToJson(syBlocks, ResourceUtils.resource("items\\blocks\\json\\doors.json"));
     }
 
+    public static final BannerEntityLink BANNER = new BannerEntityLink(82, "Red Banner", "red.png");
+    public static final BannerEntityLink BANNER1 = new BannerEntityLink(81, "Orange Banner", "orange.png");
+    public static final BannerEntityLink BANNER2 = new BannerEntityLink(72, "Yellow Banner", "yellow.png");
+    public static final BannerEntityLink BANNER3 = new BannerEntityLink(75, "Lime Banner", "lime.png");
+    public static final BannerEntityLink BANNER4 = new BannerEntityLink(78, "Green Banner", "green.png");
+    public static final BannerEntityLink BANNER5 = new BannerEntityLink(73, "Blue Banner", "blue.png");
+    public static final BannerEntityLink BANNER6 = new BannerEntityLink(77, "Gray Banner", "gray.png");
+    public static final BannerEntityLink BANNER7 = new BannerEntityLink(76, "Pink Banner", "pink.png");
+    public static final BannerEntityLink BANNER8 = new BannerEntityLink(84, "Purple Banner", "purple.png");
+    public static final BannerEntityLink BANNER9 = new BannerEntityLink(74, "White Banner", "white.png");
+    public static final BannerEntityLink BANNER10 = new BannerEntityLink(83, "Xbuilders Banner", "blue_logo.png");
+    public static final BannerEntityLink BANNER11 = new BannerEntityLink(80, "Regal Banner", "regal.png");
+    public static final BannerEntityLink BANNER12 = new BannerEntityLink(79, "Royal Banner", "royal.png");
+
+
     @Override
     public void initialize(NKWindow window) throws Exception {
 
@@ -301,6 +318,30 @@ public class MyGame extends Game {
         blockList = ArrayUtils.concatenateArrays(blockList, blocks);
 
         EntityLink[] entityList = new EntityLink[]{
+                //Banners
+                BANNER,
+                BANNER1,
+                BANNER2,
+                BANNER3,
+                BANNER4,
+                BANNER5,
+                BANNER6,
+                BANNER7,
+                BANNER8,
+                BANNER9,
+                BANNER10,
+                BANNER11,
+                BANNER12,
+
+
+                //Boats
+                new BoatEntityLink(window, 92, "Oak Boat",      "boat_oak.png"    ,"boat\\boat_oak.png"      ),
+                new BoatEntityLink(window,95, "Dark Oak Boat",  "boat_darkoak.png","boat\\boat_darkoak.png"  ),
+                new BoatEntityLink(window,96, "Spruce Boat",    "boat_spruce.png" ,"boat\\boat_spruce.png"   ),
+                new BoatEntityLink(window,94, "Acacia Boat",    "boat_acacia.png" ,"boat\\boat_acacia.png"   ),
+                new BoatEntityLink(window,93, "Jungle Boat",    "boat_jungle.png" ,"boat\\boat_jungle.png"   ),
+                new BoatEntityLink(window,97, "Birch Boat",     "boat_birch.png"  ,"boat\\boat_birch.png"    ),
+
                 //Foxes
                 new FoxLink(window, 0, "Red Fox", "red.png"),
                 new FoxLink(window, 1, "Gray Fox", "gray.png"),

@@ -102,10 +102,16 @@ public abstract class Item {
     protected boolean initIcon(File iconDirectory, int defaultIcon) throws IOException {
         if (iconFilename != null) {
             File iconFile = new File(iconDirectory, iconFilename);
+
+            if (!iconFile.getAbsolutePath().endsWith(".png") && !iconFile.exists()) {
+                iconFile = new File(iconDirectory, iconFilename + ".png"); //Add .png if it doesn't exist
+            }
+
             if (iconFile.exists()) {
                 Texture icon = TextureUtils.loadTexture(iconFile.getAbsolutePath(), false);
                 setIcon(icon.id);
             } else {
+                System.err.println("Icon file not found: " + iconFile.getAbsolutePath());
                 setIcon(defaultIcon);
             }
             return true;

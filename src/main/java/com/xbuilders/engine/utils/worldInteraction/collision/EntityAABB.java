@@ -27,7 +27,7 @@ public class EntityAABB {
     public void update() {
         //Clamp world position
         worldPosition.x = MathUtils.clamp(worldPosition.x, World.WORLD_SIZE_NEG_X, World.WORLD_SIZE_POS_X);
-        if(worldPosition.y > World.WORLD_BOTTOM_Y) {
+        if (worldPosition.y > World.WORLD_BOTTOM_Y) {
             worldPosition.y = World.WORLD_BOTTOM_Y;
         }
         worldPosition.z = MathUtils.clamp(worldPosition.z, World.WORLD_SIZE_NEG_Z, World.WORLD_SIZE_POS_Z);
@@ -43,4 +43,18 @@ public class EntityAABB {
     public final Vector3f offset;
     public final Vector3f size;
     public boolean isSolid = true;
+
+    public void setOffsetAndSize(float sizeX, float sizeY, float sizeZ, boolean alignToGround) {
+        size.set(sizeX, sizeY, sizeZ);
+        if (alignToGround) offset.set(-(size.x / 2), -size.y, -(size.z / 2));
+        else offset.set(-(size.x / 2), -(size.y / 2), -(size.z / 2));
+        update();
+    }
+    
+    public void setOffsetAndSize(float offX, float offY, float offZ,
+                                 float sizeX, float sizeY, float sizeZ) {
+        offset.set(offX, offY, offZ);
+        size.set(sizeX, sizeY, sizeZ);
+        update();
+    }
 }

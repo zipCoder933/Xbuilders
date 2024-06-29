@@ -136,7 +136,7 @@ public class UserControlledPlayer extends Player {
 
         aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
         aabb.offset.set(-(PLAYER_WIDTH * 0.5f), -0.5f, -(PLAYER_WIDTH * 0.5f));
-        positionHandler = new PositionHandler(world, window, aabb, aabb, GameScene.otherPlayers);
+        positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
         skin = new DefaultSkin(aabb);
         eventPipeline = new BlockEventPipeline(world);

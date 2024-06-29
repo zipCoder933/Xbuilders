@@ -19,7 +19,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
 
     public QuadPedalEntity(BaseWindow window) {
         super(window);
-        setSize(1f, 1.5f, 1f, true);
+        aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
 //            freezeMode = true;
         frustumSphereRadius = 2;
     }
@@ -46,7 +46,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
         if (inFrustum) {
 
 
-            if (isRidingThis()) {
+            if (playerIsRidingThis()) {
                 float rotSpeed = 0.5f;
                 if (GameScene.player.forwardKeyPressed()) {
                     goForward(0.2f);

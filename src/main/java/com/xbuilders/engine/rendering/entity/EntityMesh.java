@@ -5,11 +5,16 @@
 package com.xbuilders.engine.rendering.entity;
 
 import com.xbuilders.engine.rendering.Mesh;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.utils.obj.OBJ;
+import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
+import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.GL_FILL;
@@ -49,6 +54,11 @@ public class EntityMesh implements Mesh {
         GL30.glBindVertexArray(0);
     }
 
+    public void loadFromOBJ(File obj) throws IOException {
+        OBJ objModel = OBJLoader.loadModel(obj);
+        loadFromOBJ(objModel);
+    }
+
     public void loadFromOBJ(OBJ obj) {
         OBJBufferSet buffers = new OBJBufferSet(obj);
 
@@ -70,6 +80,12 @@ public class EntityMesh implements Mesh {
     @Override
     public void setTextureID(int textureID) {
         this.textureID = textureID;
+    }
+
+    public void setTexture(File texture) throws IOException {
+        this.textureID =
+                Objects.requireNonNull(
+                        TextureUtils.loadTexture(texture.getAbsolutePath(),false)).id;
     }
 
     public void delete() {

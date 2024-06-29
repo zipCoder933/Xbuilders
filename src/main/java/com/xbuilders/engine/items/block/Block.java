@@ -148,11 +148,6 @@ public class Block extends Item {
             this.texture.init(textures);
         }
 
-
-//        //Run our custom callback first if we dont have a block type
-//        if (ItemList.blocks.getBlockType(type) == null && initializationCallback != null) {
-//            initializationCallback.accept(this);
-//        }
         //Run initialization callbacks
         if (ItemList.blocks.getBlockType(type) != null) {
             Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(type).initializationCallback;

@@ -16,6 +16,6 @@ public class FoxLink extends StaticLandAnimalLink {
     public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
         super.initializeEntity(e, loadBytes);
         StaticLandAnimal a = (StaticLandAnimal) e;
-        a.setSize(0.6f, 0.8f, 0.6f,true);
+        a.aabb.setOffsetAndSize(0.6f, 0.8f, 0.6f,true);
     }
 }

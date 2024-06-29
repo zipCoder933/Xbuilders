@@ -1,0 +1,18 @@
+Message: 	C:\Local Files\github\Xbuilders\res\items\entities\banner\banner.obj (The system cannot find the path specified)
+Developer Message: 	##Runtime error##	C:\Local Files\github\Xbuilders\
+Class: 	class java.io.FileNotFoundException
+
+Stack trace:
+[java.base/java.io.FileInputStream.open0(Native Method)
+ java.base/java.io.FileInputStream.open(FileInputStream.java:216)
+ java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
+ java.base/java.util.Scanner.<init>(Scanner.java:639)
+ com.xbuilders.window.utils.obj.OBJLoader.loadModel(OBJLoader.java:55)
+ com.xbuilders.engine.rendering.entity.EntityMesh.loadFromOBJ(EntityMesh.java:58)
+ com.xbuilders.game.items.entities.BannerEntityLink.lambda$new$1(BannerEntityLink.java:37)
+ com.xbuilders.engine.items.EntityList.setItems(EntityList.java:37)
+ com.xbuilders.engine.items.ItemList.setAllItems(ItemList.java:74)
+ com.xbuilders.game.MyGame.initialize(MyGame.java:397)
+ com.xbuilders.game.Main.init(Main.java:153)
+ com.xbuilders.game.Main.<init>(Main.java:119)
+ com.xbuilders.game.Main.main(Main.java:97)]

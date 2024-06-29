@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  */
 public class Tool extends Item {
 
-    protected Consumer<Tool> initializationCallback;
+    public Consumer<Tool> initializationCallback;
 
     public Tool(int id, String name) {
         super(id, name, ItemType.TOOL);

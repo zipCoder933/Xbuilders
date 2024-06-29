@@ -6,6 +6,7 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.camera.FrustumCullingTester;
+import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 
@@ -43,7 +44,13 @@ public class ChunkEntitySet {
         list.add(e);
     }
 
+
     public void draw(Matrix4f projection, Matrix4f view, FrustumCullingTester frustum, Vector3f playerPos) {
+        if (Entity.shader == null) {//Unless another entity uses a different shader, we only need to bind once
+            Entity.shader = new EntityShader();
+        }
+        Entity.shader.bind();
+
         for (int i = list.size() - 1; i >= 0; i--) {
             Entity e = list.get(i);
             if (e.destroyMode) {

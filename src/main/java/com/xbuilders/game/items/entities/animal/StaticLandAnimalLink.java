@@ -54,19 +54,19 @@ public class StaticLandAnimalLink extends EntityLink {
     @Override
     public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
         initMesh();
-        e.initialize(loadBytes); //Initialize the animal
+        e.initializeOnDraw(loadBytes); //Initialize the animal
         StaticLandAnimal a = (StaticLandAnimal) e; //Cast the entity to a fox
         a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables
     }
 
     static class StaticLandAnimal extends LandAnimal {
-        
+
         Matrix4f bodyMatrix;
         StaticLandAnimalLink link;
 
         public StaticLandAnimal(BaseWindow window) {
             super(window);
-            setSize(0.8f, 0.9f, 0.8f,true);
+            aabb.setOffsetAndSize(0.8f, 0.9f, 0.8f, true);
             bodyMatrix = new Matrix4f();
             frustumSphereRadius = 2;
         }
@@ -96,7 +96,8 @@ public class StaticLandAnimalLink extends EntityLink {
 
                 pos.update(projection, view);
                 if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.01
-                        || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.01) {
+                        || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.01 &&
+                        !pos.collisionHandler.collisionData.sideCollisionIsEntity) {
                     if (System.currentTimeMillis() - lastJumpTime > 1000) {
                         lastJumpTime = System.currentTimeMillis();
                         pos.jump();

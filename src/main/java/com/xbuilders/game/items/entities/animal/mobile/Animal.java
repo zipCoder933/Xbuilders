@@ -7,6 +7,7 @@ package com.xbuilders.game.items.entities.animal.mobile;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.player.Player;
+import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.window.BaseWindow;
@@ -28,12 +29,8 @@ public abstract class Animal extends Entity {
     public boolean freezeMode = false;
 
 
-    public void setSize(float sizeX, float sizeY, float sizeZ, boolean alignToGround) {
-        aabb.size.set(sizeX, sizeY, sizeZ);
-        if (alignToGround) aabb.offset.set(-(aabb.size.x / 2), -aabb.size.y, -(aabb.size.z / 2));
-        else aabb.offset.set(-(aabb.size.x / 2), -(aabb.size.y / 2), -(aabb.size.z / 2));
-        aabb.update();
-    }
+
+
 
     public void goForward(float amount) {
         if(freezeMode) return;
@@ -48,11 +45,11 @@ public abstract class Animal extends Entity {
     }
 
     @Override
-    public final void initialize(ArrayList<Byte> bytes)  {
+    public final void initializeOnDraw(ArrayList<Byte> bytes)  {
         // box = new Box();
         // box.setColor(new Vector4f(1, 0, 1, 1));
         // box.setLineWidth(5);
-        pos = new PositionHandler(GameScene.world, window, aabb, player.aabb, GameScene.otherPlayers);
+        pos = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
         pos.setGravityEnabled(true);
     }
 }

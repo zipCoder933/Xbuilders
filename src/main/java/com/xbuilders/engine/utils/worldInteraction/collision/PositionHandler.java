@@ -82,9 +82,9 @@ public class PositionHandler {
     final static float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
 
 
-    public PositionHandler(World chunks, BaseWindow window,
+    public PositionHandler(BaseWindow window, World world,
                            EntityAABB thisAABB,
-                           EntityAABB userControlledPlayerAABB,
+                           EntityAABB UserPlayerAABB,
                            List<Player> playerList) {
 
         this.window = window;
@@ -98,8 +98,8 @@ public class PositionHandler {
         collisionsEnabled = true;
         renderedBox.setLineWidth(15);
 
-        collisionHandler = new CollisionHandler(chunks, this, thisAABB,
-                userControlledPlayerAABB, playerList);
+        collisionHandler = new CollisionHandler(world, this, thisAABB,
+                UserPlayerAABB, playerList);
     }
 
     protected static Matrix4f sprojection, sview;

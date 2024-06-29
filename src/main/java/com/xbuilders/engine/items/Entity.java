@@ -33,7 +33,7 @@ public abstract class Entity {
      */
     public static EntityShader shader;
 
-    public boolean isRidingThis() {
+    public boolean playerIsRidingThis() {
         return GameScene.player.positionLock != null && GameScene.player.positionLock.entity == this;
     }
 
@@ -71,14 +71,20 @@ public abstract class Entity {
 
     private float sunValue;
     private float torchValue;
-
     protected ArrayList<Byte> loadBytes;
     public EntityLink link;
+
+    //Position
     public EntityAABB aabb;
     public final WCCf chunkPosition;
     public final Vector3f worldPosition;
     private final Vector3f prevWorldPosition;//KEEP PRIVATE
+
+    //Model view projection
     public final MVP mvp = new MVP();
+    public final Matrix4f mvp_modelMatrix = new Matrix4f(); //I think keeping a model matrix in the entity should make things easier
+
+
     boolean destroyMode = false;
     Chunk chunk;
     public float frustumSphereRadius = 1; //Each entity has a sphere that is used for frustum culling. This defines its radius.
@@ -94,6 +100,7 @@ public abstract class Entity {
         needsInitialization = true;
     }
 
+
     /**
      * Private entity drawing method, used to do things before and after the entity is drawn
      */
@@ -102,21 +109,21 @@ public abstract class Entity {
             shader = new EntityShader();
         }
         if (inFrustum) {
+            mvp_modelMatrix.identity().translate(worldPosition);
             shader.loadFloat(shader.sunUniform, sunValue);
             shader.loadFloat(shader.torchUniform, torchValue);
-            mvp.sendToShader(shader.getID(), shader.mvpUniform);
         }
         draw(projection, view);
     }
 
     protected void hidden_entityInitialize(ArrayList<Byte> loadBytes) {
         getLightForPosition();
-        initialize(loadBytes);
+        initializeOnDraw(loadBytes);
     }
 
 
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.
-    public abstract void initialize(ArrayList<Byte> bytes);
+    public abstract void initializeOnDraw(ArrayList<Byte> bytes);
 
     public void updatePosition() {
         aabb.update();
@@ -125,7 +132,16 @@ public abstract class Entity {
         if (!worldPosition.equals(prevWorldPosition)) { //If the entity has moved
             getLightForPosition();
             prevWorldPosition.set(worldPosition);
+            entityMoveEvent();
         }
+    }
+
+    public void entityMoveEvent() {
+
+    }
+
+    public void markAsModifiedByUser() {
+        chunk.markAsModifiedByUser();
     }
 
     protected void hidden_entityOnChunkMeshChanged() {
@@ -150,7 +166,6 @@ public abstract class Entity {
 
 
     /**
-     *
      * @return if we want to permit the click event to continue
      */
     public boolean run_ClickEvent() {
