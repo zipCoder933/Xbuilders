@@ -104,16 +104,16 @@ public abstract class Entity {
     /**
      * Private entity drawing method, used to do things before and after the entity is drawn
      */
-    protected void hidden_drawEntity(Matrix4f projection, Matrix4f view) {
+    protected void hidden_drawEntity() {
         if (shader == null) {
             shader = new EntityShader();
         }
         if (inFrustum) {
             mvp_modelMatrix.identity().translate(worldPosition);
-            shader.loadFloat(shader.sunUniform, sunValue);
-            shader.loadFloat(shader.torchUniform, torchValue);
+            shader.loadFloat(shader.uniform_sun, sunValue);
+            shader.loadFloat(shader.uniform_torch, torchValue);
         }
-        draw(projection, view);
+        draw();
     }
 
     protected void hidden_entityInitialize(ArrayList<Byte> loadBytes) {
@@ -149,7 +149,7 @@ public abstract class Entity {
     }
 
 
-    public abstract void draw(Matrix4f projection, Matrix4f view);
+    public abstract void draw();
 
     public void toBytes(XBFilterOutputStream fout) throws IOException {
     }

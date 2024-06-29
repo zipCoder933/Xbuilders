@@ -6,7 +6,9 @@ package com.xbuilders.engine.rendering.entity;
 
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.render.Shader;
+import org.joml.Matrix4f;
 
 import java.io.IOException;
 
@@ -15,7 +17,13 @@ import java.io.IOException;
  */
 public class EntityShader extends Shader {
 
-    public final int mvpUniform, sunUniform, torchUniform;
+    public final int
+            uniform_projViewMatrix,
+            uniform_modelMatrix,
+            uniform_sun,
+            uniform_torch;
+
+    static MVP mvp = new MVP();
 
     public EntityShader() {
         try {
@@ -25,10 +33,16 @@ public class EntityShader extends Shader {
         } catch (IOException e) {
             ErrorHandler.handleFatalError(e);
         }
-        mvpUniform = getUniformLocation("MVP");
-        sunUniform = getUniformLocation("sun");
-        torchUniform = getUniformLocation("torch");
+        uniform_projViewMatrix = getUniformLocation("projViewMatrix");
+        uniform_modelMatrix = getUniformLocation("modelMatrix");
+        uniform_sun = getUniformLocation("sun");
+        uniform_torch = getUniformLocation("torch");
 //        textureUniform = getUniformLocation("texture");
+    }
+
+    public void updateProjectionViewMatrix(Matrix4f projection, Matrix4f view) {
+        mvp.update(projection, view);
+        mvp.sendToShader(getID(), uniform_projViewMatrix);
     }
 
     @Override

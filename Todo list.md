@@ -6,6 +6,7 @@ Xbuilders 3 performance is very clearly better than xb2.
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
 4. Make a launcher that can launch XB2 or XB3
+5. Change MVP coordintates to preload the projection and view matrix, so we dont have to do it every time
 5. **Fix the saving bug where the following data does not get saved:**
    - recent changes
    - entity data (banners dont get their data saved?)

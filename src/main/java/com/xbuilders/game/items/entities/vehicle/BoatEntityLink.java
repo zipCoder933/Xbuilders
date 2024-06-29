@@ -70,12 +70,7 @@ public class BoatEntityLink extends EntityLink {
         boolean isInWater;
 
         @Override
-        public void vehicle_draw(Matrix4f proj, Matrix4f view) {
-//            if(isInWater()) {
-//                mvp_modelMatrix.translate(worldPosition.x, worldPosition.y - 0.5f, worldPosition.z);
-//                mvp.update(proj, view, mvp_modelMatrix);
-//                mvp.sendToShader(shader.getID(), shader.mvpUniform);
-//            }
+        public void vehicle_draw() {
             model.draw(false);
         }
 

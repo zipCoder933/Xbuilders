@@ -42,7 +42,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
 
 
     @Override
-    public void draw(Matrix4f projection, Matrix4f view) {
+    public void draw() {
         if (inFrustum) {
 
 
@@ -66,8 +66,8 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
             float rotationRadians = (float) Math.toRadians(yRotDegrees);
             bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
-            mvp.update(projection, view, bodyMatrix);
-            mvp.sendToShader(shader.getID(), shader.mvpUniform);
+            mvp.update(bodyMatrix);
+            mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
             if (currentAction.type == AnimalAction.ActionType.IDLE
                     && link.sitting != null
@@ -76,12 +76,12 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
             } else {
                 drawBody();
                 //Z is the directon of the horse
-                link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
-                link.legs.draw(projection, view, bodyMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
+                link.legs.draw(bodyMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
+                link.legs.draw(bodyMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
             }
 
 
-            pos.update(projection, view);
+            pos.update(GameScene.projection, GameScene.view);
             if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
                     || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02) {
                 if (System.currentTimeMillis() - lastJumpTime > 500) {

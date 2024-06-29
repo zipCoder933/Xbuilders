@@ -1,0 +1,21 @@
+Message: 	Couldn't compile shader "C:\Local Files\github\Xbuilders\res\shaders\entityShader\shader.vs":
+Vertex shader failed to compile with the following errors:
+ERROR: 0:11: error(#132) Syntax error: "void" parse error
+ERROR: error(#273) 1 compilation errors.  No code generated
+
+
+Developer Message: 	##Runtime error##	Couldn't compile shader "C:\Loca
+Class: 	class java.io.IOException
+
+Stack trace:
+[com.xbuilders.window.render.Shader.loadShader(Shader.java:249)
+ com.xbuilders.window.render.Shader.init(Shader.java:62)
+ com.xbuilders.engine.rendering.entity.EntityShader.<init>(EntityShader.java:30)
+ com.xbuilders.engine.items.ChunkEntitySet.draw(ChunkEntitySet.java:52)
+ com.xbuilders.engine.world.World.lambda$drawChunks$10(World.java:504)
+ java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+ com.xbuilders.engine.world.World.drawChunks(World.java:494)
+ com.xbuilders.engine.gameScene.GameScene.render(GameScene.java:187)
+ com.xbuilders.game.Main.render(Main.java:170)
+ com.xbuilders.game.Main.<init>(Main.java:129)
+ com.xbuilders.game.Main.main(Main.java:97)]

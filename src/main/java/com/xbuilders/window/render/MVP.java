@@ -4,8 +4,6 @@
  */
 package com.xbuilders.window.render;
 
-import com.xbuilders.window.render.Shader;
-
 import java.nio.FloatBuffer;
 
 import org.joml.Matrix4f;
@@ -18,7 +16,7 @@ import org.lwjgl.opengl.ARBShaderObjects;
 public class MVP {
 
     FloatBuffer buffer;
-    public final Matrix4f mvp; //final just means the object cannot be reassigned
+    public final Matrix4f matrix; //final just means the object cannot be reassigned
     /*
     TODO: Think About loading projection and view into the constructor
         - we will no longer be putting projection and view matricies into draw mehtods
@@ -29,30 +27,41 @@ public class MVP {
 
     public MVP() {
         buffer = BufferUtils.createFloatBuffer(16);
-        mvp = new Matrix4f();
+        matrix = new Matrix4f();
+    }
+
+    public MVP(Matrix4f matrix) {
+        buffer = BufferUtils.createFloatBuffer(16);
+        this.matrix = matrix;
     }
 
     public void update(final Matrix4f projection, final Matrix4f view, final Matrix4f model) {
-        mvp.identity().mul(projection).mul(view).mul(model);
-        mvp.get(buffer);
+        matrix.identity().mul(projection).mul(view).mul(model);
+        matrix.get(buffer);
+    }
+
+    public void update(final Matrix4f projection, final Matrix4f view) {
+        matrix.identity().mul(projection).mul(view);
+        matrix.get(buffer);
+    }
+
+
+    public void update(Matrix4f model){
+        matrix.set(model);
+        matrix.get(buffer);
     }
 
     public void update(){
-        mvp.get(buffer);
+        matrix.get(buffer);
     }
 
-    public void update(Matrix4f matrix){
-        mvp.set(matrix);
-        mvp.get(buffer);
-    }
-
-    public void update(final Matrix4f... matrices) {
-        mvp.identity();
-        for (int i = 0; i < matrices.length; i++) {
-            mvp.mul(matrices[i]);
-        }
-        mvp.get(buffer);
-    }
+//    public void update(final Matrix4f... matrices) {
+//        mvp.identity();
+//        for (int i = 0; i < matrices.length; i++) {
+//            mvp.mul(matrices[i]);
+//        }
+//        mvp.get(buffer);
+//    }
 
     public void sendToShader(int shaderID, int uniformID) {
         ARBShaderObjects.glUseProgramObjectARB(shaderID);

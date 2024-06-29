@@ -100,7 +100,7 @@ public class BannerEntityLink extends EntityLink {
         final float ONE_SIXTEENTH = 0.16666667f;
 
         @Override
-        public void draw(Matrix4f projectionMatrix, Matrix4f viewMatrix) {
+        public void draw() {
             modelMatrix.identity().translate(worldPosition);
             if (xzOrientation == 0) {
                 modelMatrix.translate(0, 0, 1);
@@ -120,8 +120,8 @@ public class BannerEntityLink extends EntityLink {
             modelMatrix.translate(1f - (ONE_SIXTEENTH * 2), 0, 0.5f);
 
             modelMatrix.rotateZ((float) (Math.sin((frameCount * 0.05) + seed) * 0.1) + 0.1f);
-            mvp.update(projectionMatrix, viewMatrix, modelMatrix);
-            mvp.sendToShader(shader.getID(), shader.mvpUniform);
+            mvp.update(modelMatrix);
+            mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
             body.draw(false);
             frameCount++;
         }

@@ -128,12 +128,12 @@ public class MeshTester extends Window {
 
         model.identity().setTranslation(0, 0, 0);
         mvp.update(projection, view, model);
-        mvp.sendToShader(shader.getID(), shader.mvpUniform);
+        mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
         mesh.draw(true);
 
         model.identity().setTranslation(2, 0, 0);
         mvp.update(projection, view, model);
-        mvp.sendToShader(shader.getID(), shader.mvpUniform);
+        mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
         mesh.draw(true);
     }
 

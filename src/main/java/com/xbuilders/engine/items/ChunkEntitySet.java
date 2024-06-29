@@ -12,6 +12,7 @@ import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.ArrayList;
 
+import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -44,12 +45,12 @@ public class ChunkEntitySet {
         list.add(e);
     }
 
-
     public void draw(Matrix4f projection, Matrix4f view, FrustumCullingTester frustum, Vector3f playerPos) {
         if (Entity.shader == null) {//Unless another entity uses a different shader, we only need to bind once
             Entity.shader = new EntityShader();
         }
         Entity.shader.bind();
+        Entity.shader.updateProjectionViewMatrix(projection, view);
 
         for (int i = list.size() - 1; i >= 0; i--) {
             Entity e = list.get(i);
@@ -66,7 +67,7 @@ public class ChunkEntitySet {
                 e.distToPlayer = e.worldPosition.distance(playerPos);
 
 
-                if (e.distToPlayer < MAX_ENTITY_DIST) e.hidden_drawEntity(projection, view);
+                if (e.distToPlayer < MAX_ENTITY_DIST) e.hidden_drawEntity();
 
                 if (chunkUpdatedMesh) {
                     e.hidden_entityOnChunkMeshChanged();

@@ -5,9 +5,10 @@ layout(location = 1) in vec2 uv_coords;
 
 out vec2 UV;
 out float normals;
-uniform mat4 MVP;
+uniform mat4 projViewMatrix;
+uniform mat4 modelMatrix;
  
 void main(){
-    gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
+    gl_Position =  projViewMatrix * modelMatrix * vec4(vertexPosition_modelspace,1);
     UV = uv_coords;
 }

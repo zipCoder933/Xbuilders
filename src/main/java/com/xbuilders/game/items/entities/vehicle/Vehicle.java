@@ -81,7 +81,7 @@ public abstract class Vehicle extends Entity {
                 userControlledPlayer.worldPosition.z);
     }
 
-    public abstract void vehicle_draw(Matrix4f proj, Matrix4f view);
+    public abstract void vehicle_draw();
 
     /**
      * @return the entity actually moved
@@ -90,10 +90,10 @@ public abstract class Vehicle extends Entity {
     private long lastJumpMS = 0;
 
     @Override
-    public void draw(Matrix4f proj, Matrix4f view) {
+    public void draw() {
         aabb.update();
         if (vehicle_move()) {
-            posHandler.update(proj, view);
+            posHandler.update(GameScene.projection, GameScene.view);
             if (posHandler.collisionHandler.collisionData.sideCollision
                     && !posHandler.collisionHandler.collisionData.sideCollisionIsEntity
                     && jumpWithSideCollision) {
@@ -106,9 +106,9 @@ public abstract class Vehicle extends Entity {
 
         if (inFrustum) {
             mvp_modelMatrix.rotateY((float) (rotationYDeg * (Math.PI / 180)));
-            mvp.update(proj, view, mvp_modelMatrix);
-            mvp.sendToShader(shader.getID(), shader.mvpUniform);
-            vehicle_draw(proj, view);
+            mvp.update(mvp_modelMatrix);
+            mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            vehicle_draw();
         }
     }
 

@@ -1,5 +1,7 @@
 package com.xbuilders.game.items.entities.animal;
 
+import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
@@ -78,7 +80,7 @@ public class StaticLandAnimalLink extends EntityLink {
         private long lastJumpTime = 0;
 
         @Override
-        public void draw(Matrix4f projection, Matrix4f view) {
+        public void draw() {
             if (inFrustum) {
                 move();
 
@@ -90,11 +92,11 @@ public class StaticLandAnimalLink extends EntityLink {
                 float rotationRadians = (float) Math.toRadians(yRotDegrees);
                 bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
-                mvp.update(projection, view, bodyMatrix);
-                mvp.sendToShader(shader.getID(), shader.mvpUniform);
+                mvp.update(bodyMatrix);
+                mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
                 link.body.draw(false);
 
-                pos.update(projection, view);
+                pos.update(GameScene.projection, GameScene.view);
                 if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.01
                         || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.01 &&
                         !pos.collisionHandler.collisionData.sideCollisionIsEntity) {
