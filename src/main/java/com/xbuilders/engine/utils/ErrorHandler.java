@@ -57,24 +57,18 @@ public class ErrorHandler {
         final JFrame parent = new JFrame();
         JLabel label = new JLabel("");
         label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
-        label.setFont(new Font("Arial", 0, 12));
+        label.setFont(label.getFont().deriveFont(12f));
         label.setVerticalAlignment(JLabel.TOP);
         parent.add(label);
         parent.pack();
         parent.getContentPane().setBackground(Color.white);
         parent.setVisible(true);
         parent.pack();
-//        List<Image> icons = new ArrayList<Image>();
-//        icons.add(new ImageIcon(FileManager.getProgramPath() + "icon16.png").getImage());
-//        icons.add(new ImageIcon(FileManager.getProgramPath() + "icon20.png").getImage());
-//        icons.add(new ImageIcon(FileManager.getProgramPath() + "icon32.png").getImage());
-//        icons.add(new ImageIcon(FileManager.getProgramPath() + "icon40.png").getImage());
-//        parent.setIconImages(icons);
         parent.setTitle(title);
         parent.setLocationRelativeTo(null);
         parent.setAlwaysOnTop(true);
         parent.setVisible(true);
-        parent.setSize(380, 240);
+        parent.setSize(350, 200);
     }
 
     /**
