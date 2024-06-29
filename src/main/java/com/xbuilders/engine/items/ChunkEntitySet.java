@@ -65,7 +65,7 @@ public class ChunkEntitySet {
                     e.needsInitialization = false;
                     e.updatePosition();
                 }
-                e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);
+                e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);//Sphere boundary checks are faster than AABB
                 e.distToPlayer = e.worldPosition.distance(playerPos);
 
 
