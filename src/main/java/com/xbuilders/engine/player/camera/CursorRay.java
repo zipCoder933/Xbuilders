@@ -7,6 +7,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
@@ -262,5 +263,9 @@ public class CursorRay {
                 cursorRay.hitPostition.z = boundary_startNode.z;
             }
         }
+    }
+
+    public String toString() {
+        return MiscUtils.printVector(cursorRay.getHitPosition());
     }
 }

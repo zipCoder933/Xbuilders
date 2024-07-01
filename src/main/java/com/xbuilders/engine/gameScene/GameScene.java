@@ -83,6 +83,7 @@ public class GameScene implements WindowEvents {
     public static void alert(String s) {
         alertMessage = s;
         alertTime = System.currentTimeMillis();
+        System.out.println("GAME: " + s);
     }
 
     public void closeGame() {
@@ -313,9 +314,8 @@ public class GameScene implements WindowEvents {
 
         if (System.currentTimeMillis() - alertTime < 1000) {
             text = alertMessage;
-        }
-
-        if (Main.devMode || debugText) {
+            ui.setInfoText(text);
+        } else if (Main.devMode || debugText) {
             ui.setInfoText(text);
         }
     }

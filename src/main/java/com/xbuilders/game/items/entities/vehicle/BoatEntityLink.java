@@ -71,6 +71,10 @@ public class BoatEntityLink extends EntityLink {
 
         @Override
         public void vehicle_draw() {
+            modelMatrix.rotateY((float) (rotationYDeg * (Math.PI / 180)));
+            modelMatrix.update();
+            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+
             model.draw(false);
         }
 

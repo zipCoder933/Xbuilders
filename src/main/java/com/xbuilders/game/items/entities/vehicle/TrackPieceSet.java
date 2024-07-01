@@ -11,7 +11,7 @@ import org.joml.Vector3i;
  *
  * @author zipCoder933
  */
-public class TrackPieceSet {
+class TrackPieceSet {
     Vector3i straightTrackPiece;
     Vector3i curvedTrackPiece;
     Vector3i raisedTrackPiece;

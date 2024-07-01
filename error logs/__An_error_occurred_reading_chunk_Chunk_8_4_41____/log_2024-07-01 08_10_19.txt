@@ -1,0 +1,18 @@
+Message: 	Cannot assign field "y" because "this.renderOffset" is null
+Developer Message: 	##An error occurred reading chunk Chunk{8,4,41}##	
+Class: 	class java.lang.NullPointerException
+
+Stack trace:
+[com.xbuilders.game.items.entities.vehicle.MinecartEntityLink$Minecart.<init>(MinecartEntityLink.java:88)
+ com.xbuilders.game.items.entities.vehicle.MinecartEntityLink.lambda$new$0(MinecartEntityLink.java:34)
+ com.xbuilders.engine.items.EntityLink.makeNew(EntityLink.java:39)
+ com.xbuilders.engine.world.chunk.ChunkSavingLoadingUtils.readEntity(ChunkSavingLoadingUtils.java:151)
+ com.xbuilders.engine.world.chunk.ChunkSavingLoadingUtils.readChunkFromFile(ChunkSavingLoadingUtils.java:218)
+ com.xbuilders.engine.world.chunk.Chunk.loadChunk(Chunk.java:144)
+ com.xbuilders.engine.world.chunk.Chunk.lambda$load$0(Chunk.java:130)
+ com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor$1.call(PriorityThreadPoolExecutor.java:151)
+ java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+ com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityFuture.run(PriorityFuture.java:43)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base/java.lang.Thread.run(Thread.java:840)]

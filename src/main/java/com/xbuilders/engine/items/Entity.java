@@ -107,7 +107,7 @@ public abstract class Entity {
             shader = new EntityShader();
         }
         if (inFrustum) {
-            modelMatrix.identity().translate(worldPosition);
+            modelMatrix.identity().translate(worldPosition);//Model matrix is already in world position
             shader.loadFloat(shader.uniform_sun, sunValue);
             shader.loadFloat(shader.uniform_torch, torchValue);
         }

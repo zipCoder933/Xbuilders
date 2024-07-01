@@ -76,6 +76,10 @@ public class Box {
         shader.setColor(color);
     }
 
+    public void setColor(float r, float g, float b, float a) {
+        shader.setColor(new Vector4f(r, g, b, a));
+    }
+
 
     public void set(AABB box) {
         setSize(
@@ -146,6 +150,9 @@ public class Box {
         glEnable(GL_CULL_FACE); // Enable face culling
         mvp.update(projection, view, position);
         mvp.sendToShader(shader.getID(), shader.mvpUniform);
+
+
+        int shaderProgram = GL20.glGetInteger(GL20.GL_CURRENT_PROGRAM);//Get the current shader
         shader.bind();
 
         BaseWindow.printDebugsEnabled(false);
@@ -161,6 +168,8 @@ public class Box {
 
 //DONT disable GL_CULL_FACE. chunks need CULL_FACE to do backface culling
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+        GL20.glUseProgram(shaderProgram); //Bind the original shader
     }
 
 }

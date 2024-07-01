@@ -37,16 +37,16 @@ public abstract class Vehicle extends Entity {
         int x = Math.round(worldPosition.x);
         int y = Math.round(worldPosition.y);
         int z = Math.round(worldPosition.z);
-        Block b1 = GameScene.world.getBlock(x, y, z);
-        Block b2 = GameScene.world.getBlock(x, y + 1, z);
+        short b1 = GameScene.world.getBlockID(x, y, z);
+        short b2 = GameScene.world.getBlockID(x, y + 1, z);
 
-        return b1.equals(MyGame.BLOCK_MINECART_ROAD_BLOCK) || b1.equals(MyGame.BLOCK_MINECART_ROAD_SLAB)
-                || b2.equals(MyGame.BLOCK_MINECART_ROAD_BLOCK) || b2.equals(MyGame.BLOCK_MINECART_ROAD_SLAB);
+        return b1 == (MyGame.BLOCK_MINECART_ROAD_BLOCK) || b1 == (MyGame.BLOCK_MINECART_ROAD_SLAB)
+                || b2 == (MyGame.BLOCK_MINECART_ROAD_BLOCK) || b2 == (MyGame.BLOCK_MINECART_ROAD_SLAB);
     }
 
     public float rotationYDeg = 0;
     private boolean collisionEnabled = true;
-    public Vector3f renderOffset;
+
     public boolean jumpWithSideCollision = false;
     public PositionHandler posHandler;
     BaseWindow window;
@@ -86,10 +86,11 @@ public abstract class Vehicle extends Entity {
      * @return the entity actually moved
      */
     public abstract boolean vehicle_move();
+
     private long lastJumpMS = 0;
 
     @Override
-    public void draw() {
+    public final void draw() {
         aabb.update();
         if (vehicle_move()) {
             posHandler.update(GameScene.projection, GameScene.view);
@@ -104,9 +105,6 @@ public abstract class Vehicle extends Entity {
         }
 
         if (inFrustum) {
-            modelMatrix.rotateY((float) (rotationYDeg * (Math.PI / 180)));
-            modelMatrix.update();
-            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
             vehicle_draw();
         }
     }

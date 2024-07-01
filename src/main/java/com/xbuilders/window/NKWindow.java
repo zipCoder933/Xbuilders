@@ -684,7 +684,7 @@ public abstract class NKWindow extends BaseWindow {
                         .line_AA(AA);
 
                 // setup buffers to load vertices and elements
-                NkBuffer vbuf = NkBuffer.malloc(stack);
+                NkBuffer vbuf = NkBuffer.malloc(stack);//TODO: If we keep getting crashes, maybe this has to be stored out of scope too?
                 NkBuffer ebuf = NkBuffer.malloc(stack);
 
                 nk_buffer_init_fixed(vbuf, vertices/*, max_vertex_buffer*/);

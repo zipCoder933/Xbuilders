@@ -50,6 +50,7 @@ public class StraightTrack extends Block {
     private void changeBlock(int x, int y, int z) {
         ArrayList<Vector3i> trackNeighbors = new ArrayList<>();
         BlockData orientation = new BlockData(new byte[]{0, 0});
+//        GameScene.world.setBlockData(orientation, x, y, z);
 
 //        orientation.set(0, (byte) (Math.random() * 4));
 //        GameScene.player.setBlock(this, x, y, z, orientation);
