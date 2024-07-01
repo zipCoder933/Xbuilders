@@ -51,29 +51,32 @@ public class MinecartEntityLink extends EntityLink {
     public class Minecart extends Vehicle {
 
 
-        public Vector3f fixedPositionOffset = new Vector3f();
         public Vector3f renderOffset = new Vector3f();
 
         public Vector3i getFixedPosition() {
-            fixedPosition.x = Math.round(worldPosition.x + (fixedPositionOffset.x));
-            fixedPosition.y = Math.round(worldPosition.y - 0.6f);
-            fixedPosition.z = Math.round(worldPosition.z + (fixedPositionOffset.z));
+            //Keep fixed position untouched, we want this as close to real world position as possible
+            fixedPosition.x = (int) Math.round(worldPosition.x);//Rounding is important
+            fixedPosition.y = (int) Math.round(worldPosition.y);
+            fixedPosition.z = (int) Math.round(worldPosition.z);
             return fixedPosition;
         }
 
 
+        //TODO: Fix bugs with minecarts ascending or descending raised tracks
+        //The minecart gets stuck going up or it doesnt come down, because positionHandler.gravity is false
         public Minecart(BaseWindow window) {
             super(window);
             aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);
 
-            fixedPositionOffset.x = 0;
-            fixedPositionOffset.y = aabb.offset.y / 2;
-            fixedPositionOffset.z = 0;
-
+            //We finally fixed the position issue
+            //DON'T MODIFY THIS
             aabb.offset.x += 0.5f;
             aabb.offset.z += 0.5f;
             renderOffset.x += 0.5f;
             renderOffset.z += 0.5f;
+            aabb.offset.y += 1;
+            renderOffset.y += 1;
+
             frustumSphereRadius = (3f);
         }
 
