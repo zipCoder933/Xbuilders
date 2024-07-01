@@ -10,6 +10,7 @@ import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ public abstract class Terrain {
     public final String name;
     public int MAX_SURFACE_HEIGHT = 10;
     public int MIN_SURFACE_HEIGHT = -100;
+    HashMap<String, Boolean> options = new HashMap<>();
 
     public Terrain(String name) {
         this.name = name;

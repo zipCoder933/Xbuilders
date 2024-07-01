@@ -11,6 +11,7 @@ import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -68,8 +69,7 @@ public class MinecartEntityLink extends EntityLink {
             super(window);
             aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);
 
-            //We finally fixed the position issue
-            //DON'T MODIFY THIS
+            //Instead of modifying the fixed position, we modify our offset and render offset around the world position
             aabb.offset.x += 0.5f;
             aabb.offset.z += 0.5f;
             renderOffset.x += 0.5f;
@@ -88,7 +88,7 @@ public class MinecartEntityLink extends EntityLink {
                 GameScene.player.positionLock = (new PositionLock(this, -0.7f));
                 forwardBackDir = 0;
                 resetKeyEvent();
-                onTrack = alignToNearestTrack(getFixedPosition());
+                onTrack = alignToNearestTrack();
                 if (onTrack) {
                     GameScene.alert("Press the forward and backward keys to toggle minecart direction.");
                 } else {
@@ -114,13 +114,13 @@ public class MinecartEntityLink extends EntityLink {
             modelMatrix.translate(renderOffset);
             modelMatrix.rotateY((float) (rotationYCurve * (Math.PI / 180)));
 
-            if (riseInertaState == -1) {
+            if (upOrDownState == -1) {
                 if (forwardBackDir == -1) {
                     modelMatrix.rotateX(-0.4f);
                 } else {
                     modelMatrix.rotateX(0.4f);
                 }
-            } else if (riseInertaState == 1) {
+            } else if (upOrDownState == 1) {
                 if (forwardBackDir == -1) {
                     modelMatrix.rotateX(0.4f);
                 } else {
@@ -136,19 +136,17 @@ public class MinecartEntityLink extends EntityLink {
 
         @Override
         public boolean vehicle_move() {
-            getFixedPosition();
-
             drawRedBox(fixedPosition.x, fixedPosition.y, fixedPosition.z);
-
             if (playerIsRidingThis()) {
                 if (onTrack) {
                     posHandler.collisionsEnabled = false;
                     moveWithTrack(getFixedPosition());
                 } else {
+                    posHandler.collisionsEnabled = true;
                     freeMove();
                 }
                 return true;
-            }
+            } else posHandler.collisionsEnabled = true;
             return get3DDistToPlayer() < 50;
         }
 
@@ -158,44 +156,48 @@ public class MinecartEntityLink extends EntityLink {
 
         }
 
-        static Box testBox;
+//        static Box testBox;
         final Vector3i fixedPosition = new Vector3i(0, 0, 0);
 
 
         static void drawRedBox(int x, int y, int z) {
-            testBox.setColor(1, 0, 0, 1);
-            testBox.setPosition(x, y, z);
-            testBox.draw(GameScene.projection, GameScene.view);
+//            testBox.setColor(1, 0, 0, 1);
+//            testBox.setPosition(x, y, z);
+//            testBox.draw(GameScene.projection, GameScene.view);
         }
 
         static void drawGreenBox(int x, int y, int z) {
-            testBox.setColor(0, 1, 0, 1);
-            testBox.setPosition(x, y, z);
-            testBox.draw(GameScene.projection, GameScene.view);
+//            testBox.setColor(0, 1, 0, 1);
+//            testBox.setPosition(x, y, z);
+//            testBox.draw(GameScene.projection, GameScene.view);
         }
 
 
         @Override
         public void vehicle_initializeOnDraw(ArrayList<Byte> bytes) {
-            if (testBox == null) {
-                testBox = new Box();
-                testBox.setLineWidth(2);
-                testBox.setSize(1, 1, 1);
-                testBox.setColor(1, 0, 0, 1);
-            }
-            alignToNearestTrack(getFixedPosition());
+//            if (testBox == null) {
+//                testBox = new Box();
+//                testBox.setLineWidth(2);
+//                testBox.setSize(1, 1, 1);
+//                testBox.setColor(1, 0, 0, 1);
+//            }
+            alignToNearestTrack();
         }
 
-        static int getOrientation(BlockData b) {
+        static int getOrientationModified(BlockData b) {
             return (b.get(0) + 1) % 4;
         }
 
-        private boolean alignToNearestTrack(Vector3i position) {
-            Vector3i currentTrackPiece = getNearestTrackPiece(position.x, position.y, position.z, this);
-            System.out.println("Nearest track: " + currentTrackPiece);
+        static int getOrientation(BlockData b) {
+            return b.get(0);
+        }
+
+        private boolean alignToNearestTrack() {
+            getFixedPosition();
+            Vector3i currentTrackPiece = getNearestTrackPiece(fixedPosition.x, fixedPosition.y, fixedPosition.z);
             if (currentTrackPiece != null) {
                 BlockData orientation = GameScene.world.getBlockData(currentTrackPiece.x, currentTrackPiece.y, currentTrackPiece.z);
-                if (getOrientation(orientation) == 0 || getOrientation(orientation) == 2) {
+                if (getOrientationModified(orientation) == 0 || getOrientationModified(orientation) == 2) {
                     worldPosition.x = currentTrackPiece.x;
                     this.rotationYDeg = (float) 0;
                 } else {
@@ -210,7 +212,7 @@ public class MinecartEntityLink extends EntityLink {
 
 
         private void freeMove() {
-            riseInertaState = 0;
+            upOrDownState = 0;
             posHandler.setGravityEnabled(true);
             float rotateSpeed = 0;
             float targetSpeed = 0;
@@ -235,10 +237,10 @@ public class MinecartEntityLink extends EntityLink {
                 speedCurve = (float) MathUtils.curve(speedCurve, targetSpeed, 0.2f);
             }
 
-            if (getPlayer().leftKeyPressed()) {
+            if (getPlayer().rightKeyPressed()) {
                 float rotationY1 = rotationYDeg + rotateSpeed;
                 this.rotationYDeg = rotationY1;
-            } else if (getPlayer().rightKeyPressed()) {
+            } else if (getPlayer().leftKeyPressed()) {
                 float rotationY1 = rotationYDeg - rotateSpeed;
                 this.rotationYDeg = rotationY1;
             }
@@ -256,11 +258,12 @@ public class MinecartEntityLink extends EntityLink {
 
         float speedCurve;
         int forwardBackDir = 0;
-        Vector3i lastTrack, rotPos;
+        final Vector3i lastPos = new Vector3i(0, 0, 0);
+        Vector3i rotPos;
         private boolean rotationEnabled = false;
         boolean onTrack = false;
-        int riseInertaState = 0;
-        long riseInertaChangeMS = 0;
+        int upOrDownState = 0;
+//        long riseInertaChangeMS = 0;
 
         /**
          * @param position the rotated to set
@@ -274,13 +277,19 @@ public class MinecartEntityLink extends EntityLink {
             this.rotationEnabled = true;
         }
 
-        private void moveWithTrack(Vector3i position) {
+
+        final float upDownSpeed = 0.07f;
+
+        private void moveWithTrack(Vector3i pos) {
             this.forwardBackDir = assignForwardOrBackward(this, forwardBackDir);//0=stop,-1=back,1=go
             float speed = forwardBackDir > 0 ? 0.15f : -0.15f;
             posHandler.setGravityEnabled(true);
-            Block b = GameScene.world.getBlock(position.x, position.y, position.z);
-            Block bup = GameScene.world.getBlock(position.x, position.y - 1, position.z);
-            Block bdown = GameScene.world.getBlock(position.x, position.y + 1, position.z);
+
+            Block b = GameScene.world.getBlock(pos.x, pos.y, pos.z);
+            Block bup = GameScene.world.getBlock(pos.x, pos.y - 1, pos.z);
+            Block bdown = GameScene.world.getBlock(pos.x, pos.y + 1, pos.z);
+
+
             if (forwardBackDir == 0) {//If we are stopped
                 if (b.id == MyGame.BLOCK_SWITCH_JUNCTION) {
                     if (GameScene.player.leftKeyPressed()) {
@@ -301,96 +310,151 @@ public class MinecartEntityLink extends EntityLink {
                 }
             } else {
                 if (b.id == MyGame.BLOCK_SWITCH_JUNCTION) {
-                    stop(position);
+                    stop(pos);
                     goForward(speed);
                 } else if (b.id == MyGame.BLOCK_TRACK_STOP) {
-                    stop(position);
-                    goForward(speed);
-                } else if (b.id == MyGame.BLOCK_CURVED_TRACK) {
-                    if (rotationEnabled) {
-                        worldPosition.x = position.x;
-                        worldPosition.z = position.z;
-
-                        if (leftCurvedPath(lastTrack, position, forwardBackDir == 1)) {
-                            float rotationY1 = rotationYDeg + 90;
-                            this.rotationYDeg = rotationY1;
-                        } else {
-                            float rotationY1 = rotationYDeg - 90;
-                            this.rotationYDeg = rotationY1;
-                        }
-                        disableRotation(position);
-                    }
-                    goForward(speed);
-                } else if (b.id == MyGame.BLOCK_MERGE_TRACK) {
-                    if (rotationEnabled) {
-                        worldPosition.x = position.x;
-                        worldPosition.z = position.z;
-
-                        if (mergeTrackLeftCurvedPath(lastTrack, position, forwardBackDir == 1)) {
-                            float rotationY1 = rotationYDeg + 90;
-                            this.rotationYDeg = rotationY1;
-                        } else {
-                            float rotationY1 = rotationYDeg - 90;
-                            this.rotationYDeg = rotationY1;
-                        }
-                        disableRotation(position);
-                    }
+                    stop(pos);
                     goForward(speed);
                 } else if (b.id == MyGame.BLOCK_CROSSTRACK) {
                     enableRotation();
                     goForward(speed);
-                } else {
-                    enableRotation();
-                    if (riseInertaState <= 0 && b.id == MyGame.BLOCK_RAISED_TRACK) {
-                        posHandler.setGravityEnabled(false);
-                        worldPosition.y -= 0.07f;
-                        goForward(0.07f * forwardBackDir);
-                        riseInertaState = -1;
-                        riseInertaChangeMS = System.currentTimeMillis();
-                    } else if (riseInertaState >= 0 && bdown.id == MyGame.BLOCK_RAISED_TRACK) {
-                        posHandler.setGravityEnabled(false);
-                        worldPosition.y += 0.08f;
-                        goForward(0.07f * forwardBackDir);
-                        riseInertaState = 1;
-                        riseInertaChangeMS = System.currentTimeMillis();
-                    } else {
-                        if (System.currentTimeMillis() - riseInertaChangeMS > 200) {
-                            riseInertaState = 0;
+                } else if (b.id == MyGame.BLOCK_CURVED_TRACK) {
+                    if (rotationEnabled) {
+                        worldPosition.x = pos.x;
+                        worldPosition.z = pos.z;
+
+                        if (curvedTrackIsPointingLeft(lastPos, pos)) {
+                            float rotationY1 = rotationYDeg - 90;
+                            this.rotationYDeg = rotationY1;
+                        } else {
+                            float rotationY1 = rotationYDeg + 90;
+                            this.rotationYDeg = rotationY1;
                         }
-                        BlockData orientation = GameScene.world.getBlockData(position.x, position.y, position.z);
+                        disableRotation(pos);
+                    }
+                    goForward(speed);
+                } else if (b.id == MyGame.BLOCK_MERGE_TRACK) {
+                    if (rotationEnabled) {
+                        worldPosition.x = pos.x;
+                        worldPosition.z = pos.z;
+
+                        if (mergeTrackShouldTurnLeft(lastPos, pos)) {
+                            float rotationY1 = rotationYDeg - 90;
+                            this.rotationYDeg = rotationY1;
+                        } else {
+                            float rotationY1 = rotationYDeg + 90;
+                            this.rotationYDeg = rotationY1;
+                        }
+                        disableRotation(pos);
+                    }
+                    goForward(speed);
+                } else {//Otherwise...
+                    enableRotation();
+
+                    //Raise or lower tracks
+                    if (
+                            b.id == MyGame.BLOCK_RAISED_TRACK ||
+                                    bup.id == MyGame.BLOCK_RAISED_TRACK ||
+                                    bdown.id == MyGame.BLOCK_RAISED_TRACK
+                    ) {
+
+                        boolean trackIsGoingUp = true;
+
+                        int orientation = -1;
+                        if (b.id == MyGame.BLOCK_RAISED_TRACK) {
+                            orientation = getOrientation(GameScene.world.getBlockData(pos.x, pos.y, pos.z));
+                        } else if (bdown.id == MyGame.BLOCK_RAISED_TRACK) {
+                            orientation = getOrientation(GameScene.world.getBlockData(pos.x, pos.y + 1, pos.z));
+                        } else if (bup.id == MyGame.BLOCK_RAISED_TRACK) {
+                            orientation = getOrientation(GameScene.world.getBlockData(pos.x, pos.y - 1, pos.z));
+                        }
+
+                        trackIsGoingUp = true;
+                        if (getLastStep() == null) {
+                            //If there is a raised track above us, we are probbably going up
+                            trackIsGoingUp = bup.id == MyGame.BLOCK_RAISED_TRACK;
+
+                            //If there is a raised track below us, we are going down
+                            if (bdown.id == MyGame.BLOCK_RAISED_TRACK) trackIsGoingUp = false;
+                        } else {
+                            switch (orientation) {
+                                case 0 -> trackIsGoingUp = getLastStep().x > pos.x;
+                                case 1 -> trackIsGoingUp = getLastStep().z > pos.z;
+                                case 2 -> trackIsGoingUp = getLastStep().x < pos.x;
+                                default -> trackIsGoingUp = getLastStep().z < pos.z;
+                            }
+//                            Vector3i netPos = new Vector3i(pos).sub(getLastStep());
+//                            System.out.println("Raised Track Orientation: " + orientation + " netPos: " + MiscUtils.printVector(netPos) + " " + "   " + (trackIsGoingUp ? "Up" : "Down"));
+                        }
+
+                        if (trackIsGoingUp) {
+                            posHandler.setGravityEnabled(false);
+                            worldPosition.y -= upDownSpeed;
+                            goForward(upDownSpeed * forwardBackDir);
+                            upOrDownState = -1;
+//                            riseInertaChangeMS = System.currentTimeMillis();
+                        } else {
+                            posHandler.setGravityEnabled(false);
+                            worldPosition.y += upDownSpeed;
+                            goForward(upDownSpeed * forwardBackDir);
+                            upOrDownState = 1;
+//                            riseInertaChangeMS = System.currentTimeMillis();
+                        }
+                    }
+                    //Default track
+                    else if (onTrack) {
+                        posHandler.setGravityEnabled(true);
+                        upOrDownState = 0;
+                        BlockData orientation = GameScene.world.getBlockData(pos.x, pos.y, pos.z);
                         if (orientation != null) {
-                            if (getOrientation(orientation) == 0 || getOrientation(orientation) == 2) {
-                                worldPosition.x = position.x;
-                            } else if (getOrientation(orientation) == 1 || getOrientation(orientation) == 3) {
-                                worldPosition.z = position.z;
+                            if (getOrientationModified(orientation) == 0
+                                    || getOrientationModified(orientation) == 2) {
+                                worldPosition.x = pos.x;
+                            } else {
+                                worldPosition.z = pos.z;
                             }
                         }
                         goForward(speed);
 
-                        if ((b.solid || bdown.solid)
-                                && getNearestTrackPiece(position.x, position.y, position.z, this) == null) {
+                        if (getNearestTrackPiece(pos.x, pos.y, pos.z) == null) {
+                            GameScene.alert("Minecart has gone off track!");
                             onTrack = false;
                         }
                     }
                 }
 
-                if (rotationEnabled == false && !position.equals(rotPos)) {
-                    rotPos = position;
+                if (rotationEnabled == false && !pos.equals(rotPos)) {
+                    rotPos = pos;
                     enableRotation();
                 }
             }
 
-            if (lastTrack == null
-                    || position.x != lastTrack.x || position.z != lastTrack.z) {
-                lastTrack = position;
+            if (lastPos.x != pos.x || lastPos.z != pos.z) {
+                steps.add(new Vector3i(pos));
+                lastPos.set(pos);
+                if (steps.size() > 2) {
+                    steps.remove(0);
+                }
+//                System.out.println("Steps: " + steps.toString() + " Last Pos: " + lastPos.toString());
             }
         }
+
+        public Vector3i getLastStep() {
+            if (steps.size() > 1) {
+                return steps.get(steps.size() - 2);
+            }
+            return null;
+        }
+
+        ArrayList<Vector3i> steps = new ArrayList<>();
+
 
         @Override
         public void toBytes(XBFilterOutputStream fout) throws IOException {
         }
 
         private void stop(Vector3i position) {
+            steps.clear();
             if (rotationEnabled) {
                 forwardBackDir = 0;
                 disableRotation(position);
@@ -439,46 +503,46 @@ public class MinecartEntityLink extends EntityLink {
 
         }
 
-        public static boolean mergeTrackLeftCurvedPath(Vector3i previousTrackPos, Vector3i curvedTrackPos, boolean forward) {
-            boolean left = leftCurvedPath(previousTrackPos, curvedTrackPos, forward);
-            BlockData orientation = GameScene.world.getBlockData(curvedTrackPos.x, curvedTrackPos.y, curvedTrackPos.z);
+        public static boolean mergeTrackShouldTurnLeft(Vector3i lastPos, Vector3i pos) {
+            BlockData orientation = GameScene.world.getBlockData(pos.x, pos.y, pos.z);
+            int o = getOrientation(orientation);
 
-            if (getOrientation(orientation) == 1 || getOrientation(orientation) == 2) {
-                if (previousTrackPos.z < curvedTrackPos.z) {
-                    left = !left;
-                }
+            boolean b = false;
+            if (o == 0 || o == 1) {//We only need to chech 1 horizontal axis to see what direction the track is pointing
+                b = pos.z < lastPos.z;
             } else {
-                if (previousTrackPos.z > curvedTrackPos.z) {
-                    left = !left;
-                }
+                b = pos.z > lastPos.z;
             }
-            return left;
+//            System.out.println("CURVE:" + o + "   " + (b ? "LEFT" : "RIGHT"));
+            return b;
         }
 
-        public static boolean leftCurvedPath(Vector3i previousTrackPos, Vector3i curvedTrackPos, boolean forward) {
-            BlockData orientation = GameScene.world.getBlockData(curvedTrackPos.x, curvedTrackPos.y, curvedTrackPos.z);
+        public static boolean curvedTrackIsPointingLeft(Vector3i lastPos, Vector3i pos) {
+            BlockData orientation = GameScene.world.getBlockData(pos.x, pos.y, pos.z);
             boolean b = false;
-
-            if (previousTrackPos != null && orientation != null) {
+            if (lastPos != null && orientation != null) {
                 int o = getOrientation(orientation);
-                System.out.println("CURVE:" + o + " Forward:" + forward);
                 switch (o) {
+                    /**
+                     * We only have to check which axis is the same to determine the proper direction
+                     */
                     case 0 -> {
-                        b = (curvedTrackPos.x < previousTrackPos.x);
+                        b = (pos.x != lastPos.x);
                     }
                     case 1 -> {
-                        b = (curvedTrackPos.x > previousTrackPos.x);
+                        b = (pos.x == lastPos.x);
                     }
                     case 2 -> {
-                        b = (curvedTrackPos.x > previousTrackPos.x);
+                        b = (pos.x != lastPos.x);
                     }
-                    default -> {
-                        b = (curvedTrackPos.x < previousTrackPos.x);
+                    case 3 -> {
+                        b = (pos.x == lastPos.x);
                     }
                 }
+//                System.out.println("CURVE:" + o + "   " + (b ? "LEFT" : "RIGHT"));
+                return b;
             }
-            if (!forward) b = !b;
-            return b;
+            return false;
         }
 
         public static boolean isTrack(short block) {
@@ -491,7 +555,7 @@ public class MinecartEntityLink extends EntityLink {
                     || block == MyGame.BLOCK_TRACK_STOP;
         }
 
-        public static Vector3i getNearestTrackPiece(int x, int y, int z, MinecartEntityLink.Minecart e) {
+        public static Vector3i getNearestTrackPiece(int x, int y, int z) {
             if (isTrack(x, y, z)) {
                 return new Vector3i(x, y, z);
             } else if (isTrack(x, y + 1, z)) {
@@ -517,6 +581,4 @@ public class MinecartEntityLink extends EntityLink {
         }
 
     }
-
-
 }

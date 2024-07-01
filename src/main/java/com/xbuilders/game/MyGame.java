@@ -419,12 +419,11 @@ public class MyGame extends Game {
 
 
         //Add terrains
-        terrainsList.add(new TestTerrain());
-        terrainsList.add(new BasicTerrain());
+//        terrainsList.add(new TestTerrain());
+//        terrainsList.add(new BasicTerrain());
         terrainsList.add(new DefaultTerrain(true));
-        terrainsList.add(new DefaultTerrain(false));
         terrainsList.add(new DevTerrain());
-        terrainsList.add(new ComplexTerrain());
+//        terrainsList.add(new ComplexTerrain());
 
         //Set items AFTER setting block types
         ItemList.setAllItems(blockList, entityList, tools);

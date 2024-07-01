@@ -4,15 +4,20 @@
 package com.xbuilders.engine.world;
 
 import org.joml.Vector3f;
+
 import java.nio.file.Files;
 import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.xbuilders.engine.utils.json.JsonManager;
+
 import java.awt.Image;
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+
 import org.joml.Vector3i;
 
 public class WorldInfo {
@@ -126,10 +131,10 @@ public class WorldInfo {
 
     public String getDetails() {
         return "Name: " + name + "\n"
-                + "Type: " + infoFile.terrain + "\n"
+                + "Type: " + infoFile.terrain + "   " + infoFile.terrainOptions.toString() + "\n"
                 + "Size: " + getSize() + "\n"
                 + "Last saved:\n" + getLastSaved() + "\n"
-                + "Seed: "+infoFile.seed;
+                + "Seed: " + infoFile.seed;
     }
 
     public String getInfoFileAsJson() {
@@ -150,6 +155,7 @@ public class WorldInfo {
         public String lastSaved;
         public String terrain;
         public int seed;
+        public HashMap<String, Boolean> terrainOptions = new HashMap<>();
 
         public InfoFile() {
             this.spawnX = -1.0f;
