@@ -12,7 +12,6 @@ import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
-import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -105,9 +104,9 @@ public abstract class Vehicle extends Entity {
         }
 
         if (inFrustum) {
-            mvp_modelMatrix.rotateY((float) (rotationYDeg * (Math.PI / 180)));
-            mvp.update(mvp_modelMatrix);
-            mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            modelMatrix.rotateY((float) (rotationYDeg * (Math.PI / 180)));
+            modelMatrix.update();
+            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
             vehicle_draw();
         }
     }

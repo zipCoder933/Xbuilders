@@ -50,7 +50,6 @@ class GameMenu extends GameUIElement {
 
         chunkDist.setOnChangeEvent(() -> {
             GameScene.world.setViewDistance((int) chunkDist.getValueAsNumber());
-          
         });
     }
 

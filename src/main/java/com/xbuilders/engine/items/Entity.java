@@ -81,9 +81,7 @@ public abstract class Entity {
     private final Vector3f prevWorldPosition;//KEEP PRIVATE
 
     //Model view projection
-    public final MVP mvp = new MVP();
-    public final Matrix4f mvp_modelMatrix = new Matrix4f(); //I think keeping a model matrix in the entity should make things easier
-
+    public final MVP modelMatrix = new MVP();
 
     boolean destroyMode = false;
     Chunk chunk;
@@ -109,7 +107,7 @@ public abstract class Entity {
             shader = new EntityShader();
         }
         if (inFrustum) {
-            mvp_modelMatrix.identity().translate(worldPosition);
+            modelMatrix.identity().translate(worldPosition);
             shader.loadFloat(shader.uniform_sun, sunValue);
             shader.loadFloat(shader.uniform_torch, torchValue);
         }

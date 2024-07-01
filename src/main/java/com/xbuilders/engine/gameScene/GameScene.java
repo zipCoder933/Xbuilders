@@ -17,7 +17,6 @@ import org.lwjgl.opengl.GL11C;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.ui.UIResources;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -78,8 +77,16 @@ public class GameScene implements WindowEvents {
         otherPlayers = new ArrayList<>();
     }
 
-    public void close() throws IOException {
-        System.out.println("Closing...");
+    private static String alertMessage = "";
+    private static long alertTime = 0;
+
+    public static void alert(String s) {
+        alertMessage = s;
+        alertTime = System.currentTimeMillis();
+    }
+
+    public void closeGame() {
+        System.out.println("Closing " + world.info.getName() + "...");
         player.stopGame();
         world.stopGame(player.worldPosition);
         Main.game.saveState();
@@ -90,16 +97,17 @@ public class GameScene implements WindowEvents {
     public void newGameUpdate(WorldInfo worldInfo, ProgressData prog) {
         switch (prog.stage) {
             case 0 -> {
+                System.out.println("\n\nStarting game " + worldInfo.getName() + "...");
                 if (worldInfo.getSpawnPoint() == null) {
                     player.worldPosition.set(0, 0, 0);
-                    world.newGame(prog, worldInfo, new Vector3f(0, 0, 0));
+                    world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
                 } else {
                     System.out.println("Loading spawn point: " + player.worldPosition);
                     player.worldPosition.set(
                             worldInfo.getSpawnPoint().x,
                             worldInfo.getSpawnPoint().y,
                             worldInfo.getSpawnPoint().z);
-                    world.newGame(prog, worldInfo, player.worldPosition);
+                    world.startGame(prog, worldInfo, player.worldPosition);
                 }
                 prog.stage++;
             }
@@ -243,14 +251,6 @@ public class GameScene implements WindowEvents {
         if (letUIHandleScroll) ui.mouseScrollEvent(scroll, xoffset, yoffset);
     }
 
-    private void leaveGamePage() {
-        try {
-            Main.goToMenuPage();
-            close();
-        } catch (IOException ex) {
-            ErrorHandler.handleFatalError(ex);
-        }
-    }
 
     boolean debugText = false;
     public static WCCi rayWCC = new WCCi();
@@ -309,6 +309,12 @@ public class GameScene implements WindowEvents {
             text = "Error: " + ex.getMessage();
             ex.printStackTrace();
         }
+
+
+        if (System.currentTimeMillis() - alertTime < 1000) {
+            text = alertMessage;
+        }
+
         if (Main.devMode || debugText) {
             ui.setInfoText(text);
         }

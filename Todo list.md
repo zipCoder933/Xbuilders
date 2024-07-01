@@ -2,19 +2,15 @@
 Xbuilders 3 performance is very clearly better than xb2.
 
 # Todo list
-1. FIX BLOCK PIPELINE BUGS FIRST!!!
+- FIX BLOCK PIPELINE BUGS FIRST!!!
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
-5. **Fix the saving bug where the following data does not get saved:**
-   - recent changes
-   - entity data (banners dont get their data saved?)
-6. player must be able to jump underwater
-7. add birds, fish and turtles
-8. add minecarts
-9. finetune animal behaviors (dogs)
-10. add line, sphere and replace tools
-11. **make inventory scroll faster by replacing the group with a grid of icons that change when scrolled**
-
+- add minecarts
+- finetune animal behaviors (dogs)
+- add line, sphere and replace tools
+- add birds, fish and turtles
+- player must be able to jump underwater
+- **make inventory scroll faster by replacing the group with a grid of icons that change when scrolled**
 
 ## liquid propagation
 * have a live propagation thread (LP) that can propagate water, fire and grass

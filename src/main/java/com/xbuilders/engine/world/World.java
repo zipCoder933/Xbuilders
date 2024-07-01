@@ -233,7 +233,7 @@ public class World {
     }
     // </editor-fold>
 
-    public void newGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
+    public void startGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
         prog.setTask("Generating chunks");
         this.chunks.clear();
         this.unusedChunks.clear();
@@ -251,7 +251,7 @@ public class World {
     }
 
     public void stopGame(Vector3f playerPos) {
-        save(playerPos);
+        saveAll(playerPos);
 
         // We may or may not actually need to shutdown the services, since chunks cancel
         // all tasks when they are disposed
@@ -413,7 +413,7 @@ public class World {
             lastSaveMS = System.currentTimeMillis();
             // Save chunks
             generationService.submit(0.0f, () -> {
-                save(playerPosition);
+                saveAll(playerPosition);
             });
         }
 
@@ -592,7 +592,7 @@ public class World {
     }
     // </editor-fold>
 
-    public void save(Vector3f playerPos) {
+    public void saveAll(Vector3f playerPos) {
         // System.out.println("Saving...");
         // Save all chunks
         Iterator<Chunk> iterator = chunks.values().iterator();

@@ -12,7 +12,6 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.game.items.blocks.RenderType;
-import org.joml.Matrix4f;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +50,6 @@ public class BannerEntityLink extends EntityLink {
             frustumSphereRadius = 2f;
         }
 
-        final Matrix4f modelMatrix = new Matrix4f();
         int xzOrientation = 0;
         float seed = 0;
         boolean againstFencepost;
@@ -68,30 +66,28 @@ public class BannerEntityLink extends EntityLink {
             if (bytes != null) {
                 xzOrientation = bytes.get(0);
                 againstFencepost = (bytes.get(1) == 1);
-                seed = (float) (Math.random() * 10);
-            }
-
-            xzOrientation = GameScene.player.camera.simplifiedPanTilt.x;
-            seed = (float) (Math.random() * 1000);
-
-            int wx = (int) worldPosition.x;
-            int wy = (int) worldPosition.y;
-            int wz = (int) worldPosition.z;
-
-            if (xzOrientation == 0) {
-                againstFencepost = GameScene.world.getBlock(wx, wy, wz - 1)
-                        .type == RenderType.FENCE;
-            } else if (xzOrientation == 1) {
-                againstFencepost = GameScene.world.getBlock(wx + 1, wy, wz)
-                        .type == RenderType.FENCE;
-            } else if (xzOrientation == 2) {
-                againstFencepost = GameScene.world.getBlock(wx, wy, wz + 1)
-                        .type == RenderType.FENCE;
             } else {
-                againstFencepost = GameScene.world.getBlock(wx - 1, wy, wz)
-                        .type == RenderType.FENCE;
+                xzOrientation = GameScene.player.camera.simplifiedPanTilt.x;
+                int wx = (int) worldPosition.x;
+                int wy = (int) worldPosition.y;
+                int wz = (int) worldPosition.z;
+
+                if (xzOrientation == 0) {
+                    againstFencepost = GameScene.world.getBlock(wx, wy, wz - 1)
+                            .type == RenderType.FENCE;
+                } else if (xzOrientation == 1) {
+                    againstFencepost = GameScene.world.getBlock(wx + 1, wy, wz)
+                            .type == RenderType.FENCE;
+                } else if (xzOrientation == 2) {
+                    againstFencepost = GameScene.world.getBlock(wx, wy, wz + 1)
+                            .type == RenderType.FENCE;
+                } else {
+                    againstFencepost = GameScene.world.getBlock(wx - 1, wy, wz)
+                            .type == RenderType.FENCE;
+                }
             }
 
+            seed = (float) (Math.random() * 1000);
             aabb.setOffsetAndSize(0, 0, 0,
                     1, 2, 1);
         }
@@ -120,13 +116,11 @@ public class BannerEntityLink extends EntityLink {
             modelMatrix.translate(1f - (ONE_SIXTEENTH * 2), 0, 0.5f);
 
             modelMatrix.rotateZ((float) (Math.sin((frameCount * 0.05) + seed) * 0.1) + 0.1f);
-            mvp.update(modelMatrix);
-            mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            modelMatrix.update();
+            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
             body.draw(false);
             frameCount++;
         }
-
-
 
 
     }

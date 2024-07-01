@@ -1,6 +1,5 @@
 package com.xbuilders.game.items.entities.animal;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.items.EntityLink;
@@ -92,8 +91,8 @@ public class StaticLandAnimalLink extends EntityLink {
                 float rotationRadians = (float) Math.toRadians(yRotDegrees);
                 bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
-                mvp.update(bodyMatrix);
-                mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+                modelMatrix.update(bodyMatrix);
+                modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
                 link.body.draw(false);
 
                 pos.update(GameScene.projection, GameScene.view);

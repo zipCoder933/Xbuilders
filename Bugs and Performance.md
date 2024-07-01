@@ -29,6 +29,8 @@ notes:
 
 
 ## FIXED Bugs (watch for these!)
+- recent changes were not saved
+    - It Was just the gameScene closeGame() method not being called
 * I fixed a bug that prevented chunks from loading when blocks are set outside chunk voxel bounds
     * IF YOU ARE USING BYTEBUFFERS FOR CHUNK DATA:
         * Make sure that the chunkVoxels class prevents bytes from being written to the data if they are out of bounds

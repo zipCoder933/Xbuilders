@@ -48,6 +48,7 @@ public class Main extends NKWindow {
 
     public static void goToMenuPage() {
         isGameMode = false;
+        gameScene.closeGame(); //Close the entire game
     }
 
     public static EngineSettings settings;

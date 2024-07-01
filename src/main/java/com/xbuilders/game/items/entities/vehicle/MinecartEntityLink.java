@@ -1,19 +1,26 @@
+///*
+// * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+// * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+// */
 //package com.xbuilders.game.items.entities.vehicle;
 //
+//import com.xbuilders.engine.gameScene.GameScene;
 //import com.xbuilders.engine.items.EntityLink;
 //import com.xbuilders.engine.items.block.Block;
+//import com.xbuilders.engine.player.PositionLock;
 //import com.xbuilders.engine.player.UserControlledPlayer;
 //import com.xbuilders.engine.rendering.entity.EntityMesh;
 //import com.xbuilders.engine.utils.ResourceUtils;
 //import com.xbuilders.engine.utils.math.MathUtils;
+//import com.xbuilders.engine.world.chunk.BlockData;
 //import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
+//import com.xbuilders.game.Main;
+//import com.xbuilders.game.MyGame;
 //import org.joml.Vector3f;
 //import org.joml.Vector3i;
 //
-//import javax.imageio.ImageIO;
 //import java.io.IOException;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
+//import java.util.ArrayList;
 //
 ///**
 // * @author zipCoder933
@@ -22,12 +29,20 @@
 //
 //    public MinecartEntityLink(int id, String name, String textureFile) {
 //        super(id, name);
-//        setSupplier(() -> new Minecart());
-//        this.textureFile = textureFile;
+//        supplier = (() -> new Minecart());
+//        initializationCallback = (entity) -> {
+//            if (model == null) {
+//                model = new EntityMesh();
+//                try {
+//                    model.loadFromOBJ(ResourceUtils.resource("items\\entities\\minecart\\minecart.obj"));
+//                    model.setTexture(ResourceUtils.resource("items\\entities\\minecart\\" + textureFile));
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        };
 //    }
 //
-//    public String textureFile;
-//    public EntityMesh texture;
 //    public EntityMesh model;
 //
 //    public class Minecart extends Vehicle {
@@ -35,7 +50,7 @@
 //        public Minecart() {
 //            super(new Vector3f(1, 0.8f, 1), true);
 //
-//            setFrustumSphereRadius(1.5f);
+//            frustumSphereRadius = (1.5f);
 //        }
 //
 //        @Override
@@ -56,6 +71,23 @@
 //        }
 //
 //        @Override
+//        public boolean run_ClickEvent() {
+//            UserControlledPlayer userControlledPlayer = GameScene.player;
+//            if (userControlledPlayer.positionLock == null) {
+//                GameScene.player.positionLock = (new PositionLock(this, -0.7f));
+//                forwardBackDir = 0;
+//                MinecartUtils.resetKeyEvent();
+//                onTrack = alignToNearestTrack();
+//                if (onTrack) {
+//                    GameScene.alert("Press the forward and backward keys to toggle minecart direction.");
+//                } else {
+//                    GameScene.alert("Use WASD or arrow keys to navigate on minecart roads");
+//                }
+//            }
+//            return false;
+//        }
+//
+//        @Override
 //        public void onDestructionInitiated() {
 //        }
 //
@@ -66,13 +98,18 @@
 //        float rotationYCurve;
 //
 //        @Override
-//        public void renderMob(PGraphics g) {
-////            g.shape(model);
-//            model.drawImpl(g);
+//        public void vehicle_draw() {
+//            model.updateModelMatrix(modelMatrix);
+//            model.draw();
 //        }
 //
 //        @Override
-//        public void draw(PGraphics g) {
+//        public boolean vehicle_move() {
+//            return false;
+//        }
+//
+//        @Override
+//        public void draw() {
 //            rotationYCurve = (float) MathUtils.curve(rotationYCurve, rotationYDeg, 0.25f);
 //            modelMatrix.translate(renderOffset.x, renderOffset.y, renderOffset.z);
 //            modelMatrix.rotateY((float) (rotationYCurve * (Math.PI / 180)));
@@ -90,18 +127,27 @@
 //                }
 //            }
 //            sendModelMatrixToShader();
-//            renderMob(g);
+//            renderMob();
+//        }
+//
+//        @Override
+//        public void vehicle_entityMoveEvent() {
+//
+//        }
+//
+//        @Override
+//        public void vehicle_initializeOnDraw(ArrayList<Byte> bytes) {
+//                alignToNearestTrack();
 //        }
 //
 //        private boolean alignToNearestTrack() {
 //            Vector3i currentTrackPiece = MinecartUtils.getNearestTrackPiece(this);
 //            if (currentTrackPiece != null) {
-//                BlockData trackData = getPointerHandler().getWorld().getBlockData(currentTrackPiece.x, currentTrackPiece.y, currentTrackPiece.z);
-//                BlockOrientation orientation = BlockOrientation.getBlockOrientation(trackData);
-//                if (orientation.getXZ() == 0 || orientation.getXZ() == 2) {
+//                BlockData trackData = GameScene.world.getBlockData(currentTrackPiece.x, currentTrackPiece.y, currentTrackPiece.z);
+//                if (trackData.get(0) == 0 || trackData.get(0) == 2) {
 //                    worldPosition.x = currentTrackPiece.x;
 //                    this.rotationYDeg = (float) 0;
-//                } else if (orientation.getXZ() == 1 || orientation.getXZ() == 3) {
+//                } else if (trackData.get(0) == 1 || trackData.get(0) == 3) {
 //                    worldPosition.z = currentTrackPiece.z;
 //                    this.rotationYDeg = (float) 90;
 //                }
@@ -111,10 +157,7 @@
 //            return false;
 //        }
 //
-//        @Override
-//        public void onDestroyClickEvent() {
-//            destroy(true);
-//        }
+//
 //
 //        private void freeMove() {
 //            riseInertaState = 0;
@@ -127,7 +170,7 @@
 //                if (getPlayer().forwardKeyPressed()) {
 //                    targetSpeed = 0.15f;
 //                    rotateSpeed = 2.0f;
-//                } else if (getPlayer().backKeyPressed()) {
+//                } else if (getPlayer().backwardKeyPressed()) {
 //                    targetSpeed = -0.08f;
 //                    rotateSpeed = 1.0f;
 //                }
@@ -136,7 +179,7 @@
 //                rotateSpeed = 1.5f;
 //                if (getPlayer().forwardKeyPressed()) {
 //                    targetSpeed = 0.015f;
-//                } else if (getPlayer().backKeyPressed()) {
+//                } else if (getPlayer().backwardKeyPressed()) {
 //                    targetSpeed = -0.01f;
 //                }
 //                speedCurve = (float) MathUtils.curve(speedCurve, targetSpeed, 0.2f);
@@ -160,22 +203,7 @@
 //            return roundedDegree;
 //        }
 //
-//        @Override
-//        public boolean onClickEvent() {
-//            UserControlledPlayer userControlledPlayer = getPointerHandler().getPlayer();
-//            if (userControlledPlayer.positionLock == null) {
-//                getPointerHandler().getPlayer().setPositionLock(new PositionLock(this, -0.7f));
-//                forwardBackDir = 0;
-//                MinecartUtils.resetKeyEvent();
-//                onTrack = alignToNearestTrack();
-//                if (onTrack) {
-//                    getPointerHandler().getGame().alert("Press the forward and backward keys to toggle minecart direction.");
-//                } else {
-//                    getPointerHandler().getGame().alert("Use WASD or arrow keys to navigate on minecart roads");
-//                }
-//            }
-//            return false;
-//        }
+//
 //
 //        float speedCurve;
 //        int forwardBackDir = 0;
@@ -201,19 +229,19 @@
 //            this.forwardBackDir = MinecartUtils.assignForwardOrBackward(this, forwardBackDir);//0=stop,-1=back,1=go
 //            float speed = forwardBackDir > 0 ? 0.15f : -0.15f;
 //            posHandler.setGravityEnabled(true);
-//            Block b = getPointerHandler().getWorld().getBlock(position);
-//            Block bup = getPointerHandler().getWorld().getBlock(position.x, position.y - 1, position.z);
-//            Block bdown = getPointerHandler().getWorld().getBlock(position.x, position.y + 1, position.z);
+//            Block b = GameScene.world.getBlock(position.x, position.y, position.z);
+//            Block bup = GameScene.world.getBlock(position.x, position.y - 1, position.z);
+//            Block bdown = GameScene.world.getBlock(position.x, position.y + 1, position.z);
 //
 //            if (forwardBackDir == 0) {
-//                if (b == GameItems.SWITCH_JUNCTION) {
-//                    if (getPointerHandler().getPlayer().leftKeyPressed()) {
+//                if (b.id == MyGame.BLOCK_SWITCH_JUNCTION) {
+//                    if (GameScene.player.leftKeyPressed()) {
 //                        if (MinecartUtils.switchJunctionKeyEvent) {
 //                            float rotationY1 = rotationYDeg + 90;
 //                            this.rotationYDeg = rotationY1;
 //                            MinecartUtils.switchJunctionKeyEvent = false;
 //                        }
-//                    } else if (getPointerHandler().getPlayer().rightKeyPressed()) {
+//                    } else if (GameScene.player.rightKeyPressed()) {
 //                        if (MinecartUtils.switchJunctionKeyEvent) {
 //                            float rotationY1 = rotationYDeg - 90;
 //                            this.rotationYDeg = rotationY1;
@@ -224,13 +252,13 @@
 //                    }
 //                }
 //            } else {
-//                if (b == GameItems.SWITCH_JUNCTION) {
+//                if (b.id == MyGame.BLOCK_SWITCH_JUNCTION) {
 //                    stop(position);
 //                    goForward(speed);
-//                } else if (b == GameItems.STOP_TRACK) {
+//                } else if (b.id == MyGame.BLOCK_TRACK_STOP) {
 //                    stop(position);
 //                    goForward(speed);
-//                } else if (b == GameItems.CURVED_TRACK) {
+//                } else if (b.id == MyGame.BLOCK_CURVED_TRACK) {
 //                    if (rotationEnabled) {
 //                        worldPosition.x = position.x;
 //                        worldPosition.z = position.z;
@@ -245,7 +273,7 @@
 //                        disableRotation(position);
 //                    }
 //                    goForward(speed);
-//                } else if (b == GameItems.MERGE_TRACK) {
+//                } else if (b.id == MyGame.BLOCK_MERGE_TRACK) {
 //                    if (rotationEnabled) {
 //                        worldPosition.x = position.x;
 //                        worldPosition.z = position.z;
@@ -260,18 +288,18 @@
 //                        disableRotation(position);
 //                    }
 //                    goForward(speed);
-//                } else if (b == GameItems.CROSS_TRACK) {
+//                } else if (b.id == MyGame.BLOCK_CROSSTRACK) {
 //                    enableRotation();
 //                    goForward(speed);
 //                } else {
 //                    enableRotation();
-//                    if (riseInertaState <= 0 && b == GameItems.RAISED_TRACK) {
+//                    if (riseInertaState <= 0 && b.id == MyGame.BLOCK_RAISED_TRACK) {
 //                        posHandler.setGravityEnabled(false);
 //                        worldPosition.y -= 0.07f;
 //                        goForward(0.07f * forwardBackDir);
 //                        riseInertaState = -1;
 //                        riseInertaChangeMS = System.currentTimeMillis();
-//                    } else if (riseInertaState >= 0 && bdown == GameItems.RAISED_TRACK) {
+//                    } else if (riseInertaState >= 0 && bdown.id == MyGame.BLOCK_RAISED_TRACK) {
 //                        posHandler.setGravityEnabled(false);
 //                        worldPosition.y += 0.08f;
 //                        goForward(0.07f * forwardBackDir);
@@ -281,18 +309,17 @@
 //                        if (System.currentTimeMillis() - riseInertaChangeMS > 200) {
 //                            riseInertaState = 0;
 //                        }
-//                        BlockOrientation orientation = BlockOrientation.getBlockOrientation(
-//                                getPointerHandler().getWorld().getBlockData(position.x, position.y, position.z));
+//                        BlockData orientation = GameScene.world.getBlockData(position.x, position.y, position.z);
 //                        if (orientation != null) {
-//                            if (orientation.getXZ() == 0 || orientation.getXZ() == 2) {
+//                            if (orientation.get(0) == 0 || orientation.get(0) == 2) {
 //                                worldPosition.x = position.x;
-//                            } else if (orientation.getXZ() == 1 || orientation.getXZ() == 3) {
+//                            } else if (orientation.get(0) == 1 || orientation.get(0) == 3) {
 //                                worldPosition.z = position.z;
 //                            }
 //                        }
 //                        goForward(speed);
 //
-//                        if ((b.isSolid() || bdown.isSolid()) && MinecartUtils.getNearestTrackPiece(this) == null) {
+//                        if ((b.solid || bdown.solid) && MinecartUtils.getNearestTrackPiece(this) == null) {
 //                            onTrack = false;
 //                        }
 //                    }
@@ -312,22 +339,6 @@
 //
 //        @Override
 //        public void toBytes(XBFilterOutputStream fout) throws IOException {
-//        }
-//
-//        @Override
-//        public void initialize(byte[] bytes, boolean setByUser) {
-//            if (model == null) {
-//                try {
-//                    texture = new PImage(ImageIO.read(ResourceUtils.resource("items\\entities\\minecart\\" + textureFile)));
-//                    model = getPointerHandler().getApplet().loadShape(ResourceUtils.resourcePath("items\\entities\\minecart\\minecart.obj"));
-//                    model.setTexture(texture);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(BirchTrapdoorLink.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//            if (setByUser) {
-//                alignToNearestTrack();
-//            }
 //        }
 //
 //        private void stop(Vector3i position) {
