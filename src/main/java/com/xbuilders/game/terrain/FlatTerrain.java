@@ -9,6 +9,8 @@ import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
 
+import java.util.HashMap;
+
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 
 /**
@@ -25,6 +27,11 @@ public class FlatTerrain extends Terrain {
         super("Custom Flat Terrain");
         MIN_SURFACE_HEIGHT = surfaceHeight;
         MAX_SURFACE_HEIGHT = surfaceHeight;
+    }
+
+    @Override
+    public void loadWorld(HashMap<String, Boolean> options, int version) {
+
     }
 
     @Override

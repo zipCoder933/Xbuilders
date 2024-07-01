@@ -9,6 +9,7 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
@@ -17,6 +18,7 @@ import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.TextBox;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.nuklear.*;
@@ -68,10 +70,26 @@ public class NewWorld implements MenuPage {
 
             nk_style_set_font(ctx, menu.uires.font_12);
             nk_layout_row_static(ctx, 30, 1, 1);
+
+            nk_layout_row_dynamic(ctx, 40, 1);
+
+
+//            //Start the terrain properties
+            Terrain terrain = terrainSelector.getSelectedTerrain();
+//
+//            ByteBuffer bb = MemoryUtil.memAlloc(1);
+//            bb.put(0, (byte) 1);
+//
+//            nk_checkbox_label(ctx, "Test2", bb);
+//            if (nk_check_label(ctx, "Test", true)) {
+//
+//            }
+
+
             nk_layout_row_static(ctx, 10, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 1);
             if (nk_button_label(ctx, "CREATE")) {
-                if (makeNewWorld(name.getValueAsString(), 0, terrainSelector.getSelectedTerrain().name, 0)) {
+                if (makeNewWorld(name.getValueAsString(), 0, terrain.name, 0)) {
                     menu.setPage(Page.LOAD_WORLD);
                 }
             }

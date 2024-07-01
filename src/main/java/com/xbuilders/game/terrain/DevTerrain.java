@@ -12,6 +12,8 @@ import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.game.MyGame;
 
+import java.util.HashMap;
+
 /**
  * @author zipCoder933
  */
@@ -21,6 +23,11 @@ public class DevTerrain extends Terrain {
         super("Dev Terrain");
         MIN_SURFACE_HEIGHT = 195;
         MAX_SURFACE_HEIGHT = 201;
+    }
+
+    @Override
+    public void loadWorld(HashMap<String, Boolean> options, int version) {
+
     }
 
     @Override

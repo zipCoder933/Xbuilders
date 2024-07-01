@@ -1,6 +1,6 @@
-// 
+//
 // Decompiled by Procyon v0.5.36
-// 
+//
 package com.xbuilders.game.terrain.complexTerrain;
 
 import com.xbuilders.engine.gameScene.GameScene;
@@ -10,6 +10,8 @@ import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
+
+import java.util.HashMap;
 
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 
@@ -57,6 +59,11 @@ public class ComplexTerrain extends Terrain {
         }
     }
 
+
+    @Override
+    public void loadWorld(HashMap<String, Boolean> options, int version) {
+
+    }
 
     public void generateChunkInner(Chunk chunk, GenSession session) {
 

@@ -9,6 +9,8 @@ import com.xbuilders.game.items.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain.Biome;
 
+import java.util.HashMap;
+
 public class DefaultTerrain extends Terrain {
 
     short fern, deadBush;
@@ -28,6 +30,16 @@ public class DefaultTerrain extends Terrain {
         fern = MyGame.BLOCK_FERN;
         deadBush = MyGame.BLOCK_DEAD_BUSH;
         // utils = new DefaultTerrainUtils(this, WATER_LEVEL);
+        options.put("Mountains", true);
+        options.put("Nimals",false);
+        options.put("Caves", true);
+    }
+
+
+
+    @Override
+    public void loadWorld(HashMap<String, Boolean> options, int version) {
+
     }
 
     public int getTerrainHeight(int x, int z) {
@@ -237,7 +249,6 @@ public class DefaultTerrain extends Terrain {
     private float getValueFractal(float x, float y) {
         return noise.GetValueFractal(x * getFrequency(), y * getFrequency());
     }
-
 
 
     @Override

@@ -12,6 +12,8 @@ import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.game.MyGame;
 
+import java.util.HashMap;
+
 /**
  * @author zipCoder933
  */
@@ -21,6 +23,11 @@ public class TestTerrain extends Terrain {
         super("Test Terrain");
         MIN_SURFACE_HEIGHT = 90;
         MAX_SURFACE_HEIGHT = 140;
+    }
+
+    @Override
+    public void loadWorld(HashMap<String, Boolean> options, int version) {
+
     }
 
     @Override

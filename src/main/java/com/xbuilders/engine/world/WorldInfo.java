@@ -29,7 +29,7 @@ public class WorldInfo {
     Image image;
     private String name;
     private static final Gson gson = new JsonManager().gson;
-    private InfoFile infoFile;
+    public InfoFile infoFile;
 
     public File getChunkFile(Vector3i position) {
         return new File(this.directory.getAbsolutePath(), "chunk " + position.x + " " + position.y + " " + position.z);
@@ -131,7 +131,9 @@ public class WorldInfo {
 
     public String getDetails() {
         return "Name: " + name + "\n"
-                + "Type: " + infoFile.terrain + "   " + infoFile.terrainOptions.toString() + "\n"
+                + "Type: " + infoFile.terrain + "   " +
+
+                (infoFile.terrainOptions != null ? infoFile.terrainOptions.toString() : "") + "\n"
                 + "Size: " + getSize() + "\n"
                 + "Last saved:\n" + getLastSaved() + "\n"
                 + "Seed: " + infoFile.seed;

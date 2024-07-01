@@ -22,17 +22,23 @@ public abstract class Terrain {
     public final String name;
     public int MAX_SURFACE_HEIGHT = 10;
     public int MIN_SURFACE_HEIGHT = -100;
-    HashMap<String, Boolean> options = new HashMap<>();
+    public HashMap<String, Boolean> options = new HashMap<>();
+    public int version = 0;
 
     public Terrain(String name) {
         this.name = name;
     }
 
-    public void init(int seed) {
+    public final void initForWorld(int seed, HashMap<String, Boolean> terrainOptions, int terrainVersion) {
         noise.SetSeed(seed);
         perlinNoise.setSeed(((double) seed / Integer.MAX_VALUE) * 255);
         this.seed = seed;
+        this.options = terrainOptions;
+        this.version = terrainVersion;
+        loadWorld(options, version);
     }
+
+    public abstract void loadWorld(HashMap<String, Boolean> options, int version);
 
     public class GenSession {
 

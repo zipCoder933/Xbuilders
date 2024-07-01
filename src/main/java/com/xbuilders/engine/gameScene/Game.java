@@ -8,7 +8,6 @@ import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.UIResources;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.window.NKWindow;
@@ -45,7 +44,7 @@ public abstract class Game {
     public final Terrain getTerrainFromInfo(WorldInfo info) {
         for (Terrain terrain : terrainsList) {
             if (terrain.name.equals(info.getTerrain())) {
-                terrain.init(info.getSeed());
+                terrain.initForWorld(info.getSeed(), info.infoFile.terrainOptions, info.infoFile.terrainVersion);
                 return terrain;
             }
         }
