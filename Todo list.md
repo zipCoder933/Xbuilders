@@ -7,6 +7,8 @@ Xbuilders 3 performance is very clearly better than xb2.
    * Fix the listed bugs
 - add minecarts
 - finetune animal behaviors (dogs)
+- - Fix bugs with minecart
+- Fix entity collison objects being "soft" when they are stacked on top of each other
 - add line, sphere and replace tools
 - add birds, fish and turtles
 - player must be able to jump underwater
