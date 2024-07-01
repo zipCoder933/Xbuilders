@@ -70,11 +70,10 @@ public class MinecartEntityLink extends EntityLink {
             fixedPositionOffset.y = aabb.offset.y / 2;
             fixedPositionOffset.z = 0;
 
-//            aabb.offset.x += 0.5f;
-//            aabb.offset.z += 0.5f;
-//
-//            renderOffset.x += 0.5f;
-//            renderOffset.z += 0.5f;
+            aabb.offset.x += 0.5f;
+            aabb.offset.z += 0.5f;
+            renderOffset.x += 0.5f;
+            renderOffset.z += 0.5f;
             frustumSphereRadius = (3f);
         }
 
