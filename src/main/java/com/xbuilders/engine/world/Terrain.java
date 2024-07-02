@@ -9,6 +9,7 @@ import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
+import org.joml.Vector3i;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +43,11 @@ public abstract class Terrain {
     }
 
     public abstract void loadWorld(HashMap<String, Boolean> options, int version);
+
+    public boolean isBelowTerrainMinHeight(Vector3i position) {
+        //If the bottom of the chunk is below the minimum height, we need to generate the terrain
+        return (position.y * Chunk.HEIGHT)+Chunk.HEIGHT >= TERRAIN_MIN_HEIGHT;
+    }
 
     public class GenSession {
 

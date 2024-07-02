@@ -143,7 +143,7 @@ public class Chunk {
             if (f.exists()) {
                 ChunkSavingLoadingUtils.readChunkFromFile(this, f);
                 needsSunGeneration = false;
-            } else {
+            } else if (terrain.isBelowTerrainMinHeight(this.position)) {
                 GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
             }
             if (futureChunk != null) {
@@ -267,7 +267,7 @@ public class Chunk {
                         return meshes;
                     });
                     World.frameTester.endProcess("red Compute meshes");
-                }else{
+                } else {
                     /**
                      * The cacheNeighbors is still a bottleneck. I have kind of fixed it
                      * by only calling it every 10th frame
