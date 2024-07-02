@@ -2,18 +2,17 @@ package com.xbuilders.game.items.entities.animal;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.PositionLock;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
-import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 
 public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnimal {
 
-    MVP mvp;
-    final Matrix4f bodyMatrix = new Matrix4f();
+    final MVP bodyMatrix = new MVP();
 
     T link;
 
@@ -27,7 +26,6 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
 
     public void animalInit(T link, ArrayList<Byte> bytes) {
         this.link = link;
-        mvp = new MVP();
         goForwardCallback = amount -> {
             legMovement += amount;
         };
@@ -66,8 +64,8 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
             float rotationRadians = (float) Math.toRadians(yRotDegrees);
             bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
-            mvp.update(bodyMatrix);
-            mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            bodyMatrix.update();
+            bodyMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
             if (currentAction.type == AnimalAction.ActionType.IDLE
                     && link.sitting != null
@@ -82,8 +80,9 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
 
 
             pos.update();
-            if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
-                    || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02) {
+            if ((Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
+                    || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02)
+                    && !pos.collisionHandler.collisionData.sideCollisionIsEntity) {
                 if (System.currentTimeMillis() - lastJumpTime > 500) {
                     lastJumpTime = System.currentTimeMillis();
                     pos.jump();
@@ -100,6 +99,10 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
         link.sitting.draw(false);
     }
 
+    /**
+     * //        rotationAnimation = (float) MathUtils.linearTravel(rotationAnimation, target % MathUtils.TWO_PI,  0.5f);
+     */
+
 
     @Override
     public boolean run_ClickEvent() {
@@ -108,8 +111,13 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);
-            } else currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 10 * 1000);
+            } else {
+                if (distToPlayer < 5) {
+                    yRotDegrees = Math.toDegrees(getDirectionToPlayer());
+                }
+                currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 10 * 1000);
+            }
         }
-        return false;
+        return true;
     }
 }

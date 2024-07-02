@@ -181,6 +181,10 @@ public class Hotbar extends GameUIElement {
         }
     }
 
+    public Item getSelectedItem(){
+        return playerInfo.playerBackpack[getSelectedItemIndex()];
+    }
+
     private void acquireItem(Item item) {
         if (item.name.toLowerCase().contains("hidden") || item.getTags().contains("hidden"))
             return;

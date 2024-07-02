@@ -5,14 +5,19 @@ Xbuilders 3 performance is very clearly better than xb2.
 - FIX BLOCK PIPELINE BUGS FIRST!!!
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
-- Fix bug with unknown terrain
-- finetune animal behaviors (dogs)
-- Fix entity collison objects being "soft" when they are stacked on top of each other
-- add line, sphere and replace tools
-- Add trees into terrian
-- add birds, fish and turtles
-- player must be able to jump underwater
-- **make inventory scroll faster by replacing the group with a grid of icons that change when scrolled**
+
+### Bufgixes
+  - Fix entity collison objects being "soft" when they are stacked on top of each other
+
+### Finish adding features
+  - add line, sphere and replace tools
+  - Add trees into terrian
+  - add birds, fish and turtles
+  - player must be able to jump underwater
+
+### Update inventory
+  - **add inventory groups**
+  - Maybe wait to do this: make inventory scroll faster by replacing the group with a grid of icons that change when scrolled
 
 ## liquid propagation
 * have a live propagation thread (LP) that can propagate water, fire and grass

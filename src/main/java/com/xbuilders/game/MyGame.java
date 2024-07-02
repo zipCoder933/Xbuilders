@@ -70,6 +70,10 @@ public class MyGame extends Game {
         return blockTools.getSelectedTool().setBlock(item, ray, isCreationMode);
     }
 
+    public Item getHeldItem() {
+        return hotbar.getSelectedItem();
+    }
+
     public static class GameInfo {
         public final Item[] playerBackpack;
 
@@ -291,6 +295,8 @@ public class MyGame extends Game {
     public static final BannerEntityLink BANNER12 = new BannerEntityLink(79, "Royal Banner", "royal.png");
 
 
+    public static final Tool TOOL_ANIMAL_FEED = new AnimalFeed();
+
     @Override
     public void initialize(NKWindow window) throws Exception {
 
@@ -415,7 +421,7 @@ public class MyGame extends Game {
         Tool[] tools = new Tool[]{
                 new Saddle(),
                 new Hoe(),
-                new AnimalFeed()
+                TOOL_ANIMAL_FEED
         };
 
 

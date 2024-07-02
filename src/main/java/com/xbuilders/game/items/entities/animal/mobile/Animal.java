@@ -6,10 +6,14 @@ package com.xbuilders.game.items.entities.animal.mobile;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
+import com.xbuilders.game.Main;
+import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 
 import org.joml.Vector2f;
@@ -29,11 +33,14 @@ public abstract class Animal extends Entity {
     public boolean freezeMode = false;
 
 
-
+    public boolean playerHasAnimalFeed() {
+        Item heldItem = Main.game.getHeldItem();
+        return heldItem != null && heldItem.equals(MyGame.TOOL_ANIMAL_FEED);
+    }
 
 
     public void goForward(float amount) {
-        if(freezeMode) return;
+        if (freezeMode) return;
         Vector2f vec = TrigUtils.getCircumferencePoint(-yRotDegrees, amount);
         worldPosition.add(vec.x, 0, vec.y);
         if (goForwardCallback != null) goForwardCallback.accept(amount);
@@ -45,7 +52,7 @@ public abstract class Animal extends Entity {
     }
 
     @Override
-    public final void initializeOnDraw(ArrayList<Byte> bytes)  {
+    public final void initializeOnDraw(ArrayList<Byte> bytes) {
         // box = new Box();
         // box.setColor(new Vector4f(1, 0, 1, 1));
         // box.setLineWidth(5);

@@ -21,13 +21,13 @@ public class LegPair {
                      EntityShader bodyShader,
                      float x, float y, float z,
                      float movement) {
-        legMatrix.identity().translate(x, y, z).rotateX((float) (Math.sin(movement*2) * 0.3f));
+        legMatrix.identity().translate(x, y, z).rotateX((float) (Math.sin(movement * 2) * 0.4f));
         mvp.update(bodyMatrix, legMatrix);
         mvp.sendToShader(bodyShader.getID(), bodyShader.uniform_modelMatrix);
         leg.draw(false);
 
 
-        legMatrix.identity().translate(-x, y, z).rotateX((float) (-Math.sin(movement*2) * 0.3f));
+        legMatrix.identity().translate(-x, y, z).rotateX((float) (-Math.sin(movement * 2) * 0.4f));
         mvp.update(bodyMatrix, legMatrix);
         mvp.sendToShader(bodyShader.getID(), bodyShader.uniform_modelMatrix);
         leg.draw(false);

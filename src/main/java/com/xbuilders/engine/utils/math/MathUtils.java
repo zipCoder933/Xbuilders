@@ -7,7 +7,6 @@ package com.xbuilders.engine.utils.math;
  */
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
-import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -268,21 +267,6 @@ public class MathUtils {
     }
 
     /**
-     * Calculates the angle from centerPt to targetPt in degrees.<br>
-     * This method only works for 2 dimensions
-     *
-     * @param centerPtX the center point
-     * @param centerPtY the center point
-     * @param targetPtX the target point
-     * @param targetPtY the target point
-     * @return angle in degrees. This is the angle from centerPt to targetPt.
-     */
-    public static double calcRotationAngleInDegrees(double centerPtX, double centerPtY, double targetPtX, double targetPtY) {
-        double theta = Math.atan2(targetPtY - centerPtY, targetPtX - centerPtX);
-        return Math.toDegrees(theta);
-    }
-
-    /**
      * Calculates the angle from centerPt to targetPt in radians. This method
      * only works for 2 dimensions
      *
@@ -293,7 +277,8 @@ public class MathUtils {
      * @return angle in radians. This is the angle from centerPt to targetPt. (π
      * radians = 180 degrees)
      */
-    public static double calcRotationAngleInRadiants(double centerPtX, double centerPtY, double targetPtX, double targetPtY) {
+    public static double calcRotationAngle(double centerPtX, double centerPtY,
+                                           double targetPtX, double targetPtY) {
         double theta = Math.atan2(targetPtY - centerPtY, targetPtX - centerPtX);
         return theta;
     }

@@ -113,7 +113,7 @@ public class ChunkMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                if (terrain.isBelowMinHeight(chunk.position)) {
+                if (!chunk.data.blocksAreEmpty) {//We wont check if we are below terrain because a loaded file chunk could be there
                     greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
                     naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
                 }
