@@ -154,7 +154,7 @@ public class Hotbar extends GameUIElement {
 
     final int PICK_KEY = GLFW.GLFW_KEY_0;
 
-    public void keyEvent(int key, int scancode, int action, int mods) {
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
                 changeSelectedIndex(-1);
@@ -164,6 +164,7 @@ public class Hotbar extends GameUIElement {
                 pickItem();
             }
         }
+        return false;
     }
 
     public void mouseButtonEvent(int button, int action, int mods) {

@@ -2,13 +2,13 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ChunkEntitySet;
 import com.xbuilders.engine.items.Entity;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.rendering.chunk.BlockMeshBundle;
 import com.xbuilders.engine.rendering.chunk.BlockShader;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.blockTools.BlockTool;
@@ -18,6 +18,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkVec2;
 
 import java.util.ArrayList;
 
@@ -120,7 +121,7 @@ public class PasteTool extends BlockTool {
         return true;
     }
 
-    public boolean setBlock(Item item, final CursorRay ray, boolean isCreationMode) {
+    public boolean setBlock(Block item, final CursorRay ray, boolean isCreationMode) {
         Vector3i offset = getOffset();
         for (int x = 0; x < clipboard.size.x; x++) {
             for (int y = 0; y < clipboard.size.y; y++) {
@@ -177,9 +178,15 @@ public class PasteTool extends BlockTool {
     int offsetMode = 1;
 
     @Override
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        offsetMode = (offsetMode + ((int)yoffset)) % offsetMaxMode;
+        return true;
+    }
+
+    @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-            if (key == GLFW.GLFW_KEY_V) {
+            if (key == GLFW.GLFW_KEY_O) {
                 offsetMode = (offsetMode + 1) % offsetMaxMode;
                 System.out.println("Offset mode: " + offsetMode);
                 return true;

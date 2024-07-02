@@ -5,7 +5,7 @@
 package com.xbuilders.game;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Tool;
+import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.ArrayUtils;
@@ -18,10 +18,7 @@ import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.items.blocks.trees.*;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
@@ -67,7 +64,10 @@ public class MyGame extends Game {
 
     public boolean setBlock(final CursorRay ray, boolean isCreationMode) {
         Item item = getSelectedItem();
-        return blockTools.getSelectedTool().setBlock(item, ray, isCreationMode);
+        Block block = null;
+        if (item.itemType == ItemType.BLOCK) block = (Block) item;
+
+        return blockTools.getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 
     public Item getHeldItem() {
@@ -135,10 +135,14 @@ public class MyGame extends Game {
 
     @Override
     public boolean uiKeyEvent(int key, int scancode, int action, int mods) {
-        inventory.keyEvent(key, scancode, action, mods);
+        if (inventory.keyEvent(key, scancode, action, mods)) {
+            return true;
+        }
         if (!inventory.isOpen()) {
-            if (!blockTools.keyEvent(key, scancode, action, mods)) {
-                hotbar.keyEvent(key, scancode, action, mods);
+            if (blockTools.keyEvent(key, scancode, action, mods)) {
+                return true;
+            } else if (hotbar.keyEvent(key, scancode, action, mods)) {
+                return true;
             }
         }
         return false;

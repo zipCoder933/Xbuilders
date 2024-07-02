@@ -230,15 +230,15 @@ public class GameScene implements WindowEvents {
     }
 
     public void keyEvent(int key, int scancode, int action, int mods) {
-        if (!ui.menusAreOpen()) {
+        if (ui.keyEvent(key, scancode, action, mods)) {
+        } else if (!ui.menusAreOpen()) {
             player.keyEvent(key, scancode, action, mods);
         }
-        ui.keyEvent(key, scancode, action, mods);
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
                 case GLFW.GLFW_KEY_F3 -> debugText = !debugText;
-                case GLFW.GLFW_KEY_P -> specialMode = !specialMode;
-                case GLFW.GLFW_KEY_Z -> drawWireframe = !drawWireframe;
+                case GLFW.GLFW_KEY_F6 -> specialMode = !specialMode;
+                case GLFW.GLFW_KEY_F5 -> drawWireframe = !drawWireframe;
             }
         }
     }

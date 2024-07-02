@@ -134,11 +134,11 @@ public class GameUI {
             switch (key) {
                 case GLFW.GLFW_KEY_ESCAPE -> {
                     gameMenuVisible = !gameMenuVisible;
-
+                    return true;
                 }
-                case GLFW.GLFW_KEY_J -> {
+                case GLFW.GLFW_KEY_F4 -> {
                     drawUI = !drawUI;
-
+                    return true;
                 }
             }
         }

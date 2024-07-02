@@ -143,7 +143,7 @@ public class Chunk {
             if (f.exists()) {
                 ChunkSavingLoadingUtils.readChunkFromFile(this, f);
                 needsSunGeneration = false;
-            } else if (terrain.isBelowMinHeight(this.position)) {
+            } else if (terrain.isBelowMinHeight(this.position,0)) {
                 GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
             }
             if (futureChunk != null) {

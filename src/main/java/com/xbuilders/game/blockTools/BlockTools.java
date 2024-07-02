@@ -27,6 +27,7 @@ public class BlockTools extends GameUIElement {
         tools.add(new BoundaryTool(this, cursorRay));
         tools.add(new CopyTool(this, cursorRay));
         tools.add(new PasteTool(this, cursorRay));
+        tools.add(new LineTool(this, cursorRay));
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();
@@ -81,22 +82,17 @@ public class BlockTools extends GameUIElement {
      * @return true if the event was consumed
      */
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        boolean allowToolParameters = true;
         if (action == GLFW.GLFW_RELEASE) {
             for (int i = 0; i < tools.size(); i++) {
                 if (tools.get(i).shouldActivate(key, scancode, action, mods)) {
                     selectTool(i);
-                    allowToolParameters = false;
-                    break;
+                    return true;
                 }
             }
         } else if (action == GLFW.GLFW_PRESS) {
         }
-        if (allowToolParameters) {
-            return tools.get(selectedTool).keyEvent(key, scancode, action, mods);
-        }
 
-        return false;
+        return tools.get(selectedTool).keyEvent(key, scancode, action, mods);
     }
 
     private void selectTool(int i) {

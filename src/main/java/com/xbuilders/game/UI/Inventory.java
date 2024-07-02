@@ -4,7 +4,6 @@
  */
 package com.xbuilders.game.UI;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
@@ -371,7 +370,7 @@ public class Inventory extends GameUIElement {
         }
     }
 
-    public void keyEvent(int key, int scancode, int action, int mods) {
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
                 case KEY_OPEN_INVENTORY -> {
@@ -387,5 +386,6 @@ public class Inventory extends GameUIElement {
                 }
             }
         }
+        return false;
     }
 }

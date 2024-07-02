@@ -39,6 +39,10 @@ public class CursorRay {
         return cursorRay.getHitNormalAsInt();
     }
 
+    public Vector3f getHitNormal() {
+        return cursorRay.getHitNormal();
+    }
+
     public Entity getEntity() {
         return cursorRay.entity;
     }

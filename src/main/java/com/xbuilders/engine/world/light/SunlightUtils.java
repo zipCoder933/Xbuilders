@@ -25,7 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 3. We re-propagate the light from the edge of the erased area
  */
 public class SunlightUtils {
-    public static void addInitialNodesForSunlightPropagation(List<ChunkNode> queue, final Chunk c, final int x, final int y, final int z) {
+    public static void addInitialNodesForSunlightPropagation(List<ChunkNode> queue, final Chunk c,
+                                                             final int x, final int y, final int z) {
         //In this method, We just get the brightest neighboring node and add it to the queue
         AtomicInteger brightestSunlight = new AtomicInteger(0);
         ChunkNode brightestNode = null;

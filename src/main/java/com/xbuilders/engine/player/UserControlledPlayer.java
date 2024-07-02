@@ -61,6 +61,7 @@ public class UserControlledPlayer extends Player {
     private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
     public static final int KEY_CREATE_MOUSE_BUTTON = GLFW.GLFW_KEY_EQUAL;
     public static final int KEY_DELETE_MOUSE_BUTTON = GLFW.GLFW_KEY_MINUS;
+    public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_V;
 
     public boolean leftKeyPressed() {
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
@@ -341,8 +342,8 @@ public class UserControlledPlayer extends Player {
                         System.out.println("PASSTHROUGH: " + !usePositionHandler);
                         positionHandler.collisionsEnabled = !positionHandler.collisionsEnabled;
                     }
-                    case GLFW.GLFW_KEY_O -> {
-                        camera.cycleToNextView(10);
+                    case KEY_TOGGLE_VIEW -> {
+                        camera.cycleToNextView(15);
                     }
                     case KEY_CHANGE_RAYCAST_MODE -> {
                         camera.cursorRay.cursorRayHitAllBlocks = false;

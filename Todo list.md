@@ -15,9 +15,14 @@ Xbuilders 3 performance is very clearly better than xb2.
   - add birds, fish and turtles
   - player must be able to jump underwater
 
+### Multiplayer
+  - Get the connection working
+  - Make a chatbox UI for chatting and commands
+
 ### Update inventory
   - **add inventory groups**
-  - Maybe wait to do this: make inventory scroll faster by replacing the group with a grid of icons that change when scrolled
+  ~~- Save for later as well: Add real tooltips?~~
+  ~~- Maybe wait to do this: make inventory scroll faster by replacing the group with a grid of icons that change when scrolled~~
 
 ## liquid propagation
 * have a live propagation thread (LP) that can propagate water, fire and grass

@@ -147,6 +147,7 @@ public class ChunkSunlightGenerator {
             for (int z = 0; z < WIDTH; z++) {
                 boolean addSun = true;
                 for (Chunk chunk : pillarChunk1.pillarInformation.chunks) {// Go DOWN from Y
+//                    if(terrain.isBelowMinHeight(chunk.position,-2)) //Lets wait before implementing this. I dont want issues to be caused with saved chunks
                     for (int y = 0; y < Chunk.WIDTH; y++) {
                         Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
                         if (addSun) {

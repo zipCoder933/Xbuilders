@@ -1,10 +1,7 @@
 package com.xbuilders.game.blockTools;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
-import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.world.chunk.BlockData;
 import org.joml.Matrix4f;
 import org.lwjgl.nuklear.NkVec2;
 
@@ -41,7 +38,7 @@ public abstract class BlockTool {
     }
 
 
-    public boolean setBlock(Item item, final CursorRay ray, boolean isCreationMode) {
+    public boolean setBlock(Block item, final CursorRay ray, boolean isCreationMode) {
         return false;
     }
 
