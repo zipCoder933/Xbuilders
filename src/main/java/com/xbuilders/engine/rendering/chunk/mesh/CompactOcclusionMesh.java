@@ -16,7 +16,7 @@ public class CompactOcclusionMesh extends CompactMesh {
     int framesWithNoSamples = 0;
     boolean queried = false;
     int queryId;
-    private static EmptyShader boundaryShader;
+    private static EmptyShader boundaryShader = new EmptyShader();
     final static MVP boundaryMVP = new MVP();
 
     public boolean isVisible() {
@@ -38,9 +38,6 @@ public class CompactOcclusionMesh extends CompactMesh {
         this.samplesPassedLastFrame = 0;
         this.boundingBox = boundingBox;
         queryId = GL30.glGenQueries(); // Create an occlusion query
-        if (boundaryShader == null) { //Initialize the boundary shader
-            boundaryShader = new EmptyShader();
-        }
     }
 
     /*

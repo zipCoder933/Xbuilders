@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.rendering.chunk;
 
+import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
@@ -76,7 +77,7 @@ public class ChunkMeshBundle {
     Mesher greedyMesher;
     public final BoundingBoxMesh boundMesh;
     public final CompactOcclusionMesh opaqueMesh;
-    public final CompactOcclusionMesh transMesh;
+    public final CompactMesh transMesh;
 
     public ChunkMeshBundle(int texture, Chunk chunk) {
         this.chunk = chunk;
@@ -84,7 +85,7 @@ public class ChunkMeshBundle {
         boundMesh = new BoundingBoxMesh();
         opaqueMesh = new CompactOcclusionMesh(boundMesh);
         opaqueMesh.setTextureID(texture);
-        transMesh = new CompactOcclusionMesh(boundMesh); //We only need transparent mesh to be an occlusion If we have to check it if it is occluding the opaque mesh
+        transMesh = new CompactMesh(); //We only need transparent mesh to be an occlusion If we have to check it if it is occluding the opaque mesh
         transMesh.setTextureID(texture);
 
         greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position);
@@ -130,10 +131,6 @@ public class ChunkMeshBundle {
 
     public boolean isEmpty() {
         return opaqueMesh.isEmpty() && transMesh.isEmpty();
-    }
-
-    public boolean isVisible() {
-        return opaqueMesh.isVisible() || transMesh.isVisible();
     }
 
     @Override

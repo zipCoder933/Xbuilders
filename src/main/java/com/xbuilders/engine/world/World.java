@@ -233,21 +233,23 @@ public class World {
     }
     // </editor-fold>
 
-    public void startGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
+    public boolean startGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
         prog.setTask("Generating chunks");
         this.chunks.clear();
         this.unusedChunks.clear();
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
         this.info = info;
-        try {
-            this.terrain = Main.game.getTerrainFromInfo(info);
-            System.out.println("Loaded terrain: " + this.terrain.toString());
-            prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
-        } catch (Exception e) {
-            prog.abort();
-        }
 
+        this.terrain = Main.game.getTerrainFromInfo(info);
+        if (terrain == null) {
+            ErrorHandler.createPopupWindow("Terrain not found",
+                    "Terrain "+info.getTerrain()+" not found");
+            return false;
+        }
+        System.out.println("Loaded terrain: " + this.terrain.toString());
+        prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
+        return true;
     }
 
     public void stopGame(Vector3f playerPos) {

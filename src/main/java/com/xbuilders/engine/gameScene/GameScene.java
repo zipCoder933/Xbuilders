@@ -87,10 +87,12 @@ public class GameScene implements WindowEvents {
     }
 
     public void closeGame() {
-        System.out.println("Closing " + world.info.getName() + "...");
-        player.stopGame();
-        world.stopGame(player.worldPosition);
-        Main.game.saveState();
+        if (world.terrain != null) {
+            System.out.println("Closing " + world.info.getName() + "...");
+            player.stopGame();
+            world.stopGame(player.worldPosition);
+            Main.game.saveState();
+        }
     }
 
     int completeChunks, framesWithCompleteChunkValue;
@@ -101,7 +103,11 @@ public class GameScene implements WindowEvents {
                 System.out.println("\n\nStarting game " + worldInfo.getName() + "...");
                 if (worldInfo.getSpawnPoint() == null) {
                     player.worldPosition.set(0, 0, 0);
-                    world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
+                    boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
+                    if (!ok) {
+                        prog.abort();
+                        Main.goToMenuPage();
+                    }
                 } else {
                     System.out.println("Loading spawn point: " + player.worldPosition);
                     player.worldPosition.set(

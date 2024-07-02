@@ -5,6 +5,7 @@ Xbuilders 3 performance is very clearly better than xb2.
 - FIX BLOCK PIPELINE BUGS FIRST!!!
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
+- Fix bug with unknown terrain
 - finetune animal behaviors (dogs)
 - Fix entity collison objects being "soft" when they are stacked on top of each other
 - add line, sphere and replace tools

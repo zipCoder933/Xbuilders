@@ -37,6 +37,7 @@ public abstract class Terrain {
         noise.SetSeed(seed);
         perlinNoise.setSeed(((double) seed / Integer.MAX_VALUE) * 255);
         this.seed = seed;
+        if(terrainOptions == null) terrainOptions = new HashMap<>();
         this.options = terrainOptions;
         this.version = terrainVersion;
         loadWorld(options, version);

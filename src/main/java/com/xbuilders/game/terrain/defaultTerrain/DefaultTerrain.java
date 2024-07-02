@@ -36,10 +36,11 @@ public class DefaultTerrain extends Terrain {
     }
 
 
-
     @Override
     public void loadWorld(HashMap<String, Boolean> options, int version) {
-        caves = options.get("Generate Caves");
+        if (options.containsKey("Generate Caves")) {
+            caves = options.get("Generate Caves");
+        }
     }
 
     public int getTerrainHeight(int x, int z) {

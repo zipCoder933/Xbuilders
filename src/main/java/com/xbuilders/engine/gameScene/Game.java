@@ -48,8 +48,7 @@ public abstract class Game {
                 return terrain;
             }
         }
-        throw new RuntimeException("Terrain \"" + info.getTerrain() + "\" not found!");
-//        return terrainsList.get(0);
+        return null;
     }
 
     public void uiInit(NkContext ctx, NKWindow window, UIResources uires, GameUI gameUI) {
