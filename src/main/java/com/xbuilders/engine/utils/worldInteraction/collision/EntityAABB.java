@@ -21,21 +21,38 @@ public class EntityAABB {
         worldPosition = new Vector3f();
     }
 
-    /**
-     * Clamps world position and updates aabb box
-     */
-    public void update() {
+    public void clamp(boolean clampToTopOfWorld) {
         //Clamp world position
-        worldPosition.x = MathUtils.clamp(worldPosition.x, World.WORLD_SIZE_NEG_X, World.WORLD_SIZE_POS_X);
-        if (worldPosition.y > World.WORLD_BOTTOM_Y) {
-            worldPosition.y = World.WORLD_BOTTOM_Y;
+        if (worldPosition.y > World.WORLD_BOTTOM_Y - box.getYLength()) {
+            worldPosition.y = World.WORLD_BOTTOM_Y - box.getYLength();
         }
+        if(clampToTopOfWorld && worldPosition.y < World.WORLD_TOP_Y) {
+            worldPosition.y = World.WORLD_TOP_Y;
+        }
+        worldPosition.x = MathUtils.clamp(worldPosition.x, World.WORLD_SIZE_NEG_X, World.WORLD_SIZE_POS_X);
         worldPosition.z = MathUtils.clamp(worldPosition.z, World.WORLD_SIZE_NEG_Z, World.WORLD_SIZE_POS_Z);
+    }
+
+    public void updateBox() {
+        //Update AABB to match world position
         box.setPosAndSize(
                 worldPosition.x + offset.x,
                 worldPosition.y + offset.y,
                 worldPosition.z + offset.z,
                 size.x, size.y, size.z);
+    }
+
+    /**
+     * Clamps world position and updates aabb box
+     */
+    public void update(boolean clampToTopOfWorld) {
+        clamp(clampToTopOfWorld);
+        updateBox();
+    }
+
+    public void update() {
+        clamp(false);
+        updateBox();
     }
 
     public final Vector3f worldPosition;
@@ -50,7 +67,7 @@ public class EntityAABB {
         else offset.set(-(size.x / 2), -(size.y / 2), -(size.z / 2));
         update();
     }
-    
+
     public void setOffsetAndSize(float offX, float offY, float offZ,
                                  float sizeX, float sizeY, float sizeZ) {
         offset.set(offX, offY, offZ);

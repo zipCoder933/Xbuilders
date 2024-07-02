@@ -119,7 +119,7 @@ public class World {
     public static final int WORLD_SIZE_NEG_Z = -100000; // -Z
 
     public static final int WORLD_SIZE_POS_X = 100000; // +X
-    public static final int WORLD_BOTTOM_Y = BOTTOM_Y_CHUNK * Chunk.WIDTH + Chunk.WIDTH; // down (+Y)
+    public static final int WORLD_BOTTOM_Y = (BOTTOM_Y_CHUNK * Chunk.WIDTH) + Chunk.WIDTH; // down (+Y)
     public static final int WORLD_SIZE_POS_Z = 100000; // +Z
 
     private SortByDistanceToPlayer sortByDistance;

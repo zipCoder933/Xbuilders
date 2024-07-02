@@ -8,6 +8,10 @@ import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
+import com.xbuilders.game.items.blocks.trees.AcaciaTreeUtils;
+import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
+import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
+import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrainUtils;
 
 import java.util.HashMap;
 
@@ -29,26 +33,68 @@ public class FlatTerrain extends Terrain {
 
     }
 
+    private ComplexTerrain.Biome getBiomeOfVoxel(float heat) {
+        if (heat > 0.55f) {// 0.6 - 1
+            // We lower down the minimum temperature of desert to compensate for it only
+            // being at the bottom of the terrain
+            return ComplexTerrain.Biome.DESERT;
+        } else if (heat > 0.2f) {// 0.2 - 0.6
+            return ComplexTerrain.Biome.SAVANNAH;
+        } else if (heat > -0.2f) {// -0.2 - 0.2
+            return ComplexTerrain.Biome.DEFAULT;
+        } else if (heat > -0.6f) {// -0.6 - -0.2
+            return ComplexTerrain.Biome.JUNGLE;
+        } else {// -1 - -0.6
+            return ComplexTerrain.Biome.SNOWY;
+        }
+    }
+
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
+
         for (int cx = 0; cx < WIDTH; cx++) {
-            for (int cy = 0; cy < WIDTH; cy++) {
-                for (int cz = 0; cz < WIDTH; cz++) {
 
-                    int wy = cy + (chunk.position.y * Chunk.WIDTH);
+            for (int cz = 0; cz < WIDTH; cz++) {
+                for (int cy = 0; cy < WIDTH; cy++) {
 
-                    if (wy == MAX_SURFACE_HEIGHT) {
-                        chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
-                    } else if (wy > MAX_SURFACE_HEIGHT + 100) {
-                        chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_BEDROCK);
-                    } else if (wy > MAX_SURFACE_HEIGHT + 10) {
-                        chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
-                    } else if (wy > MAX_SURFACE_HEIGHT) {
-                        chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_DIRT);
+
+//                    switch (biome) {
+//                        case DEFAULT -> {
+//                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_GRASS);
+//                        }
+//                        case SNOWY -> {
+//                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_SNOW);
+//                        }
+//                        case DESERT -> {
+//                            if (alpha > 0) {
+//                                chunk.data.setBlock(x, y, z, MyGame.BLOCK_SAND);
+//                                session.setBlockWorld(wx, wy + 1, wz, MyGame.BLOCK_SAND);
+//                            } else {
+//                                chunk.data.setBlock(x, y, z, MyGame.BLOCK_RED_SAND);
+//                                session.setBlockWorld(wx, wy + 1, wz, MyGame.BLOCK_RED_SAND);
+//                            }
+//                        }
+//                        case SAVANNAH -> {
+//                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_DRY_GRASS);
+//                        }
+//                        case JUNGLE -> {
+//                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_JUNGLE_GRASS);
+//                        }
+
+
+                        int wy = cy + (chunk.position.y * Chunk.WIDTH);
+                        if (wy == MAX_SURFACE_HEIGHT) {
+                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
+                        } else if (wy > MAX_SURFACE_HEIGHT + 100) {
+                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_BEDROCK);
+                        } else if (wy > MAX_SURFACE_HEIGHT + 10) {
+                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
+                        } else if (wy > MAX_SURFACE_HEIGHT) {
+                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_DIRT);
+                        }
                     }
                 }
             }
         }
-    }
 
-}
+    }

@@ -93,7 +93,7 @@ public abstract class Vehicle extends Entity {
     public final void draw() {
         aabb.update();
         if (vehicle_move()) {
-            posHandler.update(GameScene.projection, GameScene.view);
+            posHandler.update();
             if (posHandler.collisionHandler.collisionData.sideCollision
                     && !posHandler.collisionHandler.collisionData.sideCollisionIsEntity
                     && jumpWithSideCollision) {

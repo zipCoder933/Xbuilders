@@ -277,7 +277,7 @@ public class UserControlledPlayer extends Player {
         }
 
         if (usePositionHandler) {
-            positionHandler.update(projection, view);
+            positionHandler.update();
             aabb.isSolid = true;
         } else {
             aabb.isSolid = false;

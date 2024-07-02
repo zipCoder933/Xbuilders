@@ -124,7 +124,7 @@ public abstract class Entity {
     public abstract void initializeOnDraw(ArrayList<Byte> bytes);
 
     public void updatePosition() {
-        aabb.update();
+        aabb.update(true);//IF the entity goes outside of a chunk, it will not be reassigned to another chunk and it will dissapear when moved too far
         chunkPosition.set(worldPosition);
 
         if (!worldPosition.equals(prevWorldPosition)) { //If the entity has moved

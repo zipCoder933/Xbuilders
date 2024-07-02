@@ -24,8 +24,11 @@ public class DefaultTerrain extends Terrain {
 
     public DefaultTerrain() {
         super("Default Terrain");
-        MIN_SURFACE_HEIGHT = 0;
-        MAX_SURFACE_HEIGHT = 257;
+        MIN_SURFACE_HEIGHT = 100;
+        MAX_SURFACE_HEIGHT = 230;
+
+        TERRAIN_MIN_HEIGHT = 100;
+
         fern = MyGame.BLOCK_FERN;
         deadBush = MyGame.BLOCK_DEAD_BUSH;
 
@@ -40,20 +43,9 @@ public class DefaultTerrain extends Terrain {
         caves = options.get("Caves");
     }
 
-    public int getTerrainHeight(int x, int z) {
-        return getTerrainHeight(valley(x, z), x, z);
-    }
-
-    public Biome getBiomeOfVoxel(int x, int y, int z) {
-        return getBiomeOfVoxel(
-                valley(x, z),
-                getHeat(x, z),
-                getTerrainHeight(x, z),
-                x, y, z);
-    }
-
-    final float treeOdds = 0.998f;
+    final float treeOdds = 1;
     final float jungleTreeOdds = 0.99f;
+    boolean makePlants = true;
 
     private void plantSod(GenSession session,
                           int x, int y, int z,
@@ -62,7 +54,7 @@ public class DefaultTerrain extends Terrain {
                           Chunk chunk) {
 
         float f = session.random.nextFloat();
-        boolean makePlants = true;
+
         if (f < 0.02 && wy < WATER_LEVEL - 1) {
             session.setBlockWorld(wx, wy - 1, wz, deadBush);
             makePlants = false;

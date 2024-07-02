@@ -1,5 +1,6 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -56,10 +57,9 @@ public class CollisionHandler {
         collisionBox = new AABB();
         customConsumer = box -> {
             processBox(box, false); // This is not part of the problem
-            if (DRAW_COLLISION_CANDIDATES
-                    && PositionHandler.sprojection != null && PositionHandler.sview != null) {
+            if (DRAW_COLLISION_CANDIDATES) {
                 driver.renderedBox.set(box);
-                driver.renderedBox.draw(PositionHandler.sprojection, PositionHandler.sview);
+                driver.renderedBox.draw(GameScene.projection, GameScene.view);
             }
         };
     }

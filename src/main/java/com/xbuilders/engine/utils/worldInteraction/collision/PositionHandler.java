@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
+import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
@@ -102,19 +104,14 @@ public class PositionHandler {
                 UserPlayerAABB, playerList);
     }
 
-    protected static Matrix4f sprojection, sview;
 
-    public void update(Matrix4f projection, Matrix4f view) {
-        if (sprojection == null) {
-            sprojection = projection;
-            sview = view;
-        }
+    public void update() {
         aabb.update(); //Update the aabb first
         if (DRAW_ENTITY_BOX) {
             renderedBox.setLineWidth(2);
             renderedBox.setColor(new Vector4f(1, 0, 0, 1));
             renderedBox.set(aabb.box);
-            renderedBox.draw(projection, view);
+            renderedBox.draw(GameScene.projection, GameScene.view);
         }
 
         if (!isFrozen()) {
@@ -137,11 +134,12 @@ public class PositionHandler {
             aabb.box.setZ(aabb.box.min.z + velocity.z);
         }
         if (collisionsEnabled) {
-            collisionHandler.resolveCollisions(projection, view);
+            collisionHandler.resolveCollisions(GameScene.projection, GameScene.view);
         }
         aabb.worldPosition.x = aabb.box.min.x - aabb.offset.x;
         aabb.worldPosition.y = aabb.box.min.y - aabb.offset.y;
         aabb.worldPosition.z = aabb.box.min.z - aabb.offset.z;
+        aabb.clamp(false);
     }
 
 

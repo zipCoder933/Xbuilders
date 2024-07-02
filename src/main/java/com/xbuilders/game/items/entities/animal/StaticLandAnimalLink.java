@@ -95,7 +95,7 @@ public class StaticLandAnimalLink extends EntityLink {
                 modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
                 link.body.draw(false);
 
-                pos.update(GameScene.projection, GameScene.view);
+                pos.update();
                 if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.01
                         || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.01 &&
                         !pos.collisionHandler.collisionData.sideCollisionIsEntity) {

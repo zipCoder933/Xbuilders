@@ -81,7 +81,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
             }
 
 
-            pos.update(GameScene.projection, GameScene.view);
+            pos.update();
             if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
                     || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02) {
                 if (System.currentTimeMillis() - lastJumpTime > 500) {

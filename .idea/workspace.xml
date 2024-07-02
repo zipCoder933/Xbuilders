@@ -7,14 +7,16 @@
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Todo list.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todo list.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/Theme.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/Theme.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/LoadWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/LoadWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/MenuHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/MenuHome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/NewWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/NewWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/TerrainSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/TerrainSelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/EntityAABB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/EntityAABB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/PositionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/PositionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/Terrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/WorldInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/WorldInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/QuadPedalEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/QuadPedalEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/StaticLandAnimalLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/StaticLandAnimalLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/Vehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/Vehicle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/FlatTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/FlatTerrain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/defaultTerrain/DefaultTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/defaultTerrain/DefaultTerrain.java" afterDir="false" />
     </list>
@@ -47,16 +49,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main Dev.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/sampw/OneDrive/Code Projects/Java/Projects/LwjglOpenglTutorials"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sampw/OneDrive/Code Projects/Java/Projects/LwjglOpenglTutorials&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xbuilders.game.items.entities.vehicle" />

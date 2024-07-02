@@ -20,8 +20,11 @@ public abstract class Terrain {
     public static final PerlinNoise perlinNoise = new PerlinNoise(0, 150);
     private int seed = 0;
     public final String name;
+
     public int MAX_SURFACE_HEIGHT = 10;
     public int MIN_SURFACE_HEIGHT = -100;
+    public int TERRAIN_MIN_HEIGHT = 0; //Anything above this is considered air
+
     public HashMap<String, Boolean> options = new HashMap<>();
     public int version = 0;
 

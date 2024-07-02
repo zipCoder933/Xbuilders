@@ -8,8 +8,10 @@ Xbuilders 3 performance is very clearly better than xb2.
 - finetune animal behaviors (dogs)
 - Fix entity collison objects being "soft" when they are stacked on top of each other
 - add line, sphere and replace tools
+- **Terrain optimization**
+  - Chunks that are below min surface height dont get terrain generaiton
+  - Add trees into terrian
 - add birds, fish and turtles
-- Chunks that are below min surface height dont get terrain generaiton
 - player must be able to jump underwater
 - **make inventory scroll faster by replacing the group with a grid of icons that change when scrolled**
 
