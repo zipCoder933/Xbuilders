@@ -11,6 +11,7 @@ import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import com.xbuilders.window.developmentTools.MemoryProfiler;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -115,8 +116,23 @@ public class Main extends NKWindow {
 
         //Create the window
         initGLFW();
-        startWindow("XBuilders", 850, 650);
-//        GLFW.glfwSwapInterval(0);//Disable vsync
+
+        //Get the actual size of the screen
+        int windowWidth = 920;
+        int windowHeight = 720;
+
+        if (settings.fullscreen) {
+            int screenWidth = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
+            int screenHeight = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
+            windowWidth = (int) (screenWidth * MathUtils.clamp(settings.fullscreenSizeMultiplier, 0.4, 1));
+            windowHeight = (int) (screenHeight * MathUtils.clamp(settings.fullscreenSizeMultiplier, 0.4, 1));
+            System.out.println("FULLSCREEN MODE. Window size: " + windowWidth + "x" + windowHeight);
+        }
+
+        startWindow("XBuilders", settings.fullscreen, windowWidth, windowHeight);
+
+//        GLFW.glfwSwapInterval(settings.vsync ? 1:0);//Disable vsync
+
         init();
         showWindow();
         System.out.println("Press 1 for System.GC()");

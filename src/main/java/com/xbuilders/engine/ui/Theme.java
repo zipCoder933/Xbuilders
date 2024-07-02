@@ -56,7 +56,7 @@ public class Theme {
     public static void initialize(NkContext context) {
         try (MemoryStack stack = stackPush()) {
             transparent = createColor(0, 0, 0, 0);
-            darkTransparent = createColor(0, 0, 0, 50);
+            darkTransparent = createColor(0, 0, 0, 70);
             backgroundColor = createColor(40, 40, 40, 255);
 
             buttonColor = createColor(20, 20, 20, 255);

@@ -16,7 +16,7 @@ public class EngineSettingsUtils {
         if (settingsFile.exists()) {
             Gson gson = new Gson();
             try {
-                String jsonString =Files.readString(settingsFile.toPath());
+                String jsonString = Files.readString(settingsFile.toPath());
                 return gson.fromJson(jsonString, EngineSettings.class);
             } catch (Exception e) {
                 ErrorHandler.handleFatalError(e);

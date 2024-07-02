@@ -38,7 +38,7 @@ public class Camera {
     public static final double TWO_PI = Math.PI * 2;
     public final static Vector3f up = new Vector3f(0f, -1f, 0f);
     private final float sensitivity = 0.15f;
-    private Point mouse;
+    private Point mouse = new Point(0, 0);
     private final IntBuffer windowX, windowY;
     private Robot robot;
     private final UserControlledPlayer player;
@@ -144,91 +144,90 @@ public class Camera {
 
     public void update(boolean holdMouse) {
         if (holdMouse) {
-
             hideMouse();
             mouse = MouseInfo.getPointerInfo().getLocation();
-            window.getWindowPos(windowX, windowY);
+        } else showMouse();
 
-            int x = windowX.get(0);
-            int y = windowY.get(0);
-            int w = window.getWidth();
-            int h = window.getHeight();
+        window.getWindowPos(windowX, windowY);
 
-            int middleX = w / 2 + x;
-            int middleY = h / 2 + y;
+        int x = windowX.get(0);
+        int y = windowY.get(0);
+        int w = window.getWidth();
+        int h = window.getHeight();
 
-            int deltaX = mouse.x - middleX;
-            int deltaY = mouse.y - middleY;
+        int middleX = w / 2 + x;
+        int middleY = h / 2 + y;
 
-            // The window worldPosition is a little off, could be being multiplied by some factor
-            robot.mouseMove(middleX, middleY); // target mouse
+        int deltaX = mouse.x - middleX;
+        int deltaY = mouse.y - middleY;
+
+        // The window worldPosition is a little off, could be being multiplied by some factor
+        if (holdMouse) robot.mouseMove(middleX, middleY); // target mouse
 
 
+        if (holdMouse) {
             if (getThirdPersonDist() > 0) {
                 pan += MathUtils.map(deltaX, 0, w, 0, TWO_PI) * sensitivity;
             } else {
                 pan -= MathUtils.map(deltaX, 0, w, 0, TWO_PI) * sensitivity;
             }
-
             tilt += MathUtils.map(deltaY, 0, h, 0, Math.PI) * sensitivity;
-            tilt = (float) MathUtils.clamp(tilt, -Math.PI / 2.01f, Math.PI / 2.01f);
-            if (tilt == HALF_PI) {
-                tilt += 0.001f;
-            }
-            calculateCameraOrientation();
+        }
 
-            //Update the camera position
-            if (getThirdPersonDist() == 0) {
-                cameraForward.set(Math.cos(pan), 0, Math.sin(pan));
-                right.set(Math.cos(pan - Math.PI / 2), 0, Math.sin(pan - Math.PI / 2));
+
+        tilt = (float) MathUtils.clamp(tilt, -Math.PI / 2.01f, Math.PI / 2.01f);
+        if (tilt == HALF_PI) {
+            tilt += 0.001f;
+        }
+        calculateCameraOrientation();
+
+        //Update the camera position
+        if (getThirdPersonDist() == 0) {
+            cameraForward.set(Math.cos(pan), 0, Math.sin(pan));
+            right.set(Math.cos(pan - Math.PI / 2), 0, Math.sin(pan - Math.PI / 2));
+        } else {
+            cameraForward.set(-Math.cos(pan), 0, -Math.sin(pan));
+            right.set(-Math.cos(pan - Math.PI / 2), 0, -Math.sin(pan - Math.PI / 2));
+        }
+
+        look.set(Math.cos(pan), Math.tan(tilt), Math.sin(pan));
+        right.normalize();
+        look.normalize();
+        cameraForward.normalize();
+        target.set(player.worldPosition);
+        position.set(player.worldPosition);
+
+        if (getThirdPersonDist() == 0) {
+            target.add(look);
+            cursorRaycastLook.set(look);
+        } else {
+            float thirdPersonDist2 = Math.abs(thirdPersonDist);
+            if (getThirdPersonDist() > 0) {
+                cameraRaycastLook.set(look);
             } else {
-                cameraForward.set(-Math.cos(pan), 0, -Math.sin(pan));
-                right.set(-Math.cos(pan - Math.PI / 2), 0, -Math.sin(pan - Math.PI / 2));
+                cameraRaycastLook.set(0).sub(look);
             }
+            RayCasting.traceSimpleRay(cameraViewRay, position, cameraRaycastLook, (int) thirdPersonDist2 + 1,
+                    ((block, forbiddenBlock, rx, ry, rz) -> {
+                        Block block2 = ItemList.getBlock(block);
+                        return block != BlockList.BLOCK_AIR.id &&
+                                block != forbiddenBlock
+                                && (block2.solid || block2.opaque);
+                    })
+                    , GameScene.world);
+            look.mul(MathUtils.clamp(cameraViewRay.distanceTraveled, 2, thirdPersonDist2) - 1);
 
-            look.set(Math.cos(pan), Math.tan(tilt), Math.sin(pan));
-            right.normalize();
-            look.normalize();
-            cameraForward.normalize();
-            target.set(player.worldPosition);
-            position.set(player.worldPosition);
 
-            if (getThirdPersonDist() == 0) {
-                target.add(look);
-                cursorRaycastLook.set(look);
+            if (getThirdPersonDist() > 0) {
+                position.add(look);
+                cursorRaycastLook.set(0).sub(look);
             } else {
-                float thirdPersonDist2 = Math.abs(thirdPersonDist);
-                if (getThirdPersonDist() > 0) {
-                    cameraRaycastLook.set(look);
-                } else {
-                    cameraRaycastLook.set(0).sub(look);
-                }
-                RayCasting.traceSimpleRay(cameraViewRay, position, cameraRaycastLook, (int) thirdPersonDist2 + 1,
-                        ((block, forbiddenBlock, rx, ry, rz) -> {
-                            Block block2 = ItemList.getBlock(block);
-                            return block != BlockList.BLOCK_AIR.id &&
-                                    block != forbiddenBlock
-                                    && (block2.solid || block2.opaque);
-                        })
-                        , GameScene.world);
-                look.mul(MathUtils.clamp(cameraViewRay.distanceTraveled, 2, thirdPersonDist2) - 1);
-
-
-                if (getThirdPersonDist() > 0) {
-                    position.add(look);
-                    cursorRaycastLook.set(0).sub(look);
-                } else {
-                    position.sub(look);
-                    cursorRaycastLook.set(0).add(look);
-                }
+                position.sub(look);
+                cursorRaycastLook.set(0).add(look);
             }
-
-            cursorRay.cast(position, cursorRaycastLook, GameScene.world);
-
-            view.identity().lookAt(position, target, up);
-
-        } else showMouse();
-
+        }
+        cursorRay.cast(position, cursorRaycastLook, GameScene.world);
+        view.identity().lookAt(position, target, up);
         //We must update the frustum AFTER we update the camera
         frustum.update(projection, view);
     }

@@ -8,6 +8,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.utils.IOUtil;
 import com.xbuilders.window.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -17,28 +18,12 @@ import javax.imageio.ImageIO;
 
 import org.joml.Vector2d;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.Callbacks;
-import org.lwjgl.glfw.GLFW;
-import static org.lwjgl.glfw.GLFW.GLFW_FOCUSED;
-import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
+import org.lwjgl.glfw.*;
 
-import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
-import static org.lwjgl.glfw.GLFW.glfwDefaultWindowHints;
-import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
-import static org.lwjgl.glfw.GLFW.glfwGetTime;
-import static org.lwjgl.glfw.GLFW.glfwGetWindowAttrib;
-import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
-import static org.lwjgl.glfw.GLFW.glfwInit;
-import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
-import static org.lwjgl.glfw.GLFW.glfwWindowHint;
-
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
-import org.lwjgl.glfw.GLFWImage;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.*;
 import org.lwjgl.stb.STBImage;
 
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_SEVERITY_LOW_ARB;
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_SOURCE_API_ARB;
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_TYPE_OTHER_ARB;
@@ -59,6 +44,7 @@ import org.lwjgl.glfw.GLFWImage;
 
 import static org.lwjgl.stb.STBImage.*;
 import static org.lwjgl.system.MemoryUtil.*;
+
 import org.lwjgl.system.Platform;
 
 /**
@@ -217,7 +203,7 @@ public abstract class BaseWindow {
 
     public void centerWindow() {
         // vidmode gets the info about the monitor
-        GLFWVidMode vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
+        GLFWVidMode vidmode = GLFW.glfwGetVideoMode(glfwGetPrimaryMonitor());
         try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1);
             IntBuffer pHeight = stack.mallocInt(1);
@@ -258,6 +244,7 @@ public abstract class BaseWindow {
     // </editor-fold>
 
     // //<editor-fold defaultstate="collapsed" desc="variables">
+
     /**
      * @return the id
      */
@@ -323,7 +310,7 @@ public abstract class BaseWindow {
 
     public static final Object windowCreateLock = new Object();
 
-    protected void startWindow(String title, int width, int height) {
+    protected void startWindow(String title, boolean fullscreen, int width, int height) {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
@@ -339,7 +326,16 @@ public abstract class BaseWindow {
         glfwWindowHint(GLFW.GLFW_OPENGL_DEBUG_CONTEXT, GLFW.GLFW_TRUE);
 
         synchronized (windowCreateLock) {
-            id = glfwCreateWindow(width, height, title, NULL, NULL);
+            if (fullscreen) {
+                // Get the primary monitor
+                long monitor = GLFW.glfwGetPrimaryMonitor();
+                // Set low resolution window size (initial size)
+                int low_res_x = width; // example value
+                int low_res_y = height; // example value
+                // Create the window
+                id = GLFW.glfwCreateWindow(low_res_x, low_res_y, title, monitor, NULL);
+            } else id = glfwCreateWindow(width, height, title, NULL, NULL);
+
             if (getId() == NULL) {
                 throw new RuntimeException("Failed to create the GLFW window \"" + title + "\"");
             }
@@ -348,6 +344,11 @@ public abstract class BaseWindow {
         glfwMakeContextCurrent(getId());
         // Init framebufferSizeCallback event
         initCallbacks();
+
+//        if (fullscreen) { //For some reason, resizing the window causes a crash
+//            // Set the window size to 1920x1080
+//            GLFW.glfwSetWindowSize(id, width, height);
+//        }
 
         // Enable V-sync (synchronizes the fps to the monitor update time,
         // this can cap the fps to the monitors refresh rate (e.g. 60fps))
@@ -395,7 +396,7 @@ public abstract class BaseWindow {
     }
 
     private static void debugCallback(int source, int type, int id, int severity, int length, long message,
-            long userParam) {
+                                      long userParam) {
         if (enableDebugMessages) {
             ByteBuffer buffer = MemoryUtil.memByteBuffer(message, length);
             String debugMessage = MemoryUtil.memASCII(buffer);

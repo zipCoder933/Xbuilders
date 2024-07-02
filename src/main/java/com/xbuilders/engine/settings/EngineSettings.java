@@ -9,9 +9,13 @@ import com.xbuilders.engine.utils.ResourceUtils;
 
 public class EngineSettings {
 
+
+
     public EngineSettings() { // First time setup
         viewDistance = GameScene.world.DEFAULT_VIEW_DISTANCE;
     }
 
     public int viewDistance;
+    public boolean fullscreen = false;
+    public float fullscreenSizeMultiplier = 1.0f;
 }

@@ -227,8 +227,8 @@ public abstract class NKWindow extends BaseWindow {
 
 
     @Override
-    public void startWindow(String title, int width, int height) {
-        super.startWindow(title, width, height);
+    public void startWindow(String title, boolean fullscreen, int width, int height) {
+        super.startWindow(title, fullscreen, width, height);
         ctx = setupWindow(getId());
         try {
             setupContext();

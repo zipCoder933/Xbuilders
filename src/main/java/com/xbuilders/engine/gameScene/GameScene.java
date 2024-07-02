@@ -267,7 +267,7 @@ public class GameScene implements WindowEvents {
         try {
             WCCf wcc2 = new WCCf();
             wcc2.set(player.worldPosition);
-            text += "\nPlayer pos: " + MiscUtils.printVector(player.worldPosition);
+            text += "Player pos: " + MiscUtils.printVector(player.worldPosition);
 
             if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {
 

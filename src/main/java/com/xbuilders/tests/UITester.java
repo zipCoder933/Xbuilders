@@ -35,7 +35,7 @@ public class UITester extends NKWindow {
     public UITester() throws IOException, Exception {
         super();
         BaseWindow.initGLFW();
-        startWindow("NUKLEAR TEST", 800, 600);
+        startWindow("NUKLEAR TEST", false, 800, 600);
 
         ResourceUtils.initialize(true);
         uiResources = new UIResources(this, ctx);
