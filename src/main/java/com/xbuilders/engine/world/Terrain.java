@@ -98,7 +98,11 @@ public abstract class Terrain {
 
     @Override
     public String toString() {
-        return "Terrain{" + "seed=" + seed + ", name=" + name + '}';
+        return "Terrain{" +
+                "version=" + version +
+                ", options=" + options +
+                ", name='" + name + '\'' +
+                ", seed=" + seed +
+                '}';
     }
-
 }

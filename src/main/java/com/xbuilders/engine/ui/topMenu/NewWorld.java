@@ -47,8 +47,8 @@ public class NewWorld implements MenuPage {
     NKWindow window;
     TerrainSelector terrainSelector;
 
-    final int boxWidth = 350;
-    final int boxHeight = 400;
+    final int boxWidth = 450;
+    final int boxHeight = 500;
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
@@ -68,28 +68,31 @@ public class NewWorld implements MenuPage {
             nk_layout_row_dynamic(ctx, 30, 1);
             terrainSelector.draw();
 
-            nk_style_set_font(ctx, menu.uires.font_12);
-            nk_layout_row_static(ctx, 30, 1, 1);
 
-            nk_layout_row_dynamic(ctx, 40, 1);
+            nk_layout_row_static(ctx, 20, 1, 1);
 
 
-//            //Start the terrain properties
             Terrain terrain = terrainSelector.getSelectedTerrain();
-//
-//            ByteBuffer bb = MemoryUtil.memAlloc(1);
-//            bb.put(0, (byte) 1);
-//
-//            nk_checkbox_label(ctx, "Test2", bb);
-//            if (nk_check_label(ctx, "Test", true)) {
-//
-//            }
 
+            if (!terrain.options.isEmpty()) { //Start the terrain properties
+                nk_layout_row_dynamic(ctx, 20, 1);
+                nk_label(ctx, "World Options", NK_TEXT_ALIGN_LEFT);
+                nk_layout_row_dynamic(ctx, 20, 1);
+                terrain.options.forEach((key, value) -> {
+                    ByteBuffer active = stack.malloc(1);
+                    active.put(0, value ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
+                    if (nk_checkbox_label(ctx, " " + key, active)) {
+                        terrain.options.put(key, !value);
+                        System.out.println(terrain.options);
+                    }
+                });
+            }
 
-            nk_layout_row_static(ctx, 10, 1, 1);
+            nk_style_set_font(ctx, menu.uires.font_12);
+            nk_layout_row_static(ctx, 20, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 1);
             if (nk_button_label(ctx, "CREATE")) {
-                if (makeNewWorld(name.getValueAsString(), 0, terrain.name, 0)) {
+                if (makeNewWorld(name.getValueAsString(), 0, terrain, 0)) {
                     menu.setPage(Page.LOAD_WORLD);
                 }
             }
@@ -102,9 +105,11 @@ public class NewWorld implements MenuPage {
 
     @Override
     public void onOpen() {
+        name.setValueAsString("New World");
+        terrainSelector.reset();
     }
 
-    private boolean makeNewWorld(String name, int size, String terrain, int seed) {
+    private boolean makeNewWorld(String name, int size, Terrain terrain, int seed) {
         try {
             WorldInfo info = new WorldInfo();
             info.makeNew(name, size, terrain, seed);

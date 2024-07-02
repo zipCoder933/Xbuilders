@@ -116,10 +116,12 @@ public class WorldInfo {
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);
     }
 
-    public void makeNew(String name, int size, String terrain, int seed) {
+    public void makeNew(String name, int size, Terrain  terrain, int seed) {
         this.name = name;
         this.infoFile.size = size;
-        this.infoFile.terrain = terrain;
+        this.infoFile.terrain = terrain.name;
+        this.infoFile.terrainVersion = terrain.version;
+        this.infoFile.terrainOptions = new HashMap<>(terrain.options);
         this.infoFile.seed = seed == 0 ? (int) (Math.random() * Integer.MAX_VALUE) : seed;
         this.directory = WorldsHandler.worldFile(name);
     }
@@ -131,9 +133,7 @@ public class WorldInfo {
 
     public String getDetails() {
         return "Name: " + name + "\n"
-                + "Type: " + infoFile.terrain + "   " +
-
-                (infoFile.terrainOptions != null ? infoFile.terrainOptions.toString() : "") + "\n"
+                + "Type: " + infoFile.terrain + "\n"
                 + "Size: " + getSize() + "\n"
                 + "Last saved:\n" + getLastSaved() + "\n"
                 + "Seed: " + infoFile.seed;

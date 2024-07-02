@@ -8,6 +8,7 @@ package com.xbuilders.engine.ui.topMenu;
  * Copyright LWJGL. All rights reserved.
  * License terms: https://www.lwjgl.org/license
  */
+
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.game.Main;
@@ -17,6 +18,7 @@ import org.lwjgl.system.*;
 
 import java.nio.*;
 import java.text.*;
+
 import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -52,7 +54,7 @@ public class MenuHome implements MenuPage {
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, menu.uires.font_8);
             nk_layout_row_dynamic(ctx, 40, 1);
-            nk_label(ctx, "Devmode: "+ Main.devMode, NK_TEXT_CENTERED);
+            nk_label(ctx, "Devmode: " + Main.devMode, NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, menu.uires.font_12);
 
@@ -74,10 +76,16 @@ public class MenuHome implements MenuPage {
 //                menu.setPage(Page.JOIN_MULTIPLAYER);
 //            }
 
+//            nk_layout_row_static(ctx, 40, 1, 1);
+//            nk_layout_row_dynamic(ctx, 40, 1);
+//            if (nk_button_label(ctx, "SETTINGS")) {
+//                menu.setPage(Page.SETTINGS);
+//            }
+
             nk_layout_row_static(ctx, 40, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 1);
-            if (nk_button_label(ctx, "SETTINGS")) {
-                menu.setPage(Page.SETTINGS);
+            if (nk_button_label(ctx, "QUIT")) {
+                System.exit(0);
             }
         }
         nk_end(ctx);

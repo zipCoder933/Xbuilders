@@ -28,6 +28,10 @@ public class TerrainSelector {
         return terrainList.get(selectedTerrain);
     }
 
+    public void reset() {
+        selectedTerrain = 0;
+    }
+
     public void draw() {
         if (nk_button_label(ctx, terrainList.get(selectedTerrain).name)) {
             selectedTerrain++;

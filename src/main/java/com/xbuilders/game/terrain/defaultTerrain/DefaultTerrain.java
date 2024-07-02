@@ -22,24 +22,22 @@ public class DefaultTerrain extends Terrain {
     boolean caves = false;
 //    boolean mountains = true;
 
-    public DefaultTerrain(boolean caves) {
-        super("Default Terrain" + (caves ? " + Caves" : ""));
+    public DefaultTerrain() {
+        super("Default Terrain");
         MIN_SURFACE_HEIGHT = 0;
         MAX_SURFACE_HEIGHT = 257;
-        this.caves = caves;
         fern = MyGame.BLOCK_FERN;
         deadBush = MyGame.BLOCK_DEAD_BUSH;
-        // utils = new DefaultTerrainUtils(this, WATER_LEVEL);
-        options.put("Mountains", true);
-        options.put("Nimals",false);
+
         options.put("Caves", true);
+        version = 0;
     }
 
 
 
     @Override
     public void loadWorld(HashMap<String, Boolean> options, int version) {
-
+        caves = options.get("Caves");
     }
 
     public int getTerrainHeight(int x, int z) {
@@ -219,7 +217,7 @@ public class DefaultTerrain extends Terrain {
     }
 
     public Biome getBiomeOfVoxel(float valley, float heat, int heightmap, final int wx, final int wy, final int wz) {
-        if (wy > WATER_LEVEL - 10) {
+        if (wy > WATER_LEVEL - (8 + (heat*4))) {
             return Biome.BEACH;
         }
 

@@ -20,13 +20,8 @@ public class FlatTerrain extends Terrain {
 
     public FlatTerrain() {
         super("Flat Terrain");
-        MIN_SURFACE_HEIGHT = 200;
-        MAX_SURFACE_HEIGHT = 200;
-    }
-    public FlatTerrain(int surfaceHeight) {
-        super("Custom Flat Terrain");
-        MIN_SURFACE_HEIGHT = surfaceHeight;
-        MAX_SURFACE_HEIGHT = surfaceHeight;
+        MIN_SURFACE_HEIGHT = 220;
+        MAX_SURFACE_HEIGHT = 220;
     }
 
     @Override
@@ -44,6 +39,8 @@ public class FlatTerrain extends Terrain {
 
                     if (wy == MAX_SURFACE_HEIGHT) {
                         chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
+                    } else if (wy > MAX_SURFACE_HEIGHT + 100) {
+                        chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_BEDROCK);
                     } else if (wy > MAX_SURFACE_HEIGHT + 10) {
                         chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
                     } else if (wy > MAX_SURFACE_HEIGHT) {

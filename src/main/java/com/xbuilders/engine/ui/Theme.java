@@ -81,8 +81,8 @@ public class Theme {
             colors.put(NK_COLOR_BUTTON_HOVER, buttonHover);
             colors.put(NK_COLOR_BUTTON_ACTIVE, blue);
 
-            colors.put(NK_COLOR_TOGGLE, gray);
-            colors.put(NK_COLOR_TOGGLE_HOVER, gray);
+            colors.put(NK_COLOR_TOGGLE, white);
+            colors.put(NK_COLOR_TOGGLE_HOVER, blue);
             colors.put(NK_COLOR_TOGGLE_CURSOR, gray);
             colors.put(NK_COLOR_SELECT, gray);
             colors.put(NK_COLOR_SELECT_ACTIVE, white);

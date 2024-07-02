@@ -35,6 +35,7 @@ import com.xbuilders.game.items.tools.Hoe;
 import com.xbuilders.game.items.tools.Saddle;
 import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
+import com.xbuilders.game.terrain.FlatTerrain;
 import com.xbuilders.game.terrain.TestTerrain;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrain;
@@ -318,17 +319,17 @@ public class MyGame extends Game {
         synthesizeBlocks(blocks);
         blockList = ArrayUtils.concatenateArrays(blockList, blocks);
 
-        HashMap<Short,Block> reassignments = new HashMap<>();
+        HashMap<Short, Block> reassignments = new HashMap<>();
         reassignBlocks(blocks, reassignments);
-        for(int i = 0; i < blockList.length; i++) { //Reassign blocks if we want to use actual classes
-            if(reassignments.containsKey(blockList[i].id)) {
+        for (int i = 0; i < blockList.length; i++) { //Reassign blocks if we want to use actual classes
+            if (reassignments.containsKey(blockList[i].id)) {
                 System.out.println("Reassigned Block " + blockList[i].toString());
                 short originalID = blockList[i].id;
                 blockList[i] = reassignments.get(blockList[i].id);
-                if(blockList[i].id != originalID) throw new RuntimeException("Reassigned Block ID " + originalID + " changed to " + blockList[i].id);
+                if (blockList[i].id != originalID)
+                    throw new RuntimeException("Reassigned Block ID " + originalID + " changed to " + blockList[i].id);
             }
         }
-
 
 
         EntityLink[] entityList = new EntityLink[]{
@@ -421,8 +422,9 @@ public class MyGame extends Game {
         //Add terrains
 //        terrainsList.add(new TestTerrain());
 //        terrainsList.add(new BasicTerrain());
-        terrainsList.add(new DefaultTerrain(true));
-        terrainsList.add(new DevTerrain());
+        terrainsList.add(new DefaultTerrain());
+        terrainsList.add(new FlatTerrain());
+        if (Main.devMode) terrainsList.add(new DevTerrain());
 //        terrainsList.add(new ComplexTerrain());
 
         //Set items AFTER setting block types
