@@ -184,7 +184,7 @@ public class GameScene implements WindowEvents {
         Main.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
         GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
-        holdMouse = !ui.menusAreOpen() && window.windowIsFocused();
+        holdMouse = ui.canHoldMouse() && window.windowIsFocused();
         Main.frameTester.endProcess("Clearing buffer");
 
         glEnable(GL_DEPTH_TEST);   // Enable depth test
@@ -323,6 +323,6 @@ public class GameScene implements WindowEvents {
             ui.setInfoText(text);
         } else if (Main.devMode || debugText) {
             ui.setInfoText(text);
-        }
+        }else ui.setInfoText(null);
     }
 }

@@ -8,23 +8,23 @@ package com.xbuilders.engine.ui.topMenu;
  * Copyright LWJGL. All rights reserved.
  * License terms: https://www.lwjgl.org/license
  */
+
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.network.PlayerServer;
-import com.xbuilders.engine.utils.network.server.NetworkUtils;
-import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.IntBuffer;
+
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
+
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -41,7 +41,7 @@ public class Multiplayer implements MenuPage {
     }
 
     public Multiplayer(NkContext ctx, NKWindow window, TopMenu menu,
-            UserControlledPlayer player, boolean hosting) {
+                       UserControlledPlayer player, boolean hosting) {
         this.ctx = ctx;
         this.window = window;
         this.menu = menu;
@@ -92,8 +92,8 @@ public class Multiplayer implements MenuPage {
             row("My Name:");
             nameBox.render(ctx);
 
-            row("Player Type:");
-            nk_button_label(ctx, "Bob");
+//            row("Player Type:");//TODO: Add this feature later
+//            nk_button_label(ctx, "Default");
 
             nk_layout_row_static(ctx, 75, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 2);
@@ -105,7 +105,10 @@ public class Multiplayer implements MenuPage {
                 final int portVal = (int) portBox.getValueAsNumber();
                 String playerName = nameBox.getValueAsString();
                 String ipAdress = this.ipAdressBox.getValueAsString();
-                joinMultiplayer(portVal, playerName, ipAdress);
+
+                NetworkJoinRequest req =  new NetworkJoinRequest(hosting, portVal, playerName, ipAdress);
+                System.out.println("Sending join request: " + req);
+
             }
         }
         nk_end(ctx);
@@ -153,50 +156,52 @@ public class Multiplayer implements MenuPage {
         return worldFile.exists();
     }
 
-    private void joinMultiplayer(int portVal, String playerName, String ipAdress) {
-        ProgressData prog = new ProgressData(hosting ? "Hosting multiplayer at " + player.server.getIpAdress() : "Joining multiplayer...");
-        try {
-            player.name = playerName;
-            player.saveModel();
-
-            menu.progress.enableOnSeparateThread(prog, new Thread() {
-                public void run() {
-                    try {
-                        if (hosting) {
-                            prog.setTask("Waiting for clients to join...");
-                            player.server.hostGame(portVal);
-                            player.server.clientJoinedEvent(((newClient, newPlayer) -> {
-                                if (hosting) {
-                                    String worldInfo = world.getName() + "\n" + world.getInfoFileAsJson();
-                                    newClient.sendData(NetworkUtils.formatMessage(WORLD_INFO, worldInfo));
-                                }
-                            }));
-                            player.server.clientDataEvent((client, player, header, data) -> {
-
-                            });
-                        } else {
-                            player.server.connectToGame(ipAdress, portVal);
-                            player.server.clientJoinedEvent(((newClient, newPlayer) -> {
-                            }));
-                            player.server.clientDataEvent((client, player, header, data) -> {
-                                String message = NetworkUtils.getMessageAsString(data);
-                                prog.setTask("Message from server: " + message);
-                                if (header == WORLD_INFO) {
-//                                    WorldInfo newWorld =
-//                                    WorldsHandler.makeNewWorld(newWorld);
-                                }
-                            });
-                        }
-                    } catch (Exception ex) {
-                        prog.abort();
-                        ErrorHandler.handleFatalError(ex);
-                    }
-                }
-            });
-        } catch (IOException ex) {
-            prog.abort();
-            ErrorHandler.handleFatalError(ex);
-        }
-    }
+//    private void joinMultiplayer(boolean hosting, int portVal, String playerName, String ipAdress) {
+//        //TODO: Make a network request object containing all of this info
+//     new NetworkJoinRequest(hosting, portVal, playerName, ipAdress);
+////        ProgressData prog = new ProgressData(this.hosting ? "Hosting multiplayer at " + player.server.getIpAdress() : "Joining multiplayer...");
+////        try {
+////            player.name = playerName;
+////            player.saveModel();
+////
+////            menu.progress.enableOnSeparateThread(prog, new Thread() {
+////                public void run() {
+////                    try {
+////                        if (Multiplayer.this.hosting) {
+////                            prog.setTask("Waiting for clients to join...");
+////                            player.server.hostGame(portVal);
+////                            player.server.clientJoinedEvent(((newClient, newPlayer) -> {
+////                                if (Multiplayer.this.hosting) {
+////                                    String worldInfo = world.getName() + "\n" + world.getInfoFileAsJson();
+////                                    newClient.sendData(NetworkUtils.formatMessage(WORLD_INFO, worldInfo));
+////                                }
+////                            }));
+////                            player.server.clientDataEvent((client, player, header, data) -> {
+////
+////                            });
+////                        } else {
+////                            player.server.connectToGame(ipAdress, portVal);
+////                            player.server.clientJoinedEvent(((newClient, newPlayer) -> {
+////                            }));
+////                            player.server.clientDataEvent((client, player, header, data) -> {
+////                                String message = NetworkUtils.getMessageAsString(data);
+////                                prog.setTask("Message from server: " + message);
+////                                if (header == WORLD_INFO) {
+//////                                    WorldInfo newWorld =
+//////                                    WorldsHandler.makeNewWorld(newWorld);
+////                                }
+////                            });
+////                        }
+////                    } catch (Exception ex) {
+////                        prog.abort();
+////                        ErrorHandler.handleFatalError(ex);
+////                    }
+////                }
+////            });
+////        } catch (IOException ex) {
+////            prog.abort();
+////            ErrorHandler.handleFatalError(ex);
+////        }
+//    }
 
 }

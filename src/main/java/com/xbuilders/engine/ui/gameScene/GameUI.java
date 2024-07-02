@@ -63,7 +63,7 @@ public class GameUI {
     private boolean gameMenuVisible = true;
 
     public boolean menusAreOpen() {
-        return gameMenuVisible || game.menusAreOpen();
+        return gameMenuVisible || game.menusAreOpen() || infoBox.isActive();
     }
 
     NkContext ctx;
@@ -126,7 +126,8 @@ public class GameUI {
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        game.uiMouseScrollEvent(scroll, xoffset, yoffset);
+        if (infoBox.mouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else game.uiMouseScrollEvent(scroll, xoffset, yoffset);
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
@@ -134,6 +135,7 @@ public class GameUI {
             switch (key) {
                 case GLFW.GLFW_KEY_ESCAPE -> {
                     gameMenuVisible = !gameMenuVisible;
+                    infoBox.escKey();
                     return true;
                 }
                 case GLFW.GLFW_KEY_F4 -> {
@@ -142,6 +144,9 @@ public class GameUI {
                 }
             }
         }
+        if (infoBox.keyEvent(key, scancode, action, mods)) {
+            return true;
+        }
         return game.uiKeyEvent(key, scancode, action, mods);
     }
 
@@ -149,4 +154,9 @@ public class GameUI {
         return game.uiMouseButtonEvent(button, action, mods);
     }
 
+    public boolean canHoldMouse() {
+        if (menusAreOpen()) return false;
+        else if (!infoBox.canHoldMouse()) return false;
+        return true;
+    }
 }

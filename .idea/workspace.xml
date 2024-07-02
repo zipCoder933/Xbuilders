@@ -10,30 +10,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/NetworkJoinRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Todo list.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todo list.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Xbuilders3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Xbuilders3.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/CursorRay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/CursorRay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/Theme.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/Theme.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/Terrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/Chunk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/ChunkSunlightGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/ChunkSunlightGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/ChunkSunlightUtilsWithLightInitialPropagation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/ChunkSunlightUtilsWithLightInitialPropagation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/light/SunlightUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/light/SunlightUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Hotbar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/LineTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/LineTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/PasteTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/PasteTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/InfoText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/InfoText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/Multiplayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/Multiplayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -70,13 +65,16 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xbuilders.engine.ui.topMenu" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xbuilders.game.items.entities.vehicle" />
       <recent name="com.xbuilders.game.items.entities" />
       <recent name="com.xbuilders.game.blockTools.tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main Dev">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main Dev" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.game.Main" />
       <module name="Xbuilders3" />

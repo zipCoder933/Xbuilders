@@ -50,12 +50,13 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  */
 public class Theme {
 
-    public static NkColor transparent, backgroundColor, buttonColor, buttonHover,
+    public static NkColor transparent,darkTransparent, backgroundColor, buttonColor, buttonHover,
             gray,lightGray, blue, darkBlue, white, black;
 
     public static void initialize(NkContext context) {
         try (MemoryStack stack = stackPush()) {
             transparent = createColor(0, 0, 0, 0);
+            darkTransparent = createColor(0, 0, 0, 50);
             backgroundColor = createColor(40, 40, 40, 255);
 
             buttonColor = createColor(20, 20, 20, 255);
