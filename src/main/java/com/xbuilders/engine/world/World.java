@@ -210,13 +210,13 @@ public class World {
         if (!unusedChunks.isEmpty()) {
             chunk = unusedChunks.remove(unusedChunks.size() - 1);
         } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = new Chunk(blockTextureID);
+            chunk = new Chunk(blockTextureID, info, terrain);
         }
         if (chunk != null) {
             float distToPlayer = MathUtils.dist(
                     coords.x, coords.y, coords.z,
                     lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
-            chunk.init(coords, info, terrain, futureChunks.remove(coords), distToPlayer, isTopLevel);
+            chunk.init(coords, futureChunks.remove(coords), distToPlayer, isTopLevel);
             this.chunks.put(coords, chunk);
             this.sortedChunksToRender.remove(chunk);
             needsSorting.set(true);
@@ -244,7 +244,7 @@ public class World {
         this.terrain = Main.game.getTerrainFromInfo(info);
         if (terrain == null) {
             ErrorHandler.createPopupWindow("Terrain not found",
-                    "Terrain "+info.getTerrain()+" not found");
+                    "Terrain " + info.getTerrain() + " not found");
             return false;
         }
         System.out.println("Loaded terrain: " + this.terrain.toString());

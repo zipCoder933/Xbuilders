@@ -45,7 +45,7 @@ public abstract class Terrain {
 
     public abstract void loadWorld(HashMap<String, Boolean> options, int version);
 
-    public boolean isBelowTerrainMinHeight(Vector3i position) {
+    public boolean isBelowMinHeight(Vector3i position) {
         //If the bottom of the chunk is below the minimum height, we need to generate the terrain
         return (position.y * Chunk.HEIGHT)+Chunk.HEIGHT >= TERRAIN_MIN_HEIGHT;
     }

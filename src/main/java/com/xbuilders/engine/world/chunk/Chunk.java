@@ -82,19 +82,20 @@ public class Chunk {
     WorldInfo info;
     FutureChunk futureChunk;
 
-    public Chunk(int texture) {
+    public Chunk(int texture, WorldInfo info, Terrain terrain) {
         this.position = new Vector3i();
         mvp = new MVP();
         data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
-        meshes = new ChunkMeshBundle(texture, this);
+        meshes = new ChunkMeshBundle(texture, this, terrain);
         modelMatrix = new Matrix4f();
         aabb = new AABB();
         neghbors = new NeighborInformation();
         entities = new ChunkEntitySet(this);
+        this.info = info;
+        this.terrain = terrain;
     }
 
-    public void init(Vector3i position, WorldInfo info,
-                     Terrain terrain, FutureChunk futureChunk,
+    public void init(Vector3i position, FutureChunk futureChunk,
                      float distToPlayer, boolean isTopChunk) {
         entities.clear();
         data.clear();
@@ -112,11 +113,10 @@ public class Chunk {
                 WIDTH, HEIGHT, WIDTH);
         meshes.init(aabb);
         neghbors.init(position);
-        // Load the chunk
 
-        this.info = info;
-        this.terrain = terrain;
-        this.distToPlayer = distToPlayer;
+
+
+        this.distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
 
         World.frameTester.startProcess();
@@ -143,7 +143,7 @@ public class Chunk {
             if (f.exists()) {
                 ChunkSavingLoadingUtils.readChunkFromFile(this, f);
                 needsSunGeneration = false;
-            } else if (terrain.isBelowTerrainMinHeight(this.position)) {
+            } else if (terrain.isBelowMinHeight(this.position)) {
                 GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
             }
             if (futureChunk != null) {

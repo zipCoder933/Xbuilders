@@ -13,6 +13,7 @@ import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.occlusionCulling.BoundingBoxMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public class ChunkMeshBundle {
     final TraditionalVertexSet transBuffer = new TraditionalVertexSet();
 
     Chunk chunk;
+    Terrain terrain;
 
     Mesher naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
     Mesher greedyMesher;
@@ -79,9 +81,9 @@ public class ChunkMeshBundle {
     public final CompactOcclusionMesh opaqueMesh;
     public final CompactMesh transMesh;
 
-    public ChunkMeshBundle(int texture, Chunk chunk) {
+    public ChunkMeshBundle(int texture, Chunk chunk, Terrain terrain) {
         this.chunk = chunk;
-
+        this.terrain = terrain;
         boundMesh = new BoundingBoxMesh();
         opaqueMesh = new CompactOcclusionMesh(boundMesh);
         opaqueMesh.setTextureID(texture);
@@ -111,10 +113,12 @@ public class ChunkMeshBundle {
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
-                naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
+                if (terrain.isBelowMinHeight(chunk.position)) {
+                    greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
+                    naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
+                }
 
-                opaqueBuffer.makeVertexSet(); //Buffer will automatically not make verteces if it is empty
+                opaqueBuffer.makeVertexSet(); //Buffer wont make verteces if it is empty
                 transBuffer.makeVertexSet();
 
             }
