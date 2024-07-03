@@ -32,6 +32,9 @@ Xbuilders 3 performance is very clearly better than xb2.
    * FOR THE MESH: when propagating, water is in range from 7 to 0, the height of the block in the liqid mesh is equal to its value but averaged across all 4 neighbors per vertex
 
 ## simple multiplayer
+**We can use the same IP adresses with different ports to connect 2 servers on the same computer!
+(See the test/networkTester file for an example)**
+
 1. lets start by getting all players to be able to connect and disconnect with ease
 2. setup a simple chat interface and allow for basic binary messages to be easily sent and recieved
 

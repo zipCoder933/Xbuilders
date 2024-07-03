@@ -66,7 +66,7 @@ public class PlayerServer {
         players = new HashMap<>();
         this.thisPlayer = thisPlayer;
 
-        server = new Server(false) {
+        server = new Server() {
             @Override
             public boolean newClient(NetworkSocket newClient) {
                 return clientJoined(newClient, isHosting);
@@ -207,7 +207,7 @@ public class PlayerServer {
     public void hostGame(int port) throws IOException {
         print("Hosting game at " + port);
         isHosting = true;
-        server.start(port);
+        server.startServer(port);
     }
 
     private void connectToServer(String ipAdress, int port) {
@@ -220,7 +220,7 @@ public class PlayerServer {
 
     public void connectToGame(String ipAdress, int port) throws IOException {
         print("Joining " + ipAdress + " at " + port);
-        server.start(port);
+        server.startServer(port);
         isHosting = false;
         connectToServer(ipAdress, port);
     }

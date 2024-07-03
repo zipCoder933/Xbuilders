@@ -6,13 +6,11 @@ package com.xbuilders.engine.utils.network.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 
 /**
- *
  * @author zipCoder933
  */
-abstract class Base_ServerSocket {
+class XBServerSocket {
 
     /**
      * @return the port
@@ -21,20 +19,30 @@ abstract class Base_ServerSocket {
         return port;
     }
 
+    java.net.ServerSocket serverSocket;
     private int port;
 
-    public Base_ServerSocket(int port) throws IOException {
+    public XBServerSocket(int port) throws IOException {
         if (port < 1024) {
             throw new IOException("Port number must be higher than 1024");
         }
         this.port = port;
+        serverSocket = new java.net.ServerSocket(port);
     }
 
-    public abstract NetworkSocket accept() throws IOException;
+    public NetworkSocket accept() throws IOException {
+        return new NetworkSocket(serverSocket.accept());
+    }
 
-    public abstract NetworkSocket addConnection(InetSocketAddress address) throws IOException;
+    public NetworkSocket addConnection(InetSocketAddress address) throws IOException {
+        return new NetworkSocket(address);
+    }
 
-    public abstract boolean isClosed();
+    public boolean isClosed() {
+        return serverSocket.isClosed();
+    }
 
-    public abstract void close() throws IOException;
+    public void close() throws IOException {
+        serverSocket.close();
+    }
 }

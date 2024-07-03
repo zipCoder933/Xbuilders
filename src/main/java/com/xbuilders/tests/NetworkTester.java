@@ -6,6 +6,7 @@ package com.xbuilders.tests;
 
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.utils.network.server.Server;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
@@ -13,27 +14,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author zipCoder933
  */
 public class NetworkTester {
 
-    static class Server1 extends Server {
+    static class MyServer extends Server {
 
-        public Server1() {
-            super(true);
+        final String serverName;
+
+        public MyServer(String serverName2) {
+            super();
+            serverName = serverName2;
         }
 
         private void print(String str) {
-            System.out.println(this.getIpAdress() + ":\t " + str);
+            System.out.println(serverName + ":\t " + str);
         }
 
         @Override
         public boolean newClient(NetworkSocket newClient) {
             try {
                 print("New client: " + newClient);
-                newClient.sendData("Hello world!".getBytes());
-
+                newClient.sendString("(From "+serverName+"), Welcome \"" + newClient.getHostAddress() + "\"!");
             } catch (IOException ex) {
                 Logger.getLogger(NetworkTester.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -48,15 +50,33 @@ public class NetworkTester {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Server1 s1 = new Server1();
-        System.out.println("IP: " + s1.getIpAdress());
-        Scanner scanner = new Scanner(System.in);
-//        Server1 s2 = new Server1();
 
-        s1.start(8080);
-//        s2.start(8080);
-        System.out.println("Enter IP to connect");
-        s1.addClient(new InetSocketAddress(scanner.nextLine(), 8080));
+        /**
+         * In simulation we cannot have 2 servers with the same ip adress and the same port, so in order to get around
+         * this, each server has its own port, and servers connect to each other's ports with the same IP adresss
+         */
+
+        Scanner scanner = new Scanner(System.in);
+
+        MyServer s1 = new MyServer("S1");
+        s1.print(s1.getIpAdress());
+
+        MyServer s2 = new MyServer("S2");
+        s2.print(s2.getIpAdress());
+
+        final int server1Port = 8080;
+        final int server2Port = 8081;
+
+        s1.startServer(server1Port);//This servers port is 8081
+        s2.startServer(server2Port);//This servers port is 8080
+
+        Thread.sleep(1000);
+        s1.print("Connecting to S2");
+        s1.addClient(new InetSocketAddress(s2.getIpAdress(), server2Port));
+
+        Thread.sleep(1000);
+        s2.print("Connecting to S1");
+        s2.addClient(new InetSocketAddress(s1.getIpAdress(), server1Port));
 
 //
 //        System.out.println("Network tester");

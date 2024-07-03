@@ -103,6 +103,12 @@ public class NetworkSocket {
         outputStream.write(data);
     }
 
+    public void sendString(String str) throws IOException {
+        byte[] data = str.getBytes();
+        outputStream.writeInt(data.length);
+        outputStream.write(data);
+    }
+
     @Override
     public String toString() {
         return "NetworkSocket{"
