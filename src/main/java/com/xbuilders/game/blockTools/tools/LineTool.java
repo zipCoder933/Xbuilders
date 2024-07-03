@@ -32,7 +32,9 @@ public class LineTool extends BlockTool {
 
     @Override
     public boolean setBlock(Block item, CursorRay ray, boolean isCreationMode) {
-        Vector3i pos = new Vector3i(ray.getHitPosPlusNormal());
+        Vector3i pos = new Vector3i(ray.getHitPos());
+        if (length >= 0) pos.add(ray.getHitNormalAsInt());
+
         for (int i = 0; i <= Math.abs(length); i++) {
 
             if (isCreationMode) GameScene.player.setBlock(item.id, pos.x, pos.y, pos.z);
@@ -55,9 +57,9 @@ public class LineTool extends BlockTool {
     }
 
     public boolean drawCursor(CursorRay ray, Matrix4f proj, Matrix4f view) {
+        start.set(ray.getHitPos());
+        if (length >= 0) start.add(ray.getHitNormalAsInt());
 
-
-        start.set(ray.getHitPosPlusNormal());
         end.set(ray.getHitNormalAsInt()).mul(length).add(start);
         aabb.min.set(
                 Math.min(start.x, end.x),

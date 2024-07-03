@@ -34,7 +34,7 @@ public abstract class Animal extends Entity {
 
 
     public boolean playerHasAnimalFeed() {
-        Item heldItem = Main.game.getHeldItem();
+        Item heldItem = Main.game.getSelectedItem();
         return heldItem != null && heldItem.equals(MyGame.TOOL_ANIMAL_FEED);
     }
 

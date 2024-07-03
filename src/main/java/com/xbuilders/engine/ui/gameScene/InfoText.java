@@ -108,7 +108,7 @@ public class InfoText extends GameUIElement {
                 }
             }
         }
-        return false;
+        return box.isFocused();//the text box could press any key
     }
 
 

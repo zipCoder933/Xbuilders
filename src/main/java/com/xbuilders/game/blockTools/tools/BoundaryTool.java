@@ -41,9 +41,12 @@ public class BoundaryTool extends BlockTool {
 
 
     private void blockBoundarySetEvent(AABB aabb, boolean created) {
-        if (Main.game.getSelectedItem() == null || Main.game.getSelectedItem().getType() != ItemType.BLOCK) return;
-        Block block = (Block) Main.game.getSelectedItem();
-        if (!created) block = BlockList.BLOCK_AIR;
+
+        Block block = BlockList.BLOCK_AIR;
+        if (created){
+            if (Main.game.getSelectedItem() == null || Main.game.getSelectedItem().getType() != ItemType.BLOCK) return;
+            block = (Block) Main.game.getSelectedItem();
+        }
 
         HashSet<Chunk> foundChunks = new HashSet<Chunk>();
         WCCi wcc = new WCCi();

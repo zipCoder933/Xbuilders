@@ -70,10 +70,6 @@ public class MyGame extends Game {
         return blockTools.getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 
-    public Item getHeldItem() {
-        return hotbar.getSelectedItem();
-    }
-
     public static class GameInfo {
         public final Item[] playerBackpack;
 
@@ -96,7 +92,7 @@ public class MyGame extends Game {
 
     @Override
     public Item getSelectedItem() {
-        return gameInfo.playerBackpack[hotbar.getSelectedItemIndex()];
+        return hotbar.getSelectedItem();
     }
 
     NKWindow window;
