@@ -30,6 +30,8 @@ public class UIResources {
         System.out.println("Font: " + path);
         fontBuffer = ioResourceToByteBuffer(path, 512 * 1024);
 
+        //Lets keep this font sizing. If we had a small enough screen size, we would still want small fonts
+        //Minecraft has a UI scale setting
         font_24 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 26 : 24);
         font_22 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 24 : 22);
         font_18 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 20 : 18);
