@@ -93,7 +93,7 @@ public class InfoText extends GameUIElement {
     }
 
     private void drawChatHistory(NkContext ctx) {
-        NKUtils.text(ctx, "Test1\nTest2\nTest3", 10, NK_LEFT);
+//        NKUtils.text(ctx, "Test1\nTest2\nTest3", 10, NK_LEFT);
     }
 
     void windowResizeEvent(int width, int height) {

@@ -210,6 +210,7 @@ public class Main extends NKWindow {
             String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
             File saveFile = ResourceUtils.appDataResource("screenshots\\" + formattedDateTime + ".png");
             System.out.println("Screenshot saved to: " + saveFile.getAbsolutePath());
+            GameScene.alert("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
                 saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);
@@ -249,24 +250,24 @@ public class Main extends NKWindow {
 
     @Override
     public void keyEvent(int key, int scancode, int action, int mods) {
-        if (devMode && action == GLFW.GLFW_RELEASE) {
-            if (key == GLFW.GLFW_KEY_F3) {
+        if (action == GLFW.GLFW_RELEASE) {
+            if (devMode && key == GLFW.GLFW_KEY_F3) {
                 devkeyF3 = !devkeyF3;
                 System.out.println("Special mode (F3): " + devkeyF3);
-            } else if (key == GLFW.GLFW_KEY_F4) {
+            } else if (devMode && key == GLFW.GLFW_KEY_F4) {
                 devkeyF4 = !devkeyF4;
                 System.out.println("Special mode (F4): " + devkeyF4);
-            } else if (key == GLFW.GLFW_KEY_F2) {
+            } else if (devMode && key == GLFW.GLFW_KEY_F2) {
                 devkeyF2_SystemCG = !devkeyF2_SystemCG;
                 System.out.println("Special mode(F2): " + devkeyF2_SystemCG);
-            } else if (key == GLFW.GLFW_KEY_F1) {
+            } else if (devMode && key == GLFW.GLFW_KEY_F1) {
                 devkeyF1 = !devkeyF1;
                 System.out.println("Special mode (F1): " + devkeyF1);
-            } else if (key == GLFW.GLFW_KEY_F11) {
-                screenshot();
-            } else if (key == GLFW.GLFW_KEY_F12) {
+            } else if (devMode && key == GLFW.GLFW_KEY_F12) {
                 devkeyF12 = !devkeyF12;
                 System.out.println("Light repropagation: " + devkeyF12);
+            } else if (key == GLFW.GLFW_KEY_F11) {
+                screenshot();
             }
         }
         if (isGameMode) {
