@@ -1,13 +1,12 @@
 package com.xbuilders.engine.settings;
 
-import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.Main;
 
 public class EngineSettings {
 
-
     public EngineSettings() { // First time setup
-        viewDistance = GameScene.world.DEFAULT_VIEW_DISTANCE;
+        viewDistance = (Chunk.WIDTH * 5);
     }
 
     public static boolean shouldReset(){
@@ -15,8 +14,8 @@ public class EngineSettings {
     }
 
     public int viewDistance;
-    public boolean fullscreen = false;
+    public boolean fullscreen = true;
     public float fullscreenSizeMultiplier = 1.0f;
-    public int maxCursorRaycastDist = 45;
+    public int maxCursorRaycastDist = 50;
     public boolean largerUI = true;
 }

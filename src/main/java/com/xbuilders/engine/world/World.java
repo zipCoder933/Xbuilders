@@ -72,8 +72,8 @@ public class World {
     public static final int CHUNK_MESH_THREADS = 1;
 
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
-    public static int VIEW_DIST_MAX = Chunk.WIDTH * 7;
-    public static int DEFAULT_VIEW_DISTANCE = (int) (Chunk.WIDTH * 3);// 13
+    public static int VIEW_DIST_MAX = Chunk.WIDTH * 12; //Allowing higher view distances increases flexibility
+
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);

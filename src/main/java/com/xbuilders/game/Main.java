@@ -168,18 +168,32 @@ public class Main extends NKWindow {
         ItemList.initialize();
         uiResources = new UIResources(this, ctx, settings.largerUI);
         game.initialize(this);
-
         topMenu.init(uiResources);
-
         gameScene.init(uiResources, game);
 
         if (generateIcons || !blockIconsDirectory.exists()) {
-            BlockIconRenderer iconRenderer = new BlockIconRenderer(
-                    ItemList.blocks.textures,
-                    blockIconsDirectory);
-            iconRenderer.saveAllIcons();
-            System.exit(0);
+            firstTimeSetup();
         }
+    }
+
+    private void firstTimeSetup() throws InterruptedException {
+        //Minimize the window
+        GLFW.glfwHideWindow(getId());
+
+        ErrorHandler.createPopupWindow("First time setup",
+                "XBuilders is setting up. Please standby...");
+        BlockIconRenderer iconRenderer = new BlockIconRenderer(
+                ItemList.blocks.textures,
+                blockIconsDirectory);
+
+        iconRenderer.saveAllIcons();//Generate all icons
+
+        settingsUtils.save(new EngineSettings());//Replace the old settings
+
+        ErrorHandler.createPopupWindow("Finished",
+                "XBuilders has finished setting up. Please restart the game to play.");
+        Thread.sleep(5000);
+        System.exit(0);
     }
 
     private void render() throws IOException {
