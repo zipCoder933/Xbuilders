@@ -312,6 +312,7 @@ public abstract class BaseWindow {
 
     protected void startWindow(String title, boolean fullscreen, int width, int height) {
         glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE); //Important hint for fullscreen resolution
         glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
 
