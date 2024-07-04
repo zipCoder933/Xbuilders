@@ -143,7 +143,7 @@ public class TopMenu {
             nk_rect(0, titleYEnd.get(0), window.getWidth(), titleHeight, windowDims);
             titleYEnd.put(0, titleYEnd.get(0) + titleHeight);
             if (nk_begin(window.ctx, "title", windowDims, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
-                nk_style_set_font(window.ctx, uires.font_22);
+                nk_style_set_font(window.ctx, uires.font_24);
                 nk_layout_row_dynamic(window.ctx, 40, 1);
                 nk_label(window.ctx, "X-Builders 3", NK_TEXT_CENTERED);
             }

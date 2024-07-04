@@ -166,7 +166,7 @@ public class Main extends NKWindow {
                 ResourceUtils.resource("icon32.png").getAbsolutePath(),
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
         ItemList.initialize();
-        uiResources = new UIResources(this, ctx);
+        uiResources = new UIResources(this, ctx, settings.largerUI);
         game.initialize(this);
 
         topMenu.init(uiResources);

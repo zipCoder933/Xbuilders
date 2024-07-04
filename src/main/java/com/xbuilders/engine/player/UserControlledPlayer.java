@@ -2,7 +2,6 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
@@ -40,8 +39,8 @@ public class UserControlledPlayer extends Player {
     final static float PLAYER_WIDTH = 0.8f;
 
     final static float FLY_SPEED = 12f;
-    final float DEFAULT_SPEED = 12f;
-    final float RUN_SPEED = DEFAULT_SPEED * 2.5f;//XB2 runSpeed = 12f * 2.5f
+    final float DEFAULT_SPEED = 10f;
+    final float RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     Matrix4f projection;
     Matrix4f view;
@@ -142,7 +141,11 @@ public class UserControlledPlayer extends Player {
         skin = new DefaultSkin(aabb);
         eventPipeline = new BlockEventPipeline(world);
         server = new PlayerServer(this);
-        GameScene.world.chunkShader.setFlashlightDistance(20f);
+        if (Main.devMode) setFlashlight(20f);
+    }
+
+    public void setFlashlight(float distance) {
+        GameScene.world.chunkShader.setFlashlightDistance(distance);
     }
 
     public void startGame() {
@@ -300,10 +303,10 @@ public class UserControlledPlayer extends Player {
     public void mouseButtonEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (button == UserControlledPlayer.CREATE_MOUSE_BUTTON
-                    && !camera.cursorRay.createClickEvent()) {
+                    && !camera.cursorRay.clickEvent(true)) {
                 setItem(Main.game.getSelectedItem());
             } else if (button == UserControlledPlayer.DELETE_MOUSE_BUTTON
-                    && !camera.cursorRay.destroyClickEvent()) {
+                    && !camera.cursorRay.clickEvent(false)) {
                 removeItem();
             }
         }
@@ -325,7 +328,7 @@ public class UserControlledPlayer extends Player {
                     case KEY_CHANGE_RAYCAST_MODE -> {
                         camera.cursorRay.cursorRayHitAllBlocks = true;
                         if (camera.cursorRay.cursorRayHitAllBlocks) {
-                            camera.cursorRay.cursorRayDist = 6;
+                            camera.cursorRay.rayDistance = 6;
                         }
                     }
                 }
@@ -335,9 +338,6 @@ public class UserControlledPlayer extends Player {
             else {
                 switch (key) {
                     case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = DEFAULT_SPEED;
-                    case GLFW.GLFW_KEY_L -> {
-                        lineMode = !lineMode;
-                    }
                     case KEY_TOGGLE_PASSTHROUGH -> {
                         System.out.println("PASSTHROUGH: " + !usePositionHandler);
                         positionHandler.collisionsEnabled = !positionHandler.collisionsEnabled;
@@ -350,12 +350,12 @@ public class UserControlledPlayer extends Player {
                         raycastDistChanged = true;
                     }
                     case KEY_CREATE_MOUSE_BUTTON -> {
-                        if (!camera.cursorRay.createClickEvent()) {
+                        if (!camera.cursorRay.clickEvent(true)) {
                             setItem(Main.game.getSelectedItem());
                         }
                     }
                     case KEY_DELETE_MOUSE_BUTTON -> {
-                        if (!camera.cursorRay.destroyClickEvent()) {
+                        if (!camera.cursorRay.clickEvent(false)) {
                             removeItem();
                         }
                     }
@@ -365,8 +365,6 @@ public class UserControlledPlayer extends Player {
             }
         }
     }
-
-    boolean lineMode = false;
 
     public void setItem(Item item) {
         if (camera.cursorRay != null && camera.cursorRay.hitTarget()) {
@@ -455,8 +453,7 @@ public class UserControlledPlayer extends Player {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (window.isKeyPressed(KEY_CHANGE_RAYCAST_MODE) && camera.cursorRay.cursorRayHitAllBlocks) {
             raycastDistChanged = true;
-            camera.cursorRay.cursorRayDist += scroll.y();
-            camera.cursorRay.cursorRayDist = MathUtils.clamp(camera.cursorRay.cursorRayDist, 1, 50);
+            camera.cursorRay.rayDistance += scroll.y();
             return true;
         }
         return false;

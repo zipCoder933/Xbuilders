@@ -1,10 +1,8 @@
 package com.xbuilders.engine.player.camera;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -85,42 +83,30 @@ public class CursorRay {
     /**
      * @return if the event was consumed
      */
-    public boolean createClickEvent() {
-        if (Main.game.setBlock(this, true)) {
+    public boolean clickEvent(boolean creationMode) {
+        Item selectedItem = Main.game.getSelectedItem();
+        if (selectedItem != null && selectedItem.itemType == ItemType.TOOL) { //Tool click event
+            ((Tool) selectedItem).run_ClickEvent(this, creationMode);
             return true;
-        } else if (itemClickEvent()) {
+        }
+
+        if (creationMode) {
+            if (cursorRay.entity != null) { //Entity click event
+                return cursorRay.entity.run_ClickEvent();
+            } else { //Block click event
+                Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
+                block.run_ClickEvent(getHitPos());
+                if (!block.clickThrough()) return true;
+            }
+        }
+
+        if (Main.game.setBlock(this, creationMode)) {
             return true;
         } else if (useBoundary) {
-            boundaryClickEvent(true);
+            boundaryClickEvent(creationMode);
             return true;
         }
         return false;
-    }
-
-    /**
-     * @return if the event was consumed
-     */
-    public boolean destroyClickEvent() {
-        if (Main.game.setBlock(this, false)) {
-            return true;
-        } else if (useBoundary) {
-            boundaryClickEvent(false);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @return if the event was consumed
-     */
-    private boolean itemClickEvent() {
-        if (cursorRay.entity != null) {
-            return cursorRay.entity.run_ClickEvent();
-        } else {
-            Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
-            block.run_ClickEvent(getHitPos());
-            return !block.clickThrough(); // If the event was consumed
-        }
     }
 
     private void boundaryClickEvent(boolean create) {
@@ -218,18 +204,17 @@ public class CursorRay {
         }
     }
 
-    public int cursorRayDist = 1000;// Max distance for front ray
-    public final int maxCursorRayDist = 1000;// Max distance for front ray for cursor raycaster
+    public int rayDistance = 1000;// Max distance for front ray
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
         if (cursorRayHitAllBlocks)
-            cursorRayDist = MathUtils.clamp(cursorRayDist, 1, maxCursorRayDist);
+            rayDistance = MathUtils.clamp(rayDistance, 1, Main.settings.maxCursorRaycastDist);
         else
-            cursorRayDist = maxCursorRayDist;
+            rayDistance = Main.settings.maxCursorRaycastDist;
 
         Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
 
-        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, cursorRayDist,
+        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, rayDistance,
                 ((block, forbiddenBlock, rx, ry, rz) -> {
                     // block ray if we are locking boundary to plane
                     if (useBoundary && boundary_lockToPlane && boundary_isStartNodeSet) {

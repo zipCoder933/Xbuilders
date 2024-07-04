@@ -38,7 +38,7 @@ public class UITester extends NKWindow {
         startWindow("NUKLEAR TEST", false, 800, 600);
 
         ResourceUtils.initialize(true);
-        uiResources = new UIResources(this, ctx);
+        uiResources = new UIResources(this, ctx,false);
         Game game = new MyGame();
 
         ItemList blocks = new ItemList();

@@ -13,6 +13,12 @@ public class EngineSettingsUtils {
     final File settingsFile = ResourceUtils.appDataResource("settings.json");
 
     public EngineSettings load() {
+        if(EngineSettings.shouldReset()){
+            System.out.println("Resetting settings!");
+            save(new EngineSettings());
+            return new EngineSettings();
+        }
+
         if (settingsFile.exists()) {
             Gson gson = new Gson();
             try {

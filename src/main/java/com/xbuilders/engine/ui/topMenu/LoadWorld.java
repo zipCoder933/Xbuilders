@@ -43,6 +43,9 @@ public class LoadWorld implements MenuPage {
         this.menu = menu;
         worlds = new ArrayList<>();
 
+
+
+
 //        Texture texture = TextureUtils.loadTexture(ResourceUtils.RESOURCE_DIR + "\\icon.png", false);
 //        image = new NkImage(texture.buffer);
 //       image = nk_image_id(texture.id, image);
@@ -52,7 +55,7 @@ public class LoadWorld implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     NKWindow window;
-    final int boxWidth = 650;
+    final int boxWidth = 700;
     final int boxHeight = 550;
     ArrayList<WorldInfo> worlds;
     WorldInfo currentWorld;

@@ -6,33 +6,37 @@ package com.xbuilders.engine.ui;
 
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.NKWindow;
+
 import static com.xbuilders.window.utils.IOUtil.ioResourceToByteBuffer;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkUserFont;
+
 import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
 
 /**
- *
  * @author zipCoder933
  */
 public class UIResources {
 
-    public NkUserFont font_22,font_18, font_12, font_10, font_8, font_6;
+    public NkUserFont font_24, font_22, font_18, font_12, font_10, font_8, font_6;
     ByteBuffer fontBuffer;
 
-    public UIResources(NKWindow window, NkContext ctx) throws IOException {
+    public UIResources(NKWindow window, NkContext ctx, boolean largerUI) throws IOException {
         String path = ResourceUtils.RESOURCE_DIR + "\\fonts\\Press_Start_2P\\PressStart2P-Regular.ttf";
         System.out.println("Font: " + path);
         fontBuffer = ioResourceToByteBuffer(path, 512 * 1024);
 
-        font_22 = window.TTF_assignToNewTexture(fontBuffer, 22);
-        font_18 = window.TTF_assignToNewTexture(fontBuffer, 18);
-        font_12 = window.TTF_assignToNewTexture(fontBuffer, 12);
-        font_10 = window.TTF_assignToNewTexture(fontBuffer, 10);
-        font_8 = window.TTF_assignToNewTexture(fontBuffer, 8);
-        font_6 = window.TTF_assignToNewTexture(fontBuffer, 6);
+        font_24 = window.TTF_assignToNewTexture(fontBuffer, largerUI ? 26 : 24);
+        font_22 = window.TTF_assignToNewTexture(fontBuffer, largerUI ? 24 : 22);
+        font_18 = window.TTF_assignToNewTexture(fontBuffer, largerUI ? 20 : 18);
+        font_12 = window.TTF_assignToNewTexture(fontBuffer, largerUI ? 14 : 12);
+        font_10 = window.TTF_assignToNewTexture(fontBuffer, largerUI ? 12 : 10);
+        font_8 = window.TTF_assignToNewTexture(fontBuffer, largerUI ? 10 : 8);
+        font_6 = window.TTF_assignToNewTexture(fontBuffer, largerUI ? 10 : 6);
 
         //VERY IMPORTANT: a font must be specified before anything can be drawn
         nk_style_set_font(ctx, font_8);

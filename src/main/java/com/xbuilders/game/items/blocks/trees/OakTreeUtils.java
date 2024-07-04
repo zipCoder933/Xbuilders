@@ -9,6 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 
 import java.util.Random;
@@ -24,7 +25,7 @@ public class OakTreeUtils {
         @Override
         public void run(int x, int y, int z, BlockData data) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(Main.devMode ? 2000 : 60 * 1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

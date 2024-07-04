@@ -28,6 +28,7 @@ import com.xbuilders.game.items.entities.animal.*;
 import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
 import com.xbuilders.game.items.entities.vehicle.MinecartEntityLink;
 import com.xbuilders.game.items.tools.AnimalFeed;
+import com.xbuilders.game.items.tools.Flashlight;
 import com.xbuilders.game.items.tools.Hoe;
 import com.xbuilders.game.items.tools.Saddle;
 import com.xbuilders.game.terrain.BasicTerrain;
@@ -421,6 +422,7 @@ public class MyGame extends Game {
         Tool[] tools = new Tool[]{
                 new Saddle(),
                 new Hoe(),
+                new Flashlight(),
                 TOOL_ANIMAL_FEED
         };
 
@@ -451,11 +453,11 @@ public class MyGame extends Game {
         Plant.makePlant(ItemList.getBlock(BLOCK_POTATO_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_POTATOES_PLANT);
         Plant.makePlant(ItemList.getBlock(BLOCK_WHEAT_SEEDS), BLOCK_B1, BLOCK_B2, BLOCK_B3, BLOCK_B5, BLOCK_B6, BLOCK_WHEAT);
 
-        ItemList.getBlock(BLOCK_OAK_SAPLING).setBlockEvent(OakTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_SPRUCE_SAPLING).setBlockEvent(SpruceTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_BIRCH_SAPLING).setBlockEvent(BirchTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_JUNGLE_SAPLING).setBlockEvent(JungleTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_ACACIA_SAPLING).setBlockEvent(AcaciaTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_OAK_SAPLING).setBlockEvent_multithreaded(OakTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_SPRUCE_SAPLING).setBlockEvent_multithreaded(SpruceTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_BIRCH_SAPLING).setBlockEvent_multithreaded(BirchTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_JUNGLE_SAPLING).setBlockEvent_multithreaded(JungleTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_ACACIA_SAPLING).setBlockEvent_multithreaded(AcaciaTreeUtils.setBlockEvent);
 
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_GRASS_TOP, BLOCK_TALL_GRASS);
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_DRY_GRASS_TOP, BLOCK_TALL_DRY_GRASS);

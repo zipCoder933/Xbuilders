@@ -39,7 +39,8 @@ import org.lwjgl.system.MemoryStack;
  */
 class GameMenu extends GameUIElement {
 
-    final int menuWidth = 300;
+    final int menuWidth = 320;
+    final int menuHeight = 200;
 
     public GameMenu(NkContext ctx, NKWindow window, UIResources uires) {
         super(ctx, window, uires);
@@ -85,7 +86,7 @@ class GameMenu extends GameUIElement {
             }
             nk_end(ctx);
         } else {
-            int menuHeight = 180;
+
             nk_rect(
                     window.getWidth() / 2 - (menuWidth / 2),
                     window.getHeight() / 2 - (menuHeight / 2),

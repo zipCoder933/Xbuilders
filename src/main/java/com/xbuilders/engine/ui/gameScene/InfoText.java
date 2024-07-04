@@ -36,6 +36,7 @@ public class InfoText extends GameUIElement {
     TextBox box;
     private String text;
     final int commandBoxHeight = 400;
+    final int sidePadding = 50;
 
     public InfoText(NkContext ctx, NKWindow window, UIResources uires) {
         super(ctx, window, uires);
@@ -60,15 +61,18 @@ public class InfoText extends GameUIElement {
         nk_style_set_font(ctx, uires.font_8);
 
         if (commandMode) {
-            commandRect.w(window.getWidth());
+            commandRect.x(sidePadding);
+            commandRect.w(window.getWidth() - (sidePadding * 2));
             commandRect.h(Math.min(commandBoxHeight, window.getHeight() - 150));
             ctx.style().window().fixed_background().data().color().set(Theme.darkTransparent);
             if (nk_begin(ctx, commandPanelText, commandRect, 0)) {
-                Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
+                Nuklear.nk_layout_row_dynamic(ctx, 40, 1);
                 nk_text(ctx, "Enter command:", NK_LEFT);
-                Nuklear.nk_layout_row_dynamic(ctx, 20, 1);
+
+                Nuklear.nk_layout_row_dynamic(ctx, 40, 1);
                 box.render(ctx);
-                Nuklear.nk_layout_row_static(ctx, 20, window.getWidth(), 1);
+
+                Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
                 drawChatHistory(ctx);
             }
             nk_end(ctx);
@@ -108,7 +112,7 @@ public class InfoText extends GameUIElement {
                 }
             }
         }
-        return box.isFocused();//the text box could press any key
+        return box.isFocused() && commandMode;//the text box could press any key
     }
 
 
