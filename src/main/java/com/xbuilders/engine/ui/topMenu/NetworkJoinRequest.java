@@ -2,24 +2,26 @@ package com.xbuilders.engine.ui.topMenu;
 
 public class NetworkJoinRequest {
     public boolean hosting;
-    public int portVal;
+    public int toPortVal;
     public String playerName;
-    public String ipAdress;
+    public int fromPortVal;
+    public String hostIpAdress;
 
-    public NetworkJoinRequest(boolean hosting, int portVal, String playerName, String ipAdress) {
+    public NetworkJoinRequest(boolean hosting, int fromPortVal, int portVal, String playerName, String ipAdress) {
         this.hosting = hosting;
-        this.portVal = portVal;
+        this.fromPortVal = fromPortVal;
+        this.toPortVal = portVal;
         this.playerName = playerName;
-        this.ipAdress = ipAdress;
+        this.hostIpAdress = ipAdress;
     }
 
     @Override
     public String toString() {
         return "NetworkJoin{" +
                 "hosting=" + hosting +
-                ", portVal=" + portVal +
+                ", portVal=" + toPortVal +
                 ", playerName='" + playerName + '\'' +
-                ", ipAdress='" + ipAdress + '\'' +
+                ", ipAdress='" + hostIpAdress + '\'' +
                 '}';
     }
 }

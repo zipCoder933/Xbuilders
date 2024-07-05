@@ -71,6 +71,7 @@ public class Main extends NKWindow {
     File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
     static boolean generateIcons = false;
 
+    public static boolean fpsTools = false;
     public static boolean devMode = false;
 
     public static void main(String[] args) {
@@ -85,7 +86,7 @@ public class Main extends NKWindow {
             }
 
             dummyTester.setEnabled(false);
-            if (devMode) {
+            if (fpsTools) {
                 frameTester.setEnabled(true);
                 frameTester.setStarted(true);
                 frameTester.setUpdateTimeMS(1000);
@@ -104,7 +105,7 @@ public class Main extends NKWindow {
 
     public Main() throws Exception {
         super();
-        settings = settingsUtils.load();
+        settings = settingsUtils.load(devMode);
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
 
@@ -168,8 +169,9 @@ public class Main extends NKWindow {
         ItemList.initialize();
         uiResources = new UIResources(this, ctx, settings.largerUI);
         game.initialize(this);
-        topMenu.init(uiResources);
+
         gameScene.init(uiResources, game);
+        topMenu.init(uiResources, GameScene.server.getIpAdress());
 
         if (generateIcons || !blockIconsDirectory.exists()) {
             firstTimeSetup();
@@ -188,7 +190,7 @@ public class Main extends NKWindow {
 
         iconRenderer.saveAllIcons();//Generate all icons
 
-        settingsUtils.save(new EngineSettings());//Replace the old settings
+        settingsUtils.save(new EngineSettings(devMode));//Replace the old settings
 
         ErrorHandler.createPopupWindow("Finished",
                 "XBuilders has finished setting up. Please restart the game to play.");

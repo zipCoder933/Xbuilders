@@ -142,7 +142,7 @@ public class OBJLoader {
                         model.setSmoothShadingEnabled(!ln.contains("off"));
                         break;
                     default:
-                        System.err.println("[OBJ] Unknown Line: " + ln);
+//                        System.err.println("[OBJ] Unknown Line: " + ln);
                 }
             }
         }

@@ -15,10 +15,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public abstract class Server {
+public abstract class Server<ClientSocket extends NetworkSocket> { //TODO: Determine how to actually have clientSocket extend NetworkSocket
 
     protected String ipAdress;
-    public final ArrayList<NetworkSocket> clients;
+    public final ArrayList<ClientSocket> clients; //A socket is a two way connection
     public XBServerSocket socket;
     Thread clientThread;
 
@@ -35,16 +35,16 @@ public abstract class Server {
     }
 
 
-    public void startServer(int port) throws IOException {
+    public void start(int port) throws IOException {
         socket = new XBServerSocket(port);
         clientThread = new Thread() {
             @Override
             public void run() {
                 while (!socket.isClosed()) {
                     try {
-                        NetworkSocket newClient = socket.accept();
-                        if (newClient(newClient)) {
-                            addClient(newClient);
+                        ClientSocket newClient = (ClientSocket) socket.accept();
+                        if (newClientEvent(newClient)) {
+                            connectToServer(newClient);
                         } else {
                             newClient.close();
                         }
@@ -102,7 +102,7 @@ public abstract class Server {
         socket.close();
     }
 
-    public boolean clientAlreadyJoined(NetworkSocket newClient) {
+    public boolean clientAlreadyJoined(ClientSocket newClient) {
         return clientAlreadyJoined(newClient.getHostAddress(), newClient.getRemoteHostString());
     }
 
@@ -113,36 +113,36 @@ public abstract class Server {
      * @param newClient the client
      * @return if the server should accept the client.
      */
-    public abstract boolean newClient(NetworkSocket newClient);
+    public abstract boolean newClientEvent(ClientSocket newClient);
 
     /**
      *
      * @param client the client
      * @param receivedData incoming bytes from the client
      */
-    public abstract void recieveDataFromClient(NetworkSocket client, byte[] receivedData);
+    public abstract void dataFromClientEvent(ClientSocket client, byte[] receivedData);
 
 
-    protected void addClient(NetworkSocket newClient) {
+    protected void connectToServer(ClientSocket newClient) {
         Thread clientThread = new Thread(() -> handleClient(newClient));
         clientThread.setPriority(1);
         clientThread.start();
         clients.add(newClient);
     }
 
-    public NetworkSocket addClient(InetSocketAddress address) throws IOException {
-        NetworkSocket newClient = socket.addConnection(address);
-        addClient(newClient);
+    public ClientSocket connectToServer(InetSocketAddress address) throws IOException {
+        ClientSocket newClient = (ClientSocket) socket.addConnection(address);
+        connectToServer(newClient);
         return newClient;
     }
 
-    protected void handleClient(NetworkSocket client) {
+    protected void handleClient(ClientSocket client) {
         try {
             while (!client.isClosed()) {
                 // Assuming you have a method like receiveData() to receiveData messages from the client
                 byte[] receivedData = client.receiveData();
                 // Process the received data using the provided input handler
-                recieveDataFromClient(client, receivedData);
+                dataFromClientEvent(client, receivedData);
             }
         } catch (SocketException | java.io.EOFException ex) {
             //if there is a socket exception, it is most likely because the socket was disconnected

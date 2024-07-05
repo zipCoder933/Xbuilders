@@ -24,9 +24,6 @@ import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
 
-import static com.xbuilders.window.NKWindow.MAX_ELEMENT_BUFFER;
-import static com.xbuilders.window.NKWindow.MAX_VERTEX_BUFFER;
-import static org.lwjgl.nuklear.Nuklear.NK_ANTI_ALIASING_ON;
 import static org.lwjgl.opengl.GL11.GL_ONE;
 import static org.lwjgl.opengl.GL11.GL_ZERO;
 import static org.lwjgl.opengl.GL11C.*;
@@ -56,7 +53,7 @@ public class GameUI {
         overlay.setColor(0, 0, 0, 0);
     }
 
-    public void setInfoText(String text) {
+    public void setDevText(String text) {
         infoBox.setText(text);
     }
 
@@ -73,7 +70,7 @@ public class GameUI {
     private RectOverlay overlay;
 
     Crosshair crosshair;
-    InfoText infoBox;
+   public InfoText infoBox;
     GameMenu menu;
     boolean drawUI = true;
 

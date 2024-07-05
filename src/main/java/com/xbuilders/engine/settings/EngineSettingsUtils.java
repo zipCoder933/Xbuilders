@@ -12,11 +12,11 @@ public class EngineSettingsUtils {
 
     final File settingsFile = ResourceUtils.appDataResource("settings.json");
 
-    public EngineSettings load() {
+    public EngineSettings load(boolean devMode) {
         if(EngineSettings.shouldReset()){
             System.out.println("Resetting settings!");
-            save(new EngineSettings());
-            return new EngineSettings();
+            save(new EngineSettings(devMode));
+            return new EngineSettings(devMode);
         }
 
         if (settingsFile.exists()) {
@@ -28,7 +28,7 @@ public class EngineSettingsUtils {
                 ErrorHandler.handleFatalError(e);
             }
         }
-        return new EngineSettings();
+        return new EngineSettings(devMode);
     }
 
     public void save(EngineSettings settings) {

@@ -5,12 +5,13 @@ import com.xbuilders.game.Main;
 
 public class EngineSettings {
 
-    public EngineSettings() { // First time setup
+    public EngineSettings(boolean devMode) { // First time setup
         viewDistance = (Chunk.WIDTH * 5);
+        fullscreen = devMode ? false : true;
     }
 
-    public static boolean shouldReset(){
-        return Main.devMode;
+    public static boolean shouldReset() {
+        return false;
     }
 
     public int viewDistance;

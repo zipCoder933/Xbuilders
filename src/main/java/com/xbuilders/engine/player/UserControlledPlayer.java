@@ -1,33 +1,27 @@
 package com.xbuilders.engine.player;
 
-import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
-import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.ItemType;
-import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
+import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
+import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.engine.utils.network.PlayerServer;
+import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
-
-import java.io.IOException;
-import java.lang.Math;
-
-import org.joml.*;
+import org.joml.Matrix4f;
+import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
+
+import java.io.IOException;
 
 public class UserControlledPlayer extends Player {
 
@@ -47,7 +41,6 @@ public class UserControlledPlayer extends Player {
     boolean isClimbing = false;
     PositionHandler positionHandler;
     boolean usePositionHandler = true;
-    public PlayerServer server;
     public BlockEventPipeline eventPipeline;
     public PositionLock positionLock;
 
@@ -140,7 +133,6 @@ public class UserControlledPlayer extends Player {
         setColor(1, 1, 0);
         skin = new DefaultSkin(aabb);
         eventPipeline = new BlockEventPipeline(world);
-        server = new PlayerServer(this);
         if (Main.devMode) setFlashlight(20f);
     }
 

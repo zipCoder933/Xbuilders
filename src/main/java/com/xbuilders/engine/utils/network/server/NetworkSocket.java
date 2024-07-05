@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.utils.network.server;
 
+import com.xbuilders.engine.player.Player;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,6 +26,7 @@ public class NetworkSocket {
         inputStream = new DataInputStream(socket.getInputStream());
     }
 
+    public Player player;
     private Socket socket;
     public DataOutputStream outputStream;
     public DataInputStream inputStream;

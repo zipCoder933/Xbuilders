@@ -9,6 +9,7 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.game.Main;
@@ -20,12 +21,12 @@ import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
 
@@ -42,8 +43,6 @@ public class LoadWorld implements MenuPage {
         this.window = window;
         this.menu = menu;
         worlds = new ArrayList<>();
-
-
 
 
 //        Texture texture = TextureUtils.loadTexture(ResourceUtils.RESOURCE_DIR + "\\icon.png", false);
@@ -140,6 +139,11 @@ public class LoadWorld implements MenuPage {
         }
         nk_end(ctx);
 
+    }
+
+    public void loadWorldAsMultiplayer(NetworkJoinRequest req)  {
+        GameScene.server.joinGame(req);
+        loadWorld(currentWorld);
     }
 
     public void loadWorld(WorldInfo currentWorld1) {

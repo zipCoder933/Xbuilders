@@ -9,10 +9,12 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
+import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
@@ -40,12 +42,19 @@ public class Multiplayer implements MenuPage {
         this.world = world;
     }
 
+    final String ipAdress;
+    LoadWorld loadWorld;
+
     public Multiplayer(NkContext ctx, NKWindow window, TopMenu menu,
-                       UserControlledPlayer player, boolean hosting) {
+                       UserControlledPlayer player, boolean hosting,
+                       String ipAdress, LoadWorld loadWorld) {
+        this.loadWorld = loadWorld;
+        this.ipAdress = ipAdress;
         this.ctx = ctx;
         this.window = window;
         this.menu = menu;
         portBox = new NumberBox(4, 0);
+        fromPortBox = new NumberBox(4, 0);
         nameBox = new TextBox(20);
         ipAdressBox = new TextBox(20);
         this.player = player;
@@ -57,7 +66,7 @@ public class Multiplayer implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     NKWindow window;
-    NumberBox portBox;
+    NumberBox fromPortBox, portBox;
     TextBox nameBox, ipAdressBox;
     private WorldInfo world;
 
@@ -84,6 +93,11 @@ public class Multiplayer implements MenuPage {
                 ipAdressBox.render(ctx);
             }
 
+            if (Main.devMode) {
+                row("From Port:");
+                fromPortBox.render(ctx);
+            }
+
             row("Port:");
             portBox.render(ctx);
 
@@ -102,13 +116,19 @@ public class Multiplayer implements MenuPage {
                 menu.setPage(Page.LOAD_WORLD);
             }
             if (nk_button_label(ctx, "CONTINUE")) {
-                final int portVal = (int) portBox.getValueAsNumber();
+                int fromPortVal = (int) fromPortBox.getValueAsNumber();
+                int portVal = (int) portBox.getValueAsNumber();
+
+                if (!Main.devMode) fromPortVal = portVal;
+
                 String playerName = nameBox.getValueAsString();
                 String ipAdress = this.ipAdressBox.getValueAsString();
 
-                NetworkJoinRequest req =  new NetworkJoinRequest(hosting, portVal, playerName, ipAdress);
-                System.out.println("Sending join request: " + req);
+                player.name = playerName; //Assign player name
 
+                NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, playerName, ipAdress);
+                System.out.println(req.toString());
+                loadWorld.loadWorldAsMultiplayer(req);
             }
         }
         nk_end(ctx);
@@ -119,9 +139,11 @@ public class Multiplayer implements MenuPage {
         nameBox.setValueAsString(player.name);
         portBox.setValueAsNumber(8080);
         if (hosting) {
-            ipAdressBox.setValueAsString(player.server.getIpAdress());
+            ipAdressBox.setValueAsString(ipAdress);
         } else {
-            ipAdressBox.setValueAsString("");
+            if (Main.devMode) {
+                ipAdressBox.setValueAsString(ipAdress);
+            } else ipAdressBox.setValueAsString("");
         }
     }
 

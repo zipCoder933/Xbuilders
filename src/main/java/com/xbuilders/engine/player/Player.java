@@ -6,8 +6,7 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.network.PlayerServer;
+import com.xbuilders.engine.utils.network.GameServer;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 
 import java.io.File;
@@ -32,7 +31,7 @@ public class Player {
 
     public byte[] infoToBytes() throws IOException {
         byte[] data = new byte[name.length() + 2];  // Assuming color is a byte
-        data[0] = PlayerServer.PLAYER_INFO;
+        data[0] = GameServer.PLAYER_INFO;
         data[1] = color;
         for (int i = 0; i < name.length(); i++) {
             data[i + 2] = (byte) name.charAt(i);  // Casting char to byte

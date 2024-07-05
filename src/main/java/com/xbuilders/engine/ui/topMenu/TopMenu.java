@@ -4,29 +4,37 @@
  */
 package com.xbuilders.engine.ui.topMenu;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Page;
+
 import static com.xbuilders.engine.ui.Page.HOME;
 import static com.xbuilders.engine.ui.Page.HOST_MULTIPLAYER;
 import static com.xbuilders.engine.ui.Page.JOIN_MULTIPLAYER;
 import static com.xbuilders.engine.ui.Page.LOAD_WORLD;
 import static com.xbuilders.engine.ui.Page.NEW_WORLD;
 import static com.xbuilders.engine.ui.Page.PROGRESS;
+
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
+
 import static com.xbuilders.window.NKWindow.MAX_ELEMENT_BUFFER;
 import static com.xbuilders.window.NKWindow.MAX_VERTEX_BUFFER;
+
 import com.xbuilders.window.utils.texture.TextureUtils;
+
 import java.io.IOException;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkRect;
+
 import static org.lwjgl.nuklear.Nuklear.NK_ANTI_ALIASING_ON;
 import static org.lwjgl.nuklear.Nuklear.NK_TEXT_CENTERED;
 import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_BORDER;
@@ -38,15 +46,18 @@ import static org.lwjgl.nuklear.Nuklear.nk_label;
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 import static org.lwjgl.nuklear.Nuklear.nk_rect;
 import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
+
 import org.lwjgl.opengl.GL;
+
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.glClear;
 import static org.lwjgl.opengl.GL11C.glClearColor;
+
 import org.lwjgl.system.MemoryStack;
+
 import static org.lwjgl.system.MemoryStack.stackPush;
 
 /**
- *
  * @author Patron
  */
 public class TopMenu {
@@ -58,7 +69,7 @@ public class TopMenu {
         return page;
     }
 
-    final boolean loadWorldOnStartup = true;
+    final boolean loadWorldOnStartup = false;
 
     NKWindow window;
     UIResources uires;
@@ -75,20 +86,13 @@ public class TopMenu {
 
     public void setPage(Page page) {
         switch (page) {
-            case HOME ->
-                menuHome.onOpen();
-            case LOAD_WORLD ->
-                loadWorld.onOpen();
-            case NEW_WORLD ->
-                newWorld.onOpen();
-            case PROGRESS ->
-                progress.onOpen();
-            case HOST_MULTIPLAYER ->
-                hostMultiplayer.onOpen();
-            case JOIN_MULTIPLAYER ->
-                joinMultiplayer.onOpen();
-            case SETTINGS ->
-                settings.onOpen();
+            case HOME -> menuHome.onOpen();
+            case LOAD_WORLD -> loadWorld.onOpen();
+            case NEW_WORLD -> newWorld.onOpen();
+            case PROGRESS -> progress.onOpen();
+            case HOST_MULTIPLAYER -> hostMultiplayer.onOpen();
+            case JOIN_MULTIPLAYER -> joinMultiplayer.onOpen();
+            case SETTINGS -> settings.onOpen();
         }
         this.lastPage = this.page;
         this.page = page;
@@ -105,14 +109,14 @@ public class TopMenu {
         this.window = window;
     }
 
-    public void init(UIResources uires) throws IOException {
+    public void init(UIResources uires, String ipAdress) throws IOException {
         this.uires = uires;
         menuHome = new MenuHome(window.ctx, window, this);
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
         progress = new ProgressMenu(window.ctx, window, this);
-        hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true);
-        joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false);
+        hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true, ipAdress, loadWorld);
+        joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false, ipAdress, loadWorld);
         settings = new Settings(window.ctx, window, this);
         popupMessage = new PopupMessage(window.ctx, window, uires);
     }
@@ -151,20 +155,13 @@ public class TopMenu {
             Theme.resetWindowColor(window.ctx);
 
             switch (getPage()) {
-                case HOME ->
-                    menuHome.layout(stack, windowDims, titleYEnd);
-                case LOAD_WORLD ->
-                    loadWorld.layout(stack, windowDims, titleYEnd);
-                case NEW_WORLD ->
-                    newWorld.layout(stack, windowDims, titleYEnd);
-                case PROGRESS ->
-                    progress.layout(stack, windowDims, titleYEnd);
-                case HOST_MULTIPLAYER ->
-                    hostMultiplayer.layout(stack, windowDims, titleYEnd);
-                case JOIN_MULTIPLAYER ->
-                    joinMultiplayer.layout(stack, windowDims, titleYEnd);
-                case SETTINGS ->
-                    settings.layout(stack, windowDims, titleYEnd);
+                case HOME -> menuHome.layout(stack, windowDims, titleYEnd);
+                case LOAD_WORLD -> loadWorld.layout(stack, windowDims, titleYEnd);
+                case NEW_WORLD -> newWorld.layout(stack, windowDims, titleYEnd);
+                case PROGRESS -> progress.layout(stack, windowDims, titleYEnd);
+                case HOST_MULTIPLAYER -> hostMultiplayer.layout(stack, windowDims, titleYEnd);
+                case JOIN_MULTIPLAYER -> joinMultiplayer.layout(stack, windowDims, titleYEnd);
+                case SETTINGS -> settings.layout(stack, windowDims, titleYEnd);
             }
             popupMessage.draw(stack);
         }

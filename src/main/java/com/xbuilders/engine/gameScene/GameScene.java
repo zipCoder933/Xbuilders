@@ -10,6 +10,8 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.utils.network.GameServer;
+import com.xbuilders.engine.utils.network.PlayerClient;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -38,31 +40,13 @@ import org.lwjgl.nuklear.NkVec2;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengles.GLES20.GL_BLEND;
 
-/**
- * This is a Java greedy meshing implementation based on the javascript
- * implementation written by Mikola Lysenko and described in this blog post:
- * <p>
- * http://0fps.wordpress.com/2012/06/30/meshing-in-a-minecraft-game/
- * <p>
- * The principal changes are:
- * <p>
- * - Porting to Java - Modification in order to compare *voxel faces*, rather
- * than voxels themselves - Modification to provide for comparison based on
- * multiple attributes simultaneously
- * <p>
- * This class is ready to be used on the JMonkey platform - but the algorithm
- * should be usable in any case.
- *
- * @author Rob O'Leary
- */
 public class GameScene implements WindowEvents {
-
-
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static boolean drawWireframe;
     public static UserControlledPlayer player;
     public static List<Player> otherPlayers;
+    public static GameServer server;
 
 
     NKWindow window;
@@ -75,15 +59,12 @@ public class GameScene implements WindowEvents {
         specialMode = true;
         player = new UserControlledPlayer(Main.user);
         otherPlayers = new ArrayList<>();
+        server = new GameServer(player);
     }
 
-    private static String alertMessage = "";
-    private static long alertTime = 0;
 
     public static void alert(String s) {
-        alertMessage = s;
-        alertTime = System.currentTimeMillis();
-        System.out.println("GAME: " + s);
+        ui.infoBox.message(s);
     }
 
     public void closeGame() {
@@ -110,10 +91,7 @@ public class GameScene implements WindowEvents {
                     }
                 } else {
                     System.out.println("Loading spawn point: " + player.worldPosition);
-                    player.worldPosition.set(
-                            worldInfo.getSpawnPoint().x,
-                            worldInfo.getSpawnPoint().y,
-                            worldInfo.getSpawnPoint().z);
+                    player.worldPosition.set(worldInfo.getSpawnPoint().x, worldInfo.getSpawnPoint().y, worldInfo.getSpawnPoint().z);
                     world.startGame(prog, worldInfo, player.worldPosition);
                 }
                 prog.stage++;
@@ -223,8 +201,7 @@ public class GameScene implements WindowEvents {
     }
 
     private void setProjection() {
-        projection.identity().perspective(
-                (float) Math.toRadians(70.0f), //Fov
+        projection.identity().perspective((float) Math.toRadians(70.0f), //Fov
                 (float) window.getWidth() / (float) window.getHeight(), //screen ratio
                 0.1f, 10000.0f); //display range (clipping planes)
     }
@@ -263,66 +240,45 @@ public class GameScene implements WindowEvents {
     public static WCCi rayWCC = new WCCi();
 
     private void setInfoText() {
-        String text = "";
-        try {
-            WCCf wcc2 = new WCCf();
-            wcc2.set(player.worldPosition);
-            text += "Player pos: " + MiscUtils.printVector(player.worldPosition);
+        if (Main.devMode || debugText) {
+            String text = "";
+            try {
+                WCCf wcc2 = new WCCf();
+                wcc2.set(player.worldPosition);
+                text += "Player pos: " + MiscUtils.printVector(player.worldPosition);
 
-            if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {
+                if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {
 
-                if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-                    rayWCC.set(player.camera.cursorRay.getHitPosPlusNormal());
-                    text += "\nRay+normal (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
-                } else {
-                    rayWCC.set(player.camera.cursorRay.getHitPos());
-                    text += "\nRay hit (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                    if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
+                        rayWCC.set(player.camera.cursorRay.getHitPosPlusNormal());
+                        text += "\nRay+normal (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                    } else {
+                        rayWCC.set(player.camera.cursorRay.getHitPos());
+                        text += "\nRay hit (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                    }
+
+                    Chunk chunk = world.getChunk(rayWCC.chunk);
+                    if (chunk != null) {
+                        text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
+                        text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
+                        text += "\nchunk mesh: " + chunk.meshes;
+
+                        BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+                        Block block = ItemList.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
+
+                        byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+                        text += "\nblock: " + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + ItemList.blocks.getBlockType(block.type);
+                        text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+                    }
+
                 }
-
-                Chunk chunk = world.getChunk(rayWCC.chunk);
-                if (chunk != null) {
-                    text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
-                    text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
-                    text += "\nchunk mesh: " + chunk.meshes;
-
-                    BlockData data = chunk.data.getBlockData(
-                            rayWCC.chunkVoxel.x,
-                            rayWCC.chunkVoxel.y,
-                            rayWCC.chunkVoxel.z);
-                    Block block = ItemList.getBlock(chunk.data.getBlock(
-                            rayWCC.chunkVoxel.x,
-                            rayWCC.chunkVoxel.y,
-                            rayWCC.chunkVoxel.z)
-                    );
-
-                    byte sun = chunk.data.getSun(
-                            rayWCC.chunkVoxel.x,
-                            rayWCC.chunkVoxel.y,
-                            rayWCC.chunkVoxel.z);
-                    text += "\nblock: " + block + " data: "
-                            + (data == null ? "null" : data.toString())
-                            + " type: " + ItemList.blocks.getBlockType(block.type);
-                    text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(
-                            rayWCC.chunkVoxel.x,
-                            rayWCC.chunkVoxel.y,
-                            rayWCC.chunkVoxel.z);
-                }
-
+                text += "\nPlayer camera: " + player.camera.toString();
+                text += "\nSpecial Mode: " + specialMode;
+            } catch (Exception ex) {
+                text = "Error: " + ex.getMessage();
+                ex.printStackTrace();
             }
-            ;
-            text += "\nPlayer camera: " + player.camera.toString();
-            text += "\nSpecial Mode: " + specialMode;
-        } catch (Exception ex) {
-            text = "Error: " + ex.getMessage();
-            ex.printStackTrace();
-        }
-
-
-        if (System.currentTimeMillis() - alertTime < 1000) {
-            text = alertMessage;
-            ui.setInfoText(text);
-        } else if (Main.devMode || debugText) {
-            ui.setInfoText(text);
-        }else ui.setInfoText(null);
+            ui.setDevText(text);
+        } else ui.setDevText(null);
     }
 }

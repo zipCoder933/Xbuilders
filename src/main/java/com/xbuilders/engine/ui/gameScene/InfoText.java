@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.ui.gameScene;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.ui.Theme;
 
@@ -12,12 +13,16 @@ import static com.xbuilders.engine.ui.Theme.gray;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.utils.network.GameServer;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author zipCoder933
@@ -51,6 +56,11 @@ public class InfoText extends GameUIElement {
 
     private void submitCommand(String valueAsString) {
         System.out.println("COMMAND: " + valueAsString);
+        try {
+            GameScene.server.sendToAllClients(valueAsString.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     String infoPanelText = "info panel";
@@ -92,8 +102,21 @@ public class InfoText extends GameUIElement {
 
     }
 
+    ArrayList<String> chatHistory = new ArrayList<>();
+
+    public void message(String text) {
+        System.out.println(">"+text);
+        chatHistory.add("> " + text);
+        if (chatHistory.size() > 10) {
+            chatHistory.remove(0);
+        }
+    }
+
     private void drawChatHistory(NkContext ctx) {
-//        NKUtils.text(ctx, "Test1\nTest2\nTest3", 10, NK_LEFT);
+        for (int i = 0; i < chatHistory.size(); i++) {
+            Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
+            NKUtils.text(ctx, chatHistory.get(i), 10, NK_LEFT);
+        }
     }
 
     void windowResizeEvent(int width, int height) {

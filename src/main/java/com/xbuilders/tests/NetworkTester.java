@@ -32,18 +32,19 @@ public class NetworkTester {
         }
 
         @Override
-        public boolean newClient(NetworkSocket newClient) {
+        public boolean newClientEvent(NetworkSocket newClient) {
             try {
                 print("New client: " + newClient);
-                newClient.sendString("(From "+serverName+"), Welcome \"" + newClient.getHostAddress() + "\"!");
+                newClient.sendString("(From " + serverName + "), Welcome \"" + newClient.getHostAddress() + "\"!");
+
             } catch (IOException ex) {
                 Logger.getLogger(NetworkTester.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return true;
+            return true;//If we accept the client, we return true
         }
 
         @Override
-        public void recieveDataFromClient(NetworkSocket client, byte[] receivedData) {
+        public void dataFromClientEvent(NetworkSocket client, byte[] receivedData) {
             print("Data: " + new String(receivedData));
         }
 
@@ -67,35 +68,17 @@ public class NetworkTester {
         final int server1Port = 8080;
         final int server2Port = 8081;
 
-        s1.startServer(server1Port);//This servers port is 8081
-        s2.startServer(server2Port);//This servers port is 8080
+        s1.start(server1Port);//This servers port is 8081
+        s2.start(server2Port);//This servers port is 8080
 
         Thread.sleep(1000);
         s1.print("Connecting to S2");
-        s1.addClient(new InetSocketAddress(s2.getIpAdress(), server2Port));
+        s1.connectToServer(new InetSocketAddress(s2.getIpAdress(), server2Port));
 
         Thread.sleep(1000);
         s2.print("Connecting to S1");
-        s2.addClient(new InetSocketAddress(s1.getIpAdress(), server1Port));
+        s2.connectToServer(new InetSocketAddress(s1.getIpAdress(), server1Port));
 
-//
-//        System.out.println("Network tester");
-//        Player p1 = new Player("Player"+System.currentTimeMillis());
-//
-//        PlayerServer s = new PlayerServer(p1, true);
-//        System.out.println("IP: " + s.getIpAdress());
-//        System.out.println("Ip adress or host?");
-//        String ip = scanner.nextLine();
-//        if (ip.equalsIgnoreCase("host")) {
-//            s.connectToGameAsMaster(8080);
-//        } else {
-//            s.connectToGame(ip, 8080);
-//        }
-//        s.clientJoinedEvent((newClient, newPlayer) -> {
-//            System.out.println("New client: " + newPlayer);
-//        });
-//        s.clientDataEvent((client, player, header, data) -> {
-//            System.out.println("Data from " + player + ": " + new String(data));
-//        });
+        s1.sendToAllClients("Hello".getBytes());
     }
 }
