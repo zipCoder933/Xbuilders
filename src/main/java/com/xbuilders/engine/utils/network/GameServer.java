@@ -6,21 +6,18 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.utils.network.server.Server;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.HashMap;
 
-public class GameServer extends Server {//extends Server<NetworkSocket>
+public class GameServer extends Server<PlayerSocket> {
 
     public static final byte PLAYER_INFO = -128;
 
     NetworkJoinRequest req;
     UserControlledPlayer player;
-//    HashMap<NetworkSocket, Player> players = new HashMap<>();
 
     public GameServer(UserControlledPlayer player) {
-        super();
+        super(PlayerSocket::new);
         this.player = player;
     }
 
@@ -46,7 +43,7 @@ public class GameServer extends Server {//extends Server<NetworkSocket>
     }
 
     @Override
-    public boolean newClientEvent(NetworkSocket client) {
+    public boolean newClientEvent(PlayerSocket client) {
         System.out.println("New client: " + client.toString());
         if (clientAlreadyJoined(client)) {
             try {
@@ -69,7 +66,7 @@ public class GameServer extends Server {//extends Server<NetworkSocket>
     }
 
     @Override
-    public void dataFromClientEvent(NetworkSocket client, byte[] receivedData) {
+    public void dataFromClientEvent(PlayerSocket client, byte[] receivedData) {
         try {
             if (client.player != null) {
                 GameScene.alert("(" + client.player.name + "): " + new String(receivedData) + " l=" + receivedData.length);
@@ -91,7 +88,7 @@ public class GameServer extends Server {//extends Server<NetworkSocket>
         }
     }
 
-    private void playerJoinEvent(NetworkSocket client) {
+    private void playerJoinEvent(PlayerSocket client) {
         GameScene.alert("A new player has joined: " + client.player.toString());
     }
 }

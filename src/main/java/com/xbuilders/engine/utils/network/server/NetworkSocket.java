@@ -9,11 +9,8 @@ import com.xbuilders.engine.player.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.util.Objects;
 
 /**
  *
@@ -21,29 +18,25 @@ import java.util.Objects;
  */
 public class NetworkSocket {
 
-    private void init() throws IOException {
-        outputStream = new DataOutputStream(socket.getOutputStream());
-        inputStream = new DataInputStream(socket.getInputStream());
-    }
-
-    public Player player;
-    private Socket socket;
-    public DataOutputStream outputStream;
-    public DataInputStream inputStream;
-
-    public NetworkSocket(Socket socket) throws IOException {
+    public NetworkSocket init(Socket socket) throws IOException {
         this.socket = socket;
         this.fakeHostAddress = null;
-        init();
+        outputStream = new DataOutputStream(socket.getOutputStream());
+        inputStream = new DataInputStream(socket.getInputStream());
+        return this;
     }
 
-    public NetworkSocket(InetSocketAddress addr) throws IOException {
+    public NetworkSocket init(InetSocketAddress addr) throws IOException {
         this.socket = new Socket();
         socket.connect(addr);
         this.fakeHostAddress = null;
-        init();
+        outputStream = new DataOutputStream(socket.getOutputStream());
+        inputStream = new DataInputStream(socket.getInputStream());
+        return this;
     }
-
+    private Socket socket;
+    public DataOutputStream outputStream;
+    public DataInputStream inputStream;
     private String fakeHostAddress;
     private InetSocketAddress fakeRemoteAdress;
 

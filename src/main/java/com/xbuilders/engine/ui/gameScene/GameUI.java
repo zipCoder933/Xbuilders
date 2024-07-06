@@ -70,7 +70,7 @@ public class GameUI {
     private RectOverlay overlay;
 
     Crosshair crosshair;
-   public InfoText infoBox;
+    public InfoText infoBox;
     GameMenu menu;
     boolean drawUI = true;
 
@@ -94,11 +94,11 @@ public class GameUI {
             crosshair.draw();
 
             try (MemoryStack stack = stackPush()) {
-                infoBox.draw(stack);
                 if (gameMenuVisible) {
                     menu.draw(stack);
                 } else {
                     game.uiDraw(stack);
+                    infoBox.draw(stack);
                 }
                 //Add myGame.uiDraw right here
             }
@@ -141,10 +141,12 @@ public class GameUI {
                 }
             }
         }
+
         if (infoBox.keyEvent(key, scancode, action, mods)) {
             return true;
-        }
-        return game.uiKeyEvent(key, scancode, action, mods);
+        } else if (menusAreOpen()) return true;
+
+        else return game.uiKeyEvent(key, scancode, action, mods);
     }
 
     public boolean mouseButtonEvent(int button, int action, int mods) {

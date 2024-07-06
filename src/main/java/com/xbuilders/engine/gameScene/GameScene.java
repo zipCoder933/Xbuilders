@@ -11,7 +11,6 @@ import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.GameServer;
-import com.xbuilders.engine.utils.network.PlayerClient;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -64,7 +63,15 @@ public class GameScene implements WindowEvents {
 
 
     public static void alert(String s) {
-        ui.infoBox.message(s);
+        ui.infoBox.addToHistory("Game: " + s);
+    }
+
+    public static void handleGameCommand(String command) {
+        try {
+            server.sendToAllClients(command.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void closeGame() {
@@ -208,7 +215,7 @@ public class GameScene implements WindowEvents {
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (ui.keyEvent(key, scancode, action, mods)) {
-        } else if (!ui.menusAreOpen()) {
+        } else{
             player.keyEvent(key, scancode, action, mods);
         }
         if (action == GLFW.GLFW_RELEASE) {

@@ -5,15 +5,12 @@
 package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.ui.Theme;
 
 import static com.xbuilders.engine.ui.Theme.createColor;
-import static com.xbuilders.engine.ui.Theme.gray;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 import com.xbuilders.engine.ui.UIResources;
-import com.xbuilders.engine.utils.network.GameServer;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -55,12 +52,8 @@ public class InfoText extends GameUIElement {
     }
 
     private void submitCommand(String valueAsString) {
-        System.out.println("COMMAND: " + valueAsString);
-        try {
-            GameScene.server.sendToAllClients(valueAsString.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        addToHistory("< " + valueAsString);
+        GameScene.handleGameCommand(valueAsString);
     }
 
     String infoPanelText = "info panel";
@@ -104,18 +97,20 @@ public class InfoText extends GameUIElement {
 
     ArrayList<String> chatHistory = new ArrayList<>();
 
-    public void message(String text) {
-        System.out.println(">"+text);
-        chatHistory.add("> " + text);
+    public void addToHistory(String text) {
+        chatHistory.add(text);
         if (chatHistory.size() > 10) {
             chatHistory.remove(0);
         }
     }
 
     private void drawChatHistory(NkContext ctx) {
+        Nuklear.nk_layout_row_dynamic(ctx, 8, 1);
         for (int i = 0; i < chatHistory.size(); i++) {
-            Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
-            NKUtils.text(ctx, chatHistory.get(i), 10, NK_LEFT);
+            String line = chatHistory.get(i);
+            if (line.startsWith("<")) {
+                NKUtils.text(ctx, line, 8, NK_RIGHT);
+            } else NKUtils.text(ctx, line, 8, NK_LEFT);
         }
     }
 
@@ -127,7 +122,7 @@ public class InfoText extends GameUIElement {
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-            if (key == GLFW.GLFW_KEY_SLASH) {
+            if (key == GLFW.GLFW_KEY_SLASH) {//Toggle command mode
                 commandMode = !commandMode;
                 if (commandMode) {
                     box.setValueAsString("");
@@ -135,7 +130,7 @@ public class InfoText extends GameUIElement {
                 }
             }
         }
-        return box.isFocused() && commandMode;//the text box could press any key
+        return commandMode;//the text box could press any key
     }
 
 

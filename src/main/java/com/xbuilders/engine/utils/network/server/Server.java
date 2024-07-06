@@ -14,35 +14,69 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
-public abstract class Server<ClientSocket extends NetworkSocket> { //TODO: Determine how to actually have clientSocket extend NetworkSocket
+public abstract class Server<ClientSocket extends NetworkSocket> { //We can define custom network sockets
 
     protected String ipAdress;
-    public final ArrayList<ClientSocket> clients; //A socket is a two way connection
-    public XBServerSocket socket;
-    Thread clientThread;
+    public final ArrayList<ClientSocket> clients = new ArrayList<>(); //A socket is a two way connection
 
-    public Server() {
+    Thread clientThread;
+    Supplier<ClientSocket> clientSocketSupplier;
+
+
+    java.net.ServerSocket serverSocket;
+    private int serverPort;
+
+
+    private ClientSocket acceptClient() throws IOException { //Server accept incoming connection
+        ClientSocket clientSocket = clientSocketSupplier.get();
+        clientSocket.init(serverSocket.accept());
+        return clientSocket;
+    }
+
+    private ClientSocket addConnection(InetSocketAddress address) throws IOException { //Server adds new connection
+        ClientSocket clientSocket = clientSocketSupplier.get();
+        clientSocket.init(address);
+        return clientSocket;
+    }
+
+    public boolean isClosed() {
+        return serverSocket.isClosed();
+    }
+
+
+    public Server(Supplier<ClientSocket> clientSocketSupplier) {
         super();
-        this.clients = new ArrayList<>();
+        this.clientSocketSupplier = clientSocketSupplier;
+        init();
+    }
+
+    private void init() {
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             this.ipAdress = localHost.getHostAddress();
         } catch (UnknownHostException e) {
             this.ipAdress = null;
         }
-
     }
 
 
     public void start(int port) throws IOException {
-        socket = new XBServerSocket(port);
+
+        if (port < 1024) {
+            throw new IOException("Port number must be higher than 1024");
+        }
+        this.serverPort = port;
+        serverSocket = new java.net.ServerSocket(port);
+
+
         clientThread = new Thread() {
             @Override
             public void run() {
-                while (!socket.isClosed()) {
+                while (!serverSocket.isClosed()) {
                     try {
-                        ClientSocket newClient = (ClientSocket) socket.accept();
+                        ClientSocket newClient = (ClientSocket) acceptClient();
                         if (newClientEvent(newClient)) {
                             connectToServer(newClient);
                         } else {
@@ -63,19 +97,19 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //TODO: Deter
      * @return the port
      */
     public int getPort() {
-        return socket.getPort();
+        return serverPort;
     }
 
     public String getIpAdress() {
         return ipAdress;
     }
 
-    public void onClientDisconnect(NetworkSocket client) {
+    public void onClientDisconnect(ClientSocket client) {
         System.out.println("Disconnected: " + client.toString());
     }
 
     public boolean clientAlreadyJoined(String targetHost, String remoteHost) {
-        for (NetworkSocket client : clients) {
+        for (ClientSocket client : clients) {
             if (NetworkUtils.hasSameConnection(
                     client.getHostAddress(), client.getRemoteHostString(),
                     targetHost, remoteHost
@@ -87,19 +121,19 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //TODO: Deter
     }
 
     public void sendToAllClients(byte[] data) throws IOException {
-        for (NetworkSocket client : clients) {
+        for (ClientSocket client : clients) {
             client.sendData(data);
         }
     }
 
     public void close() throws IOException {
-        for (NetworkSocket client : clients) {
+        for (ClientSocket client : clients) {
             client.close();
         }
         clients.clear();
         clientThread.interrupt();
         clientThread = null;
-        socket.close();
+        serverSocket.close();
     }
 
     public boolean clientAlreadyJoined(ClientSocket newClient) {
@@ -116,8 +150,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //TODO: Deter
     public abstract boolean newClientEvent(ClientSocket newClient);
 
     /**
-     *
-     * @param client the client
+     * @param client       the client
      * @param receivedData incoming bytes from the client
      */
     public abstract void dataFromClientEvent(ClientSocket client, byte[] receivedData);
@@ -131,7 +164,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //TODO: Deter
     }
 
     public ClientSocket connectToServer(InetSocketAddress address) throws IOException {
-        ClientSocket newClient = (ClientSocket) socket.addConnection(address);
+        ClientSocket newClient = (ClientSocket) addConnection(address);
         connectToServer(newClient);
         return newClient;
     }

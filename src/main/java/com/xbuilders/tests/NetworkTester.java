@@ -23,7 +23,7 @@ public class NetworkTester {
         final String serverName;
 
         public MyServer(String serverName2) {
-            super();
+            super(NetworkSocket::new);
             serverName = serverName2;
         }
 
