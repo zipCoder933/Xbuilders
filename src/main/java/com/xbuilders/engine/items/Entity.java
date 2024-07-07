@@ -8,8 +8,8 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.engine.world.wcc.WCCf;
 
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 /**

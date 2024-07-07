@@ -8,7 +8,6 @@ import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.rendering.chunk.BlockMeshBundle;
 import com.xbuilders.engine.rendering.chunk.BlockShader;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.blockTools.BlockTool;

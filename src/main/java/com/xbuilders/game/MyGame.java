@@ -11,6 +11,7 @@ import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.game.blockTools.tools.PasteTool;
 import com.xbuilders.game.items.blocks.*;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
@@ -58,6 +59,19 @@ import org.lwjgl.system.MemoryStack;
  * @author zipCoder933
  */
 public class MyGame extends Game {
+    public MyGame() {
+        json = new JsonManager();
+        commandHelp.put("send", "Used to send clipboard");
+    }
+
+    @Override
+    public String handleCommand(String[] parts) {
+        if(parts[0].equals("send")) {
+//            PasteTool.clipboard.toBytes();
+            return "Clipboard: ";
+        }
+        return null;
+    }
 
     public boolean drawCursor(CursorRay cursorRay) {
         return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
@@ -78,9 +92,6 @@ public class MyGame extends Game {
         }
     }
 
-    public MyGame() {
-        json = new JsonManager();
-    }
 
     JsonManager json;
     GameInfo gameInfo;

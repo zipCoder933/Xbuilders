@@ -11,6 +11,7 @@ import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.GameServer;
+import com.xbuilders.engine.utils.network.PlayerSocket;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -28,9 +29,10 @@ import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -40,18 +42,27 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengles.GLES20.GL_BLEND;
 
 public class GameScene implements WindowEvents {
+
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static boolean drawWireframe;
     public static UserControlledPlayer player;
     public static List<Player> otherPlayers;
     public static GameServer server;
-
-
     NKWindow window;
-
     public final static Matrix4f projection = new Matrix4f();
     public final static Matrix4f view = new Matrix4f();
+    private static Game game;
+    static HashMap<String, String> commandHelp;
+
+    public static void setGame(Game game2) {
+        game = game2;
+        commandHelp = new HashMap<>();
+        commandHelp.put("msg", "Usage: msg <player> <message>");
+        commandHelp.put("help", "Usage: help <command>");
+        commandHelp.putAll(game.commandHelp);
+    }
+
 
     public GameScene(NKWindow window) throws Exception {
         this.window = window;
@@ -66,12 +77,62 @@ public class GameScene implements WindowEvents {
         ui.infoBox.addToHistory("Game: " + s);
     }
 
-    public static void handleGameCommand(String command) {
-        try {
-            server.sendToAllClients(command.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private static String[] splitWhitespacePreserveQuotes(String input) {
+        ArrayList<String> parts = new ArrayList<>();
+
+        Pattern pattern = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            if (matcher.group(1) != null) {
+                parts.add(matcher.group(1)); // Add double-quoted string without quotes
+            } else if (matcher.group(2) != null) {
+                parts.add(matcher.group(2)); // Add single-quoted string without quotes
+            } else {
+                parts.add(matcher.group()); // Add unquoted word
+            }
         }
+
+        return parts.toArray(new String[0]);
+    }
+
+    public static String handleGameCommand(String command) {
+        String[] parts = splitWhitespacePreserveQuotes(command);
+        System.out.println("handleGameCommand: " + Arrays.toString(parts));
+        if (parts.length > 0) {
+            if (parts[0].equals("help")) {
+                String out = "Available commands:\n";
+                for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
+                    out += entry.getKey() + "      " + entry.getValue() + "\n";
+                }
+                return out;
+            } else if (parts[0].equals("msg")) {
+                if (parts.length > 2) {
+                    if (parts[1].equals("all")) {
+                        try {
+                            server.sendToAllClients(parts[2].getBytes());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        PlayerSocket player = server.getPlayerByName(parts[1]);
+                        if (player != null) {
+                            try {
+                                player.sendData(parts[2].getBytes());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else return "Player not found: " + parts[1];
+                    }
+                } else return commandHelp.get("msg");
+            } else {
+                String out = game.handleCommand(parts);
+                if (out != null) {
+                    return out;
+                }
+            }
+        }
+        return "Unknown command. Type 'help' for a list of commands";
     }
 
     public void closeGame() {
@@ -79,7 +140,7 @@ public class GameScene implements WindowEvents {
             System.out.println("Closing " + world.info.getName() + "...");
             player.stopGame();
             world.stopGame(player.worldPosition);
-            Main.game.saveState();
+            game.saveState();
         }
     }
 
@@ -134,7 +195,7 @@ public class GameScene implements WindowEvents {
                     //Find spawn point
                     player.setNewSpawnPoint(world.terrain);
                 }
-                Main.game.startGame(worldInfo);
+                game.startGame(worldInfo);
                 player.startGame();
                 prog.finish();
                 setProjection();
@@ -153,11 +214,11 @@ public class GameScene implements WindowEvents {
 
     public void init(UIResources uiResources, MyGame game) throws IOException {
         setProjection();
-        ui = new GameUI(Main.game, window.ctx, window, uiResources);
+        ui = new GameUI(game, window.ctx, window, uiResources);
         world.init(ItemList.blocks.textures);
         player.init(window, world, projection, view);
         ui.init();
-        Main.game.uiInit(window.ctx, window, uiResources, ui);
+        game.uiInit(window.ctx, window, uiResources, ui);
     }
 
     boolean holdMouse;
@@ -191,7 +252,7 @@ public class GameScene implements WindowEvents {
         ui.draw();
 
 
-        Main.game.update();
+        game.update();
     }
 
     public void windowResizeEvent(int width, int height) {
@@ -215,7 +276,7 @@ public class GameScene implements WindowEvents {
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (ui.keyEvent(key, scancode, action, mods)) {
-        } else{
+        } else {
             player.keyEvent(key, scancode, action, mods);
         }
         if (action == GLFW.GLFW_RELEASE) {

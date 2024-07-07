@@ -76,6 +76,17 @@ class ChunkSavingLoadingUtils {
 //        }
 //    }
 
+    public static byte[] shortToBytes(final int x) {
+        final byte b1 = (byte) x;
+        final byte b2 = (byte) (x >> 8);
+        return new byte[] { b1, b2 };
+    }
+
+    public static short bytesToShort(final byte b1, final byte b2) {
+        final short result = (short) (b2 << 8 | (b1 & 0xFF));
+        return result;
+    }
+
     private static void writeShort(OutputStream out, final short x) throws IOException {
         out.write((byte) (x & 0xFF));
         out.write((byte) ((x >> 8) & 0xFF));

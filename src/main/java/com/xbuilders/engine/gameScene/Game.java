@@ -13,6 +13,9 @@ import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.window.NKWindow;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
@@ -24,6 +27,7 @@ import org.lwjgl.system.MemoryStack;
 public abstract class Game {
 
     public final ArrayList<Terrain> terrainsList;
+    public Map<String, String> commandHelp = new HashMap<>();
     long lastSaved;
 
     protected void update() {
@@ -76,4 +80,7 @@ public abstract class Game {
 
     public abstract boolean uiMouseButtonEvent(int button, int action, int mods);
 
+    public String handleCommand(String[] parts) {
+        return null;
+    }
 }

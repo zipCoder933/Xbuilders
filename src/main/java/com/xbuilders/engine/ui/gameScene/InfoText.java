@@ -37,7 +37,7 @@ public class InfoText extends GameUIElement {
     private NkRect commandRect;
     TextBox box;
     private String text;
-    final int commandBoxHeight = 400;
+    final int commandBoxHeight = 450;
     final int sidePadding = 50;
 
     public InfoText(NkContext ctx, NKWindow window, UIResources uires) {
@@ -53,7 +53,10 @@ public class InfoText extends GameUIElement {
 
     private void submitCommand(String valueAsString) {
         addToHistory("< " + valueAsString);
-        GameScene.handleGameCommand(valueAsString);
+        String str = GameScene.handleGameCommand(valueAsString);
+        if (str != null) {
+            addToHistory("> " + str);
+        }
     }
 
     String infoPanelText = "info panel";
@@ -69,14 +72,14 @@ public class InfoText extends GameUIElement {
             commandRect.h(Math.min(commandBoxHeight, window.getHeight() - 150));
             ctx.style().window().fixed_background().data().color().set(Theme.darkTransparent);
             if (nk_begin(ctx, commandPanelText, commandRect, 0)) {
-                Nuklear.nk_layout_row_dynamic(ctx, 40, 1);
+                Nuklear.nk_layout_row_dynamic(ctx, 30, 1);
                 nk_text(ctx, "Enter command:", NK_LEFT);
 
                 Nuklear.nk_layout_row_dynamic(ctx, 40, 1);
                 box.render(ctx);
 
                 Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
-                drawChatHistory(ctx);
+                drawChatHistory(ctx, true , 0);
             }
             nk_end(ctx);
         } else {
@@ -87,30 +90,35 @@ public class InfoText extends GameUIElement {
                     NKUtils.text(ctx, text, 10, NK_LEFT);
                     Nuklear.nk_layout_row_static(ctx, 20, window.getWidth(), 1);
                 }
-                drawChatHistory(ctx);
+                drawChatHistory(ctx, false, 10);
             }
             nk_end(ctx);
         }
-
-
     }
 
-    ArrayList<String> chatHistory = new ArrayList<>();
+    ArrayList<ChatMessage> chatHistory = new ArrayList<>();
 
     public void addToHistory(String text) {
-        chatHistory.add(text);
-        if (chatHistory.size() > 10) {
-            chatHistory.remove(0);
+        chatHistory.add(0, new ChatMessage(text));
+        if (chatHistory.size() > 30) {
+            chatHistory.remove(chatHistory.size() - 1);
         }
     }
 
-    private void drawChatHistory(NkContext ctx) {
-        Nuklear.nk_layout_row_dynamic(ctx, 8, 1);
-        for (int i = 0; i < chatHistory.size(); i++) {
-            String line = chatHistory.get(i);
-            if (line.startsWith("<")) {
-                NKUtils.text(ctx, line, 8, NK_RIGHT);
-            } else NKUtils.text(ctx, line, 8, NK_LEFT);
+    private void drawChatHistory(NkContext ctx, boolean alwaysShow, int maxMessages) {
+        Nuklear.nk_layout_row_dynamic(ctx, 9, 1);
+        for (int i = 0; i < chatHistory.size(); i ++) {
+
+            if (maxMessages > 0 && i > maxMessages) {
+                break;
+            }
+
+            String line = chatHistory.get(i).value;
+            if (alwaysShow || System.currentTimeMillis() - chatHistory.get(i).time < 10000) {
+                if (line.startsWith("<")) {
+                    NKUtils.text(ctx, line, 9, NK_TEXT_ALIGN_RIGHT);
+                } else NKUtils.text(ctx, line, 9, NK_TEXT_ALIGN_LEFT);
+            }
         }
     }
 

@@ -110,6 +110,7 @@ public class Main extends NKWindow {
         System.out.println(user.toString());
 
         game = new MyGame();
+        gameScene.setGame(game);
         topMenu = new TopMenu(this);
         gameScene = new GameScene(this);
         setMpfUpdateInterval(500);

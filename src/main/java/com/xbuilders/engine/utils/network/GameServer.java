@@ -88,6 +88,15 @@ public class GameServer extends Server<PlayerSocket> {
         }
     }
 
+    public PlayerSocket getPlayerByName(String name) {
+        for (PlayerSocket client : clients) {
+            if (client.player != null && client.player.name.equalsIgnoreCase(name)) {
+                return client;
+            }
+        }
+        return null;
+    }
+
     private void playerJoinEvent(PlayerSocket client) {
         GameScene.alert("A new player has joined: " + client.player.toString());
     }
