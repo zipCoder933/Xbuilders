@@ -104,6 +104,12 @@ public class WorldInfo {
         this.infoFile = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), InfoFile.class);
     }
 
+
+    public String toJson() {
+        return gson.toJson(infoFile);
+    }
+
+
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     public void save() throws IOException {
@@ -116,7 +122,7 @@ public class WorldInfo {
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);
     }
 
-    public void makeNew(String name, int size, Terrain  terrain, int seed) {
+    public void makeNew(String name, int size, Terrain terrain, int seed) {
         this.name = name;
         this.infoFile.size = size;
         this.infoFile.terrain = terrain.name;
@@ -127,8 +133,9 @@ public class WorldInfo {
     }
 
     public void makeNew(String name, String json) {
+        this.infoFile = gson.fromJson(json, InfoFile.class);
         this.name = name;
-        loadInfoFileAsJson(json);
+        this.directory = WorldsHandler.worldFile(name);
     }
 
     public String getDetails() {
@@ -139,16 +146,10 @@ public class WorldInfo {
                 + "Seed: " + infoFile.seed;
     }
 
-    public String getInfoFileAsJson() {
-        return gson.toJson(infoFile);
-    }
-
-    public void loadInfoFileAsJson(String json) {
-        gson.fromJson(json, InfoFile.class);
-    }
 
     public class InfoFile {
 
+        public boolean playedAsMultiplayer;
         public int size;
         public float spawnX;
         public float spawnY;
@@ -164,7 +165,12 @@ public class WorldInfo {
             this.spawnY = -1.0f;
             this.spawnZ = -1.0f;
             this.terrainVersion = 0;
+            playedAsMultiplayer = false;
         }
 
+    }
+
+    public String toString() {
+        return "WorldInfo:   name=" + name + "  json=" + toJson();
     }
 }

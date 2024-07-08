@@ -1,10 +1,9 @@
-package com.xbuilders.engine.world.chunk.saving;
+package com.xbuilders.engine.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 
- class ByteUtils {
+public class ByteUtils {
 
 
 
@@ -51,4 +50,19 @@ import java.nio.ByteBuffer;
         }
         return result;
     }
+
+     public static byte[] floatToBytes(float value) {
+         int intBits =  Float.floatToIntBits(value);
+         return new byte[] {
+                 (byte) (intBits >> 24),
+                 (byte) (intBits >> 16),
+                 (byte) (intBits >> 8),
+                 (byte) (intBits) };
+     }
+
+     public static float bytesToFloat(byte[] bytes) {
+         int intBits =
+                 bytes[0] << 24 | (bytes[1] & 0xFF) << 16 | (bytes[2] & 0xFF) << 8 | (bytes[3] & 0xFF);
+         return Float.intBitsToFloat(intBits);
+     }
 }

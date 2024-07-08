@@ -3,6 +3,7 @@ package com.xbuilders.engine.world.chunk.saving;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.items.EntityLink;
 import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
@@ -12,7 +13,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.world.chunk.saving.ByteUtils.*;
+import static com.xbuilders.engine.utils.ByteUtils.*;
 import static com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils.*;
 
 public class ChunkFile_V0 {

@@ -5,6 +5,8 @@ import com.xbuilders.game.Main;
 
 public class EngineSettings {
 
+
+
     public EngineSettings(boolean devMode) { // First time setup
         viewDistance = (Chunk.WIDTH * 5);
         fullscreen = devMode ? false : true;
@@ -19,4 +21,5 @@ public class EngineSettings {
     public float fullscreenSizeMultiplier = 1.0f;
     public int maxCursorRaycastDist = 50;
     public boolean largerUI = true;
+    public boolean smallWindow = false;
 }

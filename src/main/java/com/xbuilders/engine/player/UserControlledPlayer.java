@@ -19,6 +19,7 @@ import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
@@ -30,8 +31,9 @@ public class UserControlledPlayer extends Player {
     public Camera camera;
     BaseWindow window;
     static float speed = 10f;
-    final static float PLAYER_HEIGHT = 1.5f;
-    final static float PLAYER_WIDTH = 0.8f;
+
+
+    final Vector4f lastOrientation = new Vector4f();
 
     final static float FLY_SPEED = 12f;
     final float DEFAULT_SPEED = 10f;
@@ -145,11 +147,10 @@ public class UserControlledPlayer extends Player {
         this.view = view;
         camera = new Camera(this, window, view, projection, world);
 
-        aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
-        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0, -(PLAYER_WIDTH * 0.5f));
+
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
-        skin = new FoxSkin(this);
+        skin = Main.game.availableSkins.get(0).get(this);
         eventPipeline = new BlockEventPipeline(world);
         if (Main.devMode) setFlashlight(20f);
     }
@@ -302,11 +303,21 @@ public class UserControlledPlayer extends Player {
         // The key to preventing shaking during collision is to update the camera AFTER
         // the position handler is done its job
         camera.update(holdMouse);
+        this.pan = camera.pan;
+        this.tilt = camera.tilt;
 
         camera.cursorRay.drawRay();
         if (camera.getThirdPersonDist() != 0.0f) {
             skin.init(projection, view);
             skin.render();
+        }
+
+        if (lastOrientation.x != worldPosition.x
+                || lastOrientation.y != worldPosition.y
+                || lastOrientation.z != worldPosition.z
+                || lastOrientation.w != pan) {
+            lastOrientation.set(worldPosition.x, worldPosition.y, worldPosition.z, pan);
+            GameScene.server.sendPlayerPosition(lastOrientation);
         }
     }
 

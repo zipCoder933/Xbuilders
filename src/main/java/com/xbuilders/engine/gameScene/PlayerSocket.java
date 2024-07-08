@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.network;
+package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;

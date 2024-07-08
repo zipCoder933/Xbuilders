@@ -10,8 +10,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.network.GameServer;
-import com.xbuilders.engine.utils.network.PlayerSocket;
+import com.xbuilders.engine.utils.network.server.NetworkUtils;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -55,14 +54,6 @@ public class GameScene implements WindowEvents {
     private static Game game;
     static HashMap<String, String> commandHelp;
 
-    public static void setGame(Game game2) {
-        game = game2;
-        commandHelp = new HashMap<>();
-        commandHelp.put("msg", "Usage: msg <player> <message>");
-        commandHelp.put("help", "Usage: help <command>");
-        commandHelp.putAll(game.commandHelp);
-    }
-
 
     public GameScene(NKWindow window) throws Exception {
         this.window = window;
@@ -74,7 +65,11 @@ public class GameScene implements WindowEvents {
 
 
     public static void alert(String s) {
-        ui.infoBox.addToHistory("Game: " + s);
+        ui.infoBox.addToHistory("GAME: " + s);
+    }
+
+    public static void consoleOut(String s) {
+        ui.infoBox.addToHistory(s);
     }
 
     private static String[] splitWhitespacePreserveQuotes(String input) {
@@ -96,39 +91,48 @@ public class GameScene implements WindowEvents {
         return parts.toArray(new String[0]);
     }
 
+    public static void setGame(Game game2) {
+        game = game2;
+        commandHelp = new HashMap<>();
+        commandHelp.put("msg", "Usage: msg <player> <message>");
+        commandHelp.put("help", "Usage: help <command>");
+        commandHelp.put("goto", "Usage: goto <player>");
+        commandHelp.putAll(game.commandHelp);
+    }
+
     public static String handleGameCommand(String command) {
         String[] parts = splitWhitespacePreserveQuotes(command);
         System.out.println("handleGameCommand: " + Arrays.toString(parts));
         if (parts.length > 0) {
-            if (parts[0].equals("help")) {
-                String out = "Available commands:\n";
-                for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
-                    out += entry.getKey() + "      " + entry.getValue() + "\n";
-                }
-                return out;
-            } else if (parts[0].equals("msg")) {
-                if (parts.length > 2) {
-                    if (parts[1].equals("all")) {
-                        try {
-                            server.sendToAllClients(parts[2].getBytes());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        PlayerSocket player = server.getPlayerByName(parts[1]);
-                        if (player != null) {
-                            try {
-                                player.sendData(parts[2].getBytes());
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        } else return "Player not found: " + parts[1];
+            switch (parts[0]) {
+                case "help" -> {
+                    String out = "Available commands:\n";
+                    for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
+                        out += entry.getKey() + "      " + entry.getValue() + "\n";
                     }
-                } else return commandHelp.get("msg");
-            } else {
-                String out = game.handleCommand(parts);
-                if (out != null) {
                     return out;
+                }
+                case "msg" -> {
+                    if (parts.length > 2) {
+                        return server.sendChatMessage(parts[1], parts[2]);
+                    } else return commandHelp.get("msg");
+                }
+                case "goto" -> {
+                    if (parts.length > 2) {
+                        Player target = server.getPlayerByName(parts[1]).player;
+                        if (target != null) {
+                            player.worldPosition.set(target.worldPosition);
+                            return null;
+                        } else {
+                            return "Player not found";
+                        }
+                    } else return commandHelp.get("goto");
+                }
+                default -> {
+                    String out = game.handleCommand(parts);
+                    if (out != null) {
+                        return out;
+                    }
                 }
             }
         }
@@ -238,6 +242,13 @@ public class GameScene implements WindowEvents {
 
         Main.frameTester.startProcess();
         player.update(holdMouse);
+
+        //draw other players
+        for (int i = 0; i < server.clients.size(); i++) {
+            Player otherPlayer = server.clients.get(i).player;
+            otherPlayer.update(projection, view);
+        }
+
         Main.frameTester.endProcess("Updating player");
         enableBackfaceCulling();
         Main.frameTester.startProcess();

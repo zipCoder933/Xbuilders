@@ -31,11 +31,8 @@ public class WorldsHandler {
         return name.replaceAll("[^A-z\\s0-9_-]", "").replace("^", "").strip();
     }
 
-    public static boolean worldNameAlreadyExists(final String name) throws IOException {
-        if (worldFile(name).exists()) {
-            throw new IOException("A world already exists under that name.");
-        }
-        return false;
+    public static boolean worldNameAlreadyExists(final String name){
+        return worldFile(name).exists();
     }
 
     public static void deleteWorld(WorldInfo info) throws IOException {

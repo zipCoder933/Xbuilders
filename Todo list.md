@@ -1,6 +1,10 @@
 # Optimize XBuilders 2 or use Xbuilders 3?
 Xbuilders 3 performance is very clearly better than xb2.
 
+### DONT Do what makes the code look pretty or is the most perfect, just do what is easiest and most convinient
+There is a balance, but when you spend too much time making the inside of the code perfect, you waste time unnecisarrily.
+**All that matters is that the code works!!!**
+
 # Todo list
 - FIX BLOCK PIPELINE BUGS FIRST!!!
    * **Play the game TO catch errors that appear**
@@ -9,15 +13,15 @@ Xbuilders 3 performance is very clearly better than xb2.
 ### Bufgixes
   - Fix entity collison objects being "soft" when they are stacked on top of each other
 
+### Multiplayer
+~~- Position of the players are shared with each other~~
+~~- Players can see each other in the same world~~
+- 
+
 ### Finish adding features
   - add line, sphere and replace tools
   - Add trees into terrian
   - add birds, fish and turtles
-
-### Multiplayer
-  - Players can see each other in the same world
-  - Last saved date in chunk file
-  - Include file version
 
 ### Update inventory
   - **add inventory groups**

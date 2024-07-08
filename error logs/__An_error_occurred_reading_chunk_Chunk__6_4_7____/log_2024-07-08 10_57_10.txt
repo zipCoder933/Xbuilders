@@ -3,7 +3,7 @@ Class: 	class java.nio.BufferOverflowException
 
 Stack trace:
 [java.base/java.nio.HeapByteBuffer.put(HeapByteBuffer.java:231)
- com.xbuilders.engine.world.chunk.saving.ByteUtils.bytesToLong(ByteUtils.java:14)
+ com.xbuilders.engine.utils.ByteUtils.bytesToLong(ByteUtils.java:14)
  com.xbuilders.engine.world.chunk.saving.ChunkFile_V0.readMetadata(ChunkFile_V0.java:23)
  com.xbuilders.engine.world.chunk.saving.ChunkFile_V0.readChunk(ChunkFile_V0.java:33)
  com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils.readChunkFromFile(ChunkSavingLoadingUtils.java:183)

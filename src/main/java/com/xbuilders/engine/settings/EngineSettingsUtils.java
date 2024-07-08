@@ -10,9 +10,9 @@ import com.xbuilders.engine.utils.ResourceUtils;
 
 public class EngineSettingsUtils {
 
-    final File settingsFile = ResourceUtils.appDataResource("settings.json");
 
     public EngineSettings load(boolean devMode) {
+        File settingsFile = ResourceUtils.appDataResource("settings.json");
         if(EngineSettings.shouldReset()){
             System.out.println("Resetting settings!");
             save(new EngineSettings(devMode));
@@ -32,6 +32,7 @@ public class EngineSettingsUtils {
     }
 
     public void save(EngineSettings settings) {
+        File settingsFile = ResourceUtils.appDataResource("settings.json");
         // Save to JSON
         Gson gson = new Gson();
         try {

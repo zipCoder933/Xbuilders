@@ -6,9 +6,10 @@ package com.xbuilders.engine.world.chunk.saving;
 
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
-import static com.xbuilders.engine.world.chunk.saving.ByteUtils.*;
+import static com.xbuilders.engine.utils.ByteUtils.*;
 import java.io.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;

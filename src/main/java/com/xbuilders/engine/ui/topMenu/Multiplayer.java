@@ -128,7 +128,7 @@ public class Multiplayer implements MenuPage {
 
                 NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, playerName, ipAdress);
                 System.out.println(req.toString());
-                loadWorld.loadWorldAsMultiplayer(req);
+                loadWorld.loadWorldAsMultiplayer(loadWorld.currentWorld, req);
             }
         }
         nk_end(ctx);

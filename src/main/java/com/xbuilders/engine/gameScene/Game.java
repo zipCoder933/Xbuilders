@@ -5,6 +5,8 @@
 package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.player.Player;
+import com.xbuilders.engine.player.Skin;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.UIResources;
@@ -15,6 +17,7 @@ import com.xbuilders.window.NKWindow;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
@@ -27,8 +30,16 @@ import org.lwjgl.system.MemoryStack;
 public abstract class Game {
 
     public final ArrayList<Terrain> terrainsList;
+    public ArrayList<SkinSupplier> availableSkins = new ArrayList<>();
+
+    @FunctionalInterface
+    public interface SkinSupplier {
+        public Skin get(Player player);
+    }
+
     public Map<String, String> commandHelp = new HashMap<>();
     long lastSaved;
+
 
     protected void update() {
         if (System.currentTimeMillis() - lastSaved > 10000) {

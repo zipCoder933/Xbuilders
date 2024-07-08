@@ -25,29 +25,32 @@ public class ResourceUtils {
     //Individual paths
     public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, ICONS_DIR;
 
-    static {
+
+    public static void initialize(boolean gameDevResources) {
+        initialize(gameDevResources, "xbuilders3");
+    }
+
+    public static void initialize(boolean gameDevResources, String appDataDir) {
         System.out.println("RESOURCES:");
         LOCAL_DIR = new File(System.getProperty("user.dir"));
         RESOURCE_DIR = new File(LOCAL_DIR, "res");
-        APP_DATA_DIR = new File(System.getenv("LOCALAPPDATA"), "xbuilders3");
-
         RESOURCE_DIR.mkdirs();
-        APP_DATA_DIR.mkdirs();
 
         System.out.println("\tLocal path: " + LOCAL_DIR);
         System.out.println("\tResource path: " + RESOURCE_DIR);
-        System.out.println("\tApp Data path: " + APP_DATA_DIR);
 
         BLOCK_ICON_DIR = resource("items\\blocks\\icons");
         DEFAULT_ICON = resource("items\\defaultIcon.png");
         BLOCK_TEXTURE_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\textures");
         ICONS_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\icons");
-    }
 
-    public static void initialize(boolean gameDevResources) {
+        APP_DATA_DIR = new File(System.getenv("LOCALAPPDATA"), appDataDir== null ? "xbuilders3" : appDataDir);
+        APP_DATA_DIR.mkdirs();
+        System.out.println("\tApp Data path: " + APP_DATA_DIR);
+
         WORLDS_DIR = new File(APP_DATA_DIR, (gameDevResources ? "game_dev" : "game"));
         WORLDS_DIR.mkdirs();
-        System.out.println("\tGame path: " + WORLDS_DIR);
+        System.out.println("\tWorlds path: " + WORLDS_DIR);
     }
 
     public static File localResource(String path) {

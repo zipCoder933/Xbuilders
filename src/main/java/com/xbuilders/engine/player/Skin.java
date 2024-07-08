@@ -75,7 +75,7 @@ public abstract class Skin {
 
         modelMatrix.identity().translate(position.worldPosition)
 //                .translate(-position.offset.x, 0, -position.offset.z)
-                .rotateY((float) (-player.getPan() - Math.PI / 2));
+                .rotateY((float) (-player.pan - Math.PI / 2));
 
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(),shader.uniform_modelMatrix);

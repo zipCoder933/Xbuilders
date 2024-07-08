@@ -70,11 +70,11 @@ public class MenuHome implements MenuPage {
                 menu.setPage(Page.LOAD_WORLD);
             }
 
-//            nk_layout_row_static(ctx, 10, 1, 1);
-//            nk_layout_row_dynamic(ctx, 40, 1);
-//            if (nk_button_label(ctx, "JOIN MULTIPLAYER")) {
-//                menu.setPage(Page.JOIN_MULTIPLAYER);
-//            }
+            nk_layout_row_static(ctx, 10, 1, 1);
+            nk_layout_row_dynamic(ctx, 40, 1);
+            if (nk_button_label(ctx, "JOIN MULTIPLAYER")) {
+                menu.setPage(Page.JOIN_MULTIPLAYER);
+            }
 
 //            nk_layout_row_static(ctx, 40, 1, 1);
 //            nk_layout_row_dynamic(ctx, 40, 1);

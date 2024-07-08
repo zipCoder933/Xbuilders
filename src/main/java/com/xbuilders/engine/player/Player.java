@@ -6,7 +6,7 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.engine.utils.network.GameServer;
+import com.xbuilders.engine.gameScene.GameServer;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 
 import java.io.File;
@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+import com.xbuilders.game.Main;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 /**
@@ -28,14 +30,9 @@ public class Player {
     public byte color;
     public final EntityAABB aabb;
     public final Vector3f worldPosition;
+    public float pan, tilt;
+    public boolean initialized = false;
 
-    public float getPan() {
-        return 0;
-    }
-
-    public float getTilt() {
-        return 0;
-    }
 
     public byte[] infoToBytes() throws IOException {
         byte[] data = new byte[name.length() + 2];  // Assuming color is a byte
@@ -51,11 +48,9 @@ public class Player {
         if (data.length < 2) {
             throw new IllegalArgumentException("Invalid data length");
         }
-
         int nameLength = data.length - 2; // Subtracting 2 for color and header
         byte[] nameBytes = new byte[nameLength];
         System.arraycopy(data, 2, nameBytes, 0, nameLength);
-
         name = new String(nameBytes, StandardCharsets.UTF_8);
         color = data[1];
     }
@@ -64,16 +59,29 @@ public class Player {
         Files.write(playerModelFile.toPath(), infoToBytes());
     }
 
+    public void init() {
+        skin = Main.game.availableSkins.get(0).get(this);
+        initialized = true;
+    }
+
+    final static float PLAYER_HEIGHT = 1.5f;
+    final static float PLAYER_WIDTH = 0.8f;
+
     public Player() {
         name = null;
         aabb = new EntityAABB();
+        aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
+        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0, -(PLAYER_WIDTH * 0.5f));
+
         worldPosition = aabb.worldPosition;
     }
 
     public Player(UserID user) throws IOException {
         aabb = new EntityAABB();
-        worldPosition = aabb.worldPosition;
+        aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
+        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0, -(PLAYER_WIDTH * 0.5f));
 
+        worldPosition = aabb.worldPosition;
         if (playerModelFile == null) {
             playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
         }
@@ -87,8 +95,18 @@ public class Player {
         }
     }
 
+    public void update(Matrix4f projection, Matrix4f view) {
+        if(!initialized){
+            init();
+        }
+        skin.init(projection, view);
+        skin.render();
+    }
+
     @Override
     public String toString() {
         return "Player{" + "name=" + name + ", color=" + color + '}';
     }
+
+
 }

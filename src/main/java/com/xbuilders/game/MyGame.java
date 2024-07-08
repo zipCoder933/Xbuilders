@@ -32,6 +32,7 @@ import com.xbuilders.game.items.tools.AnimalFeed;
 import com.xbuilders.game.items.tools.Flashlight;
 import com.xbuilders.game.items.tools.Hoe;
 import com.xbuilders.game.items.tools.Saddle;
+import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
@@ -46,6 +47,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -60,6 +62,9 @@ import org.lwjgl.system.MemoryStack;
  */
 public class MyGame extends Game {
     public MyGame() {
+        availableSkins = new ArrayList<>();
+        availableSkins.add((p) -> new FoxSkin(p));
+
         json = new JsonManager();
         commandHelp.put("send", "Used to send clipboard");
     }
@@ -310,6 +315,8 @@ public class MyGame extends Game {
 
     @Override
     public void initialize(NKWindow window) throws Exception {
+
+
 
         //Add block types FIRST. We need them to be able to setup blocks properly
         ItemList.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());

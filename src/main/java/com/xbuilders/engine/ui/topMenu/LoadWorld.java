@@ -21,7 +21,6 @@ import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -112,9 +111,9 @@ public class LoadWorld implements MenuPage {
                 if (nk_button_label(ctx, "HOST AS MULTIPLAYER")) {
                     menu.setPage(Page.HOST_MULTIPLAYER);
                 }
-                if (nk_button_label(ctx, "JOIN MULTIPLAYER")) {
-                    menu.setPage(Page.JOIN_MULTIPLAYER);
-                }
+//                if (nk_button_label(ctx, "JOIN MULTIPLAYER")) {
+//                    menu.setPage(Page.JOIN_MULTIPLAYER);
+//                }
 
                 if (nk_button_label(ctx, "DELETE WORLD")) {
                     try {
@@ -141,16 +140,34 @@ public class LoadWorld implements MenuPage {
 
     }
 
-    public void loadWorldAsMultiplayer(NetworkJoinRequest req)  {
-        GameScene.server.joinGame(req);
-        loadWorld(currentWorld);
+    public void loadWorldAsMultiplayer(WorldInfo world, NetworkJoinRequest req) {
+        if (req.hosting) {
+            try {
+                world.infoFile.playedAsMultiplayer = true;
+                GameScene.server.startGame(req);
+                loadWorld(world);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                menu.popupMessage.show("Error Hosting", ex.getMessage());
+            }
+        } else {
+            try {
+                WorldInfo hostWorld = GameScene.server.startGame(req);
+                hostWorld.infoFile.playedAsMultiplayer = true;
+                System.out.println(hostWorld);
+                loadWorld(hostWorld);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                menu.popupMessage.show("Error Joining", ex.getMessage());
+            }
+        }
     }
 
-    public void loadWorld(WorldInfo currentWorld1) {
+    public void loadWorld(WorldInfo world) {
         ProgressData prog = new ProgressData("Loading world");
         menu.progress.enable(prog,
                 () -> {//update
-                    Main.gameScene.newGameUpdate(currentWorld1, prog);
+                    Main.gameScene.newGameUpdate(world, prog);
                 },
                 () -> {//finished
                     Main.goToGamePage();

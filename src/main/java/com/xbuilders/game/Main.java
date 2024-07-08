@@ -23,6 +23,7 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -76,12 +77,18 @@ public class Main extends NKWindow {
 
     public static void main(String[] args) {
         try {
+            System.out.println("args: " + Arrays.toString(args));
+
+            String customAppData = null;
+
             for (String arg : args) {
                 if (arg.equals("icons")) {
                     generateIcons = true;
                 } else if (arg.equals("devmode")) {
                     devMode = true;
                     System.out.println("Dev mode enabled");
+                } else if (arg.startsWith("appData")) {
+                    customAppData = arg.split("=")[1];
                 }
             }
 
@@ -94,8 +101,7 @@ public class Main extends NKWindow {
             } else {
                 frameTester.setEnabled(false);
             }
-
-            ResourceUtils.initialize(devMode);
+            ResourceUtils.initialize(devMode, customAppData);
 
             new Main();
         } catch (Exception ex) {
@@ -120,8 +126,8 @@ public class Main extends NKWindow {
         initGLFW();
 
         //Get the actual size of the screen
-        int windowWidth = 920;
-        int windowHeight = 720;
+        int windowWidth = settings.smallWindow ? 600 : 920;
+        int windowHeight = settings.smallWindow ? 650 : 720;
 
         if (settings.fullscreen) {
             int screenWidth = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
