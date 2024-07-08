@@ -13,7 +13,6 @@ Xbuilders 3 performance is very clearly better than xb2.
   - add line, sphere and replace tools
   - Add trees into terrian
   - add birds, fish and turtles
-  - player must be able to jump underwater
 
 ### Multiplayer
   - Make some basic player skins and have a menu to change the name and skin

@@ -63,7 +63,7 @@ public class PositionHandler {
 
     public void setFallMedium(float gravity, float terminalVelocity) {
         this.gravity = gravity;
-        this.terminalVelocity = terminalVelocity;
+        this.terminalVelocity = Math.min(terminalVelocity, DEFAULT_TERMINAL_VELOCITY);
     }
 
     public void resetFallMedium() {
@@ -118,11 +118,11 @@ public class PositionHandler {
             velocity.x *= friction;
             velocity.z *= friction;
             if (collisionsEnabled && isGravityEnabled()) {
-                this.velocity.sub(0, (float) (gravity * window.getMsPerFrame()), 0);
+                this.velocity.add(0, (float) (gravity * window.getMsPerFrame()), 0);
             } else {
                 velocity.y *= friction;
             }
-            if (velocity.y < 0.00001f) {
+            if (velocity.y > -0.00001f) {
                 onGround = true;
             } else if (velocity.y > terminalVelocity) {
                 velocity.y = terminalVelocity;
@@ -130,7 +130,7 @@ public class PositionHandler {
 
 
             aabb.box.setX(aabb.box.min.x + velocity.x);
-            aabb.box.setY(aabb.box.min.y - velocity.y);
+            aabb.box.setY(aabb.box.min.y + velocity.y);
             aabb.box.setZ(aabb.box.min.z + velocity.z);
         }
         if (collisionsEnabled) {
@@ -143,10 +143,12 @@ public class PositionHandler {
     }
 
 
+    final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
+
+
     public final void jump() {
         if (onGround && isGravityEnabled()) {
-            System.out.println("jump");
-            this.velocity.y += 0.0005f * 20.0f * window.getMsPerFrame();
+            this.velocity.y -= Math.max(MIN_JUMP_GRAVITY, gravity) * 15.0f * window.getMsPerFrame();
             onGround = false;
         }
     }

@@ -65,51 +65,51 @@ public class UserControlledPlayer extends Player {
     public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_V;
 
     public boolean leftKeyPressed() {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
     }
 
     public boolean rightKeyPressed() {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_RIGHT) || window.isKeyPressed(GLFW.GLFW_KEY_D);
     }
 
     public boolean forwardKeyPressed() {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
     }
 
     public boolean backwardKeyPressed() {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
     }
 
     public boolean jumpKeyPressed() {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_SPACE);
     }
 
     public boolean upKeyPressed() {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
                 !window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
     }
 
     public boolean downKeyPressed() {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
                 window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
     }
 
 
     public boolean upKeyPressed(int key) {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return key == GLFW.GLFW_KEY_F &&
                 key != GLFW.GLFW_KEY_LEFT_SHIFT;
     }
 
     public boolean downKeyPressed(int key) {
-        if(GameScene.ui.menusAreOpen()) return false;
+        if (GameScene.ui.menusAreOpen()) return false;
         return key == GLFW.GLFW_KEY_F &&
                 key == GLFW.GLFW_KEY_LEFT_SHIFT;
     }
@@ -220,7 +220,8 @@ public class UserControlledPlayer extends Player {
         }
 
         Block newPlayerBlock = getBlockAtPlayerHead();
-        if (newPlayerBlock != playerBlock) {
+        if (playerBlock == null || newPlayerBlock.id != playerBlock.id) {
+            System.out.println("Player block changed to " + newPlayerBlock);
             playerBlock = newPlayerBlock;
             if (newCameraBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.velocity.set(0, 0, 0);
@@ -268,7 +269,7 @@ public class UserControlledPlayer extends Player {
                     isClimbing = true;
                     canFly = false;
                     worldPosition.sub(0, 3f * window.getFrameDelta(), 0);
-                }else{
+                } else {
                     isClimbing = true;
                     canFly = false;
                     worldPosition.add(0, 3f * window.getFrameDelta(), 0);
