@@ -1,19 +1,19 @@
 # Optimize XBuilders 2 or use Xbuilders 3?
 Xbuilders 3 performance is very clearly better than xb2.
 
-### DONT Do what makes the code look pretty or is the most perfect, just do what is easiest and most convinient
+### DONT Do what makes the code perfect. Do what is most convinient
 There is a balance, but when you spend too much time making the inside of the code perfect, you waste time unnecisarrily.
 **All that matters is that the code works!!!**
 
-# Todo list
-- FIX BLOCK PIPELINE BUGS FIRST!!!
+### bugs 
+- FIX BLOCK PIPELINE BUGS
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
+- Fix entity collison objects being "soft" when they are stacked on top of each other
+- crashes from NKconvert are still an issue
+  - follow up with the bug report
 
-### Bufgixes
-  - Fix entity collison objects being "soft" when they are stacked on top of each other
-
-### Finish adding features
+### features
 - add line, sphere and replace tools
 - Add trees into terrian
 - add birds, fish and turtles
@@ -21,7 +21,7 @@ There is a balance, but when you spend too much time making the inside of the co
   - add liquid propagation with block data
   - make a special block type for liquid that has certex height depending on block data
 
-### Update inventory
+### inventory navigation
   - **add inventory groups**
   ~~- Save for later as well: Add real tooltips?~~
   ~~- Maybe wait to do this: make inventory scroll faster by replacing the group with a grid of icons that change when scrolled~~
