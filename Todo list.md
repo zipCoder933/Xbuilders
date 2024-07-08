@@ -13,15 +13,13 @@ There is a balance, but when you spend too much time making the inside of the co
 ### Bufgixes
   - Fix entity collison objects being "soft" when they are stacked on top of each other
 
-### Multiplayer
-~~- Position of the players are shared with each other~~
-~~- Players can see each other in the same world~~
-- 
-
 ### Finish adding features
-  - add line, sphere and replace tools
-  - Add trees into terrian
-  - add birds, fish and turtles
+- add line, sphere and replace tools
+- Add trees into terrian
+- add birds, fish and turtles
+- add a system to handle live events (do after multiplayer)
+  - add liquid propagation with block data
+  - make a special block type for liquid that has certex height depending on block data
 
 ### Update inventory
   - **add inventory groups**
@@ -42,7 +40,11 @@ There is a balance, but when you spend too much time making the inside of the co
 1. lets start by getting all players to be able to connect and disconnect with ease
 2. setup a simple chat interface and allow for basic binary messages to be easily sent and recieved
 
-* I want to design it so that players can be connected even if in different worlds
-   * move the JOIN MULTIPLAYER button into the load world page
-   * handle all the text box parsing and stuff like that by the page itself. simply send a join rrquest object so that the other process doesnt have to deal with the details.
-   * use the network class I already created (sinulation interface included)
+### todo
+- send blocks and chunks to each other during the game
+- enable clipboard sharing
+- send entire chunks to each other when the game loads and handle conflicts
+- update entity movement between players
+  - decide who gets to manage sending of entity movement
+  - have recieving players predict entity movement until the new state arrives
+
