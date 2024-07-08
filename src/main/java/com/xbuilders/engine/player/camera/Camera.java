@@ -30,7 +30,7 @@ public class Camera {
     public final Vector3f cameraRaycastLook = new Vector3f();
     public final Vector3f cameraForward = new Vector3f();
 
-    private float tilt, pan, normalizedPan;
+    public float tilt, pan, normalizedPan;
     public final Ray cameraViewRay;
     private float thirdPersonDist = 0;
     public final static FrustumCullingTester frustum = new FrustumCullingTester();
@@ -161,7 +161,7 @@ public class Camera {
         int deltaX = mouse.x - middleX;
         int deltaY = mouse.y - middleY;
 
-        // The window worldPosition is a little off, could be being multiplied by some factor
+        // The window Position is a little off, could be being multiplied by some factor
         if (holdMouse) robot.mouseMove(middleX, middleY); // target mouse
 
 
@@ -201,6 +201,9 @@ public class Camera {
             target.add(look);
             cursorRaycastLook.set(look);
         } else {
+//            target.sub(player.aabb.offset);//Subtract the offset if in third person
+//            position.sub(player.aabb.offset);
+
             float thirdPersonDist2 = Math.abs(thirdPersonDist);
             if (getThirdPersonDist() > 0) {
                 cameraRaycastLook.set(look);

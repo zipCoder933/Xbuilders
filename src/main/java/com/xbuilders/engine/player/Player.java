@@ -29,6 +29,14 @@ public class Player {
     public final EntityAABB aabb;
     public final Vector3f worldPosition;
 
+    public float getPan() {
+        return 0;
+    }
+
+    public float getTilt() {
+        return 0;
+    }
+
     public byte[] infoToBytes() throws IOException {
         byte[] data = new byte[name.length() + 2];  // Assuming color is a byte
         data[0] = GameServer.PLAYER_INFO;

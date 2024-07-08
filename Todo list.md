@@ -16,8 +16,10 @@ Xbuilders 3 performance is very clearly better than xb2.
   - player must be able to jump underwater
 
 ### Multiplayer
-  - Get the connection working
-  - Make a chatbox UI for chatting and commands
+  - Make some basic player skins and have a menu to change the name and skin
+  - Players can see each other in the same world
+  - Last saved date in chunk file
+  - Include file version
 
 ### Update inventory
   - **add inventory groups**

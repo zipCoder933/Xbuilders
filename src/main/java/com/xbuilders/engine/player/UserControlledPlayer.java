@@ -15,6 +15,7 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
+import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
@@ -29,12 +30,20 @@ public class UserControlledPlayer extends Player {
     public Camera camera;
     BaseWindow window;
     static float speed = 10f;
-    final static float PLAYER_HEIGHT = 2.0f;
+    final static float PLAYER_HEIGHT = 1.5f;
     final static float PLAYER_WIDTH = 0.8f;
 
     final static float FLY_SPEED = 12f;
     final float DEFAULT_SPEED = 10f;
     final float RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
+
+    public float getPan() {
+        return camera.pan;
+    }
+
+    public float getTilt() {
+        return camera.tilt;
+    }
 
     Matrix4f projection;
     Matrix4f view;
@@ -137,10 +146,10 @@ public class UserControlledPlayer extends Player {
         camera = new Camera(this, window, view, projection, world);
 
         aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
-        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), -0.5f, -(PLAYER_WIDTH * 0.5f));
+        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0, -(PLAYER_WIDTH * 0.5f));
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
-        skin = new DefaultSkin(aabb);
+        skin = new FoxSkin(this);
         eventPipeline = new BlockEventPipeline(world);
         if (Main.devMode) setFlashlight(20f);
     }
@@ -255,14 +264,14 @@ public class UserControlledPlayer extends Player {
             }
 
             if (isInsideOfLadder()) {
-                if (downKeyPressed()) {
+                if (upKeyPressed() || jumpKeyPressed()) {
                     isClimbing = true;
                     canFly = false;
-                    worldPosition.add(0, FLY_SPEED * window.getFrameDelta(), 0);
-                } else if (upKeyPressed()) {
+                    worldPosition.sub(0, 3f * window.getFrameDelta(), 0);
+                }else{
                     isClimbing = true;
                     canFly = false;
-                    worldPosition.sub(0, FLY_SPEED * window.getFrameDelta(), 0);
+                    worldPosition.add(0, 3f * window.getFrameDelta(), 0);
                 }
                 positionHandler.setGravityEnabled(false);
             } else {
@@ -294,8 +303,10 @@ public class UserControlledPlayer extends Player {
         camera.update(holdMouse);
 
         camera.cursorRay.drawRay();
-        if (camera.getThirdPersonDist() != 0.0f)
-            skin.render(projection, view);
+        if (camera.getThirdPersonDist() != 0.0f) {
+            skin.init(projection, view);
+            skin.render();
+        }
     }
 
     boolean raycastDistChanged = false;

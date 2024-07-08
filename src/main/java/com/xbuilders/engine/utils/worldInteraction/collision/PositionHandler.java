@@ -145,6 +145,7 @@ public class PositionHandler {
 
     public final void jump() {
         if (onGround && isGravityEnabled()) {
+            System.out.println("jump");
             this.velocity.y += 0.0005f * 20.0f * window.getMsPerFrame();
             onGround = false;
         }
