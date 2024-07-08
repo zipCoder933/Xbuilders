@@ -148,7 +148,7 @@ public class PositionHandler {
 
     public final void jump() {
         if (onGround && isGravityEnabled()) {
-            this.velocity.y -= Math.max(MIN_JUMP_GRAVITY, gravity) * 15.0f * window.getMsPerFrame();
+            this.velocity.y -= (float) (Math.max(MIN_JUMP_GRAVITY, gravity) * 15.0f * window.getMsPerFrame());
             onGround = false;
         }
     }

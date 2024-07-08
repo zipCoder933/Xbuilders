@@ -330,7 +330,7 @@ public class GameScene implements WindowEvents {
                         text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                         text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
                         text += "\nchunk mesh: " + chunk.meshes;
-
+                        text += "\nchunk last modified: " + chunk.getLastModifiedTime();
                         BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                         Block block = ItemList.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
 

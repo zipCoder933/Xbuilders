@@ -1,12 +1,14 @@
 package com.xbuilders.engine.world.chunk;
 
+import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
+
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class XBFilterOutputStream extends FilterOutputStream {
 
-    final static byte FILTERED_BYTE = ChunkSavingLoadingUtils.NEWLINE_BYTE;
+    public final static byte FILTERED_BYTE = ChunkSavingLoadingUtils.NEWLINE_BYTE;
 
     public XBFilterOutputStream(OutputStream out) {
         super(out);

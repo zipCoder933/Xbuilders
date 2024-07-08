@@ -1,0 +1,17 @@
+Developer Message: 	##An error occurred reading chunk Chunk{-6,4,7}##	
+Class: 	class java.nio.BufferOverflowException
+
+Stack trace:
+[java.base/java.nio.HeapByteBuffer.put(HeapByteBuffer.java:231)
+ com.xbuilders.engine.world.chunk.saving.ByteUtils.bytesToLong(ByteUtils.java:14)
+ com.xbuilders.engine.world.chunk.saving.ChunkFile_V0.readMetadata(ChunkFile_V0.java:23)
+ com.xbuilders.engine.world.chunk.saving.ChunkFile_V0.readChunk(ChunkFile_V0.java:33)
+ com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils.readChunkFromFile(ChunkSavingLoadingUtils.java:183)
+ com.xbuilders.engine.world.chunk.Chunk.loadChunk(Chunk.java:145)
+ com.xbuilders.engine.world.chunk.Chunk.lambda$load$0(Chunk.java:131)
+ com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor$1.call(PriorityThreadPoolExecutor.java:151)
+ java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+ com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityFuture.run(PriorityFuture.java:43)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+ java.base/java.lang.Thread.run(Thread.java:840)]

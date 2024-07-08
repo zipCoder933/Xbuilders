@@ -10,11 +10,13 @@ import com.xbuilders.engine.world.Terrain.GenSession;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
+import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
@@ -24,17 +26,22 @@ import static com.xbuilders.engine.world.World.*;
 
 public class Chunk {
 
+    public long lastModifiedTime;
+
+    public String getLastModifiedTime() {
+        return lastModifiedTime == 0 ? "never" : new Date(lastModifiedTime).toString();
+    }
+
     /**
-     * Mark the chunk as changed by the user (sets ownedByUser and
-     * needsToBeSaved to true)
+     * We dont have to make a needs to be saved call because it wont get saved unless it is owned by the user
+     * And we wont ever need to mark as needs to be saved if it is not owned by the user, because it won't be saved
+     * <p>
+     * Mark the chunk as changed by the user (sets ownedByUser and needsToBeSaved to true)
      */
     public void markAsModifiedByUser() {
         ownedByUser = true;
         needsToBeSaved = true;
-        // We dont have to make a needs to be saved call because it wont get saved
-        // unless it is owned by the user
-        // And we wont ever need to mark as needs to be saved if it is not owned by the
-        // user, because it won't be saved
+        lastModifiedTime = System.currentTimeMillis();
     }
 
     private boolean ownedByUser = false;
@@ -115,7 +122,6 @@ public class Chunk {
         neghbors.init(position);
 
 
-
         this.distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
 
@@ -143,7 +149,7 @@ public class Chunk {
             if (f.exists()) {
                 ChunkSavingLoadingUtils.readChunkFromFile(this, f);
                 needsSunGeneration = false;
-            } else if (terrain.isBelowMinHeight(this.position,0)) {
+            } else if (terrain.isBelowMinHeight(this.position, 0)) {
                 GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
             }
             if (futureChunk != null) {

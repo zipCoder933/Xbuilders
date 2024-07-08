@@ -1,0 +1,3000 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffe53ede567, pid=7632, tid=5928
+#
+# JRE version: OpenJDK Runtime Environment Corretto-17.0.11.9.1 (17.0.11+9) (build 17.0.11+9-LTS)
+# Java VM: OpenJDK 64-Bit Server VM Corretto-17.0.11.9.1 (17.0.11+9-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
+# Problematic frame:
+# C  [lwjgl_stb.dll+0x2e567]
+#
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/corretto/corretto-17/issues/
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -javaagent:C:\Users\Patron\Downloads\lib\idea_rt.jar=56382:C:\Users\Patron\Downloads\bin -Dfile.encoding=UTF-8 com.xbuilders.game.Main devmode
+
+Host: Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz, 6 cores, 7G,  Windows 10 , 64 bit Build 19041 (10.0.19041.3636)
+Time: Mon Jul  8 10:53:11 2024 Mountain Daylight Time elapsed time: 10.355581 seconds (0d 0h 0m 10s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001fe40aa33a0):  JavaThread "main" [_thread_in_native, id=5928, stack(0x00000021f9b00000,0x00000021f9c00000)]
+
+Stack: [0x00000021f9b00000,0x00000021f9c00000],  sp=0x00000021f9bfe580,  free space=1017k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [lwjgl_stb.dll+0x2e567]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J 2623  org.lwjgl.stb.STBTruetype.nstbtt_GetPackedQuad(JIIIJJJI)V (0 bytes) @ 0x000001fe5039099b [0x000001fe50390920+0x000000000000007b]
+J 2711 c2 org.lwjgl.nuklear.NkQueryFontGlyphCallbackI.callback(JJ)V (68 bytes) @ 0x000001fe503a67e0 [0x000001fe503a6580+0x0000000000000260]
+v  ~StubRoutines::call_stub
+j  org.lwjgl.nuklear.Nuklear.nnk_convert(JJJJJ)I+0
+j  org.lwjgl.nuklear.Nuklear.nk_convert(Lorg/lwjgl/nuklear/NkContext;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkBuffer;Lorg/lwjgl/nuklear/NkConvertConfig;)I+35
+J 3118 c1 com.xbuilders.window.NKWindow.NKrender()V (633 bytes) @ 0x000001fe48d498d4 [0x000001fe48d49120+0x00000000000007b4]
+j  com.xbuilders.engine.ui.gameScene.GameUI.draw()V+117
+j  com.xbuilders.engine.gameScene.GameScene.render()V+169
+j  com.xbuilders.game.Main.render()V+9
+j  com.xbuilders.game.Main.<init>()V+262
+j  com.xbuilders.game.Main.main([Ljava/lang/String;)V+128
+v  ~StubRoutines::call_stub
+
+siginfo: EXCEPTION_ACCESS_VIOLATION (0xc0000005), reading address 0x000001fea7662eb4
+
+
+Registers:
+RAX=0xffffffffffffffe9, RBX=0x000001fea7662eac, RCX=0x000001fea7663130, RDX=0x0000000000000400
+RSP=0x00000021f9bfe580, RBP=0x00000021f9bfe6c0, RSI=0x000001fe5fb95edc, RDI=0x000001fe5fb95eb8
+R8 =0x0000000000000400, R9 =0x00000000ffffffe9, R10=0x00007ffe53ee0a20, R11=0x0000000000000000
+R12=0x0000000000000000, R13=0x0000000000000009, R14=0x00000021f9bfe6b0, R15=0x000001fe40aa33a0
+RIP=0x00007ffe53ede567, EFLAGS=0x0000000000010246
+
+
+Register to memory mapping:
+
+RIP=0x00007ffe53ede567 lwjgl_stb.dll
+RAX=0xffffffffffffffe9 is an unknown value
+RBX=0x000001fea7662eac is an unknown value
+RCX=0x000001fea7663130 points into unknown readable memory: 0x000403fb000103f8 | f8 03 01 00 fb 03 04 00
+RDX=0x0000000000000400 is an unknown value
+RSP=0x00000021f9bfe580 is pointing into the stack for thread: 0x000001fe40aa33a0
+RBP=0x00000021f9bfe6c0 is pointing into the stack for thread: 0x000001fe40aa33a0
+RSI=0x000001fe5fb95edc points into unknown readable memory: 00 00 00 00
+RDI=0x000001fe5fb95eb8 points into unknown readable memory: 0xbec00000bec00000 | 00 00 c0 be 00 00 c0 be
+R8 =0x0000000000000400 is an unknown value
+R9 =0x00000000ffffffe9 is an unallocated location in the heap
+R10=0x00007ffe53ee0a20 lwjgl_stb.dll
+R11=0x0 is NULL
+R12=0x0 is NULL
+R13=0x0000000000000009 is an unknown value
+R14=0x00000021f9bfe6b0 is pointing into the stack for thread: 0x000001fe40aa33a0
+R15=0x000001fe40aa33a0 is a thread
+
+
+Top of Stack: (sp=0x00000021f9bfe580)
+0x00000021f9bfe580:   0000000000000000 0000000000000000
+0x00000021f9bfe590:   0000000000000000 0000000000000000
+0x00000021f9bfe5a0:   000000003f000000 0000000000000000
+0x00000021f9bfe5b0:   0000000041000000 0000000000000000
+0x00000021f9bfe5c0:   0000000000000000 0000000000000000
+0x00000021f9bfe5d0:   00000000ffffffe9 00007ffe53ee0a6b
+0x00000021f9bfe5e0:   000001fe5fb95edc 000001fe5fb95edc
+0x00000021f9bfe5f0:   0000000000000000 000001fe40aa33a0
+0x00000021f9bfe600:   000001fe5fb95edc 000001fe5fb95ed8
+0x00000021f9bfe610:   000001fe5fb95eb8 00007ffe00000000
+0x00000021f9bfe620:   00000021f9bfe6b0 000001fe50390a3b
+0x00000021f9bfe630:   000001fea6a9cd90 000001fe5fb95edc
+0x00000021f9bfe640:   0000000000000000 000001fe5038ae96
+0x00000021f9bfe650:   0000000000000400 00000000ffffffe9
+0x00000021f9bfe660:   000001fe5fb95edc 000001fe5fb95ed8
+0x00000021f9bfe670:   000001fe5fb95eb8 0000000000000000
+0x00000021f9bfe680:   0000000000000000 0000000000000000
+0x00000021f9bfe690:   000001fea6f31200 0000000000000000
+0x00000021f9bfe6a0:   0000b802003c0000 000001feaa880000
+0x00000021f9bfe6b0:   0000000084e31428 00007ffe2ead0a0e
+0x00000021f9bfe6c0:   0000000000000009 000001fe503a67e0
+0x00000021f9bfe6d0:   000001fe5fb95eb8 3c03126f00000000
+0x00000021f9bfe6e0:   84dd517000000000 00000000835e9e40
+0x00000021f9bfe6f0:   000001fe00000008 00000021f9bfeec8
+0x00000021f9bfe700:   000001fe5fb95eb8 000001fe5fb95eb4
+0x00000021f9bfe710:   000001fea6de5d20 00007ffe2f2cdcd4
+0x00000021f9bfe720:   0000000000000411 0000000000000411
+0x00000021f9bfe730:   00000021f9bfe7a9 000001fe40aa33a0
+0x00000021f9bfe740:   00000021f9bfe960 000001fe4fcb1010
+0x00000021f9bfe750:   0000000000000000 000001fe4fcb1010
+0x00000021f9bfe760:   00000021f9bfedc0 0000010000000000
+0x00000021f9bfe770:   00000021f9bfee58 00007ffe2f745023 
+
+Instructions: (pc=0x00007ffe53ede567)
+0x00007ffe53ede467:   0f bf cf 0f af d1 f3 0f 5e d0 0f bf cf 66 03 d0
+0x00007ffe53ede477:   43 0f b6 44 1a 07 44 0f bf ca 43 0f b6 54 1a 06
+0x00007ffe53ede487:   0f af d1 0f bf cf 66 41 0f 6e c1 0f 5b c0 66 03
+0x00007ffe53ede497:   d0 43 0f b6 44 1a 09 44 0f bf c2 43 0f b6 54 1a
+0x00007ffe53ede4a7:   08 0f af d1 f3 0f 59 c2 66 41 0f 6e c8 0f 5b c9
+0x00007ffe53ede4b7:   66 03 d0 48 8b 84 24 f0 00 00 00 0f bf ca f3 0f
+0x00007ffe53ede4c7:   11 03 48 8b 9c 24 d0 00 00 00 66 0f 6e c1 0f 5b
+0x00007ffe53ede4d7:   c0 f3 0f 59 ca f3 0f 59 c2 f3 0f 11 08 48 8b 84
+0x00007ffe53ede4e7:   24 f8 00 00 00 f3 0f 11 00 48 81 c4 c0 00 00 00
+0x00007ffe53ede4f7:   5f c3 cc cc cc cc cc cc cc 48 89 5c 24 08 48 89
+0x00007ffe53ede507:   74 24 10 57 48 83 ec 50 48 8b b4 24 80 00 00 00
+0x00007ffe53ede517:   48 8b bc 24 90 00 00 00 44 0f 29 44 24 30 f3 44
+0x00007ffe53ede527:   0f 10 05 7e ce 03 00 f3 0f 10 0e 44 0f 29 4c 24
+0x00007ffe53ede537:   20 45 0f 28 c8 49 63 c1 48 6b d8 1c 66 0f 6e c2
+0x00007ffe53ede547:   0f 5b c0 48 03 d9 83 bc 24 98 00 00 00 00 f3 44
+0x00007ffe53ede557:   0f 5e c8 66 41 0f 6e c0 0f 5b c0 f3 44 0f 5e c0
+0x00007ffe53ede567:   f3 0f 10 43 08 f3 0f 58 c1 74 75 f3 0f 58 05 16
+0x00007ffe53ede577:   ce 03 00 0f 29 7c 24 40 0f 5a c0 e8 b1 cb 02 00
+0x00007ffe53ede587:   f3 0f 10 4b 0c 0f 57 ff f2 0f 2c c0 f3 0f 2a f8
+0x00007ffe53ede597:   48 8b 84 24 88 00 00 00 f3 0f 58 08 f3 0f 58 0d
+0x00007ffe53ede5a7:   e5 cd 03 00 0f 5a c1 e8 85 cb 02 00 f3 0f 11 3f
+0x00007ffe53ede5b7:   0f 57 c9 f2 0f 2c c0 f3 0f 2a c8 f3 0f 11 4f 04
+0x00007ffe53ede5c7:   f3 0f 58 7b 14 f3 0f 5c 7b 08 f3 0f 11 7f 10 f3
+0x00007ffe53ede5d7:   0f 58 4b 18 0f 28 7c 24 40 f3 0f 5c 4b 0c eb 31
+0x00007ffe53ede5e7:   48 8b 84 24 88 00 00 00 f3 0f 11 07 f3 0f 10 43
+0x00007ffe53ede5f7:   0c f3 0f 58 00 f3 0f 11 47 04 f3 0f 10 06 f3 0f
+0x00007ffe53ede607:   58 43 14 f3 0f 11 47 10 f3 0f 10 08 f3 0f 58 4b
+0x00007ffe53ede617:   18 f3 0f 11 4f 14 0f b7 03 66 0f 6e c0 0f 5b c0
+0x00007ffe53ede627:   f3 41 0f 59 c1 f3 0f 11 47 08 0f b7 43 02 66 0f
+0x00007ffe53ede637:   6e c8 0f 5b c9 f3 41 0f 59 c8 f3 0f 11 4f 0c 0f
+0x00007ffe53ede647:   b7 43 04 66 0f 6e c0 0f 5b c0 f3 41 0f 59 c1 44
+0x00007ffe53ede657:   0f 28 4c 24 20 f3 0f 11 47 18 0f b7 43 06 66 0f 
+
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 0x0 is NULL
+stack at sp + 1 slots: 0x0 is NULL
+stack at sp + 2 slots: 0x0 is NULL
+stack at sp + 3 slots: 0x0 is NULL
+stack at sp + 4 slots: 0x000000003f000000 is an unknown value
+stack at sp + 5 slots: 0x0 is NULL
+stack at sp + 6 slots: 0x0000000041000000 is an unknown value
+stack at sp + 7 slots: 0x0 is NULL
+
+
+Compiled method (n/a)   10561 2623     n 0       org.lwjgl.stb.STBTruetype::nstbtt_GetPackedQuad (native)
+ total in heap  [0x000001fe50390790,0x000001fe50390b78] = 1000
+ relocation     [0x000001fe503908e8,0x000001fe50390918] = 48
+ main code      [0x000001fe50390920,0x000001fe50390b70] = 592
+ oops           [0x000001fe50390b70,0x000001fe50390b78] = 8
+
+[Constant Pool (empty)]
+
+[MachCode]
+[Entry Point]
+  # {method} {0x000001fea1f16848} 'nstbtt_GetPackedQuad' '(JIIIJJJI)V' in 'org/lwjgl/stb/STBTruetype'
+  # parm0:    rdx:rdx   = long
+  # parm1:    r8        = int
+  # parm2:    r9        = int
+  # parm3:    rdi       = int
+  # parm4:    rsi:rsi   = long
+  # parm5:    rcx:rcx   = long
+  # parm6:    [sp+0xa0]   = long  (sp of caller)
+  # parm7:    [sp+0xa8]   = int
+  0x000001fe50390920: 448b 5208 | 49bb 0000 | 0060 fe01 | 0000 4d03 | d349 3bc2 | 0f84 0600 
+
+  0x000001fe50390938: ;   {runtime_call ic_miss_stub}
+  0x000001fe50390938: 0000 e941 | 0797 ff90 
+[Verified Entry Point]
+  0x000001fe50390940: 8984 2400 | 90ff ff55 | 488b ec48 | 81ec 9000 | 0000 4863 | 4518 4889 | 4424 4848 | 8b45 1048 
+  0x000001fe50390960: 8944 2440 | 4889 4c24 | 3848 8974 | 2430 4889 | 7c24 284c | 894c 2420 | 4d8b c84c 
+
+  0x000001fe5039097c: ;   {oop(a 'java/lang/Class'{0x0000000084e31428} = 'org/lwjgl/stb/STBTruetype')}
+  0x000001fe5039097c: 8bc2 49be | 2814 e384 | 0000 0000 | 4c89 b424 | 8000 0000 | 4c8d b424 | 8000 0000 | 498b d6c5 
+  0x000001fe5039099c: ;   {internal_word}
+  0x000001fe5039099c: f877 49ba | 9b09 3950 | fe01 0000 | 4d89 97a0 | 0200 0049 | 89a7 9802 
+
+  0x000001fe503909b4: ;   {external_word}
+  0x000001fe503909b4: 0000 49ba | f935 6332 | fe7f 0000 | 4180 3a00 | 0f84 5200 | 0000 5241 
+
+  0x000001fe503909cc: ;   {metadata({method} {0x000001fea1f16848} 'nstbtt_GetPackedQuad' '(JIIIJJJI)V' in 'org/lwjgl/stb/STBTruetype')}
+  0x000001fe503909cc: 5041 5148 | ba40 68f1 | a1fe 0100 | 0049 8bcf | 4883 ec20 | f7c4 0f00 | 0000 0f84 | 1a00 0000 
+  0x000001fe503909ec: 4883 ec08 
+
+  0x000001fe503909f0: ;   {runtime_call}
+  0x000001fe503909f0: 49ba c02e | 1932 fe7f | 0000 41ff | d248 83c4 | 08e9 0d00 
+
+  0x000001fe50390a04: ;   {runtime_call}
+  0x000001fe50390a04: 0000 49ba | c02e 1932 | fe7f 0000 | 41ff d248 | 83c4 2041 | 5941 585a | 498d 8fb8 | 0200 0041 
+  0x000001fe50390a24: c787 4803 | 0000 0400 
+
+  0x000001fe50390a2c: ;   {runtime_call}
+  0x000001fe50390a2c: 0000 49ba | 200a ee53 | fe7f 0000 | 41ff d2c5 | f877 41c7 | 8748 0300 | 0005 0000 | 00f0 8344 
+  0x000001fe50390a4c: 24c0 0049 | 3baf 5003 | 0000 0f87 | 1100 0000 | 4181 bf38 | 0300 0000 | 0000 000f | 8424 0000 
+  0x000001fe50390a6c: 00c5 f877 | 498b cf4c | 8be4 4883 | ec20 4883 
+
+  0x000001fe50390a7c: ;   {runtime_call}
+  0x000001fe50390a7c: e4f0 49ba | c042 2932 | fe7f 0000 | 41ff d249 | 8be4 4d33 | e441 c787 | 4803 0000 | 0800 0000 
+  0x000001fe50390a9c: 4181 bfb8 | 0300 0002 | 0000 000f | 849b 0000 
+
+  0x000001fe50390aac: ;   {external_word}
+  0x000001fe50390aac: 0049 baf9 | 3563 32fe | 7f00 0041 | 803a 000f | 8448 0000 
+
+  0x000001fe50390ac0: ;   {metadata({method} {0x000001fea1f16848} 'nstbtt_GetPackedQuad' '(JIIIJJJI)V' in 'org/lwjgl/stb/STBTruetype')}
+  0x000001fe50390ac0: 0048 ba40 | 68f1 a1fe | 0100 0049 | 8bcf 4883 | ec20 f7c4 | 0f00 0000 | 0f84 1a00 | 0000 4883 
+  0x000001fe50390ae0: ;   {runtime_call}
+  0x000001fe50390ae0: ec08 49ba | c02e 1932 | fe7f 0000 | 41ff d248 | 83c4 08e9 | 0d00 0000 
+
+  0x000001fe50390af8: ;   {runtime_call}
+  0x000001fe50390af8: 49ba c02e | 1932 fe7f | 0000 41ff | d248 83c4 | 2049 c787 | 9802 0000 | 0000 0000 | 49c7 87a0 
+  0x000001fe50390b18: 0200 0000 | 0000 00c5 | f877 498b | 8fd8 0000 | 00c7 8100 | 0100 0000 | 0000 00c9 | 4981 7f08 
+  0x000001fe50390b38: 0000 0000 | 0f85 0100 
+
+  0x000001fe50390b40: ;   {runtime_call StubRoutines (1)}
+  0x000001fe50390b40: 0000 c3e9 | b803 92ff | c5f8 774c | 8be4 4883 | ec20 4883 
+
+  0x000001fe50390b54: ;   {runtime_call}
+  0x000001fe50390b54: e4f0 49ba | 405f 1932 | fe7f 0000 | 41ff d249 | 8be4 4d33 | e4e9 3fff | ffff f4f4 
+[/MachCode]
+
+
+Compiled method (c2)   10580 2711       4       org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback (68 bytes)
+ total in heap  [0x000001fe503a6390,0x000001fe503a7b30] = 6048
+ relocation     [0x000001fe503a64e8,0x000001fe503a6568] = 128
+ main code      [0x000001fe503a6580,0x000001fe503a6e20] = 2208
+ stub code      [0x000001fe503a6e20,0x000001fe503a6e70] = 80
+ oops           [0x000001fe503a6e70,0x000001fe503a6e98] = 40
+ metadata       [0x000001fe503a6e98,0x000001fe503a70f0] = 600
+ scopes data    [0x000001fe503a70f0,0x000001fe503a7828] = 1848
+ scopes pcs     [0x000001fe503a7828,0x000001fe503a79c8] = 416
+ dependencies   [0x000001fe503a79c8,0x000001fe503a7a90] = 200
+ handler table  [0x000001fe503a7a90,0x000001fe503a7af0] = 96
+ nul chk table  [0x000001fe503a7af0,0x000001fe503a7b30] = 64
+
+[Constant Pool (empty)]
+
+[MachCode]
+[Entry Point]
+  # {method} {0x000001fea1f2e4c8} 'callback' '(JJ)V' in 'org/lwjgl/nuklear/NkQueryFontGlyphCallbackI'
+  # this:     rdx:rdx   = 'org/lwjgl/nuklear/NkQueryFontGlyphCallbackI'
+  # parm0:    r8:r8     = long
+  # parm1:    r9:r9     = long
+  #           [sp+0x80]  (sp of caller)
+  0x000001fe503a6580: 448b 5208 | 49bb 0000 | 0060 fe01 | 0000 4d03 | d349 3bc2 
+
+  0x000001fe503a6594: ;   {runtime_call ic_miss_stub}
+  0x000001fe503a6594: 0f85 e6aa | 95ff 6690 | 0f1f 4000 
+[Verified Entry Point]
+  0x000001fe503a65a0: 8984 2400 | 90ff ff55 | 4883 ec70 | 8b5a 084d | 8bd1 4d8b | 1a4d 8b4a | 2049 8b4a | 084d 8b42 
+  0x000001fe503a65c0: 104d 8b52 | 1849 8b3b | 458b 2a4d | 8bd0 4d8b | 124c 8954 | 2428 4c8b | d1c4 c17a | 100a 4d8b 
+  0x000001fe503a65e0: d145 8b12 
+
+  0x000001fe503a65e4: ;   {metadata('com/xbuilders/window/NKWindow$$Lambda$207+0x000001fe61185ad0')}
+  0x000001fe503a65e4: 81fb d05a | 1801 0f85 | 3004 0000 | 8b4a 1cc5 | fa10 4214 | c5fa 105a | 1044 8b5a | 0c44 895c 
+  0x000001fe503a6604: 2420 8b72 | 2044 3b62 | 180f 8484 | 0300 004d | 8b97 9002 | 0000 4d8b | 1245 8b42 | 4445 85c0 
+  0x000001fe503a6624: 0f84 1603 | 0000 418b | 6814 448b | 550c 458b | ca41 ffc9 | 4181 e1c6 | 3ed5 d190 | 4585 d20f 
+  0x000001fe503a6644: 86fb 0300 | 0046 8b5c | 8d10 4585 | db0f 847b | 0200 0041 | 8b5b 0c49 | 8bc3 6690 
+
+  0x000001fe503a6660: ;   {oop(a 'java/lang/ThreadLocal$SuppliedThreadLocal'{0x000000008340b9c0})}
+  0x000001fe503a6660: 81fb c0b9 | 4083 0f85 | 2303 0000 | 448b 581c | 4d8b c345 | 8b58 0866 | 0f1f 8400 | 0000 0000 
+  0x000001fe503a6680: ;   {metadata('org/lwjgl/system/MemoryStack')}
+  0x000001fe503a6680: 4181 fb48 | 5c01 010f | 859b 0500 | 0041 8b40 | 248b 780c | 418b 581c | 3bdf 660f | 1f44 0000 
+  0x000001fe503a66a0: 0f84 d603 | 0000 418b | 6818 448b | db41 ffc3 | 4589 581c | 3bdf 0f83 | 1803 0000 | 896c 9810 
+  0x000001fe503a66c0: 4d8b 5810 | 4863 dd49 | 03db 4883 | c3fc 4883 | e3fc 4c8b | d34d 2bd3 | 418b ea41 | 8968 1890 
+  0x000001fe503a66e0: 85ed 0f8c | dc03 0000 | 4863 c549 | 03c3 4c8b | d345 8922 | 4883 c0fc | 4883 e0fc | 4c8b d04d 
+  0x000001fe503a6700: 2bd3 418b | ea41 8968 | 1885 ed0f | 8ceb 0300 | 004c 63cd | 4d03 cb4c | 8bd0 4589 | 2249 83c1 
+  0x000001fe503a6720: e049 83e1 | fc4d 8bd1 | 4d2b d341 | 8bea 4189 | 6818 85ed | 0f8c fe03 | 0000 4863 | fd49 03fb 
+  0x000001fe503a6740: 4883 c7fc | 4883 e7fc | 4c8b d74d | 2bd3 418b | ea41 8968 | 1885 ed0f | 8c1f 0400 | 0066 6690 
+  0x000001fe503a6760: ; implicit exception: dispatches to 0x000001fe503a6ce0
+  0x000001fe503a6760: 448b 591c | 8b51 1844 | 2bda 418b | ed83 c5e1 | 458b d541 | 83c2 e044 | 3bdd 660f | 1f44 0000 
+  0x000001fe503a6780: 0f8c 3e04 | 0000 4889 | 7c24 384c | 894c 2430 | 4c89 4424 | 1889 7424 | 14c5 fa11 | 5c24 10c5 
+  0x000001fe503a67a0: fa11 4424 | 0c41 8bed | 448b da49 | 6bd3 1c48 | 0351 1041 | b800 0400 | 0041 b900 | 0400 0041 
+  0x000001fe503a67c0: 8bfa 488b | f348 8bc8 | 4c8b 5424 | 304c 8914 | 2445 33db | 4489 5c24 
+
+  0x000001fe503a67d8: ;   {static_call}
+  0x000001fe503a67d8: 0866 90e8 
+
+  0x000001fe503a67dc: ; ImmutableOopMap {[20]=NarrowOop [24]=Oop }
+                      ;*invokestatic nstbtt_GetPackedQuad {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.stb.STBTruetype::stbtt_GetPackedQuad@57 (line 632)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@55 (line 492)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a67dc: 60a1 feff | 448b 5c24 | 1449 8b53 | 1033 ff44 | 8bc5 4c8b 
+
+  0x000001fe503a67f0: ;   {static_call}
+  0x000001fe503a67f0: 4c24 38e8 
+
+  0x000001fe503a67f4: ; ImmutableOopMap {[24]=Oop }
+                      ;*invokestatic nstbtt_GetCodepointHMetrics {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.stb.STBTruetype::stbtt_GetCodepointHMetrics@29 (line 932)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@64 (line 493)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a67f4: c845 feff | 488b 5c24 | 188b 4b24 | 448b 4b1c | 448b 5c24 | 20c4 c172 | 2acb c5f2 | 5844 2410 
+  0x000001fe503a6814: 418b e9ff | cd89 6b1c | 4c8b 5424 | 284c 8b5c | 2430 c4c1 | 7a10 4b10 | c4c1 725c | 13c4 c17a 
+  0x000001fe503a6834: 1152 18c4 | c17a 104b | 14c4 c172 | 5c53 04c4 | c17a 1152 | 1cc4 c17a | 100b c4c1 | 7a10 5b04 
+  0x000001fe503a6854: c4c1 7a11 | 4a10 c5fa | 58c3 c4c1 | 7a11 4214 | 4c8b 4424 | 38c4 c172 | 2a08 c5f2 | 5944 240c 
+  0x000001fe503a6874: c4c1 7a11 | 4220 c4c1 | 7a10 4b08 | c4c1 7a10 | 430c c4c1 | 7a11 0ac4 | c17a 1142 | 04c4 c17a 
+  0x000001fe503a6894: 104b 18c4 | c17a 1043 | 1cc4 c17a | 114a 08c4 | c17a 1142 | 0c44 8b59 | 0c41 3beb | 0f83 5a01 
+  0x000001fe503a68b4: 0000 468b | 5c89 0c44 | 895b 1848 | 83c4 705d 
+
+  0x000001fe503a68c4: ;   {poll_return}
+  0x000001fe503a68c4: 493b a750 | 0300 000f | 871b 0500 | 00c3 33ff | 8974 2424 | c5fa 115c | 241c c5fa | 1144 2418 
+  0x000001fe503a68e4: 894c 240c | 48ff 7424 | 2848 8f44 | 2410 418b | ed49 8bd0 
+
+  0x000001fe503a68f8: ;   {oop(a 'java/lang/ThreadLocal$SuppliedThreadLocal'{0x000000008340b9c0})}
+  0x000001fe503a68f8: 49b8 c0b9 | 4083 0000 
+
+  0x000001fe503a6900: ;   {optimized virtual_call}
+  0x000001fe503a6900: 0000 90e8 
+
+  0x000001fe503a6904: ; ImmutableOopMap {[12]=NarrowOop [36]=NarrowOop }
+                      ;*invokevirtual getEntryAfterMiss {reexecute=0 rethrow=0 return_oop=1}
+                      ; - java.lang.ThreadLocal$ThreadLocalMap::getEntry@38 (line 439)
+                      ; - java.lang.ThreadLocal::get@16 (line 165)
+                      ; - org.lwjgl.system.MemoryStack::stackGet@3 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6904: 78aa 95ff | 4885 c074 | 1c44 8bed | 8b4c 240c | c5fa 1044 | 2418 c5fa | 105c 241c | 8b74 2424 
+  0x000001fe503a6924: e943 fdff | ff44 8bed | 8b4c 240c | c5fa 1044 | 2418 c5fa | 105c 241c | 8b74 2424 | 8974 2424 
+  0x000001fe503a6944: c5fa 115c | 241c c5fa | 1144 2418 | 894c 240c | 48ff 7424 | 2848 8f44 | 2410 418b 
+
+  0x000001fe503a6960: ;   {oop(a 'java/lang/ThreadLocal$SuppliedThreadLocal'{0x000000008340b9c0})}
+  0x000001fe503a6960: ed48 bac0 | b940 8300 
+
+  0x000001fe503a6968: ;   {optimized virtual_call}
+  0x000001fe503a6968: 0000 00e8 
+
+  0x000001fe503a696c: ; ImmutableOopMap {[12]=NarrowOop [36]=NarrowOop }
+                      ;*invokevirtual setInitialValue {reexecute=0 rethrow=0 return_oop=1}
+                      ; - java.lang.ThreadLocal::get@34 (line 172)
+                      ; - org.lwjgl.system.MemoryStack::stackGet@3 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a696c: 10aa 95ff | 448b ed8b | 4c24 0cc5 | fa10 4424 | 18c5 fa10 | 5c24 1c8b | 7424 244c | 8bc0 e9e4 
+  0x000001fe503a698c: fcff ff48 | 8bf8 e93d | ffff ffba | f6ff ffff | 488b efc5 | fa11 4c24 | 0c48 ff74 | 2428 488f 
+  0x000001fe503a69ac: 4424 1044 | 896c 2418 | 4489 5424 | 1c89 4c24 | 2489 7424 | 28c5 fa11 | 5c24 2cc5 | fa11 4424 
+  0x000001fe503a69cc: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a69cc: 3066 90e8 
+
+  0x000001fe503a69d0: ; ImmutableOopMap {[36]=NarrowOop [40]=NarrowOop }
+                      ;*invokevirtual lambda$TTF_assignToNewTexture$10 {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a69d0: 2cff 95ff | bae4 ffff | ff48 ff74 | 2428 488f | 4424 1044 | 896c 240c | 894c 2418 | 8974 241c 
+  0x000001fe503a69f0: c5fa 115c | 2424 c5fa | 1144 2428 | 4c89 4424 | 3089 4424 | 2c89 5c24 
+
+  0x000001fe503a6a08: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6a08: 3866 90e8 
+
+  0x000001fe503a6a0c: ; ImmutableOopMap {[24]=NarrowOop [28]=NarrowOop [44]=NarrowOop [48]=Oop }
+                      ;*iastore {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::push@35 (line 138)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@3 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6a0c: f0fe 95ff | bae4 ffff | ff89 4c24 
+
+  0x000001fe503a6a18: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6a18: 0c66 90e8 
+
+  0x000001fe503a6a1c: ; ImmutableOopMap {[12]=NarrowOop [24]=Oop }
+                      ;*iaload {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::pop@16 (line 155)
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@196 (line 503)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6a1c: e0fe 95ff | 488b ea48 | 897c 2410 | c5fa 114c | 240c 4489 | 6c24 2044 | 8954 2424 | bade ffff 
+  0x000001fe503a6a3c: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6a3c: ff66 90e8 
+
+  0x000001fe503a6a40: ; ImmutableOopMap {rbp=Oop }
+                      ;*invokeinterface invoke {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6a40: bcfe 95ff | bae4 ffff | ff48 ff74 | 2428 488f | 4424 1044 | 896c 240c | 894c 2418 | 8974 241c 
+  0x000001fe503a6a60: c5fa 115c | 2424 c5fa | 1144 2428 | 4489 4424 | 2c44 894c 
+
+  0x000001fe503a6a74: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6a74: 2434 90e8 
+
+  0x000001fe503a6a78: ; ImmutableOopMap {rbp=NarrowOop [24]=NarrowOop [28]=NarrowOop [44]=NarrowOop }
+                      ;*aaload {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ThreadLocal$ThreadLocalMap::getEntry@18 (line 435)
+                      ; - java.lang.ThreadLocal::get@16 (line 165)
+                      ; - org.lwjgl.system.MemoryStack::stackGet@3 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6a78: 84fe 95ff | ba45 ffff | ff48 8b6c | 2428 4489 | 6c24 0c89 | 4c24 1089 | 7424 1448 | 8944 24f8 
+  0x000001fe503a6a98: 8b44 2420 | 8944 2418 | 488b 4424 | f8c5 fa11 | 5c24 1cc5 | fa11 4424 | 204c 8944 | 2428 895c 
+  0x000001fe503a6ab8: 2424 897c 
+
+  0x000001fe503a6abc: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6abc: 2430 90e8 
+
+  0x000001fe503a6ac0: ; ImmutableOopMap {[16]=NarrowOop [20]=NarrowOop [40]=Oop }
+                      ;*if_icmpne {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.lwjgl.system.MemoryStack::push@9 (line 134)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@3 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6ac0: 3cfe 95ff | ba45 ffff | ff48 ff74 | 2428 488f | 4424 1044 | 896c 240c | 894c 2418 | 8974 241c 
+  0x000001fe503a6ae0: c5fa 115c | 2424 c5fa | 1144 2428 | 4c89 4424 | 3048 895c 
+
+  0x000001fe503a6af4: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6af4: 2438 90e8 
+
+  0x000001fe503a6af8: ; ImmutableOopMap {[24]=NarrowOop [28]=NarrowOop [48]=Oop }
+                      ;*ifge {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.lwjgl.system.MemoryStack::nmalloc@46 (line 321)
+                      ; - org.lwjgl.system.MemoryStack::mallocFloat@8 (line 540)
+                      ; - org.lwjgl.system.MemoryStack::floats@2 (line 556)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@8 (line 486)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6af8: 04fe 95ff | ba45 ffff | ff48 ff74 | 2428 488f | 4424 1044 | 896c 240c | 894c 2418 | 8974 241c 
+  0x000001fe503a6b18: c5fa 115c | 2424 c5fa | 1144 2428 | 4c89 4424 | 3048 8944 | 2438 4889 
+
+  0x000001fe503a6b30: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6b30: 5c24 40e8 
+
+  0x000001fe503a6b34: ; ImmutableOopMap {[24]=NarrowOop [28]=NarrowOop [48]=Oop }
+                      ;*ifge {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.lwjgl.system.MemoryStack::nmalloc@46 (line 321)
+                      ; - org.lwjgl.system.MemoryStack::mallocFloat@8 (line 540)
+                      ; - org.lwjgl.system.MemoryStack::floats@2 (line 556)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@16 (line 487)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6b34: c8fd 95ff | ba45 ffff | ff48 ff74 | 2428 488f | 4424 1044 | 896c 240c | 894c 2418 | 8974 241c 
+  0x000001fe503a6b54: c5fa 115c | 2424 c5fa | 1144 2428 | 4c89 4424 | 304c 894c | 2438 4889 | 4424 4048 | 895c 2448 
+  0x000001fe503a6b74: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6b74: 6666 90e8 
+
+  0x000001fe503a6b78: ; ImmutableOopMap {[24]=NarrowOop [28]=NarrowOop [48]=Oop }
+                      ;*ifge {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.lwjgl.system.MemoryStack::nmalloc@46 (line 321)
+                      ; - org.lwjgl.stb.STBTTAlignedQuad::malloc@9 (line 208)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@23 (line 489)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6b78: 84fd 95ff | ba45 ffff | ff48 ff74 | 2428 488f | 4424 1044 | 896c 240c | 894c 2418 | 8974 241c 
+  0x000001fe503a6b98: c5fa 115c | 2424 c5fa | 1144 2428 | 4c89 4424 | 3048 897c | 2438 4c89 | 4c24 4048 | 8944 2448 
+  0x000001fe503a6bb8: 4889 5c24 
+
+  0x000001fe503a6bbc: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6bbc: 5066 90e8 
+
+  0x000001fe503a6bc0: ; ImmutableOopMap {[24]=NarrowOop [28]=NarrowOop [48]=Oop }
+                      ;*ifge {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.lwjgl.system.MemoryStack::nmalloc@46 (line 321)
+                      ; - org.lwjgl.system.MemoryStack::mallocInt@8 (line 441)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@31 (line 490)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6bc0: 3cfd 95ff | ba45 ffff | ff48 ff74 | 2428 488f | 4424 1044 | 896c 240c | 8974 2418 | 4889 4424 
+  0x000001fe503a6be0: f88b 4424 | 2089 4424 | 1c48 8b44 | 24f8 c5fa | 115c 2420 | c5fa 1144 | 2424 4c89 | 4424 2889 
+  0x000001fe503a6c00: 4c24 3044 | 8954 2434 | 4489 5c24 | 3c4c 894c | 2440 4889 | 4424 4848 | 895c 2450 | 4889 7c24 
+  0x000001fe503a6c20: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6c20: 5866 90e8 
+
+  0x000001fe503a6c24: ; ImmutableOopMap {[24]=NarrowOop [40]=Oop [48]=NarrowOop }
+                      ;*if_icmpge {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) org.lwjgl.system.Checks::checkBuffer@2 (line 346)
+                      ; - org.lwjgl.system.Checks::check@5 (line 461)
+                      ; - org.lwjgl.stb.STBTruetype::stbtt_GetPackedQuad@10 (line 628)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@55 (line 492)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6c24: d8fc 95ff | bade ffff | ff48 8b6c | 2428 4489 | 6c24 0c89 | 4c24 1089 | 7424 1448 | 8944 24f8 
+  0x000001fe503a6c44: 8b44 2420 | 8944 2418 | 488b 4424 | f8c5 fa11 | 5c24 1cc5 | fa11 4424 | 204c 8944 
+
+  0x000001fe503a6c60: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6c60: 2428 90e8 
+
+  0x000001fe503a6c64: ; ImmutableOopMap {[16]=NarrowOop [20]=NarrowOop [40]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackGet@6 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6c64: 98fc 95ff | baf4 ffff | ff48 8b6c | 2428 4489 | 6c24 0c89 | 4c24 1089 | 7424 1448 | 8944 24f8 
+  0x000001fe503a6c84: 8b44 2420 | 8944 2418 | 488b 4424 | f8c5 fa11 | 5c24 1cc5 | fa11 4424 
+
+  0x000001fe503a6c9c: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6c9c: 2066 90e8 
+
+  0x000001fe503a6ca0: ; ImmutableOopMap {[16]=NarrowOop [20]=NarrowOop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackGet@6 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6ca0: 5cfc 95ff | baf6 ffff | ff48 8b6c | 2428 4489 | 6c24 0c89 | 4c24 1089 | 7424 1448 | 8944 24f8 
+  0x000001fe503a6cc0: 8b44 2420 | 8944 2418 | 488b 4424 | f8c5 fa11 | 5c24 1cc5 | fa11 4424 
+
+  0x000001fe503a6cd8: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6cd8: 2066 90e8 
+
+  0x000001fe503a6cdc: ; ImmutableOopMap {[16]=NarrowOop [20]=NarrowOop }
+                      ;*arraylength {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::push@8 (line 134)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@3 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6cdc: 20fc 95ff | baf6 ffff | ff48 8b6c | 2428 4489 | 6c24 0c89 | 7424 1048 | 8944 24f8 | 8b44 2420 
+  0x000001fe503a6cfc: 8944 2414 | 488b 4424 | f8c5 fa11 | 5c24 18c5 | fa11 4424 | 1c4c 8944 | 2420 4c89 | 4c24 2848 
+  0x000001fe503a6d1c: 897c 2430 
+
+  0x000001fe503a6d20: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6d20: 6666 90e8 
+
+  0x000001fe503a6d24: ; ImmutableOopMap {[16]=NarrowOop [32]=Oop }
+                      ;*invokevirtual remaining {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.Checks::check@1 (line 461)
+                      ; - org.lwjgl.stb.STBTruetype::stbtt_GetPackedQuad@10 (line 628)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@55 (line 492)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6d24: d8fb 95ff | baf6 ffff | ff48 8b6c | 2428 448b | 5c24 2044 | 895c 2414 
+
+  0x000001fe503a6d3c: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6d3c: 6666 90e8 
+
+  0x000001fe503a6d40: ; ImmutableOopMap {[24]=Oop }
+                      ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.stb.STBTruetype::stbtt_GetCodepointHMetrics@17 (line 932)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@64 (line 493)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6d40: bcfb 95ff | baf6 ffff 
+
+  0x000001fe503a6d48: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6d48: ff66 90e8 
+
+  0x000001fe503a6d4c: ; ImmutableOopMap {}
+                      ;*iaload {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::pop@16 (line 155)
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@196 (line 503)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6d4c: b0fb 95ff | baf6 ffff | ff48 8b6c | 2428 4489 | 6c24 0c89 | 4c24 1089 | 7424 1444 | 895c 2418 
+  0x000001fe503a6d6c: c5fa 115c | 241c c5fa | 1144 2420 
+
+  0x000001fe503a6d78: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6d78: 6666 90e8 
+
+  0x000001fe503a6d7c: ; ImmutableOopMap {[16]=NarrowOop [20]=NarrowOop }
+                      ;*arraylength {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.lang.ThreadLocal$ThreadLocalMap::getEntry@8 (line 434)
+                      ; - java.lang.ThreadLocal::get@16 (line 165)
+                      ; - org.lwjgl.system.MemoryStack::stackGet@3 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@0 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6d7c: 80fb 95ff | eb00 488b | d0eb 334c | 8bd0 eb03 | 4c8b d04c | 8b5c 2418 | 418b 5b24 | 458b 431c 
+  0x000001fe503a6d9c: 418b e8ff | cd41 896b | 1c44 8b4b | 0c41 3be9 | 7316 468b | 4483 0c45 | 8943 1849 | 8bd2 4883 
+  0x000001fe503a6dbc: ;   {runtime_call _rethrow_Java}
+  0x000001fe503a6dbc: c470 5de9 | 3cb0 a0ff | bae4 ffff | ff4c 8954 | 2410 4c89 | 5c24 2089 
+
+  0x000001fe503a6dd4: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6dd4: 5c24 0ce8 
+
+  0x000001fe503a6dd8: ; ImmutableOopMap {[12]=NarrowOop [16]=Oop [32]=Oop }
+                      ;*iaload {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::pop@16 (line 155)
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@211 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6dd8: 24fb 95ff | baf6 ffff | ff4c 8954 
+
+  0x000001fe503a6de4: ;   {runtime_call UncommonTrapBlob}
+  0x000001fe503a6de4: 2410 90e8 
+
+  0x000001fe503a6de8: ; ImmutableOopMap {[16]=Oop }
+                      ;*iaload {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::pop@16 (line 155)
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::lambda$TTF_assignToNewTexture$10@211 (line 485)
+                      ; - com.xbuilders.window.NKWindow$$Lambda$207/0x000001fe61185ad0::invoke@32
+                      ; - org.lwjgl.nuklear.NkQueryFontGlyphCallbackI::callback@62 (line 44)
+  0x000001fe503a6de8: 14fb 95ff 
+
+  0x000001fe503a6dec: ;   {internal_word}
+  0x000001fe503a6dec: 49ba c468 | 3a50 fe01 | 0000 4d89 | 9768 0300 
+
+  0x000001fe503a6dfc: ;   {runtime_call SafepointBlob}
+  0x000001fe503a6dfc: 00e9 fe0b | 96ff f4f4 | f4f4 f4f4 | f4f4 f4f4 | f4f4 f4f4 | f4f4 f4f4 | f4f4 f4f4 | f4f4 f4f4 
+  0x000001fe503a6e1c: f4f4 f4f4 
+[Stub Code]
+  0x000001fe503a6e20: ;   {no_reloc}
+  0x000001fe503a6e20: 48bb 0000 | 0000 0000 
+
+  0x000001fe503a6e28: ;   {runtime_call}
+  0x000001fe503a6e28: 0000 e9fb 
+
+  0x000001fe503a6e2c: ;   {static_stub}
+  0x000001fe503a6e2c: ffff ff48 | bb00 0000 | 0000 0000 
+
+  0x000001fe503a6e38: ;   {runtime_call}
+  0x000001fe503a6e38: 00e9 fbff 
+
+  0x000001fe503a6e3c: ;   {static_stub}
+  0x000001fe503a6e3c: ffff 48bb | 0000 0000 | 0000 0000 
+
+  0x000001fe503a6e48: ;   {runtime_call}
+  0x000001fe503a6e48: e9fb ffff 
+
+  0x000001fe503a6e4c: ;   {static_stub}
+  0x000001fe503a6e4c: ff48 bb00 | 0000 0000 
+
+  0x000001fe503a6e54: ;   {runtime_call}
+  0x000001fe503a6e54: 0000 00e9 | fbff ffff 
+[Exception Handler]
+  0x000001fe503a6e5c: ;   {runtime_call ExceptionBlob}
+  0x000001fe503a6e5c: e91f bd9f | ffe8 0000 | 0000 4883 
+
+  0x000001fe503a6e68: ;   {runtime_call DeoptimizationBlob}
+  0x000001fe503a6e68: 2c24 05e9 | 30fe 95ff 
+[/MachCode]
+
+
+Compiled method (c1)   10643 3118   !   2       com.xbuilders.window.NKWindow::NKrender (633 bytes)
+ total in heap  [0x000001fe48d48b90,0x000001fe48d4bc80] = 12528
+ relocation     [0x000001fe48d48ce8,0x000001fe48d49100] = 1048
+ constants      [0x000001fe48d49100,0x000001fe48d49120] = 32
+ main code      [0x000001fe48d49120,0x000001fe48d4a3a0] = 4736
+ stub code      [0x000001fe48d4a3a0,0x000001fe48d4a838] = 1176
+ oops           [0x000001fe48d4a838,0x000001fe48d4a848] = 16
+ metadata       [0x000001fe48d4a848,0x000001fe48d4aa28] = 480
+ scopes data    [0x000001fe48d4aa28,0x000001fe48d4b0f8] = 1744
+ scopes pcs     [0x000001fe48d4b0f8,0x000001fe48d4b7c8] = 1744
+ dependencies   [0x000001fe48d4b7c8,0x000001fe48d4b838] = 112
+ handler table  [0x000001fe48d4b838,0x000001fe48d4bbe0] = 936
+ nul chk table  [0x000001fe48d4bbe0,0x000001fe48d4bc80] = 160
+
+
+[Constant Pool]
+             Address          hex4                    hex8      
+  0x000001fe48d49100:   0x40000000      0xc000000040000000      
+  0x000001fe48d49104:   0xc0000000                              
+  0x000001fe48d49108:   0x3f800000      0xf4f4f4f43f800000      
+  0x000001fe48d4910c:   0xf4f4f4f4                              
+  0x000001fe48d49110:   0xf4f4f4f4      0xf4f4f4f4f4f4f4f4      
+  0x000001fe48d49114:   0xf4f4f4f4                              
+  0x000001fe48d49118:   0xf4f4f4f4      0xf4f4f4f4f4f4f4f4      
+  0x000001fe48d4911c:   0xf4f4f4f4                              
+
+[MachCode]
+[Entry Point]
+  # {method} {0x000001fea140b4e8} 'NKrender' '()V' in 'com/xbuilders/window/NKWindow'
+  #           [sp+0x170]  (sp of caller)
+  0x000001fe48d49120: ;   {no_reloc}
+  0x000001fe48d49120: 448b 5208 | 49bb 0000 | 0060 fe01 | 0000 4d03 | d34c 3bd0 
+
+  0x000001fe48d49134: ;   {runtime_call ic_miss_stub}
+  0x000001fe48d49134: 0f85 467f | fb06 660f | 1f44 0000 
+[Verified Entry Point]
+  0x000001fe48d49140: 8984 2400 | 90ff ff55 | 4881 ec60 | 0100 0048 | 8994 24a8 | 0000 0048 | bec8 fe17 | a2fe 0100 
+  0x000001fe48d49160: 008b 7e08 | 83c7 0289 | 7e08 81e7 | fe0f 0000 | 83ff 000f | 84b8 0f00 
+
+  0x000001fe48d49178: ;   {oop(a 'java/lang/ThreadLocal$SuppliedThreadLocal'{0x000000008340b9c0})}
+  0x000001fe48d49178: 0048 bec0 | b940 8300 | 0000 0048 
+
+  0x000001fe48d49184: ;   {optimized virtual_call}
+  0x000001fe48d49184: 8bd6 90e8 
+
+  0x000001fe48d49188: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokevirtual get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackGet@3 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@0 (line 646)
+  0x000001fe48d49188: 342a 6107 | 4883 f800 | 0f84 2900 
+
+  0x000001fe48d49194: ;   {metadata('org/lwjgl/system/MemoryStack')}
+  0x000001fe48d49194: 0000 48bb | 485c 0161 | fe01 0000 | 8b78 0849 | ba00 0000 | 60fe 0100 | 0049 03fa | 483b 5f40 
+  0x000001fe48d491b4: 0f85 980f | 0000 e900 | 0000 0048 | 8bd0 483b 
+
+  0x000001fe48d491c4: ;   {optimized virtual_call}
+  0x000001fe48d491c4: 0266 90e8 
+
+  0x000001fe48d491c8: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokevirtual push {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackPush@3 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@0 (line 646)
+  0x000001fe48d491c8: d49f 6407 | 4889 8424 | b000 0000 | 488b 9424 | a800 0000 
+
+  0x000001fe48d491dc: ;   {optimized virtual_call}
+  0x000001fe48d491dc: 6666 90e8 
+
+  0x000001fe48d491e0: ; ImmutableOopMap {[168]=Oop [176]=Oop }
+                      ;*invokevirtual enableNuklear {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@5 (line 647)
+  0x000001fe48d491e0: bc6d 0900 | 488b 9424 | a800 0000 | 8b72 7c8b | 760c 488b 
+
+  0x000001fe48d491f4: ;   {static_call}
+  0x000001fe48d491f4: d666 90e8 
+
+  0x000001fe48d491f8: ; ImmutableOopMap {[176]=Oop [168]=Oop }
+                      ;*invokestatic glUseProgram {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@15 (line 649)
+  0x000001fe48d491f8: c46a 6907 | 488b 9424 | a800 0000 | 448b 4270 | 498b d041 | b800 0000 | 0066 0f1f 
+
+  0x000001fe48d49214: ;   {static_call}
+  0x000001fe48d49214: 4400 00e8 
+
+  0x000001fe48d49218: ; ImmutableOopMap {[176]=Oop [168]=Oop }
+                      ;*invokestatic glUniform1i {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@23 (line 650)
+  0x000001fe48d49218: 2476 7707 | 488b 9424 | a800 0000 | 448b 4a74 | bb10 0000 | 004c 8bda 
+
+  0x000001fe48d49230: ;   {metadata({type array float})}
+  0x000001fe48d49230: 48ba 5863 | 0060 fe01 | 0000 4863 | db48 8bfb | 4881 fbff | ffff 000f | 8718 0f00 | 0048 be17 
+  0x000001fe48d49250: 0000 0000 | 0000 0048 | 8d34 9e48 | 83e6 f849 | 8b87 0801 | 0000 488d | 3430 493b | b718 0100 
+  0x000001fe48d49270: 000f 87ee | 0e00 0049 | 89b7 0801 | 0000 482b | f048 c700 | 0100 0000 | 488b ca49 | ba00 0000 
+  0x000001fe48d49290: 60fe 0100 | 0049 2bca | 8948 0889 | 580c 4883 | ee10 0f84 | 1a00 0000 | 4885 f60f | 8411 0000 
+  0x000001fe48d492b0: 0048 33db | 48c1 ee03 | 4889 5cf0 | 0848 ffce | 75f6 458b | 430c c4c1 
+
+  0x000001fe48d492c8: ;   {section_word}
+  0x000001fe48d492c8: 7a2a c0c5 | fa10 0d2d | feff ffc5 | f25e c8c5 | fa11 4810 | c740 1400 | 0000 00c7 | 4018 0000 
+  0x000001fe48d492e8: 0000 c740 | 1c00 0000 | 00c7 4020 | 0000 0000 | 458b 4338 | c4c1 7a2a 
+
+  0x000001fe48d49300: ;   {section_word}
+  0x000001fe48d49300: c0c5 fa10 | 0dfb fdff | ffc5 f25e | c8c5 fa11 | 4824 c740 | 2800 0000 | 00c7 402c | 0000 0000 
+  0x000001fe48d49320: c740 3000 | 0000 00c7 | 4034 0000 | 0000 c740 | 3800 0080 | bfc7 403c | 0000 0000 | c740 4000 
+  0x000001fe48d49340: 0080 bfc7 | 4044 0000 | 803f c740 | 4800 0000 | 00c7 404c | 0000 803f | 488b b424 | b000 0000 
+  0x000001fe48d49360: ; implicit exception: dispatches to 0x000001fe48d4a16f
+  0x000001fe48d49360: 483b 0641 | b810 0000 | 0048 8bd6 | 4489 8c24 | c000 0000 | 4889 8424 | b800 0000 
+
+  0x000001fe48d4937c: ;   {optimized virtual_call}
+  0x000001fe48d4937c: 6666 90e8 
+
+  0x000001fe48d49380: ; ImmutableOopMap {[176]=Oop [184]=Oop [168]=Oop }
+                      ;*invokevirtual mallocFloat {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::floats@3 (line 565)
+                      ; - com.xbuilders.window.NKWindow::NKrender@128 (line 651)
+  0x000001fe48d49380: 3cb5 6507 
+
+  0x000001fe48d49384: ; implicit exception: dispatches to 0x000001fe48d4a174
+  0x000001fe48d49384: 483b 004c | 8b84 24b8 | 0000 0041 | b900 0000 | 00bf 1000 | 0000 488b 
+
+  0x000001fe48d4939c: ;   {optimized virtual_call}
+  0x000001fe48d4939c: d066 90e8 
+
+  0x000001fe48d493a0: ; ImmutableOopMap {[176]=Oop [168]=Oop }
+                      ;*invokevirtual put {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.nio.FloatBuffer::put@5 (line 1210)
+                      ; - org.lwjgl.system.MemoryStack::floats@7 (line 565)
+                      ; - com.xbuilders.window.NKWindow::NKrender@128 (line 651)
+  0x000001fe48d493a0: 9ce0 1100 
+
+  0x000001fe48d493a4: ; implicit exception: dispatches to 0x000001fe48d4a179
+  0x000001fe48d493a4: 8b50 1889 | 501c c740 | 1800 0000 | 00c7 400c | ffff ffff | 8b94 24c0 | 0000 0041 | b800 0000 
+  0x000001fe48d493c4: 004c 8bc8 | 0f1f 8000 
+
+  0x000001fe48d493cc: ;   {static_call}
+  0x000001fe48d493cc: 0000 00e8 
+
+  0x000001fe48d493d0: ; ImmutableOopMap {[176]=Oop [168]=Oop }
+                      ;*invokestatic glUniformMatrix4fv {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@131 (line 651)
+  0x000001fe48d493d0: 0c71 0900 | 488b 9424 | a800 0000 | 448b 4a3c | 8b7a 40ba | 0000 0000 | 41b8 0000 
+
+  0x000001fe48d493ec: ;   {static_call}
+  0x000001fe48d493ec: 0000 90e8 
+
+  0x000001fe48d493f0: ; ImmutableOopMap {[176]=Oop [168]=Oop }
+                      ;*invokestatic glViewport {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.opengl.GL11::glViewport@4 (line 7968)
+                      ; - com.xbuilders.window.NKWindow::NKrender@144 (line 656)
+  0x000001fe48d493f0: 4c7c 7707 | 488b b424 | b000 0000 | 4883 fe00 | 0f84 0e00 | 0000 488b | d666 0f1f 
+
+  0x000001fe48d4940c: ;   {optimized virtual_call}
+  0x000001fe48d4940c: 4400 00e8 
+
+  0x000001fe48d49410: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokevirtual pop {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::NKrender@152 (line 657)
+  0x000001fe48d49410: 8c3d 5a07 | 488b 9424 | a800 0000 | 8b72 6848 | 8bd6 0f1f 
+
+  0x000001fe48d49424: ;   {static_call}
+  0x000001fe48d49424: 4400 00e8 
+
+  0x000001fe48d49428: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glBindVertexArray {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@182 (line 663)
+  0x000001fe48d49428: 140d 6607 | 488b 9424 | a800 0000 | 448b 4264 | ba92 8800 
+
+  0x000001fe48d4943c: ;   {static_call}
+  0x000001fe48d4943c: 0066 90e8 
+
+  0x000001fe48d49440: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glBindBuffer {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@192 (line 664)
+  0x000001fe48d49440: fc87 6407 | 488b 9424 | a800 0000 | 448b 426c | ba93 8800 
+
+  0x000001fe48d49454: ;   {static_call}
+  0x000001fe48d49454: 0066 90e8 
+
+  0x000001fe48d49458: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glBindBuffer {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@202 (line 665)
+  0x000001fe48d49458: e487 6407 | 48be 0000 | 0800 0000 | 0000 ba92 | 8800 004c | 8bc6 41b9 | e088 0000 | 4889 b424 
+  0x000001fe48d49478: c800 0000 
+
+  0x000001fe48d4947c: ;   {static_call}
+  0x000001fe48d4947c: 6666 90e8 
+
+  0x000001fe48d49480: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glBufferData {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@214 (line 667)
+  0x000001fe48d49480: 1c17 0300 | 49b8 0000 | 0200 0000 | 0000 ba93 | 8800 0041 | b9e0 8800 | 0066 0f1f 
+
+  0x000001fe48d4949c: ;   {static_call}
+  0x000001fe48d4949c: 4400 00e8 
+
+  0x000001fe48d494a0: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glBufferData {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@226 (line 668)
+  0x000001fe48d494a0: fc16 0300 | ba92 8800 | 0041 b8b9 | 8800 004c | 8b8c 24c8 
+
+  0x000001fe48d494b4: ;   {oop(NULL)}
+  0x000001fe48d494b4: 0000 0048 | bf00 0000 | 0000 0000 | 0066 0f1f 
+
+  0x000001fe48d494c4: ;   {static_call}
+  0x000001fe48d494c4: 4400 00e8 
+
+  0x000001fe48d494c8: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glMapBuffer {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@240 (line 671)
+  0x000001fe48d494c8: 741a 0300 | 4883 f800 | 0f84 6b0b | 0000 488b | 9424 a800 | 0000 450f | be47 3841 | 83f8 000f 
+  0x000001fe48d494e8: 8591 0c00 | 004c 8bd0 | 4489 9288 | 0000 004c | 8bc2 4c33 | c049 c1e8 | 1449 83f8 | 000f 8592 
+  0x000001fe48d49508: 0c00 0049 | b900 0002 | 0000 0000 | 00ba 9388 | 0000 41b8 | b988 0000 
+
+  0x000001fe48d49520: ;   {oop(NULL)}
+  0x000001fe48d49520: 48bf 0000 | 0000 0000 | 0000 0f1f 
+
+  0x000001fe48d4952c: ;   {static_call}
+  0x000001fe48d4952c: 4400 00e8 
+
+  0x000001fe48d49530: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glMapBuffer {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@263 (line 672)
+  0x000001fe48d49530: 0c1a 0300 | 4883 f800 | 0f84 830a | 0000 488b | 9424 a800 | 0000 410f | be77 3883 | fe00 0f85 
+  0x000001fe48d49550: 610c 0000 | 4c8b d044 | 8992 8c00 | 0000 488b | f248 33f0 | 48c1 ee14 | 4883 fe00 | 0f85 610c 
+  0x000001fe48d49570: ;   {oop(a 'java/lang/ThreadLocal$SuppliedThreadLocal'{0x000000008340b9c0})}
+  0x000001fe48d49570: 0000 48be | c0b9 4083 | 0000 0000 
+
+  0x000001fe48d4957c: ;   {optimized virtual_call}
+  0x000001fe48d4957c: 488b d6e8 
+
+  0x000001fe48d49580: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokevirtual get {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackGet@3 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@275 (line 673)
+  0x000001fe48d49580: 3c26 6107 | 4883 f800 | 0f84 2900 
+
+  0x000001fe48d4958c: ;   {metadata('org/lwjgl/system/MemoryStack')}
+  0x000001fe48d4958c: 0000 48bb | 485c 0161 | fe01 0000 | 8b78 0849 | ba00 0000 | 60fe 0100 | 0049 03fa | 483b 5f40 
+  0x000001fe48d495ac: 0f85 390c | 0000 e900 | 0000 0048 | 8bd0 483b 
+
+  0x000001fe48d495bc: ;   {optimized virtual_call}
+  0x000001fe48d495bc: 0266 90e8 
+
+  0x000001fe48d495c0: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokevirtual push {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackPush@3 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@275 (line 673)
+  0x000001fe48d495c0: dc9b 6407 | 4889 8424 | d000 0000 
+
+  0x000001fe48d495cc: ;   {static_call}
+  0x000001fe48d495cc: 488b d0e8 
+
+  0x000001fe48d495d0: ; ImmutableOopMap {[168]=Oop [208]=Oop }
+                      ;*invokestatic calloc {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@280 (line 675)
+  0x000001fe48d495d0: 6c02 1200 | 4889 8424 | e000 0000 
+
+  0x000001fe48d495dc: ; implicit exception: dispatches to 0x000001fe48d4a1f9
+  0x000001fe48d495dc: 488b 5010 | 49ba 2800 | 0000 0000 | 0000 4903 | d248 8994 | 24d8 0000 
+
+  0x000001fe48d495f4: ;   {oop(a 'org/lwjgl/nuklear/NkDrawVertexLayoutElement$Buffer'{0x000000008363e7c0})}
+  0x000001fe48d495f4: 0048 bac0 | e763 8300 
+
+  0x000001fe48d495fc: ;   {optimized virtual_call}
+  0x000001fe48d495fc: 0000 00e8 
+
+  0x000001fe48d49600: ; ImmutableOopMap {[168]=Oop [208]=Oop [224]=Oop }
+                      ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::nvertex_layout@7 (line 364)
+                      ; - org.lwjgl.nuklear.NkConvertConfig::vertex_layout@5 (line 151)
+                      ; - com.xbuilders.window.NKWindow::NKrender@286 (line 676)
+  0x000001fe48d49600: 3c80 0000 | 488b 9424 | d800 0000 
+
+  0x000001fe48d4960c: ;   {static_call}
+  0x000001fe48d4960c: 4c8b c0e8 
+
+  0x000001fe48d49610: ; ImmutableOopMap {[168]=Oop [208]=Oop [224]=Oop }
+                      ;*invokestatic memPutAddress {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::nvertex_layout@10 (line 364)
+                      ; - org.lwjgl.nuklear.NkConvertConfig::vertex_layout@5 (line 151)
+                      ; - com.xbuilders.window.NKWindow::NKrender@286 (line 676)
+  0x000001fe48d49610: 6c35 7607 | 488b 8424 | e000 0000 | 488b 5010 | 49ba 3000 | 0000 0000 | 0000 4903 | d249 b814 
+  0x000001fe48d49630: 0000 0000 
+
+  0x000001fe48d49634: ;   {static_call}
+  0x000001fe48d49634: 0000 00e8 
+
+  0x000001fe48d49638: ; ImmutableOopMap {[168]=Oop [208]=Oop [224]=Oop }
+                      ;*invokestatic memPutAddress {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::nvertex_size@7 (line 366)
+                      ; - org.lwjgl.nuklear.NkConvertConfig::vertex_size@5 (line 153)
+                      ; - com.xbuilders.window.NKWindow::NKrender@292 (line 677)
+  0x000001fe48d49638: 4435 7607 | 488b 8424 | e000 0000 | 488b 5010 | 49ba 3800 | 0000 0000 | 0000 4903 | d249 b804 
+  0x000001fe48d49658: 0000 0000 
+
+  0x000001fe48d4965c: ;   {static_call}
+  0x000001fe48d4965c: 0000 00e8 
+
+  0x000001fe48d49660: ; ImmutableOopMap {[168]=Oop [208]=Oop [224]=Oop }
+                      ;*invokestatic memPutAddress {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::nvertex_alignment@7 (line 368)
+                      ; - org.lwjgl.nuklear.NkConvertConfig::vertex_alignment@5 (line 155)
+                      ; - com.xbuilders.window.NKWindow::NKrender@298 (line 678)
+  0x000001fe48d49660: 1c35 7607 | 488b 9424 | a800 0000 | 448b 8284 | 0000 0048 | 8b84 24e0 | 0000 0048 | 8b70 1048 
+  0x000001fe48d49680: 8bd6 0f1f 
+
+  0x000001fe48d49684: ;   {static_call}
+  0x000001fe48d49684: 4400 00e8 
+
+  0x000001fe48d49688: ; ImmutableOopMap {[208]=Oop [224]=Oop [168]=Oop }
+                      ;*invokestatic ntex_null {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::tex_null@5 (line 147)
+                      ; - com.xbuilders.window.NKWindow::NKrender@305 (line 679)
+  0x000001fe48d49688: b407 1200 | 488b 8424 | e000 0000 | 488b 5010 | 41b8 1600 
+
+  0x000001fe48d4969c: ;   {static_call}
+  0x000001fe48d4969c: 0000 90e8 
+
+  0x000001fe48d496a0: ; ImmutableOopMap {[208]=Oop [168]=Oop [224]=Oop }
+                      ;*invokestatic ncircle_segment_count {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::circle_segment_count@5 (line 141)
+                      ; - com.xbuilders.window.NKWindow::NKrender@310 (line 680)
+  0x000001fe48d496a0: fc0b 1200 | 488b 8424 | e000 0000 | 488b 5010 | 41b8 1600 
+
+  0x000001fe48d496b4: ;   {static_call}
+  0x000001fe48d496b4: 0000 90e8 
+
+  0x000001fe48d496b8: ; ImmutableOopMap {[208]=Oop [168]=Oop [224]=Oop }
+                      ;*invokestatic ncurve_segment_count {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::curve_segment_count@5 (line 145)
+                      ; - com.xbuilders.window.NKWindow::NKrender@315 (line 681)
+  0x000001fe48d496b8: 890e 0000 | 488b 8424 | e000 0000 | 488b 5010 | 41b8 1600 
+
+  0x000001fe48d496cc: ;   {static_call}
+  0x000001fe48d496cc: 0000 90e8 
+
+  0x000001fe48d496d0: ; ImmutableOopMap {[208]=Oop [168]=Oop [224]=Oop }
+                      ;*invokestatic narc_segment_count {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::arc_segment_count@5 (line 143)
+                      ; - com.xbuilders.window.NKWindow::NKrender@320 (line 682)
+  0x000001fe48d496d0: 810e 0000 | 488b 8424 | e000 0000 | 488b 5010 
+
+  0x000001fe48d496e0: ;   {section_word}
+  0x000001fe48d496e0: c5fa 1005 | 20fa ffff | 0f1f 8000 
+
+  0x000001fe48d496ec: ;   {static_call}
+  0x000001fe48d496ec: 0000 00e8 
+
+  0x000001fe48d496f0: ; ImmutableOopMap {[208]=Oop [168]=Oop [224]=Oop }
+                      ;*invokestatic nglobal_alpha {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::global_alpha@5 (line 135)
+                      ; - com.xbuilders.window.NKWindow::NKrender@324 (line 683)
+  0x000001fe48d496f0: 710e 0000 | 488b 8424 | e000 0000 | 488b 5010 | 41b8 0100 
+
+  0x000001fe48d49704: ;   {static_call}
+  0x000001fe48d49704: 0000 90e8 
+
+  0x000001fe48d49708: ; ImmutableOopMap {[208]=Oop [168]=Oop [224]=Oop }
+                      ;*invokestatic nshape_AA {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::shape_AA@5 (line 139)
+                      ; - com.xbuilders.window.NKWindow::NKrender@328 (line 684)
+  0x000001fe48d49708: 690e 0000 | 488b 8424 | e000 0000 | 488b 5010 | 41b8 0100 
+
+  0x000001fe48d4971c: ;   {static_call}
+  0x000001fe48d4971c: 0000 90e8 
+
+  0x000001fe48d49720: ; ImmutableOopMap {[208]=Oop [168]=Oop [224]=Oop }
+                      ;*invokestatic nline_AA {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkConvertConfig::line_AA@5 (line 137)
+                      ; - com.xbuilders.window.NKWindow::NKrender@332 (line 685)
+  0x000001fe48d49720: 610e 0000 | 488b 8424 | d000 0000 
+
+  0x000001fe48d4972c: ; implicit exception: dispatches to 0x000001fe48d4a1fe
+  0x000001fe48d4972c: 483b 0041 | b808 0000 | 0041 b978 | 0000 0048 
+
+  0x000001fe48d4973c: ;   {optimized virtual_call}
+  0x000001fe48d4973c: 8bd0 90e8 
+
+  0x000001fe48d49740: ; ImmutableOopMap {[168]=Oop [224]=Oop [208]=Oop }
+                      ;*invokevirtual nmalloc {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkBuffer::malloc@9 (line 224)
+                      ; - com.xbuilders.window.NKWindow::NKrender@338 (line 688)
+  0x000001fe48d49740: dc02 6107 
+
+  0x000001fe48d49744: ;   {oop(a 'java/lang/Class'{0x00000000836384e8} = 'org/lwjgl/nuklear/NkBuffer')}
+  0x000001fe48d49744: 48be e884 | 6383 0000 | 0000 488b | d64c 8bc0 | 4889 b424 | e800 0000 
+
+  0x000001fe48d4975c: ;   {static_call}
+  0x000001fe48d4975c: 6666 90e8 
+
+  0x000001fe48d49760: ; ImmutableOopMap {[168]=Oop [224]=Oop [208]=Oop [232]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkBuffer::malloc@12 (line 224)
+                      ; - com.xbuilders.window.NKWindow::NKrender@338 (line 688)
+  0x000001fe48d49760: bc75 6407 | 4883 f800 | 0f84 2900 
+
+  0x000001fe48d4976c: ;   {metadata('org/lwjgl/nuklear/NkBuffer')}
+  0x000001fe48d4976c: 0000 48be | 0020 1461 | fe01 0000 | 448b 4808 | 49ba 0000 | 0060 fe01 | 0000 4d03 | ca49 3bf1 
+  0x000001fe48d4978c: 0f85 710a | 0000 e900 | 0000 004c | 8bc0 450f | be4f 3841 | 83f9 0048 | 8b94 24a8 | 0000 000f 
+  0x000001fe48d497ac: 855b 0a00 | 004d 8bd0 | 4489 9290 | 0000 004c | 8bca 4d33 | c849 c1e9 | 1449 83f9 | 000f 855c 
+  0x000001fe48d497cc: 0a00 0041 | b808 0000 | 0041 b978 | 0000 0048 | 8b94 24d0 | 0000 000f 
+
+  0x000001fe48d497e4: ;   {optimized virtual_call}
+  0x000001fe48d497e4: 1f40 00e8 
+
+  0x000001fe48d497e8: ; ImmutableOopMap {[224]=Oop [208]=Oop [232]=Oop [168]=Oop }
+                      ;*invokevirtual nmalloc {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkBuffer::malloc@9 (line 224)
+                      ; - com.xbuilders.window.NKWindow::NKrender@346 (line 689)
+  0x000001fe48d497e8: 3402 6107 | 488b 9424 | e800 0000 
+
+  0x000001fe48d497f4: ;   {static_call}
+  0x000001fe48d497f4: 4c8b c0e8 
+
+  0x000001fe48d497f8: ; ImmutableOopMap {[224]=Oop [208]=Oop [168]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkBuffer::malloc@12 (line 224)
+                      ; - com.xbuilders.window.NKWindow::NKrender@346 (line 689)
+  0x000001fe48d497f8: 2475 6407 | 4883 f800 | 0f84 2900 
+
+  0x000001fe48d49804: ;   {metadata('org/lwjgl/nuklear/NkBuffer')}
+  0x000001fe48d49804: 0000 48bf | 0020 1461 | fe01 0000 | 448b 4008 | 49ba 0000 | 0060 fe01 | 0000 4d03 | c249 3bf8 
+  0x000001fe48d49824: 0f85 190a | 0000 e900 | 0000 0048 | 8bd0 450f | be47 3841 | 83f8 0048 | 8bb4 24a8 | 0000 000f 
+  0x000001fe48d49844: 8503 0a00 | 004c 8bd2 | 4489 9694 | 0000 004c | 8bc6 4c33 | c249 c1e8 | 1449 83f8 | 000f 8504 
+  0x000001fe48d49864: 0a00 008b | 9690 0000 | 0044 8b86 | 8800 0000 
+
+  0x000001fe48d49874: ;   {static_call}
+  0x000001fe48d49874: 6666 90e8 
+
+  0x000001fe48d49878: ; ImmutableOopMap {[224]=Oop [208]=Oop [168]=Oop }
+                      ;*invokestatic nk_buffer_init_fixed {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@360 (line 691)
+  0x000001fe48d49878: 6423 0300 | 488b 9424 | a800 0000 | 448b 8294 | 0000 008b | b28c 0000 | 0049 8bd0 
+
+  0x000001fe48d49894: ;   {static_call}
+  0x000001fe48d49894: 4c8b c6e8 
+
+  0x000001fe48d49898: ; ImmutableOopMap {[224]=Oop [208]=Oop [168]=Oop }
+                      ;*invokestatic nk_buffer_init_fixed {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@371 (line 692)
+  0x000001fe48d49898: 4423 0300 | 488b 9424 | a800 0000 | 448b 4278 | 448b 8a80 | 0000 008b | ba90 0000 | 008b b294 
+  0x000001fe48d498b8: 0000 0049 | 8bd0 4d8b | c14c 8bcf | 488b fe48 | 8bb4 24e0 
+
+  0x000001fe48d498cc: ;   {static_call}
+  0x000001fe48d498cc: 0000 00e8 
+
+  0x000001fe48d498d0: ; ImmutableOopMap {[208]=Oop [168]=Oop }
+                      ;*invokestatic nk_convert {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@391 (line 693)
+  0x000001fe48d498d0: 210d 0000 | 488b b424 | d000 0000 | 4883 fe00 | 0f84 0e00 | 0000 488b | d666 0f1f 
+
+  0x000001fe48d498ec: ;   {optimized virtual_call}
+  0x000001fe48d498ec: 4400 00e8 
+
+  0x000001fe48d498f0: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokevirtual pop {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::NKrender@400 (line 694)
+  0x000001fe48d498f0: ac38 5a07 | ba93 8800 | 0066 0f1f 
+
+  0x000001fe48d498fc: ;   {static_call}
+  0x000001fe48d498fc: 4400 00e8 
+
+  0x000001fe48d49900: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glUnmapBuffer {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@429 (line 695)
+  0x000001fe48d49900: 3cdf 7007 | ba92 8800 | 0066 0f1f 
+
+  0x000001fe48d4990c: ;   {static_call}
+  0x000001fe48d4990c: 4400 00e8 
+
+  0x000001fe48d49910: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic glUnmapBuffer {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@436 (line 696)
+  0x000001fe48d49910: 2cdf 7007 | 488b 9424 | a800 0000 | 448b 423c | 8b72 0cc4 | c17a 2ac0 | c5f2 2ace | c5fa 5ec1 
+  0x000001fe48d49930: c5fa 1184 | 241c 0100 | 0044 8b42 | 408b 7238 | c4c1 722a | c8c5 ea2a | d6c5 f25e | cac5 fa11 
+  0x000001fe48d49950: 8c24 4801 | 0000 448b | 4278 8bb2 | 8000 0000 | 498b d04c 
+
+  0x000001fe48d49964: ;   {static_call}
+  0x000001fe48d49964: 8bc6 90e8 
+
+  0x000001fe48d49968: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic nk__draw_begin {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@474 (line 703)
+  0x000001fe48d49968: f40d 1200 | 48be 0000 | 0000 0000 | 0000 e925 | 0500 000f | 1f44 0000 
+
+  0x000001fe48d49980: ; implicit exception: dispatches to 0x000001fe48d4a283
+  0x000001fe48d49980: 488b 7810 | 488b d748 | 8984 24f8 
+
+  0x000001fe48d4998c: ;   {static_call}
+  0x000001fe48d4998c: 0000 00e8 
+
+  0x000001fe48d49990: ; ImmutableOopMap {[248]=Oop [168]=Oop }
+                      ;*invokestatic nelem_count {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkDrawCommand::elem_count@4 (line 75)
+                      ; - com.xbuilders.window.NKWindow::NKrender@486 (line 704)
+  0x000001fe48d49990: 6cf2 7007 | 83f8 000f | 850d 0000 | 0048 8bb4 | 24f0 0000 | 00e9 9504 | 0000 488b | 8424 f800 
+  0x000001fe48d499b0: 0000 4c8b | 4010 49ba | 1800 0000 | 0000 0000 
+
+  0x000001fe48d499c0: ;   {oop(a 'java/lang/Class'{0x000000008363bcf8} = 'org/lwjgl/nuklear/NkHandle')}
+  0x000001fe48d499c0: 4d03 c248 | baf8 bc63 | 8300 0000 | 0048 8984 | 24f8 0000 
+
+  0x000001fe48d499d4: ;   {static_call}
+  0x000001fe48d499d4: 0066 90e8 
+
+  0x000001fe48d499d8: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkHandle::create@3 (line 110)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::ntexture@6 (line 122)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::texture@4 (line 81)
+                      ; - com.xbuilders.window.NKWindow::NKrender@500 (line 707)
+  0x000001fe48d499d8: 4473 6407 | 4883 f800 | 0f84 2800 
+
+  0x000001fe48d499e4: ;   {metadata('org/lwjgl/nuklear/NkHandle')}
+  0x000001fe48d499e4: 0000 48bb | d0ee 0061 | fe01 0000 | 8b70 0849 | ba00 0000 | 60fe 0100 | 0049 03f2 | 483b de0f 
+  0x000001fe48d49a04: 857f 0800 | 00e9 0000 | 0000 488b | d048 8b72 | 1048 8bd6 | 0f1f 8000 
+
+  0x000001fe48d49a1c: ;   {static_call}
+  0x000001fe48d49a1c: 0000 00e8 
+
+  0x000001fe48d49a20: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic nid {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkHandle::id@4 (line 71)
+                      ; - com.xbuilders.window.NKWindow::NKrender@503 (line 707)
+  0x000001fe48d49a20: fc3e f3ff | bae1 0d00 | 004c 8bc0 
+
+  0x000001fe48d49a2c: ;   {static_call}
+  0x000001fe48d49a2c: 6666 90e8 
+
+  0x000001fe48d49a30: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic glBindTexture {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@506 (line 707)
+  0x000001fe48d49a30: 8c78 6007 | 488b 8424 | f800 0000 | 488b 5010 
+
+  0x000001fe48d49a40: ;   {oop(a 'java/lang/Class'{0x0000000083639300} = 'org/lwjgl/nuklear/NkRect')}
+  0x000001fe48d49a40: 48be 0093 | 6383 0000 | 0000 48bf | 0400 0000 | 0000 0000 | 4889 bc24 | 0001 0000 | 4c8b c24c 
+  0x000001fe48d49a60: 03c7 488b | d648 89b4 | 2408 0100 | 0048 8984 | 24f8 0000 
+
+  0x000001fe48d49a74: ;   {static_call}
+  0x000001fe48d49a74: 0066 90e8 
+
+  0x000001fe48d49a78: ; ImmutableOopMap {[168]=Oop [248]=Oop [264]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@3 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@511 (line 708)
+  0x000001fe48d49a78: a472 6407 | 4883 f800 | 0f84 2800 
+
+  0x000001fe48d49a84: ;   {metadata('org/lwjgl/nuklear/NkRect')}
+  0x000001fe48d49a84: 0000 48bb | 0080 1461 | fe01 0000 | 8b70 0849 | ba00 0000 | 60fe 0100 | 0049 03f2 | 483b de0f 
+  0x000001fe48d49aa4: 85ed 0700 | 00e9 0000 | 0000 488b | d048 8b72 | 1048 8bd6 | 0f1f 8000 
+
+  0x000001fe48d49abc: ;   {static_call}
+  0x000001fe48d49abc: 0000 00e8 
+
+  0x000001fe48d49ac0: ; ImmutableOopMap {[168]=Oop [248]=Oop [264]=Oop }
+                      ;*invokestatic nx {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::x@4 (line 76)
+                      ; - com.xbuilders.window.NKWindow::NKrender@514 (line 708)
+  0x000001fe48d49ac0: 5c46 f3ff | 488b 9424 | a800 0000 | 8b72 3848 | 8b84 24f8 | 0000 004c | 8b40 1048 | 8bbc 2400 
+  0x000001fe48d49ae0: 0100 004c | 03c7 c5fa | 108c 241c | 0100 00c5 | fa59 c1c5 | fa2c d881 | fb00 0000 | 8075 0f48 
+  0x000001fe48d49b00: 83ec 08c5 | fa11 0424 
+
+  0x000001fe48d49b08: ;   {runtime_call StubRoutines (1)}
+  0x000001fe48d49b08: e8e6 75f6 | 065b 488b | 9424 0801 | 0000 899c | 2410 0100 | 0089 b424 | c400 0000 | 4889 8424 
+  0x000001fe48d49b28: f800 0000 
+
+  0x000001fe48d49b2c: ;   {static_call}
+  0x000001fe48d49b2c: 6666 90e8 
+
+  0x000001fe48d49b30: ; ImmutableOopMap {[264]=Oop [248]=Oop [168]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@3 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@526 (line 709)
+  0x000001fe48d49b30: ec71 6407 | 4883 f800 | 0f84 2800 
+
+  0x000001fe48d49b3c: ;   {metadata('org/lwjgl/nuklear/NkRect')}
+  0x000001fe48d49b3c: 0000 48bb | 0080 1461 | fe01 0000 | 8b70 0849 | ba00 0000 | 60fe 0100 | 0049 03f2 | 483b de0f 
+  0x000001fe48d49b5c: 8543 0700 | 00e9 0000 | 0000 488b | d048 8b72 | 1048 8bd6 | 0f1f 8000 
+
+  0x000001fe48d49b74: ;   {static_call}
+  0x000001fe48d49b74: 0000 00e8 
+
+  0x000001fe48d49b78: ; ImmutableOopMap {[264]=Oop [248]=Oop [168]=Oop }
+                      ;*invokestatic ny {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::y@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@529 (line 709)
+  0x000001fe48d49b78: a451 f3ff | 488b 8424 | f800 0000 | 488b 5010 | 4c8b c248 | 8bbc 2400 | 0100 004c | 03c7 488b 
+  0x000001fe48d49b98: 9424 0801 | 0000 4889 | 8424 f800 | 0000 c5fa | 1184 244c 
+
+  0x000001fe48d49bac: ;   {static_call}
+  0x000001fe48d49bac: 0100 00e8 
+
+  0x000001fe48d49bb0: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@3 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@534 (line 709)
+  0x000001fe48d49bb0: 6c71 6407 | 4883 f800 | 0f84 2800 
+
+  0x000001fe48d49bbc: ;   {metadata('org/lwjgl/nuklear/NkRect')}
+  0x000001fe48d49bbc: 0000 48bb | 0080 1461 | fe01 0000 | 8b70 0849 | ba00 0000 | 60fe 0100 | 0049 03f2 | 483b de0f 
+  0x000001fe48d49bdc: 85d1 0600 | 00e9 0000 | 0000 488b | d048 8b72 | 1048 8bd6 | 0f1f 8000 
+
+  0x000001fe48d49bf4: ;   {static_call}
+  0x000001fe48d49bf4: 0000 00e8 
+
+  0x000001fe48d49bf8: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop }
+                      ;*invokestatic nh {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::h@4 (line 82)
+                      ; - com.xbuilders.window.NKWindow::NKrender@537 (line 709)
+  0x000001fe48d49bf8: 844a 7507 | 488b 8424 | f800 0000 | 488b 5010 | 4c8b c248 | 8bbc 2400 | 0100 004c | 03c7 c5fa 
+  0x000001fe48d49c18: 108c 244c | 0100 00c5 | f258 c8c5 | fa2c d181 | fa00 0000 | 8075 0f48 | 83ec 08c5 | fa11 0c24 
+  0x000001fe48d49c38: ;   {runtime_call StubRoutines (1)}
+  0x000001fe48d49c38: e8b6 74f6 | 065a 8bb4 | 24c4 0000 | 002b f2c5 | fa2a c6c5 | fa10 8c24 | 4801 0000 | c5fa 59c1 
+  0x000001fe48d49c58: c5fa 2cf0 | 81fe 0000 | 0080 750f | 4883 ec08 | c5fa 1104 
+
+  0x000001fe48d49c6c: ;   {runtime_call StubRoutines (1)}
+  0x000001fe48d49c6c: 24e8 8174 | f606 5e48 | 8b94 2408 | 0100 0089 | b424 1401 | 0000 4889 | 8424 f800 | 0000 0f1f 
+  0x000001fe48d49c8c: ;   {static_call}
+  0x000001fe48d49c8c: 4400 00e8 
+
+  0x000001fe48d49c90: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@3 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@549 (line 710)
+  0x000001fe48d49c90: 8c70 6407 | 4883 f800 | 0f84 2800 
+
+  0x000001fe48d49c9c: ;   {metadata('org/lwjgl/nuklear/NkRect')}
+  0x000001fe48d49c9c: 0000 48bb | 0080 1461 | fe01 0000 | 8b70 0849 | ba00 0000 | 60fe 0100 | 0049 03f2 | 483b de0f 
+  0x000001fe48d49cbc: 85ff 0500 | 00e9 0000 | 0000 488b | d048 8b72 | 1048 8bd6 | 0f1f 8000 
+
+  0x000001fe48d49cd4: ;   {static_call}
+  0x000001fe48d49cd4: 0000 00e8 
+
+  0x000001fe48d49cd8: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop }
+                      ;*invokestatic nw {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::w@4 (line 80)
+                      ; - com.xbuilders.window.NKWindow::NKrender@552 (line 710)
+  0x000001fe48d49cd8: 4454 f3ff | 488b 8424 | f800 0000 | 488b 5010 | 4c8b c248 | 8bbc 2400 | 0100 004c | 03c7 c5fa 
+  0x000001fe48d49cf8: 108c 241c | 0100 00c5 | fa59 c1c5 | fa2c f081 | fe00 0000 | 8075 0f48 | 83ec 08c5 | fa11 0424 
+  0x000001fe48d49d18: ;   {runtime_call StubRoutines (1)}
+  0x000001fe48d49d18: e8d6 73f6 | 065e 488b | 9424 0801 | 0000 4889 | 8424 f800 | 0000 89b4 | 2418 0100 
+
+  0x000001fe48d49d34: ;   {static_call}
+  0x000001fe48d49d34: 0066 90e8 
+
+  0x000001fe48d49d38: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic wrap {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@3 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@560 (line 711)
+  0x000001fe48d49d38: e46f 6407 | 4883 f800 | 0f84 2800 
+
+  0x000001fe48d49d44: ;   {metadata('org/lwjgl/nuklear/NkRect')}
+  0x000001fe48d49d44: 0000 48bb | 0080 1461 | fe01 0000 | 8b70 0849 | ba00 0000 | 60fe 0100 | 0049 03f2 | 483b de0f 
+  0x000001fe48d49d64: 8565 0500 | 00e9 0000 | 0000 488b | d048 8b72 | 1048 8bd6 | 0f1f 8000 
+
+  0x000001fe48d49d7c: ;   {static_call}
+  0x000001fe48d49d7c: 0000 00e8 
+
+  0x000001fe48d49d80: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic nh {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::h@4 (line 82)
+                      ; - com.xbuilders.window.NKWindow::NKrender@563 (line 711)
+  0x000001fe48d49d80: fc48 7507 | c5fa 108c | 2448 0100 | 00c5 fa59 | c1c5 fa2c | f881 ff00 | 0000 8075 | 0f48 83ec 
+  0x000001fe48d49da0: 08c5 fa11 
+
+  0x000001fe48d49da4: ;   {runtime_call StubRoutines (1)}
+  0x000001fe48d49da4: 0424 e848 | 73f6 065f | 8b94 2410 | 0100 0044 | 8b84 2414 | 0100 0044 | 8b8c 2418 | 0100 000f 
+  0x000001fe48d49dc4: ;   {static_call}
+  0x000001fe48d49dc4: 1f40 00e8 
+
+  0x000001fe48d49dc8: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic glScissor {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@569 (line 708)
+  0x000001fe48d49dc8: 749d 6407 | 488b 8424 | f800 0000 | 488b 5010 | 4889 8424 | f800 0000 | 0f1f 8000 
+
+  0x000001fe48d49de4: ;   {static_call}
+  0x000001fe48d49de4: 0000 00e8 
+
+  0x000001fe48d49de8: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic nelem_count {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkDrawCommand::elem_count@4 (line 75)
+                      ; - com.xbuilders.window.NKWindow::NKrender@575 (line 713)
+  0x000001fe48d49de8: 14ee 7007 | ba04 0000 | 004c 8bc0 | 41b9 0314 | 0000 488b | bc24 f000 | 0000 0f1f 
+
+  0x000001fe48d49e04: ;   {static_call}
+  0x000001fe48d49e04: 4400 00e8 
+
+  0x000001fe48d49e08: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic glDrawElements {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@582 (line 713)
+  0x000001fe48d49e08: 1457 f3ff | 488b 8424 | f800 0000 | 488b 5010 | 4889 8424 | f800 0000 | 0f1f 8000 
+
+  0x000001fe48d49e24: ;   {static_call}
+  0x000001fe48d49e24: 0000 00e8 
+
+  0x000001fe48d49e28: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*invokestatic nelem_count {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkDrawCommand::elem_count@4 (line 75)
+                      ; - com.xbuilders.window.NKWindow::NKrender@588 (line 714)
+  0x000001fe48d49e28: d4ed 7007 | d1e0 4863 | c048 8bb4 | 24f0 0000 | 0048 03c6 | 488b f048 | 89b4 2420 | 0100 0048 
+  0x000001fe48d49e48: 8b94 24a8 | 0000 0044 | 8b82 8000 | 0000 448b | 4a78 488b | 9424 f800 | 0000 0f1f 
+
+  0x000001fe48d49e64: ;   {static_call}
+  0x000001fe48d49e64: 4400 00e8 
+
+  0x000001fe48d49e68: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic nk__draw_next {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@606 (line 703)
+  0x000001fe48d49e68: 3429 7707 | 48ba c8fe | 17a2 fe01 | 0000 8b72 | 0c83 c602 | 8972 0c81 | e6fe 7f00 | 0083 fe00 
+  0x000001fe48d49e88: 0f84 4e04 | 0000 4d8b | 9758 0300 
+
+  0x000001fe48d49e94: ; ImmutableOopMap {[168]=Oop rax=Oop }
+                      ;*goto {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) com.xbuilders.window.NKWindow::NKrender@611 (line 703)
+                      ;   {poll}
+  0x000001fe48d49e94: 0041 8502 | 488b b424 | 2001 0000 | 4889 b424 | f000 0000 | 4883 f800 | 0f84 6900 | 0000 e9c9 
+  0x000001fe48d49eb4: faff ff48 | 8bb4 24d0 | 0000 0049 | 8b87 e003 | 0000 4d33 | d24d 8997 | e003 0000 | 4d33 d24d 
+  0x000001fe48d49ed4: 8997 e803 | 0000 4883 | fe00 0f84 | 1002 0000 | e9b8 0000 | 0048 8bb4 | 24b0 0000 | 0049 8b87 
+  0x000001fe48d49ef4: e003 0000 | 4d33 d24d | 8997 e003 | 0000 4d33 | d24d 8997 | e803 0000 | 4883 fe00 | 0f84 1602 
+  0x000001fe48d49f14: 0000 e95f | 0000 0048 | 8b94 24a8 | 0000 008b | 7278 488b | 7e10 488b 
+
+  0x000001fe48d49f2c: ;   {static_call}
+  0x000001fe48d49f2c: d766 90e8 
+
+  0x000001fe48d49f30: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic nnk_clear {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.Nuklear::nk_clear@4 (line 1337)
+                      ; - com.xbuilders.window.NKWindow::NKrender@618 (line 716)
+  0x000001fe48d49f30: 0cd0 7307 | 488b 9424 | a800 0000 | 8bb2 8000 | 0000 488b | 7e10 488b | d766 0f1f 
+
+  0x000001fe48d49f4c: ;   {static_call}
+  0x000001fe48d49f4c: 4400 00e8 
+
+  0x000001fe48d49f50: ; ImmutableOopMap {[168]=Oop }
+                      ;*invokestatic nnk_buffer_clear {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.Nuklear::nk_buffer_clear@4 (line 8420)
+                      ; - com.xbuilders.window.NKWindow::NKrender@625 (line 717)
+  0x000001fe48d49f50: ecd3 7307 | 488b 9424 | a800 0000 
+
+  0x000001fe48d49f5c: ;   {optimized virtual_call}
+  0x000001fe48d49f5c: 6666 90e8 
+
+  0x000001fe48d49f60: ; ImmutableOopMap {}
+                      ;*invokevirtual disableNuklear {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@629 (line 719)
+  0x000001fe48d49f60: bc6c 0900 | 4881 c460 | 0100 005d 
+
+  0x000001fe48d49f6c: ;   {poll_return}
+  0x000001fe48d49f6c: 493b a750 | 0300 000f | 878e 0300 | 00c3 4889 | 8424 2801 | 0000 483b | 0648 8bd6 | 0f1f 8000 
+  0x000001fe48d49f8c: ;   {optimized virtual_call}
+  0x000001fe48d49f8c: 0000 00e8 
+
+  0x000001fe48d49f90: ; ImmutableOopMap {[296]=Oop }
+                      ;*invokevirtual pop {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::NKrender@164 (line 646)
+  0x000001fe48d49f90: ec73 fb06 | 488b 8424 | 2801 0000 | e98b 0100 | 0048 8984 | 2430 0100 | 0048 3b06 
+
+  0x000001fe48d49fac: ;   {optimized virtual_call}
+  0x000001fe48d49fac: 488b d6e8 
+
+  0x000001fe48d49fb0: ; ImmutableOopMap {[304]=Oop }
+                      ;*invokevirtual pop {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::close@1 (line 168)
+                      ; - com.xbuilders.window.NKWindow::NKrender@412 (line 673)
+  0x000001fe48d49fb0: cc73 fb06 | 488b 8424 | 3001 0000 | e933 0100 | 000f 1f80 | 0000 0000 
+
+  0x000001fe48d49fc8: ;   {no_reloc}
+  0x000001fe48d49fc8: e969 0300 | 0000 0000 | 0000 498b | 8708 0100 | 0048 8d78 | 3049 3bbf | 1801 0000 | 0f87 5603 
+  0x000001fe48d49fe8: 0000 4989 | bf08 0100 | 0048 c700 | 0100 0000 | 488b ca49 | ba00 0000 | 60fe 0100 | 0049 2bca 
+  0x000001fe48d4a008: 8948 0848 | 33c9 8948 | 0c48 33c9 | 4889 4810 | 4889 4818 | 4889 4820 | 4889 4828 | 488b d048 
+  0x000001fe48d4a028: 8984 2438 
+
+  0x000001fe48d4a02c: ;   {optimized virtual_call}
+  0x000001fe48d4a02c: 0100 00e8 
+
+  0x000001fe48d4a030: ; ImmutableOopMap {[168]=Oop [312]=Oop }
+                      ;*invokespecial <init> {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Objects::requireNonNull@8 (line 209)
+                      ; - com.xbuilders.window.NKWindow::NKrender@266 (line 672)
+  0x000001fe48d4a030: 4c73 fb06 | 488b 8424 | 3801 0000 | e951 0300 | 000f 1f80 | 0000 0000 
+
+  0x000001fe48d4a048: ;   {no_reloc}
+  0x000001fe48d4a048: e90f 0300 | 0000 0000 | 0000 498b | 8708 0100 | 0048 8d78 | 3049 3bbf | 1801 0000 | 0f87 fc02 
+  0x000001fe48d4a068: 0000 4989 | bf08 0100 | 0048 c700 | 0100 0000 | 488b ca49 | ba00 0000 | 60fe 0100 | 0049 2bca 
+  0x000001fe48d4a088: 8948 0848 | 33c9 8948 | 0c48 33c9 | 4889 4810 | 4889 4818 | 4889 4820 | 4889 4828 | 488b d048 
+  0x000001fe48d4a0a8: 8984 2440 
+
+  0x000001fe48d4a0ac: ;   {optimized virtual_call}
+  0x000001fe48d4a0ac: 0100 00e8 
+
+  0x000001fe48d4a0b0: ; ImmutableOopMap {[168]=Oop [320]=Oop }
+                      ;*invokespecial <init> {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Objects::requireNonNull@8 (line 209)
+                      ; - com.xbuilders.window.NKWindow::NKrender@243 (line 671)
+  0x000001fe48d4a0b0: cc72 fb06 | 488b 8424 | 4001 0000 | e9d1 0200 | 0049 8b87 | e003 0000 | 4d33 d24d | 8997 e003 
+  0x000001fe48d4a0d0: 0000 4d33 | d24d 8997 | e803 0000 | 4c8b c048 | 8b94 2430 
+
+  0x000001fe48d4a0e4: ;   {optimized virtual_call}
+  0x000001fe48d4a0e4: 0100 00e8 
+
+  0x000001fe48d4a0e8: ; ImmutableOopMap {[304]=Oop }
+                      ;*invokevirtual addSuppressed {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@421 (line 673)
+  0x000001fe48d4a0e8: 9472 fb06 | 488b 8424 | 3001 0000 | e999 0200 | 0049 8b87 | e003 0000 | 4d33 d24d | 8997 e003 
+  0x000001fe48d4a108: 0000 4d33 | d24d 8997 | e803 0000 | 4c8b c048 | 8b94 2428 
+
+  0x000001fe48d4a11c: ;   {optimized virtual_call}
+  0x000001fe48d4a11c: 0100 00e8 
+
+  0x000001fe48d4a120: ; ImmutableOopMap {[296]=Oop }
+                      ;*invokevirtual addSuppressed {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@173 (line 646)
+  0x000001fe48d4a120: 5c72 fb06 | 488b 8424 | 2801 0000 | e961 0200 
+
+  0x000001fe48d4a130: ;   {metadata({method} {0x000001fea140b4e8} 'NKrender' '()V' in 'com/xbuilders/window/NKWindow')}
+  0x000001fe48d4a130: 0049 bae0 | b440 a1fe | 0100 004c | 8954 2408 | 48c7 0424 | ffff ffff 
+
+  0x000001fe48d4a148: ;   {runtime_call counter_overflow Runtime1 stub}
+  0x000001fe48d4a148: e833 f605 
+
+  0x000001fe48d4a14c: ; ImmutableOopMap {rdx=Oop [168]=Oop }
+                      ;*synchronization entry
+                      ; - com.xbuilders.window.NKWindow::NKrender@-1 (line 646)
+  0x000001fe48d4a14c: 07e9 27f0 | ffff 4889 
+
+  0x000001fe48d4a154: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a154: 0424 e845 
+
+  0x000001fe48d4a158: ; ImmutableOopMap {[168]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackGet@6 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@0 (line 646)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a158: c605 07e8 
+
+  0x000001fe48d4a15c: ; ImmutableOopMap {[168]=Oop rdx=Oop }
+                      ;*invokevirtual push {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackPush@3 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@0 (line 646)
+  0x000001fe48d4a15c: 4096 0507 
+
+  0x000001fe48d4a160: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a160: e83b 9605 
+
+  0x000001fe48d4a164: ; ImmutableOopMap {[176]=Oop rdx=Oop [168]=Oop }
+                      ;*invokevirtual getID {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@12 (line 649)
+                      ;   {runtime_call new_type_array Runtime1 stub}
+  0x000001fe48d4a164: 07e8 16ae 
+
+  0x000001fe48d4a168: ; ImmutableOopMap {[176]=Oop r11=Oop [168]=Oop }
+                      ;*newarray {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@34 (line 651)
+  0x000001fe48d4a168: 0507 e953 
+
+  0x000001fe48d4a16c: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a16c: f1ff ffe8 
+
+  0x000001fe48d4a170: ; ImmutableOopMap {r11=Oop [168]=Oop rax=Oop rsi=Oop [176]=Oop }
+                      ;*invokevirtual floats {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@128 (line 651)
+  0x000001fe48d4a170: 2c96 0507 
+
+  0x000001fe48d4a174: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a174: e827 9605 
+
+  0x000001fe48d4a178: ; ImmutableOopMap {[176]=Oop [184]=Oop [168]=Oop rax=Oop }
+                      ;*invokevirtual put {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::floats@7 (line 565)
+                      ; - com.xbuilders.window.NKWindow::NKrender@128 (line 651)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a178: 07e8 2296 
+
+  0x000001fe48d4a17c: ; ImmutableOopMap {[176]=Oop [168]=Oop rax=Oop }
+                      ;*invokevirtual flip {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::floats@12 (line 566)
+                      ; - com.xbuilders.window.NKWindow::NKrender@128 (line 651)
+  0x000001fe48d4a17c: 0507 448b | 8288 0000 | 0049 83f8 | 000f 845e | f3ff ff4c 
+
+  0x000001fe48d4a190: ;   {runtime_call g1_pre_barrier_slow}
+  0x000001fe48d4a190: 8904 24e8 | e8fb 0507 | e950 f3ff | ff48 83f8 | 000f 8464 | f3ff ff48 
+
+  0x000001fe48d4a1a8: ;   {runtime_call g1_post_barrier_slow}
+  0x000001fe48d4a1a8: 8914 24e8 | d0fe 0507 | e956 f3ff | ff8b b28c | 0000 0048 | 83fe 000f | 848f f3ff | ff48 8934 
+  0x000001fe48d4a1c8: ;   {runtime_call g1_pre_barrier_slow}
+  0x000001fe48d4a1c8: 24e8 b2fb | 0507 e981 | f3ff ff48 | 83f8 000f | 8495 f3ff | ff48 8914 
+
+  0x000001fe48d4a1e0: ;   {runtime_call g1_post_barrier_slow}
+  0x000001fe48d4a1e0: 24e8 9afe | 0507 e987 | f3ff ff48 
+
+  0x000001fe48d4a1ec: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a1ec: 8904 24e8 
+
+  0x000001fe48d4a1f0: ; ImmutableOopMap {[168]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackGet@6 (line 903)
+                      ; - org.lwjgl.system.MemoryStack::stackPush@0 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@275 (line 673)
+  0x000001fe48d4a1f0: acc5 0507 
+
+  0x000001fe48d4a1f4: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a1f4: e8a7 9505 
+
+  0x000001fe48d4a1f8: ; ImmutableOopMap {[168]=Oop rdx=Oop }
+                      ;*invokevirtual push {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.system.MemoryStack::stackPush@3 (line 912)
+                      ; - com.xbuilders.window.NKWindow::NKrender@275 (line 673)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a1f8: 07e8 a295 
+
+  0x000001fe48d4a1fc: ; ImmutableOopMap {[168]=Oop [208]=Oop rax=Oop [224]=Oop }
+                      ;*invokevirtual vertex_layout {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@286 (line 676)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a1fc: 0507 e89d 
+
+  0x000001fe48d4a200: ; ImmutableOopMap {[168]=Oop [224]=Oop rax=Oop [208]=Oop }
+                      ;*invokevirtual nmalloc {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkBuffer::malloc@9 (line 224)
+                      ; - com.xbuilders.window.NKWindow::NKrender@338 (line 688)
+  0x000001fe48d4a200: 9505 0748 
+
+  0x000001fe48d4a204: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a204: 8904 24e8 
+
+  0x000001fe48d4a208: ; ImmutableOopMap {[168]=Oop [224]=Oop [208]=Oop [232]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkBuffer::malloc@15 (line 224)
+                      ; - com.xbuilders.window.NKWindow::NKrender@338 (line 688)
+  0x000001fe48d4a208: 94c5 0507 | 448b 8a90 | 0000 0049 | 83f9 000f | 8494 f5ff | ff4c 890c 
+
+  0x000001fe48d4a220: ;   {runtime_call g1_pre_barrier_slow}
+  0x000001fe48d4a220: 24e8 5afb | 0507 e986 | f5ff ff49 | 83f8 000f | 849a f5ff | ff48 8914 
+
+  0x000001fe48d4a238: ;   {runtime_call g1_post_barrier_slow}
+  0x000001fe48d4a238: 24e8 42fe | 0507 e98c | f5ff ff48 
+
+  0x000001fe48d4a244: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a244: 8904 24e8 
+
+  0x000001fe48d4a248: ; ImmutableOopMap {[224]=Oop [208]=Oop [168]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkBuffer::malloc@15 (line 224)
+                      ; - com.xbuilders.window.NKWindow::NKrender@346 (line 689)
+  0x000001fe48d4a248: 54c5 0507 | 448b 8694 | 0000 0049 | 83f8 000f | 84ec f5ff | ff4c 8904 
+
+  0x000001fe48d4a260: ;   {runtime_call g1_pre_barrier_slow}
+  0x000001fe48d4a260: 24e8 1afb | 0507 e9de | f5ff ff48 | 83fa 000f | 84f2 f5ff | ff48 8934 
+
+  0x000001fe48d4a278: ;   {runtime_call g1_post_barrier_slow}
+  0x000001fe48d4a278: 24e8 02fe | 0507 e9e4 
+
+  0x000001fe48d4a280: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a280: f5ff ffe8 
+
+  0x000001fe48d4a284: ; ImmutableOopMap {rax=Oop [168]=Oop }
+                      ;*invokevirtual elem_count {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@486 (line 704)
+  0x000001fe48d4a284: 1895 0507 | 4889 0424 
+
+  0x000001fe48d4a28c: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a28c: e80f c505 
+
+  0x000001fe48d4a290: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkHandle::create@6 (line 110)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::ntexture@6 (line 122)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::texture@4 (line 81)
+                      ; - com.xbuilders.window.NKWindow::NKrender@500 (line 707)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a290: 07e8 0a95 
+
+  0x000001fe48d4a294: ; ImmutableOopMap {[168]=Oop [248]=Oop rdx=Oop }
+                      ;*invokevirtual id {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@503 (line 707)
+  0x000001fe48d4a294: 0507 4889 
+
+  0x000001fe48d4a298: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a298: 0424 e801 
+
+  0x000001fe48d4a29c: ; ImmutableOopMap {[168]=Oop [248]=Oop [264]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@6 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@511 (line 708)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a29c: c505 07e8 
+
+  0x000001fe48d4a2a0: ; ImmutableOopMap {[168]=Oop [248]=Oop [264]=Oop rdx=Oop }
+                      ;*invokevirtual x {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@514 (line 708)
+  0x000001fe48d4a2a0: fc94 0507 | 4889 0424 
+
+  0x000001fe48d4a2a8: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a2a8: e8f3 c405 
+
+  0x000001fe48d4a2ac: ; ImmutableOopMap {[264]=Oop [248]=Oop [168]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@6 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@526 (line 709)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a2ac: 07e8 ee94 
+
+  0x000001fe48d4a2b0: ; ImmutableOopMap {[264]=Oop [248]=Oop [168]=Oop rdx=Oop }
+                      ;*invokevirtual y {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@529 (line 709)
+  0x000001fe48d4a2b0: 0507 4889 
+
+  0x000001fe48d4a2b4: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a2b4: 0424 e8e5 
+
+  0x000001fe48d4a2b8: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@6 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@534 (line 709)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a2b8: c405 07e8 
+
+  0x000001fe48d4a2bc: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop rdx=Oop }
+                      ;*invokevirtual h {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@537 (line 709)
+  0x000001fe48d4a2bc: e094 0507 | 4889 0424 
+
+  0x000001fe48d4a2c4: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a2c4: e8d7 c405 
+
+  0x000001fe48d4a2c8: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@6 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@549 (line 710)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a2c8: 07e8 d294 
+
+  0x000001fe48d4a2cc: ; ImmutableOopMap {[264]=Oop [168]=Oop [248]=Oop rdx=Oop }
+                      ;*invokevirtual w {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@552 (line 710)
+  0x000001fe48d4a2cc: 0507 4889 
+
+  0x000001fe48d4a2d0: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
+  0x000001fe48d4a2d0: 0424 e8c9 
+
+  0x000001fe48d4a2d4: ; ImmutableOopMap {[168]=Oop [248]=Oop }
+                      ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.NkRect::create@6 (line 140)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::nclip_rect@6 (line 120)
+                      ; - org.lwjgl.nuklear.NkDrawCommand::clip_rect@4 (line 78)
+                      ; - com.xbuilders.window.NKWindow::NKrender@560 (line 711)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a2d4: c405 07e8 
+
+  0x000001fe48d4a2d8: ; ImmutableOopMap {[168]=Oop [248]=Oop rdx=Oop }
+                      ;*invokevirtual h {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@563 (line 711)
+  0x000001fe48d4a2d8: c494 0507 
+
+  0x000001fe48d4a2dc: ;   {metadata({method} {0x000001fea140b4e8} 'NKrender' '()V' in 'com/xbuilders/window/NKWindow')}
+  0x000001fe48d4a2dc: 49ba e0b4 | 40a1 fe01 | 0000 4c89 | 5424 0848 | c704 2463 
+
+  0x000001fe48d4a2f0: ;   {runtime_call counter_overflow Runtime1 stub}
+  0x000001fe48d4a2f0: 0200 00e8 
+
+  0x000001fe48d4a2f4: ; ImmutableOopMap {[168]=Oop rax=Oop }
+                      ;*goto {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) com.xbuilders.window.NKWindow::NKrender@611 (line 703)
+  0x000001fe48d4a2f4: 88f4 0507 | e991 fbff 
+
+  0x000001fe48d4a2fc: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a2fc: ffe8 9e94 
+
+  0x000001fe48d4a300: ; ImmutableOopMap {rdx=Oop [168]=Oop rsi=Oop }
+                      ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.Nuklear::nk_clear@1 (line 1337)
+                      ; - com.xbuilders.window.NKWindow::NKrender@618 (line 716)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a300: 0507 e899 
+
+  0x000001fe48d4a304: ; ImmutableOopMap {rdx=Oop [168]=Oop rsi=Oop }
+                      ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
+                      ; - org.lwjgl.nuklear.Nuklear::nk_buffer_clear@1 (line 8420)
+                      ; - com.xbuilders.window.NKWindow::NKrender@625 (line 717)
+                      ;   {internal_word}
+  0x000001fe48d4a304: 9405 0749 | ba6c 9fd4 | 48fe 0100 | 004d 8997 | 6803 0000 
+
+  0x000001fe48d4a318: ;   {runtime_call SafepointBlob}
+  0x000001fe48d4a318: e9e3 d6fb 
+
+  0x000001fe48d4a31c: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a31c: 06e8 7e94 
+
+  0x000001fe48d4a320: ; ImmutableOopMap {[296]=Oop rsi=Oop [176]=Oop }
+                      ;*invokevirtual close {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@164 (line 646)
+                      ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
+  0x000001fe48d4a320: 0507 e879 
+
+  0x000001fe48d4a324: ; ImmutableOopMap {[304]=Oop rsi=Oop [208]=Oop }
+                      ;*invokevirtual close {reexecute=0 rethrow=0 return_oop=0}
+                      ; - com.xbuilders.window.NKWindow::NKrender@412 (line 673)
+                      ;   {metadata(NULL)}
+  0x000001fe48d4a324: 9405 0748 | ba00 0000 | 0000 0000 | 00b8 000f 
+
+  0x000001fe48d4a334: ;   {runtime_call load_klass_patching Runtime1 stub}
+  0x000001fe48d4a334: 050a e8c5 
+
+  0x000001fe48d4a338: ; ImmutableOopMap {[168]=Oop }
+                      ;*new {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.Objects::requireNonNull@4 (line 209)
+                      ; - com.xbuilders.window.NKWindow::NKrender@266 (line 672)
+  0x000001fe48d4a338: e305 07e9 | 88fc ffff 
+
+  0x000001fe48d4a340: ;   {runtime_call fast_new_instance Runtime1 stub}
+  0x000001fe48d4a340: 488b d2e8 
+
+  0x000001fe48d4a344: ; ImmutableOopMap {[168]=Oop }
+                      ;*new {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Objects::requireNonNull@4 (line 209)
+                      ; - com.xbuilders.window.NKWindow::NKrender@266 (line 672)
+  0x000001fe48d4a344: 389d 0507 | e9d7 fcff 
+
+  0x000001fe48d4a34c: ;   {metadata(NULL)}
+  0x000001fe48d4a34c: ff48 ba00 | 0000 0000 | 0000 00b8 | 000f 050a 
+
+  0x000001fe48d4a35c: ;   {runtime_call load_klass_patching Runtime1 stub}
+  0x000001fe48d4a35c: e89f e305 
+
+  0x000001fe48d4a360: ; ImmutableOopMap {[168]=Oop }
+                      ;*new {reexecute=1 rethrow=0 return_oop=0}
+                      ; - (reexecute) java.util.Objects::requireNonNull@4 (line 209)
+                      ; - com.xbuilders.window.NKWindow::NKrender@243 (line 671)
+  0x000001fe48d4a360: 07e9 e2fc | ffff 488b 
+
+  0x000001fe48d4a368: ;   {runtime_call fast_new_instance Runtime1 stub}
+  0x000001fe48d4a368: d2e8 129d 
+
+  0x000001fe48d4a36c: ; ImmutableOopMap {[168]=Oop }
+                      ;*new {reexecute=0 rethrow=0 return_oop=0}
+                      ; - java.util.Objects::requireNonNull@4 (line 209)
+                      ; - com.xbuilders.window.NKWindow::NKrender@243 (line 671)
+  0x000001fe48d4a36c: 0507 e931 | fdff ff90 | 9049 8b87 | e003 0000 | 49c7 87e0 | 0300 0000 | 0000 0049 | c787 e803 
+  0x000001fe48d4a38c: 0000 0000 | 0000 4881 | c460 0100 
+
+  0x000001fe48d4a398: ;   {runtime_call unwind_exception Runtime1 stub}
+  0x000001fe48d4a398: 005d e961 | b4fc 06f4 
+[Stub Code]
+  0x000001fe48d4a3a0: ;   {no_reloc}
+  0x000001fe48d4a3a0: 0f1f 4400 
+
+  0x000001fe48d4a3a4: ;   {static_stub}
+  0x000001fe48d4a3a4: 0048 bb00 | 0000 0000 
+
+  0x000001fe48d4a3ac: ;   {runtime_call}
+  0x000001fe48d4a3ac: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a3b4: ;   {static_stub}
+  0x000001fe48d4a3b4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a3bc: ;   {runtime_call}
+  0x000001fe48d4a3bc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a3c4: ;   {static_stub}
+  0x000001fe48d4a3c4: 9048 bb38 | b040 a1fe 
+
+  0x000001fe48d4a3cc: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a3cc: 0100 00e9 | 85b9 fb06 
+
+  0x000001fe48d4a3d4: ;   {static_stub}
+  0x000001fe48d4a3d4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a3dc: ;   {runtime_call}
+  0x000001fe48d4a3dc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a3e4: ;   {static_stub}
+  0x000001fe48d4a3e4: 9048 bb80 | f3be a1fe 
+
+  0x000001fe48d4a3ec: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a3ec: 0100 00e9 | e80b fb06 
+
+  0x000001fe48d4a3f4: ;   {static_stub}
+  0x000001fe48d4a3f4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a3fc: ;   {runtime_call}
+  0x000001fe48d4a3fc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a404: ;   {static_stub}
+  0x000001fe48d4a404: 9048 bbf8 | 810c a1fe 
+
+  0x000001fe48d4a40c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a40c: 0100 00e9 | d0cf fa06 
+
+  0x000001fe48d4a414: ;   {static_stub}
+  0x000001fe48d4a414: 9048 bb98 | 06bf a1fe 
+
+  0x000001fe48d4a41c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a41c: 0100 00e9 | bcf0 fb06 
+
+  0x000001fe48d4a424: ;   {static_stub}
+  0x000001fe48d4a424: 9048 bbd0 | 48c1 a1fe 
+
+  0x000001fe48d4a42c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a42c: 0100 00e9 | af02 fb06 
+
+  0x000001fe48d4a434: ;   {static_stub}
+  0x000001fe48d4a434: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a43c: ;   {runtime_call}
+  0x000001fe48d4a43c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a444: ;   {static_stub}
+  0x000001fe48d4a444: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a44c: ;   {runtime_call}
+  0x000001fe48d4a44c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a454: ;   {static_stub}
+  0x000001fe48d4a454: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a45c: ;   {runtime_call}
+  0x000001fe48d4a45c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a464: ;   {static_stub}
+  0x000001fe48d4a464: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a46c: ;   {runtime_call}
+  0x000001fe48d4a46c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a474: ;   {static_stub}
+  0x000001fe48d4a474: 9048 bb68 | cdbf a1fe 
+
+  0x000001fe48d4a47c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a47c: 0100 00e9 | dc8b 1107 
+
+  0x000001fe48d4a484: ;   {static_stub}
+  0x000001fe48d4a484: 9048 bb68 | cdbf a1fe 
+
+  0x000001fe48d4a48c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a48c: 0100 00e9 | cc8b 1107 
+
+  0x000001fe48d4a494: ;   {static_stub}
+  0x000001fe48d4a494: 9048 bb98 | e4bf a1fe 
+
+  0x000001fe48d4a49c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a49c: 0100 00e9 | c088 1107 
+
+  0x000001fe48d4a4a4: ;   {static_stub}
+  0x000001fe48d4a4a4: 9048 bb98 | e4bf a1fe 
+
+  0x000001fe48d4a4ac: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a4ac: 0100 00e9 | b088 1107 
+
+  0x000001fe48d4a4b4: ;   {static_stub}
+  0x000001fe48d4a4b4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a4bc: ;   {runtime_call}
+  0x000001fe48d4a4bc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a4c4: ;   {static_stub}
+  0x000001fe48d4a4c4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a4cc: ;   {runtime_call}
+  0x000001fe48d4a4cc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a4d4: ;   {static_stub}
+  0x000001fe48d4a4d4: 9048 bb10 | 559c a1fe 
+
+  0x000001fe48d4a4dc: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a4dc: 0100 00e9 | 75b8 fb06 
+
+  0x000001fe48d4a4e4: ;   {static_stub}
+  0x000001fe48d4a4e4: 9048 bb68 | 5447 a1fe 
+
+  0x000001fe48d4a4ec: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a4ec: 0100 00e9 | 65b8 fb06 
+
+  0x000001fe48d4a4f4: ;   {static_stub}
+  0x000001fe48d4a4f4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a4fc: ;   {runtime_call}
+  0x000001fe48d4a4fc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a504: ;   {static_stub}
+  0x000001fe48d4a504: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a50c: ;   {runtime_call}
+  0x000001fe48d4a50c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a514: ;   {static_stub}
+  0x000001fe48d4a514: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a51c: ;   {runtime_call}
+  0x000001fe48d4a51c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a524: ;   {static_stub}
+  0x000001fe48d4a524: 9048 bb70 | 629c a1fe 
+
+  0x000001fe48d4a52c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a52c: 0100 00e9 | a91f fc06 
+
+  0x000001fe48d4a534: ;   {static_stub}
+  0x000001fe48d4a534: 9048 bb40 | 609c a1fe 
+
+  0x000001fe48d4a53c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a53c: 0100 00e9 | 99f4 f806 
+
+  0x000001fe48d4a544: ;   {static_stub}
+  0x000001fe48d4a544: 9048 bbb0 | 619c a1fe 
+
+  0x000001fe48d4a54c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a54c: 0100 00e9 | 89f4 f806 
+
+  0x000001fe48d4a554: ;   {static_stub}
+  0x000001fe48d4a554: 9048 bbf8 | 609c a1fe 
+
+  0x000001fe48d4a55c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a55c: 0100 00e9 | 79f4 f806 
+
+  0x000001fe48d4a564: ;   {static_stub}
+  0x000001fe48d4a564: 9048 bb18 | 5e9c a1fe 
+
+  0x000001fe48d4a56c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a56c: 0100 00e9 | eab0 0707 
+
+  0x000001fe48d4a574: ;   {static_stub}
+  0x000001fe48d4a574: 9048 bb88 | 5f9c a1fe 
+
+  0x000001fe48d4a57c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a57c: 0100 00e9 | 59f4 f806 
+
+  0x000001fe48d4a584: ;   {static_stub}
+  0x000001fe48d4a584: 9048 bbd0 | 5e9c a1fe 
+
+  0x000001fe48d4a58c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a58c: 0100 00e9 | 49f4 f806 
+
+  0x000001fe48d4a594: ;   {static_stub}
+  0x000001fe48d4a594: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a59c: ;   {runtime_call}
+  0x000001fe48d4a59c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a5a4: ;   {static_stub}
+  0x000001fe48d4a5a4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a5ac: ;   {runtime_call}
+  0x000001fe48d4a5ac: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a5b4: ;   {static_stub}
+  0x000001fe48d4a5b4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a5bc: ;   {runtime_call}
+  0x000001fe48d4a5bc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a5c4: ;   {static_stub}
+  0x000001fe48d4a5c4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a5cc: ;   {runtime_call}
+  0x000001fe48d4a5cc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a5d4: ;   {static_stub}
+  0x000001fe48d4a5d4: 9048 bb50 | 2dd2 a1fe 
+
+  0x000001fe48d4a5dc: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a5dc: 0100 00e9 | 79c0 fb06 
+
+  0x000001fe48d4a5e4: ;   {static_stub}
+  0x000001fe48d4a5e4: 9048 bb50 | 2dd2 a1fe 
+
+  0x000001fe48d4a5ec: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a5ec: 0100 00e9 | 69c0 fb06 
+
+  0x000001fe48d4a5f4: ;   {static_stub}
+  0x000001fe48d4a5f4: 9048 bb88 | 3ad1 a1fe 
+
+  0x000001fe48d4a5fc: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a5fc: 0100 00e9 | e5e7 f806 
+
+  0x000001fe48d4a604: ;   {static_stub}
+  0x000001fe48d4a604: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a60c: ;   {runtime_call}
+  0x000001fe48d4a60c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a614: ;   {static_stub}
+  0x000001fe48d4a614: 9048 bb70 | e5bf a1fe 
+
+  0x000001fe48d4a61c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a61c: 0100 00e9 | 34ba fb06 
+
+  0x000001fe48d4a624: ;   {static_stub}
+  0x000001fe48d4a624: 9048 bb70 | e5bf a1fe 
+
+  0x000001fe48d4a62c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a62c: 0100 00e9 | 24ba fb06 
+
+  0x000001fe48d4a634: ;   {static_stub}
+  0x000001fe48d4a634: 9048 bbd0 | d2d2 a1fe 
+
+  0x000001fe48d4a63c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a63c: 0100 00e9 | 19c0 fb06 
+
+  0x000001fe48d4a644: ;   {static_stub}
+  0x000001fe48d4a644: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a64c: ;   {runtime_call}
+  0x000001fe48d4a64c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a654: ;   {static_stub}
+  0x000001fe48d4a654: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a65c: ;   {runtime_call}
+  0x000001fe48d4a65c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a664: ;   {static_stub}
+  0x000001fe48d4a664: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a66c: ;   {runtime_call}
+  0x000001fe48d4a66c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a674: ;   {static_stub}
+  0x000001fe48d4a674: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a67c: ;   {runtime_call}
+  0x000001fe48d4a67c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a684: ;   {static_stub}
+  0x000001fe48d4a684: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a68c: ;   {runtime_call}
+  0x000001fe48d4a68c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a694: ;   {static_stub}
+  0x000001fe48d4a694: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a69c: ;   {runtime_call}
+  0x000001fe48d4a69c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a6a4: ;   {static_stub}
+  0x000001fe48d4a6a4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a6ac: ;   {runtime_call}
+  0x000001fe48d4a6ac: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a6b4: ;   {static_stub}
+  0x000001fe48d4a6b4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a6bc: ;   {runtime_call}
+  0x000001fe48d4a6bc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a6c4: ;   {static_stub}
+  0x000001fe48d4a6c4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a6cc: ;   {runtime_call}
+  0x000001fe48d4a6cc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a6d4: ;   {static_stub}
+  0x000001fe48d4a6d4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a6dc: ;   {runtime_call}
+  0x000001fe48d4a6dc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a6e4: ;   {static_stub}
+  0x000001fe48d4a6e4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a6ec: ;   {runtime_call}
+  0x000001fe48d4a6ec: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a6f4: ;   {static_stub}
+  0x000001fe48d4a6f4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a6fc: ;   {runtime_call}
+  0x000001fe48d4a6fc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a704: ;   {static_stub}
+  0x000001fe48d4a704: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a70c: ;   {runtime_call}
+  0x000001fe48d4a70c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a714: ;   {static_stub}
+  0x000001fe48d4a714: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a71c: ;   {runtime_call}
+  0x000001fe48d4a71c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a724: ;   {static_stub}
+  0x000001fe48d4a724: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a72c: ;   {runtime_call}
+  0x000001fe48d4a72c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a734: ;   {static_stub}
+  0x000001fe48d4a734: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a73c: ;   {runtime_call}
+  0x000001fe48d4a73c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a744: ;   {static_stub}
+  0x000001fe48d4a744: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a74c: ;   {runtime_call}
+  0x000001fe48d4a74c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a754: ;   {static_stub}
+  0x000001fe48d4a754: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a75c: ;   {runtime_call}
+  0x000001fe48d4a75c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a764: ;   {static_stub}
+  0x000001fe48d4a764: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a76c: ;   {runtime_call}
+  0x000001fe48d4a76c: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a774: ;   {static_stub}
+  0x000001fe48d4a774: 9048 bbb0 | 2ecf a1fe 
+
+  0x000001fe48d4a77c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a77c: 0100 00e9 | 5592 f906 
+
+  0x000001fe48d4a784: ;   {static_stub}
+  0x000001fe48d4a784: 9048 bb10 | 34d2 a1fe 
+
+  0x000001fe48d4a78c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a78c: 0100 00e9 | 4592 f906 
+
+  0x000001fe48d4a794: ;   {static_stub}
+  0x000001fe48d4a794: 9048 bb08 | b140 a1fe 
+
+  0x000001fe48d4a79c: ;   {runtime_call I2C/C2I adapters}
+  0x000001fe48d4a79c: 0100 00e9 | b5b5 fb06 
+
+  0x000001fe48d4a7a4: ;   {static_stub}
+  0x000001fe48d4a7a4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a7ac: ;   {runtime_call}
+  0x000001fe48d4a7ac: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a7b4: ;   {static_stub}
+  0x000001fe48d4a7b4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a7bc: ;   {runtime_call}
+  0x000001fe48d4a7bc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a7c4: ;   {static_stub}
+  0x000001fe48d4a7c4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a7cc: ;   {runtime_call}
+  0x000001fe48d4a7cc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a7d4: ;   {static_stub}
+  0x000001fe48d4a7d4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a7dc: ;   {runtime_call}
+  0x000001fe48d4a7dc: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a7e4: ;   {static_stub}
+  0x000001fe48d4a7e4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a7ec: ;   {runtime_call}
+  0x000001fe48d4a7ec: 0000 00e9 | fbff ffff 
+
+  0x000001fe48d4a7f4: ;   {static_stub}
+  0x000001fe48d4a7f4: 9048 bb00 | 0000 0000 
+
+  0x000001fe48d4a7fc: ;   {runtime_call}
+  0x000001fe48d4a7fc: 0000 00e9 | fbff ffff 
+[Exception Handler]
+  0x000001fe48d4a804: ;   {runtime_call handle_exception_from_callee Runtime1 stub}
+  0x000001fe48d4a804: e877 b905 
+
+  0x000001fe48d4a808: ;   {external_word}
+  0x000001fe48d4a808: 0748 b940 | 9a3d 32fe | 7f00 0048 
+
+  0x000001fe48d4a814: ;   {runtime_call}
+  0x000001fe48d4a814: 83e4 f049 | ba20 2706 | 32fe 7f00 | 0041 ffd2 
+
+  0x000001fe48d4a824: ;   {section_word}
+  0x000001fe48d4a824: f449 ba25 | a8d4 48fe | 0100 0041 
+
+  0x000001fe48d4a830: ;   {runtime_call DeoptimizationBlob}
+  0x000001fe48d4a830: 52e9 6ac4 | fb06 f4f4 
+[/MachCode]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x000001feba5d86d0, length=29, elements={
+0x000001fe40aa33a0, 0x000001fe5f11bfb0, 0x000001fe5f11ce30, 0x000001fe5f130dc0,
+0x000001fe5f133aa0, 0x000001fe5f134460, 0x000001fe5f139330, 0x000001fe5f13a0d0,
+0x000001fe5f142b90, 0x000001fe5f1571a0, 0x000001fe5f37e290, 0x000001fe5f6e54a0,
+0x000001fe5f6e5980, 0x000001fe5fc42880, 0x000001fe5fc45a30, 0x000001feb9dca930,
+0x000001feba37c7e0, 0x000001feba2f1520, 0x000001feb9fb7df0, 0x000001feb9fb9230,
+0x000001feb9fb5f90, 0x000001feb9fb64a0, 0x000001feb9fb8300, 0x000001feb9fb8810,
+0x000001feb9fb5a80, 0x000001feb9fb8d20, 0x000001feba064960, 0x000001feba060790,
+0x000001feba061bd0
+}
+
+Java Threads: ( => current thread )
+=>0x000001fe40aa33a0 JavaThread "main" [_thread_in_native, id=5928, stack(0x00000021f9b00000,0x00000021f9c00000)]
+  0x000001fe5f11bfb0 JavaThread "Reference Handler" daemon [_thread_blocked, id=6708, stack(0x00000021fa200000,0x00000021fa300000)]
+  0x000001fe5f11ce30 JavaThread "Finalizer" daemon [_thread_blocked, id=10104, stack(0x00000021fa300000,0x00000021fa400000)]
+  0x000001fe5f130dc0 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=624, stack(0x00000021fa400000,0x00000021fa500000)]
+  0x000001fe5f133aa0 JavaThread "Attach Listener" daemon [_thread_blocked, id=9492, stack(0x00000021fa500000,0x00000021fa600000)]
+  0x000001fe5f134460 JavaThread "Service Thread" daemon [_thread_blocked, id=2480, stack(0x00000021fa600000,0x00000021fa700000)]
+  0x000001fe5f139330 JavaThread "Monitor Deflation Thread" daemon [_thread_blocked, id=5488, stack(0x00000021fa700000,0x00000021fa800000)]
+  0x000001fe5f13a0d0 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=2336, stack(0x00000021fa800000,0x00000021fa900000)]
+  0x000001fe5f142b90 JavaThread "C1 CompilerThread0" daemon [_thread_blocked, id=5112, stack(0x00000021fa900000,0x00000021faa00000)]
+  0x000001fe5f1571a0 JavaThread "Sweeper thread" daemon [_thread_blocked, id=10440, stack(0x00000021faa00000,0x00000021fab00000)]
+  0x000001fe5f37e290 JavaThread "Common-Cleaner" daemon [_thread_blocked, id=1232, stack(0x00000021fab00000,0x00000021fac00000)]
+  0x000001fe5f6e54a0 JavaThread "Monitor Ctrl-Break" daemon [_thread_in_native, id=1944, stack(0x00000021fad00000,0x00000021fae00000)]
+  0x000001fe5f6e5980 JavaThread "Notification Thread" daemon [_thread_blocked, id=7416, stack(0x00000021fae00000,0x00000021faf00000)]
+  0x000001fe5fc42880 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=10828, stack(0x00000021fb000000,0x00000021fb100000)]
+  0x000001fe5fc45a30 JavaThread "AWT-Windows" daemon [_thread_in_native, id=9820, stack(0x00000021fb200000,0x00000021fb300000)]
+  0x000001feb9dca930 JavaThread "Generation Thread" daemon [_thread_blocked, id=11012, stack(0x00000021fb100000,0x00000021fb200000)]
+  0x000001feba37c7e0 JavaThread "Generation Thread" daemon [_thread_blocked, id=4804, stack(0x00000021fb300000,0x00000021fb400000)]
+  0x000001feba2f1520 JavaThread "Generation Thread" daemon [_thread_blocked, id=2248, stack(0x00000021fbf00000,0x00000021fc000000)]
+  0x000001feb9fb7df0 JavaThread "Generation Thread" daemon [_thread_blocked, id=5992, stack(0x00000021fc000000,0x00000021fc100000)]
+  0x000001feb9fb9230 JavaThread "Generation Thread" daemon [_thread_blocked, id=7260, stack(0x00000021fc100000,0x00000021fc200000)]
+  0x000001feb9fb5f90 JavaThread "Generation Thread" daemon [_thread_blocked, id=10688, stack(0x00000021fc200000,0x00000021fc300000)]
+  0x000001feb9fb64a0 JavaThread "Generation Thread" daemon [_thread_blocked, id=9076, stack(0x00000021fc300000,0x00000021fc400000)]
+  0x000001feb9fb8300 JavaThread "Generation Thread" daemon [_thread_blocked, id=5620, stack(0x00000021fc400000,0x00000021fc500000)]
+  0x000001feb9fb8810 JavaThread "Generation Thread" daemon [_thread_blocked, id=5156, stack(0x00000021fc500000,0x00000021fc600000)]
+  0x000001feb9fb5a80 JavaThread "Generation Thread" daemon [_thread_blocked, id=3924, stack(0x00000021fc600000,0x00000021fc700000)]
+  0x000001feb9fb8d20 JavaThread "Generation Thread" daemon [_thread_blocked, id=9656, stack(0x00000021fc700000,0x00000021fc800000)]
+  0x000001feba064960 JavaThread "Generation Thread" daemon [_thread_blocked, id=10668, stack(0x00000021fc800000,0x00000021fc900000)]
+  0x000001feba060790 JavaThread "Light Thread" daemon [_thread_blocked, id=2476, stack(0x00000021fc900000,0x00000021fca00000)]
+  0x000001feba061bd0 JavaThread "Mesh Thread" daemon [_thread_blocked, id=6324, stack(0x00000021fca00000,0x00000021fcb00000)]
+
+Other Threads:
+  0x000001fe5f118af0 VMThread "VM Thread" [stack: 0x00000021fa100000,0x00000021fa200000] [id=9572]
+  0x000001fe5f6caa10 WatcherThread [stack: 0x00000021faf00000,0x00000021fb000000] [id=6240]
+  0x000001fe40afd830 GCTaskThread "GC Thread#0" [stack: 0x00000021f9c00000,0x00000021f9d00000] [id=5680]
+  0x000001fe5fd629f0 GCTaskThread "GC Thread#1" [stack: 0x00000021fb400000,0x00000021fb500000] [id=8872]
+  0x000001fe5fd630c0 GCTaskThread "GC Thread#2" [stack: 0x00000021fb500000,0x00000021fb600000] [id=7936]
+  0x000001fe5fe7e150 GCTaskThread "GC Thread#3" [stack: 0x00000021fb600000,0x00000021fb700000] [id=5084]
+  0x000001fe5fe7eca0 GCTaskThread "GC Thread#4" [stack: 0x00000021fb700000,0x00000021fb800000] [id=6508]
+  0x000001fe5fd0b400 GCTaskThread "GC Thread#5" [stack: 0x00000021fb800000,0x00000021fb900000] [id=7808]
+  0x000001fe40b0e140 ConcurrentGCThread "G1 Main Marker" [stack: 0x00000021f9d00000,0x00000021f9e00000] [id=1904]
+  0x000001fe40b0f300 ConcurrentGCThread "G1 Conc#0" [stack: 0x00000021f9e00000,0x00000021f9f00000] [id=1724]
+  0x000001fe40b3ec70 ConcurrentGCThread "G1 Refine#0" [stack: 0x00000021f9f00000,0x00000021fa000000] [id=1584]
+  0x000001fea694a710 ConcurrentGCThread "G1 Refine#1" [stack: 0x00000021fb900000,0x00000021fba00000] [id=10740]
+  0x000001fe5efd0c50 ConcurrentGCThread "G1 Service" [stack: 0x00000021fa000000,0x00000021fa100000] [id=412]
+
+Threads with active compile tasks:
+
+VM state: not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap address: 0x0000000083200000, size: 1998 MB, Compressed Oops mode: 32-bit
+
+CDS archive(s) mapped at: [0x000001fe60000000-0x000001fe60bb0000-0x000001fe60bb0000), size 12255232, SharedBaseAddress: 0x000001fe60000000, ArchiveRelocationMode: 1.
+Compressed class space mapped at: 0x000001fe61000000-0x000001fea1000000, reserved size: 1073741824
+Narrow klass base: 0x000001fe60000000, Narrow klass shift: 0, Narrow klass range: 0x100000000
+
+GC Precious Log:
+ CPUs: 6 total, 6 available
+ Memory: 7987M
+ Large Page Support: Disabled
+ NUMA Support: Disabled
+ Compressed Oops: Enabled (32-bit)
+ Heap Region Size: 1M
+ Heap Min Capacity: 8M
+ Heap Initial Capacity: 126M
+ Heap Max Capacity: 1998M
+ Pre-touch: Disabled
+ Parallel Workers: 6
+ Concurrent Workers: 2
+ Concurrent Refinement Workers: 6
+ Periodic GC: Disabled
+
+Heap:
+ garbage-first heap   total 129024K, used 83934K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 32 young (32768K), 3 survivors (3072K)
+ Metaspace       used 20454K, committed 20864K, reserved 1114112K
+  class space    used 1751K, committed 1984K, reserved 1048576K
+
+Heap Regions: E=young(eden), S=young(survivor), O=old, HS=humongous(starts), HC=humongous(continues), CS=collection set, F=free, OA=open archive, CA=closed archive, TAMS=top-at-mark-start (previous, next)
+|   0|0x0000000083200000, 0x0000000083300000, 0x0000000083300000|100%| O|  |TAMS 0x0000000083200000, 0x0000000083200000| Untracked 
+|   1|0x0000000083300000, 0x0000000083400000, 0x0000000083400000|100%| O|  |TAMS 0x0000000083300000, 0x0000000083300000| Untracked 
+|   2|0x0000000083400000, 0x0000000083500000, 0x0000000083500000|100%| O|  |TAMS 0x0000000083400000, 0x0000000083400000| Untracked 
+|   3|0x0000000083500000, 0x0000000083600000, 0x0000000083600000|100%| O|  |TAMS 0x0000000083500000, 0x0000000083500000| Untracked 
+|   4|0x0000000083600000, 0x0000000083700000, 0x0000000083700000|100%| O|  |TAMS 0x0000000083600000, 0x0000000083600000| Untracked 
+|   5|0x0000000083700000, 0x0000000083800000, 0x0000000083800000|100%| O|  |TAMS 0x0000000083700000, 0x0000000083700000| Untracked 
+|   6|0x0000000083800000, 0x0000000083900000, 0x0000000083900000|100%| O|  |TAMS 0x0000000083800000, 0x0000000083800000| Untracked 
+|   7|0x0000000083900000, 0x0000000083a00000, 0x0000000083a00000|100%| O|  |TAMS 0x0000000083900000, 0x0000000083900000| Untracked 
+|   8|0x0000000083a00000, 0x0000000083b00000, 0x0000000083b00000|100%| O|  |TAMS 0x0000000083a00000, 0x0000000083a00000| Untracked 
+|   9|0x0000000083b00000, 0x0000000083c00000, 0x0000000083c00000|100%| O|  |TAMS 0x0000000083b00000, 0x0000000083b00000| Untracked 
+|  10|0x0000000083c00000, 0x0000000083d00000, 0x0000000083d00000|100%| O|  |TAMS 0x0000000083c00000, 0x0000000083c00000| Untracked 
+|  11|0x0000000083d00000, 0x0000000083e00000, 0x0000000083e00000|100%| O|  |TAMS 0x0000000083d00000, 0x0000000083d00000| Untracked 
+|  12|0x0000000083e00000, 0x0000000083f00000, 0x0000000083f00000|100%| O|  |TAMS 0x0000000083e00000, 0x0000000083e00000| Untracked 
+|  13|0x0000000083f00000, 0x0000000084000000, 0x0000000084000000|100%| O|  |TAMS 0x0000000083f00000, 0x0000000083f00000| Untracked 
+|  14|0x0000000084000000, 0x0000000084100000, 0x0000000084100000|100%| O|  |TAMS 0x0000000084000000, 0x0000000084000000| Untracked 
+|  15|0x0000000084100000, 0x0000000084200000, 0x0000000084200000|100%| O|  |TAMS 0x0000000084100000, 0x0000000084100000| Untracked 
+|  16|0x0000000084200000, 0x0000000084300000, 0x0000000084300000|100%| O|  |TAMS 0x0000000084200000, 0x0000000084200000| Untracked 
+|  17|0x0000000084300000, 0x0000000084400000, 0x0000000084400000|100%| O|  |TAMS 0x0000000084300000, 0x0000000084300000| Untracked 
+|  18|0x0000000084400000, 0x0000000084500000, 0x0000000084500000|100%| O|  |TAMS 0x0000000084400000, 0x0000000084400000| Untracked 
+|  19|0x0000000084500000, 0x0000000084600000, 0x0000000084600000|100%| O|  |TAMS 0x0000000084500000, 0x0000000084500000| Untracked 
+|  20|0x0000000084600000, 0x0000000084700000, 0x0000000084700000|100%| O|  |TAMS 0x0000000084600000, 0x0000000084600000| Untracked 
+|  21|0x0000000084700000, 0x0000000084800000, 0x0000000084800000|100%| O|  |TAMS 0x0000000084700000, 0x0000000084700000| Untracked 
+|  22|0x0000000084800000, 0x0000000084900000, 0x0000000084900000|100%| O|  |TAMS 0x0000000084800000, 0x0000000084800000| Untracked 
+|  23|0x0000000084900000, 0x0000000084a00000, 0x0000000084a00000|100%| O|  |TAMS 0x0000000084900000, 0x0000000084900000| Untracked 
+|  24|0x0000000084a00000, 0x0000000084b00000, 0x0000000084b00000|100%| O|  |TAMS 0x0000000084a00000, 0x0000000084a00000| Untracked 
+|  25|0x0000000084b00000, 0x0000000084c00000, 0x0000000084c00000|100%| O|  |TAMS 0x0000000084b00000, 0x0000000084b00000| Untracked 
+|  26|0x0000000084c00000, 0x0000000084d00000, 0x0000000084d00000|100%| O|  |TAMS 0x0000000084c00000, 0x0000000084c00000| Untracked 
+|  27|0x0000000084d00000, 0x0000000084e00000, 0x0000000084e00000|100%| O|  |TAMS 0x0000000084d00000, 0x0000000084d00000| Untracked 
+|  28|0x0000000084e00000, 0x0000000084f00000, 0x0000000084f00000|100%| O|  |TAMS 0x0000000084e00000, 0x0000000084e00000| Untracked 
+|  29|0x0000000084f00000, 0x0000000085000000, 0x0000000085000000|100%| O|  |TAMS 0x0000000084f00000, 0x0000000084f00000| Untracked 
+|  30|0x0000000085000000, 0x0000000085100000, 0x0000000085100000|100%| O|  |TAMS 0x0000000085000000, 0x0000000085000000| Untracked 
+|  31|0x0000000085100000, 0x0000000085200000, 0x0000000085200000|100%| O|  |TAMS 0x0000000085100000, 0x0000000085100000| Untracked 
+|  32|0x0000000085200000, 0x0000000085300000, 0x0000000085300000|100%| O|  |TAMS 0x0000000085200000, 0x0000000085200000| Untracked 
+|  33|0x0000000085300000, 0x0000000085400000, 0x0000000085400000|100%| O|  |TAMS 0x0000000085300000, 0x0000000085300000| Untracked 
+|  34|0x0000000085400000, 0x0000000085500000, 0x0000000085500000|100%| O|  |TAMS 0x0000000085400000, 0x0000000085400000| Untracked 
+|  35|0x0000000085500000, 0x0000000085600000, 0x0000000085600000|100%| O|  |TAMS 0x0000000085500000, 0x0000000085500000| Untracked 
+|  36|0x0000000085600000, 0x0000000085700000, 0x0000000085700000|100%| O|  |TAMS 0x0000000085600000, 0x0000000085600000| Untracked 
+|  37|0x0000000085700000, 0x0000000085800000, 0x0000000085800000|100%| O|  |TAMS 0x0000000085700000, 0x0000000085700000| Untracked 
+|  38|0x0000000085800000, 0x0000000085900000, 0x0000000085900000|100%| O|  |TAMS 0x0000000085800000, 0x0000000085800000| Untracked 
+|  39|0x0000000085900000, 0x0000000085a00000, 0x0000000085a00000|100%| O|  |TAMS 0x0000000085900000, 0x0000000085900000| Untracked 
+|  40|0x0000000085a00000, 0x0000000085b00000, 0x0000000085b00000|100%| O|  |TAMS 0x0000000085a00000, 0x0000000085a00000| Untracked 
+|  41|0x0000000085b00000, 0x0000000085c00000, 0x0000000085c00000|100%| O|  |TAMS 0x0000000085b00000, 0x0000000085b00000| Untracked 
+|  42|0x0000000085c00000, 0x0000000085d00000, 0x0000000085d00000|100%| O|  |TAMS 0x0000000085c00000, 0x0000000085c00000| Untracked 
+|  43|0x0000000085d00000, 0x0000000085e00000, 0x0000000085e00000|100%| O|  |TAMS 0x0000000085d00000, 0x0000000085d00000| Untracked 
+|  44|0x0000000085e00000, 0x0000000085f00000, 0x0000000085f00000|100%| O|  |TAMS 0x0000000085e00000, 0x0000000085e00000| Untracked 
+|  45|0x0000000085f00000, 0x0000000086000000, 0x0000000086000000|100%| O|  |TAMS 0x0000000085f00000, 0x0000000085f00000| Untracked 
+|  46|0x0000000086000000, 0x0000000086100000, 0x0000000086100000|100%| O|  |TAMS 0x0000000086000000, 0x0000000086000000| Untracked 
+|  47|0x0000000086100000, 0x0000000086148c00, 0x0000000086200000| 28%| O|  |TAMS 0x0000000086100000, 0x0000000086100000| Untracked 
+|  48|0x0000000086200000, 0x0000000086200000, 0x0000000086300000|  0%| F|  |TAMS 0x0000000086200000, 0x0000000086200000| Untracked 
+|  49|0x0000000086300000, 0x0000000086300000, 0x0000000086400000|  0%| F|  |TAMS 0x0000000086300000, 0x0000000086300000| Untracked 
+|  50|0x0000000086400000, 0x0000000086400000, 0x0000000086500000|  0%| F|  |TAMS 0x0000000086400000, 0x0000000086400000| Untracked 
+|  51|0x0000000086500000, 0x0000000086600000, 0x0000000086600000|100%| O|  |TAMS 0x0000000086500000, 0x0000000086500000| Untracked 
+|  52|0x0000000086600000, 0x0000000086700000, 0x0000000086700000|100%| O|  |TAMS 0x0000000086600000, 0x0000000086600000| Untracked 
+|  53|0x0000000086700000, 0x0000000086800000, 0x0000000086800000|100%| O|  |TAMS 0x0000000086700000, 0x0000000086700000| Untracked 
+|  54|0x0000000086800000, 0x0000000086900000, 0x0000000086900000|100%| O|  |TAMS 0x0000000086800000, 0x0000000086800000| Untracked 
+|  55|0x0000000086900000, 0x0000000086a00000, 0x0000000086a00000|100%| O|  |TAMS 0x0000000086900000, 0x0000000086900000| Untracked 
+|  56|0x0000000086a00000, 0x0000000086a00000, 0x0000000086b00000|  0%| F|  |TAMS 0x0000000086a00000, 0x0000000086a00000| Untracked 
+|  57|0x0000000086b00000, 0x0000000086b00000, 0x0000000086c00000|  0%| F|  |TAMS 0x0000000086b00000, 0x0000000086b00000| Untracked 
+|  58|0x0000000086c00000, 0x0000000086c00000, 0x0000000086d00000|  0%| F|  |TAMS 0x0000000086c00000, 0x0000000086c00000| Untracked 
+|  59|0x0000000086d00000, 0x0000000086d00000, 0x0000000086e00000|  0%| F|  |TAMS 0x0000000086d00000, 0x0000000086d00000| Untracked 
+|  60|0x0000000086e00000, 0x0000000086e00000, 0x0000000086f00000|  0%| F|  |TAMS 0x0000000086e00000, 0x0000000086e00000| Untracked 
+|  61|0x0000000086f00000, 0x0000000086f00000, 0x0000000087000000|  0%| F|  |TAMS 0x0000000086f00000, 0x0000000086f00000| Untracked 
+|  62|0x0000000087000000, 0x0000000087000000, 0x0000000087100000|  0%| F|  |TAMS 0x0000000087000000, 0x0000000087000000| Untracked 
+|  63|0x0000000087100000, 0x0000000087100000, 0x0000000087200000|  0%| F|  |TAMS 0x0000000087100000, 0x0000000087100000| Untracked 
+|  64|0x0000000087200000, 0x0000000087200000, 0x0000000087300000|  0%| F|  |TAMS 0x0000000087200000, 0x0000000087200000| Untracked 
+|  65|0x0000000087300000, 0x0000000087300000, 0x0000000087400000|  0%| F|  |TAMS 0x0000000087300000, 0x0000000087300000| Untracked 
+|  66|0x0000000087400000, 0x0000000087400000, 0x0000000087500000|  0%| F|  |TAMS 0x0000000087400000, 0x0000000087400000| Untracked 
+|  67|0x0000000087500000, 0x0000000087500000, 0x0000000087600000|  0%| F|  |TAMS 0x0000000087500000, 0x0000000087500000| Untracked 
+|  68|0x0000000087600000, 0x0000000087600000, 0x0000000087700000|  0%| F|  |TAMS 0x0000000087600000, 0x0000000087600000| Untracked 
+|  69|0x0000000087700000, 0x0000000087700000, 0x0000000087800000|  0%| F|  |TAMS 0x0000000087700000, 0x0000000087700000| Untracked 
+|  70|0x0000000087800000, 0x0000000087800000, 0x0000000087900000|  0%| F|  |TAMS 0x0000000087800000, 0x0000000087800000| Untracked 
+|  71|0x0000000087900000, 0x0000000087900000, 0x0000000087a00000|  0%| F|  |TAMS 0x0000000087900000, 0x0000000087900000| Untracked 
+|  72|0x0000000087a00000, 0x0000000087a00000, 0x0000000087b00000|  0%| F|  |TAMS 0x0000000087a00000, 0x0000000087a00000| Untracked 
+|  73|0x0000000087b00000, 0x0000000087b00000, 0x0000000087c00000|  0%| F|  |TAMS 0x0000000087b00000, 0x0000000087b00000| Untracked 
+|  74|0x0000000087c00000, 0x0000000087c00000, 0x0000000087d00000|  0%| F|  |TAMS 0x0000000087c00000, 0x0000000087c00000| Untracked 
+|  75|0x0000000087d00000, 0x0000000087d00000, 0x0000000087e00000|  0%| F|  |TAMS 0x0000000087d00000, 0x0000000087d00000| Untracked 
+|  76|0x0000000087e00000, 0x0000000087e00000, 0x0000000087f00000|  0%| F|  |TAMS 0x0000000087e00000, 0x0000000087e00000| Untracked 
+|  77|0x0000000087f00000, 0x0000000087f00000, 0x0000000088000000|  0%| F|  |TAMS 0x0000000087f00000, 0x0000000087f00000| Untracked 
+|  78|0x0000000088000000, 0x0000000088000000, 0x0000000088100000|  0%| F|  |TAMS 0x0000000088000000, 0x0000000088000000| Untracked 
+|  79|0x0000000088100000, 0x0000000088100000, 0x0000000088200000|  0%| F|  |TAMS 0x0000000088100000, 0x0000000088100000| Untracked 
+|  80|0x0000000088200000, 0x0000000088200000, 0x0000000088300000|  0%| F|  |TAMS 0x0000000088200000, 0x0000000088200000| Untracked 
+|  81|0x0000000088300000, 0x0000000088300000, 0x0000000088400000|  0%| F|  |TAMS 0x0000000088300000, 0x0000000088300000| Untracked 
+|  82|0x0000000088400000, 0x0000000088400000, 0x0000000088500000|  0%| F|  |TAMS 0x0000000088400000, 0x0000000088400000| Untracked 
+|  83|0x0000000088500000, 0x0000000088500000, 0x0000000088600000|  0%| F|  |TAMS 0x0000000088500000, 0x0000000088500000| Untracked 
+|  84|0x0000000088600000, 0x00000000886aef10, 0x0000000088700000| 68%| S|CS|TAMS 0x0000000088600000, 0x0000000088600000| Complete 
+|  85|0x0000000088700000, 0x0000000088800000, 0x0000000088800000|100%| S|CS|TAMS 0x0000000088700000, 0x0000000088700000| Complete 
+|  86|0x0000000088800000, 0x0000000088900000, 0x0000000088900000|100%| S|CS|TAMS 0x0000000088800000, 0x0000000088800000| Complete 
+|  87|0x0000000088900000, 0x0000000088900000, 0x0000000088a00000|  0%| F|  |TAMS 0x0000000088900000, 0x0000000088900000| Untracked 
+|  88|0x0000000088a00000, 0x0000000088a00000, 0x0000000088b00000|  0%| F|  |TAMS 0x0000000088a00000, 0x0000000088a00000| Untracked 
+|  89|0x0000000088b00000, 0x0000000088b00000, 0x0000000088c00000|  0%| F|  |TAMS 0x0000000088b00000, 0x0000000088b00000| Untracked 
+|  90|0x0000000088c00000, 0x0000000088c00000, 0x0000000088d00000|  0%| F|  |TAMS 0x0000000088c00000, 0x0000000088c00000| Untracked 
+|  91|0x0000000088d00000, 0x0000000088d00000, 0x0000000088e00000|  0%| F|  |TAMS 0x0000000088d00000, 0x0000000088d00000| Untracked 
+|  92|0x0000000088e00000, 0x0000000088e00000, 0x0000000088f00000|  0%| F|  |TAMS 0x0000000088e00000, 0x0000000088e00000| Untracked 
+|  93|0x0000000088f00000, 0x0000000088f00000, 0x0000000089000000|  0%| F|  |TAMS 0x0000000088f00000, 0x0000000088f00000| Untracked 
+|  94|0x0000000089000000, 0x0000000089000000, 0x0000000089100000|  0%| F|  |TAMS 0x0000000089000000, 0x0000000089000000| Untracked 
+|  95|0x0000000089100000, 0x0000000089100000, 0x0000000089200000|  0%| F|  |TAMS 0x0000000089100000, 0x0000000089100000| Untracked 
+|  96|0x0000000089200000, 0x0000000089200000, 0x0000000089300000|  0%| F|  |TAMS 0x0000000089200000, 0x0000000089200000| Untracked 
+|  97|0x0000000089300000, 0x00000000893b5fa8, 0x0000000089400000| 71%| E|  |TAMS 0x0000000089300000, 0x0000000089300000| Complete 
+|  98|0x0000000089400000, 0x0000000089500000, 0x0000000089500000|100%| E|CS|TAMS 0x0000000089400000, 0x0000000089400000| Complete 
+|  99|0x0000000089500000, 0x0000000089600000, 0x0000000089600000|100%| E|CS|TAMS 0x0000000089500000, 0x0000000089500000| Complete 
+| 100|0x0000000089600000, 0x0000000089700000, 0x0000000089700000|100%| E|CS|TAMS 0x0000000089600000, 0x0000000089600000| Complete 
+| 101|0x0000000089700000, 0x0000000089800000, 0x0000000089800000|100%| E|CS|TAMS 0x0000000089700000, 0x0000000089700000| Complete 
+| 102|0x0000000089800000, 0x0000000089900000, 0x0000000089900000|100%| E|CS|TAMS 0x0000000089800000, 0x0000000089800000| Complete 
+| 103|0x0000000089900000, 0x0000000089a00000, 0x0000000089a00000|100%| E|CS|TAMS 0x0000000089900000, 0x0000000089900000| Complete 
+| 104|0x0000000089a00000, 0x0000000089b00000, 0x0000000089b00000|100%| E|CS|TAMS 0x0000000089a00000, 0x0000000089a00000| Complete 
+| 105|0x0000000089b00000, 0x0000000089c00000, 0x0000000089c00000|100%| E|CS|TAMS 0x0000000089b00000, 0x0000000089b00000| Complete 
+| 106|0x0000000089c00000, 0x0000000089d00000, 0x0000000089d00000|100%| E|CS|TAMS 0x0000000089c00000, 0x0000000089c00000| Complete 
+| 107|0x0000000089d00000, 0x0000000089e00000, 0x0000000089e00000|100%| E|  |TAMS 0x0000000089d00000, 0x0000000089d00000| Complete 
+| 108|0x0000000089e00000, 0x0000000089f00000, 0x0000000089f00000|100%| E|CS|TAMS 0x0000000089e00000, 0x0000000089e00000| Complete 
+| 109|0x0000000089f00000, 0x000000008a000000, 0x000000008a000000|100%| E|CS|TAMS 0x0000000089f00000, 0x0000000089f00000| Complete 
+| 110|0x000000008a000000, 0x000000008a100000, 0x000000008a100000|100%| E|CS|TAMS 0x000000008a000000, 0x000000008a000000| Complete 
+| 111|0x000000008a100000, 0x000000008a200000, 0x000000008a200000|100%| E|CS|TAMS 0x000000008a100000, 0x000000008a100000| Complete 
+| 112|0x000000008a200000, 0x000000008a300000, 0x000000008a300000|100%| E|CS|TAMS 0x000000008a200000, 0x000000008a200000| Complete 
+| 113|0x000000008a300000, 0x000000008a400000, 0x000000008a400000|100%| E|CS|TAMS 0x000000008a300000, 0x000000008a300000| Complete 
+| 114|0x000000008a400000, 0x000000008a500000, 0x000000008a500000|100%| E|CS|TAMS 0x000000008a400000, 0x000000008a400000| Complete 
+| 115|0x000000008a500000, 0x000000008a600000, 0x000000008a600000|100%| E|CS|TAMS 0x000000008a500000, 0x000000008a500000| Complete 
+| 116|0x000000008a600000, 0x000000008a700000, 0x000000008a700000|100%| E|CS|TAMS 0x000000008a600000, 0x000000008a600000| Complete 
+| 117|0x000000008a700000, 0x000000008a800000, 0x000000008a800000|100%| E|CS|TAMS 0x000000008a700000, 0x000000008a700000| Complete 
+| 118|0x000000008a800000, 0x000000008a900000, 0x000000008a900000|100%| E|CS|TAMS 0x000000008a800000, 0x000000008a800000| Complete 
+| 119|0x000000008a900000, 0x000000008aa00000, 0x000000008aa00000|100%| E|CS|TAMS 0x000000008a900000, 0x000000008a900000| Complete 
+| 120|0x000000008aa00000, 0x000000008ab00000, 0x000000008ab00000|100%| E|CS|TAMS 0x000000008aa00000, 0x000000008aa00000| Complete 
+| 121|0x000000008ab00000, 0x000000008ac00000, 0x000000008ac00000|100%| E|CS|TAMS 0x000000008ab00000, 0x000000008ab00000| Complete 
+| 122|0x000000008ac00000, 0x000000008ad00000, 0x000000008ad00000|100%| E|CS|TAMS 0x000000008ac00000, 0x000000008ac00000| Complete 
+| 123|0x000000008ad00000, 0x000000008ae00000, 0x000000008ae00000|100%| E|CS|TAMS 0x000000008ad00000, 0x000000008ad00000| Complete 
+| 124|0x000000008ae00000, 0x000000008af00000, 0x000000008af00000|100%| E|CS|TAMS 0x000000008ae00000, 0x000000008ae00000| Complete 
+| 125|0x000000008af00000, 0x000000008b000000, 0x000000008b000000|100%| E|CS|TAMS 0x000000008af00000, 0x000000008af00000| Complete 
+
+Card table byte_map: [0x000001fe582c0000,0x000001fe586b0000] _byte_map_base: 0x000001fe57ea7000
+
+Marking Bits (Prev, Next): (CMBitMap*) 0x000001fe40afde50, (CMBitMap*) 0x000001fe40afde90
+ Prev Bits: [0x000001fe58aa0000, 0x000001fe5a9d8000)
+ Next Bits: [0x000001fe5a9e0000, 0x000001fe5c918000)
+
+Polling page: 0x000001fe3f200000
+
+Metaspace:
+
+Usage:
+  Non-class:     18.26 MB used.
+      Class:      1.71 MB used.
+       Both:     19.98 MB used.
+
+Virtual space:
+  Non-class space:       64.00 MB reserved,      18.44 MB ( 29%) committed,  1 nodes.
+      Class space:        1.00 GB reserved,       1.94 MB ( <1%) committed,  1 nodes.
+             Both:        1.06 GB reserved,      20.38 MB (  2%) committed. 
+
+Chunk freelists:
+   Non-Class:  12.63 MB
+       Class:  14.11 MB
+        Both:  26.74 MB
+
+MaxMetaspaceSize: unlimited
+CompressedClassSpaceSize: 1.00 GB
+Initial GC threshold: 21.00 MB
+Current GC threshold: 21.00 MB
+CDS: on
+MetaspaceReclaimPolicy: balanced
+ - commit_granule_bytes: 65536.
+ - commit_granule_words: 8192.
+ - virtual_space_node_default_size: 8388608.
+ - enlarge_chunks_in_place: 1.
+ - new_chunks_are_fully_committed: 0.
+ - uncommit_free_chunks: 1.
+ - use_allocation_guard: 0.
+ - handle_deallocations: 1.
+
+
+Internal statistics:
+
+num_allocs_failed_limit: 0.
+num_arena_births: 484.
+num_arena_deaths: 0.
+num_vsnodes_births: 2.
+num_vsnodes_deaths: 0.
+num_space_committed: 324.
+num_space_uncommitted: 0.
+num_chunks_returned_to_freelist: 0.
+num_chunks_taken_from_freelist: 1013.
+num_chunk_merges: 0.
+num_chunk_splits: 647.
+num_chunks_enlarged: 391.
+num_inconsistent_stats: 0.
+
+CodeHeap 'non-profiled nmethods': size=120000Kb used=2341Kb max_used=2573Kb free=117658Kb
+ bounds [0x000001fe50250000, 0x000001fe504e0000, 0x000001fe57780000]
+CodeHeap 'profiled nmethods': size=120000Kb used=5860Kb max_used=7118Kb free=114139Kb
+ bounds [0x000001fe48780000, 0x000001fe48e80000, 0x000001fe4fcb0000]
+CodeHeap 'non-nmethods': size=5760Kb used=1970Kb max_used=2047Kb free=3789Kb
+ bounds [0x000001fe4fcb0000, 0x000001fe4ff20000, 0x000001fe50250000]
+ total_blobs=4805 nmethods=3295 adapters=1422
+ compilation: enabled
+              stopped_count=0, restarted_count=0
+ full_count=0
+
+Compilation events (20 events):
+Event: 10.103 Thread 0x000001fe5f142b90 nmethod 3694 0x000001fe48e70f90 code [0x000001fe48e71120, 0x000001fe48e71958]
+Event: 10.103 Thread 0x000001fe5f142b90 3693       3       java.util.Formatter::ensureOpen (16 bytes)
+Event: 10.103 Thread 0x000001fe5f142b90 nmethod 3693 0x000001fe48e71a10 code [0x000001fe48e71bc0, 0x000001fe48e71d88]
+Event: 10.136 Thread 0x000001fe5f142b90 3695       3       com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler::update (368 bytes)
+Event: 10.137 Thread 0x000001fe5f142b90 nmethod 3695 0x000001fe48e71e90 code [0x000001fe48e72120, 0x000001fe48e72b98]
+Event: 10.171 Thread 0x000001fe5f142b90 3696       3       com.xbuilders.window.nuklear.NKUtils::text (54 bytes)
+Event: 10.171 Thread 0x000001fe5f142b90 nmethod 3696 0x000001fe48e73010 code [0x000001fe48e731e0, 0x000001fe48e735e8]
+Event: 10.189 Thread 0x000001fe5f13a0d0 nmethod 3690 0x000001fe504c1b90 code [0x000001fe504c2120, 0x000001fe504c9188]
+Event: 10.189 Thread 0x000001fe5f13a0d0 3691       4       com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet::vertex (39 bytes)
+Event: 10.196 Thread 0x000001fe5f13a0d0 nmethod 3691 0x000001fe504cd110 code [0x000001fe504cd320, 0x000001fe504cde68]
+Event: 10.204 Thread 0x000001fe5f13a0d0 3697 %     4       java.util.TimSort::mergeHi @ 191 (732 bytes)
+Event: 10.218 Thread 0x000001fe5f13a0d0 nmethod 3697% 0x000001fe504ce410 code [0x000001fe504ce620, 0x000001fe504d04d8]
+Event: 10.256 Thread 0x000001fe5f13a0d0 3698       4       com.xbuilders.engine.world.chunk.Chunk::prepare (205 bytes)
+Event: 10.258 Thread 0x000001fe5f142b90 3699       3       org.lwjgl.nuklear.NkDrawVertexLayoutElement::sizeof (4 bytes)
+Event: 10.259 Thread 0x000001fe5f142b90 nmethod 3699 0x000001fe48e73810 code [0x000001fe48e739a0, 0x000001fe48e73ab8]
+Event: 10.295 Thread 0x000001fe5f13a0d0 nmethod 3698 0x000001fe504d1090 code [0x000001fe504d1300, 0x000001fe504d28f0]
+Event: 10.304 Thread 0x000001fe5f142b90 3700       3       java.lang.invoke.DirectMethodHandle$Holder::invokeStatic (17 bytes)
+Event: 10.304 Thread 0x000001fe5f142b90 nmethod 3700 0x000001fe487ba610 code [0x000001fe487ba7e0, 0x000001fe487babd8]
+Event: 10.304 Thread 0x000001fe5f142b90 3701       3       java.lang.StringConcatHelper::mix (11 bytes)
+Event: 10.304 Thread 0x000001fe5f142b90 nmethod 3701 0x000001fe487cac90 code [0x000001fe487cae40, 0x000001fe487cb0b8]
+
+GC Heap History (18 events):
+Event: 0.657 GC heap before
+{Heap before GC invocations=0 (full 0):
+ garbage-first heap   total 129024K, used 21504K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 21 young (21504K), 0 survivors (0K)
+ Metaspace       used 11343K, committed 11520K, reserved 1114112K
+  class space    used 1186K, committed 1280K, reserved 1048576K
+}
+Event: 0.660 GC heap after
+{Heap after GC invocations=1 (full 0):
+ garbage-first heap   total 129024K, used 4748K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 3 young (3072K), 3 survivors (3072K)
+ Metaspace       used 11343K, committed 11520K, reserved 1114112K
+  class space    used 1186K, committed 1280K, reserved 1048576K
+}
+Event: 1.369 GC heap before
+{Heap before GC invocations=1 (full 0):
+ garbage-first heap   total 129024K, used 25228K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 24 young (24576K), 3 survivors (3072K)
+ Metaspace       used 15728K, committed 15936K, reserved 1114112K
+  class space    used 1378K, committed 1472K, reserved 1048576K
+}
+Event: 1.372 GC heap after
+{Heap after GC invocations=2 (full 0):
+ garbage-first heap   total 129024K, used 5917K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 2 young (2048K), 2 survivors (2048K)
+ Metaspace       used 15728K, committed 15936K, reserved 1114112K
+  class space    used 1378K, committed 1472K, reserved 1048576K
+}
+Event: 2.310 GC heap before
+{Heap before GC invocations=2 (full 0):
+ garbage-first heap   total 129024K, used 57117K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 52 young (53248K), 2 survivors (2048K)
+ Metaspace       used 16808K, committed 17088K, reserved 1114112K
+  class space    used 1481K, committed 1600K, reserved 1048576K
+}
+Event: 2.312 GC heap after
+{Heap after GC invocations=3 (full 0):
+ garbage-first heap   total 129024K, used 7336K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 3 young (3072K), 3 survivors (3072K)
+ Metaspace       used 16808K, committed 17088K, reserved 1114112K
+  class space    used 1481K, committed 1600K, reserved 1048576K
+}
+Event: 4.820 GC heap before
+{Heap before GC invocations=3 (full 0):
+ garbage-first heap   total 129024K, used 80040K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 75 young (76800K), 3 survivors (3072K)
+ Metaspace       used 19526K, committed 19840K, reserved 1114112K
+  class space    used 1671K, committed 1792K, reserved 1048576K
+}
+Event: 4.838 GC heap after
+{Heap after GC invocations=4 (full 0):
+ garbage-first heap   total 129024K, used 38336K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 10 young (10240K), 10 survivors (10240K)
+ Metaspace       used 19526K, committed 19840K, reserved 1114112K
+  class space    used 1671K, committed 1792K, reserved 1048576K
+}
+Event: 5.440 GC heap before
+{Heap before GC invocations=4 (full 0):
+ garbage-first heap   total 129024K, used 74176K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 46 young (47104K), 10 survivors (10240K)
+ Metaspace       used 19749K, committed 20032K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 5.451 GC heap after
+{Heap after GC invocations=5 (full 0):
+ garbage-first heap   total 129024K, used 52759K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 6 young (6144K), 6 survivors (6144K)
+ Metaspace       used 19749K, committed 20032K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 5.609 GC heap before
+{Heap before GC invocations=5 (full 0):
+ garbage-first heap   total 129024K, used 80407K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 33 young (33792K), 6 survivors (6144K)
+ Metaspace       used 19751K, committed 20032K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 5.611 GC heap after
+{Heap after GC invocations=6 (full 0):
+ garbage-first heap   total 129024K, used 53792K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 1 young (1024K), 1 survivors (1024K)
+ Metaspace       used 19751K, committed 20032K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 5.743 GC heap before
+{Heap before GC invocations=6 (full 0):
+ garbage-first heap   total 129024K, used 83488K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 31 young (31744K), 1 survivors (1024K)
+ Metaspace       used 19778K, committed 20096K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 5.745 GC heap after
+{Heap after GC invocations=7 (full 0):
+ garbage-first heap   total 129024K, used 54675K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 2 young (2048K), 2 survivors (2048K)
+ Metaspace       used 19778K, committed 20096K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 5.877 GC heap before
+{Heap before GC invocations=7 (full 0):
+ garbage-first heap   total 129024K, used 87443K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 35 young (35840K), 2 survivors (2048K)
+ Metaspace       used 19778K, committed 20096K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 5.878 GC heap after
+{Heap after GC invocations=8 (full 0):
+ garbage-first heap   total 129024K, used 55584K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 3 young (3072K), 3 survivors (3072K)
+ Metaspace       used 19778K, committed 20096K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 6.274 GC heap before
+{Heap before GC invocations=8 (full 0):
+ garbage-first heap   total 129024K, used 92448K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 39 young (39936K), 3 survivors (3072K)
+ Metaspace       used 19779K, committed 20096K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+Event: 6.276 GC heap after
+{Heap after GC invocations=9 (full 0):
+ garbage-first heap   total 129024K, used 56286K [0x0000000083200000, 0x0000000100000000)
+  region size 1024K, 3 young (3072K), 3 survivors (3072K)
+ Metaspace       used 19779K, committed 20096K, reserved 1114112K
+  class space    used 1688K, committed 1792K, reserved 1048576K
+}
+
+Dll operation events (16 events):
+Event: 0.017 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\java.dll
+Event: 0.033 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\jsvml.dll
+Event: 0.152 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\zip.dll
+Event: 0.155 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\instrument.dll
+Event: 0.163 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\net.dll
+Event: 0.167 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\nio.dll
+Event: 0.170 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\zip.dll
+Event: 0.241 Loaded shared library C:\Users\Patron\Downloads\bin\breakgen64.dll
+Event: 0.251 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\extnet.dll
+Event: 0.271 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\jimage.dll
+Event: 0.290 Loaded shared library C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl.dll
+Event: 0.379 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\awt.dll
+Event: 0.549 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.11\bin\verify.dll
+Event: 1.023 Loaded shared library C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl_opengl.dll
+Event: 1.116 Loaded shared library C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl_nuklear.dll
+Event: 1.147 Loaded shared library C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl_stb.dll
+
+Deoptimization events (20 events):
+Event: 9.710 Thread 0x000001fe40aa33a0 DEOPT PACKING pc=0x000001fe5047e994 sp=0x00000021f9bff1c0
+Event: 9.710 Thread 0x000001fe40aa33a0 DEOPT UNPACKING pc=0x000001fe4fd069a3 sp=0x00000021f9bff100 mode 2
+Event: 9.710 Thread 0x000001fe40aa33a0 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001fe50405750 relative=0x00000000000005f0
+Event: 9.710 Thread 0x000001fe40aa33a0 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000001fe50405750 method=com.xbuilders.engine.world.chunk.NeighborInformation.cacheNeighbors()V @ 198 c2
+Event: 9.710 Thread 0x000001fe40aa33a0 DEOPT PACKING pc=0x000001fe50405750 sp=0x00000021f9bff140
+Event: 9.710 Thread 0x000001fe40aa33a0 DEOPT UNPACKING pc=0x000001fe4fd069a3 sp=0x00000021f9bff0f8 mode 2
+Event: 9.952 Thread 0x000001fe40aa33a0 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001fe504ba6e8 relative=0x00000000000014e8
+Event: 9.952 Thread 0x000001fe40aa33a0 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000001fe504ba6e8 method=java.util.TimSort.mergeLo(IIII)V @ 381 c2
+Event: 9.952 Thread 0x000001fe40aa33a0 DEOPT PACKING pc=0x000001fe504ba6e8 sp=0x00000021f9bff080
+Event: 9.952 Thread 0x000001fe40aa33a0 DEOPT UNPACKING pc=0x000001fe4fd069a3 sp=0x00000021f9bff060 mode 2
+Event: 10.037 Thread 0x000001fe40aa33a0 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001fe504bde48 relative=0x0000000000000d48
+Event: 10.037 Thread 0x000001fe40aa33a0 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000001fe504bde48 method=com.xbuilders.engine.world.chunk.NeighborInformation.cacheNeighbors()V @ 10 c2
+Event: 10.037 Thread 0x000001fe40aa33a0 DEOPT PACKING pc=0x000001fe504bde48 sp=0x00000021f9bff1d0
+Event: 10.037 Thread 0x000001fe40aa33a0 DEOPT UNPACKING pc=0x000001fe4fd069a3 sp=0x00000021f9bff108 mode 2
+Event: 10.062 Thread 0x000001feba061bd0 DEOPT PACKING pc=0x000001fe48d7555f sp=0x00000021fcafea90
+Event: 10.063 Thread 0x000001feba061bd0 DEOPT UNPACKING pc=0x000001fe4fd07143 sp=0x00000021fcafe080 mode 0
+Event: 10.063 Thread 0x000001feba061bd0 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001fe50438470 relative=0x0000000000002b50
+Event: 10.063 Thread 0x000001feba061bd0 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000001fe50438470 method=com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/engine/rend
+Event: 10.063 Thread 0x000001feba061bd0 DEOPT PACKING pc=0x000001fe50438470 sp=0x00000021fcafebc0
+Event: 10.063 Thread 0x000001feba061bd0 DEOPT UNPACKING pc=0x000001fe4fd069a3 sp=0x00000021fcafeb80 mode 2
+
+Classes unloaded (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (20 events):
+Event: 1.120 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a702b00}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.newInvokeSpecial(java.lang.Object, long)'> (0x000000008a702b00) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 1.144 Thread 0x000001fe40aa33a0 Exception <a 'sun/nio/fs/WindowsException'{0x000000008a75fc68}> (0x000000008a75fc68) 
+thrown [s\src\hotspot\share\prims\jni.cpp, line 516]
+Event: 1.144 Thread 0x000001fe40aa33a0 Exception <a 'sun/nio/fs/WindowsException'{0x000000008a75fff8}> (0x000000008a75fff8) 
+thrown [s\src\hotspot\share\prims\jni.cpp, line 516]
+Event: 1.151 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a76b428}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, long)'> (0x000000008a76b428) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 1.706 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a576f38}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, int, java.lang.Object)'> (0x000000008a576f38) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 1.978 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x0000000088365388}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)'> (0x0000000088365388) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 2.005 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x0000000088207ec0}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, int)'> (0x0000000088207ec0) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 2.710 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a0c1448}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, int, int, int, java.lang.Object)'> (0x000000008a0c1448) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 2.913 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x0000000089270b60}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.newInvokeSpecial(java.lang.Object, long, java.lang.Object, int)'> (0x0000000089270b60) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 2.913 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x0000000089274888}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.lang.Object, java.lang.Object, long, java.lang.Object, int)'> (0x0000000089274888) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 2.914 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008927e230}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, int, int, int, java.lang.Object)'> (0x000000008927e230) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 3.024 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x0000000088f6e430}: 'int java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, long, int)'> (0x0000000088f6e430) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 4.649 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x0000000088a9e440}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object)'> (0x0000000088a9e440) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 5.048 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a1feaa0}: 'void java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)'> (0x000000008a1feaa0) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 7.291 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a42e988}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.newInvokeSpecial(java.lang.Object, java.lang.Object, java.lang.Object, int)'> (0x000000008a42e988) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 7.291 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a432ac0}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, int)'> (0x000000008a432ac0) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 7.291 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a44c298}: 'java.lang.Object java.lang.invoke.Invokers$Holder.linkToTargetMethod(java.lang.Object, java.lang.Object, int, java.lang.Object)'> (0x000000008a44c298) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 7.390 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a2da228}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, float)'> (0x000000008a2da228) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 7.390 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x000000008a2de9f0}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeSpecial(java.lang.Object, java.lang.Object, float)'> (0x000000008a2de9f0) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+Event: 8.242 Thread 0x000001fe40aa33a0 Exception <a 'java/lang/NoSuchMethodError'{0x0000000089f732c0}: 'java.lang.Object java.lang.invoke.Invokers$Holder.linkToTargetMethod(int, int, int, int, java.lang.Object)'> (0x0000000089f732c0) 
+thrown [s\src\hotspot\share\interpreter\linkResolver.cpp, line 759]
+
+VM Operations (20 events):
+Event: 5.609 Executing VM operation: G1CollectForAllocation
+Event: 5.611 Executing VM operation: G1CollectForAllocation done
+Event: 5.743 Executing VM operation: G1CollectForAllocation
+Event: 5.745 Executing VM operation: G1CollectForAllocation done
+Event: 5.877 Executing VM operation: G1CollectForAllocation
+Event: 5.878 Executing VM operation: G1CollectForAllocation done
+Event: 6.274 Executing VM operation: G1CollectForAllocation
+Event: 6.276 Executing VM operation: G1CollectForAllocation done
+Event: 7.281 Executing VM operation: Cleanup
+Event: 7.281 Executing VM operation: Cleanup done
+Event: 8.281 Executing VM operation: Cleanup
+Event: 8.281 Executing VM operation: Cleanup done
+Event: 9.283 Executing VM operation: Cleanup
+Event: 9.283 Executing VM operation: Cleanup done
+Event: 10.188 Executing VM operation: HandshakeAllThreads
+Event: 10.188 Executing VM operation: HandshakeAllThreads done
+Event: 10.295 Executing VM operation: HandshakeAllThreads
+Event: 10.295 Executing VM operation: HandshakeAllThreads done
+Event: 10.295 Executing VM operation: Cleanup
+Event: 10.295 Executing VM operation: Cleanup done
+
+Events (20 events):
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bbb410
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bbdc90
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bbf010
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bbf490
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bbfb90
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bc0290
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bc1510
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bc4690
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bc5510
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bc5e10
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bc6990
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bc7210
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bcb710
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bd4190
+Event: 10.297 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bdce90
+Event: 10.298 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48bdd310
+Event: 10.298 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48be5390
+Event: 10.298 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48be5810
+Event: 10.298 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48c1b390
+Event: 10.298 Thread 0x000001fe5f1571a0 flushing nmethod 0x000001fe48c2f410
+
+
+Dynamic libraries:
+0x00007ff6ebef0000 - 0x00007ff6ebefe000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\java.exe
+0x00007ffe741d0000 - 0x00007ffe743c8000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ffe73210000 - 0x00007ffe732cd000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ffe71f00000 - 0x00007ffe721f6000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ffe6efb0000 - 0x00007ffe6f040000 	C:\WINDOWS\SYSTEM32\apphelp.dll
+0x00007ffe718e0000 - 0x00007ffe719e0000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffe6c450000 - 0x00007ffe6c467000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\jli.dll
+0x00007ffe6ef10000 - 0x00007ffe6ef2b000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\VCRUNTIME140.dll
+0x00007ffe73da0000 - 0x00007ffe73f3f000 	C:\WINDOWS\System32\USER32.dll
+0x00007ffe54330000 - 0x00007ffe545ca000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.4355_none_60b8b9eb71f62e16\COMCTL32.dll
+0x00007ffe71880000 - 0x00007ffe718a2000 	C:\WINDOWS\System32\win32u.dll
+0x00007ffe737e0000 - 0x00007ffe7387e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ffe73d70000 - 0x00007ffe73d9b000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ffe71af0000 - 0x00007ffe71c07000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ffe71a50000 - 0x00007ffe71aed000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ffe73d30000 - 0x00007ffe73d62000 	C:\WINDOWS\System32\IMM32.DLL
+0x000001fe3f220000 - 0x000001fe3f234000 	C:\WINDOWS\System32\umppc18511.dll
+0x000001fe40a10000 - 0x000001fe40a22000 	C:\WINDOWS\System32\CsXumd64_18511.dll
+0x00007ffe6c440000 - 0x00007ffe6c44c000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\vcruntime140_1.dll
+0x00007ffe59f40000 - 0x00007ffe59fcd000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\msvcp140.dll
+0x00007ffe31ab0000 - 0x00007ffe32712000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\server\jvm.dll
+0x00007ffe724e0000 - 0x00007ffe72590000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ffe72900000 - 0x00007ffe729a0000 	C:\WINDOWS\System32\sechost.dll
+0x00007ffe739f0000 - 0x00007ffe73b13000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ffe718b0000 - 0x00007ffe718d7000 	C:\WINDOWS\System32\bcrypt.dll
+0x00007ffe71400000 - 0x00007ffe7144b000 	C:\WINDOWS\SYSTEM32\POWRPROF.dll
+0x00007ffe670b0000 - 0x00007ffe670b9000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ffe74120000 - 0x00007ffe7418b000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ffe65c80000 - 0x00007ffe65ca7000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ffe6c650000 - 0x00007ffe6c65a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ffe713e0000 - 0x00007ffe713f2000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
+0x00007ffe6f720000 - 0x00007ffe6f732000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffe6c430000 - 0x00007ffe6c43a000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\jimage.dll
+0x00007ffe620c0000 - 0x00007ffe622a4000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffe61df0000 - 0x00007ffe61e24000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ffe71d70000 - 0x00007ffe71df2000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffe6bde0000 - 0x00007ffe6bdee000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\instrument.dll
+0x00007ffe65b50000 - 0x00007ffe65b75000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\java.dll
+0x00007ffe59e60000 - 0x00007ffe59f37000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\jsvml.dll
+0x00007ffe72a00000 - 0x00007ffe7316b000 	C:\WINDOWS\System32\SHELL32.dll
+0x00007ffe6f920000 - 0x00007ffe700bd000 	C:\WINDOWS\SYSTEM32\windows.storage.dll
+0x00007ffe725a0000 - 0x00007ffe728f3000 	C:\WINDOWS\System32\combase.dll
+0x00007ffe711d0000 - 0x00007ffe711fe000 	C:\WINDOWS\SYSTEM32\Wldp.dll
+0x00007ffe72410000 - 0x00007ffe724dd000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007ffe73880000 - 0x00007ffe7392d000 	C:\WINDOWS\System32\SHCORE.dll
+0x00007ffe740c0000 - 0x00007ffe74115000 	C:\WINDOWS\System32\shlwapi.dll
+0x00007ffe717b0000 - 0x00007ffe717d4000 	C:\WINDOWS\SYSTEM32\profapi.dll
+0x00007ffe65ec0000 - 0x00007ffe65ed8000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\zip.dll
+0x00007ffe6c410000 - 0x00007ffe6c429000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\net.dll
+0x00007ffe6c1f0000 - 0x00007ffe6c2fa000 	C:\WINDOWS\SYSTEM32\WINHTTP.dll
+0x00007ffe70f30000 - 0x00007ffe70f9a000 	C:\WINDOWS\system32\mswsock.dll
+0x00007ffe65f00000 - 0x00007ffe65f16000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\nio.dll
+0x00007ffe65120000 - 0x00007ffe6513a000 	C:\Users\Patron\Downloads\bin\breakgen64.dll
+0x00007ffe65b40000 - 0x00007ffe65b49000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\extnet.dll
+0x00007ffe55530000 - 0x00007ffe555aa000 	C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl.dll
+0x00007ffe395e0000 - 0x00007ffe39850000 	C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\jemalloc.dll
+0x00007ffe553a0000 - 0x00007ffe55530000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\awt.dll
+0x00007ffe6f540000 - 0x00007ffe6f56f000 	C:\WINDOWS\system32\DWMAPI.DLL
+0x00007ffe6f250000 - 0x00007ffe6f2ee000 	C:\WINDOWS\system32\uxtheme.dll
+0x00007ffe4ca30000 - 0x00007ffe4cb55000 	C:\WINDOWS\system32\opengl32.dll
+0x00007ffe4d670000 - 0x00007ffe4d69c000 	C:\WINDOWS\SYSTEM32\GLU32.dll
+0x00007ffe73fa0000 - 0x00007ffe740b4000 	C:\WINDOWS\System32\MSCTF.dll
+0x00007ffe73c00000 - 0x00007ffe73d2b000 	C:\WINDOWS\System32\ole32.dll
+0x00007ffe65110000 - 0x00007ffe65120000 	C:\Users\Patron\.jdks\corretto-17.0.11\bin\verify.dll
+0x00007ffe671d0000 - 0x00007ffe671e7000 	C:\WINDOWS\system32\napinsp.dll
+0x00007ffe67230000 - 0x00007ffe6724b000 	C:\WINDOWS\system32\pnrpnsp.dll
+0x00007ffe67210000 - 0x00007ffe67225000 	C:\WINDOWS\system32\wshbth.dll
+0x00007ffe6c630000 - 0x00007ffe6c64d000 	C:\WINDOWS\system32\NLAapi.dll
+0x00007ffe70c10000 - 0x00007ffe70c4b000 	C:\WINDOWS\SYSTEM32\IPHLPAPI.DLL
+0x00007ffe70c50000 - 0x00007ffe70d1b000 	C:\WINDOWS\SYSTEM32\DNSAPI.dll
+0x00007ffe739e0000 - 0x00007ffe739e8000 	C:\WINDOWS\System32\NSI.dll
+0x00007ffe67290000 - 0x00007ffe672a2000 	C:\WINDOWS\System32\winrnr.dll
+0x00007ffe68d60000 - 0x00007ffe68d6a000 	C:\Windows\System32\rasadhlp.dll
+0x00007ffe69bf0000 - 0x00007ffe69c70000 	C:\WINDOWS\System32\fwpuclnt.dll
+0x00007ffe55310000 - 0x00007ffe55392000 	C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\glfw.dll
+0x00007ffe5d8c0000 - 0x00007ffe5d905000 	C:\WINDOWS\SYSTEM32\dinput8.dll
+0x00007ffe63e50000 - 0x00007ffe63e61000 	C:\WINDOWS\SYSTEM32\xinput1_4.dll
+0x00007ffe71e00000 - 0x00007ffe71e4e000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x00007ffe71600000 - 0x00007ffe71633000 	C:\WINDOWS\SYSTEM32\DEVOBJ.dll
+0x00007ffe53360000 - 0x00007ffe534b2000 	C:\WINDOWS\SYSTEM32\inputhost.dll
+0x00007ffe6ecc0000 - 0x00007ffe6edb2000 	C:\WINDOWS\SYSTEM32\CoreMessaging.dll
+0x00007ffe6cc60000 - 0x00007ffe6cd56000 	C:\WINDOWS\SYSTEM32\PROPSYS.dll
+0x00007ffe6e290000 - 0x00007ffe6e3e7000 	C:\WINDOWS\SYSTEM32\wintypes.dll
+0x00007ffe6e960000 - 0x00007ffe6ecbb000 	C:\WINDOWS\SYSTEM32\CoreUIComponents.dll
+0x00007ffe70970000 - 0x00007ffe709a3000 	C:\WINDOWS\SYSTEM32\ntmarta.dll
+0x00007ffe73930000 - 0x00007ffe739d9000 	C:\WINDOWS\System32\clbcatq.dll
+0x00007ffe69e40000 - 0x00007ffe69f43000 	C:\Windows\System32\AppXDeploymentClient.dll
+0x00007ffe2ea20000 - 0x00007ffe2fa4f000 	C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_fbef37f5b63dca79\ig9icd64.dll
+0x00007ffe70100000 - 0x00007ffe701f2000 	C:\WINDOWS\system32\dxgi.dll
+0x00007ffe35bf0000 - 0x00007ffe35eca000 	C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_fbef37f5b63dca79\igdml64.dll
+0x00007ffe619e0000 - 0x00007ffe61dc9000 	C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_fbef37f5b63dca79\igdgmm64.dll
+0x00007ffe5e2a0000 - 0x00007ffe619d7000 	C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_fbef37f5b63dca79\igc64.dll
+0x00007ffe550d0000 - 0x00007ffe5512e000 	C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl_opengl.dll
+0x00007ffe53f40000 - 0x00007ffe53fb3000 	C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl_nuklear.dll
+0x00007ffe53eb0000 - 0x00007ffe53f32000 	C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64\lwjgl_stb.dll
+0x00007ffe6ce90000 - 0x00007ffe6cf3e000 	C:\WINDOWS\SYSTEM32\mscms.dll
+0x00007ffe71760000 - 0x00007ffe7178e000 	C:\WINDOWS\SYSTEM32\USERENV.dll
+0x00007ffe6cb70000 - 0x00007ffe6cb81000 	C:\WINDOWS\SYSTEM32\ColorAdapterClient.dll
+0x00007ffe59e10000 - 0x00007ffe59e53000 	C:\WINDOWS\SYSTEM32\icm32.dll
+0x00007ffe534c0000 - 0x00007ffe535b9000 	C:\WINDOWS\SYSTEM32\textinputframework.dll
+0x00007ffe669e0000 - 0x00007ffe66a46000 	C:\WINDOWS\system32\Oleacc.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Users\Patron\.jdks\corretto-17.0.11\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.4355_none_60b8b9eb71f62e16;C:\Users\Patron\.jdks\corretto-17.0.11\bin\server;C:\Users\Patron\Downloads\bin;C:\Users\Patron\AppData\Local\Temp\lwjgl_Patron\3.3.2+13\x64;C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_fbef37f5b63dca79
+
+VM Arguments:
+jvm_args: -javaagent:C:\Users\Patron\Downloads\lib\idea_rt.jar=56382:C:\Users\Patron\Downloads\bin -Dfile.encoding=UTF-8 
+java_command: com.xbuilders.game.Main devmode
+java_class_path (initial): C:\Users\Patron\Documents\GitHub\Xbuilders\target\classes;C:\Users\Patron\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl\3.3.2\lwjgl-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-assimp\3.3.2\lwjgl-assimp-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-bgfx\3.3.2\lwjgl-bgfx-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-cuda\3.3.2\lwjgl-cuda-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-egl\3.3.2\lwjgl-egl-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-fmod\3.3.2\lwjgl-fmod-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-freetype\3.3.2\lwjgl-freetype-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-glfw\3.3.2\lwjgl-glfw-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-harfbuzz\3.3.2\lwjgl-harfbuzz-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-hwloc\3.3.2\lwjgl-hwloc-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-jawt\3.3.2\lwjgl-jawt-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-jemalloc\3.3.2\lwjgl-jemalloc-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-ktx\3.3.2\lwjgl-ktx-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-libdivide\3.3.2\lwjgl-libdivide-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-llvm\3.3.2\lwjgl-llvm-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-lmdb\3.3.2\lwjgl-lmdb-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-lz4\3.3.2\lwjgl-lz4-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-meow\3.3.2\lwjgl-meow-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-meshoptimizer\3.3.2\lwjgl-meshoptimizer-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-nanovg\3.3.2\lwjgl-nanovg-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-nfd\3.3.2\lwjgl-nfd-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjgl-nuklear\3.3.2\lwjgl-nuklear-3.3.2.jar;C:\Users\Patron\.m2\repository\org\lwjgl\lwjg
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 3                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 6                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 132120576                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 2095054848                                {product} {ergonomic}
+   size_t MaxNewSize                               = 1256194048                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+   size_t MinHeapSize                              = 8388608                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5832780                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122912730                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122912730                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+   size_t SoftMaxHeapSize                          = 2095054848                             {manageable} {ergonomic}
+     bool UseCompressedClassPointers               = true                           {product lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                           {product lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Eclipse Adoptium\jre-8.0.412.8-hotspot\
+PATH=C:\Program Files\Eclipse Adoptium\jre-8.0.412.8-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;:\Program Files\Novell\ZENworks;C:\Program Files (x86)\InstallShield\AdminStudio\5.5\ConflictSolver;C:\Users\Patron\AppData\Local\Microsoft\WindowsApps;
+USERNAME=Patron
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 158 Stepping 10, GenuineIntel
+TMP=C:\Users\Patron\AppData\Local\Temp
+TEMP=C:\Users\Patron\AppData\Local\Temp
+
+
+
+Periodic native trim disabled
+
+
+---------------  S Y S T E M  ---------------
+
+OS:
+ Windows 10 , 64 bit Build 19041 (10.0.19041.3636)
+OS uptime: 0 days 2:47 hours
+
+CPU: total 6 (initial active 6) (6 cores per cpu, 1 threads per core) family 6 model 158 stepping 10 microcode 0xf4, cx8, cmov, fxsr, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, erms, clmul, bmi1, bmi2, rtm, adx, fma, vzeroupper, clflush, clflushopt
+Processor Information for all 6 processors :
+  Max Mhz: 3000, Current Mhz: 3000, Mhz Limit: 3000
+
+Memory: 4k page, system-wide physical 7987M (299M free)
+TotalPageFile size 10107M (AvailPageFile size 1577M)
+current process WorkingSet (physical memory assigned to process): 557M, peak: 579M
+current process commit charge ("private bytes"): 604M, peak: 619M
+
+vm_info: OpenJDK 64-Bit Server VM (17.0.11+9-LTS) for windows-amd64 JRE (17.0.11+9-LTS), built on Apr 10 2024 22:12:24 by "Administrator" with MS VC++ 16.10 / 16.11 (VS2019)
+
+END.
