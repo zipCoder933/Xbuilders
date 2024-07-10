@@ -637,6 +637,7 @@ public abstract class NKWindow extends BaseWindow {
     //This prevents the byteBuffers from being garbage collected before the render is done with them, thus preventing a JVM crash
     private ByteBuffer vertices, elements; //Used to fix the crash bug (https://github.com/LWJGL/lwjgl3/issues/986)
     private NkBuffer vbuf, ebuf; //Also stored out of scope to fix the crash bug
+    private NkConvertConfig config;//Also stored out of scope to fix the crash bug
 
     private static final int AA = NK_ANTI_ALIASING_ON;
     private static final int max_vertex_buffer = MAX_VERTEX_BUFFER;
@@ -672,7 +673,7 @@ public abstract class NKWindow extends BaseWindow {
             elements = Objects.requireNonNull(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY, max_element_buffer, null));
             try (MemoryStack stack = stackPush()) {
                 // fill convert configuration
-                NkConvertConfig config = NkConvertConfig.calloc(stack)
+                config = NkConvertConfig.calloc(stack)
                         .vertex_layout(VERTEX_LAYOUT)
                         .vertex_size(20)
                         .vertex_alignment(4)
