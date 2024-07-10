@@ -131,7 +131,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
             client.close();
         }
         clients.clear();
-        clientThread.interrupt();
+        if(clientThread != null) clientThread.interrupt();
         clientThread = null;
         serverSocket.close();
     }

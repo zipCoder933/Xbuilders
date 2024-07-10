@@ -74,6 +74,7 @@ public class Main extends NKWindow {
 
     public static boolean fpsTools = false;
     public static boolean devMode = false;
+    public static String name = "XBuilders";
 
     public static void main(String[] args) {
         try {
@@ -89,6 +90,8 @@ public class Main extends NKWindow {
                     System.out.println("Dev mode enabled");
                 } else if (arg.startsWith("appData")) {
                     customAppData = arg.split("=")[1];
+                } else if (arg.startsWith("name")) {
+                    name = arg.split("=")[1];
                 }
             }
 
@@ -251,7 +254,7 @@ public class Main extends NKWindow {
         // rate, the FPS will not exceed 60fps.
         // Our goal is to get as close to 16.666 MPF (60 FPS) as possible
         String formattedNumber = df.format(getMsPerFrame());
-        setTitle("Xbuilders   mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString());
+        setTitle(name+"   mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString());
     }
 
 

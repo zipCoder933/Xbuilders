@@ -106,7 +106,6 @@ public class InfoText extends GameUIElement {
     }
 
     private void drawChatHistory(NkContext ctx, boolean alwaysShow, int maxMessages) {
-        Nuklear.nk_layout_row_dynamic(ctx, 9, 1);
         for (int i = 0; i < chatHistory.size(); i ++) {
 
             if (maxMessages > 0 && i > maxMessages) {
@@ -114,6 +113,8 @@ public class InfoText extends GameUIElement {
             }
 
             String line = chatHistory.get(i).value;
+
+            Nuklear.nk_layout_row_dynamic(ctx, 12, 1);
             if (alwaysShow || System.currentTimeMillis() - chatHistory.get(i).time < 10000) {
                 if (line.startsWith("<")) {
                     NKUtils.text(ctx, line, 9, NK_TEXT_ALIGN_RIGHT);

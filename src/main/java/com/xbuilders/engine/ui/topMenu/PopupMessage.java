@@ -50,16 +50,20 @@ public class PopupMessage {
 
 
     boolean visible = false;
-    int boxHeight = 300;
-    int boxWidth = 400;
+    int boxHeight = 400;
+    int boxWidth = 500;
     NkRect windowDims;
     String title, body;
+    long shownTime;
 
     public void show(String title, String body) {
         this.title = title;
         this.body = body;
+        shownTime = System.currentTimeMillis();
         visible = true;
     }
+
+    private final String tag = "Popup_window";
 
     public void draw(MemoryStack stack) {
         if (!visible) return;
@@ -69,7 +73,15 @@ public class PopupMessage {
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2),
                 boxWidth, boxHeight, windowDims);
 
-        if (nk_begin_titled(ctx, "Popup_window", title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
+        if (nk_begin_titled(ctx, tag, title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
+
+            //Detect if the window is in focus
+            if (!nk_window_has_focus(ctx)) {
+//                nk_window_set_focus(ctx, tag);
+                if (System.currentTimeMillis() - shownTime > 500) {
+                    visible = false;
+                }
+            }
             nk_style_set_font(ctx, uires.font_8);
             nk_layout_row_dynamic(ctx, 5, 1);
 
@@ -80,7 +92,9 @@ public class PopupMessage {
             nk_layout_row_static(ctx, 20, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 1);
             if (nk_button_label(ctx, "OK")) {
-                visible = false;
+                if (System.currentTimeMillis() - shownTime > 500) {
+                    visible = false;
+                }
             }
         }
         nk_end(ctx);

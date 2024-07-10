@@ -16,15 +16,8 @@ public class WorldsHandler {
     }
 
     public static final void makeNewWorld(final WorldInfo info) throws IOException {
-        if (worldNameAlreadyExists(info.getName())) {
-            throw new IOException("World name \"" + info.getName() + "\" Already exists!");
-        }
         info.getDirectory().mkdirs();
         info.save();
-    }
-
-    public static int countSavedWorlds() throws IOException {
-        return ResourceUtils.WORLDS_DIR.listFiles().length;
     }
 
     public static String formatWorldName(final String name) {

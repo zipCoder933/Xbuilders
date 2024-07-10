@@ -14,7 +14,6 @@ import com.xbuilders.engine.utils.json.JsonManager;
 import java.awt.Image;
 import java.io.File;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
@@ -163,7 +162,7 @@ public class WorldInfo {
 
     public class InfoFile {
 
-        public boolean playedAsMultiplayer;
+        public boolean isJoinedMultiplayerWorld;
         public int size;
         public float spawnX;
         public float spawnY;
@@ -179,7 +178,7 @@ public class WorldInfo {
             this.spawnY = -1.0f;
             this.spawnZ = -1.0f;
             this.terrainVersion = 0;
-            playedAsMultiplayer = false;
+            isJoinedMultiplayerWorld = false;
         }
 
     }

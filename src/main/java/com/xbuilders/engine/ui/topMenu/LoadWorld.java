@@ -157,6 +157,12 @@ public class LoadWorld implements MenuPage {
     }
 
     public void loadWorld(WorldInfo world) {
+        if(world.infoFile.isJoinedMultiplayerWorld){
+            menu.popupMessage.show("Can't Load World Locally",
+                    "You can only join this world if you are\n" +
+                            "connected to a multiplayer server");
+            return;
+        }
         ProgressData prog = new ProgressData("Loading world");
         Main.gameScene.startGame(world, null, prog);
         menu.progress.enable(prog,

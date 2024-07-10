@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.TreeMap;
 
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
@@ -37,6 +38,7 @@ public class GameServer extends Server<PlayerSocket> {
     NetworkJoinRequest req;
     UserControlledPlayer player;
     private WorldInfo worldInfo;
+    public int loadedChunks = 0;
     boolean worldReady = false;
 
     public GameServer(UserControlledPlayer player) {
@@ -53,6 +55,7 @@ public class GameServer extends Server<PlayerSocket> {
      */
     public void startGame(WorldInfo worldInfo, NetworkJoinRequest req) throws IOException, InterruptedException {
         this.req = req;
+        loadedChunks = 0;
         this.worldInfo = worldInfo;
         worldReady = false;
         start(req.fromPortVal);
@@ -73,12 +76,12 @@ public class GameServer extends Server<PlayerSocket> {
     }
 
     public WorldInfo getWorldInfo() {
-        if(!worldReady) return null;
+        if (!worldReady) return null;
         return worldInfo;
     }
 
     public void closeGame() throws IOException {
-        close();
+        super.close();
         worldInfo = null;
         worldReady = false;
     }
@@ -154,14 +157,7 @@ public class GameServer extends Server<PlayerSocket> {
 //            printDatafromClient(client, receivedData);
 
             if (receivedData.length > 0) {
-                if (receivedData[0] == READY_TO_START) {
-                    worldReady = true;
-                } else if (receivedData[0] == WORLD_CHUNK) {
-                    System.out.println("Received chunk");
-                    int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
-                    int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
-                    int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
-                } else if (receivedData[0] == PLAYER_INFO) {
+                if (receivedData[0] == PLAYER_INFO) {
                     Player player = new Player();
                     player.loadInfoFromBytes(receivedData);
                     client.player = player;
@@ -171,16 +167,6 @@ public class GameServer extends Server<PlayerSocket> {
                     String message = new String(NetworkUtils.getMessage(receivedData));
                     String playerName = client.player == null ? "Unknown" : client.player.name;
                     GameScene.consoleOut(playerName + ":  \"" + message + "\"");
-                } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
-                    String value = new String(NetworkUtils.getMessage(receivedData));
-                    String name = value.split("\n")[0];
-                    String json = value.split("\n")[1];
-                    WorldInfo hostWorld = new WorldInfo();
-                    hostWorld.makeNew(name, json);
-                    if (!WorldsHandler.worldNameAlreadyExists(hostWorld.getName())) {
-                        WorldsHandler.makeNewWorld(hostWorld);
-                    }
-                    worldInfo = hostWorld;
                 } else if (receivedData[0] == PLAYER_POSITION) {
                     float x = ByteUtils.bytesToFloat(new byte[]{receivedData[1], receivedData[2], receivedData[3], receivedData[4]});
                     float y = ByteUtils.bytesToFloat(new byte[]{receivedData[5], receivedData[6], receivedData[7], receivedData[8]});
@@ -189,6 +175,42 @@ public class GameServer extends Server<PlayerSocket> {
 //                    System.out.println("Player position: " + x + " " + y + " " + z + " " + w);
                     client.player.worldPosition.set(x, y, z);
                     client.player.pan = (w);
+                }
+
+                //New world
+                else if (receivedData[0] == READY_TO_START) {
+                    worldReady = true;
+
+                } else if (receivedData[0] == WORLD_CHUNK) {
+
+                    int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+                    int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
+                    int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
+                    File chunkFile = worldInfo.getChunkFile(new Vector3i(x, y, z));
+                    //Write the rest of the bytes to a file
+                    Files.write(chunkFile.toPath(), Arrays.copyOfRange(receivedData, 13, receivedData.length));
+                    loadedChunks++;
+                    System.out.println("Received chunk " + x + ", " + y + ", " + z);
+
+                } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
+                    String value = new String(NetworkUtils.getMessage(receivedData));
+                    String name = value.split("\n")[0];
+                    String json = value.split("\n")[1];
+                    WorldInfo hostWorld = new WorldInfo();
+                    name = "JOINED_MULTIPLAYER_WORLD__" + name;
+                    hostWorld.makeNew(name, json);
+                    
+//                    //Does this already exist?
+//                    File existingWorld = WorldsHandler.worldFile(name);
+//                    if(existingWorld.exists()){
+//                        //if so get the world info for it
+//                        hostWorld.load(existingWorld);
+//                        if(!hostWorld.infoFile.isJoinedMultiplayerWorld){
+//                            throw
+//                        }
+//                    }
+                    WorldsHandler.makeNewWorld(hostWorld);
+                    worldInfo = hostWorld;
                 }
 //                else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
 //                    int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
@@ -215,7 +237,11 @@ public class GameServer extends Server<PlayerSocket> {
     }
 
     public void onClientDisconnect(PlayerSocket client) {
-        GameScene.consoleOut("Player disconnected: " + client.player.toString());
+        if (client.player != null) {
+            GameScene.consoleOut(client.player.name + " has left");
+        } else {
+            GameScene.consoleOut("Unknown player has left");
+        }
     }
 
     private void playerJoinEvent(PlayerSocket client) {

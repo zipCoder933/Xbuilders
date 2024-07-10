@@ -110,7 +110,7 @@ public class GameScene implements WindowEvents {
                 case "help" -> {
                     String out = "Available commands:\n";
                     for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
-                        out += entry.getKey() + "      " + entry.getValue() + "\n";
+                        out += entry.getKey() + "\t    " + entry.getValue() + "\n";
                     }
                     return out;
                 }
@@ -155,6 +155,11 @@ public class GameScene implements WindowEvents {
             world.stopGame(player.worldPosition);
             game.saveState();
         }
+        try {
+            server.closeGame();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     int completeChunks, framesWithCompleteChunkValue;
@@ -185,9 +190,16 @@ public class GameScene implements WindowEvents {
             }
             case 1 -> {
                 if (req != null) {//We want to wait until all chunks have been given from the host
+
+                    if (!req.hosting) {
+                        prog.setTask("Received " + server.loadedChunks + " chunks");
+                    }
+
                     if (server.getWorldInfo() != null) {
                         worldInfo = server.getWorldInfo();//Reassign the world info to the one we got from the host
-                        worldInfo.infoFile.playedAsMultiplayer = true;
+                        if (!req.hosting) {
+                            worldInfo.infoFile.isJoinedMultiplayerWorld = true;
+                        }
                         prog.stage++;
                     }
                 } else prog.stage++;
