@@ -37,8 +37,12 @@ public class WorldInfo {
         return new File(this.directory.getAbsolutePath(), "chunk " + position.x + " " + position.y + " " + position.z);
     }
 
+    public boolean isChunkFile(File file) {
+        return (file.getName().startsWith("chunk"));
+    }
+
     public Vector3i getPositionOfChunkFile(File file) {
-        if (file.getName().startsWith("chunk")) {
+        if (isChunkFile(file)) {
             String[] split = file.getName().split(" ");
             return new Vector3i(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
         }
