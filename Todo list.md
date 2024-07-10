@@ -26,25 +26,36 @@ There is a balance, but when you spend too much time making the inside of the co
   ~~- Save for later as well: Add real tooltips?~~
   ~~- Maybe wait to do this: make inventory scroll faster by replacing the group with a grid of icons that change when scrolled~~
 
-## liquid propagation
+# liquid propagation
 * have a live propagation thread (LP) that can propagate water, fire and grass
 * instead of constantly checking for nodes to propagate or depropagate, have the live propagator (LP) get notified of any relavent changes anywhere
 * water can be propagated or depropagated
 * we don't need a special liquid mesh. we can just use what we already have
    * FOR THE MESH: when propagating, water is in range from 7 to 0, the height of the block in the liqid mesh is equal to its value but averaged across all 4 neighbors per vertex
 
-## simple multiplayer
-**We can use the same IP adresses with different ports to connect 2 servers on the same computer!
-(See the test/networkTester file for an example)**
-
+# Multiplayer
+## Connection
+We can use the same IP adresses with different ports to connect 2 servers on the same computer!
+(See the test/networkTester file for an example)
 1. lets start by getting all players to be able to connect and disconnect with ease
 2. setup a simple chat interface and allow for basic binary messages to be easily sent and recieved
 
-### todo
-- send blocks and chunks to each other during the game
-- enable clipboard sharing
-- send entire chunks to each other when the game loads and handle conflicts
-- update entity movement between players
-  - decide who gets to manage sending of entity movement
-  - have recieving players predict entity movement until the new state arrives
+## Sending voxel data
+all threaded block events are automated processes. They have ownership and are shared by the player closest to it at the current moment
+We already would need this for water or red stone etc
+
+### Solution 1: send block changes as they get fed through the block pipeline
+* Multithreaded effects should be shared automations 
+  * Should Instantaneous effects be shared or not? 
+  * Light? 
+    * No 
+  * Instantaneous block events? 
+    * Yes
+
+
+### Solution 2: send every voxel change at the base level
+* In this case we would definitely need to batch voxel changes together
+* Sending all that data might cause overhead? Not sure.
+* There might be edge cases where 2 players set a block with events in the same place at the same time
+* we have to ask if a change should be shared or not at every voxel change
 
