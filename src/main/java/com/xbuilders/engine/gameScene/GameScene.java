@@ -9,8 +9,9 @@ import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
 import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.network.server.NetworkUtils;
+import com.xbuilders.engine.utils.progress.Bulletin;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -126,7 +127,7 @@ public class GameScene implements WindowEvents {
                     } else return commandHelp.get("msg");
                 }
                 case "goto" -> {
-                    if (parts.length > 2) {
+                    if (parts.length == 2) {
                         Player target = server.getPlayerByName(parts[1]).player;
                         if (target != null) {
                             player.worldPosition.set(target.worldPosition);
@@ -157,29 +158,59 @@ public class GameScene implements WindowEvents {
     }
 
     int completeChunks, framesWithCompleteChunkValue;
+    WorldInfo worldInfo;
+    NetworkJoinRequest req;
+    ProgressData prog;
 
-    public void newGameUpdate(WorldInfo worldInfo, ProgressData prog) {
+    public void startGame(WorldInfo world, NetworkJoinRequest req, ProgressData prog) {
+        this.worldInfo = world;
+        this.req = req;
+        this.prog = prog;
+    }
+
+    public void newGameUpdate() {
         switch (prog.stage) {
-            case 0 -> {
-                System.out.println("\n\nStarting game " + worldInfo.getName() + "...");
-                if (worldInfo.getSpawnPoint() == null) {
+            case 0 -> {//Start multiplayer
+                if (req != null) {
+                    prog.setTask(req.hosting ? "Hosting game..." : "Joining game...");
+                    try {
+                        GameScene.server.startGame(worldInfo, req);
+                    } catch (IOException e) {
+                        prog.createBulletin(new Bulletin("Error starting game", e.getMessage()));
+                    } catch (InterruptedException e) {
+                        prog.createBulletin(new Bulletin("Error starting game", e.getMessage()));
+                    }
+                }
+                prog.stage++;
+            }
+            case 1 -> {
+                if (req != null) {//We want to wait until all chunks have been given from the host
+                    if (server.getWorldInfo() != null) {
+                        worldInfo = server.getWorldInfo();//Reassign the world info to the one we got from the host
+                        worldInfo.infoFile.playedAsMultiplayer = true;
+                        prog.stage++;
+                    }
+                } else prog.stage++;
+            }
+            case 2 -> {
+                prog.setTask("Starting game...");
+                if (worldInfo.getSpawnPoint() == null) { //Create spawn point
                     player.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
                     if (!ok) {
                         prog.abort();
                         Main.goToMenuPage();
                     }
-                } else {
-                    System.out.println("Loading spawn point: " + player.worldPosition);
+                } else {//Load spawn point
                     player.worldPosition.set(worldInfo.getSpawnPoint().x, worldInfo.getSpawnPoint().y, worldInfo.getSpawnPoint().z);
                     world.startGame(prog, worldInfo, player.worldPosition);
                 }
                 prog.stage++;
             }
-            case 1 -> {
+            case 3 -> {
                 waitForTasksToComplete(prog);
             }
-            case 2 -> {
+            case 4 -> {
                 if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING) {
                     prog.setTask("Preparing chunks");
                     AtomicInteger finishedChunks = new AtomicInteger();
@@ -349,7 +380,7 @@ public class GameScene implements WindowEvents {
                         text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                         text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
                         text += "\nchunk mesh: " + chunk.meshes;
-                        text += "\nchunk last modified: " + chunk.getLastModifiedTime();
+                        text += "\nchunk last modified: " + MiscUtils.formatTime(chunk.lastModifiedTime);
                         BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                         Block block = ItemList.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
 
@@ -368,4 +399,6 @@ public class GameScene implements WindowEvents {
             ui.setDevText(text);
         } else ui.setDevText(null);
     }
+
+
 }

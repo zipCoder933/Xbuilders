@@ -9,7 +9,9 @@ import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
+
 import static com.xbuilders.engine.utils.ByteUtils.*;
+
 import java.io.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -94,6 +96,19 @@ public class ChunkSavingLoadingUtils {
         out2.write(NEWLINE_BYTE);
     }
 
+    public static long getLastSaved(File f) {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            try (FileInputStream fis = new FileInputStream(f);
+                 GZIPInputStream input = new GZIPInputStream(fis)) {
+                int fileVersion = input.read();
+               return ChunkFile_V0.readMetadata(fis);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public static boolean writeChunkToFile(final Chunk chunk, final File f) {
         try (MemoryStack stack = MemoryStack.stackPush()) {

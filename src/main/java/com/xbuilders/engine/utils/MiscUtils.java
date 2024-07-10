@@ -14,6 +14,7 @@ import org.joml.Vector4d;
 import org.joml.Vector4f;
 import org.joml.Vector4i;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -40,6 +41,10 @@ public class MiscUtils {
             number = number / base;
         }
         return encodedString.toString();
+    }
+
+    public static String formatTime(long lastModifiedTime) {
+        return lastModifiedTime == 0 ? "never" : new Date(lastModifiedTime).toString();
     }
 
     public static boolean isBlackCube(int x, int y, int z) {

@@ -121,6 +121,11 @@ public class NetworkSocket {
         outputStream.write(data);
     }
 
+    public void sendData(byte data) throws IOException {
+        outputStream.writeInt(1);
+        outputStream.write(data);
+    }
+
     public void sendString(String str) throws IOException {
         byte[] data = str.getBytes();
         outputStream.writeInt(data.length);

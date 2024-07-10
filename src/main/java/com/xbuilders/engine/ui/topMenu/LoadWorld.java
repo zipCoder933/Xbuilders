@@ -140,34 +140,28 @@ public class LoadWorld implements MenuPage {
 
     }
 
-    public void loadWorldAsMultiplayer(WorldInfo world, NetworkJoinRequest req) {
-        if (req.hosting) {
-            try {
-                world.infoFile.playedAsMultiplayer = true;
-                GameScene.server.startGame(req);
-                loadWorld(world);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                menu.popupMessage.show("Error Hosting", ex.getMessage());
-            }
-        } else {
-            try {
-                WorldInfo hostWorld = GameScene.server.startGame(req);
-                hostWorld.infoFile.playedAsMultiplayer = true;
-                System.out.println(hostWorld);
-                loadWorld(hostWorld);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                menu.popupMessage.show("Error Joining", ex.getMessage());
-            }
-        }
+    public void loadWorldAsMultiplayer(final WorldInfo world, NetworkJoinRequest req) {
+        ProgressData prog = new ProgressData((req.hosting ? "Hosting" : "Joining")+" Multiplayer World");
+        Main.gameScene.startGame(world, req, prog);
+        menu.progress.enable(prog,
+                () -> {//update
+                    Main.gameScene.newGameUpdate();
+                },
+                () -> {//finished
+                    Main.goToGamePage();
+                    menu.setPage(Page.HOME);
+                },
+                () -> {//canceled
+                    System.out.println("Canceled");
+                });
     }
 
     public void loadWorld(WorldInfo world) {
         ProgressData prog = new ProgressData("Loading world");
+        Main.gameScene.startGame(world, null, prog);
         menu.progress.enable(prog,
                 () -> {//update
-                    Main.gameScene.newGameUpdate(world, prog);
+                    Main.gameScene.newGameUpdate();
                 },
                 () -> {//finished
                     Main.goToGamePage();

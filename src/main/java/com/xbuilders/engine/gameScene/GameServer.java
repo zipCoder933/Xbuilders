@@ -1,37 +1,42 @@
 package com.xbuilders.engine.gameScene;
 
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
-import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
 import com.xbuilders.engine.utils.network.server.Server;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
-import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
 import java.util.Arrays;
+
+import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
 public class GameServer extends Server<PlayerSocket> {
 
     public static final byte PLAYER_INFO = -128;
     public static final byte WORLD_INFO = -127;
+    public static final byte WORLD_CHUNK = -124;
+    public static final byte READY_TO_START = -123;
+
     public static final byte PLAYER_POSITION = -126;
     public static final byte PLAYER_CHAT = -125;
-    public static final byte VOXEL_BLOCK_CHANGE = -124;
-    public static final byte VOXEL_LIGHT_CHANGE = -122;
+//    public static final byte VOXEL_BLOCK_CHANGE = -124;
+//    public static final byte VOXEL_LIGHT_CHANGE = -122;
 
     NetworkJoinRequest req;
     UserControlledPlayer player;
-    WorldInfo info;
+    private WorldInfo worldInfo;
     boolean worldReady = false;
 
     public GameServer(UserControlledPlayer player) {
@@ -39,47 +44,47 @@ public class GameServer extends Server<PlayerSocket> {
         this.player = player;
     }
 
-    public WorldInfo startGame(NetworkJoinRequest req) throws IOException, InterruptedException {
+    /**
+     * @param worldInfo the world info if we are hosting the game
+     * @param req       the network join request
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void startGame(WorldInfo worldInfo, NetworkJoinRequest req) throws IOException, InterruptedException {
         this.req = req;
-        info = null;
+        this.worldInfo = worldInfo;
         worldReady = false;
-
         start(req.fromPortVal);
-        if (!req.hosting) {
+
+        if (req.hosting) {
+            worldReady = true;
+        } else {
             /**
              * We cant send our information until the host has accepted us and started listening for messages.
              * To get around this, we need to either wait, or only send our information when the host sends a welcome message
              */
-
             //Join the host
             System.out.println("Joining as " + req.hostIpAdress);
             NetworkSocket newClient = connectToServer(new InetSocketAddress(req.hostIpAdress, req.toPortVal));
             Thread.sleep(1000);
             newClient.sendData(player.infoToBytes());
-
-
-            while (!worldReady) {
-                Thread.sleep(100);
-            }
-            //If the world info already exists, we dont need to create a new one
-            if (!WorldsHandler.worldNameAlreadyExists(info.getName())) {
-                WorldsHandler.makeNewWorld(info);
-            }
-            return info;
         }
+    }
 
-        return null;
+    public WorldInfo getWorldInfo() {
+        if(!worldReady) return null;
+        return worldInfo;
     }
 
     public void closeGame() throws IOException {
         close();
-        info = null;
+        worldInfo = null;
         worldReady = false;
     }
 
     @Override
     public boolean newClientEvent(PlayerSocket client) {
-        System.out.println("New client: " + client.toString());
         if (clientAlreadyJoined(client)) {
             try {
                 client.sendString("You already joined the game!");
@@ -92,8 +97,40 @@ public class GameServer extends Server<PlayerSocket> {
                 if (req.hosting) {
                     client.sendData(player.infoToBytes());
                     System.out.println(GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson());
+
+                    //Send the world info
                     client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
                             GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson()));
+
+                    new Thread(() -> {  //Load every file of the chunk
+                        try {
+                            System.out.println("Loading chunks from " + worldInfo.getDirectory().getAbsolutePath());
+                            for (File f : worldInfo.getDirectory().listFiles()) {
+                                Vector3i coordinates = worldInfo.getPositionOfChunkFile(f);
+                                if (coordinates != null) {
+                                    long lastSaved = ChunkSavingLoadingUtils.getLastSaved(f);
+
+                                    System.out.println("Chunk " + coordinates.x + ", " + coordinates.y + ", " + coordinates.z
+                                            + " Last saved: " + formatTime(lastSaved));
+
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    baos.write(WORLD_CHUNK);
+                                    ByteUtils.writeInt(baos, coordinates.x);
+                                    ByteUtils.writeInt(baos, coordinates.y);
+                                    ByteUtils.writeInt(baos, coordinates.z);
+                                    baos.write(Files.readAllBytes(f.toPath()));
+                                    baos.flush();
+                                    client.sendData(baos.toByteArray());
+
+                                }
+                            }
+                            client.sendData(READY_TO_START);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).start();
+
+
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -117,7 +154,14 @@ public class GameServer extends Server<PlayerSocket> {
 //            printDatafromClient(client, receivedData);
 
             if (receivedData.length > 0) {
-                if (receivedData[0] == PLAYER_INFO) {
+                if (receivedData[0] == READY_TO_START) {
+                    worldReady = true;
+                } else if (receivedData[0] == WORLD_CHUNK) {
+                    System.out.println("Received chunk");
+                    int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+                    int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
+                    int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
+                } else if (receivedData[0] == PLAYER_INFO) {
                     Player player = new Player();
                     player.loadInfoFromBytes(receivedData);
                     client.player = player;
@@ -127,14 +171,16 @@ public class GameServer extends Server<PlayerSocket> {
                     String message = new String(NetworkUtils.getMessage(receivedData));
                     String playerName = client.player == null ? "Unknown" : client.player.name;
                     GameScene.consoleOut(playerName + ":  \"" + message + "\"");
-                } else if (receivedData[0] == WORLD_INFO) {
+                } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
                     String value = new String(NetworkUtils.getMessage(receivedData));
                     String name = value.split("\n")[0];
                     String json = value.split("\n")[1];
-                    info = new WorldInfo();
-                    info.makeNew(name, json);
-                    worldReady = true;
-
+                    WorldInfo hostWorld = new WorldInfo();
+                    hostWorld.makeNew(name, json);
+                    if (!WorldsHandler.worldNameAlreadyExists(hostWorld.getName())) {
+                        WorldsHandler.makeNewWorld(hostWorld);
+                    }
+                    worldInfo = hostWorld;
                 } else if (receivedData[0] == PLAYER_POSITION) {
                     float x = ByteUtils.bytesToFloat(new byte[]{receivedData[1], receivedData[2], receivedData[3], receivedData[4]});
                     float y = ByteUtils.bytesToFloat(new byte[]{receivedData[5], receivedData[6], receivedData[7], receivedData[8]});
@@ -192,34 +238,34 @@ public class GameServer extends Server<PlayerSocket> {
         return null;
     }
 
-    public void sendBlockChange(Vector3i worldPos, Block block, BlockData data) {
-        try {
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();//This is like an arraylist in that it can grow but makes new byte arrays to resize itself or get byte array
-
-            byte[] x = ByteUtils.intToBytes(worldPos.x);
-            byte[] y = ByteUtils.intToBytes(worldPos.y);
-            byte[] z = ByteUtils.intToBytes(worldPos.z);
-            byte[] b = ByteUtils.shortToBytes(block.id);
-            byte[] byteList = new byte[]{
-                    VOXEL_BLOCK_CHANGE,
-                    x[0], x[1], x[2], x[3],
-                    y[0], y[1], y[2], y[3],
-                    z[0], z[1], z[2], z[3],
-                    b[0], b[1]
-            };
-            byte[] blockData = data.toByteArray();
-            byteList = ArrayUtils.concatenateArrays(byteList, blockData);
-
-            //Merge bData and data to
-
-            for (int i = 0; i < clients.size(); i++) {
-                PlayerSocket client = clients.get(i);
-                client.sendData(byteList);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void sendBlockChange(Vector3i worldPos, Block block, BlockData data) {
+//        try {
+////            ByteArrayOutputStream baos = new ByteArrayOutputStream();//This is like an arraylist in that it can grow but makes new byte arrays to resize itself or get byte array
+//
+//            byte[] x = ByteUtils.intToBytes(worldPos.x);
+//            byte[] y = ByteUtils.intToBytes(worldPos.y);
+//            byte[] z = ByteUtils.intToBytes(worldPos.z);
+//            byte[] b = ByteUtils.shortToBytes(block.id);
+//            byte[] byteList = new byte[]{
+//                    VOXEL_BLOCK_CHANGE,
+//                    x[0], x[1], x[2], x[3],
+//                    y[0], y[1], y[2], y[3],
+//                    z[0], z[1], z[2], z[3],
+//                    b[0], b[1]
+//            };
+//            byte[] blockData = data.toByteArray();
+//            byteList = ArrayUtils.concatenateArrays(byteList, blockData);
+//
+//            //Merge bData and data to
+//
+//            for (int i = 0; i < clients.size(); i++) {
+//                PlayerSocket client = clients.get(i);
+//                client.sendData(byteList);
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void sendPlayerPosition(Vector4f orientation) {
         byte[] x = ByteUtils.floatToBytes(orientation.x);

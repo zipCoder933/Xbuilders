@@ -18,21 +18,22 @@ import static com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils.*;
 
 public class ChunkFile_V0 {
 
-    private static void readMetadata(Chunk chunk, InputStream input) throws IOException {
+    public static long readMetadata(InputStream input) throws IOException {
         //We only have METADATA_BYTES bytes of metadata
         int remaining = METADATA_BYTES;
 
-        chunk.lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES));
+        long lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES));
         remaining -= Long.BYTES;
 
         byte[] metadata = input.readNBytes(remaining);//Read the remaining bytes
+        return lastModifiedTime;
     }
 
     static void readChunk(final Chunk chunk, InputStream input) throws IOException {
         AtomicInteger start = new AtomicInteger(0);
         start.set(0);
 
-        readMetadata(chunk, input);
+        chunk.lastModifiedTime = readMetadata(input);
 
         final byte[] bytes = input.readAllBytes();
 

@@ -28,9 +28,7 @@ public class Chunk {
 
     public long lastModifiedTime;
 
-    public String getLastModifiedTime() {
-        return lastModifiedTime == 0 ? "never" : new Date(lastModifiedTime).toString();
-    }
+
 
     /**
      * We dont have to make a needs to be saved call because it wont get saved unless it is owned by the user

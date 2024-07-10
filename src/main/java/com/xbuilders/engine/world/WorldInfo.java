@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 import org.joml.Vector3i;
 
+import static com.xbuilders.engine.utils.MiscUtils.formatTime;
+
 public class WorldInfo {
 
     public final int LATEST_TERRAIN_VERSION = 1;
@@ -34,6 +36,15 @@ public class WorldInfo {
     public File getChunkFile(Vector3i position) {
         return new File(this.directory.getAbsolutePath(), "chunk " + position.x + " " + position.y + " " + position.z);
     }
+
+    public Vector3i getPositionOfChunkFile(File file) {
+        if (file.getName().startsWith("chunk")) {
+            String[] split = file.getName().split(" ");
+            return new Vector3i(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
+        }
+        return null;
+    }
+
 
     public File getDirectory() {
         return this.directory;
@@ -75,7 +86,7 @@ public class WorldInfo {
         return this.infoFile.size;
     }
 
-    public String getLastSaved() {
+    public long getLastSaved() {
         return this.infoFile.lastSaved;
     }
 
@@ -116,8 +127,7 @@ public class WorldInfo {
         if (!getDirectory().exists()) {
             getDirectory().mkdirs();
         }
-        LocalDateTime now = LocalDateTime.now();
-        infoFile.lastSaved = now.format(formatter);
+        infoFile.lastSaved = System.currentTimeMillis();
         String json = gson.toJson(infoFile);
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);
     }
@@ -142,7 +152,7 @@ public class WorldInfo {
         return "Name: " + name + "\n"
                 + "Type: " + infoFile.terrain + "\n"
                 + "Size: " + getSize() + "\n"
-                + "Last saved:\n" + getLastSaved() + "\n"
+                + "Last saved:\n" + formatTime(getLastSaved()) + "\n"
                 + "Seed: " + infoFile.seed;
     }
 
@@ -155,7 +165,7 @@ public class WorldInfo {
         public float spawnY;
         public float spawnZ;
         public int terrainVersion;
-        public String lastSaved;
+        public long lastSaved;
         public String terrain;
         public int seed;
         public HashMap<String, Boolean> terrainOptions = new HashMap<>();
