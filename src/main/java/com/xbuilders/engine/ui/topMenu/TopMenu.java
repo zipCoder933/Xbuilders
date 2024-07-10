@@ -182,7 +182,7 @@ public class TopMenu {
             ArrayList<WorldInfo> worlds = new ArrayList<>();
             WorldsHandler.listWorlds(worlds);
             if (!worlds.isEmpty()) {
-                loadWorld.loadWorld(worlds.get(0));
+                loadWorld.loadWorld(worlds.get(0),null);
             }
         } catch (IOException ex) {
             Logger.getLogger(TopMenu.class.getName()).log(Level.SEVERE, null, ex);

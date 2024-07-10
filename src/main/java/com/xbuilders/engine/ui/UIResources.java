@@ -22,7 +22,7 @@ import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
  */
 public class UIResources {
 
-    public NkUserFont font_24, font_22, font_18, font_12, font_10, font_8, font_6;
+    public NkUserFont font_24, font_22, font_18, font_12, font_10, font_9;
     ByteBuffer fontBuffer;
 
     public UIResources(NKWindow window, NkContext ctx, boolean largerFonts) throws IOException {
@@ -37,11 +37,10 @@ public class UIResources {
         font_18 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 20 : 18);
         font_12 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 14 : 12);
         font_10 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 12 : 10);
-        font_8 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 10 : 8);
-        font_6 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 10 : 6);
+        font_9 = window.TTF_assignToNewTexture(fontBuffer, largerFonts ? 10 : 9);
 
         //VERY IMPORTANT: a font must be specified before anything can be drawn
-        nk_style_set_font(ctx, font_8);
+        nk_style_set_font(ctx, font_9);
         Theme.initialize(ctx);
     }
 }

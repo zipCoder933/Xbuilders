@@ -9,23 +9,13 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.WorldInfo;
-import com.xbuilders.engine.world.WorldsHandler;
-import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
-import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.nuklear.Nuklear;
-import org.lwjgl.system.MathUtil;
 import org.lwjgl.system.MemoryStack;
-
-import java.io.IOException;
-import java.nio.IntBuffer;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -48,18 +38,39 @@ public class PopupMessage {
     UIResources uires;
     NKWindow window;
 
-
+    Runnable confirmationCallback;
     boolean visible = false;
     int boxHeight = 400;
     int boxWidth = 500;
+    final int maxCharactersPerLine = boxWidth / 12;
     NkRect windowDims;
     String title, body;
     long shownTime;
 
-    public void show(String title, String body) {
+    private String maxCharsPerLine(String text, int maxCharactersPerLine) {
+        String[] words = text.split("\\s+");
+        String newText = "";
+        int characterCount = 0;
+        for (int i = 0; i < words.length; i++) {
+            characterCount += words[i].length() + 1;
+            if (characterCount > maxCharactersPerLine) {
+                newText += "\n";
+                characterCount = 0;
+            }
+            newText += words[i] + " ";
+        }
+        return newText;
+    }
+
+    public void message(String title, String body) {
+        message(title, body, null);
+    }
+
+    public void message(String title, String body, Runnable confirmationCallback) {
         this.title = title;
-        this.body = body;
+        this.body = maxCharsPerLine(body, maxCharactersPerLine);
         shownTime = System.currentTimeMillis();
+        this.confirmationCallback = confirmationCallback;
         visible = true;
     }
 
@@ -78,11 +89,13 @@ public class PopupMessage {
             //Detect if the window is in focus
             if (!nk_window_has_focus(ctx)) {
 //                nk_window_set_focus(ctx, tag);
-                if (System.currentTimeMillis() - shownTime > 500) {
+                if (canClose()) {
                     visible = false;
                 }
             }
-            nk_style_set_font(ctx, uires.font_8);
+
+
+            nk_style_set_font(ctx, uires.font_9);
             nk_layout_row_dynamic(ctx, 5, 1);
 
             int height = NKUtils.text(ctx, body, 10, NK_TEXT_ALIGN_LEFT);
@@ -90,13 +103,33 @@ public class PopupMessage {
 
             nk_style_set_font(ctx, uires.font_12);
             nk_layout_row_static(ctx, 20, 1, 1);
-            nk_layout_row_dynamic(ctx, 40, 1);
-            if (nk_button_label(ctx, "OK")) {
-                if (System.currentTimeMillis() - shownTime > 500) {
-                    visible = false;
+
+            if (confirmationCallback != null) {
+                nk_layout_row_dynamic(ctx, 40, 2);
+                if (nk_button_label(ctx, "OK")) {
+                    if (canClose()) {
+                        confirmationCallback.run();
+                        visible = false;
+                    }
+                }
+                if (nk_button_label(ctx, "Cancel")) {
+                    if (canClose()) {
+                        visible = false;
+                    }
+                }
+            } else {
+                nk_layout_row_dynamic(ctx, 40, 1);
+                if (nk_button_label(ctx, "OK")) {
+                    if (canClose()) {
+                        visible = false;
+                    }
                 }
             }
         }
         nk_end(ctx);
+    }
+
+    private boolean canClose() {
+        return System.currentTimeMillis() - shownTime > 500;
     }
 }

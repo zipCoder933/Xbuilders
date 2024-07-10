@@ -9,7 +9,6 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.game.Main;
@@ -43,6 +42,8 @@ public class LoadWorld implements MenuPage {
         this.menu = menu;
         worlds = new ArrayList<>();
 
+        boxHeight = 550;
+        boxWidth = Main.settings.largerUI ? 800 : 700;
 
 //        Texture texture = TextureUtils.loadTexture(ResourceUtils.RESOURCE_DIR + "\\icon.png", false);
 //        image = new NkImage(texture.buffer);
@@ -53,8 +54,8 @@ public class LoadWorld implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     NKWindow window;
-    final int boxWidth = 700;
-    final int boxHeight = 550;
+    int boxWidth;
+    int boxHeight;
     ArrayList<WorldInfo> worlds;
     WorldInfo currentWorld;
 //    NkImage image;
@@ -98,14 +99,14 @@ public class LoadWorld implements MenuPage {
             nk_group_begin(ctx, "Details", NK_WINDOW_TITLE);
 
             if (currentWorld != null) {
-                nk_style_set_font(ctx, menu.uires.font_10);
+                nk_style_set_font(ctx, menu.uires.font_9);
                 NKUtils.text(ctx, currentWorld.getDetails(), 10, NK_TEXT_ALIGN_LEFT);
                 nk_layout_row_static(ctx, 40, 1, 1);
                 nk_layout_row_dynamic(ctx, 40, 1);
 
                 nk_style_set_font(ctx, menu.uires.font_12);
                 if (nk_button_label(ctx, "LOAD WORLD")) {
-                    loadWorld(currentWorld);
+                    loadWorld(currentWorld, null);
                 }
 
                 if (nk_button_label(ctx, "HOST AS MULTIPLAYER")) {
@@ -116,17 +117,9 @@ public class LoadWorld implements MenuPage {
 //                }
 
                 if (nk_button_label(ctx, "DELETE WORLD")) {
-                    try {
-                        WorldsHandler.deleteWorld(currentWorld);
-                    } catch (IOException ex) {
-                        menu.popupMessage.show("Error Deleting World", ex.getMessage());
-                    }
-                    try {
-                        WorldsHandler.listWorlds(worlds);
-                    } catch (IOException ex) {
-                        ErrorHandler.handleFatalError(ex);
-                    }
-                    currentWorld = null;
+                    menu.popupMessage.message("Delete World",
+                            "Are you sure you want to delete " + currentWorld.getName() + "?",
+                            () -> deleteCurrentWorld());
                 }
             }
 
@@ -140,8 +133,30 @@ public class LoadWorld implements MenuPage {
 
     }
 
-    public void loadWorldAsMultiplayer(final WorldInfo world, NetworkJoinRequest req) {
-        ProgressData prog = new ProgressData((req.hosting ? "Hosting" : "Joining")+" Multiplayer World");
+    private void deleteCurrentWorld() {
+        try {
+            WorldsHandler.deleteWorld(currentWorld);
+        } catch (IOException ex) {
+            menu.popupMessage.message("Error Deleting World", ex.getMessage());
+        }
+        try {
+            WorldsHandler.listWorlds(worlds);
+        } catch (IOException ex) {
+            ErrorHandler.handleFatalError(ex);
+        }
+        currentWorld = null;
+    }
+
+    public void loadWorld(final WorldInfo world, NetworkJoinRequest req) {
+
+//        if (world.infoFile.isJoinedMultiplayerWorld) {
+//            menu.popupMessage.message("Denied", "Cannot this world unless it has been joined as a multiplayer world");
+//            return;
+//        }
+
+        String title = "Loading " + world.getName() + "...";
+        ProgressData prog = new ProgressData(title);
+
         Main.gameScene.startGame(world, req, prog);
         menu.progress.enable(prog,
                 () -> {//update
@@ -156,26 +171,5 @@ public class LoadWorld implements MenuPage {
                 });
     }
 
-    public void loadWorld(WorldInfo world) {
-        if(world.infoFile.isJoinedMultiplayerWorld){
-            menu.popupMessage.show("Can't Load World Locally",
-                    "You can only join this world if you are\n" +
-                            "connected to a multiplayer server");
-            return;
-        }
-        ProgressData prog = new ProgressData("Loading world");
-        Main.gameScene.startGame(world, null, prog);
-        menu.progress.enable(prog,
-                () -> {//update
-                    Main.gameScene.newGameUpdate();
-                },
-                () -> {//finished
-                    Main.goToGamePage();
-                    menu.setPage(Page.HOME);
-                },
-                () -> {//canceled
-                    System.out.println("Canceled");
-                });
-    }
 
 }

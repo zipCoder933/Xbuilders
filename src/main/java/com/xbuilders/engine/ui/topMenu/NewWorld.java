@@ -25,7 +25,6 @@ import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
 
 import static org.lwjgl.nuklear.Nuklear.*;
-import static org.lwjgl.system.MemoryStack.*;
 
 /**
  * Java port of
@@ -114,11 +113,11 @@ public class NewWorld implements MenuPage {
             WorldInfo info = new WorldInfo();
             info.makeNew(name, size, terrain, seed);
             if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
-                menu.popupMessage.show("Error", "World name \"" + info.getName() + "\" Already exists!");
+                menu.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
                 return false;
             } else WorldsHandler.makeNewWorld(info);
         } catch (IOException ex) {
-            menu.popupMessage.show("Error", ex.getMessage());
+            menu.popupMessage.message("Error", ex.getMessage());
             return false;
         }
         return true;

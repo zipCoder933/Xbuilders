@@ -197,7 +197,7 @@ public class GameServer extends Server<PlayerSocket> {
                     String name = value.split("\n")[0];
                     String json = value.split("\n")[1];
                     WorldInfo hostWorld = new WorldInfo();
-                    name = "JOINED_MULTIPLAYER_WORLD__" + name;
+                    name = "JOINED_" + name;
                     hostWorld.makeNew(name, json);
                     
 //                    //Does this already exist?

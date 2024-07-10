@@ -18,7 +18,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -64,7 +63,7 @@ public class InfoText extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
-        nk_style_set_font(ctx, uires.font_8);
+        nk_style_set_font(ctx, uires.font_9);
 
         if (commandMode) {
             commandRect.x(sidePadding);

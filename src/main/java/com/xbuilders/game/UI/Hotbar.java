@@ -67,7 +67,7 @@ public class Hotbar extends GameUIElement {
         ctx.style().button().normal().data().color().set(Theme.transparent);
         ctx.style().window().border_color().set(Theme.transparent);
         ctx.style().button().padding().set(0, 0);
-        nk_style_set_font(ctx, uires.font_8);
+        nk_style_set_font(ctx, uires.font_9);
 
         // <editor-fold defaultstate="collapsed" desc="Draw title text">
         nk_rect(

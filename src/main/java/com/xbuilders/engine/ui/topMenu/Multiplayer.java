@@ -9,10 +9,8 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.WorldInfo;
-import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
@@ -20,8 +18,6 @@ import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.IntBuffer;
 
 import org.lwjgl.nuklear.*;
@@ -129,7 +125,7 @@ public class Multiplayer implements MenuPage {
 
                 NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, playerName, ipAdress);
                 System.out.println(req.toString());
-                loadWorld.loadWorldAsMultiplayer(loadWorld.currentWorld, req);
+                loadWorld.loadWorld(loadWorld.currentWorld, req);
             }
         }
         nk_end(ctx);

@@ -10,20 +10,14 @@ package com.xbuilders.engine.ui.topMenu;
  */
 
 import com.xbuilders.engine.ui.Page;
-import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
 
 import java.nio.*;
-import java.text.*;
-
-import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.nuklear.Nuklear.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 /**
  * Java port of
@@ -52,7 +46,7 @@ public class MenuHome implements MenuPage {
                 boxWidth, boxHeight, rect);
 
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-            nk_style_set_font(ctx, menu.uires.font_8);
+            nk_style_set_font(ctx, menu.uires.font_9);
             nk_layout_row_dynamic(ctx, 40, 1);
             nk_label(ctx, "Devmode: " + Main.devMode, NK_TEXT_CENTERED);
 

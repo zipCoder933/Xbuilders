@@ -128,12 +128,16 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
 
     public void close() throws IOException {
         for (ClientSocket client : clients) {
-            client.close();
+            if (client != null) client.close();
         }
         clients.clear();
-        if(clientThread != null) clientThread.interrupt();
+        if (clientThread != null) clientThread.interrupt();
         clientThread = null;
-        serverSocket.close();
+        if (serverSocket != null) serverSocket.close();
+    }
+
+    public boolean isStarted() {
+        return serverSocket != null;
     }
 
     public boolean clientAlreadyJoined(ClientSocket newClient) {

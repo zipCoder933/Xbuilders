@@ -178,7 +178,7 @@ public class Inventory extends GameUIElement {
             Theme.resetEntireButtonStyle(ctx);
             Theme.resetWindowColor(ctx);
             Theme.resetWindowPadding(ctx);
-            nk_style_set_font(ctx, uires.font_8);
+            nk_style_set_font(ctx, uires.font_9);
 
             nk_rect(
                     window.getWidth() / 2 - (menuWidth / 2),
