@@ -57,6 +57,7 @@ public class Multiplayer implements MenuPage {
         fromPortBox = new NumberBox(4, 0);
         nameBox = new TextBox(20);
         ipAdressBox = new TextBox(20);
+        fromPortBox.setValueAsNumber(8080);
         this.player = player;
         this.hosting = hosting;
     }
@@ -152,78 +153,5 @@ public class Multiplayer implements MenuPage {
 //        Nuklear.nk_layout_
         nk_label(ctx, text, NK_TEXT_ALIGN_LEFT);
     }
-
-    final byte WORLD_INFO = 0;
-
-    protected static WorldInfo loadWorldInfo(String data) throws IOException {
-        String[] dataStr = data.split("\n");
-        String name = dataStr[0];
-        String json = dataStr[1];
-
-        WorldInfo info = new WorldInfo();
-        File worldFile = WorldsHandler.worldFile(name);
-        if (worldFile.exists()) {
-            info.load(worldFile);
-        } else {
-            info.makeNew(name, json);
-            info.save();
-        }
-        return info;
-    }
-
-    protected static boolean hasWorld(String data) throws IOException {
-        String[] dataStr = data.split("\n");
-        String name = dataStr[0];
-        File worldFile = WorldsHandler.worldFile(name);
-        return worldFile.exists();
-    }
-
-//    private void joinMultiplayer(boolean hosting, int portVal, String playerName, String ipAdress) {
-//        //TODO: Make a network request object containing all of this info
-//     new NetworkJoinRequest(hosting, portVal, playerName, ipAdress);
-////        ProgressData prog = new ProgressData(this.hosting ? "Hosting multiplayer at " + player.server.getIpAdress() : "Joining multiplayer...");
-////        try {
-////            player.name = playerName;
-////            player.saveModel();
-////
-////            menu.progress.enableOnSeparateThread(prog, new Thread() {
-////                public void run() {
-////                    try {
-////                        if (Multiplayer.this.hosting) {
-////                            prog.setTask("Waiting for clients to join...");
-////                            player.server.hostGame(portVal);
-////                            player.server.clientJoinedEvent(((newClient, newPlayer) -> {
-////                                if (Multiplayer.this.hosting) {
-////                                    String worldInfo = world.getName() + "\n" + world.getInfoFileAsJson();
-////                                    newClient.sendData(NetworkUtils.formatMessage(WORLD_INFO, worldInfo));
-////                                }
-////                            }));
-////                            player.server.clientDataEvent((client, player, header, data) -> {
-////
-////                            });
-////                        } else {
-////                            player.server.connectToGame(ipAdress, portVal);
-////                            player.server.clientJoinedEvent(((newClient, newPlayer) -> {
-////                            }));
-////                            player.server.clientDataEvent((client, player, header, data) -> {
-////                                String message = NetworkUtils.getMessageAsString(data);
-////                                prog.setTask("Message from server: " + message);
-////                                if (header == WORLD_INFO) {
-//////                                    WorldInfo newWorld =
-//////                                    WorldsHandler.makeNewWorld(newWorld);
-////                                }
-////                            });
-////                        }
-////                    } catch (Exception ex) {
-////                        prog.abort();
-////                        ErrorHandler.handleFatalError(ex);
-////                    }
-////                }
-////            });
-////        } catch (IOException ex) {
-////            prog.abort();
-////            ErrorHandler.handleFatalError(ex);
-////        }
-//    }
 
 }

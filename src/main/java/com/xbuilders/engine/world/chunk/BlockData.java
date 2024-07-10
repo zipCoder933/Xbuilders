@@ -4,12 +4,8 @@
  */
 package com.xbuilders.engine.world.chunk;
 
-import org.lwjgl.system.MemoryUtil;
-
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -93,9 +89,9 @@ public class BlockData {
 
     public void write(final OutputStream out) throws IOException {
         out.write(buff);
-//        for (int i = 0; i < size(); i++) {
-//            byte b = get(i);
-//            out.write(b);
-//        }
+    }
+
+    public byte[] toByteArray() {
+        return buff;
     }
 }

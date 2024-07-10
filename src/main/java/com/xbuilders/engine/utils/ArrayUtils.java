@@ -66,5 +66,11 @@ public class ArrayUtils {
         return concatenatedArray;
     }
 
+    public static byte[] concatenateArrays(byte[] array1, byte[] array2) {
+        byte[] concatenatedArray = Arrays.copyOf(array1, array1.length + array2.length);
+        System.arraycopy(array2, 0, concatenatedArray, array1.length, array2.length);
+        return concatenatedArray;
+    }
+
  
 }

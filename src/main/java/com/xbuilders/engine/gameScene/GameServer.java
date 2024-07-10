@@ -1,16 +1,21 @@
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
+import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
 import com.xbuilders.engine.utils.network.server.Server;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
+import com.xbuilders.engine.world.chunk.BlockData;
+import org.joml.Vector3i;
 import org.joml.Vector4f;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
@@ -21,6 +26,8 @@ public class GameServer extends Server<PlayerSocket> {
     public static final byte WORLD_INFO = -127;
     public static final byte PLAYER_POSITION = -126;
     public static final byte PLAYER_CHAT = -125;
+    public static final byte VOXEL_BLOCK_CHANGE = -124;
+    public static final byte VOXEL_LIGHT_CHANGE = -122;
 
     NetworkJoinRequest req;
     UserControlledPlayer player;
@@ -133,10 +140,19 @@ public class GameServer extends Server<PlayerSocket> {
                     float y = ByteUtils.bytesToFloat(new byte[]{receivedData[5], receivedData[6], receivedData[7], receivedData[8]});
                     float z = ByteUtils.bytesToFloat(new byte[]{receivedData[9], receivedData[10], receivedData[11], receivedData[12]});
                     float w = ByteUtils.bytesToFloat(new byte[]{receivedData[13], receivedData[14], receivedData[15], receivedData[16]});
-                    System.out.println("Player position: " + x + " " + y + " " + z + " " + w);
+//                    System.out.println("Player position: " + x + " " + y + " " + z + " " + w);
                     client.player.worldPosition.set(x, y, z);
                     client.player.pan = (w);
                 }
+//                else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
+//                    int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+//                    int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
+//                    int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
+//                    int w = ByteUtils.bytesToShort(receivedData[13], receivedData[14]);
+////                    System.out.println("Player position: " + x + " " + y + " " + z + " " + w);
+//                    client.player.worldPosition.set(x, y, z);
+//                    client.player.pan = (w);
+//                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -174,6 +190,35 @@ public class GameServer extends Server<PlayerSocket> {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public void sendBlockChange(Vector3i worldPos, Block block, BlockData data) {
+        try {
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();//This is like an arraylist in that it can grow but makes new byte arrays to resize itself or get byte array
+
+            byte[] x = ByteUtils.intToBytes(worldPos.x);
+            byte[] y = ByteUtils.intToBytes(worldPos.y);
+            byte[] z = ByteUtils.intToBytes(worldPos.z);
+            byte[] b = ByteUtils.shortToBytes(block.id);
+            byte[] byteList = new byte[]{
+                    VOXEL_BLOCK_CHANGE,
+                    x[0], x[1], x[2], x[3],
+                    y[0], y[1], y[2], y[3],
+                    z[0], z[1], z[2], z[3],
+                    b[0], b[1]
+            };
+            byte[] blockData = data.toByteArray();
+            byteList = ArrayUtils.concatenateArrays(byteList, blockData);
+
+            //Merge bData and data to
+
+            for (int i = 0; i < clients.size(); i++) {
+                PlayerSocket client = clients.get(i);
+                client.sendData(byteList);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void sendPlayerPosition(Vector4f orientation) {

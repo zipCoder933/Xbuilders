@@ -96,21 +96,29 @@ public class GameScene implements WindowEvents {
         commandHelp = new HashMap<>();
         commandHelp.put("msg", "Usage: msg <player> <message>");
         commandHelp.put("help", "Usage: help <command>");
+        commandHelp.put("listPlayers", "Lists all connected players");
         commandHelp.put("goto", "Usage: goto <player>");
-        commandHelp.putAll(game.commandHelp);
+        if (game.getCommandHelp() != null) commandHelp.putAll(game.getCommandHelp());
     }
 
     public static String handleGameCommand(String command) {
         String[] parts = splitWhitespacePreserveQuotes(command);
         System.out.println("handleGameCommand: " + Arrays.toString(parts));
         if (parts.length > 0) {
-            switch (parts[0]) {
+            switch (parts[0].toLowerCase()) {
                 case "help" -> {
                     String out = "Available commands:\n";
                     for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
                         out += entry.getKey() + "      " + entry.getValue() + "\n";
                     }
                     return out;
+                }
+                case "listplayers" -> {
+                    String str = "" + server.clients.size() + " players:\n";
+                    for (PlayerSocket client : server.clients) {
+                        if (client.player != null) str += client.player.name + "\n";
+                    }
+                    return str;
                 }
                 case "msg" -> {
                     if (parts.length > 2) {

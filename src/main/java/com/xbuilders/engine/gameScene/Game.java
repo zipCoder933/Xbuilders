@@ -37,7 +37,7 @@ public abstract class Game {
         public Skin get(Player player);
     }
 
-    public Map<String, String> commandHelp = new HashMap<>();
+
     long lastSaved;
 
 
@@ -91,7 +91,7 @@ public abstract class Game {
 
     public abstract boolean uiMouseButtonEvent(int button, int action, int mods);
 
-    public String handleCommand(String[] parts) {
-        return null;
-    }
+    public abstract String handleCommand(String[] parts);
+
+    public abstract Map<String, String> getCommandHelp();
 }

@@ -36,7 +36,7 @@ public class UserControlledPlayer extends Player {
     final Vector4f lastOrientation = new Vector4f();
 
     final static float FLY_SPEED = 12f;
-    final float DEFAULT_SPEED = 10f;
+    final float DEFAULT_SPEED = 9f;
     final float RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     public float getPan() {

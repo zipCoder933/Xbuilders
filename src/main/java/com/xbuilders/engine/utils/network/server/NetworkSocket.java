@@ -6,6 +6,7 @@ package com.xbuilders.engine.utils.network.server;
 
 import com.xbuilders.engine.player.Player;
 
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
- *
  * @author zipCoder933
  */
 public class NetworkSocket {
@@ -23,6 +23,7 @@ public class NetworkSocket {
         this.fakeHostAddress = null;
         outputStream = new DataOutputStream(socket.getOutputStream());
         inputStream = new DataInputStream(socket.getInputStream());
+        buffOutputStream = new BufferedOutputStream(outputStream);
         return this;
     }
 
@@ -32,9 +33,21 @@ public class NetworkSocket {
         this.fakeHostAddress = null;
         outputStream = new DataOutputStream(socket.getOutputStream());
         inputStream = new DataInputStream(socket.getInputStream());
+        buffOutputStream = new BufferedOutputStream(outputStream);
         return this;
     }
+
     private Socket socket;
+
+    /**
+     * Here are a few reasons why using a BufferedOutputStream can be beneficial for performance:
+     * <p>
+     * Reduced System Calls: BufferedOutputStream reduces the number of system calls by buffering data in memory before writing it to the underlying output stream. This can be more efficient, especially when dealing with small writes.
+     * Batch Writing: BufferedOutputStream allows you to batch multiple writes together before flushing the data to the underlying stream. This can improve performance by reducing the overhead of individual write operations.
+     * Controlled Flushing: You have control over when the data is actually written to the underlying stream by explicitly calling flush() or when the buffer is full.
+     * In general, if you are writing small chunks of data frequently, wrapping a DataOutputStream in a BufferedOutputStream can provide performance benefits.
+     */
+    public BufferedOutputStream buffOutputStream;
     public DataOutputStream outputStream;
     public DataInputStream inputStream;
     private String fakeHostAddress;
@@ -95,6 +108,15 @@ public class NetworkSocket {
     }
 
     public void sendData(byte[] data) throws IOException {
+        /**
+         * While it's not strictly required in all cases,
+         * especially if you have a fixed-size message
+         * format or are using a protocol that handles
+         * message framing differently, sending the
+         * length of the data before the actual data is a good
+         * practice to ensure reliable and predictable
+         * communication between the sender and receiver.
+         */
         outputStream.writeInt(data.length);
         outputStream.write(data);
     }

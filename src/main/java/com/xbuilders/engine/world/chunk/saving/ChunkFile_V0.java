@@ -74,9 +74,9 @@ public class ChunkFile_V0 {
 
 
     private static Vector3f readChunkVoxelCoords(AtomicInteger start, byte[] bytes) {
-        float x = readShort(bytes[start.get()], bytes[start.get() + 1]);
-        float y = readShort(bytes[start.get() + 2], bytes[start.get() + 3]);
-        float z = readShort(bytes[start.get() + 4], bytes[start.get() + 5]);
+        float x = bytesToShort(bytes[start.get()], bytes[start.get() + 1]);
+        float y = bytesToShort(bytes[start.get() + 2], bytes[start.get() + 3]);
+        float z = bytesToShort(bytes[start.get() + 4], bytes[start.get() + 5]);
         x = x / maxMult16bits;
         y = y / maxMult16bits;
         z = z / maxMult16bits;
@@ -87,7 +87,7 @@ public class ChunkFile_V0 {
 
     protected static Entity readEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
 //        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
-        final short entityID = (short) readShort(bytes[start.get() + 1], bytes[start.get() + 2]);
+        final short entityID = (short) bytesToShort(bytes[start.get() + 1], bytes[start.get() + 2]);
         EntityLink link = ItemList.getEntity(entityID);
         start.set(start.get() + 3);
 
@@ -125,7 +125,7 @@ public class ChunkFile_V0 {
         //Read light
         chunk.data.setPackedLight(x, y, z, bytes[start.get() + 1]);
         //Read block id
-        final short blockID = (short) readShort(bytes[start.get() + 2], bytes[start.get() + 3]);
+        final short blockID = (short) bytesToShort(bytes[start.get() + 2], bytes[start.get() + 3]);
         chunk.data.setBlock(x, y, z, blockID);
         start.set(start.get() + 4);
 

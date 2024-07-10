@@ -64,17 +64,21 @@ public class MyGame extends Game {
     public MyGame() {
         availableSkins = new ArrayList<>();
         availableSkins.add((p) -> new FoxSkin(p));
-
         json = new JsonManager();
-        commandHelp.put("send", "Used to send clipboard");
+    }
+
+    public HashMap<String, String> getCommandHelp() {
+        HashMap<String, String> commandHelp = new HashMap<>();
+//        commandHelp.put("send", "send clipboard");
+        return commandHelp;
     }
 
     @Override
     public String handleCommand(String[] parts) {
-        if(parts[0].equals("send")) {
-//            PasteTool.clipboard.toBytes();
-            return "Clipboard: ";
-        }
+//        if (parts[0].equals("send")) {
+////            PasteTool.clipboard.toBytes();
+//            return "Clipboard: ";
+//        }
         return null;
     }
 
@@ -315,7 +319,6 @@ public class MyGame extends Game {
 
     @Override
     public void initialize(NKWindow window) throws Exception {
-
 
 
         //Add block types FIRST. We need them to be able to setup blocks properly

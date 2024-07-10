@@ -417,7 +417,6 @@ public class MinecartEntityLink extends EntityLink {
                         goForward(speed);
 
                         if (getNearestTrackPiece(pos.x, pos.y, pos.z) == null) {
-                            GameScene.alert("Minecart has gone off track!");
                             onTrack = false;
                         }
                     }

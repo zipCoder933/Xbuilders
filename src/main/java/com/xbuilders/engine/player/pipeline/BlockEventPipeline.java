@@ -125,6 +125,15 @@ public class BlockEventPipeline {
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
             if (!blockHist.previousBlock.equals(blockHist.currentBlock)) { //If the 2 blocks are different
+                //Send the block to the client
+
+                /**
+                 * A few problems:
+                 * 1. How to se know that a block has changed by us or someone else
+                 * 2.
+                 */
+//                GameScene.server.sendBlockChange(worldPos, blockHist.currentBlock, blockHist.data);
+
                 BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);
                 if (type == null) return;
 
