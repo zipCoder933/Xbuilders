@@ -10,8 +10,10 @@ import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
+import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 
 import java.io.IOException;
@@ -25,6 +27,7 @@ import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.nuklear.Nuklear;
 
 import org.lwjgl.system.MemoryStack;
@@ -34,7 +37,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 /**
  * @author zipCoder933
  */
-public class Inventory extends GameUIElement {
+public class Inventory extends GameUIElement implements WindowEvents {
 
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
@@ -210,13 +213,17 @@ public class Inventory extends GameUIElement {
         }
     }
 
+    int scrollValue = 0;
+    int totalRows = 0;
+
     private void inventoryGroup(MemoryStack stack) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE)) {
-
-
-            drawScrollBar(stack);
-
+//            Nuklear.nk_slider_float(ctx, 0.0f, floatValue, 1.0f, 0.1f);
+//            System.out.println(floatValue[0]);
+//            scrollValue = (int) (Math.sin(System.currentTimeMillis()*0.01) * 10)+10;
+            clampScroll();
+            Nuklear.nk_group_set_scroll(ctx, WINDOW_TITLE, 0, scrollValue);
 
             String searchCriteria = searchBox.getValueAsString();
             if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
@@ -225,6 +232,7 @@ public class Inventory extends GameUIElement {
                 searchCriteria = searchCriteria.toLowerCase();
 
             int itemID = 0;
+            int rowsTemp = 0;
             rows:
             while (true) {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);// row
@@ -247,42 +255,11 @@ public class Inventory extends GameUIElement {
                     }
                     itemID++;
                 }
+                rowsTemp++;
             }
-
+            totalRows = rowsTemp;
         }
         Nuklear.nk_group_end(ctx);
-    }
-
-    private void drawScrollBar(MemoryStack stack) {
-//        Nuklear.nnk_group_scrolled_offset_begin(ctx, scrollY); //TODO: Study how to increase scrolling speed or add a scrollbar
-//
-//        int contentHeight = itemListHeight;
-//        int windowHeight = window.getHeight();
-//        // Enable a scrolling region
-//        Nuklear.nk_group_begin(ctx, "ScrollingRegion", NK_WINDOW_BORDER);
-//        Nuklear.nk_layout_row_dynamic(ctx, contentHeight, 1);
-//
-//        // Render content that exceeds windowHeight here
-//
-//        // Example of a scrollbar (you need to implement this)
-//        float scrollY = 0.0f; // Vertical scroll position (should be dynamic)
-//        float scrollBarHeight = windowHeight; // Height of the scrollbar
-//
-//        Nuklear.nk_layout_row_begin(ctx, NK_STATIC, scrollBarHeight, 2);
-//        Nuklear.nk_layout_row_push(ctx, 0.85f);
-//
-////        // Example of rendering a basic scrollbar
-////        Nuklear.nk_style_set_color(ctx, Nuklear.NK_COLOR_SCROLLBAR, nk_rgb(150, 150, 150));
-////        Nuklear.nk_style_set_color(ctx, Nuklear.NK_COLOR_SCROLLBAR_CURSOR, nk_rgb(180, 180, 180));
-//
-//        float[] value = new float[]{scrollY};
-//
-//        if (Nuklear.nk_slider_float(ctx, 0, value, 100, 0.1f)) {
-//            scrollY = Nuklear.nk_slide_float(ctx, 0, scrollY, contentHeight - windowHeight, 1.0f);
-//        }
-//        Nuklear.nk_layout_row_end(ctx);
-//
-//        Nuklear.nk_group_end(ctx);
     }
 
     private void backpackGroup() {
@@ -370,8 +347,14 @@ public class Inventory extends GameUIElement {
         }
     }
 
+    @Override
+    public void windowResizeEvent(int width, int height) {
+
+    }
+
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
+            System.out.println(key);
             switch (key) {
                 case KEY_OPEN_INVENTORY -> {
                     if (isOpen()) {
@@ -387,5 +370,26 @@ public class Inventory extends GameUIElement {
             }
         }
         return false;
+    }
+
+    @Override
+    public void mouseButtonEvent(int button, int action, int mods) {
+
+    }
+
+    @Override
+    public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        scrollValue -= buttonWidthPlusPadding() * yoffset;
+        clampScroll();
+    }
+
+    private float buttonWidthPlusPadding() {
+        return buttonWidth.height + buttonWidth.paddingY;
+    }
+
+    private void clampScroll() {
+        scrollValue = (int) MathUtils.clamp(scrollValue, 0,
+                (buttonWidthPlusPadding() * totalRows) +
+                        (buttonWidth.width * 3));
     }
 }

@@ -6,6 +6,7 @@ package com.xbuilders.window.nuklear;
 
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
@@ -16,10 +17,15 @@ import org.lwjgl.system.MemoryStack;
 public class WidgetWidthMeasurement {
 
     public float width;
+    public float height;
+    public float paddingX, paddingY;
     private boolean calibrated;
 
     public WidgetWidthMeasurement(float initialValue) {
         width = initialValue;
+        height = initialValue;
+        paddingX = 0;
+        paddingY = 0;
         calibrated = false;
     }
 
@@ -36,7 +42,15 @@ public class WidgetWidthMeasurement {
             calibrated = true;
             NkRect bounds = NkRect.malloc(stack);
             NkRect nk_widget_bounds = Nuklear.nk_widget_bounds(ctx, bounds);
+            NkVec2 padding = NkVec2.malloc(stack);
+
             width = nk_widget_bounds.w();
+            height = nk_widget_bounds.h();
+
+            Nuklear.nk_widget_fitting(nk_widget_bounds,ctx,padding);
+            paddingX = padding.x();
+            paddingY = padding.y();
+
 //            System.out.println("Calibrating: "+width);
         }
     }

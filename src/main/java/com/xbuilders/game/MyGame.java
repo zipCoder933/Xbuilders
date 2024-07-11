@@ -141,7 +141,9 @@ public class MyGame extends Game {
 
     @Override
     public boolean uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (!inventory.isOpen()) {
+        if (inventory.isOpen()) {
+            inventory.mouseScrollEvent(scroll, xoffset, yoffset);
+        } else {
             if (!blockTools.mouseScrollEvent(scroll, xoffset, yoffset)) {
                 hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
             }

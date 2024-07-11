@@ -52,7 +52,7 @@ public abstract class Terrain {
 
     public class GenSession {
 
-        public final HashSet<Chunk> modifiedMeshedChunks = new HashSet<>();
+//        public final HashSet<Chunk> modifiedMeshedChunks = new HashSet<>();
         public final Random random = new Random();
         public final Chunk homeChunk;
         public boolean generatedOutsideOfChunk = false;
@@ -76,9 +76,9 @@ public abstract class Terrain {
 
         public void setBlockWorld(int x, int y, int z, short block) {
             Chunk chunk = GameScene.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
-            if (chunk != null && !homeChunk.position.equals(chunk.position)) {
-                modifiedMeshedChunks.add(chunk);
-            }
+//            if (chunk != null && !homeChunk.position.equals(chunk.position)) {
+//                modifiedMeshedChunks.add(chunk);
+//            }
         }
     }
 

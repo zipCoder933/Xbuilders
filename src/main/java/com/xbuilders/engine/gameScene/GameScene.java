@@ -336,7 +336,7 @@ public class GameScene implements WindowEvents {
                 0.1f, 10000.0f); //display range (clipping planes)
     }
 
-    public void keyEvent(int key, int scancode, int action, int mods) {
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (ui.keyEvent(key, scancode, action, mods)) {
         } else {
             player.keyEvent(key, scancode, action, mods);
@@ -348,18 +348,19 @@ public class GameScene implements WindowEvents {
                 case GLFW.GLFW_KEY_F5 -> drawWireframe = !drawWireframe;
             }
         }
+        return true;
     }
 
     public void mouseButtonEvent(int button, int action, int mods) {
         ui.mouseButtonEvent(button, action, mods);
-        if (!ui.menusAreOpen()) {
+        if (!ui.allMenusAreOpen()) {
             player.mouseButtonEvent(button, action, mods);
         }
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         boolean letUIHandleScroll = true;
-        if (!ui.menusAreOpen()) {
+        if (!ui.allMenusAreOpen()) {
             letUIHandleScroll = !player.mouseScrollEvent(scroll, xoffset, yoffset);
         }
         if (letUIHandleScroll) ui.mouseScrollEvent(scroll, xoffset, yoffset);
