@@ -451,7 +451,7 @@
         "type": 0
     },
     {
-        "name": "Jungle Planks",
+        "name": "Jungle Wood",
         "id": 30,
         "texture": {
             "neg_y": "jungle planks",
@@ -467,7 +467,7 @@
         "type": 0
     },
     {
-        "name": "Jungle Planks Slab",
+        "name": "Jungle Wood Slab",
         "id": 31,
         "texture": {
             "neg_y": "jungle planks",
@@ -483,7 +483,7 @@
         "type": 4
     },
     {
-        "name": "Jungle Planks Stairs",
+        "name": "Jungle Wood Stairs",
         "id": 32,
         "texture": {
             "neg_y": "jungle planks",
@@ -853,7 +853,7 @@
         "type": 0
     },
     {
-        "name": "Spruce Planks",
+        "name": "Spruce Wood",
         "id": 57,
         "texture": {
             "neg_y": "spruce planks",
@@ -949,7 +949,7 @@
         "type": 1
     },
     {
-        "name": "Acacia Planks",
+        "name": "Acacia Wood",
         "id": 63,
         "texture": {
             "neg_y": "acacia planks",
@@ -1959,7 +1959,7 @@
         "type": 0
     },
     {
-        "name": "Birch Planks",
+        "name": "Birch Wood",
         "id": 128,
         "texture": {
             "neg_y": "bookshelf",
@@ -1991,7 +1991,7 @@
         "type": 0
     },
     {
-        "name": "Oak Planks",
+        "name": "Oak Wood",
         "id": 130,
         "texture": {
             "neg_y": "oak planks",
@@ -3032,7 +3032,7 @@
         "type": 6
     },
     {
-        "name": "Birch Planks Stairs",
+        "name": "Birch Wood Stairs",
         "id": 196,
         "texture": {
             "neg_y": "bookshelf",
@@ -3048,7 +3048,7 @@
         "type": 5
     },
     {
-        "name": "Oak Planks Stairs",
+        "name": "Oak Wood Stairs",
         "id": 197,
         "texture": {
             "neg_y": "oak planks",
@@ -3064,7 +3064,7 @@
         "type": 5
     },
     {
-        "name": "Dark Oak Planks Stairs",
+        "name": "Dark Oak Wood Stairs",
         "id": 198,
         "texture": {
             "neg_y": "spruce planks",
@@ -3176,7 +3176,7 @@
         "type": 5
     },
     {
-        "name": "Birch Planks Slab",
+        "name": "Birch Wood Slab",
         "id": 205,
         "texture": {
             "neg_y": "bookshelf",
@@ -3192,7 +3192,7 @@
         "type": 4
     },
     {
-        "name": "Oak Planks Slab",
+        "name": "Oak Wood Slab",
         "id": 206,
         "texture": {
             "neg_y": "oak planks",
@@ -3208,7 +3208,7 @@
         "type": 4
     },
     {
-        "name": "Dark Oak Planks Slab",
+        "name": "Dark Oak Wood Slab",
         "id": 207,
         "texture": {
             "neg_y": "spruce planks",
@@ -3836,7 +3836,7 @@
         "type": 6
     },
     {
-        "name": "Acacia Planks Stairs",
+        "name": "Acacia Wood Stairs",
         "id": 250,
         "texture": {
             "neg_y": "acacia planks",
@@ -3852,7 +3852,7 @@
         "type": 5
     },
     {
-        "name": "Acacia Planks Slab",
+        "name": "Acacia Wood Slab",
         "id": 251,
         "texture": {
             "neg_y": "acacia planks",

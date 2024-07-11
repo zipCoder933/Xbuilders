@@ -48,8 +48,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
         this.playerInfo = playerInfo;
     }
 
-    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, UIResources uires,
-                     Hotbar hotbar) throws IOException {
+    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, UIResources uires, Hotbar hotbar) throws IOException {
         super(ctx, window, uires);
         this.hotbar = hotbar;
         setItemList(itemList);
@@ -57,7 +56,11 @@ public class Inventory extends GameUIElement implements WindowEvents {
         searchBox = new TextBox(25);
         searchBox.setOnSelectEvent(() -> {
             searchBox.setValueAsString("");
+            scrollValue = 0;
         });
+//        searchBox.setOnChangeEvent(() -> {
+//            scrollValue = 0;
+//        });
 
         // We have to create the window initially
         nk_begin(ctx, WINDOW_TITLE, NkRect.create(), windowFlags);
@@ -70,8 +73,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
         // Only keep items that are visible
         for (int i = 0; i < itemList.length; i++) {
-            if (itemList[i] == null || !isVisible(itemList[i]))
-                continue;
+            if (itemList[i] == null || !isVisible(itemList[i])) continue;
             items.add(itemList[i]);
         }
 
@@ -114,8 +116,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                         if (b1.type == b2.type) {
                             // System.out.println("Same block: " + b1.type);
                             return 0;
-                        } else
-                            return b1.type > b2.type ? 1 : -1;
+                        } else return b1.type > b2.type ? 1 : -1;
                     }
                 }
 
@@ -138,8 +139,9 @@ public class Inventory extends GameUIElement implements WindowEvents {
     };
 
     final int menuWidth = 700;
-    final int menuHeight = 550;
-    final int itemListHeight = 250;
+    final int menuHeight = 600;
+    final int itemListHeight = 300;
+    final int minRows = 3;
     final int backpackMenuSize = menuHeight; // Its ok since this is the last row
     final int maxColumns = 11;
     Hotbar hotbar;
@@ -183,10 +185,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
             Theme.resetWindowPadding(ctx);
             nk_style_set_font(ctx, uires.font_9);
 
-            nk_rect(
-                    window.getWidth() / 2 - (menuWidth / 2),
-                    window.getHeight() / 2 - (menuHeight / 2),
-                    menuWidth, menuHeight, windowDims2);
+            nk_rect(window.getWidth() / 2 - (menuWidth / 2), window.getHeight() / 2 - (menuHeight / 2), menuWidth, menuHeight, windowDims2);
 
             if (nk_begin(ctx, WINDOW_TITLE, windowDims2, windowFlags)) {
                 nk_layout_row_dynamic(ctx, 20, 1);
@@ -228,8 +227,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
             String searchCriteria = searchBox.getValueAsString();
             if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
                 searchCriteria = null;
-            } else
-                searchCriteria = searchCriteria.toLowerCase();
+            } else searchCriteria = searchCriteria.toLowerCase();
 
             int itemID = 0;
             int rowsTemp = 0;
@@ -237,6 +235,8 @@ public class Inventory extends GameUIElement implements WindowEvents {
             while (true) {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);// row
                 cols:
+                rowsTemp++;
+
                 for (int column = 0; column < maxColumns; ) {
                     if (itemID >= itemList.length) {
                         break rows;
@@ -255,7 +255,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                     }
                     itemID++;
                 }
-                rowsTemp++;
+
             }
             totalRows = rowsTemp;
         }
@@ -289,6 +289,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
                     if (itemID == hotbar.getSelectedItemIndex()) {
                         ctx.style().button().border_color().set(Theme.white);
+
                     } else {
                         ctx.style().button().border_color().set(Theme.blue);
                     }
@@ -327,8 +328,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     private boolean matchesSearch(Item item, String searchCriteria) {
-        return searchCriteria == null || item.name == null ||
-                item.name.toLowerCase().contains(searchCriteria);
+        return searchCriteria == null || item.name == null || item.name.toLowerCase().contains(searchCriteria);
     }
 
     private void addItemToBackpack(Item item) {
@@ -354,18 +354,14 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-            System.out.println(key);
             switch (key) {
                 case KEY_OPEN_INVENTORY -> {
                     if (isOpen()) {
-                        if (canCloseWithKeyEvents())
-                            setOpen(false);
-                    } else
-                        setOpen(true);
+                        if (canCloseWithKeyEvents()) setOpen(false);
+                    } else setOpen(true);
                 }
                 case GLFW.GLFW_KEY_ESCAPE -> {
-                    if (canCloseWithKeyEvents())
-                        setOpen(false);
+                    if (canCloseWithKeyEvents()) setOpen(false);
                 }
             }
         }
@@ -384,12 +380,14 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     private float buttonWidthPlusPadding() {
-        return buttonWidth.height + buttonWidth.paddingY;
+        NkVec2 padding = ctx.style().button().padding();
+        return buttonWidth.width + (padding.y()) + 0.02f;
     }
 
     private void clampScroll() {
-        scrollValue = (int) MathUtils.clamp(scrollValue, 0,
-                (buttonWidthPlusPadding() * totalRows) +
-                        (buttonWidth.width * 3));
+        if (totalRows > minRows) {
+            scrollValue = (int) MathUtils.clamp(scrollValue, 0, buttonWidthPlusPadding() * (totalRows + 2));
+        } else scrollValue = 0;
+
     }
 }
