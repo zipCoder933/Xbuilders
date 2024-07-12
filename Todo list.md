@@ -7,8 +7,10 @@ There is a balance, but when you spend too much time making the inside of the co
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
 - Fix entity collison objects being "soft" when they are stacked on top of each other
-- crashes from NKconvert are still an issue
-  - follow up with the bug report
+- ** Fix the Nuklear crash**
+  - carefully understand what the real problem is
+- there is a bug where sometimes torchlight isnt erased when a block is placed over it to hide it all up
+- there is a bug where sometimes a chunk wont update one of its sides (in terrain gen and regular block setting)
 
 ### features
 - add line, sphere and replace tools

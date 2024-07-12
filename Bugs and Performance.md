@@ -41,8 +41,23 @@ notes:
 * After a chunk is updated, Some sprites still persist in mesh even if they are not actually in voxel data
     * The culprit to this was that the buffers were not updating unnless they were not empty, and so they wouldnt send to GPU
     * To prevent future bugs, MAKE SURE that the mesh is marked as empty if there is no vertex data to send
-* The game sometimes crashes
-    * BUG REPORT: https://github.com/LWJGL/lwjgl3/issues/986
-    * https://inside.java/2020/12/03/crash-outside-the-jvm/
-    * FROM NOW ON: Record every log file that you get
+
+# crash from nuklear
+  * BUG REPORT: https://github.com/LWJGL/lwjgl3/issues/986
+  * https://inside.java/2020/12/03/crash-outside-the-jvm/
+  * FROM NOW ON: Record every log file that you get
+  * http://forum.lwjgl.org/index.php?topic=6917.msg36395#msg36395
+
+## source
+the source of the crash is likely that the byteBuffer pased to stbtt_initFont() is GC-ed.
+the contents of the buffer are not copied, instead a pointer to the font is passed and when the source of the pointer no longer exists, the game crashes
+
+
+**"The actual font data is NOT copied from the ByteBuffer you pass to stbtt_InitFont. Only its memory address is copied and the font data is accessed via that pointer when necessary. The segfault you're seeing happens because you don't store a reference to the ByteBuffer anywhere, it is GCed/ deallocated by the time you try to use the font. An easy fix would be to change your Font class to also store the ByteBuffer."**
+
+**"You need to ensure that the ByteBuffer passed to stbtt_InitFont is not garbage collected (or not freed when using explicit memory management APIs) while the font is in active use. This is a common mistake when dealing with stb_truetype."**
+
+* make a font class containing the methods to load the font and references the buffer in it
+* observe how the lwjgl demo loads fonts
+
 
