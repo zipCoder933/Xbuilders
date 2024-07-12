@@ -1,6 +1,3 @@
-# Optimize XBuilders 2 or use Xbuilders 3?
-Xbuilders 3 performance is very clearly better than xb2.
-
 ### DONT Do what makes the code perfect. Do what is most convinient
 There is a balance, but when you spend too much time making the inside of the code perfect, you waste time unnecisarrily.
 **All that matters is that the code works!!!**
@@ -20,11 +17,6 @@ There is a balance, but when you spend too much time making the inside of the co
 - add a system to handle live events (do after multiplayer)
   - add liquid propagation with block data
   - make a special block type for liquid that has certex height depending on block data
-
-### inventory navigation
-  - **add inventory groups**
-  ~~- Save for later as well: Add real tooltips?~~
-  ~~- Maybe wait to do this: make inventory scroll faster by replacing the group with a grid of icons that change when scrolled~~
 
 # liquid propagation
 * have a live propagation thread (LP) that can propagate water, fire and grass
