@@ -5,18 +5,18 @@ package com.xbuilders.engine.utils.math;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 /**
- *
  * @author sampw
  */
 public class MathUtils {
 
-    
+
     public static Vector3f intToFloat(Vector3i vec) {
         Vector3f vec2 = new Vector3f((float) vec.x, (float) vec.y, (float) vec.z);
         return vec2;
@@ -42,13 +42,13 @@ public class MathUtils {
         matrix.translate(position.x, position.y, position.z);
         return matrix;
     }
-    
+
     public static float intbound(float a, float b) {
         if (b < 0) {
             return intbound(-a, -b);
         } else {
             a = mod(a, 1);
-            return (1-a)/b;
+            return (1 - a) / b;
         }
     }
 
@@ -59,20 +59,20 @@ public class MathUtils {
     public static int signum(float x) {
         return x > 0 ? 1 : x < 0 ? -1 : 0;
     }
-    
+
     /**
      * Maps a variable from range A to range B
      *
-     * @param value the variable
+     * @param value  the variable
      * @param start1 range A minimum
-     * @param stop1 range A maximum
+     * @param stop1  range A maximum
      * @param start2 range B minimum
-     * @param stop2 range B maximum
+     * @param stop2  range B maximum
      * @return the new variable
      */
     static public final float map(float value,
-            float start1, float stop1,
-            float start2, float stop2) {
+                                  float start1, float stop1,
+                                  float start2, float stop2) {
         float outgoing = start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
         return outgoing;
     }
@@ -80,23 +80,23 @@ public class MathUtils {
     /**
      * Maps a variable from range A to range B
      *
-     * @param value the variable
+     * @param value  the variable
      * @param start1 range A minimum
-     * @param stop1 range A maximum
+     * @param stop1  range A maximum
      * @param start2 range B minimum
-     * @param stop2 range B maximum
+     * @param stop2  range B maximum
      * @return the new variable
      */
     static public final double map(double value,
-            double start1, double stop1,
-            double start2, double stop2) {
+                                   double start1, double stop1,
+                                   double start2, double stop2) {
         double outgoing = start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
         return outgoing;
     }
 
     static public final float mapAndClamp(float value,
-            float start1, float stop1,
-            float start2, float stop2) {
+                                          float start1, float stop1,
+                                          float start2, float stop2) {
         float outgoing = start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
         return MathUtils.clamp(outgoing, start2, stop2);
     }
@@ -106,8 +106,8 @@ public class MathUtils {
      * that range.
      *
      * @param start the range min
-     * @param stop the range max
-     * @param amt where to place the value within the range.
+     * @param stop  the range max
+     * @param amt   where to place the value within the range.
      * @return the value
      */
     static public final double lerp(double start, double stop, double amt) {
@@ -119,8 +119,8 @@ public class MathUtils {
      * that range.
      *
      * @param start the range min
-     * @param stop the range max
-     * @param amt where to place the value within the range.
+     * @param stop  the range max
+     * @param amt   where to place the value within the range.
      * @return the value
      */
     static public final float lerp(float start, float stop, float amt) {
@@ -130,10 +130,10 @@ public class MathUtils {
     /**
      * Gradually changes val over time to target
      *
-     * @param val the variable
+     * @param val    the variable
      * @param target the target position
-     * @param speed how long to get there (lower numbers means slower
-     * transition)
+     * @param speed  how long to get there (lower numbers means slower
+     *               transition)
      * @return the variable
      */
     public static double curve(double val, double target, double speed) {
@@ -207,12 +207,11 @@ public class MathUtils {
      * @return
      */
     public static int clamp(int val, int min, int max) {
-        if (val > max) {
-            return max;
-        } else if (val < min) {
+        if (val < min) {
             return min;
+        } else if (val > max) {
+            return max;
         }
-
         return val;
     }
 
@@ -284,10 +283,9 @@ public class MathUtils {
     }
 
     /**
-     *
      * @param number the number
-     * @param min the minimum bound
-     * @param max the maximum bound
+     * @param min    the minimum bound
+     * @param max    the maximum bound
      * @return if the number is within range
      */
     public static boolean inRange(double number, double min, double max) {

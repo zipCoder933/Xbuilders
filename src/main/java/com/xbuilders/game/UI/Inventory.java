@@ -138,10 +138,11 @@ public class Inventory extends GameUIElement implements WindowEvents {
         ;
     };
 
+
+    int scrollValue = 0;
     final int menuWidth = 700;
     final int menuHeight = 600;
-    final int itemListHeight = 300;
-    final int minRows = 3;
+    int itemListHeight = 300;
     final int backpackMenuSize = menuHeight; // Its ok since this is the last row
     final int maxColumns = 11;
     Hotbar hotbar;
@@ -212,52 +213,60 @@ public class Inventory extends GameUIElement implements WindowEvents {
         }
     }
 
-    int scrollValue = 0;
-    int totalRows = 0;
+    final ArrayList<Item> visibleEntries = new ArrayList<>();
+
+    private void updateVisibleEntries() {
+        String searchCriteria = searchBox.getValueAsString();
+        if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
+            searchCriteria = null;
+        } else searchCriteria = searchCriteria.toLowerCase();
+        visibleEntries.clear();
+        for (Item item : itemList) {
+            if (isVisible(item) && matchesSearch(item, searchCriteria)) {
+                visibleEntries.add(item);
+            }
+        }
+    }
 
     private void inventoryGroup(MemoryStack stack) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
-        if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE)) {
+        if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
+            int maxRows = (int) (Math.floor(itemListHeight / buttonWidth.width) - 1);
 //            Nuklear.nk_slider_float(ctx, 0.0f, floatValue, 1.0f, 0.1f);
 //            System.out.println(floatValue[0]);
 //            scrollValue = (int) (Math.sin(System.currentTimeMillis()*0.01) * 10)+10;
-            clampScroll();
-            Nuklear.nk_group_set_scroll(ctx, WINDOW_TITLE, 0, scrollValue);
+//            clampScroll();
+//            Nuklear.nk_group_set_scroll(ctx, WINDOW_TITLE, 0, scrollValue);
 
-            String searchCriteria = searchBox.getValueAsString();
-            if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
-                searchCriteria = null;
-            } else searchCriteria = searchCriteria.toLowerCase();
 
-            int itemID = 0;
-            int rowsTemp = 0;
+            updateVisibleEntries();
+            scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (visibleEntries.size() / maxColumns) - 1));
+            int itemID = scrollValue * maxColumns;
+            int rows = 0;
+
+
             rows:
-            while (true) {
+            while (rows < maxRows) {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);// row
-                cols:
-                rowsTemp++;
+                rows++;
 
                 for (int column = 0; column < maxColumns; ) {
-                    if (itemID >= itemList.length) {
+                    if (itemID >= visibleEntries.size()) {
                         break rows;
                     }
 
-                    Item item = itemList[itemID];
-                    if (isVisible(item) && matchesSearch(item, searchCriteria)) {
-                        if (Nuklear.nk_widget_is_hovered(ctx)) {
-                            hoveredItem = item.toString();
-                        }
-                        if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
-                            addItemToBackpack(item);
-                        }
-                        buttonWidth.measure(ctx, stack);
-                        column++;
+                    Item item = visibleEntries.get(itemID);
+                    if (Nuklear.nk_widget_is_hovered(ctx)) {
+                        hoveredItem = item.toString();
                     }
+                    if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
+                        addItemToBackpack(item);
+                    }
+                    buttonWidth.measure(ctx, stack);
+                    column++;
                     itemID++;
                 }
-
             }
-            totalRows = rowsTemp;
         }
         Nuklear.nk_group_end(ctx);
     }
@@ -375,8 +384,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
     @Override
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        scrollValue -= buttonWidthPlusPadding() * yoffset;
-        clampScroll();
+        scrollValue -= yoffset;
     }
 
     private float buttonWidthPlusPadding() {
@@ -384,10 +392,5 @@ public class Inventory extends GameUIElement implements WindowEvents {
         return buttonWidth.width + (padding.y()) + 0.02f;
     }
 
-    private void clampScroll() {
-        if (totalRows > minRows) {
-            scrollValue = (int) MathUtils.clamp(scrollValue, 0, buttonWidthPlusPadding() * (totalRows + 2));
-        } else scrollValue = 0;
 
-    }
 }

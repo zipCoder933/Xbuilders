@@ -154,7 +154,7 @@ public class LoadWorld implements MenuPage {
 //            return;
 //        }
 
-        String title = "Loading " + world.getName() + "...";
+        String title = "Loading World...";
         ProgressData prog = new ProgressData(title);
 
         Main.gameScene.startGame(world, req, prog);

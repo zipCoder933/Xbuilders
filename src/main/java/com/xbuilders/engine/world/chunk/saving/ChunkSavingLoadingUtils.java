@@ -97,16 +97,12 @@ public class ChunkSavingLoadingUtils {
     }
 
     public static long getLastSaved(File f) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            try (FileInputStream fis = new FileInputStream(f);
-                 GZIPInputStream input = new GZIPInputStream(fis)) {
-                int fileVersion = input.read();
-               return ChunkFile_V0.readMetadata(fis);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try (FileInputStream fis = new FileInputStream(f);
+             GZIPInputStream input = new GZIPInputStream(fis)) {
+            int fileVersion = input.read();
+            return ChunkFile_V0.readMetadata(fis);
+        } catch (Exception e) {
+            return 0;
         }
     }
 
