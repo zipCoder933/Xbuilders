@@ -693,6 +693,10 @@ public abstract class NKWindow extends BaseWindow {
                 nk_buffer_init_fixed(ebuf, elements/*, max_element_buffer*/);
                 nk_convert(ctx, cmds, vbuf, ebuf, config);//TODO: This line is causing a lot of crashes
             }
+            /**
+             * The vertex & element buffers are unrelated to the problem. Those are stored by the OpenGL driver, the
+             * Java-side buffers are gone when you call glUnmapBuffer and you don't need to keep them around.
+             */
             glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
             glUnmapBuffer(GL_ARRAY_BUFFER);
 

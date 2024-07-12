@@ -337,7 +337,14 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     private boolean matchesSearch(Item item, String searchCriteria) {
-        return searchCriteria == null || item.name == null || item.name.toLowerCase().contains(searchCriteria);
+        if (searchCriteria == null || searchCriteria.isBlank() || item.name == null) return true;
+        for (String tag : item.tags) {
+            if (tag != null && tag.toLowerCase().contains(
+                    searchCriteria.toLowerCase().trim())) {
+                return true;
+            }
+        }
+        return item.name.toLowerCase().contains(searchCriteria);
     }
 
     private void addItemToBackpack(Item item) {
