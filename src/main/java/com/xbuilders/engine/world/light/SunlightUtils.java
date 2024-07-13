@@ -102,7 +102,7 @@ public class SunlightUtils {
             HashSet<ChunkNode> repropagationNodes = new HashSet<>();
             eraseSunlight(transparentToOpaque, affectedChunks, repropagationNodes);
             transparentToOpaque.clear();
-            
+
             if (!repropagationNodes.isEmpty()) {
                 transparentToOpaque.addAll(opaqueToTransparent);
                 transparentToOpaque.addAll(repropagationNodes);
@@ -129,6 +129,9 @@ public class SunlightUtils {
      */
     public static void addInitialNodesForSunlightErasure(List<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
         Block block = BlockList.BLOCK_AIR;
+        if(chunk == null) {
+            return;
+        }
         queue.add(new ChunkNode(chunk, x, y, z));
 
         while (true) {
@@ -235,7 +238,7 @@ public class SunlightUtils {
                 neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
             } else return;
         }
-        if (neigborBlock!= null && !neigborBlock.opaque) {
+        if (neigborBlock != null && !neigborBlock.opaque) {
             if (isBelowNode && lightLevel == 15) {
                 chunk.data.setSun(x, y, z, (byte) 15);
                 affectedChunks.add(chunk);

@@ -43,9 +43,11 @@ import static org.lwjgl.opengles.GLES20.GL_BLEND;
 
 public class GameScene implements WindowEvents {
 
+
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static boolean drawWireframe;
+    public static boolean drawBoundingBoxes;
     public static UserControlledPlayer player;
     public static List<Player> otherPlayers;
     public static GameServer server;
@@ -344,8 +346,9 @@ public class GameScene implements WindowEvents {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
                 case GLFW.GLFW_KEY_F3 -> debugText = !debugText;
-                case GLFW.GLFW_KEY_F6 -> specialMode = !specialMode;
-                case GLFW.GLFW_KEY_F5 -> drawWireframe = !drawWireframe;
+                case GLFW.GLFW_KEY_F5 -> specialMode = !specialMode;
+                case GLFW.GLFW_KEY_F6 -> drawWireframe = !drawWireframe;
+                case GLFW.GLFW_KEY_F7 -> drawBoundingBoxes = !drawBoundingBoxes;
             }
         }
         return true;

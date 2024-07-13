@@ -122,6 +122,10 @@ public class World {
     public static final int WORLD_BOTTOM_Y = (BOTTOM_Y_CHUNK * Chunk.WIDTH) + Chunk.WIDTH; // down (+Y)
     public static final int WORLD_SIZE_POS_Z = 100000; // +Z
 
+    public static boolean worldYIsWithinBounds(int y) {
+        return y > WORLD_TOP_Y && y < WORLD_BOTTOM_Y - 1;
+    }
+
     private SortByDistanceToPlayer sortByDistance;
 
     private final List<Chunk> unusedChunks = new ArrayList<>();
@@ -469,12 +473,15 @@ public class World {
         // Render visible opaque meshes
         chunkShader.bind();
         chunkShader.tickAnimation();
-        sortedChunksToRender.forEach(chunk -> {// TODO: The chunk in front doesnt have any samples?
+        sortedChunksToRender.forEach(chunk -> {
             if (chunkIsVisible(chunk, playerPosition)) {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                 chunk.meshes.opaqueMesh.getQueryResult();
                 chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
+
+                if(GameScene.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
+
             }
         });
         // Render invisible opaque meshes

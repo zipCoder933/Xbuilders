@@ -121,6 +121,9 @@ public class BlockEventPipeline {
         System.out.println("EVENTS SIZE: " + eventsCopy.size());
 
         eventsCopy.forEach((worldPos, blockHist) -> {
+
+            if (!World.worldYIsWithinBounds(worldPos.y)) return;
+
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
