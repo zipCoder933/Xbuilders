@@ -3,6 +3,8 @@ There is a balance, but when you spend too much time making the inside of the co
 **All that matters is that the code works!!!**
 
 ### bugs 
+- **THE LOW FPS AT CERTAIN VIEWING ANGLES IS STILL AN ISSUE**
+  - See bugs and Performance.md
 - FIX BLOCK PIPELINE BUGS
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
