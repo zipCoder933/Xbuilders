@@ -108,12 +108,22 @@ public class ChunkMeshBundle {
             try (MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
                 meshesHaveAllSides = chunk.neghbors.allFacingNeghborsLoaded;
 
+                //Check if the blocks of this chunk or its neighbors are empty
+                boolean blocksAreEmpty = chunk.data.blocksAreEmpty;
+                if (blocksAreEmpty) for (int i = 0; i < 6; i++) {
+                    if (chunk.neghbors.neighbors[i] != null &&
+                            !chunk.neghbors.neighbors[i].data.blocksAreEmpty) {
+                        blocksAreEmpty = false;
+                        break;
+                    }
+                }
+
                 //We should guarantee that the buffers get sent to the mesh, because we determine
                 //if a mesh is empty by the size of the verteces
                 opaqueBuffer.reset();
                 transBuffer.reset();
 
-                if (!chunk.data.blocksAreEmpty) {//We wont check if we are below terrain because a loaded file chunk could be there
+                if (!blocksAreEmpty) {//We wont check if we are below terrain because a loaded file chunk could be there
                     greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
                     naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
                 }
