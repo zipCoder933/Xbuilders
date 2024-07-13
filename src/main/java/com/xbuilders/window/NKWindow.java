@@ -4,199 +4,35 @@
  */
 package com.xbuilders.window;
 
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.window.render.Shader;
-import com.xbuilders.window.utils.texture.TextureUtils;
+import org.lwjgl.nuklear.*;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.Platform;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
-import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
-import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_HIDDEN;
-import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_B;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_C;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_DELETE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_END;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_HOME;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_P;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_DOWN;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_UP;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_R;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
-import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_MIDDLE;
-import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
-import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
-import static org.lwjgl.glfw.GLFW.glfwGetKey;
-import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
-import static org.lwjgl.glfw.GLFW.glfwSetCharCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetClipboardString;
-import static org.lwjgl.glfw.GLFW.glfwSetCursorPos;
-import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetInputMode;
-import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
-import static org.lwjgl.glfw.GLFW.nglfwGetClipboardString;
-
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkMouse;
-import org.lwjgl.nuklear.NkVec2;
-
-import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_LEFT;
-import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_MIDDLE;
-import static org.lwjgl.nuklear.Nuklear.NK_BUTTON_RIGHT;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_BACKSPACE;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_COPY;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_CUT;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_DEL;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_DOWN;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_ENTER;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_LEFT;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_PASTE;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_RIGHT;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_SCROLL_DOWN;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_SCROLL_END;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_SCROLL_START;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_SCROLL_UP;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_SHIFT;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TAB;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_END;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_LINE_END;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_LINE_START;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_REDO;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_START;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_UNDO;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_WORD_LEFT;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_TEXT_WORD_RIGHT;
-import static org.lwjgl.nuklear.Nuklear.NK_KEY_UP;
-import static org.lwjgl.nuklear.Nuklear.nk_init;
-import static org.lwjgl.nuklear.Nuklear.nk_input_begin;
-import static org.lwjgl.nuklear.Nuklear.nk_input_button;
-import static org.lwjgl.nuklear.Nuklear.nk_input_end;
-import static org.lwjgl.nuklear.Nuklear.nk_input_key;
-import static org.lwjgl.nuklear.Nuklear.nk_input_motion;
-import static org.lwjgl.nuklear.Nuklear.nk_input_scroll;
-import static org.lwjgl.nuklear.Nuklear.nk_input_unicode;
-import static org.lwjgl.nuklear.Nuklear.nnk_strlen;
-import static org.lwjgl.nuklear.Nuklear.nnk_textedit_paste;
-
-import org.lwjgl.system.MemoryStack;
-
-import static org.lwjgl.system.MemoryStack.stackPush;
-import static org.lwjgl.system.MemoryUtil.NULL;
-import static org.lwjgl.system.MemoryUtil.memAddress;
-import static org.lwjgl.system.MemoryUtil.memCopy;
-
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.nuklear.Nuklear.*;
-
-import org.lwjgl.nuklear.*;
-
-import java.util.*;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.joml.Vector2i;
-
-
-import org.lwjgl.opengl.GL11;
-
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.nuklear.Nuklear.*;
 import static org.lwjgl.opengl.GL11.GL_ONE;
 import static org.lwjgl.opengl.GL11.GL_ZERO;
-import static org.lwjgl.opengl.GL11.glViewport;
-import static org.lwjgl.opengl.GL11C.GL_BLEND;
-import static org.lwjgl.opengl.GL11C.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11C.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11C.GL_FLOAT;
-import static org.lwjgl.opengl.GL11C.GL_LINEAR;
-import static org.lwjgl.opengl.GL11C.GL_NEAREST;
-import static org.lwjgl.opengl.GL11C.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11C.GL_RGBA;
-import static org.lwjgl.opengl.GL11C.GL_RGBA8;
-import static org.lwjgl.opengl.GL11C.GL_SCISSOR_TEST;
-import static org.lwjgl.opengl.GL11C.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11C.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11C.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11C.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11C.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11C.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL11C.GL_UNSIGNED_SHORT;
-import static org.lwjgl.opengl.GL11C.glBindTexture;
-import static org.lwjgl.opengl.GL11C.glBlendFunc;
-import static org.lwjgl.opengl.GL11C.glDeleteTextures;
-import static org.lwjgl.opengl.GL11C.glDisable;
-import static org.lwjgl.opengl.GL11C.glDrawElements;
-import static org.lwjgl.opengl.GL11C.glEnable;
-import static org.lwjgl.opengl.GL11C.glGenTextures;
-import static org.lwjgl.opengl.GL11C.glScissor;
-import static org.lwjgl.opengl.GL11C.glTexImage2D;
-import static org.lwjgl.opengl.GL11C.glTexParameteri;
-import static org.lwjgl.opengl.GL11C.glViewport;
+import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL12C.GL_UNSIGNED_INT_8_8_8_8_REV;
 import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13C.glActiveTexture;
 import static org.lwjgl.opengl.GL14C.GL_FUNC_ADD;
 import static org.lwjgl.opengl.GL14C.glBlendEquation;
-import static org.lwjgl.opengl.GL15C.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15C.GL_ELEMENT_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15C.GL_STREAM_DRAW;
-import static org.lwjgl.opengl.GL15C.GL_WRITE_ONLY;
-import static org.lwjgl.opengl.GL15C.glBindBuffer;
-import static org.lwjgl.opengl.GL15C.glBufferData;
-import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
-import static org.lwjgl.opengl.GL15C.glGenBuffers;
-import static org.lwjgl.opengl.GL15C.glMapBuffer;
-import static org.lwjgl.opengl.GL15C.glUnmapBuffer;
-import static org.lwjgl.opengl.GL20C.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20C.glGetAttribLocation;
-import static org.lwjgl.opengl.GL20C.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20C.glUniform1i;
-import static org.lwjgl.opengl.GL20C.glUniformMatrix4fv;
-import static org.lwjgl.opengl.GL20C.glUseProgram;
-import static org.lwjgl.opengl.GL20C.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL15C.*;
+import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL30C.glBindVertexArray;
 import static org.lwjgl.opengl.GL30C.glGenVertexArrays;
-
-import org.lwjgl.stb.STBTTAlignedQuad;
-import org.lwjgl.stb.STBTTFontinfo;
-import org.lwjgl.stb.STBTTPackContext;
-import org.lwjgl.stb.STBTTPackedchar;
-
-import static org.lwjgl.stb.STBTruetype.stbtt_GetCodepointHMetrics;
-import static org.lwjgl.stb.STBTruetype.stbtt_GetFontVMetrics;
-import static org.lwjgl.stb.STBTruetype.stbtt_GetPackedQuad;
-import static org.lwjgl.stb.STBTruetype.stbtt_InitFont;
-import static org.lwjgl.stb.STBTruetype.stbtt_PackBegin;
-import static org.lwjgl.stb.STBTruetype.stbtt_PackEnd;
-import static org.lwjgl.stb.STBTruetype.stbtt_PackFontRange;
-import static org.lwjgl.stb.STBTruetype.stbtt_PackSetOversampling;
-import static org.lwjgl.stb.STBTruetype.stbtt_ScaleForPixelHeight;
 import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.*;
-
-import org.lwjgl.system.Platform;
 
 /*
 startWindow();
@@ -403,111 +239,6 @@ public abstract class NKWindow extends BaseWindow {
 
     public abstract void disposeEvent();
 
-    final int BITMAP_W = 1024;
-    final int BITMAP_H = 1024;
-
-    public NkUserFont TTF_assignToNewTexture(final ByteBuffer fontBytes, int fontHeight) {
-        NkUserFont default_font = NkUserFont.create();
-
-        int fontTexID = glGenTextures();
-        TextureUtils.addTexture(fontTexID);
-
-        STBTTFontinfo fontInfo = STBTTFontinfo.create();
-        STBTTPackedchar.Buffer cdata = STBTTPackedchar.create(95);
-
-        float scale;
-        float descent;
-
-        try (MemoryStack stack = stackPush()) {
-            stbtt_InitFont(fontInfo, fontBytes);
-            scale = stbtt_ScaleForPixelHeight(fontInfo, fontHeight);
-
-            IntBuffer d = stack.mallocInt(1);
-            stbtt_GetFontVMetrics(fontInfo, null, d, null);
-            descent = d.get(0) * scale;
-
-            ByteBuffer bitmap = memAlloc(BITMAP_W * BITMAP_H);
-
-            STBTTPackContext pc = STBTTPackContext.malloc(stack);
-            stbtt_PackBegin(pc, bitmap, BITMAP_W, BITMAP_H, 0, 1, NULL);
-            stbtt_PackSetOversampling(pc, 4, 4);
-            stbtt_PackFontRange(pc, fontBytes, 0, fontHeight, 32, cdata);
-            stbtt_PackEnd(pc);
-
-            // Convert R8 to RGBA8
-            ByteBuffer texture = memAlloc(BITMAP_W * BITMAP_H * 4);
-            for (int i = 0; i < bitmap.capacity(); i++) {
-                texture.putInt((bitmap.get(i) << 24) | 0x00FFFFFF);
-            }
-            texture.flip();
-
-            glBindTexture(GL_TEXTURE_2D, fontTexID);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, BITMAP_W, BITMAP_H, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, texture);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-            memFree(texture);
-            memFree(bitmap);
-        }
-
-        default_font
-                .width((handle, h, text, len) -> {
-                    float text_width = 0;
-                    try (MemoryStack stack = stackPush()) {
-                        IntBuffer unicode = stack.mallocInt(1);
-
-                        int glyph_len = nnk_utf_decode(text, memAddress(unicode), len);
-                        int text_len = glyph_len;
-
-                        if (glyph_len == 0) {
-                            return 0;
-                        }
-
-                        IntBuffer advance = stack.mallocInt(1);
-                        while (text_len <= len && glyph_len != 0) {
-                            if (unicode.get(0) == NK_UTF_INVALID) {
-                                break;
-                            }
-
-                            /* query currently drawn glyph information */
-                            stbtt_GetCodepointHMetrics(fontInfo, unicode.get(0), advance, null);
-                            text_width += advance.get(0) * scale;
-
-                            /* offset next glyph */
-                            glyph_len = nnk_utf_decode(text + text_len, memAddress(unicode), len - text_len);
-                            text_len += glyph_len;
-                        }
-                    }
-                    return text_width;
-                })
-                .height(fontHeight)
-                .query((handle, font_height, glyph, codepoint, next_codepoint) -> {
-                    try (MemoryStack stack = stackPush()) {
-                        FloatBuffer x = stack.floats(0.0f);
-                        FloatBuffer y = stack.floats(0.0f);
-
-                        STBTTAlignedQuad q = STBTTAlignedQuad.malloc(stack);
-                        IntBuffer advance = stack.mallocInt(1);
-
-                        stbtt_GetPackedQuad(cdata, BITMAP_W, BITMAP_H, codepoint - 32, x, y, q, false);
-                        stbtt_GetCodepointHMetrics(fontInfo, codepoint, advance, null);
-
-                        NkUserFontGlyph ufg = NkUserFontGlyph.create(glyph);
-
-                        ufg.width(q.x1() - q.x0());
-                        ufg.height(q.y1() - q.y0());
-                        ufg.offset().set(q.x0(), q.y0() + (fontHeight + descent));
-                        ufg.xadvance(advance.get(0) * scale);
-                        ufg.uv(0).set(q.s0(), q.t0());
-                        ufg.uv(1).set(q.s1(), q.t1());
-                    }
-                })
-                .texture(it -> it
-                        .id(fontTexID));
-
-        return default_font;
-    }
-
     //<editor-fold defaultstate="collapsed" desc="Nuklear methods">
     private int vbo, vao, ebo;
     private Shader shader;
@@ -634,10 +365,10 @@ public abstract class NKWindow extends BaseWindow {
      * restore or b.) reset your own state after rendering the UI.
      */
 
-    //This prevents the byteBuffers from being garbage collected before the render is done with them, thus preventing a JVM crash
-    private ByteBuffer vertices, elements; //Used to fix the crash bug (https://github.com/LWJGL/lwjgl3/issues/986)
-    private NkBuffer vbuf, ebuf; //Also stored out of scope to fix the crash bug
-    private NkConvertConfig config;//Also stored out of scope to fix the crash bug
+//    //This prevents the byteBuffers from being garbage collected before the render is done with them, thus preventing a JVM crash
+//    private ByteBuffer vertices, elements; //Used to fix the crash bug (https://github.com/LWJGL/lwjgl3/issues/986)
+//    private NkBuffer vbuf, ebuf; //Also stored out of scope to fix the crash bug
+//    private NkConvertConfig config;//Also stored out of scope to fix the crash bug
 
     private static final int AA = NK_ANTI_ALIASING_ON;
     private static final int max_vertex_buffer = MAX_VERTEX_BUFFER;
@@ -669,11 +400,11 @@ public abstract class NKWindow extends BaseWindow {
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, max_element_buffer, GL_STREAM_DRAW);
 
             // load draw vertices & elements directly into vertex + element buffer
-            vertices = Objects.requireNonNull(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, max_vertex_buffer, null));
-            elements = Objects.requireNonNull(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY, max_element_buffer, null));
+            ByteBuffer vertices = Objects.requireNonNull(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, max_vertex_buffer, null));
+            ByteBuffer elements = Objects.requireNonNull(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY, max_element_buffer, null));
             try (MemoryStack stack = stackPush()) {
                 // fill convert configuration
-                config = NkConvertConfig.calloc(stack)
+                NkConvertConfig config = NkConvertConfig.calloc(stack)
                         .vertex_layout(VERTEX_LAYOUT)
                         .vertex_size(20)
                         .vertex_alignment(4)
@@ -686,8 +417,8 @@ public abstract class NKWindow extends BaseWindow {
                         .line_AA(AA);
 
                 // setup buffers to load vertices and elements
-                vbuf = NkBuffer.malloc(stack);//TODO: If we keep getting crashes, maybe this has to be stored out of scope too?
-                ebuf = NkBuffer.malloc(stack);
+                NkBuffer vbuf = NkBuffer.malloc(stack);//TODO: If we keep getting crashes, maybe this has to be stored out of scope too?
+                NkBuffer ebuf = NkBuffer.malloc(stack);
 
                 nk_buffer_init_fixed(vbuf, vertices/*, max_vertex_buffer*/);
                 nk_buffer_init_fixed(ebuf, elements/*, max_element_buffer*/);

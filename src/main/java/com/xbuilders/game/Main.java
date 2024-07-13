@@ -67,7 +67,7 @@ public class Main extends NKWindow {
     public static TopMenu topMenu;
     public static GameScene gameScene;
     public static UserID user;
-    UIResources uiResources;
+    public static UIResources uiResources;
 
     File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
     static boolean generateIcons = false;
@@ -254,7 +254,7 @@ public class Main extends NKWindow {
         // rate, the FPS will not exceed 60fps.
         // Our goal is to get as close to 16.666 MPF (60 FPS) as possible
         String formattedNumber = df.format(getMsPerFrame());
-        setTitle(name+"   mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString());
+        setTitle(name + "   mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString());
     }
 
 
