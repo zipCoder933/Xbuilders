@@ -15,6 +15,7 @@ import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.light.TorchUtils;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.game.Main;
 import org.joml.Vector3i;
 
 import java.util.*;
@@ -95,30 +96,58 @@ public class BlockEventPipeline {
             return;
         }
         framesThatHadEvents++;
-        boolean multiThreadedMode = blockChangesThisFrame > 100 || lightChangesThisFrame > 20;
+
         boolean allowBlockEvents = framesThatHadEvents < MAX_FRAMES_WITH_EVENTS_IN_A_ROW;
-        System.out.println("\nUPDATING " + events.size() + " EVENTS (" + framesThatHadEvents + " frames in row): \tMultiThread: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
+
+        HashSet<Chunk> affectedChunks = new HashSet<>();
+        ArrayList<ChunkNode> sunNode_OpaqueToTrans = new ArrayList<>();
+        ArrayList<ChunkNode> sunNode_transToOpaque = new ArrayList<>();
+
+        resolveQueue(allowBlockEvents, framesThatHadEvents, player,
+                affectedChunks, sunNode_OpaqueToTrans, sunNode_transToOpaque);
+
+        if (affectedChunks.size() < 7) {
+            updateAffectedChunks(affectedChunks);
+        }
+
+        boolean multiThreadedMode = blockChangesThisFrame > 100 || lightChangesThisFrame > 20 ||
+                sunNode_transToOpaque.size() > 10 || sunNode_OpaqueToTrans.size() > 50;
+
+        Main.devPrintln("\nUPDATING " + events.size() + " EVENTS: [  "
+                + "  frames in row=" + framesThatHadEvents
+                + "  block changes=" + blockChangesThisFrame
+                + "  light changes=" + lightChangesThisFrame
+                + "  opaque>trans=" + sunNode_OpaqueToTrans.size()
+                + "  trans>opaque=" + sunNode_transToOpaque.size()
+                + "  ]\tMultiThread: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
 
         lightChangesThisFrame = 0;
         blockChangesThisFrame = 0;
 
         if (multiThreadedMode) {
             bulkBlockThread.submit(System.currentTimeMillis(),
-                    () -> resolveQueue(allowBlockEvents, framesThatHadEvents, player));
-        } else resolveQueue(allowBlockEvents, framesThatHadEvents, player);
+                    () -> {
+                        updateSunlightAndMeshes(affectedChunks, sunNode_OpaqueToTrans, sunNode_transToOpaque);
+                    });
+        } else {
+            updateSunlightAndMeshes(affectedChunks, sunNode_OpaqueToTrans, sunNode_transToOpaque);
+        }
     }
 
-    private void resolveQueue(boolean allowBlockEvents, int framesInARow, UserControlledPlayer player) {
+
+    private void resolveQueue(boolean allowBlockEvents, int framesInARow, UserControlledPlayer player,
+                              final HashSet<Chunk> affectedChunks,
+                              final List<ChunkNode> sunNode_OpaqueToTrans,
+                              final List<ChunkNode> sunNode_transToOpaque
+    ) {
         HashMap<Vector3i, BlockHistory> eventsCopy;
         synchronized (eventClearLock) {
             eventsCopy = new HashMap<>(events);
             events.clear(); //We want to clear the old events before iterating over and picking up new ones
         }
-        HashSet<Chunk> affectedChunks = new HashSet<>();
-        List<ChunkNode> opaqueToTransparentNodes = new ArrayList<>();
-        List<ChunkNode> transparentToOpaqueNodes = new ArrayList<>();
 
-        System.out.println("EVENTS SIZE: " + eventsCopy.size());
+
+        Main.devPrintln("EVENTS: " + eventsCopy.size());
 
         eventsCopy.forEach((worldPos, blockHist) -> {
 
@@ -157,10 +186,10 @@ public class BlockEventPipeline {
 
                     // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
                     if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightPropagation(opaqueToTransparentNodes, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        SunlightUtils.addInitialNodesForSunlightPropagation(sunNode_OpaqueToTrans, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);//TODO: We might need to optimize this by creating the nodes first and then propagating once
                     } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightErasure(transparentToOpaqueNodes, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        SunlightUtils.addInitialNodesForSunlightErasure(sunNode_transToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.transparentToOpaque(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
 
@@ -187,35 +216,37 @@ public class BlockEventPipeline {
                 affectedChunks.add(chunk);
             }
         });
+    }
 
+    public void updateSunlightAndMeshes(HashSet<Chunk> affectedChunks,
+                                        ArrayList<ChunkNode> sunNode_OpaqueToTrans,
+                                        ArrayList<ChunkNode> sunNode_transToOpaque) {
 
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
-        System.out.println("\tOpaque to trans: " + opaqueToTransparentNodes.size() + "; Trans to opaque: " + transparentToOpaqueNodes.size());
+        Main.devPrintln("\tOpaque to trans: " + sunNode_OpaqueToTrans.size() + "; Trans to opaque: " + sunNode_transToOpaque.size());
 
-        if (opaqueToTransparentNodes.size() > 10000 || transparentToOpaqueNodes.size() > 10000) {
-            System.out.println("Pre-Updating Meshes");
-            for (Chunk chunk : affectedChunks) {
-                chunk.updateMesh(
-                        wcc.chunkVoxel.x,
-                        wcc.chunkVoxel.y,
-                        wcc.chunkVoxel.z);
-            }
+        if (sunNode_OpaqueToTrans.size() > 10000 || sunNode_transToOpaque.size() > 10000) {
+            GameScene.alert("The lighting is being calculated. This may take a while.");
+            Main.devPrintln("Pre-Updating Meshes");
+            updateAffectedChunks(affectedChunks);
         }
-
-
-        SunlightUtils.updateFromQueue(opaqueToTransparentNodes, transparentToOpaqueNodes, affectedChunks);
-        opaqueToTransparentNodes.clear();
-        transparentToOpaqueNodes.clear();
-        System.out.println("Done. Chunks affected: " + affectedChunks.size());
+        SunlightUtils.updateFromQueue(sunNode_OpaqueToTrans, sunNode_transToOpaque, affectedChunks);
+        sunNode_OpaqueToTrans.clear();
+        sunNode_transToOpaque.clear();
+        Main.devPrintln("Done. Chunks affected: " + affectedChunks.size());
 
         //Resolve affected chunks
+        updateAffectedChunks(affectedChunks);
+        affectedChunks.clear();
+    }
+
+    private void updateAffectedChunks(HashSet<Chunk> affectedChunks) {
         for (Chunk chunk : affectedChunks) {
             chunk.updateMesh(
                     wcc.chunkVoxel.x,
                     wcc.chunkVoxel.y,
                     wcc.chunkVoxel.z);
         }
-        affectedChunks.clear();
     }
 
 

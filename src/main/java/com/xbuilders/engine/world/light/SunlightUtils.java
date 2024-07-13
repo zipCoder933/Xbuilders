@@ -93,7 +93,7 @@ public class SunlightUtils {
         return null;
     }
 
-    public static synchronized void updateFromQueue(
+    public static void updateFromQueue(
             List<ChunkNode> opaqueToTransparent,
             List<ChunkNode> transparentToOpaque,
             HashSet<Chunk> affectedChunks) {

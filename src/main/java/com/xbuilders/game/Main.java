@@ -35,6 +35,14 @@ import javax.imageio.ImageIO;
 
 public class Main extends NKWindow {
 
+    public static void devPrintln(String message) {
+        if(devMode) {
+            System.out.println(message);
+        }
+    }
+
+
+
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
     private static MemoryGraph memoryGraph; //Make this priviate because it is null by default
