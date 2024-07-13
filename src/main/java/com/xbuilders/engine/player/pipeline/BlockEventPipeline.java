@@ -115,8 +115,8 @@ public class BlockEventPipeline {
             events.clear(); //We want to clear the old events before iterating over and picking up new ones
         }
         HashSet<Chunk> affectedChunks = new HashSet<>();
-        List<ChunkNode> opaqueToTransparent = new ArrayList<>();
-        List<ChunkNode> transparentToOpaque = new ArrayList<>();
+        List<ChunkNode> opaqueToTransparentNodes = new ArrayList<>();
+        List<ChunkNode> transparentToOpaqueNodes = new ArrayList<>();
 
         System.out.println("EVENTS SIZE: " + eventsCopy.size());
 
@@ -157,9 +157,11 @@ public class BlockEventPipeline {
 
                     // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
                     if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightPropagation(opaqueToTransparent, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        SunlightUtils.addInitialNodesForSunlightPropagation(opaqueToTransparentNodes, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);//TODO: We might need to optimize this by creating the nodes first and then propagating once
                     } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightErasure(transparentToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        SunlightUtils.addInitialNodesForSunlightErasure(transparentToOpaqueNodes, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        TorchUtils.transparentToOpaque(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
 
                     if (!blockHist.previousBlock.isLuminous() && blockHist.currentBlock.isLuminous()) {
@@ -188,9 +190,9 @@ public class BlockEventPipeline {
 
 
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
-        System.out.println("\tOpaque to trans: " + opaqueToTransparent.size() + "; Trans to opaque: " + transparentToOpaque.size());
+        System.out.println("\tOpaque to trans: " + opaqueToTransparentNodes.size() + "; Trans to opaque: " + transparentToOpaqueNodes.size());
 
-        if (opaqueToTransparent.size() > 10000 || transparentToOpaque.size() > 10000) {
+        if (opaqueToTransparentNodes.size() > 10000 || transparentToOpaqueNodes.size() > 10000) {
             System.out.println("Pre-Updating Meshes");
             for (Chunk chunk : affectedChunks) {
                 chunk.updateMesh(
@@ -201,9 +203,9 @@ public class BlockEventPipeline {
         }
 
 
-        SunlightUtils.updateFromQueue(opaqueToTransparent, transparentToOpaque, affectedChunks);
-        opaqueToTransparent.clear();
-        transparentToOpaque.clear();
+        SunlightUtils.updateFromQueue(opaqueToTransparentNodes, transparentToOpaqueNodes, affectedChunks);
+        opaqueToTransparentNodes.clear();
+        transparentToOpaqueNodes.clear();
         System.out.println("Done. Chunks affected: " + affectedChunks.size());
 
         //Resolve affected chunks

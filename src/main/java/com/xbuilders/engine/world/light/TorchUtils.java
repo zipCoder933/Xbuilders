@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TorchUtils {
+
     public static void transparentToOpaque(HashSet<Chunk> affectedChunks, final Chunk chunk, final int x, final int y, final int z) {
         final List<TorchNode> queue = new ArrayList<>();
         queue.add(new TorchNode(chunk, x, y, z));

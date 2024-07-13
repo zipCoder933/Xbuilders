@@ -53,7 +53,6 @@ public class GreedyMesherWithLight extends Mesher {
     }
 
 
-
     final IntBuffer mask;
     final IntBuffer lightMask;
 
@@ -377,14 +376,20 @@ public class GreedyMesherWithLight extends Mesher {
         l_lb = (byte) packedLight; // bottom left
         l_rb = (byte) packedLight; // bottom right
 
-        if (smoothLighting) { // We need a 32 bit number for the light not 16
+        Block block = ItemList.getBlock(blockVal);
+
+        if (block.isLuminous()) {//Light blocks are fullbright
+            l_lb = (byte) 255;
+            l_rb = (byte) 255;
+            l_lt = (byte) 255;
+            l_rt = (byte) 255;
+        } else if (smoothLighting) { // We need a 32 bit number for the light not 16
             l_lb = (byte) ((packedLight >> 0) & 0xFF);
             l_rt = (byte) ((packedLight >> 8) & 0xFF);
             l_lt = (byte) ((packedLight >> 16) & 0xFF);
             l_rb = (byte) ((packedLight >> 24) & 0xFF);
         }
 
-        Block block = ItemList.getBlock(blockVal);
 
         if (block != null && block.texture != null) {
             int[] indexes = backFace ? indexes1 : indexes2;
