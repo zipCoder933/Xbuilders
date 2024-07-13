@@ -35,6 +35,8 @@ import javax.imageio.ImageIO;
 
 public class Main extends NKWindow {
 
+    public static String releaseVersion = "v1.0.0";
+
     public static void devPrintln(String message) {
         if(devMode) {
             System.out.println(message);
@@ -85,6 +87,7 @@ public class Main extends NKWindow {
     public static String name = "XBuilders";
 
     public static void main(String[] args) {
+        System.out.println("XBuilders (" + releaseVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         try {
             System.out.println("args: " + Arrays.toString(args));
 

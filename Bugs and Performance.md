@@ -9,11 +9,15 @@
 * **Sometimes block events keep recurring over and over again even though allowBlockEvents is false**
 * **Sometimes a large boundary of block events are not updated on another thread because the event count is somehow usually 1 or 4 events in size**
 
-### For some reason FPS slows down to about 30FPS when living in complex terrains like default terrain or complex terrain
+### For some reason FPS slows down to about 30FPS when looking out at certain angles of the terrain
+This issue is most likely NOT related to chunk rendering...
 * https://www.reddit.com/r/opengl/comments/1d8tb6v/low_fps_when_drawing_lots_of_triangles_what_to_do/
 * https://www.reddit.com/r/gamedev/comments/1d8tdlk/lots_of_triangles_low_fps/
 * https://www.reddit.com/r/VoxelGameDev/comments/1d8t945/low_fps_with_lots_of_triangles_what_to_do/
 
+**This is still an issue (7/13/2024)**
+* Even with occlusion culling this issue can still be present from certain viewing angles and at certain times, It isnt a very big deal, but can still occur.
+* (The occlusion culling does seem to help a lot however)
 * PROFILE THE CODE FIRST TO DETERMINE REAL BOTTLENECK
 
 ### Performance optimizations when traveling thru world
