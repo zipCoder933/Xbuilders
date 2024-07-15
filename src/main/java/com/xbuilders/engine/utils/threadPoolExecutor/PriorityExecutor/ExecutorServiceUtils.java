@@ -15,7 +15,8 @@ public class ExecutorServiceUtils {
             //Wait for the task to finish
             try {
                 future.get();
-            } catch (InterruptedException | ExecutionException ex) {
+            } catch (Exception ex) {
+                System.out.println("Error cancelling task: " + ex);
             }
         }
 

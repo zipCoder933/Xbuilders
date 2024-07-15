@@ -7,12 +7,16 @@ package com.xbuilders.engine.ui.gameScene;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.NumberBox;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.lwjgl.glfw.GLFW;
@@ -40,7 +44,7 @@ import org.lwjgl.system.MemoryStack;
 class GameMenu extends GameUIElement {
 
     final int menuWidth = 320;
-    final int menuHeight = 200;
+    final int menuHeight = 220;
 
     public GameMenu(NkContext ctx, NKWindow window, UIResources uires) {
         super(ctx, window, uires);
@@ -98,11 +102,26 @@ class GameMenu extends GameUIElement {
                     settingsPage = true;
                 }
                 nk_layout_row_dynamic(ctx, 40, 1);
+                if (nk_button_label(ctx, "Help")) {
+                    openHelpPage();
+                }
+                nk_layout_row_dynamic(ctx, 40, 1);
                 if (nk_button_label(ctx, "Save and Quit")) {
                     Main.goToMenuPage();
                 }
             }
             nk_end(ctx);
+        }
+    }
+
+    private void openHelpPage() {
+        File helpHtmlPage = ResourceUtils.resource("help-menu/help.html");
+        if (helpHtmlPage.exists()) {
+            try {
+                Desktop.getDesktop().open(helpHtmlPage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

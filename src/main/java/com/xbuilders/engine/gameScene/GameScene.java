@@ -97,9 +97,9 @@ public class GameScene implements WindowEvents {
     public static void setGame(Game game2) {
         game = game2;
         commandHelp = new HashMap<>();
-        commandHelp.put("msg", "Usage: msg <player> <message>");
+        commandHelp.put("msg", "Usage: msg <player/all> <message>");
         commandHelp.put("help", "Usage: help <command>");
-        commandHelp.put("listPlayers", "Lists all connected players");
+        commandHelp.put("players", "Lists all connected players");
         commandHelp.put("goto", "Usage: goto <player>");
         if (game.getCommandHelp() != null) commandHelp.putAll(game.getCommandHelp());
     }
@@ -116,7 +116,7 @@ public class GameScene implements WindowEvents {
                     }
                     return out;
                 }
-                case "listplayers" -> {
+                case "players" -> {
                     String str = "" + server.clients.size() + " players:\n";
                     for (PlayerSocket client : server.clients) {
                         if (client.player != null) str += client.player.name + "\n";

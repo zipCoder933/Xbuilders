@@ -11,24 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Todo list.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todo list.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/blocks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/help-menu/help.html" beforeDir="false" afterPath="$PROJECT_DIR$/res/help-menu/help.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/blockIconRendering/BlockIconRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/blockIconRendering/BlockIconRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/Chunk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/FloorItemRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/FloorItemRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/LampRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/LampRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/RaisedTrackRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/RaisedTrackRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/SpriteRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/SpriteRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/TorchRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/TorchRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/WallItemRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/type/WallItemRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/threadPoolExecutor/PriorityExecutor/ExecutorServiceUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/threadPoolExecutor/PriorityExecutor/ExecutorServiceUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
