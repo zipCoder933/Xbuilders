@@ -5,6 +5,7 @@
 package com.xbuilders.window.utils.texture;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -200,7 +201,7 @@ public class TextureUtils {
         return texture;
     }
 
-    private static ByteBuffer makeRegionOfImage(ByteBuffer fullImage, TextureFile file, int imageWidth, int imageHeight) {
+    public static ByteBuffer makeRegionOfImage(ByteBuffer fullImage, TextureFile file, int imageWidth, int imageHeight) {
         // Create a new buffer for the section
         ByteBuffer section = MemoryUtil.memAlloc(file.regionWidth * file.regionHeight * 4);
 
@@ -211,6 +212,66 @@ public class TextureUtils {
             MemoryUtil.memCopy(MemoryUtil.memAddress(fullImage) + fullImageOffset, MemoryUtil.memAddress(section) + sectionOffset, file.regionWidth * 4);
         }
         return section;
+    }
+
+    public static Texture loadTexture(ByteBuffer buffer,
+                                      int width,
+                                      int height,
+                                      boolean linearFiltering) throws IOException {
+
+        //<editor-fold defaultstate="collapsed" desc="load the bytes of the texture to memory">
+        try {
+            if (buffer == null) {
+                throw new IOException("Can't load image:" + "\n" + STBImage.stbi_failure_reason());
+            }
+            //</editor-fold>
+            //<editor-fold defaultstate="collapsed" desc="load and configure the texture to opengl">
+            int id = GL11.glGenTextures(); //Generate the texture ID
+            Texture texture = new Texture(buffer, id, width, height);
+            addTexture(id);
+
+            /**
+             * GL11.glBindTexture() Binds the texture to the 2D texture
+             * target(gl_texture_2d). Now, any texture operations (referencing
+             * gl_texture_2d) will affect the bound texture (textureID)
+             */
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+
+            GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+
+//Give the image to opengl:
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+
+            if (linearFiltering) {
+// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
+                GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR); //linear or nearest
+// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
+                GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR); //linear or nearest
+            } else {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            }
+
+// Generate mipmaps:
+            GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+
+            STBImage.stbi_image_free(buffer);
+
+            /**
+             * unbinds (unbinds) any texture currently bound to the 2D texture
+             * target. After this call, further texture operations for
+             * GL_TEXTURE_2D will have no effect until a new texture is bound.
+             */
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+//</editor-fold>
+
+            if (id == 0) {
+                return null;
+            }
+            return texture;
+        } catch (Exception e) {
+            throw new IOException("Unable to load texture: ", e);
+        }
     }
 
     public static Texture loadTexture(String resourceName, boolean linearFiltering) throws IOException {
@@ -226,6 +287,7 @@ public class TextureUtils {
             if (buffer == null) {
                 throw new IOException("Can't load image \"" + resourceName + "\":" + "\n" + STBImage.stbi_failure_reason());
             }
+
             int width = w.get();
             int height = h.get();
             //</editor-fold>

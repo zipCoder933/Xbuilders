@@ -12,11 +12,18 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.utils.texture.Texture;
+import com.xbuilders.window.utils.texture.TextureFile;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3i;
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MathUtil;
+import org.lwjgl.system.MemoryStack;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.function.Consumer;
 
 public class Block extends Item {
@@ -171,9 +178,7 @@ public class Block extends Item {
             } else {//If there is no generated block icon, default to the texture
                 File file = textures.getTextureFile(this.texture.NEG_Y_NAME);
                 if (file != null) {
-                    Texture tex = TextureUtils.loadTexture(
-                            file.getAbsolutePath(), false);
-                    super.setIcon(tex.id);
+                    super.setIcon(loadBlockTexture(file));
                 } else {
                     super.setIcon(defaultIcon);
                 }
@@ -181,6 +186,27 @@ public class Block extends Item {
         } else {
             super.setIcon(defaultIcon);
         }
+    }
+
+    private int loadBlockTexture(File file) throws IOException {
+        Texture tex;
+//        try (MemoryStack stack = MemoryStack.stackPush()) {
+//            IntBuffer w = stack.mallocInt(1);
+//            IntBuffer h = stack.mallocInt(1);
+//            IntBuffer channels = stack.mallocInt(1);
+//            ByteBuffer buffer = STBImage.stbi_load(file.getAbsolutePath(), w, h, channels, 4);
+//
+//            int maxWidth = Math.min(w.get(), h.get());
+//            w.put(maxWidth);
+//            h.put(maxWidth);
+//
+//            TextureFile textureFile = new TextureFile(null, 0, 0, maxWidth, maxWidth);
+//            buffer = TextureUtils.makeRegionOfImage(buffer, textureFile, w.get(), h.get());
+//
+//            tex = TextureUtils.loadTexture(buffer, w.get(), h.get(), false);
+//        }
+        tex = TextureUtils.loadTexture(file.getAbsolutePath(), false);
+        return tex.id;
     }
 
     public Block(int id, String name) {

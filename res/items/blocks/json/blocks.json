@@ -299,6 +299,7 @@
             "neg_x": "torch",
             "pos_y": "torch"
         },
+        "icon": "torch.png",
         "solid": true,
         "opaque": true,
         "torch": 15,
@@ -6439,6 +6440,7 @@
             "neg_x": "blue torch",
             "pos_y": "blue torch"
         },
+        "icon": "blue_torch.png",
         "solid": true,
         "opaque": true,
         "torch": 15,
