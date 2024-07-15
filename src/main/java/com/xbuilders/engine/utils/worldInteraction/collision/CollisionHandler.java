@@ -167,14 +167,7 @@ public class CollisionHandler {
                 return;
             }
 
-            if (collisionData.collisionNormal.y == -1) {
-                driver.velocity.y = 0;
-                driver.onGround = true;
-                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
-            } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) {
-                driver.velocity.y = 0;
-                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
-            } else if (collisionData.collisionNormal.x != 0) {
+            if (collisionData.collisionNormal.x != 0) {
                 if (myBox.box.max.y - box.min.y < driver.stepHeight) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.x));
                 } else {
@@ -190,7 +183,16 @@ public class CollisionHandler {
                     collisionData.sideCollisionIsEntity = isEntity;
                     myBox.box.setZ(myBox.box.min.z + collisionData.penPerAxes.z);
                 }
+            } else if (collisionData.collisionNormal.y == -1) {
+                driver.velocity.y = 0;
+                driver.onGround = true;
+                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
+            } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) {
+                driver.velocity.y = 0;
+                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
             }
+
+
         }
     }
 }

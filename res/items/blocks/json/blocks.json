@@ -3330,8 +3330,8 @@
             "neg_x": "iron ladder",
             "pos_y": "iron ladder"
         },
-        "solid": true,
-        "opaque": true,
+        "solid": false,
+        "opaque": false,
         "torch": 0,
         "type": 7
     },
@@ -3474,8 +3474,8 @@
             "neg_x": "dark oak ladder",
             "pos_y": "dark oak ladder"
         },
-        "solid": true,
-        "opaque": true,
+        "solid": false,
+        "opaque": false,
         "torch": 0,
         "type": 7
     },
@@ -3814,8 +3814,8 @@
             "neg_x": "bamboo ladder",
             "pos_y": "bamboo ladder"
         },
-        "solid": true,
-        "opaque": true,
+        "solid": false,
+        "opaque": false,
         "torch": 0,
         "type": 7
     },
@@ -6279,8 +6279,8 @@
             "neg_x": "oak ladder",
             "pos_y": "oak ladder"
         },
-        "solid": true,
-        "opaque": true,
+        "solid": false,
+        "opaque": false,
         "torch": 0,
         "type": 7
     },

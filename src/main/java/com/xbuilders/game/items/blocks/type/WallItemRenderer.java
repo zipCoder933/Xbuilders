@@ -4,9 +4,6 @@
  */
 package com.xbuilders.game.items.blocks.type;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -29,7 +26,7 @@ public class WallItemRenderer extends BlockType {
     public WallItemRenderer() {
         initializationCallback = (b) -> {
             b.opaque = false;
-            b.solid = true;
+            b.solid = false;
         };
         generate3DIcon = false;
         wall0 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall0.blockType"), renderSide_subBlock);
@@ -38,26 +35,27 @@ public class WallItemRenderer extends BlockType {
         wall3 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall3.blockType"), renderSide_subBlock);
     }
 
-    public boolean allowExistence(Block block, BlockData data, int worldX, int worldY, int worldZ) {
-        Block testBlock;
-        if (data == null || data.get(0) == 3) {
-            testBlock = GameScene.world.getBlock(worldX - 1, worldY, worldZ);
-        } else if (data.get(0) == 0) {
-            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ - 1);
-        } else if (data.get(0) == 1) {
-            testBlock = GameScene.world.getBlock(worldX + 1, worldY, worldZ);
-        } else {
-            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ + 1);
-        }
-
-        BlockType itemType = ItemList.blocks.getBlockType(testBlock.type);
-        if (itemType == null) {
-            return false;
-        }
-
-        return testBlock.type != BlockList.LIQUID_BLOCK_TYPE_ID
-                && !testBlock.isAir() &&
-                (testBlock.solid || itemType.isCubeShape());
+    public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
+        return true;
+//        Block testBlock;
+//        if (data == null || data.get(0) == 3) {
+//            testBlock = GameScene.world.getBlock(worldX - 1, worldY, worldZ);
+//        } else if (data.get(0) == 0) {
+//            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ - 1);
+//        } else if (data.get(0) == 1) {
+//            testBlock = GameScene.world.getBlock(worldX + 1, worldY, worldZ);
+//        } else {
+//            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ + 1);
+//        }
+//
+//        BlockType itemType = ItemList.blocks.getBlockType(testBlock.type);
+//        if (itemType == null) {
+//            return false;
+//        }
+//
+//        return testBlock.type != BlockList.LIQUID_BLOCK_TYPE_ID
+//                && !testBlock.isAir() &&
+//                (testBlock.solid || itemType.isCubeShape());
     }
 
     @Override

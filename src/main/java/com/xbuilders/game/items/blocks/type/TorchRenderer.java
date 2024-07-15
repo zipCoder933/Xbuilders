@@ -8,8 +8,6 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
-import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 
@@ -29,7 +27,7 @@ public class TorchRenderer extends BlockType {
     BlockModel[] fenceSide, sideBlock;
 
     @Override
-    public boolean allowExistence(Block block,int worldX, int worldY, int worldZ) {
+    public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
         return sideIsSolid(GameScene.world.getBlock(worldX, worldY+1, worldZ))||
                 sideIsSolid(GameScene.world.getBlock(worldX+1, worldY, worldZ))||
                 sideIsSolid(GameScene.world.getBlock(worldX-1, worldY, worldZ))||

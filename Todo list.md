@@ -15,6 +15,7 @@ There is a balance, but when you spend too much time making the inside of the co
 - there is a bug where sometimes a chunk wont update one of its sides (in terrain gen and regular block setting)
 
 ### features
+- **Add a key reference**
 - add line, sphere and replace tools
 - Add trees into terrian
 - add birds, fish and turtles

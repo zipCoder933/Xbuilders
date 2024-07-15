@@ -20,6 +20,7 @@ import org.joml.Vector3i;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BlockEventPipeline {
 
@@ -106,14 +107,10 @@ public class BlockEventPipeline {
         resolveQueue(allowBlockEvents, framesThatHadEvents, player,
                 affectedChunks, sunNode_OpaqueToTrans, sunNode_transToOpaque);
 
-        if (affectedChunks.size() < 7) {
-            updateAffectedChunks(affectedChunks);
-        }
-
         boolean multiThreadedMode = blockChangesThisFrame > 100 || lightChangesThisFrame > 20 ||
                 sunNode_transToOpaque.size() > 10 || sunNode_OpaqueToTrans.size() > 50;
 
-        Main.devPrintln("\nUPDATING " + events.size() + " EVENTS: [  "
+        Main.printlnDev("\nUPDATING " + events.size() + " EVENTS: [  "
                 + "  frames in row=" + framesThatHadEvents
                 + "  block changes=" + blockChangesThisFrame
                 + "  light changes=" + lightChangesThisFrame
@@ -140,6 +137,8 @@ public class BlockEventPipeline {
                               final List<ChunkNode> sunNode_OpaqueToTrans,
                               final List<ChunkNode> sunNode_transToOpaque
     ) {
+
+        final AtomicBoolean firstChunkUpdate = new AtomicBoolean(true);
         HashMap<Vector3i, BlockHistory> eventsCopy;
         synchronized (eventClearLock) {
             eventsCopy = new HashMap<>(events);
@@ -147,7 +146,7 @@ public class BlockEventPipeline {
         }
 
 
-        Main.devPrintln("EVENTS: " + eventsCopy.size());
+        Main.printlnDev("EVENTS: " + eventsCopy.size());
 
         eventsCopy.forEach((worldPos, blockHist) -> {
 
@@ -169,19 +168,24 @@ public class BlockEventPipeline {
                 BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);
                 if (type == null) return;
 
+                BlockData blockData = null;
+                if (blockHist.updateBlockData) {
+                    blockData = blockHist.data;
+                } else {
+                    blockData = type.getInitialBlockData(chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z), player);
+                }
+
                 if (blockHist.currentBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z)
                         && type.allowExistence(blockHist.currentBlock, worldPos.x, worldPos.y, worldPos.z)) {  //Should we set the block?
 
                     //<editor-fold defaultstate="collapsed" desc="set the block">
                     chunk.markAsModifiedByUser();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.currentBlock.id);
-                    BlockData data = null;
-                    if (blockHist.updateBlockData) {
-                        data = blockHist.data;
-                    } else {
-                        data = type.getInitialBlockData(chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z), player);
-                    }
-                    chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, data);
+                    chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData);
+//                    if (firstChunkUpdate.get() && eventsCopy.size() < 6) { //We can update the chunk right after the first block is set
+//                        chunk.updateMesh(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+//                        firstChunkUpdate.set(false);
+//                    }
                     //</editor-fold>
 
                     // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
@@ -207,7 +211,7 @@ public class BlockEventPipeline {
                     if (allowBlockEvents) {
                         startLocalChange(worldPos, blockHist, allowBlockEvents);
                         blockHist.previousBlock.run_RemoveBlockEvent(worldPos);
-                        blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos, data); //Run the block event
+                        blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos, blockData); //Run the block event
                     }
                 }
             } else if (blockHist.updateBlockData) {
@@ -223,17 +227,17 @@ public class BlockEventPipeline {
                                         ArrayList<ChunkNode> sunNode_transToOpaque) {
 
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
-        Main.devPrintln("\tOpaque to trans: " + sunNode_OpaqueToTrans.size() + "; Trans to opaque: " + sunNode_transToOpaque.size());
+        Main.printlnDev("\tOpaque to trans: " + sunNode_OpaqueToTrans.size() + "; Trans to opaque: " + sunNode_transToOpaque.size());
 
         if (sunNode_OpaqueToTrans.size() > 10000 || sunNode_transToOpaque.size() > 10000) {
             GameScene.alert("The lighting is being calculated. This may take a while.");
-            Main.devPrintln("Pre-Updating Meshes");
+            Main.printlnDev("Pre-Updating Meshes");
             updateAffectedChunks(affectedChunks);
         }
         SunlightUtils.updateFromQueue(sunNode_OpaqueToTrans, sunNode_transToOpaque, affectedChunks);
         sunNode_OpaqueToTrans.clear();
         sunNode_transToOpaque.clear();
-        Main.devPrintln("Done. Chunks affected: " + affectedChunks.size());
+        Main.printlnDev("Done. Chunks affected: " + affectedChunks.size());
 
         //Resolve affected chunks
         updateAffectedChunks(affectedChunks);

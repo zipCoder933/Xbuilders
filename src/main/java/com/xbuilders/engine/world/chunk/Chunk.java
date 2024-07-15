@@ -257,17 +257,17 @@ public class Chunk {
                 loadFuture = null;
                 pillarInformation.initLighting(null, terrain, distToPlayer);
             }
-
             if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {
-                if (neghbors.allNeghborsLoaded) {
-                    loadFuture = null;
+                 if (neghbors.allNeghborsLoaded) {
+                     loadFuture = null;
                     World.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
+
                         if (GameScene.world.info == null)
                             return null; // Quick fix. TODO: remove this line
+
                         meshes.compute();
                         setGenerationStatus(GEN_COMPLETE);
-                        // if(!meshes.isEmpty()) System.out.println("Mesh computed!");
                         return meshes;
                     });
                     World.frameTester.endProcess("red Compute meshes");

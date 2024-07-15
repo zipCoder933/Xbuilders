@@ -27,7 +27,7 @@ public class Camera {
     public final Vector2i simplifiedPanTilt;
     public final Vector3f right, look, target, position;
     public final Vector3f cursorRaycastLook = new Vector3f();
-    public final Vector3f cameraRaycastLook = new Vector3f();
+    public final Vector3f cameraRaycast = new Vector3f();
     public final Vector3f cameraForward = new Vector3f();
 
     public float tilt, pan, normalizedPan;
@@ -206,11 +206,11 @@ public class Camera {
 
             float thirdPersonDist2 = Math.abs(thirdPersonDist);
             if (getThirdPersonDist() > 0) {
-                cameraRaycastLook.set(look);
+                cameraRaycast.set(look);
             } else {
-                cameraRaycastLook.set(0).sub(look);
+                cameraRaycast.set(0).sub(look);
             }
-            RayCasting.traceSimpleRay(cameraViewRay, position, cameraRaycastLook, (int) thirdPersonDist2 + 1,
+            RayCasting.traceSimpleRay(cameraViewRay, position, cameraRaycast, (int) thirdPersonDist2 + 1,
                     ((block, forbiddenBlock, rx, ry, rz) -> {
                         Block block2 = ItemList.getBlock(block);
                         return block != BlockList.BLOCK_AIR.id &&

@@ -51,8 +51,8 @@ public class SpriteRenderer extends BlockType {
 
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isLiquid()
-                && !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isAir();
+        Block belowBlock = GameScene.world.getBlock(worldX, worldY + 1, worldZ);
+        return !belowBlock.isAir() && !belowBlock.isLiquid();
     }
 
     @Override

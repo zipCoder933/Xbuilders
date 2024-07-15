@@ -1,0 +1,11 @@
+{
+  "latest-version": 1.0,
+  "releases": [
+    {
+      "version": 1.0,
+      "changes": [
+        "The initial release of XBuilders!"
+      ]
+    }
+  ]
+}

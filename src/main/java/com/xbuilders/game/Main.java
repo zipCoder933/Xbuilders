@@ -37,7 +37,7 @@ public class Main extends NKWindow {
 
     public static String releaseVersion = "v1.0.0";
 
-    public static void devPrintln(String message) {
+    public static void printlnDev(String message) {
         if(devMode) {
             System.out.println(message);
         }

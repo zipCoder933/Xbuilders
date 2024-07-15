@@ -394,6 +394,7 @@ public class GameScene implements WindowEvents {
                     Chunk chunk = world.getChunk(rayWCC.chunk);
                     if (chunk != null) {
                         text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
+                        text += "\nchunk neighbors: " + chunk.neghbors.toString();
                         text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
                         text += "\nchunk mesh: " + chunk.meshes;
                         text += "\nchunk last modified: " + MiscUtils.formatTime(chunk.lastModifiedTime);

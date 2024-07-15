@@ -222,7 +222,6 @@ public class UserControlledPlayer extends Player {
 
         Block newPlayerBlock = getBlockAtPlayerHead();
         if (playerBlock == null || newPlayerBlock.id != playerBlock.id) {
-            System.out.println("Player block changed to " + newPlayerBlock);
             playerBlock = newPlayerBlock;
             if (newCameraBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.velocity.set(0, 0, 0);
@@ -485,10 +484,8 @@ public class UserControlledPlayer extends Player {
 
     private void removeItem() {
         if (camera.cursorRay.getEntity() != null) {
-            System.out.println("Deleting entity");
             camera.cursorRay.getEntity().destroy();
         } else {
-            System.out.println("Deleting block at " + camera.cursorRay.getHitPos());
             setBlock(BlockList.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
         }
     }
