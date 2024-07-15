@@ -254,9 +254,9 @@ public class Chunk {
 
             if (isTopChunk && pillarInformation != null
                     && pillarInformation.isPillarLoaded()) {
-                loadFuture = null;
                 pillarInformation.initLighting(null, terrain, distToPlayer);
             }
+
             if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {
                  if (neghbors.allNeghborsLoaded) {
                      loadFuture = null;
