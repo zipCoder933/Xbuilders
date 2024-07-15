@@ -2,6 +2,7 @@ package com.xbuilders.engine.player.pipeline;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -28,15 +29,20 @@ public class BlockEventPipeline {
         this.world = world;
     }
 
-    public void addEvent(Vector3i position, BlockHistory event) {
-        if (event != null) {
-            if (event.previousBlock.opaque != event.currentBlock.opaque) {
+    public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
+        if (blockHist != null) {
+            //If the previous block is null, set it to the block at the position
+            if (blockHist.previousBlock == null) {
+                blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+            }
+
+            if (blockHist.previousBlock.opaque != blockHist.currentBlock.opaque) {
                 lightChangesThisFrame++;
             }
-            if (event.previousBlock != event.currentBlock || event.updateBlockData) {
+            if (blockHist.previousBlock != blockHist.currentBlock || blockHist.updateBlockData) {
                 blockChangesThisFrame++;
                 synchronized (eventClearLock) {
-                    events.put(position, event);
+                    events.put(worldPos, blockHist);
                 }
             }
         }
@@ -46,7 +52,8 @@ public class BlockEventPipeline {
         addEvent(WCCi.chunkSpaceToWorldSpace(wcc), event);
     }
 
-    Map<Vector3i, BlockHistory> events = new HashMap<>();
+    private Map<Vector3i, BlockHistory> events = new HashMap<>(); //ALL events must be submitted to this
+
     WCCi wcc = new WCCi();
     World world;
     final Object eventClearLock = new Object();
@@ -155,15 +162,10 @@ public class BlockEventPipeline {
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
+
+
             if (!blockHist.previousBlock.equals(blockHist.currentBlock)) { //If the 2 blocks are different
                 //Send the block to the client
-
-                /**
-                 * A few problems:
-                 * 1. How to se know that a block has changed by us or someone else
-                 * 2.
-                 */
-//                GameScene.server.sendBlockChange(worldPos, blockHist.currentBlock, blockHist.data);
 
                 BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);
                 if (type == null) return;
@@ -179,6 +181,7 @@ public class BlockEventPipeline {
                         && type.allowExistence(blockHist.currentBlock, worldPos.x, worldPos.y, worldPos.z)) {  //Should we set the block?
 
                     //<editor-fold defaultstate="collapsed" desc="set the block">
+                    GameScene.server.sendBlockChange(worldPos, blockHist.currentBlock, blockData);
                     chunk.markAsModifiedByUser();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.currentBlock.id);
                     chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData);
@@ -208,7 +211,7 @@ public class BlockEventPipeline {
                     affectedChunks.add(chunk);
 
                     //Block events:
-                    if (allowBlockEvents) {
+                    if (allowBlockEvents && !blockHist.isFromMultiplayer) {//Dont do block events if the block was set by the server
                         startLocalChange(worldPos, blockHist, allowBlockEvents);
                         blockHist.previousBlock.run_RemoveBlockEvent(worldPos);
                         blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos, blockData); //Run the block event

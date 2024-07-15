@@ -438,8 +438,7 @@ public class UserControlledPlayer extends Player {
         wcc.set(worldX, worldY, worldZ);
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
-            short prevBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-            eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(prevBlock, block, blockData));
+            eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(block, blockData));
         }
     }
 
@@ -450,8 +449,7 @@ public class UserControlledPlayer extends Player {
     public void setBlock(short block, WCCi wcc) {
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
-            short prevBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-            eventPipeline.addEvent(wcc, new BlockHistory(prevBlock, block));
+            eventPipeline.addEvent(wcc, new BlockHistory(block));
         }
     }
 

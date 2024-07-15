@@ -153,8 +153,8 @@ public class WorldInfo {
 
     public String getDetails() {
         return "Name: " + name + "\n"
-                + "Type: " + infoFile.terrain + "\n"
-                + "Size: " + getSize() + "\n"
+                + (infoFile.isJoinedMultiplayerWorld ? "Multiplayer world" : "") + "\n"
+                + "\nType: " + infoFile.terrain + "\n"
                 + "Last saved:\n" + formatTime(getLastSaved()) + "\n"
                 + "Seed: " + infoFile.seed;
     }

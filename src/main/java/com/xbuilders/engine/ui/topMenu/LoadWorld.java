@@ -105,16 +105,15 @@ public class LoadWorld implements MenuPage {
                 nk_layout_row_dynamic(ctx, 40, 1);
 
                 nk_style_set_font(ctx, menu.uires.font_12);
-                if (nk_button_label(ctx, "LOAD WORLD")) {
-                    loadWorld(currentWorld, null);
-                }
 
-                if (nk_button_label(ctx, "HOST AS MULTIPLAYER")) {
-                    menu.setPage(Page.HOST_MULTIPLAYER);
+                if (!currentWorld.infoFile.isJoinedMultiplayerWorld) {
+                    if (nk_button_label(ctx, "LOAD WORLD")) {
+                        loadWorld(currentWorld, null);
+                    }
+                    if (nk_button_label(ctx, "HOST AS MULTIPLAYER")) {
+                        menu.setPage(Page.HOST_MULTIPLAYER);
+                    }
                 }
-//                if (nk_button_label(ctx, "JOIN MULTIPLAYER")) {
-//                    menu.setPage(Page.JOIN_MULTIPLAYER);
-//                }
 
                 if (nk_button_label(ctx, "DELETE WORLD")) {
                     menu.popupMessage.message("Delete World",
