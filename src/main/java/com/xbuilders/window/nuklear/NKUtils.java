@@ -5,11 +5,11 @@
 package com.xbuilders.window.nuklear;
 
 import org.lwjgl.nuklear.NkContext;
+
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 import static org.lwjgl.nuklear.Nuklear.nk_text;
 
 /**
- *
  * @author zipCoder933
  */
 public class NKUtils {
@@ -27,12 +27,7 @@ public class NKUtils {
     }
 
     public static int textHeight(String text, int lineHeight) {
-        int height = 0;
-        String[] splitText = text.split("\n");
-        for (int i = 0; i < splitText.length; i++) {
-            height += lineHeight;
-        }
-        return height;
+        return text.split("\n").length * lineHeight;
     }
 
 //    private static void drawTextWithShadow(NkContext ctx, String text,

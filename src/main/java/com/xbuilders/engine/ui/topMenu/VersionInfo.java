@@ -15,13 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VersionInfo {
-    final String versionsJson = "https://github.com/zipCoder933/Xbuilders/blob/main/versions.json";
+    final String versionsJson = "https://raw.githubusercontent.com/zipCoder933/Xbuilders/main/versions.json";
     Gson gson;
     float latestVersion;
     List<VersionChanges> releases = new ArrayList<>();
 
     public VersionInfo() {
         gson = new Gson();
+    }
+
+    public void createUpdatePrompt(PopupMessage popupMessage) {
+        checkForUpdates();
+        if (isNewerVersionAvailable()) {
+            String changes = changesToString();
+            popupMessage.message("A new version of XBuilders is available! ", changes + "\n\nWould you like to get the latest version?", () -> {
+                openInBrowser();
+            });
+        }
     }
 
     public void openInBrowser() {
@@ -61,8 +71,7 @@ public class VersionInfo {
     }
 
     public String toString() {
-        String s = "Latest version: " + latestVersion + "\n" +
-                "Versions: " + String.join("\n\t", releases.toString());
+        String s = "Latest version: " + latestVersion + "\n" + "Versions: " + String.join("\n\t", releases.toString());
         return s;
     }
 
@@ -73,13 +82,14 @@ public class VersionInfo {
     }
 
     public void checkForUpdates() {
-//        String jsonString = new String(ResourceUtils.downloadFile(versionsJson));
         String jsonString = null;
         try {
-            jsonString = Files.readString(ResourceUtils.localResource("versions.json").toPath());
+            jsonString = new String(ResourceUtils.downloadFile(versionsJson));
+//            jsonString = Files.readString(ResourceUtils.localResource("versions.json").toPath());
         } catch (IOException e) {
             return;
         }
+//        System.out.println(jsonString);
 
         JsonElement jsonElement = gson.fromJson(jsonString, JsonElement.class);
         //Get the version

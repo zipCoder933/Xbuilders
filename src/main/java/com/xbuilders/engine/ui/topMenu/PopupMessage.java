@@ -42,7 +42,7 @@ public class PopupMessage {
     boolean visible = false;
     int boxHeight = 400;
     int boxWidth = 500;
-    final int maxCharactersPerLine = boxWidth / 12;
+    final int maxCharactersPerLine = boxWidth / 6;
     NkRect windowDims;
     String title, body;
     long shownTime;
@@ -81,10 +81,8 @@ public class PopupMessage {
     public void draw(MemoryStack stack) {
         if (!visible) return;
         nk_style_set_font(ctx, uires.font_12);
-        boxHeight = MathUtils.clamp(
-                NKUtils.textHeight(body, lineHeight),
-                110, 300) + 50;
-
+        boxHeight = NKUtils.textHeight(body, lineHeight) + 140;
+        boxHeight = MathUtils.clamp(boxHeight, 110, 400);
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2),
                 boxWidth, boxHeight, windowDims);
 

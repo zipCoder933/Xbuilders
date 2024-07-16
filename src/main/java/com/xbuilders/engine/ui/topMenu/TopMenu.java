@@ -129,13 +129,7 @@ public class TopMenu {
 
         VersionInfo versionInfo = new VersionInfo();
         versionInfo.checkForUpdates();
-        if (versionInfo.isNewerVersionAvailable()) {
-            String changes = versionInfo.changesToString();
-            popupMessage.message("A new version of XBuilders is available! ",
-                    changes + "\n\nWould you like to get the latest version?", () -> {
-                        versionInfo.openInBrowser();
-                    });
-        }
+        versionInfo.createUpdatePrompt(popupMessage);
     }
 
     boolean firsttime = true;
