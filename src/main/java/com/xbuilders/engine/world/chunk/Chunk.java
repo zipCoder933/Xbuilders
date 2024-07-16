@@ -29,7 +29,6 @@ public class Chunk {
     public long lastModifiedTime;
 
 
-
     /**
      * We dont have to make a needs to be saved call because it wont get saved unless it is owned by the user
      * And we wont ever need to mark as needs to be saved if it is not owned by the user, because it won't be saved
@@ -252,14 +251,17 @@ public class Chunk {
     public void prepare(Terrain terrain, long frame, boolean isSettingUpWorld) {
         if (loadFuture != null && loadFuture.isDone()) {
 
-            if (isTopChunk && pillarInformation != null
+            if (isTopChunk
+                    && pillarInformation != null
+                    && !pillarInformation.pillarLightLoaded
                     && pillarInformation.isPillarLoaded()) {
                 pillarInformation.initLighting(null, terrain, distToPlayer);
+                pillarInformation.pillarLightLoaded = true;
             }
 
             if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {
-                 if (neghbors.allNeghborsLoaded) {
-                     loadFuture = null;
+                if (neghbors.allNeghborsLoaded) {
+                    loadFuture = null;
                     World.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
 

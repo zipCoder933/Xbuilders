@@ -18,9 +18,12 @@ public class PillarInformation {
 
     // This list includes the chunk itself
     Chunk[] chunks;
+    public boolean pillarLightLoaded = false;
 
     public PillarInformation(Chunk[] pillarChunks) {
+        //Setup occurs here
         this.chunks = pillarChunks;
+        pillarLightLoaded = false;
     }
 
     public boolean isPillarAndAllNeghborsLoaded() {
@@ -60,7 +63,7 @@ public class PillarInformation {
             lightService.submit(dist, () -> {
                 // System.err.println("Started loading sunlight");
                 // World.frameTester.startProcess();
-             ChunkSunlightGenerator.generateSunlight(chunks[0], terrain);
+                ChunkSunlightGenerator.generateSunlight(chunks[0], terrain);
                 // Generate all meshes
                 for (Chunk c : chunks) {
                     if (c.getGenerationStatus() >= Chunk.GEN_TERRAIN_LOADED)

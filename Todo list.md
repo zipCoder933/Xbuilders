@@ -2,7 +2,11 @@
 There is a balance, but when you spend too much time making the inside of the code perfect, you waste time unnecisarrily.
 **All that matters is that the code works!!!**
 
+## Important
+- **Carefully test this release on a previous release to check to see if the performance has changed in any way**
+
 ### bugs 
+
 - **THE LOW FPS AT CERTAIN VIEWING ANGLES IS STILL AN ISSUE**
   - See bugs and Performance.md
 - FIX BLOCK PIPELINE BUGS
