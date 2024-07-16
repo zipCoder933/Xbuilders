@@ -13,9 +13,10 @@ import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
+
+import java.nio.ByteBuffer;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -40,28 +41,28 @@ public class PopupMessage {
 
     Runnable confirmationCallback;
     boolean visible = false;
-    int boxHeight = 400;
-    int boxWidth = 500;
-    final int maxCharactersPerLine = boxWidth / 6;
+    float boxHeight = 400;
+    float boxWidth = 500;
+
     NkRect windowDims;
     String title, body;
     long shownTime;
 
-    private String maxCharsPerLine(String text, int maxCharactersPerLine) {
-        String[] words = text.split("[\\s&&[^\\n]]+");
-        String newText = "";
-        int characterCount = 0;
-        for (int i = 0; i < words.length; i++) {
-            characterCount += words[i].length() + 1;
-            if (words[i].endsWith("\n")) characterCount = 0;
-            else if (characterCount > maxCharactersPerLine) {
-                newText += "\n";
-                characterCount = 0;
-            }
-            newText += words[i] + " ";
-        }
-        return newText;
-    }
+//    private String maxCharsPerLine(String text, int maxCharactersPerLine) {
+//        String[] words = text.split("[\\s&&[^\\n]]+");
+//        String newText = "";
+//        int characterCount = 0;
+//        for (int i = 0; i < words.length; i++) {
+//            characterCount += words[i].length() + 1;
+//            if (words[i].endsWith("\n")) characterCount = 0;
+//            else if (characterCount > maxCharactersPerLine) {
+//                newText += "\n";
+//                characterCount = 0;
+//            }
+//            newText += words[i] + " ";
+//        }
+//        return newText;
+//    }
 
     public void message(String title, String body) {
         message(title, body, null);
@@ -69,23 +70,24 @@ public class PopupMessage {
 
     public void message(String title, String body, Runnable confirmationCallback) {
         this.title = title;
-        this.body = maxCharsPerLine(body, maxCharactersPerLine);
+        this.body = body;
         shownTime = System.currentTimeMillis();
         this.confirmationCallback = confirmationCallback;
         visible = true;
     }
 
     private final String tag = "Popup_window";
-    final int lineHeight = 10;
 
     public void draw(MemoryStack stack) {
         if (!visible) return;
+        float wrapWidth = boxWidth - 20;
+        boxHeight = (int) (NKUtils.calculateWrappedTextHeight(uires.font_9, body, wrapWidth) + 72 + 50);
+        boxHeight = MathUtils.clamp(boxHeight, 120, 400);
+
+
         nk_style_set_font(ctx, uires.font_12);
-        boxHeight = NKUtils.textHeight(body, lineHeight) + 140;
-        boxHeight = MathUtils.clamp(boxHeight, 110, 400);
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2),
                 boxWidth, boxHeight, windowDims);
-
         if (nk_begin_titled(ctx, tag, title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
 
             //Detect if the window is in focus
@@ -100,7 +102,7 @@ public class PopupMessage {
             nk_style_set_font(ctx, uires.font_9);
             nk_layout_row_dynamic(ctx, 5, 1);
 
-            NKUtils.text(ctx, body, lineHeight, NK_TEXT_ALIGN_LEFT);
+            NKUtils.wrapText(ctx, body, wrapWidth);
 
             nk_style_set_font(ctx, uires.font_12);
             nk_layout_row_static(ctx, 20, 1, 1);
@@ -129,6 +131,7 @@ public class PopupMessage {
         }
         nk_end(ctx);
     }
+
 
     private boolean canClose() {
         return System.currentTimeMillis() - shownTime > 500;

@@ -128,7 +128,6 @@ public class TopMenu {
 
 
         VersionInfo versionInfo = new VersionInfo();
-        versionInfo.checkForUpdates();
         versionInfo.createUpdatePrompt(popupMessage);
     }
 

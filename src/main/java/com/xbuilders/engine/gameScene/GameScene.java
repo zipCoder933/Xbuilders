@@ -376,7 +376,11 @@ public class GameScene implements WindowEvents {
             try {
                 WCCf wcc2 = new WCCf();
                 wcc2.set(player.worldPosition);
-                text += "Player pos: " + MiscUtils.printVector(player.worldPosition);
+                text += "Player pos: " +
+                        ((int) player.worldPosition.x) + ", " +
+                        ((int) player.worldPosition.y) + ", " +
+                        ((int) player.worldPosition.z) + "\n";
+                text += "\nPlayer camera: " + player.camera.toString();
 
                 if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {
 
@@ -404,8 +408,9 @@ public class GameScene implements WindowEvents {
                     }
 
                 }
-                text += "\nPlayer camera: " + player.camera.toString();
+
                 text += "\nSpecial Mode: " + specialMode;
+
             } catch (Exception ex) {
                 text = "Error: " + ex.getMessage();
                 ex.printStackTrace();

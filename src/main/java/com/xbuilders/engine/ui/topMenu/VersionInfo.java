@@ -25,12 +25,17 @@ public class VersionInfo {
     }
 
     public void createUpdatePrompt(PopupMessage popupMessage) {
-        checkForUpdates();
-        if (isNewerVersionAvailable()) {
-            String changes = changesToString();
-            popupMessage.message("A new version of XBuilders is available! ", changes + "\n\nWould you like to get the latest version?", () -> {
-                openInBrowser();
-            });
+        try {
+            checkForUpdates();
+            if (isNewerVersionAvailable()) {
+                String changes = changesToString();
+                popupMessage.message("A new version of XBuilders is out! ", changes +
+                        "\n\nWould you like to get the latest version?", () -> {
+                    openInBrowser();
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

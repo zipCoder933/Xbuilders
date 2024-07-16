@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player.pipeline;
 
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
@@ -232,15 +233,23 @@ public class BlockEventPipeline {
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
         Main.printlnDev("\tOpaque to trans: " + sunNode_OpaqueToTrans.size() + "; Trans to opaque: " + sunNode_transToOpaque.size());
 
-        if (sunNode_OpaqueToTrans.size() > 10000 || sunNode_transToOpaque.size() > 10000) {
+        long start = System.currentTimeMillis();
+        boolean longSunlight = sunNode_OpaqueToTrans.size() > 10000 || sunNode_transToOpaque.size() > 10000;
+        if (longSunlight) {
             GameScene.alert("The lighting is being calculated. This may take a while.");
             Main.printlnDev("Pre-Updating Meshes");
             updateAffectedChunks(affectedChunks);
         }
+
         SunlightUtils.updateFromQueue(sunNode_OpaqueToTrans, sunNode_transToOpaque, affectedChunks);
         sunNode_OpaqueToTrans.clear();
         sunNode_transToOpaque.clear();
         Main.printlnDev("Done. Chunks affected: " + affectedChunks.size());
+
+        if (longSunlight) {
+            GameScene.alert("Sunlight calculation finished " +
+                    ((System.currentTimeMillis() - start) / 1000) + "s");
+        }
 
         //Resolve affected chunks
         updateAffectedChunks(affectedChunks);
