@@ -48,12 +48,13 @@ public class PopupMessage {
     long shownTime;
 
     private String maxCharsPerLine(String text, int maxCharactersPerLine) {
-        String[] words = text.split("\\s+");
+        String[] words = text.split("[\\s&&[^\\n]]+");
         String newText = "";
         int characterCount = 0;
         for (int i = 0; i < words.length; i++) {
             characterCount += words[i].length() + 1;
-            if (characterCount > maxCharactersPerLine) {
+            if (words[i].endsWith("\n")) characterCount = 0;
+            else if (characterCount > maxCharactersPerLine) {
                 newText += "\n";
                 characterCount = 0;
             }
@@ -75,11 +76,14 @@ public class PopupMessage {
     }
 
     private final String tag = "Popup_window";
+    final int lineHeight = 10;
 
     public void draw(MemoryStack stack) {
         if (!visible) return;
         nk_style_set_font(ctx, uires.font_12);
-
+        boxHeight = MathUtils.clamp(
+                NKUtils.textHeight(body, lineHeight),
+                110, 300) + 50;
 
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2),
                 boxWidth, boxHeight, windowDims);
@@ -98,8 +102,7 @@ public class PopupMessage {
             nk_style_set_font(ctx, uires.font_9);
             nk_layout_row_dynamic(ctx, 5, 1);
 
-            int height = NKUtils.text(ctx, body, 10, NK_TEXT_ALIGN_LEFT);
-            boxHeight = MathUtils.clamp(height, 110, 300) + 50;
+            NKUtils.text(ctx, body, lineHeight, NK_TEXT_ALIGN_LEFT);
 
             nk_style_set_font(ctx, uires.font_12);
             nk_layout_row_static(ctx, 20, 1, 1);

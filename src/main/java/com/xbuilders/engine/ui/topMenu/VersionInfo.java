@@ -1,0 +1,101 @@
+package com.xbuilders.engine.ui.topMenu;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.game.Main;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+
+public class VersionInfo {
+    final String versionsJson = "https://github.com/zipCoder933/Xbuilders/blob/main/versions.json";
+    Gson gson;
+    float latestVersion;
+    List<VersionChanges> releases = new ArrayList<>();
+
+    public VersionInfo() {
+        gson = new Gson();
+    }
+
+    public void openInBrowser() {
+        //Open the browser with the latest version
+        String url = "https://github.com/zipCoder933/Xbuilders/releases";
+        try {
+            Desktop.getDesktop().browse(new URL(url).toURI());
+        } catch (IOException e) {
+        } catch (URISyntaxException e) {
+        }
+    }
+
+    public String changesToString() {
+        String changes = "";
+        for (VersionChanges version : releases) {
+            if (version.version > Main.gameVersion) changes += version.toString();
+        }
+        return changes;
+    }
+
+    public static class VersionChanges {
+        public float version;
+        public List<String> changes;
+
+        public VersionChanges(float version) {
+            this.version = version;
+            this.changes = new ArrayList<>();
+        }
+
+        public String toString() {
+            String str = "v" + version + " Changes:\n";
+            for (String change : changes) {
+                str += " * " + change + "\n";
+            }
+            return str + "\n\n";
+        }
+    }
+
+    public String toString() {
+        String s = "Latest version: " + latestVersion + "\n" +
+                "Versions: " + String.join("\n\t", releases.toString());
+        return s;
+    }
+
+    public boolean isNewerVersionAvailable() {
+        if (latestVersion > Main.gameVersion) {
+            return true;
+        } else return false;
+    }
+
+    public void checkForUpdates() {
+//        String jsonString = new String(ResourceUtils.downloadFile(versionsJson));
+        String jsonString = null;
+        try {
+            jsonString = Files.readString(ResourceUtils.localResource("versions.json").toPath());
+        } catch (IOException e) {
+            return;
+        }
+
+        JsonElement jsonElement = gson.fromJson(jsonString, JsonElement.class);
+        //Get the version
+        latestVersion = jsonElement.getAsJsonObject().get("latest-version").getAsFloat();
+        releases.clear();
+
+        //Get changes since this version
+        for (JsonElement release : jsonElement.getAsJsonObject().get("releases").getAsJsonArray()) {
+            float v = release.getAsJsonObject().get("version").getAsFloat();
+            VersionChanges version = new VersionChanges(v);
+            releases.add(version);
+            JsonArray changes = release.getAsJsonObject().get("changes").getAsJsonArray();
+            for (JsonElement change : changes) {
+                version.changes.add(change.getAsString());
+            }
+        }
+
+    }
+}

@@ -26,6 +26,15 @@ public class NKUtils {
         return height;
     }
 
+    public static int textHeight(String text, int lineHeight) {
+        int height = 0;
+        String[] splitText = text.split("\n");
+        for (int i = 0; i < splitText.length; i++) {
+            height += lineHeight;
+        }
+        return height;
+    }
+
 //    private static void drawTextWithShadow(NkContext ctx, String text,
 //            float x, float y, float xOffset, float yOffset,
 //            int textColorR, int textColorG, int textColorB,

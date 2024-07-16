@@ -199,9 +199,6 @@ public class GameScene implements WindowEvents {
 
                     if (server.getWorldInfo() != null) {
                         worldInfo = server.getWorldInfo();//Reassign the world info to the one we got from the host
-                        if (!req.hosting) {
-                            worldInfo.infoFile.isJoinedMultiplayerWorld = true;
-                        }
                         prog.stage++;
                     }
                 } else prog.stage++;

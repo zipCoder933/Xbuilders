@@ -48,7 +48,9 @@ public class MenuHome implements MenuPage {
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, menu.uires.font_9);
             nk_layout_row_dynamic(ctx, 40, 1);
-            nk_label(ctx, Main.devMode ? "DEV MODE" : Main.releaseVersion, NK_TEXT_CENTERED);
+            nk_label(ctx, Main.devMode ?
+                    "DEV MODE" :
+                    ("v" + Main.gameVersion), NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, menu.uires.font_12);
 

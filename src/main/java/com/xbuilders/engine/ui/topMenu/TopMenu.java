@@ -4,6 +4,9 @@
  */
 package com.xbuilders.engine.ui.topMenu;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Page;
 
@@ -16,6 +19,7 @@ import static com.xbuilders.engine.ui.Page.PROGRESS;
 
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.game.Main;
@@ -105,12 +109,15 @@ public class TopMenu {
         }
     }
 
+
     public TopMenu(NKWindow window) throws IOException {
         this.window = window;
     }
 
+
     public void init(UIResources uires, String ipAdress) throws IOException {
         this.uires = uires;
+        popupMessage = new PopupMessage(window.ctx, window, uires);
         menuHome = new MenuHome(window.ctx, window, this);
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
@@ -118,7 +125,17 @@ public class TopMenu {
         hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true, ipAdress, loadWorld);
         joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false, ipAdress, loadWorld);
         settings = new Settings(window.ctx, window, this);
-        popupMessage = new PopupMessage(window.ctx, window, uires);
+
+
+        VersionInfo versionInfo = new VersionInfo();
+        versionInfo.checkForUpdates();
+        if (versionInfo.isNewerVersionAvailable()) {
+            String changes = versionInfo.changesToString();
+            popupMessage.message("A new version of XBuilders is available! ",
+                    changes + "\n\nWould you like to get the latest version?", () -> {
+                        versionInfo.openInBrowser();
+                    });
+        }
     }
 
     boolean firsttime = true;
@@ -182,7 +199,7 @@ public class TopMenu {
             ArrayList<WorldInfo> worlds = new ArrayList<>();
             WorldsHandler.listWorlds(worlds);
             if (!worlds.isEmpty()) {
-                loadWorld.loadWorld(worlds.get(0),null);
+                loadWorld.loadWorld(worlds.get(0), null);
             }
         } catch (IOException ex) {
             Logger.getLogger(TopMenu.class.getName()).log(Level.SEVERE, null, ex);

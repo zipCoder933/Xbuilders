@@ -174,7 +174,6 @@ public class GameServer extends Server<PlayerSocket> {
                     playerJoinEvent(client);
                     client.sendData(NetworkUtils.formatMessage(PLAYER_CHAT, "Welcome \"" + player.name + "\"!"));
                 } else if (receivedData[0] == PLAYER_CHAT) {
-                    System.out.println("Received chat: " + new String(receivedData));
                     String message = new String(NetworkUtils.getMessage(receivedData));
                     String playerName = client.player == null ? "Unknown" : client.player.name;
                     GameScene.consoleOut(playerName + ":  \"" + message + "\"");
@@ -205,6 +204,7 @@ public class GameServer extends Server<PlayerSocket> {
                 } else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
                     readBlockChange(receivedData, (pos, blockHist) -> {
 //                        System.out.println("Received block change: " + pos + " " + blockHist.currentBlock + " " + blockHist.previousBlock);
+//                        client.changes.put(pos, blockHist);
                         GameScene.player.eventPipeline.addEvent(pos, blockHist);
                     });
                 }
@@ -220,18 +220,28 @@ public class GameServer extends Server<PlayerSocket> {
         String json = value.split("\n")[1];
         WorldInfo hostWorld = new WorldInfo();
 
-        //Make a unique name
+        //Make a unique name, but join the existing one if it exists
         int indx = 1;
-        String originalName = name;
+        String originalName = name + " (joined)";
+        name = originalName;
         while (true) {
             File existingWorld = WorldsHandler.worldFile(name);
+
             if (existingWorld.exists()) {
-                indx++;
-                name = originalName + " (" + indx + ")";
+                WorldInfo i = new WorldInfo();
+                i.load(existingWorld);
+                if (i.infoFile.isJoinedMultiplayerWorld) break;
             } else break;
+
+            indx++;
+            name = originalName + " (" + indx + ")";
         }
+        System.out.println("Making new world: " + name);
 
         hostWorld.makeNew(name, json);
+        if (!req.hosting) {
+            hostWorld.infoFile.isJoinedMultiplayerWorld = true;
+        }
         WorldsHandler.makeNewWorld(hostWorld);
         worldInfo = hostWorld;
     }

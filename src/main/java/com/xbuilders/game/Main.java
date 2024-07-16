@@ -35,15 +35,13 @@ import javax.imageio.ImageIO;
 
 public class Main extends NKWindow {
 
-    public static String releaseVersion = "v1.0.0";
+    public static double gameVersion = 1.0;
 
     public static void printlnDev(String message) {
         if(devMode) {
             System.out.println(message);
         }
     }
-
-
 
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
@@ -87,7 +85,7 @@ public class Main extends NKWindow {
     public static String name = "XBuilders";
 
     public static void main(String[] args) {
-        System.out.println("XBuilders (" + releaseVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        System.out.println("XBuilders (" + gameVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         try {
             System.out.println("args: " + Arrays.toString(args));
 
