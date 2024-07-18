@@ -53,7 +53,10 @@ public class Multiplayer implements MenuPage {
         fromPortBox = new NumberBox(4, 0);
         nameBox = new TextBox(20);
         ipAdressBox = new TextBox(20);
+
         fromPortBox.setValueAsNumber(8080);
+        portBox.setValueAsNumber(8080);
+
         this.player = player;
         this.hosting = hosting;
     }
@@ -134,7 +137,6 @@ public class Multiplayer implements MenuPage {
     @Override
     public void onOpen() {
         nameBox.setValueAsString(player.name);
-        portBox.setValueAsNumber(8080);
         if (hosting) {
             ipAdressBox.setValueAsString(ipAdress);
         } else {

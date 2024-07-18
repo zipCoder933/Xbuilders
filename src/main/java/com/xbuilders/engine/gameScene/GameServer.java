@@ -4,12 +4,9 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
-import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ByteUtils;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
 import com.xbuilders.engine.utils.network.server.Server;
@@ -17,20 +14,18 @@ import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
+import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.function.BiConsumer;
 
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
@@ -55,6 +50,12 @@ public class GameServer extends Server<PlayerSocket> {
     public GameServer(UserControlledPlayer player) {
         super(PlayerSocket::new);
         this.player = player;
+    }
+
+    public  void updatePlayers(Matrix4f projection, Matrix4f view) {
+        for (int i = 0; i < clients.size(); i++) {
+            clients.get(i).update(player, projection, view);
+        }
     }
 
     /**
@@ -188,8 +189,9 @@ public class GameServer extends Server<PlayerSocket> {
                     client.player.worldPosition.set(x, y, z);
                     client.player.pan = (w);
                 } else if (receivedData[0] == PLAYER_CHUNK_DISTANCE) {
-                    client.playerChunkDistance = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
-                    System.out.println("Player " + client.getName() + " chunk distance: " + client.playerChunkDistance);
+                    //So far this feature is useless
+//                    client.playerChunkDistance = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+//                    System.out.println("Player " + client.getName() + " chunk distance: " + client.playerChunkDistance);
                 }
 
                 //New world
@@ -327,57 +329,20 @@ public class GameServer extends Server<PlayerSocket> {
 
                 Vector3i position = new Vector3i(x, y, z);
                 newEvent.accept(position, blockHistory);
-
             }
         }
     }
 
-    public void sendBlockChange(Vector3i worldPos, Block block, BlockData data) {
-        try {
-//            System.out.println("\n\nSending block change: " + MiscUtils.printVector(worldPos) + " \t" + block + " \t" + data);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();//This is like an arraylist in that it can grow but makes new byte arrays to resize itself or get byte array
 
-            byte[] x = ByteUtils.intToBytes(worldPos.x);
-            byte[] y = ByteUtils.intToBytes(worldPos.y);
-            byte[] z = ByteUtils.intToBytes(worldPos.z);
-            byte[] b = ByteUtils.shortToBytes(block.id);
-            byte[] listA = new byte[]{
-                    VOXEL_BLOCK_CHANGE,
-                    x[0], x[1], x[2], x[3],
-                    y[0], y[1], y[2], y[3],
-                    z[0], z[1], z[2], z[3],
-                    b[0], b[1]
-            };
-            byte[] listB = data == null ? new byte[0] : data.toByteArray();
+    public void sendBlockAllChanges() {
+        for (PlayerSocket client : clients) {
+            client.sendApplicableBlockChangesToPlayer();
+        }
+    }
 
-
-            //Create a new array with listA and blockData combined, using system.arraycopy
-            byte[] byteList = new byte[listA.length + listB.length];
-            System.arraycopy(
-                    listA, 0, //Where to start reading from source
-                    byteList, 0, //where to copy at Destination
-                    listA.length);//# of elements to copy from source
-            System.arraycopy(
-                    listB, 0, //Where to start reading from source
-                    byteList, listA.length,//where to copy at Destination
-                    listB.length);//# of elements to copy from source
-
-//            System.out.println("Bytes of block change: " + Arrays.toString(byteList));
-//
-//            readBlockChange(byteList, (pos, history) -> {
-//                System.out.println("Player position:   " +
-//                        "    world:  " + MiscUtils.printVector(pos)
-//                        + "   history: " + history);
-//            });
-
-            //Merge bData and data to
-
-            for (int i = 0; i < clients.size(); i++) {
-                PlayerSocket client = clients.get(i);
-                client.sendData(byteList);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
+        for(PlayerSocket client : clients) {
+            client.addBlockChange(worldPos, block, data);
         }
     }
 

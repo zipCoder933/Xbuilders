@@ -294,12 +294,7 @@ public class GameScene implements WindowEvents {
         player.update(holdMouse);
 
         //draw other players
-        for (int i = 0; i < server.clients.size(); i++) {
-            PlayerSocket otherPlayer = server.clients.get(i);
-            if (otherPlayer.isWithinReach(player)) {
-                otherPlayer.player.update(projection, view);
-            }
-        }
+        server.updatePlayers(projection, view);
 
         Main.frameTester.endProcess("Updating player");
         enableBackfaceCulling();

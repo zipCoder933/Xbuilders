@@ -138,7 +138,7 @@ public class Main extends NKWindow {
         initGLFW();
 
         //Get the actual size of the screen
-        int windowWidth = settings.smallWindow ? 600 : 920;
+        int windowWidth = settings.smallWindow ? 750 : 920;
         int windowHeight = settings.smallWindow ? 650 : 720;
 
         if (settings.fullscreen) {

@@ -1,9 +1,7 @@
 package com.xbuilders.engine.player.pipeline;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -146,7 +144,6 @@ public class BlockEventPipeline {
                               final List<ChunkNode> sunNode_transToOpaque
     ) {
 
-        final AtomicBoolean firstChunkUpdate = new AtomicBoolean(true);
         HashMap<Vector3i, BlockHistory> eventsCopy;
         synchronized (eventClearLock) {
             eventsCopy = new HashMap<>(events);
@@ -182,7 +179,7 @@ public class BlockEventPipeline {
                         && type.allowExistence(blockHist.currentBlock, worldPos.x, worldPos.y, worldPos.z)) {  //Should we set the block?
 
                     //<editor-fold defaultstate="collapsed" desc="set the block">
-                    GameScene.server.sendBlockChange(worldPos, blockHist.currentBlock, blockData);
+                    GameScene.server.addBlockChange(worldPos, blockHist.currentBlock, blockData);
                     chunk.markAsModifiedByUser();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.currentBlock.id);
                     chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData);
@@ -220,10 +217,13 @@ public class BlockEventPipeline {
                 }
             } else if (blockHist.updateBlockData) {
                 chunk.markAsModifiedByUser();
+                GameScene.server.addBlockChange(worldPos, null, blockHist.data); //Add block data change
                 chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.data);
                 affectedChunks.add(chunk);
             }
         });
+
+        GameScene.server.sendBlockAllChanges();
     }
 
     public void updateSunlightAndMeshes(HashSet<Chunk> affectedChunks,
