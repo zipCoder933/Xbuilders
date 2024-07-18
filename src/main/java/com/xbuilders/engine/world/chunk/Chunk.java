@@ -178,27 +178,27 @@ public class Chunk {
         }
         generateMesh();
         if (neghbors.allFacingNeghborsLoaded) {
-            if (x == 0) {
-                if (neghbors.neighbors[neghbors.NEG_X_NEIGHBOR] != null || updateAllNeighbors)
+            if (x == 0 || updateAllNeighbors) {
+                if (neghbors.neighbors[neghbors.NEG_X_NEIGHBOR] != null)
                     neghbors.neighbors[neghbors.NEG_X_NEIGHBOR].generateMesh();
-            } else if (x == Chunk.WIDTH - 1) {
-                if (neghbors.neighbors[neghbors.POS_X_NEIGHBOR] != null || updateAllNeighbors)
+            } else if (x == Chunk.WIDTH - 1 || updateAllNeighbors) {
+                if (neghbors.neighbors[neghbors.POS_X_NEIGHBOR] != null)
                     neghbors.neighbors[neghbors.POS_X_NEIGHBOR].generateMesh();
             }
 
-            if (y == 0) {
-                if (neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR] != null || updateAllNeighbors)
+            if (y == 0 || updateAllNeighbors) {
+                if (neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR] != null)
                     neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR].generateMesh();
-            } else if (y == Chunk.WIDTH - 1) {
-                if (neghbors.neighbors[neghbors.POS_Y_NEIGHBOR] != null || updateAllNeighbors)
+            } else if (y == Chunk.WIDTH - 1 || updateAllNeighbors) {
+                if (neghbors.neighbors[neghbors.POS_Y_NEIGHBOR] != null)
                     neghbors.neighbors[neghbors.POS_Y_NEIGHBOR].generateMesh();
             }
 
-            if (z == 0) {
-                if (neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR] != null || updateAllNeighbors)
+            if (z == 0 || updateAllNeighbors) {
+                if (neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR] != null)
                     neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR].generateMesh();
-            } else if (z == Chunk.WIDTH - 1) {
-                if (neghbors.neighbors[neghbors.POS_Z_NEIGHBOR] != null || updateAllNeighbors)
+            } else if (z == Chunk.WIDTH - 1 || updateAllNeighbors) {
+                if (neghbors.neighbors[neghbors.POS_Z_NEIGHBOR] != null)
                     neghbors.neighbors[neghbors.POS_Z_NEIGHBOR].generateMesh();
             }
         }
