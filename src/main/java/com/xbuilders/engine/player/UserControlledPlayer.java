@@ -184,17 +184,12 @@ public class UserControlledPlayer extends Player {
     }
 
     private boolean isInsideOfLadder() {
-        BlockType type = ItemList.blocks.getBlockType(getBlockAtPlayerHead().type);
-        BlockType belowType = ItemList.blocks.getBlockType(GameScene.world.getBlock(
-                (int) Math.floor(worldPosition.x),
-                (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
-                (int) Math.floor(worldPosition.z)).type);
-
-        if (type == null || belowType == null)
-            return false;
-
-        return (type.isClimbable())
-                || belowType.isClimbable();
+        return getBlockAtPlayerHead().climbable
+                ||
+                GameScene.world.getBlock(
+                        (int) Math.floor(worldPosition.x),
+                        (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
+                        (int) Math.floor(worldPosition.z)).climbable;
     }
 
     Block cameraBlock, playerBlock;

@@ -27,6 +27,7 @@ public class WallItemRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = false;
+            b.climbable = true;
         };
         generate3DIcon = false;
         wall0 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall0.blockType"), renderSide_subBlock);
@@ -96,9 +97,4 @@ public class WallItemRenderer extends BlockType {
         }
     }
 
-
-    @Override
-    public boolean isClimbable() {
-        return true;
-    }
 }

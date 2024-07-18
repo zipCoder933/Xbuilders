@@ -32,6 +32,7 @@ public class Block extends Item {
     public final BlockTexture texture;
     public int type = 0;
     public boolean solid = true;
+    public boolean climbable = false;
     public boolean opaque = true;
     public byte torchlightStartingValue = 0;
     public Consumer<Block> initializationCallback = null;

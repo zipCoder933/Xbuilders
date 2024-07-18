@@ -140,13 +140,6 @@ public abstract class BlockType {
         return false;
     }
 
-    /**
-     * @return If the block type is climbable
-     */
-    public boolean isClimbable() {
-        return false;
-    }
-
     public String toString() {
         return name == null ? "Unnamed" : name;
     }
