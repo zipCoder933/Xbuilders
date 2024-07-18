@@ -50,7 +50,7 @@ public class NKFontUtils {
      * with stb_truetype."
      */
     //Storing the byteBuffer keeps it from being garbage collected, this preventing a possible crash
-    static final ArrayList<ByteBuffer> fontBuffers = new ArrayList<>();
+    public static final ArrayList<ByteBuffer> fontBuffers = new ArrayList<>();
 
     public static ByteBuffer loadFontData(String path) throws IOException {
         ByteBuffer buff = ioResourceToByteBuffer(path, 512 * 1024);

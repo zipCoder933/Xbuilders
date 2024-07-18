@@ -22,7 +22,19 @@ import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
 public class UIResources {
 
     public NkUserFont font_24, font_22, font_18, font_12, font_10, font_9;
+
+    /**
+     * crash from nuklear: https://github.com/LWJGL/lwjgl3/issues/986
+     * <b>the byteBuffer pased to stbtt_initFont() is Garbage collected. the contents of the
+     * buffer are not copied, instead a pointer to the font is passed and when the source of the pointer no longer exists,
+     * the game crashes</b>
+     * "You need to ensure that the ByteBuffer passed to stbtt_InitFont is not garbage collected (or not freed when
+     * using explicit memory management APIs) while the font is in active use. This is a common mistake when dealing
+     * with stb_truetype."
+     */
+    //Storing the byteBuffer keeps it from being garbage collected, this preventing a possible crash
     public final ByteBuffer fontBuffer;
+    //----------------------------------------------------------------------------------------------
 
     public UIResources(NKWindow window, NkContext ctx, boolean largerFonts) throws IOException {
         fontBuffer = NKFontUtils.loadFontData(ResourceUtils.RESOURCE_DIR + "\\fonts\\Press_Start_2P\\PressStart2P-Regular.ttf");
