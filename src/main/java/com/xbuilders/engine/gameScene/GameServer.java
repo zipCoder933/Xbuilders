@@ -44,6 +44,7 @@ public class GameServer extends Server<PlayerSocket> {
     public static final byte WORLD_CHUNK = -124;
     public static final byte READY_TO_START = -123;
     public static final byte VOXEL_BLOCK_CHANGE = -122;
+    public static final byte PLAYER_CHUNK_DISTANCE = -121;
 
     NetworkJoinRequest req;
     UserControlledPlayer player;
@@ -84,6 +85,7 @@ public class GameServer extends Server<PlayerSocket> {
             newClient.sendData(player.infoToBytes());
         }
     }
+
 
     public WorldInfo getWorldInfo() {
         if (!worldReady) return null;
@@ -185,6 +187,9 @@ public class GameServer extends Server<PlayerSocket> {
 //                    System.out.println("Player position: " + x + " " + y + " " + z + " " + w);
                     client.player.worldPosition.set(x, y, z);
                     client.player.pan = (w);
+                } else if (receivedData[0] == PLAYER_CHUNK_DISTANCE) {
+                    client.playerChunkDistance = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+                    System.out.println("Player " + client.getName() + " chunk distance: " + client.playerChunkDistance);
                 }
 
                 //New world
@@ -255,6 +260,15 @@ public class GameServer extends Server<PlayerSocket> {
         return null;
     }
 
+    public void updateChunkDistance(int distance) {
+        byte[] distInt = ByteUtils.intToBytes((int) distance);
+        try {
+            sendToAllClients(new byte[]{PLAYER_CHUNK_DISTANCE, distInt[0], distInt[1], distInt[2], distInt[3]});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onClientDisconnect(PlayerSocket client) {
         if (client.player != null) {
             GameScene.consoleOut(client.player.name + " has left");
@@ -264,6 +278,8 @@ public class GameServer extends Server<PlayerSocket> {
     }
 
     private void playerJoinEvent(PlayerSocket client) {
+        //Initial information that is important can be sent to new players
+        updateChunkDistance(GameScene.world.getViewDistance());
         GameScene.alert("A new player has joined: " + client.player.toString());
     }
 

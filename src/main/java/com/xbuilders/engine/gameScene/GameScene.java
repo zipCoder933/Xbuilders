@@ -295,8 +295,10 @@ public class GameScene implements WindowEvents {
 
         //draw other players
         for (int i = 0; i < server.clients.size(); i++) {
-            Player otherPlayer = server.clients.get(i).player;
-            otherPlayer.update(projection, view);
+            PlayerSocket otherPlayer = server.clients.get(i);
+            if (otherPlayer.isWithinReach(player)) {
+                otherPlayer.player.update(projection, view);
+            }
         }
 
         Main.frameTester.endProcess("Updating player");

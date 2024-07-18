@@ -84,6 +84,7 @@ public class World {
         // Settings
         Main.settings.viewDistance = viewDistance.get();
         Main.saveSettings();
+        GameScene.server.updateChunkDistance(viewDistance.get());
 
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
         // maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) *

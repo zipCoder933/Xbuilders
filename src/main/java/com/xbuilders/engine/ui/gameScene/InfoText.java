@@ -98,6 +98,7 @@ public class InfoText extends GameUIElement {
     ArrayList<ChatMessage> chatHistory = new ArrayList<>();
 
     public void addToHistory(String text) {
+        System.out.println(text);
         chatHistory.add(0, new ChatMessage(text));
         if (chatHistory.size() > 30) {
             chatHistory.remove(chatHistory.size() - 1);
