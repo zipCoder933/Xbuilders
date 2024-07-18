@@ -258,10 +258,9 @@ public class BlockEventPipeline {
 
     private void updateAffectedChunks(HashSet<Chunk> affectedChunks) {
         for (Chunk chunk : affectedChunks) {
-            chunk.updateMesh(
-                    wcc.chunkVoxel.x,
-                    wcc.chunkVoxel.y,
-                    wcc.chunkVoxel.z);
+            //If a block was set next to something else, we have to acount for that in the mesh update
+            //TODO: This mesh updating could be optimized by only updating the affected chunks
+            chunk.updateMesh(true, 0, 0, 0);
         }
     }
 

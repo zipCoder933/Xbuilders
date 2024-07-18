@@ -116,7 +116,7 @@ public class Block extends Item {
             if (chunk == null) return;
             BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             clickEvent.run(worldPos.x, worldPos.y, worldPos.z, data);
-            chunk.updateMesh(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
         }
     }
 
