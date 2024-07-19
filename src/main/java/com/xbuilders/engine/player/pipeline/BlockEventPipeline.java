@@ -1,6 +1,7 @@
 package com.xbuilders.engine.player.pipeline;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.multiplayer.LocalBlockPendingChanges;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
@@ -9,6 +10,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.light.SunlightUtils;
@@ -20,12 +22,23 @@ import org.joml.Vector3i;
 
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BlockEventPipeline {
 
-    public BlockEventPipeline(World world) {
+
+    private final Map<Vector3i, BlockHistory> events = new HashMap<>(); //ALL events must be submitted to this
+    public final LocalBlockPendingChanges pendingLocalChanges;
+
+
+    WCCi wcc = new WCCi();
+    World world;
+    UserControlledPlayer player;
+    final Object eventClearLock = new Object();
+
+    public BlockEventPipeline(World world, UserControlledPlayer player) {
         this.world = world;
+        this.player = player;
+        pendingLocalChanges = new LocalBlockPendingChanges(player);
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
@@ -34,7 +47,6 @@ public class BlockEventPipeline {
             if (blockHist.previousBlock == null) {
                 blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
             }
-
             if (blockHist.previousBlock.opaque != blockHist.currentBlock.opaque) {
                 lightChangesThisFrame++;
             }
@@ -51,11 +63,6 @@ public class BlockEventPipeline {
         addEvent(WCCi.chunkSpaceToWorldSpace(wcc), event);
     }
 
-    private Map<Vector3i, BlockHistory> events = new HashMap<>(); //ALL events must be submitted to this
-
-    WCCi wcc = new WCCi();
-    World world;
-    final Object eventClearLock = new Object();
 
     /**
      * corePoolSize: The number of threads to keep in the pool, even if they are idle.
@@ -68,8 +75,9 @@ public class BlockEventPipeline {
      */
     PriorityThreadPoolExecutor bulkBlockThread;
     PriorityThreadPoolExecutor eventThread;
+    WorldInfo worldInfo;
 
-    public void startGame() {
+    public void startGame(WorldInfo worldInfo) {
         eventThread = new PriorityThreadPoolExecutor(
                 100, 1000,
                 0L, TimeUnit.MILLISECONDS,
@@ -79,17 +87,28 @@ public class BlockEventPipeline {
                 5, 5,
                 100L, TimeUnit.MILLISECONDS,
                 new HighValueComparator());
+
+
+        this.worldInfo = worldInfo;
+        pendingLocalChanges.load(worldInfo);
+    }
+
+    public void save() {
+        if (pendingLocalChanges.needsSaving) {
+            pendingLocalChanges.save(worldInfo);
+            pendingLocalChanges.needsSaving = false;
+        }
     }
 
     public void endGame() {
         events.clear();
         eventThread.shutdown();
         bulkBlockThread.shutdown();
+        save();
     }
 
 
     int blockChangesThisFrame, lightChangesThisFrame;
-    long lastChunkUpdate = System.currentTimeMillis();
     int framesThatHadEvents = 0;
 
     //By limiting the number of frames in a row we can prevent block events that are called in an infinite loop
@@ -97,7 +116,15 @@ public class BlockEventPipeline {
     // prevents block.setBlockEvent() and block.onLocalChange() from being called
     final int MAX_FRAMES_WITH_EVENTS_IN_A_ROW = 10;
 
-    public void resolve(UserControlledPlayer player) {
+    public void update() {
+        if (pendingLocalChanges.periodicSendCheck(5000)) {
+            int changes = pendingLocalChanges.dumpChanges((worldPos, history) -> {
+                addEvent(worldPos, history);
+            });
+            Main.printlnDev("Loaded " + changes + " local changes");
+        }
+
+
         if (events.isEmpty()) {
             framesThatHadEvents = 0;
             return;
@@ -116,13 +143,13 @@ public class BlockEventPipeline {
         boolean multiThreadedMode = blockChangesThisFrame > 100 || lightChangesThisFrame > 20 ||
                 sunNode_transToOpaque.size() > 10 || sunNode_OpaqueToTrans.size() > 50;
 
-        Main.printlnDev("\nUPDATING " + events.size() + " EVENTS: [  "
-                + "  frames in row=" + framesThatHadEvents
-                + "  block changes=" + blockChangesThisFrame
-                + "  light changes=" + lightChangesThisFrame
-                + "  opaque>trans=" + sunNode_OpaqueToTrans.size()
-                + "  trans>opaque=" + sunNode_transToOpaque.size()
-                + "  ]\tMultiThread: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
+//        Main.printlnDev("\nUPDATING " + events.size() + " EVENTS: [  "
+//                + "  frames in row=" + framesThatHadEvents
+//                + "  block changes=" + blockChangesThisFrame
+//                + "  light changes=" + lightChangesThisFrame
+//                + "  opaque>trans=" + sunNode_OpaqueToTrans.size()
+//                + "  trans>opaque=" + sunNode_transToOpaque.size()
+//                + "  ]\tMultiThread: " + multiThreadedMode + " allowBlockEvents: " + allowBlockEvents);
 
         lightChangesThisFrame = 0;
         blockChangesThisFrame = 0;
@@ -149,9 +176,6 @@ public class BlockEventPipeline {
             eventsCopy = new HashMap<>(events);
             events.clear(); //We want to clear the old events before iterating over and picking up new ones
         }
-
-
-        Main.printlnDev("EVENTS: " + eventsCopy.size());
 
         eventsCopy.forEach((worldPos, blockHist) -> {
 
@@ -209,7 +233,7 @@ public class BlockEventPipeline {
                     affectedChunks.add(chunk);
 
                     //Block events:
-                    if (allowBlockEvents && !blockHist.isFromMultiplayer) {//Dont do block events if the block was set by the server
+                    if (allowBlockEvents && !blockHist.fromNetwork) {//Dont do block events if the block was set by the server
                         startLocalChange(worldPos, blockHist, allowBlockEvents);
                         blockHist.previousBlock.run_RemoveBlockEvent(worldPos);
                         blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos, blockData); //Run the block event
@@ -231,21 +255,20 @@ public class BlockEventPipeline {
                                         ArrayList<ChunkNode> sunNode_transToOpaque) {
 
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
-        Main.printlnDev("\tOpaque to trans: " + sunNode_OpaqueToTrans.size() + "; Trans to opaque: " + sunNode_transToOpaque.size());
+//        Main.printlnDev("\tOpaque > trans: " + sunNode_OpaqueToTrans.size() + "; Trans > opaque: " + sunNode_transToOpaque.size());
 
         long start = System.currentTimeMillis();
-        boolean longSunlight = sunNode_OpaqueToTrans.size() > 10000 || sunNode_transToOpaque.size() > 10000;
+        boolean longSunlight =
+                sunNode_OpaqueToTrans.size() > 20000
+                        || sunNode_transToOpaque.size() > 40000;
         if (longSunlight) {
             GameScene.alert("The lighting is being calculated. This may take a while.");
-            Main.printlnDev("Pre-Updating Meshes");
             updateAffectedChunks(affectedChunks);
         }
 
         SunlightUtils.updateFromQueue(sunNode_OpaqueToTrans, sunNode_transToOpaque, affectedChunks);
         sunNode_OpaqueToTrans.clear();
         sunNode_transToOpaque.clear();
-        Main.printlnDev("Done. Chunks affected: " + affectedChunks.size());
-
         if (longSunlight) {
             GameScene.alert("Sunlight calculation finished " +
                     ((System.currentTimeMillis() - start) / 1000) + "s");

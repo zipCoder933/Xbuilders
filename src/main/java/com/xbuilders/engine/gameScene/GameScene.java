@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.multiplayer.GameServer;
+import com.xbuilders.engine.multiplayer.PlayerClient;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.items.ItemList;
@@ -118,8 +120,8 @@ public class GameScene implements WindowEvents {
                 }
                 case "players" -> {
                     String str = "" + server.clients.size() + " players:\n";
-                    for (PlayerSocket client : server.clients) {
-                        if (client.player != null) str += client.player.name + "\n";
+                    for (PlayerClient client : server.clients) {
+                        if (client.getPlayer() != null) str += client.getPlayer().name + "\n";
                     }
                     return str;
                 }
@@ -130,9 +132,9 @@ public class GameScene implements WindowEvents {
                 }
                 case "goto" -> {
                     if (parts.length == 2) {
-                        Player target = server.getPlayerByName(parts[1]).player;
+                        PlayerClient target = server.getPlayerByName(parts[1]);
                         if (target != null) {
-                            player.worldPosition.set(target.worldPosition);
+                            player.worldPosition.set(target.getPlayer().worldPosition);
                             return null;
                         } else {
                             return "Player not found";
@@ -150,7 +152,11 @@ public class GameScene implements WindowEvents {
         return "Unknown command. Type 'help' for a list of commands";
     }
 
-    public void closeGame() {
+    public static void endGame() {
+        Main.goToMenuPage();
+    }
+
+    public void gameClosedEvent() {
         if (world.terrain != null) {
             System.out.println("Closing " + world.info.getName() + "...");
             player.stopGame();
@@ -250,7 +256,7 @@ public class GameScene implements WindowEvents {
                     player.setNewSpawnPoint(world.terrain);
                 }
                 game.startGame(worldInfo);
-                player.startGame();
+                player.startGame(worldInfo);
                 prog.finish();
                 setProjection();
             }

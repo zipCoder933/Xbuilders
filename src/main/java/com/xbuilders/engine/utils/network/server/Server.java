@@ -74,7 +74,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
         clientThread = new Thread() {
             @Override
             public void run() {
-                while (!serverSocket.isClosed()) {
+                while (serverIsOpen()) {
                     try {
                         ClientSocket newClient = (ClientSocket) acceptClient();
                         if (newClientEvent(newClient)) {
@@ -127,18 +127,23 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
     }
 
     public void close() throws IOException {
+
+        if (serverSocket != null) serverSocket.close();
+        serverSocket = null;
+
+        if (clientThread != null) clientThread.interrupt();
+        clientThread = null;
+
         for (ClientSocket client : clients) {
             if (client != null) client.close();
         }
         clients.clear();
-        if (clientThread != null) clientThread.interrupt();
-        clientThread = null;
-        if (serverSocket != null) serverSocket.close();
     }
 
-    public boolean isStarted() {
-        return serverSocket != null;
+    public boolean serverIsOpen() {
+        return serverSocket != null && !serverSocket.isClosed();
     }
+
 
     public boolean clientAlreadyJoined(ClientSocket newClient) {
         return clientAlreadyJoined(newClient.getHostAddress(), newClient.getRemoteHostString());
@@ -187,7 +192,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
             ex.printStackTrace();
         }
         clients.remove(client);
-        onClientDisconnect(client);
+        if (serverIsOpen()) onClientDisconnect(client);
     }
 
 }

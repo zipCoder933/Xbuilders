@@ -57,6 +57,15 @@ public class Multiplayer implements MenuPage {
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
+        if(Main.devMode){
+            if(hosting){
+                fromPortBox.setValueAsNumber(8081);
+                nameBox.setValueAsString("host");
+            }else{
+                portBox.setValueAsNumber(8081);
+            }
+        }
+
         this.player = player;
         this.hosting = hosting;
     }

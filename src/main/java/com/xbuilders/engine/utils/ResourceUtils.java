@@ -8,8 +8,6 @@ package com.xbuilders.engine.utils;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
 
 /**
@@ -69,7 +67,7 @@ public class ResourceUtils {
         return new File(APP_DATA_DIR, path);
     }
 
-    public static File gameResource(String path) {
+    public static File worldResource(String path) {
         return new File(WORLDS_DIR, path);
     }
 

@@ -3,7 +3,6 @@ package com.xbuilders.engine.player;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
@@ -11,11 +10,11 @@ import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
-import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
@@ -124,6 +123,12 @@ public class UserControlledPlayer extends Player {
         // positionHandler.color.set(r, g, b, 1);
     }
 
+    long lastSave = System.currentTimeMillis();
+
+    public void save() { //Periodic saving
+        Main.printlnDev("Saving player");
+        eventPipeline.save();
+    }
 
     private void jump() {
         if (usePositionHandler)
@@ -151,7 +156,7 @@ public class UserControlledPlayer extends Player {
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
         skin = Main.game.availableSkins.get(0).get(this);
-        eventPipeline = new BlockEventPipeline(world);
+        eventPipeline = new BlockEventPipeline(world, this);
         if (Main.devMode) setFlashlight(20f);
     }
 
@@ -159,11 +164,12 @@ public class UserControlledPlayer extends Player {
         GameScene.world.chunkShader.setFlashlightDistance(distance);
     }
 
-    public void startGame() {
-        eventPipeline.startGame();
+    public void startGame(WorldInfo world) {
+        eventPipeline.startGame(world);
     }
 
     public void stopGame() {
+        save();
         eventPipeline.endGame();
     }
 
@@ -227,7 +233,13 @@ public class UserControlledPlayer extends Player {
             }
         }
 
-        eventPipeline.resolve(this);
+        eventPipeline.update();
+
+        if (System.currentTimeMillis() - lastSave > 60000) {
+            lastSave = System.currentTimeMillis();
+            save();   //Save every 60 seconds
+        }
+
         if (positionLock != null) {
             worldPosition.set(positionLock.getPosition());
             usePositionHandler = false;

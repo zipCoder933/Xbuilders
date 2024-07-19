@@ -4,9 +4,10 @@
  */
 package com.xbuilders.engine.player;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.engine.gameScene.GameServer;
+import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 
 import java.io.File;
@@ -34,29 +35,42 @@ public class Player {
     public boolean initialized = false;
 
 
+    final int nameStart = 2;
+
     public byte[] infoToBytes() throws IOException {
-        byte[] data = new byte[name.length() + 2];  // Assuming color is a byte
+        byte[] data = new byte[name.length() + nameStart];  // Assuming color is a byte
         data[0] = GameServer.PLAYER_INFO;
         data[1] = color;
+
         for (int i = 0; i < name.length(); i++) {
-            data[i + 2] = (byte) name.charAt(i);  // Casting char to byte
+            data[i + nameStart] = (byte) name.charAt(i);  // Casting char to byte
         }
         return data;
     }
 
     public void loadInfoFromBytes(byte[] data) {
-        if (data.length < 2) {
+        if (data.length < nameStart) {
             throw new IllegalArgumentException("Invalid data length");
         }
-        int nameLength = data.length - 2; // Subtracting 2 for color and header
-        byte[] nameBytes = new byte[nameLength];
-        System.arraycopy(data, 2, nameBytes, 0, nameLength);
-        name = new String(nameBytes, StandardCharsets.UTF_8);
         color = data[1];
+
+        //Load the name
+        int nameLength = data.length - nameStart; // Subtracting 2 for color and header
+        byte[] nameBytes = new byte[nameLength];
+        System.arraycopy(data, nameStart, nameBytes, 0, nameLength);
+        name = new String(nameBytes, StandardCharsets.UTF_8);
     }
 
     public void saveModel() throws IOException {
         Files.write(playerModelFile.toPath(), infoToBytes());
+    }
+
+    public boolean isWithinReach(float worldX, float worldY, float worldZ) {
+        return worldPosition.distance(worldX, worldY, worldZ) < GameScene.world.getViewDistance();
+    }
+
+    public boolean isWithinReach(Player otherPlayer) {
+        return worldPosition.distance(otherPlayer.worldPosition) < GameScene.world.getViewDistance();
     }
 
     public void init() {
@@ -96,7 +110,7 @@ public class Player {
     }
 
     public void update(Matrix4f projection, Matrix4f view) {
-        if(!initialized){
+        if (!initialized) {
             init();
         }
         skin.init(projection, view);
@@ -105,7 +119,8 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" + "name=" + name + ", color=" + color + '}';
+        return "Player{" + "name=" + name
+                + ", color=" + color;
     }
 
 

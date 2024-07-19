@@ -9,7 +9,7 @@ public class BlockHistory {
     public Block currentBlock;
     public BlockData data;
     public boolean updateBlockData = false; //If we should set the block data (if we want to set the block data to null, we set this to true, and set data to null)
-    public boolean isFromMultiplayer = false;
+    public boolean fromNetwork = false;
 
     public BlockHistory(Block currentBlock,BlockData data) {
         this.currentBlock = currentBlock;
