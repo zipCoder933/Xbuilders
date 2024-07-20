@@ -153,7 +153,7 @@ public class SunlightUtils {
             if (block == null || block.opaque) {
                 break;
             } else {
-//                chunk.data.setSun(x, y, z, (byte) 0);
+                chunk.data.setSun(x, y, z, (byte) 0);
                 queue.add(new ChunkNode(chunk, x, y, z));
             }
         }
