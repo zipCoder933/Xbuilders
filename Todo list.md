@@ -9,6 +9,8 @@ Just do the simplest solution. Code simplicity, does not matter!
 
 ### bugs
 - The Nublada crash still exists
+  - hs_err_pid4752.log
+  - I set the font buffer to public and static and it didnt fix the issue
 - **THE LOW FPS AT CERTAIN VIEWING ANGLES IS STILL AN ISSUE**
   - See bugs and Performance.md
 - FIX BLOCK PIPELINE BUGS
@@ -32,9 +34,14 @@ Just do the simplest solution. Code simplicity, does not matter!
   - make a special block type for liquid that has certex height depending on block data
 
 # liquid propagation
-* have a live propagation thread (LP) that can propagate water, fire and grass
-* instead of constantly checking for nodes to propagate or depropagate, have the live propagator (LP) get notified of any relavent changes anywhere
-* water can be propagated or depropagated
-* we don't need a special liquid mesh. we can just use what we already have
-   * FOR THE MESH: when propagating, water is in range from 7 to 0, the height of the block in the liqid mesh is equal to its value but averaged across all 4 neighbors per vertex
+* There is a list of important nodes in each propagator
+* When a block in the pipeline is activated, the propigator will check if the block **or its neighbors** are the important block (water in this case)
+* If so, add it to the list
+* Every tick, we iterate over the whole list and propagate
+  * We delete nodes that have been propagated
+  * If a node is out of bounds, just delete it
+  * We want to empty the list by the time we are done
+    * If we did actually propagate, new nodes wil be added that will go into the next tick
+
+We don't need a special liquid mesh. we can just use what we already have. when propagating, water is in range from 7 to 0, the height of the block in the liqid mesh is equal to its value but averaged across all 4 neighbors per vertex
 
