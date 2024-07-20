@@ -52,7 +52,7 @@ public class PlayerClient extends NetworkSocket {
             getPlayer().update(projection, view);
         }
 
-        if (blockChanges.periodicRangeSendCheck(5000)) { //Periodically send all changes
+        if (blockChanges.periodicRangeSendCheck(2000)) { //Periodically send near changes
             int c = blockChanges.sendNearBlockChanges();
             System.out.println(getName()+": range changes (" + c + ")");
         }else if(blockChanges.periodicSendAllCheck(30000)){ //If the player disconnects unexpectedly, we want to send all changes
