@@ -37,7 +37,7 @@ public class Main extends NKWindow {
     public static double gameVersion = 1.0;
 
     public static void printlnDev(String message) {
-        if(devMode) {
+        if (devMode) {
             System.out.println(message);
         }
     }
@@ -60,7 +60,7 @@ public class Main extends NKWindow {
         gameScene.gameClosedEvent(); //Close the entire game
     }
 
-    public static boolean isInGamePage(){
+    public static boolean isInGamePage() {
         return isGameMode;
     }
 
@@ -133,6 +133,7 @@ public class Main extends NKWindow {
         gameScene.setGame(game);
         topMenu = new TopMenu(this);
         gameScene = new GameScene(this);
+
         setMpfUpdateInterval(500);
         MemoryProfiler.setIntervalMS(500);
 
@@ -189,10 +190,9 @@ public class Main extends NKWindow {
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
         ItemList.initialize();
 
-        Theme.initialize(ctx,settings.largerUI);
-        game.initialize(this);
+        Theme.initialize(ctx, settings.largerUI);
+        gameScene.initialize(this, game);
 
-        gameScene.init(game);
         topMenu.init(GameScene.server.getIpAdress());
 
         if (generateIcons || !blockIconsDirectory.exists()) {

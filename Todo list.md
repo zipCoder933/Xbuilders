@@ -1,10 +1,7 @@
-### DONT Do what makes the code perfect. Do what is most convinient
+# Do what is easiest
+DONT Do what makes the code perfect. Do what is most convinient
 Just do the simplest solution. Code simplicity, does not matter!
 
-## Multiplayer fixes
-1. Determine any performance issues in multiplayer
-2. Optimize sunlight updating
-3. Decide if we need to send block data as chunks if there are lots of changes
 
 ## Important
 - **Carefully test this release on a previous release to check to see if the performance has changed in any way**
@@ -18,14 +15,17 @@ Just do the simplest solution. Code simplicity, does not matter!
    * **Play the game TO catch errors that appear**
    * Fix the listed bugs
 - Fix entity collison objects being "soft" when they are stacked on top of each other
-- ** Fix the Nuklear crash**
-  - carefully understand what the real problem is
-- there is a bug where sometimes torchlight isnt erased when a block is placed over it to hide it all up
-- there is a bug where sometimes a chunk wont update one of its sides (in terrain gen and regular block setting)
+- Players can "climb" up walls by holding against them
+
+## Multiplayer
+1. Determine any performance issues in multiplayer
+2. Optimize sunlight updating
+3. Decide if we need to send block data as chunks if there are lots of changes
+4. Update entities
 
 ### features
 - add line, sphere and replace tools
-- Add trees into terrian
+- add block tools menu
 - add birds, fish and turtles
 - add a system to handle live events (do after multiplayer)
   - add liquid propagation with block data

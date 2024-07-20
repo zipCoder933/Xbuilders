@@ -281,7 +281,7 @@ public class GameServer extends Server<PlayerClient> {
         }
         if (client.isHost) {
             onLeaveEvent();
-            GameScene.endGame();
+            Main.goToMenuPage();
             Main.topMenu.popupMessage.message(
                     "Host has left",
                     "The host has left the game");

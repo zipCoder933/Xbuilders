@@ -43,7 +43,7 @@ import static org.lwjgl.opengles.GLES20.GL_BLEND;
 
 public class GameScene implements WindowEvents {
 
-
+    public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static boolean drawWireframe;
@@ -64,6 +64,7 @@ public class GameScene implements WindowEvents {
         player = new UserControlledPlayer(Main.user);
         otherPlayers = new ArrayList<>();
         server = new GameServer(player);
+        livePropagationHandler = new LivePropagationHandler();
     }
 
 
@@ -150,9 +151,7 @@ public class GameScene implements WindowEvents {
         return "Unknown command. Type 'help' for a list of commands";
     }
 
-    public static void endGame() {
-        Main.goToMenuPage();
-    }
+
 
     public void gameClosedEvent() {
         if (world.terrain != null) {
@@ -161,6 +160,7 @@ public class GameScene implements WindowEvents {
             world.stopGame(player.worldPosition);
             game.saveState();
         }
+        livePropagationHandler.endGame();
         try {
             server.closeGame();
         } catch (IOException e) {
@@ -177,6 +177,7 @@ public class GameScene implements WindowEvents {
         this.worldInfo = world;
         this.req = req;
         this.prog = prog;
+        livePropagationHandler.startGame(world);
     }
 
     public void newGameUpdate() {
@@ -270,7 +271,12 @@ public class GameScene implements WindowEvents {
         }
     }
 
-    public void init(MyGame game) throws IOException {
+    public void initialize(NKWindow window, MyGame game) throws Exception {
+
+        livePropagationHandler.tasks.clear();
+
+        game.initialize(window,this);
+
         setProjection();
         ui = new GameUI(game, window.ctx, window);
         world.init(ItemList.blocks.textures);
@@ -312,8 +318,6 @@ public class GameScene implements WindowEvents {
         setInfoText();
 
         ui.draw();
-
-
         game.update();
     }
 

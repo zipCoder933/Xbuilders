@@ -312,8 +312,9 @@ public class MyGame extends Game {
     public static final Tool TOOL_ANIMAL_FEED = new AnimalFeed();
 
     @Override
-    public void initialize(NKWindow window) throws Exception {
+    public void initialize(NKWindow window, GameScene gameScene) throws Exception {
 
+        gameScene.livePropagationHandler.addTask(new WaterPropagation());
 
         //Add block types FIRST. We need them to be able to setup blocks properly
         ItemList.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
