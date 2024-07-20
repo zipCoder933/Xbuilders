@@ -25,7 +25,7 @@ public class StraightTrack extends Block {
             int z = thisPosition.z;
             changeBlock(x, y, z);
         }));
-        setBlockEvent( (x, y, z, data) -> {
+        setBlockEvent( (x, y, z) -> {
             changeBlock(x, y, z);
         });
     }

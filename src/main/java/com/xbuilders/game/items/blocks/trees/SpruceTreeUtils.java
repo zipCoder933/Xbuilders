@@ -21,7 +21,7 @@ import static com.xbuilders.game.items.blocks.trees.TreeUtils.randomInt;
 public class SpruceTreeUtils {
     public static final Block.SetBlockEvent setBlockEvent = new Block.SetBlockEvent() {
         @Override
-        public void run(int x, int y, int z, BlockData data) {
+        public void run(int x, int y, int z) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {

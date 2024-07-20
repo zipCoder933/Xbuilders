@@ -23,7 +23,7 @@ public class OakTreeUtils {
 
     public static final Block.SetBlockEvent setBlockEvent = new Block.SetBlockEvent() {
         @Override
-        public void run(int x, int y, int z, BlockData data) {
+        public void run(int x, int y, int z) {
             try {
                 Thread.sleep(Main.devMode ? 2000 : 60 * 1000);
             } catch (InterruptedException e) {

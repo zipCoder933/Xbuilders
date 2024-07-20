@@ -12,18 +12,11 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.utils.texture.Texture;
-import com.xbuilders.window.utils.texture.TextureFile;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3i;
-import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MathUtil;
-import org.lwjgl.system.MemoryStack;
 
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.function.Consumer;
 
 public class Block extends Item {
@@ -52,7 +45,7 @@ public class Block extends Item {
     @FunctionalInterface
     public interface SetBlockEvent {
 
-        public void run(int x, int y, int z, BlockData data);
+        public void run(int x, int y, int z);
     }
 
     @FunctionalInterface
@@ -127,13 +120,13 @@ public class Block extends Item {
         }
     }
 
-    public void run_SetBlockEvent(PriorityThreadPoolExecutor eventThread, Vector3i worldPos, BlockData data) {
+    public void run_SetBlockEvent(PriorityThreadPoolExecutor eventThread, Vector3i worldPos) {
         if (setBlockEvent != null) {
-            setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, data);
+            setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z);
         }
         if (multithreadedSetBlockEvent != null) {
             eventThread.submit(System.currentTimeMillis(),
-                    () -> multithreadedSetBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, data));
+                    () -> multithreadedSetBlockEvent.run(worldPos.x, worldPos.y, worldPos.z));
         }
     }
 

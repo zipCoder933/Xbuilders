@@ -152,7 +152,6 @@ public class GameScene implements WindowEvents {
     }
 
 
-
     public void gameClosedEvent() {
         if (world.terrain != null) {
             System.out.println("Closing " + world.info.getName() + "...");
@@ -275,7 +274,7 @@ public class GameScene implements WindowEvents {
 
         livePropagationHandler.tasks.clear();
 
-        game.initialize(window,this);
+        game.initialize(window, this);
 
         setProjection();
         ui = new GameUI(game, window.ctx, window);
@@ -316,7 +315,7 @@ public class GameScene implements WindowEvents {
         world.drawChunks(projection, view, player.worldPosition);
         Main.frameTester.endProcess("Drawing chunks");
         setInfoText();
-
+        livePropagationHandler.update();
         ui.draw();
         game.update();
     }

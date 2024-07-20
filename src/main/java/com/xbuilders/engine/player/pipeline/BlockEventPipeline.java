@@ -117,6 +117,9 @@ public class BlockEventPipeline {
     final int MAX_FRAMES_WITH_EVENTS_IN_A_ROW = 10;
 
     public void update() {
+        if (Main.devkeyF3 && Main.devMode)
+            return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
+
         if (pendingLocalChanges.periodicRangeSendCheck(5000)) {
             int changes = pendingLocalChanges.dumpChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
@@ -231,13 +234,6 @@ public class BlockEventPipeline {
 // </editor-fold>
 
                     affectedChunks.add(chunk);
-
-                    //Block events:
-                    if (allowBlockEvents && !blockHist.fromNetwork) {//Dont do block events if the block was set by the server
-                        startLocalChange(worldPos, blockHist, allowBlockEvents);
-                        blockHist.previousBlock.run_RemoveBlockEvent(worldPos);
-                        blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos, blockData); //Run the block event
-                    }
                 }
             } else if (blockHist.updateBlockData) {
                 chunk.markAsModifiedByUser();
@@ -246,6 +242,20 @@ public class BlockEventPipeline {
                 affectedChunks.add(chunk);
             }
         });
+
+
+        //Block events
+        eventsCopy.forEach((worldPos, blockHist) -> {
+            if (World.worldYIsWithinBounds(worldPos.y)
+                    && !blockHist.previousBlock.equals(blockHist.currentBlock) &&
+                    allowBlockEvents && !blockHist.fromNetwork) {//Dont do block events if the block was set by the server
+                Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist.currentBlock.id);
+                startLocalChange(worldPos, blockHist, allowBlockEvents);
+                blockHist.previousBlock.run_RemoveBlockEvent(worldPos);
+                blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos); //Run the block event
+            }
+        });
+
 
         GameScene.server.sendBlockAllChanges();
     }
@@ -307,21 +317,24 @@ public class BlockEventPipeline {
     }
 
 
-    private void checkAndStartBlock(int x, int y, int z, Vector3i originPos, BlockHistory hist,
+    private void checkAndStartBlock(int nx, int ny, int nz, Vector3i originPos, BlockHistory hist,
                                     boolean dispatchBlockEvent) {
-        WCCi wcc = new WCCi().set(x, y, z);
+        WCCi wcc = new WCCi().set(nx, ny, nz);
         Chunk chunk = wcc.getChunk(GameScene.world);
         if (chunk != null) {
-            Block targetBlockID = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
-            if (targetBlockID != null && !targetBlockID.isAir()) {
-                if (!ItemList.blocks.getBlockType(targetBlockID.type).allowExistence(hist.currentBlock, x, y, z)) {
+            Block nBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
+            if (nBlock != null && !nBlock.isAir()) {
+                if (!ItemList.blocks.getBlockType(nBlock.type).allowExistence(hist.currentBlock, nx, ny, nz)) {
 
-                    //Set to air
+                    //Set blocks that are not allowed here to air
                     short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, BlockList.BLOCK_AIR.id);
                     addEvent(wcc, new BlockHistory(previousBlock, BlockList.BLOCK_AIR.id));
 
-                } else if (dispatchBlockEvent) targetBlockID.run_OnLocalChange(hist, originPos, new Vector3i(x, y, z));
+                } else if (dispatchBlockEvent) {
+                    Main.gameScene.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nBlock.id);
+                    nBlock.run_OnLocalChange(hist, originPos, new Vector3i(nx, ny, nz));
+                }
             }
         }
     }

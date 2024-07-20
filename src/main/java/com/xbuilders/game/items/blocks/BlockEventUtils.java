@@ -25,7 +25,7 @@ public class BlockEventUtils {
         Block topBlock = ItemList.getBlock(id_top);
         Block bottomBlock = ItemList.getBlock(id_bottom);
 
-        topBlock.setBlockEvent( (x, y, z, data) -> {
+        topBlock.setBlockEvent( (x, y, z) -> {
             GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
         });
         topBlock.removeBlockEvent((x, y, z) -> {
@@ -34,7 +34,7 @@ public class BlockEventUtils {
             }
         });
 
-        bottomBlock.setBlockEvent( (x, y, z, data) -> {
+        bottomBlock.setBlockEvent( (x, y, z) -> {
             GameScene.player.setBlock(topBlock.id, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent((x, y, z) -> {
@@ -46,10 +46,10 @@ public class BlockEventUtils {
 
 
     public static void setTNTEvents(Block thisBlock, final int EXPLOSTION_RADIUS, long fuseDelay) {
-        thisBlock.setBlockEvent((setX, setY, setZ, blockData) -> {
+        thisBlock.setBlockEvent((setX, setY, setZ) -> {
             GameScene.player.setBlock(MyGame.BLOCK_TNT_ACTIVE, setX, setY, setZ);
         });
-        thisBlock.setBlockEvent_multithreaded((setX, setY, setZ, blockData) -> {
+        thisBlock.setBlockEvent_multithreaded((setX, setY, setZ) -> {
             try {
                 Thread.sleep(fuseDelay);
                 if (GameScene.world.getBlockID(setX, setY, setZ) == MyGame.BLOCK_TNT_ACTIVE) {

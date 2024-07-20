@@ -53,7 +53,7 @@ public class SettingsPage implements MenuPage {
         if (nk_begin(ctx, "Settings", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, Theme.font_10);
             NKUtils.wrapText(ctx, "Note that these changes will only take efffect after the game is restarted", windowDims.w() - 20);
-            nk_layout_row_static(ctx, 20, 1, 2);
+            nk_layout_row_static(ctx, 30, 1, 2);
 
             for (SettingsField field : fields) {
                 field.layout(ctx, stack, windowDims);

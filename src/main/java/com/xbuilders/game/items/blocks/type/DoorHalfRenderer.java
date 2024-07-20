@@ -57,7 +57,7 @@ public class DoorHalfRenderer extends BlockType {
                 Block topBlock = ItemList.getBlock(top);
                 Block bottomBlock = b;
 
-                topBlock.setBlockEvent((x, y, z, data) -> { //KEEP THIS!
+                topBlock.setBlockEvent((x, y, z) -> { //KEEP THIS!
                     GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
                 });
 
@@ -67,7 +67,8 @@ public class DoorHalfRenderer extends BlockType {
                     }
                 });
 
-                bottomBlock.setBlockEvent((x, y, z, data) -> {
+                bottomBlock.setBlockEvent((x, y, z) -> {
+                    BlockData data = GameScene.world.getBlockData(x, y, z);
                     GameScene.player.setBlock(topBlock.id, x, y - 1, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                     //We cant change right/left here because that will get overridden when initial block data gets written
@@ -93,7 +94,8 @@ public class DoorHalfRenderer extends BlockType {
                 });
 
             } else {// If this is a single door
-                b.setBlockEvent((x, y, z, data) -> {
+                b.setBlockEvent((x, y, z) -> {
+                    BlockData data = GameScene.world.getBlockData(x, y, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                 });
                 b.clickEvent((x, y, z, bd) -> {
