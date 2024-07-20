@@ -14,7 +14,6 @@ import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
@@ -144,18 +143,24 @@ public class Main extends NKWindow {
         int windowWidth = settings.smallWindow ? 750 : 920;
         int windowHeight = settings.smallWindow ? 650 : 720;
 
-        if (settings.fullscreen) {
+
+
+        if (settings.video_fullscreen) {
             int screenWidth = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
             int screenHeight = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
 
-            windowWidth = (int) (screenWidth * settings.fullscreenSizeMultiplier.value);
-            windowHeight = (int) (screenHeight * settings.fullscreenSizeMultiplier.value);
+            windowWidth = (int) (screenWidth * settings.video_fullscreenSize.value);
+            windowHeight = (int) (screenHeight * settings.video_fullscreenSize.value);
 
             System.out.println("FULLSCREEN MODE. Window size: " + windowWidth + "x" + windowHeight);
         }
 
-        startWindow("XBuilders", settings.fullscreen, windowWidth, windowHeight);
-
+        startWindow("XBuilders", settings.video_fullscreen, windowWidth, windowHeight);
+        if(settings.video_vsync) {
+            GLFW.glfwSwapInterval(1);
+        }else{
+            GLFW.glfwSwapInterval(0);
+        }
 //        GLFW.glfwSwapInterval(settings.vsync ? 1:0);//Disable vsync
 
         init();
@@ -192,7 +197,7 @@ public class Main extends NKWindow {
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
         ItemList.initialize();
 
-        Theme.initialize(ctx, settings.largerUI);
+        Theme.initialize(ctx, settings.video_largerUI);
         gameScene.initialize(this, game);
 
         topMenu.init(GameScene.server.getIpAdress());

@@ -151,7 +151,7 @@ public class UserControlledPlayer extends Player {
         this.view = view;
         camera = new Camera(this, window, view, projection, world);
 
-        if (Main.settings.switchMouseButtons) {
+        if (Main.settings.game_switchMouseButtons) {
             DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
             CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
         }

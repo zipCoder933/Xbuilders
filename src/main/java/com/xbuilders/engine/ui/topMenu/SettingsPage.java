@@ -34,7 +34,7 @@ public class SettingsPage implements MenuPage {
         this.ctx = ctx;
         this.window = window;
         this.menu = menu;
-        boxWidth = Main.settings.largerUI ? 800 : 700;
+        boxWidth = Main.settings.video_largerUI ? 800 : 700;
     }
 
     NkContext ctx;

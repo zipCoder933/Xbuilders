@@ -43,7 +43,7 @@ public class LoadWorld implements MenuPage {
         worlds = new ArrayList<>();
 
         boxHeight = 550;
-        boxWidth = Main.settings.largerUI ? 800 : 700;
+        boxWidth = Main.settings.video_largerUI ? 800 : 700;
 
 //        Texture texture = TextureUtils.loadTexture(ResourceUtils.RESOURCE_DIR + "\\icon.png", false);
 //        image = new NkImage(texture.buffer);

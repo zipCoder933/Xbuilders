@@ -18,7 +18,6 @@ import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
-import java.awt.*;
 import java.util.function.BiConsumer;
 
 public class CursorRay {
@@ -231,9 +230,9 @@ public class CursorRay {
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
         if (cursorRayHitAllBlocks)
-            rayDistance = MathUtils.clamp(rayDistance, 1, Main.settings.maxCursorRaycastDist);
+            rayDistance = MathUtils.clamp(rayDistance, 1, Main.settings.game_cursorRayDist);
         else
-            rayDistance = Main.settings.maxCursorRaycastDist;
+            rayDistance = Main.settings.game_cursorRayDist;
 
         Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
 

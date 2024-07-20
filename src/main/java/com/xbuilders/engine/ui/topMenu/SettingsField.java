@@ -41,7 +41,7 @@ class SettingsField {
             textBox.render(ctx);
         } else if (type.equals(boolean.class)) {
             boolean b = (boolean) value;
-            if (nk_button_label(ctx, b ? "Y" : "N")) {
+            if (nk_button_label(ctx, b ? "ENABLED" : "DISABLED")) {
                 setValue(!b);
                 Main.saveSettings();
             }
@@ -54,13 +54,9 @@ class SettingsField {
 
     public SettingsField(Field field) throws IllegalAccessException {
         this.field = field;
-        this.key = field.getName();
+        this.key = formatKey(field.getName());
         this.type = field.getType();
         this.value = field.get(Main.settings);
-        //Format the key from camelCase to normal text (every uppercae leter should be preceded by a space)
-        key = key.replaceAll("([a-z])([A-Z])", "$1 $2");
-        //Make the first character uppercase
-        key = key.substring(0, 1).toUpperCase() + key.substring(1);
 
         if (type.equals(BoundedInt.class)) {
             numberBox = new NumberBox(50);
@@ -113,6 +109,19 @@ class SettingsField {
         } else if (type.equals(boolean.class)) {
             value = (boolean) value;
         } else throw new IllegalArgumentException("Unsupported type " + type);
+    }
+
+    private String formatKey(String key) {
+        //Format the key from camelCase to normal text (every uppercae leter should be preceded by a space)
+        key = key.replaceAll("([a-z])([A-Z])", "$1 $2");
+        key = key.replaceAll("_", ", ");
+        //capitalize the first letter of every word
+        String[] words = key.split(" ");
+        key = "";
+        for (String word : words) {
+            key += word.substring(0, 1).toUpperCase() + word.substring(1) + " ";
+        }
+        return key;
     }
 
     public void setValue(Object value) {
