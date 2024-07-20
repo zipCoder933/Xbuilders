@@ -5,11 +5,10 @@
 package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.player.camera.CursorRay;
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
@@ -19,20 +18,9 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.nuklear.Nuklear;
-
-import static org.lwjgl.nuklear.Nuklear.NK_TEXT_ALIGN_CENTERED;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_BORDER;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_NO_INPUT;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_NO_SCROLLBAR;
-import static org.lwjgl.nuklear.Nuklear.nk_begin;
-import static org.lwjgl.nuklear.Nuklear.nk_button_image;
-import static org.lwjgl.nuklear.Nuklear.nk_end;
-import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
-import static org.lwjgl.nuklear.Nuklear.nk_rect;
-import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
-import static org.lwjgl.nuklear.Nuklear.nk_text;
-
 import org.lwjgl.system.MemoryStack;
+
+import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
  * @author zipCoder933
@@ -46,8 +34,8 @@ public class Hotbar extends GameUIElement {
         this.playerInfo = playerInfo;
     }
 
-    public Hotbar(NkContext ctx, NKWindow window, UIResources uires) {
-        super(ctx, window, uires);
+    public Hotbar(NkContext ctx, NKWindow window) {
+        super(ctx, window);
         buttonHeight = new WidgetWidthMeasurement(0);
     }
 
@@ -67,7 +55,7 @@ public class Hotbar extends GameUIElement {
         ctx.style().button().normal().data().color().set(Theme.transparent);
         ctx.style().window().border_color().set(Theme.transparent);
         ctx.style().button().padding().set(0, 0);
-        nk_style_set_font(ctx, uires.font_9);
+        nk_style_set_font(ctx, Theme.font_9);
 
         // <editor-fold defaultstate="collapsed" desc="Draw title text">
         nk_rect(

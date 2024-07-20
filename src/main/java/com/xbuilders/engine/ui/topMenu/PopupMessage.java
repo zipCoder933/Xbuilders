@@ -9,14 +9,13 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
-import org.lwjgl.nuklear.*;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
-
-import java.nio.ByteBuffer;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -26,9 +25,8 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class PopupMessage {
 
-    public PopupMessage(NkContext ctx, NKWindow window, UIResources uires) {
+    public PopupMessage(NkContext ctx, NKWindow window) {
         this.ctx = ctx;
-        this.uires = uires;
         windowDims = NkRect.create();
         this.window = window;
         windowDims.set(0, 0, boxWidth, boxHeight);
@@ -36,7 +34,6 @@ public class PopupMessage {
     }
 
     NkContext ctx;
-    UIResources uires;
     NKWindow window;
 
     Runnable confirmationCallback;
@@ -81,11 +78,11 @@ public class PopupMessage {
     public void draw(MemoryStack stack) {
         if (!visible) return;
         float wrapWidth = boxWidth - 20;
-        boxHeight = (int) (NKUtils.calculateWrappedTextHeight(uires.font_9, body, wrapWidth) + 72 + 50);
+        boxHeight = (int) (NKUtils.calculateWrappedTextHeight(Theme.font_9, body, wrapWidth) + 72 + 50);
         boxHeight = MathUtils.clamp(boxHeight, 120, 400);
 
 
-        nk_style_set_font(ctx, uires.font_12);
+        nk_style_set_font(ctx, Theme.font_12);
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2),
                 boxWidth, boxHeight, windowDims);
         if (nk_begin_titled(ctx, tag, title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
@@ -99,12 +96,12 @@ public class PopupMessage {
             }
 
 
-            nk_style_set_font(ctx, uires.font_9);
+            nk_style_set_font(ctx, Theme.font_9);
             nk_layout_row_dynamic(ctx, 5, 1);
 
             NKUtils.wrapText(ctx, body, wrapWidth);
 
-            nk_style_set_font(ctx, uires.font_12);
+            nk_style_set_font(ctx, Theme.font_12);
             nk_layout_row_static(ctx, 20, 1, 1);
 
             if (confirmationCallback != null) {

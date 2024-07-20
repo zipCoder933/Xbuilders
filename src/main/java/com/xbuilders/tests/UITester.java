@@ -7,13 +7,12 @@ package com.xbuilders.tests;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.window.developmentTools.MemoryProfiler;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.NKWindow;
+import com.xbuilders.window.developmentTools.MemoryProfiler;
 import org.lwjgl.nuklear.NkVec2;
 
 import java.io.IOException;
@@ -28,7 +27,6 @@ import static org.lwjgl.opengl.GL11C.*;
  */
 public class UITester extends NKWindow {
 
-    UIResources uiResources;
     GameUI ui;
     public static BlockIconRenderer iconRenderer;
 
@@ -38,7 +36,6 @@ public class UITester extends NKWindow {
         startWindow("NUKLEAR TEST", false, 800, 600);
 
         ResourceUtils.initialize(true);
-        uiResources = new UIResources(this, ctx,false);
         Game game = new MyGame();
 
         ItemList blocks = new ItemList();
@@ -50,7 +47,7 @@ public class UITester extends NKWindow {
 //        };
 //        iconRenderer.saveAllIcons();
 
-        ui = new GameUI(game, ctx, this, uiResources);
+        ui = new GameUI(game, ctx, this);
         ui.init();
 
         showWindow();

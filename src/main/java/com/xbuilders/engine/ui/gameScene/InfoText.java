@@ -6,19 +6,19 @@ package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Theme;
-
-import static com.xbuilders.engine.ui.Theme.createColor;
-import static org.lwjgl.nuklear.Nuklear.*;
-
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.*;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
+
+import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
  * @author zipCoder933
@@ -39,8 +39,8 @@ public class InfoText extends GameUIElement {
     final int commandBoxHeight = 450;
     final int sidePadding = 50;
 
-    public InfoText(NkContext ctx, NKWindow window, UIResources uires) {
-        super(ctx, window, uires);
+    public InfoText(NkContext ctx, NKWindow window) {
+        super(ctx, window);
         box = new TextBox(100);
         box.setOnChangeEvent(() -> {
             submitCommand(box.getValueAsString());
@@ -63,7 +63,7 @@ public class InfoText extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
-        nk_style_set_font(ctx, uires.font_9);
+        nk_style_set_font(ctx, Theme.font_9);
 
         if (commandMode) {
             commandRect.x(sidePadding);

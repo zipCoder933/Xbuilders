@@ -4,33 +4,26 @@
  */
 package com.xbuilders.game.UI;
 
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.nuklear.Nuklear;
-
 import org.lwjgl.system.MemoryStack;
+
+import java.io.IOException;
+import java.util.*;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -48,8 +41,8 @@ public class Inventory extends GameUIElement implements WindowEvents {
         this.playerInfo = playerInfo;
     }
 
-    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, UIResources uires, Hotbar hotbar) throws IOException {
-        super(ctx, window, uires);
+    public Inventory(NkContext ctx, Item[] itemList, NKWindow window,  Hotbar hotbar) throws IOException {
+        super(ctx, window);
         this.hotbar = hotbar;
         setItemList(itemList);
         buttonWidth = new WidgetWidthMeasurement(0);
@@ -184,7 +177,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
             Theme.resetEntireButtonStyle(ctx);
             Theme.resetWindowColor(ctx);
             Theme.resetWindowPadding(ctx);
-            nk_style_set_font(ctx, uires.font_9);
+            nk_style_set_font(ctx, Theme.font_9);
 
             nk_rect(window.getWidth() / 2 - (menuWidth / 2), window.getHeight() / 2 - (menuHeight / 2), menuWidth, menuHeight, windowDims2);
 

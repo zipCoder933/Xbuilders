@@ -4,25 +4,25 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
-import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.blockTools.tools.PasteTool;
-import com.xbuilders.game.items.blocks.*;
+import com.xbuilders.engine.utils.json.JsonManager;
+import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.game.items.blocks.BlockEventUtils;
+import com.xbuilders.game.items.blocks.Plant;
+import com.xbuilders.game.items.blocks.RenderType;
+import com.xbuilders.game.items.blocks.StraightTrack;
 import com.xbuilders.game.items.blocks.trees.*;
-import com.xbuilders.engine.gameScene.Game;
-import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.ui.UIResources;
-import com.xbuilders.engine.utils.json.JsonManager;
-import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.items.entities.BannerEntityLink;
 import com.xbuilders.game.items.entities.animal.*;
@@ -33,29 +33,21 @@ import com.xbuilders.game.items.tools.Flashlight;
 import com.xbuilders.game.items.tools.Hoe;
 import com.xbuilders.game.items.tools.Saddle;
 import com.xbuilders.game.skins.FoxSkin;
-import com.xbuilders.game.terrain.BasicTerrain;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
-import com.xbuilders.game.terrain.TestTerrain;
-import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.window.NKWindow;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.system.MemoryStack;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.system.MemoryStack;
 
 /**
  * @author zipCoder933
@@ -128,12 +120,12 @@ public class MyGame extends Game {
     }
 
     @Override
-    public void uiInit(NkContext ctx, NKWindow window, UIResources uires, GameUI gameUI) {
+    public void uiInit(NkContext ctx, NKWindow window, GameUI gameUI) {
         this.window = window;
         try {
-            hotbar = new Hotbar(ctx, window, uires);
-            inventory = new Inventory(ctx, ItemList.getAllItems(), window, uires, hotbar);
-            blockTools = new BlockTools(ctx, window, uires, GameScene.player.camera.cursorRay);
+            hotbar = new Hotbar(ctx, window);
+            inventory = new Inventory(ctx, ItemList.getAllItems(), window,  hotbar);
+            blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
         }

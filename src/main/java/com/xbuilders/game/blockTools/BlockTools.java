@@ -2,7 +2,6 @@ package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.game.blockTools.tools.*;
 import com.xbuilders.window.NKWindow;
@@ -20,8 +19,8 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public class BlockTools extends GameUIElement {
 
-    public BlockTools(NkContext ctx, NKWindow window, UIResources uires, CursorRay cursorRay) {
-        super(ctx, window, uires);
+    public BlockTools(NkContext ctx, NKWindow window, CursorRay cursorRay) {
+        super(ctx, window);
         tools.add(new DefaultTool(this, cursorRay));
         tools.add(new PlaneTool(this, cursorRay));
         tools.add(new BoundaryTool(this, cursorRay));
@@ -48,7 +47,7 @@ public class BlockTools extends GameUIElement {
         Theme.resetEntireButtonStyle(ctx);
         Theme.resetWindowColor(ctx);
         Theme.resetWindowPadding(ctx);
-        nk_style_set_font(ctx, uires.font_9);
+        nk_style_set_font(ctx, Theme.font_9);
 
         nk_rect(window.getWidth() / 2 - (menuWidth / 2),
                 0,

@@ -76,13 +76,13 @@ public class LoadWorld implements MenuPage {
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), titleYEnd.get(0),
                 boxWidth, boxHeight, windowDims);
-        nk_style_set_font(ctx, menu.uires.font_12);
+        nk_style_set_font(ctx, Theme.font_12);
 
         if (nk_begin(ctx, "Load World", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
 
             nk_layout_row_dynamic(ctx, boxHeight - 50, 2); // Adjust height as needed
             nk_group_begin(ctx, "Worlds", NK_WINDOW_TITLE);
-            nk_style_set_font(ctx, menu.uires.font_10);
+            nk_style_set_font(ctx, Theme.font_10);
             nk_layout_row_dynamic(ctx, 30, 1);//this sets the height of the subsequent elements
             ctx.style().button().text_alignment(NK_TEXT_ALIGN_LEFT);
 
@@ -95,16 +95,16 @@ public class LoadWorld implements MenuPage {
             Theme.resetEntireButtonStyle(ctx);
             nk_group_end(ctx);
 
-            nk_style_set_font(ctx, menu.uires.font_12);
+            nk_style_set_font(ctx, Theme.font_12);
             nk_group_begin(ctx, "Details", NK_WINDOW_TITLE);
 
             if (currentWorld != null) {
-                nk_style_set_font(ctx, menu.uires.font_9);
+                nk_style_set_font(ctx, Theme.font_9);
                 NKUtils.text(ctx, currentWorld.getDetails(), 10, NK_TEXT_ALIGN_LEFT);
                 nk_layout_row_static(ctx, 40, 1, 1);
                 nk_layout_row_dynamic(ctx, 40, 1);
 
-                nk_style_set_font(ctx, menu.uires.font_12);
+                nk_style_set_font(ctx, Theme.font_12);
 
                 if (!currentWorld.infoFile.isJoinedMultiplayerWorld) {
                     if (nk_button_label(ctx, "LOAD WORLD")) {

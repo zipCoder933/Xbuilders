@@ -6,37 +6,22 @@ package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.NumberBox;
-
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.Nuklear;
-
-import static org.lwjgl.nuklear.Nuklear.NK_LEFT;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_BORDER;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_NO_SCROLLBAR;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_TITLE;
-import static org.lwjgl.nuklear.Nuklear.nk_begin;
-import static org.lwjgl.nuklear.Nuklear.nk_button_label;
-import static org.lwjgl.nuklear.Nuklear.nk_end;
-import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
-import static org.lwjgl.nuklear.Nuklear.nk_layout_row_static;
-import static org.lwjgl.nuklear.Nuklear.nk_rect;
-import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
-
 import org.lwjgl.system.MemoryStack;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
+import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
  * @author zipCoder933
@@ -46,8 +31,8 @@ class GameMenu extends GameUIElement {
     final int menuWidth = 320;
     final int menuHeight = 220;
 
-    public GameMenu(NkContext ctx, NKWindow window, UIResources uires) {
-        super(ctx, window, uires);
+    public GameMenu(NkContext ctx, NKWindow window) {
+        super(ctx, window);
         chunkDist = new NumberBox(8, 0);
         chunkDist.setMinValue(World.VIEW_DIST_MIN);
         chunkDist.setMaxValue(World.VIEW_DIST_MAX);
@@ -66,7 +51,7 @@ class GameMenu extends GameUIElement {
         GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
         NkRect windowDims = NkRect.malloc(stack);
         ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
-        nk_style_set_font(ctx, uires.font_10);
+        nk_style_set_font(ctx, Theme.font_10);
 
         if (settingsPage) {
             int menuHeight = 200;

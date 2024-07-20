@@ -4,42 +4,19 @@
  */
 package com.xbuilders.engine.ui;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+
+import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.window.NKWindow;
+import com.xbuilders.window.nuklear.NKFontUtils;
 import org.lwjgl.nuklear.NkColor;
 import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkUserFont;
 import org.lwjgl.nuklear.Nuklear;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_BORDER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_BUTTON;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_BUTTON_ACTIVE;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_BUTTON_HOVER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_CHART;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_CHART_COLOR;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_CHART_COLOR_HIGHLIGHT;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_COMBO;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_COUNT;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_EDIT;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_EDIT_CURSOR;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_HEADER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_PROPERTY;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SCROLLBAR;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SCROLLBAR_CURSOR;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SCROLLBAR_CURSOR_ACTIVE;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SCROLLBAR_CURSOR_HOVER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SELECT;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SELECT_ACTIVE;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SLIDER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SLIDER_CURSOR;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SLIDER_CURSOR_ACTIVE;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_SLIDER_CURSOR_HOVER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_TAB_HEADER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_TEXT;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_TOGGLE;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_TOGGLE_CURSOR;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_TOGGLE_HOVER;
-import static org.lwjgl.nuklear.Nuklear.NK_COLOR_WINDOW;
-import static org.lwjgl.nuklear.Nuklear.NK_TEXT_ALIGN_LEFT;
-import static org.lwjgl.nuklear.Nuklear.nk_style_from_table;
 import org.lwjgl.system.MemoryStack;
+
+import static org.lwjgl.nuklear.Nuklear.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
 /**
@@ -50,10 +27,36 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  */
 public class Theme {
 
-    public static NkColor transparent,darkTransparent, backgroundColor, buttonColor, buttonHover,
-            gray,lightGray, blue, darkBlue, white, black;
+    public static NkColor transparent, darkTransparent, backgroundColor, buttonColor, buttonHover,
+            gray, lightGray, blue, darkBlue, white, black;
 
-    public static void initialize(NkContext context) {
+    public static NkUserFont font_24, font_22, font_18, font_12, font_10, font_9;
+
+    /**
+     * crash from nuklear: https://github.com/LWJGL/lwjgl3/issues/986
+     * "You need to ensure that the ByteBuffer passed to stbtt_InitFont is not garbage collected (or not freed when
+     * using explicit memory management APIs) while the font is in active use. This is a common mistake when dealing
+     * with stb_truetype."
+     */
+    public static ByteBuffer fontBuffer;
+    //----------------------------------------------------------------------------------------------
+
+
+    public static void initialize(NkContext context, boolean largerFonts) throws IOException {
+        fontBuffer = NKFontUtils.loadFontData(ResourceUtils.RESOURCE_DIR + "\\fonts\\Press_Start_2P\\PressStart2P-Regular.ttf");
+
+        //Lets keep this font sizing. If we had a small enough screen size, we would still want small fonts
+        //Minecraft has a UI scale setting
+        font_24 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 26 : 24);
+        font_22 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 24 : 22);
+        font_18 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 20 : 18);
+        font_12 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 14 : 12);
+        font_10 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 12 : 10);
+        font_9 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 10 : 9);
+
+        nk_style_set_font(context, font_9);
+
+
         try (MemoryStack stack = stackPush()) {
             transparent = createColor(0, 0, 0, 0);
             darkTransparent = createColor(0, 0, 0, 70);

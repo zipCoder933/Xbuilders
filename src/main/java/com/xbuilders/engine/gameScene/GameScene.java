@@ -4,41 +4,39 @@
  */
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.multiplayer.PlayerClient;
-import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.progress.Bulletin;
-import com.xbuilders.window.WindowEvents;
-import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL11C;
-import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.utils.progress.ProgressData;
+import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCf;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
+import com.xbuilders.window.WindowEvents;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL11C;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.NkVec2;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengles.GLES20.GL_BLEND;
@@ -272,13 +270,13 @@ public class GameScene implements WindowEvents {
         }
     }
 
-    public void init(UIResources uiResources, MyGame game) throws IOException {
+    public void init(MyGame game) throws IOException {
         setProjection();
-        ui = new GameUI(game, window.ctx, window, uiResources);
+        ui = new GameUI(game, window.ctx, window);
         world.init(ItemList.blocks.textures);
         player.init(window, world, projection, view);
         ui.init();
-        game.uiInit(window.ctx, window, uiResources, ui);
+        game.uiInit(window.ctx, window, ui);
     }
 
     boolean holdMouse;

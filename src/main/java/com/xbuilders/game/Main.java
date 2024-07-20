@@ -4,34 +4,33 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.settings.EngineSettingsUtils;
-import com.xbuilders.engine.ui.UIResources;
+import com.xbuilders.engine.ui.Theme;
+import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.window.NKWindow;
+import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import com.xbuilders.window.developmentTools.MemoryProfiler;
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.ui.topMenu.TopMenu;
-import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.window.NKWindow;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkVec2;
 
-import java.io.*;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.xbuilders.window.developmentTools.FrameTester;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.NkVec2;
-
-import javax.imageio.ImageIO;
 
 public class Main extends NKWindow {
 
@@ -79,7 +78,6 @@ public class Main extends NKWindow {
     public static TopMenu topMenu;
     public static GameScene gameScene;
     public static UserID user;
-    public static UIResources uiResources;
 
     File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
     static boolean generateIcons = false;
@@ -190,11 +188,12 @@ public class Main extends NKWindow {
                 ResourceUtils.resource("icon32.png").getAbsolutePath(),
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
         ItemList.initialize();
-        uiResources = new UIResources(this, ctx, settings.largerUI);
+
+        Theme.initialize(ctx,settings.largerUI);
         game.initialize(this);
 
-        gameScene.init(uiResources, game);
-        topMenu.init(uiResources, GameScene.server.getIpAdress());
+        gameScene.init(game);
+        topMenu.init(GameScene.server.getIpAdress());
 
         if (generateIcons || !blockIconsDirectory.exists()) {
             firstTimeSetup();

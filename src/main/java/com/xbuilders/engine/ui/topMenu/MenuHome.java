@@ -10,6 +10,7 @@ package com.xbuilders.engine.ui.topMenu;
  */
 
 import com.xbuilders.engine.ui.Page;
+import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.*;
@@ -40,19 +41,19 @@ public class MenuHome implements MenuPage {
 
     @Override
     public void layout(MemoryStack stack, NkRect rect, IntBuffer titleYEnd) {
-        nk_style_set_font(ctx, menu.uires.font_12);
+        nk_style_set_font(ctx, Theme.font_12);
         nk_rect((window.getWidth() / 2) - (boxWidth / 2),
                 titleYEnd.get(0),
                 boxWidth, boxHeight, rect);
 
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-            nk_style_set_font(ctx, menu.uires.font_9);
+            nk_style_set_font(ctx, Theme.font_9);
             nk_layout_row_dynamic(ctx, 40, 1);
             nk_label(ctx, Main.devMode ?
                     "DEV MODE" :
                     ("v" + Main.gameVersion), NK_TEXT_CENTERED);
 
-            nk_style_set_font(ctx, menu.uires.font_12);
+            nk_style_set_font(ctx, Theme.font_12);
 
             nk_layout_row_static(ctx, 10, 1, 1);//Row static is just spacing
             nk_layout_row_dynamic(ctx, 40, 1); //Row dynamic affects the next components

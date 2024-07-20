@@ -4,7 +4,6 @@
  */
 package com.xbuilders.engine.ui.gameScene;
 
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.system.MemoryStack;
@@ -15,14 +14,12 @@ import org.lwjgl.system.MemoryStack;
  */
 public abstract class GameUIElement {
 
-    public GameUIElement(NkContext ctx, NKWindow window, UIResources uires) {
+    public GameUIElement(NkContext ctx, NKWindow window) {
         this.ctx = ctx;
         this.window = window;
-        this.uires = uires;
     }
     public final NkContext ctx;
     public final NKWindow window;
-    public final UIResources uires;
 
     public abstract void draw(MemoryStack stack);
 }

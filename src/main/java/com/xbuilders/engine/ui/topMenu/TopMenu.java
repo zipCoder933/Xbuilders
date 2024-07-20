@@ -4,31 +4,17 @@
  */
 package com.xbuilders.engine.ui.topMenu;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.Page;
-
-import static com.xbuilders.engine.ui.Page.HOME;
-import static com.xbuilders.engine.ui.Page.HOST_MULTIPLAYER;
-import static com.xbuilders.engine.ui.Page.JOIN_MULTIPLAYER;
-import static com.xbuilders.engine.ui.Page.LOAD_WORLD;
-import static com.xbuilders.engine.ui.Page.NEW_WORLD;
-import static com.xbuilders.engine.ui.Page.PROGRESS;
-
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.UIResources;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
-
-import static com.xbuilders.window.NKWindow.MAX_ELEMENT_BUFFER;
-import static com.xbuilders.window.NKWindow.MAX_VERTEX_BUFFER;
-
 import com.xbuilders.window.utils.texture.TextureUtils;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
 import java.nio.IntBuffer;
@@ -36,29 +22,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.NkRect;
-
-import static org.lwjgl.nuklear.Nuklear.NK_ANTI_ALIASING_ON;
-import static org.lwjgl.nuklear.Nuklear.NK_TEXT_CENTERED;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_BORDER;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_NO_INPUT;
-import static org.lwjgl.nuklear.Nuklear.NK_WINDOW_NO_SCROLLBAR;
-import static org.lwjgl.nuklear.Nuklear.nk_begin;
-import static org.lwjgl.nuklear.Nuklear.nk_end;
-import static org.lwjgl.nuklear.Nuklear.nk_label;
-import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
-import static org.lwjgl.nuklear.Nuklear.nk_rect;
-import static org.lwjgl.nuklear.Nuklear.nk_style_set_font;
-
-import org.lwjgl.opengl.GL;
-
-import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11C.glClear;
-import static org.lwjgl.opengl.GL11C.glClearColor;
-
-import org.lwjgl.system.MemoryStack;
-
+import static org.lwjgl.nuklear.Nuklear.*;
+import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
 /**
@@ -76,7 +41,6 @@ public class TopMenu {
     final boolean loadWorldOnStartup = false;
 
     NKWindow window;
-    UIResources uires;
     public PopupMessage popupMessage;
 
     private MenuHome menuHome;
@@ -115,9 +79,8 @@ public class TopMenu {
     }
 
 
-    public void init(UIResources uires, String ipAdress) throws IOException {
-        this.uires = uires;
-        popupMessage = new PopupMessage(window.ctx, window, uires);
+    public void init(String ipAdress) throws IOException {
+        popupMessage = new PopupMessage(window.ctx, window);
         menuHome = new MenuHome(window.ctx, window, this);
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
@@ -157,7 +120,7 @@ public class TopMenu {
             nk_rect(0, titleYEnd.get(0), window.getWidth(), titleHeight, windowDims);
             titleYEnd.put(0, titleYEnd.get(0) + titleHeight);
             if (nk_begin(window.ctx, "title", windowDims, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
-                nk_style_set_font(window.ctx, uires.font_24);
+                nk_style_set_font(window.ctx, Theme.font_24);
                 nk_layout_row_dynamic(window.ctx, 40, 1);
                 nk_label(window.ctx, "X-Builders 3", NK_TEXT_CENTERED);
             }

@@ -5,23 +5,19 @@
 package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.Skin;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.window.NKWindow;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
@@ -66,7 +62,7 @@ public abstract class Game {
         return null;
     }
 
-    public void uiInit(NkContext ctx, NKWindow window, UIResources uires, GameUI gameUI) {
+    public void uiInit(NkContext ctx, NKWindow window, GameUI gameUI) {
     }
 
     public void uiDraw(MemoryStack stack) {

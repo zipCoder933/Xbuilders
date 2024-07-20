@@ -10,8 +10,6 @@ package com.xbuilders.engine.ui.gameScene;
  */
 
 import com.xbuilders.engine.gameScene.Game;
-import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.UIResources;
 import com.xbuilders.engine.ui.RectOverlay;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
@@ -37,18 +35,16 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  */
 public class GameUI {
 
-    public GameUI(Game game, NkContext ctx, NKWindow window, UIResources uires) throws IOException {
-        Theme.initialize(ctx);
+    public GameUI(Game game, NkContext ctx, NKWindow window) throws IOException {
         this.ctx = ctx;
         this.window = window;
-        this.uires = uires;
         this.game = game;
         crosshair = new Crosshair(window.getWidth(), window.getHeight());
-        infoBox = new InfoText(ctx, window, uires);
+        infoBox = new InfoText(ctx, window);
     }
 
     public void init() {
-        menu = new GameMenu(ctx, window, uires);
+        menu = new GameMenu(ctx, window);
         overlay = new RectOverlay();
         overlay.setColor(0, 0, 0, 0);
     }
@@ -69,7 +65,6 @@ public class GameUI {
 
     NkContext ctx;
     NKWindow window;
-    UIResources uires;
     Game game;
     private RectOverlay overlay;
 
