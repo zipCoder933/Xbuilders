@@ -117,7 +117,7 @@ public class BlockEventPipeline {
     final int MAX_FRAMES_WITH_EVENTS_IN_A_ROW = 10;
 
     public void update() {
-        if (pendingLocalChanges.periodicSendCheck(5000)) {
+        if (pendingLocalChanges.periodicRangeSendCheck(5000)) {
             int changes = pendingLocalChanges.dumpChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
             });
@@ -259,14 +259,15 @@ public class BlockEventPipeline {
 
         long start = System.currentTimeMillis();
         boolean longSunlight =
-                sunNode_OpaqueToTrans.size() > 20000
-                        || sunNode_transToOpaque.size() > 40000;
+                sunNode_OpaqueToTrans.size() > 10000
+                        || sunNode_transToOpaque.size() > 20000;
         if (longSunlight) {
             GameScene.alert("The lighting is being calculated. This may take a while.");
             updateAffectedChunks(affectedChunks);
         }
 
         SunlightUtils.updateFromQueue(sunNode_OpaqueToTrans, sunNode_transToOpaque, affectedChunks);
+
         sunNode_OpaqueToTrans.clear();
         sunNode_transToOpaque.clear();
         if (longSunlight) {

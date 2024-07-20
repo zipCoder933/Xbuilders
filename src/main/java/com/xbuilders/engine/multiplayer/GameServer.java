@@ -212,11 +212,8 @@ public class GameServer extends Server<PlayerClient> {
                     PlayerBlockPendingChanges.readBlockChange(receivedData, (pos, blockHist) -> {
                         if (PlayerBlockPendingChanges.changeWithinReach(userPlayer, pos)) {
                             GameScene.player.eventPipeline.addEvent(pos, blockHist);
-                        } else if (req.hosting) { //We now own this record
+                        } else {//Cache changes if they are out of bounds
                             GameScene.player.eventPipeline.pendingLocalChanges.addBlockChange(pos, blockHist);
-                            for (PlayerClient c : clients) {
-                                c.blockChanges.addBlockChange(pos, blockHist);
-                            }
                         }
                     });
                 }
@@ -292,9 +289,8 @@ public class GameServer extends Server<PlayerClient> {
     }
 
     private void onLeaveEvent() {
-        if (!req.hosting) {
-            //Send all changes to the host
-            hostClient.blockChanges.sendAllChangesToPlayer();
+        for (PlayerClient client : clients) {//Send all changes before we leave
+            client.blockChanges.sendAllChanges();
         }
     }
 
@@ -327,7 +323,7 @@ public class GameServer extends Server<PlayerClient> {
 
     public void sendBlockAllChanges() {
         for (PlayerClient client : clients) {
-            client.blockChanges.sendApplicableBlockChangesToPlayer();
+            client.blockChanges.sendNearBlockChanges();
         }
     }
 

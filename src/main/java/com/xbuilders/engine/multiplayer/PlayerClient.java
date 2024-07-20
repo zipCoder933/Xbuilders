@@ -52,12 +52,12 @@ public class PlayerClient extends NetworkSocket {
             getPlayer().update(projection, view);
         }
 
-        if (isHost && blockChanges.periodicHostSendCheck()) {//Periodically send all changes to the host in case we lose connection
-            int c = blockChanges.sendAllChangesToPlayer();
-            System.out.println("Sent " + c + " changes to host");
-        } else if (blockChanges.periodicSendCheck(1000)) { //We have to send changes every so often if the changes are out of range
-            int c = blockChanges.sendApplicableBlockChangesToPlayer();
-            System.out.println("Player " + getName() + " sent " + c + " changes");
+        if (blockChanges.periodicRangeSendCheck(5000)) { //Periodically send all changes
+            int c = blockChanges.sendNearBlockChanges();
+            System.out.println(getName()+": range changes (" + c + ")");
+        }else if(blockChanges.periodicSendAllCheck(30000)){ //If the player disconnects unexpectedly, we want to send all changes
+            int c = blockChanges.sendAllChanges();
+            System.out.println(getName()+": all changes ("+c+")");
         }
 
 

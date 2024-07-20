@@ -18,31 +18,31 @@ import java.util.function.BiConsumer;
 
 public class PlayerBlockPendingChanges {
     HashMap<Vector3i, BlockHistory> record = new HashMap<>();
-    public long lastChangeUpdate;
+    public long rangeChangesUpdate;
+    public long allChangesUpdate;
     NetworkSocket socket;
     Player player;
 
     public PlayerBlockPendingChanges(NetworkSocket socket, Player player) {
         this.socket = socket;
         this.player = player;
-        lastChangeUpdate = System.currentTimeMillis();
     }
 
 
-    public boolean periodicSendCheck(int updateInterval) {
-        if (System.currentTimeMillis() - lastChangeUpdate > updateInterval
+    public boolean periodicRangeSendCheck(int updateInterval) {
+        if (System.currentTimeMillis() - rangeChangesUpdate > updateInterval
                 && anyChangesWithinReach()) {
-            lastChangeUpdate = System.currentTimeMillis();
+            rangeChangesUpdate = System.currentTimeMillis();
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean periodicHostSendCheck() {
-        if (System.currentTimeMillis() - lastChangeUpdate > 30 * 1000
+    public boolean periodicSendAllCheck(int interval) {
+        if (System.currentTimeMillis() - allChangesUpdate > interval
                 && !record.isEmpty()) {
-            lastChangeUpdate = System.currentTimeMillis();
+            allChangesUpdate = System.currentTimeMillis();
             return true;
         } else {
             return false;
@@ -137,7 +137,7 @@ public class PlayerBlockPendingChanges {
         if (change.data != null) baos.write(change.data.toByteArray());
     }
 
-    public int sendAllChangesToPlayer() {
+    public int sendAllChanges() {
         if (record.isEmpty()) return 0;
         readLock.lock();
         try {
@@ -149,7 +149,7 @@ public class PlayerBlockPendingChanges {
             }
             baos.close();
 
-            lastChangeUpdate = System.currentTimeMillis();
+            rangeChangesUpdate = System.currentTimeMillis();
             byte byteList[] = baos.toByteArray();
             socket.sendData(byteList);
 
@@ -166,7 +166,7 @@ public class PlayerBlockPendingChanges {
         return 0;
     }
 
-    public int sendApplicableBlockChangesToPlayer() {
+    public int sendNearBlockChanges() {
         if (record.isEmpty()) return 0;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -196,7 +196,7 @@ public class PlayerBlockPendingChanges {
             baos.close();
 
             if (changesToBeSent > 0) {
-                lastChangeUpdate = System.currentTimeMillis();
+                rangeChangesUpdate = System.currentTimeMillis();
                 byte byteList[] = baos.toByteArray();
                 socket.sendData(byteList);
             }

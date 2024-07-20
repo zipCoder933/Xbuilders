@@ -126,7 +126,6 @@ public class UserControlledPlayer extends Player {
     long lastSave = System.currentTimeMillis();
 
     public void save() { //Periodic saving
-        Main.printlnDev("Saving player");
         eventPipeline.save();
     }
 

@@ -175,7 +175,7 @@ public class CursorRay {
 
     public boolean boundaryIsWithinArea() {
         int maxWidth = GameScene.world.getDeletionViewDistance() - Chunk.WIDTH;
-        int maxArea = 30000;
+        int maxArea = 60000;
 
         return boundary_aabb.getXLength() < maxWidth &&
                 boundary_aabb.getZLength() < maxWidth
