@@ -10,6 +10,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.Main;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -17,6 +18,7 @@ import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.function.BiConsumer;
 
 public class CursorRay {
@@ -114,10 +116,12 @@ public class CursorRay {
             setBoundaryStartNode(boundary_startNode);
             boundary_isStartNodeSet = true;
         } else {
-            if (boundaryConsumer != null)
-                boundaryConsumer.accept(boundary_aabb, create);
-            makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
-            boundary_isStartNodeSet = false;
+            if (boundaryIsWithinArea()) {
+                if (boundaryConsumer != null)
+                    boundaryConsumer.accept(boundary_aabb, create);
+                makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
+                boundary_isStartNodeSet = false;
+            } else GameScene.alert("Boundary is too large");
         }
     }
 
@@ -169,6 +173,19 @@ public class CursorRay {
         setBoundaryStartNode(node);
     }
 
+    public boolean boundaryIsWithinArea() {
+        int maxWidth = GameScene.world.getDeletionViewDistance() - Chunk.WIDTH;
+        int maxArea = 30000;
+
+        return boundary_aabb.getXLength() < maxWidth &&
+                boundary_aabb.getZLength() < maxWidth
+                &&
+                (
+                        boundary_aabb.getXLength() *
+                                boundary_aabb.getZLength() *
+                                boundary_aabb.getYLength() < maxArea);
+    }
+
     public void drawRay() {
         if (cursorRay.hitTarget || cursorRayHitAllBlocks) {
             if (useBoundary) {
@@ -181,8 +198,14 @@ public class CursorRay {
                     makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
                 }
 
+                if (boundaryIsWithinArea()) {
+                    cursorBox.setColor(0, 0, 0, 1);
+                } else {
+                    cursorBox.setColor(1, 0, 0, 1);
+                }
                 cursorBox.set(boundary_aabb);
                 cursorBox.draw(camera.projection, camera.view);
+
 
             } else if (Main.game.drawCursor(this)) {
             } else if (cursorRay.entity != null) {
