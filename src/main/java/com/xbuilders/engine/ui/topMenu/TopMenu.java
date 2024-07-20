@@ -47,7 +47,7 @@ public class TopMenu {
     private LoadWorld loadWorld;
     private NewWorld newWorld;
     private Multiplayer hostMultiplayer, joinMultiplayer;
-    private Settings settings;
+    private SettingsPage settings;
     public ProgressMenu progress;
     private Page page = Page.HOME;
     private Page lastPage = null;
@@ -87,7 +87,7 @@ public class TopMenu {
         progress = new ProgressMenu(window.ctx, window, this);
         hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true, ipAdress, loadWorld);
         joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false, ipAdress, loadWorld);
-        settings = new Settings(window.ctx, window, this);
+        settings = new SettingsPage(window.ctx, window, this);
 
 
         VersionInfo versionInfo = new VersionInfo();

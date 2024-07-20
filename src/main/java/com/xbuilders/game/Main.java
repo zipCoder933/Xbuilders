@@ -147,8 +147,10 @@ public class Main extends NKWindow {
         if (settings.fullscreen) {
             int screenWidth = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
             int screenHeight = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
-            windowWidth = (int) (screenWidth * MathUtils.clamp(settings.fullscreenSizeMultiplier, 0.4, 1));
-            windowHeight = (int) (screenHeight * MathUtils.clamp(settings.fullscreenSizeMultiplier, 0.4, 1));
+
+            windowWidth = (int) (screenWidth * settings.fullscreenSizeMultiplier.value);
+            windowHeight = (int) (screenHeight * settings.fullscreenSizeMultiplier.value);
+
             System.out.println("FULLSCREEN MODE. Window size: " + windowWidth + "x" + windowHeight);
         }
 
@@ -212,7 +214,7 @@ public class Main extends NKWindow {
 
         iconRenderer.saveAllIcons();//Generate all icons
 
-        settingsUtils.save(new EngineSettings(devMode));//Replace the old settings
+        settingsUtils.save(new EngineSettings());//Replace the old settings
 
         ErrorHandler.createPopupWindow("Finished",
                 "XBuilders has finished setting up. Please restart the game to play.");

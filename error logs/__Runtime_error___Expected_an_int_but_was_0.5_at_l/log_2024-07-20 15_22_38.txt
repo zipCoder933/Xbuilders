@@ -1,0 +1,18 @@
+Message: 	Expected an int but was 0.5 at line 1 column 116 path $.fullscreenSizeMultiplier.value
+Developer Message: 	##Runtime error##	Expected an int but was 0.5 at l
+Class: 	class java.lang.NumberFormatException
+
+Stack trace:
+[com.google.gson.stream.JsonReader.nextInt(JsonReader.java:1218)
+ com.xbuilders.engine.utils.json.BoundedFloatTypeAdapter.read(BoundedFloatTypeAdapter.java:31)
+ com.xbuilders.engine.utils.json.BoundedFloatTypeAdapter.read(BoundedFloatTypeAdapter.java:11)
+ com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$1.readIntoField(ReflectiveTypeAdapterFactory.java:212)
+ com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$FieldReflectionAdapter.readField(ReflectiveTypeAdapterFactory.java:433)
+ com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:393)
+ com.google.gson.Gson.fromJson(Gson.java:1227)
+ com.google.gson.Gson.fromJson(Gson.java:1137)
+ com.google.gson.Gson.fromJson(Gson.java:1047)
+ com.google.gson.Gson.fromJson(Gson.java:982)
+ com.xbuilders.engine.settings.EngineSettingsUtils.load(EngineSettingsUtils.java:31)
+ com.xbuilders.game.Main.<init>(Main.java:128)
+ com.xbuilders.game.Main.main(Main.java:120)]

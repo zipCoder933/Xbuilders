@@ -36,7 +36,7 @@ public class MenuHome implements MenuPage {
     TopMenu menu;
     NKWindow window;
     final int boxWidth = 350;
-    final int boxHeight = 400;
+    final int boxHeight = 445;
     final int titleHeight = 50;
 
     @Override
@@ -73,13 +73,13 @@ public class MenuHome implements MenuPage {
                 menu.setPage(Page.JOIN_MULTIPLAYER);
             }
 
-//            nk_layout_row_static(ctx, 40, 1, 1);
-//            nk_layout_row_dynamic(ctx, 40, 1);
-//            if (nk_button_label(ctx, "SETTINGS")) {
-//                menu.setPage(Page.SETTINGS);
-//            }
+            nk_layout_row_static(ctx, 45, 1, 1); //Spacer
+            nk_layout_row_dynamic(ctx, 40, 1);
+            if (nk_button_label(ctx, "SETTINGS")) {
+                menu.setPage(Page.SETTINGS);
+            }
 
-            nk_layout_row_static(ctx, 40, 1, 1);
+            nk_layout_row_static(ctx, 10, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 1);
             if (nk_button_label(ctx, "QUIT")) {
                 System.exit(0);

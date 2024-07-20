@@ -56,8 +56,8 @@ public class UserControlledPlayer extends Player {
 
 
     //Mouse buttons
-    public static final int CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
-    public static final int DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
+    public static int CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
+    public static int DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
     private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
@@ -151,6 +151,10 @@ public class UserControlledPlayer extends Player {
         this.view = view;
         camera = new Camera(this, window, view, projection, world);
 
+        if (Main.settings.switchMouseButtons) {
+            DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
+            CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
+        }
 
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);

@@ -95,6 +95,12 @@ public class NKUtils {
         int lineStart = 0;
         float lineWidth = 0;
 
+
+        //Add a new line at the beginning if it doesnt already start with one
+        if (!text.startsWith("\n")) {
+            text = "\n" + text;
+        }
+
         while (word < text.length()) {
             while (word < text.length() && text.charAt(word) != ' ' && text.charAt(word) != '\n') {
                 word++;
