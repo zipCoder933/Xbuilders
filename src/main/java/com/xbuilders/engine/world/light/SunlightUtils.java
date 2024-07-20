@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+
 /**
  * We can save time in propagation by using BFS to propagate downward instead of setting the nodes initially.
  * <p>
@@ -176,6 +178,24 @@ public class SunlightUtils {
         }
         queue.clear();
     }
+
+// Experimental method for optimizing light erasure DO NOT DELETE!!!
+//      if (isBelow) {
+//        while (true) {
+//            node.y--;
+//
+//            if (y >= Chunk.WIDTH) {
+//                int coordsY = node.chunk.position.y + 1;
+//                node.chunk = GameScene.world.getChunk(new Vector3i(node.chunk.position.x, coordsY, node.chunk.position.z));
+//                if (node.chunk == null) return;
+//            }
+//            node.y = positiveMod(node.y, Chunk.WIDTH);
+//            if (ItemList.getBlock(node.chunk.data.getBlock(node.x, node.y, node.z)).opaque) break;
+//            else {
+//                chunk.data.setSun(x, y, z, (byte) 0);
+//            }
+//        }
+//    }
 
     private static void checkNeighborErase(Chunk chunk, int x, int y, int z, int centerLightLevel,
                                            List<ChunkNode> queue, HashSet<ChunkNode> totalNodes,
