@@ -18,11 +18,11 @@ public class WaterPropagation extends LivePropagationTask {
     }
 
 
-    final int maxFlow = 7;
+    public int maxFlow = 7;
 
     @Override
     public void update() {
-        if(nodes.size() == 0) {
+        if (nodes.size() == 0) {
             return;
         }
 
@@ -30,7 +30,7 @@ public class WaterPropagation extends LivePropagationTask {
         ArrayList<Vector3i> newNodes = new ArrayList<>();
         for (Vector3i v : nodes) {
 
-//            if(GameScene.world.getBlockID(v.x, v.y, v.z) != MyGame.BLOCK_WATER) { //Sometimes block change before we call this
+//            if(GameScene.world.getBlockID(v.x, v.y, v.z) != interestedBlock) { //Sometimes block change before we call this
 //                continue;
 //            }
 
@@ -54,7 +54,7 @@ public class WaterPropagation extends LivePropagationTask {
     public boolean setWater(int x, int y, int z, int flow) {
         Block b = GameScene.world.getBlock(x, y, z);
         if (b.isAir()) {
-            GameScene.player.setBlock(MyGame.BLOCK_WATER, x, y, z, new BlockData(new byte[]{(byte) flow}));
+            GameScene.player.setBlock(interestedBlock, x, y, z, new BlockData(new byte[]{(byte) flow}));
         }
         return !b.solid;
     }

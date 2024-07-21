@@ -9,6 +9,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
 
 import java.util.List;
@@ -148,7 +149,10 @@ public class PositionHandler {
 
     public final void jump() {
         if (onGround && isGravityEnabled()) {
-            this.velocity.y -= (float) (Math.max(MIN_JUMP_GRAVITY, gravity) * 15.0f * window.getMsPerFrame());
+            double multiplier = 15.0f * window.getMsPerFrame();
+            if (!Main.settings.video_vsync) multiplier = 150;
+
+            this.velocity.y -= (float) (Math.max(MIN_JUMP_GRAVITY, gravity) * multiplier);
             onGround = false;
         }
     }

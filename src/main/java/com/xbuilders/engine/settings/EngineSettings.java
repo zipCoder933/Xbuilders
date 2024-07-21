@@ -18,7 +18,7 @@ public class EngineSettings {
     public boolean video_largerUI = true;
 
     //TODO: If there are settings we dont want acesssable in UI, we can put them into a "hidden settings" class
-    public boolean smallWindow = false;
+    public boolean internal_smallWindow = false;
     public final BoundedInt viewDistance = new BoundedInt(Chunk.WIDTH * 5);
 
     public EngineSettings initVariables() {

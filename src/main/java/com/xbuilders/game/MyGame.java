@@ -315,6 +315,7 @@ public class MyGame extends Game {
     public void initialize(NKWindow window, GameScene gameScene) throws Exception {
 
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
+        gameScene.livePropagationHandler.addTask(new LavaPropagation());
 
         //Add block types FIRST. We need them to be able to setup blocks properly
         ItemList.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());

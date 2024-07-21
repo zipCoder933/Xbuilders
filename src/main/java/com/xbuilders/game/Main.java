@@ -140,8 +140,8 @@ public class Main extends NKWindow {
         initGLFW();
 
         //Get the actual size of the screen
-        int windowWidth = settings.smallWindow ? 750 : 920;
-        int windowHeight = settings.smallWindow ? 650 : 720;
+        int windowWidth = settings.internal_smallWindow ? 750 : 920;
+        int windowHeight = settings.internal_smallWindow ? 650 : 720;
 
 
 
@@ -219,7 +219,7 @@ public class Main extends NKWindow {
 
         iconRenderer.saveAllIcons();//Generate all icons
 
-        settingsUtils.save(new EngineSettings());//Replace the old settings
+        settingsUtils.save(new EngineSettings()); //Replace the old settings
 
         ErrorHandler.createPopupWindow("Finished",
                 "XBuilders has finished setting up. Please restart the game to play.");

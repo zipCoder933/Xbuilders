@@ -13,7 +13,7 @@ public class LivePropagationHandler extends Thread {
     List<LivePropagationTask> tasks = new ArrayList<>();
 
 
-    public void addTask(WaterPropagation waterPropagation) {
+    public void addTask(LivePropagationTask waterPropagation) {
         tasks.add(waterPropagation);
     }
 

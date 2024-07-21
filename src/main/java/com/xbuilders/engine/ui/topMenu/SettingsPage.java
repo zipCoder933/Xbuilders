@@ -77,6 +77,7 @@ public class SettingsPage implements MenuPage {
         fields.clear();
         for (Field field : EngineSettings.class.getDeclaredFields()) {
             field.setAccessible(true);
+            if(!Main.devMode && field.getName().startsWith("internal_")) continue;
             try {
                 fields.add(new SettingsField(field));
             } catch (IllegalAccessException e) {
