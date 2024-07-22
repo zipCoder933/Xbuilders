@@ -62,7 +62,7 @@ public class PositionHandler {
     final static boolean DRAW_COLLISION_CANDIDATES = false;
     final static float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
     final static float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
-    public static final float DEFAULT_GRAVITY = 0.4f;
+    public static final float DEFAULT_GRAVITY = 0.42f;
     public static final float DEFAULT_TERMINAL_VELOCITY = 0.6f;
     final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
 

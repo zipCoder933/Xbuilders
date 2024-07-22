@@ -3,6 +3,7 @@ package com.xbuilders.engine.world.light;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -273,7 +274,12 @@ public class SunlightUtils {
             if (centerLightLevel >= thisLevel && thisLevel < 15) {
                 queue.add(node);
             } else if (thisLevel > 1) { //This is actually important
-                repropNodes.add(node);
+                int wx =( chunk.position.x * Chunk.WIDTH) + x;
+                int wy =( chunk.position.y * Chunk.WIDTH) + y;
+                int wz =( chunk.position.z * Chunk.WIDTH) + z;
+                if(MiscUtils.isBlackCube(wx, wy, wz)) {//Reduces the initial nodes
+                    repropNodes.add(node);
+                }
             }
         }
     }

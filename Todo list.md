@@ -8,7 +8,7 @@ Just do the simplest solution. Code simplicity, does not matter!
 
 
 ### bugs
-- Gravity and jumping needs to work independent of frame rate
+- The light that is erased sometimes causes an infinite loop of switching between 0 and the sun value? resulting in inproper rendering of the mesh
 - The Nublada crash still exists
   - hs_err_pid4752.log
   - I set the font buffer to public and static and it didnt fix the issue
