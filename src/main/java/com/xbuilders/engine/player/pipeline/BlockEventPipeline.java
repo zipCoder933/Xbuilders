@@ -22,6 +22,7 @@ import org.joml.Vector3i;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BlockEventPipeline {
 
@@ -218,10 +219,10 @@ public class BlockEventPipeline {
 
                     // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
                     if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightPropagation(sunNode_OpaqueToTrans, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        SunlightUtils.addNodeForPropagation(sunNode_OpaqueToTrans, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);//TODO: We might need to optimize this by creating the nodes first and then propagating once
                     } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
-                        SunlightUtils.addInitialNodesForSunlightErasure(sunNode_transToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        SunlightUtils.addNodeForErasure(sunNode_transToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.transparentToOpaque(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
 
@@ -267,22 +268,26 @@ public class BlockEventPipeline {
         //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
 //        Main.printlnDev("\tOpaque > trans: " + sunNode_OpaqueToTrans.size() + "; Trans > opaque: " + sunNode_transToOpaque.size());
 
-        long start = System.currentTimeMillis();
-        boolean longSunlight =
-                sunNode_OpaqueToTrans.size() > 10000
-                        || sunNode_transToOpaque.size() > 20000;
-        if (longSunlight) {
-            GameScene.alert("The lighting is being calculated. This may take a while.");
-            updateAffectedChunks(affectedChunks);
-        }
 
-        SunlightUtils.updateFromQueue(sunNode_OpaqueToTrans, sunNode_transToOpaque, affectedChunks);
+        AtomicBoolean longSunlight = new AtomicBoolean(false);
+        AtomicBoolean firstChunkUpdate = new AtomicBoolean(true);
 
-        sunNode_OpaqueToTrans.clear();
-        sunNode_transToOpaque.clear();
-        if (longSunlight) {
-            GameScene.alert("Sunlight calculation finished " +
-                    ((System.currentTimeMillis() - start) / 1000) + "s");
+        long elapsedMS = SunlightUtils.updateFromQueue(
+                sunNode_OpaqueToTrans,
+                sunNode_transToOpaque,
+                affectedChunks,
+                (time) -> {
+                    if (time > 1000 && firstChunkUpdate.get()) {
+                        updateAffectedChunks(affectedChunks);
+                        firstChunkUpdate.set(false);
+                    } else if (time > 3000 && !longSunlight.get()) {
+                        GameScene.alert("The lighting is being calculated. This may take a while.");
+                        longSunlight.set(true);
+                    }
+                });
+
+        if (longSunlight.get()) {
+            GameScene.alert("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
         }
 
         //Resolve affected chunks

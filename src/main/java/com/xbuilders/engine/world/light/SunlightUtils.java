@@ -1,20 +1,25 @@
 package com.xbuilders.engine.world.light;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.game.Main;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 /**
  * We can save time in propagation by using BFS to propagate downward instead of setting the nodes initially.
@@ -27,8 +32,14 @@ import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
  * 3. We re-propagate the light from the edge of the erased area
  */
 public class SunlightUtils {
-    public static void addInitialNodesForSunlightPropagation(List<ChunkNode> queue, final Chunk c,
-                                                             final int x, final int y, final int z) {
+
+
+    public static void addNodeForErasure(List<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
+        queue.add(new ChunkNode(chunk, x, y, z));
+    }
+
+    public static void addNodeForPropagation(List<ChunkNode> queue, final Chunk c,
+                                             final int x, final int y, final int z) {
         //In this method, We just get the brightest neighboring node and add it to the queue
         AtomicInteger brightestSunlight = new AtomicInteger(0);
         ChunkNode brightestNode = null;
@@ -95,12 +106,31 @@ public class SunlightUtils {
         return null;
     }
 
-    public static void updateFromQueue(
+    public static void println(String s) {
+        Main.printlnDev(s);
+    }
+
+    public static long updateFromQueue(
             List<ChunkNode> opaqueToTransparent,
             List<ChunkNode> transparentToOpaque,
-            HashSet<Chunk> affectedChunks) {
+            HashSet<Chunk> affectedChunks, Consumer<Long> callback) {
 
-        if (transparentToOpaque.size() > 0) {
+
+        println("\n\nUpdating sunlight:");
+        AtomicBoolean complete = new AtomicBoolean();
+        AtomicLong start = new AtomicLong(System.currentTimeMillis());
+        new Thread(() -> {
+            try {
+                for (int i = 0; i < 60; i++) {//We wait as long as 1 minute
+                    Thread.sleep(1000);
+                    if (complete.get()) return;
+                    else callback.accept(System.currentTimeMillis() - start.get());
+                }
+            } catch (InterruptedException e) {
+            }
+        }).start();
+
+        if (!transparentToOpaque.isEmpty()) {
             HashSet<ChunkNode> repropagationNodes = new HashSet<>();
             eraseSunlight(transparentToOpaque, affectedChunks, repropagationNodes);
             transparentToOpaque.clear();
@@ -108,76 +138,98 @@ public class SunlightUtils {
             if (!repropagationNodes.isEmpty()) {
                 transparentToOpaque.addAll(opaqueToTransparent);
                 transparentToOpaque.addAll(repropagationNodes);
-                propagateSunlight(transparentToOpaque, affectedChunks, true);
-            } else if (opaqueToTransparent.size() > 0) {
-                propagateSunlight(opaqueToTransparent, affectedChunks, true);
+                propagateSunlight(transparentToOpaque, affectedChunks);
+            } else if (!opaqueToTransparent.isEmpty()) {
+                propagateSunlight(opaqueToTransparent, affectedChunks);
             }
-        } else if (opaqueToTransparent.size() > 0) {
-            propagateSunlight(opaqueToTransparent, affectedChunks, true);
+        } else if (!opaqueToTransparent.isEmpty()) {
+            propagateSunlight(opaqueToTransparent, affectedChunks);
         }
+        
         opaqueToTransparent.clear();
         transparentToOpaque.clear();
+        complete.set(true);
+        return System.currentTimeMillis() - start.get();
     }
 
 
-    /**
-     * Put the x y z position on the actual block that was turned to opaque, NOT below it
-     *
-     * @param queue
-     * @param chunk
-     * @param x
-     * @param y
-     * @param z
-     */
-    public static void addInitialNodesForSunlightErasure(List<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
-        Block block = BlockList.BLOCK_AIR;
-        if(chunk == null) {
-            return;
-        }
-        queue.add(new ChunkNode(chunk, x, y, z));
+    public static void eraseSunlight(List<ChunkNode> nodes, HashSet<Chunk> affectedChunks,
+                                     HashSet<ChunkNode> repropagationNodes) {
 
-        while (true) {
-            y++;
-            if (chunk.inBoundsY(y)) {
-                block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
-            } else {
-                WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
-                chunk = GameScene.world.getChunk(newCoords.chunk);
-                x = newCoords.chunkVoxel.x;
-                y = newCoords.chunkVoxel.y;
-                z = newCoords.chunkVoxel.z;
-                if (chunk != null) {
-                    block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+        //Create a boundary and erase everything below that boundary:
+        AABB queueBox = new AABB();
+        queueBox.min.set(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        queueBox.max.set(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+        //Find the min and max of all the nodes
+        for (ChunkNode node : nodes) {
+            int worldX = (node.chunk.position.x * Chunk.WIDTH) + node.x;
+            int worldY = (node.chunk.position.y * Chunk.WIDTH) + node.y;
+            int worldZ = (node.chunk.position.z * Chunk.WIDTH) + node.z;
+
+            if (worldY < queueBox.min.y) queueBox.min.y = worldY;
+            else if (worldY > queueBox.max.y) queueBox.max.y = worldY;
+            if (worldZ < queueBox.min.z) queueBox.min.z = worldZ;
+            else if (worldZ > queueBox.max.z) queueBox.max.z = worldZ;
+            if (worldX < queueBox.min.x) queueBox.min.x = worldX;
+            else if (worldX > queueBox.max.x) queueBox.max.x = worldX;
+        }
+        nodes.clear();
+
+        //Erase all nodes in the box and go down until we hit all black nodes
+        repropagationNodes.clear();
+        downwardLoop:
+        for (int wy = (int) queueBox.min.y; true; wy++) {
+            boolean foundLight = false;
+            for (int wx = (int) queueBox.min.x - 1; wx <= queueBox.max.x + 1; wx++) {
+                for (int wz = (int) queueBox.min.z - 1; wz <= queueBox.max.z + 1; wz++) {
+                    WCCi wcc = new WCCi().set(wx, wy, wz);
+                    Chunk chunk = wcc.getChunk(GameScene.world);
+                    if (chunk == null) continue;
+                    affectedChunks.add(chunk);
+
+                    //We also want to check the perimiter of the boundary for extra nodes to erase or repropagate
+                    if (wx > queueBox.max.x || wx < queueBox.min.x || wz > queueBox.max.z || wz < queueBox.min.z) { //if out of bounds
+                        byte sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        if (sun < 15 && sun > 0) {//Add any nodes greater than 1 to a erasure BFS
+                            nodes.add(new ChunkNode(chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                        } else if (sun > 1 && wy == queueBox.min.y) { //Add any nodes greater than 1 to a repropagation BFS
+                            repropagationNodes.add(new ChunkNode(chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                        }
+                    } else {
+                        if (chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z) > 0) {
+                            foundLight = true;
+                        }
+                        chunk.data.setSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, (byte) 0);
+                    }
+
+
                 }
             }
-            if (block == null || block.opaque) {
-                break;
-            } else {
-                chunk.data.setSun(x, y, z, (byte) 0);
-                queue.add(new ChunkNode(chunk, x, y, z));
-            }
+            if (!foundLight) break downwardLoop;
         }
-//        System.out.println("Initial nodes: " + queue.size());
-    }
+        println("Finished creating queue box: " + queueBox.toString());
 
-    public static void eraseSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks,
-                                     HashSet<ChunkNode> repropagationNodes) {
-        while (queue.size() > 0) {
-            ChunkNode node = queue.remove(0);
-            if (node == null) continue;
+
+        //Now do a BFS with the remaining nodes
+        HashSet<ChunkNode> BFS_repropNodes = new HashSet<>();
+        while (!nodes.isEmpty()) {
+            ChunkNode node = nodes.remove(0);
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
             node.chunk.data.setSun(node.x, node.y, node.z, (byte) 0);
             affectedChunks.add(node.chunk);
-            repropagationNodes.remove(node);
-            checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
-            checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
-            checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, repropagationNodes, false);
-            checkNeighborErase(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, repropagationNodes, false);
-            checkNeighborErase(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, repropagationNodes, true);
-            checkNeighborErase(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, repropagationNodes, false);
+            BFS_repropNodes.remove(node);
+            checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, nodes, BFS_repropNodes, false);
+            checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, nodes, BFS_repropNodes, false);
+            checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, nodes, BFS_repropNodes, false);
+            checkNeighborErase(node.chunk, node.x, node.y, node.z - 1, lightValue, nodes, BFS_repropNodes, false);
+            checkNeighborErase(node.chunk, node.x, node.y + 1, node.z, lightValue, nodes, BFS_repropNodes, true);
+            checkNeighborErase(node.chunk, node.x, node.y - 1, node.z, lightValue, nodes, BFS_repropNodes, false);
         }
-        queue.clear();
+        repropagationNodes.addAll(BFS_repropNodes);
+        //I think that when the propagation takes to long it is because there are so many BFS repropagation nodes
+        println("Finished erasing BFS nodes (BFS reprop " + BFS_repropNodes.size() + ")");
     }
+
 
 // Experimental method for optimizing light erasure DO NOT DELETE!!!
 //      if (isBelow) {
@@ -198,7 +250,7 @@ public class SunlightUtils {
 //    }
 
     private static void checkNeighborErase(Chunk chunk, int x, int y, int z, int centerLightLevel,
-                                           List<ChunkNode> queue, HashSet<ChunkNode> totalNodes,
+                                           List<ChunkNode> queue, HashSet<ChunkNode> repropNodes,
                                            boolean isBelow) {
         byte thisLevel;
         if (chunk.inBounds(x, y, z)) {
@@ -218,33 +270,43 @@ public class SunlightUtils {
             ChunkNode node = new ChunkNode(chunk, x, y, z);
             if (centerLightLevel >= thisLevel && thisLevel < 15) {
                 queue.add(node);
-            } else if (thisLevel > 1) {
-                totalNodes.add(node);
+            } else if (thisLevel > 1) { //This is actually important
+                repropNodes.add(node);
             }
         }
     }
 
-    public static void propagateSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks, boolean propagateDownward) {
-        while (queue.size() > 0) {
+    public static void propagateSunlight(List<ChunkNode> queue, HashSet<Chunk> affectedChunks) {
+        //This repropagation is now the bottleneck, Erasure is instantaneous
+        /**
+         * IMPORTANT NOTE ABOUT ANY LIGHT PROPAGATION:
+         * Start with as few nodes as possible!
+         * The less nodes we start with, the faster we can finish the job.
+         */
+        println("Starting propagating nodes: " + queue.size());
+        while (!queue.isEmpty()) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
-            checkNeighbor(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, affectedChunks, false);
-            checkNeighbor(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, affectedChunks, false);
-            checkNeighbor(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, affectedChunks, false);
-            checkNeighbor(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, affectedChunks, false);
-            checkNeighbor(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, affectedChunks, propagateDownward);
-            checkNeighbor(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, affectedChunks, false);
+            affectedChunks.add(node.chunk);
+
+            checkNeighbor(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x, node.y, node.z - 1, lightValue, queue, false);
+            checkNeighbor(node.chunk, node.x, node.y + 1, node.z, lightValue, queue, true);
+            checkNeighbor(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, false);
 //            System.out.println("Queue size: " + queue.size());
         }
-        queue.clear();
+        println("Finished propagating");
     }
 
     private static void checkNeighbor(Chunk chunk, int x, int y, int z, int lightLevel,
-                                      List<ChunkNode> queue, HashSet<Chunk> affectedChunks, boolean isBelowNode) {
+                                      List<ChunkNode> queue,
+                                      boolean isBelowNode) {
 
         Block neigborBlock;
-        if (chunk.inBounds(x, y, z)) {
+        if (Chunk.inBounds(x, y, z)) {
             neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
         } else {
             final Vector3i neighboringChunk = new Vector3i();
@@ -259,14 +321,32 @@ public class SunlightUtils {
             } else return;
         }
         if (neigborBlock != null && !neigborBlock.opaque) {
+            ChunkNode node = new ChunkNode(chunk, x, y, z);
+
+//            if (isBelowNode && lightLevel == 15) {
+//                while (true) {
+//                    node.y++;
+//                    if (y >= Chunk.WIDTH) {
+//                        node.chunk = GameScene.world.getChunk(new Vector3i(
+//                                node.chunk.position.x,
+//                                node.chunk.position.y + 1,
+//                                node.chunk.position.z));
+//                        if (node.chunk == null) return;
+//                    }
+//                    node.y = positiveMod(node.y, Chunk.WIDTH);
+//                    if (ItemList.getBlock(node.chunk.data.getBlock(node.x, node.y, node.z)).opaque) break;
+//                    else {
+//                        chunk.data.setSun(x, y, z, (byte) 15);
+//                        affectedChunks.add(chunk);
+//                    }
+//                }
+//            }
             if (isBelowNode && lightLevel == 15) {
                 chunk.data.setSun(x, y, z, (byte) 15);
-                affectedChunks.add(chunk);
-                queue.add(new ChunkNode(chunk, x, y, z));
+                queue.add(node);
             } else if (chunk.data.getSun(x, y, z) + 2 <= lightLevel) {
                 chunk.data.setSun(x, y, z, (byte) (lightLevel - 1));
-                affectedChunks.add(chunk);
-                queue.add(new ChunkNode(chunk, x, y, z));
+                queue.add(node);
             }
         }
     }

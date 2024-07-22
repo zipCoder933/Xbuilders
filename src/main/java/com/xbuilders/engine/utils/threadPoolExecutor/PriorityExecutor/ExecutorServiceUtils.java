@@ -15,10 +15,11 @@ public class ExecutorServiceUtils {
             //Wait for the task to finish
             try {
                 future.get();
-            } catch (Exception ex) {
-                System.out.println("Error cancelling task: " + ex);
+            } catch (java.util.concurrent.CancellationException | InterruptedException ex) {
+                //Concurrent cancellation exceptions are normal, so they are ignored
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
         }
-
     }
 }
