@@ -168,13 +168,13 @@ public class ChunkSavingLoadingUtils {
                 ChunkFile_V0.readChunk(chunk, input);
 
             } catch (FileNotFoundException ex) {
-                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex, false);
+                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex);
                 return false;
             } catch (IOException ex) {
-                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex, false);
+                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex);
                 return false;
             } catch (Exception ex) {
-                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex, false);
+                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex);
                 return false;
             }
         }

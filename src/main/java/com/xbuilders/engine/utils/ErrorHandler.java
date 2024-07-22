@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
- *
  * @author zipCoder933
  */
 public class ErrorHandler {
@@ -30,16 +29,16 @@ public class ErrorHandler {
         if (exMsg == null) {
             exMsg = "Unknown error.";
         }
-        handleFatalError("Runtime error", exMsg, ex,true);
+        handleFatalError("Runtime error", exMsg, ex);
         saveErrorToLogFile(ex, "unnamed error");
     }
 
     public static void handleFatalError(String message, Throwable ex) {
-        handleFatalError("Runtime error", message, ex,true);
+        handleFatalError("Runtime error", message, ex);
         saveErrorToLogFile(ex, message);
     }
 
-    public static void handleFatalError(String title, String body, Throwable ex,boolean terminate) {
+    public static void handleFatalError(String title, String body, Throwable ex) {
         String message = ex.getMessage();
         if (message == null) {
             message = "Unknown error";
@@ -50,7 +49,6 @@ public class ErrorHandler {
                 + "<b>ERROR INFO:</b> " + message + "\n(" + ex.getClass() + ")\n\n"
                 + "<b>Stack trace:</b>\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n") + "</span>");
         saveErrorToLogFile(ex, "##" + title + "##\t" + body);
-     if(terminate)   Runtime.getRuntime().exit(1);
     }
 
     public static void createPopupWindow(String title, String str) {
@@ -74,13 +72,13 @@ public class ErrorHandler {
     /**
      * Prints the stack trace and saves the error to log file.
      *
-     * @param ex the throwable
+     * @param ex         the throwable
      * @param devMessage
      */
     public static void saveErrorToLogFile(Throwable ex, String devMessage) {
         String date = dateFormat.format(new Date());
 
-        System.err.println("\nError: \""+devMessage+"\"");
+        System.err.println("\nError: \"" + devMessage + "\"");
 
         if (ex != null) {
             System.err.println("STACK TRACE:");
