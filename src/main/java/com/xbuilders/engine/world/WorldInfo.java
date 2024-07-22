@@ -3,6 +3,7 @@
 // 
 package com.xbuilders.engine.world;
 
+import com.xbuilders.engine.utils.ErrorHandler;
 import org.joml.Vector3f;
 
 import java.nio.file.Files;
@@ -115,7 +116,12 @@ public class WorldInfo {
         }
         this.directory = directory;
         this.name = directory.getName();
-        this.infoFile = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), InfoFile.class);
+        try {
+            this.infoFile = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), InfoFile.class);
+        } catch (Exception ex) {
+            ErrorHandler.handleFatalError(
+                    "Failed to load world info for world \"" + name + "\"", ex);
+        }
     }
 
 
