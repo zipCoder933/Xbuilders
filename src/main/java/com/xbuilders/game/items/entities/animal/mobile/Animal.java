@@ -40,6 +40,7 @@ public abstract class Animal extends Entity {
 
 
     public void goForward(float amount) {
+        amount *= window.smoothFrameDeltaSec * 50;
         if (freezeMode) return;
         Vector2f vec = TrigUtils.getCircumferencePoint(-yRotDegrees, amount);
         worldPosition.add(vec.x, 0, vec.y);

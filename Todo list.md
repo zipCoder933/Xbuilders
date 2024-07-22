@@ -8,6 +8,7 @@ Just do the simplest solution. Code simplicity, does not matter!
 
 
 ### bugs
+- Gravity and jumping needs to work independent of frame rate
 - The Nublada crash still exists
   - hs_err_pid4752.log
   - I set the font buffer to public and static and it didnt fix the issue

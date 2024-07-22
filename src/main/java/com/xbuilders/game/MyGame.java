@@ -28,10 +28,7 @@ import com.xbuilders.game.items.entities.BannerEntityLink;
 import com.xbuilders.game.items.entities.animal.*;
 import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
 import com.xbuilders.game.items.entities.vehicle.MinecartEntityLink;
-import com.xbuilders.game.items.tools.AnimalFeed;
-import com.xbuilders.game.items.tools.Flashlight;
-import com.xbuilders.game.items.tools.Hoe;
-import com.xbuilders.game.items.tools.Saddle;
+import com.xbuilders.game.items.tools.*;
 import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
@@ -439,6 +436,7 @@ public class MyGame extends Game {
                 new Saddle(),
                 new Hoe(),
                 new Flashlight(),
+                new Camera(),
                 TOOL_ANIMAL_FEED
         };
 

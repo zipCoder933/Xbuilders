@@ -4,11 +4,6 @@ import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 public class EngineSettings {
-
-    public static boolean shouldReset() {
-        return false;
-    }
-
     public boolean game_switchMouseButtons = false;
     public int game_cursorRayDist = 50;
 

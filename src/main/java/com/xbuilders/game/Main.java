@@ -19,6 +19,7 @@ import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import com.xbuilders.window.developmentTools.MemoryProfiler;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.nuklear.NkVec2;
 
 import javax.imageio.ImageIO;
@@ -70,6 +71,16 @@ public class Main extends NKWindow {
 
     public static void saveSettings() {
         settingsUtils.save(settings);
+        applySettings();
+    }
+
+    private static void applySettings() {
+        //Set vsync
+        if (settings.video_vsync) {
+            GLFW.glfwSwapInterval(1);
+        } else {
+            GLFW.glfwSwapInterval(0);
+        }
     }
 
     private static boolean isGameMode = false;
@@ -122,6 +133,8 @@ public class Main extends NKWindow {
         }
     }
 
+    final boolean isFullscreen;
+
     public Main() throws Exception {
         super();
         settings = settingsUtils.load(devMode);
@@ -133,7 +146,7 @@ public class Main extends NKWindow {
         topMenu = new TopMenu(this);
         gameScene = new GameScene(this);
 
-        setMpfUpdateInterval(500);
+        setMpfUpdateInterval(1000);
         MemoryProfiler.setIntervalMS(500);
 
         //Create the window
@@ -142,7 +155,7 @@ public class Main extends NKWindow {
         //Get the actual size of the screen
         int windowWidth = settings.internal_smallWindow ? 750 : 920;
         int windowHeight = settings.internal_smallWindow ? 650 : 720;
-
+        isFullscreen = settings.video_fullscreen;
 
 
         if (settings.video_fullscreen) {
@@ -156,16 +169,27 @@ public class Main extends NKWindow {
         }
 
         startWindow("XBuilders", settings.video_fullscreen, windowWidth, windowHeight);
-        if(settings.video_vsync) {
-            GLFW.glfwSwapInterval(1);
-        }else{
-            GLFW.glfwSwapInterval(0);
-        }
-//        GLFW.glfwSwapInterval(settings.vsync ? 1:0);//Disable vsync
+        GLFW.glfwSwapInterval(settings.video_vsync ? 1 : 0);
+
+        //If a fullscreen window is created, we need to set the focus callback so that the user can exit fullscreen if they lose focus
+        // Get the current GLFW window handle
+        long windowHandle = GLFW.glfwGetCurrentContext();
+        // Create a new window focus callback
+        GLFWWindowFocusCallback focusCallback = new GLFWWindowFocusCallback() {
+            @Override
+            public void invoke(long window, boolean focused) {
+                if (!focused) {
+                    if (isFullscreen) {
+                        GLFW.glfwIconifyWindow(getId());
+                        //glfwRestoreWindow(window);
+                    }
+                }
+            }
+        };
+        GLFW.glfwSetWindowFocusCallback(windowHandle, focusCallback);
 
         init();
         showWindow();
-        System.out.println("Press 1 for System.GC()");
 
         while (!windowShouldClose()) {
             /* Input */
@@ -180,16 +204,9 @@ public class Main extends NKWindow {
 
             endFrame();//EndFrame takes the most time, becuase we have vsync turned on
             endScreenshot();
-
-            if (devkeyF2_SystemCG) {
-                System.out.println("System.GC()");
-                System.gc();
-                devkeyF2_SystemCG = false;
-            }
         }
         terminate();
     }
-
 
     private void init() throws Exception {
         setIcon(ResourceUtils.resource("icon16.png").getAbsolutePath(),
@@ -237,10 +254,10 @@ public class Main extends NKWindow {
 
     static DecimalFormat df = new DecimalFormat("####.00");
 
-    private boolean screenshot = false;
-    private boolean screenShotInitialized = false;
+    private static boolean screenshot = false;
+    private static boolean screenShotInitialized = false;
 
-    protected void screenshot() {
+    public static void takeScreenshot() {
         screenshot = true;
     }
 
@@ -254,7 +271,6 @@ public class Main extends NKWindow {
         if (screenShotInitialized) {
             String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
             File saveFile = ResourceUtils.appDataResource("screenshots\\" + formattedDateTime + ".png");
-            System.out.println("Screenshot saved to: " + saveFile.getAbsolutePath());
             GameScene.alert("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
                 saveFile.getParentFile().mkdirs();
@@ -267,13 +283,16 @@ public class Main extends NKWindow {
         }
     }
 
+    public static String mfpAndMemory = "";
+
     @Override
     public void onMPFUpdate() {
         // Lower MPF is better. Since we are matching the FPS to the monitors refresh
         // rate, the FPS will not exceed 60fps.
         // Our goal is to get as close to 16.666 MPF (60 FPS) as possible
         String formattedNumber = df.format(getMsPerFrame());
-        setTitle(name + "   mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString());
+        mfpAndMemory = "mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString();
+        setTitle(name + (Main.devMode ? "   " + mfpAndMemory : ""));
     }
 
 
@@ -289,22 +308,21 @@ public class Main extends NKWindow {
 
     public static boolean devkeyF3;
     public static boolean devkeyF4;
-    public static boolean devkeyF2_SystemCG;
     public static boolean devkeyF1;
     public static boolean devkeyF12;
 
     @Override
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-            if (devMode && key == GLFW.GLFW_KEY_F3) {
+            if (devMode && key == GLFW.GLFW_KEY_F2) {
+                System.out.println("System.GC()");
+                System.gc();
+            } else if (devMode && key == GLFW.GLFW_KEY_F3) {
                 devkeyF3 = !devkeyF3;
                 System.out.println("Special mode (F3): " + devkeyF3);
             } else if (devMode && key == GLFW.GLFW_KEY_F4) {
                 devkeyF4 = !devkeyF4;
                 System.out.println("Special mode (F4): " + devkeyF4);
-            } else if (devMode && key == GLFW.GLFW_KEY_F2) {
-                devkeyF2_SystemCG = !devkeyF2_SystemCG;
-                System.out.println("Special mode(F2): " + devkeyF2_SystemCG);
             } else if (devMode && key == GLFW.GLFW_KEY_F1) {
                 devkeyF1 = !devkeyF1;
                 System.out.println("Special mode (F1): " + devkeyF1);
@@ -312,7 +330,7 @@ public class Main extends NKWindow {
                 devkeyF12 = !devkeyF12;
                 System.out.println("Light repropagation: " + devkeyF12);
             } else if (key == GLFW.GLFW_KEY_F11) {
-                screenshot();
+                takeScreenshot();
             }
         }
         if (isGameMode) {

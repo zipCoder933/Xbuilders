@@ -18,20 +18,18 @@ public class EngineSettingsUtils {
             .create();
 
     public EngineSettings load(boolean devMode) {
-        File settingsFile = ResourceUtils.appDataResource("settings.json");
-        if(EngineSettings.shouldReset()){
-            System.out.println("Resetting settings!");
-            save(new EngineSettings());
-            return new EngineSettings().initVariables();
-        }
-
-        if (settingsFile.exists()) {
-            try {
-                String jsonString = Files.readString(settingsFile.toPath());
-                return gson.fromJson(jsonString, EngineSettings.class).initVariables();
-            } catch (Exception e) {
-                ErrorHandler.handleFatalError(e);
+        try {
+            File settingsFile = ResourceUtils.appDataResource("settings.json");
+            if (settingsFile.exists()) {
+                try {
+                    String jsonString = Files.readString(settingsFile.toPath());
+                    return gson.fromJson(jsonString, EngineSettings.class).initVariables();
+                } catch (Exception e) {
+                    ErrorHandler.handleFatalError(e);
+                }
             }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
         return new EngineSettings().initVariables();
     }
