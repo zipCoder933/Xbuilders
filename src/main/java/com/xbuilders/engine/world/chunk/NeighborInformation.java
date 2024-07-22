@@ -9,7 +9,7 @@ public class NeighborInformation {
 
     public NeighborInformation() {
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
-            neighborVectors[i] = new Vector3i();
+            neighborChunkPositions[i] = new Vector3i();
         }
     }
 
@@ -21,7 +21,7 @@ public class NeighborInformation {
         allNeghborsLoaded = false;
         allChunksCreated = false;
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
-            neighborVectors[i].set(
+            neighborChunkPositions[i].set(
                     position.x + NEIGHBOR_VECTORS[i].x,
                     position.y + NEIGHBOR_VECTORS[i].y,
                     position.z + NEIGHBOR_VECTORS[i].z);
@@ -50,7 +50,7 @@ public class NeighborInformation {
     };
 
     protected static final Vector3i[] NEIGHBOR_VECTORS = {//size: 26
-            //Facing sides
+            //XZ Facing sides
             new Vector3i(-1, 0, 0),
             new Vector3i(1, 0, 0),
             new Vector3i(0, 0, -1),
@@ -81,7 +81,7 @@ public class NeighborInformation {
             new Vector3i(1, 1, 1)
     };
     public final Chunk neighbors[] = new Chunk[NEIGHBOR_VECTORS.length];
-    public final Vector3i[] neighborVectors = new Vector3i[NEIGHBOR_VECTORS.length];
+    public final Vector3i[] neighborChunkPositions = new Vector3i[NEIGHBOR_VECTORS.length];
     public boolean allFacingNeghborsLoaded, XYFacingNeghborsLoaded, allNeghborsLoaded;
     boolean allChunksCreated;
 
@@ -94,6 +94,11 @@ public class NeighborInformation {
         boolean allNeghborsLoaded2 = true;
         if (allChunksCreated) {
             for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
+
+                //If we are at the top or bottom of the world, we can't be next to any chunks above/below
+                if (thisChunkCoordinates.y == World.TOP_Y_CHUNK && NEIGHBOR_VECTORS[i].y == -1) continue;
+                else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK && NEIGHBOR_VECTORS[i].y == 1) continue;
+
                 Chunk chunk = neighbors[i];
                 if (chunk != null && chunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
                     allNeghborsLoaded2 = false;
@@ -108,15 +113,12 @@ public class NeighborInformation {
         } else {
             boolean allChunksCreated2 = true;
             for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
+
                 //If we are at the top or bottom of the world, we can't be next to any chunks above/below
-                if (thisChunkCoordinates.y == World.TOP_Y_CHUNK &&
-                        neighborVectors[i].y == -1) {
-                    continue;
-                } else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK &&
-                        neighborVectors[i].y == 1) {
-                    continue;
-                }
-                Chunk chunk = GameScene.world.getChunk(neighborVectors[i]);
+                if (thisChunkCoordinates.y == World.TOP_Y_CHUNK && NEIGHBOR_VECTORS[i].y == -1) continue;
+                else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK && NEIGHBOR_VECTORS[i].y == 1) continue;
+
+                Chunk chunk = GameScene.world.getChunk(neighborChunkPositions[i]);
                 if (chunk == null) {
                     allChunksCreated2 = false;
                     allNeghborsLoaded2 = false;
@@ -152,10 +154,11 @@ public class NeighborInformation {
         sb.append("Neighbors " + MiscUtils.printVector(this.thisChunkCoordinates) + ": ");
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
             Chunk c = neighbors[i];
+//            sb.append(NEIGHBOR_VECTORS[i].x+""+NEIGHBOR_VECTORS[i].y+""+NEIGHBOR_VECTORS[i].z+"=");
             sb.append(c == null ? "N" : (c.getGenerationStatus()));
             if (i < NEIGHBOR_VECTORS.length - 1) sb.append(" ");
         }
-        sb.append(" all-loaded: " + allNeghborsLoaded + ", all-facing: " + allFacingNeghborsLoaded);
+        sb.append(" all-exist: " + allChunksCreated + " all-loaded: " + allNeghborsLoaded + ", all-facing: " + allFacingNeghborsLoaded);
         return sb.toString();
     }
 }

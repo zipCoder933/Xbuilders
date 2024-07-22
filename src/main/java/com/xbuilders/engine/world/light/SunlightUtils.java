@@ -145,10 +145,12 @@ public class SunlightUtils {
         } else if (!opaqueToTransparent.isEmpty()) {
             propagateSunlight(opaqueToTransparent, affectedChunks);
         }
-        
+
         opaqueToTransparent.clear();
         transparentToOpaque.clear();
         complete.set(true);
+
+        println("Finished with sunlight, " + (System.currentTimeMillis() - start.get())/1000 + "s");
         return System.currentTimeMillis() - start.get();
     }
 
@@ -207,7 +209,7 @@ public class SunlightUtils {
             }
             if (!foundLight) break downwardLoop;
         }
-        println("Finished creating queue box: " + queueBox.toString());
+        println("Finished darkening boundary: "+queueBox.toString());
 
 
         //Now do a BFS with the remaining nodes
@@ -227,7 +229,7 @@ public class SunlightUtils {
         }
         repropagationNodes.addAll(BFS_repropNodes);
         //I think that when the propagation takes to long it is because there are so many BFS repropagation nodes
-        println("Finished erasing BFS nodes (BFS reprop " + BFS_repropNodes.size() + ")");
+        println("Finished erasing BFS nodes (BFS reprop " + BFS_repropNodes.size() + ", total " + repropagationNodes.size() + ")");
     }
 
 
@@ -298,7 +300,6 @@ public class SunlightUtils {
             checkNeighbor(node.chunk, node.x, node.y - 1, node.z, lightValue, queue, false);
 //            System.out.println("Queue size: " + queue.size());
         }
-        println("Finished propagating");
     }
 
     private static void checkNeighbor(Chunk chunk, int x, int y, int z, int lightLevel,
