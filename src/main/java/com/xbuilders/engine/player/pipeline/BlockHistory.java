@@ -11,7 +11,7 @@ public class BlockHistory {
     public boolean updateBlockData = false; //If we should set the block data (if we want to set the block data to null, we set this to true, and set data to null)
     public boolean fromNetwork = false;
 
-    public BlockHistory(Block currentBlock,BlockData data) {
+    public BlockHistory(Block currentBlock, BlockData data) {
         this.currentBlock = currentBlock;
         this.data = data;
         updateBlockData = true;
@@ -22,25 +22,11 @@ public class BlockHistory {
         this.currentBlock = ItemList.getBlock(currentBlock);
     }
 
-    public BlockHistory(short currentBlock, BlockData data) {
-        this.currentBlock = ItemList.getBlock(currentBlock);
-        this.data = data;
-        updateBlockData = true;
+    public BlockHistory() {
     }
 
-    public BlockHistory(short currentBlock) {
-        this.currentBlock = ItemList.getBlock(currentBlock);
-    }
 
-    public BlockHistory(BlockData data) {
-        this.data = data;
-        updateBlockData = true;
-    }
-
-    public BlockHistory() {}
-
-
-        public String toString() {
+    public String toString() {
         return "BlockHistory{" +
                 "previousBlock=" + previousBlock +
                 ", currentBlock=" + currentBlock +

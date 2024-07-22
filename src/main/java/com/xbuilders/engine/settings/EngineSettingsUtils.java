@@ -21,14 +21,10 @@ public class EngineSettingsUtils {
         try {
             File settingsFile = ResourceUtils.appDataResource("settings.json");
             if (settingsFile.exists()) {
-                try {
-                    String jsonString = Files.readString(settingsFile.toPath());
-                    return gson.fromJson(jsonString, EngineSettings.class).initVariables();
-                } catch (Exception e) {
-                    ErrorHandler.handleFatalError(e);
-                }
+                String jsonString = Files.readString(settingsFile.toPath());
+                return gson.fromJson(jsonString, EngineSettings.class).initVariables();
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new EngineSettings().initVariables();

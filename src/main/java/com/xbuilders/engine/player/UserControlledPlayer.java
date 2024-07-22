@@ -24,6 +24,9 @@ import org.lwjgl.nuklear.NkVec2;
 
 import java.io.IOException;
 
+import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
+
 public class UserControlledPlayer extends Player {
 
 
@@ -63,7 +66,7 @@ public class UserControlledPlayer extends Player {
     private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
     public static final int KEY_CREATE_MOUSE_BUTTON = GLFW.GLFW_KEY_EQUAL;
     public static final int KEY_DELETE_MOUSE_BUTTON = GLFW.GLFW_KEY_MINUS;
-    public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_V;
+    public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_O;
 
     public boolean leftKeyPressed() {
         if (GameScene.ui.allMenusAreOpen()) return false;
@@ -429,31 +432,39 @@ public class UserControlledPlayer extends Player {
         }
     }
 
+
+    //Set block method ===============================================================================
+    //The master method
+    public void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
+        Chunk chunk = chunks.getChunk(wcc.chunk);
+        if (chunk != null) {
+            //Get the previous block
+            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+
+            //we need to set the block because some algorithms want to check to see if the block has changed immediately
+            chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
+
+            BlockHistory history = new BlockHistory(previousBlock, newBlock);
+            if (blockData != null) {
+                history.updateBlockData = true;
+                history.data = blockData;
+            }
+            eventPipeline.addEvent(wcc, history);
+        }
+    }
+
+    public void setBlock(short newBlock, WCCi wcc) {
+        setBlock(newBlock, null, wcc);
+    }
+
     public void setBlock(short block, int worldX, int worldY, int worldZ) {
-        WCCi wcc = new WCCi();
-        wcc.set(worldX, worldY, worldZ);
-        setBlock(block, wcc);
+        setBlock(block, null, new WCCi().set(worldX, worldY, worldZ));
     }
 
-    public void setBlock(short block, int worldX, int worldY, int worldZ, BlockData blockData) {
-        WCCi wcc = new WCCi();
-        wcc.set(worldX, worldY, worldZ);
-        Chunk chunk = chunks.getChunk(wcc.chunk);
-        if (chunk != null) {
-            eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(block, blockData));
-        }
+    public void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
+        setBlock(block, data, new WCCi().set(worldX, worldY, worldZ));
     }
-
-    public void setBlock(BlockData blockData, int worldX, int worldY, int worldZ) {
-        eventPipeline.addEvent(new Vector3i(worldX, worldY, worldZ), new BlockHistory(blockData));
-    }
-
-    public void setBlock(short block, WCCi wcc) {
-        Chunk chunk = chunks.getChunk(wcc.chunk);
-        if (chunk != null) {
-            eventPipeline.addEvent(wcc, new BlockHistory(block));
-        }
-    }
+    //==============================================================================================
 
     public void setNewSpawnPoint(Terrain terrain) {
         System.out.println("Setting new spawn point...");

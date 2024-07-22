@@ -21,6 +21,12 @@ public class LineTool extends BlockTool {
     final Vector3i start = new Vector3i();
     final Vector3i end = new Vector3i();
 
+    @Override
+    public boolean shouldActivate(int key, int scancode, int action, int mods) {
+        if (key == GLFW.GLFW_KEY_4) return true;
+        return false;
+    }
+
     public LineTool(BlockTools tools, CursorRay cursorRay) {
         super("Line", tools, cursorRay);
     }
@@ -82,9 +88,5 @@ public class LineTool extends BlockTool {
         cursorRay.disableBoundaryMode();
     }
 
-    @Override
-    public boolean shouldActivate(int key, int scancode, int action, int mods) {
-        if (key == GLFW.GLFW_KEY_4) return true;
-        return false;
-    }
+
 }

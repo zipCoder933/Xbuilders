@@ -1,0 +1,13 @@
+Message: 	java.lang.IllegalStateException: Expected BEGIN_OBJECT but was NUMBER at line 1 column 20 path $.viewDistance
+Developer Message: 	##Runtime error##	java.lang.IllegalStateException:
+Class: 	class com.google.gson.JsonSyntaxException
+
+Stack trace:
+[com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:397)
+ com.google.gson.Gson.fromJson(Gson.java:1227)
+ com.google.gson.Gson.fromJson(Gson.java:1137)
+ com.google.gson.Gson.fromJson(Gson.java:1047)
+ com.google.gson.Gson.fromJson(Gson.java:982)
+ com.xbuilders.engine.settings.EngineSettingsUtils.load(EngineSettingsUtils.java:26)
+ com.xbuilders.game.Main.<init>(Main.java:140)
+ com.xbuilders.game.Main.main(Main.java:130)]

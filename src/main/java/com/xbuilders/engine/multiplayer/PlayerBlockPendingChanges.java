@@ -129,6 +129,8 @@ public class PlayerBlockPendingChanges {
     }
 
     public void record(OutputStream baos, Vector3i worldPos, BlockHistory change) throws IOException {
+        if (change.currentBlock == null) return;
+
         baos.write(new byte[]{GameServer.VOXEL_BLOCK_CHANGE});
         baos.write(ByteUtils.intToBytes(worldPos.x));
         baos.write(ByteUtils.intToBytes(worldPos.y));
@@ -227,7 +229,10 @@ public class PlayerBlockPendingChanges {
                 BlockHistory blockHistory = new BlockHistory();
                 blockHistory.currentBlock = ItemList.getBlock((short) blockID);
                 blockHistory.fromNetwork = true;
+
                 blockHistory.data = new BlockData(data);
+                blockHistory.updateBlockData = true;
+
 
                 Vector3i position = new Vector3i(x, y, z);
                 newEvent.accept(position, blockHistory);

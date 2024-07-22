@@ -1,9 +1,7 @@
 package com.xbuilders.game;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.chunk.BlockData;
 import org.joml.Vector3i;
@@ -54,7 +52,7 @@ public class WaterPropagation extends LivePropagationTask {
     public boolean setWater(int x, int y, int z, int flow) {
         Block b = GameScene.world.getBlock(x, y, z);
         if (b.isAir()) {
-            GameScene.player.setBlock(interestedBlock, x, y, z, new BlockData(new byte[]{(byte) flow}));
+            GameScene.player.setBlock(interestedBlock, new BlockData(new byte[]{(byte) flow}), x, y, z);
         }
         return !b.solid;
     }

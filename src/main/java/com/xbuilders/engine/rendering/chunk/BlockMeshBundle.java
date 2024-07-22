@@ -10,6 +10,7 @@ import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.Traditional
 import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesher;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
+import com.xbuilders.window.render.Shader;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
@@ -19,7 +20,7 @@ import org.lwjgl.system.MemoryStack;
 public class BlockMeshBundle {
 
 
-    final TraditionalVertexSet opaqueBuffer = new TraditionalVertexSet();
+    final TraditionalVertexSet buffer = new TraditionalVertexSet();
     final TraditionalVertexSet transBuffer = new TraditionalVertexSet();
     public final CompactMesh opaqueMesh, transMesh;
 
@@ -39,16 +40,21 @@ public class BlockMeshBundle {
     }
 
 
+    public void draw(BlockShader shader) {
+        opaqueMesh.draw(shader, true);
+        transMesh.draw(shader, true);
+    }
+
     public synchronized void compute(ChunkVoxels voxels) {
         try {
             try (MemoryStack stack = MemoryStack.stackPush()) {
-                opaqueBuffer.reset();
+                buffer.reset();
                 transBuffer.reset();
                 naiveMesher = new NaiveMesher(voxels, new Vector3i(0, 0, 0), true);
-                naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, false);
+                naiveMesher.compute(buffer, buffer, stack, 1, false);
 
-                if (opaqueBuffer.size() != 0) {
-                    opaqueBuffer.makeVertexSet();
+                if (buffer.size() != 0) {
+                    buffer.makeVertexSet();
                 }
                 if (transBuffer.size() != 0) {
                     transBuffer.makeVertexSet();
@@ -61,7 +67,7 @@ public class BlockMeshBundle {
     }
 
     public synchronized void sendToGPU() {
-        opaqueBuffer.sendToMesh(opaqueMesh);
+        buffer.sendToMesh(opaqueMesh);
         transBuffer.sendToMesh(transMesh);
     }
 
@@ -73,4 +79,5 @@ public class BlockMeshBundle {
     public String toString() {
         return "ChunkMeshBundle{ \n" + "opaque=" + opaqueMesh + ",\n trans=" + transMesh + " }";
     }
+
 }

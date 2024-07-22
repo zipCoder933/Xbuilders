@@ -1,7 +1,10 @@
 package com.xbuilders.game.blockTools;
 
+import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.BlockAir;
 import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.game.Main;
 import org.joml.Matrix4f;
 import org.lwjgl.nuklear.NkVec2;
 
@@ -10,6 +13,11 @@ public abstract class BlockTool {
     public final String name;
     public final BlockTools blockTools;
     public final CursorRay cursorRay;
+
+    public Block getSelectedBlock() {
+        if (Main.game.getSelectedItem() == null || Main.game.getSelectedItem().getType() != ItemType.BLOCK) return null;
+        return (Block) Main.game.getSelectedItem();
+    }
 
     public BlockTool(String name, BlockTools blockTools, CursorRay cursorRay) {
         this.name = name;

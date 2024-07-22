@@ -1,10 +1,8 @@
 package com.xbuilders.game.items.blocks;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.MyGame;
 import org.joml.Vector3i;
@@ -76,51 +74,51 @@ public class StraightTrack extends Block {
         if (!trackNeighbors.isEmpty()) {
             if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 3);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 0);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 2);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } //=====================
             else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) || isTrackAtPos2(trackNeighbors, x + 1, y, z)) {
                 orientation.set(0, (byte) 2);
                 straightTrack = true;
-                GameScene.player.setBlock(this.id, x, y, z, orientation);
+                GameScene.player.setBlock(this.id, orientation, x, y, z);
             } else if (isTrackAtPos2(trackNeighbors, x, y, z - 1) || isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(this.id, x, y, z, orientation);
+                GameScene.player.setBlock(this.id, orientation, x, y, z);
                 straightTrack = true;
             }
         }
         if (!curvedTrack) {
             if (isTrackAtPos(trackNeighbors, x + 1, y - 1, z)) {
                 orientation.set(0, (byte) 2);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x - 1, y - 1, z)) {
                 orientation.set(0, (byte) 0);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z + 1)) {
                 orientation.set(0, (byte) 3);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z - 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, x, y, z, orientation);
+                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             }
         }

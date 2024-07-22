@@ -39,7 +39,7 @@ public class PasteTool extends BlockTool {
     static BlockMeshBundle mesh = new BlockMeshBundle();
     static Box box = new Box();
 
-    public static void updateMesh(){
+    public static void updateMesh() {
         mesh.compute(clipboard);
         box.setPosAndSize(0, 0, 0, clipboard.size.x, clipboard.size.y, clipboard.size.z);
         mesh.sendToGPU();
@@ -71,7 +71,9 @@ public class PasteTool extends BlockTool {
     final Matrix4f model = new Matrix4f();
 
     public Vector3i getOffset() {
-        offset.set(cursorRay.getHitPosPlusNormal());
+        if (placeOnHit) offset.set(cursorRay.getHitPos());
+        else offset.set(cursorRay.getHitPosPlusNormal());
+
         switch (offsetMode) {
             //Up
             case 1 -> {
@@ -114,7 +116,7 @@ public class PasteTool extends BlockTool {
         model.identity().translate(getOffset().x, getOffset().y, getOffset().z);
         mvp.update(proj, view, model);
         mvp.sendToShader(shader.getID(), shader.mvpUniform);
-        mesh.opaqueMesh.draw(shader, true);
+        mesh.draw(shader);
         box.setPosition(getOffset().x, getOffset().y, getOffset().z);
         box.draw(proj, view);
         return true;
@@ -126,8 +128,7 @@ public class PasteTool extends BlockTool {
             for (int y = 0; y < clipboard.size.y; y++) {
                 for (int z = 0; z < clipboard.size.z; z++) {
                     if (clipboard.getBlock(x, y, z) != BlockList.BLOCK_AIR.id || !additionMode) {
-                        GameScene.player.setBlock(clipboard.getBlock(x, y, z),
-                                x + offset.x, y + offset.y, z + offset.z);
+                        GameScene.player.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
                     }
                 }
             }
@@ -138,10 +139,7 @@ public class PasteTool extends BlockTool {
     public static void rotatePasteBox() {
         if (clipboard != null) {
             clipboard_entities.clear();
-            ChunkVoxels newClipboard = new ChunkVoxels(
-                    clipboard.size.z,
-                    clipboard.size.y,
-                    clipboard.size.x);
+            ChunkVoxels newClipboard = new ChunkVoxels(clipboard.size.z, clipboard.size.y, clipboard.size.x);
             for (int x = 0; x < clipboard.size.x; x++) {
                 for (int y = 0; y < clipboard.size.y; y++) {
                     for (int z = 0; z < clipboard.size.z; z++) {
@@ -149,8 +147,7 @@ public class PasteTool extends BlockTool {
                         int newZ = x;
                         int newY = y;
 
-                        newClipboard.setBlock(
-                                newX, newY, newZ, clipboard.getBlock(x, y, z));
+                        newClipboard.setBlock(newX, newY, newZ, clipboard.getBlock(x, y, z));
 
                         BlockData data = clipboard.getBlockData(x, y, z);
                         if (data != null && data.size() == 2) { //If the data is an orientation
@@ -178,13 +175,20 @@ public class PasteTool extends BlockTool {
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        offsetMode = (offsetMode + ((int)yoffset)) % offsetMaxMode;
+        offsetMode = (offsetMode + ((int) yoffset)) % offsetMaxMode;
         return true;
     }
 
+    boolean placeOnHit = false;
+
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE) {
+        if (action == GLFW.GLFW_PRESS) {
+            if (key == GLFW.GLFW_KEY_K) {
+                placeOnHit = true;
+                return true;
+            }
+        } else if (action == GLFW.GLFW_RELEASE) {
             if (key == GLFW.GLFW_KEY_O) {
                 offsetMode = (offsetMode + 1) % offsetMaxMode;
                 System.out.println("Offset mode: " + offsetMode);
@@ -194,6 +198,9 @@ public class PasteTool extends BlockTool {
                 return true;
             } else if (key == GLFW.GLFW_KEY_R) {
                 rotatePasteBox();
+                return true;
+            } else if (key == GLFW.GLFW_KEY_K) {
+                placeOnHit = false;
                 return true;
             }
         }

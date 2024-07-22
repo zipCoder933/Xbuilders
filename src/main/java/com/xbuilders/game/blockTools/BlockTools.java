@@ -6,6 +6,7 @@ import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.game.blockTools.tools.*;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
@@ -19,6 +20,8 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public class BlockTools extends GameUIElement {
 
+    public static final int KEY_CHANGE_MODE = GLFW.GLFW_KEY_W;
+
     public BlockTools(NkContext ctx, NKWindow window, CursorRay cursorRay) {
         super(ctx, window);
         tools.add(new DefaultTool(this, cursorRay));
@@ -27,6 +30,7 @@ public class BlockTools extends GameUIElement {
         tools.add(new CopyTool(this, cursorRay));
         tools.add(new PasteTool(this, cursorRay));
         tools.add(new LineTool(this, cursorRay));
+        tools.add(new FillTool(this, cursorRay));
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();
@@ -81,14 +85,13 @@ public class BlockTools extends GameUIElement {
      * @return true if the event was consumed
      */
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE) {
+        if (action == GLFW.GLFW_RELEASE || action == GLFW.GLFW_PRESS) {
             for (int i = 0; i < tools.size(); i++) {
                 if (tools.get(i).shouldActivate(key, scancode, action, mods)) {
                     selectTool(i);
                     return true;
                 }
             }
-        } else if (action == GLFW.GLFW_PRESS) {
         }
 
         return tools.get(selectedTool).keyEvent(key, scancode, action, mods);

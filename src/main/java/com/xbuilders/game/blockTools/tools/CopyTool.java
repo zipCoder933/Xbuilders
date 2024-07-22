@@ -43,6 +43,14 @@ public class CopyTool extends BlockTool {
                             (int) (y - aabb.min.y),
                             (int) (z - aabb.min.z),
                             GameScene.world.getBlockID(x, y, z));
+                    //Set block data
+                    if (GameScene.world.getBlockData(x, y, z) != null) {
+                        PasteTool.clipboard.setBlockData(
+                                (int) (x - aabb.min.x),
+                                (int) (y - aabb.min.y),
+                                (int) (z - aabb.min.z),
+                                GameScene.world.getBlockData(x, y, z));
+                    }
                 }
             }
         }
