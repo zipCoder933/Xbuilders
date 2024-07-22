@@ -216,7 +216,7 @@ public class SunlightUtils {
         //Now do a BFS with the remaining nodes
         HashSet<ChunkNode> BFS_repropNodes = new HashSet<>();
         while (!nodes.isEmpty()) {
-            ChunkNode node = nodes.remove(0);
+            ChunkNode node = nodes.remove(nodes.size() - 1);//Remove the last node (its faster this way)
             byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
             node.chunk.data.setSun(node.x, node.y, node.z, (byte) 0);
             affectedChunks.add(node.chunk);
