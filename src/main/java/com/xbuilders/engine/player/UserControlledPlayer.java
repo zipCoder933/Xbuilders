@@ -330,7 +330,6 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    boolean raycastDistChanged = false;
     boolean canFly = true;
 
     public void mouseButtonEvent(int button, int action, int mods) {
@@ -349,25 +348,13 @@ public class UserControlledPlayer extends Player {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
-
                 if (positionHandler.isGravityEnabled()) speed = RUN_SPEED * 0.5f;
                 else speed = RUN_SPEED;
-
-            } else {
-                switch (key) {
-                    case GLFW.GLFW_KEY_SPACE -> {
-                        if (positionLock != null) {
-                            positionLock = null;
-                        }
-                        jump();
-                    }
-                    case KEY_CHANGE_RAYCAST_MODE -> {
-                        camera.cursorRay.cursorRayHitAllBlocks = true;
-                        if (camera.cursorRay.cursorRayHitAllBlocks) {
-                            camera.cursorRay.rayDistance = 6;
-                        }
-                    }
+            } else if (key == GLFW.GLFW_KEY_SPACE) {
+                if (positionLock != null) {
+                    positionLock = null;
                 }
+                jump();
             }
         } else if (action == GLFW.GLFW_RELEASE) {
             if (upKeyPressed(key)) canFly = true;
@@ -378,12 +365,14 @@ public class UserControlledPlayer extends Player {
                         System.out.println("PASSTHROUGH: " + !usePositionHandler);
                         positionHandler.collisionsEnabled = !positionHandler.collisionsEnabled;
                     }
+                    case KEY_CHANGE_RAYCAST_MODE -> {
+                        camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
+                        if (camera.cursorRay.cursorRayHitAllBlocks) {
+                            camera.cursorRay.rayDistance = 7;
+                        }
+                    }
                     case KEY_TOGGLE_VIEW -> {
                         camera.cycleToNextView(15);
-                    }
-                    case KEY_CHANGE_RAYCAST_MODE -> {
-                        camera.cursorRay.cursorRayHitAllBlocks = false;
-                        raycastDistChanged = true;
                     }
                     case KEY_CREATE_MOUSE_BUTTON -> {
                         if (!camera.cursorRay.clickEvent(true)) {
@@ -485,11 +474,6 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (window.isKeyPressed(KEY_CHANGE_RAYCAST_MODE) && camera.cursorRay.cursorRayHitAllBlocks) {
-            raycastDistChanged = true;
-            camera.cursorRay.rayDistance += scroll.y();
-            return true;
-        }
         return false;
     }
 
