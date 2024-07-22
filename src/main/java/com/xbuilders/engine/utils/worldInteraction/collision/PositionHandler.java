@@ -63,7 +63,7 @@ public class PositionHandler {
     final static float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
     final static float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
     public static final float DEFAULT_GRAVITY = 0.4f;
-    public static final float DEFAULT_TERMINAL_VELOCITY = 0.75f;
+    public static final float DEFAULT_TERMINAL_VELOCITY = 0.6f;
     final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
 
     //Variables
@@ -106,10 +106,6 @@ public class PositionHandler {
 
 
     public void update() {
-        //For some reason, setting a minimum time between updates causes stuttering
-//        if (System.currentTimeMillis() - lastUpdate < 10) return; //Update every 10ms
-//        lastUpdate = System.currentTimeMillis();
-//        frameDeltaSec = Math.max(10 / 1000, window.smoothFrameDeltaSec);
         frameDeltaSec = window.smoothFrameDeltaSec;
 
         aabb.update(); //Update the aabb first
@@ -121,17 +117,23 @@ public class PositionHandler {
         }
 
         if (!isFrozen()) {
-            velocity.x *= friction;//TODO: Add smooth frame delta to all these variables
+            velocity.x *= friction;
             velocity.z *= friction;
+
             if (collisionsEnabled && isGravityEnabled()) {
-                this.velocity.add(0, gravity * frameDeltaSec, 0);
+                double fallSpeed = (gravity * frameDeltaSec);
+
+                //TODO: Cap the number of times we can update PositionHandler (10fps) (The movement is jittery when running against walls, if we try to limit that here)
+                if (window.getMsPerFrame() < 10) fallSpeed /= 4; //For some reason, we need to fall slower if the MPF is too low
+                this.velocity.y += fallSpeed;
             } else {
                 velocity.y *= friction;
             }
+
             if (velocity.y > -0.00001f) {
                 onGround = true;
-            } else if (velocity.y > terminalVelocity) {
-                velocity.y = terminalVelocity;
+            } else if (velocity.y > terminalVelocity * frameDeltaSec) {
+                velocity.y = terminalVelocity * frameDeltaSec;
             }
 
 

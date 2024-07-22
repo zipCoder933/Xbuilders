@@ -9,7 +9,7 @@ import org.joml.Vector3i;
 public class Camera extends Tool {
 
     public Camera() {
-        super(3, "Camera");
+        super(4, "Camera");
         setIcon("camera.png");
         setClickEvent((ray, creationMode) -> {
             Main.takeScreenshot();

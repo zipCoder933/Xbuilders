@@ -35,7 +35,7 @@ public class UserControlledPlayer extends Player {
     final Vector4f lastOrientation = new Vector4f();
 
     final static float FLY_SPEED = 12f;
-    final float DEFAULT_SPEED = 9f;
+    final float DEFAULT_SPEED = 7.5f;
     final float RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     public float getPan() {
@@ -349,7 +349,10 @@ public class UserControlledPlayer extends Player {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
-                speed = RUN_SPEED;
+
+                if (positionHandler.isGravityEnabled()) speed = RUN_SPEED * 0.5f;
+                else speed = RUN_SPEED;
+
             } else {
                 switch (key) {
                     case GLFW.GLFW_KEY_SPACE -> {
