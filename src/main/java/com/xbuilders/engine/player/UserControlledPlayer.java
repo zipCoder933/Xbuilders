@@ -250,39 +250,39 @@ public class UserControlledPlayer extends Player {
             usePositionHandler = true;
             if (forwardKeyPressed()) {
                 worldPosition.add(
-                        camera.cameraForward.x * speed * window.getFrameDelta(),
-                        camera.cameraForward.y * speed * window.getFrameDelta(),
-                        camera.cameraForward.z * speed * window.getFrameDelta());
+                        camera.cameraForward.x * speed * window.smoothFrameDeltaSec,
+                        camera.cameraForward.y * speed * window.smoothFrameDeltaSec,
+                        camera.cameraForward.z * speed * window.smoothFrameDeltaSec);
             }
             if (backwardKeyPressed()) {
                 worldPosition.sub(
-                        camera.cameraForward.x * speed * window.getFrameDelta(),
-                        camera.cameraForward.y * speed * window.getFrameDelta(),
-                        camera.cameraForward.z * speed * window.getFrameDelta());
+                        camera.cameraForward.x * speed * window.smoothFrameDeltaSec,
+                        camera.cameraForward.y * speed * window.smoothFrameDeltaSec,
+                        camera.cameraForward.z * speed * window.smoothFrameDeltaSec);
             }
 
             if (leftKeyPressed()) {
                 worldPosition.sub(
-                        camera.right.x * speed * window.getFrameDelta(),
-                        camera.right.y * speed * window.getFrameDelta(),
-                        camera.right.z * speed * window.getFrameDelta());
+                        camera.right.x * speed * window.smoothFrameDeltaSec,
+                        camera.right.y * speed * window.smoothFrameDeltaSec,
+                        camera.right.z * speed * window.smoothFrameDeltaSec);
             }
             if (rightKeyPressed()) {
                 worldPosition.add(
-                        camera.right.x * speed * window.getFrameDelta(),
-                        camera.right.y * speed * window.getFrameDelta(),
-                        camera.right.z * speed * window.getFrameDelta());
+                        camera.right.x * speed * window.smoothFrameDeltaSec,
+                        camera.right.y * speed * window.smoothFrameDeltaSec,
+                        camera.right.z * speed * window.smoothFrameDeltaSec);
             }
 
             if (isInsideOfLadder()) {
                 if (upKeyPressed() || jumpKeyPressed()) {
                     isClimbing = true;
                     canFly = false;
-                    worldPosition.sub(0, 3f * window.getFrameDelta(), 0);
+                    worldPosition.sub(0, 3f * window.smoothFrameDeltaSec, 0);
                 } else {
                     isClimbing = true;
                     canFly = false;
-                    worldPosition.add(0, 3f * window.getFrameDelta(), 0);
+                    worldPosition.add(0, 3f * window.smoothFrameDeltaSec, 0);
                 }
                 positionHandler.setGravityEnabled(false);
             } else {
@@ -291,10 +291,10 @@ public class UserControlledPlayer extends Player {
                     isClimbing = false;
                 } else if (canFly) {
                     if (upKeyPressed()) {
-                        worldPosition.sub(0, FLY_SPEED * window.getFrameDelta(), 0);
+                        worldPosition.sub(0, FLY_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     } else if (downKeyPressed()) {
-                        worldPosition.add(0, FLY_SPEED * window.getFrameDelta(), 0);
+                        worldPosition.add(0, FLY_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     }
                 }

@@ -4,7 +4,6 @@
  */
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
@@ -14,7 +13,6 @@ import com.xbuilders.window.BaseWindow;
 
 import java.util.List;
 
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -48,20 +46,6 @@ public class PositionHandler {
         this.gravityEnabled = gravityEnabled;
     }
 
-    public Vector3f velocity;
-    private boolean frozen = false;
-    private boolean gravityEnabled;
-    public boolean onGround;
-    public final BaseWindow window;
-
-    public final float friction = 0.75f;
-
-    public float gravity = DEFAULT_GRAVITY;
-    public float terminalVelocity = 0.5f;
-
-    public static final float DEFAULT_GRAVITY = 0.0005f;
-    public static final float DEFAULT_TERMINAL_VELOCITY = 0.2f;
-
     public void setFallMedium(float gravity, float terminalVelocity) {
         this.gravity = gravity;
         this.terminalVelocity = Math.min(terminalVelocity, DEFAULT_TERMINAL_VELOCITY);
@@ -72,18 +56,33 @@ public class PositionHandler {
         this.terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
     }
 
-    public boolean collisionsEnabled = true;
-    public Box renderedBox;
-    EntityAABB aabb;
-    public CollisionHandler collisionHandler;
-    public float stepHeight = 0.6f;
 
     //Constants
     public final boolean DRAW_ENTITY_BOX = false;
     final static boolean DRAW_COLLISION_CANDIDATES = false;
     final static float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
     final static float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
+    public static final float DEFAULT_GRAVITY = 0.4f;
+    public static final float DEFAULT_TERMINAL_VELOCITY = 0.75f;
+    final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
 
+    //Variables
+    public Vector3f velocity;
+    private boolean frozen = false;
+    private boolean gravityEnabled;
+    public boolean onGround;
+    public final BaseWindow window;
+    public final float friction = 0.75f;
+    public float gravity = DEFAULT_GRAVITY;
+    public float terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
+    public boolean collisionsEnabled = true;
+    public Box renderedBox;
+    EntityAABB aabb;
+    public CollisionHandler collisionHandler;
+    public float stepHeight = 0.6f;
+
+    long lastUpdate;
+    float frameDeltaSec;
 
     public PositionHandler(BaseWindow window, World world,
                            EntityAABB thisAABB,
@@ -107,6 +106,12 @@ public class PositionHandler {
 
 
     public void update() {
+        //For some reason, setting a minimum time between updates causes stuttering
+//        if (System.currentTimeMillis() - lastUpdate < 10) return; //Update every 10ms
+//        lastUpdate = System.currentTimeMillis();
+//        frameDeltaSec = Math.max(10 / 1000, window.smoothFrameDeltaSec);
+        frameDeltaSec = window.smoothFrameDeltaSec;
+
         aabb.update(); //Update the aabb first
         if (DRAW_ENTITY_BOX) {
             renderedBox.setLineWidth(2);
@@ -116,10 +121,10 @@ public class PositionHandler {
         }
 
         if (!isFrozen()) {
-            velocity.x *= friction;
+            velocity.x *= friction;//TODO: Add smooth frame delta to all these variables
             velocity.z *= friction;
             if (collisionsEnabled && isGravityEnabled()) {
-                this.velocity.add(0, (float) (gravity * window.getMsPerFrame()), 0);
+                this.velocity.add(0, gravity * frameDeltaSec, 0);
             } else {
                 velocity.y *= friction;
             }
@@ -144,15 +149,10 @@ public class PositionHandler {
     }
 
 
-    final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
-
-
     public final void jump() {
         if (onGround && isGravityEnabled()) {
-            double multiplier = 15.0f * window.getMsPerFrame();
-            if (!Main.settings.video_vsync) multiplier = 150;
-
-            this.velocity.y -= (float) (Math.max(MIN_JUMP_GRAVITY, gravity) * multiplier);
+            double jumpHeight = (Math.max(MIN_JUMP_GRAVITY, gravity) * 18 * frameDeltaSec);
+            this.velocity.y -= jumpHeight;
             onGround = false;
         }
     }

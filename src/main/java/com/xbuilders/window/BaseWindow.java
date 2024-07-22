@@ -4,24 +4,19 @@
  */
 package com.xbuilders.window;
 
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.window.utils.ValueSmoother;
 import com.xbuilders.window.utils.IOUtil;
-import com.xbuilders.window.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-
-import javax.imageio.ImageIO;
 
 import org.joml.Vector2d;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 
 import org.lwjgl.opengl.*;
-import org.lwjgl.stb.STBImage;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.ARBDebugOutput.GL_DEBUG_SEVERITY_LOW_ARB;
@@ -36,9 +31,6 @@ import org.lwjgl.system.MemoryStack;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
 import org.lwjgl.system.MemoryUtil;
-
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 
 import org.lwjgl.glfw.GLFWImage;
 
@@ -441,7 +433,7 @@ public abstract class BaseWindow {
     private int updateIntervalMS = 1000;
     private double msPerFrame;
     long timer = System.nanoTime();
-    private float frameDelta = 1f;
+
 
     public void setMpfUpdateInterval(int milliseconds) {
         updateIntervalMS = milliseconds;
@@ -452,7 +444,7 @@ public abstract class BaseWindow {
         lastTime = glfwGetTime();
         nbFrames = 0;
         timer = System.nanoTime();
-        frameDelta = 1f;
+        frameDeltaSec = 1f;
     }
 
     /**
@@ -462,12 +454,6 @@ public abstract class BaseWindow {
         return msPerFrame;
     }
 
-    /**
-     * @return the time between this frame and the last frame
-     */
-    public float getFrameDelta() {
-        return frameDelta;
-    }
 
     public void onMPFUpdate() {
         // System.out.println(getMsPerFrame() + " ms/frame\n");
@@ -488,9 +474,52 @@ public abstract class BaseWindow {
      * will be 16.6666ms ; If you intend to make a 30fps game, your target will
      * be 33.3333ms. That’s all you need to know.
      */
+
+    public float frameDeltaSec = 1f;
+    public float smoothFrameDeltaSec = 1f;
+
+    private ValueSmoother smoothed = new ValueSmoother(20);
+    /**
+     * Delta smoothign helps the movement maintain a constant speed
+     * Here's a basic example in Java:
+     *
+     * Copy
+     * public class GameLoop {
+     *
+     *     private static final int SMOOTHING_FACTOR = 5; // Number of frame times to consider for smoothing
+     *     private static List<Double> frameTimes = new ArrayList<>();
+     *
+     *     public static void main(String[] args) {
+     *         while (true) {
+     *             long currentTime = System.nanoTime();
+     *             double frameTime = (currentTime - previousTime) / 1_000_000_000.0;
+     *             previousTime = currentTime;
+     *
+     *             frameTimes.add(frameTime);
+     *             if (frameTimes.size() > SMOOTHING_FACTOR) {
+     *                 frameTimes.remove(0); // Keep only the last N frame times
+     *             }
+     *
+     *             double smoothedDeltaTime = calculateSmoothedDeltaTime();
+     *             update(smoothedDeltaTime);
+     *             render();
+     *         }
+     *     }
+     *
+     *     private static double calculateSmoothedDeltaTime() {
+     *         double sum = 0;
+     *         for (double time : frameTimes) {
+     *             sum += time;
+     *         }
+     *         return sum / frameTimes.size();
+     *     }
+     */
+
     protected void tickMPF() {
-        frameDelta = (System.nanoTime() - timer) / 1000000000f;
+        frameDeltaSec = (System.nanoTime() - timer) / 1000000000f;
         timer = System.nanoTime();
+        smoothed.add(frameDeltaSec);
+        smoothFrameDeltaSec = smoothed.getAverage();
 
         // do {// Measure speed
         double currentTime = glfwGetTime();
