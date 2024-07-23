@@ -158,7 +158,7 @@ public class Main extends NKWindow {
         isFullscreen = settings.video_fullscreen;
 
 
-        if (settings.video_fullscreen) {
+        if (isFullscreen) {
             int screenWidth = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
             int screenHeight = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
 
@@ -174,23 +174,27 @@ public class Main extends NKWindow {
         //If a fullscreen window is created, we need to set the focus callback so that the user can exit fullscreen if they lose focus
         // Get the current GLFW window handle
         long windowHandle = GLFW.glfwGetCurrentContext();
+
+        if (isFullscreen) { //Only call resize once if we are fullscreen
+            windowResizeEvent(windowWidth, windowHeight);
+        }
         // Create a new window focus callback
         GLFWWindowFocusCallback focusCallback = new GLFWWindowFocusCallback() {
             @Override
             public void invoke(long window, boolean focused) {
-                if (!focused) {
+                if(!focused) {
+                    windowUnfocusEvent();
                     if (isFullscreen) {
-                        GLFW.glfwIconifyWindow(getId());
-                        //glfwRestoreWindow(window);
+                        GLFW.glfwIconifyWindow(windowHandle);
                     }
                 }
             }
         };
         GLFW.glfwSetWindowFocusCallback(windowHandle, focusCallback);
 
+
         init();
         showWindow();
-
         while (!windowShouldClose()) {
             /* Input */
             beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
@@ -303,7 +307,16 @@ public class Main extends NKWindow {
 
     @Override
     public void windowResizeEvent(int width, int height) {
-        gameScene.windowResizeEvent(width, height);
+        if (!isFullscreen) {
+            gameScene.windowResizeEvent(width, height);
+        }
+    }
+
+
+    private void windowUnfocusEvent() {
+        if(isGameMode) {
+            gameScene.windowUnfocusEvent();
+        }
     }
 
     public static boolean devkeyF3;

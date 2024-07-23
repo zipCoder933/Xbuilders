@@ -41,7 +41,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
         this.playerInfo = playerInfo;
     }
 
-    public Inventory(NkContext ctx, Item[] itemList, NKWindow window,  Hotbar hotbar) throws IOException {
+    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, Hotbar hotbar) throws IOException {
         super(ctx, window);
         this.hotbar = hotbar;
         setItemList(itemList);
@@ -362,6 +362,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
+        if (searchBox.isFocused()) return true;
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
                 case KEY_OPEN_INVENTORY -> {

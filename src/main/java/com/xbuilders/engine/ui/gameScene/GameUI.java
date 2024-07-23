@@ -126,6 +126,10 @@ public class GameUI {
         } else game.uiMouseScrollEvent(scroll, xoffset, yoffset);
     }
 
+    public void showGameMenu() {
+        gameMenuVisible = true;
+    }
+
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {

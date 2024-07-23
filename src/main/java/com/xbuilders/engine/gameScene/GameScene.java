@@ -320,6 +320,11 @@ public class GameScene implements WindowEvents {
         game.update();
     }
 
+    public void windowUnfocusEvent() {
+        ui.showGameMenu();
+        holdMouse = false;
+    }
+
     public void windowResizeEvent(int width, int height) {
         setProjection();
         ui.windowResizeEvent(width, height);

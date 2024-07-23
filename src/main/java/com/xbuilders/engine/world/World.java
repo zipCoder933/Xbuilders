@@ -82,7 +82,7 @@ public class World {
     public void setViewDistance(int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
-        Main.settings.viewDistance.value = viewDistance.get();
+        Main.settings.internal_viewDistance.value = viewDistance.get();
         Main.saveSettings();
         GameScene.server.updateChunkDistance(viewDistance.get());
 
@@ -196,7 +196,7 @@ public class World {
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
-        setViewDistance(Main.settings.viewDistance.value);
+        setViewDistance(Main.settings.internal_viewDistance.value);
         chunkShader.setSkyColor(GameScene.backgroundColor);
         sortByDistance = new SortByDistanceToPlayer(GameScene.player.worldPosition);
     }

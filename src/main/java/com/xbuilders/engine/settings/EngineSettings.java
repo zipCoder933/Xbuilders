@@ -8,16 +8,16 @@ public class EngineSettings {
     public int game_cursorRayDist = 50;
 
     public boolean video_fullscreen = true;
-    public final BoundedFloat video_fullscreenSize = new BoundedFloat(0.95f);
+    public final BoundedFloat video_fullscreenSize = new BoundedFloat(1);
     public boolean video_vsync = true;
     public boolean video_largerUI = true;
 
     //TODO: If there are settings we dont want acesssable in UI, we can put them into a "hidden settings" class
     public boolean internal_smallWindow = false;
-    public final BoundedInt viewDistance = new BoundedInt(Chunk.WIDTH * 5);
+    public final BoundedInt internal_viewDistance = new BoundedInt(Chunk.WIDTH * 5);
 
     public EngineSettings initVariables() {
-        viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
+        internal_viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
         video_fullscreenSize.setBounds(0.5f, 1.0f);
         video_fullscreenSize.clamp();
         return this;
