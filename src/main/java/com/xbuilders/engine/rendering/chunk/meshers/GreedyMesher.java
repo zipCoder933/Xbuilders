@@ -9,7 +9,8 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.rendering.VertexSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -24,7 +25,7 @@ import java.nio.ShortBuffer;
 /**
  * @author zipCoder933
  */
-public class GreedyMesher extends Mesher {
+public class GreedyMesher extends Mesher<CompactVertexSet> {
     private static final int NEG_X = 0;
     private static final int POS_X = 1;
 
@@ -49,7 +50,7 @@ public class GreedyMesher extends Mesher {
     }
 
     @Override
-    public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers,
+    public void compute(CompactVertexSet opaqueBuffers, CompactVertexSet transparentBuffers,
                         MemoryStack stack,
                         int lodLevel, boolean smoothShading) {
 
@@ -288,7 +289,9 @@ public class GreedyMesher extends Mesher {
 
     //TODO: Determine why nublada is 2ms faster than this. Hint: its not mesher_makeQuad()
     // d: 0=X,1=Y,2=Z
-    protected void Mesher_makeQuad(VertexSet buffers, VertexSet transBuffers, int x[], int du[], int dv[], final int w, final int h,
+    protected void Mesher_makeQuad(CompactVertexSet buffers,
+                                   CompactVertexSet transBuffers,
+                                   int x[], int du[], int dv[], final int w, final int h,
                                    final short blockVal, final boolean backFace, final int d, final int side, MemoryStack stack) {
 
 //        short blockVal = (short) ((voxel >> 8) & 0xFFFF);
@@ -349,9 +352,9 @@ public class GreedyMesher extends Mesher {
             for (int i = 0; i < 4; i++) {
                 Vector3f vertex = vertices[i];
                 completeVertex[i].set(
-                        VertexSet.packFirstInt(vertex.x, vertex.y, (byte) side, texture.animationLength),
-                        VertexSet.packSecondInt(vertex.z, uvs[i].x, uvs[i].y),
-                        VertexSet.packThirdInt(texture.id, (byte) 15));
+                        CompactVertexSet.packFirstInt(vertex.x, vertex.y, (byte) side, texture.animationLength),
+                        CompactVertexSet.packSecondInt(vertex.z, uvs[i].x, uvs[i].y),
+                        CompactVertexSet.packThirdInt(texture.zLayer, (byte) 15));
             }
 
             if (block.opaque) {

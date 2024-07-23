@@ -1,10 +1,10 @@
 package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
 
+import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntArray;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntBuffer;
 
-public class VertexSet_ResizableIntBuffer extends VertexSet {
+public class VertexSet_ResizableIntBuffer extends CompactVertexSet {
 
 
     private final ResizableIntBuffer verts = new ResizableIntBuffer(6000);

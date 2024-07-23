@@ -8,17 +8,16 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.rendering.VertexSet;
 import org.lwjgl.system.MemoryUtil;
 
 /**
- *
  * @author zipCoder933
  */
 class TemporaryVertexList {
 
     private List<IntBuffer> verts1 = new ArrayList<>();
-  
+
     public void clear() {
         verts1.clear();
     }
@@ -32,7 +31,7 @@ class TemporaryVertexList {
     }
 
     public void addVert(int firstInt, int secondInt, int thridInt) {  //The arraylist is a minor contributor to the memory usage.
-        IntBuffer vert = MemoryUtil.memAllocInt(VertexSet.VECTOR_ELEMENTS);
+        IntBuffer vert = MemoryUtil.memAllocInt(CompactVertexSet.VECTOR_ELEMENTS);
         vert.put(0, firstInt);
         vert.put(1, secondInt);
         vert.put(2, thridInt);

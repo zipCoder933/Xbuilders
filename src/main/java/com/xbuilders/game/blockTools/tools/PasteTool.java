@@ -5,8 +5,8 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Entity;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
-import com.xbuilders.engine.rendering.chunk.BlockMeshBundle;
-import com.xbuilders.engine.rendering.chunk.BlockShader;
+import com.xbuilders.engine.rendering.block.BlockMeshBundle;
+import com.xbuilders.engine.rendering.block.BlockShader;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class PasteTool extends BlockTool {
     public PasteTool(BlockTools tools, CursorRay cursorRay) {
         super("Paste", tools, cursorRay);
-        shader = new BlockShader(BlockShader.FRAG_MODE_DIRECT);
     }
 
 
@@ -33,9 +32,11 @@ public class PasteTool extends BlockTool {
         return (additionMode ? "Additive " : "") + "Paste (offset=" + (offsetMode + 1) + "/" + offsetMaxMode + ")";
     }
 
-    MVP mvp = new MVP();
+    MVP modelMatrix = new MVP();
     public static ChunkVoxels clipboard = new ChunkVoxels(16, 16, 16);
     public static ArrayList<Entity> clipboard_entities = new ArrayList<>(); //TODO: Add clipboard entities
+
+    static BlockShader shader = new BlockShader();
     static BlockMeshBundle mesh = new BlockMeshBundle();
     static Box box = new Box();
 
@@ -50,7 +51,6 @@ public class PasteTool extends BlockTool {
         box.setColor(new Vector4f(1, 0, 0, 1));
     }
 
-    static BlockShader shader;
 
 
     @Override
@@ -67,8 +67,6 @@ public class PasteTool extends BlockTool {
         offsetMode = 1;
         additionMode = true;
     }
-
-    final Matrix4f model = new Matrix4f();
 
     public Vector3i getOffset() {
         if (placeOnHit) offset.set(cursorRay.getHitPos());
@@ -110,12 +108,12 @@ public class PasteTool extends BlockTool {
 
     @Override
     public boolean drawCursor(CursorRay ray, Matrix4f proj, Matrix4f view) {
-//        ray.cursorBox.setPosAndSize(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z, 2, 2, 2);
-//        ray.cursorBox.setColor(new Vector4f(1, 0, 0, 1));
-//        ray.cursorBox.draw(proj, view);
-        model.identity().translate(getOffset().x, getOffset().y, getOffset().z);
-        mvp.update(proj, view, model);
-        mvp.sendToShader(shader.getID(), shader.mvpUniform);
+        shader.updateProjectionViewMatrix(proj, view);
+
+        modelMatrix.identity().translate(getOffset().x, getOffset().y, getOffset().z);
+        modelMatrix.update();
+        modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+
         mesh.draw(shader);
         box.setPosition(getOffset().x, getOffset().y, getOffset().z);
         box.draw(proj, view);

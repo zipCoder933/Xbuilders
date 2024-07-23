@@ -2,15 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.chunk;
+package com.xbuilders.engine.rendering.block;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesher;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
-import com.xbuilders.window.render.Shader;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
@@ -20,29 +17,36 @@ import org.lwjgl.system.MemoryStack;
 public class BlockMeshBundle {
 
 
-    final TraditionalVertexSet buffer = new TraditionalVertexSet();
-    final TraditionalVertexSet transBuffer = new TraditionalVertexSet();
-    public final CompactMesh opaqueMesh, transMesh;
+    /**
+     * The chunk shader only suports a mesh of size 32 or less
+     */
+
+    final BlockVertexSet buffer = new BlockVertexSet();
+    final BlockVertexSet transBuffer = new BlockVertexSet();
+    public final BlockMesh opaqueMesh, transMesh;
 
     private NaiveMesher naiveMesher;
 
+
+
     public BlockMeshBundle() {
-        opaqueMesh = new CompactMesh();
+        opaqueMesh = new BlockMesh();
         opaqueMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
-        transMesh = new CompactMesh();
+        transMesh = new BlockMesh();
         transMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
 
     }
 
     public synchronized void init() {
-        opaqueMesh.makeEmpty();
-        transMesh.makeEmpty();
+        opaqueMesh.reset();
+        transMesh.reset();
     }
 
-
     public void draw(BlockShader shader) {
-        opaqueMesh.draw(shader, true);
-        transMesh.draw(shader, true);
+        shader.bind();
+        opaqueMesh.draw(true);
+        transMesh.draw(true);
+        shader.unbind();
     }
 
     public synchronized void compute(ChunkVoxels voxels) {

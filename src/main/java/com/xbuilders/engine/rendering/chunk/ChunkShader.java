@@ -5,7 +5,7 @@
 package com.xbuilders.engine.rendering.chunk;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -19,7 +19,9 @@ import java.io.IOException;
 /**
  * @author zipCoder933
  */
-public class BlockShader extends Shader {
+public class ChunkShader extends Shader {
+
+    public static final String CHUNK_SHADER_DIR = "/res/shaders/chunkShader";
 
     public final int mvpUniform,
             maxMult12bitsUniform,
@@ -40,22 +42,22 @@ public class BlockShader extends Shader {
     public final static int FRAG_MODE_TEST = 2;
 
 
-    public BlockShader(int fragmentShader) {
+    public ChunkShader(int fragmentShader) {
         int textureLayers = ItemList.blocks.textures.layerCount;
         try {
             File fragShader = null;
             switch (fragmentShader) {
                 case FRAG_MODE_CHUNK:
-                    fragShader = ResourceUtils.localResource("/res/shaders/blockShader/frag.glsl");
+                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR+"/frag.glsl");
                     break;
                 case FRAG_MODE_DIRECT:
-                    fragShader = ResourceUtils.localResource("/res/shaders/blockShader/frag_direct.glsl");
+                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR+"/frag_direct.glsl");
                     break;
                 case FRAG_MODE_TEST:
-                    fragShader = ResourceUtils.localResource("/res/shaders/blockShader/frag_test.glsl");
+                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR+"/frag_test.glsl");
                     break;
             }
-            init(ResourceUtils.localResource("/res/shaders/blockShader/vertex.glsl"),
+            init(ResourceUtils.localResource(CHUNK_SHADER_DIR+"/vertex.glsl"),
                     fragShader);
         } catch (IOException e) {
             ErrorHandler.handleFatalError(e);
@@ -70,8 +72,8 @@ public class BlockShader extends Shader {
         flashlightDistanceUniform = getUniformLocation("flashlightDistance");
         colorUniform = getUniformLocation("solidColor");
 
-        loadFloat(maxMult10bitsUniform, VertexSet.maxMult10bits);
-        loadFloat(maxMult12bitsUniform, VertexSet.maxMult12bits);
+        loadFloat(maxMult10bitsUniform, CompactVertexSet.maxMult10bits);
+        loadFloat(maxMult12bitsUniform, CompactVertexSet.maxMult12bits);
         loadInt(textureLayerCountUniform, textureLayers - 1);
     }
 

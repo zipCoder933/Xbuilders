@@ -9,6 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
+import com.xbuilders.engine.rendering.chunk.IconGenShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.game.Main;

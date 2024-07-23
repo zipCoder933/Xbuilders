@@ -1,9 +1,10 @@
 package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
 
+import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntArray;
 
-public class VertexSet_ResizableIntArray extends VertexSet {
+public class VertexSet_ResizableIntArray extends CompactVertexSet {
 
 
     private final ResizableIntArray verts = new ResizableIntArray(6000);
@@ -12,8 +13,8 @@ public class VertexSet_ResizableIntArray extends VertexSet {
         return verts.size();
     }
 
-    public int[] makeVertexSet() {     //The main contributor to the memory usage is the IntBuffer that gets created here
-        return verts.getArray();
+    public void makeVertexSet() {     //The main contributor to the memory usage is the IntBuffer that gets created here
+        verts.getArray();
     }
 
 
@@ -23,7 +24,7 @@ public class VertexSet_ResizableIntArray extends VertexSet {
 
     @Override
     public void sendToMesh(CompactMesh mesh) {
-        if(verts.size() == 0) {
+        if (verts.size() == 0) {
             return;
         }
         mesh.sendBuffersToGPU(verts.getArray(), verts.size());

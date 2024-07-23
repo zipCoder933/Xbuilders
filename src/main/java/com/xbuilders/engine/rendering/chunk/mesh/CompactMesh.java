@@ -7,8 +7,7 @@ package com.xbuilders.engine.rendering.chunk.mesh;
 import java.nio.IntBuffer;
 
 import com.xbuilders.engine.rendering.Mesh;
-import com.xbuilders.engine.rendering.chunk.BlockShader;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.window.BaseWindow;
 import org.lwjgl.opengl.GL11;
 
@@ -26,7 +25,7 @@ import org.lwjgl.opengl.GL33;
 /**
  * @author zipCoder933
  */
-public class CompactMesh implements Mesh {
+public class CompactMesh extends Mesh {
 
     private int vao, vbo, textureID, vertLength;
     final static int VALUES_PER_VERTEX = 3;
@@ -117,7 +116,7 @@ public class CompactMesh implements Mesh {
         }
     }
 
-    public void draw(BlockShader shader, boolean wireframe) {
+    public void draw(ChunkShader shader, boolean wireframe) {
         shader.bind();
         if (wireframe) {
             shader.setColorMode(1, 1, 1);

@@ -39,7 +39,7 @@ j  org.lwjgl.system.MemoryUtil.nmemRealloc(JJ)J+5
 j  org.lwjgl.system.MemoryUtil.nmemReallocChecked(JJ)J+12
 j  org.lwjgl.system.MemoryUtil.memRealloc(Ljava/nio/IntBuffer;I)Ljava/nio/IntBuffer;+24
 J 4144 c1 com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntBuffer.resize(I)V (69 bytes) @ 0x0000022a58f3ace4 [0x0000022a58f3aba0+0x0000000000000144]
-J 3538 c2 com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet.makeVertexSet()Ljava/nio/IntBuffer; (131 bytes) @ 0x0000022a5fded2fc [0x0000022a5fded2a0+0x000000000000005c]
+J 3538 c2 com.xbuilders.engine.rendering.VertexSet.makeVertexSet()Ljava/nio/IntBuffer; (131 bytes) @ 0x0000022a5fded2fc [0x0000022a5fded2a0+0x000000000000005c]
 J 3757 c1 com.xbuilders.engine.rendering.chunk.ChunkMeshBundle.compute()V (198 bytes) @ 0x0000022a58e8743c [0x0000022a58e86d80+0x00000000000006bc]
 J 3754 c1 com.xbuilders.engine.world.chunk.Chunk$$Lambda$236+0x0000000800e04ec8.call()Ljava/lang/Object; (8 bytes) @ 0x0000022a58e7dd9c [0x0000022a58e7dcc0+0x00000000000000dc]
 J 2783 c1 java.util.concurrent.FutureTask.run()V java.base@17.0.1 (123 bytes) @ 0x0000022a58c7eaa4 [0x0000022a58c7e280+0x0000000000000824]

@@ -1,9 +1,5 @@
 package com.xbuilders.tests;
 
-import com.xbuilders.engine.items.block.construction.BlockTypeModel.ObjToBlockModel;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntArray;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntBuffer;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 public class IntBufferTester {

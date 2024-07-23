@@ -11,7 +11,7 @@ Class: 	class java.io.IOException
 Stack trace:
 [com.xbuilders.window.render.Shader.loadShader(Shader.java:250)
  com.xbuilders.window.render.Shader.init(Shader.java:63)
- com.xbuilders.engine.rendering.chunk.BlockShader.<init>(BlockShader.java:58)
+ com.xbuilders.engine.rendering.chunk.ChunkShader.<init>(BlockShader.java:58)
  com.xbuilders.engine.world.World.init(World.java:183)
  com.xbuilders.engine.gameScene.GameScene.init(GameScene.java:164)
  com.xbuilders.game.Main.init(Main.java:151)

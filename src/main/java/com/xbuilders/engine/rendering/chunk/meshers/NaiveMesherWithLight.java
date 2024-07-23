@@ -11,7 +11,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.Chunk;
 
@@ -21,7 +21,7 @@ import org.lwjgl.system.MemoryStack;
 /**
  * @author zipCoder933
  */
-public class NaiveMesherWithLight extends Mesher {
+public class NaiveMesherWithLight extends Mesher<VertexSet> {
 
     ChunkVoxels data;
     boolean generateAll;

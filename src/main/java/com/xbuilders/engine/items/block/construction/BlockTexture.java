@@ -6,11 +6,11 @@ public class BlockTexture {
 
     public class FaceTexture {
 
-        public final int id;
+        public final int zLayer;
         public byte animationLength;
 
         public FaceTexture(int id, int animLength) {
-            this.id = id;
+            this.zLayer = id;
             this.animationLength = (byte) animLength;
         }
     }

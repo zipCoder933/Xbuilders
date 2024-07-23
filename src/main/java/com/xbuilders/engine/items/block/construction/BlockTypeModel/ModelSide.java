@@ -1,7 +1,7 @@
 package com.xbuilders.engine.items.block.construction.BlockTypeModel;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.rendering.VertexSet;
 
 public class ModelSide {
 

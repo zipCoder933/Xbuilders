@@ -5,6 +5,8 @@
 package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.rendering.Mesh;
+import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
@@ -12,7 +14,7 @@ import org.joml.Vector3f;
 /**
  * @author zipCoder933
  */
-public abstract class VertexSet {
+public abstract class CompactVertexSet extends VertexSet<CompactMesh> {
     //<editor-fold defaultstate="collapsed" desc="Vertex packing">
 
 
@@ -90,7 +92,7 @@ public abstract class VertexSet {
 
     //</editor-fold>
 
-    public VertexSet() {
+    public CompactVertexSet() {
     }
 
     public abstract int size();
@@ -110,7 +112,7 @@ public abstract class VertexSet {
                        BlockTexture.FaceTexture texture, byte light) {
         vertex(0, packFirstInt(x, y, normal, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
-                packThirdInt(texture.id, light));
+                packThirdInt(texture.zLayer, light));
     }
 
     public void vertex(float x, float y, float z,
@@ -118,7 +120,7 @@ public abstract class VertexSet {
                        BlockTexture.FaceTexture texture, byte light) {
         vertex(0, packFirstInt(x, y, (byte) normal, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
-                packThirdInt(texture.id, light));
+                packThirdInt(texture.zLayer, light));
     }
 
     public void vertex(float x, float y, float z,
@@ -126,7 +128,7 @@ public abstract class VertexSet {
                        BlockTexture.FaceTexture texture, byte light) {
         vertex(0, packFirstInt(x, y, (byte) 0, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
-                packThirdInt(texture.id, light));
+                packThirdInt(texture.zLayer, light));
     }
 
     public void vertex(float x, float y, float z,

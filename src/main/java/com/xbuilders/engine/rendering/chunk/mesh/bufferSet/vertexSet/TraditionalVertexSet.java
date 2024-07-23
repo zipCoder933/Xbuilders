@@ -6,7 +6,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 
-public class TraditionalVertexSet extends VertexSet {
+public class TraditionalVertexSet extends CompactVertexSet {
 
 
     private TemporaryVertexList[] verts = {new TemporaryVertexList()};
@@ -72,7 +72,7 @@ public class TraditionalVertexSet extends VertexSet {
                        BlockTexture.FaceTexture texture, byte light) {
         verts[0].addVert(packFirstInt(x, y, normal, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
-                packThirdInt(texture.id, light));
+                packThirdInt(texture.zLayer, light));
     }
 
     public void vertex(float x, float y, float z,
@@ -80,7 +80,7 @@ public class TraditionalVertexSet extends VertexSet {
                        BlockTexture.FaceTexture texture, byte light) {
         verts[0].addVert(packFirstInt(x, y, (byte) normal, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
-                packThirdInt(texture.id, light));
+                packThirdInt(texture.zLayer, light));
     }
 
     public void vertex(float x, float y, float z,
@@ -88,7 +88,7 @@ public class TraditionalVertexSet extends VertexSet {
                        BlockTexture.FaceTexture texture, byte light) {
         verts[0].addVert(packFirstInt(x, y, (byte) 0, texture.animationLength),
                 packSecondInt(z, uvX, uvY),
-                packThirdInt(texture.id, light));
+                packThirdInt(texture.zLayer, light));
     }
 
     public void vertex(float x, float y, float z,

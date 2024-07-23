@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * @author zipCoder933
  */
-public class CompactIndexedMesh implements Mesh {
+public class CompactIndexedMesh extends Mesh {
 
     private int vao, vbo, indexVbo, textureID, vertLength;
     public boolean empty;

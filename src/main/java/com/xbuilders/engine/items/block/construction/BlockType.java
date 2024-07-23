@@ -7,7 +7,7 @@ package com.xbuilders.engine.items.block.construction;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.VertexSet;
+import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.utils.math.AABB;

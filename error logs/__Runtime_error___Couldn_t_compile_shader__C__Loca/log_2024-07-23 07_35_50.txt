@@ -1,0 +1,21 @@
+Message: 	Couldn't compile shader "C:\Local Files\github\Xbuilders\res\shaders\blockShader\shader.fs":
+Fragment shader failed to compile with the following errors:
+ERROR: 0:11: error(#202) No matching overloaded function found: texture
+ERROR: 0:11: error(#160) Cannot convert from: "const float" to: "highp 4-component vector of vec4"
+ERROR: error(#273) 2 compilation errors.  No code generated
+
+
+Developer Message: 	##Runtime error##	Couldn't compile shader "C:\Loca
+Class: 	class java.io.IOException
+
+Stack trace:
+[com.xbuilders.window.render.Shader.loadShader(Shader.java:250)
+ com.xbuilders.window.render.Shader.init(Shader.java:63)
+ com.xbuilders.engine.rendering.block.BlockShader.<init>(BlockShader.java:23)
+ com.xbuilders.game.blockTools.tools.PasteTool.<clinit>(PasteTool.java:39)
+ com.xbuilders.game.blockTools.BlockTools.<init>(BlockTools.java:31)
+ com.xbuilders.game.MyGame.uiInit(MyGame.java:125)
+ com.xbuilders.engine.gameScene.GameScene.initialize(GameScene.java:284)
+ com.xbuilders.game.Main.init(Main.java:218)
+ com.xbuilders.game.Main.<init>(Main.java:191)
+ com.xbuilders.game.Main.main(Main.java:130)]
