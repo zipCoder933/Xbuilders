@@ -32,14 +32,16 @@ public class UserControlledPlayer extends Player {
 
     public Camera camera;
     BaseWindow window;
-    static float speed = 10f;
 
 
     final Vector4f lastOrientation = new Vector4f();
 
-    final static float FLY_SPEED = 12f;
-    final float DEFAULT_SPEED = 7.5f;
-    final float RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
+    public boolean runningMode;
+    final static float UP_DOWN_SPEED = 14f;
+    final float WALK_SPEED = 7f;
+    final float RUN_SPEED = 15f;
+    final float FLY_WALK_SPEED = 15f;
+    final float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     public float getPan() {
         return camera.pan;
@@ -63,10 +65,14 @@ public class UserControlledPlayer extends Player {
     public static int DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
-    private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
+    //    private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
     public static final int KEY_CREATE_MOUSE_BUTTON = GLFW.GLFW_KEY_EQUAL;
     public static final int KEY_DELETE_MOUSE_BUTTON = GLFW.GLFW_KEY_MINUS;
     public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_O;
+    public static final int KEY_CROUCH = GLFW.GLFW_KEY_LEFT_CONTROL;
+
+    private static final int KEY_ENABLE_FLYING = GLFW.GLFW_KEY_F;
+    private static final int KEY_JUMP = GLFW.GLFW_KEY_SPACE;
 
     public boolean leftKeyPressed() {
         if (GameScene.ui.allMenusAreOpen()) return false;
@@ -88,35 +94,16 @@ public class UserControlledPlayer extends Player {
         return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
     }
 
-    public boolean jumpKeyPressed() {
+    public boolean upJumpKeyPressed() {
         if (GameScene.ui.allMenusAreOpen()) return false;
-        return window.isKeyPressed(GLFW.GLFW_KEY_SPACE);
-    }
-
-    public boolean upKeyPressed() {
-        if (GameScene.ui.allMenusAreOpen()) return false;
-        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
-                !window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
+        return window.isKeyPressed(KEY_JUMP) || window.isKeyPressed(KEY_ENABLE_FLYING);
     }
 
     public boolean downKeyPressed() {
         if (GameScene.ui.allMenusAreOpen()) return false;
-        return window.isKeyPressed(GLFW.GLFW_KEY_F) &&
-                window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT);
+        return window.isKeyPressed(KEY_CROUCH);
     }
 
-
-    public boolean upKeyPressed(int key) {
-        if (GameScene.ui.allMenusAreOpen()) return false;
-        return key == GLFW.GLFW_KEY_F &&
-                key != GLFW.GLFW_KEY_LEFT_SHIFT;
-    }
-
-    public boolean downKeyPressed(int key) {
-        if (GameScene.ui.allMenusAreOpen()) return false;
-        return key == GLFW.GLFW_KEY_F &&
-                key == GLFW.GLFW_KEY_LEFT_SHIFT;
-    }
 
     private void disableGravity() {
         positionHandler.setGravityEnabled(false);
@@ -232,7 +219,7 @@ public class UserControlledPlayer extends Player {
             playerBlock = newPlayerBlock;
             if (newCameraBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.velocity.set(0, 0, 0);
-                positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 4,
+                positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 8,
                         PositionHandler.DEFAULT_TERMINAL_VELOCITY / 30);
             } else if (newCameraBlock.isAir()) {
                 positionHandler.resetFallMedium();
@@ -244,6 +231,19 @@ public class UserControlledPlayer extends Player {
         if (System.currentTimeMillis() - lastSave > 60000) {
             lastSave = System.currentTimeMillis();
             save();   //Save every 60 seconds
+        }
+
+        if (positionHandler.isGravityEnabled()) {
+            disableFlying();
+        }
+
+        float speed;
+        if (isFlyingMode) {
+            if (runningMode) speed = FLY_RUN_SPEED;
+            else speed = FLY_WALK_SPEED;
+        } else {
+            if (runningMode) speed = RUN_SPEED;
+            else speed = WALK_SPEED;
         }
 
         if (positionLock != null) {
@@ -278,13 +278,13 @@ public class UserControlledPlayer extends Player {
             }
 
             if (isInsideOfLadder()) {
-                if (upKeyPressed() || jumpKeyPressed()) {
+                if (upJumpKeyPressed()) {
                     isClimbing = true;
-                    canFly = false;
+                    disableFlying();
                     worldPosition.sub(0, 3f * window.smoothFrameDeltaSec, 0);
                 } else {
                     isClimbing = true;
-                    canFly = false;
+                    disableFlying();
                     worldPosition.add(0, 3f * window.smoothFrameDeltaSec, 0);
                 }
                 positionHandler.setGravityEnabled(false);
@@ -292,14 +292,16 @@ public class UserControlledPlayer extends Player {
                 if (isClimbing) {
                     positionHandler.setGravityEnabled(true);
                     isClimbing = false;
-                } else if (canFly) {
-                    if (upKeyPressed()) {
-                        worldPosition.sub(0, FLY_SPEED * window.smoothFrameDeltaSec, 0);
+                } else if (isFlyingMode) {
+                    if (upJumpKeyPressed()) {
+                        worldPosition.sub(0, UP_DOWN_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     } else if (downKeyPressed()) {
-                        worldPosition.add(0, FLY_SPEED * window.smoothFrameDeltaSec, 0);
+                        worldPosition.add(0, UP_DOWN_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     }
+                } else if (playerBlock.isLiquid() && upJumpKeyPressed()) {
+                    positionHandler.addVelocity(0,-0.05f,0);
                 }
             }
         }
@@ -333,7 +335,29 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    boolean canFly = true;
+    boolean isFlyingMode = true;
+    long lastJumpKeyPress = 0;
+
+    public void enableFlying() {
+        isFlyingMode = true;
+        positionHandler.setGravityEnabled(false);
+        positionHandler.collisionsEnabled = false;
+    }
+
+    public void disableFlying() {
+        isFlyingMode = false;
+        positionHandler.setGravityEnabled(true);
+        positionHandler.collisionsEnabled = true;
+    }
+
+    boolean doubleJumped() {
+        boolean jumped = false;
+        if (System.currentTimeMillis() - lastJumpKeyPress < 400) {
+            jumped = true;
+        }
+        lastJumpKeyPress = System.currentTimeMillis();
+        return jumped;
+    }
 
     public void mouseButtonEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
@@ -351,23 +375,29 @@ public class UserControlledPlayer extends Player {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
-                if (positionHandler.isGravityEnabled()) speed = RUN_SPEED * 0.5f;
-                else speed = RUN_SPEED;
-            } else if (key == GLFW.GLFW_KEY_SPACE) {
+                runningMode = true;
+            } else if (key == KEY_JUMP) {
                 if (positionLock != null) {
                     positionLock = null;
                 }
-                jump();
+                if (positionHandler.isGravityEnabled()) {
+                    jump();
+                }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (upKeyPressed(key)) canFly = true;
-            else {
-                switch (key) {
-                    case GLFW.GLFW_KEY_LEFT_SHIFT -> speed = DEFAULT_SPEED;
-                    case KEY_TOGGLE_PASSTHROUGH -> {
-                        System.out.println("PASSTHROUGH: " + !usePositionHandler);
-                        positionHandler.collisionsEnabled = !positionHandler.collisionsEnabled;
+            if (key == KEY_ENABLE_FLYING) {
+                enableFlying();
+            } else if (key == KEY_JUMP) {
+                if (doubleJumped()) {
+                    if (positionHandler.isGravityEnabled()) {
+                        enableFlying();
+                    } else {
+                        disableFlying();
                     }
+                }
+            } else {
+                switch (key) {
+                    case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = false;
                     case KEY_CHANGE_RAYCAST_MODE -> {
                         camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
                         if (camera.cursorRay.cursorRayHitAllBlocks) {
@@ -434,7 +464,7 @@ public class UserControlledPlayer extends Player {
 
 
     //Set block method ===============================================================================
-    //The master method
+//The master method
     public void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
@@ -464,7 +494,7 @@ public class UserControlledPlayer extends Player {
     public void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
         setBlock(block, data, new WCCi().set(worldX, worldY, worldZ));
     }
-    //==============================================================================================
+//==============================================================================================
 
     public void setNewSpawnPoint(Terrain terrain) {
         System.out.println("Setting new spawn point...");

@@ -124,7 +124,8 @@ public class PositionHandler {
                 double fallSpeed = (gravity * frameDeltaSec);
 
                 //TODO: Cap the number of times we can update PositionHandler (10fps) (The movement is jittery when running against walls, if we try to limit that here)
-                if (window.getMsPerFrame() < 10) fallSpeed /= 4; //For some reason, we need to fall slower if the MPF is too low
+                if (window.getMsPerFrame() < 10)
+                    fallSpeed /= 4; //For some reason, we need to fall slower if the MPF is too low
                 this.velocity.y += fallSpeed;
             } else {
                 velocity.y *= friction;
@@ -159,4 +160,7 @@ public class PositionHandler {
         }
     }
 
+    public void addVelocity(int x, float y, int z) {
+        this.velocity.add(x * frameDeltaSec, y * frameDeltaSec, z * frameDeltaSec);
+    }
 }
