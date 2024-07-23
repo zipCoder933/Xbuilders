@@ -151,7 +151,7 @@ public class SunlightUtils {
         transparentToOpaque.clear();
         complete.set(true);
 
-        println("Finished with sunlight, " + (System.currentTimeMillis() - start.get())/1000 + "s");
+        println("Finished with sunlight, " + (System.currentTimeMillis() - start.get()) / 1000 + "s");
         return System.currentTimeMillis() - start.get();
     }
 
@@ -180,6 +180,22 @@ public class SunlightUtils {
 
         //Erase all nodes in the box and go down until we hit all black nodes
         repropagationNodes.clear();
+
+        //Add repropagation nodes above the top of the box
+        for (int wx = (int) queueBox.min.x - 1; wx <= queueBox.max.x + 1; wx++) {
+            for (int wz = (int) queueBox.min.z - 1; wz <= queueBox.max.z + 1; wz++) {
+                WCCi wcc = new WCCi().set(wx, (int) (queueBox.min.y - 1), wz);
+                Chunk chunk = wcc.getChunk(GameScene.world);
+                if (chunk == null) continue;
+                byte sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                if (sun > 1) {
+                    affectedChunks.add(chunk);
+                    repropagationNodes.add(new ChunkNode(chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                }
+            }
+        }
+
+        //Propagate darkness from the top of the box
         downwardLoop:
         for (int wy = (int) queueBox.min.y; true; wy++) {
             boolean foundLight = false;
@@ -204,13 +220,11 @@ public class SunlightUtils {
                         }
                         chunk.data.setSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, (byte) 0);
                     }
-
-
                 }
             }
             if (!foundLight) break downwardLoop;
         }
-        println("Finished darkening boundary: "+queueBox.toString());
+        println("Finished darkening boundary: " + queueBox.toString());
 
 
         //Now do a BFS with the remaining nodes
@@ -274,10 +288,10 @@ public class SunlightUtils {
             if (centerLightLevel >= thisLevel && thisLevel < 15) {
                 queue.add(node);
             } else if (thisLevel > 1) { //This is actually important
-                int wx =( chunk.position.x * Chunk.WIDTH) + x;
-                int wy =( chunk.position.y * Chunk.WIDTH) + y;
-                int wz =( chunk.position.z * Chunk.WIDTH) + z;
-                if(MiscUtils.isBlackCube(wx, wy, wz)) {//Reduces the initial nodes
+                int wx = (chunk.position.x * Chunk.WIDTH) + x;
+                int wy = (chunk.position.y * Chunk.WIDTH) + y;
+                int wz = (chunk.position.z * Chunk.WIDTH) + z;
+                if (MiscUtils.isBlackCube(wx, wy, wz)) {//Reduces the initial nodes
                     repropNodes.add(node);
                 }
             }
