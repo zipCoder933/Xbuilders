@@ -301,7 +301,7 @@ public class UserControlledPlayer extends Player {
                         disableGravity();
                     }
                 } else if (playerBlock.isLiquid() && upJumpKeyPressed()) {
-                    positionHandler.addVelocity(0,-0.05f,0);
+                    positionHandler.addVelocity(0, -0.05f, 0);
                 }
             }
         }
@@ -383,11 +383,11 @@ public class UserControlledPlayer extends Player {
                 if (positionHandler.isGravityEnabled()) {
                     jump();
                 }
+            } else if (key == KEY_ENABLE_FLYING) {
+                enableFlying();
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (key == KEY_ENABLE_FLYING) {
-                enableFlying();
-            } else if (key == KEY_JUMP) {
+            if (key == KEY_JUMP) {
                 if (doubleJumped()) {
                     if (positionHandler.isGravityEnabled()) {
                         enableFlying();
