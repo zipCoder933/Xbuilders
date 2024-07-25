@@ -1,6 +1,6 @@
 package com.xbuilders.engine.world;
 
-import com.xbuilders.engine.items.ChunkEntitySet;
+import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;

@@ -5,15 +5,17 @@
 package com.xbuilders.game.items.entities;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Entity;
-import com.xbuilders.engine.items.EntityLink;
+import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.game.items.blocks.RenderType;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +58,7 @@ public class BannerEntityLink extends EntityLink {
 
 
         @Override
-        public void toBytes(XBFilterOutputStream fout) throws IOException {
+        public void toBytes(OutputStream fout) throws IOException {
             fout.write((byte) xzOrientation);
             fout.write((byte) (againstFencepost ? 1 : 0));
         }

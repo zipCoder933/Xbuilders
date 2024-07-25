@@ -2,7 +2,7 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.rendering.block.BlockMeshBundle;

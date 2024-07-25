@@ -14,17 +14,6 @@ Just do the simplest solution. Code simplicity, does not matter!
   - I set the font buffer to public and static and it didnt fix the issue
 - **THE LOW FPS AT CERTAIN VIEWING ANGLES IS STILL AN ISSUE**
   - See bugs and Performance.md
-- FIX BLOCK PIPELINE BUGS
-   * **Play the game TO catch errors that appear**
-   * Fix the listed bugs
-- Fix entity collison objects being "soft" when they are stacked on top of each other
-- Players can "climb" up walls by holding against them
-
-## Multiplayer
-1. Determine any performance issues in multiplayer
-2. Optimize sunlight updating
-3. Decide if we need to send block data as chunks if there are lots of changes
-4. Update entities
 
 ### features
 - add line, sphere and replace tools

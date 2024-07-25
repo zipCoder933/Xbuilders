@@ -10,10 +10,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.Map;
 
-public class LocalBlockPendingChanges extends PlayerBlockPendingChanges {
+public class LocalPendingChanges extends PendingMultiplayerChanges {
     public boolean needsSaving = false;
 
-    public LocalBlockPendingChanges(Player player) {
+    public LocalPendingChanges(Player player) {
         super(null, player);
     }
 
@@ -36,10 +36,10 @@ public class LocalBlockPendingChanges extends PlayerBlockPendingChanges {
     private void saveRecord(File file) {
         readLock.lock();
         try (FileOutputStream fos = new FileOutputStream(file)) {
-            for (Map.Entry<Vector3i, BlockHistory> entry : record.entrySet()) {
+            for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
                 Vector3i worldPos = entry.getKey();
                 BlockHistory change = entry.getValue();
-                record(fos, worldPos, change);
+                blockChangeRecord(fos, worldPos, change);
                 return;
             }
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class LocalBlockPendingChanges extends PlayerBlockPendingChanges {
         readLock.lock();
         try {
             byte[] bytes = Files.readAllBytes(file.toPath());
-            readBlockChange(bytes, (worldPos, change) -> record.put(worldPos, change));
+            readBlockChange(bytes, (worldPos, change) -> blockChanges.put(worldPos, change));
         } catch (IOException e) {
             ErrorHandler.handleFatalError(e);
         } finally {

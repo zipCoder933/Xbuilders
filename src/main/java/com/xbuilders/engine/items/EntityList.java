@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.items;
 
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.File;

@@ -1,7 +1,7 @@
 package com.xbuilders.engine.player.pipeline;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.multiplayer.LocalBlockPendingChanges;
+import com.xbuilders.engine.multiplayer.LocalPendingChanges;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
@@ -28,7 +28,7 @@ public class BlockEventPipeline {
 
 
     private final Map<Vector3i, BlockHistory> events = new HashMap<>(); //ALL events must be submitted to this
-    public final LocalBlockPendingChanges pendingLocalChanges;
+    public final LocalPendingChanges pendingLocalChanges;
 
 
     WCCi wcc = new WCCi();
@@ -39,7 +39,7 @@ public class BlockEventPipeline {
     public BlockEventPipeline(World world, UserControlledPlayer player) {
         this.world = world;
         this.player = player;
-        pendingLocalChanges = new LocalBlockPendingChanges(player);
+        pendingLocalChanges = new LocalPendingChanges(player);
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
@@ -127,8 +127,6 @@ public class BlockEventPipeline {
             });
             Main.printlnDev("Loaded " + changes + " local changes");
         }
-
-
         if (events.isEmpty()) {
             framesThatHadEvents = 0;
             return;

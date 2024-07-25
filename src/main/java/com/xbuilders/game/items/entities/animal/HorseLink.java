@@ -1,6 +1,6 @@
 package com.xbuilders.game.items.entities.animal;
 
-import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.BaseWindow;

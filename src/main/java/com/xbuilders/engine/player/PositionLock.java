@@ -1,8 +1,7 @@
 package com.xbuilders.engine.player;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

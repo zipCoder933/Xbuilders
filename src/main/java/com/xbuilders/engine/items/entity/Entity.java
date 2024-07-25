@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items;
+package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.rendering.entity.EntityShader;
@@ -14,6 +14,7 @@ import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.engine.world.wcc.WCCf;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.xbuilders.engine.world.wcc.WCCi;
@@ -77,6 +78,7 @@ public abstract class Entity {
     public EntityAABB aabb;
     public final WCCf chunkPosition;
     public final Vector3f worldPosition;
+    public final Vector3f lastPosition = new Vector3f();
     private final Vector3f prevWorldPosition;//KEEP PRIVATE
 
     //Model view projection
@@ -118,9 +120,20 @@ public abstract class Entity {
         initializeOnDraw(loadBytes);
     }
 
-
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.
     public abstract void initializeOnDraw(ArrayList<Byte> bytes);
+
+
+    public void toBytes(OutputStream fout) throws IOException {
+    }
+
+    public byte[] writeState() throws IOException {
+        return new byte[0];
+    }
+
+    public void loadState(byte[] state) throws IOException {
+    }
+
 
     public void updatePosition() {
         aabb.update(true);//IF the entity goes outside of a chunk, it will not be reassigned to another chunk and it will dissapear when moved too far
@@ -134,7 +147,6 @@ public abstract class Entity {
     }
 
     public void entityMoveEvent() {
-
     }
 
     public void markAsModifiedByUser() {
@@ -148,9 +160,6 @@ public abstract class Entity {
 
     public abstract void draw();
 
-    public void toBytes(XBFilterOutputStream fout) throws IOException {
-    }
-
 
     @Override
     public String toString() {
@@ -160,7 +169,6 @@ public abstract class Entity {
     public void destroy() {
         destroyMode = true;
     }
-
 
     /**
      * @return if we want to permit the click event to continue

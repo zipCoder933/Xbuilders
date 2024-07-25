@@ -1,7 +1,7 @@
 package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ChunkEntitySet;
+import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.rendering.chunk.ChunkMeshBundle;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
@@ -16,7 +16,6 @@ import org.joml.Matrix4f;
 import org.joml.Vector3i;
 
 import java.io.File;
-import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.Future;
 import java.util.logging.Level;

@@ -1,6 +1,6 @@
 package com.xbuilders.game.items.entities.animal;
 
-import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.window.BaseWindow;
 
 import java.util.ArrayList;

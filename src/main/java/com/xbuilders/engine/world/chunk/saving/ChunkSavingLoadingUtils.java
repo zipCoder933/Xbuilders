@@ -5,7 +5,7 @@
 package com.xbuilders.engine.world.chunk.saving;
 
 import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;

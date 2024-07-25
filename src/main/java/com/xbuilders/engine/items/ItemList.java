@@ -5,6 +5,7 @@
 package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;

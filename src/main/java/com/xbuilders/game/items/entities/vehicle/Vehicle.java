@@ -5,15 +5,13 @@
 package com.xbuilders.game.items.entities.vehicle;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Entity;
-import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 

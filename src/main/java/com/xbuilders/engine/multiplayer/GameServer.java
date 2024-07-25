@@ -35,7 +35,10 @@ public class GameServer extends Server<PlayerClient> {
     public static final byte WORLD_CHUNK = -124;
     public static final byte READY_TO_START = -123;
     public static final byte VOXEL_BLOCK_CHANGE = -122;
-    public static final byte PLAYER_CHUNK_DISTANCE = -121;
+    public static final byte ENTITY_CREATED = -121;
+    public static final byte ENTITY_DELETED = -120;
+    public static final byte ENTITY_UPDATED = -119;
+    public static final byte PLAYER_CHUNK_DISTANCE = -118;
 
     NetworkJoinRequest req;
     UserControlledPlayer userPlayer;
@@ -209,8 +212,8 @@ public class GameServer extends Server<PlayerClient> {
                 } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
                     worldInfoEvent(receivedData);
                 } else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
-                    PlayerBlockPendingChanges.readBlockChange(receivedData, (pos, blockHist) -> {
-                        if (PlayerBlockPendingChanges.changeWithinReach(userPlayer, pos)) {
+                    PendingMultiplayerChanges.readBlockChange(receivedData, (pos, blockHist) -> {
+                        if (PendingMultiplayerChanges.changeWithinReach(userPlayer, pos)) {
                             GameScene.player.eventPipeline.addEvent(pos, blockHist);
                         } else {//Cache changes if they are out of bounds
                             GameScene.player.eventPipeline.pendingLocalChanges.addBlockChange(pos, blockHist);

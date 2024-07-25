@@ -5,11 +5,9 @@
 package com.xbuilders.game.items.entities.animal.mobile;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Entity;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.game.Main;

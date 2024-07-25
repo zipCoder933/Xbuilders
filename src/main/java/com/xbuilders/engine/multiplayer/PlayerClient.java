@@ -15,7 +15,7 @@ public class PlayerClient extends NetworkSocket {
     public boolean wasWithinReach = false;
     public boolean isHost = false;
     //    public int playerChunkDistance; //So far this feature is not used
-    public PlayerBlockPendingChanges blockChanges;
+    public PendingMultiplayerChanges blockChanges;
 
 
     public Player getPlayer() {
@@ -24,7 +24,7 @@ public class PlayerClient extends NetworkSocket {
 
     public void setPlayer(Player player) {
         this.player = player;
-        blockChanges = new PlayerBlockPendingChanges(this, player);
+        blockChanges = new PendingMultiplayerChanges(this, player);
     }
 
     public PlayerClient() {

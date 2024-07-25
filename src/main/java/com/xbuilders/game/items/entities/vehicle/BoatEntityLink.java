@@ -5,19 +5,16 @@
 package com.xbuilders.game.items.entities.vehicle;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.EntityLink;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.window.BaseWindow;
-import org.joml.Matrix4f;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static com.xbuilders.engine.gameScene.GameScene.view;
 
 /**
  * @author zipCoder933

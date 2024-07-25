@@ -5,13 +5,11 @@
 package com.xbuilders.game.items.entities.vehicle;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.EntityLink;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
-import com.xbuilders.engine.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -22,6 +20,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -449,7 +448,7 @@ public class MinecartEntityLink extends EntityLink {
 
 
         @Override
-        public void toBytes(XBFilterOutputStream fout) throws IOException {
+        public void toBytes(OutputStream fout) throws IOException {
         }
 
         private void stop(Vector3i position) {

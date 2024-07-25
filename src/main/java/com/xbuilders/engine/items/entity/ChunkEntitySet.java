@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items;
+package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.camera.FrustumCullingTester;
@@ -12,7 +12,6 @@ import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.ArrayList;
 
-import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

@@ -1,5 +1,7 @@
 package com.xbuilders.engine.multiplayer;
 
+import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
@@ -16,14 +18,16 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.BiConsumer;
 
-public class PlayerBlockPendingChanges {
-    HashMap<Vector3i, BlockHistory> record = new HashMap<>();
+public class PendingMultiplayerChanges {
+    HashMap<Vector3i, BlockHistory> blockChanges = new HashMap<>();
+    HashMap<Entity, EntityChange> entityChanges = new HashMap<>();
+
     public long rangeChangesUpdate;
     public long allChangesUpdate;
     NetworkSocket socket;
     Player player;
 
-    public PlayerBlockPendingChanges(NetworkSocket socket, Player player) {
+    public PendingMultiplayerChanges(NetworkSocket socket, Player player) {
         this.socket = socket;
         this.player = player;
     }
@@ -41,7 +45,7 @@ public class PlayerBlockPendingChanges {
 
     public boolean periodicSendAllCheck(int interval) {
         if (System.currentTimeMillis() - allChangesUpdate > interval
-                && !record.isEmpty()) {
+                && !blockChanges.isEmpty()) {
             allChangesUpdate = System.currentTimeMillis();
             return true;
         } else {
@@ -75,6 +79,16 @@ public class PlayerBlockPendingChanges {
 //        }
 //    }
 
+    public void addEntityChange(Entity entity, int mode) {
+        writeLock.lock();
+        try {
+            entityChanges.put(entity, new EntityChange(entity, mode));
+            changeEvent();
+        } finally {
+            writeLock.unlock();
+        }
+    }
+
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         addBlockChange(worldPos, new BlockHistory(block, data));
     }
@@ -82,7 +96,7 @@ public class PlayerBlockPendingChanges {
     public void addBlockChange(Vector3i worldPos, BlockHistory history) {
         writeLock.lock();
         try {
-            record.put(worldPos, history);
+            blockChanges.put(worldPos, history);
             changeEvent();
         } finally {
             writeLock.unlock();
@@ -93,7 +107,7 @@ public class PlayerBlockPendingChanges {
         readLock.lock();
         try {
             Iterator<Map.Entry<Vector3i, BlockHistory>> iterator
-                    = record.entrySet().iterator();
+                    = blockChanges.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<Vector3i, BlockHistory> entry = iterator.next();
                 Vector3i worldPos = entry.getKey();
@@ -109,9 +123,9 @@ public class PlayerBlockPendingChanges {
 
     public int dumpChanges(BiConsumer<Vector3i, BlockHistory> changes) {
         int changesToBeSent = 0;
-        if (this.record.isEmpty()) return 0;
+        if (this.blockChanges.isEmpty()) return 0;
         //Make a copy of the change list first
-        HashMap<Vector3i, BlockHistory> copy = new HashMap<>(this.record);
+        HashMap<Vector3i, BlockHistory> copy = new HashMap<>(this.blockChanges);
         for (Map.Entry<Vector3i, BlockHistory> entry : copy.entrySet()) {
             Vector3i worldPos = entry.getKey();
             BlockHistory change = entry.getValue();
@@ -119,7 +133,7 @@ public class PlayerBlockPendingChanges {
 
                 changes.accept(worldPos, change);
 
-                this.record.remove(entry.getKey());//Remove it so we don't send it again
+                this.blockChanges.remove(entry.getKey());//Remove it so we don't send it again
                 changeEvent();
                 changesToBeSent++;
             }
@@ -128,7 +142,7 @@ public class PlayerBlockPendingChanges {
         return changesToBeSent;
     }
 
-    public void record(OutputStream baos, Vector3i worldPos, BlockHistory change) throws IOException {
+    public void blockChangeRecord(OutputStream baos, Vector3i worldPos, BlockHistory change) throws IOException {
         if (change.currentBlock == null) return;
 
         baos.write(new byte[]{GameServer.VOXEL_BLOCK_CHANGE});
@@ -139,15 +153,27 @@ public class PlayerBlockPendingChanges {
         if (change.data != null) baos.write(change.data.toByteArray());
     }
 
+    public void entityChangeRecord(OutputStream baos, Entity entity, int mode) throws IOException {
+//        baos.write(new byte[]{GameServer.VOXEL_BLOCK_CHANGE});
+//        baos.write(ByteUtils.floatToBytes(entity.lastPosition.x));
+//        baos.write(ByteUtils.floatToBytes(entity.lastPosition.y));
+//        baos.write(ByteUtils.floatToBytes(entity.lastPosition.z));
+//        baos.write(ByteUtils.shortToBytes(entity.link.id));
+//        if (mode == GameServer.ENTITY_UPDATED) {
+//            entity.writeState(baos);
+//        }
+//        else if (mode == GameServer.ENTITY_CREATED) entity.toBytes(baos);
+    }
+
     public int sendAllChanges() {
-        if (record.isEmpty()) return 0;
+        if (blockChanges.isEmpty()) return 0;
         readLock.lock();
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            for (Map.Entry<Vector3i, BlockHistory> entry : record.entrySet()) {
+            for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
                 Vector3i worldPos = entry.getKey();
                 BlockHistory change = entry.getValue();
-                record(baos, worldPos, change);
+                blockChangeRecord(baos, worldPos, change);
             }
             baos.close();
 
@@ -155,7 +181,7 @@ public class PlayerBlockPendingChanges {
             byte byteList[] = baos.toByteArray();
             socket.sendData(byteList);
 
-            int changesToBeSent = record.size();
+            int changesToBeSent = blockChanges.size();
             clear();
 
             return changesToBeSent;
@@ -169,7 +195,7 @@ public class PlayerBlockPendingChanges {
     }
 
     public int sendNearBlockChanges() {
-        if (record.isEmpty()) return 0;
+        if (blockChanges.isEmpty()) return 0;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -178,7 +204,7 @@ public class PlayerBlockPendingChanges {
 
             writeLock.lock();
             try { //Make a copy of the change list first
-                copy = new HashMap<>(record);
+                copy = new HashMap<>(blockChanges);
             } finally {
                 writeLock.unlock();
             }
@@ -189,8 +215,8 @@ public class PlayerBlockPendingChanges {
                 Vector3i worldPos = entry.getKey();
                 BlockHistory change = entry.getValue();
                 if (changeWithinReach(player, worldPos)) {
-                    record(baos, worldPos, change);
-                    record.remove(entry.getKey());//Remove it so we don't send it again
+                    blockChangeRecord(baos, worldPos, change);
+                    blockChanges.remove(entry.getKey());//Remove it so we don't send it again
                     changeEvent();
                     changesToBeSent++;
                 }
@@ -243,7 +269,7 @@ public class PlayerBlockPendingChanges {
     public void clear() {
         readLock.lock();
         try {
-            record.clear();
+            blockChanges.clear();
             changeEvent();
         } finally {
             readLock.unlock();

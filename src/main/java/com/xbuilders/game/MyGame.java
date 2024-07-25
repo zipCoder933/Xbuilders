@@ -8,6 +8,7 @@ import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ArrayUtils;
