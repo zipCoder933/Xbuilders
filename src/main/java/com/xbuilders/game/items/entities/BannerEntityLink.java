@@ -50,6 +50,7 @@ public class BannerEntityLink extends EntityLink {
         public Banner() {
             super();
             frustumSphereRadius = 2f;
+            aabb.isSolid = false;
         }
 
         int xzOrientation = 0;
@@ -64,10 +65,10 @@ public class BannerEntityLink extends EntityLink {
         }
 
         @Override
-        public void initializeOnDraw(ArrayList<Byte> bytes) {
+        public void initializeOnDraw(byte[] bytes) {
             if (bytes != null) {
-                xzOrientation = bytes.get(0);
-                againstFencepost = (bytes.get(1) == 1);
+                xzOrientation = bytes[0];
+                againstFencepost = (bytes[1] == 1);
             } else {
                 xzOrientation = GameScene.player.camera.simplifiedPanTilt.x;
                 int wx = (int) worldPosition.x;

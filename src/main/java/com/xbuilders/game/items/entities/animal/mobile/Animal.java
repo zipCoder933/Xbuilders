@@ -51,7 +51,7 @@ public abstract class Animal extends Entity {
     }
 
     @Override
-    public final void initializeOnDraw(ArrayList<Byte> bytes) {
+    public final void initializeOnDraw(byte[] bytes) {
         // box = new Box();
         // box.setColor(new Vector4f(1, 0, 1, 1));
         // box.setLineWidth(5);

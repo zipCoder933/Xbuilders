@@ -24,7 +24,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
     }
 
 
-    public void animalInit(T link, ArrayList<Byte> bytes) {
+    public void animalInit(T link, byte[] bytes) {
         this.link = link;
         goForwardCallback = amount -> {
             legMovement += amount;

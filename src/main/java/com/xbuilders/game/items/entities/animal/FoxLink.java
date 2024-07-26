@@ -13,7 +13,7 @@ public class FoxLink extends StaticLandAnimalLink {
                 "items\\entity\\animal\\fox\\" + texture);
     }
 
-    public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
+    public void initializeEntity(Entity e, byte[] loadBytes) {
         super.initializeEntity(e, loadBytes);
         StaticLandAnimal a = (StaticLandAnimal) e;
         a.aabb.setOffsetAndSize(0.6f, 0.8f, 0.6f,true);

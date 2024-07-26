@@ -81,7 +81,7 @@ public abstract class QuadPedalLandAnimalLink extends EntityLink {
     }
 
     @Override
-    public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
+    public void initializeEntity(Entity e, byte[] loadBytes) {
         initMesh(ResourceUtils.resource(bodyPath)
                 , ResourceUtils.resource(legPath));
         e.initializeOnDraw(loadBytes); //Initialize the animal

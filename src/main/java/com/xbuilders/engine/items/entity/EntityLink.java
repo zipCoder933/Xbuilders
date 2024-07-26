@@ -36,7 +36,7 @@ public class EntityLink extends Item {
         this.initializationCallback = initializationCallback;
     }
 
-    public Entity makeNew(Chunk chunk, float worldX, float worldY, float worldZ, ArrayList<Byte> bytes) {
+    public Entity makeNew(Chunk chunk, float worldX, float worldY, float worldZ, byte[] bytes) {
         if (supplier != null) {
             Entity entity = supplier.get();
             entity.link = this;
@@ -48,7 +48,7 @@ public class EntityLink extends Item {
         return null;
     }
 
-    public void initializeEntity(Entity entity, ArrayList<Byte> loadBytes) {
+    public void initializeEntity(Entity entity, byte[] loadBytes) {
         entity.hidden_entityInitialize(loadBytes);
     }
 }

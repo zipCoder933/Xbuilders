@@ -52,7 +52,7 @@ public class StaticLandAnimalLink extends EntityLink {
     }
 
     @Override
-    public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
+    public void initializeEntity(Entity e, byte[] loadBytes) {
         initMesh();
         e.initializeOnDraw(loadBytes); //Initialize the animal
         StaticLandAnimal a = (StaticLandAnimal) e; //Cast the entity to a fox
@@ -71,7 +71,7 @@ public class StaticLandAnimalLink extends EntityLink {
             frustumSphereRadius = 2;
         }
 
-        public void animalInit(StaticLandAnimalLink link, ArrayList<Byte> bytes) {
+        public void animalInit(StaticLandAnimalLink link, byte[] bytes) {
             this.link = link;
         }
 

@@ -15,7 +15,7 @@ public class RabbitLink extends StaticLandAnimalLink {
 
     long lastJumpTime = 0;
 
-    public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
+    public void initializeEntity(Entity e, byte[] loadBytes) {
         super.initializeEntity(e, loadBytes);
         StaticLandAnimal a = (StaticLandAnimal) e;
         a.goForwardCallback = (amount) -> {

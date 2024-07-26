@@ -71,7 +71,7 @@ public abstract class Entity {
 
     private float sunValue;
     private float torchValue;
-    protected ArrayList<Byte> loadBytes;
+    protected byte[] loadBytes;
     public EntityLink link;
 
     //Position
@@ -115,20 +115,19 @@ public abstract class Entity {
         draw();
     }
 
-    protected void hidden_entityInitialize(ArrayList<Byte> loadBytes) {
+    protected void hidden_entityInitialize(byte[] loadBytes) {
         getLightForPosition();
         initializeOnDraw(loadBytes);
     }
 
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.
-    public abstract void initializeOnDraw(ArrayList<Byte> bytes);
+    public abstract void initializeOnDraw(byte[] bytes);
 
 
     public void toBytes(OutputStream fout) throws IOException {
     }
 
-    public byte[] writeState() throws IOException {
-        return new byte[0];
+    public void writeState(OutputStream fout) throws IOException {
     }
 
     public void loadState(byte[] state) throws IOException {

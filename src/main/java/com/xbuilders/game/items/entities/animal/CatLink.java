@@ -13,7 +13,7 @@ public class CatLink extends StaticLandAnimalLink {
                 "items\\entity\\animal\\cat\\" + texture);
     }
 
-    public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
+    public void initializeEntity(Entity e, byte[] loadBytes) {
         super.initializeEntity(e, loadBytes);
         StaticLandAnimal a = (StaticLandAnimal) e;
         a.setActivity(0.9f);

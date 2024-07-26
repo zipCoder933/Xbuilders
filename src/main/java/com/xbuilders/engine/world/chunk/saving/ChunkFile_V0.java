@@ -8,15 +8,20 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import static com.xbuilders.engine.utils.ByteUtils.*;
-import static com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils.*;
 
 public class ChunkFile_V0 {
+
+    public static final byte NEWLINE_BYTE = Byte.MIN_VALUE;
+    public static final byte VOXEL_BYTE = -127;
+    public static final byte ENTITY_BYTE = -126;
+    public static final byte BYTE_SKIP_ALL_VOXELS = -125;
+    protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
+    public static final int METADATA_BYTES = 9;
 
     public static long readMetadata(InputStream input) throws IOException {
         //We only have METADATA_BYTES bytes of metadata
@@ -96,14 +101,14 @@ public class ChunkFile_V0 {
         Vector3f chunkVox = readChunkVoxelCoords(start, bytes);
 
         //Read entity data
-        ArrayList<Byte> entityBytes = new ArrayList<>();
+        ByteArrayOutputStream entityBytes = new ByteArrayOutputStream();
         while (true) {
             final byte b = bytes[start.get()];
             start.set(start.get() + 1);
             if (b == NEWLINE_BYTE) {
                 break;
             } else {
-                entityBytes.add(b);
+                entityBytes.write(b);
             }
         }
 
@@ -115,7 +120,7 @@ public class ChunkFile_V0 {
                 chunkVox.x + chunk.position.x * Chunk.WIDTH,
                 chunkVox.y + chunk.position.y * Chunk.WIDTH,
                 chunkVox.z + chunk.position.z * Chunk.WIDTH,
-                entityBytes);
+                entityBytes.toByteArray());
     }
 
     protected static void readVoxel(
@@ -130,17 +135,18 @@ public class ChunkFile_V0 {
         chunk.data.setBlock(x, y, z, blockID);
         start.set(start.get() + 4);
 
-        final ArrayList<Byte> blockDataBytes = new ArrayList<>();
+        final ByteArrayOutputStream blockDataBytes = new ByteArrayOutputStream();
         while (true) {
             final byte b3 = bytes[start.get()];
             if (b3 == NEWLINE_BYTE) {
                 break;
             }
-            blockDataBytes.add(b3);
+            blockDataBytes.write(b3);
             start.set(start.get() + 1);
         }
-        if (!blockDataBytes.isEmpty()) {
-            BlockData data = new BlockData(blockDataBytes);
+        byte[] blockData = blockDataBytes.toByteArray();
+        if (blockData.length != 0) {
+            BlockData data = new BlockData(blockData);
             chunk.data.setBlockData(x, y, z, data);
         }
         start.set(start.get() + 1);

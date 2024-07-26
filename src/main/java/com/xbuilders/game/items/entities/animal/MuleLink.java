@@ -16,7 +16,7 @@ public class MuleLink extends QuadPedalLandAnimalLink {
     }
 
     @Override
-    public void initializeEntity(Entity e, ArrayList<Byte> loadBytes) {
+    public void initializeEntity(Entity e, byte[] loadBytes) {
         super.initializeEntity(e, loadBytes);
         QuadPedalEntity a = (QuadPedalEntity) e; //Cast the entity to a fox
         a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables

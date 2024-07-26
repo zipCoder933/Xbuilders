@@ -173,7 +173,7 @@ public class MinecartEntityLink extends EntityLink {
 
 
         @Override
-        public void vehicle_initializeOnDraw(ArrayList<Byte> bytes) {
+        public void vehicle_initializeOnDraw(byte[] bytes) {
 //            if (testBox == null) {
 //                testBox = new Box();
 //                testBox.setLineWidth(2);

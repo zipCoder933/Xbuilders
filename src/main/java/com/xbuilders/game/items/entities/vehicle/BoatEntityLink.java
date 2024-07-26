@@ -143,7 +143,7 @@ public class BoatEntityLink extends EntityLink {
 
 
         @Override
-        public void vehicle_initializeOnDraw(ArrayList<Byte> bytes) {
+        public void vehicle_initializeOnDraw(byte[] bytes) {
             posHandler.setGravityEnabled(isInWater() ? false : true);
         }
 
