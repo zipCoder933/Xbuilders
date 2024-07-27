@@ -6,6 +6,7 @@ CPU profiling
 * https://www.baeldung.com/java-profilers
 
 GPU profiling
+* ** https://www.khronos.org/opengl/wiki/Debugging_Tools **
 * https://developer.nvidia.com/nsight-graphics
 * https://google.gprivate.com/search.php?search?q=amd+gpu+profiler
 * you can also just use opengl timer queries to evaluate how much time gl calls take up
