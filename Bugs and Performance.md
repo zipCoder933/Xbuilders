@@ -1,8 +1,15 @@
 # Bugs/Performance
 ## A NOTE ABOUT DETERMINING BOTTLENECKS
-* Using a profiler is CRUCIAL:
-    * https://www.baeldung.com/java-profilers
-    * You should be able to use tools to profile the CPU AND GPU
+Using a profiler is CRUCIAL. You should be able to use tools to profile the CPU AND GPU
+
+CPU profiling
+* https://www.baeldung.com/java-profilers
+
+GPU profiling
+* https://developer.nvidia.com/nsight-graphics
+* https://google.gprivate.com/search.php?search?q=amd+gpu+profiler
+* you can also just use opengl timer queries to evaluate how much time gl calls take up
+    * https://www.lighthouse3d.com/tutorials/opengl-timer-query/
 
 ## Block pipeline bugfix
 * There is a bug where when too many block events are queued, the chunk does not update until the large ones are done
