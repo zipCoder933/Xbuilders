@@ -6,11 +6,7 @@ import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.game.blockTools.tools.*;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
@@ -20,7 +16,6 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public class BlockTools extends GameUIElement {
 
-    public static final int KEY_CHANGE_MODE = GLFW.GLFW_KEY_W;
 
     public BlockTools(NkContext ctx, NKWindow window, CursorRay cursorRay) {
         super(ctx, window);
@@ -31,15 +26,21 @@ public class BlockTools extends GameUIElement {
         tools.add(new PasteTool(this, cursorRay));
         tools.add(new LineTool(this, cursorRay));
         tools.add(new FillTool(this, cursorRay));
+        tools.add(new PaintTool(this, cursorRay));
+
+        pallete = new BlockToolPallete(ctx, window, tools,this);
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();
-
-    int selectedTool = 0;
+    BlockToolPallete pallete;
+    int selectedTool;
 
     public void addTool(BlockTool tool) {
         tools.add(tool);
     }
+
+
+
 
     int menuWidth = 400;
     int menuHeight = 30;
@@ -61,7 +62,10 @@ public class BlockTools extends GameUIElement {
             nk_layout_row_dynamic(ctx, menuHeight, 1);
             Nuklear.nk_text(ctx, tools.get(selectedTool).toolDescription(), Nuklear.NK_TEXT_ALIGN_CENTERED);
         }
+        nk_end(ctx);
+        pallete.draw(stack);
     }
+
 
     /**
      * @param scroll
@@ -97,9 +101,15 @@ public class BlockTools extends GameUIElement {
         return tools.get(selectedTool).keyEvent(key, scancode, action, mods);
     }
 
-    private void selectTool(int i) {
+    public void selectTool(int i) {
         tools.get(selectedTool).deactivate();
         selectedTool = i;
+        tools.get(selectedTool).activate();
+    }
+
+    public void selectTool(BlockTool tool) {
+        tools.get(selectedTool).deactivate();
+        selectedTool = tools.indexOf(tool);
         tools.get(selectedTool).activate();
     }
 
@@ -109,5 +119,9 @@ public class BlockTools extends GameUIElement {
 
     public BlockTool getSelectedTool() {
         return tools.get(selectedTool);
+    }
+
+    public boolean releaseMouse() {
+        return pallete.isOpen();
     }
 }

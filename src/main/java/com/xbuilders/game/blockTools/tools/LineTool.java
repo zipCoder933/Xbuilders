@@ -4,6 +4,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.blockTools.BlockTool;
@@ -12,6 +13,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
+
+import java.io.IOException;
 
 public class LineTool extends BlockTool {
 
@@ -29,6 +32,11 @@ public class LineTool extends BlockTool {
 
     public LineTool(BlockTools tools, CursorRay cursorRay) {
         super("Line", tools, cursorRay);
+        try {
+            setIcon(ResourceUtils.resource("blockTools\\line.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

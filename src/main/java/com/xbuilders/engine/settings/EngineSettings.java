@@ -8,7 +8,7 @@ public class EngineSettings {
     public int game_cursorRayDist = 50;
 
     public boolean video_fullscreen = true;
-    public final BoundedFloat video_fullscreenSize = new BoundedFloat(1);
+    public final BoundedFloat video_fullscreenSize = new BoundedFloat(0.95f);
     public boolean video_vsync = true;
     public boolean video_largerUI = true;
 

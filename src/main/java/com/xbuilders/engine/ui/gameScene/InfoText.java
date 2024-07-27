@@ -143,8 +143,8 @@ public class InfoText extends GameUIElement {
     }
 
 
-    public boolean canHoldMouse() {
-        return !commandMode;
+    public boolean releaseMouse() {
+        return commandMode;
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {

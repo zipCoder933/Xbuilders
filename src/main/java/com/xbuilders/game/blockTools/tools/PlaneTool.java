@@ -5,15 +5,23 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.IOException;
+
 public class PlaneTool extends BlockTool {
     public PlaneTool(BlockTools tools, CursorRay cursorRay) {
         super("Plane", tools, cursorRay);
+        try {
+            setIcon(ResourceUtils.resource("blockTools\\plane.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 //
 //    public String toolDescription() {

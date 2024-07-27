@@ -8,6 +8,7 @@ import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.rendering.block.BlockMeshBundle;
 import com.xbuilders.engine.rendering.block.BlockShader;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.blockTools.BlockTool;
@@ -19,11 +20,17 @@ import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PasteTool extends BlockTool {
     public PasteTool(BlockTools tools, CursorRay cursorRay) {
         super("Paste", tools, cursorRay);
+        try {
+            setIcon(ResourceUtils.resource("blockTools\\paste.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

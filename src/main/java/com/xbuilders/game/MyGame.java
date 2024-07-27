@@ -92,6 +92,10 @@ public class MyGame extends Game {
     }
 
 
+    public boolean releaseMouse() {
+        return blockTools.releaseMouse();
+    }
+
     JsonManager json;
     GameInfo gameInfo;
 

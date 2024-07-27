@@ -28,6 +28,10 @@ public abstract class Game {
     public final ArrayList<Terrain> terrainsList;
     public ArrayList<SkinSupplier> availableSkins = new ArrayList<>();
 
+    public boolean releaseMouse() {
+        return false;
+    }
+
     @FunctionalInterface
     public interface SkinSupplier {
         public Skin get(Player player);

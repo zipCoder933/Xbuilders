@@ -50,11 +50,11 @@ public class MenuHome implements MenuPage {
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, Theme.font_9);
             nk_layout_row_dynamic(ctx, 40, 1);
-            nk_label(ctx, Main.devMode ?
-                    "DEV MODE" :
-                    ("v" + Main.gameVersion), NK_TEXT_CENTERED);
-
-            nk_label(ctx, "Hello\n World\n \t Testing", NK_TEXT_CENTERED);
+            nk_label(ctx, "\n\n"+(
+                    Main.devMode ?
+                            "DEV MODE" :
+                            ("v" + Main.gameVersion)
+                    )+"\n\n", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);
 

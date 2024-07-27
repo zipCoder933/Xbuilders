@@ -5,6 +5,7 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
@@ -13,12 +14,21 @@ import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 
 public class BoundaryTool extends BlockTool {
     public BoundaryTool(BlockTools tools, CursorRay cursorRay) {
         super("Boundary", tools, cursorRay);
+        try {
+            setIcon(ResourceUtils.resource("blockTools\\boundary.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
 //
 //    public String toolDescription() {
 //        return name + (GameScene.player.camera.cursorRay.boundary_lockToPlane ? " Plane" : "");

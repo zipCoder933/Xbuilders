@@ -5,8 +5,13 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockAir;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.game.Main;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
+import org.lwjgl.nuklear.NkImage;
 import org.lwjgl.nuklear.NkVec2;
+
+import java.io.File;
+import java.io.IOException;
 
 public abstract class BlockTool {
 
@@ -23,6 +28,7 @@ public abstract class BlockTool {
         this.name = name;
         this.blockTools = blockTools;
         this.cursorRay = cursorRay;
+        NKicon = NkImage.create();
     }
 
 
@@ -84,6 +90,18 @@ public abstract class BlockTool {
      */
     public boolean mouseToolScrollEvent(int scroll) {
         return false;
+    }
+
+
+    private final NkImage NKicon;
+
+    protected void setIcon(File file) throws IOException {
+        int textureID = TextureUtils.loadTexture(file.getAbsolutePath(), false).id;
+        NKicon.handle(it -> it.id(textureID));
+    }
+
+    public NkImage getNKIcon() {
+        return NKicon;
     }
 }
 

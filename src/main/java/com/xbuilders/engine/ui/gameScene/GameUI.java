@@ -156,7 +156,8 @@ public class GameUI {
 
     public boolean canHoldMouse() {
         if (allMenusAreOpen()) return false;
-        else if (!infoBox.canHoldMouse()) return false;
+        else if (infoBox.releaseMouse()) return false;
+        else if(game.releaseMouse()) return false;
         return true;
     }
 }
