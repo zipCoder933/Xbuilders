@@ -141,6 +141,19 @@ public class NKFontUtils {
                         STBTTAlignedQuad q = STBTTAlignedQuad.malloc(stack);
                         IntBuffer advance = stack.mallocInt(1);
 
+                        /**
+                         * POSSIBLE SOLUTION TO NUKLEAR CRASH:
+                         * You take codepoint - 32 without checking if codepoint is at least 32.
+                         * Try adding a check in your query callback to ensure that no codepoint is below 32 when you call that method.
+                         * Whether you hard-crash or just return some dummy data in ufg, just make sure not to call the GetPackedQuad method.
+                         */
+                        if (codepoint < 32) {
+                            //Codepoint is the character variable
+                            //32 = space character; 97 = 'a' character
+                            codepoint = 32;
+                        }
+                        //---------------------------------------------------------------------------------------------------------------
+
                         stbtt_GetPackedQuad(cdata, BITMAP_W, BITMAP_H, codepoint - 32, x, y, q, false);
                         stbtt_GetCodepointHMetrics(fontInfo, codepoint, advance, null);
 

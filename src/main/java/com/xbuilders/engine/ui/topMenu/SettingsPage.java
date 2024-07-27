@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
+import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -52,7 +53,7 @@ public class SettingsPage implements MenuPage {
 
         if (nk_begin(ctx, "Settings", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, Theme.font_10);
-            NKUtils.wrapText(ctx, "Note that some changes will only take efffect after the game is restarted", windowDims.w() - 20);
+            NKUtils.wrapText(ctx, "Note that some changes will only take effect after the game is restarted", windowDims.w() - 20);
             nk_layout_row_static(ctx, 30, 1, 2);
 
             for (SettingsField field : fields) {
