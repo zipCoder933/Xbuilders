@@ -121,7 +121,7 @@ public class CollisionHandler {
                                     if (type != null)
                                         type.getCollisionBoxes(customConsumer, collisionBox, b, d, x, y, z);
                                 } catch (Exception e) {
-                                    ErrorHandler.saveErrorToLogFile(e);
+                                    ErrorHandler.log(e);
                                 }
                             }
                             // }

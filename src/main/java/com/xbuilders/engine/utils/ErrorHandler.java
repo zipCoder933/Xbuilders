@@ -5,7 +5,6 @@
 package com.xbuilders.engine.utils;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,21 +23,21 @@ public class ErrorHandler {
     private static final String localDir = new File("").getAbsolutePath();
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");
 
-    public static void handleFatalError(Throwable ex) {
+    public static void report(Throwable ex) {
         String exMsg = ex.getMessage();
         if (exMsg == null) {
             exMsg = "Unknown error.";
         }
-        handleFatalError("Runtime error", exMsg, ex);
-        saveErrorToLogFile(ex, "unnamed error");
+        report("Runtime error", exMsg, ex);
+        log(ex, "unnamed error");
     }
 
-    public static void handleFatalError(String message, Throwable ex) {
-        handleFatalError("Runtime error", message, ex);
-        saveErrorToLogFile(ex, message);
+    public static void report(String message, Throwable ex) {
+        report("Runtime error", message, ex);
+        log(ex, message);
     }
 
-    public static void handleFatalError(String title, String body, Throwable ex) {
+    public static void report(String title, String body, Throwable ex) {
         String message = ex.getMessage();
         if (message == null) {
             message = "Unknown error";
@@ -48,7 +47,7 @@ public class ErrorHandler {
                 + "" + body + "\n\n\n<span style='color: #888888; font-size: 0.95em;'>"
                 + "<b>ERROR INFO:</b> " + message + "\n(" + ex.getClass() + ")\n\n"
                 + "<b>Stack trace:</b>\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n") + "</span>");
-        saveErrorToLogFile(ex, "##" + title + "##\t" + body);
+        log(ex, "##" + title + "##\t" + body);
     }
 
     public static void createPopupWindow(String title, String str) {
@@ -75,7 +74,7 @@ public class ErrorHandler {
      * @param ex         the throwable
      * @param devMessage
      */
-    public static void saveErrorToLogFile(Throwable ex, String devMessage) {
+    public static void log(Throwable ex, String devMessage) {
         String date = dateFormat.format(new Date());
 
         System.err.println("\nError: \"" + devMessage + "\"");
@@ -117,7 +116,7 @@ public class ErrorHandler {
         }
     }
 
-    public static void saveErrorToLogFile(Throwable throwable) {
-        saveErrorToLogFile(throwable, "unnamed exception");
+    public static void log(Throwable throwable) {
+        log(throwable, "unnamed exception");
     }
 }

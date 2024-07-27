@@ -614,7 +614,7 @@ public class World {
         try {
             info.save();
         } catch (IOException ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
     }
 

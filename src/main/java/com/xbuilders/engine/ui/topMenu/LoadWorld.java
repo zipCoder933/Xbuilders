@@ -141,7 +141,7 @@ public class LoadWorld implements MenuPage {
         try {
             WorldsHandler.listWorlds(worlds);
         } catch (IOException ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
         currentWorld = null;
     }

@@ -31,7 +31,7 @@ public class EntityShader extends Shader {
                     ResourceUtils.localResource("/res/shaders/entityShader/shader.vs"),
                     ResourceUtils.localResource("/res/shaders/entityShader/shader.fs"));
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
         uniform_projViewMatrix = getUniformLocation("projViewMatrix");
         uniform_modelMatrix = getUniformLocation("modelMatrix");

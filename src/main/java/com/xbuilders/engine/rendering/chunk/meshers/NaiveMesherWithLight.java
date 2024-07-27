@@ -179,7 +179,7 @@ public class NaiveMesherWithLight extends Mesher<VertexSet> {
                                         y, z);
                             }
                         } catch (Exception e) {
-                            ErrorHandler.saveErrorToLogFile(e);
+                            ErrorHandler.log(e);
                         }
                     }
                 }

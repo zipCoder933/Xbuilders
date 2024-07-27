@@ -41,7 +41,7 @@ public class EntityList extends ItemGroup<EntityLink> {
                 i++;
             }
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
     }
 

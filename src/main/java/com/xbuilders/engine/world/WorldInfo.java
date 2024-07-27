@@ -119,7 +119,7 @@ public class WorldInfo {
         try {
             this.infoFile = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), InfoFile.class);
         } catch (Exception ex) {
-            ErrorHandler.handleFatalError(
+            ErrorHandler.report(
                     "Failed to load world info for world \"" + name + "\"", ex);
         }
     }

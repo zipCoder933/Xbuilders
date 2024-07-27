@@ -15,6 +15,7 @@ import com.xbuilders.game.Main;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
+import org.lwjgl.system.MemoryStack;
 
 import java.nio.*;
 
@@ -52,6 +53,8 @@ public class MenuHome implements MenuPage {
             nk_label(ctx, Main.devMode ?
                     "DEV MODE" :
                     ("v" + Main.gameVersion), NK_TEXT_CENTERED);
+
+            nk_label(ctx, "Hello\n World \t Testing", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);
 

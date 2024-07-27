@@ -43,7 +43,7 @@ public class EngineSettingsUtils {
             // Save to JSON
             Files.write(settingsFile.toPath(), gson.toJson(settings).getBytes());
         } catch (Exception e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
     }
 }

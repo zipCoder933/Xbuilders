@@ -10,13 +10,10 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.game.items.blocks.RenderType;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 /**
  * @author zipCoder933
@@ -38,7 +35,7 @@ public class BannerEntityLink extends EntityLink {
                     body.loadFromOBJ(ResourceUtils.resource("items\\entity\\banner\\banner.obj"));
                     body.setTexture(ResourceUtils.resource("items\\entity\\banner\\" + texturePath));
                 } catch (IOException ex) {
-                    ErrorHandler.handleFatalError(ex);
+                    ErrorHandler.report(ex);
                 }
             }
 

@@ -43,7 +43,7 @@ public class LocalPendingChanges extends PendingMultiplayerChanges {
                 return;
             }
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         } finally {
             readLock.unlock();
         }
@@ -55,7 +55,7 @@ public class LocalPendingChanges extends PendingMultiplayerChanges {
             byte[] bytes = Files.readAllBytes(file.toPath());
             readBlockChange(bytes, (worldPos, change) -> blockChanges.put(worldPos, change));
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         } finally {
             readLock.unlock();
         }

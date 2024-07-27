@@ -74,7 +74,7 @@ public class BlockList extends ItemGroup<Block> {
                 block.initTextureAndIcon(textures, blockIconDirectory, iconDirectory, defaultIcon);
             }
         } catch (IOException ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
     }
 

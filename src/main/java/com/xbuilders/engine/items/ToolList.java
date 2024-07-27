@@ -39,7 +39,7 @@ public class ToolList extends ItemGroup<Tool> {
                 i++;
             }
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
     }
 

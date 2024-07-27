@@ -65,7 +65,7 @@ public class BlockMeshBundle {
                 }
             }
         } catch (Exception ex) {
-            ErrorHandler.saveErrorToLogFile(ex);
+            ErrorHandler.log(ex);
             ex.printStackTrace();
         }
     }

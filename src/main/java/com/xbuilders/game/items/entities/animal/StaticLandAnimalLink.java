@@ -13,7 +13,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class StaticLandAnimalLink extends EntityLink {
@@ -46,7 +45,7 @@ public class StaticLandAnimalLink extends EntityLink {
                 body.loadFromOBJ(loadModel);
                 body.setTextureID(texture);
             } catch (IOException ex) {
-                ErrorHandler.handleFatalError(ex);
+                ErrorHandler.report(ex);
             }
         }
     }

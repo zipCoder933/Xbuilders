@@ -11,7 +11,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -75,7 +74,7 @@ public abstract class QuadPedalLandAnimalLink extends EntityLink {
                 modelInit.accept(texture);
 
             } catch (IOException ex) {
-                ErrorHandler.handleFatalError(ex);
+                ErrorHandler.report(ex);
             }
         }
     }

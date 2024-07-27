@@ -121,7 +121,7 @@ public class Camera {
         try {
             robot = new Robot();
         } catch (AWTException ex) {
-            ErrorHandler.handleFatalError(ex);
+            ErrorHandler.report(ex);
         }
 
         target = new Vector3f();

@@ -200,7 +200,7 @@ public class MyGame extends Game {
             Files.writeString(new File(jsonDirectory, "BlockIDs.java").toPath(), blockIDs.toString());
             return allBlocks;
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
         return null;
     }

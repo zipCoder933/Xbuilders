@@ -135,13 +135,13 @@ public class ChunkSavingLoadingUtils {
                 }
 
             } catch (FileNotFoundException ex) {
-                ErrorHandler.handleFatalError(ex);
+                ErrorHandler.report(ex);
                 return false;
             } catch (IOException ex) {
-                ErrorHandler.handleFatalError(ex);
+                ErrorHandler.report(ex);
                 return false;
             } catch (Exception ex) {
-                ErrorHandler.handleFatalError(ex);
+                ErrorHandler.report(ex);
                 return false;
             }
         }
@@ -168,13 +168,13 @@ public class ChunkSavingLoadingUtils {
                 ChunkFile_V0.readChunk(chunk, input);
 
             } catch (FileNotFoundException ex) {
-                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex);
+                ErrorHandler.report("An error occurred reading chunk " + chunk, "", ex);
                 return false;
             } catch (IOException ex) {
-                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex);
+                ErrorHandler.report("An error occurred reading chunk " + chunk, "", ex);
                 return false;
             } catch (Exception ex) {
-                ErrorHandler.handleFatalError("An error occurred reading chunk " + chunk, "", ex);
+                ErrorHandler.report("An error occurred reading chunk " + chunk, "", ex);
                 return false;
             }
         }

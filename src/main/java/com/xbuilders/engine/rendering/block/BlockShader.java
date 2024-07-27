@@ -26,7 +26,7 @@ public class BlockShader extends Shader {
                     ResourceUtils.localResource("/res/shaders/blockShader/block.vs"),
                     ResourceUtils.localResource("/res/shaders/blockShader/block.fs"));
         } catch (IOException e) {
-            ErrorHandler.handleFatalError(e);
+            ErrorHandler.report(e);
         }
         uniform_projViewMatrix = getUniformLocation("projViewMatrix");
         uniform_modelMatrix = getUniformLocation("modelMatrix");
