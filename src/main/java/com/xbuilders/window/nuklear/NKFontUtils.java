@@ -32,24 +32,11 @@ public class NKFontUtils {
     final static int BITMAP_H = 1024;
 
     /**
-     * crash from nuklear
-     * BUG REPORT: https://github.com/LWJGL/lwjgl3/issues/986
-     * https://inside.java/2020/12/03/crash-outside-the-jvm/
-     * <p>
-     * <b>the byteBuffer pased to stbtt_initFont() is Garbage collected. the contents of the
-     * buffer are not copied, instead a pointer to the font is passed and when the source of the pointer no longer exists,
-     * the game crashes</b>
-     * <p>
-     * "The actual font data is NOT copied from the ByteBuffer you pass to stbtt_InitFont. Only its memory address is
-     * copied and the font data is accessed via that pointer when necessary. The segfault you're seeing happens because
-     * you don't store a reference to the ByteBuffer anywhere, it is GCed/ deallocated by the time you try to use the
-     * ont. An easy fix would be to change your Font class to also store the ByteBuffer."
-     * <p>
-     * "You need to ensure that the ByteBuffer passed to stbtt_InitFont is not garbage collected (or not freed when
-     * using explicit memory management APIs) while the font is in active use. This is a common mistake when dealing
-     * with stb_truetype."
+     * crash from nuklear: https://github.com/LWJGL/lwjgl3/issues/986
+     * In order to prevent a crash, You MUST ensure that the ByteBuffer passed to stbtt_InitFont is NOT garbage collected
+     * (or not freed when using explicit memory management APIs) while the font is in active use.
      */
-    //Storing the byteBuffer keeps it from being garbage collected, this preventing a possible crash
+    //Storing a strong reference to font byteBuffer keeps it from being garbage collected, this preventing a possible crash
     public static final ArrayList<ByteBuffer> fontBuffers = new ArrayList<>();
 
     public static ByteBuffer loadFontData(String path) throws IOException {
@@ -142,7 +129,7 @@ public class NKFontUtils {
                         IntBuffer advance = stack.mallocInt(1);
 
                         /**
-                         * POSSIBLE SOLUTION TO NUKLEAR CRASH:
+                         * POSSIBLE SOLUTION TO NUKLEAR CRASH (https://github.com/LWJGL/lwjgl3/issues/986):
                          * You take codepoint - 32 without checking if codepoint is at least 32.
                          * Try adding a check in your query callback to ensure that no codepoint is below 32 when you call that method.
                          * Whether you hard-crash or just return some dummy data in ufg, just make sure not to call the GetPackedQuad method.
