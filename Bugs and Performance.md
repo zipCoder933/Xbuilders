@@ -6,6 +6,11 @@ CPU profiling
 * https://www.baeldung.com/java-profilers
 
 GPU profiling
+* render doc is a really iseful and really essential GPU profiler
+    * https://youtu.be/wPl0bcfpny8
+    * https://www.reddit.com/r/opengl/comments/jdqhl9/renderdoc_who_else_uses_it/
+    * https://renderdoc.org/
+        * renderdoc.org has online documentation
 * **https://www.khronos.org/opengl/wiki/Debugging_Tools**
 * https://developer.nvidia.com/nsight-graphics
 * https://google.gprivate.com/search.php?search?q=amd+gpu+profiler
