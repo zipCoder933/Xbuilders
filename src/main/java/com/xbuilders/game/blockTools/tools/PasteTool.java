@@ -41,6 +41,8 @@ public class PasteTool extends BlockTool {
 
     MVP modelMatrix = new MVP();
     public static ChunkVoxels clipboard = new ChunkVoxels(16, 16, 16);
+
+
     public static ArrayList<Entity> clipboard_entities = new ArrayList<>(); //TODO: Add clipboard entities
 
     static BlockShader shader = new BlockShader();
@@ -59,9 +61,8 @@ public class PasteTool extends BlockTool {
     }
 
 
-
     @Override
-    public boolean shouldActivate(int key, int scancode, int action, int mods) {
+    public boolean activationKey(int key, int scancode, int action, int mods) {
         //Only activate with Ctrl+C
         if (key == GLFW.GLFW_KEY_V && (mods & GLFW.GLFW_MOD_CONTROL) != 0) {
             return true;
@@ -72,6 +73,7 @@ public class PasteTool extends BlockTool {
     public void activate() {
         cursorRay.disableBoundaryMode();
         offsetMode = 1;
+        positioningMode = true;
         additionMode = true;
     }
 
@@ -115,20 +117,37 @@ public class PasteTool extends BlockTool {
 
     @Override
     public boolean drawCursor(CursorRay ray, Matrix4f proj, Matrix4f view) {
+        if (positioningMode) {
+            offset = getOffset();
+            if (!ray.hitTarget()) return false;
+        }
+
         shader.updateProjectionViewMatrix(proj, view);
 
-        modelMatrix.identity().translate(getOffset().x, getOffset().y, getOffset().z);
+        modelMatrix.identity().translate(offset.x, offset.y, offset.z);
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
         mesh.draw(shader);
-        box.setPosition(getOffset().x, getOffset().y, getOffset().z);
+        box.setPosition(offset.x, offset.y, offset.z);
         box.draw(proj, view);
         return true;
     }
 
     public boolean setBlock(Block item, final CursorRay ray, boolean isCreationMode) {
-        Vector3i offset = getOffset();
+
+        if (positioningMode) {
+            positioningMode = false;
+        } else {
+            if (isCreationMode) {
+                paste();
+            }
+            positioningMode = true;
+        }
+        return true;
+    }
+
+    private void paste() {
         for (int x = 0; x < clipboard.size.x; x++) {
             for (int y = 0; y < clipboard.size.y; y++) {
                 for (int z = 0; z < clipboard.size.z; z++) {
@@ -138,7 +157,6 @@ public class PasteTool extends BlockTool {
                 }
             }
         }
-        return true;
     }
 
     public static void rotatePasteBox() {
@@ -177,10 +195,13 @@ public class PasteTool extends BlockTool {
     Vector3i offset = new Vector3i();
     int offsetMaxMode = 8;
     int offsetMode = 1;
+    boolean positioningMode = false;
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        offsetMode = (offsetMode + ((int) yoffset)) % offsetMaxMode;
+        if (positioningMode) {
+            offsetMode = (offsetMode + ((int) yoffset)) % offsetMaxMode;
+        } else offset.y += (int) yoffset;
         return true;
     }
 
@@ -192,6 +213,28 @@ public class PasteTool extends BlockTool {
             if (key == GLFW.GLFW_KEY_K) {
                 placeOnHit = true;
                 return true;
+            } else if (!positioningMode) {
+                if (key == GLFW.GLFW_KEY_LEFT) {
+                    offset.x--;
+                    return true;
+                } else if (key == GLFW.GLFW_KEY_RIGHT) {
+                    offset.x++;
+                    return true;
+                } else if (key == GLFW.GLFW_KEY_UP) {
+                    if (mods == GLFW.GLFW_MOD_SHIFT) {
+                        offset.y--;
+                    } else {
+                        offset.z--;
+                    }
+                    return true;
+                } else if (key == GLFW.GLFW_KEY_DOWN) {
+                    if (mods == GLFW.GLFW_MOD_SHIFT) {
+                        offset.y++;
+                    } else {
+                        offset.z++;
+                    }
+                    return true;
+                }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
             if (key == GLFW.GLFW_KEY_O) {
@@ -206,6 +249,10 @@ public class PasteTool extends BlockTool {
                 return true;
             } else if (key == GLFW.GLFW_KEY_K) {
                 placeOnHit = false;
+                return true;
+            } else if (!positioningMode && key == GLFW.GLFW_KEY_ENTER) {
+                paste();
+                positioningMode = true;
                 return true;
             }
         }

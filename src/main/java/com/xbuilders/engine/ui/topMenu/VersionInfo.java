@@ -31,6 +31,7 @@ public class VersionInfo {
                 String changes = changesToString();
                 popupMessage.message("A new version of XBuilders is out! ", changes +
                         "\n\nWould you like to get the latest version?", () -> {
+                    Main.minimizeWindow();
                     openInBrowser();
                 });
             }

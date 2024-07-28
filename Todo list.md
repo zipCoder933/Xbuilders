@@ -16,12 +16,10 @@ Just do the simplest solution. Code simplicity, does not matter!
   - See bugs and Performance.md
 
 ### features
-- add line, sphere and replace tools
-- add block tools menu
+- Add trees into terrain
+- add sphere tools
 - add birds, fish and turtles
-- add a system to handle live events (do after multiplayer)
-  - add liquid propagation with block data
-  - make a special block type for liquid that has certex height depending on block data
+- Add player skins
 
 # liquid propagation
 * There is a list of important nodes in each propagator

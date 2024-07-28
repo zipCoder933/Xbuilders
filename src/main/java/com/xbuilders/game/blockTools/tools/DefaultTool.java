@@ -20,7 +20,7 @@ public class DefaultTool extends BlockTool {
     }
 
     @Override
-    public boolean shouldActivate(int key, int scancode, int action, int mods) {
+    public boolean activationKey(int key, int scancode, int action, int mods) {
         if (key == GLFW.GLFW_KEY_1) return true;
         return false;
     }

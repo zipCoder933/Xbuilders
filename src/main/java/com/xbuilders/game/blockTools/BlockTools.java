@@ -22,11 +22,13 @@ public class BlockTools extends GameUIElement {
         tools.add(new DefaultTool(this, cursorRay));
         tools.add(new PlaneTool(this, cursorRay));
         tools.add(new BoundaryTool(this, cursorRay));
-        tools.add(new CopyTool(this, cursorRay));
-        tools.add(new PasteTool(this, cursorRay));
+
         tools.add(new LineTool(this, cursorRay));
         tools.add(new FillTool(this, cursorRay));
         tools.add(new PaintTool(this, cursorRay));
+
+        tools.add(new CopyTool(this, cursorRay));
+        tools.add(new PasteTool(this, cursorRay));
 
         pallete = new BlockToolPallete(ctx, window, tools,this);
     }
@@ -91,7 +93,7 @@ public class BlockTools extends GameUIElement {
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE || action == GLFW.GLFW_PRESS) {
             for (int i = 0; i < tools.size(); i++) {
-                if (tools.get(i).shouldActivate(key, scancode, action, mods)) {
+                if (tools.get(i).activationKey(key, scancode, action, mods)) {
                     selectTool(i);
                     return true;
                 }

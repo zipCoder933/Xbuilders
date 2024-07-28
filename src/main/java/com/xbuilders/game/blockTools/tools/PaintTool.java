@@ -29,7 +29,7 @@ public class PaintTool extends BlockTool {
 
 
     @Override
-    public boolean shouldActivate(int key, int scancode, int action, int mods) {
+    public boolean activationKey(int key, int scancode, int action, int mods) {
         if (key == GLFW.GLFW_KEY_6) return true;
         return false;
     }
@@ -101,6 +101,8 @@ public class PaintTool extends BlockTool {
 
     @Override
     public boolean drawCursor(CursorRay ray, Matrix4f proj, Matrix4f view) {
+        if (!ray.hitTarget()) return false;
+
         setAABB(renderingAABB, ray);
         renderingAABB.max.add(1, 1, 1);
 

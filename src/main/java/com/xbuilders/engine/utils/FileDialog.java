@@ -2,6 +2,7 @@ package com.xbuilders.engine.utils;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class FileDialog {
@@ -11,9 +12,34 @@ public class FileDialog {
             java.awt.FileDialog fd = new java.awt.FileDialog(frame, "Choose a file", java.awt.FileDialog.LOAD);
             setupConsumer.accept(fd);
             fd.setVisible(true);
-            String filename = fd.getFile();
-            chosenFile.accept(new File(fd.getDirectory(), filename));
+
+            File f = null;
+            if (fd.getDirectory() != null && fd.getFile() != null) f = new File(fd.getDirectory(), fd.getFile());
+            chosenFile.accept(f);
             frame.dispose();
         })).start();
+    }
+
+    private static class FileWrapper {
+        public File file;
+    }
+
+    public static File fileDialog(Consumer<java.awt.FileDialog> setupConsumer) {
+        AtomicBoolean done = new AtomicBoolean(false);
+        FileWrapper file = new FileWrapper();
+
+        fileDialog(setupConsumer, f -> {
+            done.set(true);
+            file.file = f;
+        });
+
+        while (!done.get()) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return file.file;
     }
 }

@@ -187,28 +187,26 @@ public class CursorRay {
     }
 
     public void drawRay() {
-        if (cursorRay.hitTarget || cursorRayHitAllBlocks) {
-            if (useBoundary) {
-                if (!boundary_isStartNodeSet) {
-                    setBoundaryStartNode(boundary_startNode);
-                    boundary_aabb.setPosAndSize(boundary_startNode.x, boundary_startNode.y, boundary_startNode.z, 1, 1,
-                            1);
-                } else {
-                    setBoundaryEndNode(boundary_endNode);
-                    makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
-                }
+        if (hitTarget() && useBoundary) {
+            if (!boundary_isStartNodeSet) {
+                setBoundaryStartNode(boundary_startNode);
+                boundary_aabb.setPosAndSize(boundary_startNode.x, boundary_startNode.y, boundary_startNode.z, 1, 1,
+                        1);
+            } else {
+                setBoundaryEndNode(boundary_endNode);
+                makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
+            }
 
-                if (boundaryIsWithinArea()) {
-                    cursorBox.setColor(0, 0, 0, 1);
-                } else {
-                    cursorBox.setColor(1, 0, 0, 1);
-                }
-                cursorBox.set(boundary_aabb);
-                cursorBox.draw(camera.projection, camera.view);
-
-
-            } else if (Main.game.drawCursor(this)) {
-            } else if (cursorRay.entity != null) {
+            if (boundaryIsWithinArea()) {
+                cursorBox.setColor(0, 0, 0, 1);
+            } else {
+                cursorBox.setColor(1, 0, 0, 1);
+            }
+            cursorBox.set(boundary_aabb);
+            cursorBox.draw(camera.projection, camera.view);
+        } else if (Main.game.drawCursor(this)) {
+        } else if (hitTarget()) {
+            if (cursorRay.entity != null) {
                 cursorBox.set(cursorRay.entity.aabb.box);
                 cursorBox.draw(camera.projection, camera.view);
             } else if (cursorRay.cursorBoxes == null) {

@@ -32,6 +32,7 @@ public class UserControlledPlayer extends Player {
 
 
     public Camera camera;
+    public boolean allowKeyInput;
     BaseWindow window;
 
 
@@ -75,33 +76,37 @@ public class UserControlledPlayer extends Player {
     private static final int KEY_ENABLE_FLYING = GLFW.GLFW_KEY_F;
     private static final int KEY_JUMP = GLFW.GLFW_KEY_SPACE;
 
+    private boolean keyInputAllowed(){
+        return allowKeyInput && !GameScene.ui.allMenusAreOpen();
+    }
+    
     public boolean leftKeyPressed() {
-        if (GameScene.ui.allMenusAreOpen()) return false;
+        if (!keyInputAllowed()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
     }
 
     public boolean rightKeyPressed() {
-        if (GameScene.ui.allMenusAreOpen()) return false;
+        if (!keyInputAllowed()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_RIGHT) || window.isKeyPressed(GLFW.GLFW_KEY_D);
     }
 
     public boolean forwardKeyPressed() {
-        if (GameScene.ui.allMenusAreOpen()) return false;
+        if (!keyInputAllowed()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
     }
 
     public boolean backwardKeyPressed() {
-        if (GameScene.ui.allMenusAreOpen()) return false;
+        if (!keyInputAllowed()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
     }
 
     public boolean upJumpKeyPressed() {
-        if (GameScene.ui.allMenusAreOpen()) return false;
+        if (!keyInputAllowed()) return false;
         return window.isKeyPressed(KEY_JUMP) || window.isKeyPressed(KEY_ENABLE_FLYING);
     }
 
     public boolean downKeyPressed() {
-        if (GameScene.ui.allMenusAreOpen()) return false;
+        if (!keyInputAllowed()) return false;
         return window.isKeyPressed(KEY_CROUCH);
     }
 

@@ -2,7 +2,6 @@ package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.BlockAir;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -36,7 +35,7 @@ public abstract class BlockTool {
         return name;
     }
 
-    public abstract boolean shouldActivate(int key, int scancode, int action, int mods);
+    public abstract boolean activationKey(int key, int scancode, int action, int mods);
 
     public void activate() {
     }

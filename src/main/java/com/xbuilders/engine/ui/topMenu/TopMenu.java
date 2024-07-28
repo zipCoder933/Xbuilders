@@ -87,7 +87,9 @@ public class TopMenu {
         progress = new ProgressMenu(window.ctx, window, this);
         hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true, ipAdress, loadWorld);
         joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false, ipAdress, loadWorld);
-        settings = new SettingsPage(window.ctx, window, this);
+        settings = new SettingsPage(window.ctx, window,  () -> {
+            goBack();
+        });
 
 
         VersionInfo versionInfo = new VersionInfo();

@@ -25,7 +25,7 @@ public class LineTool extends BlockTool {
     final Vector3i end = new Vector3i();
 
     @Override
-    public boolean shouldActivate(int key, int scancode, int action, int mods) {
+    public boolean activationKey(int key, int scancode, int action, int mods) {
         if (key == GLFW.GLFW_KEY_4) return true;
         return false;
     }
@@ -71,6 +71,8 @@ public class LineTool extends BlockTool {
     }
 
     public boolean drawCursor(CursorRay ray, Matrix4f proj, Matrix4f view) {
+        if (!ray.hitTarget()) return false;
+
         start.set(ray.getHitPos());
         if (length >= 0) start.add(ray.getHitNormalAsInt());
 

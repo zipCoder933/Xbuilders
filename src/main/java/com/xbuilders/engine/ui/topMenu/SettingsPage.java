@@ -31,15 +31,27 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class SettingsPage implements MenuPage {
 
-    public SettingsPage(NkContext ctx, NKWindow window, TopMenu menu) {
+    public SettingsPage(NkContext ctx, NKWindow window, Runnable backCallback) {
+        this.backCallback = backCallback;
         this.ctx = ctx;
         this.window = window;
-        this.menu = menu;
         boxWidth = Main.settings.video_largerUI ? 800 : 700;
+
+        fields.clear();
+        for (Field field : EngineSettings.class.getDeclaredFields()) {
+            field.setAccessible(true);
+            if (!Main.devMode && field.getName().startsWith("internal_")) continue;
+            try {
+                fields.add(new SettingsField(field));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
+    Runnable backCallback;
     NkContext ctx;
-    TopMenu menu;
     NKWindow window;
 
     int boxWidth = 750;
@@ -50,7 +62,17 @@ public class SettingsPage implements MenuPage {
         nk_style_set_font(ctx, Theme.font_12);
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), titleYEnd.get(0),
                 boxWidth, boxHeight, windowDims);
+        draw(stack, windowDims);
+    }
 
+    public void layout(MemoryStack stack, NkRect windowDims) {
+        nk_rect((window.getWidth() / 2) - (boxWidth / 2),
+                (window.getHeight() / 2) - (boxHeight / 2),
+                boxWidth, boxHeight, windowDims);
+        draw(stack, windowDims);
+    }
+
+    private void draw(MemoryStack stack, NkRect windowDims) {
         if (nk_begin(ctx, "Settings", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, Theme.font_10);
             NKUtils.wrapText(ctx, "Note that some changes will only take effect after the game is restarted", windowDims.w() - 20);
@@ -64,7 +86,7 @@ public class SettingsPage implements MenuPage {
             nk_layout_row_static(ctx, 60, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 1);
             if (nk_button_label(ctx, "BACK")) {
-                menu.goBack();
+                backCallback.run();
             }
         }
         nk_end(ctx);
@@ -74,17 +96,6 @@ public class SettingsPage implements MenuPage {
 
     @Override
     public void onOpen() {
-        System.out.println("Settings opened");
-        fields.clear();
-        for (Field field : EngineSettings.class.getDeclaredFields()) {
-            field.setAccessible(true);
-            if(!Main.devMode && field.getName().startsWith("internal_")) continue;
-            try {
-                fields.add(new SettingsField(field));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 

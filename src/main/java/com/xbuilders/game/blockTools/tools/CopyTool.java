@@ -22,7 +22,7 @@ public class CopyTool extends BlockTool {
     }
 
     @Override
-    public boolean shouldActivate(int key, int scancode, int action, int mods) {
+    public boolean activationKey(int key, int scancode, int action, int mods) {
         //Only activate with Ctrl+C
         if (key == GLFW.GLFW_KEY_C && (mods & GLFW.GLFW_MOD_CONTROL) != 0) {
             return true;
@@ -77,15 +77,8 @@ public class CopyTool extends BlockTool {
 //            } else if (key == GLFW.GLFW_KEY_L) {
 //                System.out.println("Loading clipboard");
 //                GameScene.pauseGame();
-//                PrefabUtils.loadPrefabFromFileDialog((file) -> {
-//                    if(file != null) {
-//                        try {
-//                            PasteTool.clipboard = PrefabUtils.loadPrefabFromFile(file);
-//                        } catch (IOException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                });
+//                PasteTool.clipboard = PrefabUtils.loadPrefabFromFileDialog();
+//                PasteTool.updateMesh();
 //                return true;
 //            }
 //        }

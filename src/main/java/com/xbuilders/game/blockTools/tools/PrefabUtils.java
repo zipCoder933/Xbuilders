@@ -1,6 +1,7 @@
 package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.FileDialog;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -55,27 +56,31 @@ public class PrefabUtils {
 
 
         int index = 0;
-        for (int i = start + 6; i < end; ) {
-            //Count the number of bytes leading up to the next pipe
-            int count = 2;
-            while (bytes[i + count] != ChunkSavingLoadingUtils.NEWLINE_BYTE) {
-                count++;
-            }
+        for (int x = 0; x < size.x; x++) {
+            for (int y = 0; y < size.y; y++) {
+                for (int z = 0; z < size.z; z++) {
 
-            Vector3i coords = data.getCoordsOfIndex(index);
-            short block = (short) ByteUtils.bytesToShort(bytes[i], bytes[i + 1]);
-            data.setBlock(coords.x, coords.y, coords.z, block);
 
-            i += 2;
-            if (count > 2) {
+                    short block = (short) ByteUtils.bytesToShort(bytes[index], bytes[index + 1]);
+                    data.setBlock(x, y, z, block);
+                    index += 2;
+
+                    //Count the number of bytes leading up to the next pipe
+                    int count = 2;
+                    while (bytes[index + count] != ChunkSavingLoadingUtils.NEWLINE_BYTE) {
+                        count++;
+                    }
+                    if (count > 2) {
 //                System.out.println("\t\tLoading block data: " + Arrays.toString(subarray(bytes, i, i + count - 2)));
-                byte[] bytes2 = new byte[count - 2];
-                System.arraycopy(bytes, i, bytes2, 0, count - 2);
-                BlockData blockData = new BlockData(bytes2);
-                data.setBlockData(coords.x, coords.y, coords.z, blockData);
+                        byte[] bytes2 = new byte[count - 2];
+                        System.arraycopy(bytes, index, bytes2, 0, count - 2);
+                        BlockData blockData = new BlockData(bytes2);
+                        data.setBlockData(x, y, z, blockData);
+                    }
+                    index += count - 1;
+                    index++;
+                }
             }
-            i += count - 1;
-            index++;
         }
         return data;
     }
@@ -92,12 +97,26 @@ public class PrefabUtils {
         Files.write(file.toPath(), baos.toByteArray());
     }
 
-    public static void
-    loadPrefabFromFileDialog(Consumer<File> consumer) {
-        FileDialog.fileDialog((fd) -> {
-            fd.setDirectory(ResourceUtils.appDataResource("prefabs").getAbsolutePath());
+    public static ChunkVoxels loadPrefabFromFileDialog() {
+        File outFile = FileDialog.fileDialog((fd) -> {
+            File prefabFolder = ResourceUtils.appDataResource("prefabs");
+            if (!prefabFolder.exists()) {
+                prefabFolder.mkdirs();
+            }
+            fd.setDirectory(prefabFolder.getAbsolutePath());
             fd.setFilenameFilter(filter);
-        }, consumer);
+            fd.setFile("*.xbprefab");
+            fd.setMode(java.awt.FileDialog.LOAD);
+        });
+
+        if (outFile != null) {
+            try {
+                return loadPrefabFromFile(outFile);
+            } catch (IOException e) {
+                ErrorHandler.report(e);
+            }
+        }
+        return null;
     }
 
     static FilenameFilter filter = new FilenameFilter() {
@@ -109,8 +128,14 @@ public class PrefabUtils {
 
     public static void savePrefabToFileDialog(ChunkVoxels data) {
         FileDialog.fileDialog((fd) -> {
-            fd.setDirectory(ResourceUtils.appDataResource("prefabs").getAbsolutePath());
+            File prefabFolder = ResourceUtils.appDataResource("prefabs");
+            if (!prefabFolder.exists()) {
+                prefabFolder.mkdirs();
+            }
+            fd.setDirectory(prefabFolder.getAbsolutePath());
             fd.setFilenameFilter(filter);
+            fd.setFile("*.xbprefab");
+            fd.setMode(java.awt.FileDialog.SAVE);
         }, (file) -> {
             if (file == null) {
                 return;
@@ -118,7 +143,7 @@ public class PrefabUtils {
             try {
                 PrefabUtils.savePrefabToFile(data, file);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                ErrorHandler.report(e);
             }
         });
     }

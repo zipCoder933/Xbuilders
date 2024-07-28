@@ -133,7 +133,7 @@ public class Main extends NKWindow {
         }
     }
 
-    final boolean isFullscreen;
+    public static boolean isFullscreen;
 
     public Main() throws Exception {
         super();
@@ -182,11 +182,8 @@ public class Main extends NKWindow {
         GLFWWindowFocusCallback focusCallback = new GLFWWindowFocusCallback() {
             @Override
             public void invoke(long window, boolean focused) {
-                if(!focused) {
+                if (!focused) {
                     windowUnfocusEvent();
-                    if (isFullscreen) {
-                        GLFW.glfwIconifyWindow(windowHandle);
-                    }
                 }
             }
         };
@@ -312,10 +309,28 @@ public class Main extends NKWindow {
         }
     }
 
+    public static void minimizeWindow() {
+        long windowHandle = GLFW.glfwGetCurrentContext();
+        if (isGameMode) {
+            gameScene.windowUnfocusEvent();
+        }
+        if (isFullscreen) {
+            GLFW.glfwIconifyWindow(windowHandle);
+        }
+    }
+
+    public static void restoreWindow() {
+        long windowHandle = GLFW.glfwGetCurrentContext();
+        GLFW.glfwRestoreWindow(windowHandle);
+    }
 
     private void windowUnfocusEvent() {
-        if(isGameMode) {
+        long windowHandle = GLFW.glfwGetCurrentContext();
+        if (isGameMode) {
             gameScene.windowUnfocusEvent();
+        }
+        if (isFullscreen) {
+            GLFW.glfwIconifyWindow(windowHandle);
         }
     }
 

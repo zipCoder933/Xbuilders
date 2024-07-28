@@ -152,7 +152,12 @@ public class GameScene implements WindowEvents {
     }
 
     public static void pauseGame() {
+        if (Main.isFullscreen) Main.minimizeWindow();
         ui.showGameMenu();
+    }
+
+    public static void unpauseGame() {
+       if(Main.isFullscreen) Main.restoreWindow();
     }
 
 
@@ -350,7 +355,9 @@ public class GameScene implements WindowEvents {
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (ui.keyEvent(key, scancode, action, mods)) {
+            player.allowKeyInput = false;
         } else {
+            player.allowKeyInput = true;
             player.keyEvent(key, scancode, action, mods);
         }
         if (action == GLFW.GLFW_RELEASE) {
