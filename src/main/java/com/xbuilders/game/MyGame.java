@@ -30,6 +30,7 @@ import com.xbuilders.game.items.entities.animal.*;
 import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
 import com.xbuilders.game.items.entities.vehicle.MinecartEntityLink;
 import com.xbuilders.game.items.tools.*;
+import com.xbuilders.game.propagation.*;
 import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
@@ -480,6 +481,11 @@ public class MyGame extends Game {
 
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_GRASS_TOP, BLOCK_TALL_GRASS);
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_DRY_GRASS_TOP, BLOCK_TALL_DRY_GRASS);
+
+
+
+        Block lava =  ItemList.getBlock(BLOCK_LAVA);//TODO: Lava texture is not animated
+        System.out.println("Lava animation length: " + lava.texture.getNEG_X().animationLength);
     }
 
     @Override

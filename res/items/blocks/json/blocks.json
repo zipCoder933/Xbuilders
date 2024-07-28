@@ -336,7 +336,7 @@
         "colorInPlayerHead": [1,0.2,0,0.5],
         "solid": false,
         "opaque": false,
-        "torch": 15,
+        "torch": 10,
         "type": "liquid"
     },
     {

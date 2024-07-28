@@ -79,7 +79,7 @@ public class PopupMessage {
         if (!visible) return;
         float wrapWidth = boxWidth - 20;
         boxHeight = (int) (NKUtils.calculateWrappedTextHeight(Theme.font_9, body, wrapWidth) + 72 + 50);
-        boxHeight = MathUtils.clamp(boxHeight, 120, 400);
+        boxHeight = MathUtils.clamp(boxHeight, 160, 400);
 
 
         nk_style_set_font(ctx, Theme.font_12);

@@ -9,9 +9,11 @@ import java.util.HashSet;
 public abstract class LivePropagationTask {
     public int updateIntervalMS = 100;
     protected long lastUpdate = 0;
-
-    public short interestedBlock = BlockList.BLOCK_AIR.id;
     public HashSet<Vector3i> nodes = new HashSet<>();
+
+    public boolean isInterestedInBlock(short block) {
+        return false;
+    }
 
 
     public LivePropagationTask() {

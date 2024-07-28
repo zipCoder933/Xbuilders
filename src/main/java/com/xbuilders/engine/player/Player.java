@@ -81,20 +81,21 @@ public class Player {
     final static float PLAYER_HEIGHT = 1.5f;
     final static float PLAYER_WIDTH = 0.7f;
 
+    private void initAABB() {
+        aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
+        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), -0.15f, -(PLAYER_WIDTH * 0.5f));
+    }
+
     public Player() {
         name = null;
         aabb = new EntityAABB();
-        aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
-        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0, -(PLAYER_WIDTH * 0.5f));
-
+        initAABB();
         worldPosition = aabb.worldPosition;
     }
 
     public Player(UserID user) throws IOException {
         aabb = new EntityAABB();
-        aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);
-        aabb.offset.set(-(PLAYER_WIDTH * 0.5f), 0, -(PLAYER_WIDTH * 0.5f));
-
+        initAABB();
         worldPosition = aabb.worldPosition;
         if (playerModelFile == null) {
             playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
