@@ -9,8 +9,6 @@ import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
-import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 
 public class CopyTool extends BlockTool {
@@ -72,53 +70,25 @@ public class CopyTool extends BlockTool {
     public boolean keyEvent(int key, int scancode, int action, int mods) {
 //        if (action == GLFW.GLFW_RELEASE) {
 //            if (key == GLFW.GLFW_KEY_S) {
-//                saveClipboard();
+//                System.out.println("Saving clipboard");
+//                GameScene.pauseGame();
+//                PrefabUtils.savePrefabToFileDialog(PasteTool.clipboard);
 //                return true;
 //            } else if (key == GLFW.GLFW_KEY_L) {
-//                loadClipboard();
+//                System.out.println("Loading clipboard");
+//                GameScene.pauseGame();
+//                PrefabUtils.loadPrefabFromFileDialog((file) -> {
+//                    if(file != null) {
+//                        try {
+//                            PasteTool.clipboard = PrefabUtils.loadPrefabFromFile(file);
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//                });
 //                return true;
 //            }
 //        }
         return false;
-    }
-
-    private void loadClipboard() {
-        // Create a JFileChooser instance
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Load File");
-        fileChooser.setApproveButtonText("Load");
-
-        // Show the save dialog
-        int userSelection = fileChooser.showSaveDialog(null);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            JOptionPane.showMessageDialog(null, "File loaded: " + fileToSave.getAbsolutePath());
-        }
-    }
-
-    private void saveClipboard() {
-        // Create a JFileChooser instance
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Create New File");
-        fileChooser.setApproveButtonText("Create");
-
-        // Show the save dialog
-        int userSelection = fileChooser.showSaveDialog(null);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-
-            try {
-                if (fileToSave.createNewFile()) {
-                    JOptionPane.showMessageDialog(null, "File created: " + fileToSave.getAbsolutePath());
-                } else {
-                    JOptionPane.showMessageDialog(null, "File already exists: " + fileToSave.getAbsolutePath());
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "An error occurred while creating the file.");
-                e.printStackTrace();
-            }
-        }
     }
 }

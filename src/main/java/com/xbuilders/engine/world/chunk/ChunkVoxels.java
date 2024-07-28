@@ -52,6 +52,13 @@ public class ChunkVoxels {
         return indx;
     }
 
+    public Vector3i getCoordsOfIndex(final int index) {
+        int x = index % this.size.x;
+        int y = (index / this.size.x) % this.size.y;
+        int z = index / (this.size.x * this.size.y);
+        return new Vector3i(x, y, z);
+    }
+
 
     public void clear() {
         blockData.clear();

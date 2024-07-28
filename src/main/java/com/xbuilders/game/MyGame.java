@@ -66,7 +66,7 @@ public class MyGame extends Game {
     @Override
     public String handleCommand(String[] parts) {
 //        if (parts[0].equals("send")) {
-////            PasteTool.clipboard.toBytes();
+//            PasteTool.clipboard.toBytes();
 //            return "Clipboard: ";
 //        }
         return null;

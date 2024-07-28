@@ -58,7 +58,7 @@ public class FillTool extends BlockTool {
 
         while (!queue.isEmpty()) {
             Vector3i pos = queue.remove(0);
-            System.out.println(pos);
+
             GameScene.player.setBlock(block.id, pos.x, pos.y, pos.z);
 
             propagate(pos.x + 1, pos.y, pos.z, block, queue);

@@ -34,7 +34,7 @@ import java.util.logging.Logger;
 
 public class Main extends NKWindow {
 
-    public static double gameVersion = 1.1;
+    public static double gameVersion = 1.2;
 
     public static void printlnDev(String message) {
         if (devMode) {

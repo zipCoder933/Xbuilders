@@ -151,6 +151,10 @@ public class GameScene implements WindowEvents {
         return "Unknown command. Type 'help' for a list of commands";
     }
 
+    public static void pauseGame() {
+        ui.showGameMenu();
+    }
+
 
     public void gameClosedEvent() {
         if (world.terrain != null) {
@@ -385,7 +389,7 @@ public class GameScene implements WindowEvents {
             try {
                 WCCf wcc2 = new WCCf();
                 wcc2.set(player.worldPosition);
-                text += Main.mfpAndMemory + "   smoothDelta="+window.smoothFrameDeltaSec +"\n";
+                text += Main.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
                 text += "Player pos: " +
                         ((int) player.worldPosition.x) + ", " +
                         ((int) player.worldPosition.y) + ", " +
