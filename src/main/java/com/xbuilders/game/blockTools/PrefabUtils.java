@@ -1,22 +1,17 @@
-package com.xbuilders.game.blockTools.tools;
+package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.FileDialog;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import org.joml.Vector3i;
 
-import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PrefabUtils {
 
@@ -31,11 +26,8 @@ public class PrefabUtils {
             for (int y = 0; y < blocks.size.y; y++) {
                 for (int z = 0; z < blocks.size.z; z++) {
                     short block = blocks.getBlock(x, y, z);
-                    out.write(ByteUtils.shortToBytes(block));
-                    if (blocks.getBlockData(x, y, z) != null) {
-                        out.write(blocks.getBlockData(x, y, z).toByteArray());
-                    }
-                    out.write(ChunkSavingLoadingUtils.NEWLINE_BYTE);
+                    out.write(ByteUtils.shortToBytes(block));//Block
+                    ChunkSavingLoadingUtils.writeBlockData(blocks.getBlockData(x, y, z), out); //Block data
                 }
             }
         }
@@ -55,30 +47,16 @@ public class PrefabUtils {
         ChunkVoxels data = new ChunkVoxels(size.x, size.y, size.z);
 
 
-        int index = 0;
+        AtomicInteger startIndex = new AtomicInteger(start + 6);
         for (int x = 0; x < size.x; x++) {
             for (int y = 0; y < size.y; y++) {
                 for (int z = 0; z < size.z; z++) {
-
-
-                    short block = (short) ByteUtils.bytesToShort(bytes[index], bytes[index + 1]);
+                    short block = (short) ByteUtils.bytesToShort(bytes[startIndex.get()], bytes[startIndex.get() + 1]);
                     data.setBlock(x, y, z, block);
-                    index += 2;
+                    startIndex.set(startIndex.get() + 2);
 
-                    //Count the number of bytes leading up to the next pipe
-                    int count = 2;
-                    while (bytes[index + count] != ChunkSavingLoadingUtils.NEWLINE_BYTE) {
-                        count++;
-                    }
-                    if (count > 2) {
-//                System.out.println("\t\tLoading block data: " + Arrays.toString(subarray(bytes, i, i + count - 2)));
-                        byte[] bytes2 = new byte[count - 2];
-                        System.arraycopy(bytes, index, bytes2, 0, count - 2);
-                        BlockData blockData = new BlockData(bytes2);
-                        data.setBlockData(x, y, z, blockData);
-                    }
-                    index += count - 1;
-                    index++;
+                    BlockData blockData = ChunkSavingLoadingUtils.readBlockData(bytes, startIndex);
+                    data.setBlockData(x, y, z, blockData);
                 }
             }
         }

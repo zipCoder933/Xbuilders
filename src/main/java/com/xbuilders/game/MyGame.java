@@ -981,7 +981,7 @@ public class MyGame extends Game {
     public static short BLOCK_GRANITE_BRICK_PILLAR = 454;
     public static short BLOCK_GRANITE_BRICK_SLAB = 455;
     public static short BLOCK_GRANITE_BRICK_FENCE = 456;
-    public static short BLOCK_CAMPFIRE = 457;
+    public static short BLOCK_FIRE = 457;
     public static short BLOCK_DARK_PRISMARINE_BRICK_SLAB = 458;
     public static short BLOCK_DARK_PRISMARINE_BRICK_FENCE = 459;
     public static short BLOCK_ENGRAVED_SANDSTONE = 460;

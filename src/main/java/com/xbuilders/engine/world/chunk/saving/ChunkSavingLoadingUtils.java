@@ -13,6 +13,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import static com.xbuilders.engine.utils.ByteUtils.*;
 
 import java.io.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -29,6 +30,8 @@ import org.lwjgl.system.MemoryStack;
  */
 public class ChunkSavingLoadingUtils {
 
+
+    //DONT IMPORT ANY of these variables into the chunk file reading class. We want the previous chunk file versions to work no matter what.
     public static final byte NEWLINE_BYTE = Byte.MIN_VALUE;
     public static final byte VOXEL_BYTE = -127;
     public static final byte ENTITY_BYTE = -126;
@@ -37,6 +40,53 @@ public class ChunkSavingLoadingUtils {
     public static final int METADATA_BYTES = 9;
     public static final int FILE_VERSION = 0;
 
+
+    public static final long ENTITY_MAX_BYTES = (long) (Math.pow(2, 32) - 1); //Unsigned int
+    public static int BLOCK_DATA_MAX_BYTES = (int) (Math.pow(2, 16) - 1); //Unsigned short
+
+
+    public static void writeBlockData(BlockData data, OutputStream out) throws IOException {
+        if (data == null) {
+            out.write(new byte[]{0, 0});//Just write 0 for the length
+            return;
+        }
+
+        if (data.size() > BLOCK_DATA_MAX_BYTES) {
+            ErrorHandler.report(new Throwable("Block data too large: " + data.size()));
+            out.write(new byte[]{0, 0});//Just write 0 for the length
+            return;
+        }
+        //First write the length of the block data as an unsigned short
+        out.write(shortToBytes(data.size() & 0xffff));
+
+        //Then write the bytes
+        byte[] bytes = data.toByteArray();
+        out.write(bytes);
+    }
+
+    public static BlockData readBlockData(byte[] bytes, AtomicInteger start) {
+        //Get the length from unsigned short to int
+        int length = bytesToShort(bytes[start.get()], bytes[start.get() + 1]) & 0xffff;
+        start.set(start.get() + 2);
+
+        //Read the bytes
+        byte[] data = new byte[length];
+        System.arraycopy(bytes, start.get(), data, 0, length);
+        start.set(start.get() + length);
+
+        return new BlockData(data);
+    }
+
+//    public static void writeEntity(Entity entity, OutputStream out) throws IOException {
+//        byte[] bytes = entity.toBytes();
+//        if(bytes.length > ENTITY_MAX_BYTES) {
+//            throw new IllegalArgumentException("Entity too large: " + bytes.length);
+//        }
+//        //First write the length of the block data as an unsigned short
+//        out.write(shortToBytes(bytes.length & 0xffff));
+//        //Then write the bytes
+//        out.write(bytes);
+//    }
 
     private static String printSubList(byte[] bytes, int target, int radius) {
         int start = MathUtils.clamp(target - radius, 0, bytes.length - 1);

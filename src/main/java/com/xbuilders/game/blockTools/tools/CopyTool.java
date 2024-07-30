@@ -7,6 +7,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.game.blockTools.PrefabUtils;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -68,20 +69,21 @@ public class CopyTool extends BlockTool {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-//        if (action == GLFW.GLFW_RELEASE) {
-//            if (key == GLFW.GLFW_KEY_S) {
-//                System.out.println("Saving clipboard");
-//                GameScene.pauseGame();
-//                PrefabUtils.savePrefabToFileDialog(PasteTool.clipboard);
-//                return true;
-//            } else if (key == GLFW.GLFW_KEY_L) {
-//                System.out.println("Loading clipboard");
-//                GameScene.pauseGame();
-//                PasteTool.clipboard = PrefabUtils.loadPrefabFromFileDialog();
-//                PasteTool.updateMesh();
-//                return true;
-//            }
-//        }
+        if (action == GLFW.GLFW_RELEASE) {
+            //Only activate with Ctrl+; or Ctrl+L
+            if (key == GLFW.GLFW_KEY_SEMICOLON && mods == (GLFW.GLFW_MOD_CONTROL)) {
+                System.out.println("Saving clipboard");
+                GameScene.pauseGame();
+                PrefabUtils.savePrefabToFileDialog(PasteTool.clipboard);
+                return true;
+            } else if (key == GLFW.GLFW_KEY_L && mods == (GLFW.GLFW_MOD_CONTROL)) {
+                System.out.println("Loading clipboard");
+                GameScene.pauseGame();
+                PasteTool.clipboard = PrefabUtils.loadPrefabFromFileDialog();
+                PasteTool.updateMesh();
+                return true;
+            }
+        }
         return false;
     }
 }
