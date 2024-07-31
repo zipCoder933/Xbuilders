@@ -13,14 +13,12 @@ import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -446,10 +444,6 @@ public class MinecartEntityLink extends EntityLink {
 
         ArrayList<Vector3i> steps = new ArrayList<>();
 
-
-        @Override
-        public void toBytes(OutputStream fout) throws IOException {
-        }
 
         private void stop(Vector3i position) {
             steps.clear();

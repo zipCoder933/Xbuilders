@@ -41,7 +41,7 @@ public class ChunkSavingLoadingUtils {
     public static final int FILE_VERSION = 0;
 
 
-    public static final long ENTITY_MAX_BYTES = (long) (Math.pow(2, 32) - 1); //Unsigned int
+    public static final int ENTITY_MAX_BYTES = Integer.MAX_VALUE - 8; //this is the max size for a java array
     public static int BLOCK_DATA_MAX_BYTES = (int) (Math.pow(2, 16) - 1); //Unsigned short
 
 
@@ -77,16 +77,28 @@ public class ChunkSavingLoadingUtils {
         return new BlockData(data);
     }
 
-//    public static void writeEntity(Entity entity, OutputStream out) throws IOException {
-//        byte[] bytes = entity.toBytes();
-//        if(bytes.length > ENTITY_MAX_BYTES) {
-//            throw new IllegalArgumentException("Entity too large: " + bytes.length);
-//        }
-//        //First write the length of the block data as an unsigned short
-//        out.write(shortToBytes(bytes.length & 0xffff));
-//        //Then write the bytes
-//        out.write(bytes);
-//    }
+    public static void writeEntity(byte[] entityBytes, OutputStream out) throws IOException {
+        //We dont have to check if the entity is out of bounds because we would be going over the max size anyway
+        if (entityBytes == null) {
+            out.write(new byte[]{0, 0, 0, 0});//Just write 0 for the length
+            return;
+        }
+        //First write the length
+        out.write(intToBytes(entityBytes.length));
+        //Then write the bytes
+        out.write(entityBytes);
+    }
+
+    public static byte[] readEntity(byte[] bytes, AtomicInteger start) {
+        int length = bytesToInt(bytes[start.get()], bytes[start.get() + 1], bytes[start.get() + 2], bytes[start.get() + 3]);
+        start.set(start.get() + 4);
+
+        byte[] data = new byte[length];
+        System.arraycopy(bytes, start.get(), data, 0, length);
+        start.set(start.get() + length);
+
+        return data;
+    }
 
     private static String printSubList(byte[] bytes, int target, int radius) {
         int start = MathUtils.clamp(target - radius, 0, bytes.length - 1);
@@ -142,7 +154,7 @@ public class ChunkSavingLoadingUtils {
         entity.updatePosition();
         writeChunkVoxelCoords(out2, entity.chunkPosition.chunkVoxel);
 
-        entity.toBytes(filteredOut);
+        filteredOut.write(entity.toBytes()); //TODO: Change block data and entity data to write without the filteredoutputstream
         out2.write(NEWLINE_BYTE);
     }
 

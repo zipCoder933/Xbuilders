@@ -10,12 +10,10 @@ import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.engine.world.wcc.WCCf;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
@@ -124,7 +122,8 @@ public abstract class Entity {
     public abstract void initializeOnDraw(byte[] bytes);
 
 
-    public void toBytes(OutputStream fout) throws IOException {
+    public byte[] toBytes() throws IOException {
+        return null;
     }
 
     public void writeState(OutputStream fout) throws IOException {

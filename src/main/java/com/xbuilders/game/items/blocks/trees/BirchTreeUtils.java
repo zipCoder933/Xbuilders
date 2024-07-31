@@ -12,6 +12,7 @@ import com.xbuilders.game.MyGame;
 
 import java.util.Random;
 
+import static com.xbuilders.game.items.blocks.trees.TreeUtils.WAIT_TIME;
 import static com.xbuilders.game.items.blocks.trees.TreeUtils.randomInt;
 
 /**
@@ -23,7 +24,7 @@ public class BirchTreeUtils {
         @Override
         public void run(int x, int y, int z) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(WAIT_TIME);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

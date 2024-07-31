@@ -1,6 +1,5 @@
 package com.xbuilders.engine.multiplayer;
 
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
@@ -10,6 +9,7 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.*;
@@ -20,9 +20,28 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.BiConsumer;
 
+//    public void read() {
+//        readLock.lock();
+//        try {
+//// Perform read operations
+//        } finally {
+//            readLock.unlock();
+//        }
+//    }
+//
+//    public void write() {
+//        writeLock.lock();
+//        try {
+//// Perform write operations
+//        } finally {
+//            writeLock.unlock();
+//        }
+//    }
+
 public class PendingMultiplayerChanges {
     HashMap<Vector3i, BlockHistory> blockChanges = new HashMap<>();
-    HashMap<Entity, EntityChange> entityChanges = new HashMap<>();
+
+    HashMap<Vector3f, Entity> entityCreation = new HashMap<>();
 
     public long rangeChangesUpdate;
     public long allChangesUpdate;
@@ -63,28 +82,11 @@ public class PendingMultiplayerChanges {
     protected final Lock readLock = readWriteLock.readLock();
     protected final Lock writeLock = readWriteLock.writeLock();
 
-//    public void read() {
-//        readLock.lock();
-//        try {
-//// Perform read operations
-//        } finally {
-//            readLock.unlock();
-//        }
-//    }
-//
-//    public void write() {
-//        writeLock.lock();
-//        try {
-//// Perform write operations
-//        } finally {
-//            writeLock.unlock();
-//        }
-//    }
 
     public void addEntityChange(Entity entity, int mode) {
         writeLock.lock();
         try {
-            entityChanges.put(entity, new EntityChange(entity, mode));
+            if (mode == GameServer.ENTITY_CREATED) entityCreation.put(entity.worldPosition, entity);
             changeEvent();
         } finally {
             writeLock.unlock();
@@ -155,16 +157,15 @@ public class PendingMultiplayerChanges {
         ChunkSavingLoadingUtils.writeBlockData(change.data, baos);
     }
 
-    public void entityChangeRecord(OutputStream baos, Entity entity, int mode) throws IOException {
-//        baos.write(new byte[]{GameServer.VOXEL_BLOCK_CHANGE});
-//        baos.write(ByteUtils.floatToBytes(entity.lastPosition.x));
-//        baos.write(ByteUtils.floatToBytes(entity.lastPosition.y));
-//        baos.write(ByteUtils.floatToBytes(entity.lastPosition.z));
-//        baos.write(ByteUtils.shortToBytes(entity.link.id));
-//        if (mode == GameServer.ENTITY_UPDATED) {
-//            entity.writeState(baos);
-//        }
-//        else if (mode == GameServer.ENTITY_CREATED) entity.toBytes(baos);
+    public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
+        baos.write(new byte[]{entityOperation});
+        baos.write(ByteUtils.floatToBytes(entity.lastPosition.x));
+        baos.write(ByteUtils.floatToBytes(entity.lastPosition.y));
+        baos.write(ByteUtils.floatToBytes(entity.lastPosition.z));
+        baos.write(ByteUtils.shortToBytes(entity.link.id));
+        if (entityOperation == GameServer.ENTITY_UPDATED) {
+            entity.writeState(baos);
+        } else if (entityOperation == GameServer.ENTITY_CREATED) entity.toBytes();
     }
 
     public int sendAllChanges() {

@@ -27,14 +27,23 @@ public class MiscTester {
         System.out.println("Unsigned short: " + Arrays.toString(unsignedShortBytes));
         System.out.println("Reconstituted: " + reconstituted);
 
-        BlockData data = new BlockData(new byte[]{1, 2, 98, 12, 79, 1, 2, 3, 4, 1, 2, 98, 12, 79, 1, 2, 3, 4});
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ChunkSavingLoadingUtils.writeBlockData(data, baos);
-        byte[] bytes2 = baos.toByteArray();
-        BlockData data2 = ChunkSavingLoadingUtils.readBlockData(bytes2, new AtomicInteger(0));
+//        BlockData data = new BlockData(new byte[]{1, 2, 98, 12, 79, 1, 2, 3, 4, 1, 2, 98, 12, 79, 1, 2, 3, 4});
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ChunkSavingLoadingUtils.writeBlockData(data, baos);
+//        byte[] bytes2 = baos.toByteArray();
+//        BlockData reconstBytes = ChunkSavingLoadingUtils.readBlockData(bytes2, new AtomicInteger(0));
 
-        System.out.println(data);
-        System.out.println(data2);
+
+        byte[] data = new byte[]{1, 2, 98, 12, 79, 1, 2, 3, 4, 1, 2, 98, 12, 79, 1, 2, 3, 4, 14};
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        ChunkSavingLoadingUtils.writeEntity(data, baos);
+        byte[] bytes = baos.toByteArray();
+
+        byte[] reconstBytes = ChunkSavingLoadingUtils.readEntity(bytes, new AtomicInteger(0));
+
+        System.out.println(Arrays.toString(data));
+        System.out.println(Arrays.toString(reconstBytes));
     }
 
     public static byte[] shortToBytes(final int x) {

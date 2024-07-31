@@ -34,10 +34,12 @@ public class GameServer extends Server<PlayerClient> {
     public static final byte PLAYER_CHAT = -125;
     public static final byte WORLD_CHUNK = -124;
     public static final byte READY_TO_START = -123;
+
     public static final byte VOXEL_BLOCK_CHANGE = -122;
     public static final byte ENTITY_CREATED = -121;
     public static final byte ENTITY_DELETED = -120;
     public static final byte ENTITY_UPDATED = -119;
+
     public static final byte PLAYER_CHUNK_DISTANCE = -118;
 
     NetworkJoinRequest req;

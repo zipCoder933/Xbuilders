@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.xbuilders.engine.utils.math.RandomUtils.randInt;
+import static com.xbuilders.game.items.blocks.trees.TreeUtils.WAIT_TIME;
 
 /**
  *
@@ -26,7 +27,7 @@ public class JungleTreeUtils {
         @Override
         public void run(int x, int y, int z) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(WAIT_TIME);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

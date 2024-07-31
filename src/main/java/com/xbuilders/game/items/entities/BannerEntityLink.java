@@ -13,7 +13,6 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.blocks.RenderType;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * @author zipCoder933
@@ -56,14 +55,13 @@ public class BannerEntityLink extends EntityLink {
 
 
         @Override
-        public void toBytes(OutputStream fout) throws IOException {
-            fout.write((byte) xzOrientation);
-            fout.write((byte) (againstFencepost ? 1 : 0));
+        public byte[] toBytes() throws IOException {
+            return new byte[]{(byte) xzOrientation, (byte) (againstFencepost ? 1 : 0)};
         }
 
         @Override
         public void initializeOnDraw(byte[] bytes) {
-            if (bytes != null) {
+            if (bytes != null && bytes.length == 2) {
                 xzOrientation = bytes[0];
                 againstFencepost = (bytes[1] == 1);
             } else {

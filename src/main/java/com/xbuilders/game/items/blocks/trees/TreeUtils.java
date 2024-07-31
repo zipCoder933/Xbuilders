@@ -20,6 +20,8 @@ import java.util.Random;
  */
 class TreeUtils {
 
+    public static final long WAIT_TIME = 60 * 1000;
+
     public static int randomInt(Random rand, int min, int max) {
         return rand.nextInt((max - min) + 1) + min;
     }
