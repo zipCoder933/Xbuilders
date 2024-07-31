@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Edison Light",
+        "id": 55,
+        "texture": {
+            "neg_y": "edison light",
+            "pos_x": "edison light",
+            "pos_z": "edison light",
+            "neg_z": "edison light",
+            "neg_x": "edison light",
+            "pos_y": "edison light"
+        },
+        "solid": true,
+        "opaque": true,
+        "torch": 15,
+        "type": 0
+    },
+    {
+        "name": "Electric Light",
+        "id": 174,
+        "texture": {
+            "neg_y": "electric light",
+            "pos_x": "electric light",
+            "pos_z": "electric light",
+            "neg_z": "electric light",
+            "neg_x": "electric light",
+            "pos_y": "electric light"
+        },
+        "solid": true,
+        "opaque": true,
+        "torch": 15,
+        "type": 0
+    },
+    {
+        "name": "Sea Light",
+        "id": 13,
+        "texture": {
+            "neg_y": "sea light",
+            "pos_x": "sea light",
+            "pos_z": "sea light",
+            "neg_z": "sea light",
+            "neg_x": "sea light",
+            "pos_y": "sea light"
+        },
+        "solid": true,
+        "opaque": true,
+        "torch": 15,
+        "type": 0
+    }
+]

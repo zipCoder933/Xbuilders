@@ -127,7 +127,7 @@ public class MyGame extends Game {
         this.window = window;
         try {
             hotbar = new Hotbar(ctx, window);
-            inventory = new Inventory(ctx, ItemList.getAllItems(), window,  hotbar);
+            inventory = new Inventory(ctx, ItemList.getAllItems(), window, hotbar);
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
@@ -177,7 +177,10 @@ public class MyGame extends Game {
         Block[] allBlocks = new Block[0];
         try {
             for (File file : jsonDirectory.listFiles()) {
+
                 if (!file.getName().endsWith(".json")) continue;
+                if (!Main.devMode && file.getName().contains("devmode")) continue;
+
                 String jsonString = Files.readString(file.toPath());
                 Block[] jsonBlocks2 = JsonManager.gson_jsonBlock.fromJson(jsonString, Block[].class);
                 if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
@@ -483,8 +486,7 @@ public class MyGame extends Game {
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_DRY_GRASS_TOP, BLOCK_TALL_DRY_GRASS);
 
 
-
-        Block lava =  ItemList.getBlock(BLOCK_LAVA);//TODO: Lava texture is not animated
+        Block lava = ItemList.getBlock(BLOCK_LAVA);//TODO: Lava texture is not animated
         System.out.println("Lava animation length: " + lava.texture.getNEG_X().animationLength);
     }
 

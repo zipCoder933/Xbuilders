@@ -72,6 +72,10 @@ public class PasteTool extends BlockTool {
 
     public void activate() {
         cursorRay.disableBoundaryMode();
+        if(PasteTool.clipboard == null) {
+            PasteTool.clipboard = new ChunkVoxels(0, 0, 0);
+        }
+        PasteTool.updateMesh();
         offsetMode = 1;
         positioningMode = true;
         additionMode = true;

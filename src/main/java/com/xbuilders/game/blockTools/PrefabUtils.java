@@ -94,7 +94,7 @@ public class PrefabUtils {
                 ErrorHandler.report(e);
             }
         }
-        return null;
+        return new ChunkVoxels(0, 0, 0);
     }
 
     static FilenameFilter filter = new FilenameFilter() {

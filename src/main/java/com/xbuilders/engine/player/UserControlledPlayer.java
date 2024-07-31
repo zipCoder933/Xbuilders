@@ -40,8 +40,8 @@ public class UserControlledPlayer extends Player {
 
     public boolean runningMode;
     final static float UP_DOWN_SPEED = 14f;
-    final float WALK_SPEED = 7f;
-    final float RUN_SPEED = 15f;
+    final float WALK_SPEED = 6.9f;
+    final float RUN_SPEED = 14f;
     final float FLY_WALK_SPEED = 15f;
     final float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 

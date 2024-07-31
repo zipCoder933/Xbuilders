@@ -9,10 +9,12 @@ import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import org.joml.Vector3i;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -150,7 +152,7 @@ public class PendingMultiplayerChanges {
         baos.write(ByteUtils.intToBytes(worldPos.y));
         baos.write(ByteUtils.intToBytes(worldPos.z));
         baos.write(ByteUtils.shortToBytes(change.currentBlock.id));
-        if (change.data != null) baos.write(change.data.toByteArray());
+        ChunkSavingLoadingUtils.writeBlockData(change.data, baos);
     }
 
     public void entityChangeRecord(OutputStream baos, Entity entity, int mode) throws IOException {
@@ -238,28 +240,28 @@ public class PendingMultiplayerChanges {
 
     public static void readBlockChange(byte[] receivedData, BiConsumer<Vector3i, BlockHistory> newEvent) {
         //Split the recievedData by the newline byte
-        int i = 0;
-        while (i < receivedData.length) {
-            if (receivedData[i] == GameServer.VOXEL_BLOCK_CHANGE) {
-                int x = ByteUtils.bytesToInt(receivedData[i + 1], receivedData[i + 2], receivedData[i + 3], receivedData[i + 4]);
-                int y = ByteUtils.bytesToInt(receivedData[i + 5], receivedData[i + 6], receivedData[i + 7], receivedData[i + 8]);
-                int z = ByteUtils.bytesToInt(receivedData[i + 9], receivedData[i + 10], receivedData[i + 11], receivedData[i + 12]);
-                int blockID = ByteUtils.bytesToShort(receivedData[i + 13], receivedData[i + 14]);
-                i += 15;
-                List<Byte> data = new ArrayList<>();
-                while (i < receivedData.length && receivedData[i] != GameServer.VOXEL_BLOCK_CHANGE) {
-                    data.add(receivedData[i]);
-                    i++;
-                }
+        AtomicInteger start = new AtomicInteger(0);
+        while (start.get() < receivedData.length) {
+            if (receivedData[start.get()] == GameServer.VOXEL_BLOCK_CHANGE) {
 
                 BlockHistory blockHistory = new BlockHistory();
-                blockHistory.currentBlock = ItemList.getBlock((short) blockID);
                 blockHistory.fromNetwork = true;
 
-                blockHistory.data = new BlockData(data);
+                //XYZ coordinates
+                int x = ByteUtils.bytesToInt(receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3], receivedData[start.get() + 4]);
+                int y = ByteUtils.bytesToInt(receivedData[start.get() + 5], receivedData[start.get() + 6], receivedData[start.get() + 7], receivedData[start.get() + 8]);
+                int z = ByteUtils.bytesToInt(receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11], receivedData[start.get() + 12]);
+
+                //Block ID
+                int blockID = ByteUtils.bytesToShort(receivedData[start.get() + 13], receivedData[start.get() + 14]);
+                blockHistory.currentBlock = ItemList.getBlock((short) blockID);
+                start.set(start.get() + 15);
+
+                //Block data
+                blockHistory.data = ChunkSavingLoadingUtils.readBlockData(receivedData, start);
                 blockHistory.updateBlockData = true;
 
-
+                //Add the block to the list
                 Vector3i position = new Vector3i(x, y, z);
                 newEvent.accept(position, blockHistory);
             }

@@ -612,6 +612,22 @@
         "type": 0
     },
     {
+        "name": "Sea Grass",
+        "id": 253,
+        "texture": {
+            "neg_y": "sea grass",
+            "pos_x": "sea grass",
+            "pos_z": "sea grass",
+            "neg_z": "sea grass",
+            "neg_x": "sea grass",
+            "pos_y": "sea grass"
+        },
+        "solid": false,
+        "opaque": false,
+        "torch": 0,
+        "type": "sprite"
+    },
+    {
         "name": "Jungle Fence",
         "id": 40,
         "texture": {
@@ -819,22 +835,6 @@
         "solid": true,
         "opaque": true,
         "torch": 0,
-        "type": 0
-    },
-    {
-        "name": "Edison Light",
-        "id": 55,
-        "texture": {
-            "neg_y": "edison light",
-            "pos_x": "edison light",
-            "pos_z": "edison light",
-            "neg_z": "edison light",
-            "neg_x": "edison light",
-            "pos_y": "edison light"
-        },
-        "solid": true,
-        "opaque": true,
-        "torch": 15,
         "type": 0
     },
     {
