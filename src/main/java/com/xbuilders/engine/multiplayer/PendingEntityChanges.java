@@ -14,8 +14,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+//This WILL be another class for 2 reasons
+//1) It is less complicated this way
+//2) the blockPipeline does not need to know anything aout syncing local entities
 public class PendingEntityChanges {
-
     HashSet<Entity> entityCreation = new HashSet<>();
     HashSet<Entity> entityDeletion = new HashSet<>();
     HashSet<Entity> entityUpdate = new HashSet<>();
