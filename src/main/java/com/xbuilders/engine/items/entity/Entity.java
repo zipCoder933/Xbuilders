@@ -5,6 +5,7 @@
 package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.multiplayer.EntityMultiplayerProperties;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
@@ -76,7 +77,7 @@ public abstract class Entity {
     public EntityAABB aabb;
     public final WCCf chunkPosition;
     public final Vector3f worldPosition;
-    public final Vector3f lastPosition = new Vector3f();
+    public final EntityMultiplayerProperties multiplayerProperties = new EntityMultiplayerProperties();
     private final Vector3f prevWorldPosition;//KEEP PRIVATE
 
     //Model view projection
@@ -126,7 +127,8 @@ public abstract class Entity {
         return null;
     }
 
-    public void writeState(OutputStream fout) throws IOException {
+    public byte[] stateToBytes() throws IOException {
+        return null;
     }
 
     public void loadState(byte[] state) throws IOException {

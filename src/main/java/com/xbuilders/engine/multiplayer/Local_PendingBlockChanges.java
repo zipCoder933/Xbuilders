@@ -10,10 +10,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.Map;
 
-public class LocalPendingChanges extends PendingMultiplayerChanges {
+public class Local_PendingBlockChanges extends PendingBlockChanges {
     public boolean needsSaving = false;
 
-    public LocalPendingChanges(Player player) {
+    public Local_PendingBlockChanges(Player player) {
         super(null, player);
     }
 

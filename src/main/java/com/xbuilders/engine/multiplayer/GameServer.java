@@ -214,8 +214,8 @@ public class GameServer extends Server<PlayerClient> {
                 } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
                     worldInfoEvent(receivedData);
                 } else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
-                    PendingMultiplayerChanges.readBlockChange(receivedData, (pos, blockHist) -> {
-                        if (PendingMultiplayerChanges.changeWithinReach(userPlayer, pos)) {
+                    PendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
+                        if (PendingBlockChanges.changeWithinReach(userPlayer, pos)) {
                             GameScene.player.eventPipeline.addEvent(pos, blockHist);
                         } else {//Cache changes if they are out of bounds
                             GameScene.player.eventPipeline.pendingLocalChanges.addBlockChange(pos, blockHist);

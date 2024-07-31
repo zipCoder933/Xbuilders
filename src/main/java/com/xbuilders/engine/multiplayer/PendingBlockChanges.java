@@ -1,6 +1,5 @@
 package com.xbuilders.engine.multiplayer;
 
-import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
@@ -9,7 +8,6 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
-import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.*;
@@ -38,17 +36,15 @@ import java.util.function.BiConsumer;
 //        }
 //    }
 
-public class PendingMultiplayerChanges {
+public class PendingBlockChanges {
     HashMap<Vector3i, BlockHistory> blockChanges = new HashMap<>();
-
-    HashMap<Vector3f, Entity> entityCreation = new HashMap<>();
 
     public long rangeChangesUpdate;
     public long allChangesUpdate;
     NetworkSocket socket;
     Player player;
 
-    public PendingMultiplayerChanges(NetworkSocket socket, Player player) {
+    public PendingBlockChanges(NetworkSocket socket, Player player) {
         this.socket = socket;
         this.player = player;
     }
@@ -81,17 +77,6 @@ public class PendingMultiplayerChanges {
     protected final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     protected final Lock readLock = readWriteLock.readLock();
     protected final Lock writeLock = readWriteLock.writeLock();
-
-
-    public void addEntityChange(Entity entity, int mode) {
-        writeLock.lock();
-        try {
-            if (mode == GameServer.ENTITY_CREATED) entityCreation.put(entity.worldPosition, entity);
-            changeEvent();
-        } finally {
-            writeLock.unlock();
-        }
-    }
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         addBlockChange(worldPos, new BlockHistory(block, data));
@@ -155,17 +140,6 @@ public class PendingMultiplayerChanges {
         baos.write(ByteUtils.intToBytes(worldPos.z));
         baos.write(ByteUtils.shortToBytes(change.currentBlock.id));
         ChunkSavingLoadingUtils.writeBlockData(change.data, baos);
-    }
-
-    public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
-        baos.write(new byte[]{entityOperation});
-        baos.write(ByteUtils.floatToBytes(entity.lastPosition.x));
-        baos.write(ByteUtils.floatToBytes(entity.lastPosition.y));
-        baos.write(ByteUtils.floatToBytes(entity.lastPosition.z));
-        baos.write(ByteUtils.shortToBytes(entity.link.id));
-        if (entityOperation == GameServer.ENTITY_UPDATED) {
-            entity.writeState(baos);
-        } else if (entityOperation == GameServer.ENTITY_CREATED) entity.toBytes();
     }
 
     public int sendAllChanges() {

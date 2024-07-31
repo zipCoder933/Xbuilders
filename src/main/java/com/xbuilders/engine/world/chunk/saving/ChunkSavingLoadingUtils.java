@@ -154,7 +154,9 @@ public class ChunkSavingLoadingUtils {
         entity.updatePosition();
         writeChunkVoxelCoords(out2, entity.chunkPosition.chunkVoxel);
 
-        filteredOut.write(entity.toBytes()); //TODO: Change block data and entity data to write without the filteredoutputstream
+        byte[] entityBytes = entity.toBytes();
+        if (entityBytes != null)
+            filteredOut.write(entityBytes); //TODO: Change block data and entity data to write without the filteredoutputstream
         out2.write(NEWLINE_BYTE);
     }
 
