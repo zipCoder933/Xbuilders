@@ -6,8 +6,11 @@ import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
+import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkImage;
+import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,10 @@ public abstract class BlockTool {
     public final String name;
     public final BlockTools blockTools;
     public final CursorRay cursorRay;
+    public boolean hasOptions = false;
+
+    public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
+    }
 
     public Block getSelectedBlock() {
         if (Main.game.getSelectedItem() == null || Main.game.getSelectedItem().getType() != ItemType.BLOCK) return null;

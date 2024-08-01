@@ -32,7 +32,8 @@ public class BlockToolPallete {
     String toolDescription = "";
 
     int menuWidth = 400;
-    int menuHeight = 100;
+    int menu1Height = 100;
+    int menu2Height = 100;
 
     List<BlockTool> toolsList;
 
@@ -55,7 +56,16 @@ public class BlockToolPallete {
             nk_style_set_font(ctx, Theme.font_9);
 
 
-            nk_rect(window.getWidth() / 2 - (menuWidth / 2), window.getHeight() / 2 - (menuHeight / 2), menuWidth, menuHeight,
+            BlockTool selectedTool = tools.getSelectedTool();
+            boolean showOptions = selectedTool.hasOptions;
+
+            float menu1X = window.getWidth() / 2 - (menuWidth / 2);
+            float menu1Y = window.getHeight() / 2 - (menu1Height / 2) - menu1Height;
+            float menuHeight = menu1Height;
+            if (showOptions) menuHeight += menu2Height;
+
+            nk_rect(menu1X, menu1Y,
+                    menuWidth, menuHeight,
                     windowSize);
 
             //Set window background color
@@ -74,7 +84,7 @@ public class BlockToolPallete {
                 int totalRows = 0;
                 rows:
                 while (true) {
-                    nk_layout_row_dynamic(ctx, buttonWidth.width, palleteMaxColumns);
+                    boolean firstColunm = true;
                     totalRows++;
                     cols:
                     for (int i = 0; i < palleteMaxColumns; i++) {
@@ -91,27 +101,37 @@ public class BlockToolPallete {
                         }
 
                         if (tool != null && tool.getNKIcon() != null) {
+                            if (firstColunm) {
+                                nk_layout_row_dynamic(ctx, buttonWidth.width, palleteMaxColumns);
+                                firstColunm = false;
+                            }
                             if (Nuklear.nk_widget_is_hovered(ctx)) {
                                 toolDescription = tool.toolDescription();
                                 tools.selectTool(itemID);
                             }
                             Nuklear.nk_button_image(ctx, tool.getNKIcon());
-                        } else if (Nuklear.nk_button_text(ctx, "")) {
-                            tools.selectTool(itemID);
                         }
 
                         itemID++;
                     }
                 }
                 buttonWidth.measure(ctx, stack);
-                menuHeight = (int) ((totalRows * buttonWidth.width) - 1) + 20;
-
+                menu1Height = (int) ((totalRows * buttonWidth.width) - 1) + 20;
                 Theme.resetEntireButtonStyle(ctx);
+
+                if (showOptions) optionsGroup(stack, windowSize, selectedTool);
             }
             nk_end(ctx);
         }
     }
 
+    private void optionsGroup(MemoryStack stack, NkRect windowSize, BlockTool tool) {
+        nk_layout_row_dynamic(ctx, menu2Height + 20, 1);//Super important
+        if (Nuklear.nk_group_begin(ctx, "Options", Nuklear.NK_WINDOW_TITLE)) {
+            tool.drawOptionsUI(stack, ctx, windowSize);
+            Nuklear.nk_group_end(ctx);
+        }
+    }
 
     public boolean isOpen() {
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT_ALT);

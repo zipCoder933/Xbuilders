@@ -71,6 +71,11 @@ class GameMenu extends GameUIElement {
         }
     }
 
+    @Override
+    public boolean isOpen() {
+        return true;
+    }
+
     private void openHelpPage() {
         GameScene.pauseGame();
         File helpHtmlPage = ResourceUtils.resource("help-menu/help.html");

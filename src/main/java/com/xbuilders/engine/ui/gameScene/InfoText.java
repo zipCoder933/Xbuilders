@@ -95,6 +95,11 @@ public class InfoText extends GameUIElement {
         }
     }
 
+    @Override
+    public boolean isOpen() {
+        return true;
+    }
+
     ArrayList<ChatMessage> chatHistory = new ArrayList<>();
 
     public void addToHistory(String text) {

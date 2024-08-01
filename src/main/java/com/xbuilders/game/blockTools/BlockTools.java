@@ -68,6 +68,11 @@ public class BlockTools extends GameUIElement {
         pallete.draw(stack);
     }
 
+    @Override
+    public boolean isOpen() {
+        return true;
+    }
+
 
     /**
      * @param scroll

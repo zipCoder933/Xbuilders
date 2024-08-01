@@ -56,21 +56,21 @@ public class Hotbar extends GameUIElement {
         ctx.style().window().border_color().set(Theme.transparent);
         ctx.style().button().padding().set(0, 0);
         nk_style_set_font(ctx, Theme.font_9);
-
-        // <editor-fold defaultstate="collapsed" desc="Draw title text">
-        nk_rect(
-                window.getWidth() / 2 - (menuWidth / 2),
-                window.getHeight() - menuHeight - 20 - 20,
-                menuWidth, 20, windowDims2);
-        ctx.style().window().padding().set(0, 0);
-        if (nk_begin(ctx, "hotbarA", windowDims2, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
-            nk_layout_row_dynamic(ctx, 40, 1);
-            if (playerInfo.playerBackpack[getSelectedItemIndex()] != null) {
-                nk_text(ctx, playerInfo.playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
-            }
-        }
-        nk_end(ctx);
-        // </editor-fold>
+//
+//        // <editor-fold defaultstate="collapsed" desc="Draw title text">
+//        nk_rect(
+//                window.getWidth() / 2 - (menuWidth / 2),
+//                window.getHeight() - menuHeight - 20 - 20,
+//                menuWidth, 20, windowDims2);
+//        ctx.style().window().padding().set(0, 0);
+//        if (nk_begin(ctx, "hotbarA", windowDims2, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
+//            nk_layout_row_dynamic(ctx, 40, 1);
+//            if (playerInfo.playerBackpack[getSelectedItemIndex()] != null) {
+//                nk_text(ctx, playerInfo.playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
+//            }
+//        }
+//        nk_end(ctx);
+//        // </editor-fold>
 
         nk_rect(
                 window.getWidth() / 2 - (menuWidth / 2),
@@ -113,6 +113,11 @@ public class Hotbar extends GameUIElement {
         nk_end(ctx);
         Theme.resetEntireButtonStyle(ctx);
         Theme.resetWindowPadding(ctx);
+    }
+
+    @Override
+    public boolean isOpen() {
+        return true;
     }
 
     protected void changeSelectedIndex(float increment) {

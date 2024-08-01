@@ -16,6 +16,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.game.UI.FileDialog;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.blockTools.BlockTools;
@@ -94,9 +95,11 @@ public class MyGame extends Game {
 
 
     public boolean releaseMouse() {
-        return blockTools.releaseMouse();
+        return (fileDialog.isOpen() && fileDialog.releaseMouse)
+                || blockTools.releaseMouse();
     }
 
+    public FileDialog fileDialog;
     JsonManager json;
     GameInfo gameInfo;
 
@@ -115,8 +118,11 @@ public class MyGame extends Game {
 
     @Override
     public void uiDraw(MemoryStack stack) {
-        inventory.draw(stack);
-        if (!inventory.isOpen()) {
+        if (fileDialog.isOpen()) {
+            fileDialog.draw(stack);
+        } else if (inventory.isOpen()) {
+            inventory.draw(stack);
+        } else {
             blockTools.draw(stack);
             hotbar.draw(stack);
         }
@@ -129,6 +135,7 @@ public class MyGame extends Game {
             hotbar = new Hotbar(ctx, window);
             inventory = new Inventory(ctx, ItemList.getAllItems(), window, hotbar);
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
+            fileDialog = new FileDialog(ctx, window);
         } catch (IOException ex) {
             Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
         }

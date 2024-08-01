@@ -18,8 +18,12 @@ public abstract class GameUIElement {
         this.ctx = ctx;
         this.window = window;
     }
+
+    public boolean releaseMouse = false;
     public final NkContext ctx;
     public final NKWindow window;
 
     public abstract void draw(MemoryStack stack);
+
+    public abstract boolean isOpen();
 }

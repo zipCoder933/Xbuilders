@@ -9,16 +9,49 @@ import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.blockTools.PrefabUtils;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+
+import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class CopyTool extends BlockTool {
     public CopyTool(BlockTools tools, CursorRay cursorRay) {
         super("Copy", tools, cursorRay);
+        hasOptions = true;
         try {
             setIcon(ResourceUtils.resource("blockTools\\copy.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    int prefabLoadMode = 0;
+    final int LOAD_PREFAB = 1;
+    final int SAVE_PREFAB = 2;
+
+    @Override
+    public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
+        nk_layout_row_dynamic(ctx, 30, 2);
+        if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
+//            Main.game.fileDialog.show(ResourceUtils.resource(""), FileDialog.MODE_OPEN, (file) -> {
+//                System.out.println("SELECTED "+file.getAbsolutePath());
+//            });
+            GameScene.pauseGame();
+            prefabLoadMode = LOAD_PREFAB;
+            PasteTool.clipboard = PrefabUtils.loadPrefabFromFileDialog();
+            PasteTool.updateMesh();
+        }
+        if (Nuklear.nk_button_label(ctx, "Save Prefab")) {
+//            Main.game.fileDialog.show(ResourceUtils.resource(""), FileDialog.MODE_SAVE, (file) -> {
+//                System.out.println("SELECTED "+file.getAbsolutePath());
+//            });
+            prefabLoadMode = SAVE_PREFAB;
+            GameScene.pauseGame();
+            PrefabUtils.savePrefabToFileDialog(PasteTool.clipboard);
         }
     }
 
@@ -69,21 +102,6 @@ public class CopyTool extends BlockTool {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE) {
-            //Only activate with Ctrl+; or Ctrl+L
-            if (key == GLFW.GLFW_KEY_SEMICOLON && mods == (GLFW.GLFW_MOD_CONTROL)) {
-                System.out.println("Saving clipboard");
-                GameScene.pauseGame();
-                PrefabUtils.savePrefabToFileDialog(PasteTool.clipboard);
-                return true;
-            } else if (key == GLFW.GLFW_KEY_L && mods == (GLFW.GLFW_MOD_CONTROL)) {
-                System.out.println("Loading clipboard");
-                GameScene.pauseGame();
-                PasteTool.clipboard = PrefabUtils.loadPrefabFromFileDialog();
-                PasteTool.updateMesh();
-                return true;
-            }
-        }
         return false;
     }
 }

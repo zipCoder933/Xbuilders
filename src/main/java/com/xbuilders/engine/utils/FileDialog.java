@@ -12,6 +12,12 @@ public class FileDialog {
             java.awt.FileDialog fd = new java.awt.FileDialog(frame, "Choose a file", java.awt.FileDialog.LOAD);
             setupConsumer.accept(fd);
             fd.setVisible(true);
+            //Set the file dialog to the front
+            frame.toFront();
+            fd.toFront();
+            //Set always on top
+            frame.setAlwaysOnTop(true);
+            fd.setAlwaysOnTop(true);
 
             File f = null;
             if (fd.getDirectory() != null && fd.getFile() != null) f = new File(fd.getDirectory(), fd.getFile());

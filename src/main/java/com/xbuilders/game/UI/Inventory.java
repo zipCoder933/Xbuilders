@@ -149,7 +149,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
     public boolean isOpen() {
         return isOpen;
-
     }
 
     public void setOpen(boolean open) {
