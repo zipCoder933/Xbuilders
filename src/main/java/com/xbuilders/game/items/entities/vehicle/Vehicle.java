@@ -7,6 +7,7 @@ package com.xbuilders.game.items.entities.vehicle;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.game.MyGame;
@@ -147,5 +148,14 @@ public abstract class Vehicle extends Entity {
     public abstract void onDestructionInitiated();
 
     public abstract void onDestructionCancel();
+
+    public byte[] stateToBytes() {
+        return ByteUtils.floatToBytes(rotationYDeg);
+    }
+
+    public void loadState(byte[] state) {
+        if(state.length != 4) return;
+        rotationYDeg = ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]);
+    }
 
 }

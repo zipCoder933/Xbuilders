@@ -157,7 +157,7 @@ public class GameScene implements WindowEvents {
     }
 
     public static void unpauseGame() {
-       if(Main.isFullscreen) Main.restoreWindow();
+        if (Main.isFullscreen) Main.restoreWindow();
     }
 
 
@@ -330,7 +330,10 @@ public class GameScene implements WindowEvents {
     }
 
     public void windowUnfocusEvent() {
-        ui.showGameMenu();
+        if (Main.isFullscreen) ui.showGameMenu();
+        else if (!GameScene.ui.menusAreOpen()) {
+            ui.showGameMenu();
+        }
         holdMouse = false;
     }
 
@@ -373,7 +376,7 @@ public class GameScene implements WindowEvents {
 
     public boolean mouseButtonEvent(int button, int action, int mods) {
         ui.mouseButtonEvent(button, action, mods);
-        if (!ui.allMenusAreOpen()) {
+        if (!ui.menusAreOpen()) {
             player.mouseButtonEvent(button, action, mods);
         }
         return true;
@@ -381,7 +384,7 @@ public class GameScene implements WindowEvents {
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         boolean letUIHandleScroll = true;
-        if (!ui.allMenusAreOpen()) {
+        if (!ui.menusAreOpen()) {
             letUIHandleScroll = !player.mouseScrollEvent(scroll, xoffset, yoffset);
         }
         if (letUIHandleScroll) ui.mouseScrollEvent(scroll, xoffset, yoffset);

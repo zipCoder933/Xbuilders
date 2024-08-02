@@ -37,6 +37,7 @@ import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.window.NKWindow;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
@@ -48,6 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.xbuilders.game.UI.Inventory.KEY_OPEN_INVENTORY;
 
 /**
  * @author zipCoder933
@@ -155,16 +158,15 @@ public class MyGame extends Game {
 
     @Override
     public boolean uiKeyEvent(int key, int scancode, int action, int mods) {
-        if (fileDialog.isOpen() && fileDialog.keyEvent(key, scancode, action, mods)) {
+        if (inventory.keyEvent(key, scancode, action, mods)) {//Inventory needs a wake up key
             return true;
-        } else if (inventory.isOpen() && inventory.keyEvent(key, scancode, action, mods)) {
+        } else if (fileDialog.keyEvent(key, scancode, action, mods)) {
             return true;
         } else if (blockTools.keyEvent(key, scancode, action, mods)) {
             return true;
         } else if (hotbar.keyEvent(key, scancode, action, mods)) {
             return true;
         }
-
         return false;
     }
 

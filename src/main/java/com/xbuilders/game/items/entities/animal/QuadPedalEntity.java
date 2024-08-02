@@ -2,13 +2,10 @@ package com.xbuilders.game.items.entities.animal;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.PositionLock;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
-
-import java.util.ArrayList;
 
 public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnimal {
 
@@ -37,6 +34,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
     protected float legXSpacing = 0.32f * SCALE;
     protected float legZSpacing = 0.9f * SCALE;
     protected float legYSpacing = -1.3f * SCALE;
+    public final PositionLock lock = new PositionLock(this, -1);
 
 
     @Override
@@ -53,15 +51,15 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
                 } else move();
 
                 if (GameScene.player.leftKeyPressed()) {
-                    yRotDegrees -= rotSpeed;
+                    rotationYDeg -= rotSpeed;
                 } else if (GameScene.player.rightKeyPressed()) {
-                    yRotDegrees += rotSpeed;
+                    rotationYDeg += rotSpeed;
                 }
             } else move();
 
 
             shader.bind();
-            float rotationRadians = (float) Math.toRadians(yRotDegrees);
+            float rotationRadians = (float) Math.toRadians(rotationYDeg);
             bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
             bodyMatrix.update();
@@ -107,13 +105,13 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
     @Override
     public boolean run_ClickEvent() {
         if (link.rideable) {
-            GameScene.player.positionLock = new PositionLock(this, 0);
+            GameScene.player.positionLock = lock;
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);
             } else {
                 if (distToPlayer < 5) {
-                    yRotDegrees = Math.toDegrees(getDirectionToPlayer());
+                    rotationYDeg = (float) Math.toDegrees(getDirectionToPlayer());
                 }
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 10 * 1000);
             }

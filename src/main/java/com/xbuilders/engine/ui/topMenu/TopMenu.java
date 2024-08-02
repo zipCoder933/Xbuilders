@@ -38,7 +38,7 @@ public class TopMenu {
         return page;
     }
 
-    final boolean loadWorldOnStartup = true;
+
 
     NKWindow window;
     public PopupMessage popupMessage;
@@ -103,7 +103,7 @@ public class TopMenu {
 
     public void render() {
         GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-        if (firsttime && loadWorldOnStartup && Main.devMode) {
+        if (firsttime && Main.loadWorldOnStartup && Main.devMode) {
             loadWorldOnInit__Dev();
             firsttime = false;
         }

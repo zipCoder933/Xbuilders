@@ -80,9 +80,9 @@ public class ByteUtils {
                  (byte) (intBits) };
      }
 
-     public static float bytesToFloat(byte[] bytes) {
+     public static float bytesToFloat(byte b1, byte b2, byte b3, byte b4) {
          int intBits =
-                 bytes[0] << 24 | (bytes[1] & 0xFF) << 16 | (bytes[2] & 0xFF) << 8 | (bytes[3] & 0xFF);
+                 b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
          return Float.intBitsToFloat(intBits);
      }
 

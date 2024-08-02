@@ -2,7 +2,6 @@ package com.xbuilders.game.items.entities.animal.mobile;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.window.BaseWindow;
 
 public abstract class LandAnimal extends Animal {
@@ -106,14 +105,14 @@ public abstract class LandAnimal extends Animal {
         if (null != currentAction.type) {
             switch (currentAction.type) {
                 case TURN:
-                    yRotDegrees = (yRotDegrees + currentAction.velocity);
+                    rotationYDeg = (rotationYDeg + currentAction.velocity);
                     break;
                 case WALK:
                     goForward(currentAction.velocity);
                     break;
                 case FOLLOW:
 
-                    yRotDegrees = Math.toDegrees(getDirectionToPlayer()) + random.noise(2f, -3, 3);
+                    rotationYDeg = (float)Math.toDegrees(getDirectionToPlayer()) + random.noise(2f, -3, 3);
 
                     if (distToPlayer < 15 && playerHasAnimalFeed()) {
                         if (currentAction.getTimeSinceCreatedMS() > 500

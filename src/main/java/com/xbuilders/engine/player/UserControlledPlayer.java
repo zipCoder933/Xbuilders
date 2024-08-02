@@ -3,6 +3,7 @@ package com.xbuilders.engine.player;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
@@ -76,10 +77,10 @@ public class UserControlledPlayer extends Player {
     private static final int KEY_ENABLE_FLYING = GLFW.GLFW_KEY_F;
     private static final int KEY_JUMP = GLFW.GLFW_KEY_SPACE;
 
-    private boolean keyInputAllowed(){
-        return allowKeyInput && !GameScene.ui.allMenusAreOpen();
+    private boolean keyInputAllowed() {
+        return allowKeyInput && !GameScene.ui.menusAreOpen();
     }
-    
+
     public boolean leftKeyPressed() {
         if (!keyInputAllowed()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
@@ -456,15 +457,20 @@ public class UserControlledPlayer extends Player {
                         w = camera.cursorRay.getHitPosPlusNormal();
                     }
 
-                    WCCi wcc = new WCCi();
-                    wcc.set(w);
-                    Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
-                    if (chunk != null) {
-                        chunk.markAsModifiedByUser();
-                        chunk.entities.placeNew(w, entity);
-                    }
+                    setEntity(entity, w);
                 }
             }
+        }
+    }
+
+    private void setEntity(EntityLink entity, Vector3i w) {
+        WCCi wcc = new WCCi();
+        wcc.set(w);
+        Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
+        if (chunk != null) {
+            chunk.markAsModifiedByUser();
+            Entity e = chunk.entities.placeNew(w, entity, null);
+            e.sendMultiplayer = true;//Tells the chunkEntitySet to send the entity to the clients
         }
     }
 

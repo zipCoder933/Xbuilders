@@ -3,6 +3,7 @@ package com.xbuilders.engine.multiplayer;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
+import com.xbuilders.game.Main;
 import org.joml.Matrix4f;
 
 
@@ -16,6 +17,7 @@ public class PlayerClient extends NetworkSocket {
     public boolean isHost = false;
     //    public int playerChunkDistance; //So far this feature is not used
     public PendingBlockChanges blockChanges;
+    public PendingEntityChanges entityChanges;
 
 
     public Player getPlayer() {
@@ -25,6 +27,7 @@ public class PlayerClient extends NetworkSocket {
     public void setPlayer(Player player) {
         this.player = player;
         blockChanges = new PendingBlockChanges(this, player);
+        entityChanges = new PendingEntityChanges(this, player);
     }
 
     public PlayerClient() {
@@ -53,16 +56,17 @@ public class PlayerClient extends NetworkSocket {
         }
 
         if (blockChanges.periodicRangeSendCheck(2000)) { //Periodically send near changes
-            int c = blockChanges.sendNearBlockChanges();
-            System.out.println(getName()+": range changes (" + c + ")");
+            blockChanges.sendNearBlockChanges();
+            int c = entityChanges.sendNearEntityChanges();
+            Main.printlnDev("Sent near changes ("+c+")");
+
         }else if(blockChanges.periodicSendAllCheck(30000)){ //If the player disconnects unexpectedly, we want to send all changes
             int c = blockChanges.sendAllChanges();
-            System.out.println(getName()+": all changes ("+c+")");
+            Main.printlnDev(getName()+": all changes ("+c+")");
         }
 
-
         if (inRange != wasWithinReach) {
-            System.out.println("Player " + getName() + " " + (inRange ? "in" : "out") + " reach");
+            Main.printlnDev("Player " + getName() + " " + (inRange ? "in" : "out") + " reach");
             wasWithinReach = inRange;
         }
     }

@@ -25,6 +25,7 @@ public class HorseLink extends QuadPedalLandAnimalLink {
         setIcon("horse egg.png");
         tags.add("animal");
 
+
         modelInit = (texture) -> {
             try {
                 saddleModel = new EntityMesh();
@@ -49,6 +50,7 @@ public class HorseLink extends QuadPedalLandAnimalLink {
 
         public HorseEntity(BaseWindow window) {
             super(window);
+            lock.setOffset(-1);
         }
 
         public void drawBody() {

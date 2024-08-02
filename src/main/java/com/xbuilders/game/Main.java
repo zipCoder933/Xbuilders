@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 public class Main extends NKWindow {
 
     public static double gameVersion = 1.3;
+    public static boolean loadWorldOnStartup = false;
 
     public static void printlnDev(String message) {
         if (devMode) {
@@ -113,6 +114,8 @@ public class Main extends NKWindow {
                     customAppData = arg.split("=")[1];
                 } else if (arg.startsWith("name")) {
                     name = arg.split("=")[1];
+                } else if (arg.equals("loadWorldOnStartup")) {
+                    loadWorldOnStartup = true;
                 }
             }
 

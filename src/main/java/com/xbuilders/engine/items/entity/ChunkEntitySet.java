@@ -5,6 +5,7 @@
 package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.player.camera.FrustumCullingTester;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -38,13 +39,19 @@ public class ChunkEntitySet {
         list.clear();
     }
 
-    public void placeNew(Vector3i worldPos, EntityLink entity) {
-        Entity e = entity.makeNew(thisChunk, worldPos.x, worldPos.y, worldPos.z, null);
-//        System.out.println("Making new entity: " + e.toString());
+    public Entity placeNew(Vector3f worldPos, EntityLink entity, byte[] data) {
+        Entity e = entity.makeNew(thisChunk, worldPos.x, worldPos.y, worldPos.z, data);
         list.add(e);
+        return e;
     }
 
-    public static void startDraw(Matrix4f projection, Matrix4f view){
+    public Entity placeNew(Vector3i worldPos, EntityLink entity, byte[] data) {
+        Entity e = entity.makeNew(thisChunk, worldPos.x, worldPos.y, worldPos.z, null);
+        list.add(e);
+        return e;
+    }
+
+    public static void startDraw(Matrix4f projection, Matrix4f view) {
         if (Entity.shader == null) {//Unless another entity uses a different shader, we only need to bind once
             Entity.shader = new EntityShader();
         }
@@ -53,16 +60,22 @@ public class ChunkEntitySet {
     }
 
     public void draw(FrustumCullingTester frustum, Vector3f playerPos) {
+
+
         for (int i = list.size() - 1; i >= 0; i--) {
             Entity e = list.get(i);
             if (e.destroyMode) {
+                GameScene.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.link.initializeEntity(e, e.loadBytes); //Sometimes the entity link has static variables, this is an attempt to fix that
-                    e.loadBytes = null;
                     e.needsInitialization = false;
                     e.updatePosition();
+
+                    //We have to send the entity after it has been initialized
+                    if (e.sendMultiplayer) GameScene.server.addEntityChange(e, GameServer.ENTITY_CREATED, true);
+                    e.loadBytes = null; //Do this last
                 }
                 e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);//Sphere boundary checks are faster than AABB
                 e.distToPlayer = e.worldPosition.distance(playerPos);
@@ -73,9 +86,8 @@ public class ChunkEntitySet {
                 if (chunkUpdatedMesh) {
                     e.hidden_entityOnChunkMeshChanged();
                 }
-                e.updatePosition();
-
-
+                boolean hasMoved = e.updatePosition();
+                e.multiplayerProps.sendState();
                 if (!e.chunkPosition.chunk.equals(e.chunk.position)) { //Switch chunks
                     Chunk toChunk = GameScene.world.chunks.get(e.chunkPosition.chunk);
                     if (toChunk != null && toChunk.gen_Complete()) {

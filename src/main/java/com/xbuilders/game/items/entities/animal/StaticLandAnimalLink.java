@@ -86,7 +86,7 @@ public class StaticLandAnimalLink extends EntityLink {
                 shader.bind();
 
 
-                float rotationRadians = (float) Math.toRadians(yRotDegrees);
+                float rotationRadians = (float) Math.toRadians(rotationYDeg);
                 bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
                 modelMatrix.update(bodyMatrix);

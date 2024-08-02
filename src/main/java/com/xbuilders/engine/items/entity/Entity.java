@@ -5,16 +5,13 @@
 package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.multiplayer.EntityMultiplayerProperties;
+import com.xbuilders.engine.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCf;
-
-import java.io.IOException;
-import java.io.OutputStream;
 
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
@@ -31,6 +28,7 @@ public abstract class Entity {
      * https://stackoverflow.com/questions/69664014/should-every-object-have-its-own-shader
      */
     public static EntityShader shader;
+    public boolean sendMultiplayer;
 
     public boolean playerIsRidingThis() {
         return GameScene.player.positionLock != null && GameScene.player.positionLock.entity == this;
@@ -77,7 +75,7 @@ public abstract class Entity {
     public EntityAABB aabb;
     public final WCCf chunkPosition;
     public final Vector3f worldPosition;
-    public final EntityMultiplayerProperties multiplayerProperties = new EntityMultiplayerProperties();
+    public final EntityMultiplayerInfo multiplayerProps;
     private final Vector3f prevWorldPosition;//KEEP PRIVATE
 
     //Model view projection
@@ -91,11 +89,13 @@ public abstract class Entity {
     public float distToPlayer;
 
     public Entity() {
+        sendMultiplayer = false;
         aabb = new EntityAABB();
         worldPosition = aabb.worldPosition;
         prevWorldPosition = new Vector3f();
         chunkPosition = new WCCf();
         needsInitialization = true;
+        multiplayerProps = new EntityMultiplayerInfo(this);
     }
 
 
@@ -123,27 +123,36 @@ public abstract class Entity {
     public abstract void initializeOnDraw(byte[] bytes);
 
 
-    public byte[] toBytes() throws IOException {
+    public byte[] toBytes() {
         return null;
     }
 
-    public byte[] stateToBytes() throws IOException {
+    public byte[] stateToBytes() {
         return null;
     }
 
-    public void loadState(byte[] state) throws IOException {
+    public boolean hasStateChanged() {
+        return false;
     }
 
 
-    public void updatePosition() {
+    public void loadState(byte[] state) {
+    }
+
+    //This method will be called when a chunk is saved (or removed)
+    public boolean updatePosition() {
         aabb.update(true);//IF the entity goes outside of a chunk, it will not be reassigned to another chunk and it will dissapear when moved too far
         chunkPosition.set(worldPosition);
 
-        if (!worldPosition.equals(prevWorldPosition)) { //If the entity has moved
+        boolean hasMoved = !worldPosition.equals(prevWorldPosition);
+        if (hasMoved) { //If the entity has moved
             getLightForPosition();
             prevWorldPosition.set(worldPosition);
             entityMoveEvent();
         }
+        multiplayerProps.checkForStateChange();
+
+        return hasMoved;
     }
 
     public void entityMoveEvent() {
@@ -163,7 +172,7 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return "Entity{" + "position=" + MiscUtils.printVector(worldPosition) + ", chunk=" + chunk + '}';
+        return "Entity{" + link.name + ", pos=" + MiscUtils.printVector(worldPosition) + '}';
     }
 
     public void destroy() {

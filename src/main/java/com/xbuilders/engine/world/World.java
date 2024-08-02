@@ -1,6 +1,7 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
@@ -30,6 +31,8 @@ import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
+import com.xbuilders.engine.world.wcc.WCCf;
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
@@ -481,7 +484,7 @@ public class World {
                 chunk.meshes.opaqueMesh.getQueryResult();
                 chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
 
-                if(GameScene.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
+                if (GameScene.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
 
             }
         });
@@ -523,6 +526,7 @@ public class World {
     }
 
     // <editor-fold defaultstate="collapsed" desc="block operations">
+
 
     public short getBlockID(int worldX, int worldY, int worldZ) {
         int blockX = positiveMod(worldX, Chunk.WIDTH);

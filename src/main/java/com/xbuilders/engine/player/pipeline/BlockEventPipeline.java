@@ -256,7 +256,7 @@ public class BlockEventPipeline {
         });
 
 
-        GameScene.server.sendBlockAllChanges();
+        GameScene.server.sendNearBlockChanges();
     }
 
     public void updateSunlightAndMeshes(HashSet<Chunk> affectedChunks,

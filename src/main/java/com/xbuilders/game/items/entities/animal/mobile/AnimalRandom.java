@@ -66,14 +66,15 @@ public class AnimalRandom {
     private FastNoise noise;
     private Random random;
 
-    public AnimalRandom() {
+    public AnimalRandom(int seed) {
         super();
         noiseInt = 0;
         noise = new FastNoise();
         random = new Random();
+        setSeed(seed);
     }
 
-    public synchronized void setSeed(int seed) {
+    public void setSeed(int seed) {
         noiseInt = 0;
         this.seed = seed;
         getRandom().setSeed(seed);

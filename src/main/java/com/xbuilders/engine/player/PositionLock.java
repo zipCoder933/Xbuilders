@@ -4,17 +4,29 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 public class PositionLock {
-
 
     public PositionLock(Entity lock, float yOffset) {
         this.entity = lock;
         System.out.println(lock.aabb.offset.x + " " + lock.aabb.offset.y + " " + lock.aabb.offset.z);
-        this.playerDisplacement = new Matrix4f().translate(
+        this.playerDisplacement = new Matrix4f();
+        setOffset(yOffset);
+    }
+
+    public void setOffset(float yOffset) {
+        playerDisplacement.identity().translate(
                 0,
                 yOffset - GameScene.player.aabb.size.y,
                 0);
+    }
+
+    public void setOffset(float xOffset, float yOffset, float zOffset) {
+        playerDisplacement.identity().translate(
+                xOffset,
+                yOffset - GameScene.player.aabb.size.y,
+                zOffset);
     }
 
     public final Entity entity;

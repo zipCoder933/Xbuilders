@@ -55,7 +55,7 @@ public class GameUI {
 
     private boolean gameMenuVisible = true;
 
-    public boolean allMenusAreOpen() {
+    public boolean menusAreOpen() {
         return gameMenuVisible || game.menusAreOpen() || infoBox.isActive();
     }
 
@@ -155,7 +155,7 @@ public class GameUI {
     }
 
     public boolean canHoldMouse() {
-        if (allMenusAreOpen()) return false;
+        if (menusAreOpen()) return false;
         else if (infoBox.releaseMouse()) return false;
         else if(game.releaseMouse()) return false;
         return true;

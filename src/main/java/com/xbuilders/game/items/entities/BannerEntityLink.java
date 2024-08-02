@@ -55,7 +55,7 @@ public class BannerEntityLink extends EntityLink {
 
 
         @Override
-        public byte[] toBytes() throws IOException {
+        public byte[] toBytes() {
             return new byte[]{(byte) xzOrientation, (byte) (againstFencepost ? 1 : 0)};
         }
 
