@@ -275,7 +275,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        return false;
+        return fileNameBox.isFocused();
     }
 
     @Override
