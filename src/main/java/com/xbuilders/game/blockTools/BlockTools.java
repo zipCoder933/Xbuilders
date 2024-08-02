@@ -30,7 +30,7 @@ public class BlockTools extends GameUIElement {
         tools.add(new CopyTool(this, cursorRay));
         tools.add(new PasteTool(this, cursorRay));
 
-        pallete = new BlockToolPallete(ctx, window, tools,this);
+        pallete = new BlockToolPallete(ctx, window, tools, this);
     }
 
     public final List<BlockTool> tools = new ArrayList<BlockTool>();
@@ -40,8 +40,6 @@ public class BlockTools extends GameUIElement {
     public void addTool(BlockTool tool) {
         tools.add(tool);
     }
-
-
 
 
     int menuWidth = 400;
@@ -125,6 +123,7 @@ public class BlockTools extends GameUIElement {
     }
 
     public BlockTool getSelectedTool() {
+        if (tools.get(selectedTool) == null) return tools.get(0);
         return tools.get(selectedTool);
     }
 

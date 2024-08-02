@@ -26,10 +26,10 @@ public class BlockToolPallete {
     NkContext ctx;
     WidgetWidthMeasurement buttonWidth;
     BlockTools tools;
+//    BlockTool hoveredTool;
+    boolean wasOpen = false;
 
     int palleteMaxColumns = 8;
-
-    String toolDescription = "";
 
     int menuWidth = 400;
     int menu1Height = 100;
@@ -48,6 +48,9 @@ public class BlockToolPallete {
 
     public void draw(MemoryStack stack) {
         if (isOpen()) {
+            if (!wasOpen) {
+                onOpenEvent();
+            }
             GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
             NkRect windowSize = NkRect.malloc(stack);
             Theme.resetEntireButtonStyle(ctx);
@@ -73,10 +76,9 @@ public class BlockToolPallete {
 
             if (nk_begin(ctx, "Pallete", windowSize, Nuklear.NK_WINDOW_NO_SCROLLBAR)) {
                 nk_layout_row_dynamic(ctx, 15, 1);
-//                ctx.style().text().color().set(Theme.lightGray);
 
                 Theme.resetTextColor(ctx);
-                Nuklear.nk_text(ctx, toolDescription, Nuklear.NK_TEXT_ALIGN_CENTERED);
+                Nuklear.nk_text(ctx, selectedTool.toolDescription(), Nuklear.NK_TEXT_ALIGN_CENTERED);
 
                 ctx.style().button().padding().set(0, 0);
 
@@ -95,7 +97,6 @@ public class BlockToolPallete {
 
                         if (itemID == tools.selectedTool) {
                             ctx.style().button().border_color().set(Theme.white);
-
                         } else {
                             ctx.style().button().border_color().set(Theme.blue);
                         }
@@ -105,11 +106,12 @@ public class BlockToolPallete {
                                 nk_layout_row_dynamic(ctx, buttonWidth.width, palleteMaxColumns);
                                 firstColunm = false;
                             }
-                            if (Nuklear.nk_widget_is_hovered(ctx)) {
-                                toolDescription = tool.toolDescription();
+//                            if (Nuklear.nk_widget_is_hovered(ctx)) {
+//                                hoveredTool = tool;
+//                            }
+                            if (Nuklear.nk_button_image(ctx, tool.getNKIcon())) {
                                 tools.selectTool(itemID);
                             }
-                            Nuklear.nk_button_image(ctx, tool.getNKIcon());
                         }
 
                         itemID++;
@@ -122,7 +124,16 @@ public class BlockToolPallete {
                 if (showOptions) optionsGroup(stack, windowSize, selectedTool);
             }
             nk_end(ctx);
+        } else if (wasOpen) {
+            onCloseEvent();
         }
+        wasOpen = false;
+    }
+
+    private void onCloseEvent() {
+    }
+
+    private void onOpenEvent() {
     }
 
     private void optionsGroup(MemoryStack stack, NkRect windowSize, BlockTool tool) {

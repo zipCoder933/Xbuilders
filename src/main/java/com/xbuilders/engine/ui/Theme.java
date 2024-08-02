@@ -10,10 +10,7 @@ import java.nio.ByteBuffer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKFontUtils;
-import org.lwjgl.nuklear.NkColor;
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkUserFont;
-import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;

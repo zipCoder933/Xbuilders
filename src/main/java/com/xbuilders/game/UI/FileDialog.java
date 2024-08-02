@@ -14,6 +14,7 @@ import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.function.Consumer;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -58,7 +59,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
         if (!this.prefferedFileExtension.startsWith(".")) {
             this.prefferedFileExtension = "." + this.prefferedFileExtension;
         }
-
+        selectedFile = null;
         oh.setOpen(true);
         fileNameBox.setValueAsString("");
         this.navDir = baseDir;
@@ -77,7 +78,6 @@ public class FileDialog extends GameUIElement implements WindowEvents {
             NkRect windowDims = NkRect.malloc(stack);
             Theme.resetWindowColor(ctx);
             Theme.resetWindowPadding(ctx);
-            Theme.resetEntireButtonStyle(ctx);
 
             nk_rect(
                     window.getWidth() / 2 - (width / 2),
@@ -85,7 +85,8 @@ public class FileDialog extends GameUIElement implements WindowEvents {
 
             String title = (saveMode ? "Save File" : "Open File");
 
-            if (nk_begin(ctx, WINDOW_NAME_ID, windowDims, windowFlags)) {
+            if (nk_begin_titled(ctx, WINDOW_NAME_ID, title, windowDims, windowFlags)) {
+                Theme.resetEntireButtonStyle(ctx);
                 oh.autoClose();
                 nk_style_set_font(ctx, Theme.font_9);
 
@@ -97,26 +98,33 @@ public class FileDialog extends GameUIElement implements WindowEvents {
                 dir = dir.substring(baseDir.getPath().length());
                 Nuklear.nk_label(ctx, dir, NK_TEXT_RIGHT);
 
-                if (canGoUpOneDir()) {
-                    ctx.style().button().active().data().color().set(Theme.blue);
-                } else {
-                    ctx.style().button().active().data().color().set(Theme.gray);
+
+                if (!canGoUpOneDir()) {
+                    Nuklear.nk_style_push_color(ctx, ctx.style().button().active().data().color(), Theme.gray);
+                    Nuklear.nk_style_push_color(ctx, ctx.style().button().hover().data().color(), Theme.gray);
+                    Nuklear.nk_style_push_color(ctx, ctx.style().button().border_color(), Theme.lightGray);
                 }
                 if (Nuklear.nk_button_label(ctx, "^- Up Directory")) {
                     if (canGoUpOneDir()) {
                         navigateToFolder(navDir.getParentFile());
                     }
                 }
+                if (!canGoUpOneDir()) {
+                    Nuklear.nk_style_pop_color(ctx);
+                    Nuklear.nk_style_pop_color(ctx);
+                    Nuklear.nk_style_pop_color(ctx);
+                }
 
 
-                Nuklear.nk_layout_row_dynamic(ctx, height - 145 - 30, 1);
-                ctx.style().window().background().set(Theme.gray);
-                ctx.style().button().hover().data().color().set(Theme.blue);
+                Nuklear.nk_style_push_color(ctx, ctx.style().window().background(), Theme.gray);
+                Nuklear.nk_style_push_color(ctx, ctx.style().button().hover().data().color(), Theme.blue);
+                float border = ctx.style().button().border(); //Get border size
                 ctx.style().button().border(0);
-
                 filesGroup();
+                Nuklear.nk_style_pop_color(ctx);
+                Nuklear.nk_style_pop_color(ctx);
+                ctx.style().button().border(border);
 
-                Theme.resetEntireButtonStyle(ctx);
 
                 Nuklear.nk_layout_row_dynamic(ctx, 30, 1);
                 fileNameBox.render(ctx);
@@ -146,7 +154,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
                         fileNameBox.setValueAsString("");
                     }
                 } else {
-                    if (Nuklear.nk_button_label(ctx, "Select")) {
+                    if (Nuklear.nk_button_label(ctx, "Open")) {
                         if (selectedFile != null && !selectedFile.isDirectory()) {
                             onSelectCallback.accept(selectedFile);
                             hide();
@@ -175,26 +183,26 @@ public class FileDialog extends GameUIElement implements WindowEvents {
     }
 
     private void filesGroup() {
+        Nuklear.nk_layout_row_dynamic(ctx, height - 145 - 30, 1);//very important
         if (Nuklear.nk_group_begin(ctx, "Files", 0)) {
             Nuklear.nk_layout_row_dynamic(ctx, 25, 1);
             for (File f : navDir.listFiles()) {
+                if (!hasFileExtension(f) && !f.isDirectory()) continue;
+                boolean selected = selectedFile != null && selectedFile.equals(f);
 
-                if(!hasFileExtension(f)) continue;
-
-                if (selectedFile != null && selectedFile.equals(f)) {
-                    ctx.style().button().normal().data().color().set(Theme.blue);
-                } else {
-                    ctx.style().button().normal().data().color().set(Theme.gray);
+                if (selected) {
+                    Nuklear.nk_style_push_color(ctx, ctx.style().button().normal().data().color(), Theme.blue);
                 }
-
-                if (Nuklear.nk_button_label(ctx,
-                        f.getName()
-                                + (f.isDirectory() ? "\\" : ""))) {
+                if (Nuklear.nk_button_label(ctx, f.getName() + (f.isDirectory() ? "\\" : ""))) {
                     if (f.isDirectory()) {
                         navDir = f;
                     } else {
                         selectedFile = f;
                     }
+                }
+
+                if (selected) {
+                    Nuklear.nk_style_pop_color(ctx);
                 }
             }
             Nuklear.nk_group_end(ctx);
@@ -205,7 +213,19 @@ public class FileDialog extends GameUIElement implements WindowEvents {
     private void saveFile(String filename) {
         if (filename.isBlank()) return;
 
-        File newFile = new File(navDir, fileNameBox.getValueAsString());
+        if (!filename.toLowerCase().endsWith(prefferedFileExtension)) {
+            if (filename.contains(".")) {
+                prompt.message("Can't Save", "Invalid File Extension");
+                return;
+            }
+            filename = filename + prefferedFileExtension;
+        }
+
+        File newFile = new File(navDir, filename);
+        if (!isFilenameValid(newFile)) {
+            prompt.message("Can't Save", "Invalid File Name");
+            return;
+        }
 
 
         if (newFile.exists()) {
@@ -223,6 +243,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
         }
     }
 
+
     public boolean hasFileExtension(File file) {
         if (prefferedFileExtension == null) return true;
         return file.getName().toLowerCase().endsWith(prefferedFileExtension);
@@ -235,6 +256,15 @@ public class FileDialog extends GameUIElement implements WindowEvents {
 
         onSelectCallback.accept(file);
         hide();
+    }
+
+    public static boolean isFilenameValid(File f) {
+        try {
+            f.getCanonicalPath();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 
