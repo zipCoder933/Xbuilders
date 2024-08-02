@@ -158,9 +158,9 @@ public class MyGame extends Game {
 
     @Override
     public boolean uiKeyEvent(int key, int scancode, int action, int mods) {
-        if (inventory.keyEvent(key, scancode, action, mods)) {//Inventory needs a wake up key
+        if (fileDialog.keyEvent(key, scancode, action, mods)) {
             return true;
-        } else if (fileDialog.keyEvent(key, scancode, action, mods)) {
+        } else if (inventory.keyEvent(key, scancode, action, mods)) {//Inventory needs a wake up key
             return true;
         } else if (blockTools.keyEvent(key, scancode, action, mods)) {
             return true;

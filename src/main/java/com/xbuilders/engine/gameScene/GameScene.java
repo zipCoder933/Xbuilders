@@ -7,6 +7,7 @@ package com.xbuilders.engine.gameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.multiplayer.GameServer;
+import com.xbuilders.engine.multiplayer.Local_PendingEntityChanges;
 import com.xbuilders.engine.multiplayer.PlayerClient;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
@@ -56,12 +57,14 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f view = new Matrix4f();
     private static Game game;
     static HashMap<String, String> commandHelp;
+  public  static Local_PendingEntityChanges localEntityChanges;
 
 
     public GameScene(NKWindow window) throws Exception {
         this.window = window;
         specialMode = true;
         player = new UserControlledPlayer(Main.user);
+        localEntityChanges = new Local_PendingEntityChanges(player);
         otherPlayers = new ArrayList<>();
         server = new GameServer(player);
         livePropagationHandler = new LivePropagationHandler();

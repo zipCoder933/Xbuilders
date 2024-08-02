@@ -218,20 +218,24 @@ public class GameServer extends Server<PlayerClient> {
                                 ", current=" + MiscUtils.printVector(currentPos) +
                                 ", data=" + Arrays.toString(data) + " \t" + System.currentTimeMillis());
 
-                        if (mode == ENTITY_CREATED) {
-                            setEntity(entity, currentPos, data);
-                        } else if (mode == ENTITY_DELETED) {
-                            Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
-                            if (e != null) {
-                                e.destroy();
-                            }
-                        } else if (mode == ENTITY_UPDATED) {
-                            Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
-                            if (e != null) {
-                                e.multiplayerProps.updateState(data, currentPos);
-                            }
-                        }
 
+                        if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
+                            if (mode == ENTITY_CREATED) {
+                                setEntity(entity, currentPos, data);
+                            } else if (mode == ENTITY_DELETED) {
+                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
+                                if (e != null) {
+                                    e.destroy();
+                                }
+                            } else if (mode == ENTITY_UPDATED) {
+                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
+                                if (e != null) {
+                                    e.multiplayerProps.updateState(data, currentPos);
+                                }
+                            }
+                        } else {//Cache changes if they are out of bounds
+                            GameScene.localEntityChanges.addEntityChange(mode, entity, lastPos, currentPos, data);
+                        }
                     });
                 } else if (receivedData[0] == PLAYER_CHUNK_DISTANCE) {
                     //So far this feature is useless

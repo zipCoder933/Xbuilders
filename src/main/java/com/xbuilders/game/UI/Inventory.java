@@ -368,6 +368,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                     if (isOpen()) {
                         if (canCloseWithKeyEvents()) setOpen(false);
                     } else setOpen(true);
+                    return true;
                 }
                 case GLFW.GLFW_KEY_ESCAPE -> {
                     if (canCloseWithKeyEvents()) setOpen(false);

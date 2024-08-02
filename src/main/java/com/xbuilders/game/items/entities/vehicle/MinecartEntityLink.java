@@ -153,7 +153,7 @@ public class MinecartEntityLink extends EntityLink {
 
         }
 
-//        static Box testBox;
+        //        static Box testBox;
         final Vector3i fixedPosition = new Vector3i(0, 0, 0);
 
 
@@ -182,7 +182,10 @@ public class MinecartEntityLink extends EntityLink {
         }
 
         static int getOrientationModified(BlockData b) {
-            return (b.get(0) + 1) % 4;
+            if (b != null && b.size() > 0) {
+                return (b.get(0) + 1) % 4;
+            }
+            return 0;
         }
 
         static int getOrientation(BlockData b) {

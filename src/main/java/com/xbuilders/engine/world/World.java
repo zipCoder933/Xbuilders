@@ -2,6 +2,7 @@ package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.multiplayer.Local_PendingEntityChanges;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
@@ -137,6 +138,8 @@ public class World {
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
+
+
 
     public WorldInfo info;
     public Terrain terrain;

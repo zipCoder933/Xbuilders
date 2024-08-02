@@ -5,6 +5,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.Player;
+import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -44,11 +45,6 @@ public class PendingEntityChanges {
         this.player = player;
     }
 
-
-    public static boolean changeWithinReach(Player player, Entity entity) {
-        return player.isWithinReach(entity.worldPosition.x, entity.worldPosition.y, entity.worldPosition.z);
-    }
-
     public static Entity findEntity(Vector3f lastPos, Vector3f currentPos) {
         WCCf wcc = new WCCf();
         wcc.set(currentPos);
@@ -72,6 +68,13 @@ public class PendingEntityChanges {
             }
         }
         return null;
+    }
+
+    public static boolean changeWithinReach(Player userPlayer, Vector3f currentPos) {
+        return userPlayer.isWithinReach(
+                currentPos.x,
+                currentPos.y,
+                currentPos.z);
     }
 
     @FunctionalInterface
@@ -102,7 +105,7 @@ public class PendingEntityChanges {
             Iterator<Entity> iterator = deletionCopy.iterator();
             while (iterator.hasNext()) {
                 Entity entity = iterator.next();
-                if (changeWithinReach(player, entity)) {
+                if (changeWithinReach(player, entity.worldPosition)) {
                     entityChangeRecord(baos, GameServer.ENTITY_DELETED, entity);
                     changesToBeSent++;
                     entityDeletion.remove(entity); //Remove it from the original list
@@ -113,7 +116,7 @@ public class PendingEntityChanges {
             iterator = creationCopy.iterator();
             while (iterator.hasNext()) {
                 Entity entity = iterator.next();
-                if (changeWithinReach(player, entity)) {
+                if (changeWithinReach(player, entity.worldPosition)) {
                     entity.multiplayerProps.lastPosition.set(entity.worldPosition);
                     entityChangeRecord(baos, GameServer.ENTITY_CREATED, entity);
                     changesToBeSent++;
@@ -121,16 +124,16 @@ public class PendingEntityChanges {
                 }
             }
 
-//            //Update list
-//            iterator = updateCopy.iterator();
-//            while (iterator.hasNext()) {
-//                Entity entity = iterator.next();
-//                if (changeWithinReach(player, entity)) {
-//                    entityChangeRecord(baos, GameServer.ENTITY_UPDATED, entity);
-//                    changesToBeSent++;
-//                    iterator.remove();
-//                }
-//            }
+            //Update list
+            iterator = updateCopy.iterator();
+            while (iterator.hasNext()) {
+                Entity entity = iterator.next();
+                if (changeWithinReach(player, entity.worldPosition)) {
+                    entityChangeRecord(baos, GameServer.ENTITY_UPDATED, entity);
+                    changesToBeSent++;
+                    iterator.remove();
+                }
+            }
 
             baos.close();
 
@@ -203,7 +206,7 @@ public class PendingEntityChanges {
             baos.close();
 
             byte byteList[] = baos.toByteArray();
-            if (changeWithinReach(player, entity)) {
+            if (changeWithinReach(player, entity.worldPosition)) {
                 entity.multiplayerProps.lastPosition.set(entity.worldPosition);
                 socket.sendData(byteList);
                 return true;

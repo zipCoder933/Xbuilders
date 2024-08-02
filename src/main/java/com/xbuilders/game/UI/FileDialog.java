@@ -139,14 +139,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
                     }
                 }
                 if (Nuklear.nk_button_label(ctx, "Delete")) {
-                    if (selectedFile != null && !selectedFile.isDirectory()) {
-                        prompt.message("Delete file?",
-                                "Are you sure you want to delete " + selectedFile.getName() + "?",
-                                () -> {
-                                    System.out.println("Deleting " + selectedFile.getPath());
-                                    selectedFile.delete();
-                                });
-                    }
+                    deleteSelectedFile();
                 }
                 if (saveMode) {
                     if (Nuklear.nk_button_label(ctx, "Save")) {
@@ -171,6 +164,23 @@ public class FileDialog extends GameUIElement implements WindowEvents {
         oh.autoClose();
     }
 
+    private void deleteSelectedFile() {
+        if (selectedFile != null) {
+            if (selectedFile.isDirectory() && selectedFile.listFiles().length > 0) {
+                prompt.message("Can't delete folder",
+                        "Can't delete folders with files in them");
+                return;
+            }
+
+            prompt.message("Delete?",
+                    "Are you sure you want to delete " + selectedFile.getName() + "?",
+                    () -> {
+                        System.out.println("Deleting " + selectedFile.getPath());
+                        selectedFile.delete();
+                    });
+        }
+    }
+
     private boolean canGoUpOneDir() {
         return !navDir.equals(baseDir) && navDir.getParentFile() != null;
     }
@@ -186,25 +196,27 @@ public class FileDialog extends GameUIElement implements WindowEvents {
         Nuklear.nk_layout_row_dynamic(ctx, height - 145 - 30, 1);//very important
         if (Nuklear.nk_group_begin(ctx, "Files", 0)) {
             Nuklear.nk_layout_row_dynamic(ctx, 25, 1);
-            for (File f : navDir.listFiles()) {
-                if (!hasFileExtension(f) && !f.isDirectory()) continue;
-                boolean selected = selectedFile != null && selectedFile.equals(f);
+            if (navDir.listFiles() != null) { //If there are no files, it will be null
+                for (File f : navDir.listFiles()) {
+                    if (!hasFileExtension(f) && !f.isDirectory()) continue;
+                    boolean selected = selectedFile != null && selectedFile.equals(f);
 
-                if (selected) {
-                    Nuklear.nk_style_push_color(ctx, ctx.style().button().normal().data().color(), Theme.blue);
-                }
-                if (Nuklear.nk_button_label(ctx, f.getName() + (f.isDirectory() ? "\\" : ""))) {
-                    if (f.isDirectory()) {
-                        navDir = f;
-                    } else {
-                        selectedFile = f;
+                    if (selected) {
+                        Nuklear.nk_style_push_color(ctx, ctx.style().button().normal().data().color(), Theme.blue);
+                    }
+                    if (Nuklear.nk_button_label(ctx, f.getName() + (f.isDirectory() ? "\\" : ""))) {
+                        if (f.isDirectory() && selected) {
+                            navDir = f;
+                        } else {
+                            selectedFile = f;
+                        }
+                    }
+                    if (selected) {
+                        Nuklear.nk_style_pop_color(ctx);
                     }
                 }
-
-                if (selected) {
-                    Nuklear.nk_style_pop_color(ctx);
-                }
             }
+
             Nuklear.nk_group_end(ctx);
         }
     }
