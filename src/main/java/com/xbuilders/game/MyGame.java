@@ -155,27 +155,30 @@ public class MyGame extends Game {
 
     @Override
     public boolean uiKeyEvent(int key, int scancode, int action, int mods) {
-        if (inventory.keyEvent(key, scancode, action, mods)) {
+        if (fileDialog.isOpen() && fileDialog.keyEvent(key, scancode, action, mods)) {
+            return true;
+        } else if (inventory.isOpen() && inventory.keyEvent(key, scancode, action, mods)) {
+            return true;
+        } else if (blockTools.keyEvent(key, scancode, action, mods)) {
+            return true;
+        } else if (hotbar.keyEvent(key, scancode, action, mods)) {
             return true;
         }
-        if (!inventory.isOpen()) {
-            if (blockTools.keyEvent(key, scancode, action, mods)) {
-                return true;
-            } else if (hotbar.keyEvent(key, scancode, action, mods)) {
-                return true;
-            }
-        }
+
         return false;
     }
 
     @Override
     public boolean uiMouseButtonEvent(int button, int action, int mods) {
-        if (!inventory.isOpen()) {
-            if (!blockTools.mouseButtonEvent(button, action, mods)) {
-                hotbar.mouseButtonEvent(button, action, mods);
-            }
+        if (fileDialog.isOpen() && fileDialog.mouseButtonEvent(button, action, mods)) {
+            return true;
+        } else if (inventory.isOpen() && inventory.mouseButtonEvent(button, action, mods)) {
+            return true;
+        } else if (blockTools.mouseButtonEvent(button, action, mods)) {
+            return true;
+        } else {
+            return hotbar.mouseButtonEvent(button, action, mods);
         }
-        return false;
     }
 
     private static Block[] getAllJsonBlocks(File jsonDirectory) {
@@ -256,8 +259,8 @@ public class MyGame extends Game {
         // syBlocks.clear();
         // for(File tex : ResourceUtils.resource("items\\blocks\\textures\\trapdoor").listFiles()) {
 
-        //         Block fenceGate = new Block(blockID, 
-        //                     tex.getName().replace(".png", "")+" trapdoor", 
+        //         Block fenceGate = new Block(blockID,
+        //                     tex.getName().replace(".png", "")+" trapdoor",
         //                      new BlockTexture("trapdoor\\"+tex.getName()));
         //         fenceGate.opaque=false;
         //         fenceGate.solid=true;
@@ -499,7 +502,7 @@ public class MyGame extends Game {
 
     @Override
     public boolean menusAreOpen() {
-        return inventory.isOpen();
+        return inventory.isOpen() || fileDialog.isOpen() || blockTools.isOpen();
     }
 
     WorldInfo currentWorld;
@@ -1323,7 +1326,7 @@ public class MyGame extends Game {
     public static short BLOCK_WHITE_SIDING = 797;
     public static short BLOCK_YELLOW_SEAT = 798;
     public static short BLOCK_YELLOW_SIDING = 799;
-    // public static final Block BLOCK_SEA_GRASS = new Block(253, "Sea Grass", new BlockTexture("sea grass.png"), RenderType.SPRITE);
+// public static final Block BLOCK_SEA_GRASS = new Block(253, "Sea Grass", new BlockTexture("sea grass.png"), RenderType.SPRITE);
     
 
 

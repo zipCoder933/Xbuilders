@@ -2,9 +2,12 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
+import com.xbuilders.game.Main;
+import com.xbuilders.game.UI.FileDialog;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.blockTools.PrefabUtils;
@@ -37,21 +40,27 @@ public class CopyTool extends BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
         if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
-//            Main.game.fileDialog.show(ResourceUtils.resource(""), FileDialog.MODE_OPEN, (file) -> {
-//                System.out.println("SELECTED "+file.getAbsolutePath());
-//            });
-            GameScene.pauseGame();
-            prefabLoadMode = LOAD_PREFAB;
-            PasteTool.clipboard = PrefabUtils.loadPrefabFromFileDialog();
-            PasteTool.updateMesh();
+            Main.game.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+                    false, "xbprefab", (file) -> {
+                        System.out.println("LOADING " + file.getAbsolutePath());
+                        try {
+                            PasteTool.clipboard = PrefabUtils.loadPrefabFromFile(file);
+                        } catch (IOException e) {
+                            ErrorHandler.report(e);
+                        }
+                        PasteTool.updateMesh();
+                    });
         }
         if (Nuklear.nk_button_label(ctx, "Save Prefab")) {
-//            Main.game.fileDialog.show(ResourceUtils.resource(""), FileDialog.MODE_SAVE, (file) -> {
-//                System.out.println("SELECTED "+file.getAbsolutePath());
-//            });
-            prefabLoadMode = SAVE_PREFAB;
-            GameScene.pauseGame();
-            PrefabUtils.savePrefabToFileDialog(PasteTool.clipboard);
+            Main.game.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+                    true, "xbprefab", (file) -> {
+                        System.out.println("SAVING " + file.getAbsolutePath());
+                        try {
+                            PrefabUtils.savePrefabToFile(PasteTool.clipboard, file);
+                        } catch (IOException e) {
+                            ErrorHandler.report(e);
+                        }
+                    });
         }
     }
 

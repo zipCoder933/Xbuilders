@@ -136,6 +136,14 @@ public class Theme {
         context.style().button().text_alignment(Nuklear.NK_TEXT_ALIGN_CENTERED | Nuklear.NK_TEXT_ALIGN_MIDDLE);
     }
 
+//    public static void buttonDisableStyle(NkContext context) {
+//        context.style().button().text_normal().set(Theme.gray);
+//        context.style().button().hover().data().set()
+//        context.style().button().normal().data().color().set(buttonColor);
+//        context.style().button().border_color().set(gray);
+//        context.style().button().text_alignment(Nuklear.NK_TEXT_ALIGN_CENTERED | Nuklear.NK_TEXT_ALIGN_MIDDLE);
+//    }
+
     public static NkColor createColor(MemoryStack stack, int r, int g, int b, int a) {
         return NkColor.mallocStack(stack).set((byte) r, (byte) g, (byte) b, (byte) a);
     }

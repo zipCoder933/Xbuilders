@@ -70,7 +70,7 @@ public class BlockTools extends GameUIElement {
 
     @Override
     public boolean isOpen() {
-        return true;
+        return pallete.isOpen();
     }
 
 

@@ -160,10 +160,12 @@ public class Hotbar extends GameUIElement {
         return false;
     }
 
-    public void mouseButtonEvent(int button, int action, int mods) {
+    public boolean mouseButtonEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE && button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
             pickItem();
+            return true;
         }
+        return false;
     }
 
     private void pickItem() {

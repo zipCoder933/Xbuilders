@@ -378,13 +378,14 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     @Override
-    public void mouseButtonEvent(int button, int action, int mods) {
-
+    public boolean mouseButtonEvent(int button, int action, int mods) {
+        return false;
     }
 
     @Override
-    public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         scrollValue -= yoffset;
+        return true;
     }
 
     private float buttonWidthPlusPadding() {

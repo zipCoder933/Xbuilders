@@ -371,19 +371,21 @@ public class GameScene implements WindowEvents {
         return true;
     }
 
-    public void mouseButtonEvent(int button, int action, int mods) {
+    public boolean mouseButtonEvent(int button, int action, int mods) {
         ui.mouseButtonEvent(button, action, mods);
         if (!ui.allMenusAreOpen()) {
             player.mouseButtonEvent(button, action, mods);
         }
+        return true;
     }
 
-    public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         boolean letUIHandleScroll = true;
         if (!ui.allMenusAreOpen()) {
             letUIHandleScroll = !player.mouseScrollEvent(scroll, xoffset, yoffset);
         }
         if (letUIHandleScroll) ui.mouseScrollEvent(scroll, xoffset, yoffset);
+        return true;
     }
 
 

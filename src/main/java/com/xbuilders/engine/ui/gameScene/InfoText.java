@@ -82,6 +82,8 @@ public class InfoText extends GameUIElement {
             }
             nk_end(ctx);
         } else {
+            infoTextRect.w(window.getWidth());
+            infoTextRect.h(300);
             ctx.style().window().fixed_background().data().color().set(Theme.transparent);
             if (nk_begin(ctx, infoPanelText, infoTextRect, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_NO_INPUT)) {
                 if (text != null) {
