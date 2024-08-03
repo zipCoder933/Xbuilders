@@ -192,7 +192,6 @@ public class WCCi {
 
     public static void getChunkAtWorldPos(final Vector3i vec,
                                           final int worldX, final int worldY, final int worldZ) {
-
         int chunkX = chunkDiv(worldX);
         int chunkY = chunkDiv(worldY);
         int chunkZ = chunkDiv(worldZ);

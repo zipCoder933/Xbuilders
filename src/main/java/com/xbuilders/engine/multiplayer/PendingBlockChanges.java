@@ -1,5 +1,6 @@
 package com.xbuilders.engine.multiplayer;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
@@ -7,7 +8,9 @@ import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
+import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.io.*;
@@ -74,6 +77,16 @@ public class PendingBlockChanges {
         return player.isWithinReach(worldPos.x, worldPos.y, worldPos.z);
     }
 
+    public static boolean changeCanBeLoaded(Player player, Vector3i worldPos) {
+        if (player.isWithinReach(worldPos.x, worldPos.y, worldPos.z)) {
+            Vector3i chunkPos = new Vector3i();
+            WCCi.getChunkAtWorldPos(chunkPos, worldPos.x, worldPos.y, worldPos.z);
+            Chunk chunk = GameScene.world.getChunk(chunkPos);
+            if (chunk != null && chunk.gen_Complete()) return true;
+        }
+        return false;
+    }
+
     protected final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     protected final Lock readLock = readWriteLock.readLock();
     protected final Lock writeLock = readWriteLock.writeLock();
@@ -110,26 +123,6 @@ public class PendingBlockChanges {
         }
     }
 
-    public int dumpChanges(BiConsumer<Vector3i, BlockHistory> changes) {
-        int changesToBeSent = 0;
-        if (this.blockChanges.isEmpty()) return 0;
-        //Make a copy of the change list first
-        HashMap<Vector3i, BlockHistory> copy = new HashMap<>(this.blockChanges);
-        for (Map.Entry<Vector3i, BlockHistory> entry : copy.entrySet()) {
-            Vector3i worldPos = entry.getKey();
-            BlockHistory change = entry.getValue();
-            if (changeWithinReach(player, worldPos)) {
-
-                changes.accept(worldPos, change);
-
-                this.blockChanges.remove(entry.getKey());//Remove it so we don't send it again
-                changeEvent();
-                changesToBeSent++;
-            }
-        }
-
-        return changesToBeSent;
-    }
 
     public void blockChangeRecord(OutputStream baos, Vector3i worldPos, BlockHistory change) throws IOException {
         if (change.currentBlock == null) return;

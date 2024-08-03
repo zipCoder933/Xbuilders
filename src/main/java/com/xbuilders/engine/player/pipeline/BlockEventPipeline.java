@@ -6,6 +6,7 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
+import com.xbuilders.engine.multiplayer.PendingBlockChanges;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
@@ -28,7 +29,7 @@ public class BlockEventPipeline {
 
 
     private final Map<Vector3i, BlockHistory> events = new HashMap<>(); //ALL events must be submitted to this
-    public final Local_PendingBlockChanges pendingLocalChanges;
+    public final Local_PendingBlockChanges outOfReachEvents;
 
 
     WCCi wcc = new WCCi();
@@ -39,11 +40,18 @@ public class BlockEventPipeline {
     public BlockEventPipeline(World world, UserControlledPlayer player) {
         this.world = world;
         this.player = player;
-        pendingLocalChanges = new Local_PendingBlockChanges(player);
+        outOfReachEvents = new Local_PendingBlockChanges(player);
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
         if (blockHist != null) {
+
+            if(!PendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
+                //If there is a block event that is on a empty chunk or too far away, don't add it
+                outOfReachEvents.addBlockChange(worldPos, blockHist);
+                return;
+            }
+
             //If the previous block is null, set it to the block at the position
             if (blockHist.previousBlock == null) {
                 blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
@@ -91,13 +99,13 @@ public class BlockEventPipeline {
 
 
         this.worldInfo = worldInfo;
-        pendingLocalChanges.load(worldInfo);
+        outOfReachEvents.load(worldInfo);
     }
 
     public void save() {
-        if (pendingLocalChanges.needsSaving) {
-            pendingLocalChanges.save(worldInfo);
-            pendingLocalChanges.needsSaving = false;
+        if (outOfReachEvents.needsSaving) {
+            outOfReachEvents.save(worldInfo);
+            outOfReachEvents.needsSaving = false;
         }
     }
 
@@ -121,12 +129,13 @@ public class BlockEventPipeline {
         if (Main.devkeyF3 && Main.devMode)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
-        if (pendingLocalChanges.periodicRangeSendCheck(5000)) {
-            int changes = pendingLocalChanges.dumpChanges((worldPos, history) -> {
+        if (outOfReachEvents.periodicRangeSendCheck(5000)) {
+            int changes = outOfReachEvents.readApplicableChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
             });
             Main.printlnDev("Loaded " + changes + " local changes");
         }
+
         if (events.isEmpty()) {
             framesThatHadEvents = 0;
             return;
@@ -174,6 +183,7 @@ public class BlockEventPipeline {
     ) {
 
         HashMap<Vector3i, BlockHistory> eventsCopy;
+        //We always run through each event the frame of/after the event was added
         synchronized (eventClearLock) {
             eventsCopy = new HashMap<>(events);
             events.clear(); //We want to clear the old events before iterating over and picking up new ones

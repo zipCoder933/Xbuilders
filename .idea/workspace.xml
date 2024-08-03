@@ -9,17 +9,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="added creation and deletion entity multiplayer">
+    <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
+      <change afterPath="$PROJECT_DIR$/assets/notes/features and design/entity multiplayer.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/notes/optimizationAndBugs/block updating optimizations.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Todo list.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todo list.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/notes/features and design/Multiplayer.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/features and design/block multiplayer.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/notes/features and design/features.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/features and design/features.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/notes/greedy meshing demo.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/chunk/greedy meshing demo.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/notes/nublada.rtf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/chunk/nublada.rtf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/notes/smooth mesh lighting.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/chunk/smooth mesh lighting.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/GameServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/Local_PendingEntityChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/Local_PendingEntityChanges.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PendingEntityChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PendingEntityChanges.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/FileDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/FileDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/MinecartEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/MinecartEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/Local_PendingBlockChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/Local_PendingBlockChanges.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PendingBlockChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PendingBlockChanges.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PlayerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PlayerClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/wcc/WCCi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/wcc/WCCi.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,13 +48,6 @@
     &quot;assignee&quot;: &quot;zipCoder933&quot;
   }
 }</component>
-  <component name="GithubProjectSettings">
-    <option name="branchProtectionPatterns">
-      <list>
-        <option value="main" />
-      </list>
-    </option>
-  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/zipCoder933/Xbuilders.git&quot;,
@@ -72,7 +70,6 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Dev (Load world).executor": "Run",
     "Application.Dev 2.executor": "Run",
     "Application.Dev.executor": "Run",
     "Application.Main Dev 2.executor": "Run",
@@ -89,7 +86,7 @@
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.20099668",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -101,12 +98,13 @@
       <recent name="com.xbuilders.engine.ui.gameScene" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Xbuilders\assets\notes\chunk" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\gameScene\multiplayer" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\window\nuklear" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\gameScene" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.xbuilders.game.propagation" />
+      <recent name="com.xbuilders.engine.multiplayer" />
       <recent name="com.xbuilders.game.blockTools.tools" />
       <recent name="com.xbuilders.game.UI" />
       <recent name="com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet" />
@@ -116,15 +114,15 @@
   <component name="RunManager" selected="Compound.Multiplayer Test">
     <configuration name="Dev 2" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.game.Main" />
-      <module name="ChunkShader" />
+      <module name="Xbuilders3" />
       <option name="PROGRAM_PARAMETERS" value="devmode appData=xbSecond name=DEV2" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Dev (Load world)" type="Application" factoryName="Application" singleton="false">
+    <configuration name="Dev (Load World)" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.game.Main" />
-      <module name="ChunkShader" />
+      <module name="Xbuilders3" />
       <option name="PROGRAM_PARAMETERS" value="devmode loadWorldOnStartup" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -132,7 +130,7 @@
     </configuration>
     <configuration name="Dev" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.game.Main" />
-      <module name="ChunkShader" />
+      <module name="Xbuilders3" />
       <option name="PROGRAM_PARAMETERS" value="devmode" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -140,7 +138,7 @@
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.game.Main" />
-      <module name="ChunkShader" />
+      <module name="Xbuilders3" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -152,7 +150,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.Dev" />
-      <item itemvalue="Application.Dev (Load world)" />
+      <item itemvalue="Application.Dev (Load World)" />
       <item itemvalue="Application.Dev 2" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Compound.Multiplayer Test" />
@@ -167,31 +165,6 @@
       <option name="presentableId" value="Default" />
       <updated>1718977622364</updated>
     </task>
-    <task id="LOCAL-00001" summary="Basic bugfixes">
-      <option name="closed" value="true" />
-      <created>1722602942167</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1722602942167</updated>
-    </task>
-    <task id="LOCAL-00002" summary="added creation and deletion entity multiplayer">
-      <option name="closed" value="true" />
-      <created>1722615614468</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1722615614468</updated>
-    </task>
-    <task id="LOCAL-00003" summary="added creation and deletion entity multiplayer">
-      <option name="closed" value="true" />
-      <created>1722615649712</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1722615649712</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -207,8 +180,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Basic bugfixes" />
-    <MESSAGE value="added creation and deletion entity multiplayer" />
-    <option name="LAST_COMMIT_MESSAGE" value="added creation and deletion entity multiplayer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Basic bugfixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

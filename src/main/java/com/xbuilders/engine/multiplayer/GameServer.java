@@ -205,10 +205,10 @@ public class GameServer extends Server<PlayerClient> {
                     client.getPlayer().pan = (pan);
                 } else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
                     PendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
-                        if (PendingBlockChanges.changeWithinReach(userPlayer, pos)) {
+                        if (PendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {
                             GameScene.player.eventPipeline.addEvent(pos, blockHist);
                         } else {//Cache changes if they are out of bounds
-                            GameScene.player.eventPipeline.pendingLocalChanges.addBlockChange(pos, blockHist);
+                            GameScene.player.eventPipeline.outOfReachEvents.addBlockChange(pos, blockHist);
                         }
                     });
                 } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {

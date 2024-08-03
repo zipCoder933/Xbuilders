@@ -56,13 +56,12 @@ public class PlayerClient extends NetworkSocket {
         }
 
         if (blockChanges.periodicRangeSendCheck(2000)) { //Periodically send near changes
-            blockChanges.sendNearBlockChanges();
-            int c = entityChanges.sendNearEntityChanges();
-            Main.printlnDev("Sent near changes ("+c+")");
-
-        }else if(blockChanges.periodicSendAllCheck(30000)){ //If the player disconnects unexpectedly, we want to send all changes
+            int b = blockChanges.sendNearBlockChanges();
+            int e = entityChanges.sendNearEntityChanges();
+            Main.printlnDev("Sent " + b + " near block changes; " + e + " near entity changes");
+        } else if (blockChanges.periodicSendAllCheck(30000)) { //If the player disconnects unexpectedly, we want to send all changes
             int c = blockChanges.sendAllChanges();
-            Main.printlnDev(getName()+": all changes ("+c+")");
+            Main.printlnDev("Sent all block changes (" + c + ")");
         }
 
         if (inRange != wasWithinReach) {

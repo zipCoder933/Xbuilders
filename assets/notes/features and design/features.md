@@ -20,14 +20,15 @@ All block tools that use a block boudnary have 2 other parameters
     * I might also need to cancel/limit block set and local change events when doing it in bulk, as it would slow things down too
 
 ## WATER/FIRE/GRASS PROPAGATION WITH CELLULAR AUTOMATA
-* we can use cellular autonoma interface so that the usage is essentially an abstraction of what is really going on
+# liquid propagation
+* There is a list of important nodes in each propagator
+* When a block in the pipeline is activated, the propigator will check if the block **or its neighbors** are the important block (water in this case)
+* If so, add it to the list
+* Every tick, we iterate over the whole list and propagate
+  * We delete nodes that have been propagated
+  * If a node is out of bounds, just delete it
+  * We want to empty the list by the time we are done
+    * If we did actually propagate, new nodes wil be added that will go into the next tick
 
-on a separate thread
-- find a bunch of nodes to apply cellular autonoma on
-- propagate using a BFS
-- only the nodes that apply to said propagation process will survive
-  - keep the bfs nodes separate for each process, this would also help them run at different speeds while also improving performance
-- these nodes keep propagating so that we dont have to index them on each step
-- if the distance from the node starting position is beyond a specific distance, index new nodes but keep the old ones
-  - a node will be deleted if it is too far from player
-- grass, that is dependent on the amount of time since placed, can store a timestamp in its block data?
+We don't need a special liquid mesh. we can just use what we already have. when propagating, water is in range from 7 to 0, the height of the block in the liqid mesh is equal to its value but averaged across all 4 neighbors per vertex
+

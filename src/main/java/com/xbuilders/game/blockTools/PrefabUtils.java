@@ -72,6 +72,12 @@ public class PrefabUtils {
     public static void savePrefabToFile(ChunkVoxels data, File file) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         toBytes(data, baos);
+        if(!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+        if(!file.exists()) {
+            file.createNewFile();
+        }
         Files.write(file.toPath(), baos.toByteArray());
     }
 

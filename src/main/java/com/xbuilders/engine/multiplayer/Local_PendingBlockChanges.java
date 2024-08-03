@@ -1,17 +1,43 @@
 package com.xbuilders.engine.multiplayer;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class Local_PendingBlockChanges extends PendingBlockChanges {
     public boolean needsSaving = false;
+
+
+    public int readApplicableChanges(BiConsumer<Vector3i, BlockHistory> changes) {
+        int changesToBeSent = 0;
+        if (this.blockChanges.isEmpty()) return 0;
+        //Make a copy of the change list first
+        HashMap<Vector3i, BlockHistory> copy = new HashMap<>(this.blockChanges);
+        for (Map.Entry<Vector3i, BlockHistory> entry : copy.entrySet()) {
+            Vector3i worldPos = entry.getKey();
+            BlockHistory change = entry.getValue();
+            if (changeCanBeLoaded(player, worldPos)) {
+                changes.accept(worldPos, change);
+
+                this.blockChanges.remove(entry.getKey());//Remove it so we don't send it again
+                changeEvent();
+                changesToBeSent++;
+            }
+        }
+        return changesToBeSent;
+    }
+
 
     public Local_PendingBlockChanges(Player player) {
         super(null, player);
