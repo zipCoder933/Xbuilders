@@ -166,43 +166,41 @@ public class PendingBlockChanges {
 
     public int sendNearBlockChanges() {
         if (blockChanges.isEmpty()) return 0;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int changesToBeSent = 0;
+
+        writeLock.lock();
         try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-
-            HashMap<Vector3i, BlockHistory> copy;
-
-            writeLock.lock();
-            try { //Make a copy of the change list first
-                copy = new HashMap<>(blockChanges);
-            } finally {
-                writeLock.unlock();
-            }
-
-            int changesToBeSent = 0;
-
-            for (Map.Entry<Vector3i, BlockHistory> entry : copy.entrySet()) {
+            Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = blockChanges.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<Vector3i, BlockHistory> entry = iterator.next();
                 Vector3i worldPos = entry.getKey();
                 BlockHistory change = entry.getValue();
                 if (changeWithinReach(player, worldPos)) {
                     blockChangeRecord(baos, worldPos, change);
-                    blockChanges.remove(entry.getKey());//Remove it so we don't send it again
+                    iterator.remove(); // Remove it so we don't send it again
                     changeEvent();
                     changesToBeSent++;
                 }
             }
-            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            writeLock.unlock();
+        }
 
+        try {
+            baos.close();
             if (changesToBeSent > 0) {
                 rangeChangesUpdate = System.currentTimeMillis();
                 byte byteList[] = baos.toByteArray();
                 socket.sendData(byteList);
             }
-            return changesToBeSent;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return 0;
+
+        return changesToBeSent;
     }
 
 

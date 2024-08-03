@@ -10,21 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
-      <change afterPath="$PROJECT_DIR$/assets/notes/features and design/entity multiplayer.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/notes/optimizationAndBugs/block updating optimizations.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Todo list.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todo list.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/notes/features and design/Multiplayer.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/features and design/block multiplayer.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/notes/features and design/features.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/features and design/features.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/notes/greedy meshing demo.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/chunk/greedy meshing demo.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/notes/nublada.rtf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/chunk/nublada.rtf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/notes/smooth mesh lighting.md" beforeDir="false" afterPath="$PROJECT_DIR$/assets/notes/chunk/smooth mesh lighting.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/GameServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/Local_PendingBlockChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/Local_PendingBlockChanges.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PendingBlockChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PendingBlockChanges.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PlayerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PlayerClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/wcc/WCCi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/wcc/WCCi.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -12,6 +12,7 @@ import org.joml.Vector3i;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -22,15 +23,16 @@ public class Local_PendingBlockChanges extends PendingBlockChanges {
     public int readApplicableChanges(BiConsumer<Vector3i, BlockHistory> changes) {
         int changesToBeSent = 0;
         if (this.blockChanges.isEmpty()) return 0;
-        //Make a copy of the change list first
-        HashMap<Vector3i, BlockHistory> copy = new HashMap<>(this.blockChanges);
-        for (Map.Entry<Vector3i, BlockHistory> entry : copy.entrySet()) {
+
+        Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = this.blockChanges.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Vector3i, BlockHistory> entry = iterator.next();
             Vector3i worldPos = entry.getKey();
             BlockHistory change = entry.getValue();
             if (changeCanBeLoaded(player, worldPos)) {
                 changes.accept(worldPos, change);
 
-                this.blockChanges.remove(entry.getKey());//Remove it so we don't send it again
+                iterator.remove(); // Remove it so we don't send it again
                 changeEvent();
                 changesToBeSent++;
             }
