@@ -8,7 +8,7 @@ import java.io.OutputStream;
 
 public class XBFilterOutputStream extends FilterOutputStream {
 
-    public final static byte FILTERED_BYTE = ChunkSavingLoadingUtils.NEWLINE_BYTE;
+    public final static byte FILTERED_BYTE = ChunkSavingLoadingUtils.START_READING_VOXELS;
 
     public XBFilterOutputStream(OutputStream out) {
         super(out);

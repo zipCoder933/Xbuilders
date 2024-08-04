@@ -36,11 +36,23 @@ public class EntityLink extends Item {
         this.initializationCallback = initializationCallback;
     }
 
+    public Entity makeNew(Chunk chunk, float worldX, float worldY, float worldZ) {
+        return makeNew(chunk, 0, worldX, worldY, worldZ, null);
+    }
+
     public Entity makeNew(Chunk chunk, float worldX, float worldY, float worldZ, byte[] bytes) {
+        return makeNew(chunk, 0, worldX, worldY, worldZ, bytes);
+    }
+
+    public Entity makeNew(Chunk chunk, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
         if (supplier != null) {
             Entity entity = supplier.get();
             entity.link = this;
             entity.chunk = chunk;
+            entity.identifier = identifier;
+            if(entity.identifier == 0) {
+                entity.generateIdentifier();
+            }
             entity.worldPosition.set(worldX, worldY, worldZ);
             entity.loadBytes = bytes;
             return entity;

@@ -515,7 +515,6 @@ public class MyGame extends Game {
         try {
             File f = new File(currentWorld.getDirectory() + "\\game.json");
             if (f.exists()) {
-                System.out.println("Loading it");
                 gameInfo = json.gson.fromJson(new FileReader(f), GameInfo.class);
                 if (gameInfo == null) {
                     gameInfo = new GameInfo();

@@ -116,7 +116,7 @@ public class ChunkFile_V0 {
             start.set(start.get() - 1);
         }
 //        System.out.println("Ending value: " + printSubList(bytes, start.get(), 5));
-        return link.makeNew(chunk,
+        return link.makeNew(chunk,0,
                 chunkVox.x + chunk.position.x * Chunk.WIDTH,
                 chunkVox.y + chunk.position.y * Chunk.WIDTH,
                 chunkVox.z + chunk.position.z * Chunk.WIDTH,

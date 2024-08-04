@@ -17,6 +17,8 @@ import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3f;
 
+import java.security.SecureRandom;
+
 /**
  * @author zipCoder933
  */
@@ -70,6 +72,8 @@ public abstract class Entity {
     private float torchValue;
     protected byte[] loadBytes;
     public EntityLink link;
+    protected long identifier;
+
 
     //Position
     public EntityAABB aabb;
@@ -172,7 +176,7 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return "Entity{" + link.name + ", pos=" + MiscUtils.printVector(worldPosition) + '}';
+        return "Entity{" + link.name + ", id=" + Long.toHexString(getIdentifier()) + '}';
     }
 
     public void destroy() {
@@ -184,5 +188,14 @@ public abstract class Entity {
      */
     public boolean run_ClickEvent() {
         return false;
+    }
+
+    public long getIdentifier() {
+        return identifier;
+    }
+
+    private static SecureRandom secureRandom = new SecureRandom();
+    protected void generateIdentifier() {
+        this.identifier = secureRandom.nextLong();
     }
 }

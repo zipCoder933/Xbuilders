@@ -421,6 +421,10 @@ public class GameScene implements WindowEvents {
                         text += "\nRay hit (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     }
 
+                    if(player.camera.cursorRay.getEntity() != null){
+                        text += "\nEntity: " + player.camera.cursorRay.getEntity();
+                    }
+
                     Chunk chunk = world.getChunk(rayWCC.chunk);
                     if (chunk != null) {
                         text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();

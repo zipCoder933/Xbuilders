@@ -19,7 +19,6 @@ import java.util.zip.GZIPOutputStream;
 
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
@@ -32,16 +31,14 @@ public class ChunkSavingLoadingUtils {
 
 
     //DONT IMPORT ANY of these variables into the chunk file reading class. We want the previous chunk file versions to work no matter what.
-    public static final byte NEWLINE_BYTE = Byte.MIN_VALUE;
-    public static final byte VOXEL_BYTE = -127;
-    public static final byte ENTITY_BYTE = -126;
+    public static final byte START_READING_VOXELS = -128;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
 
-    public static final int METADATA_BYTES = 9;
-    public static final int FILE_VERSION = 0;
+    public static final int METADATA_BYTES = 64;
+    public static final int LATEST_FILE_VERSION = 1;
 
 
-    public static final int ENTITY_MAX_BYTES = Integer.MAX_VALUE - 8; //this is the max size for a java array
+    public static final int ENTITY_DATA_MAX_BYTES = Integer.MAX_VALUE - 8; //this is the max size for a java array
     public static int BLOCK_DATA_MAX_BYTES = (int) (Math.pow(2, 16) - 1); //Unsigned short
 
 
@@ -77,7 +74,7 @@ public class ChunkSavingLoadingUtils {
         return new BlockData(data);
     }
 
-    public static void writeEntity(byte[] entityBytes, OutputStream out) throws IOException {
+    public static void writeEntityData(byte[] entityBytes, OutputStream out) throws IOException {
         //We dont have to check if the entity is out of bounds because we would be going over the max size anyway
         if (entityBytes == null) {
             out.write(new byte[]{0, 0, 0, 0});//Just write 0 for the length
@@ -89,7 +86,7 @@ public class ChunkSavingLoadingUtils {
         out.write(entityBytes);
     }
 
-    public static byte[] readEntity(byte[] bytes, AtomicInteger start) {
+    public static byte[] readEntityData(byte[] bytes, AtomicInteger start) {
         int length = bytesToInt(bytes[start.get()], bytes[start.get() + 1], bytes[start.get() + 2], bytes[start.get() + 3]);
         start.set(start.get() + 4);
 
@@ -100,7 +97,7 @@ public class ChunkSavingLoadingUtils {
         return data;
     }
 
-    private static String printSubList(byte[] bytes, int target, int radius) {
+    protected static String printSubList(byte[] bytes, int target, int radius) {
         int start = MathUtils.clamp(target - radius, 0, bytes.length - 1);
         int end = MathUtils.clamp(target + radius, 0, bytes.length - 1);
         String str = "🎯=" + target + "(";
@@ -117,10 +114,8 @@ public class ChunkSavingLoadingUtils {
     private static String printBytesFormatted(byte[] bytes) {
         String str = "";
         for (int i = 0; i < bytes.length; i++) {
-            if (bytes[i] == NEWLINE_BYTE) str += "(-128\n)";
-            else if (bytes[i] == VOXEL_BYTE) str += "VOXEL ";
+            if (bytes[i] == START_READING_VOXELS) str += "(-128\n)";
             else if (bytes[i] == BYTE_SKIP_ALL_VOXELS) str += "SKIP ";
-            else if (bytes[i] == ENTITY_BYTE) str += "ENTITY ";
             else str += bytes[i] + " ";
         }
         return str;
@@ -145,21 +140,6 @@ public class ChunkSavingLoadingUtils {
         writeUnsignedShort(out, (int) (vec.z * maxMult16bits));
     }
 
-
-    private static void writeEntity(final XBFilterOutputStream filteredOut, final OutputStream out2, Entity entity) throws IOException {
-        out2.write(ENTITY_BYTE);
-        writeShort(out2, entity.link.id);
-
-        //Write position
-        entity.updatePosition();
-        writeChunkVoxelCoords(out2, entity.chunkPosition.chunkVoxel);
-
-        byte[] entityBytes = entity.toBytes();
-        if (entityBytes != null)
-            filteredOut.write(entityBytes); //TODO: Change block data and entity data to write without the filteredoutputstream
-        out2.write(NEWLINE_BYTE);
-    }
-
     public static long getLastSaved(File f) {
         try (FileInputStream fis = new FileInputStream(f);
              GZIPInputStream input = new GZIPInputStream(fis)) {
@@ -174,23 +154,44 @@ public class ChunkSavingLoadingUtils {
         try (MemoryStack stack = MemoryStack.stackPush()) {
 
             try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream out = new GZIPOutputStream(fos)) {
-                out.write(FILE_VERSION);//Write the version of the file
+                out.write(LATEST_FILE_VERSION);//Write the version of the file
                 writeMetadata(out, chunk);
 
                 boolean iterateOverVoxels = true;
+
                 //Write entities
-                XBFilterOutputStream fout = new XBFilterOutputStream(out);
                 for (int i = 0; i < chunk.entities.list.size(); i++) {
+
                     Entity entity = chunk.entities.list.get(i);
-                    writeEntity(fout, out, entity);
+                    writeShort(out, entity.link.id); //Write entity id
+                    writeLong(out, entity.getIdentifier()); //Write entity identifier
+
+                    entity.updatePosition();  //Write position
+                    writeChunkVoxelCoords(out, entity.chunkPosition.chunkVoxel);
+
+                    byte[] entityBytes = entity.toBytes(); //Write entity data
+                    writeEntityData(entityBytes, out);
+
                 }
+
+                out.write(START_READING_VOXELS);
 
                 //Write voxels
                 if (iterateOverVoxels) {
                     for (int y = chunk.data.size.y - 1; y >= 0; y--) {
                         for (int x = 0; x < chunk.data.size.x; ++x) {
                             for (int z = 0; z < chunk.data.size.z; ++z) {
-                                writeVoxel(chunk, out, fout, x, y, z);
+
+                                short blockID = chunk.data.getBlock(x, y, z); //Write block id
+                                writeShort(out, blockID);
+
+                                out.write(chunk.data.getPackedLight(x, y, z)); //Write light as a single byte
+
+                                if (blockID != BlockList.BLOCK_AIR.id) { //We dont have to write block data if the block is air
+                                    final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
+                                    writeBlockData(blockData, out);
+                                }
+
                             }
                         }
                     }
@@ -216,7 +217,7 @@ public class ChunkSavingLoadingUtils {
         //We only have METADATA_BYTES bytes of metadata to use
         int availableBytes = METADATA_BYTES;
 
-        byte[] lastSaved = ByteUtils.longToBytes(chunk.lastModifiedTime); //Last modified time
+        byte[] lastSaved = ByteUtils.longToByteArray(chunk.lastModifiedTime); //Last modified time
         availableBytes -= lastSaved.length;
         out.write(lastSaved);//8 bytes
 
@@ -229,7 +230,10 @@ public class ChunkSavingLoadingUtils {
             try (FileInputStream fis = new FileInputStream(f); GZIPInputStream input = new GZIPInputStream(fis)) {
 
                 int fileVersion = input.read();
-                ChunkFile_V0.readChunk(chunk, input);
+                switch (fileVersion) {
+                    case 0 -> ChunkFile_V0.readChunk(chunk, input);
+                    case 1 -> ChunkFile_V1.readChunk(chunk, input);
+                }
 
             } catch (FileNotFoundException ex) {
                 ErrorHandler.report("An error occurred reading chunk " + chunk, "", ex);
@@ -243,19 +247,5 @@ public class ChunkSavingLoadingUtils {
             }
         }
         return true;
-    }
-
-    private static void writeVoxel(Chunk chunk, GZIPOutputStream out, XBFilterOutputStream fout, int x, int y, int z) throws IOException {
-        //VOXEL, LIGHT, BLOCK ID, BLOCK ID, BLOCK DATA...
-        out.write(VOXEL_BYTE);
-        out.write(chunk.data.getPackedLight(x, y, z));
-
-        short block = chunk.data.getBlock(x, y, z);
-        writeShort(out, block);
-        final BlockData blockData = chunk.data.getBlockData(x, y, z);
-        if (block != BlockList.BLOCK_AIR.id && blockData != null) {
-            blockData.write(fout);
-        }
-        out.write(NEWLINE_BYTE);
     }
 }
