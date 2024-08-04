@@ -179,7 +179,7 @@ public class PendingEntityChanges {
                 start.set(start.get() + 2);
 
                 //Block data
-                byte[] data = ChunkSavingLoadingUtils.readEntity(receivedData, start);
+                byte[] data = ChunkSavingLoadingUtils.readEntityData(receivedData, start);
 
                 //Add the block to the list
                 newEvent.accept(mode, entity, lastPosition, currentPos, data);
@@ -241,7 +241,7 @@ public class PendingEntityChanges {
             data = entity.toBytes();
             System.out.println("Entity created: " + Arrays.toString(data));
         }
-        ChunkSavingLoadingUtils.writeEntity(data, baos);
+        ChunkSavingLoadingUtils.writeEntityData(data, baos);
     }
 
 

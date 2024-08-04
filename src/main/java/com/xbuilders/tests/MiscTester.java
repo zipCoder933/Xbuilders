@@ -18,10 +18,10 @@ public class MiscTester {
         long testLong = new SecureRandom().nextLong();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-       ByteUtils.writeLong(baos, testLong);
+        ByteUtils.writeLong(baos, testLong);
         byte[] bytes = baos.toByteArray();
 
-        long reconstituted = ChunkFile_V1.bytesToLong(bytes,new AtomicInteger(0));
+        long reconstituted = ByteUtils.bytesToLong(bytes, new AtomicInteger(0));
 
         System.out.println("Original value: " + testLong);
         System.out.println("Bytes: " + Arrays.toString(bytes));
