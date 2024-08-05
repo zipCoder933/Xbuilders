@@ -212,29 +212,38 @@ public class GameServer extends Server<PlayerClient> {
                         }
                     });
                 } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
-                    PendingEntityChanges.readEntityChange(receivedData, (mode, entity, lastPos, currentPos, data) -> {
+                    PendingEntityChanges.readEntityChange(receivedData, (mode, entity, identifier, currentPos, data) -> {
+
+                        String modeStr;
+                        switch (mode) {
+                            case ENTITY_CREATED -> modeStr = "CREATED";
+                            case ENTITY_DELETED -> modeStr = "DELETED";
+                            case ENTITY_UPDATED -> modeStr = "UPDATED";
+                            default -> modeStr = "UNKNOWN";
+                        }
                         Main.printlnDev(entity +
-                                ", last=" + MiscUtils.printVector(lastPos) +
+                                ", mode=" + modeStr +
+                                ", id=" + Long.toHexString(identifier) +
                                 ", current=" + MiscUtils.printVector(currentPos) +
                                 ", data=" + Arrays.toString(data) + " \t" + System.currentTimeMillis());
 
 
                         if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
                             if (mode == ENTITY_CREATED) {
-                                setEntity(entity, currentPos, data);
+                                setEntity(entity, identifier, currentPos, data);
                             } else if (mode == ENTITY_DELETED) {
-                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
-                                if (e != null) {
-                                    e.destroy();
-                                }
+//                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
+//                                if (e != null) {
+//                                    e.destroy();
+//                                }
                             } else if (mode == ENTITY_UPDATED) {
-                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
-                                if (e != null) {
-                                    e.multiplayerProps.updateState(data, currentPos);
-                                }
+//                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
+//                                if (e != null) {
+//                                    e.multiplayerProps.updateState(data, currentPos);
+//                                }
                             }
                         } else {//Cache changes if they are out of bounds
-                            GameScene.localEntityChanges.addEntityChange(mode, entity, lastPos, currentPos, data);
+                            GameScene.localEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
                         }
                     });
                 } else if (receivedData[0] == PLAYER_CHUNK_DISTANCE) {
@@ -264,13 +273,14 @@ public class GameServer extends Server<PlayerClient> {
         }
     }
 
-    public Entity setEntity(EntityLink entity, Vector3f worldPosition, byte[] data) {
+    public Entity setEntity(EntityLink entity, long identifier, Vector3f worldPosition, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(worldPosition);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModifiedByUser();
-            return chunk.entities.placeNew(worldPosition, entity, data);
+            System.out.println("Placing entity " + entity + " at " + worldPosition);
+            return chunk.entities.placeNew(worldPosition, identifier, entity, data);
         }
         return null;
     }

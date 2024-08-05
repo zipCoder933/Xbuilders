@@ -27,6 +27,6 @@ public class Local_PendingEntityChanges {
 
     }
 
-    public void addEntityChange(int mode, EntityLink entity, Vector3f lastPos, Vector3f currentPos, byte[] data) {
+    public void addEntityChange(int mode, EntityLink entity, long identifier, Vector3f currentPos, byte[] data) {
     }
 }

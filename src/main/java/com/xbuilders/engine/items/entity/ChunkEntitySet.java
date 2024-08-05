@@ -45,8 +45,14 @@ public class ChunkEntitySet {
         return e;
     }
 
+    public Entity placeNew(Vector3f worldPos, long identifier, EntityLink entity, byte[] data) {
+        Entity e = entity.makeNew(thisChunk, identifier, worldPos.x, worldPos.y, worldPos.z, data);
+        list.add(e);
+        return e;
+    }
+
     public Entity placeNew(Vector3i worldPos, EntityLink entity, byte[] data) {
-        Entity e = entity.makeNew(thisChunk, worldPos.x, worldPos.y, worldPos.z, null);
+        Entity e = entity.makeNew(thisChunk, worldPos.x, worldPos.y, worldPos.z, data);
         list.add(e);
         return e;
     }

@@ -49,10 +49,10 @@ public class PendingEntityChanges {
         WCCf wcc = new WCCf();
         wcc.set(currentPos);
         Chunk chunk = GameScene.world.getChunk(wcc.chunk);
-        if(chunk != null){
-            for(Entity entity : chunk.entities.list){
-                if(entity.worldPosition.distance(currentPos.x, currentPos.y, currentPos.z) < 1f){
-                   return entity;
+        if (chunk != null) {
+            for (Entity entity : chunk.entities.list) {
+                if (entity.worldPosition.distance(currentPos.x, currentPos.y, currentPos.z) < 1f) {
+                    return entity;
                 }
             }
         }
@@ -60,9 +60,9 @@ public class PendingEntityChanges {
         System.out.println("Trying last pos");
         wcc.set(lastPos);
         chunk = GameScene.world.getChunk(wcc.chunk);
-        if(chunk != null){
-            for(Entity entity : chunk.entities.list){
-                if(entity.worldPosition.distance(lastPos.x, lastPos.y, lastPos.z) < 1f){
+        if (chunk != null) {
+            for (Entity entity : chunk.entities.list) {
+                if (entity.worldPosition.distance(lastPos.x, lastPos.y, lastPos.z) < 1f) {
                     return entity;
                 }
             }
@@ -79,7 +79,7 @@ public class PendingEntityChanges {
 
     @FunctionalInterface
     public interface ReadConsumer {
-        void accept(int mode, EntityLink entityLink, Vector3f lastPos, Vector3f currentPos, byte[] data);
+        void accept(int mode, EntityLink entityLink, long identifier, Vector3f currentPos, byte[] data);
     }
 
     public int sendNearEntityChanges() {
@@ -157,21 +157,17 @@ public class PendingEntityChanges {
                     receivedData[start.get()] == GameServer.ENTITY_DELETED ||
                     receivedData[start.get()] == GameServer.ENTITY_UPDATED) {
                 int mode = receivedData[start.get()];
-
+                start.set(start.get() + 1);
 
                 //last XYZ coordinates
-                float x = ByteUtils.bytesToFloat(receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3], receivedData[start.get() + 4]);
-                float y = ByteUtils.bytesToFloat(receivedData[start.get() + 5], receivedData[start.get() + 6], receivedData[start.get() + 7], receivedData[start.get() + 8]);
-                float z = ByteUtils.bytesToFloat(receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11], receivedData[start.get() + 12]);
-                Vector3f lastPosition = new Vector3f(x, y, z);
-                start.set(start.get() + 12);
+                long identifier = ByteUtils.bytesToLong(receivedData, start);
 
                 //Current XYZ coordinates
-                x = ByteUtils.bytesToFloat(receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3], receivedData[start.get() + 4]);
-                y = ByteUtils.bytesToFloat(receivedData[start.get() + 5], receivedData[start.get() + 6], receivedData[start.get() + 7], receivedData[start.get() + 8]);
-                z = ByteUtils.bytesToFloat(receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11], receivedData[start.get() + 12]);
+                float x = ByteUtils.bytesToFloat(receivedData[start.get()], receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3]);
+                float y = ByteUtils.bytesToFloat(receivedData[start.get() + 4], receivedData[start.get() + 5], receivedData[start.get() + 6], receivedData[start.get() + 7]);
+                float z = ByteUtils.bytesToFloat(receivedData[start.get() + 8], receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11]);
                 Vector3f currentPos = new Vector3f(x, y, z);
-                start.set(start.get() + 13);
+                start.set(start.get() + 12);
 
                 //Entity ID
                 int blockID = ByteUtils.bytesToShort(receivedData[start.get()], receivedData[start.get() + 1]);
@@ -182,7 +178,7 @@ public class PendingEntityChanges {
                 byte[] data = ChunkSavingLoadingUtils.readEntityData(receivedData, start);
 
                 //Add the block to the list
-                newEvent.accept(mode, entity, lastPosition, currentPos, data);
+                newEvent.accept(mode, entity, identifier, currentPos, data);
             }
         }
     }
@@ -220,10 +216,8 @@ public class PendingEntityChanges {
     public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
         baos.write(new byte[]{entityOperation});
 
-        //Send last position
-        baos.write(ByteUtils.floatToBytes(entity.multiplayerProps.lastPosition.x));
-        baos.write(ByteUtils.floatToBytes(entity.multiplayerProps.lastPosition.y));
-        baos.write(ByteUtils.floatToBytes(entity.multiplayerProps.lastPosition.z));
+        //Send identifier
+        ByteUtils.writeLong(baos, entity.getIdentifier());
 
         //Send current position
         baos.write(ByteUtils.floatToBytes(entity.worldPosition.x));
