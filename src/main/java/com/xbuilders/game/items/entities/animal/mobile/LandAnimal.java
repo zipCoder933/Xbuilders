@@ -40,7 +40,7 @@ public abstract class LandAnimal extends Animal {
     public AnimalAction newRandomAction(Enum lastAction) {
 
 
-        AnimalAction.ActionType newBehavior = AnimalAction.getRandomActionType(random.getRandom(), AnimalAction.ActionType.IDLE, AnimalAction.ActionType.WALK, AnimalAction.ActionType.TURN);
+        AnimalAction.ActionType newBehavior = AnimalAction.getRandomActionType(random, AnimalAction.ActionType.IDLE, AnimalAction.ActionType.WALK, AnimalAction.ActionType.TURN);
         if (lastAction != null) { //Shake it up if the last action was the same
             AnimalAction.ActionType lastAction2 = (AnimalAction.ActionType) lastAction;
             if (newBehavior == lastAction2) {

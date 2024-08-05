@@ -37,7 +37,7 @@ public class AnimalAction {
 
     ;
 
-    public static ActionType getRandomActionType(Random random, ActionType... types) {
+    public static ActionType getRandomActionType(AnimalRandom random, ActionType... types) {
         int indx = random.nextInt(types.length);
         return types[indx];
     }

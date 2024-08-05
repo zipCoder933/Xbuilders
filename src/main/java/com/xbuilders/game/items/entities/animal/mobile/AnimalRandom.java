@@ -4,89 +4,91 @@
  */
 package com.xbuilders.game.items.entities.animal.mobile;
 
+import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.utils.math.random.CustomRandom;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author zipCoder933
  */
 public class AnimalRandom {
 
-    /**
-     * @return the noise
-     */
-    public FastNoise getNoise() {
-        return noise;
-    }
-
-    /**
-     * @return the random
-     */
-    public Random getRandom() {
-        return random;
-    }
-
 
     public int nextInt(int lowerBound, int upperBound) {
-        return getRandom().nextInt(upperBound - lowerBound) + lowerBound;
+        return random.nextInt(upperBound - lowerBound) + lowerBound;
     }
 
     public float nextFloat(float lowerBound, float upperBound) {
-        return (getRandom().nextFloat() * upperBound - lowerBound) + lowerBound;
+        return (random.nextFloat() * upperBound - lowerBound) + lowerBound;
     }
 
     public long nextLong(long lowerBound, long upperBound) {
-        return (long) ((getRandom().nextFloat() * upperBound - lowerBound) + lowerBound);
+        return (long) ((random.nextFloat() * upperBound - lowerBound) + lowerBound);
     }
 
     public boolean nextBoolean() {
-        return getRandom().nextBoolean();
+        return random.nextBoolean();
     }
 
     public float nextFloat() {
-        return getRandom().nextFloat();
+        return random.nextFloat();
     }
 
     public int nextInt() {
-        return getRandom().nextInt();
+        return random.nextInt();
     }
 
     public int nextInt(int val) {
-        return getRandom().nextInt(val);
+        return random.nextInt(val);
     }
 
     private FastNoise noise;
-    private Random random;
+    private CustomRandom random;
 
     public AnimalRandom() {
         super();
-        noiseInt = 0;
+        noiseIndex = 0;
         noise = new FastNoise();
-        random = new Random();
+        random = new CustomRandom();
+        randomSeed = random.getTrueSeed();
     }
 
     public void setSeed(long seed) {
-        noiseInt = 0;
-        this.seed = seed;
-        getRandom().setSeed(seed);
-        getNoise().SetSeed((int) (seed));
+        noiseIndex = 0;
+        noiseSeed = (int) (seed);
+        random.setSeed(seed);
+        noise.SetSeed((int) (seed));
     }
 
-    public long getSeed() {
-        return seed;
+
+    private int noiseSeed;
+
+    //These 2 parameters represent the state of this entire class
+    int noiseIndex;
+    AtomicLong randomSeed = new AtomicLong();
+
+    public void writeState(ByteArrayOutputStream baos) throws IOException {
+        ByteUtils.writeLong(baos, randomSeed.get());
+        ByteUtils.writeInt(baos, noiseIndex);
     }
 
-    int noiseInt;
-    private long seed = 0;
+    public void readState(byte[] state, AtomicInteger start) {
+        randomSeed.set(ByteUtils.bytesToLong(state, start));
+        noiseIndex = ByteUtils.bytesToInt(state, start);
+    }
 
     public float noise(float frequency) {
-        return getNoise().GetValueFractal(seed, (noiseInt * frequency) - getSeed());
+        return noise.GetValueFractal(noiseSeed, (noiseIndex * frequency) - noiseSeed);
     }
 
     public float noise(float frequency, float min, float max) {
         return MathUtils.map(noise(frequency), -1, 1, min, max);
     }
-
 }

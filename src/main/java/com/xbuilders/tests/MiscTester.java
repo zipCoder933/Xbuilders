@@ -1,70 +1,53 @@
 package com.xbuilders.tests;
 
-import com.xbuilders.engine.utils.ByteUtils;
-import com.xbuilders.engine.world.chunk.saving.ChunkFile_V1;
-import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
+import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.math.random.CustomRandom;
+
+import java.io.*;
 
 public class MiscTester {
+    private static long referenceTime = System.currentTimeMillis();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws InterruptedException {
+        // Generate a shared seed
+        byte[] sharedSeed = ByteUtils.longToByteArray(15);
+
+        // Create a SecureRandom instance using the shared seed
+        CustomRandom rand = new CustomRandom();
 
 
-        long testLong = new SecureRandom().nextLong();
+        long seed = rand.getTrueSeed().get();
 
+        for (int i = 0; i < 15; i++) {
+            int randomInt = rand.nextInt();
+            float randomFloat = rand.nextFloat();
+            System.out.println(randomInt + "\t\t  " + randomFloat);
+        }
+
+        rand.getTrueSeed().set(seed); //The true seed is the real state of the random generator
+        System.out.println();
+
+        for (int i = 0; i < 15; i++) {
+            int randomInt = rand.nextInt();
+            double randomFloat = rand.nextGaussian();
+            System.out.println(randomInt + "\t\t  " + randomFloat);
+        }
+    }
+
+    //We could also just use a default random number genereator and serialzie it to get its complete state
+
+    public static byte[] serialize(Serializable object) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ByteUtils.writeLong(baos, testLong);
-        byte[] bytes = baos.toByteArray();
-
-        long reconstituted = ByteUtils.bytesToLong(bytes, new AtomicInteger(0));
-
-        System.out.println("Original value: " + testLong);
-        System.out.println("Bytes: " + Arrays.toString(bytes));
-        System.out.println("Reconstituted: " + reconstituted);
-
-//        System.out.println(ChunkSavingLoadingUtils.BLOCK_DATA_MAX_BYTES);
-//
-//        int origIntValue = 0;
-//        byte[] unsignedShortBytes = shortToBytes(origIntValue & 0xffff); // 0xffff is the way to convert from int to unsigned short and vice versa
-//        int reconstituted = bytesToShort(unsignedShortBytes[0], unsignedShortBytes[1]) & 0xffff;
-//
-//        System.out.println("Original value: " + origIntValue);
-//        System.out.println("Unsigned short: " + Arrays.toString(unsignedShortBytes));
-//        System.out.println("Reconstituted: " + reconstituted);
-//
-////        BlockData data = new BlockData(new byte[]{1, 2, 98, 12, 79, 1, 2, 3, 4, 1, 2, 98, 12, 79, 1, 2, 3, 4});
-////        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-////        ChunkSavingLoadingUtils.writeBlockData(data, baos);
-////        byte[] bytes2 = baos.toByteArray();
-////        BlockData reconstBytes = ChunkSavingLoadingUtils.readBlockData(bytes2, new AtomicInteger(0));
-//
-//
-//        byte[] data = new byte[]{1, 2, 98, 12, 79, 1, 2, 3, 4, 1, 2, 98, 12, 79, 1, 2, 3, 4, 14};
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//
-//        ChunkSavingLoadingUtils.writeEntityData(data, baos);
-//        byte[] bytes = baos.toByteArray();
-//
-//        byte[] reconstBytes = ChunkSavingLoadingUtils.readEntityData(bytes, new AtomicInteger(0));
-//
-//        System.out.println(Arrays.toString(data));
-//        System.out.println(Arrays.toString(reconstBytes));
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(object);
+        oos.close();
+        return baos.toByteArray();
     }
 
-    public static byte[] shortToBytes(final int x) {
-        final byte b1 = (byte) x;
-        final byte b2 = (byte) (x >> 8);
-        return new byte[]{b1, b2};
+    public static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        ObjectInputStream ois = new ObjectInputStream(bais);
+        return ois.readObject();
     }
-
-    public static int bytesToShort(final byte b1, final byte b2) {
-        return (b2 << 8 | (b1 & 0xFF));
-    }
-
-
 }
