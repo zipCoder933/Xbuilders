@@ -1,8 +1,6 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
-import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.multiplayer.Local_PendingEntityChanges;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
@@ -32,8 +30,6 @@ import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
-import com.xbuilders.engine.world.wcc.WCCf;
-import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
@@ -139,7 +135,7 @@ public class World {
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
 
-
+    public final WorldEntityMap entities = new WorldEntityMap(); // <chunkPos, entity>
 
     public WorldInfo info;
     public Terrain terrain;
@@ -205,6 +201,7 @@ public class World {
         setViewDistance(Main.settings.internal_viewDistance.value);
         chunkShader.setSkyColor(GameScene.backgroundColor);
         sortByDistance = new SortByDistanceToPlayer(GameScene.player.worldPosition);
+        entities.clear();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Chunk operations">
@@ -238,6 +235,7 @@ public class World {
     public void removeChunk(final Vector3i coords) {
         if (hasChunk(coords)) {
             Chunk chunk = this.chunks.remove(coords);
+            entities.removeAllEntitiesFromChunk(chunk);
             chunk.save(info);
             unusedChunks.add(chunk);
         }
@@ -251,6 +249,7 @@ public class World {
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
         this.info = info;
+        entities.clear();
 
         this.terrain = Main.game.getTerrainFromInfo(info);
         if (terrain == null) {
@@ -277,6 +276,7 @@ public class World {
             chunk.dispose();
         });
 
+        entities.clear();
         chunks.clear();
         unusedChunks.clear();
         sortedChunksToRender.clear();
@@ -397,6 +397,7 @@ public class World {
         frameTester.set("in-use chunks", chunks.size());
         frameTester.set("chunksToRender", sortedChunksToRender.size());
         frameTester.set("unused chunks", unusedChunks.size());
+        frameTester.set("world entities", world.entities.size());
     }
 
     long frame = 0;

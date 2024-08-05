@@ -4,12 +4,24 @@
  */
 package com.xbuilders.game.items.entities.animal.mobile;
 
+import com.xbuilders.engine.utils.ByteUtils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
  */
 public class AnimalAction {
+
+    public ActionType type;
+    public long duration;
+    public float velocity;
+    private long createdTimeMS;
+
+
 
     public enum ActionType {
         TURN,
@@ -30,6 +42,23 @@ public class AnimalAction {
         return types[indx];
     }
 
+    public void toBytes(ByteArrayOutputStream baos) throws IOException {
+        ByteUtils.writeInt(baos, type.ordinal());
+        ByteUtils.writeLong(baos, duration);
+        ByteUtils.writeFloat(baos, velocity);
+        ByteUtils.writeLong(baos, createdTimeMS);
+        System.out.println("AnimalAction: " + this);
+    }
+
+    public AnimalAction fromBytes(byte[] state, AtomicInteger start) {
+        type = ActionType.values()[ByteUtils.bytesToInt(state, start)];
+        duration = ByteUtils.bytesToLong(state, start);
+        velocity = ByteUtils.bytesToFloat(state, start);
+        createdTimeMS = ByteUtils.bytesToLong(state, start);
+        return this;
+    }
+
+    public AnimalAction() {}
 
     public AnimalAction(ActionType type) {
         this.type = type;
@@ -48,12 +77,6 @@ public class AnimalAction {
     public boolean pastDuration() {
         return getTimeSinceCreatedMS() > duration;
     }
-
-    public ActionType type;
-    public long duration;
-    public float velocity;
-    private long createdTimeMS;
-
 
     @Override
     public String toString() {

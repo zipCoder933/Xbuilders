@@ -221,26 +221,25 @@ public class GameServer extends Server<PlayerClient> {
                             case ENTITY_UPDATED -> modeStr = "UPDATED";
                             default -> modeStr = "UNKNOWN";
                         }
-                        Main.printlnDev(entity +
-                                ", mode=" + modeStr +
+                        Main.printlnDev("RECEIVED (" + modeStr + ") " + entity +
                                 ", id=" + Long.toHexString(identifier) +
-                                ", current=" + MiscUtils.printVector(currentPos) +
-                                ", data=" + Arrays.toString(data) + " \t" + System.currentTimeMillis());
+                                ", pos=" + MiscUtils.printVector(currentPos) +
+                                ", data=" + Arrays.toString(data));
 
 
                         if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
                             if (mode == ENTITY_CREATED) {
                                 setEntity(entity, identifier, currentPos, data);
                             } else if (mode == ENTITY_DELETED) {
-//                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
-//                                if (e != null) {
-//                                    e.destroy();
-//                                }
+                                Entity e = GameScene.world.entities.get(identifier);
+                                if (e != null) {
+                                    e.destroy();
+                                }
                             } else if (mode == ENTITY_UPDATED) {
-//                                Entity e = PendingEntityChanges.findEntity(lastPos, currentPos);
-//                                if (e != null) {
-//                                    e.multiplayerProps.updateState(data, currentPos);
-//                                }
+                                Entity e = GameScene.world.entities.get(identifier);
+                                if (e != null) {
+                                    e.multiplayerProps.updateState(data, currentPos);
+                                }
                             }
                         } else {//Cache changes if they are out of bounds
                             GameScene.localEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
@@ -279,7 +278,6 @@ public class GameServer extends Server<PlayerClient> {
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModifiedByUser();
-            System.out.println("Placing entity " + entity + " at " + worldPosition);
             return chunk.entities.placeNew(worldPosition, identifier, entity, data);
         }
         return null;
@@ -387,12 +385,6 @@ public class GameServer extends Server<PlayerClient> {
     public void sendNearBlockChanges() {
         for (PlayerClient client : clients) {
             client.blockChanges.sendNearBlockChanges();
-        }
-    }
-
-    public void sendNearEntityChanges() {
-        for (PlayerClient client : clients) {
-            client.entityChanges.sendNearEntityChanges();
         }
     }
 

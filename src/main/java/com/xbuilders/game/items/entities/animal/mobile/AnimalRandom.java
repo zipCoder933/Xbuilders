@@ -28,12 +28,6 @@ public class AnimalRandom {
         return random;
     }
 
-    /**
-     * @return the seed
-     */
-    public int getSeed() {
-        return seed;
-    }
 
     public int nextInt(int lowerBound, int upperBound) {
         return getRandom().nextInt(upperBound - lowerBound) + lowerBound;
@@ -66,30 +60,26 @@ public class AnimalRandom {
     private FastNoise noise;
     private Random random;
 
-    public AnimalRandom(int seed) {
+    public AnimalRandom() {
         super();
         noiseInt = 0;
         noise = new FastNoise();
         random = new Random();
-        setSeed(seed);
     }
 
-    public void setSeed(int seed) {
+    public void setSeed(long seed) {
         noiseInt = 0;
         this.seed = seed;
         getRandom().setSeed(seed);
-        getNoise().SetSeed((int) seed);
+        getNoise().SetSeed((int) (seed));
+    }
+
+    public long getSeed() {
+        return seed;
     }
 
     int noiseInt;
-    private int seed = 0;
-
-    protected void updateNoiseSeed() {
-        noiseInt += 1;
-        if (noiseInt > 100000) {
-            noiseInt = 0;
-        }
-    }
+    private long seed = 0;
 
     public float noise(float frequency) {
         return getNoise().GetValueFractal(seed, (noiseInt * frequency) - getSeed());

@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.items.entity;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -55,6 +56,10 @@ public class EntityLink extends Item {
             }
             entity.worldPosition.set(worldX, worldY, worldZ);
             entity.loadBytes = bytes;
+
+            //Add to world
+            GameScene.world.entities.put(entity.getIdentifier(), entity);
+
             return entity;
         }
         return null;

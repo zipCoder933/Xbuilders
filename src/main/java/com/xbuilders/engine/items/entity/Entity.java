@@ -7,7 +7,6 @@ package com.xbuilders.engine.items.entity;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.rendering.entity.EntityShader;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -133,10 +132,6 @@ public abstract class Entity {
 
     public byte[] stateToBytes() {
         return null;
-    }
-
-    public boolean hasStateChanged() {
-        return false;
     }
 
 

@@ -4,6 +4,10 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.BaseWindow;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class LandAnimal extends Animal {
 
     public LandAnimal(BaseWindow window) {
@@ -14,6 +18,20 @@ public abstract class LandAnimal extends Animal {
     private float activity = 0.5f;
     private float maxSpeed = 0.17f;
 
+
+    //TODO: The animals diverges because we are not sharing the full state
+    //We need to be sharing the current action and the exact state of the random generator
+    //The current action should only be sent when we want to change it. But i dont think it would be a bad idea to just send it whenever we come across it
+    //The random numbers are not synced, even though the random generator uses the same key, the time at which the random numbers were generated is different
+    public void animal_writeState(ByteArrayOutputStream baos) throws IOException {
+//        if (currentAction != null) currentAction.toBytes(baos);
+    }
+
+    public void animal_readState(byte[] state, AtomicInteger start) {
+//        if (start.get() < state.length) {
+//            currentAction = new AnimalAction().fromBytes(state, start);
+//        }
+    }
 
     public void setActivity(float activity) {
         this.activity = MathUtils.clamp(activity, 0, 1);
@@ -112,7 +130,7 @@ public abstract class LandAnimal extends Animal {
                     break;
                 case FOLLOW:
 
-                    rotationYDeg = (float)Math.toDegrees(getDirectionToPlayer()) + random.noise(2f, -3, 3);
+                    rotationYDeg = (float) Math.toDegrees(getDirectionToPlayer()) + random.noise(2f, -3, 3);
 
                     if (distToPlayer < 15 && playerHasAnimalFeed()) {
                         if (currentAction.getTimeSinceCreatedMS() > 500

@@ -18,6 +18,8 @@ import com.xbuilders.window.BaseWindow;
 import org.joml.Vector2f;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public abstract class Animal extends Entity {
@@ -32,30 +34,28 @@ public abstract class Animal extends Entity {
     public float rotationYDeg;
     public final AnimalRandom random;
 
-    public byte[] stateToBytes() {
-        byte[] rotationBytes = ByteUtils.floatToBytes(rotationYDeg);
-        byte[] seedBytes = ByteUtils.intToBytes(random.getSeed());
-        return new byte[]{
-                rotationBytes[0], rotationBytes[1], rotationBytes[2], rotationBytes[3],
-                seedBytes[0], seedBytes[1], seedBytes[2], seedBytes[3]};
+    public final byte[] stateToBytes() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            baos.write(ByteUtils.floatToBytes(rotationYDeg));
+            animal_writeState(baos);
+            baos.close();//releases the baos to prevent memory leaks and promote efficiency
+            return baos.toByteArray();  //toByteArray() already calls flush()
+        } catch (IOException e) {
+        }
+        return null;
+    }
+
+    public void animal_writeState(ByteArrayOutputStream baos) throws IOException {
+    }
+
+    public void animal_readState(byte[] state, AtomicInteger start) {
     }
 
     public void loadState(byte[] state) {
-        if (state.length != 8) return;
         rotationYDeg = ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]);
-
-        int newSeed = ByteUtils.bytesToInt(state[4], state[5], state[6], state[7]);
-        if(random.getSeed() != newSeed) random.setSeed(newSeed);
-    }
-
-    float lastRotation = 0;
-    public boolean hasStateChanged() {
-        if(rotationYDeg != lastRotation) {
-            lastRotation = rotationYDeg;
-            return true;
-        } else {
-            return false;
-        }
+        AtomicInteger start = new AtomicInteger(8);
+        animal_readState(state, start);
     }
 
 
@@ -75,7 +75,7 @@ public abstract class Animal extends Entity {
 
     public Animal(BaseWindow window) {
         this.window = window;
-        random = new AnimalRandom((int) (Math.random() * Integer.MAX_VALUE));
+        random = new AnimalRandom();
         this.player = GameScene.player;
     }
 
@@ -86,5 +86,6 @@ public abstract class Animal extends Entity {
         // box.setLineWidth(5);
         pos = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
         pos.setGravityEnabled(true);
+        random.setSeed(getIdentifier());
     }
 }

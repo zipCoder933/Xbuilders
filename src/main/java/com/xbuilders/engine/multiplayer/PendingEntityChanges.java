@@ -31,6 +31,7 @@ public class PendingEntityChanges {
     HashSet<Entity> entityUpdate = new HashSet<>();
 
     public long rangeChangesUpdate;
+    public long allChangesUpdate;
     NetworkSocket socket;
     Player player;
 
@@ -43,31 +44,6 @@ public class PendingEntityChanges {
     public PendingEntityChanges(NetworkSocket socket, Player player) {
         this.socket = socket;
         this.player = player;
-    }
-
-    public static Entity findEntity(Vector3f lastPos, Vector3f currentPos) {
-        WCCf wcc = new WCCf();
-        wcc.set(currentPos);
-        Chunk chunk = GameScene.world.getChunk(wcc.chunk);
-        if (chunk != null) {
-            for (Entity entity : chunk.entities.list) {
-                if (entity.worldPosition.distance(currentPos.x, currentPos.y, currentPos.z) < 1f) {
-                    return entity;
-                }
-            }
-        }
-        //If we havent found the entity yet, try the last position
-        System.out.println("Trying last pos");
-        wcc.set(lastPos);
-        chunk = GameScene.world.getChunk(wcc.chunk);
-        if (chunk != null) {
-            for (Entity entity : chunk.entities.list) {
-                if (entity.worldPosition.distance(lastPos.x, lastPos.y, lastPos.z) < 1f) {
-                    return entity;
-                }
-            }
-        }
-        return null;
     }
 
     public static boolean changeWithinReach(Player userPlayer, Vector3f currentPos) {
@@ -99,7 +75,9 @@ public class PendingEntityChanges {
                 writeLock.unlock();
             }
 
-            int changesToBeSent = 0;
+            int createChanges = 0;
+            int deleteChanges = 0;
+            int updateChanges = 0;
 
             //Deletion list
             Iterator<Entity> iterator = deletionCopy.iterator();
@@ -107,7 +85,7 @@ public class PendingEntityChanges {
                 Entity entity = iterator.next();
                 if (changeWithinReach(player, entity.worldPosition)) {
                     entityChangeRecord(baos, GameServer.ENTITY_DELETED, entity);
-                    changesToBeSent++;
+                    createChanges++;
                     entityDeletion.remove(entity); //Remove it from the original list
                 }
             }
@@ -117,9 +95,8 @@ public class PendingEntityChanges {
             while (iterator.hasNext()) {
                 Entity entity = iterator.next();
                 if (changeWithinReach(player, entity.worldPosition)) {
-                    entity.multiplayerProps.lastPosition.set(entity.worldPosition);
                     entityChangeRecord(baos, GameServer.ENTITY_CREATED, entity);
-                    changesToBeSent++;
+                    deleteChanges++;
                     entityCreation.remove(entity);
                 }
             }
@@ -130,23 +107,52 @@ public class PendingEntityChanges {
                 Entity entity = iterator.next();
                 if (changeWithinReach(player, entity.worldPosition)) {
                     entityChangeRecord(baos, GameServer.ENTITY_UPDATED, entity);
-                    changesToBeSent++;
+                    updateChanges++;
                     iterator.remove();
                 }
             }
 
             baos.close();
 
-            if (changesToBeSent > 0) {
+            if (createChanges > 0 || deleteChanges > 0 || updateChanges > 0) {
                 rangeChangesUpdate = System.currentTimeMillis();
                 byte byteList[] = baos.toByteArray();
                 socket.sendData(byteList);
             }
-            return changesToBeSent;
+            return createChanges + deleteChanges + updateChanges;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public boolean periodicRangeSendCheck(int updateInterval) {
+        if (System.currentTimeMillis() - rangeChangesUpdate > updateInterval
+                && anyChangesWithinReach()) {
+            rangeChangesUpdate = System.currentTimeMillis();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean periodicSendAllCheck(int interval) {
+        if (System.currentTimeMillis() - allChangesUpdate > interval
+                && (entityCreation.size() > 0 || entityDeletion.size() > 0 || entityUpdate.size() > 0)) {
+            allChangesUpdate = System.currentTimeMillis();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean anyChangesWithinReach() {
+        readLock.lock();
+        try {
+            return !entityCreation.isEmpty() || !entityDeletion.isEmpty() || !entityUpdate.isEmpty();
+        } finally {
+            readLock.unlock();
+        }
     }
 
     public static void readEntityChange(byte[] receivedData, ReadConsumer newEvent) {
@@ -203,7 +209,7 @@ public class PendingEntityChanges {
 
             byte byteList[] = baos.toByteArray();
             if (changeWithinReach(player, entity.worldPosition)) {
-                entity.multiplayerProps.lastPosition.set(entity.worldPosition);
+                System.out.println("Entity sent: " + Arrays.toString(byteList));
                 socket.sendData(byteList);
                 return true;
             }
@@ -233,7 +239,6 @@ public class PendingEntityChanges {
             data = entity.stateToBytes();
         } else if (entityOperation == GameServer.ENTITY_CREATED) {
             data = entity.toBytes();
-            System.out.println("Entity created: " + Arrays.toString(data));
         }
         ChunkSavingLoadingUtils.writeEntityData(data, baos);
     }

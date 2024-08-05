@@ -73,6 +73,8 @@ public class ChunkEntitySet {
             if (e.destroyMode) {
                 GameScene.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
+
+                GameScene.world.entities.remove(e.getIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.link.initializeEntity(e, e.loadBytes); //Sometimes the entity link has static variables, this is an attempt to fix that
