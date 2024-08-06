@@ -24,13 +24,13 @@ public abstract class LandAnimal extends Animal {
     //The current action should only be sent when we want to change it. But i dont think it would be a bad idea to just send it whenever we come across it
     //The random numbers are not synced, even though the random generator uses the same key, the time at which the random numbers were generated is different
     public void animal_writeState(ByteArrayOutputStream baos) throws IOException {
-//        if (currentAction != null) currentAction.toBytes(baos);
+        if (currentAction != null) currentAction.toBytes(baos);
     }
 
     public void animal_readState(byte[] state, AtomicInteger start) {
-//        if (start.get() < state.length) {
-//            currentAction = new AnimalAction().fromBytes(state, start);
-//        }
+        if (start.get() < state.length-1) {
+            currentAction = new AnimalAction().fromBytes(state, start);
+        }
     }
 
     public void setActivity(float activity) {
@@ -65,7 +65,7 @@ public abstract class LandAnimal extends Animal {
         if (distToPlayer < 5 && playerHasAnimalFeed()) {
             action = new AnimalAction(AnimalAction.ActionType.FOLLOW);
 
-            action.duration = random.nextLong(4000, 25000);
+            action.duration = (int) random.nextLong(4000, 25000);
             action.velocity = maxSpeed / 2;
             return action;
         }

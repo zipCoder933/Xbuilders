@@ -43,7 +43,7 @@ public class EntityMultiplayerInfo {
         }
 
         //Check if the state has changed by comparing the last state bytes to the current state bytes
-        stateCheckInterval = shouldImmediatelySendState() ? 0 : 1000;
+        stateCheckInterval = shouldImmediatelySendState() ? 10 : 1000;
         if (
                 !isStateChanged()  //If the state hasn't already been changed
                         && GameScene.server.isPlayingMultiplayer() //And we are in multiplayer
@@ -66,6 +66,7 @@ public class EntityMultiplayerInfo {
     }
 
     public void updateState(byte[] state, Vector3f newPosition) {
+        if(e.playerIsRidingThis()) return;//Don't update the state if the entity is being controlled by the player
         e.loadState(state);
         e.worldPosition.set(newPosition);
     }

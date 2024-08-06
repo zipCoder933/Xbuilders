@@ -301,6 +301,12 @@ public class GameScene implements WindowEvents {
     public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
     public static GameUI ui;
 
+    public void pingAllPlayers() {
+        for(PlayerClient p : server.clients) {
+            p.ping();
+        }
+    }
+
     public void render() throws IOException {
         Main.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer

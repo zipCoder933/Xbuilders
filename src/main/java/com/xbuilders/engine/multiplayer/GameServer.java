@@ -8,6 +8,7 @@ import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
 import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
 import com.xbuilders.engine.utils.network.server.Server;
@@ -213,7 +214,6 @@ public class GameServer extends Server<PlayerClient> {
                     });
                 } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
                     PendingEntityChanges.readEntityChange(receivedData, (mode, entity, identifier, currentPos, data) -> {
-
                         String modeStr;
                         switch (mode) {
                             case ENTITY_CREATED -> modeStr = "CREATED";
@@ -225,7 +225,6 @@ public class GameServer extends Server<PlayerClient> {
                                 ", id=" + Long.toHexString(identifier) +
                                 ", pos=" + MiscUtils.printVector(currentPos) +
                                 ", data=" + Arrays.toString(data));
-
 
                         if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
                             if (mode == ENTITY_CREATED) {
@@ -267,8 +266,8 @@ public class GameServer extends Server<PlayerClient> {
                     worldInfoEvent(receivedData);
                 }
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            ErrorHandler.report(e);
         }
     }
 
@@ -384,19 +383,21 @@ public class GameServer extends Server<PlayerClient> {
 
     public void sendNearBlockChanges() {
         for (PlayerClient client : clients) {
+            if(client.getPlayer() == null) continue;
             client.blockChanges.sendNearBlockChanges();
         }
     }
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         for (PlayerClient client : clients) {
+            if(client.getPlayer() == null) continue;
             client.blockChanges.addBlockChange(worldPos, block, data);
         }
     }
 
     public void addEntityChange(Entity entity, byte mode, boolean sendImmediately) {
         for (PlayerClient client : clients) {
-
+            if(client.getPlayer() == null) continue;
             boolean addChange = true;
             if (sendImmediately)
                 addChange = !client.entityChanges.sendChange(entity, mode);//Add change if it didnt send

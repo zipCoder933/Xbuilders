@@ -57,7 +57,6 @@ public class AnimalRandom {
         noiseIndex = 0;
         noise = new FastNoise();
         random = new CustomRandom();
-        randomSeed = random.getTrueSeed();
     }
 
     public void setSeed(long seed) {
@@ -70,17 +69,17 @@ public class AnimalRandom {
 
     private int noiseSeed;
 
-    //These 2 parameters represent the state of this entire class
+    //These parameters represent the state of this entire class
     int noiseIndex;
-    AtomicLong randomSeed = new AtomicLong();
+    //random.getTrueSeed();
 
     public void writeState(ByteArrayOutputStream baos) throws IOException {
-        ByteUtils.writeLong(baos, randomSeed.get());
+        ByteUtils.writeLong(baos, random.getTrueSeed().get());
         ByteUtils.writeInt(baos, noiseIndex);
     }
 
     public void readState(byte[] state, AtomicInteger start) {
-        randomSeed.set(ByteUtils.bytesToLong(state, start));
+        random.getTrueSeed().set(ByteUtils.bytesToLong(state, start));
         noiseIndex = ByteUtils.bytesToInt(state, start);
     }
 

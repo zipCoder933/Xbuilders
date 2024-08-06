@@ -8,7 +8,6 @@ import com.xbuilders.engine.utils.ByteUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -17,9 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AnimalAction {
 
     public ActionType type;
-    public long duration;
+    public int duration;
     public float velocity;
     private long createdTimeMS;
+
 
 
 
@@ -44,30 +44,41 @@ public class AnimalAction {
 
     public void toBytes(ByteArrayOutputStream baos) throws IOException {
         ByteUtils.writeInt(baos, type.ordinal());
-        ByteUtils.writeLong(baos, duration);
         ByteUtils.writeFloat(baos, velocity);
-        ByteUtils.writeLong(baos, createdTimeMS);
-        System.out.println("AnimalAction: " + this);
+
+        int timeLeftMS = getDurationLeftMS();
+        System.out.println("Duration: " + duration);
+        System.out.println("Created at: " + createdTimeMS);
+        System.out.println("Time left: " + timeLeftMS);
+        ByteUtils.writeInt(baos, timeLeftMS);
     }
 
-    public AnimalAction fromBytes(byte[] state, AtomicInteger start) {
-        type = ActionType.values()[ByteUtils.bytesToInt(state, start)];
-        duration = ByteUtils.bytesToLong(state, start);
-        velocity = ByteUtils.bytesToFloat(state, start);
-        createdTimeMS = ByteUtils.bytesToLong(state, start);
+    public AnimalAction fromBytes(byte[] bytes, AtomicInteger start) {
+        type = ActionType.values()[ByteUtils.bytesToInt(bytes, start)];
+        velocity = ByteUtils.bytesToFloat(bytes, start);
+        int timeLeft = ByteUtils.bytesToInt(bytes, start);
+
+        //Get duration
+        duration = (int) (System.currentTimeMillis() - createdTimeMS + timeLeft);
+        //Get created time
+        createdTimeMS = System.currentTimeMillis();
+
         return this;
     }
 
-    public AnimalAction() {}
+    public AnimalAction() {
+        this.createdTimeMS = System.currentTimeMillis();
+    }
 
     public AnimalAction(ActionType type) {
         this.type = type;
         this.createdTimeMS = System.currentTimeMillis();
     }
+
     public AnimalAction(ActionType type, long duration) {
         this.type = type;
         this.createdTimeMS = System.currentTimeMillis();
-        this.duration = duration;
+        this.duration = (int) duration;
     }
 
     public long getTimeSinceCreatedMS() {
@@ -78,9 +89,14 @@ public class AnimalAction {
         return getTimeSinceCreatedMS() > duration;
     }
 
+    public int getDurationLeftMS() {
+        return (int) (duration - (System.currentTimeMillis() - createdTimeMS));
+    }
+
+
     @Override
     public String toString() {
-        return "AnimalAction{" + "type=" + type + ", duration=" + duration + '}';
+        return "AnimalAction{" + "type=" + type.ordinal() + ", duration=" + duration + ", velocity=" + velocity + " duration: " + duration + " created at: " + createdTimeMS + '}';
     }
 
 }

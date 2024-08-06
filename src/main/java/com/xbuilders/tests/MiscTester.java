@@ -2,37 +2,34 @@ package com.xbuilders.tests;
 
 
 import com.xbuilders.engine.utils.ByteUtils;
-import com.xbuilders.engine.utils.math.random.CustomRandom;
+import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 
 import java.io.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MiscTester {
     private static long referenceTime = System.currentTimeMillis();
 
-    public static void main(String[] args) throws InterruptedException {
-        // Generate a shared seed
-        byte[] sharedSeed = ByteUtils.longToByteArray(15);
+    public static void main(String[] args) throws Exception {
+        float originalFloat = 0.5f;
+        byte[] bf = ByteUtils.floatToBytes(originalFloat);
+        float newFloat = ByteUtils.bytesToFloat(bf[0], bf[1], bf[2], bf[3]);
+        System.out.println("result: " + newFloat);
 
-        // Create a SecureRandom instance using the shared seed
-        CustomRandom rand = new CustomRandom();
+        AnimalAction action = new AnimalAction();
+        action.type = AnimalAction.ActionType.TURN;
+        action.velocity = 0.5f;
+        action.duration = 1000;
 
 
-        long seed = rand.getTrueSeed().get();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        action.toBytes(baos);
+        byte[] bytes = baos.toByteArray();
 
-        for (int i = 0; i < 15; i++) {
-            int randomInt = rand.nextInt();
-            float randomFloat = rand.nextFloat();
-            System.out.println(randomInt + "\t\t  " + randomFloat);
-        }
+        AnimalAction action2 = (AnimalAction) new AnimalAction().fromBytes(bytes, new AtomicInteger());
 
-        rand.getTrueSeed().set(seed); //The true seed is the real state of the random generator
-        System.out.println();
-
-        for (int i = 0; i < 15; i++) {
-            int randomInt = rand.nextInt();
-            double randomFloat = rand.nextGaussian();
-            System.out.println(randomInt + "\t\t  " + randomFloat);
-        }
+        System.out.println(action2.toString());
+        System.out.println("Time left " + action2.getDurationLeftMS());
     }
 
     //We could also just use a default random number genereator and serialzie it to get its complete state

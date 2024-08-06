@@ -73,4 +73,10 @@ public class PlayerClient extends NetworkSocket {
             wasWithinReach = inRange;
         }
     }
+
+    long pingSendTime;
+
+    public void ping() {
+        pingSendTime = System.currentTimeMillis();
+    }
 }

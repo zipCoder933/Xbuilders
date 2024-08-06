@@ -130,7 +130,7 @@ public class ByteUtils {
         int s = start.get();
         start.set(start.get() + 4);
         int intBits =
-                b[s + 3] << 24 | (b[s + 2] & 0xFF) << 16 | (b[s + 1] & 0xFF) << 8 | (b[s + 0] & 0xFF);
+                b[s + 0] << 24 | (b[s + 1] & 0xFF) << 16 | (b[s + 2] & 0xFF) << 8 | (b[s + 3] & 0xFF);
         return Float.intBitsToFloat(intBits);
     }
 
