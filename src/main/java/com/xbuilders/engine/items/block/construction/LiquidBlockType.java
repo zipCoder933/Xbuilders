@@ -7,6 +7,7 @@ import com.xbuilders.engine.world.chunk.BlockData;
 
 public class LiquidBlockType extends DefaultBlockType {
 
+    @Override
     public boolean useInGreedyMesher() {
         return true;
     }
@@ -17,21 +18,21 @@ public class LiquidBlockType extends DefaultBlockType {
             b.opaque = false;
             b.solid = false;
             b.liquidMaxFlow = 7;
-            b.removeBlockEvent(((x, y, z, history) -> {
-                GameScene.world.setBlockData(history.previousBlockData, x, y, z);
-//                boolean xpNeighbor = GameScene.world.getBlock(x - 1, y, z).id == b.id;
-//                boolean xnNeighbor = GameScene.world.getBlock(x + 1, y, z).id == b.id;
-//                boolean zpNeighbor = GameScene.world.getBlock(x, y, z - 1).id == b.id;
-//                boolean znNeighbor = GameScene.world.getBlock(x, y, z + 1).id == b.id;
-//
-//                int touchingNeighbors = (xpNeighbor ? 1 : 0) + (xnNeighbor ? 1 : 0) + (zpNeighbor ? 1 : 0) + (znNeighbor ? 1 : 0);
-//
-//                if (touchingNeighbors > 2 //If we are on the surface of the liquid
-//                        && GameScene.world.getBlock(x, y - 1, z).id != b.id) {
-//                    //Put the liquid back into the world
-//                    GameScene.world.setBlock(b.id, x, y, z);
-//                }
-            }));
+//            b.removeBlockEvent(((x, y, z, history) -> {
+//                GameScene.world.setBlockData(history.previousBlockData, x, y, z);
+////                boolean xpNeighbor = GameScene.world.getBlock(x - 1, y, z).id == b.id;
+////                boolean xnNeighbor = GameScene.world.getBlock(x + 1, y, z).id == b.id;
+////                boolean zpNeighbor = GameScene.world.getBlock(x, y, z - 1).id == b.id;
+////                boolean znNeighbor = GameScene.world.getBlock(x, y, z + 1).id == b.id;
+////
+////                int touchingNeighbors = (xpNeighbor ? 1 : 0) + (xnNeighbor ? 1 : 0) + (zpNeighbor ? 1 : 0) + (znNeighbor ? 1 : 0);
+////
+////                if (touchingNeighbors > 2 //If we are on the surface of the liquid
+////                        && GameScene.world.getBlock(x, y - 1, z).id != b.id) {
+////                    //Put the liquid back into the world
+////                    GameScene.world.setBlock(b.id, x, y, z);
+////                }
+//            }));
         };
     }
 

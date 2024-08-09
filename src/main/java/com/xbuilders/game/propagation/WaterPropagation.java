@@ -31,6 +31,7 @@ public class WaterPropagation extends LivePropagationTask {
         if (nodes.isEmpty()) {
             return;
         }
+//        System.out.println(liquidBlock.name + " propagation: " + nodes.size());
         for (Vector3i v : nodes) {
             //Get the flow from this node
             BlockData thisBD = GameScene.world.getBlockData(v.x, v.y, v.z);
