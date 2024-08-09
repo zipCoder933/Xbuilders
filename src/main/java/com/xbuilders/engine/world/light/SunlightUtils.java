@@ -117,7 +117,7 @@ public class SunlightUtils {
             HashSet<Chunk> affectedChunks, Consumer<Long> callback) {
 
 
-        println("\n\nUpdating sunlight:");
+//        println("\n\nUpdating sunlight:");
         AtomicBoolean complete = new AtomicBoolean();
         AtomicLong start = new AtomicLong(System.currentTimeMillis());
         new Thread(() -> {
@@ -151,7 +151,7 @@ public class SunlightUtils {
         transparentToOpaque.clear();
         complete.set(true);
 
-        println("Finished with sunlight, " + (System.currentTimeMillis() - start.get()) / 1000 + "s");
+//        println("Finished with sunlight, " + (System.currentTimeMillis() - start.get()) / 1000 + "s");
         return System.currentTimeMillis() - start.get();
     }
 

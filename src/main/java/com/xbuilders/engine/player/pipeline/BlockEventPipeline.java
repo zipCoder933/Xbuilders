@@ -46,7 +46,7 @@ public class BlockEventPipeline {
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
         if (blockHist != null) {
 
-            if(!PendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
+            if (!PendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
                 //If there is a block event that is on a empty chunk or too far away, don't add it
                 outOfReachEvents.addBlockChange(worldPos, blockHist);
                 return;
@@ -56,10 +56,10 @@ public class BlockEventPipeline {
             if (blockHist.previousBlock == null) {
                 blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
             }
-            if (blockHist.previousBlock.opaque != blockHist.currentBlock.opaque) {
+            if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
                 lightChangesThisFrame++;
             }
-            if (blockHist.previousBlock != blockHist.currentBlock || blockHist.updateBlockData) {
+            if (blockHist.previousBlock != blockHist.newBlock || blockHist.updateBlockData) {
                 blockChangesThisFrame++;
                 synchronized (eventClearLock) {
                     events.put(worldPos, blockHist);
@@ -198,27 +198,29 @@ public class BlockEventPipeline {
             if (chunk == null) return;
 
 
-            if (!blockHist.previousBlock.equals(blockHist.currentBlock)) { //If the 2 blocks are different
+            if (!blockHist.previousBlock.equals(blockHist.newBlock)) { //If the 2 blocks are different
                 //Send the block to the client
 
-                BlockType type = ItemList.blocks.getBlockType(blockHist.currentBlock.type);
+                BlockType type = ItemList.blocks.getBlockType(blockHist.newBlock.type);
                 if (type == null) return;
 
-                BlockData blockData = null;
+                BlockData newBlockData = null;
                 if (blockHist.updateBlockData) {
-                    blockData = blockHist.data;
+                    newBlockData = blockHist.newBlockData;
                 } else {
-                    blockData = type.getInitialBlockData(chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z), player);
+                    newBlockData = type.getInitialBlockData(chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z), player);
                 }
 
-                if (blockHist.currentBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z)
-                        && type.allowExistence(blockHist.currentBlock, worldPos.x, worldPos.y, worldPos.z)) {  //Should we set the block?
+                if (blockHist.newBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z)
+                        && type.allowExistence(blockHist.newBlock, worldPos.x, worldPos.y, worldPos.z)) {  //Should we set the block?
 
                     //<editor-fold defaultstate="collapsed" desc="set the block">
-                    GameScene.server.addBlockChange(worldPos, blockHist.currentBlock, blockData);
+                    GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
                     chunk.markAsModifiedByUser();
-                    chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.currentBlock.id);
-                    chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData);
+                    chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
+
+                    blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                    chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
 //                    if (firstChunkUpdate.get() && eventsCopy.size() < 6) { //We can update the chunk right after the first block is set
 //                        chunk.updateMesh(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
 //                        firstChunkUpdate.set(false);
@@ -226,18 +228,18 @@ public class BlockEventPipeline {
                     //</editor-fold>
 
                     // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
-                    if (blockHist.previousBlock.opaque && !blockHist.currentBlock.opaque) {
+                    if (blockHist.previousBlock.opaque && !blockHist.newBlock.opaque) {
                         SunlightUtils.addNodeForPropagation(sunNode_OpaqueToTrans, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);//TODO: We might need to optimize this by creating the nodes first and then propagating once
-                    } else if (!blockHist.previousBlock.opaque && blockHist.currentBlock.opaque) {
+                    } else if (!blockHist.previousBlock.opaque && blockHist.newBlock.opaque) {
                         SunlightUtils.addNodeForErasure(sunNode_transToOpaque, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.transparentToOpaque(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
 
-                    if (!blockHist.previousBlock.isLuminous() && blockHist.currentBlock.isLuminous()) {
+                    if (!blockHist.previousBlock.isLuminous() && blockHist.newBlock.isLuminous()) {
                         TorchUtils.setTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z,
-                                blockHist.currentBlock.torchlightStartingValue);
-                    } else if (blockHist.previousBlock.isLuminous() && !blockHist.currentBlock.isLuminous()) {
+                                blockHist.newBlock.torchlightStartingValue);
+                    } else if (blockHist.previousBlock.isLuminous() && !blockHist.newBlock.isLuminous()) {
                         TorchUtils.removeTorch(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
 // </editor-fold>
@@ -246,8 +248,10 @@ public class BlockEventPipeline {
                 }
             } else if (blockHist.updateBlockData) {
                 chunk.markAsModifiedByUser();
-                GameScene.server.addBlockChange(worldPos, null, blockHist.data); //Add block data change
-                chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.data);
+                GameScene.server.addBlockChange(worldPos, null, blockHist.newBlockData); //Add block data change
+
+                blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlockData);
                 affectedChunks.add(chunk);
             }
         });
@@ -256,18 +260,19 @@ public class BlockEventPipeline {
         //Block events
         eventsCopy.forEach((worldPos, blockHist) -> {
             if (World.worldYIsWithinBounds(worldPos.y)
-                    && !blockHist.previousBlock.equals(blockHist.currentBlock) &&
+                    && !blockHist.previousBlock.equals(blockHist.newBlock) &&
                     allowBlockEvents && !blockHist.fromNetwork) {//Dont do block events if the block was set by the server
-                Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist.currentBlock.id);
+                Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
                 startLocalChange(worldPos, blockHist, allowBlockEvents);
-                blockHist.previousBlock.run_RemoveBlockEvent(worldPos);
-                blockHist.currentBlock.run_SetBlockEvent(eventThread, worldPos); //Run the block event
+                blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
+                blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos); //Run the block event
             }
         });
 
 
         GameScene.server.sendNearBlockChanges();
     }
+
 
     public void updateSunlightAndMeshes(HashSet<Chunk> affectedChunks,
                                         ArrayList<ChunkNode> sunNode_OpaqueToTrans,
@@ -330,14 +335,17 @@ public class BlockEventPipeline {
     }
 
 
-    private void checkAndStartBlock(int nx, int ny, int nz, Vector3i originPos, BlockHistory hist,
-                                    boolean dispatchBlockEvent) {
+    private void checkAndStartBlock(
+            int nx, int ny, int nz,//Neighboring voxel that we notify of the change
+            Vector3i originPos, //Where the change actually happened
+            BlockHistory hist, //What changed
+            boolean dispatchBlockEvent) {
         WCCi wcc = new WCCi().set(nx, ny, nz);
         Chunk chunk = wcc.getChunk(GameScene.world);
         if (chunk != null) {
             Block nBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
             if (nBlock != null && !nBlock.isAir()) {
-                if (!ItemList.blocks.getBlockType(nBlock.type).allowExistence(hist.currentBlock, nx, ny, nz)) {
+                if (!ItemList.blocks.getBlockType(nBlock.type).allowExistence(hist.newBlock, nx, ny, nz)) {
 
                     //Set blocks that are not allowed here to air
                     short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
@@ -345,7 +353,8 @@ public class BlockEventPipeline {
                     addEvent(wcc, new BlockHistory(previousBlock, BlockList.BLOCK_AIR.id));
 
                 } else if (dispatchBlockEvent) {
-                    Main.gameScene.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nBlock.id);
+                    BlockHistory nhist = new BlockHistory(nBlock, nBlock);
+                    Main.gameScene.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
                     nBlock.run_OnLocalChange(hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }

@@ -6,20 +6,28 @@ import com.xbuilders.engine.world.chunk.BlockData;
 
 public class BlockHistory {
     public Block previousBlock;
-    public Block currentBlock;
-    public BlockData data;
+    public Block newBlock;
+
+    public BlockData previousBlockData;
+    public BlockData newBlockData;
+
     public boolean updateBlockData = false; //If we should set the block data (if we want to set the block data to null, we set this to true, and set data to null)
     public boolean fromNetwork = false;
 
     public BlockHistory(Block currentBlock, BlockData data) {
-        this.currentBlock = currentBlock;
-        this.data = data;
+        this.newBlock = currentBlock;
+        this.newBlockData = data;
         updateBlockData = true;
     }
 
     public BlockHistory(short previousBlock, short currentBlock) {
         this.previousBlock = ItemList.getBlock(previousBlock);
-        this.currentBlock = ItemList.getBlock(currentBlock);
+        this.newBlock = ItemList.getBlock(currentBlock);
+    }
+
+    public BlockHistory(Block previousBlock, Block currentBlock) {
+        this.previousBlock = previousBlock;
+        this.newBlock = currentBlock;
     }
 
     public BlockHistory() {
@@ -29,8 +37,8 @@ public class BlockHistory {
     public String toString() {
         return "BlockHistory{" +
                 "previousBlock=" + previousBlock +
-                ", currentBlock=" + currentBlock +
-                ", data=" + data +
+                ", currentBlock=" + newBlock +
+                ", data=" + newBlockData +
                 ", updateBlockData=" + updateBlockData +
                 '}';
     }

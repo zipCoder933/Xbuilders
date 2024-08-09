@@ -57,7 +57,7 @@ public class DoorHalfRenderer extends BlockType {
                     GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
                 });
 
-                topBlock.removeBlockEvent((x, y, z) -> {
+                topBlock.removeBlockEvent((x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
                         GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y + 1, z);
                     }
@@ -72,7 +72,7 @@ public class DoorHalfRenderer extends BlockType {
                     GameScene.world.setBlockData(data, x, y - 1, z);
                 });
 
-                bottomBlock.removeBlockEvent((x, y, z) -> {
+                bottomBlock.removeBlockEvent((x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
                         GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y - 1, z);
                     }
@@ -174,7 +174,7 @@ public class DoorHalfRenderer extends BlockType {
     @Override
     public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
         //If we already set the block data for this block, skip making new stuff
-        if(existingData!=null && existingData.size() == 3) return existingData;
+        if (existingData != null && existingData.size() == 3) return existingData;
 
         BlockData bd = new BlockData(3);
         byte rotation = (byte) GameScene.player.camera.simplifiedPanTilt.x;
@@ -189,9 +189,9 @@ public class DoorHalfRenderer extends BlockType {
 
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
-            int y, int z) {
-        boolean open = data!=null && data.get(1) == 0;
-        boolean left = data!=null && data.get(2) == 0;
+                               int y, int z) {
+        boolean open = data != null && data.get(1) == 0;
+        boolean left = data != null && data.get(2) == 0;
         if (left) {
             if (data == null || data.get(0) == 3) {
                 if (open)

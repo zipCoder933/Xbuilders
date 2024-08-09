@@ -438,11 +438,12 @@ public class GameScene implements WindowEvents {
                         text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
                         text += "\nchunk mesh: " + chunk.meshes;
                         text += "\nchunk last modified: " + MiscUtils.formatTime(chunk.lastModifiedTime);
-                        BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+
                         Block block = ItemList.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
+                        BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-                        text += "\nblock: " + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + ItemList.blocks.getBlockType(block.type);
+                        text += "\n" + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + ItemList.blocks.getBlockType(block.type);
                         text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }
 

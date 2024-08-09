@@ -28,7 +28,11 @@ public abstract class BlockType {
 
     public Consumer<Block> initializationCallback = null;
     public boolean generate3DIcon = true;
-    public boolean useInGreedyMesher = false;
+
+
+    public boolean useInGreedyMesher() {
+        return false;
+    }
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
         return true;

@@ -2,6 +2,7 @@ package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.player.pipeline.BlockHistory;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
@@ -11,7 +12,7 @@ public abstract class LivePropagationTask {
     protected long lastUpdate = 0;
     public HashSet<Vector3i> nodes = new HashSet<>();
 
-    public boolean isInterestedInBlock(short block) {
+    public boolean isInterestedInBlock(BlockHistory history) {
         return false;
     }
 

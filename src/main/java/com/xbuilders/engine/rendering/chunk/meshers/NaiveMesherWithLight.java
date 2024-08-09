@@ -75,7 +75,7 @@ public class NaiveMesherWithLight extends Mesher<VertexSet> {
 
                     if (block != null && !block.isAir()
                             && (generateAll ||
-                            !ItemList.blocks.getBlockType(block.type).useInGreedyMesher)
+                            !ItemList.blocks.getBlockType(block.type).useInGreedyMesher())
                     ) {
 
 

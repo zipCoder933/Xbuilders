@@ -25,19 +25,19 @@ public class BlockEventUtils {
         Block topBlock = ItemList.getBlock(id_top);
         Block bottomBlock = ItemList.getBlock(id_bottom);
 
-        topBlock.setBlockEvent( (x, y, z) -> {
+        topBlock.setBlockEvent((x, y, z) -> {
             GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
         });
-        topBlock.removeBlockEvent((x, y, z) -> {
+        topBlock.removeBlockEvent((x, y, z, history) -> {
             if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
                 GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y + 1, z);
             }
         });
 
-        bottomBlock.setBlockEvent( (x, y, z) -> {
+        bottomBlock.setBlockEvent((x, y, z) -> {
             GameScene.player.setBlock(topBlock.id, x, y - 1, z);
         });
-        bottomBlock.removeBlockEvent((x, y, z) -> {
+        bottomBlock.removeBlockEvent((x, y, z, history) -> {
             if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
                 GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y - 1, z);
             }

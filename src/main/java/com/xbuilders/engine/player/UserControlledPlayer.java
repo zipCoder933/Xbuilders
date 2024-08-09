@@ -489,7 +489,7 @@ public class UserControlledPlayer extends Player {
             BlockHistory history = new BlockHistory(previousBlock, newBlock);
             if (blockData != null) {
                 history.updateBlockData = true;
-                history.data = blockData;
+                history.newBlockData = blockData;
             }
             eventPipeline.addEvent(wcc, history);
         }

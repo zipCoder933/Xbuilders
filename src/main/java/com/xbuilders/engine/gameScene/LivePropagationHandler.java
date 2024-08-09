@@ -1,5 +1,6 @@
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.WorldInfo;
 import org.joml.Vector3i;
 
@@ -14,10 +15,10 @@ public class LivePropagationHandler extends Thread {
         tasks.add(waterPropagation);
     }
 
-    public void addNode(Vector3i pos, short block) {
+    public void addNode(Vector3i pos, BlockHistory hist) {
         for (int i = 0; i < tasks.size(); i++) {
             LivePropagationTask task = tasks.get(i);
-            if (task.isInterestedInBlock(block))
+            if (task.isInterestedInBlock(hist))
                 tasks.get(i).nodes.add(pos);
         }
     }

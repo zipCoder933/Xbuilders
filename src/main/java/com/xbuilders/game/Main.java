@@ -36,6 +36,7 @@ public class Main extends NKWindow {
 
     public static double gameVersion = 1.4;
     public static boolean loadWorldOnStartup = false;
+    public static boolean fpsTools = false;
 
     public static void printlnDev(String message) {
         if (devMode) {
@@ -93,7 +94,7 @@ public class Main extends NKWindow {
     File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
     static boolean generateIcons = false;
 
-    public static boolean fpsTools = true;
+
     public static boolean devMode = false;
     public static String name = "XBuilders";
 

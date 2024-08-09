@@ -125,14 +125,14 @@ public class PendingBlockChanges {
 
 
     public void blockChangeRecord(OutputStream baos, Vector3i worldPos, BlockHistory change) throws IOException {
-        if (change.currentBlock == null) return;
+        if (change.newBlock == null) return;
 
         baos.write(new byte[]{GameServer.VOXEL_BLOCK_CHANGE});
         baos.write(ByteUtils.intToBytes(worldPos.x));
         baos.write(ByteUtils.intToBytes(worldPos.y));
         baos.write(ByteUtils.intToBytes(worldPos.z));
-        baos.write(ByteUtils.shortToBytes(change.currentBlock.id));
-        ChunkSavingLoadingUtils.writeBlockData(change.data, baos);
+        baos.write(ByteUtils.shortToBytes(change.newBlock.id));
+        ChunkSavingLoadingUtils.writeBlockData(change.newBlockData, baos);
     }
 
     public int sendAllChanges() {
@@ -220,11 +220,11 @@ public class PendingBlockChanges {
 
                 //Block ID
                 int blockID = ByteUtils.bytesToShort(receivedData[start.get() + 13], receivedData[start.get() + 14]);
-                blockHistory.currentBlock = ItemList.getBlock((short) blockID);
+                blockHistory.newBlock = ItemList.getBlock((short) blockID);
                 start.set(start.get() + 15);
 
                 //Block data
-                blockHistory.data = ChunkSavingLoadingUtils.readBlockData(receivedData, start);
+                blockHistory.newBlockData = ChunkSavingLoadingUtils.readBlockData(receivedData, start);
                 blockHistory.updateBlockData = true;
 
                 //Add the block to the list

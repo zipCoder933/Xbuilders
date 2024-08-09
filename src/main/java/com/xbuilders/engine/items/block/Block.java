@@ -29,7 +29,9 @@ public class Block extends Item {
     public boolean opaque = true;
     public byte torchlightStartingValue = 0;
     public Consumer<Block> initializationCallback = null;
+    public int liquidMaxFlow;
     public final float[] colorInPlayerHead = {0, 0, 0, 0};//If set to null, we default to drawing block texture in player head
+
 
 
     public final boolean isLuminous() {
@@ -51,7 +53,7 @@ public class Block extends Item {
     @FunctionalInterface
     public interface RemoveBlockEvent {
 
-        public void run(int x, int y, int z);
+        public void run(int x, int y, int z, BlockHistory history);
     }
 
     @FunctionalInterface
@@ -114,9 +116,9 @@ public class Block extends Item {
         }
     }
 
-    public void run_RemoveBlockEvent(Vector3i worldPos) {
+    public void run_RemoveBlockEvent(Vector3i worldPos, BlockHistory history) {
         if (removeBlockEvent != null) {
-            removeBlockEvent.run(worldPos.x, worldPos.y, worldPos.z);
+            removeBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, history);
         }
     }
 

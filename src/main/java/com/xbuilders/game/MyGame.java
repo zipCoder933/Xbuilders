@@ -8,6 +8,7 @@ import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
@@ -331,10 +332,6 @@ public class MyGame extends Game {
 
     @Override
     public void initialize(NKWindow window, GameScene gameScene) throws Exception {
-
-        gameScene.livePropagationHandler.addTask(new WaterPropagation());
-        gameScene.livePropagationHandler.addTask(new LavaPropagation());
-
         //Add block types FIRST. We need them to be able to setup blocks properly
         ItemList.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
         ItemList.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
@@ -473,6 +470,10 @@ public class MyGame extends Game {
         //Set items AFTER setting block types
         ItemList.setAllItems(blockList, entityList, tools);
         initializeAllItems();
+
+
+        gameScene.livePropagationHandler.addTask(new WaterPropagation());
+        gameScene.livePropagationHandler.addTask(new LavaPropagation());
     }
 
     private void reassignBlocks(Block[] blocks, HashMap<Short, Block> reassignments) {
@@ -500,6 +501,8 @@ public class MyGame extends Game {
 
         Block lava = ItemList.getBlock(BLOCK_LAVA);//TODO: Lava texture is not animated
         System.out.println("Lava animation length: " + lava.texture.getNEG_X().animationLength);
+
+        lava.liquidMaxFlow = 6;
     }
 
     @Override
@@ -1327,6 +1330,22 @@ public class MyGame extends Game {
     public static short BLOCK_WHITE_SIDING = 797;
     public static short BLOCK_YELLOW_SEAT = 798;
     public static short BLOCK_YELLOW_SIDING = 799;
+
+//    public static final Block BLOCK_WATER = new Block(21, "Water", new BlockTexture("water.png", "water.png", "water.png"), (b) -> {
+//        b.opaque = false;
+//        b.solid = false;
+//        b.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
+//    });
+//    public static final Block BLOCK_LAVA = new Block(25, "Lava",
+//            new BlockTexture("lava.png", "lava.png", "lava.png"), (b) -> {
+//        b.opaque = false;
+//        b.solid = false;
+//        b.torchlightStartingValue = 5;
+//        b.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
+//        System.out.println("Lava animation length: " + b.texture.getNEG_X().animationLength);
+//        b.texture.getNEG_Y().animationLength = 1;
+//    });
+
 // public static final Block BLOCK_SEA_GRASS = new Block(253, "Sea Grass", new BlockTexture("sea grass.png"), RenderType.SPRITE);
     
 
@@ -1361,23 +1380,11 @@ public class MyGame extends Game {
         b.torchlightStartingValue = 15;
         b.setIcon("torch.png");
     });
-    public static final Block BLOCK_WATER = new Block(21, "Water", new BlockTexture("water.png", "water.png", "water.png"), (b) -> {
-        b.opaque = false;
-        b.solid = false;
-        b.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
-    });
+
     public static final Block BLOCK_WOOL = new Block(22, "Wool", new BlockTexture("wool.png", "wool.png", "wool.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_SNOW = new Block(23, "Snow", new BlockTexture("snow.png", "dirt.png", "snow front.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
     public static final Block BLOCK_BOOKSHELF = new Block(24, "Bookshelf", new BlockTexture("bookshelf.png", "bookshelf.png", "bookshelf front.png"), BlockList.DEFAULT_BLOCK_TYPE_ID);
-    public static final Block BLOCK_LAVA = new Block(25, "Lava",
-            new BlockTexture("lava.png", "lava.png", "lava.png"), (b) -> {
-        b.opaque = false;
-        b.solid = false;
-        b.torchlightStartingValue = 5;
-        b.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
-        System.out.println("Lava animation length: " + b.texture.getNEG_X().animationLength);
-        b.texture.getNEG_Y().animationLength = 1;
-    });
+
 
     //Plants:
     public static final Block BLOCK_A1 = new Plant(166, "A1 hidden", new BlockTexture("a1.png", "a1.png", "a1.png"));
