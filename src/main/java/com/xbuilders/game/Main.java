@@ -36,7 +36,7 @@ public class Main extends NKWindow {
 
     public static double gameVersion = 1.4;
     public static boolean loadWorldOnStartup = false;
-    public static boolean fpsTools = true;
+    public static boolean fpsTools = false;
 
     public static void printlnDev(String message) {
         if (devMode) {

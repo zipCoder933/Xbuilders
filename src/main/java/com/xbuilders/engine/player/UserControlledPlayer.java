@@ -157,7 +157,6 @@ public class UserControlledPlayer extends Player {
         setColor(1, 1, 0);
         skin = Main.game.availableSkins.get(0).get(this);
         eventPipeline = new BlockEventPipeline(world, this);
-        if (Main.devMode) setFlashlight(20f);
     }
 
     public void setFlashlight(float distance) {

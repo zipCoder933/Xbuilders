@@ -159,8 +159,10 @@ public class SunlightUtils {
     public static void eraseSunlight(List<ChunkNode> nodes, HashSet<Chunk> affectedChunks,
                                      HashSet<ChunkNode> repropagationNodes) {
 
+        if (nodes.isEmpty()) return;
         //Create a boundary and erase everything below that boundary:
         AABB queueBox = new AABB();
+
         queueBox.min.set(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
         queueBox.max.set(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
         //Find the min and max of all the nodes
@@ -169,12 +171,15 @@ public class SunlightUtils {
             int worldY = (node.chunk.position.y * Chunk.WIDTH) + node.y;
             int worldZ = (node.chunk.position.z * Chunk.WIDTH) + node.z;
 
+            //We have to check both because the first node needs to set the boundaries especially if it is the only node
             if (worldY < queueBox.min.y) queueBox.min.y = worldY;
-            else if (worldY > queueBox.max.y) queueBox.max.y = worldY;
+            if (worldY > queueBox.max.y) queueBox.max.y = worldY;
+
             if (worldZ < queueBox.min.z) queueBox.min.z = worldZ;
-            else if (worldZ > queueBox.max.z) queueBox.max.z = worldZ;
+            if (worldZ > queueBox.max.z) queueBox.max.z = worldZ;
+
             if (worldX < queueBox.min.x) queueBox.min.x = worldX;
-            else if (worldX > queueBox.max.x) queueBox.max.x = worldX;
+            if (worldX > queueBox.max.x) queueBox.max.x = worldX;
         }
         nodes.clear();
 
@@ -211,9 +216,11 @@ public class SunlightUtils {
                         byte sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         if (sun < 15 && sun > 0) {//Add any nodes greater than 1 to a erasure BFS
                             nodes.add(new ChunkNode(chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
-                        } else if (sun > 1 && wy == queueBox.min.y) { //Add any nodes greater than 1 to a repropagation BFS
-                            repropagationNodes.add(new ChunkNode(chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
                         }
+                        //Reduntant:
+//                        else if (sun > 1 && wy == queueBox.min.y) { //Add any nodes greater than 1 to a repropagation BFS
+//                            repropagationNodes.add(new ChunkNode(chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+//                        }
                     } else {
                         if (chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z) > 0) {
                             foundLight = true;
@@ -224,7 +231,8 @@ public class SunlightUtils {
             }
             if (!foundLight) break downwardLoop;
         }
-        println("Finished darkening boundary: " + queueBox.toString());
+        println("Finished darkening boundary: " + queueBox.toString() +
+                " x-len: " + ((int) queueBox.getXLength()) + " z-len: " + ((int) queueBox.getZLength()));
 
 
         //Now do a BFS with the remaining nodes
