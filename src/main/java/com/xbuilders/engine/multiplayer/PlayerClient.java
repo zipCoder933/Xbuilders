@@ -63,7 +63,7 @@ public class PlayerClient extends NetworkSocket {
             Main.printlnDev("Sent all block changes (" + c + ")");
         }
 
-        if (entityChanges.periodicRangeSendCheck(2000)) { //Periodically send near changes
+        if (entityChanges.periodicRangeSendCheck(3000)) { //Periodically send near changes
             int e = entityChanges.sendNearEntityChanges();
             Main.printlnDev("Sent " + e + " near entity changes");
         }

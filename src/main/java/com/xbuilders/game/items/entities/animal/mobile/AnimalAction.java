@@ -47,9 +47,9 @@ public class AnimalAction {
         ByteUtils.writeFloat(baos, velocity);
 
         int timeLeftMS = getDurationLeftMS();
-        System.out.println("Duration: " + duration);
-        System.out.println("Created at: " + createdTimeMS);
-        System.out.println("Time left: " + timeLeftMS);
+//        System.out.println("Duration: " + duration);
+//        System.out.println("Created at: " + createdTimeMS);
+//        System.out.println("Time left: " + timeLeftMS);
         ByteUtils.writeInt(baos, timeLeftMS);
     }
 

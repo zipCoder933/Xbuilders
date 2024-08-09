@@ -1,16 +1,12 @@
 package com.xbuilders.engine.multiplayer;
 
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
-import com.xbuilders.engine.world.wcc.WCCf;
 import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
@@ -189,28 +185,26 @@ public class PendingEntityChanges {
         }
     }
 
-    public void addEntityChange(Entity entity, int mode) {
+    public void addEntityChange(Entity entity, byte operation, boolean sendImmediately) {
+        if(sendImmediately && sendInstantChange(entity, operation)) return;
         writeLock.lock();
         try {
-            if (mode == GameServer.ENTITY_CREATED) entityCreation.add(entity);
-            else if (mode == GameServer.ENTITY_DELETED) entityDeletion.add(entity);
-            else if (mode == GameServer.ENTITY_UPDATED) entityUpdate.add(entity);
+            if (operation == GameServer.ENTITY_CREATED) entityCreation.add(entity);
+            else if (operation == GameServer.ENTITY_DELETED) entityDeletion.add(entity);
+            else if (operation == GameServer.ENTITY_UPDATED) entityUpdate.add(entity);
             changeEvent();
         } finally {
             writeLock.unlock();
         }
     }
 
-    public boolean sendChange(Entity entity, byte operation) {
+    private boolean sendInstantChange(Entity entity, byte operation) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             entityChangeRecord(baos, operation, entity);
             baos.close();
-
-            byte byteList[] = baos.toByteArray();
             if (changeWithinReach(player, entity.worldPosition)) {
-                System.out.println("Entity sent: " + Arrays.toString(byteList));
-                socket.sendData(byteList);
+                socket.sendData(baos.toByteArray());
                 return true;
             }
         } catch (IOException e) {

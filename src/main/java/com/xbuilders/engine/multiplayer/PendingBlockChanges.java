@@ -42,7 +42,7 @@ import java.util.function.BiConsumer;
 public class PendingBlockChanges {
     HashMap<Vector3i, BlockHistory> blockChanges = new HashMap<>();
 
-    public long rangeChangesUpdate;
+    public long lastRangeChange;
     public long allChangesUpdate;
     NetworkSocket socket;
     Player player;
@@ -54,9 +54,9 @@ public class PendingBlockChanges {
 
 
     public boolean periodicRangeSendCheck(int updateInterval) {
-        if (System.currentTimeMillis() - rangeChangesUpdate > updateInterval
+        if (System.currentTimeMillis() - lastRangeChange > updateInterval
                 && anyChangesWithinReach()) {
-            rangeChangesUpdate = System.currentTimeMillis();
+            lastRangeChange = System.currentTimeMillis();
             return true;
         } else {
             return false;
@@ -147,7 +147,7 @@ public class PendingBlockChanges {
             }
             baos.close();
 
-            rangeChangesUpdate = System.currentTimeMillis();
+            lastRangeChange = System.currentTimeMillis();
             byte byteList[] = baos.toByteArray();
             socket.sendData(byteList);
 
@@ -192,7 +192,7 @@ public class PendingBlockChanges {
         try {
             baos.close();
             if (changesToBeSent > 0) {
-                rangeChangesUpdate = System.currentTimeMillis();
+                lastRangeChange = System.currentTimeMillis();
                 byte byteList[] = baos.toByteArray();
                 socket.sendData(byteList);
             }

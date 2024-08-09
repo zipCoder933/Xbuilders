@@ -214,17 +214,7 @@ public class GameServer extends Server<PlayerClient> {
                     });
                 } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
                     PendingEntityChanges.readEntityChange(receivedData, (mode, entity, identifier, currentPos, data) -> {
-                        String modeStr;
-                        switch (mode) {
-                            case ENTITY_CREATED -> modeStr = "CREATED";
-                            case ENTITY_DELETED -> modeStr = "DELETED";
-                            case ENTITY_UPDATED -> modeStr = "UPDATED";
-                            default -> modeStr = "UNKNOWN";
-                        }
-                        Main.printlnDev("RECEIVED (" + modeStr + ") " + entity +
-                                ", id=" + Long.toHexString(identifier) +
-                                ", pos=" + MiscUtils.printVector(currentPos) +
-                                ", data=" + Arrays.toString(data));
+//                        printEntityChange(mode, entity, identifier, currentPos, data);
 
                         if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
                             if (mode == ENTITY_CREATED) {
@@ -269,6 +259,20 @@ public class GameServer extends Server<PlayerClient> {
         } catch (Exception e) {
             ErrorHandler.report(e);
         }
+    }
+
+    private void printEntityChange(int mode, EntityLink entity, long identifier, Vector3f currentPos, byte[] data) {
+        String modeStr;
+        switch (mode) {
+            case ENTITY_CREATED -> modeStr = "CREATED";
+            case ENTITY_DELETED -> modeStr = "DELETED";
+            case ENTITY_UPDATED -> modeStr = "UPDATED";
+            default -> modeStr = "UNKNOWN";
+        }
+        Main.printlnDev("RECEIVED (" + modeStr + ") " + entity +
+                ", id=" + Long.toHexString(identifier) +
+                ", pos=" + MiscUtils.printVector(currentPos) +
+                ", data=" + Arrays.toString(data));
     }
 
     public Entity setEntity(EntityLink entity, long identifier, Vector3f worldPosition, byte[] data) {
@@ -383,28 +387,22 @@ public class GameServer extends Server<PlayerClient> {
 
     public void sendNearBlockChanges() {
         for (PlayerClient client : clients) {
-            if(client.getPlayer() == null) continue;
+            if (client.getPlayer() == null) continue;
             client.blockChanges.sendNearBlockChanges();
         }
     }
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         for (PlayerClient client : clients) {
-            if(client.getPlayer() == null) continue;
+            if (client.getPlayer() == null) continue;
             client.blockChanges.addBlockChange(worldPos, block, data);
         }
     }
 
     public void addEntityChange(Entity entity, byte mode, boolean sendImmediately) {
         for (PlayerClient client : clients) {
-            if(client.getPlayer() == null) continue;
-            boolean addChange = true;
-            if (sendImmediately)
-                addChange = !client.entityChanges.sendChange(entity, mode);//Add change if it didnt send
-
-            if (addChange) {
-                client.entityChanges.addEntityChange(entity, mode);
-            }
+            if (client.getPlayer() == null) continue;
+            client.entityChanges.addEntityChange(entity, mode, sendImmediately);
         }
     }
 
