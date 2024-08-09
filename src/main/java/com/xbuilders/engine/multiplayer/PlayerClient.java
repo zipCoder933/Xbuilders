@@ -25,9 +25,10 @@ public class PlayerClient extends NetworkSocket {
     }
 
     public void setPlayer(Player player) {
-        this.player = player;
         blockChanges = new PendingBlockChanges(this, player);
         entityChanges = new PendingEntityChanges(this, player);
+
+        this.player = player;//We MUST assign the player LAST!
     }
 
     public PlayerClient() {
