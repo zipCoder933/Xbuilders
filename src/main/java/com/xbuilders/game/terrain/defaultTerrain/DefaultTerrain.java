@@ -17,7 +17,7 @@ public class DefaultTerrain extends Terrain {
     final int WORLD_HEIGHT_OFFSET = 138;
     final int OCEAN_LEVEL = 25; //Used to deepen lakes in heightmap generation
     final int WATER_LEVEL = WORLD_HEIGHT_OFFSET + (OCEAN_LEVEL - 5); //5 blocks above ocean level
-
+    final float CAVE_FREQUENCY = 5.0f;
 
     boolean caves;
     boolean trees;
@@ -67,11 +67,6 @@ public class DefaultTerrain extends Terrain {
     }
 
     public Biome getBiomeOfVoxel(int x, int y, int z) {
-//        if (version == 0) return getBiomeOfVoxelV1(
-//                valley(x, z),
-//                getHeat(x, z),
-//                getTerrainHeight(x, z),
-//                x, y, z);
         return getBiomeOfVoxelV2(
                 valley(x, z),
                 getHeat(x, z),
@@ -211,14 +206,14 @@ public class DefaultTerrain extends Terrain {
         }
     }
 
-    final float caveFrequency = 5.0f;
 
     public float valley(final int wx, final int wz) {
         //Scale: -1 to 1. higher values = more valley
         float valley = getValueFractal((float) (wz * 0.5) - 10000, (float) (wx * 0.5));
         if (version >= 1) {//Causes more valley to appear
-            valley += 0.1f;
+            valley += 0.15f;
         }
+
         return valley;
     }
 
@@ -250,11 +245,9 @@ public class DefaultTerrain extends Terrain {
     }
 
     public Biome getBiomeOfVoxelV2(float valley, float heat, int heightmap, final int wx, final int wy, final int wz) {
-        if (heat > 0.65f//0.55
+        if (heat > 0.65f  // We lower the temp to compensate for being at the bottom of the terrain
                 && wy > WORLD_HEIGHT_OFFSET - 8 - (heat * 5) &&
                 wy < WATER_LEVEL - 1) {
-            // We lower down the minimum temperature of desert to compensate for it only
-            // being at the bottom of the terrain
             return Biome.DESERT;
         }
 
@@ -265,31 +258,11 @@ public class DefaultTerrain extends Terrain {
         //Noise tends to be more biased towards the center, meaning we either have to normalize the noise function
         //somehow to produce even distribution, or we have to favor the edges more
 
-        if (heat > 0.5f) {// 0.2
+        if (heat > 0.51f) {
             return Biome.SAVANNAH;
-        } else if (heat > 0.3f) {//-0.2
+        } else if (heat > 0.35f) {
             return Biome.DEFAULT;
-        } else if (heat > 0.2f) { //-0.6
-            return Biome.JUNGLE;
-        } else {
-            return Biome.SNOWY;
-        }
-    }
-
-    public Biome getBiomeOfVoxelV1(float valley, float heat, int heightmap, final int wx, final int wy, final int wz) {
-        if (wy > WATER_LEVEL - 10) {
-            return Biome.BEACH;
-        }
-        if (heat > 0.55f//0.55
-                && heightmap > WORLD_HEIGHT_OFFSET - 8 - (heat * 5)) {// 0.6 - 1
-            // We lower down the minimum temperature of desert to compensate for it only
-            // being at the bottom of the terrain
-            return Biome.DESERT;
-        } else if (heat > 0.2f) {// 0.2
-            return Biome.SAVANNAH;
-        } else if (heat > -0.2f) {//-0.2
-            return Biome.DEFAULT;
-        } else if (heat > -0.6f) { //-0.6
+        } else if (heat > 0.24f) {
             return Biome.JUNGLE;
         } else {
             return Biome.SNOWY;
@@ -346,7 +319,7 @@ public class DefaultTerrain extends Terrain {
                     } else if (wy > heightmap &&
                             (!caves || //If caves are disabled
                                     wy < heightmap + 10 || //Or we arent below the ground enough
-                                    getValueFractal(wx * caveFrequency, wy * 14.0f, wz * caveFrequency) <= 0.25)
+                                    getValueFractal(wx * CAVE_FREQUENCY, wy * 14.0f, wz * CAVE_FREQUENCY) <= 0.25)
                     ) {
                         chunk.data.setBlock(x, y, z, MyGame.BLOCK_STONE);
                         placeWater = false;

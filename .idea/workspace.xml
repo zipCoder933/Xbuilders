@@ -10,10 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/textures/dry grass front.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/textures/dry grass front.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/textures/dry grass.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/textures/dry grass.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/textures/tall grass top.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/textures/tall grass top.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/textures/tall grass.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/textures/tall grass.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/defaultTerrain/DefaultTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/defaultTerrain/DefaultTerrain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
