@@ -12,7 +12,6 @@ import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
 
 public abstract class Terrain {
@@ -24,7 +23,7 @@ public abstract class Terrain {
 
     public int MAX_SURFACE_HEIGHT = 10;
     public int MIN_SURFACE_HEIGHT = -100;
-    public int TERRAIN_MIN_HEIGHT = 0; //Anything above this is considered air
+    public int TERRAIN_MIN_GEN_HEIGHT = 0;  //Anything above this is considered air
 
     public HashMap<String, Boolean> options = new HashMap<>();
     public int version = 0;
@@ -47,7 +46,11 @@ public abstract class Terrain {
 
     public boolean isBelowMinHeight(Vector3i position, int offset) {
         //If the bottom of the chunk is below the minimum height, we need to generate the terrain
-        return (position.y * Chunk.HEIGHT)+Chunk.HEIGHT >= TERRAIN_MIN_HEIGHT+offset;
+        return (position.y * Chunk.HEIGHT)+Chunk.HEIGHT >= TERRAIN_MIN_GEN_HEIGHT +offset;
+    }
+
+    public void initOptions() {
+
     }
 
     public class GenSession {
@@ -74,7 +77,7 @@ public abstract class Terrain {
             random.setSeed(FastNoise.Hash3D(seed, chunk.position.x, chunk.position.y, chunk.position.z));
         }
 
-        public void setBlockWorld(int x, int y, int z, short block) {
+        public void setBlockWorld(short block, int x, int y, int z) {
             Chunk chunk = GameScene.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
 //            if (chunk != null && !homeChunk.position.equals(chunk.position)) {
 //                modifiedMeshedChunks.add(chunk);

@@ -7,7 +7,6 @@ package com.xbuilders.game.items.blocks.trees;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
 import org.joml.Vector3i;
@@ -16,24 +15,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.xbuilders.engine.utils.math.RandomUtils.randInt;
-import static com.xbuilders.game.items.blocks.trees.TreeUtils.WAIT_TIME;
 
 /**
- *
  * @author zipCoder933
  */
 public class JungleTreeUtils {
     public static final Block.SetBlockEvent setBlockEvent = new Block.SetBlockEvent() {
         @Override
         public void run(int x, int y, int z) {
-            try {
-                Thread.sleep(WAIT_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            plantTree(new Random(), x, y, z);
+            TreeUtils.waitForGrowth();
+            player_plantTree(new Random(), x, y, z);
         }
     };
+
     static class VineBranchPair {
 
         public ArrayList<Vector3i> vines;
@@ -70,12 +64,15 @@ public class JungleTreeUtils {
         return ret;
     }
 
-    public static void plantTree(Random rand, int x, int y, int z) {
-        int height = randInt(rand, 5, 13);
+    final static int MIN_HEIGHT = 6;
+    final static int MAX_HEIGHT = 17;
+
+    public static void player_plantTree(Random rand, int x, int y, int z) {
+        int height = randInt(rand, MIN_HEIGHT, MAX_HEIGHT);
         int firstLayerWide = 0;
         firstLayerWide = randInt(rand, 2, 4);
-        TreeUtils.roundedSquareLeavesLayer(x, (y - height + 2), z, firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
-        TreeUtils.roundedSquareLeavesLayer(x + randInt(rand, -1, 1),
+        TreeUtils.player_roundedSquareLeavesLayer(x, (y - height + 2), z, firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.player_roundedSquareLeavesLayer(x + randInt(rand, -1, 1),
                 (y - height + 1),
                 z + randInt(rand, -1, 1),
                 firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
@@ -83,31 +80,31 @@ public class JungleTreeUtils {
         VineBranchPair vb = setVinesAndBranches(rand, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-         GameScene.player.setBlock(MyGame.BLOCK_JUNGLE_LOG,x, y - k, z);
+            GameScene.player.setBlock(MyGame.BLOCK_JUNGLE_LOG, x, y - k, z);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {
-                        TreeUtils.setBlock(MyGame.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
+                        TreeUtils.player_setBlock(MyGame.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
                     }
                 }
                 for (Vector3i vine : vb.vines) {
-                    TreeUtils.setBlock(MyGame.BLOCK_VINES, vine.x, y - k, vine.z);
+                    TreeUtils.player_setBlock(MyGame.BLOCK_VINES, vine.x, y - k, vine.z);
                 }
             }
         }
 
-        TreeUtils.diamondLeavesLayer(x, y - height, z, 3, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.player_diamondLeavesLayer(x, y - height, z, 3, MyGame.BLOCK_JUNGLE_LEAVES);
         if (rand.nextDouble() > 0.8) {
-            TreeUtils.diamondLeavesLayer(x, y - height - 1, z, 2, MyGame.BLOCK_JUNGLE_LEAVES);
+            TreeUtils.player_diamondLeavesLayer(x, y - height - 1, z, 2, MyGame.BLOCK_JUNGLE_LEAVES);
         }
     }
 
-    public static void plantTree(Terrain.GenSession terrain, Chunk source, int x, int y, int z) {
-        int height = randInt(terrain.random, 5, 13);
+    public static void terrain_plantTree(Terrain.GenSession terrain, Chunk source, int x, int y, int z) {
+        int height = randInt(terrain.random, MIN_HEIGHT, MAX_HEIGHT);
         int firstLayerWide = 0;
         firstLayerWide = randInt(terrain.random, 2, 4);
-        TreeUtils.roundedSquareLeavesLayer(terrain, source, x, (y - height + 2), z, firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
-        TreeUtils.roundedSquareLeavesLayer(terrain, source,
+        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, (y - height + 2), z, firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source,
                 x + randInt(terrain.random, -1, 1),
                 (y - height + 1),
                 z + randInt(terrain.random, -1, 1),
@@ -116,26 +113,26 @@ public class JungleTreeUtils {
         VineBranchPair vb = setVinesAndBranches(terrain.random, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-           terrain.setBlockWorld(x, y - k, z, MyGame.BLOCK_JUNGLE_LOG);
+            terrain.setBlockWorld(MyGame.BLOCK_JUNGLE_LOG, x, y - k, z);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {
                         if (branch.x != x && branch.z != z) {
-                            terrain.setBlockWorld(branch.x, y - k, branch.z, MyGame.BLOCK_JUNGLE_LEAVES);
+                            terrain.setBlockWorld(MyGame.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
                         }
                     }
                 }
                 for (Vector3i vine : vb.vines) {
                     if (vine.x != x && vine.z != z) {
-                        terrain.setBlockWorld(vine.x, y - k, vine.z, MyGame.BLOCK_VINES);
+                        terrain.setBlockWorld(MyGame.BLOCK_VINES, vine.x, y - k, vine.z);
                     }
                 }
             }
         }
 
-        TreeUtils.diamondLeavesLayer(terrain, source, x, y - height, z, 3, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height, z, 3, MyGame.BLOCK_JUNGLE_LEAVES);
         if (terrain.random.nextDouble() > 0.8) {
-            TreeUtils.diamondLeavesLayer(terrain, source, x, y - height - 1, z, 2, MyGame.BLOCK_JUNGLE_LEAVES);
+            TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height - 1, z, 2, MyGame.BLOCK_JUNGLE_LEAVES);
         }
     }
 }

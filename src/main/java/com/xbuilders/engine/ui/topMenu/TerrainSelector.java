@@ -5,24 +5,28 @@
 package com.xbuilders.engine.ui.topMenu;
 
 import com.xbuilders.engine.world.Terrain;
+
 import java.util.ArrayList;
+
 import org.lwjgl.nuklear.NkContext;
+
 import static org.lwjgl.nuklear.Nuklear.nk_button_label;
 
 /**
- *
  * @author zipCoder933
  */
 public class TerrainSelector {
 
     public TerrainSelector(ArrayList<Terrain> terrainList, NkContext ctx) {
         this.terrainList = terrainList;
+        selectedTerrain = 0;
+        initSelectedTerrain();
         this.ctx = ctx;
     }
 
     private NkContext ctx;
     private ArrayList<Terrain> terrainList;
-    private int selectedTerrain = 0;
+    private int selectedTerrain;
 
     public Terrain getSelectedTerrain() {
         return terrainList.get(selectedTerrain);
@@ -38,6 +42,12 @@ public class TerrainSelector {
             if (selectedTerrain >= terrainList.size()) {
                 selectedTerrain = 0;
             }
+            initSelectedTerrain();
         }
+    }
+
+    private void initSelectedTerrain() {
+        Terrain terrain = terrainList.get(selectedTerrain);
+        terrain.initOptions();
     }
 }

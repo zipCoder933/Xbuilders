@@ -116,6 +116,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 10 * 1000);
             }
         }
+        multiplayerProps.markStateChanged();
         return true;
     }
 }
