@@ -10,7 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/defaultTerrain/DefaultTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/terrain/defaultTerrain/DefaultTerrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver/beaver layour.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/beaver/beaver layour.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver/beaver uv.xcf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/beaver/beaver uv.xcf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend1" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
