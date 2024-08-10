@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="XBuilders3" />
         <module name="ChunkShader" />
+        <module name="Xbuilders3" />
       </profile>
     </annotationProcessing>
   </component>
