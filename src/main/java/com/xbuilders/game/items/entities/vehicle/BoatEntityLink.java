@@ -14,7 +14,6 @@ import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
 import com.xbuilders.window.BaseWindow;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * @author zipCoder933
@@ -68,7 +67,7 @@ public class BoatEntityLink extends EntityLink {
 
         @Override
         public void vehicle_draw() {
-            modelMatrix.rotateY((float) (rotationYDeg * (Math.PI / 180)));
+            modelMatrix.rotateY((float) (getRotationYDeg() * (Math.PI / 180)));
             modelMatrix.update();
             modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
@@ -121,11 +120,11 @@ public class BoatEntityLink extends EntityLink {
                 }
 
                 if (getPlayer().leftKeyPressed()) {
-                    float rotationY1 = rotationYDeg + rotateSpeed;
-                    this.rotationYDeg = rotationY1;
+                    float rotationY1 = getRotationYDeg() + rotateSpeed;
+                    this.setRotationYDeg(rotationY1);
                 } else if (getPlayer().rightKeyPressed()) {
-                    float rotationY1 = rotationYDeg - rotateSpeed;
-                    this.rotationYDeg = rotationY1;
+                    float rotationY1 = getRotationYDeg() - rotateSpeed;
+                    this.setRotationYDeg(rotationY1);
                 }
                 speedCurve = (float) MathUtils.curve(speedCurve, targetSpeed, 0.03f);
                 goForward(speedCurve);

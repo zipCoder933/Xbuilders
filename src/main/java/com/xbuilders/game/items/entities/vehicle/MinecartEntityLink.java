@@ -107,7 +107,7 @@ public class MinecartEntityLink extends EntityLink {
 
         @Override
         public void vehicle_draw() {
-            rotationYCurve = (float) MathUtils.curve(rotationYCurve, rotationYDeg, 0.25f);
+            rotationYCurve = (float) MathUtils.curve(rotationYCurve, getRotationYDeg(), 0.25f);
             modelMatrix.translate(renderOffset);
             modelMatrix.rotateY((float) (rotationYCurve * (Math.PI / 180)));
 
@@ -199,12 +199,12 @@ public class MinecartEntityLink extends EntityLink {
                 BlockData orientation = GameScene.world.getBlockData(currentTrackPiece.x, currentTrackPiece.y, currentTrackPiece.z);
                 if (getOrientationModified(orientation) == 0 || getOrientationModified(orientation) == 2) {
                     worldPosition.x = currentTrackPiece.x;
-                    this.rotationYDeg = (float) 0;
+                    this.setRotationYDeg((float) 0);
                 } else {
                     worldPosition.z = currentTrackPiece.z;
-                    this.rotationYDeg = (float) 90;
+                    this.setRotationYDeg((float) 90);
                 }
-                rotationYCurve = rotationYDeg;
+                rotationYCurve = getRotationYDeg();
                 return true;
             }
             return false;
@@ -238,14 +238,14 @@ public class MinecartEntityLink extends EntityLink {
             }
 
             if (getPlayer().rightKeyPressed()) {
-                float rotationY1 = rotationYDeg + rotateSpeed;
-                this.rotationYDeg = rotationY1;
+                float rotationY1 = getRotationYDeg() + rotateSpeed;
+                this.setRotationYDeg(rotationY1);
             } else if (getPlayer().leftKeyPressed()) {
-                float rotationY1 = rotationYDeg - rotateSpeed;
-                this.rotationYDeg = rotationY1;
+                float rotationY1 = getRotationYDeg() - rotateSpeed;
+                this.setRotationYDeg(rotationY1);
             }
-            rotationYDeg = normalizeRotation(rotationYDeg);
-            rotationYCurve = rotationYDeg;
+            setRotationYDeg(normalizeRotation(getRotationYDeg()));
+            rotationYCurve = getRotationYDeg();
             goForward(speedCurve);
         }
 
@@ -294,14 +294,14 @@ public class MinecartEntityLink extends EntityLink {
                 if (b.id == MyGame.BLOCK_SWITCH_JUNCTION) {
                     if (GameScene.player.leftKeyPressed()) {
                         if (switchJunctionKeyEvent) {
-                            float rotationY1 = rotationYDeg + 90;
-                            this.rotationYDeg = rotationY1;
+                            float rotationY1 = getRotationYDeg() + 90;
+                            this.setRotationYDeg(rotationY1);
                             switchJunctionKeyEvent = false;
                         }
                     } else if (GameScene.player.rightKeyPressed()) {
                         if (switchJunctionKeyEvent) {
-                            float rotationY1 = rotationYDeg - 90;
-                            this.rotationYDeg = rotationY1;
+                            float rotationY1 = getRotationYDeg() - 90;
+                            this.setRotationYDeg(rotationY1);
                             switchJunctionKeyEvent = false;
                         }
                     } else {
@@ -324,11 +324,11 @@ public class MinecartEntityLink extends EntityLink {
                         worldPosition.z = pos.z;
 
                         if (curvedTrackIsPointingLeft(lastPos, pos)) {
-                            float rotationY1 = rotationYDeg - 90;
-                            this.rotationYDeg = rotationY1;
+                            float rotationY1 = getRotationYDeg() - 90;
+                            this.setRotationYDeg(rotationY1);
                         } else {
-                            float rotationY1 = rotationYDeg + 90;
-                            this.rotationYDeg = rotationY1;
+                            float rotationY1 = getRotationYDeg() + 90;
+                            this.setRotationYDeg(rotationY1);
                         }
                         disableRotation(pos);
                     }
@@ -339,11 +339,11 @@ public class MinecartEntityLink extends EntityLink {
                         worldPosition.z = pos.z;
 
                         if (mergeTrackShouldTurnLeft(lastPos, pos)) {
-                            float rotationY1 = rotationYDeg - 90;
-                            this.rotationYDeg = rotationY1;
+                            float rotationY1 = getRotationYDeg() - 90;
+                            this.setRotationYDeg(rotationY1);
                         } else {
-                            float rotationY1 = rotationYDeg + 90;
-                            this.rotationYDeg = rotationY1;
+                            float rotationY1 = getRotationYDeg() + 90;
+                            this.setRotationYDeg(rotationY1);
                         }
                         disableRotation(pos);
                     }

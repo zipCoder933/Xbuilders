@@ -24,7 +24,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class PendingEntityChanges {
     HashSet<Entity> entityCreation = new HashSet<>();
     HashSet<Entity> entityDeletion = new HashSet<>();
-    HashSet<Entity> entityUpdate = new HashSet<>();
+    HashSet<Entity> entityUpdate = new HashSet<>(); //TODO: Maybe we dont have to have a list of changes. Maybe we can just iterate over each entity ourselves
 
     public long rangeChangesUpdate;
     public long allChangesUpdate;
@@ -51,7 +51,8 @@ public class PendingEntityChanges {
 
     @FunctionalInterface
     public interface ReadConsumer {
-        void accept(int mode, EntityLink entityLink, long identifier, Vector3f currentPos, byte[] data);
+        void accept(int mode, EntityLink entityLink, long identifier,
+                    Vector3f currentPos, byte[] data, boolean isControlledByAnotherPlayer);
     }
 
     public int sendNearEntityChanges() {
@@ -151,6 +152,33 @@ public class PendingEntityChanges {
         }
     }
 
+    public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
+        baos.write(new byte[]{entityOperation});
+        baos.write(new byte[]{(byte) (entity.multiplayerProps.controlledByUs() ? 1 : 0)});
+        entity.multiplayerProps.controlMode = false;
+
+        //Send identifier
+        ByteUtils.writeLong(baos, entity.getIdentifier());
+
+        //Send current position
+        baos.write(ByteUtils.floatToBytes(entity.worldPosition.x));
+        baos.write(ByteUtils.floatToBytes(entity.worldPosition.y));
+        baos.write(ByteUtils.floatToBytes(entity.worldPosition.z));
+
+        //Send entity ID
+        baos.write(ByteUtils.shortToBytes(entity.link.id));
+
+        //Send entity byte data (state or entity initialisation)
+        byte[] data = null;
+        if (entityOperation == GameServer.ENTITY_UPDATED) {
+            data = entity.stateToBytes();
+        } else if (entityOperation == GameServer.ENTITY_CREATED) {
+            data = entity.toBytes();
+        }
+        ChunkSavingLoadingUtils.writeEntityData(data, baos);
+    }
+
+
     public static void readEntityChange(byte[] receivedData, ReadConsumer newEvent) {
         //Split the recievedData by the newline byte
         AtomicInteger start = new AtomicInteger(0);
@@ -158,8 +186,11 @@ public class PendingEntityChanges {
             if (receivedData[start.get()] == GameServer.ENTITY_CREATED ||
                     receivedData[start.get()] == GameServer.ENTITY_DELETED ||
                     receivedData[start.get()] == GameServer.ENTITY_UPDATED) {
+
                 int mode = receivedData[start.get()];
-                start.set(start.get() + 1);
+                boolean controlledByAnotherPlayer = receivedData[start.get() + 1] == 1;
+                start.set(start.get() + 2);
+
 
                 //last XYZ coordinates
                 long identifier = ByteUtils.bytesToLong(receivedData, start);
@@ -180,13 +211,13 @@ public class PendingEntityChanges {
                 byte[] data = ChunkSavingLoadingUtils.readEntityData(receivedData, start);
 
                 //Add the block to the list
-                newEvent.accept(mode, entity, identifier, currentPos, data);
+                newEvent.accept(mode, entity, identifier, currentPos, data, controlledByAnotherPlayer);
             }
         }
     }
 
     public void addEntityChange(Entity entity, byte operation, boolean sendImmediately) {
-        if(sendImmediately && sendInstantChange(entity, operation)) return;
+        if (sendImmediately && sendInstantChange(entity, operation)) return;
         writeLock.lock();
         try {
             if (operation == GameServer.ENTITY_CREATED) entityCreation.add(entity);
@@ -213,29 +244,6 @@ public class PendingEntityChanges {
         return false;
     }
 
-    public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
-        baos.write(new byte[]{entityOperation});
-
-        //Send identifier
-        ByteUtils.writeLong(baos, entity.getIdentifier());
-
-        //Send current position
-        baos.write(ByteUtils.floatToBytes(entity.worldPosition.x));
-        baos.write(ByteUtils.floatToBytes(entity.worldPosition.y));
-        baos.write(ByteUtils.floatToBytes(entity.worldPosition.z));
-
-        //Send entity ID
-        baos.write(ByteUtils.shortToBytes(entity.link.id));
-
-        //Send entity byte data (state or entity initialisation)
-        byte[] data = null;
-        if (entityOperation == GameServer.ENTITY_UPDATED) {
-            data = entity.stateToBytes();
-        } else if (entityOperation == GameServer.ENTITY_CREATED) {
-            data = entity.toBytes();
-        }
-        ChunkSavingLoadingUtils.writeEntityData(data, baos);
-    }
 
 
     public void clear() {

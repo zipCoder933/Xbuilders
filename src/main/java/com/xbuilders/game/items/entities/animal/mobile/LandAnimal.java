@@ -28,7 +28,7 @@ public abstract class LandAnimal extends Animal {
     }
 
     public void animal_readState(byte[] state, AtomicInteger start) {
-        if (start.get() < state.length-1) {
+        if (start.get() < state.length - 1) {
             currentAction = new AnimalAction().fromBytes(state, start);
         }
     }
@@ -109,7 +109,8 @@ public abstract class LandAnimal extends Animal {
 
 
     public void move() {
-        if (freezeMode) {
+        multiplayerProps.controlMode = false;
+        if (freezeMode || multiplayerProps.controlledByAnotherPlayer) {
             return;
         }
         if (currentAction == null || currentAction.pastDuration()) {
@@ -123,14 +124,14 @@ public abstract class LandAnimal extends Animal {
         if (null != currentAction.type) {
             switch (currentAction.type) {
                 case TURN:
-                    rotationYDeg = (rotationYDeg + currentAction.velocity);
+                    setRotationYDeg((getRotationYDeg() + currentAction.velocity));
                     break;
                 case WALK:
                     goForward(currentAction.velocity);
                     break;
                 case FOLLOW:
-
-                    rotationYDeg = (float) Math.toDegrees(getDirectionToPlayer()) + random.noise(2f, -3, 3);
+                    multiplayerProps.controlMode = true;
+                    setRotationYDeg((float) Math.toDegrees(getDirectionToPlayer()) + random.noise(2f, -3, 3));
 
                     if (distToPlayer < 15 && playerHasAnimalFeed()) {
                         if (currentAction.getTimeSinceCreatedMS() > 500
@@ -147,8 +148,6 @@ public abstract class LandAnimal extends Animal {
                     } else {
                         currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
                     }
-
-
                     break;
                 default:
             }

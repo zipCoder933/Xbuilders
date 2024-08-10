@@ -79,14 +79,14 @@ public class StaticLandAnimalLink extends EntityLink {
         @Override
         public void draw() {
             if (inFrustum) {
-                move();
+                if (allowVoluntaryMovement()) move();
 
                 // box.setToAABB(projection, view, aabb.box);
                 // box.draw();
                 shader.bind();
 
 
-                float rotationRadians = (float) Math.toRadians(rotationYDeg);
+                float rotationRadians = (float) Math.toRadians(getRotationYDeg());
                 bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
                 modelMatrix.update(bodyMatrix);

@@ -6,6 +6,7 @@ package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.multiplayer.Local_PendingEntityChanges;
 import com.xbuilders.engine.multiplayer.PlayerClient;
@@ -57,7 +58,7 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f view = new Matrix4f();
     private static Game game;
     static HashMap<String, String> commandHelp;
-  public  static Local_PendingEntityChanges localEntityChanges;
+    public static Local_PendingEntityChanges localEntityChanges;
 
 
     public GameScene(NKWindow window) throws Exception {
@@ -302,7 +303,7 @@ public class GameScene implements WindowEvents {
     public static GameUI ui;
 
     public void pingAllPlayers() {
-        for(PlayerClient p : server.clients) {
+        for (PlayerClient p : server.clients) {
             p.ping();
         }
     }
@@ -427,8 +428,9 @@ public class GameScene implements WindowEvents {
                         text += "\nRay hit (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     }
 
-                    if(player.camera.cursorRay.getEntity() != null){
-                        text += "\nEntity: " + player.camera.cursorRay.getEntity();
+                    if (player.camera.cursorRay.getEntity() != null) {
+                        Entity e = player.camera.cursorRay.getEntity();
+                        text += "\nEntity: " + e + " controlledByAnotherPlayer: " + e.multiplayerProps.controlledByAnotherPlayer;
                     }
 
                     Chunk chunk = world.getChunk(rayWCC.chunk);

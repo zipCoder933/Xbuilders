@@ -149,8 +149,6 @@ public abstract class Entity {
             prevWorldPosition.set(worldPosition);
             entityMoveEvent();
         }
-        multiplayerProps.checkForStateChange();
-
         return hasMoved;
     }
 

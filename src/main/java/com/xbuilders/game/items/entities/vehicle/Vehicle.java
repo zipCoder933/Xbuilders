@@ -14,8 +14,6 @@ import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector2f;
 
-import java.util.ArrayList;
-
 public abstract class Vehicle extends Entity {
 
     /**
@@ -43,7 +41,7 @@ public abstract class Vehicle extends Entity {
                 || b2 == (MyGame.BLOCK_MINECART_ROAD_BLOCK) || b2 == (MyGame.BLOCK_MINECART_ROAD_SLAB);
     }
 
-    public float rotationYDeg = 0;
+    private float rotationYDeg = 0;
     private boolean collisionEnabled = true;
 
     public boolean jumpWithSideCollision = false;
@@ -124,14 +122,11 @@ public abstract class Vehicle extends Entity {
         return GameScene.player;
     }
 
-    public void goForward(float amount, float rotationDegrees) {
-        Vector2f vec = TrigUtils.getCircumferencePoint(-rotationDegrees, amount);
-        worldPosition.add(vec.x, 0, vec.y);
-    }
 
     public void goForward(float amount) {
-        Vector2f vec = TrigUtils.getCircumferencePoint(-rotationYDeg, amount);
+        Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), amount);
         worldPosition.add(vec.x, 0, vec.y);
+        multiplayerProps.markStateChanged();
     }
 
     @Override
@@ -150,12 +145,20 @@ public abstract class Vehicle extends Entity {
     public abstract void onDestructionCancel();
 
     public byte[] stateToBytes() {
-        return ByteUtils.floatToBytes(rotationYDeg);
+        return ByteUtils.floatToBytes(getRotationYDeg());
     }
 
     public void loadState(byte[] state) {
         if(state.length != 4) return;
-        rotationYDeg = ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]);
+        rotationYDeg = (ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]));
     }
 
+    public float getRotationYDeg() {
+        return rotationYDeg;
+    }
+
+    public void setRotationYDeg(float rotationYDeg) {
+        this.rotationYDeg = rotationYDeg;
+        multiplayerProps.markStateChanged();
+    }
 }

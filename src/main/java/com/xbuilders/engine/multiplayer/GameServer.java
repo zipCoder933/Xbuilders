@@ -213,7 +213,8 @@ public class GameServer extends Server<PlayerClient> {
                         }
                     });
                 } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
-                    PendingEntityChanges.readEntityChange(receivedData, (mode, entity, identifier, currentPos, data) -> {
+                    PendingEntityChanges.readEntityChange(receivedData, (
+                            mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
 //                        printEntityChange(mode, entity, identifier, currentPos, data);
 
                         if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
@@ -227,7 +228,7 @@ public class GameServer extends Server<PlayerClient> {
                             } else if (mode == ENTITY_UPDATED) {
                                 Entity e = GameScene.world.entities.get(identifier);
                                 if (e != null) {
-                                    e.multiplayerProps.updateState(data, currentPos);
+                                    e.multiplayerProps.updateState(data, currentPos,isControlledByAnotherPlayer);
                                 }
                             }
                         } else {//Cache changes if they are out of bounds

@@ -31,13 +31,17 @@ public abstract class Animal extends Entity {
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
 
-    public float rotationYDeg;
+    public boolean allowVoluntaryMovement() {
+        return !multiplayerProps.controlledByAnotherPlayer;
+    }
+
+    private float rotationYDeg;
     public final AnimalRandom random;
 
     public final byte[] stateToBytes() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            baos.write(ByteUtils.floatToBytes(rotationYDeg));
+            baos.write(ByteUtils.floatToBytes(getRotationYDeg()));
             random.writeState(baos);
             animal_writeState(baos);
             baos.close();//releases the baos to prevent memory leaks and promote efficiency
@@ -55,7 +59,7 @@ public abstract class Animal extends Entity {
 
     public void loadState(byte[] state) {
         AtomicInteger start = new AtomicInteger(0);
-        rotationYDeg = ByteUtils.bytesToFloat(state, start);
+        rotationYDeg = (ByteUtils.bytesToFloat(state, start));
         random.readState(state, start);
         animal_readState(state, start);
     }
@@ -66,14 +70,6 @@ public abstract class Animal extends Entity {
         return heldItem != null && heldItem.equals(MyGame.TOOL_ANIMAL_FEED);
     }
 
-
-    public void goForward(float amount) {
-        amount *= window.smoothFrameDeltaSec * 50;
-        if (freezeMode) return;
-        Vector2f vec = TrigUtils.getCircumferencePoint(-rotationYDeg, amount);
-        worldPosition.add(vec.x, 0, vec.y);
-        if (goForwardCallback != null) goForwardCallback.accept(amount);
-    }
 
     public Animal(BaseWindow window) {
         this.window = window;
@@ -89,5 +85,23 @@ public abstract class Animal extends Entity {
         pos = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
         pos.setGravityEnabled(true);
         random.setSeed(getIdentifier());
+    }
+
+    public float getRotationYDeg() {
+        return rotationYDeg;
+    }
+
+    public void setRotationYDeg(float rotationYDeg) {
+        multiplayerProps.markStateChanged();
+        this.rotationYDeg = rotationYDeg;
+    }
+
+    public void goForward(float amount) {
+        amount *= window.smoothFrameDeltaSec * 50;
+        if (freezeMode) return;
+        Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), amount);
+        worldPosition.add(vec.x, 0, vec.y);
+        if (goForwardCallback != null) goForwardCallback.accept(amount);
+        multiplayerProps.markStateChanged();
     }
 }

@@ -48,18 +48,18 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
                     goForward(0.2f);
                     rotSpeed = 3;
                     currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
-                } else move();
+                } else if(allowVoluntaryMovement())move();
 
                 if (GameScene.player.leftKeyPressed()) {
-                    rotationYDeg -= rotSpeed;
+                    setRotationYDeg(getRotationYDeg() - rotSpeed);
                 } else if (GameScene.player.rightKeyPressed()) {
-                    rotationYDeg += rotSpeed;
+                    setRotationYDeg(getRotationYDeg() + rotSpeed);
                 }
-            } else move();
+            } else if (allowVoluntaryMovement()) move();
 
 
             shader.bind();
-            float rotationRadians = (float) Math.toRadians(rotationYDeg);
+            float rotationRadians = (float) Math.toRadians(getRotationYDeg());
             bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
 
             bodyMatrix.update();
@@ -111,7 +111,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);
             } else {
                 if (distToPlayer < 5) {
-                    rotationYDeg = (float) Math.toDegrees(getDirectionToPlayer());
+                    setRotationYDeg((float) Math.toDegrees(getDirectionToPlayer()));
                 }
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 10 * 1000);
             }
