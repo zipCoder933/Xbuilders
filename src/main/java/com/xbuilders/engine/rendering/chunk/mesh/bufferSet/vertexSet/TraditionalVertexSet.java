@@ -70,7 +70,7 @@ public class TraditionalVertexSet extends CompactVertexSet {
     public void vertex(float x, float y, float z,
                        float uvX, float uvY, byte normal,
                        BlockTexture.FaceTexture texture, byte light) {
-        verts[0].addVert(packFirstInt(x, y, normal, texture.animationLength),
+        verts[0].addVert(packFirstInt(x, y, normal, texture.getAnimationFrames()),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.zLayer, light));
     }
@@ -78,7 +78,7 @@ public class TraditionalVertexSet extends CompactVertexSet {
     public void vertex(float x, float y, float z,
                        float uvX, float uvY, int normal,
                        BlockTexture.FaceTexture texture, byte light) {
-        verts[0].addVert(packFirstInt(x, y, (byte) normal, texture.animationLength),
+        verts[0].addVert(packFirstInt(x, y, (byte) normal, texture.getAnimationFrames()),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.zLayer, light));
     }
@@ -86,7 +86,7 @@ public class TraditionalVertexSet extends CompactVertexSet {
     public void vertex(float x, float y, float z,
                        float uvX, float uvY,
                        BlockTexture.FaceTexture texture, byte light) {
-        verts[0].addVert(packFirstInt(x, y, (byte) 0, texture.animationLength),
+        verts[0].addVert(packFirstInt(x, y, (byte) 0, texture.getAnimationFrames()),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.zLayer, light));
     }

@@ -245,7 +245,7 @@ public class DefaultTerrain extends Terrain {
     }
 
     public Biome getBiomeOfVoxelV2(float valley, float heat, int heightmap, final int wx, final int wy, final int wz) {
-        if (heat > 0.65f  // We lower the temp to compensate for being at the bottom of the terrain
+        if (heat > 0.65f  // (higher than 1 - .35) We lower the temp to compensate for being at the bottom of the terrain
                 && wy > WORLD_HEIGHT_OFFSET - 8 - (heat * 5) &&
                 wy < WATER_LEVEL - 1) {
             return Biome.DESERT;
@@ -262,9 +262,9 @@ public class DefaultTerrain extends Terrain {
             return Biome.SAVANNAH;
         } else if (heat > 0.47f) {
             return Biome.JUNGLE;
-        } else if (heat > 0.35f) {
+        } else if (heat > 0.35f) { //Keep this!
             return Biome.DEFAULT;
-        } else {
+        } else { //lower than 0.35
             return Biome.SNOWY;
         }
     }

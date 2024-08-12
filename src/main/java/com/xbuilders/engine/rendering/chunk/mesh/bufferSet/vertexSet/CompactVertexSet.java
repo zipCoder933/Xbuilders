@@ -5,7 +5,6 @@
 package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.rendering.Mesh;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -32,7 +31,7 @@ public abstract class CompactVertexSet extends VertexSet<CompactMesh> {
     public final static float maxMult12bits = (float) ((Math.pow(2, 12) / (Chunk.WIDTH)) - 6);
 
 
-    public final static float MAX_BLOCK_ANIMATION_SIZE = 2 ^ 5 - 1;
+    public final static int MAX_BLOCK_ANIMATION_LENGTH = (int) (Math.pow(2,5) - 1); //Block animation can only have up to 31 frames
     public static final int VECTOR_ELEMENTS = 3;
 
     public static int packFirstInt(float vertX, float vertY, byte normals, byte animation) {
@@ -42,6 +41,7 @@ public abstract class CompactVertexSet extends VertexSet<CompactMesh> {
 
         // Pack the values into a single integer
         // VertX is shifted to the left by 20 bits, VertY by 8 bits, Normals by 5 bits, and Animation by 0 bits
+        //Animation should allow up to 32 animation frames
         // Normals take up 3 bits, and animation takes up 5 bits
         return (a << 20) | (b << 8) | ((normals & 0b111) << 5) | (animation & 0b11111);
     }
@@ -110,7 +110,7 @@ public abstract class CompactVertexSet extends VertexSet<CompactMesh> {
     public void vertex(float x, float y, float z,
                        float uvX, float uvY, byte normal,
                        BlockTexture.FaceTexture texture, byte light) {
-        vertex(0, packFirstInt(x, y, normal, texture.animationLength),
+        vertex(0, packFirstInt(x, y, normal, texture.getAnimationFrames()),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.zLayer, light));
     }
@@ -118,7 +118,7 @@ public abstract class CompactVertexSet extends VertexSet<CompactMesh> {
     public void vertex(float x, float y, float z,
                        float uvX, float uvY, int normal,
                        BlockTexture.FaceTexture texture, byte light) {
-        vertex(0, packFirstInt(x, y, (byte) normal, texture.animationLength),
+        vertex(0, packFirstInt(x, y, (byte) normal, texture.getAnimationFrames()),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.zLayer, light));
     }
@@ -126,7 +126,7 @@ public abstract class CompactVertexSet extends VertexSet<CompactMesh> {
     public void vertex(float x, float y, float z,
                        float uvX, float uvY,
                        BlockTexture.FaceTexture texture, byte light) {
-        vertex(0, packFirstInt(x, y, (byte) 0, texture.animationLength),
+        vertex(0, packFirstInt(x, y, (byte) 0, texture.getAnimationFrames()),
                 packSecondInt(z, uvX, uvY),
                 packThirdInt(texture.zLayer, light));
     }

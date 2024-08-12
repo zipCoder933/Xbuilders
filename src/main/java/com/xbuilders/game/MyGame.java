@@ -8,7 +8,6 @@ import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
@@ -38,7 +37,6 @@ import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.window.NKWindow;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
@@ -50,8 +48,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.xbuilders.game.UI.Inventory.KEY_OPEN_INVENTORY;
 
 /**
  * @author zipCoder933
@@ -499,10 +495,10 @@ public class MyGame extends Game {
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_DRY_GRASS_TOP, BLOCK_TALL_DRY_GRASS);
 
 
-        Block lava = ItemList.getBlock(BLOCK_LAVA);//TODO: Lava texture is not animated
-        System.out.println("Lava animation length: " + lava.texture.getNEG_X().animationLength);
-
+        Block lava = ItemList.getBlock(BLOCK_LAVA);
+//        System.out.println("Lava animation length: " + lava.texture.getNEG_X().animationLength);
         lava.liquidMaxFlow = 6;
+        lava.texture.getNEG_X().setAnimationFrames(32);
     }
 
     @Override

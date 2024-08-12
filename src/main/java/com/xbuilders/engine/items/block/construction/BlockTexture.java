@@ -2,16 +2,29 @@ package com.xbuilders.engine.items.block.construction;
 
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 
+import static com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet.MAX_BLOCK_ANIMATION_LENGTH;
+
 public class BlockTexture {
 
     public class FaceTexture {
 
         public final int zLayer;
-        public byte animationLength;
+        private byte animationFrames;
 
         public FaceTexture(int id, int animLength) {
             this.zLayer = id;
-            this.animationLength = (byte) animLength;
+            this.setAnimationFrames(animLength);
+        }
+
+        public byte getAnimationFrames() {
+            return animationFrames;
+        }
+
+        public void setAnimationFrames(int animationFrames) {
+            if(animationFrames > MAX_BLOCK_ANIMATION_LENGTH) {
+                animationFrames = MAX_BLOCK_ANIMATION_LENGTH;
+            }
+            this.animationFrames = (byte) animationFrames;
         }
     }
 

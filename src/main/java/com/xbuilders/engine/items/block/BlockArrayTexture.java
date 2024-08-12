@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.imageio.ImageIO;
 
+import static com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet.MAX_BLOCK_ANIMATION_LENGTH;
+
 /**
  * @author zipCoder933
  */
@@ -116,6 +118,8 @@ public class BlockArrayTexture {
                             imageFiles.add(new TextureFile(path, 0, j * image.getWidth(), image.getWidth(), image.getWidth()));
                             index.getAndAdd(1);
                         }
+                        if(lengthMultiplier > MAX_BLOCK_ANIMATION_LENGTH) lengthMultiplier = MAX_BLOCK_ANIMATION_LENGTH;
+//                        System.out.println("Splitting " + name + " into " + lengthMultiplier + " pieces");
                         animationMap.put(name, lengthMultiplier);
                     } else {
                         imageFiles.add(new TextureFile(path));

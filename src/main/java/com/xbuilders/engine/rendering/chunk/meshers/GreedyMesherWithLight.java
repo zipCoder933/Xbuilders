@@ -9,7 +9,6 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
@@ -477,7 +476,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
                 // byte light2 = ((sun << 4) | torch);
 
                 completeVertex[i].set(
-                        CompactVertexSet.packFirstInt(vertex.x, vertex.y, (byte) side, texture.animationLength),
+                        CompactVertexSet.packFirstInt(vertex.x, vertex.y, (byte) side, texture.getAnimationFrames()),
                         CompactVertexSet.packSecondInt(vertex.z, uvs[i].x, uvs[i].y),
                         CompactVertexSet.packThirdInt(texture.zLayer, light[i]));
             }

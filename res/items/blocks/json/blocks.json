@@ -310,11 +310,11 @@
         "id": 21,
         "texture": {
             "neg_y": "water",
-            "pos_x": "water",
-            "pos_z": "water",
-            "neg_z": "water",
-            "neg_x": "water",
-            "pos_y": "water"
+            "pos_x": "water_flow",
+            "pos_z": "water_flow",
+            "neg_z": "water_flow",
+            "neg_x": "water_flow",
+            "pos_y": "water_flow"
         },
         "solid": false,
         "opaque": false,
@@ -327,11 +327,11 @@
         "id": 25,
         "texture": {
             "neg_y": "lava",
-            "pos_x": "lava",
-            "pos_z": "lava",
-            "neg_z": "lava",
-            "neg_x": "lava",
-            "pos_y": "lava"
+            "pos_x": "lava_flow",
+            "pos_z": "lava_flow",
+            "neg_z": "lava_flow",
+            "neg_x": "lava_flow",
+            "pos_y": "lava_flow"
         },
         "colorInPlayerHead": [1,0.2,0,0.5],
         "solid": false,
