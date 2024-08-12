@@ -6,6 +6,7 @@ import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -32,7 +33,9 @@ public class Block extends Item {
     public int liquidMaxFlow;
     public final float[] colorInPlayerHead = {0, 0, 0, 0};//If set to null, we default to drawing block texture in player head
 
-
+    public BlockType getRenderType() {
+        return ItemList.blocks.getBlockType(type);
+    }
 
     public final boolean isLuminous() {
         return torchlightStartingValue > 0;

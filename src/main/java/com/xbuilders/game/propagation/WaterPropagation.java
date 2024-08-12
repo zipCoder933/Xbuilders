@@ -5,9 +5,11 @@ import com.xbuilders.engine.gameScene.LivePropagationTask;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.MyGame;
+import com.xbuilders.game.items.blocks.RenderType;
 import org.joml.Vector3i;
 
 
@@ -23,6 +25,10 @@ public class WaterPropagation extends LivePropagationTask {
     public boolean isInterestedInBlock(BlockHistory hist) {
         return hist.newBlock.id == liquidBlock.id;
         //|| hist.previousBlock.id == liquidBlock;
+    }
+
+    public boolean isPenetrable(Block block) {
+        return block.isAir() || (!block.solid && block.type == RenderType.SPRITE);
     }
 
 
@@ -70,7 +76,9 @@ public class WaterPropagation extends LivePropagationTask {
 
     public boolean setWater(int x, int y, int z, int flow) {
         Block b = GameScene.world.getBlock(x, y, z);
-        if (b.isAir()) {
+        if (b.id == MyGame.BLOCK_LAVA && liquidBlock.id == MyGame.BLOCK_WATER) { //If that is lava and we are water
+            GameScene.player.setBlock(MyGame.BLOCK_COBBLESTONE, x, y, z);
+        } else if (isPenetrable(b)) {
             GameScene.player.setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
         }
         return !b.solid;

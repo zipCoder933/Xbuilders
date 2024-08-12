@@ -437,7 +437,14 @@ public class UserControlledPlayer extends Player {
                     Block block = (Block) item;
                     Vector3i w;
 
-                    if (block == BlockList.BLOCK_AIR || !camera.cursorRay.hitTarget()) {
+                    Block blockAtHitPos = GameScene.world.getBlock(
+                            camera.cursorRay.getHitPos().x,
+                            camera.cursorRay.getHitPos().y,
+                            camera.cursorRay.getHitPos().z);
+
+                    if (block == BlockList.BLOCK_AIR
+                            || !camera.cursorRay.hitTarget()
+                            || blockAtHitPos.getRenderType().replaceOnSet) {
                         w = camera.cursorRay.getHitPos();
                     } else {
                         w = camera.cursorRay.getHitPosPlusNormal();

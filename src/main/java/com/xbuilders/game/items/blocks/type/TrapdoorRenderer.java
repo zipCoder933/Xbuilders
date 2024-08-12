@@ -57,7 +57,7 @@ public class TrapdoorRenderer extends BlockType {
     }
 
     @Override
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         BlockData bd = new BlockData(2);
         player.camera.simplifiedPanTiltAsBlockData(bd);
         bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)

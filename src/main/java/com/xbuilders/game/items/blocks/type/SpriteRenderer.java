@@ -24,6 +24,7 @@ public class SpriteRenderer extends BlockType {
 
     public SpriteRenderer() {
         super();
+        replaceOnSet = true;
         generate3DIcon = false;
         initializationCallback = (b) -> {
             b.opaque = false;

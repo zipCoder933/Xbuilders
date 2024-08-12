@@ -77,7 +77,7 @@ public class FenceGateRenderer extends BlockType {
     }
 
     @Override
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         BlockData bd = new BlockData(2);
         int rotation = GameScene.player.camera.simplifiedPanTilt.x;
         bd.set(0, (byte) rotation);

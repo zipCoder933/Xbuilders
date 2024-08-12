@@ -57,7 +57,7 @@ public class StairsRenderer extends BlockType {
     }
 
     @Override
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         BlockData data = new BlockData(2);
         player.camera.simplifiedPanTiltAsBlockData(data);
         if (data.get(1) == (byte) 0

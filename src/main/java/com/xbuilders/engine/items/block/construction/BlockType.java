@@ -29,6 +29,7 @@ public abstract class BlockType {
 
     public Consumer<Block> initializationCallback = null;
     public boolean generate3DIcon = true;
+    public boolean replaceOnSet = false;
 
 
     public boolean useInGreedyMesher() {
@@ -99,7 +100,7 @@ public abstract class BlockType {
         consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1));
     }
 
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         return null;
     }
 

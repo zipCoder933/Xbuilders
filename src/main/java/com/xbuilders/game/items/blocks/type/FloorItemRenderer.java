@@ -45,7 +45,7 @@ public class FloorItemRenderer extends BlockType {
     }
 
     @Override
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
     }
 

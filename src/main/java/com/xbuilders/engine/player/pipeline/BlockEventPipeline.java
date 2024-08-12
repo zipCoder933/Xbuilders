@@ -208,7 +208,9 @@ public class BlockEventPipeline {
                 if (blockHist.updateBlockData) {
                     newBlockData = blockHist.newBlockData;
                 } else {
-                    newBlockData = type.getInitialBlockData(chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z), player);
+                    newBlockData = type.getInitialBlockData(
+                            chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z),
+                            blockHist.newBlock, player);
                 }
 
                 if (blockHist.newBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z)

@@ -173,7 +173,7 @@ public class DoorHalfRenderer extends BlockType {
     }
 
     @Override
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         //If we already set the block data for this block, skip making new stuff
         if (existingData != null && existingData.size() == 3) return existingData;
 

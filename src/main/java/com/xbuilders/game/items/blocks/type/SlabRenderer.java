@@ -58,7 +58,7 @@ public class SlabRenderer extends BlockType {
 
 
     @Override
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         BlockData data = player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
 //        if (player.blockModes.getMode() == BlockMode.Mode.LINE) {
 //            if (Math.abs(ray.getHitNormalAsInt().x) == 0
