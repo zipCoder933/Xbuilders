@@ -17,7 +17,7 @@ public class StraightTrack extends Block {
         opaque = false;
         type = RenderType.FLOOR;
 
-        onLocalChange(((history, changedPosition, thisPosition) -> {
+        localChangeEvent(((history, changedPosition, thisPosition) -> {
             int x = thisPosition.x;
             int y = thisPosition.y;
             int z = thisPosition.z;

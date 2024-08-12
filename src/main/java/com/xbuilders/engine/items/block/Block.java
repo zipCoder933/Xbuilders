@@ -74,7 +74,7 @@ public class Block extends Item {
 
     SetBlockEvent multithreadedSetBlockEvent = null;
     SetBlockEvent setBlockEvent = null;
-    OnLocalChange onLocalChange = null;
+    OnLocalChange localChangeEvent = null;
     RemoveBlockEvent removeBlockEvent = null;
     ClickEvent clickEvent = null;
 
@@ -99,8 +99,8 @@ public class Block extends Item {
         this.removeBlockEvent = removeBlockEvent;
     }
 
-    public void onLocalChange(OnLocalChange onLocalChange) {
-        this.onLocalChange = onLocalChange;
+    public void localChangeEvent(OnLocalChange onLocalChange) {
+        this.localChangeEvent = onLocalChange;
     }
 
     public boolean clickThrough() {
@@ -135,9 +135,9 @@ public class Block extends Item {
         }
     }
 
-    public void run_OnLocalChange(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition) {
-        if (onLocalChange != null) {
-            onLocalChange.run(history, changedPosition, thisPosition);
+    public void run_LocalChangeEvent(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition) {
+        if (localChangeEvent != null) {
+            localChangeEvent.run(history, changedPosition, thisPosition);
         }
     }
     // </editor-fold>

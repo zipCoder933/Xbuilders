@@ -357,7 +357,7 @@ public class BlockEventPipeline {
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);
                     Main.gameScene.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
-                    nBlock.run_OnLocalChange(hist, originPos, new Vector3i(nx, ny, nz));
+                    nBlock.run_LocalChangeEvent(hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }
         }

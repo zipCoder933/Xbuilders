@@ -37,14 +37,13 @@ public class WaterPropagation extends LivePropagationTask {
         if (nodes.isEmpty()) {
             return;
         }
-//        System.out.println(liquidBlock.name + " propagation: " + nodes.size());
+        System.out.println(liquidBlock.name + " prop nodes: " + nodes.size());
         for (Vector3i v : nodes) {
             //Get the flow from this node
             BlockData thisBD = GameScene.world.getBlockData(v.x, v.y, v.z);
             int flow = thisBD != null && thisBD.size() > 0 ? thisBD.get(0) : 0;
+//            System.out.println("Flow: " + flow);
 
-
-//
 //            if (GameScene.world.getBlockID(v.x, v.y, v.z) != liquidBlock.id) {
 //                if(GameScene.world.getBlock(v.x, v.y+1, v.z).id == liquidBlock.id) {
 //                    GameScene.player.setBlock(BlockList.BLOCK_AIR.id, v.x, v.y+1, v.z);
@@ -74,12 +73,20 @@ public class WaterPropagation extends LivePropagationTask {
         nodes.clear();
     }
 
+    /**
+     * @param x
+     * @param y
+     * @param z
+     * @param flow
+     * @return if we were able to set the water
+     */
     public boolean setWater(int x, int y, int z, int flow) {
         Block b = GameScene.world.getBlock(x, y, z);
         if (b.id == MyGame.BLOCK_LAVA && liquidBlock.id == MyGame.BLOCK_WATER) { //If that is lava and we are water
             GameScene.player.setBlock(MyGame.BLOCK_COBBLESTONE, x, y, z);
-        } else if (isPenetrable(b)) {
+        } else if (b.id == liquidBlock.id || isPenetrable(b)) {
             GameScene.player.setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
+            return true;
         }
         return !b.solid;
     }

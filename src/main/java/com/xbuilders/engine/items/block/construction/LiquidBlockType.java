@@ -27,6 +27,13 @@ public class LiquidBlockType extends DefaultBlockType {
             b.opaque = false;
             b.solid = false;
             b.liquidMaxFlow = 7;
+//            b.localChangeEvent((hist,changedPos,thisPos) ->{
+//                //Check the block above thisPos
+//                if (GameScene.world.getBlock(thisPos.x, thisPos.y - 1, thisPos.z).id == b.id) {
+//                    BlockData bd = new BlockData(new byte[]{(byte) b.liquidMaxFlow});
+//                    GameScene.world.setBlockData(bd, changedPos.x, changedPos.y, changedPos.z);
+//                }
+//            });
 //            b.removeBlockEvent(((x, y, z, history) -> {
 //                GameScene.world.setBlockData(history.previousBlockData, x, y, z);
 ////                boolean xpNeighbor = GameScene.world.getBlock(x - 1, y, z).id == b.id;
@@ -47,7 +54,7 @@ public class LiquidBlockType extends DefaultBlockType {
 
 
     private float getHeightOfFlow(int flow, float liquidMaxFlow, int y) {
-        return 1.0f + y - (flow / (liquidMaxFlow+1)) - (1 / liquidMaxFlow);
+        return 1.0f + y - (flow / (liquidMaxFlow + 1)) - (1 / liquidMaxFlow);
     }
 
     private int getFlow(BlockData data, int liquidMaxFlow) {
@@ -144,78 +151,113 @@ public class LiquidBlockType extends DefaultBlockType {
 
         if (topLiquid) {
             int maxFlow = block.liquidMaxFlow;
-            float zeroFlow = getHeightOfFlow(0, maxFlow, chunkY);
-            float centerFlow = getHeightOfFlow(data, maxFlow, chunkY);
-
-            float negXFlow = zeroFlow;
-            float posXFlow = zeroFlow;
-            float negZFlow = zeroFlow;
-            float posZFlow = zeroFlow;
-            int y00WithLiquid = 0;
-            int y10WithLiquid = 0;
-            int y01WithLiquid = 0;
-            int y11WithLiquid = 0;
-
-            if (neighbors[NEG_X] == block) {
-                negXFlow = getHeightOfFlow(neighborData[NEG_X], maxFlow, chunkY);
-                y00WithLiquid++;
-                y01WithLiquid++;
-            }
-            if (neighbors[POS_X] == block) {
-                posXFlow = getHeightOfFlow(neighborData[POS_X], maxFlow, chunkY);
-                y10WithLiquid++;
-                y11WithLiquid++;
-            }
-            if (neighbors[NEG_Z] == block) {
-                negZFlow = getHeightOfFlow(neighborData[NEG_Z], maxFlow, chunkY);
-                y00WithLiquid++;
-                y10WithLiquid++;
-            }
-            if (neighbors[POS_Z] == block) {
-                posZFlow = getHeightOfFlow(neighborData[POS_Z], maxFlow, chunkY);
-                y01WithLiquid++;
-                y11WithLiquid++;
-            }
-
-            float negXnegZFlow = zeroFlow;
-            float negXposZFlow = zeroFlow;
-            float posXnegZFlow = zeroFlow;
-            float posXposZFlow = zeroFlow;
+            float zeroFlowHeight = getHeightOfFlow(0, maxFlow, chunkY);
+            float fullFlowHeight = getHeightOfFlow(maxFlow, maxFlow, chunkY);
+            float centerFlowHeight = getHeightOfFlow(data, maxFlow, chunkY);
 
             int worldX = chunkX + chunk.position.x * Chunk.WIDTH;
             int worldY = chunkY + chunk.position.y * Chunk.HEIGHT;
             int worldZ = chunkZ + chunk.position.z * Chunk.WIDTH;
 
 
+            float negXFlow = zeroFlowHeight;
+            float posXFlow = zeroFlowHeight;
+            float negZFlow = zeroFlowHeight;
+            float posZFlow = zeroFlowHeight;
+            int y00WithLiquid = 0;
+            int y10WithLiquid = 0;
+            int y01WithLiquid = 0;
+            int y11WithLiquid = 0;
+
+            if (neighbors[NEG_X] == block) {
+                //If the block above this one is also a liquid block, than the flow should be maxFlow
+                if (GameScene.world.getBlockID(worldX - 1, worldY - 1, worldZ) == block.id) {
+                    negXFlow = fullFlowHeight;
+                } else negXFlow = getHeightOfFlow(neighborData[NEG_X], maxFlow, chunkY);
+
+                y00WithLiquid++;
+                y01WithLiquid++;
+            }
+            if (neighbors[POS_X] == block) {
+                if (GameScene.world.getBlockID(worldX + 1, worldY - 1, worldZ) == block.id) {
+                    posXFlow = fullFlowHeight;
+                } else posXFlow = getHeightOfFlow(neighborData[POS_X], maxFlow, chunkY);
+
+                y10WithLiquid++;
+                y11WithLiquid++;
+            }
+            if (neighbors[NEG_Z] == block) {
+                if (GameScene.world.getBlockID(worldX, worldY - 1, worldZ - 1) == block.id) {
+                    negZFlow = fullFlowHeight;
+                } else negZFlow = getHeightOfFlow(neighborData[NEG_Z], maxFlow, chunkY);
+
+                y00WithLiquid++;
+                y10WithLiquid++;
+            }
+            if (neighbors[POS_Z] == block) {
+                if (GameScene.world.getBlockID(worldX, worldY - 1, worldZ + 1) == block.id) {
+                    posZFlow = fullFlowHeight;
+                } else posZFlow = getHeightOfFlow(neighborData[POS_Z], maxFlow, chunkY);
+
+                y01WithLiquid++;
+                y11WithLiquid++;
+            }
+
+            float negXnegZFlow = zeroFlowHeight;
+            float negXposZFlow = zeroFlowHeight;
+            float posXnegZFlow = zeroFlowHeight;
+            float posXposZFlow = zeroFlowHeight;
+
+
             if (GameScene.world.getBlockID(worldX - 1, worldY, worldZ - 1) == block.id) {
-                negXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ - 1), maxFlow, chunkY);
+                if (GameScene.world.getBlockID(worldX - 1, worldY - 1, worldZ - 1) == block.id) {
+                    negXnegZFlow = fullFlowHeight;
+                } else
+                    negXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ - 1), maxFlow, chunkY);
+
                 y00WithLiquid++;
             }
             if (GameScene.world.getBlockID(worldX - 1, worldY, worldZ + 1) == block.id) {
-                negXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ + 1), maxFlow, chunkY);
+                if (GameScene.world.getBlockID(worldX - 1, worldY - 1, worldZ + 1) == block.id) {
+                    negXposZFlow = fullFlowHeight;
+                } else
+                    negXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ + 1), maxFlow, chunkY);
+
                 y01WithLiquid++;
             }
             if (GameScene.world.getBlockID(worldX + 1, worldY, worldZ - 1) == block.id) {
-                posXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ - 1), maxFlow, chunkY);
+                if (GameScene.world.getBlockID(worldX + 1, worldY - 1, worldZ - 1) == block.id) {
+                    posXnegZFlow = fullFlowHeight;
+                } else
+                    posXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ - 1), maxFlow, chunkY);
+
                 y10WithLiquid++;
             }
             if (GameScene.world.getBlockID(worldX + 1, worldY, worldZ + 1) == block.id) {
-                posXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ + 1), maxFlow, chunkY);
+                if (GameScene.world.getBlockID(worldX + 1, worldY - 1, worldZ + 1) == block.id) {
+                    posXposZFlow = fullFlowHeight;
+                } else
+                    posXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ + 1), maxFlow, chunkY);
+
                 y11WithLiquid++;
             }
 
             //Each corner is the average of its four neighbors
-            if (y00WithLiquid > 0) y00 = Math.min(Math.min(negXnegZFlow, negXFlow), Math.min(negZFlow, centerFlow));
-            else y00 = zeroFlow;
+            if (y00WithLiquid > 0)
+                y00 = Math.min(Math.min(negXnegZFlow, negXFlow), Math.min(negZFlow, centerFlowHeight));
+            else y00 = zeroFlowHeight;
 
-            if (y10WithLiquid > 0) y10 = Math.min(Math.min(posXnegZFlow, posXFlow), Math.min(negZFlow, centerFlow));
-            else y10 = zeroFlow;
+            if (y10WithLiquid > 0)
+                y10 = Math.min(Math.min(posXnegZFlow, posXFlow), Math.min(negZFlow, centerFlowHeight));
+            else y10 = zeroFlowHeight;
 
-            if (y01WithLiquid > 0) y01 = Math.min(Math.min(negXposZFlow, negXFlow), Math.min(posZFlow, centerFlow));
-            else y01 = zeroFlow;
+            if (y01WithLiquid > 0)
+                y01 = Math.min(Math.min(negXposZFlow, negXFlow), Math.min(posZFlow, centerFlowHeight));
+            else y01 = zeroFlowHeight;
 
-            if (y11WithLiquid > 0) y11 = Math.min(Math.min(posXposZFlow, posXFlow), Math.min(posZFlow, centerFlow));
-            else y11 = zeroFlow;
+            if (y11WithLiquid > 0)
+                y11 = Math.min(Math.min(posXposZFlow, posXFlow), Math.min(posZFlow, centerFlowHeight));
+            else y11 = zeroFlowHeight;
 
             //Determine top texture flow
             if (y00 > y10
