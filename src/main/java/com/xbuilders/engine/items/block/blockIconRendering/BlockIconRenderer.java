@@ -196,7 +196,7 @@ public class BlockIconRenderer {
         byte[] lightNeghbors = new byte[] { 15, 15, 15, 15, 15, 15 };
 
         type.constructBlock(buffers, block, null,
-                blockNeghbors, lightNeghbors, 0, 0, 0);
+                blockNeghbors, null, lightNeghbors, null, 0, 0, 0);
 
         buffers.makeVertexSet();
         buffers.sendToMesh(mesh);

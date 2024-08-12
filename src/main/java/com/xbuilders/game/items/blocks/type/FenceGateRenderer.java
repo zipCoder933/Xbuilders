@@ -14,6 +14,7 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.items.blocks.RenderType;
 
 import java.util.function.Consumer;
@@ -87,29 +88,29 @@ public class FenceGateRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
-            int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX,
+                               int chunkY, int chunkZ) {
         boolean open = data != null && data.get(1) == 0;
         if (data == null || data.get(0) == 3) {
             if (open)
-                open3.render(buffers, block, neighbors, light, x, y, z);
+                open3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             else
-                closed3.render(buffers, block, neighbors, light, x, y, z);
+                closed3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 0) {
             if (open)
-                open0.render(buffers, block, neighbors, light, x, y, z);
+                open0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             else
-                closed0.render(buffers, block, neighbors, light, x, y, z);
+                closed0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 1) {
             if (open)
-                open1.render(buffers, block, neighbors, light, x, y, z);
+                open1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             else
-                closed1.render(buffers, block, neighbors, light, x, y, z);
+                closed1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else {
             if (open)
-                open2.render(buffers, block, neighbors, light, x, y, z);
+                open2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             else
-                closed2.render(buffers, block, neighbors, light, x, y, z);
+                closed2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
     }
 

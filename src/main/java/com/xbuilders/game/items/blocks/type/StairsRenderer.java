@@ -13,6 +13,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.function.Consumer;
 
@@ -69,18 +70,18 @@ public class StairsRenderer extends BlockType {
 
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data,
-                               Block[] neighbors, byte[] light, int x, int y, int z) {
+                               Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
 
 
         if (data == null) {
-            floor[0].render(buffers, block, neighbors, light, x, y, z);
+            floor[0].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else {
             if (data.get(1) == 3) {
-               side[data.get(0)].render(buffers, block, neighbors, light, x, y, z);
+               side[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(1) >= 0) {
-                floor[data.get(0)].render(buffers, block, neighbors, light, x, y, z);
+                floor[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else {
-               ceiling[data.get(0)].render(buffers, block, neighbors, light, x, y, z);
+               ceiling[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             }
         }
     }

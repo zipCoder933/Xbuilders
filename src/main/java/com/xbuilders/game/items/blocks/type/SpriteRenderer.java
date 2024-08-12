@@ -14,6 +14,7 @@ import com.xbuilders.engine.world.chunk.BlockData;
 
 import java.util.function.Consumer;
 
+import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
 
 /**
@@ -57,38 +58,38 @@ public class SpriteRenderer extends BlockType {
 
     @Override
     public void constructBlock(VertexSet buffers,
-                               Block block, BlockData data, Block[] neighbors, byte[] light,
-                               int x, int y, int z) {
+                               Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
+                               Chunk chunk, int chunkX, int chunkY, int chunkZ) {
 
         BlockTexture.FaceTexture texLayer = block.texture.getNEG_X();
 
-        buffers.vertex(vertices[indx[0]].x + x, vertices[indx[0]].y + y, vertices[indx[0]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[1]].x + x, vertices[indx[1]].y + y, vertices[indx[1]].z + z, 0.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[2]].x + x, vertices[indx[2]].y + y, vertices[indx[2]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[3]].x + x, vertices[indx[3]].y + y, vertices[indx[3]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[4]].x + x, vertices[indx[4]].y + y, vertices[indx[4]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[5]].x + x, vertices[indx[5]].y + y, vertices[indx[5]].z + z, 1.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[0]].x + chunkX, vertices[indx[0]].y + chunkY, vertices[indx[0]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[1]].x + chunkX, vertices[indx[1]].y + chunkY, vertices[indx[1]].z + chunkZ, 0.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[2]].x + chunkX, vertices[indx[2]].y + chunkY, vertices[indx[2]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[3]].x + chunkX, vertices[indx[3]].y + chunkY, vertices[indx[3]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[4]].x + chunkX, vertices[indx[4]].y + chunkY, vertices[indx[4]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[5]].x + chunkX, vertices[indx[5]].y + chunkY, vertices[indx[5]].z + chunkZ, 1.0f, 1.0f, texLayer, light[0]);
 
-        buffers.vertex(vertices[indx[6]].x + x, vertices[indx[6]].y + y, vertices[indx[6]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[7]].x + x, vertices[indx[7]].y + y, vertices[indx[7]].z + z, 0.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[8]].x + x, vertices[indx[8]].y + y, vertices[indx[8]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[9]].x + x, vertices[indx[9]].y + y, vertices[indx[9]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[10]].x + x, vertices[indx[10]].y + y, vertices[indx[10]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[11]].x + x, vertices[indx[11]].y + y, vertices[indx[11]].z + z, 1.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[6]].x + chunkX, vertices[indx[6]].y + chunkY, vertices[indx[6]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[7]].x + chunkX, vertices[indx[7]].y + chunkY, vertices[indx[7]].z + chunkZ, 0.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[8]].x + chunkX, vertices[indx[8]].y + chunkY, vertices[indx[8]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[9]].x + chunkX, vertices[indx[9]].y + chunkY, vertices[indx[9]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[10]].x + chunkX, vertices[indx[10]].y + chunkY, vertices[indx[10]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[11]].x + chunkX, vertices[indx[11]].y + chunkY, vertices[indx[11]].z + chunkZ, 1.0f, 1.0f, texLayer, light[0]);
 
-        buffers.vertex(vertices[indx[12]].x + x, vertices[indx[12]].y + y, vertices[indx[12]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[13]].x + x, vertices[indx[13]].y + y, vertices[indx[13]].z + z, 0.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[14]].x + x, vertices[indx[14]].y + y, vertices[indx[14]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[15]].x + x, vertices[indx[15]].y + y, vertices[indx[15]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[16]].x + x, vertices[indx[16]].y + y, vertices[indx[16]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[17]].x + x, vertices[indx[17]].y + y, vertices[indx[17]].z + z, 1.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[12]].x + chunkX, vertices[indx[12]].y + chunkY, vertices[indx[12]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[13]].x + chunkX, vertices[indx[13]].y + chunkY, vertices[indx[13]].z + chunkZ, 0.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[14]].x + chunkX, vertices[indx[14]].y + chunkY, vertices[indx[14]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[15]].x + chunkX, vertices[indx[15]].y + chunkY, vertices[indx[15]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[16]].x + chunkX, vertices[indx[16]].y + chunkY, vertices[indx[16]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[17]].x + chunkX, vertices[indx[17]].y + chunkY, vertices[indx[17]].z + chunkZ, 1.0f, 1.0f, texLayer, light[0]);
 
-        buffers.vertex(vertices[indx[18]].x + x, vertices[indx[18]].y + y, vertices[indx[18]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[19]].x + x, vertices[indx[19]].y + y, vertices[indx[19]].z + z, 0.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[20]].x + x, vertices[indx[20]].y + y, vertices[indx[20]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[21]].x + x, vertices[indx[21]].y + y, vertices[indx[21]].z + z, 1.0f, 0.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[22]].x + x, vertices[indx[22]].y + y, vertices[indx[22]].z + z, 0.0f, 1.0f, texLayer, light[0]);
-        buffers.vertex(vertices[indx[23]].x + x, vertices[indx[23]].y + y, vertices[indx[23]].z + z, 1.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[18]].x + chunkX, vertices[indx[18]].y + chunkY, vertices[indx[18]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[19]].x + chunkX, vertices[indx[19]].y + chunkY, vertices[indx[19]].z + chunkZ, 0.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[20]].x + chunkX, vertices[indx[20]].y + chunkY, vertices[indx[20]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[21]].x + chunkX, vertices[indx[21]].y + chunkY, vertices[indx[21]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[22]].x + chunkX, vertices[indx[22]].y + chunkY, vertices[indx[22]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
+        buffers.vertex(vertices[indx[23]].x + chunkX, vertices[indx[23]].y + chunkY, vertices[indx[23]].z + chunkZ, 1.0f, 1.0f, texLayer, light[0]);
     }
 //
 

@@ -19,27 +19,30 @@ import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
 /**
+ * For use ONLY with chunks
  * @author zipCoder933
  */
-public class NaiveMesherWithLight extends Mesher<VertexSet> {
+public class Chunk_NaiveMesher extends Mesher<VertexSet> {
 
-    ChunkVoxels data;
     boolean generateAll;
+    Chunk chunk;
 
-    public NaiveMesherWithLight(ChunkVoxels chunkPreMeshData, Vector3i chunkPositionOffset, boolean generateAll) {
-        super(chunkPreMeshData, chunkPositionOffset);
+    public Chunk_NaiveMesher(Chunk chunk, boolean generateAll) {
+        super(chunk.data, chunk.position);
+        this.chunk = chunk;
         this.generateAll = generateAll;
-        this.data = chunkPreMeshData;
     }
 
     Block[] neighbors = new Block[6];
     byte[] lightNeghbors = new byte[6];
-    Chunk negXNeghbor;
-    Chunk posXNeghbor;
-    Chunk negYNeghbor;
-    Chunk posYNeghbor;
-    Chunk negZNeghbor;
-    Chunk posZNeghbor;
+    BlockData[] neighborData = new BlockData[6];//TODO: NeighborData is not used very often, maybe we disable this if the block doesnt need it
+
+    Chunk negXChunk;
+    Chunk posXChunk;
+    Chunk negYChunk;
+    Chunk posYChunk;
+    Chunk negZChunk;
+    Chunk posZChunk;
     BlockType type;
 
     public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers,
@@ -50,19 +53,20 @@ public class NaiveMesherWithLight extends Mesher<VertexSet> {
         for (int i = 0; i < 6; i++) {
             neighbors[i] = BlockList.BLOCK_AIR;
             lightNeghbors[i] = 0;
+            neighborData[i] = null;
         }
 
-        negXNeghbor = GameScene.world
+        negXChunk = GameScene.world
                 .getChunk(new Vector3i(chunkPosition.x - 1, chunkPosition.y, chunkPosition.z));
-        posXNeghbor = GameScene.world
+        posXChunk = GameScene.world
                 .getChunk(new Vector3i(chunkPosition.x + 1, chunkPosition.y, chunkPosition.z));
-        negYNeghbor = GameScene.world
+        negYChunk = GameScene.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y - 1, chunkPosition.z));
-        posYNeghbor = GameScene.world
+        posYChunk = GameScene.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y + 1, chunkPosition.z));
-        negZNeghbor = GameScene.world
+        negZChunk = GameScene.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y, chunkPosition.z - 1));
-        posZNeghbor = GameScene.world
+        posZChunk = GameScene.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y, chunkPosition.z + 1));
 
         for (int x = 0; x < data.size.x; ++x) {
@@ -87,85 +91,103 @@ public class NaiveMesherWithLight extends Mesher<VertexSet> {
                                 neighbors[BlockType.NEG_X] = ItemList.getBlock(data.getBlock(x - 1, y, z));
                                 lightNeghbors[BlockType.NEG_X] = block.opaque ? data.getPackedLight(x - 1, y, z)
                                         : centerLight;
-                            } else if (negXNeghbor != null) {
+                                neighborData[BlockType.NEG_X] = data.getBlockData(x - 1, y, z);
+                            } else if (negXChunk != null) {
                                 neighbors[BlockType.NEG_X] = ItemList
-                                        .getBlock(negXNeghbor.data.getBlock(negXNeghbor.data.size.x - 1, y, z));
-                                lightNeghbors[BlockType.NEG_X] = block.opaque ? negXNeghbor.data
-                                        .getPackedLight(negXNeghbor.data.size.x - 1, y, z)
+                                        .getBlock(negXChunk.data.getBlock(negXChunk.data.size.x - 1, y, z));
+                                lightNeghbors[BlockType.NEG_X] = block.opaque ? negXChunk.data
+                                        .getPackedLight(negXChunk.data.size.x - 1, y, z)
                                         : centerLight;
+                                neighborData[BlockType.NEG_X] = negXChunk.data.getBlockData(negXChunk.data.size.x - 1, y, z);
                             } else {
                                 neighbors[BlockType.NEG_X] = BlockList.BLOCK_AIR;
                                 lightNeghbors[BlockType.NEG_X] = 15;
+                                neighborData[BlockType.NEG_X] = null;
                             }
 
                             if (x < data.size.x - 1) {
                                 neighbors[BlockType.POS_X] = ItemList.getBlock(data.getBlock(x + 1, y, z));
                                 lightNeghbors[BlockType.POS_X] = block.opaque ? data.getPackedLight(x + 1, y, z)
                                         : centerLight;
-                            } else if (posXNeghbor != null) {
-                                neighbors[BlockType.POS_X] = ItemList.getBlock(posXNeghbor.data.getBlock(0, y, z));
-                                lightNeghbors[BlockType.POS_X] = block.opaque ? posXNeghbor.data.getPackedLight(0, y, z)
+                                neighborData[BlockType.POS_X] = data.getBlockData(x + 1, y, z);
+                            } else if (posXChunk != null) {
+                                neighbors[BlockType.POS_X] = ItemList.getBlock(posXChunk.data.getBlock(0, y, z));
+                                lightNeghbors[BlockType.POS_X] = block.opaque ? posXChunk.data.getPackedLight(0, y, z)
                                         : centerLight;
+                                neighborData[BlockType.POS_X] = posXChunk.data.getBlockData(0, y, z);
                             } else {
                                 neighbors[BlockType.POS_X] = BlockList.BLOCK_AIR;
                                 lightNeghbors[BlockType.POS_X] = 15;
+                                neighborData[BlockType.POS_X] = null;
                             }
 
                             if (y > 0) {
                                 neighbors[BlockType.POS_Y] = ItemList.getBlock(data.getBlock(x, y - 1, z));
                                 lightNeghbors[BlockType.POS_Y] = block.opaque ? data.getPackedLight(x, y - 1, z)
                                         : centerLight;
-                            } else if (negYNeghbor != null) {
+                                neighborData[BlockType.POS_Y] = data.getBlockData(x, y - 1, z);
+                            } else if (negYChunk != null) {
                                 neighbors[BlockType.POS_Y] = ItemList
-                                        .getBlock(negYNeghbor.data.getBlock(x, negYNeghbor.data.size.y - 1, z));
-                                lightNeghbors[BlockType.POS_Y] = block.opaque ? negYNeghbor.data.getPackedLight(x,
-                                        negYNeghbor.data.size.y - 1, z)
+                                        .getBlock(negYChunk.data.getBlock(x, negYChunk.data.size.y - 1, z));
+                                lightNeghbors[BlockType.POS_Y] = block.opaque ? negYChunk.data.getPackedLight(x,
+                                        negYChunk.data.size.y - 1, z)
                                         : centerLight;
+                                neighborData[BlockType.POS_Y] = negYChunk.data.getBlockData(x, negYChunk.data.size.y - 1, z);
                             } else {
                                 neighbors[BlockType.POS_Y] = BlockList.BLOCK_AIR;
                                 lightNeghbors[BlockType.POS_Y] = 15;
+                                neighborData[BlockType.POS_Y] = null;
                             }
 
                             if (y < data.size.y - 1) {
                                 neighbors[BlockType.NEG_Y] = ItemList.getBlock(data.getBlock(x, y + 1, z));
                                 lightNeghbors[BlockType.NEG_Y] = block.opaque ? data.getPackedLight(x, y + 1, z)
                                         : centerLight;
-                            } else if (posYNeghbor != null) {
-                                neighbors[BlockType.NEG_Y] = ItemList.getBlock(posYNeghbor.data.getBlock(x, 0, z));
-                                lightNeghbors[BlockType.NEG_Y] = block.opaque ? posYNeghbor.data.getPackedLight(x, 0, z)
+                                neighborData[BlockType.NEG_Y] = data.getBlockData(x, y + 1, z);
+                            } else if (posYChunk != null) {
+                                neighbors[BlockType.NEG_Y] = ItemList.getBlock(posYChunk.data.getBlock(x, 0, z));
+                                lightNeghbors[BlockType.NEG_Y] = block.opaque ? posYChunk.data.getPackedLight(x, 0, z)
                                         : centerLight;
+                                neighborData[BlockType.NEG_Y] = posYChunk.data.getBlockData(x, 0, z);
                             } else {
                                 neighbors[BlockType.NEG_Y] = BlockList.BLOCK_AIR;
                                 lightNeghbors[BlockType.NEG_Y] = 15;
+                                neighborData[BlockType.NEG_Y] = null;
                             }
 
                             if (z > 0) {
                                 neighbors[BlockType.NEG_Z] = ItemList.getBlock(data.getBlock(x, y, z - 1));
                                 lightNeghbors[BlockType.NEG_Z] = block.opaque ? data.getPackedLight(x, y, z - 1)
                                         : centerLight;
-                            } else if (negZNeghbor != null) {
+                                neighborData[BlockType.NEG_Z] = data.getBlockData(x, y, z - 1);
+                            } else if (negZChunk != null) {
                                 neighbors[BlockType.NEG_Z] = ItemList
-                                        .getBlock(negZNeghbor.data.getBlock(x, y, negZNeghbor.data.size.z - 1));
-                                lightNeghbors[BlockType.NEG_Z] = block.opaque ? negZNeghbor.data.getPackedLight(x, y,
-                                        negZNeghbor.data.size.z - 1)
+                                        .getBlock(negZChunk.data.getBlock(x, y, negZChunk.data.size.z - 1));
+                                lightNeghbors[BlockType.NEG_Z] = block.opaque ? negZChunk.data.getPackedLight(x, y,
+                                        negZChunk.data.size.z - 1)
                                         : centerLight;
+                                neighborData[BlockType.NEG_Z] = negZChunk.data.getBlockData(x, y, negZChunk.data.size.z - 1);
                             } else {
                                 neighbors[BlockType.NEG_Z] = BlockList.BLOCK_AIR;
                                 lightNeghbors[BlockType.NEG_Z] = 15;
+                                neighborData[BlockType.NEG_Z] = null;
                             }
 
                             if (z < data.size.z - 1) {
                                 neighbors[BlockType.POS_Z] = ItemList.getBlock(data.getBlock(x, y, z + 1));
                                 lightNeghbors[BlockType.POS_Z] = block.opaque ? data.getPackedLight(x, y, z + 1)
                                         : centerLight;
-                            } else if (posZNeghbor != null) {
+                                neighborData[BlockType.POS_Z] = data.getBlockData(x, y, z + 1);
+                            } else if (posZChunk != null) {
                                 neighbors[BlockType.POS_Z] = ItemList
-                                        .getBlock(posZNeghbor.data.getBlock(x, y, 0));
-                                lightNeghbors[BlockType.POS_Z] = block.opaque ? posZNeghbor.data.getPackedLight(x, y, 0)
+                                        .getBlock(posZChunk.data.getBlock(x, y, 0));
+                                lightNeghbors[BlockType.POS_Z] = block.opaque ? posZChunk.data.getPackedLight(x, y, 0)
                                         : centerLight;
+                                neighborData[BlockType.POS_Z] = posZChunk.data.getBlockData(x, y, 0);
                             } else {
                                 neighbors[BlockType.POS_Z] = BlockList.BLOCK_AIR;
                                 lightNeghbors[BlockType.POS_Z] = 15;
+                                neighborData[BlockType.POS_Z] = null;
                             }
                         }
 
@@ -173,10 +195,11 @@ public class NaiveMesherWithLight extends Mesher<VertexSet> {
                         type = ItemList.blocks.getBlockType(block.type);
                         try {
                             if (block.opaque) {
-                                type.constructBlock(opaqueBuffers, block, blockData, neighbors, lightNeghbors, x, y, z);
+                                type.constructBlock(opaqueBuffers, block, blockData,  //XYZ are in chunk space
+                                        neighbors, neighborData, lightNeghbors, chunk, x, y, z);
                             } else {
-                                type.constructBlock(transparentBuffers, block, blockData, neighbors, lightNeghbors, x,
-                                        y, z);
+                                type.constructBlock(transparentBuffers, block, blockData,
+                                        neighbors, neighborData, lightNeghbors, chunk, x, y, z);
                             }
                         } catch (Exception e) {
                             ErrorHandler.log(e);

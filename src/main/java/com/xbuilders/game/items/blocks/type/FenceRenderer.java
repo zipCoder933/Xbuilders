@@ -13,6 +13,7 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.items.blocks.RenderType;
 
 import java.util.function.Consumer;
@@ -48,21 +49,21 @@ public class FenceRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
 
-        post.render(buffers, block, neighbors, light, x, y, z);
+        post.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
 
         if (isSolid(neighbors[POS_Z])) {
-            boards3.render(buffers, block, neighbors, light, x, y, z);
+            boards3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
         if (isSolid(neighbors[NEG_X])) {
-            boards0.render(buffers, block, neighbors, light, x, y, z);
+            boards0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
         if (isSolid(neighbors[NEG_Z])) {
-            boards1.render(buffers, block, neighbors, light, x, y, z);
+            boards1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
         if (isSolid(neighbors[POS_X])) {
-            boards2.render(buffers, block, neighbors, light, x, y, z);
+            boards2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
     }
 

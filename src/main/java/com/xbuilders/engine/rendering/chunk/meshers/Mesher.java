@@ -8,11 +8,11 @@ import org.lwjgl.system.MemoryStack;
 public abstract class Mesher<T extends VertexSet> {
 
     public Mesher(ChunkVoxels voxels, Vector3i chunkPositionOffset) {
-        this.chunkVoxels = voxels;
+        this.data = voxels;
         this.chunkPosition = chunkPositionOffset;
     }
 
-    public final ChunkVoxels chunkVoxels;
+    public final ChunkVoxels data;
     public final Vector3i chunkPosition;
 
     public abstract void compute(

@@ -297,7 +297,7 @@ Other Threads:
   0x0000020f4b343f10 ConcurrentGCThread "G1 Service" [stack: 0x00000018cf300000,0x00000018cf400000] [id=8392]
 
 Threads with active compile tasks:
-C2 CompilerThread1     6294 3697       4       com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight::compute (1195 bytes)
+C2 CompilerThread1     6294 3697       4       com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher::compute (1195 bytes)
 
 VM state: not at safepoint (normal execution)
 

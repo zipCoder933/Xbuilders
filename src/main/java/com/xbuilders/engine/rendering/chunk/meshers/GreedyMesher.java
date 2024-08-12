@@ -257,7 +257,7 @@ public class GreedyMesher extends Mesher<CompactVertexSet> {
         //Here we retrieve two voxel faces for comparison.
         //thisPlaneVoxel literaly faces forward, while nextPlaneVoxel faces backward
         if (x[d] >= 0) { //Calculate the voxel of THIS plane
-            thisPlaneVoxel.put(0, getBlockLOD(chunkVoxels, x[0], x[1], x[2], lodLevel));
+            thisPlaneVoxel.put(0, getBlockLOD(data, x[0], x[1], x[2], lodLevel));
         } else {//If we are out of bounds for this chunk:
             if (backChunk == null) {
                 thisPlaneVoxel.put(0, (short) 0);
@@ -268,7 +268,7 @@ public class GreedyMesher extends Mesher<CompactVertexSet> {
         }
         if (x[d] < dims[d] - 1) { //calculate the voxel of the NEXT plane
             voxelPos.set(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
-            nextPlaneVoxel.put(0, getBlockLOD(chunkVoxels, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
+            nextPlaneVoxel.put(0, getBlockLOD(data, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
         } else {//If we are out of bounds for this chunk:
             if (forwardChunk == null) {
                 nextPlaneVoxel.put(0, (short) 0);

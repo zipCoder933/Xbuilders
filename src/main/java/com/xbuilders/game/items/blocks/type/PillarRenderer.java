@@ -12,6 +12,7 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.function.Consumer;
 
@@ -35,8 +36,8 @@ public class PillarRenderer extends BlockType {
 
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data,
-                               Block[] neighbors, byte[] light, int x, int y, int z) {
-        pillar.render(buffers, block, neighbors, light,x, y, z);
+                               Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+        pillar.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
     }
 
     @Override

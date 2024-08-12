@@ -5,7 +5,7 @@
 package com.xbuilders.engine.rendering.block;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesher;
+import com.xbuilders.engine.rendering.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
@@ -25,7 +25,7 @@ public class BlockMeshBundle {
     final BlockVertexSet transBuffer = new BlockVertexSet();
     public final BlockMesh opaqueMesh, transMesh;
 
-    private NaiveMesher naiveMesher;
+    private Block_NaiveMesher naiveMesher;
 
 
 
@@ -54,7 +54,7 @@ public class BlockMeshBundle {
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 buffer.reset();
                 transBuffer.reset();
-                naiveMesher = new NaiveMesher(voxels, new Vector3i(0, 0, 0), true);
+                naiveMesher = new Block_NaiveMesher(voxels, new Vector3i(0, 0, 0), true);
                 naiveMesher.compute(buffer, buffer, stack, 1, false);
 
                 if (buffer.size() != 0) {

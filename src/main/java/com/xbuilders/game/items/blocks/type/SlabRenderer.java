@@ -13,6 +13,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.function.Consumer;
 
@@ -78,25 +79,25 @@ public class SlabRenderer extends BlockType {
 
     @Override
     public void constructBlock(VertexSet buffers, Block block,
-                               BlockData data, Block[] neighbors, byte[] light,
-                               int x, int y, int z) {
+                               BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
+                               Chunk chunk, int chunkX, int chunkY, int chunkZ) {
 
         if (data != null && data.get(1) == -1) {
-            ceiling.render(buffers, block, neighbors, light, x, y, z);
+            ceiling.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data != null && data.get(1) == 1) {
-            floor.render(buffers, block, neighbors, light, x, y, z);
+            floor.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data != null) {
             if (data.get(0) == 0) {
-                side1.render(buffers, block, neighbors, light, x, y, z);
+                side1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(0) == 1) {
-                side2.render(buffers, block, neighbors, light, x, y, z);
+                side2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(0) == 2) {
-                side3.render(buffers, block, neighbors, light, x, y, z);
+                side3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(0) == 3) {
-                side0.render(buffers, block, neighbors, light, x, y, z);
+                side0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             }
         }
-        else side0.render(buffers, block, neighbors, light, x, y, z);
+        else side0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
     }
 
     @Override

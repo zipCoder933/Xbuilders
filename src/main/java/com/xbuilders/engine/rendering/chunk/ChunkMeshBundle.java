@@ -7,9 +7,9 @@ package com.xbuilders.engine.rendering.chunk;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
+import com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight;
+import com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher;
 import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
-import com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight;
-import com.xbuilders.engine.rendering.chunk.meshers.NaiveMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.occlusionCulling.BoundingBoxMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
@@ -90,8 +90,8 @@ public class ChunkMeshBundle {
         transMesh = new CompactMesh(); //We only need transparent mesh to be an occlusion If we have to check it if it is occluding the opaque mesh
         transMesh.setTextureID(texture);
 
-        greedyMesher = new GreedyMesherWithLight(chunk.data, chunk.position);
-        naiveMesher = new NaiveMesherWithLight(chunk.data, chunk.position, false);
+        greedyMesher = new Chunk_GreedyMesherWithLight(chunk.data, chunk.position);
+        naiveMesher = new Chunk_NaiveMesher(chunk, false);
     }
 
     public synchronized void init(AABB bounds) {

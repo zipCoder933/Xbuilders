@@ -17,6 +17,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.function.Consumer;
 
@@ -188,53 +189,53 @@ public class DoorHalfRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x,
-                               int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX,
+                               int chunkY, int chunkZ) {
         boolean open = data != null && data.get(1) == 0;
         boolean left = data != null && data.get(2) == 0;
         if (left) {
             if (data == null || data.get(0) == 3) {
                 if (open)
-                    left_open3.render(buffers, block, neighbors, light, x, y, z);
+                    left_open3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    left_closed3.render(buffers, block, neighbors, light, x, y, z);
+                    left_closed3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(0) == 0) {
                 if (open)
-                    left_open0.render(buffers, block, neighbors, light, x, y, z);
+                    left_open0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    left_closed0.render(buffers, block, neighbors, light, x, y, z);
+                    left_closed0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(0) == 1) {
                 if (open)
-                    left_open1.render(buffers, block, neighbors, light, x, y, z);
+                    left_open1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    left_closed1.render(buffers, block, neighbors, light, x, y, z);
+                    left_closed1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else {
                 if (open)
-                    left_open2.render(buffers, block, neighbors, light, x, y, z);
+                    left_open2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    left_closed2.render(buffers, block, neighbors, light, x, y, z);
+                    left_closed2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             }
         } else {
             if (data == null || data.get(0) == 3) {
                 if (open)
-                    right_open3.render(buffers, block, neighbors, light, x, y, z);
+                    right_open3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    right_closed3.render(buffers, block, neighbors, light, x, y, z);
+                    right_closed3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(0) == 0) {
                 if (open)
-                    right_open0.render(buffers, block, neighbors, light, x, y, z);
+                    right_open0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    right_closed0.render(buffers, block, neighbors, light, x, y, z);
+                    right_closed0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(0) == 1) {
                 if (open)
-                    right_open1.render(buffers, block, neighbors, light, x, y, z);
+                    right_open1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    right_closed1.render(buffers, block, neighbors, light, x, y, z);
+                    right_closed1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else {
                 if (open)
-                    right_open2.render(buffers, block, neighbors, light, x, y, z);
+                    right_open2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 else
-                    right_closed2.render(buffers, block, neighbors, light, x, y, z);
+                    right_closed2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             }
         }
     }

@@ -26,7 +26,7 @@ import java.nio.ShortBuffer;
 /**
  * @author zipCoder933
  */
-public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
+public class Chunk_GreedyMesherWithLight extends Mesher<CompactVertexSet> {
     // Nublada does not actually use indexed meshing, it is just regular meshes with
     // indexes attached to vertices
     // If I want to do indexed meshes, I need some sort of hashmap like thing, and
@@ -45,7 +45,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
     final int[] normal = new int[]{0, 0, 0};
 
 
-    public GreedyMesherWithLight(ChunkVoxels voxels, Vector3i chunkPosition) {
+    public Chunk_GreedyMesherWithLight(ChunkVoxels voxels, Vector3i chunkPosition) {
         super(voxels, chunkPosition);
         dims = new int[]{voxels.size.x, voxels.size.y, voxels.size.z};
         mask = MemoryUtil.memAllocInt(Chunk.WIDTH * Chunk.HEIGHT);
@@ -329,7 +329,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
         // Here we retrieve two voxel faces for comparison.
         // thisPlaneVoxel literaly faces forward, while nextPlaneVoxel faces backward
         if (x[d] >= 0) { // Calculate the voxel of THIS plane
-            thisPlaneVoxel.put(0, getBlockLOD(chunkVoxels, x[0], x[1], x[2], lodLevel));
+            thisPlaneVoxel.put(0, getBlockLOD(data, x[0], x[1], x[2], lodLevel));
         } else {// If we are out of bounds for this chunk:
             if (backChunk == null) {
                 thisPlaneVoxel.put(0, (short) 0);
@@ -341,7 +341,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
         }
         if (x[d] < dims[d] - 1) { // calculate the voxel of the NEXT plane
             voxelPos.set(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
-            nextPlaneVoxel.put(0, getBlockLOD(chunkVoxels, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
+            nextPlaneVoxel.put(0, getBlockLOD(data, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
         } else {// If we are out of bounds for this chunk:
             if (forwardChunk == null) {
                 nextPlaneVoxel.put(0, (short) 0);
@@ -499,7 +499,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
         // TODO: Optimize this; right now we are potentially loading a neighbor 9 times
         // per voxel
         if (Chunk.inBounds(pos[0], pos[1], pos[2])) {// Center
-            return chunkVoxels.getPackedLight(pos[0], pos[1], pos[2]);
+            return data.getPackedLight(pos[0], pos[1], pos[2]);
         } else {
             Chunk chunk = WCCi.getNeighboringChunk(GameScene.world, chunkPosition, pos[0], pos[1], pos[2]);
             if (chunk != null) {
@@ -634,7 +634,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
             } else {// Flat lighting
                 if (!block.opaque) {
                     if (x[d] >= 0) {
-                        return chunkVoxels.getPackedLight(x[0], x[1], x[2]);
+                        return data.getPackedLight(x[0], x[1], x[2]);
                     } else if (backChunk != null) {
                         return backChunk.data.getPackedLight(
                                 MathUtils.positiveMod(x[0], Chunk.WIDTH),
@@ -643,7 +643,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
                     }
                 } else {
                     if (x[d] + 1 < dims[d]) {
-                        return chunkVoxels.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
+                        return data.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                     } else if (forwardChunk != null) {
                         return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH),
@@ -678,7 +678,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
             } else {// Flat lighting
                 if (!block1.opaque) {
                     if (x[d] + 1 < dims[d]) {
-                        return chunkVoxels.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
+                        return data.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                     } else if (forwardChunk != null) {
                         return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH),
@@ -686,7 +686,7 @@ public class GreedyMesherWithLight extends Mesher<CompactVertexSet> {
                     }
                 } else {
                     if (x[d] >= 0) {
-                        return chunkVoxels.getPackedLight(x[0], x[1], x[2]);
+                        return data.getPackedLight(x[0], x[1], x[2]);
                     } else if (backChunk != null) {
                         return backChunk.data.getPackedLight(MathUtils.positiveMod(x[0], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));

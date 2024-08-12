@@ -11,6 +11,7 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.function.Consumer;
 
@@ -55,8 +56,8 @@ public abstract class BlockType {
 
     public abstract void constructBlock(VertexSet buffers,
                                         Block block, BlockData data,
-                                        Block[] neighbors, byte[] lightValues,
-                                        int x, int y, int z);
+                                        Block[] neighbors, BlockData[] neighborData, byte[] lightValues,
+                                        Chunk chunk, int chunkX, int chunkY, int chunkZ);
 
     // public Vector3f[] rotateYAxis(Block[] neighbors, Vector3f[] verts, int
     // rotation) {

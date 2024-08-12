@@ -13,6 +13,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.function.Consumer;
 
@@ -72,15 +73,15 @@ public class WallItemRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
         if (data == null || data.get(0) == 3) {
-            wall3.render(buffers, block, neighbors, light, x, y, z);
+            wall3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 0) {
-            wall0.render(buffers, block, neighbors, light, x, y, z);
+            wall0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 1) {
-            wall1.render(buffers, block, neighbors, light, x, y, z);
+            wall1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else {
-            wall2.render(buffers, block, neighbors, light, x, y, z);
+            wall2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
     }
 

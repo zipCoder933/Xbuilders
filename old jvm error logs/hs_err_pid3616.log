@@ -290,7 +290,7 @@ Other Threads:
 Total: 13
 
 Threads with active compile tasks:
-C2 CompilerThread0     4034 2977       4       com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight::compute (1291 bytes)
+C2 CompilerThread0     4034 2977       4       com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight::compute (1291 bytes)
 C1 CompilerThread0     4034 2987       3       org.lwjgl.system.jemalloc.JEmalloc::nje_free (10 bytes)
 Total: 2
 
@@ -622,10 +622,10 @@ Event: 3.299 Thread 0x0000017bd3402100 DEOPT UNPACKING pc=0x0000017be8d34e42 sp=
 Event: 3.299 Thread 0x0000017bd3426cf0 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000017be93c4e2c relative=0x000000000000212c
 Event: 3.300 Thread 0x0000017bd3402790 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000017be93c4e2c relative=0x000000000000212c
 Event: 3.320 Thread 0x0000017bd3429450 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000017be93c4e2c relative=0x000000000000212c
-Event: 3.324 Thread 0x0000017bd3427380 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
-Event: 3.324 Thread 0x0000017bd3426cf0 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
-Event: 3.324 Thread 0x0000017bd3402790 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
-Event: 3.324 Thread 0x0000017bd3429450 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
+Event: 3.324 Thread 0x0000017bd3427380 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
+Event: 3.324 Thread 0x0000017bd3426cf0 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
+Event: 3.324 Thread 0x0000017bd3402790 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
+Event: 3.324 Thread 0x0000017bd3429450 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000017be93c4e2c method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight.compute(Lcom/xbuilders/engine/rendering/chunk/mesh/bufferSet/vertexSet/VertexSet;Lcom/xbuilders/eng
 Event: 3.554 Thread 0x0000017bd3427380 DEOPT PACKING pc=0x0000017be93c4e2c sp=0x00000078cb9fec40
 Event: 3.554 Thread 0x0000017bd3427380 DEOPT UNPACKING pc=0x0000017be8d346a2 sp=0x00000078cb9fec08 mode 2
 Event: 3.554 Thread 0x0000017bd3426cf0 DEOPT PACKING pc=0x0000017be93c4e2c sp=0x00000078cbeff0c0

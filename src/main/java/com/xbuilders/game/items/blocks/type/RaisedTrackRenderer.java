@@ -13,6 +13,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 /**
  * @author zipCoder933
@@ -45,15 +46,15 @@ public class RaisedTrackRenderer extends BlockType {
 
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] lightValues, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
         if (data == null || data.get(0) == 0) {
-            floor0.render(buffers, block, neighbors, lightValues, x, y, z);
+            floor0.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 1) {
-            floor1.render(buffers, block, neighbors, lightValues, x, y, z);
+            floor1.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 2) {
-            floor2.render(buffers, block, neighbors, lightValues, x, y, z);
+            floor2.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
         } else {
-            floor3.render(buffers, block, neighbors, lightValues, x, y, z);
+            floor3.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
         }
     }
 }

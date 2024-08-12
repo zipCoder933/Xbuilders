@@ -477,8 +477,8 @@ public class MyGame extends Game {
     }
 
     private void initializeAllItems() {
-        BlockEventUtils.setTNTEvents(ItemList.getBlock(BLOCK_TNT), 5, 1000);
-        BlockEventUtils.setTNTEvents(ItemList.getBlock(BLOCK_MEGA_TNT), 10, 1000);
+        BlockEventUtils.setTNTEvents(ItemList.getBlock(BLOCK_TNT), 5, 2000);
+        BlockEventUtils.setTNTEvents(ItemList.getBlock(BLOCK_MEGA_TNT), 10, 5000);
 
         Plant.makePlant(ItemList.getBlock(BLOCK_BEETROOT_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_BEETS);
         Plant.makePlant(ItemList.getBlock(BLOCK_CARROT_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_CARROTS_PLANT);
@@ -494,11 +494,8 @@ public class MyGame extends Game {
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_GRASS_TOP, BLOCK_TALL_GRASS);
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_DRY_GRASS_TOP, BLOCK_TALL_DRY_GRASS);
 
-
         Block lava = ItemList.getBlock(BLOCK_LAVA);
-//        System.out.println("Lava animation length: " + lava.texture.getNEG_X().animationLength);
         lava.liquidMaxFlow = 6;
-        lava.texture.getNEG_X().setAnimationFrames(32);
     }
 
     @Override

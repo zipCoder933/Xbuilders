@@ -13,6 +13,7 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.items.blocks.RenderType;
 
 import java.util.function.Consumer;
@@ -48,41 +49,41 @@ public class LampRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] lightValues, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
         if (data != null) {
             int dataValue = data.get(0);
             if (sideIsSolid(neighbors[POS_Z]) && dataValue == 2) {
                 drawSide(2, neighbors[POS_Z],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else if (sideIsSolid(neighbors[NEG_X]) && dataValue == 3) {
                 drawSide(3, neighbors[NEG_X],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else if (sideIsSolid(neighbors[NEG_Z]) && dataValue == 0) {
                 drawSide(0, neighbors[NEG_Z],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else if (sideIsSolid(neighbors[POS_X]) && dataValue == 1) {
                 drawSide(1, neighbors[POS_X],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else {
-                lamp.render(buffers, block, neighbors, lightValues, x, y, z);
+                lamp.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             }
         } else {
             if (sideIsSolid(neighbors[POS_Y])) {
-                lamp.render(buffers, block, neighbors, lightValues, x, y, z);
+                lamp.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else if (sideIsSolid(neighbors[POS_Z])) {
                 drawSide(2, neighbors[POS_Z],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else if (sideIsSolid(neighbors[NEG_X])) {
                 drawSide(3, neighbors[NEG_X],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else if (sideIsSolid(neighbors[NEG_Z])) {
                 drawSide(0, neighbors[NEG_Z],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else if (sideIsSolid(neighbors[POS_X])) {
                 drawSide(1, neighbors[POS_X],
-                        buffers, block, neighbors, lightValues, x, y, z);
+                        buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             } else {
-                lamp.render(buffers, block, neighbors, lightValues, x, y, z);
+                lamp.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             }
         }
     }

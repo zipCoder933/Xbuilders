@@ -14,6 +14,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.function.Consumer;
 
@@ -49,16 +50,16 @@ public class FloorItemRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, byte[] light, int x, int y, int z) {
+    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
 
         if (data == null || data.get(0) == 3) {
-            floor0.render(buffers, block, neighbors, light, x, y, z);
+            floor0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 0) {
-            floor1.render(buffers, block, neighbors, light, x, y, z);
+            floor1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 1) {
-            floor2.render(buffers, block, neighbors, light, x, y, z);
+            floor2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else {
-            floor3.render(buffers, block, neighbors, light, x, y, z);
+            floor3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
     }
 

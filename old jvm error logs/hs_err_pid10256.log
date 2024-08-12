@@ -1414,12 +1414,12 @@ Event: 15.274 Thread 0x0000019cdcadedf0 nmethod 5391 0x0000019cf2842f90 code [0x
 Event: 15.297 Thread 0x0000019cdcae4840 nmethod 5371 0x0000019cf2843690 code [0x0000019cf2843840, 0x0000019cf28452d8]
 Event: 15.320 Thread 0x0000019cffe9d550 5400       4       com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet::size (41 bytes)
 Event: 15.323 Thread 0x0000019cffe9d550 nmethod 5400 0x0000019cf2845690 code [0x0000019cf2845820, 0x0000019cf2845978]
-Event: 15.326 Thread 0x0000019cffe9e000 5401       3       com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight::retrieveSmoothLight (652 bytes)
+Event: 15.326 Thread 0x0000019cffe9e000 5401       3       com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight::retrieveSmoothLight (652 bytes)
 Event: 15.327 Thread 0x0000019cffe9e000 nmethod 5401 0x0000019ceb20ad10 code [0x0000019ceb20afc0, 0x0000019ceb20baf8]
-Event: 15.327 Thread 0x0000019cffe9e000 5402       3       com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight::getLightVal (90 bytes)
+Event: 15.327 Thread 0x0000019cffe9e000 5402       3       com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight::getLightVal (90 bytes)
 Event: 15.328 Thread 0x0000019cffe9e000 nmethod 5402 0x0000019ceb20c410 code [0x0000019ceb20c640, 0x0000019ceb20cd18]
-Event: 15.328 Thread 0x0000019cffe9d550 5403       4       com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight::getLightVal (90 bytes)
-Event: 15.331 Thread 0x0000019cdcae0dd0 5404       4       com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight::retrieveSmoothLight (652 bytes)
+Event: 15.328 Thread 0x0000019cffe9d550 5403       4       com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight::getLightVal (90 bytes)
+Event: 15.331 Thread 0x0000019cdcae0dd0 5404       4       com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight::retrieveSmoothLight (652 bytes)
 Event: 15.334 Thread 0x0000019cdcae4840 5405       4       com.xbuilders.engine.world.wcc.WCCi::getNeighboringChunk (95 bytes)
 Event: 15.341 Thread 0x0000019cdcae4840 nmethod 5405 0x0000019cf2845b10 code [0x0000019cf2845cc0, 0x0000019cf2846058]
 Event: 15.343 Thread 0x0000019cffe9d550 nmethod 5403 0x0000019cf2846490 code [0x0000019cf2846660, 0x0000019cf2846db8]
@@ -1601,11 +1601,11 @@ Event: 14.985 Thread 0x0000019cdcf1bfb0 Uncommon trap: reason=unloaded action=re
 Event: 14.985 Thread 0x0000019cdcf1bfb0 DEOPT PACKING pc=0x0000019cf2829a30 sp=0x0000007b4b4ff180
 Event: 14.985 Thread 0x0000019cdcf1bfb0 DEOPT UNPACKING pc=0x0000019cf1e169a3 sp=0x0000007b4b4ff0d0 mode 2
 Event: 15.326 Thread 0x0000019d14ab6000 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000019cf270cfc0 relative=0x0000000000005780
-Event: 15.326 Thread 0x0000019d14ab6000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000019cf270cfc0 method=com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight.getLightVal([I)B @ 53 c2
+Event: 15.326 Thread 0x0000019d14ab6000 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000019cf270cfc0 method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight.getLightVal([I)B @ 53 c2
 Event: 15.326 Thread 0x0000019d14ab6000 DEOPT PACKING pc=0x0000019cf270cfc0 sp=0x0000007b4ddfeba0
 Event: 15.326 Thread 0x0000019d14ab6000 DEOPT UNPACKING pc=0x0000019cf1e169a3 sp=0x0000007b4ddfe968 mode 2
 Event: 15.326 Thread 0x0000019d16ec2b00 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000019cf26f29cc relative=0x000000000000048c
-Event: 15.326 Thread 0x0000019d16ec2b00 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000019cf26f29cc method=com.xbuilders.engine.rendering.chunk.meshers.GreedyMesherWithLight.getLightVal([I)B @ 53 c2
+Event: 15.326 Thread 0x0000019d16ec2b00 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000019cf26f29cc method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight.getLightVal([I)B @ 53 c2
 Event: 15.326 Thread 0x0000019d16ec2b00 DEOPT PACKING pc=0x0000019cf26f29cc sp=0x0000007b4f2fea40
 Event: 15.326 Thread 0x0000019d16ec2b00 DEOPT UNPACKING pc=0x0000019cf1e169a3 sp=0x0000007b4f2fe9e8 mode 2
 
