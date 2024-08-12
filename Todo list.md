@@ -4,6 +4,7 @@ Just do the simplest solution. Code simplicity, does not matter!
 
 ## Notes
 - As far as i can tell, there is no performance overhead from entity positon/state sharing
+- **SUPER IMPORTANT:** Optimize liquid mesh by using the greedy mesher whenever possible!!!
 
 ### bugs
 - The light that is erased sometimes causes an infinite loop of switching between 0 and the sun value? resulting in inproper rendering of the mesh
@@ -18,7 +19,6 @@ Just do the simplest solution. Code simplicity, does not matter!
 - add sphere tools
 - add birds, fish and turtles
 - Add player skins
-- Save liquid mesh for later
-  - Also save liquid depropagation for later
-  - It requires a lot of extra work that must be completed in the right way
+- Add world skybox and add day/night
+- Improve liquid propagation to allow for de-propagation
 
