@@ -258,12 +258,12 @@ public class DefaultTerrain extends Terrain {
         //Noise tends to be more biased towards the center, meaning we either have to normalize the noise function
         //somehow to produce even distribution, or we have to favor the edges more
 
-        if (heat > 0.55f) {
+        if (heat > 0.57f) {
             return Biome.SAVANNAH;
-        } else if (heat > 0.41f) {
-            return Biome.DEFAULT;
-        } else if (heat > 0.28f) {
+        } else if (heat > 0.47f) {
             return Biome.JUNGLE;
+        } else if (heat > 0.35f) {
+            return Biome.DEFAULT;
         } else {
             return Biome.SNOWY;
         }
