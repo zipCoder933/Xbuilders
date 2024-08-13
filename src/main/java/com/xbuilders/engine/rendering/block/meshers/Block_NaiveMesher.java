@@ -6,7 +6,7 @@ package com.xbuilders.engine.rendering.block.meshers;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.VertexSet;
-import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
+import com.xbuilders.engine.rendering.chunk.meshers.ChunkMesher;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
@@ -20,7 +20,7 @@ import org.lwjgl.system.MemoryStack;
  * This one is designed for static block rendering, (but can technically still be used for chunk rendering)
  * @author zipCoder933
  */
-public class Block_NaiveMesher extends Mesher<VertexSet> {
+public class Block_NaiveMesher extends ChunkMesher<VertexSet> {
 
     boolean generateAll;
 
@@ -91,9 +91,9 @@ public class Block_NaiveMesher extends Mesher<VertexSet> {
                         blockData = data.getBlockData(x, y, z);
                         BlockType type = ItemList.blocks.getBlockType(block.type);
                         if (block.opaque) {
-                            type.constructBlock(opaqueBuffers, block, blockData, neighbors, null, light, null, x, y, z);
+                            type.constructBlock(opaqueBuffers, block, blockData, neighbors, null, light, null, x, y, z, false);
                         } else {
-                            type.constructBlock(transparentBuffers, block, blockData, neighbors, null, light, null, x, y, z);
+                            type.constructBlock(transparentBuffers, block, blockData, neighbors, null, light, null, x, y, z, false);
                         }
                     }
 

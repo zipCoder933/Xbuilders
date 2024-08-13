@@ -35,7 +35,7 @@ public class PaneRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         if (data == null) {
             horizontal.render(buffers, block, neighbors,light, chunkX, chunkY, chunkZ);
         } else {
@@ -49,6 +49,7 @@ public class PaneRenderer extends BlockType {
                 horizontal.render(buffers, block, neighbors,light, chunkX, chunkY, chunkZ);
             }
         }
+        return false;
     }
 
     @Override

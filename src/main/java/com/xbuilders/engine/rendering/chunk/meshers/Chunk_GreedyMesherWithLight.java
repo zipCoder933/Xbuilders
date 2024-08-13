@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet;
+import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -26,7 +26,7 @@ import java.nio.ShortBuffer;
 /**
  * @author zipCoder933
  */
-public class Chunk_GreedyMesherWithLight extends Mesher<CompactVertexSet> {
+public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
     // Nublada does not actually use indexed meshing, it is just regular meshes with
     // indexes attached to vertices
     // If I want to do indexed meshes, I need some sort of hashmap like thing, and
@@ -178,10 +178,13 @@ public class Chunk_GreedyMesherWithLight extends Mesher<CompactVertexSet> {
                             block = ItemList.getBlock(thisPlaneVoxel.get(0));
                             block1 = ItemList.getBlock(nextPlaneVoxel.get(0));
 
-                            if (block == null || block.isAir() || !ItemList.blocks.getBlockType(block.type).useInGreedyMesher()) {
+
+                            if (block == null || block.isAir()
+                                    || !useGreedyMesher(block, x[0], x[1], x[2])) {
                                 thisPlaneVoxel.put(0, (short) 0);
                             }
-                            if (block1 == null || block1.isAir() || !ItemList.blocks.getBlockType(block1.type).useInGreedyMesher()) {
+                            if (block1 == null || block1.isAir()
+                                    || !useGreedyMesher(block1, x[0] + q[0], x[1] + q[1], x[2] + q[2])) {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 
@@ -305,27 +308,38 @@ public class Chunk_GreedyMesherWithLight extends Mesher<CompactVertexSet> {
         }
     }
 
+    private boolean useGreedyMesher(Block block, int x, int y, int z) {
+        int indx = ChunkMeshBundle.getIndexOfCoords(x, y, z);
+        if(indx < 0 || indx >= useGreedyMesherBuffer.capacity()) {
+            //If we're out of bounds, Default to the old way we checked
+            BlockType blockType1 = ItemList.blocks.getBlockType(block.type);
+            return blockType1.getGreedyMesherPermissions() >= BlockType.PERMIT_GM;
+        }
+        return useGreedyMesherBuffer.get(indx);
+    }
+
     // private int getMaskValue(IntBuffer mask, int index, int lodLevel) {
     // return mask.get((index / lodLevel) * lodLevel);
     // }
 
     private short getBlockLOD(ChunkVoxels data, int x, int y, int z, int lodLevel) {
-        if (lodLevel > 1) {// might be redundant
-            // We want to make the coordinates align with the LOD level,
-            // for example, if lod level is 2, the X coordinate would be as follows:
-            // Real X: 0,1,2,3,4,5,6,7,8,9,10
-            // LOD X: 0,0,2,2,4,4,6,6,8,8,10
-            // x = (x / lodLevel) * 2;
-            x = (x / lodLevel) * lodLevel;
-            y = (y / lodLevel) * lodLevel;
-            z = (z / lodLevel) * lodLevel;
-        }
-
+//        if (lodLevel > 1) {//For now we don't use LOD
+//            // We want to make the coordinates align with the LOD level,
+//            // for example, if lod level is 2, the X coordinate would be as follows:
+//            // Real X: 0,1,2,3,4,5,6,7,8,9,10
+//            // LOD X: 0,0,2,2,4,4,6,6,8,8,10
+//            // x = (x / lodLevel) * 2;
+//            x = (x / lodLevel) * lodLevel;
+//            y = (y / lodLevel) * lodLevel;
+//            z = (z / lodLevel) * lodLevel;
+//        }
         return data.getBlock(x, y, z);
     }
 
     private void retrieveMaskVoxels(int[] x, int[] q, int d, Chunk backChunk, Chunk forwardChunk,
-                                    Vector3i voxelPos, ShortBuffer thisPlaneVoxel, ShortBuffer nextPlaneVoxel, int lodLevel) {
+                                    Vector3i voxelPos,
+                                    ShortBuffer thisPlaneVoxel,
+                                    ShortBuffer nextPlaneVoxel, int lodLevel) {
         // Here we retrieve two voxel faces for comparison.
         // thisPlaneVoxel literaly faces forward, while nextPlaneVoxel faces backward
         if (x[d] >= 0) { // Calculate the voxel of THIS plane

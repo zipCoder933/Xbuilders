@@ -11,7 +11,7 @@ import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.chunk.IconGenShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
+import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
@@ -196,7 +196,9 @@ public class BlockIconRenderer {
         byte[] lightNeghbors = new byte[] { 15, 15, 15, 15, 15, 15 };
 
         type.constructBlock(buffers, block, null,
-                blockNeghbors, null, lightNeghbors, null, 0, 0, 0);
+                blockNeghbors, null, lightNeghbors,
+                null, 0, 0, 0,
+                false);
 
         buffers.makeVertexSet();
         buffers.sendToMesh(mesh);

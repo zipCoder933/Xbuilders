@@ -78,7 +78,7 @@ public class TorchRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         if (data != null) {
             int dataValue = data.get(0);
             if (sideIsSolid(neighbors[POS_Z]) && dataValue == 2) {
@@ -115,6 +115,8 @@ public class TorchRenderer extends BlockType {
                 torch.render(buffers, block, neighbors, lightValues, chunkX, chunkY, chunkZ);
             }
         }
+
+        return false;
     }
 
     public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {

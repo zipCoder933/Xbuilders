@@ -73,7 +73,7 @@ public class WallItemRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         if (data == null || data.get(0) == 3) {
             wall3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 0) {
@@ -83,6 +83,8 @@ public class WallItemRenderer extends BlockType {
         } else {
             wall2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
+
+        return false;
     }
 
     @Override

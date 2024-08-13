@@ -7,11 +7,11 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-public class LiquidBlockType extends DefaultBlockType {
+public class LiquidBlockType extends BlockType {
 
-    @Override
-    public boolean useInGreedyMesher() {
-        return false;
+
+    public int getGreedyMesherPermissions() {
+        return PERMIT_GM;
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
@@ -58,7 +58,7 @@ public class LiquidBlockType extends DefaultBlockType {
     }
 
     private int getFlow(BlockData data, int liquidMaxFlow) {
-        return data != null && data.size() == 1 ? data.get(0) : 7;
+        return data != null && data.size() == 1 ? data.get(0) : liquidMaxFlow;
     }
 
     private float getHeightOfFlow(BlockData data, int liquidMaxFlow, int y) {
@@ -131,12 +131,13 @@ public class LiquidBlockType extends DefaultBlockType {
 
 
     @Override
-    public void constructBlock(VertexSet buffer,
-                               Block block, BlockData data,
-                               Block[] neighbors,
-                               BlockData[] neighborData,
-                               byte[] light,
-                               Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffer,
+                                  Block block, BlockData data,
+                                  Block[] neighbors,
+                                  BlockData[] neighborData,
+                                  byte[] light,
+                                  Chunk chunk,
+                                  int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         BlockTexture.FaceTexture texLayer;
 
         final float yFloor = 1.0f + chunkY;
@@ -149,7 +150,7 @@ public class LiquidBlockType extends DefaultBlockType {
 
         boolean topLiquid = neighbors[POS_Y] != block;
 
-        if (topLiquid) {
+        if (topLiquid && chunk != null) {
             int maxFlow = block.liquidMaxFlow;
             float zeroFlowHeight = getHeightOfFlow(0, maxFlow, chunkY);
             float fullFlowHeight = getHeightOfFlow(maxFlow, maxFlow, chunkY);
@@ -259,6 +260,10 @@ public class LiquidBlockType extends DefaultBlockType {
                 y11 = Math.min(Math.min(posXposZFlow, posXFlow), Math.min(posZFlow, centerFlowHeight));
             else y11 = zeroFlowHeight;
 
+            if(y00 == fullFlowHeight && y10 == fullFlowHeight && y01 == fullFlowHeight && y11 == fullFlowHeight) {
+                return true;
+            }
+
             //Determine top texture flow
             if (y00 > y10
                     && y00 > y01
@@ -295,7 +300,7 @@ public class LiquidBlockType extends DefaultBlockType {
                 case TEX_FLOW_NEG_X_NEG_Z -> topFaceUV = topFaceUV_negX_negZ;
                 case TEX_FLOW_POS_X_NEG_Z -> topFaceUV = topFaceUV_posX_negZ;
             }
-        }
+        } else if (isUsingGreedyMesher) return true;
 
         if (sideIsVisibleXZ(block, data, neighborData[NEG_X], neighbors[NEG_X], topLiquid)) {
             texLayer = (block.texture.getNEG_X());
@@ -372,6 +377,8 @@ public class LiquidBlockType extends DefaultBlockType {
             buffer.vertex(chunkX, yFloor, 1.0f + chunkZ, /* uvs */ 0.0f, 1.0f, POS_Z, texLayer, light[POS_Z]);
             buffer.vertex(chunkX, y01, 1.0f + chunkZ, /* uvs */ 0.0f, 0.0f, POS_Z, texLayer, light[POS_Z]);
         }
+
+        return false;
     }
 
 

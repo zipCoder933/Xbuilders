@@ -9,7 +9,6 @@ import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -20,9 +19,10 @@ import org.lwjgl.system.MemoryStack;
 
 /**
  * For use ONLY with chunks
+ *
  * @author zipCoder933
  */
-public class Chunk_NaiveMesher extends Mesher<VertexSet> {
+public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
     boolean generateAll;
     Chunk chunk;
@@ -49,6 +49,7 @@ public class Chunk_NaiveMesher extends Mesher<VertexSet> {
                         MemoryStack stack, int lodLevel, boolean smoothShading) {
         Block block = null;
         BlockData blockData = null;
+        boolean isUsingGreedyMesher = !generateAll;
 
         for (int i = 0; i < 6; i++) {
             neighbors[i] = BlockList.BLOCK_AIR;
@@ -73,16 +74,16 @@ public class Chunk_NaiveMesher extends Mesher<VertexSet> {
             for (int y = 0; y < data.size.y; ++y) {
                 for (int z = 0; z < data.size.z; ++z) {
 
+                    boolean blockIsUsingGM = true;
                     block = ItemList.getBlock(data.getBlock(x, y, z));
                     byte centerLight = data.getPackedLight(x, y, z);
+                    BlockType blockType = ItemList.blocks.getBlockType(block.type);
 
-
-                    if (block != null && !block.isAir()
-                            && (generateAll ||
-                            !ItemList.blocks.getBlockType(block.type).useInGreedyMesher())
+                    if (!block.isAir() //If this block is not air
+                            && (generateAll || //If we generate all
+                            blockType.getGreedyMesherPermissions() <= BlockType.PERMIT_GM) //If we permit or dont allow greedy mesher
                     ) {
-
-
+                        blockIsUsingGM = false;
                         //The code that assigns neighbors produces the most memory:
                         //THE REASON, It could be hashmap.get()
                         // This is the main bottleneck of naive mesher but not all of the bottleneck
@@ -194,17 +195,21 @@ public class Chunk_NaiveMesher extends Mesher<VertexSet> {
                         blockData = data.getBlockData(x, y, z);
                         type = ItemList.blocks.getBlockType(block.type);
                         try {
+
                             if (block.opaque) {
-                                type.constructBlock(opaqueBuffers, block, blockData,  //XYZ are in chunk space
-                                        neighbors, neighborData, lightNeghbors, chunk, x, y, z);
+                                blockIsUsingGM = type.constructBlock(opaqueBuffers, block, blockData,  //XYZ are in chunk space
+                                        neighbors, neighborData, lightNeghbors, chunk, x, y, z, isUsingGreedyMesher);
                             } else {
-                                type.constructBlock(transparentBuffers, block, blockData,
-                                        neighbors, neighborData, lightNeghbors, chunk, x, y, z);
+                                blockIsUsingGM = type.constructBlock(transparentBuffers, block, blockData,
+                                        neighbors, neighborData, lightNeghbors, chunk, x, y, z, isUsingGreedyMesher);
                             }
                         } catch (Exception e) {
                             ErrorHandler.log(e);
                         }
                     }
+
+
+                    useGreedyMesherBuffer.set(ChunkMeshBundle.getIndexOfCoords(x, y, z), blockIsUsingGM);
                 }
             }
         }

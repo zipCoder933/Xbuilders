@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.rendering.chunk;
 
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet;
+import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.render.Shader;
 

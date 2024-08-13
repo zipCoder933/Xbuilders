@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
+package com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.rendering.VertexSet;

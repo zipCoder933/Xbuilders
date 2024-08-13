@@ -189,8 +189,8 @@ public class DoorHalfRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX,
-                               int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX,
+                                  int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         boolean open = data != null && data.get(1) == 0;
         boolean left = data != null && data.get(2) == 0;
         if (left) {
@@ -238,6 +238,7 @@ public class DoorHalfRenderer extends BlockType {
                     right_closed2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             }
         }
+        return false;
     }
 
     final float width = 3.3f;

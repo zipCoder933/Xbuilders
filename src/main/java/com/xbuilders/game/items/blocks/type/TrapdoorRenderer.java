@@ -67,8 +67,8 @@ public class TrapdoorRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX,
-                               int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX,
+                                  int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         boolean open = data != null && data.get(1) == 0;
         if (data == null || data.get(0) == 3) {
             if (open)
@@ -91,6 +91,8 @@ public class TrapdoorRenderer extends BlockType {
             else
                 closed2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
+
+        return false;
     }
 
     final float width = 3;

@@ -31,9 +31,14 @@ public abstract class BlockType {
     public boolean generate3DIcon = true;
     public boolean replaceOnSet = false;
 
+    //This is the first step in allowing a block to be permitted in the greedy mesher
 
-    public boolean useInGreedyMesher() {
-        return false;
+    public final static int DONT_ALLOW_GM = 0;
+    public final static int PERMIT_GM = 1;
+    public final static int ALWAYS_USE_GM = 2;
+
+    public int getGreedyMesherPermissions() {
+        return DONT_ALLOW_GM;
     }
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
@@ -55,10 +60,25 @@ public abstract class BlockType {
         }
     };
 
-    public abstract void constructBlock(VertexSet buffers,
-                                        Block block, BlockData data,
-                                        Block[] neighbors, BlockData[] neighborData, byte[] lightValues,
-                                        Chunk chunk, int chunkX, int chunkY, int chunkZ);
+    /**
+     * @param buffers
+     * @param block
+     * @param data
+     * @param neighbors
+     * @param neighborData
+     * @param lightValues
+     * @param chunk if chunk is null, that means we are rendering in raw block voxels instead
+     * @param chunkX
+     * @param chunkY
+     * @param chunkZ
+     * @param isUsingGreedyMesher if set to true, we can choose to return false if we want to use the greedy mesher
+     * @return If we should use the greedy mesher
+     */
+    public abstract boolean constructBlock(VertexSet buffers,
+                                           Block block, BlockData data,
+                                           Block[] neighbors, BlockData[] neighborData, byte[] lightValues,
+                                           Chunk chunk, int chunkX, int chunkY, int chunkZ,
+                                           boolean isUsingGreedyMesher);
 
     // public Vector3f[] rotateYAxis(Block[] neighbors, Vector3f[] verts, int
     // rotation) {

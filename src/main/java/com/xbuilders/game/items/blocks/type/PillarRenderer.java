@@ -35,9 +35,11 @@ public class PillarRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data,
-                               Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data,
+                                  Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         pillar.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+
+        return false;
     }
 
     @Override

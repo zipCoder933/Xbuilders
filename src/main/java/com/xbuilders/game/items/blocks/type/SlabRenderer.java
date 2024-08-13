@@ -78,9 +78,9 @@ public class SlabRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block,
-                               BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
-                               Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block,
+                                  BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
+                                  Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
 
         if (data != null && data.get(1) == -1) {
             ceiling.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
@@ -98,6 +98,8 @@ public class SlabRenderer extends BlockType {
             }
         }
         else side0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+
+        return false;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
-import com.xbuilders.engine.rendering.chunk.ChunkMeshBundle;
+import com.xbuilders.engine.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;

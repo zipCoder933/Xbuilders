@@ -1,4 +1,4 @@
-package com.xbuilders.engine.rendering.chunk.mesh.bufferSet;
+package com.xbuilders.engine.rendering.chunk.meshers.bufferSet;
 
 import org.lwjgl.system.MemoryUtil;
 
