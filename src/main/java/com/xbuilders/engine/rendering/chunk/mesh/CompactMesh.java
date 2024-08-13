@@ -110,10 +110,10 @@ public class CompactMesh extends Mesh {
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Enable wireframe mode
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength);//We can specify what vertex to start at and how many verticies to draw
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Disable wireframe mode
-        } else {
-            GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, textureID);//required to assign texture to mesh
-            GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want}
         }
+
+        GL11.glBindTexture(GL33.GL_TEXTURE_2D_ARRAY, textureID);//required to assign texture to mesh
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want}
     }
 
     public void draw(ChunkShader shader, boolean wireframe) {
