@@ -316,6 +316,7 @@
             "neg_x": "water_flow",
             "pos_y": "water_flow"
         },
+        "icon": "water_bucket.png",
         "solid": false,
         "opaque": false,
         "colorInPlayerHead": [0,0.2,1,0.5],
@@ -333,6 +334,7 @@
             "neg_x": "lava_flow",
             "pos_y": "lava_flow"
         },
+        "icon": "lava_bucket.png",
         "colorInPlayerHead": [1,0.2,0,0.5],
         "solid": false,
         "opaque": false,
