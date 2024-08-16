@@ -80,6 +80,13 @@ public abstract class BlockType {
                                            Chunk chunk, int chunkX, int chunkY, int chunkZ,
                                            boolean isUsingGreedyMesher);
 
+    public boolean determineIfUsingGreedyMesher(
+                                           Block block, BlockData data,
+                                           Block[] neighbors, BlockData[] neighborData, byte[] lightValues,
+                                           Chunk chunk, int chunkX, int chunkY, int chunkZ){
+        return false;
+    }
+
     // public Vector3f[] rotateYAxis(Block[] neighbors, Vector3f[] verts, int
     // rotation) {
     // Vector3f[] rotatedVerts = rotateVerticiesYAxis(verts, rotation);

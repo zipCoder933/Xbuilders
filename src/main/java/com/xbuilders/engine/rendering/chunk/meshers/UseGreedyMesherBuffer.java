@@ -7,14 +7,16 @@ import org.lwjgl.system.MemoryStack;
 
 class UseGreedyMesherBuffer {
     public BooleanBuffer buffer;
-    public final static Vector3i size = new Vector3i(Chunk.WIDTH, Chunk.HEIGHT, Chunk.WIDTH);
+
+    //We change coordinates to support negative indexes for out of bounds voxels
+    public final static Vector3i size = new Vector3i(Chunk.WIDTH + 2, Chunk.HEIGHT + 2, Chunk.WIDTH + 2);
 
     public UseGreedyMesherBuffer(MemoryStack stack) {
         buffer = new BooleanBuffer(size.x * size.y * size.z, stack);
     }
 
     public static int getIndexOfCoords(final int x, final int y, final int z) {
-        return x + size.x * (y + size.y * z);
+        return (x + 1) + size.x * ((y + 1) + size.y * (z + 1));
     }
 
     public boolean get(int x, int y, int z) {

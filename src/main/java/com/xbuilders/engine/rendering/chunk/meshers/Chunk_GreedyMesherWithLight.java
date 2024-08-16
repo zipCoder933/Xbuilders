@@ -317,22 +317,22 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
             return false;
         } else {//Permit GM
             int indx = UseGreedyMesherBuffer.getIndexOfCoords(x, y, z);
-            if (indx < 0 || indx >= useGreedyMesherBuffer.buffer.capacity()) {
-                //Clamp to the size of the buffer
-                if (x < 0) x = 0;
-                if (y < 0) y = 0;
-                if (z < 0) z = 0;
-                if (x > useGreedyMesherBuffer.size.x-1) x = useGreedyMesherBuffer.size.x-1;
-                if (y > useGreedyMesherBuffer.size.y-1) y = useGreedyMesherBuffer.size.y-1;
-                if (z > useGreedyMesherBuffer.size.z-1) z = useGreedyMesherBuffer.size.z-1;
-                indx = UseGreedyMesherBuffer.getIndexOfCoords(x, y, z);
-                /**
-                 * We cant just read off the clamped value, because the voxel on the other side might not even be liquid
-                 * The only way we can fix this is if we get what the value would actually be on the other side
-                 * We might be able to do this by making the naive mesher go out of bounds 1 block in all directions just to get those values
-                 * We would also have to subtract the coordinates by -1 in order to allow regular coordinates to remain the same
-                 */
-            }
+//            if (indx < 0 || indx >= useGreedyMesherBuffer.buffer.capacity()) {
+//                //Clamp to the size of the buffer
+//                if (x < 0) x = 0;
+//                if (y < 0) y = 0;
+//                if (z < 0) z = 0;
+//                if (x > useGreedyMesherBuffer.size.x-1) x = useGreedyMesherBuffer.size.x-1;
+//                if (y > useGreedyMesherBuffer.size.y-1) y = useGreedyMesherBuffer.size.y-1;
+//                if (z > useGreedyMesherBuffer.size.z-1) z = useGreedyMesherBuffer.size.z-1;
+//                indx = UseGreedyMesherBuffer.getIndexOfCoords(x, y, z);
+//                /**
+//                 * We cant just read off the clamped value, because the voxel on the other side might not even be liquid
+//                 * The only way we can fix this is if we get what the value would actually be on the other side
+//                 * We might be able to do this by making the naive mesher go out of bounds 1 block in all directions just to get those values
+//                 * We would also have to subtract the coordinates by -1 in order to allow regular coordinates to remain the same
+//                 */
+//            }
             return useGreedyMesherBuffer.buffer.get(indx);
         }
     }
