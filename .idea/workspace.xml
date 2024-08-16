@@ -10,12 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/construction/LiquidBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/construction/LiquidBlockType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/StraightTrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/StraightTrack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/WaterPropagation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/WaterPropagation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver/beaver layour.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver/beaver uv.xcf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver/beaver.mtl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver/beaver.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver/beaver.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend1" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend2" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend2" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
