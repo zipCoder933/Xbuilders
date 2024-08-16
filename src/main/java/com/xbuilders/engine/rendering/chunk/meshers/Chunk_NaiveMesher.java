@@ -208,8 +208,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                         }
                     }
 
-
-                    useGreedyMesherBuffer.set(ChunkMeshBundle.getIndexOfCoords(x, y, z), blockIsUsingGM);
+                    useGreedyMesherBuffer.put(x, y, z, blockIsUsingGM);
                 }
             }
         }

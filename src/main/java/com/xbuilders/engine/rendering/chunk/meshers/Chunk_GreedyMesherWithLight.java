@@ -309,13 +309,19 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
     }
 
     private boolean useGreedyMesher(Block block, int x, int y, int z) {
-        int indx = ChunkMeshBundle.getIndexOfCoords(x, y, z);
-        if(indx < 0 || indx >= useGreedyMesherBuffer.capacity()) {
-            //If we're out of bounds, Default to the old way we checked
-            BlockType blockType1 = ItemList.blocks.getBlockType(block.type);
-            return blockType1.getGreedyMesherPermissions() >= BlockType.PERMIT_GM;
+        BlockType blockType1 = ItemList.blocks.getBlockType(block.type);
+
+        if (blockType1.getGreedyMesherPermissions() == BlockType.ALWAYS_USE_GM) {
+            return true;
+        } else if (blockType1.getGreedyMesherPermissions() == BlockType.DONT_ALLOW_GM) {
+            return false;
+        } else {//Permit GM
+            int indx = UseGreedyMesherBuffer.getIndexOfCoords(x, y, z);
+            if (indx < 0 || indx >= useGreedyMesherBuffer.buffer.capacity()) {
+                return true;
+            }
+            return useGreedyMesherBuffer.buffer.get(indx);
         }
-        return useGreedyMesherBuffer.get(indx);
     }
 
     // private int getMaskValue(IntBuffer mask, int index, int lodLevel) {

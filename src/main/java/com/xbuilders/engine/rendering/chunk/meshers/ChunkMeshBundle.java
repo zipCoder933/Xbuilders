@@ -101,9 +101,6 @@ public class ChunkMeshBundle {
     public boolean meshesHaveAllSides;
 
 
-    protected static int getIndexOfCoords(final int x, final int y, final int z) {
-        return x + Chunk.WIDTH * (y + Chunk.HEIGHT * z);
-    }
 
     //This compute function is thread safe
     public synchronized void compute() {
@@ -127,8 +124,7 @@ public class ChunkMeshBundle {
                 transBuffer.reset();
 
                 if (!blocksAreEmpty) {//We wont check if we are below terrain because a loaded file chunk could be there
-                    BooleanBuffer buffer = new BooleanBuffer(chunk.data.size.x * chunk.data.size.y * chunk.data.size.z, stack);
-
+                    UseGreedyMesherBuffer buffer = new UseGreedyMesherBuffer(stack);
                     naiveMesher.useGreedyMesherBuffer = buffer;
                     naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
 

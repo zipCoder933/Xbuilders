@@ -12,7 +12,7 @@ public abstract class ChunkMesher<T extends VertexSet> {
         this.chunkPosition = chunkPositionOffset;
     }
 
-    public BooleanBuffer useGreedyMesherBuffer;
+   UseGreedyMesherBuffer useGreedyMesherBuffer;
     public final ChunkVoxels data;
     public final Vector3i chunkPosition;
 }

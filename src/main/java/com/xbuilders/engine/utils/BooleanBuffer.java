@@ -14,7 +14,7 @@ public class BooleanBuffer {
         this.bufferSize = byteBuffer.capacity()*8;
     }
 
-    public void set(int index, boolean value) {
+    public void put(int index, boolean value) {
         if (index < 0 || index >= capacity()) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + capacity());
         }
