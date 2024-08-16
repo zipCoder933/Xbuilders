@@ -6,12 +6,13 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.game.Main;
 
 public class LiquidBlockType extends DefaultBlockType {
 
     @Override
     public boolean useInGreedyMesher() {
-        return false;
+        return Main.settings.game_simpleWater;
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
