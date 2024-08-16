@@ -138,6 +138,9 @@ public class LiquidBlockType extends DefaultBlockType {
                                BlockData[] neighborData,
                                byte[] light,
                                Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+
+        if (neighborData == null) return;//for icon generation safety
+
         BlockTexture.FaceTexture texLayer;
 
         final float yFloor = 1.0f + chunkY;
@@ -150,7 +153,8 @@ public class LiquidBlockType extends DefaultBlockType {
 
         boolean topLiquid = neighbors[POS_Y] != block;
 
-        if (topLiquid) {
+
+        if (topLiquid && chunk != null) {
             int maxFlow = block.liquidMaxFlow;
             float zeroFlowHeight = getHeightOfFlow(0, maxFlow, chunkY);
             float fullFlowHeight = getHeightOfFlow(maxFlow, maxFlow, chunkY);
