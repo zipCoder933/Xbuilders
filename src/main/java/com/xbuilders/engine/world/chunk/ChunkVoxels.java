@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
 
+import com.xbuilders.engine.utils.MiscUtils;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryUtil;
 
@@ -17,6 +18,13 @@ import org.lwjgl.system.MemoryUtil;
  * annoyance, I will add a vector3i to match every method.
  */
 public class ChunkVoxels {
+
+    public String toString(){
+        return "ChunkVoxels{" +
+                "size=" + MiscUtils.printVector(size) +
+                ", empty=" + blocksAreEmpty +
+                '}';
+    }
 
     final int dataSize;
     private final byte[] light;

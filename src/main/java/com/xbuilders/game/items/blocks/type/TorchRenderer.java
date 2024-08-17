@@ -29,13 +29,12 @@ public class TorchRenderer extends BlockType {
 
     @Override
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return sideIsSolid(GameScene.world.getBlock(worldX, worldY+1, worldZ))||
-                sideIsSolid(GameScene.world.getBlock(worldX+1, worldY, worldZ))||
-                sideIsSolid(GameScene.world.getBlock(worldX-1, worldY, worldZ))||
-                sideIsSolid(GameScene.world.getBlock(worldX, worldY, worldZ+1))||
-                sideIsSolid(GameScene.world.getBlock(worldX, worldY, worldZ-1));
+        return sideIsSolid(GameScene.world.getBlock(worldX, worldY + 1, worldZ)) ||
+                sideIsSolid(GameScene.world.getBlock(worldX + 1, worldY, worldZ)) ||
+                sideIsSolid(GameScene.world.getBlock(worldX - 1, worldY, worldZ)) ||
+                sideIsSolid(GameScene.world.getBlock(worldX, worldY, worldZ + 1)) ||
+                sideIsSolid(GameScene.world.getBlock(worldX, worldY, worldZ - 1));
     }
-
 
 
     public TorchRenderer() {
@@ -79,7 +78,7 @@ public class TorchRenderer extends BlockType {
 
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
-        if (data != null) {
+        if (data != null && data.size() > 0) {
             int dataValue = data.get(0);
             if (sideIsSolid(neighbors[POS_Z]) && dataValue == 2) {
                 drawSide(2, neighbors[POS_Z],

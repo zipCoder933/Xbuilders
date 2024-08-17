@@ -48,6 +48,7 @@ public class CopyTool extends BlockTool {
                         } catch (IOException e) {
                             ErrorHandler.report(e);
                         }
+                        System.out.println(PasteTool.clipboard.toString());
                         PasteTool.updateMesh();
                     });
         }

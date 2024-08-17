@@ -36,18 +36,18 @@ public class PaneRenderer extends BlockType {
 
     @Override
     public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
-        if (data == null) {
-            horizontal.render(buffers, block, neighbors,light, chunkX, chunkY, chunkZ);
-        } else {
+        if (data != null && data.size() == 2) {
             if (data.get(1) == 0) {
                 if (data.get(0) == 1 || data.get(0) == 3) {
-                    vertical1.render(buffers, block, neighbors,light, chunkX, chunkY, chunkZ);
+                    vertical1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 } else {
-                    vertical0.render(buffers, block, neighbors,light, chunkX, chunkY, chunkZ);
+                    vertical0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
                 }
             } else {
-                horizontal.render(buffers, block, neighbors,light, chunkX, chunkY, chunkZ);
+                horizontal.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             }
+        } else {
+            horizontal.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
     }
 
@@ -66,10 +66,7 @@ public class PaneRenderer extends BlockType {
 
     @Override
     public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        if (data == null) {
-            box.setPosAndSize(x + (ONE_SIXTEENTH * 7), y, z, ONE_SIXTEENTH * 2, 1, 1);
-            consumer.accept(box);
-        } else {
+        if (data != null && data.size() == 2) {
             if (data.get(1) == 0) {
                 if (data.get(0) == 1 || data.get(0) == 3) {
                     box.setPosAndSize(x + (ONE_SIXTEENTH * 7), y, z, ONE_SIXTEENTH * 2, 1, 1);
@@ -82,6 +79,9 @@ public class PaneRenderer extends BlockType {
                 box.setPosAndSize(x, y + (ONE_SIXTEENTH * 7), z, 1, ONE_SIXTEENTH * 2, 1);
                 consumer.accept(box);
             }
+        } else {
+            box.setPosAndSize(x + (ONE_SIXTEENTH * 7), y, z, ONE_SIXTEENTH * 2, 1, 1);
+            consumer.accept(box);
         }
     }
 }

@@ -72,17 +72,16 @@ public class StairsRenderer extends BlockType {
     public void constructBlock(VertexSet buffers, Block block, BlockData data,
                                Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
 
-
-        if (data == null) {
-            floor[0].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
-        } else {
+        try {
             if (data.get(1) == 3) {
-               side[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+                side[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else if (data.get(1) >= 0) {
                 floor[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             } else {
-               ceiling[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+                ceiling[data.get(0)].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
             }
+        } catch (Exception e) {
+            floor[0].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
     }
 

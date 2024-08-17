@@ -422,9 +422,13 @@ public class RayCasting {
                             //Get the list of non cubic block voxels
                             ArrayList<AABB> voxelAABBList = new ArrayList<>();
                             if (blockType != null) {
-                                blockType.getCursorBoxes((box) -> {
-                                    voxelAABBList.add(new AABB(box));
-                                }, new AABB(), realBlock, data, ix, iy, iz);
+                                try { //TODO: Determine if there is a performance overhead when using try/catch
+                                    blockType.getCursorBoxes((box) -> {
+                                        voxelAABBList.add(new AABB(box));
+                                    }, new AABB(), realBlock, data, ix, iy, iz);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
 
                             //Find the closest AABB
