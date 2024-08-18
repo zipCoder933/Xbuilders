@@ -24,6 +24,8 @@ import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.nuklear.NkVec2;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -121,7 +123,7 @@ public class Main extends NKWindow {
                     loadWorldOnStartup = true;
                 }
             }
-            if(!devMode) fpsTools = false;
+            if (!devMode) fpsTools = false;
 
             dummyTester.setEnabled(false);
             if (fpsTools) {
@@ -150,7 +152,7 @@ public class Main extends NKWindow {
 
         game = new MyGame();
         gameScene.setGame(game);
-        popupMessage = new PopupMessage(ctx,this );
+        popupMessage = new PopupMessage(ctx, this);
         topMenu = new TopMenu(this);
         gameScene = new GameScene(this);
 
@@ -233,11 +235,29 @@ public class Main extends NKWindow {
         }
     }
 
+    public static void createPopupWindow(String title, String str) {
+        final JFrame parent = new JFrame();
+        JLabel label = new JLabel("");
+        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
+        label.setFont(label.getFont().deriveFont(12f));
+        label.setVerticalAlignment(JLabel.TOP);
+        parent.add(label);
+        parent.pack();
+        parent.getContentPane().setBackground(Color.white);
+        parent.setVisible(true);
+        parent.pack();
+        parent.setTitle(title);
+        parent.setLocationRelativeTo(null);
+        parent.setAlwaysOnTop(true);
+        parent.setVisible(true);
+        parent.setSize(350, 200);
+    }
+
     private void firstTimeSetup() throws InterruptedException {
         //Minimize the window
         GLFW.glfwHideWindow(getId());
 
-        ErrorHandler.createPopupWindow("First time setup",
+        createPopupWindow("First time setup",
                 "XBuilders is setting up. Please standby...");
         BlockIconRenderer iconRenderer = new BlockIconRenderer(
                 ItemList.blocks.textures,
@@ -247,7 +267,7 @@ public class Main extends NKWindow {
 
         settingsUtils.save(new EngineSettings()); //Replace the old settings
 
-        ErrorHandler.createPopupWindow("Finished",
+        createPopupWindow("Finished",
                 "XBuilders has finished setting up. Please restart the game to play.");
         Thread.sleep(5000);
         System.exit(0);
@@ -286,7 +306,7 @@ public class Main extends NKWindow {
                 saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);
             } catch (IOException e) {
-                ErrorHandler.createPopupWindow("Error", "Could not save screenshot: " + e.getMessage());
+                ErrorHandler.report("Could not save screenshot", e);
             }
             screenShotInitialized = false;
             screenshot = false;

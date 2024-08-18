@@ -200,7 +200,7 @@ public class GameScene implements WindowEvents {
                     try {
                         GameScene.server.startGame(worldInfo, req);
                     } catch (IOException | InterruptedException e) {
-                        Main.popupMessage.message("Error Starting Server", e.getMessage());
+                        prog.abort("Error Starting Server", e.getMessage());
                     }
                 }
                 prog.stage++;

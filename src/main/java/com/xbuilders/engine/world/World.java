@@ -253,7 +253,7 @@ public class World {
 
         this.terrain = Main.game.getTerrainFromInfo(info);
         if (terrain == null) {
-            ErrorHandler.createPopupWindow("Terrain not found",
+            Main.popupMessage.message("Terrain not found",
                     "Terrain " + info.getTerrain() + " not found");
             return false;
         }

@@ -15,7 +15,6 @@ import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -36,7 +35,7 @@ public class PopupMessage {
     NkContext ctx;
     NKWindow window;
 
-    Runnable confirmationCallback;
+    Runnable confirmationCallback, closeCallback;
     boolean visible = false;
     float boxHeight = 400;
     float boxWidth = 500;
@@ -62,18 +61,52 @@ public class PopupMessage {
 //    }
 
     public void message(String title, String body) {
-        message(title, body, null);
+        this.title = title;
+        this.body = body;
+        shownTime = System.currentTimeMillis();
+        this.confirmationCallback = null;
+        this.closeCallback = null;
+        visible = true;
     }
 
-    public void message(String title, String body, Runnable confirmationCallback) {
+    public void message(String title, String body, Runnable closeCallback) {
+        this.title = title;
+        this.body = body;
+        shownTime = System.currentTimeMillis();
+        this.confirmationCallback = null;
+        this.closeCallback = closeCallback;
+        visible = true;
+    }
+
+    public void confirmation(String title, String body, Runnable confirmationCallback) {
         this.title = title;
         this.body = body;
         shownTime = System.currentTimeMillis();
         this.confirmationCallback = confirmationCallback;
+        this.closeCallback = null;
         visible = true;
     }
 
-    private final String tag = "Popup_window";
+    public void confirmation(String title, String body, Runnable confirmationCallback, Runnable closeCallback) {
+        this.title = title;
+        this.body = body;
+        shownTime = System.currentTimeMillis();
+        this.confirmationCallback = confirmationCallback;
+        this.closeCallback = closeCallback;
+        visible = true;
+    }
+
+    private final static String tag = "Popup_window";
+
+
+    private void closeWindow() {
+        if (closeCallback != null) {
+            closeCallback.run();
+        }
+        closeCallback = null;
+        confirmationCallback = null;
+        visible = false;
+    }
 
     public void draw() {
         if (!visible) return;
@@ -91,7 +124,7 @@ public class PopupMessage {
             if (!nk_window_has_focus(ctx)) {
 //                nk_window_set_focus(ctx, tag);
                 if (canClose()) {
-                    visible = false;
+                    closeWindow();
                 }
             }
 
@@ -109,19 +142,21 @@ public class PopupMessage {
                 if (nk_button_label(ctx, "OK")) {
                     if (canClose()) {
                         confirmationCallback.run();
+                        confirmationCallback = null;
+                        closeCallback = null;
                         visible = false;
                     }
                 }
                 if (nk_button_label(ctx, "Cancel")) {
                     if (canClose()) {
-                        visible = false;
+                        closeWindow();
                     }
                 }
             } else {
                 nk_layout_row_dynamic(ctx, 40, 1);
                 if (nk_button_label(ctx, "OK")) {
                     if (canClose()) {
-                        visible = false;
+                        closeWindow();
                     }
                 }
             }

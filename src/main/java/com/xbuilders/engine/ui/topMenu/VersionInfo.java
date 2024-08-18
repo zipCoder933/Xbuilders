@@ -10,7 +10,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class VersionInfo {
             checkForUpdates();
             if (isNewerVersionAvailable()) {
                 String changes = changesToString();
-                popupMessage.message("A new version of XBuilders is out! ", changes +
+                popupMessage.confirmation("A new version of XBuilders is out! ", changes +
                         "\n\nWould you like to get the latest version?", () -> {
                     Main.minimizeWindow();
                     openInBrowser();

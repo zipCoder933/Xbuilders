@@ -116,7 +116,7 @@ public class LoadWorld implements MenuPage {
                 }
 
                 if (nk_button_label(ctx, "DELETE WORLD")) {
-                    Main.popupMessage.message("Delete World",
+                    Main.popupMessage.confirmation("Delete World",
                             "Are you sure you want to delete " + currentWorld.getName() + "?",
                             () -> deleteCurrentWorld());
                 }

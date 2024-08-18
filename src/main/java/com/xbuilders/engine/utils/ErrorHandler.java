@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.utils;
 
+import com.xbuilders.game.Main;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -24,49 +26,20 @@ public class ErrorHandler {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");
 
     public static void report(Throwable ex) {
-        String exMsg = ex.getMessage();
-        if (exMsg == null) {
-            exMsg = "Unknown error.";
-        }
-        report("Runtime error", exMsg, ex);
-        log(ex, "unnamed error");
+        report("error", ex);
     }
 
-    public static void report(String message, Throwable ex) {
-        report("Runtime error", message, ex);
-        log(ex, message);
+
+    public static void report(String userMsg, Throwable ex) {
+        String errMessage = (ex.getMessage() != null ? " \n(" + ex.getMessage() + ")" : "");
+        Main.popupMessage.message("Runtime Error", userMsg + errMessage);
+//        createPopupWindow(title, "<h3>" + title + "</h3>"
+//                + "" + body + "\n\n\n<span style='color: #888888; font-size: 0.95em;'>"
+//                + "<b>ERROR INFO:</b> " + message + "\n(" + ex.getClass() + ")\n\n"
+//                + "<b>Stack trace:</b>\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n") + "</span>");
+        log(ex, "##" + userMsg + "##\t" + errMessage);
     }
 
-    public static void report(String title, String body, Throwable ex) {
-        String message = ex.getMessage();
-        if (message == null) {
-            message = "Unknown error";
-        }
-
-        createPopupWindow(title, "<h3>" + title + "</h3>"
-                + "" + body + "\n\n\n<span style='color: #888888; font-size: 0.95em;'>"
-                + "<b>ERROR INFO:</b> " + message + "\n(" + ex.getClass() + ")\n\n"
-                + "<b>Stack trace:</b>\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n") + "</span>");
-        log(ex, "##" + title + "##\t" + body);
-    }
-
-    public static void createPopupWindow(String title, String str) {
-        final JFrame parent = new JFrame();
-        JLabel label = new JLabel("");
-        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
-        label.setFont(label.getFont().deriveFont(12f));
-        label.setVerticalAlignment(JLabel.TOP);
-        parent.add(label);
-        parent.pack();
-        parent.getContentPane().setBackground(Color.white);
-        parent.setVisible(true);
-        parent.pack();
-        parent.setTitle(title);
-        parent.setLocationRelativeTo(null);
-        parent.setAlwaysOnTop(true);
-        parent.setVisible(true);
-        parent.setSize(350, 200);
-    }
 
     /**
      * Prints the stack trace and saves the error to log file.

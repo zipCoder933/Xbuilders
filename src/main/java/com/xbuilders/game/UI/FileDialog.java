@@ -172,7 +172,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
                 return;
             }
 
-            prompt.message("Delete?",
+            prompt.confirmation("Delete?",
                     "Are you sure you want to delete " + selectedFile.getName() + "?",
                     () -> {
                         System.out.println("Deleting " + selectedFile.getPath());
@@ -243,7 +243,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
         if (newFile.exists()) {
             if (newFile.isDirectory()) return;
 
-            prompt.message("File Exists",
+            prompt.confirmation("File Exists",
                     "Do you want to overwrite " + newFile.getName() + "?",
                     () -> {
                         System.out.println("Overwriting " + newFile.getName());

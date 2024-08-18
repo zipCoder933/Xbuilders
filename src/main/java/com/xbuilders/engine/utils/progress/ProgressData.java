@@ -4,25 +4,13 @@
  */
 package com.xbuilders.engine.utils.progress;
 
+import com.xbuilders.game.Main;
+
 /**
  *
  * @author zipCoder933
  */
 public class ProgressData {
-
-    /**
-     * @return the progressError
-     */
-    public Bulletin getBulletin() {
-        return progressBulletin;
-    }
-
-    /**
-     * @param progressError the progressError to set
-     */
-    public void createBulletin(Bulletin bulletin) {
-        this.progressBulletin = bulletin;
-    }
 
     public final String title;
     private String task = "";
@@ -67,21 +55,16 @@ public class ProgressData {
         this.task = progressDesc;
     }
 
-    private Bulletin progressBulletin = null;
-
-    /**
-     * Suppresses any error currently being raised.
-     *
-     */
-    public void supressBulletins() {
-        createBulletin(null);
-    }
-
     boolean taskAborted = false;
 
     public void abort() {
         taskAborted = true;
     }
+
+    public void abort(String title, String message) {
+        Main.popupMessage.message(title, message,() ->  taskAborted = true);
+    }
+
 
     public boolean isAborted() {
         return taskAborted;
@@ -89,6 +72,6 @@ public class ProgressData {
 
     @Override
     public String toString() {
-        return "ProgressData{" + "title=" + title + ", progressDesc=" + task + ", bar=" + bar + ", done=" + done + ", progressBulletin=" + progressBulletin + ", taskAborted=" + taskAborted + '}';
+        return "ProgressData{" + "title=" + title + ", progressDesc=" + task + ", bar=" + bar + ", done=" + done + ", Aborted=" + taskAborted + '}';
     }
 }
