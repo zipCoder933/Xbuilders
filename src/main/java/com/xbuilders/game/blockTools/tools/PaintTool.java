@@ -56,28 +56,33 @@ public class PaintTool extends BlockTool {
 
         //do A BFS from the center of the box
         ArrayList<Vector3i> queue = new ArrayList<>();
-        queue.add(getStartingPos(ray));
+
+        Vector3i origin = getStartingPos(ray);
+        queue.add(origin);
 
         while (!queue.isEmpty()) {
             Vector3i pos = queue.remove(0);
 
             GameScene.player.setBlock(newBlock.id, pos.x, pos.y, pos.z);
 
-            propagate(pos.x + 1, pos.y, pos.z, newBlock, replaceBlock, queue);
-            propagate(pos.x - 1, pos.y, pos.z, newBlock, replaceBlock, queue);
-            propagate(pos.x, pos.y + 1, pos.z, newBlock, replaceBlock, queue);
-            propagate(pos.x, pos.y - 1, pos.z, newBlock, replaceBlock, queue);
-            propagate(pos.x, pos.y, pos.z + 1, newBlock, replaceBlock, queue);
-            propagate(pos.x, pos.y, pos.z - 1, newBlock, replaceBlock, queue);
+            propagate(origin, pos.x + 1, pos.y, pos.z, newBlock, replaceBlock, queue);
+            propagate(origin, pos.x - 1, pos.y, pos.z, newBlock, replaceBlock, queue);
+            propagate(origin, pos.x, pos.y + 1, pos.z, newBlock, replaceBlock, queue);
+            propagate(origin, pos.x, pos.y - 1, pos.z, newBlock, replaceBlock, queue);
+            propagate(origin, pos.x, pos.y, pos.z + 1, newBlock, replaceBlock, queue);
+            propagate(origin, pos.x, pos.y, pos.z - 1, newBlock, replaceBlock, queue);
         }
 
         return true;
     }
 
-    private void propagate(int x, int y, int z, Block newBlock, Block replaceBlock, ArrayList<Vector3i> queue) {
+    private void propagate(Vector3i origin, int x, int y, int z, Block newBlock, Block replaceBlock, ArrayList<Vector3i> queue) {
         if (x > settingAABB.max.x || x < settingAABB.min.x) return;
         if (y > settingAABB.max.y || y < settingAABB.min.y) return;
         if (z > settingAABB.max.z || z < settingAABB.min.z) return;
+
+        float radius = settingAABB.getXLength() / 2;
+        if (origin.distance(x, y, z) > radius) return;
 
         Block b = GameScene.world.getBlock(x, y, z);
         if (b.id == replaceBlock.id) {

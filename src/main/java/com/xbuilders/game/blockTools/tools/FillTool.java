@@ -54,28 +54,32 @@ public class FillTool extends BlockTool {
 
         //do A BFS from the center of the box
         ArrayList<Vector3i> queue = new ArrayList<>();
-        queue.add(getStartingPos(ray));
+        Vector3i origin = getStartingPos(ray);
+        queue.add(origin);
 
         while (!queue.isEmpty()) {
             Vector3i pos = queue.remove(0);
 
             GameScene.player.setBlock(block.id, pos.x, pos.y, pos.z);
 
-            propagate(pos.x + 1, pos.y, pos.z, block, queue);
-            propagate(pos.x - 1, pos.y, pos.z, block, queue);
-            propagate(pos.x, pos.y + 1, pos.z, block, queue);
-            propagate(pos.x, pos.y - 1, pos.z, block, queue);
-            propagate(pos.x, pos.y, pos.z + 1, block, queue);
-            propagate(pos.x, pos.y, pos.z - 1, block, queue);
+            propagate(origin, pos.x + 1, pos.y, pos.z, block, queue);
+            propagate(origin, pos.x - 1, pos.y, pos.z, block, queue);
+            propagate(origin, pos.x, pos.y + 1, pos.z, block, queue);
+            propagate(origin, pos.x, pos.y - 1, pos.z, block, queue);
+            propagate(origin, pos.x, pos.y, pos.z + 1, block, queue);
+            propagate(origin, pos.x, pos.y, pos.z - 1, block, queue);
         }
 
         return true;
     }
 
-    private void propagate(int x, int y, int z, Block block, ArrayList<Vector3i> queue) {
+    private void propagate(Vector3i origin, int x, int y, int z, Block block, ArrayList<Vector3i> queue) {
         if (x > settingAABB.max.x + 1 || x < settingAABB.min.x) return;
         if (y > settingAABB.max.y + 1 || y < settingAABB.min.y) return;
         if (z > settingAABB.max.z + 1 || z < settingAABB.min.z) return;
+
+        float radius = settingAABB.getXLength() / 2;
+        if (origin.distance(x, y, z) > radius) return;
 
         Block b = GameScene.world.getBlock(x, y, z);
         if (!b.solid && b.id != block.id) {
