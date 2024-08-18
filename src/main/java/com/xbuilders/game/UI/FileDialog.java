@@ -127,7 +127,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
 
 
                 Nuklear.nk_layout_row_dynamic(ctx, 30, 1);
-                fileNameBox.render(ctx);
+                if (saveMode) fileNameBox.render(ctx);
 
                 Nuklear.nk_layout_row_dynamic(ctx, 30, 3);
                 if (Nuklear.nk_button_label(ctx, "New Folder")) {
@@ -209,6 +209,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
                             navDir = f;
                         } else {
                             selectedFile = f;
+                            fileNameBox.setValueAsString(f.getName());
                         }
                     }
                     if (selected) {
