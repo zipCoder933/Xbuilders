@@ -91,15 +91,13 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                             type = ItemList.blocks.getBlockType(block.type);
 
                             if (type.getGreedyMesherPermissions() == BlockType.PERMIT_GM) {
-                                byte centerLight = out_chunk.data.getPackedLight(ox, oy, oz);
-                                assignNeighbors(out_chunk.data, ox, oy, oz, block, centerLight);
+                                assignNeighbors(out_chunk.data, ox, oy, oz, block);
                                 blockIsUsingGM = this.type.determineIfUsingGreedyMesher(block, blockData, neighbors,
                                         neighborData, lightNeghbors, out_chunk, ox, oy, oz);
                             }
                         }
                     } else {
                         block = ItemList.getBlock(data.getBlock(x, y, z));
-                        byte centerLight = data.getPackedLight(x, y, z);
                         type = ItemList.blocks.getBlockType(block.type);
 
                         if (!block.isAir() //If this block is not air
@@ -107,7 +105,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                                 type.getGreedyMesherPermissions() <= BlockType.PERMIT_GM) //If we permit or dont allow greedy mesher
                         ) {
                             blockIsUsingGM = false;
-                            assignNeighbors(data, x, y, z, block, centerLight);
+                            assignNeighbors(data, x, y, z, block);
                             blockData = data.getBlockData(x, y, z);
                             try {
                                 if (block.opaque) {
@@ -131,7 +129,8 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
     }
 
 
-    private void assignNeighbors(ChunkVoxels chunk, int x, int y, int z, Block block, byte centerLight) {
+    private void assignNeighbors(ChunkVoxels chunk, int x, int y, int z, Block block) {
+        byte centerLight = chunk.getPackedLight(x, y, z);
         //The code that assigns neighbors produces the most memory:
         //THE REASON, It could be hashmap.get()
         // This is the main bottleneck of naive mesher but not all of the bottleneck

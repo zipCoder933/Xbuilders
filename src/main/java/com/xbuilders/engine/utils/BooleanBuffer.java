@@ -11,7 +11,7 @@ public class BooleanBuffer {
 
     public BooleanBuffer(int size, MemoryStack stack) {
         this.byteBuffer = stack.malloc((size + 7) / 8);
-        this.bufferSize = byteBuffer.capacity()*8;
+        this.bufferSize = size;
     }
 
     public void put(int index, boolean value) {
