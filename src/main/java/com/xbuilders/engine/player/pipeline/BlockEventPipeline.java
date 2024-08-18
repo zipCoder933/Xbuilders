@@ -59,11 +59,9 @@ public class BlockEventPipeline {
             if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
                 lightChangesThisFrame++;
             }
-            if (blockHist.previousBlock != blockHist.newBlock || blockHist.updateBlockData) {
-                blockChangesThisFrame++;
-                synchronized (eventClearLock) {
-                    events.put(worldPos, blockHist);
-                }
+            blockChangesThisFrame++;
+            synchronized (eventClearLock) {
+                events.put(worldPos, blockHist);
             }
         }
     }
@@ -190,44 +188,35 @@ public class BlockEventPipeline {
         }
 
         eventsCopy.forEach((worldPos, blockHist) -> {
-
             if (!World.worldYIsWithinBounds(worldPos.y)) return;
-
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
 
+            BlockType type = ItemList.blocks.getBlockType(blockHist.newBlock.type);
+            BlockData newBlockData = null;
+            if (blockHist.updateBlockData) {
+                newBlockData = blockHist.newBlockData;
+            } else {
+                newBlockData = type.getInitialBlockData(
+                        chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z),
+                        blockHist.newBlock, player);
+            }
 
+            //If both blocks are different
             if (!blockHist.previousBlock.equals(blockHist.newBlock)) { //If the 2 blocks are different
                 //Send the block to the client
-
-                BlockType type = ItemList.blocks.getBlockType(blockHist.newBlock.type);
-                if (type == null) return;
-
-                BlockData newBlockData = null;
-                if (blockHist.updateBlockData) {
-                    newBlockData = blockHist.newBlockData;
-                } else {
-                    newBlockData = type.getInitialBlockData(
-                            chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z),
-                            blockHist.newBlock, player);
-                }
-
                 if (blockHist.newBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z)
                         && type.allowExistence(blockHist.newBlock, worldPos.x, worldPos.y, worldPos.z)) {  //Should we set the block?
 
-                    //<editor-fold defaultstate="collapsed" desc="set the block">
+                    //set block
                     GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
                     chunk.markAsModifiedByUser();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
 
+                    //set block data
                     blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
-//                    if (firstChunkUpdate.get() && eventsCopy.size() < 6) { //We can update the chunk right after the first block is set
-//                        chunk.updateMesh(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-//                        firstChunkUpdate.set(false);
-//                    }
-                    //</editor-fold>
 
                     // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
                     if (blockHist.previousBlock.opaque && !blockHist.newBlock.opaque) {
@@ -248,30 +237,29 @@ public class BlockEventPipeline {
 
                     affectedChunks.add(chunk);
                 }
-            } else if (blockHist.updateBlockData) {
+            } else { //If both blocks are the same, just update the block data
                 chunk.markAsModifiedByUser();
-                GameScene.server.addBlockChange(worldPos, null, blockHist.newBlockData); //Add block data change
-
+                GameScene.server.addBlockChange(worldPos, null, newBlockData); //Add block data change
                 blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlockData);
+                chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
                 affectedChunks.add(chunk);
             }
         });
 
 
         //Block events
-        eventsCopy.forEach((worldPos, blockHist) -> {
-            if (World.worldYIsWithinBounds(worldPos.y)
-                    && !blockHist.previousBlock.equals(blockHist.newBlock) &&
-                    allowBlockEvents && !blockHist.fromNetwork) {//Dont do block events if the block was set by the server
-                Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
-                startLocalChange(worldPos, blockHist, allowBlockEvents);
-                blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
-                blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos); //Run the block event
-            }
-        });
-
-
+        if (allowBlockEvents) {
+            eventsCopy.forEach((worldPos, blockHist) -> {
+                if (World.worldYIsWithinBounds(worldPos.y)
+                        && !blockHist.previousBlock.equals(blockHist.newBlock) &&
+                        !blockHist.fromNetwork) {//Dont do block events if the block was set by the server
+                    Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
+                    startLocalChange(worldPos, blockHist, allowBlockEvents);
+                    blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
+                    blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos); //Run the block event
+                }
+            });
+        }
         GameScene.server.sendNearBlockChanges();
     }
 
