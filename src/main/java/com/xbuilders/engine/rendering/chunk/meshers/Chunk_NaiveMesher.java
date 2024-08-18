@@ -14,6 +14,7 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.Chunk;
 
+import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
@@ -81,9 +82,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
 
                     if (x < 0 || y < 0 || z < 0 || x >= data.size.x || y >= data.size.y || z >= data.size.z) {
-                        blockIsUsingGM = false;
                         Chunk out_chunk = WCCi.getNeighboringChunk(GameScene.world, chunkPosition, x, y, z);
-
                         if (out_chunk != null) {
                             int ox = positiveMod(x, Chunk.WIDTH);
                             int oy = positiveMod(y, Chunk.HEIGHT);
@@ -93,12 +92,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
                             if (type.getGreedyMesherPermissions() == BlockType.PERMIT_GM) {
                                 byte centerLight = out_chunk.data.getPackedLight(ox, oy, oz);
-                                assignNeighbors(ox, oy, oz, block, centerLight);
+                                assignNeighbors(out_chunk.data, ox, oy, oz, block, centerLight);
                                 blockIsUsingGM = this.type.determineIfUsingGreedyMesher(block, blockData, neighbors,
                                         neighborData, lightNeghbors, out_chunk, ox, oy, oz);
                             }
                         }
-
                     } else {
                         block = ItemList.getBlock(data.getBlock(x, y, z));
                         byte centerLight = data.getPackedLight(x, y, z);
@@ -109,7 +107,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                                 type.getGreedyMesherPermissions() <= BlockType.PERMIT_GM) //If we permit or dont allow greedy mesher
                         ) {
                             blockIsUsingGM = false;
-                            assignNeighbors(x, y, z, block, centerLight);
+                            assignNeighbors(data, x, y, z, block, centerLight);
                             blockData = data.getBlockData(x, y, z);
                             try {
                                 if (block.opaque) {
@@ -133,15 +131,15 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
     }
 
 
-    private void assignNeighbors(int x, int y, int z, Block block, byte centerLight) {
+    private void assignNeighbors(ChunkVoxels chunk, int x, int y, int z, Block block, byte centerLight) {
         //The code that assigns neighbors produces the most memory:
         //THE REASON, It could be hashmap.get()
         // This is the main bottleneck of naive mesher but not all of the bottleneck
         if (x > 0) {
-            neighbors[BlockType.NEG_X] = ItemList.getBlock(data.getBlock(x - 1, y, z));
-            lightNeghbors[BlockType.NEG_X] = block.opaque ? data.getPackedLight(x - 1, y, z)
+            neighbors[BlockType.NEG_X] = ItemList.getBlock(chunk.getBlock(x - 1, y, z));
+            lightNeghbors[BlockType.NEG_X] = block.opaque ? chunk.getPackedLight(x - 1, y, z)
                     : centerLight;
-            neighborData[BlockType.NEG_X] = data.getBlockData(x - 1, y, z);
+            neighborData[BlockType.NEG_X] = chunk.getBlockData(x - 1, y, z);
         } else if (negXChunk != null) {
             neighbors[BlockType.NEG_X] = ItemList
                     .getBlock(negXChunk.data.getBlock(negXChunk.data.size.x - 1, y, z));
@@ -155,11 +153,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[BlockType.NEG_X] = null;
         }
 
-        if (x < data.size.x - 1) {
-            neighbors[BlockType.POS_X] = ItemList.getBlock(data.getBlock(x + 1, y, z));
-            lightNeghbors[BlockType.POS_X] = block.opaque ? data.getPackedLight(x + 1, y, z)
+        if (x < chunk.size.x - 1) {
+            neighbors[BlockType.POS_X] = ItemList.getBlock(chunk.getBlock(x + 1, y, z));
+            lightNeghbors[BlockType.POS_X] = block.opaque ? chunk.getPackedLight(x + 1, y, z)
                     : centerLight;
-            neighborData[BlockType.POS_X] = data.getBlockData(x + 1, y, z);
+            neighborData[BlockType.POS_X] = chunk.getBlockData(x + 1, y, z);
         } else if (posXChunk != null) {
             neighbors[BlockType.POS_X] = ItemList.getBlock(posXChunk.data.getBlock(0, y, z));
             lightNeghbors[BlockType.POS_X] = block.opaque ? posXChunk.data.getPackedLight(0, y, z)
@@ -172,10 +170,10 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
         }
 
         if (y > 0) {
-            neighbors[BlockType.POS_Y] = ItemList.getBlock(data.getBlock(x, y - 1, z));
-            lightNeghbors[BlockType.POS_Y] = block.opaque ? data.getPackedLight(x, y - 1, z)
+            neighbors[BlockType.POS_Y] = ItemList.getBlock(chunk.getBlock(x, y - 1, z));
+            lightNeghbors[BlockType.POS_Y] = block.opaque ? chunk.getPackedLight(x, y - 1, z)
                     : centerLight;
-            neighborData[BlockType.POS_Y] = data.getBlockData(x, y - 1, z);
+            neighborData[BlockType.POS_Y] = chunk.getBlockData(x, y - 1, z);
         } else if (negYChunk != null) {
             neighbors[BlockType.POS_Y] = ItemList
                     .getBlock(negYChunk.data.getBlock(x, negYChunk.data.size.y - 1, z));
@@ -189,11 +187,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[BlockType.POS_Y] = null;
         }
 
-        if (y < data.size.y - 1) {
-            neighbors[BlockType.NEG_Y] = ItemList.getBlock(data.getBlock(x, y + 1, z));
-            lightNeghbors[BlockType.NEG_Y] = block.opaque ? data.getPackedLight(x, y + 1, z)
+        if (y < chunk.size.y - 1) {
+            neighbors[BlockType.NEG_Y] = ItemList.getBlock(chunk.getBlock(x, y + 1, z));
+            lightNeghbors[BlockType.NEG_Y] = block.opaque ? chunk.getPackedLight(x, y + 1, z)
                     : centerLight;
-            neighborData[BlockType.NEG_Y] = data.getBlockData(x, y + 1, z);
+            neighborData[BlockType.NEG_Y] = chunk.getBlockData(x, y + 1, z);
         } else if (posYChunk != null) {
             neighbors[BlockType.NEG_Y] = ItemList.getBlock(posYChunk.data.getBlock(x, 0, z));
             lightNeghbors[BlockType.NEG_Y] = block.opaque ? posYChunk.data.getPackedLight(x, 0, z)
@@ -206,10 +204,10 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
         }
 
         if (z > 0) {
-            neighbors[BlockType.NEG_Z] = ItemList.getBlock(data.getBlock(x, y, z - 1));
-            lightNeghbors[BlockType.NEG_Z] = block.opaque ? data.getPackedLight(x, y, z - 1)
+            neighbors[BlockType.NEG_Z] = ItemList.getBlock(chunk.getBlock(x, y, z - 1));
+            lightNeghbors[BlockType.NEG_Z] = block.opaque ? chunk.getPackedLight(x, y, z - 1)
                     : centerLight;
-            neighborData[BlockType.NEG_Z] = data.getBlockData(x, y, z - 1);
+            neighborData[BlockType.NEG_Z] = chunk.getBlockData(x, y, z - 1);
         } else if (negZChunk != null) {
             neighbors[BlockType.NEG_Z] = ItemList
                     .getBlock(negZChunk.data.getBlock(x, y, negZChunk.data.size.z - 1));
@@ -223,11 +221,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[BlockType.NEG_Z] = null;
         }
 
-        if (z < data.size.z - 1) {
-            neighbors[BlockType.POS_Z] = ItemList.getBlock(data.getBlock(x, y, z + 1));
-            lightNeghbors[BlockType.POS_Z] = block.opaque ? data.getPackedLight(x, y, z + 1)
+        if (z < chunk.size.z - 1) {
+            neighbors[BlockType.POS_Z] = ItemList.getBlock(chunk.getBlock(x, y, z + 1));
+            lightNeghbors[BlockType.POS_Z] = block.opaque ? chunk.getPackedLight(x, y, z + 1)
                     : centerLight;
-            neighborData[BlockType.POS_Z] = data.getBlockData(x, y, z + 1);
+            neighborData[BlockType.POS_Z] = chunk.getBlockData(x, y, z + 1);
         } else if (posZChunk != null) {
             neighbors[BlockType.POS_Z] = ItemList
                     .getBlock(posZChunk.data.getBlock(x, y, 0));

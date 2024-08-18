@@ -130,6 +130,17 @@ public class LiquidBlockType extends BlockType {
     };
 
 
+    public boolean determineIfUsingGreedyMesher(
+            Block block, BlockData data,
+            Block[] neighbors, BlockData[] neighborData, byte[] lightValues,
+            Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+
+        return constructBlock(null,
+                block, data, neighbors, neighborData, lightValues,
+                chunk, chunkX, chunkY, chunkZ,
+                true);
+    }
+
     @Override
     public boolean constructBlock(VertexSet buffer,
                                   Block block, BlockData data,
@@ -138,8 +149,9 @@ public class LiquidBlockType extends BlockType {
                                   byte[] light,
                                   Chunk chunk,
                                   int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
-        BlockTexture.FaceTexture texLayer;
 
+
+        BlockTexture.FaceTexture texLayer;
         final float yFloor = 1.0f + chunkY;
         float y00 = chunkY;
         float y10 = chunkY;
@@ -147,11 +159,13 @@ public class LiquidBlockType extends BlockType {
         float y11 = chunkY;
         int topTextureFlowMode = TEX_FLOW_STATIC;
         float[] topFaceUV = topFaceUV_posZ;
+        int maxFlow = block.liquidMaxFlow;
+        boolean onSurface = neighbors[POS_Y] != block;
+        int flow = getFlow(data, maxFlow);
 
-        boolean topLiquid = neighbors[POS_Y] != block;
-
-        if (topLiquid && chunk != null) {
-            int maxFlow = block.liquidMaxFlow;
+        //If we are not on top, or we are at max flow, we use the GM
+        if (!onSurface || chunk == null || flow >= maxFlow || data == null) return true;
+        else {
             float zeroFlowHeight = getHeightOfFlow(0, maxFlow, chunkY);
             float fullFlowHeight = getHeightOfFlow(maxFlow, maxFlow, chunkY);
             float centerFlowHeight = getHeightOfFlow(data, maxFlow, chunkY);
@@ -260,7 +274,7 @@ public class LiquidBlockType extends BlockType {
                 y11 = Math.min(Math.min(posXposZFlow, posXFlow), Math.min(posZFlow, centerFlowHeight));
             else y11 = zeroFlowHeight;
 
-            if(y00 == fullFlowHeight && y10 == fullFlowHeight && y01 == fullFlowHeight && y11 == fullFlowHeight) {
+            if (y00 == fullFlowHeight && y10 == fullFlowHeight && y01 == fullFlowHeight && y11 == fullFlowHeight) {
                 return true;
             }
 
@@ -300,9 +314,13 @@ public class LiquidBlockType extends BlockType {
                 case TEX_FLOW_NEG_X_NEG_Z -> topFaceUV = topFaceUV_negX_negZ;
                 case TEX_FLOW_POS_X_NEG_Z -> topFaceUV = topFaceUV_posX_negZ;
             }
-        } else if (isUsingGreedyMesher) return true;
+        }
 
-        if (sideIsVisibleXZ(block, data, neighborData[NEG_X], neighbors[NEG_X], topLiquid)) {
+
+        //We have to do this because we use this method to check if we should use the greedy mesher
+        if (buffer == null) return false;
+
+        if (sideIsVisibleXZ(block, data, neighborData[NEG_X], neighbors[NEG_X], onSurface)) {
             texLayer = (block.texture.getNEG_X());
             //NEG_X FACE:
             buffer.vertex(chunkX, yFloor, 1.0f + chunkZ, /* uvs */ 1.0f, 1.0f, NEG_X, texLayer, light[NEG_X]);
@@ -314,7 +332,7 @@ public class LiquidBlockType extends BlockType {
             buffer.vertex(chunkX, y00, chunkZ, /* uvs */ 0.0f, 0.0f, NEG_X, texLayer, light[NEG_X]);
         }
 
-        if (sideIsVisibleXZ(block, data, neighborData[POS_X], neighbors[POS_X], topLiquid)) {
+        if (sideIsVisibleXZ(block, data, neighborData[POS_X], neighbors[POS_X], onSurface)) {
             texLayer = (block.texture.getPOS_X());
             //POS_X FACE:
             buffer.vertex(1.0f + chunkX, yFloor, chunkZ, /* uvs */ 1.0f, 1.0f, POS_X, texLayer, light[POS_X]);
@@ -325,7 +343,6 @@ public class LiquidBlockType extends BlockType {
             buffer.vertex(1.0f + chunkX, yFloor, 1.0f + chunkZ, /* uvs */ 0.0f, 1.0f, POS_X, texLayer, light[POS_X]);
             buffer.vertex(1.0f + chunkX, y11, 1.0f + chunkZ, /* uvs */ 0.0f, 0.0f, POS_X, texLayer, light[POS_X]);
         }
-
 
         if (sideIsVisibleY(block, neighbors[POS_Y])) {
             if (topTextureFlowMode == TEX_FLOW_STATIC) texLayer = (block.texture.getPOS_Y());
@@ -340,8 +357,7 @@ public class LiquidBlockType extends BlockType {
             buffer.vertex(chunkX, y01, 1.0f + chunkZ,           /* uvs */ topFaceUV[6], topFaceUV[7], POS_Y, texLayer, light[POS_Y]);
         }
 
-
-        if (sideIsVisibleXZ(block, data, neighborData[NEG_Z], neighbors[NEG_Z], topLiquid)) {
+        if (sideIsVisibleXZ(block, data, neighborData[NEG_Z], neighbors[NEG_Z], onSurface)) {
             texLayer = (block.texture.getNEG_Z());
             //NEG_Z FACE:
             buffer.vertex(chunkX, yFloor, chunkZ, /* uvs */ 1.0f, 1.0f, NEG_Z, texLayer, light[NEG_Z]);
@@ -352,7 +368,6 @@ public class LiquidBlockType extends BlockType {
             buffer.vertex(1.0f + chunkX, yFloor, chunkZ, /* uvs */ 0.0f, 1.0f, NEG_Z, texLayer, light[NEG_Z]);
             buffer.vertex(1.0f + chunkX, y10, chunkZ, /* uvs */ 0.0f, 0.0f, NEG_Z, texLayer, light[NEG_Z]);
         }
-
 
         if (sideIsVisibleY(block, neighbors[NEG_Y])) {
             texLayer = (block.texture.getNEG_Y());
@@ -366,7 +381,7 @@ public class LiquidBlockType extends BlockType {
             buffer.vertex(1.0f + chunkX, yFloor, 1.0f + chunkZ, /* uvs */ 0.0f, 1.0f, NEG_Y, texLayer, light[NEG_Y]);
         }
 
-        if (sideIsVisibleXZ(block, data, neighborData[POS_Z], neighbors[POS_Z], topLiquid)) {
+        if (sideIsVisibleXZ(block, data, neighborData[POS_Z], neighbors[POS_Z], onSurface)) {
             texLayer = (block.texture.getPOS_Z());
             //POS_Z FACE:
             buffer.vertex(1.0f + chunkX, yFloor, 1.0f + chunkZ, /* uvs */ 1.0f, 1.0f, POS_Z, texLayer, light[POS_Z]);
