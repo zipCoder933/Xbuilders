@@ -10,6 +10,7 @@ import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.engine.ui.Theme;
+import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -90,6 +91,7 @@ public class Main extends NKWindow {
     public static TopMenu topMenu;
     public static GameScene gameScene;
     public static UserID user;
+    public static PopupMessage popupMessage;
 
     File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
     static boolean generateIcons = false;
@@ -148,6 +150,7 @@ public class Main extends NKWindow {
 
         game = new MyGame();
         gameScene.setGame(game);
+        popupMessage = new PopupMessage(ctx,this );
         topMenu = new TopMenu(this);
         gameScene = new GameScene(this);
 
@@ -256,6 +259,7 @@ public class Main extends NKWindow {
         } else {
             topMenu.render();
         }
+        popupMessage.draw();
     }
 
     static DecimalFormat df = new DecimalFormat("####.00");

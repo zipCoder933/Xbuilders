@@ -75,7 +75,7 @@ public class PopupMessage {
 
     private final String tag = "Popup_window";
 
-    public void draw(MemoryStack stack) {
+    public void draw() {
         if (!visible) return;
         float wrapWidth = boxWidth - 20;
         boxHeight = (int) (NKUtils.calculateWrappedTextHeight(Theme.font_9, body, wrapWidth) + 72 + 50);

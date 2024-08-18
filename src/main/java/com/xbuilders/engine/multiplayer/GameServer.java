@@ -84,8 +84,8 @@ public class GameServer extends Server<PlayerClient> {
         loadedChunks = 0;
         this.worldInfo = worldInfo;
         worldReady = false;
-        start(req.fromPortVal);
 
+        start(req.fromPortVal);
         if (req.hosting) {
             worldReady = true;
         } else {
@@ -228,7 +228,7 @@ public class GameServer extends Server<PlayerClient> {
                             } else if (mode == ENTITY_UPDATED) {
                                 Entity e = GameScene.world.entities.get(identifier);
                                 if (e != null) {
-                                    e.multiplayerProps.updateState(data, currentPos,isControlledByAnotherPlayer);
+                                    e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
                                 }
                             }
                         } else {//Cache changes if they are out of bounds
@@ -347,7 +347,7 @@ public class GameServer extends Server<PlayerClient> {
         if (client.isHost) {
             onLeaveEvent();
             Main.goToMenuPage();
-            Main.topMenu.popupMessage.message(
+            Main.popupMessage.message(
                     "Host has left",
                     "The host has left the game");
         }

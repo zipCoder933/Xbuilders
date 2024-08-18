@@ -79,6 +79,11 @@ public class ProgressMenu implements MenuPage {
                 finishedTask.run();
             }
             finishedTask = null;
+        }else if(prog.isAborted()){
+            if (canceledTask != null) {
+                canceledTask.run();
+            }
+            canceledTask = null;
         } else {
             if (update != null) {
                 update.run();

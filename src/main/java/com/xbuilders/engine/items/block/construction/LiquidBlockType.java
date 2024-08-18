@@ -12,7 +12,7 @@ public class LiquidBlockType extends DefaultBlockType {
 
     @Override
     public boolean useInGreedyMesher() {
-        return Main.settings.game_simpleWater;
+        return false;
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {

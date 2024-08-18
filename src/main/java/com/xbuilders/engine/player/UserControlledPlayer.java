@@ -46,6 +46,14 @@ public class UserControlledPlayer extends Player {
     final float FLY_WALK_SPEED = 15f;
     final float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
+    public static int getCreateMouseButton() {
+        return (Main.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
+    }
+
+    public static int getDeleteMouseButton() {
+        return (Main.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+    }
+
     public float getPan() {
         return camera.pan;
     }
@@ -63,9 +71,6 @@ public class UserControlledPlayer extends Player {
     public PositionLock positionLock;
 
 
-    //Mouse buttons
-    public static int CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
-    public static int DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
     //    private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
@@ -148,16 +153,13 @@ public class UserControlledPlayer extends Player {
         this.view = view;
         camera = new Camera(this, window, view, projection, world);
 
-        if (Main.settings.game_switchMouseButtons) {
-            DELETE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_LEFT;
-            CREATE_MOUSE_BUTTON = GLFW.GLFW_MOUSE_BUTTON_RIGHT;
-        }
 
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
         skin = Main.game.availableSkins.get(0).get(this);
         eventPipeline = new BlockEventPipeline(world, this);
     }
+
 
     public void setFlashlight(float distance) {
         GameScene.world.chunkShader.setFlashlightDistance(distance);
@@ -367,10 +369,10 @@ public class UserControlledPlayer extends Player {
 
     public void mouseButtonEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
-            if (button == UserControlledPlayer.CREATE_MOUSE_BUTTON
+            if (button == UserControlledPlayer.getCreateMouseButton()
                     && !camera.cursorRay.clickEvent(true)) {
                 setItem(Main.game.getSelectedItem());
-            } else if (button == UserControlledPlayer.DELETE_MOUSE_BUTTON
+            } else if (button == UserControlledPlayer.getDeleteMouseButton()
                     && !camera.cursorRay.clickEvent(false)) {
                 removeItem();
             }

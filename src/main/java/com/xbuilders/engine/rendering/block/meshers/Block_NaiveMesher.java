@@ -6,7 +6,6 @@ package com.xbuilders.engine.rendering.block.meshers;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.VertexSet;
-import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
@@ -20,7 +19,7 @@ import org.lwjgl.system.MemoryStack;
  * This one is designed for static block rendering, (but can technically still be used for chunk rendering)
  * @author zipCoder933
  */
-public class Block_NaiveMesher extends Mesher<VertexSet> {
+public class Block_NaiveMesher extends BlockMesher<VertexSet> {
 
     boolean generateAll;
 

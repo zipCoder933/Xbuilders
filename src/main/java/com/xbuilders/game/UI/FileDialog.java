@@ -160,7 +160,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
             }
             oh.autoClose();
         }
-        prompt.draw(stack);
+        prompt.draw();
         oh.autoClose();
     }
 

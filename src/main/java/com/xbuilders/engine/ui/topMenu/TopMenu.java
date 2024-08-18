@@ -39,9 +39,8 @@ public class TopMenu {
     }
 
 
-
     NKWindow window;
-    public PopupMessage popupMessage;
+
 
     private MenuHome menuHome;
     private LoadWorld loadWorld;
@@ -80,20 +79,20 @@ public class TopMenu {
 
 
     public void init(String ipAdress) throws IOException {
-        popupMessage = new PopupMessage(window.ctx, window);
+
         menuHome = new MenuHome(window.ctx, window, this);
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
         progress = new ProgressMenu(window.ctx, window, this);
         hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true, ipAdress, loadWorld);
         joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false, ipAdress, loadWorld);
-        settings = new SettingsPage(window.ctx, window,  () -> {
+        settings = new SettingsPage(window.ctx, window, () -> {
             goBack();
         });
 
 
         VersionInfo versionInfo = new VersionInfo();
-        versionInfo.createUpdatePrompt(popupMessage);
+        versionInfo.createUpdatePrompt(Main.popupMessage);
     }
 
     boolean firsttime = true;
@@ -138,7 +137,7 @@ public class TopMenu {
                 case JOIN_MULTIPLAYER -> joinMultiplayer.layout(stack, windowDims, titleYEnd);
                 case SETTINGS -> settings.layout(stack, windowDims, titleYEnd);
             }
-            popupMessage.draw(stack);
+
         }
 
         glClearColor(0, .5f, 1f, 1f);

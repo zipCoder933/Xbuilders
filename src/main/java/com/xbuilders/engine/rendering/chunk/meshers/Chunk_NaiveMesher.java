@@ -9,7 +9,6 @@ import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -22,7 +21,7 @@ import org.lwjgl.system.MemoryStack;
  * For use ONLY with chunks
  * @author zipCoder933
  */
-public class Chunk_NaiveMesher extends Mesher<VertexSet> {
+public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
     boolean generateAll;
     Chunk chunk;

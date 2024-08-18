@@ -199,10 +199,8 @@ public class GameScene implements WindowEvents {
                     prog.setTask(req.hosting ? "Hosting game..." : "Joining game...");
                     try {
                         GameScene.server.startGame(worldInfo, req);
-                    } catch (IOException e) {
-                        prog.createBulletin(new Bulletin("Error starting game", e.getMessage()));
-                    } catch (InterruptedException e) {
-                        prog.createBulletin(new Bulletin("Error starting game", e.getMessage()));
+                    } catch (IOException | InterruptedException e) {
+                        Main.popupMessage.message("Error Starting Server", e.getMessage());
                     }
                 }
                 prog.stage++;

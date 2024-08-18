@@ -24,7 +24,7 @@ import java.nio.ShortBuffer;
 /**
  * @author zipCoder933
  */
-public class GreedyMesher extends Mesher<CompactVertexSet> {
+public class GreedyMesher extends ChunkMesher<CompactVertexSet> {
     private static final int NEG_X = 0;
     private static final int POS_X = 1;
 

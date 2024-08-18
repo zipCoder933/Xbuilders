@@ -1,13 +1,13 @@
-package com.xbuilders.engine.rendering.chunk.meshers;
+package com.xbuilders.engine.rendering.block.meshers;
 
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
-public abstract class Mesher<T extends VertexSet> {
+abstract class BlockMesher<T extends VertexSet> {
 
-    public Mesher(ChunkVoxels voxels, Vector3i chunkPositionOffset) {
+    public BlockMesher(ChunkVoxels voxels, Vector3i chunkPositionOffset) {
         this.data = voxels;
         this.chunkPosition = chunkPositionOffset;
     }

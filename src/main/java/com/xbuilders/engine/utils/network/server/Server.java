@@ -64,8 +64,13 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
 
     public void start(int port) throws IOException {
 
+        boolean available = NetworkUtils.available(port);
+        System.out.println("PORT AVAILABLE: "+available);
+
         if (port < 1024) {
             throw new IOException("Port number must be higher than 1024");
+        } else if (!available) {
+            throw new IOException("Port " + port + " already in use");
         }
         this.serverPort = port;
         serverSocket = new java.net.ServerSocket(port);

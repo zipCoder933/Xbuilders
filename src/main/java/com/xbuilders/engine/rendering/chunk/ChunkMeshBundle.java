@@ -9,7 +9,6 @@ import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight;
 import com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher;
-import com.xbuilders.engine.rendering.chunk.meshers.Mesher;
 import com.xbuilders.engine.rendering.chunk.occlusionCulling.BoundingBoxMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
@@ -75,8 +74,8 @@ public class ChunkMeshBundle {
     Chunk chunk;
     Terrain terrain;
 
-    Mesher naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
-    Mesher greedyMesher;
+    Chunk_NaiveMesher naiveMesher; //These meshers are not thread safe. They should only be used to generate 1 mesh at a time
+    Chunk_GreedyMesherWithLight greedyMesher;
     public final BoundingBoxMesh boundMesh;
     public final CompactOcclusionMesh opaqueMesh;
     public final CompactMesh transMesh;

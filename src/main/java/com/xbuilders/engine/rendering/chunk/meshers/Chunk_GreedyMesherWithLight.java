@@ -26,7 +26,7 @@ import java.nio.ShortBuffer;
 /**
  * @author zipCoder933
  */
-public class Chunk_GreedyMesherWithLight extends Mesher<CompactVertexSet> {
+public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
     // Nublada does not actually use indexed meshing, it is just regular meshes with
     // indexes attached to vertices
     // If I want to do indexed meshes, I need some sort of hashmap like thing, and

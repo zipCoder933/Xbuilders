@@ -116,7 +116,7 @@ public class LoadWorld implements MenuPage {
                 }
 
                 if (nk_button_label(ctx, "DELETE WORLD")) {
-                    menu.popupMessage.message("Delete World",
+                    Main.popupMessage.message("Delete World",
                             "Are you sure you want to delete " + currentWorld.getName() + "?",
                             () -> deleteCurrentWorld());
                 }
@@ -136,7 +136,7 @@ public class LoadWorld implements MenuPage {
         try {
             WorldsHandler.deleteWorld(currentWorld);
         } catch (IOException ex) {
-            menu.popupMessage.message("Error Deleting World", ex.getMessage());
+            Main.popupMessage.message("Error Deleting World", ex.getMessage());
         }
         try {
             WorldsHandler.listWorlds(worlds);
@@ -167,6 +167,7 @@ public class LoadWorld implements MenuPage {
                 },
                 () -> {//canceled
                     System.out.println("Canceled");
+                    menu.setPage(Page.HOME);
                 });
     }
 
