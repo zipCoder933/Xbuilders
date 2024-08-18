@@ -33,12 +33,12 @@ public abstract class BlockType {
 
     //This is the first step in allowing a block to be permitted in the greedy mesher
 
-    public final static int DONT_ALLOW_GM = 0;
+    public final static int DENY_GM = 0;
     public final static int PERMIT_GM = 1;
     public final static int ALWAYS_USE_GM = 2;
 
     public int getGreedyMesherPermissions() {
-        return DONT_ALLOW_GM;
+        return DENY_GM;
     }
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {

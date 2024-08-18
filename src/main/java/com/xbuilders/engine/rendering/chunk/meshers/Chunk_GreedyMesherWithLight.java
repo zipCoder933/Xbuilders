@@ -313,7 +313,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
 
         if (blockType1.getGreedyMesherPermissions() == BlockType.ALWAYS_USE_GM) {
             return true;
-        } else if (blockType1.getGreedyMesherPermissions() == BlockType.DONT_ALLOW_GM) {
+        } else if (blockType1.getGreedyMesherPermissions() == BlockType.DENY_GM) {
             return false;
         } else {//Permit GM
             return useGreedyMesherBuffer.get(x, y, z);
