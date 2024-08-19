@@ -239,7 +239,7 @@ public class BlockEventPipeline {
                 }
             } else { //If both blocks are the same, just update the block data
                 chunk.markAsModifiedByUser();
-                GameScene.server.addBlockChange(worldPos, null, newBlockData); //Add block data change
+                GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData); //Add block data change
                 blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
                 affectedChunks.add(chunk);
@@ -251,12 +251,17 @@ public class BlockEventPipeline {
         if (allowBlockEvents) {
             eventsCopy.forEach((worldPos, blockHist) -> {
                 if (World.worldYIsWithinBounds(worldPos.y)
-                        && !blockHist.previousBlock.equals(blockHist.newBlock) &&
-                        !blockHist.fromNetwork) {//Dont do block events if the block was set by the server
-                    Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
-                    startLocalChange(worldPos, blockHist, allowBlockEvents);
-                    blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
-                    blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos); //Run the block event
+                        && !blockHist.previousBlock.equals(blockHist.newBlock)) {
+
+
+                    if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the server
+//                        System.out.println("Firing block events: "+blockHist.toString());
+                        startLocalChange(worldPos, blockHist, allowBlockEvents);
+                        blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
+                        blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
+                        Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
+                    }
+
                 }
             });
         }

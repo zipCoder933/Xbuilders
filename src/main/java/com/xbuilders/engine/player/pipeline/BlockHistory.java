@@ -6,7 +6,7 @@ import com.xbuilders.engine.world.chunk.BlockData;
 
 public class BlockHistory {
     public Block previousBlock;
-    public Block newBlock;
+    public final Block newBlock;//we guarantee that the new block will never be null
 
     public BlockData previousBlockData;
     public BlockData newBlockData;
@@ -18,19 +18,24 @@ public class BlockHistory {
         this.newBlock = currentBlock;
         this.newBlockData = data;
         updateBlockData = true;
+        if(newBlock ==null) throw new IllegalArgumentException("NewBlock is null");
     }
 
     public BlockHistory(short previousBlock, short currentBlock) {
         this.previousBlock = ItemList.getBlock(previousBlock);
         this.newBlock = ItemList.getBlock(currentBlock);
+        if(newBlock ==null) throw new IllegalArgumentException("NewBlock is null");
     }
 
     public BlockHistory(Block previousBlock, Block currentBlock) {
         this.previousBlock = previousBlock;
         this.newBlock = currentBlock;
+        if(newBlock ==null) throw new IllegalArgumentException("NewBlock is null");
     }
 
-    public BlockHistory() {
+    public BlockHistory(Block currentBlock) {
+        this.newBlock = currentBlock;
+        if(newBlock ==null) throw new IllegalArgumentException("NewBlock is null");
     }
 
 

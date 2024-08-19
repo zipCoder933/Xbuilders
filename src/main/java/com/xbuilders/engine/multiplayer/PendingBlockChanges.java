@@ -125,8 +125,6 @@ public class PendingBlockChanges {
 
 
     public void blockChangeRecord(OutputStream baos, Vector3i worldPos, BlockHistory change) throws IOException {
-        if (change.newBlock == null) return;
-
         baos.write(new byte[]{GameServer.VOXEL_BLOCK_CHANGE});
         baos.write(ByteUtils.intToBytes(worldPos.x));
         baos.write(ByteUtils.intToBytes(worldPos.y));
@@ -210,8 +208,6 @@ public class PendingBlockChanges {
         while (start.get() < receivedData.length) {
             if (receivedData[start.get()] == GameServer.VOXEL_BLOCK_CHANGE) {
 
-                BlockHistory blockHistory = new BlockHistory();
-                blockHistory.fromNetwork = true;
 
                 //XYZ coordinates
                 int x = ByteUtils.bytesToInt(receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3], receivedData[start.get() + 4]);
@@ -219,8 +215,9 @@ public class PendingBlockChanges {
                 int z = ByteUtils.bytesToInt(receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11], receivedData[start.get() + 12]);
 
                 //Block ID
-                int blockID = ByteUtils.bytesToShort(receivedData[start.get() + 13], receivedData[start.get() + 14]);
-                blockHistory.newBlock = ItemList.getBlock((short) blockID);
+                int newBlock = ByteUtils.bytesToShort(receivedData[start.get() + 13], receivedData[start.get() + 14]);
+                BlockHistory blockHistory = new BlockHistory(ItemList.getBlock((short) newBlock));
+                blockHistory.fromNetwork = true;
                 start.set(start.get() + 15);
 
                 //Block data

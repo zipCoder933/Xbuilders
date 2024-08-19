@@ -32,12 +32,6 @@ public class BlockList extends ItemGroup<Block> {
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
     public final static LiquidBlockType liquidBlockType = new LiquidBlockType();
     public final static Block BLOCK_AIR = new BlockAir();
-    public final static Block BLOCK_UNKNOWN = new Block(0, "Unknown");
-
-    static {
-        BLOCK_UNKNOWN.opaque = false;
-        BLOCK_UNKNOWN.solid = true;
-    }
 
     File blockIconDirectory, iconDirectory;
     int defaultIcon;
@@ -120,7 +114,7 @@ public class BlockList extends ItemGroup<Block> {
     public Block getItem(short blockID) {
         Block block = idMap.get(blockID);
         if (block == null)
-            block = BLOCK_UNKNOWN; // Important to prevent bugs with proceses not knowing how to handle null blocks
+            block = BLOCK_AIR; // Important to prevent bugs with proceses not knowing how to handle null blocks
         return block;
     }
 }

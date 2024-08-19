@@ -5,7 +5,7 @@ import com.xbuilders.engine.world.chunk.Chunk;
 
 public class EngineSettings {
     public boolean game_switchMouseButtons = false;
-    public int game_cursorRayDist = 50;
+    public int game_cursorRayDist = 128;
     public boolean video_fullscreen = true;
     public final BoundedFloat video_fullscreenSize = new BoundedFloat(0.95f);
     public boolean video_vsync = true;
