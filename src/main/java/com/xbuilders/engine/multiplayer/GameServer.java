@@ -209,7 +209,8 @@ public class GameServer extends Server<PlayerClient> {
                         if (PendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {
                             GameScene.player.eventPipeline.addEvent(pos, blockHist);
                         } else {//Cache changes if they are out of bounds
-                            blockHist.fromNetwork = false;//This is a local change, so we should turn this off
+                            //we should leave blockhist.fromNetwork to TRUE because the block events have likely already happened
+                            //blockHist.fromNetwork = false;
                             GameScene.player.eventPipeline.outOfReachEvents.addBlockChange(pos, blockHist);
                         }
                     });
