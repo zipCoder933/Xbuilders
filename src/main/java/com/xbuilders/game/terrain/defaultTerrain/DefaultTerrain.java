@@ -7,9 +7,10 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.game.items.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
-import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain.Biome;
 
 import java.util.HashMap;
+
+import static com.xbuilders.game.terrain.complexTerrain.ComplexTerrain.*;
 
 public class DefaultTerrain extends Terrain {
 
@@ -66,7 +67,7 @@ public class DefaultTerrain extends Terrain {
         return getTerrainHeight(valley(x, z), x, z);
     }
 
-    public Biome getBiomeOfVoxel(int x, int y, int z) {
+    public int getBiomeOfVoxel(int x, int y, int z) {
         return getBiomeOfVoxelV2(
                 valley(x, z),
                 getHeat(x, z),
@@ -82,7 +83,7 @@ public class DefaultTerrain extends Terrain {
     private void plantSod(GenSession session,
                           int x, int y, int z,
                           int wx, int wy, int wz,
-                          float alpha, Biome biome,
+                          float alpha, int biome,
                           Chunk chunk) {
 
         float f = session.random.nextFloat();
@@ -93,7 +94,7 @@ public class DefaultTerrain extends Terrain {
         }
 
         switch (biome) {
-            case DEFAULT -> {
+            case BIOME_DEFAULT -> {
                 chunk.data.setBlock(x, y, z, MyGame.BLOCK_GRASS);
                 if (makePlants) {
                     if (trees && f > treeOdds) {
@@ -107,8 +108,8 @@ public class DefaultTerrain extends Terrain {
                     }
                 }
             }
-            case SNOWY -> {
-                chunk.data.setBlock(x, y, z, MyGame.BLOCK_SNOW);
+            case BIOME_SNOWY -> {
+                chunk.data.setBlock(x, y, z, MyGame.BLOCK_SNOW_GRASS);
                 if (makePlants) {
                     if (trees && f > treeOdds) {
                         DefaultTerrainUtils.plantRandomTree(session, alpha, chunk, wx, wy, wz);
@@ -119,7 +120,7 @@ public class DefaultTerrain extends Terrain {
                     }
                 }
             }
-            case BEACH -> {
+            case BIOME_BEACH -> {
                 if (alpha > 0) {
                     chunk.data.setBlock(x, y, z, MyGame.BLOCK_SAND);
                     session.setBlockWorld(MyGame.BLOCK_SAND, wx, wy + 1, wz);
@@ -161,7 +162,7 @@ public class DefaultTerrain extends Terrain {
                     }
                 }
             }
-            case DESERT -> {
+            case BIOME_DESERT -> {
                 if (alpha > 0) {
                     chunk.data.setBlock(x, y, z, MyGame.BLOCK_SAND);
                     session.setBlockWorld(MyGame.BLOCK_SAND, wx, wy + 1, wz);
@@ -177,7 +178,7 @@ public class DefaultTerrain extends Terrain {
                     }
                 }
             }
-            case SAVANNAH -> {
+            case BIOME_SAVANNAH -> {
                 chunk.data.setBlock(x, y, z, MyGame.BLOCK_DRY_GRASS);
                 if (makePlants) {
                     if (trees && f > savannahTreeOdds) {
@@ -190,7 +191,7 @@ public class DefaultTerrain extends Terrain {
                     }
                 }
             }
-            case JUNGLE -> {
+            case BIOME_JUNGLE -> {
                 chunk.data.setBlock(x, y, z, MyGame.BLOCK_JUNGLE_GRASS);
                 if (makePlants) {
                     if (trees && f > jungleTreeOdds) {
@@ -244,28 +245,28 @@ public class DefaultTerrain extends Terrain {
         return (getValueFractal((float) x / 5, (float) z / 5) + 1) / 2.0f;
     }
 
-    public Biome getBiomeOfVoxelV2(float valley, float heat, int heightmap, final int wx, final int wy, final int wz) {
+    public int getBiomeOfVoxelV2(float valley, float heat, int heightmap, final int wx, final int wy, final int wz) {
         if (heat > 0.65f  // (higher than 1 - .35) We lower the temp to compensate for being at the bottom of the terrain
                 && wy > WORLD_HEIGHT_OFFSET - 8 - (heat * 5) &&
                 wy < WATER_LEVEL - 1) {
-            return Biome.DESERT;
+            return BIOME_DESERT;
         }
 
         if (wy > WATER_LEVEL - 10) {
-            return Biome.BEACH;
+            return BIOME_BEACH;
         }
         //Heat will stay within 0-1 range
         //Noise tends to be more biased towards the center, meaning we either have to normalize the noise function
         //somehow to produce even distribution, or we have to favor the edges more
 
         if (heat > 0.57f) {
-            return Biome.SAVANNAH;
+            return BIOME_SAVANNAH;
         } else if (heat > 0.47f) {
-            return Biome.JUNGLE;
+            return BIOME_JUNGLE;
         } else if (heat > 0.35f) { //Keep this!
-            return Biome.DEFAULT;
+            return BIOME_DEFAULT;
         } else { //lower than 0.35
-            return Biome.SNOWY;
+            return BIOME_SNOWY;
         }
     }
 
@@ -286,7 +287,7 @@ public class DefaultTerrain extends Terrain {
     protected void generateChunkInner(Chunk chunk, GenSession session) {
         int wx, wy, wz, heightmap; //IMPORTANT: We cant put this outside generateChunkInner() because multiple chunks are generated at the same time
         float valley, heat;
-        Biome biome = Biome.DEFAULT;
+        int biome = BIOME_DEFAULT;
 
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {

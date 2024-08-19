@@ -3,8 +3,6 @@ package com.xbuilders.game.items.blocks;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.game.MyGame;
 
 public class Plant {
@@ -68,7 +66,7 @@ public class Plant {
         return block.id == MyGame.BLOCK_FARMLAND
                 || block.id == MyGame.BLOCK_DIRT
                 || block.id == MyGame.BLOCK_GRASS
-                || block.id == MyGame.BLOCK_SNOW
+                || block.id == MyGame.BLOCK_SNOW_GRASS
                 || block.id == MyGame.BLOCK_JUNGLE_GRASS
                 || block.id == MyGame.BLOCK_DRY_GRASS;
     }

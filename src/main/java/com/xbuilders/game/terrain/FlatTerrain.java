@@ -33,19 +33,19 @@ public class FlatTerrain extends Terrain {
 
     }
 
-    private ComplexTerrain.Biome getBiomeOfVoxel(float heat) {
+    private int getBiomeOfVoxel(float heat) {
         if (heat > 0.55f) {// 0.6 - 1
             // We lower down the minimum temperature of desert to compensate for it only
             // being at the bottom of the terrain
-            return ComplexTerrain.Biome.DESERT;
+            return ComplexTerrain.BIOME_DESERT;
         } else if (heat > 0.2f) {// 0.2 - 0.6
-            return ComplexTerrain.Biome.SAVANNAH;
+            return ComplexTerrain.BIOME_SAVANNAH;
         } else if (heat > -0.2f) {// -0.2 - 0.2
-            return ComplexTerrain.Biome.DEFAULT;
+            return ComplexTerrain.BIOME_DEFAULT;
         } else if (heat > -0.6f) {// -0.6 - -0.2
-            return ComplexTerrain.Biome.JUNGLE;
+            return ComplexTerrain.BIOME_JUNGLE;
         } else {// -1 - -0.6
-            return ComplexTerrain.Biome.SNOWY;
+            return ComplexTerrain.BIOME_SNOWY;
         }
     }
 

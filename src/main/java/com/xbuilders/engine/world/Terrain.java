@@ -42,6 +42,10 @@ public abstract class Terrain {
         loadWorld(options, version);
     }
 
+    public int getBiomeOfVoxel(int x, int y, int z) {
+        return 0;
+    }
+
     public abstract void loadWorld(HashMap<String, Boolean> options, int version);
 
     public boolean isBelowMinHeight(Vector3i position, int offset) {

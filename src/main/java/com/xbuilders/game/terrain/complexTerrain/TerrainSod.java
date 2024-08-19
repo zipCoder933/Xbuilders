@@ -5,7 +5,6 @@
 package com.xbuilders.game.terrain.complexTerrain;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.MyGame;
@@ -38,10 +37,10 @@ public class TerrainSod {
     public static void placeSod(Terrain terrain, final Terrain.GenSession session, final Chunk chunk,
                                    final int cx, int cy, final int cz,
                                    final int wx, final int wy, final int wz,
-                                   ComplexTerrain.Biome biome,
+                                   int biome,
                                    float valleyLikelyhood, float dryness, float make) {
 
-        if (biome == ComplexTerrain.Biome.BEACH) {
+        if (biome == ComplexTerrain.BIOME_BEACH) {
             GameScene.world.setBlock(MyGame.BLOCK_SAND, wx, wy, wz);
             if (terrain.noise.GetValueFractal(wx, wz) >= 0) {
                 GameScene.world.setBlock(MyGame.BLOCK_SANDSTONE, wx, wy + 1, wz);
@@ -52,7 +51,7 @@ public class TerrainSod {
                 GameScene.world.setBlock(MyGame.BLOCK_GRAVEL, wx, wy + 2, wz);
                 GameScene.world.setBlock(MyGame.BLOCK_GRAVEL, wx, wy + 3, wz);
             }
-        } else if (biome == ComplexTerrain.Biome.DESERT) {
+        } else if (biome == ComplexTerrain.BIOME_DESERT) {
             if (terrain.noise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
                 GameScene.world.setBlock(MyGame.BLOCK_CLAY, wx, wy, wz);
                 GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
@@ -69,15 +68,15 @@ public class TerrainSod {
             GameScene.world.setBlock(MyGame.BLOCK_SANDSTONE, wx, wy + 1, wz);
             GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
             GameScene.world.setBlock(MyGame.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
-        } else if (biome == ComplexTerrain.Biome.SNOWY) {
-            GameScene.world.setBlock(MyGame.BLOCK_SNOW, wx, wy, wz);
+        } else if (biome == ComplexTerrain.BIOME_SNOWY) {
+            GameScene.world.setBlock(MyGame.BLOCK_SNOW_GRASS, wx, wy, wz);
             GameScene.world.setBlock(MyGame.BLOCK_DIRT, wx, wy + 1, wz);
             GameScene.world.setBlock(MyGame.BLOCK_DIRT, wx, wy + 2, wz);
-        } else if (biome == ComplexTerrain.Biome.SAVANNAH) {
+        } else if (biome == ComplexTerrain.BIOME_SAVANNAH) {
             GameScene.world.setBlock(MyGame.BLOCK_DRY_GRASS, wx, wy, wz);
             GameScene.world.setBlock(MyGame.BLOCK_DIRT, wx, wy + 1, wz);
             GameScene.world.setBlock(MyGame.BLOCK_DIRT, wx, wy + 2, wz);
-        } else if (biome == ComplexTerrain.Biome.JUNGLE) {
+        } else if (biome == ComplexTerrain.BIOME_JUNGLE) {
             GameScene.world.setBlock(MyGame.BLOCK_JUNGLE_GRASS, wx, wy, wz);
             GameScene.world.setBlock(MyGame.BLOCK_DIRT, wx, wy + 1, wz);
             GameScene.world.setBlock(MyGame.BLOCK_DIRT, wx, wy + 2, wz);

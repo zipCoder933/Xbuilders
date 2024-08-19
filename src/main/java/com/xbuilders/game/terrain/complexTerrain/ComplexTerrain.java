@@ -30,32 +30,31 @@ public class ComplexTerrain extends Terrain {
         super("Complex Terrain");
     }
 
-    public enum Biome {
-        BEACH,
-        DESERT,
-        SAVANNAH,
-        SNOWY,
-        JUNGLE,
-        DEFAULT
-    }
+
+    public final static int BIOME_BEACH = 0;
+    public final static int BIOME_DESERT = 1;
+    public final static int BIOME_SAVANNAH = 2;
+    public final static int BIOME_SNOWY = 3;
+    public final static int BIOME_JUNGLE = 4;
+    public final static int BIOME_DEFAULT = 5;
 
 
-    public Biome getBiomeOfVoxel(float valley, float dryness,
+    public int getBiomeOfVoxel(float valley, float dryness,
                                  final int wx, final int wy, final int wz) {
         if (dryness > 0.7) {
             if (valley > 0.25) {
-                return Biome.DESERT;
+                return BIOME_DESERT;
             } else {
-                return Biome.SAVANNAH;
+                return BIOME_SAVANNAH;
             }
         } else if (dryness > 0.6) {
-            return Biome.JUNGLE;
+            return BIOME_JUNGLE;
         } else if (dryness > 0.5) {
             if (valley > 0.5) {
-                return Biome.SAVANNAH;
-            } else return Biome.DEFAULT;
+                return BIOME_SAVANNAH;
+            } else return BIOME_DEFAULT;
         } else {
-            return Biome.SNOWY;
+            return BIOME_SNOWY;
         }
     }
 

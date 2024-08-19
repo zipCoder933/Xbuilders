@@ -8,6 +8,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.game.items.blocks.RenderType;
 import org.joml.Vector3i;
@@ -37,7 +38,7 @@ public class WaterPropagation extends LivePropagationTask {
         if (nodes.isEmpty()) {
             return;
         }
-        System.out.println(liquidBlock.name + " prop nodes: " + nodes.size());
+        Main.printlnDev(liquidBlock.name + " prop nodes: " + nodes.size());
         for (Vector3i v : nodes) {
             //Get the flow from this node
             BlockData thisBD = GameScene.world.getBlockData(v.x, v.y, v.z);

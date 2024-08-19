@@ -470,6 +470,7 @@ public class MyGame extends Game {
 
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());
+        gameScene.livePropagationHandler.addTask(new GrassPropagation());
     }
 
     private void reassignBlocks(Block[] blocks, HashMap<Short, Block> reassignments) {
@@ -566,7 +567,7 @@ public class MyGame extends Game {
     public static short BLOCK_TORCH = 20;
     public static short BLOCK_WATER = 21;
     public static short BLOCK_WOOL = 22;
-    public static short BLOCK_SNOW = 23;
+    public static short BLOCK_SNOW_GRASS = 23;
     public static short BLOCK_BOOKSHELF = 24;
     public static short BLOCK_LAVA = 25;
     public static short BLOCK_TALL_DRY_GRASS_TOP = 26;
