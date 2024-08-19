@@ -9,16 +9,28 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.window.nuklear.components.NumberBox;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+
+import static org.lwjgl.nuklear.Nuklear.*;
 
 public class SphereTool extends BlockTool {
     public SphereTool(BlockTools tools, CursorRay cursorRay) {
         super("Sphere", tools, cursorRay);
+        hasOptions = true;
+        wallThickness = new NumberBox(10);
+        wallThickness.setMinValue(1);
+        wallThickness.setMaxValue(10);
+
         try {
             setIcon(ResourceUtils.resource("blockTools\\paint.png"));
         } catch (IOException e) {
@@ -26,6 +38,18 @@ public class SphereTool extends BlockTool {
         }
     }
 
+    boolean hollow = false;
+    NumberBox wallThickness;
+
+    @Override
+    public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
+        nk_layout_row_dynamic(ctx, 30, 1);
+        ByteBuffer active = stack.malloc(1);
+        active.put(0, hollow ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
+        if (nk_checkbox_label(ctx, "hollow sphere", active)) {
+            hollow = !hollow;
+        }
+    }
 
     @Override
     public boolean activationKey(int key, int scancode, int action, int mods) {
@@ -67,7 +91,7 @@ public class SphereTool extends BlockTool {
     private void set(int x, int y, int z, Vector3i origin, Block newBlock) {
         float radius = aabb.getXLength() / 2;
         if (origin.distance(x, y, z) > radius) return;
-        if (!newBlock.isAir() && origin.distance(x, y, z) < radius - 2) return; //Make the sphere hollow
+        if (!newBlock.isAir() && hollow && origin.distance(x, y, z) < radius - 2) return; //Make the sphere hollow
 
         Block prevBlock = GameScene.world.getBlock(x, y, z);
         if (prevBlock != newBlock && (!prevBlock.solid || newBlock.isAir())) {
@@ -103,7 +127,7 @@ public class SphereTool extends BlockTool {
     final AABB renderingAABB = new AABB();
     final AABB aabb = new AABB();
     int size;
-    final int maxLength = 25;
+    final int MAX_RADIUS = 40;
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         return false;
@@ -112,7 +136,7 @@ public class SphereTool extends BlockTool {
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         size += (int) yoffset;
-        size = MathUtils.clamp(size, 1, maxLength);
+        size = MathUtils.clamp(size, 1, MAX_RADIUS);
         return true;
     }
 

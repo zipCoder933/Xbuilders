@@ -22,16 +22,13 @@ public class BlockTools extends GameUIElement {
         tools.add(new DefaultTool(this, cursorRay));
         tools.add(new PlaneTool(this, cursorRay));
         tools.add(new BoundaryTool(this, cursorRay));
-
         tools.add(new LineTool(this, cursorRay));
         tools.add(new FillTool(this, cursorRay));
+        tools.add(new SphereTool(this, cursorRay));
         tools.add(new PaintTool(this, cursorRay));
 
         tools.add(new CopyTool(this, cursorRay));
         tools.add(new PasteTool(this, cursorRay));
-
-        tools.add(new SphereTool(this, cursorRay));
-
         pallete = new BlockToolPallete(ctx, window, tools, this);
     }
 
