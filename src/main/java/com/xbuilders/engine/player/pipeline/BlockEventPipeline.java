@@ -203,14 +203,13 @@ public class BlockEventPipeline {
                         blockHist.newBlock, player);
             }
 
-            //If both blocks are different
             if (!blockHist.previousBlock.equals(blockHist.newBlock)) { //If the 2 blocks are different
-                //Send the block to the client
-                if (blockHist.newBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z)
-                        && type.allowExistence(blockHist.newBlock, worldPos.x, worldPos.y, worldPos.z)) {  //Should we set the block?
+                if (blockHist.newBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z) //Should we set the block?
+                        && type.allowExistence(blockHist.newBlock, worldPos.x, worldPos.y, worldPos.z)) {
 
                     //set block
-                    GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+                    if (!blockHist.fromNetwork)  //only send change if not from network
+                        GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
                     chunk.markAsModifiedByUser();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
 
@@ -218,7 +217,7 @@ public class BlockEventPipeline {
                     blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
 
-                    // <editor-fold defaultstate="collapsed" desc="sunlight and torchlight">
+                    // <editor-fold defaultstate="collapsed" desc="update sunlight and torchlight">
                     if (blockHist.previousBlock.opaque && !blockHist.newBlock.opaque) {
                         SunlightUtils.addNodeForPropagation(sunNode_OpaqueToTrans, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);//TODO: We might need to optimize this by creating the nodes first and then propagating once
@@ -238,10 +237,12 @@ public class BlockEventPipeline {
                     affectedChunks.add(chunk);
                 }
             } else { //If both blocks are the same, just update the block data
-                chunk.markAsModifiedByUser();
-                GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData); //Add block data change
+                if (!blockHist.fromNetwork) //only send change if not from network
+                    GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+
                 blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
+                chunk.markAsModifiedByUser();
                 affectedChunks.add(chunk);
             }
         });
@@ -253,15 +254,13 @@ public class BlockEventPipeline {
                 if (World.worldYIsWithinBounds(worldPos.y)
                         && !blockHist.previousBlock.equals(blockHist.newBlock)) {
 
-
                     if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the server
-//                        System.out.println("Firing block events: "+blockHist.toString());
+                        //System.out.println("Firing block events: " + blockHist.toString());
                         startLocalChange(worldPos, blockHist, allowBlockEvents);
                         blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
                         blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
                         Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
                     }
-
                 }
             });
         }

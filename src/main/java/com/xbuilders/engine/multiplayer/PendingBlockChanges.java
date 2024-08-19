@@ -6,6 +6,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -95,10 +96,11 @@ public class PendingBlockChanges {
         addBlockChange(worldPos, new BlockHistory(block, data));
     }
 
-    public void addBlockChange(Vector3i worldPos, BlockHistory history) {
+    public void addBlockChange(Vector3i worldPos, BlockHistory change) {
         writeLock.lock();
         try {
-            blockChanges.put(worldPos, history);
+            //System.out.println("Adding Block Change: "+ MiscUtils.printVector(worldPos)+", "+change.toString());
+            blockChanges.put(worldPos, change);
             changeEvent();
         } finally {
             writeLock.unlock();
