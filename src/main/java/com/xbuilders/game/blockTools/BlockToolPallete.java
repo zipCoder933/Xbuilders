@@ -29,10 +29,10 @@ public class BlockToolPallete {
 //    BlockTool hoveredTool;
     boolean wasOpen = false;
 
-    int palleteMaxColumns = 8;
+    int palleteMaxColumns = 9;
 
-    int menuWidth = 400;
-    int menu1Height = 100;
+    int menuWidth = 430;
+    int menu1Height = 120;
     int menu2Height = 100;
 
     List<BlockTool> toolsList;

@@ -1,0 +1,119 @@
+package com.xbuilders.game.blockTools.tools;
+
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.game.blockTools.BlockTool;
+import com.xbuilders.game.blockTools.BlockTools;
+import org.joml.Matrix4f;
+import org.joml.Vector3i;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkVec2;
+
+import java.io.IOException;
+
+public class SphereTool extends BlockTool {
+    public SphereTool(BlockTools tools, CursorRay cursorRay) {
+        super("Sphere", tools, cursorRay);
+        try {
+            setIcon(ResourceUtils.resource("blockTools\\paint.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    public boolean activationKey(int key, int scancode, int action, int mods) {
+        if (key == GLFW.GLFW_KEY_7) return true;
+        return false;
+    }
+
+    @Override
+    public String toolDescription() {
+        return "Sphere (x" + (size * 2) + ")";
+    }
+
+    @Override
+    public void activate() {
+        GameScene.player.camera.cursorRay.disableBoundaryMode();
+    }
+
+
+    @Override
+    public boolean setBlock(Block item, CursorRay ray, boolean isCreationMode) {
+        setAABB(aabb, ray);
+
+        //Get block at cursor hit position
+        Vector3i origin = getStartingPos(ray);
+        Block newBlock = isCreationMode ? getSelectedBlock() : BlockList.BLOCK_AIR;
+        if (newBlock == null) return false;
+
+        for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {
+            for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
+                for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
+                    set(x, y, z, origin, newBlock);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private void set(int x, int y, int z, Vector3i origin, Block newBlock) {
+        float radius = aabb.getXLength() / 2;
+        if (origin.distance(x, y, z) > radius) return;
+        if (!newBlock.isAir() && origin.distance(x, y, z) < radius - 2) return; //Make the sphere hollow
+
+        Block prevBlock = GameScene.world.getBlock(x, y, z);
+        if (prevBlock != newBlock && (!prevBlock.solid || newBlock.isAir())) {
+            GameScene.player.setBlock(newBlock.id, x, y, z);
+        }
+    }
+
+
+    public Vector3i getStartingPos(CursorRay ray) {
+        Vector3i start = ray.getHitPos();
+        return start;
+    }
+
+    private void setAABB(AABB aabb, CursorRay ray) {
+        Vector3i start = getStartingPos(ray);
+
+        aabb.min.set(start.x - size, start.y - size, start.z - size);
+        aabb.max.set(start.x + size, start.y + size, start.z + size);
+    }
+
+    @Override
+    public boolean drawCursor(CursorRay ray, Matrix4f proj, Matrix4f view) {
+        if (!ray.hitTarget()) return false;
+
+        setAABB(renderingAABB, ray);
+        renderingAABB.max.add(1, 1, 1);
+
+        ray.cursorBox.set(renderingAABB);
+        ray.cursorBox.draw(proj, view);
+        return true;
+    }
+
+    final AABB renderingAABB = new AABB();
+    final AABB aabb = new AABB();
+    int size;
+    final int maxLength = 25;
+
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        size += (int) yoffset;
+        size = MathUtils.clamp(size, 1, maxLength);
+        return true;
+    }
+
+}

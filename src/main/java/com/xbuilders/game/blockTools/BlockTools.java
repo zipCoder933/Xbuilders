@@ -30,6 +30,8 @@ public class BlockTools extends GameUIElement {
         tools.add(new CopyTool(this, cursorRay));
         tools.add(new PasteTool(this, cursorRay));
 
+        tools.add(new SphereTool(this, cursorRay));
+
         pallete = new BlockToolPallete(ctx, window, tools, this);
     }
 
