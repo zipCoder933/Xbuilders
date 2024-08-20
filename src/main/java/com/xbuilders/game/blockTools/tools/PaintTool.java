@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class PaintTool extends BlockTool {
     public PaintTool(BlockTools tools, CursorRay cursorRay) {
-        super("Paint", tools, cursorRay);
+        super("Repaint", tools, cursorRay);
         try {
             setIcon(ResourceUtils.resource("blockTools\\paint.png"));
         } catch (IOException e) {
@@ -36,7 +36,7 @@ public class PaintTool extends BlockTool {
 
     @Override
     public String toolDescription() {
-        return "Paint (x" + (size * 2) + ")";
+        return "Repaint (x" + (size * 2) + ")";
     }
 
     @Override

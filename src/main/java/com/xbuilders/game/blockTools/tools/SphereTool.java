@@ -32,7 +32,7 @@ public class SphereTool extends BlockTool {
         wallThickness.setMaxValue(10);
 
         try {
-            setIcon(ResourceUtils.resource("blockTools\\paint.png"));
+            setIcon(ResourceUtils.resource("blockTools\\sphere.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

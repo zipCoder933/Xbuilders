@@ -45,22 +45,23 @@ public class BlockEventPipeline {
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
         if (blockHist != null) {
-
             if (!PendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
                 //If there is a block event that is on a empty chunk or too far away, don't add it
                 outOfReachEvents.addBlockChange(worldPos, blockHist);
                 return;
             }
 
-            //If the previous block is null, set it to the block at the position
-            if (blockHist.previousBlock == null) {
-                blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
-            }
+
             if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
                 lightChangesThisFrame++;
             }
             blockChangesThisFrame++;
             synchronized (eventClearLock) {
+                if (events.containsKey(worldPos)) { //We need to get the original previous block
+                    blockHist.previousBlock = events.get(worldPos).previousBlock;
+                } else if (blockHist.previousBlock == null) {
+                    blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                }
                 events.put(worldPos, blockHist);
             }
         }
@@ -271,8 +272,6 @@ public class BlockEventPipeline {
     public void updateSunlightAndMeshes(HashSet<Chunk> affectedChunks,
                                         ArrayList<ChunkNode> sunNode_OpaqueToTrans,
                                         ArrayList<ChunkNode> sunNode_transToOpaque) {
-
-        //Simply resolveing a queue of sunlight adds MAJOR IMPROVEMENTS
 //        Main.printlnDev("\tOpaque > trans: " + sunNode_OpaqueToTrans.size() + "; Trans > opaque: " + sunNode_transToOpaque.size());
 
 

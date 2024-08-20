@@ -360,7 +360,8 @@ public class UserControlledPlayer extends Player {
 
     boolean doubleJumped() {
         boolean jumped = false;
-        if (System.currentTimeMillis() - lastJumpKeyPress < 400) {
+        int jumpInterval = isFlyingMode ? 500 : 250;
+        if (System.currentTimeMillis() - lastJumpKeyPress < jumpInterval) {
             jumped = true;
         }
         lastJumpKeyPress = System.currentTimeMillis();
@@ -486,6 +487,7 @@ public class UserControlledPlayer extends Player {
     //Set block method ===============================================================================
 //The master method
     public void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
+        if (!World.worldYIsWithinBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
@@ -495,6 +497,7 @@ public class UserControlledPlayer extends Player {
             chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
 
             BlockHistory history = new BlockHistory(previousBlock, newBlock);
+            System.out.println("Block history: " + history);
             if (blockData != null) {
                 history.updateBlockData = true;
                 history.newBlockData = blockData;
