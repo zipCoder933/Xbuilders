@@ -1,10 +1,11 @@
-package com.xbuilders.game.items.entities.animal;
+package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.game.items.entities.animal.LegPair;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -30,7 +31,7 @@ public abstract class QuadPedalLandAnimalLink extends EntityLink {
     };
 
     public QuadPedalLandAnimalLink(BaseWindow window, int id, String name, String textureName) {
-        super(id, name, () -> new QuadPedalEntity<QuadPedalLandAnimalLink>(window));
+        super(id, name, () -> new QuadPedalLandAnimal<QuadPedalLandAnimalLink>(window));
 
         this.textureName = textureName;
         setIcon("horse egg.png");
@@ -84,7 +85,7 @@ public abstract class QuadPedalLandAnimalLink extends EntityLink {
         initMesh(ResourceUtils.resource(bodyPath)
                 , ResourceUtils.resource(legPath));
         e.initializeOnDraw(loadBytes); //Initialize the animal
-        QuadPedalEntity a = (QuadPedalEntity) e; //Cast the entity to a fox
+        QuadPedalLandAnimal a = (QuadPedalLandAnimal) e; //Cast the entity to a fox
         a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables
     }
 

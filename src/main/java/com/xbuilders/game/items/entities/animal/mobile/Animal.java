@@ -9,12 +9,14 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 import java.io.ByteArrayOutputStream;
@@ -24,12 +26,20 @@ import java.util.function.Consumer;
 
 public abstract class Animal extends Entity {
 
-
+    private Limb limbs;
     public PositionHandler pos;
     public final BaseWindow window;
     public final Player player;
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
+
+    public Limb[] getLimbs() {
+        return limbs.limbs;
+    }
+
+    public void drawLimbs(Matrix4f startingMatrix) {
+        limbs.draw(startingMatrix);
+    }
 
     public boolean allowVoluntaryMovement() {
         return !multiplayerProps.controlledByAnotherPlayer;
@@ -37,6 +47,44 @@ public abstract class Animal extends Entity {
 
     private float rotationYDeg;
     public final AnimalRandom random;
+
+    public boolean inWater() {
+        if (GameScene.world.getBlock(
+                (int) this.worldPosition.x,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z
+        ).isLiquid()
+                || GameScene.world.getBlock(
+                (int) this.worldPosition.x - 1,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z
+        ).isLiquid()
+                || GameScene.world.getBlock(
+                (int) this.worldPosition.x + 1,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z
+        ).isLiquid()
+                || GameScene.world.getBlock(
+                (int) this.worldPosition.x,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z - 1
+        ).isLiquid()) {
+            return true;
+        }
+        return (GameScene.world.getBlock(
+                (int) this.worldPosition.x,
+                (int) this.worldPosition.y,
+                (int) this.worldPosition.z + 1
+        ).isLiquid());
+    }
+    
+    public boolean isPendingDestruction(){
+        return false;
+    }
+
+    public void tameAnimal(){
+
+    }
 
     public final byte[] stateToBytes() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -69,19 +117,18 @@ public abstract class Animal extends Entity {
         Item heldItem = Main.game.getSelectedItem();
         return heldItem != null && heldItem.equals(MyGame.TOOL_ANIMAL_FEED);
     }
+    public void eatAnimalFeed(){}
 
 
     public Animal(BaseWindow window) {
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.player;
+        limbs = new Limb(Entity.shader, modelMatrix);
     }
 
     @Override
     public final void initializeOnDraw(byte[] bytes) {
-        // box = new Box();
-        // box.setColor(new Vector4f(1, 0, 1, 1));
-        // box.setLineWidth(5);
         pos = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
         pos.setGravityEnabled(true);
         random.setSeed(getIdentifier());
@@ -94,6 +141,18 @@ public abstract class Animal extends Entity {
     public void setRotationYDeg(float rotationYDeg) {
         multiplayerProps.markStateChanged();
         this.rotationYDeg = rotationYDeg;
+    }
+
+
+    /**
+     *
+     * @return the angle in radians
+     */
+    public float getYDirectionToPlayer() {
+        return (float) (-MathUtils.calcRotationAngle(
+                worldPosition.x, worldPosition.z,
+                GameScene.player.worldPosition.x,
+                GameScene.player.worldPosition.z) + MathUtils.HALF_PI);
     }
 
     public void goForward(float amount) {

@@ -28,6 +28,10 @@ import com.xbuilders.game.items.blocks.trees.*;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.items.entities.BannerEntityLink;
 import com.xbuilders.game.items.entities.animal.*;
+import com.xbuilders.game.items.entities.animal.landAndWater.TurtleEntityLink;
+import com.xbuilders.game.items.entities.animal.quadPedal.DogLink;
+import com.xbuilders.game.items.entities.animal.quadPedal.HorseLink;
+import com.xbuilders.game.items.entities.animal.quadPedal.MuleLink;
 import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
 import com.xbuilders.game.items.entities.vehicle.MinecartEntityLink;
 import com.xbuilders.game.items.tools.*;
@@ -444,6 +448,10 @@ public class MyGame extends Game {
                 new DogLink(window, 33, "Brown Dog", "brown.png"),
                 new DogLink(window, 34, "Gold Dog", "gold.png"),
                 new DogLink(window, 35, "White Dog", "white.png"),
+
+                //Turtles
+                new TurtleEntityLink(window, 105, "Green Sea Turtle", "big_sea_turtle.png"),
+                new TurtleEntityLink(window, 106, "Yellow Sea Turtle", "yellow_turtle.png")
         };
 
         Tool[] tools = new Tool[]{

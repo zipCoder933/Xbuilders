@@ -40,6 +40,7 @@ public class Main extends NKWindow {
     public static double gameVersion = 1.5;
     public static boolean loadWorldOnStartup = false;
     public static boolean fpsTools = false;
+    public static int frameCount = 0;
 
     public static void printlnDev(String message) {
         if (devMode) {
@@ -280,6 +281,7 @@ public class Main extends NKWindow {
             topMenu.render();
         }
         popupMessage.draw();
+        frameCount++;//It just wraps around when it reaches max value
     }
 
     static DecimalFormat df = new DecimalFormat("####.00");

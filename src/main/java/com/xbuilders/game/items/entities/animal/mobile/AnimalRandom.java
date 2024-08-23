@@ -90,4 +90,6 @@ public class AnimalRandom {
     public float noise(float frequency, float min, float max) {
         return MathUtils.map(noise(frequency), -1, 1, min, max);
     }
+
+
 }

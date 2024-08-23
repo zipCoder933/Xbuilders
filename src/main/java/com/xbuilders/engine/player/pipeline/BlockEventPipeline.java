@@ -50,17 +50,15 @@ public class BlockEventPipeline {
                 outOfReachEvents.addBlockChange(worldPos, blockHist);
                 return;
             }
-
-
-            if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
-                lightChangesThisFrame++;
-            }
             blockChangesThisFrame++;
             synchronized (eventClearLock) {
                 if (events.containsKey(worldPos)) { //We need to get the original previous block
                     blockHist.previousBlock = events.get(worldPos).previousBlock;
                 } else if (blockHist.previousBlock == null) {
                     blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                }
+                if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
+                    lightChangesThisFrame++;
                 }
                 events.put(worldPos, blockHist);
             }

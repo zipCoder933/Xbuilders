@@ -15,6 +15,8 @@ Just do the simplest solution. Code simplicity, does not matter!
 
 ### features
 - Add beavers
+  - Add turtles first
+  - Try to simplify the animal class and animal making process AS MUCH AS POSSIBLE
 - Add trees into terrain
 - add sphere tools
 - add birds, fish and turtles

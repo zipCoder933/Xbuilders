@@ -1,9 +1,7 @@
-package com.xbuilders.game.items.entities.animal;
+package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.window.BaseWindow;
-
-import java.util.ArrayList;
 
 public class DogLink extends QuadPedalLandAnimalLink {
 
@@ -13,14 +11,14 @@ public class DogLink extends QuadPedalLandAnimalLink {
         sittingModel = "items\\entity\\animal\\dog\\large\\sitting.obj";
         legPath = "items\\entity\\animal\\dog\\large\\leg.obj";
         texturePrePath = "items\\entity\\animal\\dog\\";
-        setIcon("egg.png");
+        setIcon("dog egg.png");
         rideable = false;
     }
 
     @Override
     public void initializeEntity(Entity e, byte[] loadBytes) {
         super.initializeEntity(e, loadBytes);
-        QuadPedalEntity a = (QuadPedalEntity) e; //Cast the entity to a fox
+        QuadPedalLandAnimal a = (QuadPedalLandAnimal) e; //Cast the entity to a fox
 //        a.freezeMode = true;
         a.setActivity(0.7f);
 

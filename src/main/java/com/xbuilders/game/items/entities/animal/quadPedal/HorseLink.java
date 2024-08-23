@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.entities.animal;
+package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
@@ -7,7 +7,6 @@ import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.utils.obj.OBJLoader;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class HorseLink extends QuadPedalLandAnimalLink {
 
@@ -41,12 +40,12 @@ public class HorseLink extends QuadPedalLandAnimalLink {
     public void initializeEntity(Entity e, byte[] loadBytes) {
         super.initializeEntity(e, loadBytes);
 
-        QuadPedalEntity a = (QuadPedalEntity) e; //Cast the entity to a fox
+        QuadPedalLandAnimal a = (QuadPedalLandAnimal) e; //Cast the entity to a fox
         a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables
 
     }
 
-    static class HorseEntity extends QuadPedalEntity<HorseLink> {
+    static class HorseEntity extends QuadPedalLandAnimal<HorseLink> {
 
         public HorseEntity(BaseWindow window) {
             super(window);

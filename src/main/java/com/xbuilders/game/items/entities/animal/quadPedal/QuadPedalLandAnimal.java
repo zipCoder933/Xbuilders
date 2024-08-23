@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.entities.animal;
+package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.PositionLock;
@@ -7,13 +7,13 @@ import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 
-public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnimal {
+public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends LandAnimal {
 
     final MVP bodyMatrix = new MVP();
 
     T link;
 
-    public QuadPedalEntity(BaseWindow window) {
+    public QuadPedalLandAnimal(BaseWindow window) {
         super(window);
         aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
 //            freezeMode = true;
@@ -111,7 +111,7 @@ public class QuadPedalEntity<T extends QuadPedalLandAnimalLink> extends LandAnim
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);
             } else {
                 if (distToPlayer < 5) {
-                    setRotationYDeg((float) Math.toDegrees(getDirectionToPlayer()));
+                    setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
                 }
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 10 * 1000);
             }

@@ -497,7 +497,6 @@ public class UserControlledPlayer extends Player {
             chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
 
             BlockHistory history = new BlockHistory(previousBlock, newBlock);
-            System.out.println("Block history: " + history);
             if (blockData != null) {
                 history.updateBlockData = true;
                 history.newBlockData = blockData;

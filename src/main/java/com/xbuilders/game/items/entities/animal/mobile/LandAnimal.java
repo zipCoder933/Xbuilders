@@ -1,6 +1,5 @@
 package com.xbuilders.game.items.entities.animal.mobile;
 
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.BaseWindow;
 
@@ -131,7 +130,7 @@ public abstract class LandAnimal extends Animal {
                     break;
                 case FOLLOW:
                     multiplayerProps.controlMode = true;
-                    setRotationYDeg((float) Math.toDegrees(getDirectionToPlayer()) + random.noise(2f, -3, 3));
+                    setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()) + random.noise(2f, -3, 3));
 
                     if (distToPlayer < 15 && playerHasAnimalFeed()) {
                         if (currentAction.getTimeSinceCreatedMS() > 500
@@ -155,8 +154,5 @@ public abstract class LandAnimal extends Animal {
     }
 
 
-    public float getDirectionToPlayer() {
-        return (float) (-MathUtils.calcRotationAngle(worldPosition.x, worldPosition.z, GameScene.player.worldPosition.x, GameScene.player.worldPosition.z) + MathUtils.HALF_PI);
-    }
 
 }
