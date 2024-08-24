@@ -10,29 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Limb.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Todo list.md" beforeDir="false" afterPath="$PROJECT_DIR$/Todo list.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/icons/egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/egg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend1" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend2" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/body.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/body.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_back_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_back_fin.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_fin.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_back_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_back_fin.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_fin.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/icons/dog egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/dog egg.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/icons/horse egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/horse egg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/icons/icon_1_3.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/icons/mule egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/mule egg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/DogLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/DogLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/HorseLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/HorseLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/MuleLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/MuleLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/QuadPedalEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/QuadPedalLandAnimalLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimalLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/AnimalRandom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/AnimalRandom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/LandAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/LandAnimal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/icons/turtle egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/turtle egg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

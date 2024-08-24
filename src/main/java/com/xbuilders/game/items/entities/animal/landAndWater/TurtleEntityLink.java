@@ -12,6 +12,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
+import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 
@@ -31,7 +32,7 @@ public class TurtleEntityLink extends EntityLink {
         tags.add("turtle");
     }
 
-    public EntityMesh fin1, fin2, back_fin1, back_fin2, body;
+    public EntityMesh left_fin, right_fin, left_back_fin, right_back_fin, body;
     public String textureFile;
 
 
@@ -39,19 +40,27 @@ public class TurtleEntityLink extends EntityLink {
     public void initializeEntity(Entity e, byte[] loadBytes) {
         if (body == null) {
             body = new EntityMesh();
-            fin1 = new EntityMesh();
-            fin2 = new EntityMesh();
+            left_fin = new EntityMesh();
+            right_fin = new EntityMesh();
+            left_back_fin = new EntityMesh();
+            right_back_fin = new EntityMesh();
             try {
                 int texture = TextureUtils.loadTexture(
                         ResourceUtils.resource("items\\entity\\animal\\turtle\\" + textureFile).getAbsolutePath(),
                         false).id;
 
                 body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\body.obj"));
-                fin1.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_fin.obj"));
-                fin2.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_fin.obj"));
+                left_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_fin.obj"));
+                right_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_fin.obj"));
+
+                left_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_back_fin.obj"));
+                right_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_back_fin.obj"));
+
                 body.setTextureID(texture);
-                fin1.setTextureID(texture);
-                fin2.setTextureID(texture);
+                left_fin.setTextureID(texture);
+                right_fin.setTextureID(texture);
+                left_back_fin.setTextureID(texture);
+                right_back_fin.setTextureID(texture);
             } catch (IOException ex) {
                 ErrorHandler.report(ex);
             }
@@ -78,7 +87,7 @@ public class TurtleEntityLink extends EntityLink {
             if (inFrustum) {
                 float animationTarget = 0f;
                 if (getWalkAmt() > 0) {
-                    animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.5f);
+                    animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.4f);
                 }
                 float rotationRadians = (float) Math.toRadians(getRotationYDeg());
                 modelMatrix.rotateY(rotationRadians);
@@ -86,38 +95,36 @@ public class TurtleEntityLink extends EntityLink {
                 modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
                 link.body.draw(false);
 
-                drawFin(link.fin2, 0, 0, ONE_SIXTEENTH * 7,
+                drawFin(link.right_fin, 0, 0, ONE_SIXTEENTH * 7,
                         animationTarget, 0.0f, 0.4f);
 
-                drawFin(link.fin1, 0, 0, ONE_SIXTEENTH * 7,
+                drawFin(link.left_fin, 0, 0, ONE_SIXTEENTH * 7,
                         animationTarget, 1.5f, 0.4f);
 
-//                drawFin(link.back_fin1,
-//                        ONE_SIXTEENTH * -4, ONE_SIXTEENTH * -1, ONE_SIXTEENTH * -10,
-//                        finAnimation, 0.0f,  0.15f);
-//
-//                drawFin( link.back_fin2,
-//                        ONE_SIXTEENTH * 4, ONE_SIXTEENTH * -1, ONE_SIXTEENTH * -10,
-//                        -finAnimation, 0.0f,  0.15f);
+                drawFin(link.left_back_fin,
+                        0, 0, ONE_SIXTEENTH * -4,
+                        animationTarget, 0.0f,  0.05f);
+
+                drawFin(link.right_back_fin,
+                        0, 0, ONE_SIXTEENTH * -4,
+                        animationTarget, 0.0f,  -0.05f);
             }
         }
 
         private static final float ONE_SIXTEENTH = (float) 1 / 16;
-        Matrix4f finModelMatrix = new Matrix4f();
+        MVP finModelMatrix = new MVP();
 
         private void drawFin(EntityMesh fin,
                              float x, float y, float z,
                              float animationSpeed, float animationAdd, float multiplier) {
 
             finModelMatrix.set(modelMatrix).translate(x, y, z);
-            float rot = (float) Math.sin((Main.frameCount * animationSpeed) + animationAdd) * multiplier;
-
             if (animationSpeed != 0) {
+                float rot = (float) Math.sin((Main.frameCount * animationSpeed) + animationAdd) * multiplier;
                 finModelMatrix.rotateY(rot);
             }
-
-            modelMatrix.update(finModelMatrix);
-            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            finModelMatrix.update();
+            finModelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
             fin.draw(false);
         }
 

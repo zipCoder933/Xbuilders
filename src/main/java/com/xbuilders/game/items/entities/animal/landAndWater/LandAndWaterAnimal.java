@@ -154,7 +154,6 @@ public abstract class LandAndWaterAnimal extends Animal {
     }
 
 
-
     public void walkForward(float speed) {
         if (isInWater()) {
             walkAmt = speed / 2;
@@ -188,12 +187,11 @@ public abstract class LandAndWaterAnimal extends Animal {
         if (inFrustum) { //In Frustum movement
             inWater = inWater();
             if (isInWater()) {
-                    moveInWater();
-                    return true;
+                moveInWater();
             } else {
                 moveOnLand();
-                return true;
             }
+            return true;
         } else { //Out of Frustum movement
             if (getAction() != null && getAction().type == FOLLOW) {
                 return false;
@@ -253,9 +251,6 @@ public abstract class LandAndWaterAnimal extends Animal {
         if (null != getAction().type) {
             switch (getAction().type) {
                 case FOLLOW:
-                    if (getAction().getTimeSinceCreatedMS() < 50 || Main.frameCount % 25 == 0) {
-
-                    }
                     if (distToPlayer < 15 && playerHasAnimalFeed()) {
                         if (getAction().getTimeSinceCreatedMS() > 500
                                 && distToPlayer > 4
