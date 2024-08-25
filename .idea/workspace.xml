@@ -9,24 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Xbuilders3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Xbuilders3.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/InfoText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/InfoText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/math/MathUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/math/MathUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/StaticLandAnimalLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/StaticLandAnimalLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/BeaverEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/BeaverEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/LandAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/LandAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Limb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Limb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/render/MVP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/render/MVP.java" afterDir="false" />
-    </list>
+    <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
