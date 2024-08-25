@@ -27,6 +27,14 @@ public class MVP extends Matrix4f{//TODO: Decide if this class should really EXT
 //        this.matrix = matrix;
 //    }
 
+    //    public void update(final Matrix4f... matrices) {
+//        mvp.identity();
+//        for (int i = 0; i < matrices.length; i++) {
+//            mvp.mul(matrices[i]);
+//        }
+//        mvp.get(buffer);
+//    }
+
     public void update(final Matrix4f projection, final Matrix4f view, final Matrix4f model) {
         identity().mul(projection).mul(view).mul(model);
         get(buffer);
@@ -47,16 +55,13 @@ public class MVP extends Matrix4f{//TODO: Decide if this class should really EXT
         get(buffer);
     }
 
-//    public void update(final Matrix4f... matrices) {
-//        mvp.identity();
-//        for (int i = 0; i < matrices.length; i++) {
-//            mvp.mul(matrices[i]);
-//        }
-//        mvp.get(buffer);
-//    }
-
     public void sendToShader(int shaderID, int uniformID) {
         ARBShaderObjects.glUseProgramObjectARB(shaderID);
         ARBShaderObjects.glUniformMatrix4fvARB(uniformID, false, buffer);
+    }
+
+    public void updateAndSendToShader(int shaderID, int uniformID) {
+        update();
+        sendToShader(shaderID, uniformID);
     }
 }

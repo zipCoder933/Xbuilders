@@ -23,7 +23,6 @@ public class StaticLandAnimalLink extends EntityLink {
 
     public StaticLandAnimalLink(BaseWindow window, int id, String name, String modelName, String textureName) {
         super(id, name, () -> new StaticLandAnimal(window));
-        //"\\items\\entity\\animal\\fox\\" +
         this.textureName = textureName;
         this.modelName = modelName;
         setIcon("egg.png");
@@ -59,14 +58,12 @@ public class StaticLandAnimalLink extends EntityLink {
     }
 
     static class StaticLandAnimal extends LandAnimal {
-
-        Matrix4f bodyMatrix;
         StaticLandAnimalLink link;
 
         public StaticLandAnimal(BaseWindow window) {
             super(window);
             aabb.setOffsetAndSize(0.8f, 0.9f, 0.8f, true);
-            bodyMatrix = new Matrix4f();
+            jumpOverBlocks = true;
             frustumSphereRadius = 2;
         }
 
@@ -74,37 +71,12 @@ public class StaticLandAnimalLink extends EntityLink {
             this.link = link;
         }
 
-        private long lastJumpTime = 0;
-
         @Override
-        public void draw() {
-            if (inFrustum) {
-                if (allowVoluntaryMovement()) move();
-
-                // box.setToAABB(projection, view, aabb.box);
-                // box.draw();
-                shader.bind();
-
-
-                float rotationRadians = (float) Math.toRadians(getRotationYDeg());
-                bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
-
-                modelMatrix.update(bodyMatrix);
-                modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-                link.body.draw(false);
-
-                pos.update();
-                if (Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.01
-                        || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.01 &&
-                        !pos.collisionHandler.collisionData.sideCollisionIsEntity) {
-                    if (System.currentTimeMillis() - lastJumpTime > 1000) {
-                        lastJumpTime = System.currentTimeMillis();
-                        pos.jump();
-                    }
-                }
-            }
+        public void animal_drawBody() {
+            shader.bind();
+            modelMatrix.update();
+            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            link.body.draw(false);
         }
-
     }
-
 }

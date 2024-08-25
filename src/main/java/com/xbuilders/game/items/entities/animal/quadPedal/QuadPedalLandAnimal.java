@@ -5,11 +5,8 @@ import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.BaseWindow;
-import com.xbuilders.window.render.MVP;
 
 public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends LandAnimal {
-
-    final MVP bodyMatrix = new MVP();
 
     T link;
 
@@ -28,7 +25,6 @@ public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends Land
         };
     }
 
-    private long lastJumpTime = 0;
     private float legMovement = 0;
     public float SCALE = 0.6f;
     protected float legXSpacing = 0.32f * SCALE;
@@ -37,53 +33,38 @@ public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends Land
     public final PositionLock lock = new PositionLock(this, -1);
 
 
+    public void animal_move() {
+        if (playerIsRidingThis()) {
+            float rotSpeed = 0.5f;
+            if (GameScene.player.forwardKeyPressed()) {
+                goForward(0.2f, true);
+                rotSpeed = 3;
+                currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
+            } else if (allowVoluntaryMovement()) super.animal_move();
+
+            if (GameScene.player.leftKeyPressed()) {
+                setRotationYDeg(getRotationYDeg() - rotSpeed);
+            } else if (GameScene.player.rightKeyPressed()) {
+                setRotationYDeg(getRotationYDeg() + rotSpeed);
+            }
+        } else if (allowVoluntaryMovement() && inFrustum) super.animal_move();
+    }
+
     @Override
-    public void draw() {
-        if (inFrustum) {
-            if (playerIsRidingThis()) {
-                float rotSpeed = 0.5f;
-                if (GameScene.player.forwardKeyPressed()) {
-                    goForward(0.2f);
-                    rotSpeed = 3;
-                    currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
-                } else if(allowVoluntaryMovement())move();
+    public void animal_drawBody() {
+        shader.bind();
+        modelMatrix.update();
+        modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
-                if (GameScene.player.leftKeyPressed()) {
-                    setRotationYDeg(getRotationYDeg() - rotSpeed);
-                } else if (GameScene.player.rightKeyPressed()) {
-                    setRotationYDeg(getRotationYDeg() + rotSpeed);
-                }
-            } else if (allowVoluntaryMovement()) move();
-
-
-            shader.bind();
-            float rotationRadians = (float) Math.toRadians(getRotationYDeg());
-            bodyMatrix.identity().translate(worldPosition).rotateY(rotationRadians);
-
-            bodyMatrix.update();
-            bodyMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-
-            if (currentAction.type == AnimalAction.ActionType.IDLE
-                    && link.sitting != null
-                    && currentAction.duration > 1000) {
-                drawSitting();
-            } else {
-                drawBody();
-                //Z is the directon of the horse
-                link.legs.draw(bodyMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
-                link.legs.draw(bodyMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
-            }
-
-
-            pos.update();
-            if ((Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
-                    || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02)
-                    && !pos.collisionHandler.collisionData.sideCollisionIsEntity) {
-                if (System.currentTimeMillis() - lastJumpTime > 500) {
-                    lastJumpTime = System.currentTimeMillis();
-                    pos.jump();
-                }
-            }
+        if (currentAction.type == AnimalAction.ActionType.IDLE
+                && link.sitting != null
+                && currentAction.duration > 1000) {
+            drawSitting();
+        } else {
+            drawBody();
+            //Z is the directon of the horse
+            link.legs.draw(modelMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
+            link.legs.draw(modelMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
         }
     }
 

@@ -84,33 +84,28 @@ public class TurtleEntityLink extends EntityLink {
         }
 
         @Override
-        public void draw() {
-            move();
-            if (inFrustum) {
-                float animationTarget = 0f;
-                if (getWalkAmt() > 0) {
-                    animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.4f);
-                }
-                float rotationRadians = (float) Math.toRadians(getRotationYDeg());
-                modelMatrix.rotateY(rotationRadians);
-                modelMatrix.update();
-                modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-                link.body.draw(false);
+        public void animal_drawBody() {
+            modelMatrix.update();
+            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            link.body.draw(false);
 
-                drawFin(link.right_fin, 0, 0, ONE_SIXTEENTH * 7,
-                        animationTarget, 0.0f, 0.4f);
-
-                drawFin(link.left_fin, 0, 0, ONE_SIXTEENTH * 7,
-                        animationTarget, 1.5f, 0.4f);
-
-                drawFin(link.left_back_fin,
-                        0, 0, ONE_SIXTEENTH * -4,
-                        animationTarget, 0.0f, 0.05f);
-
-                drawFin(link.right_back_fin,
-                        0, 0, ONE_SIXTEENTH * -4,
-                        animationTarget, 0.0f, -0.05f);
+            float animationTarget = 0f;
+            if (getWalkAmt() > 0) {
+                animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.4f);
             }
+            drawFin(link.right_fin, 0, 0, ONE_SIXTEENTH * 7,
+                    animationTarget, 0.0f, 0.4f);
+
+            drawFin(link.left_fin, 0, 0, ONE_SIXTEENTH * 7,
+                    animationTarget, 1.5f, 0.4f);
+
+            drawFin(link.left_back_fin,
+                    0, 0, ONE_SIXTEENTH * -4,
+                    animationTarget, 0.0f, 0.05f);
+
+            drawFin(link.right_back_fin,
+                    0, 0, ONE_SIXTEENTH * -4,
+                    animationTarget, 0.0f, -0.05f);
         }
 
         private static final float ONE_SIXTEENTH = (float) 1 / 16;

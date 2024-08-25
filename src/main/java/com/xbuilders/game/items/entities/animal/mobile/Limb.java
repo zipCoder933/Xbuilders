@@ -1,26 +1,30 @@
 package com.xbuilders.game.items.entities.animal.mobile;
 
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 
-public class Limb {
-    private final MVP mvp;
-    public final Matrix4f limbMatrix = new Matrix4f();
-    public Limb[] limbs;
-    public final EntityShader shader;
+import java.util.function.Consumer;
 
-    public Limb(EntityShader shader, MVP mvpObject) {
-        this.shader = shader;
-        mvp = mvpObject;
+public class Limb {
+    public MVP limbMatrix = new MVP();
+    public Limb[] limbs;
+    Consumer<MVP> drawCallback;
+
+    public Limb(Consumer<MVP> drawCallback) {
+        this.drawCallback = drawCallback;
         limbs = new Limb[0];
     }
 
-    public void draw(Matrix4f parentMatrix) {
-        mvp.update(parentMatrix, limbMatrix);
-        mvp.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+    protected void inner_draw_limb(Matrix4f parentLimbMatrix) {
+        limbMatrix.set(parentLimbMatrix);//Initialize the matrix
+        limbMatrix.updateAndSendToShader(Entity.shader.getID(), Entity.shader.uniform_modelMatrix);
+        drawCallback.accept(limbMatrix);
+
         if (limbs != null) for (int i = 0; i < limbs.length; i++) {
-            limbs[i].draw(mvp);
+            limbs[i].inner_draw_limb(limbMatrix);
         }
     }
+
 }

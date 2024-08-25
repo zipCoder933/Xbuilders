@@ -278,8 +278,7 @@ public class MathUtils {
      */
     public static double calcRotationAngle(double centerPtX, double centerPtY,
                                            double targetPtX, double targetPtY) {
-        double theta = Math.atan2(targetPtY - centerPtY, targetPtX - centerPtX);
-        return theta;
+        return Math.atan2(targetPtY - centerPtY, targetPtX - centerPtX);
     }
 
     /**

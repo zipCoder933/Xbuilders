@@ -16,7 +16,6 @@ import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 
-import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 import java.io.ByteArrayOutputStream;
@@ -26,20 +25,13 @@ import java.util.function.Consumer;
 
 public abstract class Animal extends Entity {
 
-    private Limb limbs;
+    private static final float ONE_SIXTEENTH = (float) 1 / 16;
+    public Limb[] limbs;
     public PositionHandler pos;
     public final BaseWindow window;
     public final Player player;
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
-
-    public Limb[] getLimbs() {
-        return limbs.limbs;
-    }
-
-    public void drawLimbs(Matrix4f startingMatrix) {
-        limbs.draw(startingMatrix);
-    }
 
     public boolean allowVoluntaryMovement() {
         return !multiplayerProps.controlledByAnotherPlayer;
@@ -47,7 +39,6 @@ public abstract class Animal extends Entity {
 
     private float rotationYDeg;
     public final AnimalRandom random;
-
 
 
     public boolean isPendingDestruction() {
@@ -97,17 +88,27 @@ public abstract class Animal extends Entity {
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.player;
-        limbs = new Limb(Entity.shader, modelMatrix);
     }
 
-    //TODO: Implement these methods and make animal creation as simple as possible
-//    public abstract void move();
-//    public abstract void animal_draw();
-//
-//    public final void draw() {
-//        if(move()) pos.update();
-//        if (inFrustum || playerIsRidingThis()) animal_draw();
-//    }
+    public abstract void animal_move();
+
+    public abstract void animal_drawBody();
+
+    public final void draw() {
+        if (allowVoluntaryMovement()) animal_move();
+        if (inFrustum || playerIsRidingThis()) {
+            //Model matrix is our parent (body) matrix
+            modelMatrix.rotateY((float) Math.toRadians(getRotationYDeg()));
+            animal_drawBody();
+
+            //Draw our limbs
+            if (limbs != null) for (int i = 0; i < limbs.length; i++) limbs[i].inner_draw_limb(modelMatrix);
+        }
+    }
+
+    public final void entityMoveEvent() {//Called after update position
+        pos.update();
+    }
 
     @Override
     public final void initializeOnDraw(byte[] bytes) {
@@ -131,17 +132,50 @@ public abstract class Animal extends Entity {
      */
     public float getYDirectionToPlayer() {
         return (float) (-MathUtils.calcRotationAngle(
-                worldPosition.x, worldPosition.z,
-                GameScene.player.worldPosition.x,
-                GameScene.player.worldPosition.z) + MathUtils.HALF_PI);
+                        worldPosition.x, worldPosition.z,
+                        GameScene.player.worldPosition.x, GameScene.player.worldPosition.z)
+                        + MathUtils.HALF_PI);
     }
 
-    public void goForward(float amount) {
+    /**
+     * @return the angle in radians
+     */
+    public float getXDirectionToPlayer() {
+        return (float) MathUtils.calcRotationAngle(
+                worldPosition.y, worldPosition.z,
+                GameScene.player.worldPosition.y, GameScene.player.worldPosition.z);
+    }
+
+    /**
+     * @return the angle in radians
+     */
+    public float getZDirectionToPlayer() {
+        return (float) MathUtils.calcRotationAngle(
+                worldPosition.x, worldPosition.y,
+                GameScene.player.worldPosition.x, GameScene.player.worldPosition.y);
+    }
+
+
+    public void goForward(float amount, boolean jump) {
         amount *= window.smoothFrameDeltaSec * 50;
         if (freezeMode) return;
         Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), amount);
         worldPosition.add(vec.x, 0, vec.y);
         if (goForwardCallback != null) goForwardCallback.accept(amount);
+        if (jump) jumpIfColliding(400, false);
         multiplayerProps.markStateChanged();
+    }
+
+    private long lastJumpTime;
+
+    private void jumpIfColliding(int interval /*ms*/, boolean jumpOverEntities) {
+        if ((Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
+                || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02)
+                && (jumpOverEntities || !pos.collisionHandler.collisionData.sideCollisionIsEntity)) {
+            if (System.currentTimeMillis() - lastJumpTime > interval) {
+                lastJumpTime = System.currentTimeMillis();
+                pos.jump();
+            }
+        }
     }
 }

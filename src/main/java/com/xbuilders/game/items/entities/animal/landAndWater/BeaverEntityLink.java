@@ -11,9 +11,11 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.Main;
+import com.xbuilders.game.items.entities.animal.mobile.Limb;
 import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
+import org.joml.Matrix4f;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,7 +33,7 @@ public class BeaverEntityLink extends EntityLink {
         tags.add("beaver");
     }
 
-    public EntityMesh body,head,tail,legs;
+    public EntityMesh body, head, tail, legs;
 
 
     @Override
@@ -80,6 +82,11 @@ public class BeaverEntityLink extends EntityLink {
 
     public static class Beaver<T extends BeaverEntityLink> extends LandAndWaterAnimal {
         T link;
+        final static int LIMB_HEAD = 0;
+        final static int LIMB_TAIL = 1;
+        final static int LIMB_LEGS = 2;
+
+
         public Beaver(BaseWindow window, T link) {
             super(window);
             this.link = link;
@@ -87,25 +94,26 @@ public class BeaverEntityLink extends EntityLink {
             frustumSphereRadius = 2;
             setMaxSpeed(0.1f);
             setActivity(0.5f);
+            limbs = new Limb[]{
+                    new Limb((limbMatrix)->{//TODO: make head face the player
+//                        limbMatrix.rotateY(getYDirectionToPlayer());
+//                        limbMatrix.updateAndSendToShader(shader.getID(), shader.uniform_modelMatrix);
+                        link.head.draw(false);
+                    }),
+                    new Limb((limbMatrix)->{
+                        link.tail.draw(false);
+                    }),
+                    new Limb((limbMatrix)->{
+                        link.legs.draw(false);
+                    }),
+            };
         }
 
         @Override
-        public void draw() {
-            move();
-            if (inFrustum) {
-                float rotationRadians = (float) Math.toRadians(getRotationYDeg());
-                modelMatrix.rotateY(rotationRadians);
-                modelMatrix.update();
-                modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-                link.body.draw(false);
-                link.head.draw(false);
-                link.tail.draw(false);
-                link.legs.draw(false);
-            }
+        public void animal_drawBody() {
+            modelMatrix.update();
+            modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+            link.body.draw(false);
         }
-
-        private static final float ONE_SIXTEENTH = (float) 1 / 16;
-
-
     }
 }

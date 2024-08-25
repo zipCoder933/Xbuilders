@@ -139,7 +139,7 @@ public abstract class Entity {
     }
 
     //This method will be called when a chunk is saved (or removed)
-    public boolean updatePosition() {
+    public final boolean updatePosition() {
         aabb.update(true);//IF the entity goes outside of a chunk, it will not be reassigned to another chunk and it will dissapear when moved too far
         chunkPosition.set(worldPosition);
 

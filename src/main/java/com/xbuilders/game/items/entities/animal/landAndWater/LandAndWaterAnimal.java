@@ -177,10 +177,8 @@ public abstract class LandAndWaterAnimal extends Animal {
         setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
     }
 
-    public void move() {
+    public void animal_move() {
         if (inFrustum) { //In Frustum movement
-
-
             if (Main.frameCount % 10 == 0) inWater = AnimalUtils.inWater(this);
 
 

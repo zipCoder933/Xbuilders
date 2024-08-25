@@ -16,6 +16,7 @@ public abstract class LandAnimal extends Animal {
     public AnimalAction currentAction = null;
     private float activity = 0.5f;
     private float maxSpeed = 0.17f;
+    public boolean jumpOverBlocks = true;
 
 
     //TODO: The animals diverges because we are not sharing the full state
@@ -37,8 +38,6 @@ public abstract class LandAnimal extends Animal {
     }
 
     public AnimalAction newRandomAction(Enum lastAction) {
-
-
         AnimalAction.ActionType newBehavior = AnimalAction.getRandomActionType(random, AnimalAction.ActionType.IDLE, AnimalAction.ActionType.WALK, AnimalAction.ActionType.TURN);
         if (lastAction != null) { //Shake it up if the last action was the same
             AnimalAction.ActionType lastAction2 = (AnimalAction.ActionType) lastAction;
@@ -106,8 +105,7 @@ public abstract class LandAnimal extends Animal {
         return action;
     }
 
-
-    public void move() {
+    public void animal_move() {
         multiplayerProps.controlMode = false;
         if (freezeMode || multiplayerProps.controlledByAnotherPlayer) {
             return;
@@ -126,7 +124,7 @@ public abstract class LandAnimal extends Animal {
                     setRotationYDeg((getRotationYDeg() + currentAction.velocity));
                     break;
                 case WALK:
-                    goForward(currentAction.velocity);
+                    goForward(currentAction.velocity, jumpOverBlocks);
                     break;
                 case FOLLOW:
                     multiplayerProps.controlMode = true;
@@ -137,12 +135,12 @@ public abstract class LandAnimal extends Animal {
                                 && distToPlayer > 3
                                 && random.noise(4) > -0.5f) {
 
-                            if (distToPlayer > 10) goForward(currentAction.velocity * 2);
-                            else goForward(currentAction.velocity);
+                            if (distToPlayer > 10) goForward(currentAction.velocity * 2, jumpOverBlocks);
+                            else goForward(currentAction.velocity, jumpOverBlocks);
 
                         } else {
                             //Eat the food
-//                            eatFood();
+                            eatAnimalFeed();
                         }
                     } else {
                         currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
@@ -152,7 +150,6 @@ public abstract class LandAnimal extends Animal {
             }
         }
     }
-
 
 
 }
