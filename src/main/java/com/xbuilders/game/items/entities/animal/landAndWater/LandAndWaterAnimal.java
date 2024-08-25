@@ -9,7 +9,7 @@ import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.animal.mobile.Animal;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
-import com.xbuilders.game.items.entities.animal.quadPedal.QuadPedalLandAnimalLink;
+import com.xbuilders.game.items.entities.animal.mobile.AnimalUtils;
 import com.xbuilders.window.BaseWindow;
 import org.joml.Vector2f;
 
@@ -32,12 +32,6 @@ public abstract class LandAndWaterAnimal extends Animal {
         super(window);
     }
 
-    /**
-     * @return the inWater
-     */
-    public boolean isInWater() {
-        return inWater;
-    }
 
     /**
      * @return the walkAmt
@@ -132,7 +126,7 @@ public abstract class LandAndWaterAnimal extends Animal {
             actionVelocity = getMaxSpeed() / 2;
         } else if (actionType == TURN) {
             actionDuration = 50 + (random.nextInt(100));
-            setVelocityOfTurnAction();
+            actionVelocity = computeTurnVelocity();
         } else if (actionType == WALK) {
             actionDuration = 600 + (random.nextInt(500) - 250);
             calculateWalkVelocity();
@@ -155,7 +149,7 @@ public abstract class LandAndWaterAnimal extends Animal {
 
 
     public void walkForward(float speed) {
-        if (isInWater()) {
+        if (inWater) {
             walkAmt = speed / 2;
         } else {
             walkAmt = speed;
@@ -174,72 +168,80 @@ public abstract class LandAndWaterAnimal extends Animal {
         }
     }
 
-    private void setVelocityOfTurnAction() {
+    private float computeTurnVelocity() {
         float rotationAction = MathUtils.clamp(getActivity(), 0.2f, 1);
-        actionVelocity = random.noise(10) > 0 ? rotationAction * 10 : rotationAction * -10;
+        return random.noise(10) > 0 ? rotationAction * 10 : rotationAction * -10;
     }
 
     private void facePlayer() {
         setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
     }
 
-    public boolean move() {
+    public void move() {
         if (inFrustum) { //In Frustum movement
-            inWater = inWater();
-            if (isInWater()) {
+
+
+            if (Main.frameCount % 10 == 0) inWater = AnimalUtils.inWater(this);
+
+
+            if (inWater) {
                 moveInWater();
             } else {
                 moveOnLand();
             }
-            return true;
         } else { //Out of Frustum movement
-            if (getAction() != null && getAction().type == FOLLOW) {
-                return false;
+            if (Main.frameCount % 10 != 0) return;
+            else if (getAction() != null && getAction().type == FOLLOW) {
+                return;
             } else {
                 walkForward(maxSpeed);
                 walkAmt = 0;
-                return true;
             }
         }
+        pos.update();
     }
 
     private void moveInWater() {
         pos.setGravityEnabled(false);
+
+        //When we are ready to change the action
         if (action == null || action.pastDuration()) {
-            if (action != null && action.type == FOLLOW) {
-                action = new AnimalAction(FOLLOW, random.nextLong(50, 2000));
+            if (getAction() == null) {
+                setAction(newRandomAction(null));
             } else {
-                action = new AnimalAction(SWIM, random.nextLong(50, 2000));
+                setAction(newRandomAction(getAction().type));
             }
-            rotationVelocity = random.noise(2) * 3;
+            rotationVelocity = computeTurnVelocity();
             forwardVelocity = (float) MathUtils.mapAndClamp(random.noise(4), -0.5f, 1, 0.01f, getMaxSpeed());
-            yVelocity = random.noise(1, -0.06f, 0.05f);
+            yVelocity = random.nextFloat(-0.05f, 0.05f);
         }
-        if (isPendingDestruction()) {
-            setRotationYDeg(getRotationYDeg() + rotationVelocity / 3);
-        } else if (distToPlayer < 10 && playerHasAnimalFeed()) {
-            tameAnimal();
-            float distAngle = TrigUtils.getSignedAngleDistance(getYDirectionToPlayer(), getRotationYDeg());
-            if (Math.abs(distAngle) > 170) {
-                setRotationYDeg(distAngle);
-            } else {
-                setRotationYDeg(getRotationYDeg() + distAngle * 0.1f);
-            }
-            if (distToPlayer < 3) {
-                eatAnimalFeed();
-            }
-        } else {
-            if (action.type == FOLLOW) {
-                facePlayer();
-            } else {
-                setRotationYDeg(getRotationYDeg() + rotationVelocity);
+
+        //Perform the action
+        if (null != getAction().type) {
+            switch (getAction().type) {
+                case FOLLOW:
+                    followAction();
+                    break;
+                case TURN:
+                    setRotationYDeg(getRotationYDeg() + getActionVelocity());
+                    walkAmt = 0;
+                    break;
+                case WALK:
+                    setRotationYDeg(getRotationYDeg() + rotationVelocity);
+                    walkForward(getActionVelocity());
+                    break;
+                default:
+                    walkAmt = 0;
+                    break;
             }
         }
-        worldPosition.y += yVelocity;
+        worldPosition.y -= yVelocity;
     }
 
     private void moveOnLand() {
         pos.setGravityEnabled(true);
+
+        //When we are ready to change the action
         if (getAction() == null || getAction().pastDuration()) {
             if (getAction() == null) {
                 setAction(newRandomAction(null));
@@ -248,25 +250,11 @@ public abstract class LandAndWaterAnimal extends Animal {
             }
         }
 
+        //Perform the action
         if (null != getAction().type) {
             switch (getAction().type) {
                 case FOLLOW:
-                    if (distToPlayer < 15 && playerHasAnimalFeed()) {
-                        if (getAction().getTimeSinceCreatedMS() > 500
-                                && distToPlayer > 4
-                                && random.noise(4) > -0.5f) {
-                            walkForward(getActionVelocity());
-                            setRotationYDeg(getRotationYDeg() + random.noise(2f, -3, 3));
-                        } else {
-                            walkAmt = 0;
-                            if (distToPlayer < 4) {
-                                eatAnimalFeed();
-                            }
-                        }
-                        facePlayer();
-                    } else {
-                        action = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
-                    }
+                    followAction();
                     break;
                 case TURN:
                     setRotationYDeg(getRotationYDeg() + getActionVelocity());
@@ -282,6 +270,25 @@ public abstract class LandAndWaterAnimal extends Animal {
                     walkAmt = 0;
                     break;
             }
+        }
+    }
+
+    private void followAction() {
+        if (distToPlayer < 15 && playerHasAnimalFeed()) {
+            if (getAction().getTimeSinceCreatedMS() > 500
+                    && distToPlayer > 4
+                    && random.noise(4) > -0.5f) {
+                walkForward(getActionVelocity());
+                setRotationYDeg(getRotationYDeg() + random.noise(2f, -3, 3));
+            } else {
+                walkAmt = 0;
+                if (distToPlayer < 4) {
+                    eatAnimalFeed();
+                }
+            }
+            facePlayer();
+        } else {
+            action = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
         }
     }
 

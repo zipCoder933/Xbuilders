@@ -17,6 +17,7 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author zipCoder933
@@ -45,9 +46,9 @@ public class TurtleEntityLink extends EntityLink {
             left_back_fin = new EntityMesh();
             right_back_fin = new EntityMesh();
             try {
-                int texture = TextureUtils.loadTexture(
+                int texture = Objects.requireNonNull(TextureUtils.loadTexture(
                         ResourceUtils.resource("items\\entity\\animal\\turtle\\" + textureFile).getAbsolutePath(),
-                        false).id;
+                        false)).id;
 
                 body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\body.obj"));
                 left_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_fin.obj"));
@@ -77,6 +78,7 @@ public class TurtleEntityLink extends EntityLink {
             super(window);
             this.link = link;
             aabb.setOffsetAndSize(1f, 1f, 1f, true);
+            frustumSphereRadius = 3;
             setMaxSpeed(0.1f);
             setActivity(0.5f);
         }
@@ -103,11 +105,11 @@ public class TurtleEntityLink extends EntityLink {
 
                 drawFin(link.left_back_fin,
                         0, 0, ONE_SIXTEENTH * -4,
-                        animationTarget, 0.0f,  0.05f);
+                        animationTarget, 0.0f, 0.05f);
 
                 drawFin(link.right_back_fin,
                         0, 0, ONE_SIXTEENTH * -4,
-                        animationTarget, 0.0f,  -0.05f);
+                        animationTarget, 0.0f, -0.05f);
             }
         }
 

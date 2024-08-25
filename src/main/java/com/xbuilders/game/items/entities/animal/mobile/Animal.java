@@ -48,41 +48,13 @@ public abstract class Animal extends Entity {
     private float rotationYDeg;
     public final AnimalRandom random;
 
-    public boolean inWater() {
-        if (GameScene.world.getBlock(
-                (int) this.worldPosition.x,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z
-        ).isLiquid()
-                || GameScene.world.getBlock(
-                (int) this.worldPosition.x - 1,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z
-        ).isLiquid()
-                || GameScene.world.getBlock(
-                (int) this.worldPosition.x + 1,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z
-        ).isLiquid()
-                || GameScene.world.getBlock(
-                (int) this.worldPosition.x,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z - 1
-        ).isLiquid()) {
-            return true;
-        }
-        return (GameScene.world.getBlock(
-                (int) this.worldPosition.x,
-                (int) this.worldPosition.y,
-                (int) this.worldPosition.z + 1
-        ).isLiquid());
-    }
-    
-    public boolean isPendingDestruction(){
+
+
+    public boolean isPendingDestruction() {
         return false;
     }
 
-    public void tameAnimal(){
+    public void tameAnimal() {
 
     }
 
@@ -117,8 +89,9 @@ public abstract class Animal extends Entity {
         Item heldItem = Main.game.getSelectedItem();
         return heldItem != null && heldItem.equals(MyGame.TOOL_ANIMAL_FEED);
     }
-    public void eatAnimalFeed(){}
 
+    public void eatAnimalFeed() {
+    }
 
     public Animal(BaseWindow window) {
         this.window = window;
@@ -126,6 +99,15 @@ public abstract class Animal extends Entity {
         this.player = GameScene.player;
         limbs = new Limb(Entity.shader, modelMatrix);
     }
+
+    //TODO: Implement these methods and make animal creation as simple as possible
+//    public abstract void move();
+//    public abstract void animal_draw();
+//
+//    public final void draw() {
+//        if(move()) pos.update();
+//        if (inFrustum || playerIsRidingThis()) animal_draw();
+//    }
 
     @Override
     public final void initializeOnDraw(byte[] bytes) {
@@ -145,7 +127,6 @@ public abstract class Animal extends Entity {
 
 
     /**
-     *
      * @return the angle in radians
      */
     public float getYDirectionToPlayer() {

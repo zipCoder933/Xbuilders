@@ -10,21 +10,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
+      <change afterPath="$PROJECT_DIR$/Making Blocks and Entities.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/BeaverEntityLink.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/AnimalUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Xbuilders3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Xbuilders3.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/animals/beaver blockbench/back leg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/animals/beaver blockbench/body.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/animals/beaver blockbench/materials.mtl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/animals/beaver blockbench/model.bbmodel" beforeDir="false" afterPath="$PROJECT_DIR$/assets/animals/beaver blockbench/model.bbmodel" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/animals/beaver blockbench/model.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/animals/beaver blockbench/tail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/animals/beaver blockbench/texture.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/beaver.mtl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend1" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend2" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/body.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/body.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_back_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_back_fin.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/left_fin.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_back_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_back_fin.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_fin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/animal/turtle/right_fin.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid15996.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid19040.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid3740.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid4752.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid7108.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid9684.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/icons/dog egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/dog egg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/icons/egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/egg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/icons/fish egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/fish egg.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/icons/horse egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/horse egg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/icons/icon_8_3.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/icons/mule egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/mule egg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/icons/rabbit egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/rabbit egg.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/icons/turtle egg.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/icons/turtle egg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/CatLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/CatLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/FoxLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/FoxLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/RabbitLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/RabbitLink.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/AnimalAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/AnimalAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/AnimalRandom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/AnimalRandom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimal.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,29 +100,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.Dev (Load World).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev 2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main Dev 2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MiscTester.executor&quot;: &quot;Run&quot;,
-    &quot;Application.NetworkTester.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Patron/Documents/GitHub/Xbuilders&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.3908046&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.Dev (Load World).executor": "Run",
+    "Application.Dev 2.executor": "Run",
+    "Application.Dev.executor": "Run",
+    "Application.Main Dev 2.executor": "Run",
+    "Application.Main Dev.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.MiscTester.executor": "Run",
+    "Application.NetworkTester.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Xbuilders",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.3908046",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.xbuilders.game.items.entities.animal.mobile" />
@@ -105,6 +131,9 @@
       <recent name="com.xbuilders.engine.ui.topMenu" />
       <recent name="com.xbuilders.engine.gameScene" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Xbuilders" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Xbuilders\assets\notes\chunk" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\gameScene\multiplayer" />
@@ -112,11 +141,11 @@
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\gameScene" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.game.items.entities.animal.landAndWater" />
       <recent name="com.xbuilders.game.items.entities.animal" />
       <recent name="com.xbuilders.game.items.entities.animal.mobile" />
       <recent name="com.xbuilders.game.blockTools.tools" />
       <recent name="com.xbuilders.game.propagation" />
-      <recent name="com.xbuilders.engine.rendering.block.meshers" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Dev">
@@ -138,7 +167,7 @@
     </configuration>
     <configuration name="Dev" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.game.Main" />
-      <module name="XBuilders3" />
+      <module name="Xbuilders3" />
       <option name="PROGRAM_PARAMETERS" value="devmode name=DEV" />
       <method v="2">
         <option name="Make" enabled="true" />

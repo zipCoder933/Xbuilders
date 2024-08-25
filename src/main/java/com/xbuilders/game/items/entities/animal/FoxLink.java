@@ -11,6 +11,7 @@ public class FoxLink extends StaticLandAnimalLink {
         super(window, id, name,
                 "items\\entity\\animal\\fox\\body.obj",
                 "items\\entity\\animal\\fox\\" + texture);
+        setIcon("fox egg.png");
     }
 
     public void initializeEntity(Entity e, byte[] loadBytes) {

@@ -26,11 +26,11 @@ public class AnimalRandom {
     }
 
     public float nextFloat(float lowerBound, float upperBound) {
-        return (random.nextFloat() * upperBound - lowerBound) + lowerBound;
+        return random.nextFloat(upperBound - lowerBound) + lowerBound;
     }
 
     public long nextLong(long lowerBound, long upperBound) {
-        return (long) ((random.nextFloat() * upperBound - lowerBound) + lowerBound);
+        return random.nextLong(upperBound - lowerBound) + lowerBound;
     }
 
     public boolean nextBoolean() {
@@ -84,6 +84,7 @@ public class AnimalRandom {
     }
 
     public float noise(float frequency) {
+        noiseIndex++;
         return noise.GetValueFractal(noiseSeed, (noiseIndex * frequency) - noiseSeed);
     }
 

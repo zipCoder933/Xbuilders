@@ -28,7 +28,6 @@ public class AnimalAction {
         IDLE,
         WALK,
         FOLLOW,
-        SWIM,
         CLIMB,
         JUMP,
         FLY,

@@ -11,6 +11,7 @@ public class RabbitLink extends StaticLandAnimalLink {
         super(window, id, name,
                 "items\\entity\\animal\\rabbit\\body.obj",
                 "items\\entity\\animal\\rabbit\\" + texture);
+        setIcon("rabbit egg.png");
     }
 
     long lastJumpTime = 0;

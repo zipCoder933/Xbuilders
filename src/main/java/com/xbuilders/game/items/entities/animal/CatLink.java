@@ -11,6 +11,7 @@ public class CatLink extends StaticLandAnimalLink {
         super(window, id, name,
                 "items\\entity\\animal\\cat\\body.obj",
                 "items\\entity\\animal\\cat\\" + texture);
+        setIcon("cat egg.png");
     }
 
     public void initializeEntity(Entity e, byte[] loadBytes) {

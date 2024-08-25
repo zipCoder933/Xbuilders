@@ -28,6 +28,7 @@ import com.xbuilders.game.items.blocks.trees.*;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.items.entities.BannerEntityLink;
 import com.xbuilders.game.items.entities.animal.*;
+import com.xbuilders.game.items.entities.animal.landAndWater.BeaverEntityLink;
 import com.xbuilders.game.items.entities.animal.landAndWater.TurtleEntityLink;
 import com.xbuilders.game.items.entities.animal.quadPedal.DogLink;
 import com.xbuilders.game.items.entities.animal.quadPedal.HorseLink;
@@ -451,7 +452,10 @@ public class MyGame extends Game {
 
                 //Turtles
                 new TurtleEntityLink(window, 105, "Green Sea Turtle", "big_sea_turtle.png"),
-                new TurtleEntityLink(window, 106, "Yellow Sea Turtle", "yellow_turtle.png")
+                new TurtleEntityLink(window, 106, "Yellow Sea Turtle", "yellow_turtle.png"),
+
+                //Beavers
+                new BeaverEntityLink(window, 200, "Beaver")
         };
 
         Tool[] tools = new Tool[]{

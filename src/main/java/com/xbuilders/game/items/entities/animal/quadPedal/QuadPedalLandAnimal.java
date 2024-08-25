@@ -40,8 +40,6 @@ public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends Land
     @Override
     public void draw() {
         if (inFrustum) {
-
-
             if (playerIsRidingThis()) {
                 float rotSpeed = 0.5f;
                 if (GameScene.player.forwardKeyPressed()) {
