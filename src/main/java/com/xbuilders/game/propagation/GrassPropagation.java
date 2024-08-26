@@ -7,18 +7,29 @@ import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GrassPropagation extends LivePropagationTask {
 
     public GrassPropagation() {
-        updateIntervalMS = 3000;
+        updateIntervalMS = 10000;
     }
 
-    public boolean isInterestedInBlock(BlockHistory hist) {
-        return isGrass(hist.newBlock.id)
-                || hist.newBlock.id == MyGame.BLOCK_DIRT;
+//    List<Long> nodeSetMS = new ArrayList<>();
+
+    public boolean addNode(Vector3i worldPos, BlockHistory hist) {
+        if (isGrass(hist.newBlock.id)
+                || hist.newBlock.id == MyGame.BLOCK_DIRT) {
+            nodes.add(worldPos);
+//            nodeSetMS.add((long) (System.currentTimeMillis() - (Math.random()*3000)));
+            return true;
+        }
+        return false;
     }
 
 

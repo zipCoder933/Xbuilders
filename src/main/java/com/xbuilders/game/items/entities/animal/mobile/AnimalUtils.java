@@ -18,7 +18,7 @@ public class AnimalUtils {
 
     public static void rotateToFacePlayer(Matrix4f matrix) {
         Vector3f entityHeadPos = MatrixUtils.getPositionFromMatrix(matrix);
-        Vector3f playerHeadPos = new Vector3f().set(GameScene.player.worldPosition).sub(GameScene.player.aabb.offset);
+        Vector3f playerHeadPos = GameScene.player.camera.position;
 
         //If the head twists more than 1.7 radians, then don't rotate
         if (Math.abs(calculateYaw(playerHeadPos, entityHeadPos)) < 1.7f) {

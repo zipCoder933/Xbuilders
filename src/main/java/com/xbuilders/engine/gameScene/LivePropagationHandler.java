@@ -18,8 +18,7 @@ public class LivePropagationHandler extends Thread {
     public void addNode(Vector3i pos, BlockHistory hist) {
         for (int i = 0; i < tasks.size(); i++) {
             LivePropagationTask task = tasks.get(i);
-            if (task.isInterestedInBlock(hist))
-                tasks.get(i).nodes.add(pos);
+            task.addNode(pos, hist);
         }
     }
 

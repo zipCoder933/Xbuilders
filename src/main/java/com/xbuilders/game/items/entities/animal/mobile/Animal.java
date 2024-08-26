@@ -16,7 +16,6 @@ import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 
-import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 import java.io.ByteArrayOutputStream;
@@ -106,10 +105,16 @@ public abstract class Animal extends Entity {
             //Draw our limbs
             if (limbs != null) for (int i = 0; i < limbs.length; i++) limbs[i].inner_draw_limb(modelMatrix);
         }
+        if (updatePosHandler || inFrustum || playerIsRidingThis()) {
+            updatePosHandler = false;
+            pos.update(); //Update if 1) it's been moved 2) we're in frustum 3) we're the player's animal
+        }
     }
 
+    private boolean updatePosHandler = false;
+
     public final void entityMoveEvent() {//Called after update position
-        pos.update();
+        updatePosHandler = true;
     }
 
     @Override

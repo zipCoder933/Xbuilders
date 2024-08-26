@@ -1,7 +1,5 @@
 package com.xbuilders.engine.gameScene;
 
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import org.joml.Vector3i;
 
@@ -12,7 +10,13 @@ public abstract class LivePropagationTask {
     protected long lastUpdate = 0;
     public HashSet<Vector3i> nodes = new HashSet<>();
 
-    public boolean isInterestedInBlock(BlockHistory history) {
+    /**
+     *
+     * @param worldPos
+     * @param history
+     * @return true if the node was added
+     */
+    public boolean addNode(Vector3i worldPos, BlockHistory history) {
         return false;
     }
 

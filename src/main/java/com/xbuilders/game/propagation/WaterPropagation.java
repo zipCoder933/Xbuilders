@@ -2,15 +2,14 @@ package com.xbuilders.game.propagation;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
-import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.game.items.blocks.RenderType;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 
@@ -23,9 +22,12 @@ public class WaterPropagation extends LivePropagationTask {
         liquidBlock = ItemList.getBlock(MyGame.BLOCK_WATER);
     }
 
-    public boolean isInterestedInBlock(BlockHistory hist) {
-        return hist.newBlock.id == liquidBlock.id;
-        //|| hist.previousBlock.id == liquidBlock;
+    public boolean addNode(Vector3i worldPos, BlockHistory hist) {
+        if (hist.newBlock.id == liquidBlock.id) {
+            nodes.add(worldPos);
+            return true;
+        }
+        return false;
     }
 
     public boolean isPenetrable(Block block) {
