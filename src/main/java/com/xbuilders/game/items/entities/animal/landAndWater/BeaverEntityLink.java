@@ -9,13 +9,11 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.Main;
+import com.xbuilders.game.items.entities.animal.mobile.AnimalUtils;
 import com.xbuilders.game.items.entities.animal.mobile.Limb;
 import com.xbuilders.window.BaseWindow;
-import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
-import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -86,6 +84,13 @@ public class BeaverEntityLink extends EntityLink {
         final static int LIMB_TAIL = 1;
         final static int LIMB_LEGS = 2;
 
+        //For now this is the only way to add offsets.
+        //Blender and blockbench do not support this.
+        //+Z is forward
+        //+X is right
+        final static Vector3f LIMB_HEAD_OFFSET = new Vector3f(0, -.5f, .3f);
+        final static Vector3f LIMB_TAIL_OFFSET = new Vector3f(0, 0, 0);
+        final static Vector3f LIMB_LEGS_OFFSET = new Vector3f(0, 0, 0);
 
         public Beaver(BaseWindow window, T link) {
             super(window);
@@ -94,16 +99,22 @@ public class BeaverEntityLink extends EntityLink {
             frustumSphereRadius = 2;
             setMaxSpeed(0.1f);
             setActivity(0.5f);
+
+            freezeMode = false; //Freeze mode
+
             limbs = new Limb[]{
-                    new Limb((limbMatrix)->{//TODO: make head face the player
-//                        limbMatrix.rotateY(getYDirectionToPlayer());
-//                        limbMatrix.updateAndSendToShader(shader.getID(), shader.uniform_modelMatrix);
+                    new Limb((limbMatrix) -> {
+                        limbMatrix.translate(LIMB_HEAD_OFFSET);
+                        if (distToPlayer < 5) {
+                            AnimalUtils.rotateToFacePlayer(limbMatrix);
+                        }
+                        limbMatrix.updateAndSendToShader(shader.getID(), shader.uniform_modelMatrix);
                         link.head.draw(false);
                     }),
-                    new Limb((limbMatrix)->{
+                    new Limb((limbMatrix) -> {
                         link.tail.draw(false);
                     }),
-                    new Limb((limbMatrix)->{
+                    new Limb((limbMatrix) -> {
                         link.legs.draw(false);
                     }),
             };

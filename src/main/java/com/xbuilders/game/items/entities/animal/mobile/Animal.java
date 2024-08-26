@@ -16,6 +16,7 @@ import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.BaseWindow;
 
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 import java.io.ByteArrayOutputStream;
@@ -94,8 +95,9 @@ public abstract class Animal extends Entity {
 
     public abstract void animal_drawBody();
 
+
     public final void draw() {
-        if (allowVoluntaryMovement()) animal_move();
+        if (allowVoluntaryMovement() && !freezeMode) animal_move();
         if (inFrustum || playerIsRidingThis()) {
             //Model matrix is our parent (body) matrix
             modelMatrix.rotateY((float) Math.toRadians(getRotationYDeg()));
@@ -132,27 +134,9 @@ public abstract class Animal extends Entity {
      */
     public float getYDirectionToPlayer() {
         return (float) (-MathUtils.calcRotationAngle(
-                        worldPosition.x, worldPosition.z,
-                        GameScene.player.worldPosition.x, GameScene.player.worldPosition.z)
-                        + MathUtils.HALF_PI);
-    }
-
-    /**
-     * @return the angle in radians
-     */
-    public float getXDirectionToPlayer() {
-        return (float) MathUtils.calcRotationAngle(
-                worldPosition.y, worldPosition.z,
-                GameScene.player.worldPosition.y, GameScene.player.worldPosition.z);
-    }
-
-    /**
-     * @return the angle in radians
-     */
-    public float getZDirectionToPlayer() {
-        return (float) MathUtils.calcRotationAngle(
-                worldPosition.x, worldPosition.y,
-                GameScene.player.worldPosition.x, GameScene.player.worldPosition.y);
+                worldPosition.x, worldPosition.z,
+                GameScene.player.worldPosition.x, GameScene.player.worldPosition.z)
+                + MathUtils.HALF_PI);
     }
 
 

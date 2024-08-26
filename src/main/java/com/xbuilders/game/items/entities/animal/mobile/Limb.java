@@ -17,8 +17,8 @@ public class Limb {
         limbs = new Limb[0];
     }
 
-    protected void inner_draw_limb(Matrix4f parentLimbMatrix) {
-        limbMatrix.set(parentLimbMatrix);//Initialize the matrix
+    protected void inner_draw_limb(Matrix4f parentMatrix) {
+        limbMatrix.set(parentMatrix);//Initialize the matrix
         limbMatrix.updateAndSendToShader(Entity.shader.getID(), Entity.shader.uniform_modelMatrix);
         drawCallback.accept(limbMatrix);
 

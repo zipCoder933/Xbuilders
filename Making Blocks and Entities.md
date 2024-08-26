@@ -1,19 +1,32 @@
+# Setting up blender
 Use the "blocks and entities.blend" file to add new entities or blocks
+If you want to setup your own blender file, follow these steps
+
+1. Set the units
+   - If your texture pack is 16x, than set the units in your model to 16
+   - Specify metric
+   - Specify length in meters
+   - ![blender1.png](assets/notes/images/blender1.png)
+
+2. In the snapping tab on the top toolbar, make sure the "snap base" is set to "closest" and "snap increment" is set to "increment"
+   - ![blender2.png](assets/notes/images/blender2.png)
+
+3. Ensure that your new blockbench model aligns with the grid in blender
+   - ![blender4.png](assets/notes/images/blender4.png)
+
+## Operator Preset when exporting OBJ
+| property           | value                                                                                              |
+--------------------|----------------------------------------------------------------------------------------------------
+| Selected only      | true                                                                                               |
+| Triangulate meshes | true                                                                                               |
+| Scale              | 1 (if your blockbench model doesnt align with the grid, this will have to be adjusted accordingly) |
+| Forward dir        | -Z                                                                                                 |
+| Up dir             | -Y                                                                                                 |
 
 # Making Entities
-When importing the entity from blockbench, the model must be scaled **1.6x in all directions**
-
-## Operator Preset when exporting OBJ
-| property           | value |
---------------------|-------
-| Selected only      | true  |
-| Triangulate meshes | true  |
-| Scale              | 0.625   |
-| Forward dir        | -Z    |
-| Up dir             | -Y    |
+* When importing the entity from blockbench, the model must be scaled
+* When exportingas an OBJ make set **up direction to -Y**
 
 # Making Blocks
-Align the block with the square bounding box in blender
-
-## Operator Preset when exporting OBJ
-Same as entities but the **up direction is +Y**
+* Align the block with the square bounding box in blender
+* When exporting as an OBJ make set **up direction to +Y**
