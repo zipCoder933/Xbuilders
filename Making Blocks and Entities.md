@@ -1,6 +1,6 @@
 # Setting up blender
-Use the "blocks and entities.blend" file to add new entities or blocks
-If you want to setup your own blender file, follow these steps
+We Use blockbench to design the modela for xbuilders but we use blender to ensure that they are in the right OBJ format before loading them into xbuilders.
+Use the existing "blocks and entities.blend" file to add new entities or blocks. If you want to setup your own blender file, follow these steps:
 
 1. Set the units
    - If your texture pack is 16x, than set the units in your model to 16
@@ -24,9 +24,9 @@ If you want to setup your own blender file, follow these steps
 | Up dir             | -Y                                                                                                 |
 
 # Making Entities
-* When importing the entity from blockbench, the model must be scaled
-* When exportingas an OBJ make set **up direction to -Y**
+* When exporting as an OBJ, set **up direction to -Y**
 
 # Making Blocks
 * Align the block with the square bounding box in blender
-* When exporting as an OBJ make set **up direction to +Y**
+* the direction that will be facing the player is -Z
+* When exporting as an OBJ, set **up direction to +Y**
