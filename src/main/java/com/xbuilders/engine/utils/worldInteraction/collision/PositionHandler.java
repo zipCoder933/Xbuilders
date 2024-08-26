@@ -7,6 +7,7 @@ package com.xbuilders.engine.utils.worldInteraction.collision;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
@@ -57,17 +58,17 @@ public class PositionHandler {
     }
 
 
-    //Constants
-    public final boolean DRAW_ENTITY_BOX = false;
-    final static boolean DRAW_COLLISION_CANDIDATES = false;
-    final static float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
-    final static float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
+    //static Constants
+    public static final boolean DRAW_ENTITY_BOX = false;
+    public static final boolean DRAW_COLLISION_CANDIDATES = false;
+    public static final float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
+    public static final float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
     public static final float DEFAULT_GRAVITY = 0.42f;
     public static final float DEFAULT_TERMINAL_VELOCITY = 0.6f;
-    final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
+    public static final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
 
     //Variables
-    public Vector3f velocity;
+    public final Vector3f velocity = new Vector3f();
     private boolean frozen = false;
     private boolean gravityEnabled;
     public boolean onGround;
@@ -76,12 +77,10 @@ public class PositionHandler {
     public float gravity = DEFAULT_GRAVITY;
     public float terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
     public boolean collisionsEnabled = true;
-    public Box renderedBox;
-    EntityAABB aabb;
-    public CollisionHandler collisionHandler;
+    public final Box renderedBox;
+    public final EntityAABB aabb;
+    public final CollisionHandler collisionHandler;
     public float stepHeight = 0.6f;
-
-    long lastUpdate;
     float frameDeltaSec;
 
     public PositionHandler(BaseWindow window, World world,
@@ -90,16 +89,12 @@ public class PositionHandler {
                            List<Player> playerList) {
 
         this.window = window;
-        this.velocity = new Vector3f(0f, 0f, 0f);
         frozen = false;
         gravityEnabled = true;
         renderedBox = new Box();
-
         this.aabb = thisAABB;
-
         collisionsEnabled = true;
         renderedBox.setLineWidth(15);
-
         collisionHandler = new CollisionHandler(world, this, thisAABB,
                 UserPlayerAABB, playerList);
     }
@@ -136,8 +131,6 @@ public class PositionHandler {
             } else if (velocity.y > terminalVelocity * frameDeltaSec) {
                 velocity.y = terminalVelocity * frameDeltaSec;
             }
-
-
             aabb.box.setX(aabb.box.min.x + velocity.x);
             aabb.box.setY(aabb.box.min.y + velocity.y);
             aabb.box.setZ(aabb.box.min.z + velocity.z);
@@ -145,9 +138,13 @@ public class PositionHandler {
         if (collisionsEnabled) {
             collisionHandler.resolveCollisions(GameScene.projection, GameScene.view);
         }
+
+
         aabb.worldPosition.x = aabb.box.min.x - aabb.offset.x;
         aabb.worldPosition.y = aabb.box.min.y - aabb.offset.y;
         aabb.worldPosition.z = aabb.box.min.z - aabb.offset.z;
+
+
         aabb.clamp(false);
     }
 

@@ -113,13 +113,5 @@ public class DefaultBlockType extends BlockType {
         return true;
     }
 
-    @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1));
-    }
 
-    @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1));
-    }
 }

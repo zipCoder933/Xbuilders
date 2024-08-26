@@ -116,11 +116,11 @@ public class LampRenderer extends BlockType {
     final float ONE_SIXTEENTH = 0.0625f;
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         float a = ONE_SIXTEENTH * 3;
         float b = ONE_SIXTEENTH * 6;
         box.setPosAndSize(x + a, y + (ONE_SIXTEENTH * 2), z + a, 1 - b, 1 - (ONE_SIXTEENTH * 3), 1 - b);
-        consumer.accept(box);
+        consumer.accept(box,block);
     }
 
 }

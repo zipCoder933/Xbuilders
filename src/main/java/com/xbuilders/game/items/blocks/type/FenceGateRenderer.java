@@ -118,7 +118,7 @@ public class FenceGateRenderer extends BlockType {
     final float offset = (ONE_SIXTEENTH / 2) + ((ONE_SIXTEENTH * width) * 1.5f);
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         if (data != null) {
             if (data.get(0) == 1 || data.get(0) == 3) {
                 box.setPosAndSize(x + offset, y, z,
@@ -127,12 +127,12 @@ public class FenceGateRenderer extends BlockType {
                 box.setPosAndSize(x, y, z + offset,
                         1, 1, ONE_SIXTEENTH * width);
             }
-            consumer.accept(box);
+            consumer.accept(box,block);
         }
     }
 
     @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         if (data.get(1) == 1)
             getCursorBoxes(consumer, box, block, data, x, y, z);
     }

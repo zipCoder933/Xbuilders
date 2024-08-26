@@ -245,7 +245,7 @@ public class DoorHalfRenderer extends BlockType {
     final float open_offset = (16 - width);
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         if (data != null) {
             boolean open = data.get(1) == 0;
             boolean left = data.get(2) == 0;
@@ -267,12 +267,12 @@ public class DoorHalfRenderer extends BlockType {
                 default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * width);
             }
 
-            consumer.accept(box);
+            consumer.accept(box,block);
         }
     }
 
     @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         getCursorBoxes(consumer, box, block, data, x, y, z);
     }
 

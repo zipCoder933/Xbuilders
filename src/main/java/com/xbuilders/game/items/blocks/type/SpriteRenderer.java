@@ -97,14 +97,14 @@ public class SpriteRenderer extends BlockType {
     public final float ONE_SIXTEENTH = (float) 1 / 16;
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         float width = 1 - (ONE_SIXTEENTH * 2);
         box.setPosAndSize(x + (ONE_SIXTEENTH), y, z + (ONE_SIXTEENTH), width, 1, width);
-        consumer.accept(box);
+        consumer.accept(box, block);
     }
 
     @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
     }
 
 }

@@ -92,12 +92,17 @@ public abstract class BlockType {
     // return rotatedVerts;
     // }
 
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         getCollisionBoxes(consumer, box, block, data, x, y, z);
     }
 
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1));
+    @FunctionalInterface
+    public interface BoxConsumer {
+        void accept(AABB box, Block block);
+    }
+
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+        consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1), block);
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {

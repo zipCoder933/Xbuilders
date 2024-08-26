@@ -67,7 +67,7 @@ public class WallItemRenderer extends BlockType {
 
 
     @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
     }
 
     final float ONE_SIXTEENTH = 1 / 16f;
@@ -86,7 +86,7 @@ public class WallItemRenderer extends BlockType {
     }
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         if (data != null) {
             switch (data.get(0)) {
                 case 1 -> box.setPosAndSize(x + ONE_SIXTEENTH * 14, y, z, ONE_SIXTEENTH * 2, 1, 1);
@@ -94,7 +94,7 @@ public class WallItemRenderer extends BlockType {
                 case 3 -> box.setPosAndSize(x, y, z, ONE_SIXTEENTH * 2, 1, 1);
                 default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * 2);
             }
-            consumer.accept(box);
+            consumer.accept(box,block);
         }
     }
 

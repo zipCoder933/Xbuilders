@@ -1,6 +1,7 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -38,9 +39,10 @@ public class CollisionHandler {
     final AABB collisionBox;
     public final CollisionData collisionData;
     boolean setFrozen = false;
-    final Consumer<AABB> customConsumer;
+    final BlockType.BoxConsumer customConsumer;
     Block b;
     BlockData d;
+    public Block floorBlock = BlockList.BLOCK_AIR;
     Chunk chunk;
 
     public CollisionHandler(World chunks, PositionHandler driver, EntityAABB entityBox,
@@ -55,8 +57,8 @@ public class CollisionHandler {
         collisionData = new CollisionData();
         stepBox = new AABB();
         collisionBox = new AABB();
-        customConsumer = box -> {
-            processBox(box, false); // This is not part of the problem
+        customConsumer = (box, block) -> {
+            processBox(box, block, false); // This is not part of the problem
             if (DRAW_COLLISION_CANDIDATES) {
                 driver.renderedBox.set(box);
                 driver.renderedBox.draw(GameScene.projection, GameScene.view);
@@ -67,7 +69,7 @@ public class CollisionHandler {
     private boolean compareEntityAABB(Matrix4f projection, Matrix4f view, EntityAABB entityBox) {
         if (entityBox != myBox && entityBox.isSolid) {
             if (myBox.worldPosition.distance(entityBox.worldPosition) < ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS) {
-                processBox(entityBox.box, true);
+                processBox(entityBox.box, null, true);
                 if (DRAW_COLLISION_CANDIDATES) {
                     driver.renderedBox.set(entityBox.box);
                     driver.renderedBox.draw(projection, view);
@@ -146,7 +148,7 @@ public class CollisionHandler {
         }
     }
 
-    private void processBox(AABB box, boolean isEntity) {
+    private void processBox(AABB box, Block block, boolean isEntity) {
         // if (stepBox.intersects(box)) {
         // stepWillHitCeiling = true;
         // System.out.println("STEP HIT CEILING " + System.currentTimeMillis());
@@ -183,11 +185,14 @@ public class CollisionHandler {
                     collisionData.sideCollisionIsEntity = isEntity;
                     myBox.box.setZ(myBox.box.min.z + collisionData.penPerAxes.z);
                 }
-            } else if (collisionData.collisionNormal.y == -1) {
+
+            } else if (collisionData.collisionNormal.y == -1) {//Floor collision
                 driver.velocity.y = 0;
                 driver.onGround = true;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
-            } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) {
+                floorBlock = block;
+
+            } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) { //Ceiling collision
                 driver.velocity.y = 0;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
             }

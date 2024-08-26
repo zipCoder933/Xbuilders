@@ -41,7 +41,7 @@ public class PillarRenderer extends BlockType {
     }
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         getCollisionBoxes(consumer, box, block, data, x, y, z);
     }
 
@@ -49,8 +49,8 @@ public class PillarRenderer extends BlockType {
     private final float width = 1 - (sixteenthConstant * 4);
 
     @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         box.setPosAndSize(x + (sixteenthConstant * 2), y, z + (sixteenthConstant * 2), width, 1, width);
-        consumer.accept(box);
+        consumer.accept(box, block);
     }
 }

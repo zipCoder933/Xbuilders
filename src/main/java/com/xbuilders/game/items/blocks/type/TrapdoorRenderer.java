@@ -97,7 +97,7 @@ public class TrapdoorRenderer extends BlockType {
     final float offset = (16 - width);
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         if (data != null) {
             if (data.get(1) == 1) {
                 box.setPosAndSize(x, y + ONE_SIXTEENTH * offset, z, 1, ONE_SIXTEENTH * width, 1);
@@ -109,12 +109,12 @@ public class TrapdoorRenderer extends BlockType {
                     default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * width);
                 }
             }
-            consumer.accept(box);
+            consumer.accept(box,block);
         }
     }
 
     @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         getCursorBoxes(consumer, box, block, data, x, y, z);
     }
 

@@ -52,7 +52,7 @@ public class PaneRenderer extends BlockType {
     }
 
     @Override
-    public void getCursorBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         getCollisionBoxes(consumer, box, block, data, x, y, z);
     }
 
@@ -65,23 +65,23 @@ public class PaneRenderer extends BlockType {
     final float ONE_SIXTEENTH = 1 / 16f;
 
     @Override
-    public void getCollisionBoxes(Consumer<AABB> consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
+    public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         if (data != null && data.size() == 2) {
             if (data.get(1) == 0) {
                 if (data.get(0) == 1 || data.get(0) == 3) {
                     box.setPosAndSize(x + (ONE_SIXTEENTH * 7), y, z, ONE_SIXTEENTH * 2, 1, 1);
-                    consumer.accept(box);
+                    consumer.accept(box,block);
                 } else {
                     box.setPosAndSize(x, y, z + (ONE_SIXTEENTH * 7), 1, 1, ONE_SIXTEENTH * 2);
-                    consumer.accept(box);
+                    consumer.accept(box,block);
                 }
             } else {
                 box.setPosAndSize(x, y + (ONE_SIXTEENTH * 7), z, 1, ONE_SIXTEENTH * 2, 1);
-                consumer.accept(box);
+                consumer.accept(box,block);
             }
         } else {
             box.setPosAndSize(x + (ONE_SIXTEENTH * 7), y, z, ONE_SIXTEENTH * 2, 1, 1);
-            consumer.accept(box);
+            consumer.accept(box,block);
         }
     }
 }
