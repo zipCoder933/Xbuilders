@@ -11,6 +11,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -20,6 +21,7 @@ public class GrassPropagation extends LivePropagationTask {
         updateIntervalMS = 10000;
     }
 
+    public HashSet<Vector3i> nodes = new HashSet<>();
 //    List<Long> nodeSetMS = new ArrayList<>();
 
     public boolean addNode(Vector3i worldPos, BlockHistory hist) {

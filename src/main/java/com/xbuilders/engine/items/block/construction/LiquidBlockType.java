@@ -17,7 +17,8 @@ public class LiquidBlockType extends DefaultBlockType {
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         BlockData bd = new BlockData(1);
-        bd.set(0, (byte) block.liquidMaxFlow);
+        //The source block is block max flow + 1
+        bd.set(0, (byte) (block.liquidMaxFlow+1));
         return bd;
     }
 
