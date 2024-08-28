@@ -250,9 +250,7 @@ public class BlockEventPipeline {
         //Block events
         if (allowBlockEvents) {
             eventsCopy.forEach((worldPos, blockHist) -> {
-                if (World.worldYIsWithinBounds(worldPos.y)
-                        && !blockHist.previousBlock.equals(blockHist.newBlock)) {
-
+                if (World.worldYIsWithinBounds(worldPos.y)) { //We dont need to check if the block has changed, because there might be block data changes that neighbors want to know about
                     if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the server
                         //System.out.println("Firing block events: " + blockHist.toString());
                         startLocalChange(worldPos, blockHist, allowBlockEvents);
