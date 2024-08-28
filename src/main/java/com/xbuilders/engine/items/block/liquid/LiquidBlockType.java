@@ -172,13 +172,13 @@ public class LiquidBlockType extends DefaultBlockType {
         float[] topFaceUV = topFaceUV_posZ;
 
         boolean topLiquid = neighbors[POS_Y] != block;
-        int maxFlow = block.liquidMaxFlow;
-        int flow = WaterPropagation.getFlow(data, block.liquidMaxFlow);
 
-        if (flow <= maxFlow && topLiquid && chunk != null) {
-            float zeroFlowHeight = getHeightOfFlow(0, maxFlow, chunkY);
-            float fullFlowHeight = getHeightOfFlow(maxFlow, maxFlow, chunkY);
-            float centerFlowHeight = getHeightOfFlow(flow, maxFlow, chunkY);
+        if (topLiquid && chunk != null) {
+            int flow = WaterPropagation.getFlow(data, block.liquidMaxFlow);
+
+            float zeroFlowHeight = getHeightOfFlow(0, block.liquidMaxFlow, chunkY);
+            float fullFlowHeight = getHeightOfFlow(block.liquidMaxFlow, block.liquidMaxFlow, chunkY);
+            float centerFlowHeight = getHeightOfFlow(flow, block.liquidMaxFlow, chunkY);
 
             int worldX = chunkX + chunk.position.x * Chunk.WIDTH;
             int worldY = chunkY + chunk.position.y * Chunk.HEIGHT;
@@ -198,7 +198,7 @@ public class LiquidBlockType extends DefaultBlockType {
                 //If the block above this one is also a liquid block, than the flow should be maxFlow
                 if (GameScene.world.getBlockID(worldX - 1, worldY - 1, worldZ) == block.id) {
                     negXFlow = fullFlowHeight;
-                } else negXFlow = getHeightOfFlow(neighborData[NEG_X], maxFlow, chunkY);
+                } else negXFlow = getHeightOfFlow(neighborData[NEG_X], block.liquidMaxFlow, chunkY);
 
                 y00WithLiquid++;
                 y01WithLiquid++;
@@ -206,7 +206,7 @@ public class LiquidBlockType extends DefaultBlockType {
             if (neighbors[POS_X] == block) {
                 if (GameScene.world.getBlockID(worldX + 1, worldY - 1, worldZ) == block.id) {
                     posXFlow = fullFlowHeight;
-                } else posXFlow = getHeightOfFlow(neighborData[POS_X], maxFlow, chunkY);
+                } else posXFlow = getHeightOfFlow(neighborData[POS_X], block.liquidMaxFlow, chunkY);
 
                 y10WithLiquid++;
                 y11WithLiquid++;
@@ -214,7 +214,7 @@ public class LiquidBlockType extends DefaultBlockType {
             if (neighbors[NEG_Z] == block) {
                 if (GameScene.world.getBlockID(worldX, worldY - 1, worldZ - 1) == block.id) {
                     negZFlow = fullFlowHeight;
-                } else negZFlow = getHeightOfFlow(neighborData[NEG_Z], maxFlow, chunkY);
+                } else negZFlow = getHeightOfFlow(neighborData[NEG_Z], block.liquidMaxFlow, chunkY);
 
                 y00WithLiquid++;
                 y10WithLiquid++;
@@ -222,7 +222,7 @@ public class LiquidBlockType extends DefaultBlockType {
             if (neighbors[POS_Z] == block) {
                 if (GameScene.world.getBlockID(worldX, worldY - 1, worldZ + 1) == block.id) {
                     posZFlow = fullFlowHeight;
-                } else posZFlow = getHeightOfFlow(neighborData[POS_Z], maxFlow, chunkY);
+                } else posZFlow = getHeightOfFlow(neighborData[POS_Z], block.liquidMaxFlow, chunkY);
 
                 y01WithLiquid++;
                 y11WithLiquid++;
@@ -238,7 +238,7 @@ public class LiquidBlockType extends DefaultBlockType {
                 if (GameScene.world.getBlockID(worldX - 1, worldY - 1, worldZ - 1) == block.id) {
                     negXnegZFlow = fullFlowHeight;
                 } else
-                    negXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ - 1), maxFlow, chunkY);
+                    negXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ - 1), block.liquidMaxFlow, chunkY);
 
                 y00WithLiquid++;
             }
@@ -246,7 +246,7 @@ public class LiquidBlockType extends DefaultBlockType {
                 if (GameScene.world.getBlockID(worldX - 1, worldY - 1, worldZ + 1) == block.id) {
                     negXposZFlow = fullFlowHeight;
                 } else
-                    negXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ + 1), maxFlow, chunkY);
+                    negXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX - 1, worldY, worldZ + 1), block.liquidMaxFlow, chunkY);
 
                 y01WithLiquid++;
             }
@@ -254,7 +254,7 @@ public class LiquidBlockType extends DefaultBlockType {
                 if (GameScene.world.getBlockID(worldX + 1, worldY - 1, worldZ - 1) == block.id) {
                     posXnegZFlow = fullFlowHeight;
                 } else
-                    posXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ - 1), maxFlow, chunkY);
+                    posXnegZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ - 1), block.liquidMaxFlow, chunkY);
 
                 y10WithLiquid++;
             }
@@ -262,7 +262,7 @@ public class LiquidBlockType extends DefaultBlockType {
                 if (GameScene.world.getBlockID(worldX + 1, worldY - 1, worldZ + 1) == block.id) {
                     posXposZFlow = fullFlowHeight;
                 } else
-                    posXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ + 1), maxFlow, chunkY);
+                    posXposZFlow = getHeightOfFlow(GameScene.world.getBlockData(worldX + 1, worldY, worldZ + 1), block.liquidMaxFlow, chunkY);
 
                 y11WithLiquid++;
             }
