@@ -7,28 +7,26 @@ import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
-import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 
 public class GrassPropagation extends LivePropagationTask {
 
+    final int UPDATE_INTERVAL = 10 * 1000;
+
     public GrassPropagation() {
-        updateIntervalMS = 10000;
+        updateIntervalMS = UPDATE_INTERVAL;
     }
 
-    public HashSet<Vector3i> nodes = new HashSet<>();
-//    List<Long> nodeSetMS = new ArrayList<>();
+    public HashMap<Vector3i, Long> nodes = new HashMap<>();
 
     public boolean addNode(Vector3i worldPos, BlockHistory hist) {
         if (isGrass(hist.newBlock.id)
                 || hist.newBlock.id == MyGame.BLOCK_DIRT) {
-            nodes.add(worldPos);
-//            nodeSetMS.add((long) (System.currentTimeMillis() - (Math.random()*3000)));
+            long setTime = (long) (System.currentTimeMillis() + (Math.random() * 5000));
+            nodes.put(worldPos, setTime);
             return true;
         }
         return false;
@@ -42,37 +40,39 @@ public class GrassPropagation extends LivePropagationTask {
         }
         Main.printlnDev("grass prop nodes: " + nodes.size());
 
-        for (Vector3i node : nodes) {
+        //Iterator is better than entrySet. Entryset creates a copy
+        Iterator<Map.Entry<Vector3i, Long>> iterator = nodes.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Vector3i, Long> entry = iterator.next();
+            Vector3i node = entry.getKey();
+            long setTime = entry.getValue();
+
             short thisBlock = GameScene.world.getBlockID(node.x, node.y, node.z);
             Block aboveBlock = GameScene.world.getBlock(node.x, node.y - 1, node.z);
 
-            if (thisBlock == MyGame.BLOCK_DIRT && !aboveBlock.solid) {
-                GameScene.player.setBlock(
-                        getGrassBlockOfBiome(node.x, node.y, node.z),
-                        node.x, node.y, node.z);
-            } else if (isGrass(thisBlock) && aboveBlock.solid) {
-                GameScene.player.setBlock(MyGame.BLOCK_DIRT, node.x, node.y, node.z);
+            if (System.currentTimeMillis() - setTime > UPDATE_INTERVAL / 2) { //If it's been 10 seconds since we last set the block
+                if (thisBlock == MyGame.BLOCK_DIRT && !aboveBlock.solid) {
+                    GameScene.player.setBlock(
+                            getGrassBlockOfBiome(node.x, node.y, node.z),
+                            node.x, node.y, node.z);
+                } else if (isGrass(thisBlock) && aboveBlock.solid) {
+                    GameScene.player.setBlock(MyGame.BLOCK_DIRT, node.x, node.y, node.z);
+                }
+                iterator.remove(); // remove the entry from the map
             }
         }
-        nodes.clear();
     }
 
     private short getGrassBlockOfBiome(int wx, int wy, int wz) {
         int biome = GameScene.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
-            case ComplexTerrain.BIOME_DEFAULT -> {
-                return MyGame.BLOCK_GRASS;
-            }
             case ComplexTerrain.BIOME_SNOWY -> {
                 return MyGame.BLOCK_SNOW_GRASS;
             }
             case ComplexTerrain.BIOME_JUNGLE -> {
                 return MyGame.BLOCK_JUNGLE_GRASS;
             }
-            case ComplexTerrain.BIOME_SAVANNAH -> {
-                return MyGame.BLOCK_DRY_GRASS;
-            }
-            case ComplexTerrain.BIOME_DESERT -> {
+            case ComplexTerrain.BIOME_SAVANNAH, ComplexTerrain.BIOME_DESERT -> {
                 return MyGame.BLOCK_DRY_GRASS;
             }
             default -> {
