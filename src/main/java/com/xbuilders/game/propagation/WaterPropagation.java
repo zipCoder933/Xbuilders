@@ -19,7 +19,6 @@ import java.util.HashSet;
 public class WaterPropagation extends LivePropagationTask {
 
     public Block liquidBlock;
-    ArrayList<Vector3i> reduceNodes = new ArrayList<>();
     public HashSet<Vector3i> nodes = new HashSet<>();
 
     public WaterPropagation() {
@@ -29,9 +28,14 @@ public class WaterPropagation extends LivePropagationTask {
 
     public boolean addNode(Vector3i worldPos, BlockHistory hist) {
         if (hist.newBlock.id == liquidBlock.id) {
-            if (reduceNodes.contains(worldPos)) {
-                return false;
-            }
+            nodes.add(worldPos);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean addNode(HashSet<Vector3i> nodes, Vector3i worldPos) {
+        if (GameScene.world.getBlockID(worldPos.x, worldPos.y, worldPos.z) == liquidBlock.id) {
             nodes.add(worldPos);
             return true;
         }
@@ -49,40 +53,49 @@ public class WaterPropagation extends LivePropagationTask {
     /**
      * maxFlow+1 = source water
      * maxFlow = down-flowing water
-     * > maxFlow = sidewards-flowing water
+     * > maxFlow = sideways-flowing water
      */
     @Override
     public void update() {
-        if (nodes.isEmpty() && reduceNodes.isEmpty()) {
+        if (nodes.isEmpty()) {
             return;
         }
         Main.printlnDev(liquidBlock.name + " prop nodes: " + nodes.size());
         int sourceFlow = liquidBlock.liquidMaxFlow + 1;
+
         for (Vector3i v : nodes) {
             //Get the flow from this node
 
             int flow = getFlow(GameScene.world.getBlockData(v.x, v.y, v.z));
-            Block below = GameScene.world.getBlock(v.x, v.y + 1, v.z);
 
-            if (
-                    flow == liquidBlock.liquidMaxFlow && //If we are 100% flowing
-                            GameScene.world.getBlockID(v.x, v.y - 1, v.z) != liquidBlock.id && //and there is nothing above
-                            getFlow(GameScene.world.getBlockData(v.x - 1, v.y, v.z)) != sourceFlow &&//and there is no neighboring source
-                            getFlow(GameScene.world.getBlockData(v.x + 1, v.y, v.z)) != sourceFlow &&
-                            getFlow(GameScene.world.getBlockData(v.x, v.y, v.z - 1)) != sourceFlow &&
-                            getFlow(GameScene.world.getBlockData(v.x, v.y, v.z + 1)) != sourceFlow
-            ) {
-                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, v.x, v.y, v.z);
-                continue;
-            } else if (
-                    flow < liquidBlock.liquidMaxFlow &&
+
+            /**
+             * FLOW DEPROPAGATION
+             */
+            if (flow == liquidBlock.liquidMaxFlow && //If we are 100% flowing
                     GameScene.world.getBlockID(v.x, v.y - 1, v.z) != liquidBlock.id && //and there is nothing above
-                    !below.solid  //and there is nothing below
+                    getFlow(GameScene.world.getBlockData(v.x - 1, v.y, v.z)) != sourceFlow &&//and there is no neighboring source
+                    getFlow(GameScene.world.getBlockData(v.x + 1, v.y, v.z)) != sourceFlow &&
+                    getFlow(GameScene.world.getBlockData(v.x, v.y, v.z - 1)) != sourceFlow &&
+                    getFlow(GameScene.world.getBlockData(v.x, v.y, v.z + 1)) != sourceFlow
             ) {
-                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, v.x, v.y, v.z);
-                continue;
+                Block below = GameScene.world.getBlock(v.x, v.y + 1, v.z);
+                if (below.solid) reduceFlow(v.x, v.y, v.z);
+                else GameScene.player.setBlock(BlockList.BLOCK_AIR.id, v.x, v.y, v.z);
+
+            } else if (flow < liquidBlock.liquidMaxFlow && //If we are flowing sideways
+                    !(getFlow(GameScene.world.getBlockData(v.x - 1, v.y, v.z)) > flow || //and there is no neighboring value higher than us
+                            getFlow(GameScene.world.getBlockData(v.x + 1, v.y, v.z)) > flow ||
+                            getFlow(GameScene.world.getBlockData(v.x, v.y, v.z - 1)) > flow ||
+                            getFlow(GameScene.world.getBlockData(v.x, v.y, v.z + 1)) > flow)
+            ) {
+                reduceFlow(v.x, v.y, v.z);
             }
 
+
+            /**
+             * FLOW PROPAGATION
+             */
             if (setWater(v.x, v.y + 1, v.z, liquidBlock.liquidMaxFlow)) {
             } else if (flow > 0) {
                 setWater(v.x - 1, v.y, v.z, flow - 1);
@@ -93,42 +106,6 @@ public class WaterPropagation extends LivePropagationTask {
 
         }
         nodes.clear();
-
-
-//        //Iterate through the reduce nodes
-//        Main.printlnDev("Reduce nodes: " + reduceNodes.size());
-//        ArrayList<Vector3i> new_reduceNodes = new ArrayList<>();
-//        for (Vector3i v : reduceNodes) {
-//            int flow = getFlow(GameScene.world.getBlockData(v.x, v.y, v.z));
-//            reduceFlow(flow, v.x, v.y, v.z);
-//            if (reduceFlow(flow, v.x + 1, v.y, v.z)) {
-//                new_reduceNodes.add(new Vector3i(v.x + 1, v.y, v.z));
-//            }
-//            if (reduceFlow(flow, v.x - 1, v.y, v.z)) {
-//                new_reduceNodes.add(new Vector3i(v.x - 1, v.y, v.z));
-//            }
-//            if (reduceFlow(flow, v.x, v.y, v.z + 1)) {
-//                new_reduceNodes.add(new Vector3i(v.x, v.y, v.z + 1));
-//            }
-//            if (reduceFlow(flow, v.x, v.y, v.z - 1)) {
-//                new_reduceNodes.add(new Vector3i(v.x, v.y, v.z - 1));
-//            }
-//            //Diagonals
-//            if (reduceFlow(flow, v.x - 1, v.y, v.z - 1)) {
-//                new_reduceNodes.add(new Vector3i(v.x - 1, v.y, v.z - 1));
-//            }
-//            if (reduceFlow(flow, v.x + 1, v.y, v.z - 1)) {
-//                new_reduceNodes.add(new Vector3i(v.x + 1, v.y, v.z - 1));
-//            }
-//            if (reduceFlow(flow, v.x - 1, v.y, v.z + 1)) {
-//                new_reduceNodes.add(new Vector3i(v.x - 1, v.y, v.z + 1));
-//            }
-//            if (reduceFlow(flow, v.x + 1, v.y, v.z + 1)) {
-//                new_reduceNodes.add(new Vector3i(v.x + 1, v.y, v.z + 1));
-//            }
-//        }
-//        reduceNodes.clear();
-//        reduceNodes.addAll(new_reduceNodes);
     }
 
     /**
@@ -152,8 +129,7 @@ public class WaterPropagation extends LivePropagationTask {
         return !b.solid;
     }
 
-    private boolean reduceFlow(int sourceFlow,
-                               int x, int y, int z) {
+    private boolean reduceFlow(int x, int y, int z) {
         short block = GameScene.world.getBlockID(x, y, z);
         if (block == liquidBlock.id) {
             BlockData bd = GameScene.world.getBlockData(x, y, z);
@@ -164,6 +140,13 @@ public class WaterPropagation extends LivePropagationTask {
                     bd.set(0, (byte) (flow - 1));
                 } else bd = new BlockData(new byte[]{(byte) (flow - 1)});
                 GameScene.player.setBlock(liquidBlock.id, bd, x, y, z);
+
+//TODO: If the block event pipeline doesnt key local change events for block data changes, we would have to add the nodes from these events ourselves
+//                addNode(nodes, new Vector3i(x + 1, y, z));
+//                addNode(nodes, new Vector3i(x - 1, y, z));
+//                addNode(nodes, new Vector3i(x, y, z + 1));
+//                addNode(nodes, new Vector3i(x, y, z - 1));
+
                 return true;
             } else {
                 GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y, z);
