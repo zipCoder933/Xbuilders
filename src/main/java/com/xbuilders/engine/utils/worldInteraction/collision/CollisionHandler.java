@@ -15,7 +15,6 @@ import com.xbuilders.engine.world.wcc.WCCi;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
@@ -118,7 +117,7 @@ public class CollisionHandler {
                                         wcc.chunkVoxel.y,
                                         wcc.chunkVoxel.z);
                                 // }
-                                BlockType type = ItemList.blocks.getBlockType(b.type);
+                                BlockType type = ItemList.blocks.getBlockType(b.renderType);
                                 try {
                                     if (type != null)
                                         type.getCollisionBoxes(customConsumer, collisionBox, b, d, x, y, z);

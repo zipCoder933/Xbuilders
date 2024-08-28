@@ -192,7 +192,7 @@ public class BlockEventPipeline {
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
 
-            BlockType type = ItemList.blocks.getBlockType(blockHist.newBlock.type);
+            BlockType type = ItemList.blocks.getBlockType(blockHist.newBlock.renderType);
             BlockData newBlockData = null;
             if (blockHist.updateBlockData) {
                 newBlockData = blockHist.newBlockData;
@@ -339,7 +339,7 @@ public class BlockEventPipeline {
         if (chunk != null) {
             Block nBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
             if (nBlock != null && !nBlock.isAir()) {
-                if (!ItemList.blocks.getBlockType(nBlock.type).allowExistence(hist.newBlock, nx, ny, nz)) {
+                if (!ItemList.blocks.getBlockType(nBlock.renderType).allowExistence(hist.newBlock, nx, ny, nz)) {
 
                     //Set blocks that are not allowed here to air
                     short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);

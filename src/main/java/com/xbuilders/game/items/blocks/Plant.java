@@ -10,7 +10,7 @@ public class Plant {
     public static void makePlant(Block block, short... stages) {
         block.solid = false;
         block.opaque = false;
-        block.type = RenderType.SPRITE;
+        block.renderType = RenderType.SPRITE;
 
         if (stages.length > 0) {
             block.setBlockEvent_multithreaded((x, y, z) -> {

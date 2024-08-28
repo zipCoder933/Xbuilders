@@ -15,7 +15,7 @@ public class StraightTrack extends Block {
         super(id, "Track", new BlockTexture("track.png", "track.png", "track.png"));
         solid = false;
         opaque = false;
-        type = RenderType.FLOOR;
+        renderType = RenderType.FLOOR;
 
         localChangeEvent(((history, changedPosition, thisPosition) -> {
             int x = thisPosition.x;

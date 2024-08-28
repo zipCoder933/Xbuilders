@@ -72,16 +72,16 @@ public class BannerEntityLink extends EntityLink {
 
                 if (xzOrientation == 0) {
                     againstFencepost = GameScene.world.getBlock(wx, wy, wz - 1)
-                            .type == RenderType.FENCE;
+                            .renderType == RenderType.FENCE;
                 } else if (xzOrientation == 1) {
                     againstFencepost = GameScene.world.getBlock(wx + 1, wy, wz)
-                            .type == RenderType.FENCE;
+                            .renderType == RenderType.FENCE;
                 } else if (xzOrientation == 2) {
                     againstFencepost = GameScene.world.getBlock(wx, wy, wz + 1)
-                            .type == RenderType.FENCE;
+                            .renderType == RenderType.FENCE;
                 } else {
                     againstFencepost = GameScene.world.getBlock(wx - 1, wy, wz)
-                            .type == RenderType.FENCE;
+                            .renderType == RenderType.FENCE;
                 }
             }
 

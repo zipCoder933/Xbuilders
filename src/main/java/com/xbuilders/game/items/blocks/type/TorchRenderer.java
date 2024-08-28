@@ -69,7 +69,7 @@ public class TorchRenderer extends BlockType {
     void drawSide(int i, Block neighbor,
                   VertexSet buffers, Block block, Block[] neighbors, byte[] lightValues, int x, int y, int z) {
 
-        if (neighbor.type == RenderType.FENCE) {
+        if (neighbor.renderType == RenderType.FENCE) {
             fenceSide[i].render(buffers, block, neighbors, lightValues, x, y, z);
         } else {
             sideBlock[i].render(buffers, block, neighbors, lightValues, x, y, z);

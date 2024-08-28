@@ -30,7 +30,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("solid", src.solid);
         jsonObject.addProperty("opaque", src.opaque);
         jsonObject.addProperty("torch", src.torchlightStartingValue);
-        jsonObject.addProperty("type", src.type);
+        jsonObject.addProperty("type", src.renderType);
         if (src.colorInPlayerHead != null) {
             JsonElement colorElement = context.serialize(src.colorInPlayerHead);
             jsonObject.add("colorInPlayerHead", colorElement);
@@ -67,9 +67,9 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         if (jsonObject.has("type")) {
             String typeStr = jsonObject.get("type").getAsString();
             if (typeStr == null || isInteger(typeStr)) {// If the type is an integer
-                block.type = jsonObject.get("type").getAsInt();
+                block.renderType = jsonObject.get("type").getAsInt();
             } else { // Otherwise it's a string
-                block.type = ItemList.blocks.getBlockType(typeStr);
+                block.renderType = ItemList.blocks.getBlockType(typeStr);
             }
         }
         if (jsonObject.has("icon"))

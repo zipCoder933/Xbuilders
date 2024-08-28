@@ -43,7 +43,7 @@ public class Block_NaiveMesher extends BlockMesher<VertexSet> {
 
                     block = ItemList.getBlock(data.getBlock(x, y, z));
 
-                    if (!block.isAir() && (generateAll || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID)) {
+                    if (!block.isAir() && (generateAll || block.renderType != BlockList.DEFAULT_BLOCK_TYPE_ID)) {
 
                         if (x > 0) {
                             neighbors[BlockType.NEG_X] = ItemList.getBlock(data.getBlock(x - 1, y, z));
@@ -88,7 +88,7 @@ public class Block_NaiveMesher extends BlockMesher<VertexSet> {
                         }
 
                         blockData = data.getBlockData(x, y, z);
-                        BlockType type = ItemList.blocks.getBlockType(block.type);
+                        BlockType type = ItemList.blocks.getBlockType(block.renderType);
                         if (block.opaque) {
                             type.constructBlock(opaqueBuffers, block, blockData, neighbors, null, light, null, x, y, z);
                         } else {

@@ -16,8 +16,6 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.items.blocks.RenderType;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -43,9 +41,9 @@ public class FenceRenderer extends BlockType {
     private boolean isSolid(Block block) {
         return block != null
                 && block.solid
-                && block.type != RenderType.FLOOR
-                && block.type != RenderType.WALL_ITEM
-                && block.type != RenderType.SPRITE;
+                && block.renderType != RenderType.FLOOR
+                && block.renderType != RenderType.WALL_ITEM
+                && block.renderType != RenderType.SPRITE;
     }
 
     @Override

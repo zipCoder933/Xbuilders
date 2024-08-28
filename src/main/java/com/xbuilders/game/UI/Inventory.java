@@ -106,10 +106,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
                     if (o1.itemType == ItemType.BLOCK) {
                         Block b1 = (Block) o1;
                         Block b2 = (Block) o2;
-                        if (b1.type == b2.type) {
+                        if (b1.renderType == b2.renderType) {
                             // System.out.println("Same block: " + b1.type);
                             return 0;
-                        } else return b1.type > b2.type ? 1 : -1;
+                        } else return b1.renderType > b2.renderType ? 1 : -1;
                     }
                 }
 

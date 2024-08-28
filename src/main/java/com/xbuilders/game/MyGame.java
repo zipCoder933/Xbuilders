@@ -483,6 +483,7 @@ public class MyGame extends Game {
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());
         gameScene.livePropagationHandler.addTask(new GrassPropagation());
+        //gameScene.livePropagationHandler.addTask(new FirePropagation());
     }
 
     private void reassignBlocks(Block[] blocks, HashMap<Short, Block> reassignments) {
@@ -554,7 +555,7 @@ public class MyGame extends Game {
 
     @Override
     public boolean includeBlockIcon(Block block) {
-        return block.type != RenderType.SPRITE;
+        return block.renderType != RenderType.SPRITE;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Block IDs">

@@ -16,8 +16,6 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.items.blocks.RenderType;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -41,7 +39,7 @@ public class LampRenderer extends BlockType {
     void drawSide(int i, Block neighbor,
                   VertexSet buffers, Block block, Block[] neighbors, byte[] lightValues, int x, int y, int z) {
 
-        if (neighbor.type == RenderType.FENCE) {
+        if (neighbor.renderType == RenderType.FENCE) {
             fenceSide[i].render(buffers, block, neighbors, lightValues, x, y, z);
         } else {
             sideBlock[i].render(buffers, block, neighbors, lightValues, x, y, z);

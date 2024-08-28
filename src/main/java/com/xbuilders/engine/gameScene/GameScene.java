@@ -15,7 +15,6 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
 import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.progress.Bulletin;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
@@ -443,7 +442,7 @@ public class GameScene implements WindowEvents {
                         BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-                        text += "\n" + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + ItemList.blocks.getBlockType(block.type);
+                        text += "\n" + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + ItemList.blocks.getBlockType(block.renderType);
                         text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }
 

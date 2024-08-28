@@ -172,13 +172,13 @@ public class LiquidBlockType extends DefaultBlockType {
         float[] topFaceUV = topFaceUV_posZ;
 
         boolean topLiquid = neighbors[POS_Y] != block;
+        int maxFlow = block.liquidMaxFlow;
+        int flow = WaterPropagation.getFlow(data, block.liquidMaxFlow);
 
-
-        if (topLiquid && chunk != null) {
-            int maxFlow = block.liquidMaxFlow;
+        if (flow <= maxFlow && topLiquid && chunk != null) {
             float zeroFlowHeight = getHeightOfFlow(0, maxFlow, chunkY);
             float fullFlowHeight = getHeightOfFlow(maxFlow, maxFlow, chunkY);
-            float centerFlowHeight = getHeightOfFlow(data, maxFlow, chunkY);
+            float centerFlowHeight = getHeightOfFlow(flow, maxFlow, chunkY);
 
             int worldX = chunkX + chunk.position.x * Chunk.WIDTH;
             int worldY = chunkY + chunk.position.y * Chunk.HEIGHT;

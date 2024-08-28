@@ -78,7 +78,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
                     if (block != null && !block.isAir()
                             && (generateAll ||
-                            !ItemList.blocks.getBlockType(block.type).useInGreedyMesher())
+                            !ItemList.blocks.getBlockType(block.renderType).useInGreedyMesher())
                     ) {
 
 
@@ -191,7 +191,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                         }
 
                         blockData = data.getBlockData(x, y, z);
-                        type = ItemList.blocks.getBlockType(block.type);
+                        type = ItemList.blocks.getBlockType(block.renderType);
                         try {
                             if (block.opaque) {
                                 type.constructBlock(opaqueBuffers, block, blockData,  //XYZ are in chunk space

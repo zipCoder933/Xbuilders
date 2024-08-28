@@ -136,7 +136,7 @@ public abstract class BlockType {
         if (neighbor == null) {
             return true;
         } else {
-            BlockType type = ItemList.blocks.getBlockType(neighbor.type);
+            BlockType type = ItemList.blocks.getBlockType(neighbor.renderType);
             if (!neighbor.opaque || (type == null) || !type.isCubeShape()) {
                 return true;
             }

@@ -17,8 +17,6 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.items.blocks.RenderType;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -43,9 +41,9 @@ public class FenceGateRenderer extends BlockType {
                 Block block2 = GameScene.world.getBlock(x + 1, y, z);
                 Block block3 = GameScene.world.getBlock(x, y, z - 1);
                 Block block4 = GameScene.world.getBlock(x, y, z + 1);
-                if (block.type == RenderType.FENCE && block2.type == RenderType.FENCE) {
+                if (block.renderType == RenderType.FENCE && block2.renderType == RenderType.FENCE) {
                     bd.set(0, (byte) 0);
-                } else if (block3.type == RenderType.FENCE && block4.type == RenderType.FENCE) {
+                } else if (block3.renderType == RenderType.FENCE && block4.renderType == RenderType.FENCE) {
                     bd.set(0, (byte) 1);
                 }
             });

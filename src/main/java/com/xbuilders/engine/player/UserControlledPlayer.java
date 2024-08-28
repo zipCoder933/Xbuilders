@@ -225,7 +225,7 @@ public class UserControlledPlayer extends Player {
         Block newPlayerBlock = getBlockAtPlayerHead();
         if (playerBlock == null || newPlayerBlock.id != playerBlock.id) {
             playerBlock = newPlayerBlock;
-            if (newCameraBlock.type == BlockList.LIQUID_BLOCK_TYPE_ID) {
+            if (newCameraBlock.renderType == BlockList.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.velocity.set(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 8,
                         PositionHandler.DEFAULT_TERMINAL_VELOCITY / 30);

@@ -133,10 +133,10 @@ public class GreedyMesher extends ChunkMesher<CompactVertexSet> {
                             block = ItemList.getBlock(thisPlaneVoxel.get(0));
                             block1 = ItemList.getBlock(nextPlaneVoxel.get(0));
 
-                            if (block.isAir() || block.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block.isAir() || block.renderType != BlockList.DEFAULT_BLOCK_TYPE_ID) {
                                 thisPlaneVoxel.put(0, (short) 0);
                             }
-                            if (block1.isAir() || block1.type != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block1.isAir() || block1.renderType != BlockList.DEFAULT_BLOCK_TYPE_ID) {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 

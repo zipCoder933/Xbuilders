@@ -15,15 +15,13 @@ public abstract class LivePropagationTask {
      * @param history
      * @return true if the node was added
      */
-    public boolean addNode(Vector3i worldPos, BlockHistory history) {
-        return false;
-    }
+    public abstract boolean addNode(Vector3i worldPos, BlockHistory history);
 
 
     public LivePropagationTask() {
     }
 
-    public void update() {
+    public abstract void update();
 //        Iterator<Vector3i> iterator = blocksOfInterest.iterator();
 //        while (iterator.hasNext()) {
 //            Vector3i item = iterator.next();
@@ -31,5 +29,4 @@ public abstract class LivePropagationTask {
 ////                iterator.remove();
 ////            }
 //        }
-    }
 }

@@ -24,7 +24,7 @@ public class Block extends Item {
 
     //A block texture is a REQUIRED field
     public final BlockTexture texture;
-    public int type = 0;
+    public int renderType = 0;
     public boolean solid = true;
     public boolean climbable = false;
     public boolean opaque = true;
@@ -34,7 +34,7 @@ public class Block extends Item {
     public final float[] colorInPlayerHead = {0, 0, 0, 0};//If set to null, we default to drawing block texture in player head
 
     public BlockType getRenderType() {
-        return ItemList.blocks.getBlockType(type);
+        return ItemList.blocks.getBlockType(renderType);
     }
 
     public final boolean isLuminous() {
@@ -42,7 +42,7 @@ public class Block extends Item {
     }
 
     public final boolean isLiquid() {
-        return type == BlockList.LIQUID_BLOCK_TYPE_ID;
+        return renderType == BlockList.LIQUID_BLOCK_TYPE_ID;
     }
 
     // <editor-fold defaultstate="collapsed" desc="block events">
@@ -155,8 +155,8 @@ public class Block extends Item {
         }
 
         //Run initialization callbacks
-        if (ItemList.blocks.getBlockType(type) != null) {
-            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(type).initializationCallback;
+        if (ItemList.blocks.getBlockType(renderType) != null) {
+            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(renderType).initializationCallback;
             if (typeInitCallback != null) typeInitCallback.accept(this);
         }
         //Run our custom initialization callback last
@@ -210,33 +210,33 @@ public class Block extends Item {
 
     public Block(int id, String name) {
         super(id, name, ItemType.BLOCK);
-        this.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
+        this.renderType = BlockList.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
     }
 
     public Block(int id, String name, BlockTexture texture) {
         super(id, name, ItemType.BLOCK);
-        this.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
+        this.renderType = BlockList.DEFAULT_BLOCK_TYPE_ID;
         this.texture = texture;
     }
 
     public Block(int id, String name, BlockTexture texture, int renderType) {
         super(id, name, ItemType.BLOCK);
         this.texture = texture;
-        this.type = renderType;
+        this.renderType = renderType;
     }
 
     public Block(int id, String name, BlockTexture texture, int renderType, Consumer<Block> initialization) {
         super(id, name, ItemType.BLOCK);
         this.texture = texture;
-        this.type = renderType;
+        this.renderType = renderType;
         this.initializationCallback = initialization;
     }
 
     public Block(int id, String name, BlockTexture texture, Consumer<Block> initialization) {
         super(id, name, ItemType.BLOCK);
         this.texture = texture;
-        this.type = BlockList.DEFAULT_BLOCK_TYPE_ID;
+        this.renderType = BlockList.DEFAULT_BLOCK_TYPE_ID;
         this.initializationCallback = initialization;
     }
 
