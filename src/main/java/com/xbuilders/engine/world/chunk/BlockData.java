@@ -6,7 +6,9 @@ package com.xbuilders.engine.world.chunk;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zipCoder933
@@ -37,6 +39,17 @@ public class BlockData {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true; //if they are the same reference
+        if (!(o instanceof BlockData blockData)) return false; //if they are not the same type
+        return Arrays.equals(buff, blockData.buff); //if they have the same data
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(buff);
+    }
 
     /**
      * The size of block data is designed to be a fixed value. If another

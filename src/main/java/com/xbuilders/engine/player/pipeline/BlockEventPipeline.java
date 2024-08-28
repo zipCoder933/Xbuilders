@@ -201,6 +201,7 @@ public class BlockEventPipeline {
                         chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z),
                         blockHist.newBlock, player);
             }
+            blockHist.newBlockData = newBlockData; //Store the new block data so that we can use it later
 
             if (!blockHist.previousBlock.equals(blockHist.newBlock)) { //If the 2 blocks are different
                 if (blockHist.newBlock.allowExistence(worldPos.x, worldPos.y, worldPos.z) //Should we set the block?
@@ -250,13 +251,17 @@ public class BlockEventPipeline {
         //Block events
         if (allowBlockEvents) {
             eventsCopy.forEach((worldPos, blockHist) -> {
-                if (World.worldYIsWithinBounds(worldPos.y)) { //We dont need to check if the block has changed, because there might be block data changes that neighbors want to know about
+                if (World.worldYIsWithinBounds(worldPos.y)) {
                     if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the server
-                        //System.out.println("Firing block events: " + blockHist.toString());
-                        startLocalChange(worldPos, blockHist, allowBlockEvents);
-                        blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
-                        blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
-                        Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
+
+                        if (//TODO: Try to check for block data changes without setting off infinite recursion
+                                blockHist.previousBlock != blockHist.newBlock //If the blocks are different
+                        ) {
+                            startLocalChange(worldPos, blockHist, allowBlockEvents);
+                            Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
+                            blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
+                            blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
+                        }
                     }
                 }
             });

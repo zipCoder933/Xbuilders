@@ -3,7 +3,7 @@ Developer Message: 	unnamed exception
 Class: 	class java.lang.NullPointerException
 
 Stack trace:
-[com.xbuilders.engine.items.block.construction.LiquidBlockType.sideIsVisible(LiquidBlockType.java:16)
+[com.xbuilders.engine.items.block.liquid.LiquidBlockType.sideIsVisible(LiquidBlockType.java:16)
  com.xbuilders.engine.items.block.construction.DefaultBlockType.constructBlock(DefaultBlockType.java:29)
  com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher.compute(NaiveMesherWithLight.java:178)
  com.xbuilders.engine.rendering.chunk.ChunkMeshBundle.compute(ChunkMeshBundle.java:109)

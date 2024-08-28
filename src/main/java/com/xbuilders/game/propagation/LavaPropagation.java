@@ -4,16 +4,16 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.liquid.LiquidPropagationTask;
 import com.xbuilders.game.MyGame;
 
-public class LavaPropagation extends WaterPropagation {
+public class LavaPropagation extends LiquidPropagationTask {
 
     public LavaPropagation() {
-        updateIntervalMS = 900;
-        liquidBlock = ItemList.getBlock(MyGame.BLOCK_LAVA);
+        super(ItemList.getBlock(MyGame.BLOCK_LAVA), 900);
     }
 
-    public boolean isPenetrable(Block block){
+    public boolean isPenetrable(Block block) {
         return !block.solid && !block.isLiquid();
     }
 }

@@ -1,14 +1,32 @@
-package com.xbuilders.engine.items.block.construction;
+package com.xbuilders.engine.items.block.liquid;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.Main;
+import com.xbuilders.game.propagation.WaterPropagation;
+import org.joml.Vector3i;
 
 public class LiquidBlockType extends DefaultBlockType {
+
+    final static Vector3i[] waterEraseNeighbors = new Vector3i[]{
+            //edges
+            new Vector3i(-1, 0, 0),
+            new Vector3i(1, 0, 0),
+            new Vector3i(0, 0, -1),
+            new Vector3i(0, 0, 1),
+            //corners
+            new Vector3i(-1, 0, -1),
+            new Vector3i(1, 0, -1),
+            new Vector3i(-1, 0, 1),
+            new Vector3i(1, 0, 1)
+    };
 
     @Override
     public boolean useInGreedyMesher() {
@@ -18,7 +36,7 @@ public class LiquidBlockType extends DefaultBlockType {
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         BlockData bd = new BlockData(1);
         //The source block is block max flow + 1
-        bd.set(0, (byte) (block.liquidMaxFlow+1));
+        bd.set(0, (byte) (block.liquidMaxFlow + 1));
         return bd;
     }
 
@@ -29,28 +47,32 @@ public class LiquidBlockType extends DefaultBlockType {
             b.opaque = false;
             b.solid = false;
             b.liquidMaxFlow = 7;
-//            b.localChangeEvent((hist,changedPos,thisPos) ->{
-//                //Check the block above thisPos
-//                if (GameScene.world.getBlock(thisPos.x, thisPos.y - 1, thisPos.z).id == b.id) {
-//                    BlockData bd = new BlockData(new byte[]{(byte) b.liquidMaxFlow});
-//                    GameScene.world.setBlockData(bd, changedPos.x, changedPos.y, changedPos.z);
-//                }
-//            });
-//            b.removeBlockEvent(((x, y, z, history) -> {
-//                GameScene.world.setBlockData(history.previousBlockData, x, y, z);
-////                boolean xpNeighbor = GameScene.world.getBlock(x - 1, y, z).id == b.id;
-////                boolean xnNeighbor = GameScene.world.getBlock(x + 1, y, z).id == b.id;
-////                boolean zpNeighbor = GameScene.world.getBlock(x, y, z - 1).id == b.id;
-////                boolean znNeighbor = GameScene.world.getBlock(x, y, z + 1).id == b.id;
-////
-////                int touchingNeighbors = (xpNeighbor ? 1 : 0) + (xnNeighbor ? 1 : 0) + (zpNeighbor ? 1 : 0) + (znNeighbor ? 1 : 0);
-////
-////                if (touchingNeighbors > 2 //If we are on the surface of the liquid
-////                        && GameScene.world.getBlock(x, y - 1, z).id != b.id) {
-////                    //Put the liquid back into the world
-////                    GameScene.world.setBlock(b.id, x, y, z);
-////                }
-//            }));
+            //TODO: The user should not be allowed to delete water, just replace blocks over it
+            b.removeBlockEvent(((x, y, z, history) -> {
+                //If we are a source block, put us back if we are surrounded by water
+                int defaultFlow = b.liquidMaxFlow + 1;
+//                System.out.println("Remove " + x + " " + y + " " + z);
+                if (history.newBlock == BlockList.BLOCK_AIR &&
+                        WaterPropagation.getFlow(history.previousBlockData, defaultFlow) == defaultFlow) {
+
+                    //If there is no water above us
+                    if (GameScene.world.getBlockID(x, y - 1, z) != b.id) {
+                        //If there is at least X neighboring source water, put us back
+                        int neighboringWater = 0;
+                        for (Vector3i n : waterEraseNeighbors) {
+                            if (GameScene.world.getBlockID(x + n.x, y + n.y, z + n.z) == b.id &&
+                                    WaterPropagation.getFlow(history.previousBlockData, defaultFlow) == defaultFlow) {
+                                neighboringWater++;
+                                if (neighboringWater > 3) {
+                                    Main.printlnDev("replacing liquid: " + x + " " + y + " " + z);
+                                    GameScene.player.setBlock(b.id, history.previousBlockData, x, y, z);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }));
         };
     }
 
@@ -59,12 +81,9 @@ public class LiquidBlockType extends DefaultBlockType {
         return 1.0f + y - (flow / (liquidMaxFlow + 1)) - (1 / liquidMaxFlow);
     }
 
-    private int getFlow(BlockData data, int liquidMaxFlow) {
-        return data != null && data.size() == 1 ? data.get(0) : 7;
-    }
 
     private float getHeightOfFlow(BlockData data, int liquidMaxFlow, int y) {
-        return getHeightOfFlow(getFlow(data, liquidMaxFlow), liquidMaxFlow, y);
+        return getHeightOfFlow(WaterPropagation.getFlow(data, liquidMaxFlow), liquidMaxFlow, y);
     }
 
     static final private int TEX_FLOW_STATIC = 0;
