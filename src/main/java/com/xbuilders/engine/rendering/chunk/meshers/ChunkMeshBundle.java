@@ -8,7 +8,6 @@ import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.rendering.chunk.occlusionCulling.BoundingBoxMesh;
-import com.xbuilders.engine.utils.BooleanBuffer;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;
@@ -101,7 +100,6 @@ public class ChunkMeshBundle {
     public boolean meshesHaveAllSides;
 
 
-
     //This compute function is thread safe
     public synchronized void compute() {
         try {
@@ -124,11 +122,11 @@ public class ChunkMeshBundle {
                 transBuffer.reset();
 
                 if (!blocksAreEmpty) {//We wont check if we are below terrain because a loaded file chunk could be there
-                    UseGreedyMesherBuffer buffer = new UseGreedyMesherBuffer(stack);
-                    naiveMesher.useGreedyMesherBuffer = buffer;
+                    UseGM_BooleanBuffer buffer = new UseGM_BooleanBuffer(stack);//Allocate the boolean buffer on the stack
+                    naiveMesher.buffer_shouldUseGreedyMesher = buffer;
                     naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
 
-                    greedyMesher.useGreedyMesherBuffer = buffer;
+                    greedyMesher.buffer_shouldUseGreedyMesher = buffer;
                     greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
                 }
 

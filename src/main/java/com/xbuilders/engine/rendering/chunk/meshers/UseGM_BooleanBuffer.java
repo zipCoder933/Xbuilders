@@ -5,13 +5,17 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
-class UseGreedyMesherBuffer {
+/**
+ * A buffer to store boolean values about if the Naive mesher will allow
+ * the greedy mesher to use a specific voxel position in its mesh
+ */
+class UseGM_BooleanBuffer {
     public BooleanBuffer buffer;
 
     //We change coordinates to support negative indexes for out of bounds voxels
     public final static Vector3i size = new Vector3i(Chunk.WIDTH + 2, Chunk.HEIGHT + 2, Chunk.WIDTH + 2);
 
-    public UseGreedyMesherBuffer(MemoryStack stack) {
+    public UseGM_BooleanBuffer(MemoryStack stack) {
         buffer = new BooleanBuffer(size.x * size.y * size.z, stack);
     }
 

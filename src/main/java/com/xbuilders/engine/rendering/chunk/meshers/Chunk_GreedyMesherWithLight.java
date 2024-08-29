@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet;
+import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -309,14 +309,14 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
     }
 
     private boolean useGreedyMesher(Block block, int x, int y, int z) {
-        BlockType blockType1 = ItemList.blocks.getBlockType(block.type);
+        BlockType blockType1 = ItemList.blocks.getBlockType(block.renderType);
 
         if (blockType1.getGreedyMesherPermissions() == BlockType.ALWAYS_USE_GM) {
             return true;
         } else if (blockType1.getGreedyMesherPermissions() == BlockType.DENY_GM) {
             return false;
         } else {//Permit GM
-            return useGreedyMesherBuffer.get(x, y, z);
+            return buffer_shouldUseGreedyMesher.get(x, y, z);
         }
     }
 

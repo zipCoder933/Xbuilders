@@ -117,17 +117,18 @@ public class LiquidPropagationTask extends LivePropagationTask {
      * @return if we were able to set the water
      */
     public boolean setWater(int x, int y, int z, int flow) {
-        Block b = GameScene.world.getBlock(x, y, z);
-        if (b.id == MyGame.BLOCK_LAVA && liquidBlock.id == MyGame.BLOCK_WATER) { //If that is lava and we are water
+        Block existingBlock = GameScene.world.getBlock(x, y, z);
+        int existingFlow = getFlow(GameScene.world.getBlockData(x, y, z), 0);//TODO: Dont override null water in lakes
+
+
+        if (existingBlock.id == MyGame.BLOCK_LAVA && liquidBlock.id == MyGame.BLOCK_WATER) { //If that is lava and we are water
             GameScene.player.setBlock(MyGame.BLOCK_COBBLESTONE, x, y, z);
-        } else if (b.id == liquidBlock.id || isPenetrable(b)) {
-            //We dont want to set something lower than the existing flow
-            int existingFlow = getFlow(GameScene.world.getBlockData(x, y, z), 0);
-            flow = Math.max(flow, existingFlow);
+        } else if (existingBlock.id == liquidBlock.id || isPenetrable(existingBlock)) {
+            flow = Math.max(flow, existingFlow); //We dont want to set something lower than the existing flow
             GameScene.player.setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
             return true;
         }
-        return !b.solid;
+        return !existingBlock.solid;
     }
 
     private boolean reduceFlow(HashSet<Vector3i> nodes, int x, int y, int z) {

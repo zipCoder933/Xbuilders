@@ -12,7 +12,6 @@ import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.chunk.IconGenShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
@@ -164,7 +163,7 @@ public class BlockIconRenderer {
     }
 
     public boolean shouldMakeIcon(Block block) {
-        BlockType type = ItemList.blocks.getBlockType(block.type);
+        BlockType type = ItemList.blocks.getBlockType(block.renderType);
         if (type == null || !type.generate3DIcon || block.texture == null) {
             return false;
         }

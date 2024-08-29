@@ -37,7 +37,6 @@ public class TorchRenderer extends BlockType {
     }
 
 
-
     public TorchRenderer() {
         generate3DIcon = false;
         initializationCallback = (b) -> {
@@ -78,7 +77,9 @@ public class TorchRenderer extends BlockType {
     }
 
     @Override
-    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors,
+                                  BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ,
+                                  boolean isUsingGreedyMesher) {
         if (data != null && data.size() > 0) {
             int dataValue = data.get(0);
             if (sideIsSolid(neighbors[POS_Z]) && dataValue == 2) {
@@ -124,6 +125,6 @@ public class TorchRenderer extends BlockType {
     }
 
     public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        consumer.accept(box.setPosAndSize(x + 0.4f, y, z + 0.4f, 0.2f, 1, 0.2f));
+        consumer.accept(box.setPosAndSize(x + 0.4f, y, z + 0.4f, 0.2f, 1, 0.2f), block);
     }
 }

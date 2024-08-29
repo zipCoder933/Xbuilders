@@ -51,11 +51,12 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
     public void compute(VertexSet opaqueBuffers, VertexSet transparentBuffers,
                         MemoryStack stack, int lodLevel, boolean smoothShading) {
+
         Block block = null;
         BlockData blockData = null;
-        boolean isUsingGreedyMesher = !generateAll;
+        final boolean isUsingGreedyMesher = !generateAll;
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++) {//reset neighbors
             neighbors[i] = BlockList.BLOCK_AIR;
             lightNeghbors[i] = 0;
             neighborData[i] = null;
@@ -80,7 +81,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
                     boolean blockIsUsingGM = true;
 
-
+                    //If out of bounds
                     if (x < 0 || y < 0 || z < 0 || x >= data.size.x || y >= data.size.y || z >= data.size.z) {
                         Chunk out_chunk = WCCi.getNeighboringChunk(GameScene.world, chunkPosition, x, y, z);
                         if (out_chunk != null) {
@@ -88,7 +89,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                             int oy = positiveMod(y, Chunk.HEIGHT);
                             int oz = positiveMod(z, Chunk.WIDTH);
                             block = ItemList.getBlock(out_chunk.data.getBlock(ox, oy, oz));
-                            type = ItemList.blocks.getBlockType(block.type);
+                            type = ItemList.blocks.getBlockType(block.renderType);
 
                             if (type.getGreedyMesherPermissions() == BlockType.PERMIT_GM) {
                                 assignNeighbors(out_chunk.data, ox, oy, oz, block);
@@ -96,9 +97,9 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                                         neighborData, lightNeghbors, out_chunk, ox, oy, oz);
                             }
                         }
-                    } else {
+                    } else { //If in bounds
                         block = ItemList.getBlock(data.getBlock(x, y, z));
-                        type = ItemList.blocks.getBlockType(block.type);
+                        type = ItemList.blocks.getBlockType(block.renderType);
 
                         if (!block.isAir() //If this block is not air
                                 && (generateAll || //If we generate all
@@ -120,7 +121,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                             }
                         }
                     }
-                    useGreedyMesherBuffer.put(x, y, z, blockIsUsingGM);
+                    buffer_shouldUseGreedyMesher.put(x, y, z, blockIsUsingGM);
 
 
                 }

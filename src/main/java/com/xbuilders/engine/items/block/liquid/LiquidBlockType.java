@@ -4,6 +4,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.VertexSet;
@@ -167,9 +168,8 @@ public class LiquidBlockType extends BlockType {
                                   Block[] neighbors,
                                   BlockData[] neighborData,
                                   byte[] light,
-                                  Chunk chunk, int chunkX, int chunkY, int chunkZ) {
-
-        if (neighborData == null) return;//for icon generation safety
+                                  Chunk chunk, int chunkX, int chunkY, int chunkZ,
+                                  boolean isUsingGreedyMesher) {
 
         BlockTexture.FaceTexture texLayer;
 
@@ -180,17 +180,16 @@ public class LiquidBlockType extends BlockType {
         float y11 = chunkY;
         int topTextureFlowMode = TEX_FLOW_STATIC;
         float[] topFaceUV = topFaceUV_posZ;
-        final int maxFlow = block.liquidMaxFlow;
-        boolean topLiquid = neighbors[POS_Y] != block;
+        boolean onSurface = neighbors[POS_Y] != block;
         int flow = WaterPropagation.getFlow(data, block.liquidMaxFlow);
 
 
         //If we are not on top, or we are at max flow, we use the GM
-        if (!topLiquid || chunk == null || flow >= maxFlow || data == null) return true;
+        if (!onSurface || chunk == null || flow >= block.liquidMaxFlow || data == null) return true;
         else {
-            float zeroFlowHeight = getHeightOfFlow(0, maxFlow, chunkY);
-            float fullFlowHeight = getHeightOfFlow(maxFlow, maxFlow, chunkY);
-            float centerFlowHeight = getHeightOfFlow(data, maxFlow, chunkY);
+            float zeroFlowHeight = getHeightOfFlow(0, block.liquidMaxFlow, chunkY);
+            float fullFlowHeight = getHeightOfFlow(block.liquidMaxFlow, block.liquidMaxFlow, chunkY);
+            float centerFlowHeight = getHeightOfFlow(flow, block.liquidMaxFlow, chunkY);
 
             int worldX = chunkX + chunk.position.x * Chunk.WIDTH;
             int worldY = chunkY + chunk.position.y * Chunk.HEIGHT;
