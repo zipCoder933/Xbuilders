@@ -9,7 +9,8 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet;
+import com.xbuilders.engine.rendering.block.meshers.BlockMesher;
+import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -24,7 +25,7 @@ import java.nio.ShortBuffer;
 /**
  * @author zipCoder933
  */
-public class GreedyMesher extends ChunkMesher<CompactVertexSet> {
+public class GreedyMesher extends BlockMesher<CompactVertexSet> {
     private static final int NEG_X = 0;
     private static final int POS_X = 1;
 

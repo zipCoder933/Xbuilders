@@ -90,9 +90,9 @@ public class Block_NaiveMesher extends BlockMesher<VertexSet> {
                         blockData = data.getBlockData(x, y, z);
                         BlockType type = ItemList.blocks.getBlockType(block.renderType);
                         if (block.opaque) {
-                            type.constructBlock(opaqueBuffers, block, blockData, neighbors, null, light, null, x, y, z);
+                            type.constructBlock(opaqueBuffers, block, blockData, neighbors, null, light, null, x, y, z, false);
                         } else {
-                            type.constructBlock(transparentBuffers, block, blockData, neighbors, null, light, null, x, y, z);
+                            type.constructBlock(transparentBuffers, block, blockData, neighbors, null, light, null, x, y, z, false);
                         }
                     }
 

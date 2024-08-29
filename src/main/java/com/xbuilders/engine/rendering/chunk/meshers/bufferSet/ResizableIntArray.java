@@ -1,9 +1,4 @@
-package com.xbuilders.engine.rendering.chunk.mesh.bufferSet;
-
-import com.xbuilders.engine.utils.math.MathUtils;
-import org.lwjgl.system.MemoryUtil;
-
-import java.nio.IntBuffer;
+package com.xbuilders.engine.rendering.chunk.meshers.bufferSet;
 
 public class ResizableIntArray {
     int[] array;

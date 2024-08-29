@@ -1,4 +1,4 @@
-package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
+package com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;

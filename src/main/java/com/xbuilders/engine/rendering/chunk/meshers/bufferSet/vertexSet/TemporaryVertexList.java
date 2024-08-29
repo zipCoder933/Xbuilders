@@ -2,13 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
+package com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.xbuilders.engine.rendering.VertexSet;
 import org.lwjgl.system.MemoryUtil;
 
 /**

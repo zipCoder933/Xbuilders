@@ -47,7 +47,7 @@ public class FenceRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
 
         post.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
 
@@ -63,6 +63,7 @@ public class FenceRenderer extends BlockType {
         if (isSolid(neighbors[POS_X])) {
             boards2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
+        return false;
     }
 
     float sixtheenth = 0.0625f;

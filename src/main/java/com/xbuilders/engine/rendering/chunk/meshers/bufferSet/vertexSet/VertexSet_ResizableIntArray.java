@@ -1,8 +1,7 @@
-package com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet;
+package com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet;
 
-import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.ResizableIntArray;
+import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.ResizableIntArray;
 
 public class VertexSet_ResizableIntArray extends CompactVertexSet {
 

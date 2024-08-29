@@ -20,10 +20,20 @@ import java.util.function.Consumer;
  */
 public class OrientableBlockRenderer extends BlockType {//TODO: Make the texture depend on the orientation of the block, store the orientation in the BlockData
 
+
     @Override
-    public void constructBlock(VertexSet buffer,
-                               Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
-                               Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public int getGreedyMesherPermissions() {
+        return BlockType.ALWAYS_USE_GM;
+    }
+
+    public OrientableBlockRenderer() {
+        super();
+    }
+
+    @Override
+    public boolean constructBlock(VertexSet buffer,
+                                  Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
+                                  Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
         BlockTexture.FaceTexture texLayer;
 
         if (sideIsVisible(block, neighbors[NEG_X])) {
@@ -97,6 +107,7 @@ public class OrientableBlockRenderer extends BlockType {//TODO: Make the texture
             buffer.vertex(chunkX, 1.0f + chunkY, 1.0f + chunkZ, /* uvs */ 0.0f, 1.0f, POS_Z,  texLayer, light[POS_Z]);
             buffer.vertex(chunkX, chunkY, 1.0f + chunkZ, /* uvs */ 0.0f, 0.0f, POS_Z,  texLayer, light[POS_Z]);
         }
+        return false;
     }
 
     private boolean sideIsVisible(Block block, Block NEG_X) {

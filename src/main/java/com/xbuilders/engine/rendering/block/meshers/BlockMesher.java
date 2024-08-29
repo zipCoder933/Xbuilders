@@ -5,7 +5,7 @@ import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
-abstract class BlockMesher<T extends VertexSet> {
+public abstract class BlockMesher<T extends VertexSet> {
 
     public BlockMesher(ChunkVoxels voxels, Vector3i chunkPositionOffset) {
         this.data = voxels;

@@ -69,8 +69,8 @@ public class StairsRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data,
-                               Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data,
+                                  Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
 
         try {
             if (data.get(1) == 3) {
@@ -83,6 +83,7 @@ public class StairsRenderer extends BlockType {
         } catch (Exception e) {
             floor[0].render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
+        return false;
     }
 
     @Override

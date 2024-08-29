@@ -35,7 +35,7 @@ public class PaneRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ) {
         if (data != null && data.size() == 2) {
             if (data.get(1) == 0) {
                 if (data.get(0) == 1 || data.get(0) == 3) {
@@ -49,6 +49,7 @@ public class PaneRenderer extends BlockType {
         } else {
             horizontal.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         }
+        return false;
     }
 
     @Override

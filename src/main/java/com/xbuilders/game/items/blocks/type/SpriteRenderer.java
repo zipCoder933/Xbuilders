@@ -58,9 +58,9 @@ public class SpriteRenderer extends BlockType {
     }
 
     @Override
-    public void constructBlock(VertexSet buffers,
-                               Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
-                               Chunk chunk, int chunkX, int chunkY, int chunkZ) {
+    public boolean constructBlock(VertexSet buffers,
+                                  Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light,
+                                  Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
 
         BlockTexture.FaceTexture texLayer = block.texture.getNEG_X();
 
@@ -91,6 +91,7 @@ public class SpriteRenderer extends BlockType {
         buffers.vertex(vertices[indx[21]].x + chunkX, vertices[indx[21]].y + chunkY, vertices[indx[21]].z + chunkZ, 1.0f, 0.0f, texLayer, light[0]);
         buffers.vertex(vertices[indx[22]].x + chunkX, vertices[indx[22]].y + chunkY, vertices[indx[22]].z + chunkZ, 0.0f, 1.0f, texLayer, light[0]);
         buffers.vertex(vertices[indx[23]].x + chunkX, vertices[indx[23]].y + chunkY, vertices[indx[23]].z + chunkZ, 1.0f, 1.0f, texLayer, light[0]);
+        return false;
     }
 //
 

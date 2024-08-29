@@ -2,7 +2,7 @@ package com.xbuilders.engine.items.block.construction;
 
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 
-import static com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.CompactVertexSet.MAX_BLOCK_ANIMATION_LENGTH;
+import static com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet.MAX_BLOCK_ANIMATION_LENGTH;
 
 public class BlockTexture {
 

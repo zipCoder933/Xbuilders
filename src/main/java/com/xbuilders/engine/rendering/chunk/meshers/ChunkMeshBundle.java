@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.chunk;
+package com.xbuilders.engine.rendering.chunk.meshers;
 
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
-import com.xbuilders.engine.rendering.chunk.mesh.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.rendering.chunk.meshers.Chunk_GreedyMesherWithLight;
-import com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher;
+import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.rendering.chunk.occlusionCulling.BoundingBoxMesh;
+import com.xbuilders.engine.utils.BooleanBuffer;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;
@@ -102,6 +101,8 @@ public class ChunkMeshBundle {
     public boolean meshesHaveAllSides;
 
 
+
+    //This compute function is thread safe
     public synchronized void compute() {
         try {
             try (MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
@@ -123,8 +124,12 @@ public class ChunkMeshBundle {
                 transBuffer.reset();
 
                 if (!blocksAreEmpty) {//We wont check if we are below terrain because a loaded file chunk could be there
-                    greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
+                    UseGreedyMesherBuffer buffer = new UseGreedyMesherBuffer(stack);
+                    naiveMesher.useGreedyMesherBuffer = buffer;
                     naiveMesher.compute(opaqueBuffer, transBuffer, stack, 1, true); //This contributes as well, but im saving it for later since it plays a small role in memory when not generating the whole mesh
+
+                    greedyMesher.useGreedyMesherBuffer = buffer;
+                    greedyMesher.compute(opaqueBuffer, transBuffer, stack, 1, true);
                 }
 
                 opaqueBuffer.makeVertexSet(); //Buffer wont make verteces if it is empty
