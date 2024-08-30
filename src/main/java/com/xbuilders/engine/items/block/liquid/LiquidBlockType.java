@@ -30,7 +30,7 @@ public class LiquidBlockType extends BlockType {
     };
 
     public int getGreedyMesherPermissions() {
-        return PERMIT_GM;
+        return Main.settings.game_fixLiquidMesh ? DENY_GM : PERMIT_GM;
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
@@ -78,7 +78,8 @@ public class LiquidBlockType extends BlockType {
 
 
     private float getHeightOfFlow(int flow, float liquidMaxFlow, int y) {
-        return 1.0f + y - (flow / (liquidMaxFlow + 1)) - (1 / liquidMaxFlow);
+        float val = 1.0f + y - (flow / (liquidMaxFlow + 1)) - (1 / liquidMaxFlow);
+        return val;
     }
 
 
@@ -171,6 +172,7 @@ public class LiquidBlockType extends BlockType {
                                   Chunk chunk, int chunkX, int chunkY, int chunkZ,
                                   boolean isUsingGreedyMesher) {
 
+
         BlockTexture.FaceTexture texLayer;
 
         final float yFloor = 1.0f + chunkY;
@@ -181,12 +183,20 @@ public class LiquidBlockType extends BlockType {
         int topTextureFlowMode = TEX_FLOW_STATIC;
         float[] topFaceUV = topFaceUV_posZ;
         boolean onSurface = neighbors[POS_Y] != block;
-        int flow = WaterPropagation.getFlow(data, block.liquidMaxFlow);
 
+        if (getGreedyMesherPermissions() == DENY_GM) isUsingGreedyMesher = false;
+        int flow = WaterPropagation.getFlow(data, block.liquidMaxFlow + 1);
 
-        //If we are not on top, or we are at max flow, we use the GM
-        if (!onSurface || chunk == null || flow >= block.liquidMaxFlow || data == null) return true;
-        else {
+        if (isUsingGreedyMesher &&
+                (
+                        !onSurface ||
+                                chunk == null ||
+                                (flow > block.liquidMaxFlow)
+                )) {
+            return true; //If we are not on top, or we are at max flow, we use the GM
+        }
+
+        if (onSurface && chunk != null) {
             float zeroFlowHeight = getHeightOfFlow(0, block.liquidMaxFlow, chunkY);
             float fullFlowHeight = getHeightOfFlow(block.liquidMaxFlow, block.liquidMaxFlow, chunkY);
             float centerFlowHeight = getHeightOfFlow(flow, block.liquidMaxFlow, chunkY);
@@ -296,8 +306,14 @@ public class LiquidBlockType extends BlockType {
             else y11 = zeroFlowHeight;
 
             if (y00 == fullFlowHeight && y10 == fullFlowHeight && y01 == fullFlowHeight && y11 == fullFlowHeight) {
-                return true;
+                if (isUsingGreedyMesher) return true;
             }
+
+            //Clamp to chunk
+            if (y00 < chunkY) y00 = chunkY;
+            if (y10 < chunkY) y10 = chunkY;
+            if (y01 < chunkY) y01 = chunkY;
+            if (y11 < chunkY) y11 = chunkY;
 
             //Determine top texture flow
             if (y00 > y10
