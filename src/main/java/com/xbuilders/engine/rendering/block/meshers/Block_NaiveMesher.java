@@ -105,7 +105,7 @@ public class Block_NaiveMesher extends BlockMesher<VertexSet> {
                                 type.constructBlock(transparentBuffers, block, blockData, neighbors, neighborData, light, null, x, y, z, false);
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            ErrorHandler.report("Error rendering block", e);
                         }
                     }
                 }

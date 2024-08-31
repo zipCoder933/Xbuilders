@@ -33,10 +33,6 @@ public class ErrorHandler {
     public static void report(String userMsg, Throwable ex) {
         String errMessage = (ex.getMessage() != null ? " \n(" + ex.getMessage() + ")" : "");
         Main.popupMessage.message("Runtime Error", userMsg + errMessage);
-//        createPopupWindow(title, "<h3>" + title + "</h3>"
-//                + "" + body + "\n\n\n<span style='color: #888888; font-size: 0.95em;'>"
-//                + "<b>ERROR INFO:</b> " + message + "\n(" + ex.getClass() + ")\n\n"
-//                + "<b>Stack trace:</b>\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n") + "</span>");
         log(ex, "##" + userMsg + "##\t" + errMessage);
     }
 
@@ -49,14 +45,6 @@ public class ErrorHandler {
      */
     public static void log(Throwable ex, String devMessage) {
         String date = dateFormat.format(new Date());
-
-        System.err.println("\nError: \"" + devMessage + "\"");
-
-        if (ex != null) {
-            System.err.println("STACK TRACE:");
-            ex.printStackTrace();
-        }
-
         File logFile = new File(localDir, "error logs\\log_" + date + ".txt");
 
         if (!devMessage.isBlank()) {
@@ -68,21 +56,21 @@ public class ErrorHandler {
             logFile.getParentFile().mkdirs();
         }
 
-        String errorStr = "Developer Message: \t" + devMessage + "\n";
+        String errorStr = "Message: \t" + devMessage + "\n";
 
         if (ex != null) {
             if (ex.getMessage() == null) {
-                errorStr = "Developer Message: \t" + devMessage + "\n"
+                errorStr = "Message: \t" + devMessage + "\n"
                         + "Class: \t" + ex.getClass() + "\n\n"
                         + "Stack trace:\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n");
             } else {
                 errorStr = "Message: \t" + ex.getMessage() + "\n"
-                        + "Developer Message: \t" + devMessage + "\n"
+                        + "Message: \t" + devMessage + "\n"
                         + "Class: \t" + ex.getClass() + "\n\n"
                         + "Stack trace:\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n");
             }
         }
-
+        System.out.println(errorStr);
         try {
             Files.writeString(logFile.toPath(), errorStr);
         } catch (IOException ex1) {
