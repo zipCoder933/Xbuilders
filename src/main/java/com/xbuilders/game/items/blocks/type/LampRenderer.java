@@ -48,7 +48,7 @@ public class LampRenderer extends BlockType {
 
     @Override
     public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] lightValues, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
-        if (data != null) {
+        if (data != null && data.size() > 0) {
             int dataValue = data.get(0);
             if (sideIsSolid(neighbors[POS_Z]) && dataValue == 2) {
                 drawSide(2, neighbors[POS_Z],

@@ -7,6 +7,6 @@ import com.xbuilders.game.MyGame;
 
 public class WaterPropagation extends LiquidPropagationTask {
     public WaterPropagation() {
-        super(ItemList.getBlock(MyGame.BLOCK_WATER), 300);
+        super(ItemList.getBlock(MyGame.BLOCK_WATER), 200);
     }
 }

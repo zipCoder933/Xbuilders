@@ -2,6 +2,7 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.camera.CursorRay;
@@ -72,7 +73,7 @@ public class PasteTool extends BlockTool {
 
     public void activate() {
         cursorRay.disableBoundaryMode();
-        if(PasteTool.clipboard == null) {
+        if (PasteTool.clipboard == null) {
             PasteTool.clipboard = new ChunkVoxels(0, 0, 0);
         }
         PasteTool.updateMesh();
@@ -174,19 +175,16 @@ public class PasteTool extends BlockTool {
                         int newZ = x;
                         int newY = y;
 
-                        newClipboard.setBlock(newX, newY, newZ, clipboard.getBlock(x, y, z));
+                        Block block = ItemList.getBlock(clipboard.getBlock(x, y, z));
+                        newClipboard.setBlock(newX, newY, newZ, block.id);
 
-                        BlockData data = clipboard.getBlockData(x, y, z);
-                        if (data != null && data.size() == 2) { //If the data is an orientation
-                            //xz=0; y=1
-
-                            byte val = (byte) (data.get(0) + 1);
-                            if (val > 3) {
-                                val = (byte) 0;
-                            }
-                            newClipboard.setBlockData(newX, newY, newZ, data);
-
+                        BlockData oldData = clipboard.getBlockData(x, y, z);
+                        if (oldData != null) {
+                            BlockData newData = new BlockData(oldData); //Create a copy
+                            block.getRenderType().rotateBlockData(newData, false);
+                            newClipboard.setBlockData(newX, newY, newZ, newData);
                         }
+
                     }
                 }
             }

@@ -67,7 +67,7 @@ public abstract class BlockType {
      * @param neighbors
      * @param neighborData
      * @param lightValues
-     * @param chunk if chunk is null, that means we are rendering in raw block voxels instead
+     * @param chunk               if chunk is null, that means we are rendering in raw block voxels instead
      * @param chunkX
      * @param chunkY
      * @param chunkZ
@@ -81,9 +81,9 @@ public abstract class BlockType {
                                            boolean isUsingGreedyMesher);
 
     public boolean determineIfUsingGreedyMesher(
-                                           Block block, BlockData data,
-                                           Block[] neighbors, BlockData[] neighborData, byte[] lightValues,
-                                           Chunk chunk, int chunkX, int chunkY, int chunkZ){
+            Block block, BlockData data,
+            Block[] neighbors, BlockData[] neighborData, byte[] lightValues,
+            Chunk chunk, int chunkX, int chunkY, int chunkZ) {
         return false;
     }
 
@@ -134,6 +134,14 @@ public abstract class BlockType {
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         return null;
+    }
+
+    public void rotateBlockData(BlockData data, boolean clockwise) {
+        if (data != null && data.size() == 2) {
+            int d = data.get(0);
+            d += (clockwise ? -1 : 1);
+            data.set(0, (byte) (d % 4));
+        }
     }
 
     // private Vector3f[] rotateVerticiesYAxis(Vector3f[] verts, int rotationXZ) {

@@ -24,6 +24,12 @@ public class BlockData {
         buff = new byte[size];
     }
 
+    public BlockData(BlockData blockData) {
+        //Create a copy of the data
+        buff = new byte[blockData.toByteArray().length];
+        System.arraycopy(blockData.toByteArray(), 0, buff, 0, blockData.toByteArray().length);
+    }
+
     public BlockData(byte[] bytes) {
 //        buff = ByteBuffer.allocate(bytes.length);
 //        buff.put(bytes);

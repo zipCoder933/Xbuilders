@@ -28,7 +28,6 @@ public class BlockMeshBundle {
     private Block_NaiveMesher naiveMesher;
 
 
-
     public BlockMeshBundle() {
         opaqueMesh = new BlockMesh();
         opaqueMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
@@ -50,23 +49,20 @@ public class BlockMeshBundle {
     }
 
     public synchronized void compute(ChunkVoxels voxels) {
-        try {
-            try (MemoryStack stack = MemoryStack.stackPush()) {
-                buffer.reset();
-                transBuffer.reset();
-                naiveMesher = new Block_NaiveMesher(voxels, new Vector3i(0, 0, 0), true);
-                naiveMesher.compute(buffer, buffer, stack, 1, false);
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            buffer.reset();
+            transBuffer.reset();
+            naiveMesher = new Block_NaiveMesher(voxels, new Vector3i(0, 0, 0), true);
+            naiveMesher.compute(buffer, buffer, stack, 1, false);
 
-                if (buffer.size() != 0) {
-                    buffer.makeVertexSet();
-                }
-                if (transBuffer.size() != 0) {
-                    transBuffer.makeVertexSet();
-                }
+            if (buffer.size() != 0) {
+                buffer.makeVertexSet();
+            }
+            if (transBuffer.size() != 0) {
+                transBuffer.makeVertexSet();
             }
         } catch (Exception ex) {
             ErrorHandler.log(ex);
-            ex.printStackTrace();
         }
     }
 

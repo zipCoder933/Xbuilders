@@ -54,6 +54,10 @@ public class StairsRenderer extends BlockType {
             ceiling[i] = BlockModelLoader.load(ResourceUtils.resource("block types\\stairs\\ceiling" + i + ".blockType"), renderSide);
     }
 
+    public void rotateBlockData(BlockData data, boolean clockwise) {
+      super.rotateBlockData(data, clockwise);
+    }
+
     @Override
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
         BlockData data = new BlockData(2);

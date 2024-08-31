@@ -72,7 +72,7 @@ public class WallItemRenderer extends BlockType {
 
     @Override
     public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
-        if (data == null || data.get(0) == 3) {
+        if (data == null || data.size() != 3 || data.get(0) == 3) {
             wall3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 0) {
             wall0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
@@ -87,7 +87,7 @@ public class WallItemRenderer extends BlockType {
 
     @Override
     public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        if (data != null) {
+        if (data != null && data.size() > 0) {
             switch (data.get(0)) {
                 case 1 -> box.setPosAndSize(x + ONE_SIXTEENTH * 14, y, z, ONE_SIXTEENTH * 2, 1, 1);
                 case 2 -> box.setPosAndSize(x, y, z + ONE_SIXTEENTH * 14, 1, 1, ONE_SIXTEENTH * 2);
