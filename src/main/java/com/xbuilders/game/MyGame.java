@@ -37,9 +37,11 @@ import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
 import com.xbuilders.game.items.entities.vehicle.MinecartEntityLink;
 import com.xbuilders.game.items.tools.*;
 import com.xbuilders.game.propagation.*;
+import com.xbuilders.game.propagation.fire.FirePropagation;
 import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
+import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
 import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
@@ -473,7 +475,7 @@ public class MyGame extends Game {
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
         if (Main.devMode) terrainsList.add(new DevTerrain());
-//        terrainsList.add(new ComplexTerrain());
+        if (Main.settings.internal_experimentalFeatures) terrainsList.add(new ComplexTerrain());
 
         //Set items AFTER setting block types
         ItemList.setAllItems(blockList, entityList, tools);
@@ -483,7 +485,7 @@ public class MyGame extends Game {
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());
         gameScene.livePropagationHandler.addTask(new GrassPropagation());
-        //gameScene.livePropagationHandler.addTask(new FirePropagation());
+//        new FirePropagation(gameScene.livePropagationHandler);
     }
 
     private void reassignBlocks(Block[] blocks, HashMap<Short, Block> reassignments) {
@@ -513,14 +515,15 @@ public class MyGame extends Game {
 
 
         //Add coasting to all glass
-        for(Block b : ItemList.blocks.getList()) {
-            if(b.name.toLowerCase().contains("glass")){
+        for (Block b : ItemList.blocks.getList()) {
+            if (b.name.toLowerCase().contains("glass")) {
                 b.surfaceCoast = 0.95f;
             }
         }
 
         ItemList.getBlock(BLOCK_ICE).surfaceCoast = 0.995f;
         ItemList.getBlock(BLOCK_CACTUS).surfaceFriction = 0.5f;
+        ItemList.getBlock(BLOCK_OAK_LOG).properties.put("flammable", "true");
     }
 
     @Override

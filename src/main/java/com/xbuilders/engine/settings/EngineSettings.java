@@ -15,6 +15,7 @@ public class EngineSettings {
     //If there are settings we dont want acesssable in UI, we can prepend them with "internal"
     public boolean internal_smallWindow = false;
     public final BoundedInt internal_viewDistance = new BoundedInt(Chunk.WIDTH * 5);
+    public final boolean internal_experimentalFeatures = false;
 
     public EngineSettings initVariables() {
         internal_viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
