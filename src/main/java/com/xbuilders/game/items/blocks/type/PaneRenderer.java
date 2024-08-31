@@ -11,8 +11,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 
 public class PaneRenderer extends BlockType {
 
@@ -74,18 +72,18 @@ public class PaneRenderer extends BlockType {
             if (data.get(1) == 0) {
                 if (data.get(0) == 1 || data.get(0) == 3) {
                     box.setPosAndSize(x + (ONE_SIXTEENTH * 7), y, z, ONE_SIXTEENTH * 2, 1, 1);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else {
                     box.setPosAndSize(x, y, z + (ONE_SIXTEENTH * 7), 1, 1, ONE_SIXTEENTH * 2);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 }
             } else {
                 box.setPosAndSize(x, y + (ONE_SIXTEENTH * 7), z, 1, ONE_SIXTEENTH * 2, 1);
-                consumer.accept(box,block);
+                consumer.accept(box);
             }
         } else {
             box.setPosAndSize(x + (ONE_SIXTEENTH * 7), y, z, ONE_SIXTEENTH * 2, 1, 1);
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
     }
 }

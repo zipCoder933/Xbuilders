@@ -9,6 +9,8 @@ import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.utils.worldInteraction.collision.CollisionHandler;
+import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
@@ -32,6 +34,9 @@ public class Block extends Item {
     public Consumer<Block> initializationCallback = null;
     public int liquidMaxFlow;
     public final float[] colorInPlayerHead = {0, 0, 0, 0};//If set to null, we default to drawing block texture in player head
+
+    public float surfaceCoast = PositionHandler.DEFAULT_COAST; //The "Coast" of the block
+    public float surfaceFriction = 0; //The "Friction" of the block
 
     public BlockType getRenderType() {
         return ItemList.blocks.getBlockType(renderType);

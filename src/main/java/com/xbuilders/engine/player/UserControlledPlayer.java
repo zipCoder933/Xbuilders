@@ -40,11 +40,13 @@ public class UserControlledPlayer extends Player {
     final Vector4f lastOrientation = new Vector4f();
 
     public boolean runningMode;
-    final static float UP_DOWN_SPEED = 14f;
-    final float WALK_SPEED = 6.9f;
-    final float RUN_SPEED = 14f;
-    final float FLY_WALK_SPEED = 15f;
-    final float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
+
+    final static float WALK_SPEED = 6.5f;
+    final static float RUN_SPEED = 14f;
+
+    final static float FLY_VERTICAL_SPEED = 14f;
+    final static float FLY_WALK_SPEED = 14f;
+    final static float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     public static int getCreateMouseButton() {
         return (Main.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
@@ -226,7 +228,7 @@ public class UserControlledPlayer extends Player {
         if (playerBlock == null || newPlayerBlock.id != playerBlock.id) {
             playerBlock = newPlayerBlock;
             if (newCameraBlock.renderType == BlockList.LIQUID_BLOCK_TYPE_ID) {
-                positionHandler.velocity.set(0, 0, 0);
+                positionHandler.setVelocity(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 8,
                         PositionHandler.DEFAULT_TERMINAL_VELOCITY / 30);
             } else if (newCameraBlock.isAir()) {
@@ -260,28 +262,24 @@ public class UserControlledPlayer extends Player {
         } else {
             usePositionHandler = true;
             if (forwardKeyPressed()) {
-                worldPosition.add(
+                positionHandler.setVelocity(
                         camera.cameraForward.x * speed * window.smoothFrameDeltaSec,
-                        camera.cameraForward.y * speed * window.smoothFrameDeltaSec,
                         camera.cameraForward.z * speed * window.smoothFrameDeltaSec);
             }
             if (backwardKeyPressed()) {
-                worldPosition.sub(
-                        camera.cameraForward.x * speed * window.smoothFrameDeltaSec,
-                        camera.cameraForward.y * speed * window.smoothFrameDeltaSec,
-                        camera.cameraForward.z * speed * window.smoothFrameDeltaSec);
+                positionHandler.setVelocity(
+                        -(camera.cameraForward.x * speed * window.smoothFrameDeltaSec),
+                        -(camera.cameraForward.z * speed * window.smoothFrameDeltaSec));
             }
 
             if (leftKeyPressed()) {
-                worldPosition.sub(
-                        camera.right.x * speed * window.smoothFrameDeltaSec,
-                        camera.right.y * speed * window.smoothFrameDeltaSec,
-                        camera.right.z * speed * window.smoothFrameDeltaSec);
+                positionHandler.setVelocity(
+                        -(camera.right.x * speed * window.smoothFrameDeltaSec),
+                        -(camera.right.z * speed * window.smoothFrameDeltaSec));
             }
             if (rightKeyPressed()) {
-                worldPosition.add(
+                positionHandler.setVelocity(
                         camera.right.x * speed * window.smoothFrameDeltaSec,
-                        camera.right.y * speed * window.smoothFrameDeltaSec,
                         camera.right.z * speed * window.smoothFrameDeltaSec);
             }
 
@@ -302,10 +300,10 @@ public class UserControlledPlayer extends Player {
                     isClimbing = false;
                 } else if (isFlyingMode) {
                     if (upJumpKeyPressed()) {
-                        worldPosition.sub(0, UP_DOWN_SPEED * window.smoothFrameDeltaSec, 0);
+                        worldPosition.sub(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     } else if (downKeyPressed()) {
-                        worldPosition.add(0, UP_DOWN_SPEED * window.smoothFrameDeltaSec, 0);
+                        worldPosition.add(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     }
                 } else if (playerBlock.isLiquid() && upJumpKeyPressed()) {

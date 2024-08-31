@@ -15,8 +15,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -111,7 +109,7 @@ public class TrapdoorRenderer extends BlockType {
                     default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * width);
                 }
             }
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
     }
 

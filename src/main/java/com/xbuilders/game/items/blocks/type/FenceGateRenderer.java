@@ -126,7 +126,7 @@ public class FenceGateRenderer extends BlockType {
                 box.setPosAndSize(x, y, z + offset,
                         1, 1, ONE_SIXTEENTH * width);
             }
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
     }
 

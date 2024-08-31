@@ -326,7 +326,7 @@ public class DefaultTerrain extends Terrain {
                         placeWater = false;
                     } else if (wy <= heightmap) {
                         if (wy == WATER_LEVEL && heat < -0.6f) {
-                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_ICE_BLOCK);
+                            chunk.data.setBlock(x, y, z, MyGame.BLOCK_ICE);
                         } else if (wy > WATER_LEVEL && placeWater) {
                             chunk.data.setBlock(x, y, z, MyGame.BLOCK_WATER);
                         }

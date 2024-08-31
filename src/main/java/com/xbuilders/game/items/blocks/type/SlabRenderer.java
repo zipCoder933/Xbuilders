@@ -15,8 +15,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -113,23 +111,23 @@ public class SlabRenderer extends BlockType {
         if (data != null) {
             if (data.get(1) == -1) {
                 box.setPosAndSize(x, y, z, 1, 0.5f, 1);
-                consumer.accept(box,block);
+                consumer.accept(box);
             } else if (data.get(1) == 1) {
                 box.setPosAndSize(x, y + 0.5f, z, 1, 0.5f, 1);
-                consumer.accept(box,block);
+                consumer.accept(box);
             } else {
                 if (data.get(0) == 0) {
                     box.setPosAndSize(x, y, z, 1, 1, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 1) {
                     box.setPosAndSize(x + 0.5f, y, z, 0.5f, 1, 1);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 2) {
                     box.setPosAndSize(x, y, z + 0.5f, 1, 1, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else {
                     box.setPosAndSize(x, y, z, 0.5f, 1, 1);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 }
             }
         }

@@ -16,8 +16,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -69,13 +67,13 @@ public class FloorItemRenderer extends BlockType {
     @Override
     public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         box.setPosAndSize(x, y + (sixteenthConstant * 15), z, 1, sixteenthConstant * 1, 1);
-        consumer.accept(box,block);
+        consumer.accept(box);
     }
 
     @Override
     public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         box.setPosAndSize(x, y + (sixteenthConstant * 15), z, 1, sixteenthConstant * 1, 1);
-        consumer.accept(box,block);
+        consumer.accept(box);
     }
 
 }

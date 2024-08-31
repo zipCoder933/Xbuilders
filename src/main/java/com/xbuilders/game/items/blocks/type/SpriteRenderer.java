@@ -12,8 +12,6 @@ import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 
-import java.util.function.Consumer;
-
 import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
 
@@ -101,7 +99,7 @@ public class SpriteRenderer extends BlockType {
     public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         float width = 1 - (ONE_SIXTEENTH * 2);
         box.setPosAndSize(x + (ONE_SIXTEENTH), y, z + (ONE_SIXTEENTH), width, 1, width);
-        consumer.accept(box, block);
+        consumer.accept(box);
     }
 
     @Override

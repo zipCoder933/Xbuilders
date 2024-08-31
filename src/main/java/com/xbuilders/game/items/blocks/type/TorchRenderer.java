@@ -17,8 +17,6 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.items.blocks.RenderType;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -125,6 +123,6 @@ public class TorchRenderer extends BlockType {
     }
 
     public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        consumer.accept(box.setPosAndSize(x + 0.4f, y, z + 0.4f, 0.2f, 1, 0.2f), block);
+        consumer.accept(box.setPosAndSize(x + 0.4f, y, z + 0.4f, 0.2f, 1, 0.2f));
     }
 }

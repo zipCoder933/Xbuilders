@@ -72,46 +72,46 @@ public class FenceRenderer extends BlockType {
     @Override
     public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         box.setPosAndSize(x + (sixtheenth * 6), y - fenceHeight, z + (sixtheenth * 6), (sixtheenth * 4), 1 + fenceHeight, (sixtheenth * 4));
-        consumer.accept(box,block);
+        consumer.accept(box);
 
         if (isSolid(GameScene.world.getBlock(x + 1, y, z))) {
             box.setPosAndSize(x + (sixtheenth * 10), y - fenceHeight, z + (sixtheenth * 6), (sixtheenth * 6), 1 + fenceHeight, (sixtheenth * 4));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
         if (isSolid(GameScene.world.getBlock(x - 1, y, z))) {
             box.setPosAndSize(x, y - fenceHeight, z + (sixtheenth * 6), (sixtheenth * 6), 1 + fenceHeight, (sixtheenth * 4));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
         if (isSolid(GameScene.world.getBlock(x, y, z + 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y - fenceHeight, z + (sixtheenth * 10), (sixtheenth * 4), 1 + fenceHeight, (sixtheenth * 6));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
         if (isSolid(GameScene.world.getBlock(x, y, z - 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y - fenceHeight, z, (sixtheenth * 4), 1 + fenceHeight, (sixtheenth * 6));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
     }
 
     @Override
     public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         box.setPosAndSize(x + (sixtheenth * 6), y, z + (sixtheenth * 6), (sixtheenth * 4), 1f, (sixtheenth * 4));
-        consumer.accept(box,block);
+        consumer.accept(box);
 
         if (isSolid(GameScene.world.getBlock(x + 1, y, z))) {
             box.setPosAndSize(x + (sixtheenth * 10), y, z + (sixtheenth * 6), (sixtheenth * 6), 1f, (sixtheenth * 4));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
         if (isSolid(GameScene.world.getBlock(x - 1, y, z))) {
             box.setPosAndSize(x, y, z + (sixtheenth * 6), (sixtheenth * 6), 1f, (sixtheenth * 4));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
         if (isSolid(GameScene.world.getBlock(x, y, z + 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y, z + (sixtheenth * 10), (sixtheenth * 4), 1f, (sixtheenth * 6));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
         if (isSolid(GameScene.world.getBlock(x, y, z - 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y, z, (sixtheenth * 4), 1f, (sixtheenth * 6));
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
     }
 

@@ -15,8 +15,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -98,68 +96,68 @@ public class StairsRenderer extends BlockType {
             if (data.get(1) == 3) {
                 if (data.get(0) == 1) {
                     box.setPosAndSize(x + 0.5f, y, z + 0.5f, 0.5f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 2) {
                     box.setPosAndSize(x + 0.5f, y, z, 0.5f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z + 0.5f, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 3) {
                     box.setPosAndSize(x, y, z, 0.5f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z + 0.5f, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else {
                     box.setPosAndSize(x, y, z + 0.5f, 0.5f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 }
             } else if (data.get(1) >= 0) {
                 if (data.get(0) == 1) {
                     box.setPosAndSize(x, y + 0.5f, z, 0.5f, 0.5f, 1f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x + 0.5f, y, z, 0.5f, 1f, 1);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 2) {
                     box.setPosAndSize(x, y + 0.5f, z, 1f, 0.5f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z + 0.5f, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 3) {
                     box.setPosAndSize(x + 0.5f, y + 0.5f, z, 0.5f, 0.5f, 1f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z, 0.5f, 1f, 1f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else {
                     box.setPosAndSize(x, y + 0.5f, z + 0.5f, 1f, 0.5f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 }
             } else {
                 if (data.get(0) == 1) {
                     box.setPosAndSize(x, y, z, 0.5f, 0.5f, 1f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x + 0.5f, y, z, 0.5f, 1f, 1);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 2) {
                     box.setPosAndSize(x, y, z, 1f, 0.5f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z + 0.5f, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else if (data.get(0) == 3) {
                     box.setPosAndSize(x + 0.5f, y, z, 0.5f, 0.5f, 1f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z, 0.5f, 1f, 1f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 } else {
                     box.setPosAndSize(x, y, z + 0.5f, 1f, 0.5f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                     box.setPosAndSize(x, y, z, 1f, 1f, 0.5f);
-                    consumer.accept(box,block);
+                    consumer.accept(box);
                 }
             }
         }

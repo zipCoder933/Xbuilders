@@ -10,9 +10,9 @@ public class EngineSettings {
     public final BoundedFloat video_fullscreenSize = new BoundedFloat(0.95f);
     public boolean video_vsync = true;
     public boolean video_largerUI = true;
-    public boolean game_fixLiquidMesh= false;
+    public boolean game_fixLiquidMesh = true;
 
-    //TODO: If there are settings we dont want acesssable in UI, we can put them into a "hidden settings" class
+    //If there are settings we dont want acesssable in UI, we can prepend them with "internal"
     public boolean internal_smallWindow = false;
     public final BoundedInt internal_viewDistance = new BoundedInt(Chunk.WIDTH * 5);
 

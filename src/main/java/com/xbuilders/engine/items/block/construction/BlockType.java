@@ -125,11 +125,11 @@ public abstract class BlockType {
 
     @FunctionalInterface
     public interface BoxConsumer {
-        void accept(AABB box, Block block);
+        void accept(AABB box);
     }
 
     public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1), block);
+        consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1));
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {

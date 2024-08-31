@@ -15,8 +15,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -96,7 +94,7 @@ public class WallItemRenderer extends BlockType {
                 case 3 -> box.setPosAndSize(x, y, z, ONE_SIXTEENTH * 2, 1, 1);
                 default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * 2);
             }
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
     }
 

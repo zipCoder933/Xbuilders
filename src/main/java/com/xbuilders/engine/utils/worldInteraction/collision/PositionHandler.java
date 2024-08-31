@@ -5,11 +5,10 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.game.Main;
 import com.xbuilders.window.BaseWindow;
 
 import java.util.List;
@@ -66,14 +65,20 @@ public class PositionHandler {
     public static final float DEFAULT_GRAVITY = 0.42f;
     public static final float DEFAULT_TERMINAL_VELOCITY = 0.6f;
     public static final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
+    public static final float DEFAULT_COAST = 0.6f;
 
     //Variables
-    public final Vector3f velocity = new Vector3f();
+    protected final Vector3f velocity = new Vector3f();
     private boolean frozen = false;
     private boolean gravityEnabled;
     public boolean onGround;
     public final BaseWindow window;
-    public final float friction = 0.75f;
+
+
+    public float surfaceCoasting = 0.75f;
+    public float surfaceFriction = 0f;
+
+
     public float gravity = DEFAULT_GRAVITY;
     public float terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
     public boolean collisionsEnabled = true;
@@ -112,39 +117,54 @@ public class PositionHandler {
         }
 
         if (!isFrozen()) {
-            velocity.x *= friction;
-            velocity.z *= friction;
 
+            //Set the coast and friction
+            if (!onGround || !gravityEnabled || !collisionsEnabled || collisionHandler.floorBlock == BlockList.BLOCK_AIR) {
+                surfaceCoasting = DEFAULT_COAST;
+                surfaceFriction = 0;
+            } else {
+                surfaceCoasting = collisionHandler.floorBlock.surfaceCoast;
+                surfaceFriction = collisionHandler.floorBlock.surfaceFriction;
+            }
+
+            if (surfaceFriction > 0) {//Apply friction
+                velocity.x *= 1 - surfaceFriction;
+                velocity.z *= 1 - surfaceFriction;
+            }
+
+            //Handle Y velocity
             if (collisionsEnabled && isGravityEnabled()) {
                 double fallSpeed = (gravity * frameDeltaSec);
-
                 //TODO: Cap the number of times we can update PositionHandler (10fps) (The movement is jittery when running against walls, if we try to limit that here)
                 if (window.getMsPerFrame() < 10)
                     fallSpeed /= 4; //For some reason, we need to fall slower if the MPF is too low
                 this.velocity.y += fallSpeed;
             } else {
-                velocity.y *= friction;
+                velocity.y *= 0.75f; //Vertical coasting
             }
-
             if (velocity.y > -0.00001f) {
                 onGround = true;
             } else if (velocity.y > terminalVelocity * frameDeltaSec) {
                 velocity.y = terminalVelocity * frameDeltaSec;
             }
+
+            //Calculate new AABB
             aabb.box.setX(aabb.box.min.x + velocity.x);
             aabb.box.setY(aabb.box.min.y + velocity.y);
             aabb.box.setZ(aabb.box.min.z + velocity.z);
+
+            //Apply coasting
+            velocity.x *= surfaceCoasting;
+            velocity.z *= surfaceCoasting;
         }
         if (collisionsEnabled) {
             collisionHandler.resolveCollisions(GameScene.projection, GameScene.view);
         }
 
-
+        //calculate new world position
         aabb.worldPosition.x = aabb.box.min.x - aabb.offset.x;
         aabb.worldPosition.y = aabb.box.min.y - aabb.offset.y;
         aabb.worldPosition.z = aabb.box.min.z - aabb.offset.z;
-
-
         aabb.clamp(false);
     }
 
@@ -157,7 +177,16 @@ public class PositionHandler {
         }
     }
 
-    public void addVelocity(int x, float y, int z) {
+    public void addVelocity(float x, float y, float z) {
         this.velocity.add(x * frameDeltaSec, y * frameDeltaSec, z * frameDeltaSec);
+    }
+
+    public void setVelocity(float x, float y, float z) {
+        this.velocity.set(x, y, z);
+    }
+
+    public void setVelocity(float x, float z) {
+        this.velocity.x = x;
+        this.velocity.z = z;
     }
 }

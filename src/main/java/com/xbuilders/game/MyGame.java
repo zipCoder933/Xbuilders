@@ -510,6 +510,17 @@ public class MyGame extends Game {
 
         Block lava = ItemList.getBlock(BLOCK_LAVA);
         lava.liquidMaxFlow = 6;
+
+
+        //Add coasting to all glass
+        for(Block b : ItemList.blocks.getList()) {
+            if(b.name.toLowerCase().contains("glass")){
+                b.surfaceCoast = 0.95f;
+            }
+        }
+
+        ItemList.getBlock(BLOCK_ICE).surfaceCoast = 0.995f;
+        ItemList.getBlock(BLOCK_CACTUS).surfaceFriction = 0.5f;
     }
 
     @Override
@@ -1114,7 +1125,7 @@ public class MyGame extends Game {
     public static short BLOCK_PASTELRED_CHISELED_MARBLE_TILE = 567;
     public static short BLOCK_YELLOW_MARBLE_TILE = 568;
     public static short BLOCK_BLACK_MARBLE_TILE = 569;
-    public static short BLOCK_ICE_BLOCK = 570;
+    public static short BLOCK_ICE = 570;
     public static short BLOCK_BROWN_MARBLE_TILE = 571;
     public static short BLOCK_CYAN_MARBLE_TILE = 572;
     public static short BLOCK_BAMBOO_WOOD = 573;

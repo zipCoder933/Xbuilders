@@ -14,8 +14,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -53,6 +51,6 @@ public class PillarRenderer extends BlockType {
     @Override
     public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         box.setPosAndSize(x + (sixteenthConstant * 2), y, z + (sixteenthConstant * 2), width, 1, width);
-        consumer.accept(box, block);
+        consumer.accept(box);
     }
 }

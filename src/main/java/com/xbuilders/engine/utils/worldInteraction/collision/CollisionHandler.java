@@ -38,7 +38,6 @@ public class CollisionHandler {
     final AABB collisionBox;
     public final CollisionData collisionData;
     boolean setFrozen = false;
-    final BlockType.BoxConsumer customConsumer;
     Block b;
     BlockData d;
     public Block floorBlock = BlockList.BLOCK_AIR;
@@ -56,13 +55,6 @@ public class CollisionHandler {
         collisionData = new CollisionData();
         stepBox = new AABB();
         collisionBox = new AABB();
-        customConsumer = (box, block) -> {
-            processBox(box, block, false); // This is not part of the problem
-            if (DRAW_COLLISION_CANDIDATES) {
-                driver.renderedBox.set(box);
-                driver.renderedBox.draw(GameScene.projection, GameScene.view);
-            }
-        };
     }
 
     private boolean compareEntityAABB(Matrix4f projection, Matrix4f view, EntityAABB entityBox) {
@@ -119,8 +111,11 @@ public class CollisionHandler {
                                 // }
                                 BlockType type = ItemList.blocks.getBlockType(b.renderType);
                                 try {
-                                    if (type != null)
-                                        type.getCollisionBoxes(customConsumer, collisionBox, b, d, x, y, z);
+                                    if (type != null) {
+                                        type.getCollisionBoxes((aabb) -> {
+                                            processBox(aabb, b, false);
+                                        }, collisionBox, b, d, x, y, z);
+                                    }
                                 } catch (Exception e) {
                                     ErrorHandler.log(e);
                                 }
@@ -190,7 +185,6 @@ public class CollisionHandler {
                 driver.onGround = true;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
                 floorBlock = block;
-
             } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) { //Ceiling collision
                 driver.velocity.y = 0;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);

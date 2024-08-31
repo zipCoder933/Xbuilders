@@ -19,8 +19,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.util.function.Consumer;
-
 /**
  * @author zipCoder933
  */
@@ -268,7 +266,7 @@ public class DoorHalfRenderer extends BlockType {
                 default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * width);
             }
 
-            consumer.accept(box,block);
+            consumer.accept(box);
         }
     }
 

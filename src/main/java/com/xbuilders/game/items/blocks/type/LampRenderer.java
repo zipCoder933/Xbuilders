@@ -119,7 +119,7 @@ public class LampRenderer extends BlockType {
         float a = ONE_SIXTEENTH * 3;
         float b = ONE_SIXTEENTH * 6;
         box.setPosAndSize(x + a, y + (ONE_SIXTEENTH * 2), z + a, 1 - b, 1 - (ONE_SIXTEENTH * 3), 1 - b);
-        consumer.accept(box,block);
+        consumer.accept(box);
     }
 
 }
