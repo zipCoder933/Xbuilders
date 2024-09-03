@@ -183,13 +183,12 @@ public class CollisionHandler {
 
             } else if (collisionData.collisionNormal.y == -1) {//Floor collision
                 floorBlock = block;
-                if (floorBlock.id == MyGame.BLOCK_HONEYCOMB_BLOCK) {
-                    driver.velocity.y = -driver.velocity.y * 0.6f;
-                    driver.onGround = true;
+                if (floorBlock != null && floorBlock.id == MyGame.BLOCK_HONEYCOMB_BLOCK) {
+                    driver.velocity.y = -driver.velocity.y * 0.65f;
                 } else {
                     driver.velocity.y = 0;
-                    driver.onGround = true;
                 }
+                driver.onGround = true;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
             } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) { //Ceiling collision
                 driver.velocity.y = 0;
