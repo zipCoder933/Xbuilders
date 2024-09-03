@@ -16,6 +16,7 @@ import com.xbuilders.engine.world.wcc.WCCi;
 import java.util.HashSet;
 import java.util.List;
 
+import com.xbuilders.game.MyGame;
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
@@ -181,10 +182,15 @@ public class CollisionHandler {
                 }
 
             } else if (collisionData.collisionNormal.y == -1) {//Floor collision
-                driver.velocity.y = 0;
-                driver.onGround = true;
-                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
                 floorBlock = block;
+                if (floorBlock.id == MyGame.BLOCK_HONEYCOMB_BLOCK) {
+                    driver.velocity.y = -driver.velocity.y * 0.6f;
+                    driver.onGround = true;
+                } else {
+                    driver.velocity.y = 0;
+                    driver.onGround = true;
+                }
+                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
             } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) { //Ceiling collision
                 driver.velocity.y = 0;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
