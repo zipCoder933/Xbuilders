@@ -37,6 +37,7 @@ public class Block extends Item {
 
     public float surfaceCoast = PositionHandler.DEFAULT_COAST; //The "Coast" of the block
     public float surfaceFriction = 0; //The "Friction" of the block
+    public float bounciness = 0; //The "Bounciness" of the block
 
     public BlockType getRenderType() {
         return ItemList.blocks.getBlockType(renderType);

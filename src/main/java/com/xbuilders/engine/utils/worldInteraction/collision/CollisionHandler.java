@@ -183,8 +183,9 @@ public class CollisionHandler {
 
             } else if (collisionData.collisionNormal.y == -1) {//Floor collision
                 floorBlock = block;
-                if (floorBlock != null && floorBlock.id == MyGame.BLOCK_HONEYCOMB_BLOCK) {
-                    driver.velocity.y = -driver.velocity.y * 0.65f;
+                if (floorBlock != null
+                        && floorBlock.bounciness > 0) {
+                    driver.velocity.y = -driver.velocity.y * floorBlock.bounciness;
                 } else {
                     driver.velocity.y = 0;
                 }

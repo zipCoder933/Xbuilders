@@ -524,6 +524,8 @@ public class MyGame extends Game {
         ItemList.getBlock(BLOCK_ICE).surfaceCoast = 0.995f;
         ItemList.getBlock(BLOCK_CACTUS).surfaceFriction = 0.5f;
         ItemList.getBlock(BLOCK_OAK_LOG).properties.put("flammable", "true");
+        ItemList.getBlock(BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
+        ItemList.getBlock(BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
     }
 
     @Override

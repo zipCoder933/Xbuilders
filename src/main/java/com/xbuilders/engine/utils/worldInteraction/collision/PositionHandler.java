@@ -106,66 +106,72 @@ public class PositionHandler {
 
 
     public void update() {
-        frameDeltaSec = window.smoothFrameDeltaSec;
+        try {
+            frameDeltaSec = window.smoothFrameDeltaSec;
 
-        aabb.update(); //Update the aabb first
-        if (DRAW_ENTITY_BOX) {
-            renderedBox.setLineWidth(2);
-            renderedBox.setColor(new Vector4f(1, 0, 0, 1));
-            renderedBox.set(aabb.box);
-            renderedBox.draw(GameScene.projection, GameScene.view);
+            aabb.update(); //Update the aabb first
+            if (DRAW_ENTITY_BOX) {
+                renderedBox.setLineWidth(2);
+                renderedBox.setColor(new Vector4f(1, 0, 0, 1));
+                renderedBox.set(aabb.box);
+                renderedBox.draw(GameScene.projection, GameScene.view);
+            }
+
+            if (!isFrozen()) {
+
+                //Set the coast and friction
+                if (!onGround || !gravityEnabled || !collisionsEnabled ||
+                        collisionHandler.floorBlock == null ||
+                        collisionHandler.floorBlock == BlockList.BLOCK_AIR) {
+                    surfaceCoasting = DEFAULT_COAST;
+                    surfaceFriction = 0;
+                } else {
+                    surfaceCoasting = collisionHandler.floorBlock.surfaceCoast;
+                    surfaceFriction = collisionHandler.floorBlock.surfaceFriction;
+                }
+
+                if (surfaceFriction > 0) {//Apply friction
+                    velocity.x *= 1 - surfaceFriction;
+                    velocity.z *= 1 - surfaceFriction;
+                }
+
+                //Handle Y velocity
+                if (collisionsEnabled && isGravityEnabled()) {
+                    double fallSpeed = (gravity * frameDeltaSec);
+                    //TODO: Cap the number of times we can update PositionHandler (10fps) (The movement is jittery when running against walls, if we try to limit that here)
+                    if (window.getMsPerFrame() < 10)
+                        fallSpeed /= 4; //For some reason, we need to fall slower if the MPF is too low
+                    this.velocity.y += fallSpeed;
+                } else {
+                    velocity.y *= 0.75f; //Vertical coasting
+                }
+                if (velocity.y > -0.00001f) {
+                    onGround = true;
+                } else if (velocity.y > terminalVelocity * frameDeltaSec) {
+                    velocity.y = terminalVelocity * frameDeltaSec;
+                }
+
+                //Calculate new AABB
+                aabb.box.setX(aabb.box.min.x + velocity.x);
+                aabb.box.setY(aabb.box.min.y + velocity.y);
+                aabb.box.setZ(aabb.box.min.z + velocity.z);
+
+                //Apply coasting
+                velocity.x *= surfaceCoasting;
+                velocity.z *= surfaceCoasting;
+            }
+            if (collisionsEnabled) {
+                collisionHandler.resolveCollisions(GameScene.projection, GameScene.view);
+            }
+
+            //calculate new world position
+            aabb.worldPosition.x = aabb.box.min.x - aabb.offset.x;
+            aabb.worldPosition.y = aabb.box.min.y - aabb.offset.y;
+            aabb.worldPosition.z = aabb.box.min.z - aabb.offset.z;
+            aabb.clamp(false);
+        } catch (Exception e) {
+            e.printStackTrace(); //Safely handle any exceptions
         }
-
-        if (!isFrozen()) {
-
-            //Set the coast and friction
-            if (!onGround || !gravityEnabled || !collisionsEnabled || collisionHandler.floorBlock == BlockList.BLOCK_AIR) {
-                surfaceCoasting = DEFAULT_COAST;
-                surfaceFriction = 0;
-            } else {
-                surfaceCoasting = collisionHandler.floorBlock.surfaceCoast;
-                surfaceFriction = collisionHandler.floorBlock.surfaceFriction;
-            }
-
-            if (surfaceFriction > 0) {//Apply friction
-                velocity.x *= 1 - surfaceFriction;
-                velocity.z *= 1 - surfaceFriction;
-            }
-
-            //Handle Y velocity
-            if (collisionsEnabled && isGravityEnabled()) {
-                double fallSpeed = (gravity * frameDeltaSec);
-                //TODO: Cap the number of times we can update PositionHandler (10fps) (The movement is jittery when running against walls, if we try to limit that here)
-                if (window.getMsPerFrame() < 10)
-                    fallSpeed /= 4; //For some reason, we need to fall slower if the MPF is too low
-                this.velocity.y += fallSpeed;
-            } else {
-                velocity.y *= 0.75f; //Vertical coasting
-            }
-            if (velocity.y > -0.00001f) {
-                onGround = true;
-            } else if (velocity.y > terminalVelocity * frameDeltaSec) {
-                velocity.y = terminalVelocity * frameDeltaSec;
-            }
-
-            //Calculate new AABB
-            aabb.box.setX(aabb.box.min.x + velocity.x);
-            aabb.box.setY(aabb.box.min.y + velocity.y);
-            aabb.box.setZ(aabb.box.min.z + velocity.z);
-
-            //Apply coasting
-            velocity.x *= surfaceCoasting;
-            velocity.z *= surfaceCoasting;
-        }
-        if (collisionsEnabled) {
-            collisionHandler.resolveCollisions(GameScene.projection, GameScene.view);
-        }
-
-        //calculate new world position
-        aabb.worldPosition.x = aabb.box.min.x - aabb.offset.x;
-        aabb.worldPosition.y = aabb.box.min.y - aabb.offset.y;
-        aabb.worldPosition.z = aabb.box.min.z - aabb.offset.z;
-        aabb.clamp(false);
     }
 
 
