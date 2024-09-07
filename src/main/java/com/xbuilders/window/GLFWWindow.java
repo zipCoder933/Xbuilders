@@ -46,7 +46,7 @@ public abstract class GLFWWindow {
 
     protected int width, height, display_width, display_height;
     protected Vector2d cursor;
-    protected long id;
+    protected long window;
     protected GLFWFramebufferSizeCallback framebufferSizeCallback;
     protected GLCapabilities capabilities;
     private static Callback debugProc;
@@ -87,7 +87,7 @@ public abstract class GLFWWindow {
                     .pixels(pixels256);
 
             icons.position(0);
-            GLFW.glfwSetWindowIcon(id, icons);
+            GLFW.glfwSetWindowIcon(window, icons);
 
             stbi_image_free(pixels32);
             stbi_image_free(pixels16);
@@ -148,7 +148,7 @@ public abstract class GLFWWindow {
     }
 
     public boolean windowIsFocused() {
-        return glfwGetWindowAttrib(id, GLFW_FOCUSED) == GLFW_TRUE;
+        return glfwGetWindowAttrib(window, GLFW_FOCUSED) == GLFW_TRUE;
     }
 
     public BufferedImage readPixelsOfWindow() {
@@ -182,15 +182,15 @@ public abstract class GLFWWindow {
     // <editor-fold defaultstate="collapsed" desc="glfw implentations / random
     // methods">
     public void setTitle(String title) {
-        GLFW.glfwSetWindowTitle(getId(), title);
+        GLFW.glfwSetWindowTitle(getWindow(), title);
     }
 
     public void setWindowPos(final int x, final int y) {
-        GLFW.glfwSetWindowPos(getId(), x, y);
+        GLFW.glfwSetWindowPos(getWindow(), x, y);
     }
 
     public void getWindowPos(IntBuffer xpos, IntBuffer ypos) {
-        GLFW.glfwGetWindowPos(getId(), xpos, ypos);
+        GLFW.glfwGetWindowPos(getWindow(), xpos, ypos);
     }
 
     public void centerWindow() {
@@ -199,8 +199,8 @@ public abstract class GLFWWindow {
         try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1);
             IntBuffer pHeight = stack.mallocInt(1);
-            GLFW.glfwGetWindowSize(getId(), pWidth, pHeight);
-            GLFW.glfwSetWindowPos(getId(),
+            GLFW.glfwGetWindowSize(getWindow(), pWidth, pHeight);
+            GLFW.glfwSetWindowPos(getWindow(),
                     (vidmode.width() - pWidth.get(0)) / 2,
                     (vidmode.height() - pHeight.get(0)) / 2);
         }
@@ -211,7 +211,7 @@ public abstract class GLFWWindow {
      * @return
      */
     public boolean isKeyPressed(int key) {
-        return GLFW.glfwGetKey(getId(), key) == GLFW.GLFW_PRESS;
+        return GLFW.glfwGetKey(getWindow(), key) == GLFW.GLFW_PRESS;
     }
 
     /**
@@ -219,19 +219,19 @@ public abstract class GLFWWindow {
      * @return
      */
     public boolean isMouseButtonPressed(int key) {
-        return GLFW.glfwGetMouseButton(getId(), key) == GLFW.GLFW_PRESS;
+        return GLFW.glfwGetMouseButton(getWindow(), key) == GLFW.GLFW_PRESS;
     }
 
     public void showWindow() {
-        GLFW.glfwShowWindow(getId());
+        GLFW.glfwShowWindow(getWindow());
     }
 
     public void hideWindow() {
-        GLFW.glfwHideWindow(getId());
+        GLFW.glfwHideWindow(getWindow());
     }
 
     public boolean windowShouldClose() {
-        return GLFW.glfwWindowShouldClose(getId());
+        return GLFW.glfwWindowShouldClose(getWindow());
     }
     // </editor-fold>
 
@@ -240,8 +240,8 @@ public abstract class GLFWWindow {
     /**
      * @return the id
      */
-    public long getId() {
-        return id;
+    public long getWindow() {
+        return window;
     }
 
     /**
@@ -277,11 +277,11 @@ public abstract class GLFWWindow {
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
 
-            glfwGetWindowSize(getId(), w, h);
+            glfwGetWindowSize(getWindow(), w, h);
             width = w.get(0);
             height = h.get(0);
 
-            glfwGetFramebufferSize(getId(), w, h);
+            glfwGetFramebufferSize(getWindow(), w, h);
             display_width = w.get(0);
             display_height = h.get(0);
         }
@@ -303,11 +303,15 @@ public abstract class GLFWWindow {
     public static final Object windowCreateLock = new Object();
     private static boolean isGLFWInitialized = false;
 
-    protected void startWindow(String title, boolean fullscreen, int width, int height) {
+    public static void initGLFW() {
         if (!isGLFWInitialized) { //Initialize GLFW if it hasn't been initialized yet
             isGLFWInitialized = true;
             if (!glfwInit()) throw new IllegalStateException("Unable to initialize glfw");
         }
+    }
+
+    protected void createWindow(String title, boolean fullscreen, int width, int height) {
+        initGLFW();
 
         windowHints();
         synchronized (windowCreateLock) {
@@ -318,16 +322,16 @@ public abstract class GLFWWindow {
                 int low_res_x = width; // example value
                 int low_res_y = height; // example value
                 // Create the window
-                id = GLFW.glfwCreateWindow(low_res_x, low_res_y, title, monitor, NULL);
-            } else id = glfwCreateWindow(width, height, title, NULL, NULL);
+                window = GLFW.glfwCreateWindow(low_res_x, low_res_y, title, monitor, NULL);
+            } else window = glfwCreateWindow(width, height, title, NULL, NULL);
 
-            if (getId() == NULL) {
+            if (getWindow() == NULL) {
                 throw new RuntimeException("Failed to create the GLFW window \"" + title + "\"");
             }
         }
 
         // all subsequent operations are directed to this window
-        glfwMakeContextCurrent(getId());
+        glfwMakeContextCurrent(getWindow());
         initCallbacks();
         GLFW.glfwSwapInterval(1);// to disable vsync GLFW.glfwSwapInterval(0); (1 = on, 0 = off)
         centerWindow();
@@ -410,7 +414,7 @@ public abstract class GLFWWindow {
                 // glfwMakeContextCurrent(NULL);
             }
         };
-        GLFW.glfwSetFramebufferSizeCallback(getId(), framebufferSizeCallback);
+        GLFW.glfwSetFramebufferSizeCallback(getWindow(), framebufferSizeCallback);
 
     }
 
@@ -536,8 +540,8 @@ public abstract class GLFWWindow {
      * Closes and cleans up the current window
      */
     public void terminate() {
-        Callbacks.glfwFreeCallbacks(getId());
-        GLFW.glfwDestroyWindow(getId());
+        Callbacks.glfwFreeCallbacks(getWindow());
+        GLFW.glfwDestroyWindow(getWindow());
     }
 
 

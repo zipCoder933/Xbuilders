@@ -9,7 +9,6 @@ import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
-import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkRect;
@@ -101,7 +100,7 @@ public class TopMenu {
     final int windowMaxHeight = 800;
 
     public void render() {
-        GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+        GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
         if (firsttime && MainWindow.loadWorldOnStartup && MainWindow.devMode) {
             loadWorldOnInit__Dev();
             firsttime = false;

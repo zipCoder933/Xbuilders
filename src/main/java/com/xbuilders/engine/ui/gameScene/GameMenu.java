@@ -10,7 +10,6 @@ import com.xbuilders.engine.ui.topMenu.SettingsPage;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
@@ -59,7 +58,7 @@ class GameMenu extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
-        GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+        GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
         NkRect windowDims = NkRect.malloc(stack);
         ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
         nk_style_set_font(ctx, Theme.font_10);

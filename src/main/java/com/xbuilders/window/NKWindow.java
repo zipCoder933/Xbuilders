@@ -63,9 +63,9 @@ public abstract class NKWindow extends GLFWWindow {
 
 
     @Override
-    public void startWindow(String title, boolean fullscreen, int width, int height) {
-        super.startWindow(title, fullscreen, width, height);
-        ctx = setupWindow(getId());
+    public void createWindow(String title, boolean fullscreen, int width, int height) {
+        super.createWindow(title, fullscreen, width, height);
+        ctx = setupWindow(getWindow());
         try {
             setupContext();
         } catch (IOException ex) {
@@ -206,22 +206,22 @@ public abstract class NKWindow extends GLFWWindow {
 
         NkMouse mouse = ctx.input().mouse();
         if (mouse.grab()) {
-            glfwSetInputMode(getId(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+            glfwSetInputMode(getWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         } else if (mouse.grabbed()) {
             float prevX = mouse.prev().x();
             float prevY = mouse.prev().y();
-            glfwSetCursorPos(getId(), prevX, prevY);
+            glfwSetCursorPos(getWindow(), prevX, prevY);
             mouse.pos().x(prevX);
             mouse.pos().y(prevY);
         } else if (mouse.ungrab()) {
-            glfwSetInputMode(getId(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            glfwSetInputMode(getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
 
         nk_input_end(ctx);
     }
 
     public void endFrame() {
-        glfwSwapBuffers(getId());
+        glfwSwapBuffers(getWindow());
         tickMPF();
     }
 

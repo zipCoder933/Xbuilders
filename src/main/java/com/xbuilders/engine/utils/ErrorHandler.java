@@ -6,7 +6,8 @@ package com.xbuilders.engine.utils;
 
 import com.xbuilders.engine.MainWindow;
 
-import java.awt.datatransfer.Clipboard;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +21,27 @@ import java.util.Date;
  */
 public class ErrorHandler {
 
+    public static void createPopupWindow(String title, String str) {
+        final JFrame parent = new JFrame();
+        JLabel label = new JLabel("");
+        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
+//        label.setFont(new Font("Arial", 0, 12));
+        label.setVerticalAlignment(JLabel.TOP);
+        parent.add(label);
+        parent.pack();
+        parent.getContentPane().setBackground(Color.white);
+        parent.setVisible(true);
+        parent.pack();
+
+        parent.setIconImage(popupWindowIcon.getImage());
+        parent.setTitle(title);
+        parent.setLocationRelativeTo(null);
+        parent.setAlwaysOnTop(true);
+        parent.setVisible(true);
+        parent.setSize(380, 240);
+    }
+
+    private final static ImageIcon popupWindowIcon = new ImageIcon(ResourceUtils.resource("logo.png").getAbsolutePath());
     private static final String localDir = new File("").getAbsolutePath();
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");
 
@@ -42,17 +64,7 @@ public class ErrorHandler {
      * @param devMessage
      */
     public static void log(Throwable ex, String devMessage) {
-        String date = dateFormat.format(new Date());
-        File logFile = new File(localDir, "error logs\\log_" + date + ".txt");
 
-        if (!devMessage.isBlank()) {
-            devMessage = devMessage.length() > 50 ? devMessage.substring(0, 50) : devMessage;
-            logFile = new File(localDir, "error logs\\" + devMessage.replaceAll("[^\\w\\.]", "_") + "\\log_" + date + ".txt");
-        }
-
-        if (!logFile.getParentFile().exists()) {
-            logFile.getParentFile().mkdirs();
-        }
 
         String errorStr = "Message: \t" + devMessage + "\n";
 
@@ -70,10 +82,29 @@ public class ErrorHandler {
         }
         System.out.println(errorStr);
         try {
-            Files.writeString(logFile.toPath(), errorStr);
+            //Create log file directory if it doesn't exist
+            saveLogToFile(devMessage, errorStr);
+
+            //Copy to clipboard
             MiscUtils.setClipboard(errorStr);
         } catch (IOException ex1) {
         }
+    }
+
+    private static File saveLogToFile(String devMessage, String errorStr) throws IOException {
+        File logFile;
+        if (devMessage == null){
+            String date = dateFormat.format(new Date()).replaceAll("[^a-zA-Z0-9]", "_");
+            logFile = ResourceUtils.localResource("error logs\\unknown_" + date + ".txt");
+        }
+        else {
+            String name = devMessage.replaceAll("[^a-zA-Z0-9]", "_");
+            logFile = ResourceUtils.localResource("error logs\\" + name + ".txt");
+        }
+
+        if (!logFile.getParentFile().exists()) logFile.getParentFile().mkdirs();
+        Files.writeString(logFile.toPath(), errorStr);
+        return logFile;
     }
 
     public static void log(Throwable throwable) {

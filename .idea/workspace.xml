@@ -10,100 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___C__Local_Files_github_Xbuilders_/log_2024-06-29 07_45_06.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___C__Local_Files_github_Xbuilders_/log_2024-06-29 07_45_06.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-06-21 08_02_43.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-06-21 08_02_43.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-06-29 09_33_20.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-06-29 09_33_20.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-06-29 09_36_31.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-06-29 09_36_31.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-07-23 07_35_50.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-07-23 07_35_50.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-07-23 07_40_45.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-07-23 07_40_45.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-07-23 07_42_38.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Couldn_t_compile_shader__C__Loca/log_2024-07-23 07_42_38.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Expected_an_int_but_was_0.5_at_l/log_2024-07-20 15_22_38.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Expected_an_int_but_was_0.5_at_l/log_2024-07-20 15_22_38.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Failed_to_invoke_constructor__co/log_2024-06-07 04_29_37.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Failed_to_invoke_constructor__co/log_2024-06-07 04_29_37.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___Failed_to_invoke_constructor__co/log_2024-06-07 04_30_08.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___Failed_to_invoke_constructor__co/log_2024-06-07 04_30_08.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/__Runtime_error___java.lang.IllegalStateException_/log_2024-07-22 15_45_56.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/__Runtime_error___java.lang.IllegalStateException_/log_2024-07-22 15_45_56.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/unnamed_error/log_2024-07-23 07_35_50.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/unnamed_error/log_2024-07-23 07_35_50.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/unnamed_error/log_2024-07-23 07_40_45.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/unnamed_error/log_2024-07-23 07_40_45.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error logs/unnamed_error/log_2024-07-23 07_42_38.txt" beforeDir="false" afterPath="$PROJECT_DIR$/error logs/unnamed_error/log_2024-07-23 07_42_38.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbactions.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbactions.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/BlockIDs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/blockIconRendering/BlockIconRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/blockIconRendering/BlockIconRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/liquid/LiquidBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/liquid/LiquidBlockType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/liquid/LiquidPropagationTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/liquid/LiquidPropagationTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/GameServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PlayerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/multiplayer/PlayerClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/MainWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/CursorRay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/camera/CursorRay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/pipeline/BlockEventPipeline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/chunk/mesh/CompactIndexedMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/chunk/mesh/CompactIndexedMesh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/chunk/mesh/CompactMesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/chunk/mesh/CompactMesh.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/wireframeBox/Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/rendering/wireframeBox/Box.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/Crosshair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/Crosshair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/LoadWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/LoadWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/MenuHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/MenuHome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/Multiplayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/Multiplayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/NewWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/NewWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/PopupMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/PopupMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/ProgressMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/ProgressMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/SettingsField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/SettingsField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/SettingsPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/TopMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/TopMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/VersionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/VersionInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ErrorHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/MiscUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/MiscUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/Vector3iMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/progress/ProgressData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/progress/ProgressData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/PositionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/PositionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/World.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/ChunkSunlightGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/ChunkSunlightGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/PillarInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/pillar/PillarInformation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/light/SunlightUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/light/SunlightUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/FileDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/FileDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/saving/ChunkSavingLoadingUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/world/chunk/saving/ChunkSavingLoadingUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockToolPallete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockToolPallete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/BoundaryTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/BoundaryTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/CopyTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/CopyTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/PlaneTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/PlaneTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/trees/TreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/trees/TreeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/CatLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/CatLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/FoxLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/FoxLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/RabbitLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/RabbitLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/StaticLandAnimalLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/StaticLandAnimalLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/BeaverEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/BeaverEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/LandAndWaterAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/landAndWater/TurtleEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/Animal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/LandAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/mobile/LandAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/DogLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/DogLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/HorseLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/HorseLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/MuleLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/MuleLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimalLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/animal/quadPedal/QuadPedalLandAnimalLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/BoatEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/BoatEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/MinecartEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/MinecartEntityLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/Vehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/Vehicle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/tools/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/tools/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/GrassPropagation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/GrassPropagation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/fire/DisintegrationPropagation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/fire/DisintegrationPropagation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/fire/SpreadPropagation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/propagation/fire/SpreadPropagation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/MeshTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/MeshTester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/UITester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/UITester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/rectangle/RectangleDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/rectangle/RectangleDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/BaseWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/NKWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/NKWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/Window.java" afterDir="false" />
     </list>
@@ -155,29 +73,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Dev (Load World).executor": "Run",
-    "Application.Dev 2.executor": "Run",
-    "Application.Dev.executor": "Run",
-    "Application.Main Dev 2.executor": "Run",
-    "Application.Main Dev.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MiscTester.executor": "Run",
-    "Application.NetworkTester.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Xbuilders",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.3908046",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Dev (Load World).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Dev 2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main Dev 2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MiscTester.executor&quot;: &quot;Run&quot;,
+    &quot;Application.NetworkTester.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Xbuilders&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.3908046&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.xbuilders.game.items.entities.animal.mobile" />

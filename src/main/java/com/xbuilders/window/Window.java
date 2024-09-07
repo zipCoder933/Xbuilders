@@ -14,16 +14,16 @@ import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
 public abstract class Window extends GLFWWindow {
 
     @Override
-    public void startWindow(String title, boolean fullscreen,int width, int height) {
-        super.startWindow(title,fullscreen, width, height);
-        glfwSetCursorPosCallback(getId(), (window, xpos, ypos) -> {
+    public void createWindow(String title, boolean fullscreen, int width, int height) {
+        super.createWindow(title, fullscreen, width, height);
+        glfwSetCursorPosCallback(getWindow(), (window, xpos, ypos) -> {
             cursor.x = xpos;
             cursor.y = ypos;
         });
     }
 
     public void newFrame() {
-        GLFW.glfwSwapBuffers(getId());
+        GLFW.glfwSwapBuffers(getWindow());
         GLFW.glfwPollEvents();
         tickMPF();
     }

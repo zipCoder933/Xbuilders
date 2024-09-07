@@ -25,7 +25,7 @@ public class RectangleDemo extends Window {
 
     public RectangleDemo() throws IOException {
         super();
-        startWindow("Rectangle Demo", false, 400, 400);
+        createWindow("Rectangle Demo", false, 400, 400);
         showWindow();
 
         texture = TextureUtils.loadTexture(TEXTURE_PATH, false).id;

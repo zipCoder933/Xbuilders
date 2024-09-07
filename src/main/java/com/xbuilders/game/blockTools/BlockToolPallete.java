@@ -51,7 +51,7 @@ public class BlockToolPallete {
             if (!wasOpen) {
                 onOpenEvent();
             }
-            GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+            GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
             NkRect windowSize = NkRect.malloc(stack);
             Theme.resetEntireButtonStyle(ctx);
             Theme.resetWindowColor(ctx);

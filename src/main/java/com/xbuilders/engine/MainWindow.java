@@ -16,6 +16,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.game.MyGame;
+import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
@@ -33,8 +34,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MainWindow extends NKWindow {
 
@@ -147,7 +146,6 @@ public class MainWindow extends NKWindow {
                 /* Input */
                 beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
                 startFrame();
-
                 frameTester.__startFrame();
                 render();
                 MemoryProfiler.update();
@@ -158,14 +156,19 @@ public class MainWindow extends NKWindow {
                 endScreenshot();
             }
         } catch (Exception e) {
-            ErrorHandler.report(e);
+            ErrorHandler.createPopupWindow(name + " has crashed",
+                    name + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
+                            "Stack trace:\n" +
+                            String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
+                            "\n\n Log saved to clipboard.");
+            ErrorHandler.log(e, "Fatal Error");
         } finally {
             terminate();
         }
-
     }
 
     private void init() throws Exception {
+        GLFWWindow.initGLFW();
         settings = settingsUtils.load(devMode);
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
@@ -195,7 +198,7 @@ public class MainWindow extends NKWindow {
             System.out.println("FULLSCREEN MODE. Window size: " + windowWidth + "x" + windowHeight);
         }
 
-        startWindow("XBuilders", settings.video_fullscreen, windowWidth, windowHeight);
+        createWindow("XBuilders", settings.video_fullscreen, windowWidth, windowHeight);
         GLFW.glfwSwapInterval(settings.video_vsync ? 1 : 0);
 
         //If a fullscreen window is created, we need to set the focus callback so that the user can exit fullscreen if they lose focus
@@ -252,7 +255,7 @@ public class MainWindow extends NKWindow {
 
     private void firstTimeSetup() throws InterruptedException {
         //Minimize the window
-        GLFW.glfwHideWindow(getId());
+        GLFW.glfwHideWindow(getWindow());
 
         createPopupWindow("First time setup",
                 "XBuilders is setting up. Please standby...");

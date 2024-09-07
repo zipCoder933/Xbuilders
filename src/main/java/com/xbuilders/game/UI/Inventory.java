@@ -171,7 +171,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     public void draw(MemoryStack stack) {
         if (isOpen) {
 
-            GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+            GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
             NkRect windowDims2 = NkRect.malloc(stack);
             Theme.resetEntireButtonStyle(ctx);
             Theme.resetWindowColor(ctx);

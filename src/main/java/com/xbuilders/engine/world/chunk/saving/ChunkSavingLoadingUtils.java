@@ -66,12 +66,17 @@ public class ChunkSavingLoadingUtils {
         int length = bytesToShort(bytes[start.get()], bytes[start.get() + 1]) & 0xffff;
         start.set(start.get() + 2);
 
-        //Read the bytes
-        byte[] data = new byte[length];
-        System.arraycopy(bytes, start.get(), data, 0, length);
-        start.set(start.get() + length);
+        try {
+            //Read the bytes
+            byte[] data = new byte[length];
+            System.arraycopy(bytes, start.get(), data, 0, length);
+            start.set(start.get() + length);
+            return new BlockData(data);
 
-        return new BlockData(data);
+        } catch (IndexOutOfBoundsException e) {
+            ErrorHandler.report(e);
+            return null; //Catch the error just to be safe
+        }
     }
 
     public static void writeEntityData(byte[] entityBytes, OutputStream out) throws IOException {
