@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player.camera;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
@@ -12,7 +13,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.Main;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -86,7 +86,7 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
-        Item selectedItem = Main.game.getSelectedItem();
+        Item selectedItem = MainWindow.game.getSelectedItem();
         if (selectedItem != null && selectedItem.itemType == ItemType.TOOL) { //Tool click event
             ((Tool) selectedItem).run_ClickEvent(this, creationMode);
             return true;
@@ -102,7 +102,7 @@ public class CursorRay {
             }
         }
 
-        if (Main.game.setBlock(this, creationMode)) {
+        if (MainWindow.game.setBlock(this, creationMode)) {
             return true;
         } else if (useBoundary) {
             boundaryClickEvent(creationMode);
@@ -204,7 +204,7 @@ public class CursorRay {
             }
             cursorBox.set(boundary_aabb);
             cursorBox.draw(camera.projection, camera.view);
-        } else if (Main.game.drawCursor(this)) {
+        } else if (MainWindow.game.drawCursor(this)) {
         } else if (hitTarget()) {
             if (cursorRay.entity != null) {
                 cursorBox.set(cursorRay.entity.aabb.box);
@@ -229,9 +229,9 @@ public class CursorRay {
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
         if (cursorRayHitAllBlocks)
-            rayDistance = MathUtils.clamp(rayDistance, 1, Main.settings.game_cursorRayDist);
+            rayDistance = MathUtils.clamp(rayDistance, 1, MainWindow.settings.game_cursorRayDist);
         else
-            rayDistance = Main.settings.game_cursorRayDist;
+            rayDistance = MainWindow.settings.game_cursorRayDist;
 
         Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
 

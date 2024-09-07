@@ -1,5 +1,6 @@
 package com.xbuilders.game.blockTools.tools;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemType;
@@ -9,12 +10,10 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -53,8 +52,8 @@ public class BoundaryTool extends BlockTool {
 
         Block block = BlockList.BLOCK_AIR;
         if (created){
-            if (Main.game.getSelectedItem() == null || Main.game.getSelectedItem().getType() != ItemType.BLOCK) return;
-            block = (Block) Main.game.getSelectedItem();
+            if (MainWindow.game.getSelectedItem() == null || MainWindow.game.getSelectedItem().getType() != ItemType.BLOCK) return;
+            block = (Block) MainWindow.game.getSelectedItem();
         }
 
         HashSet<Chunk> foundChunks = new HashSet<Chunk>();

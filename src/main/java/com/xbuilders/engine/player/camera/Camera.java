@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player.camera;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
@@ -12,8 +13,6 @@ import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.window.BaseWindow;
-
 import java.awt.*;
 import java.lang.Math;
 import java.nio.IntBuffer;
@@ -42,7 +41,7 @@ public class Camera {
     private final IntBuffer windowX, windowY;
     private Robot robot;
     private final UserControlledPlayer player;
-    private final BaseWindow window;
+    private final MainWindow window;
     protected final Matrix4f view, projection;
     private final World world;
 
@@ -103,7 +102,7 @@ public class Camera {
 
 
     public Camera(UserControlledPlayer player,
-                  BaseWindow window,
+                  MainWindow window,
                   Matrix4f view, Matrix4f projection,
                   World world) {
 

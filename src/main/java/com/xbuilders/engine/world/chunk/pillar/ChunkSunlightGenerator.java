@@ -12,13 +12,9 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Main;
 import org.joml.Vector3i;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 

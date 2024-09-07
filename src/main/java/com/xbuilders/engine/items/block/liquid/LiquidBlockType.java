@@ -1,16 +1,15 @@
 package com.xbuilders.engine.items.block.liquid;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.propagation.WaterPropagation;
 import org.joml.Vector3i;
 
@@ -30,7 +29,7 @@ public class LiquidBlockType extends BlockType {
     };
 
     public int getGreedyMesherPermissions() {
-        return Main.settings.game_fixLiquidMesh ? DENY_GM : PERMIT_GM;
+        return MainWindow.settings.game_fixLiquidMesh ? DENY_GM : PERMIT_GM;
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
@@ -64,7 +63,7 @@ public class LiquidBlockType extends BlockType {
                                     WaterPropagation.getFlow(history.previousBlockData, defaultFlow) == defaultFlow) {
                                 neighboringWater++;
                                 if (neighboringWater > 3) {
-                                    Main.printlnDev("replacing liquid: " + x + " " + y + " " + z);
+                                    MainWindow.printlnDev("replacing liquid: " + x + " " + y + " " + z);
                                     GameScene.player.setBlock(b.id, history.previousBlockData, x, y, z);
                                     return;
                                 }

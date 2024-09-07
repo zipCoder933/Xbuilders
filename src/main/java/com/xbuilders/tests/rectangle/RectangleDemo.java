@@ -25,7 +25,6 @@ public class RectangleDemo extends Window {
 
     public RectangleDemo() throws IOException {
         super();
-        initGLFW();
         startWindow("Rectangle Demo", false, 400, 400);
         showWindow();
 

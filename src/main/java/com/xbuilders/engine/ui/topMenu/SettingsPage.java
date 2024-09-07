@@ -9,10 +9,10 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.NKWindow;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.lang.reflect.Field;
@@ -20,7 +20,6 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import org.lwjgl.nuklear.*;
-import org.lwjgl.system.*;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -31,16 +30,16 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class SettingsPage implements MenuPage {
 
-    public SettingsPage(NkContext ctx, NKWindow window, Runnable backCallback) {
+    public SettingsPage(NkContext ctx, MainWindow window, Runnable backCallback) {
         this.backCallback = backCallback;
         this.ctx = ctx;
         this.window = window;
-        boxWidth = Main.settings.video_largerUI ? 800 : 700;
+        boxWidth = MainWindow.settings.video_largerUI ? 800 : 700;
 
         fields.clear();
         for (Field field : EngineSettings.class.getDeclaredFields()) {
             field.setAccessible(true);
-            if (!Main.devMode && field.getName().startsWith("internal_")) continue;
+            if (!MainWindow.devMode && field.getName().startsWith("internal_")) continue;
             try {
                 fields.add(new SettingsField(field));
             } catch (IllegalAccessException e) {
@@ -52,7 +51,7 @@ public class SettingsPage implements MenuPage {
 
     Runnable backCallback;
     NkContext ctx;
-    NKWindow window;
+    MainWindow window;
 
     int boxWidth = 750;
     int boxHeight = 500;

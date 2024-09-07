@@ -4,12 +4,12 @@
  */
 package com.xbuilders.game.items.blocks.trees;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.Main;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ class TreeUtils {
 
    public static void waitForGrowth(){
        try {
-           Thread.sleep(Main.devMode ? 0 : 60*1000);
+           Thread.sleep(MainWindow.devMode ? 0 : 60*1000);
        } catch (InterruptedException e) {
            throw new RuntimeException(e);
        }

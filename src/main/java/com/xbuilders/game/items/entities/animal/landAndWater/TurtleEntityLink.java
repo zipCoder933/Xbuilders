@@ -4,17 +4,15 @@
  */
 package com.xbuilders.game.items.entities.animal.landAndWater;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
-import org.joml.Matrix4f;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -24,7 +22,7 @@ import java.util.Objects;
  */
 public class TurtleEntityLink extends EntityLink {
 
-    public TurtleEntityLink(BaseWindow window, int id, String name, String textureFile) {
+    public TurtleEntityLink(MainWindow window, int id, String name, String textureFile) {
         super(id, name);
         supplier = () -> new Turtle(window, this);
         setIcon("turtle egg.png");
@@ -74,7 +72,7 @@ public class TurtleEntityLink extends EntityLink {
 
         T link;
 
-        public Turtle(BaseWindow window, T link) {
+        public Turtle(MainWindow window, T link) {
             super(window);
             this.link = link;
             aabb.setOffsetAndSize(1f, 1f, 1f, true);
@@ -117,7 +115,7 @@ public class TurtleEntityLink extends EntityLink {
 
             finModelMatrix.set(modelMatrix).translate(x, y, z);
             if (animationSpeed != 0) {
-                float rot = (float) Math.sin((Main.frameCount * animationSpeed) + animationAdd) * multiplier;
+                float rot = (float) Math.sin((MainWindow.frameCount * animationSpeed) + animationAdd) * multiplier;
                 finModelMatrix.rotateY(rot);
             }
             finModelMatrix.update();

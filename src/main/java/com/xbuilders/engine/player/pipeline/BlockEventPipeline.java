@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player.pipeline;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.Local_PendingBlockChanges;
 import com.xbuilders.engine.items.BlockList;
@@ -18,7 +19,6 @@ import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.light.TorchUtils;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Main;
 import org.joml.Vector3i;
 
 import java.util.*;
@@ -123,14 +123,14 @@ public class BlockEventPipeline {
     final int MAX_FRAMES_WITH_EVENTS_IN_A_ROW = 10;
 
     public void update() {
-        if (Main.devkeyF3 && Main.devMode)
+        if (MainWindow.devkeyF3 && MainWindow.devMode)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
         if (outOfReachEvents.periodicRangeSendCheck(5000)) {
             int changes = outOfReachEvents.readApplicableChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
             });
-            Main.printlnDev("Loaded " + changes + " local changes");
+            MainWindow.printlnDev("Loaded " + changes + " local changes");
         }
 
         if (events.isEmpty()) {
@@ -258,7 +258,7 @@ public class BlockEventPipeline {
                                 blockHist.previousBlock != blockHist.newBlock //If the blocks are different
                         ) {
                             startLocalChange(worldPos, blockHist, allowBlockEvents);
-                            Main.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
+                            MainWindow.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
                             blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
                             blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
                         }
@@ -348,7 +348,7 @@ public class BlockEventPipeline {
 
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);
-                    Main.gameScene.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
+                    MainWindow.gameScene.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
                     nBlock.run_LocalChangeEvent(hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }

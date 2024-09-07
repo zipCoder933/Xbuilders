@@ -1,16 +1,16 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
-import com.xbuilders.window.BaseWindow;
 
 public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends LandAnimal {
 
     T link;
 
-    public QuadPedalLandAnimal(BaseWindow window) {
+    public QuadPedalLandAnimal(MainWindow window) {
         super(window);
         aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
 //            freezeMode = true;

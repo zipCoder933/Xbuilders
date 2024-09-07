@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.ui.gameScene;
 
-import com.xbuilders.window.BaseWindow;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.render.Shader;
 
 import java.io.IOException;
@@ -83,9 +83,9 @@ class Crosshair {
     public void draw() {
         GL30.glBindVertexArray(vao);
         glUseProgram(shader.getID());
-        BaseWindow.printDebugsEnabled(false);
+        MainWindow.printDebugsEnabled(false);
         glLineWidth(3);
         glDrawArrays(GL_LINES, 0, 4);
-        BaseWindow.printDebugsEnabled(true);
+        MainWindow.printDebugsEnabled(true);
     }
 }

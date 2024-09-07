@@ -9,7 +9,7 @@ import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.topMenu.SettingsPage;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import org.lwjgl.glfw.GLFW;
@@ -32,7 +32,7 @@ class GameMenu extends GameUIElement {
     final int menuWidth = 340;
     final int menuHeight = 220;
 
-    public GameMenu(NkContext ctx, NKWindow window) {
+    public GameMenu(NkContext ctx, MainWindow window) {
         super(ctx, window);
         chunkDist = new NumberBox(8, 0);
         chunkDist.setMinValue(World.VIEW_DIST_MIN);
@@ -105,7 +105,7 @@ class GameMenu extends GameUIElement {
             }
             nk_layout_row_dynamic(ctx, 40, 1);
             if (nk_button_label(ctx, "Save and Quit")) {
-                Main.goToMenuPage();
+                MainWindow.goToMenuPage();
             }
         }
         nk_end(ctx);

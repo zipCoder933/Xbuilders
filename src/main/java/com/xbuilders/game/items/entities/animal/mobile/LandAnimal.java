@@ -1,15 +1,14 @@
 package com.xbuilders.game.items.entities.animal.mobile;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.window.BaseWindow;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class LandAnimal extends Animal {
 
-    public LandAnimal(BaseWindow window) {
+    public LandAnimal(MainWindow window) {
         super(window);
     }
 

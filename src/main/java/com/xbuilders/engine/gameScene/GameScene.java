@@ -22,8 +22,9 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.game.MyGame;
+import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
@@ -63,7 +64,7 @@ public class GameScene implements WindowEvents {
     public GameScene(NKWindow window) throws Exception {
         this.window = window;
         specialMode = true;
-        player = new UserControlledPlayer(Main.user);
+        player = new UserControlledPlayer(MainWindow.user);
         localEntityChanges = new Local_PendingEntityChanges(player);
         otherPlayers = new ArrayList<>();
         server = new GameServer(player);
@@ -155,12 +156,12 @@ public class GameScene implements WindowEvents {
     }
 
     public static void pauseGame() {
-        if (Main.isFullscreen) Main.minimizeWindow();
+        if (MainWindow.isFullscreen) MainWindow.minimizeWindow();
         ui.showGameMenu();
     }
 
     public static void unpauseGame() {
-        if (Main.isFullscreen) Main.restoreWindow();
+        if (MainWindow.isFullscreen) MainWindow.restoreWindow();
     }
 
 
@@ -224,7 +225,7 @@ public class GameScene implements WindowEvents {
                     boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
                     if (!ok) {
                         prog.abort();
-                        Main.goToMenuPage();
+                        MainWindow.goToMenuPage();
                     }
                 } else {//Load spawn point
                     player.worldPosition.set(worldInfo.getSpawnPoint().x, worldInfo.getSpawnPoint().y, worldInfo.getSpawnPoint().z);
@@ -280,18 +281,18 @@ public class GameScene implements WindowEvents {
         }
     }
 
-    public void initialize(NKWindow window, MyGame game) throws Exception {
+    public void initialize(MainWindow window, MyGame game) throws Exception {
 
         livePropagationHandler.tasks.clear();
 
-        game.initialize(window, this);
+        game.initialize(this);
 
         setProjection();
         ui = new GameUI(game, window.ctx, window);
         world.init(ItemList.blocks.textures);
         player.init(window, world, projection, view);
         ui.init();
-        game.uiInit(window.ctx, window, ui);
+        game.uiInit(window.ctx, ui);
     }
 
     boolean holdMouse;
@@ -306,30 +307,30 @@ public class GameScene implements WindowEvents {
     }
 
     public void render() throws IOException {
-        Main.frameTester.startProcess();
+        MainWindow.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
         GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         holdMouse = ui.canHoldMouse() && window.windowIsFocused();
-        Main.frameTester.endProcess("Clearing buffer");
+        MainWindow.frameTester.endProcess("Clearing buffer");
 
         glEnable(GL_DEPTH_TEST);   // Enable depth test
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
 
-        Main.frameTester.startProcess();
+        MainWindow.frameTester.startProcess();
         player.update(holdMouse);
 
         //draw other players
         server.updatePlayers(projection, view);
 
-        Main.frameTester.endProcess("Updating player");
+        MainWindow.frameTester.endProcess("Updating player");
         enableBackfaceCulling();
-        Main.frameTester.startProcess();
+        MainWindow.frameTester.startProcess();
 
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         world.drawChunks(projection, view, player.worldPosition);
-        Main.frameTester.endProcess("Drawing chunks");
+        MainWindow.frameTester.endProcess("Drawing chunks");
         setInfoText();
         livePropagationHandler.update();
         ui.draw();
@@ -337,7 +338,7 @@ public class GameScene implements WindowEvents {
     }
 
     public void windowUnfocusEvent() {
-        if (Main.isFullscreen) ui.showGameMenu();
+        if (MainWindow.isFullscreen) ui.showGameMenu();
         else if (!GameScene.ui.menusAreOpen()) {
             ui.showGameMenu();
         }
@@ -403,12 +404,12 @@ public class GameScene implements WindowEvents {
     public static WCCi rayWCC = new WCCi();
 
     private void setInfoText() {
-        if (Main.devMode || debugText) {
+        if (MainWindow.devMode || debugText) {
             String text = "";
             try {
                 WCCf wcc2 = new WCCf();
                 wcc2.set(player.worldPosition);
-                text += Main.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
+                text += MainWindow.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
                 text += "Player pos: " +
                         ((int) player.worldPosition.x) + ", " +
                         ((int) player.worldPosition.y) + ", " +

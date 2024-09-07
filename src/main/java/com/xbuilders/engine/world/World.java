@@ -1,5 +1,6 @@
 package com.xbuilders.engine.world;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
@@ -30,7 +31,6 @@ import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
-import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
 
 public class World {
-    public static FrameTester frameTester = Main.frameTester;
+    public static FrameTester frameTester = MainWindow.frameTester;
 
     /*
      * CHUNK GENERATION PERFORMANCE
@@ -82,8 +82,8 @@ public class World {
     public void setViewDistance(int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
-        Main.settings.internal_viewDistance.value = viewDistance.get();
-        Main.saveSettings();
+        MainWindow.settings.internal_viewDistance.value = viewDistance.get();
+        MainWindow.saveSettings();
         GameScene.server.updateChunkDistance(viewDistance.get());
 
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
@@ -198,7 +198,7 @@ public class World {
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
-        setViewDistance(Main.settings.internal_viewDistance.value);
+        setViewDistance(MainWindow.settings.internal_viewDistance.value);
         chunkShader.setSkyColor(GameScene.backgroundColor);
         sortByDistance = new SortByDistanceToPlayer(GameScene.player.worldPosition);
         entities.clear();
@@ -251,9 +251,9 @@ public class World {
         this.info = info;
         entities.clear();
 
-        this.terrain = Main.game.getTerrainFromInfo(info);
+        this.terrain = MainWindow.game.getTerrainFromInfo(info);
         if (terrain == null) {
-            Main.popupMessage.message("Terrain not found",
+            MainWindow.popupMessage.message("Terrain not found",
                     "Terrain " + info.getTerrain() + " not found");
             return false;
         }

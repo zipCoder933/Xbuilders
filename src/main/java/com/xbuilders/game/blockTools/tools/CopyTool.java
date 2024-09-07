@@ -1,13 +1,12 @@
 package com.xbuilders.game.blockTools.tools;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
-import com.xbuilders.game.Main;
-import com.xbuilders.game.UI.FileDialog;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.blockTools.PrefabUtils;
@@ -40,7 +39,7 @@ public class CopyTool extends BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
         if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
-            Main.game.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            MainWindow.game.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
                     false, "xbprefab", (file) -> {
                         System.out.println("LOADING " + file.getAbsolutePath());
                         try {
@@ -53,7 +52,7 @@ public class CopyTool extends BlockTool {
                     });
         }
         if (Nuklear.nk_button_label(ctx, "Save Prefab")) {
-            Main.game.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            MainWindow.game.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
                     true, "xbprefab", (file) -> {
                         System.out.println("SAVING " + file.getAbsolutePath());
                         try {

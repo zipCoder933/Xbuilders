@@ -1,5 +1,6 @@
 package com.xbuilders.engine.multiplayer;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
@@ -18,7 +19,6 @@ import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.engine.world.wcc.WCCf;
-import com.xbuilders.game.Main;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -272,7 +272,7 @@ public class GameServer extends Server<PlayerClient> {
             case ENTITY_UPDATED -> modeStr = "UPDATED";
             default -> modeStr = "UNKNOWN";
         }
-        Main.printlnDev("RECEIVED (" + modeStr + ") " + entity +
+        MainWindow.printlnDev("RECEIVED (" + modeStr + ") " + entity +
                 ", id=" + Long.toHexString(identifier) +
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data));
@@ -348,8 +348,8 @@ public class GameServer extends Server<PlayerClient> {
         }
         if (client.isHost) {
             onLeaveEvent();
-            Main.goToMenuPage();
-            Main.popupMessage.message(
+            MainWindow.goToMenuPage();
+            MainWindow.popupMessage.message(
                     "Host has left",
                     "The host has left the game");
         }

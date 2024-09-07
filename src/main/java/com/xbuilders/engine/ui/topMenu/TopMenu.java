@@ -4,12 +4,12 @@
  */
 package com.xbuilders.engine.ui.topMenu;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.NKWindow;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkRect;
@@ -39,7 +39,7 @@ public class TopMenu {
     }
 
 
-    NKWindow window;
+    MainWindow window;
 
 
     private MenuHome menuHome;
@@ -73,7 +73,7 @@ public class TopMenu {
     }
 
 
-    public TopMenu(NKWindow window) throws IOException {
+    public TopMenu(MainWindow window) throws IOException {
         this.window = window;
     }
 
@@ -84,15 +84,15 @@ public class TopMenu {
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
         progress = new ProgressMenu(window.ctx, window, this);
-        hostMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, true, ipAdress, loadWorld);
-        joinMultiplayer = new Multiplayer(window.ctx, window, this, Main.gameScene.player, false, ipAdress, loadWorld);
+        hostMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.player, true, ipAdress, loadWorld);
+        joinMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.player, false, ipAdress, loadWorld);
         settings = new SettingsPage(window.ctx, window, () -> {
             goBack();
         });
 
 
         VersionInfo versionInfo = new VersionInfo();
-        versionInfo.createUpdatePrompt(Main.popupMessage);
+        versionInfo.createUpdatePrompt(MainWindow.popupMessage);
     }
 
     boolean firsttime = true;
@@ -102,7 +102,7 @@ public class TopMenu {
 
     public void render() {
         GLFW.glfwSetInputMode(window.getId(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-        if (firsttime && Main.loadWorldOnStartup && Main.devMode) {
+        if (firsttime && MainWindow.loadWorldOnStartup && MainWindow.devMode) {
             loadWorldOnInit__Dev();
             firsttime = false;
         }

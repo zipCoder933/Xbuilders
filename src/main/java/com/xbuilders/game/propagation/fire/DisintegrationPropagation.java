@@ -1,14 +1,13 @@
 package com.xbuilders.game.propagation.fire;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
-import com.xbuilders.game.items.blocks.RenderType;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
@@ -37,7 +36,7 @@ class DisintegrationPropagation extends LivePropagationTask {
     @Override
     public void update() {
         if (disintegrationNodes.isEmpty()) return;
-        Main.printlnDev("fire dis nodes: " + disintegrationNodes.size());
+        MainWindow.printlnDev("fire dis nodes: " + disintegrationNodes.size());
         Iterator<Vector3i> iterator = disintegrationNodes.iterator();
         while (iterator.hasNext()) {
             Vector3i node = iterator.next();

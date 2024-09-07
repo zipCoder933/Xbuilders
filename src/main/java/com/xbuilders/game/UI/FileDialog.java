@@ -1,5 +1,6 @@
 package com.xbuilders.game.UI;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.OpenHandler;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
@@ -21,7 +22,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public class FileDialog extends GameUIElement implements WindowEvents {
 
-    public FileDialog(NkContext ctx, NKWindow window) {
+    public FileDialog(NkContext ctx, MainWindow window) {
         super(ctx, window);
         releaseMouse = true;
         prompt = new PopupMessage(ctx, window);

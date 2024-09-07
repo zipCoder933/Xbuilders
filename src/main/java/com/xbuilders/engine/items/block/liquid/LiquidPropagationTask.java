@@ -6,7 +6,7 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.game.items.blocks.RenderType;
 import org.joml.Vector3i;
@@ -59,7 +59,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
             return;
         }
         HashSet<Vector3i> newNodes = new HashSet<>();
-        Main.printlnDev(liquidBlock.name + " prop nodes: " + nodes.size());
+        MainWindow.printlnDev(liquidBlock.name + " prop nodes: " + nodes.size());
         final int SOURCE_FLOW = liquidBlock.liquidMaxFlow + 1;
 
         for (Vector3i v : nodes) {

@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.player;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
@@ -15,7 +16,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-import com.xbuilders.game.Main;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -74,7 +74,7 @@ public class Player {
     }
 
     public void init() {
-        skin = Main.game.availableSkins.get(0).get(this);
+        skin = MainWindow.game.availableSkins.get(0).get(this);
         initialized = true;
     }
 

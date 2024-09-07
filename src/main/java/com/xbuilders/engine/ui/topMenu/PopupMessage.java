@@ -9,9 +9,9 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
@@ -24,7 +24,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class PopupMessage {
 
-    public PopupMessage(NkContext ctx, NKWindow window) {
+    public PopupMessage(NkContext ctx, MainWindow window) {
         this.ctx = ctx;
         windowDims = NkRect.create();
         this.window = window;
@@ -33,7 +33,7 @@ public class PopupMessage {
     }
 
     NkContext ctx;
-    NKWindow window;
+    MainWindow window;
 
     Runnable confirmationCallback, closeCallback;
     boolean visible = false;

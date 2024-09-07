@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game;
+package com.xbuilders.engine;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
@@ -15,6 +15,7 @@ import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
+import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
@@ -35,7 +36,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Main extends NKWindow {
+public class MainWindow extends NKWindow {
 
     public static double gameVersion = 1.5;
     public static boolean loadWorldOnStartup = false;
@@ -102,56 +103,74 @@ public class Main extends NKWindow {
 
     public static boolean devMode = false;
     public static String name = "XBuilders";
-
-    public static void main(String[] args) {
-        System.out.println("XBuilders (" + gameVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        try {
-            System.out.println("args: " + Arrays.toString(args));
-
-            String customAppData = null;
-
-            for (String arg : args) {
-                if (arg.equals("icons")) {
-                    generateIcons = true;
-                } else if (arg.equals("devmode")) {
-                    devMode = true;
-                    System.out.println("Dev mode enabled");
-                } else if (arg.startsWith("appData")) {
-                    customAppData = arg.split("=")[1];
-                } else if (arg.startsWith("name")) {
-                    name = arg.split("=")[1];
-                } else if (arg.equals("loadWorldOnStartup")) {
-                    loadWorldOnStartup = true;
-                }
-            }
-            if (!devMode) fpsTools = false;
-
-            dummyTester.setEnabled(false);
-            if (fpsTools) {
-                frameTester.setEnabled(true);
-                frameTester.setStarted(true);
-                frameTester.setUpdateTimeMS(1000);
-                memoryGraph = new MemoryGraph();
-            } else {
-                frameTester.setEnabled(false);
-            }
-            ResourceUtils.initialize(devMode, customAppData);
-
-            new Main();
-        } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public static boolean isFullscreen;
 
-    public Main() throws Exception {
+    public MainWindow(String args[]) {
         super();
+        System.out.println("XBuilders (" + gameVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        System.out.println("args: " + Arrays.toString(args));
+
+        String customAppData = null;
+
+        //Process args
+        for (String arg : args) {
+            if (arg.equals("icons")) {
+                generateIcons = true;
+            } else if (arg.equals("devmode")) {
+                devMode = true;
+                System.out.println("Dev mode enabled");
+            } else if (arg.startsWith("appData")) {
+                customAppData = arg.split("=")[1];
+            } else if (arg.startsWith("name")) {
+                name = arg.split("=")[1];
+            } else if (arg.equals("loadWorldOnStartup")) {
+                loadWorldOnStartup = true;
+            }
+        }
+        if (!devMode) fpsTools = false;
+
+        dummyTester.setEnabled(false);
+        if (fpsTools) {
+            frameTester.setEnabled(true);
+            frameTester.setStarted(true);
+            frameTester.setUpdateTimeMS(1000);
+            memoryGraph = new MemoryGraph();
+        } else {
+            frameTester.setEnabled(false);
+        }
+        ResourceUtils.initialize(devMode, customAppData);
+
+        try {
+            init();
+            showWindow();
+            while (!windowShouldClose()) {
+                /* Input */
+                beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
+                startFrame();
+
+                frameTester.__startFrame();
+                render();
+                MemoryProfiler.update();
+                if (memoryGraph != null) memoryGraph.update();
+                frameTester.__endFrame();
+
+                endFrame();//EndFrame takes the most time, becuase we have vsync turned on
+                endScreenshot();
+            }
+        } catch (Exception e) {
+            ErrorHandler.report(e);
+        } finally {
+            terminate();
+        }
+
+    }
+
+    private void init() throws Exception {
         settings = settingsUtils.load(devMode);
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
 
-        game = new MyGame();
+        game = new MyGame(this);
         gameScene.setGame(game);
         popupMessage = new PopupMessage(ctx, this);
         topMenu = new TopMenu(this);
@@ -159,9 +178,6 @@ public class Main extends NKWindow {
 
         setMpfUpdateInterval(1000);
         MemoryProfiler.setIntervalMS(500);
-
-        //Create the window
-        initGLFW();
 
         //Get the actual size of the screen
         int windowWidth = settings.internal_smallWindow ? 680 : 920;
@@ -201,26 +217,6 @@ public class Main extends NKWindow {
         GLFW.glfwSetWindowFocusCallback(windowHandle, focusCallback);
 
 
-        init();
-        showWindow();
-        while (!windowShouldClose()) {
-            /* Input */
-            beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
-            startFrame();
-
-            frameTester.__startFrame();
-            render();
-            MemoryProfiler.update();
-            if (memoryGraph != null) memoryGraph.update();
-            frameTester.__endFrame();
-
-            endFrame();//EndFrame takes the most time, becuase we have vsync turned on
-            endScreenshot();
-        }
-        terminate();
-    }
-
-    private void init() throws Exception {
         setIcon(ResourceUtils.resource("icon16.png").getAbsolutePath(),
                 ResourceUtils.resource("icon32.png").getAbsolutePath(),
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
@@ -324,7 +320,7 @@ public class Main extends NKWindow {
         // Our goal is to get as close to 16.666 MPF (60 FPS) as possible
         String formattedNumber = df.format(getMsPerFrame());
         mfpAndMemory = "mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString();
-        setTitle(name + (Main.devMode ? "   " + mfpAndMemory : ""));
+        setTitle(name + (MainWindow.devMode ? "   " + mfpAndMemory : ""));
     }
 
 

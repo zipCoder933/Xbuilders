@@ -1,5 +1,0 @@
-Developer Message: 	unnamed exception
-Class: 	class java.lang.NullPointerException
-
-Stack trace:
-[]

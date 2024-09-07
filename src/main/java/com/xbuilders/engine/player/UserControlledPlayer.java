@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
@@ -16,8 +17,6 @@ import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.BaseWindow;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
@@ -34,7 +33,7 @@ public class UserControlledPlayer extends Player {
 
     public Camera camera;
     public boolean allowKeyInput;
-    BaseWindow window;
+    MainWindow window;
 
 
     final Vector4f lastOrientation = new Vector4f();
@@ -49,11 +48,11 @@ public class UserControlledPlayer extends Player {
     final static float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     public static int getCreateMouseButton() {
-        return (Main.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
+        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
     }
 
     public static int getDeleteMouseButton() {
-        return (Main.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
     }
 
     public float getPan() {
@@ -146,7 +145,7 @@ public class UserControlledPlayer extends Player {
     }
 
     public void init(
-            BaseWindow window, World world,
+            MainWindow window, World world,
             Matrix4f projection,
             Matrix4f view) {
         this.window = window;
@@ -158,7 +157,7 @@ public class UserControlledPlayer extends Player {
 
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
         setColor(1, 1, 0);
-        skin = Main.game.availableSkins.get(0).get(this);
+        skin = MainWindow.game.availableSkins.get(0).get(this);
         eventPipeline = new BlockEventPipeline(world, this);
     }
 
@@ -213,7 +212,7 @@ public class UserControlledPlayer extends Player {
             } else if (newCameraBlock.opaque
                     && newCameraBlock.colorInPlayerHead[3] == 0
                     && positionHandler.collisionsEnabled
-                    && !Main.devMode) { //If we are opaque, don't have a color and we are not in passthrough mode
+                    && !MainWindow.devMode) { //If we are opaque, don't have a color and we are not in passthrough mode
                 GameScene.ui.setOverlayColor(0, 0, 0, 1);
             } else {
                 GameScene.ui.setOverlayColor(
@@ -370,7 +369,7 @@ public class UserControlledPlayer extends Player {
         if (action == GLFW.GLFW_PRESS) {
             if (button == UserControlledPlayer.getCreateMouseButton()
                     && !camera.cursorRay.clickEvent(true)) {
-                setItem(Main.game.getSelectedItem());
+                setItem(MainWindow.game.getSelectedItem());
             } else if (button == UserControlledPlayer.getDeleteMouseButton()
                     && !camera.cursorRay.clickEvent(false)) {
                 removeItem();
@@ -416,7 +415,7 @@ public class UserControlledPlayer extends Player {
                     }
                     case KEY_CREATE_MOUSE_BUTTON -> {
                         if (!camera.cursorRay.clickEvent(true)) {
-                            setItem(Main.game.getSelectedItem());
+                            setItem(MainWindow.game.getSelectedItem());
                         }
                     }
                     case KEY_DELETE_MOUSE_BUTTON -> {

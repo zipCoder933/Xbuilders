@@ -4,8 +4,8 @@
  */
 package com.xbuilders.game.blockTools;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
@@ -22,7 +22,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class BlockToolPallete {
 
-    BaseWindow window;
+    MainWindow window;
     NkContext ctx;
     WidgetWidthMeasurement buttonWidth;
     BlockTools tools;
@@ -38,7 +38,7 @@ public class BlockToolPallete {
     List<BlockTool> toolsList;
 
 
-    public BlockToolPallete(NkContext ctx, BaseWindow window, List<BlockTool> toolsList, BlockTools tools) {
+    public BlockToolPallete(NkContext ctx, MainWindow window, List<BlockTool> toolsList, BlockTools tools) {
         this.toolsList = toolsList;
         this.tools = tools;
         this.ctx = ctx;

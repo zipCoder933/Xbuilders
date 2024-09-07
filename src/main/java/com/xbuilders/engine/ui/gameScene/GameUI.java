@@ -9,6 +9,7 @@ package com.xbuilders.engine.ui.gameScene;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.RectOverlay;
 import com.xbuilders.window.NKWindow;
@@ -35,7 +36,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  */
 public class GameUI {
 
-    public GameUI(Game game, NkContext ctx, NKWindow window) throws IOException {
+    public GameUI(Game game, NkContext ctx, MainWindow window) throws IOException {
         this.ctx = ctx;
         this.window = window;
         this.game = game;
@@ -64,7 +65,7 @@ public class GameUI {
     }
 
     NkContext ctx;
-    NKWindow window;
+    MainWindow window;
     Game game;
     private RectOverlay overlay;
 

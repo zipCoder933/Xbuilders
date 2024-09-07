@@ -42,7 +42,7 @@ import org.lwjgl.system.Platform;
 /**
  * @author Patron
  */
-public abstract class BaseWindow {
+public abstract class GLFWWindow {
 
     protected int width, height, display_width, display_height;
     protected Vector2d cursor;
@@ -175,7 +175,7 @@ public abstract class BaseWindow {
         return image;
     }
 
-    public BaseWindow() {
+    public GLFWWindow() {
         cursor = new Vector2d();
     }
 
@@ -301,23 +301,15 @@ public abstract class BaseWindow {
     //// </editor-fold>
 
     public static final Object windowCreateLock = new Object();
+    private static boolean isGLFWInitialized = false;
 
     protected void startWindow(String title, boolean fullscreen, int width, int height) {
-        glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE); //Important hint for fullscreen resolution
-        glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
-        glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
-
-        // Set opengl version (You can change this to your desired opengl version)
-        glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 3);
-
-        glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
-        if (Platform.get() == Platform.MACOSX) {
-            glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);
+        if (!isGLFWInitialized) { //Initialize GLFW if it hasn't been initialized yet
+            isGLFWInitialized = true;
+            if (!glfwInit()) throw new IllegalStateException("Unable to initialize glfw");
         }
-        glfwWindowHint(GLFW.GLFW_OPENGL_DEBUG_CONTEXT, GLFW.GLFW_TRUE);
 
+        windowHints();
         synchronized (windowCreateLock) {
             if (fullscreen) {
                 // Get the primary monitor
@@ -333,28 +325,19 @@ public abstract class BaseWindow {
                 throw new RuntimeException("Failed to create the GLFW window \"" + title + "\"");
             }
         }
+
         // all subsequent operations are directed to this window
         glfwMakeContextCurrent(getId());
-        // Init framebufferSizeCallback event
         initCallbacks();
-
-//        if (fullscreen) { //For some reason, resizing the window causes a crash
-//            // Set the window size to 1920x1080
-//            GLFW.glfwSetWindowSize(id, width, height);
-//        }
-
-        // Enable V-sync (synchronizes the fps to the monitor update time,
-        // this can cap the fps to the monitors refresh rate (e.g. 60fps))
-        // but it removes artifacts like "screen tearing"
         GLFW.glfwSwapInterval(1);// to disable vsync GLFW.glfwSwapInterval(0); (1 = on, 0 = off)
-
         centerWindow();
         setWindowSizeVariables();
-
-        // create and initialize capabilites
         capabilities = GL.createCapabilities();
+        initDebugs();
+        startMPF();
+    }
 
-        // <editor-fold defaultstate="collapsed" desc="Init debugs">
+    private void initDebugs() {
         if (debugProc == null) {
             debugProc = GLUtil.setupDebugMessageCallback();
             if (capabilities.OpenGL43) {
@@ -371,13 +354,26 @@ public abstract class BaseWindow {
                 glDebugMessageControlARB(GL_DEBUG_SOURCE_API_ARB, GL_DEBUG_TYPE_OTHER_ARB, GL_DEBUG_SEVERITY_LOW_ARB,
                         (IntBuffer) null, false);
             }
-            GL43.glDebugMessageCallback(BaseWindow::debugCallback, NULL);
+            GL43.glDebugMessageCallback(GLFWWindow::debugCallback, NULL);
         }
-        // </editor-fold>
-
-        startMPF();
     }
-    // Callback method to handle debug messages
+
+    private void windowHints() {
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE); //Important hint for fullscreen resolution
+        glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
+        glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
+
+        // Set opengl version (You can change this to your desired opengl version)
+        glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 3);
+
+        glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
+        if (Platform.get() == Platform.MACOSX) {
+            glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);
+        }
+        glfwWindowHint(GLFW.GLFW_OPENGL_DEBUG_CONTEXT, GLFW.GLFW_TRUE);
+    }
 
     static boolean enableDebugMessages = true;
 
@@ -479,40 +475,41 @@ public abstract class BaseWindow {
     public float smoothFrameDeltaSec = 1f;
 
     private ValueSmoother smoothed = new ValueSmoother(20);
+
     /**
      * Delta smoothign helps the movement maintain a constant speed
      * Here's a basic example in Java:
-     *
+     * <p>
      * Copy
      * public class GameLoop {
-     *
-     *     private static final int SMOOTHING_FACTOR = 5; // Number of frame times to consider for smoothing
-     *     private static List<Double> frameTimes = new ArrayList<>();
-     *
-     *     public static void main(String[] args) {
-     *         while (true) {
-     *             long currentTime = System.nanoTime();
-     *             double frameTime = (currentTime - previousTime) / 1_000_000_000.0;
-     *             previousTime = currentTime;
-     *
-     *             frameTimes.add(frameTime);
-     *             if (frameTimes.size() > SMOOTHING_FACTOR) {
-     *                 frameTimes.remove(0); // Keep only the last N frame times
-     *             }
-     *
-     *             double smoothedDeltaTime = calculateSmoothedDeltaTime();
-     *             update(smoothedDeltaTime);
-     *             render();
-     *         }
-     *     }
-     *
-     *     private static double calculateSmoothedDeltaTime() {
-     *         double sum = 0;
-     *         for (double time : frameTimes) {
-     *             sum += time;
-     *         }
-     *         return sum / frameTimes.size();
-     *     }
+     * <p>
+     * private static final int SMOOTHING_FACTOR = 5; // Number of frame times to consider for smoothing
+     * private static List<Double> frameTimes = new ArrayList<>();
+     * <p>
+     * public static void main(String[] args) {
+     * while (true) {
+     * long currentTime = System.nanoTime();
+     * double frameTime = (currentTime - previousTime) / 1_000_000_000.0;
+     * previousTime = currentTime;
+     * <p>
+     * frameTimes.add(frameTime);
+     * if (frameTimes.size() > SMOOTHING_FACTOR) {
+     * frameTimes.remove(0); // Keep only the last N frame times
+     * }
+     * <p>
+     * double smoothedDeltaTime = calculateSmoothedDeltaTime();
+     * update(smoothedDeltaTime);
+     * render();
+     * }
+     * }
+     * <p>
+     * private static double calculateSmoothedDeltaTime() {
+     * double sum = 0;
+     * for (double time : frameTimes) {
+     * sum += time;
+     * }
+     * return sum / frameTimes.size();
+     * }
      */
 
     protected void tickMPF() {
@@ -543,14 +540,6 @@ public abstract class BaseWindow {
         GLFW.glfwDestroyWindow(getId());
     }
 
-    /**
-     * start glfw in the program
-     */
-    public static final void initGLFW() {
-        if (!glfwInit()) {
-            throw new IllegalStateException("Unable to initialize glfw");
-        }
-    }
 
     /**
      * end the program

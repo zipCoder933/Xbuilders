@@ -1,12 +1,12 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.entities.animal.LegPair;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
@@ -30,7 +30,7 @@ public abstract class QuadPedalLandAnimalLink extends EntityLink {
 
     };
 
-    public QuadPedalLandAnimalLink(BaseWindow window, int id, String name, String textureName) {
+    public QuadPedalLandAnimalLink(MainWindow window, int id, String name, String textureName) {
         super(id, name, () -> new QuadPedalLandAnimal<QuadPedalLandAnimalLink>(window));
 
         this.textureName = textureName;

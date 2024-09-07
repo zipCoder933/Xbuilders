@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
@@ -11,7 +12,6 @@ import com.xbuilders.engine.player.Skin;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
-import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- *
  * @author zipCoder933
  */
 public abstract class Game {
 
+    public final MainWindow window;
     public final ArrayList<Terrain> terrainsList;
     public ArrayList<SkinSupplier> availableSkins = new ArrayList<>();
 
@@ -48,13 +48,14 @@ public abstract class Game {
         }
     }
 
-    public Game() {
+    public Game(MainWindow window) {
+        this.window = window;
         terrainsList = new ArrayList<>();
     }
 
     public abstract void startGame(WorldInfo worldInfo);
 
-    public abstract void initialize(NKWindow window, GameScene gameScene) throws Exception;
+    public abstract void initialize(GameScene gameScene) throws Exception;
 
     public final Terrain getTerrainFromInfo(WorldInfo info) {
         for (Terrain terrain : terrainsList) {
@@ -66,7 +67,7 @@ public abstract class Game {
         return null;
     }
 
-    public void uiInit(NkContext ctx, NKWindow window, GameUI gameUI) {
+    public void uiInit(NkContext ctx, GameUI gameUI) {
     }
 
     public void uiDraw(MemoryStack stack) {

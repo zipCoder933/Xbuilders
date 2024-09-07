@@ -12,9 +12,8 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.game.MyGame;
-import com.xbuilders.window.BaseWindow;
 
 import org.joml.Vector2f;
 
@@ -28,7 +27,7 @@ public abstract class Animal extends Entity {
     private static final float ONE_SIXTEENTH = (float) 1 / 16;
     public Limb[] limbs;
     public PositionHandler pos;
-    public final BaseWindow window;
+    public final MainWindow window;
     public final Player player;
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
@@ -77,14 +76,14 @@ public abstract class Animal extends Entity {
 
 
     public boolean playerHasAnimalFeed() {
-        Item heldItem = Main.game.getSelectedItem();
+        Item heldItem = MainWindow.game.getSelectedItem();
         return heldItem != null && heldItem.equals(MyGame.TOOL_ANIMAL_FEED);
     }
 
     public void eatAnimalFeed() {
     }
 
-    public Animal(BaseWindow window) {
+    public Animal(MainWindow window) {
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.player;

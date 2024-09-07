@@ -14,8 +14,7 @@ import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.NKWindow;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.components.TextBox;
 
 import java.io.IOException;
@@ -33,18 +32,18 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class NewWorld implements MenuPage {
 
-    public NewWorld(NkContext ctx, NKWindow window, TopMenu menu) {
+    public NewWorld(NkContext ctx, MainWindow window, TopMenu menu) {
         this.ctx = ctx;
         this.window = window;
         this.menu = menu;
         name = new TextBox(20);
-        terrainSelector = new TerrainSelector(Main.game.terrainsList, ctx);
+        terrainSelector = new TerrainSelector(MainWindow.game.terrainsList, ctx);
     }
 
     TextBox name;
     NkContext ctx;
     TopMenu menu;
-    NKWindow window;
+    MainWindow window;
     TerrainSelector terrainSelector;
 
     final int boxWidth = 450;
@@ -114,11 +113,11 @@ public class NewWorld implements MenuPage {
             WorldInfo info = new WorldInfo();
             info.makeNew(name, size, terrain, seed);
             if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
-                Main.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
+                MainWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
                 return false;
             } else WorldsHandler.makeNewWorld(info);
         } catch (IOException ex) {
-            Main.popupMessage.message("Error", ex.getMessage());
+            MainWindow.popupMessage.message("Error", ex.getMessage());
             return false;
         }
         return true;

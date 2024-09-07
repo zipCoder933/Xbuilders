@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.window.BaseWindow;
+import com.xbuilders.window.GLFWWindow;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class PositionHandler {
     private boolean frozen = false;
     private boolean gravityEnabled;
     public boolean onGround;
-    public final BaseWindow window;
+    public final GLFWWindow window;
 
 
     public float surfaceCoasting = 0.75f;
@@ -88,7 +88,7 @@ public class PositionHandler {
     public float stepHeight = 0.6f;
     float frameDeltaSec;
 
-    public PositionHandler(BaseWindow window, World world,
+    public PositionHandler(GLFWWindow window, World world,
                            EntityAABB thisAABB,
                            EntityAABB UserPlayerAABB,
                            List<Player> playerList) {

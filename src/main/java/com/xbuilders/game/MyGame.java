@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
@@ -37,7 +38,6 @@ import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
 import com.xbuilders.game.items.entities.vehicle.MinecartEntityLink;
 import com.xbuilders.game.items.tools.*;
 import com.xbuilders.game.propagation.*;
-import com.xbuilders.game.propagation.fire.FirePropagation;
 import com.xbuilders.game.skins.FoxSkin;
 import com.xbuilders.game.terrain.DevTerrain;
 import com.xbuilders.game.terrain.FlatTerrain;
@@ -60,7 +60,9 @@ import java.util.logging.Logger;
  * @author zipCoder933
  */
 public class MyGame extends Game {
-    public MyGame() {
+
+    public MyGame(MainWindow window) {
+        super(window);
         availableSkins = new ArrayList<>();
         availableSkins.add((p) -> new FoxSkin(p));
         json = new JsonManager();
@@ -120,8 +122,6 @@ public class MyGame extends Game {
         return hotbar.getSelectedItem();
     }
 
-    NKWindow window;
-
 
     @Override
     public void uiDraw(MemoryStack stack) {
@@ -136,8 +136,7 @@ public class MyGame extends Game {
     }
 
     @Override
-    public void uiInit(NkContext ctx, NKWindow window, GameUI gameUI) {
-        this.window = window;
+    public void uiInit(NkContext ctx, GameUI gameUI) {
         try {
             hotbar = new Hotbar(ctx, window);
             inventory = new Inventory(ctx, ItemList.getAllItems(), window, hotbar);
@@ -195,7 +194,7 @@ public class MyGame extends Game {
             for (File file : jsonDirectory.listFiles()) {
 
                 if (!file.getName().endsWith(".json")) continue;
-                if (!Main.devMode && file.getName().contains("devmode")) continue;
+                if (!MainWindow.devMode && file.getName().contains("devmode")) continue;
 
                 String jsonString = Files.readString(file.toPath());
                 Block[] jsonBlocks2 = JsonManager.gson_jsonBlock.fromJson(jsonString, Block[].class);
@@ -334,7 +333,7 @@ public class MyGame extends Game {
     public static final Tool TOOL_ANIMAL_FEED = new AnimalFeed();
 
     @Override
-    public void initialize(NKWindow window, GameScene gameScene) throws Exception {
+    public void initialize(GameScene gameScene) throws Exception {
         //Add block types FIRST. We need them to be able to setup blocks properly
         ItemList.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
         ItemList.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
@@ -474,8 +473,8 @@ public class MyGame extends Game {
 //        terrainsList.add(new BasicTerrain());
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
-        if (Main.devMode) terrainsList.add(new DevTerrain());
-        if (Main.settings.internal_experimentalFeatures) terrainsList.add(new ComplexTerrain());
+        if (MainWindow.devMode) terrainsList.add(new DevTerrain());
+        if (MainWindow.settings.internal_experimentalFeatures) terrainsList.add(new ComplexTerrain());
 
         //Set items AFTER setting block types
         ItemList.setAllItems(blockList, entityList, tools);

@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.utils.progress;
 
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 
 /**
  *
@@ -62,7 +62,7 @@ public class ProgressData {
     }
 
     public void abort(String title, String message) {
-        Main.popupMessage.message(title, message,() ->  taskAborted = true);
+        MainWindow.popupMessage.message(title, message,() ->  taskAborted = true);
     }
 
 

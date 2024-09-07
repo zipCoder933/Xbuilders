@@ -1,10 +1,10 @@
 package com.xbuilders.game.propagation;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
 import org.joml.Vector3i;
@@ -38,7 +38,7 @@ public class GrassPropagation extends LivePropagationTask {
         if (nodes.isEmpty()) {
             return;
         }
-        Main.printlnDev("grass prop nodes: " + nodes.size());
+        MainWindow.printlnDev("grass prop nodes: " + nodes.size());
 
         //Iterator is better than entrySet. Entryset creates a copy
         Iterator<Map.Entry<Vector3i, Long>> iterator = nodes.entrySet().iterator();

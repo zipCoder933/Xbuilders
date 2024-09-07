@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.items.block.blockIconRendering;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;
@@ -13,8 +14,7 @@ import com.xbuilders.engine.rendering.chunk.IconGenShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.BaseWindow;
+import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.preformance.SimpleWaitLock;
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -83,7 +83,7 @@ public class BlockIconRenderer {
         thread1 = new Thread(() -> {
             System.out.println("Generating icons... Image size: " + imageSize + "x" + imageSize);
             // <editor-fold defaultstate="collapsed" desc="initialize">
-            synchronized (BaseWindow.windowCreateLock) {
+            synchronized (GLFWWindow.windowCreateLock) {
                 // Create first window
                 window1 = glfwCreateWindow(imageSize, imageSize, "Icon Generator", NULL, NULL);
                 if (window1 == 0) {
@@ -173,7 +173,7 @@ public class BlockIconRenderer {
     private void generateAndSaveIcon(Block block, File baseFile, int renderedTexture) throws IOException {
         if (block.texture != null && shouldMakeIcon(block)) {
             if (makeBlockMesh(block)) {
-                Main.printlnDev("\tblock: " + block.id + " (" + block.name + ")");
+                MainWindow.printlnDev("\tblock: " + block.id + " (" + block.name + ")");
                 shader.bind();
                 mesh.draw(false);
                 File outFile = new File(baseFile, block.id + ".png");

@@ -9,12 +9,12 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.ui.Page;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.NKWindow;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -42,7 +42,7 @@ public class Multiplayer implements MenuPage {
     final String ipAdress;
     LoadWorld loadWorld;
 
-    public Multiplayer(NkContext ctx, NKWindow window, TopMenu menu,
+    public Multiplayer(NkContext ctx, MainWindow window, TopMenu menu,
                        UserControlledPlayer player, boolean hosting,
                        String ipAdress, LoadWorld loadWorld) {
         this.loadWorld = loadWorld;
@@ -58,7 +58,7 @@ public class Multiplayer implements MenuPage {
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
-        if(Main.devMode){
+        if(MainWindow.devMode){
             if(hosting){
                 fromPortBox.setValueAsNumber(8081);
                 nameBox.setValueAsString("host");
@@ -75,7 +75,7 @@ public class Multiplayer implements MenuPage {
     UserControlledPlayer player;
     NkContext ctx;
     TopMenu menu;
-    NKWindow window;
+    MainWindow window;
     NumberBox fromPortBox, portBox;
     TextBox nameBox, ipAdressBox;
     private WorldInfo world;
@@ -103,7 +103,7 @@ public class Multiplayer implements MenuPage {
                 ipAdressBox.render(ctx);
             }
 
-            if (Main.devMode) {
+            if (MainWindow.devMode) {
                 row("From Port:");
                 fromPortBox.render(ctx);
             }
@@ -129,7 +129,7 @@ public class Multiplayer implements MenuPage {
                 int fromPortVal = (int) fromPortBox.getValueAsNumber();
                 int portVal = (int) portBox.getValueAsNumber();
 
-                if (!Main.devMode) fromPortVal = portVal;
+                if (!MainWindow.devMode) fromPortVal = portVal;
 
                 String playerName = nameBox.getValueAsString();
                 String ipAdress = this.ipAdressBox.getValueAsString();
@@ -150,7 +150,7 @@ public class Multiplayer implements MenuPage {
         if (hosting) {
             ipAdressBox.setValueAsString(ipAdress);
         } else {
-            if (Main.devMode) {
+            if (MainWindow.devMode) {
                 ipAdressBox.setValueAsString(ipAdress);
             } else ipAdressBox.setValueAsString("");
         }

@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.entities.animal.landAndWater;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
@@ -11,7 +12,6 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalUtils;
 import com.xbuilders.game.items.entities.animal.mobile.Limb;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
 
@@ -23,7 +23,7 @@ import java.util.Objects;
  */
 public class BeaverEntityLink extends EntityLink {
 
-    public BeaverEntityLink(BaseWindow window, int id, String name) {
+    public BeaverEntityLink(MainWindow window, int id, String name) {
         super(id, name);
         supplier = () -> new Beaver(window, this);
         setIcon("beaver egg.png");
@@ -92,7 +92,7 @@ public class BeaverEntityLink extends EntityLink {
         final static Vector3f LIMB_TAIL_OFFSET = new Vector3f(0, 0, 0);
         final static Vector3f LIMB_LEGS_OFFSET = new Vector3f(0, 0, 0);
 
-        public Beaver(BaseWindow window, T link) {
+        public Beaver(MainWindow window, T link) {
             super(window);
             this.link = link;
             aabb.setOffsetAndSize(.8f, 1f, .8f, true);

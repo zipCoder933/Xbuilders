@@ -1,9 +1,9 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.utils.obj.OBJLoader;
 
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ public class HorseLink extends QuadPedalLandAnimalLink {
     String saddledPath = "items\\entity\\animal\\horse\\horse\\saddle.obj";
     EntityMesh saddleModel;
 
-    public HorseLink(BaseWindow window, int id, String name, String textureName) {
+    public HorseLink(MainWindow window, int id, String name, String textureName) {
         super(id, name, textureName, () -> new HorseEntity(window));
 
         bodyPath = "items\\entity\\animal\\horse\\horse\\body.obj";
@@ -47,7 +47,7 @@ public class HorseLink extends QuadPedalLandAnimalLink {
 
     static class HorseEntity extends QuadPedalLandAnimal<HorseLink> {
 
-        public HorseEntity(BaseWindow window) {
+        public HorseEntity(MainWindow window) {
             super(window);
             lock.setOffset(-1);
         }

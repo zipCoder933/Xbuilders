@@ -11,12 +11,12 @@ package com.xbuilders.engine.ui.topMenu;
 
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.progress.ProgressData;
-import com.xbuilders.window.NKWindow;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.io.IOException;
@@ -36,14 +36,14 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class LoadWorld implements MenuPage {
 
-    public LoadWorld(NkContext ctx, NKWindow window, TopMenu menu) throws IOException {
+    public LoadWorld(NkContext ctx, MainWindow window, TopMenu menu) throws IOException {
         this.ctx = ctx;
         this.window = window;
         this.menu = menu;
         worlds = new ArrayList<>();
 
         boxHeight = 550;
-        boxWidth = Main.settings.video_largerUI ? 800 : 700;
+        boxWidth = MainWindow.settings.video_largerUI ? 800 : 700;
 
 //        Texture texture = TextureUtils.loadTexture(ResourceUtils.RESOURCE_DIR + "\\icon.png", false);
 //        image = new NkImage(texture.buffer);
@@ -53,7 +53,7 @@ public class LoadWorld implements MenuPage {
     // Texture texture;
     NkContext ctx;
     TopMenu menu;
-    NKWindow window;
+    MainWindow window;
     int boxWidth;
     int boxHeight;
     ArrayList<WorldInfo> worlds;
@@ -116,7 +116,7 @@ public class LoadWorld implements MenuPage {
                 }
 
                 if (nk_button_label(ctx, "DELETE WORLD")) {
-                    Main.popupMessage.confirmation("Delete World",
+                    MainWindow.popupMessage.confirmation("Delete World",
                             "Are you sure you want to delete " + currentWorld.getName() + "?",
                             () -> deleteCurrentWorld());
                 }
@@ -136,7 +136,7 @@ public class LoadWorld implements MenuPage {
         try {
             WorldsHandler.deleteWorld(currentWorld);
         } catch (IOException ex) {
-            Main.popupMessage.message("Error Deleting World", ex.getMessage());
+            MainWindow.popupMessage.message("Error Deleting World", ex.getMessage());
         }
         try {
             WorldsHandler.listWorlds(worlds);
@@ -156,13 +156,13 @@ public class LoadWorld implements MenuPage {
         String title = "Loading World...";
         ProgressData prog = new ProgressData(title);
 
-        Main.gameScene.startGame(world, req, prog);
+        MainWindow.gameScene.startGame(world, req, prog);
         menu.progress.enable(prog,
                 () -> {//update
-                    Main.gameScene.newGameUpdate();
+                    MainWindow.gameScene.newGameUpdate();
                 },
                 () -> {//finished
-                    Main.goToGamePage();
+                    MainWindow.goToGamePage();
                     menu.setPage(Page.HOME);
                 },
                 () -> {//canceled

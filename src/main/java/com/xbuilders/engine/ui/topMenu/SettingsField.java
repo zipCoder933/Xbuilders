@@ -2,8 +2,7 @@ package com.xbuilders.engine.ui.topMenu;
 
 import com.xbuilders.engine.settings.BoundedFloat;
 import com.xbuilders.engine.settings.BoundedInt;
-import com.xbuilders.engine.settings.EngineSettings;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.nuklear.NkContext;
@@ -43,7 +42,7 @@ class SettingsField {
             boolean b = (boolean) value;
             if (nk_button_label(ctx, b ? "ENABLED" : "DISABLED")) {
                 setValue(!b);
-                Main.saveSettings();
+                MainWindow.saveSettings();
             }
         }
     }
@@ -56,7 +55,7 @@ class SettingsField {
         this.field = field;
         this.key = formatKey(field.getName());
         this.type = field.getType();
-        this.value = field.get(Main.settings);
+        this.value = field.get(MainWindow.settings);
 
         if (type.equals(BoundedInt.class)) {
             numberBox = new NumberBox(50);
@@ -126,9 +125,9 @@ class SettingsField {
 
     public void setValue(Object value) {
         try {
-            field.set(Main.settings, value);
+            field.set(MainWindow.settings, value);
             this.value = value;
-            Main.saveSettings();
+            MainWindow.saveSettings();
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }

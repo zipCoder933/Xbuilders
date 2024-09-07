@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.entities.vehicle;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.PositionLock;
@@ -11,8 +12,6 @@ import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.XBFilterOutputStream;
-import com.xbuilders.window.BaseWindow;
-
 import java.io.IOException;
 
 /**
@@ -20,7 +19,7 @@ import java.io.IOException;
  */
 public class BoatEntityLink extends EntityLink {
 
-    public BoatEntityLink(BaseWindow window, int id, String name, String texturePath, String iconPath) {
+    public BoatEntityLink(MainWindow window, int id, String name, String texturePath, String iconPath) {
         super(id, name);
         supplier = () -> new Boat(window);
         setIcon(iconPath);
@@ -43,7 +42,7 @@ public class BoatEntityLink extends EntityLink {
 
     class Boat extends Vehicle {
 
-        public Boat(BaseWindow window) {
+        public Boat(MainWindow window) {
             super(window);
             frustumSphereRadius = (1.5f);
             aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);

@@ -5,7 +5,6 @@ import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.Main;
 
 import java.util.ArrayList;
 

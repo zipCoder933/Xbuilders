@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.entities.vehicle;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.block.Block;
@@ -14,7 +15,6 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.game.MyGame;
-import com.xbuilders.window.BaseWindow;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class MinecartEntityLink extends EntityLink {
 
-    public MinecartEntityLink(BaseWindow window, int id, String name, String textureFile, String iconPath) {
+    public MinecartEntityLink(MainWindow window, int id, String name, String textureFile, String iconPath) {
         super(id, name);
         supplier = (() -> new Minecart(window));
         setIcon(iconPath);
@@ -62,7 +62,7 @@ public class MinecartEntityLink extends EntityLink {
 
         //TODO: Fix bugs with minecarts ascending or descending raised tracks
         //The minecart gets stuck going up or it doesnt come down, because positionHandler.gravity is false
-        public Minecart(BaseWindow window) {
+        public Minecart(MainWindow window) {
             super(window);
             aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);
 

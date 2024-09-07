@@ -1,16 +1,15 @@
 package com.xbuilders.game.items.entities.animal;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
-import org.joml.Matrix4f;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -21,7 +20,7 @@ public class StaticLandAnimalLink extends EntityLink {
     String textureName;
     String modelName;
 
-    public StaticLandAnimalLink(BaseWindow window, int id, String name, String modelName, String textureName) {
+    public StaticLandAnimalLink(MainWindow window, int id, String name, String modelName, String textureName) {
         super(id, name, () -> new StaticLandAnimal(window));
         this.textureName = textureName;
         this.modelName = modelName;
@@ -60,7 +59,7 @@ public class StaticLandAnimalLink extends EntityLink {
     static class StaticLandAnimal extends LandAnimal {
         StaticLandAnimalLink link;
 
-        public StaticLandAnimal(BaseWindow window) {
+        public StaticLandAnimal(MainWindow window) {
             super(window);
             aabb.setOffsetAndSize(0.8f, 0.9f, 0.8f, true);
             jumpOverBlocks = true;

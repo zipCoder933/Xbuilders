@@ -47,7 +47,7 @@ terminate();
  *
  * @author Patron
  */
-public abstract class NKWindow extends BaseWindow {
+public abstract class NKWindow extends GLFWWindow {
 
     public NKWindow() {
         super();

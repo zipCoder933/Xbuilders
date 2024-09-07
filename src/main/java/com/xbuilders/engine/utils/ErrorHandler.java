@@ -4,9 +4,9 @@
  */
 package com.xbuilders.engine.utils;
 
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 
-import java.awt.Color;
+import java.awt.datatransfer.Clipboard;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,8 +14,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 /**
  * @author zipCoder933
@@ -32,7 +30,7 @@ public class ErrorHandler {
 
     public static void report(String userMsg, Throwable ex) {
         String errMessage = (ex.getMessage() != null ? " \n(" + ex.getMessage() + ")" : "");
-        Main.popupMessage.message("Runtime Error", userMsg + errMessage);
+        MainWindow.popupMessage.message("Runtime Error", userMsg + errMessage + "\n(Content saved to clipboard)");
         log(ex, "##" + userMsg + "##\t" + errMessage);
     }
 
@@ -73,6 +71,7 @@ public class ErrorHandler {
         System.out.println(errorStr);
         try {
             Files.writeString(logFile.toPath(), errorStr);
+            MiscUtils.setClipboard(errorStr);
         } catch (IOException ex1) {
         }
     }

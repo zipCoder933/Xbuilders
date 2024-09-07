@@ -1,5 +1,6 @@
 package com.xbuilders.game.blockTools;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.player.camera.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
@@ -17,7 +18,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 public class BlockTools extends GameUIElement {
 
 
-    public BlockTools(NkContext ctx, NKWindow window, CursorRay cursorRay) {
+    public BlockTools(NkContext ctx, MainWindow window, CursorRay cursorRay) {
         super(ctx, window);
         tools.add(new DefaultTool(this, cursorRay));
         tools.add(new PlaneTool(this, cursorRay));

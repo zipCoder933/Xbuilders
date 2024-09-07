@@ -11,7 +11,7 @@ import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
  *
  * @author zipCoder933
  */
-public abstract class Window extends BaseWindow {
+public abstract class Window extends GLFWWindow {
 
     @Override
     public void startWindow(String title, boolean fullscreen,int width, int height) {

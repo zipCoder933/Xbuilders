@@ -5,7 +5,6 @@
 package com.xbuilders.engine.rendering.chunk.mesh;
 
 import com.xbuilders.engine.rendering.Mesh;
-import com.xbuilders.game.Main;
 import org.lwjgl.opengl.*;
 
 import java.nio.IntBuffer;

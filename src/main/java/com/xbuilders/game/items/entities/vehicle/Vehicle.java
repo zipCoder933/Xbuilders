@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.entities.vehicle;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.player.UserControlledPlayer;
@@ -11,7 +12,6 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.game.MyGame;
-import com.xbuilders.window.BaseWindow;
 import org.joml.Vector2f;
 
 public abstract class Vehicle extends Entity {
@@ -46,11 +46,11 @@ public abstract class Vehicle extends Entity {
 
     public boolean jumpWithSideCollision = false;
     public PositionHandler posHandler;
-    BaseWindow window;
+    MainWindow window;
     UserControlledPlayer player;
 
 
-    public Vehicle(BaseWindow window) {
+    public Vehicle(MainWindow window) {
         super();
         this.window = window;
         this.player = GameScene.player;

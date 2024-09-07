@@ -25,11 +25,7 @@ public class ResourceUtils {
     public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, ICONS_DIR;
 
 
-    public static void initialize(boolean gameDevResources) {
-        initialize(gameDevResources, "xbuilders3");
-    }
-
-    public static void initialize(boolean gameDevResources, String appDataDir) {
+    static{
         System.out.println("RESOURCES:");
         LOCAL_DIR = new File(System.getProperty("user.dir"));
         RESOURCE_DIR = new File(LOCAL_DIR, "res");
@@ -42,7 +38,9 @@ public class ResourceUtils {
         DEFAULT_ICON = resource("items\\defaultIcon.png");
         BLOCK_TEXTURE_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\textures");
         ICONS_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\icons");
+    }
 
+    public static void initialize(boolean gameDevResources, String appDataDir) {
         APP_DATA_DIR = new File(System.getenv("LOCALAPPDATA"), appDataDir== null ? "xbuilders3" : appDataDir);
         APP_DATA_DIR.mkdirs();
         System.out.println("\tApp Data path: " + APP_DATA_DIR);

@@ -14,6 +14,9 @@ import org.joml.Vector4d;
 import org.joml.Vector4f;
 import org.joml.Vector4i;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.Date;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -28,6 +31,22 @@ public class MiscUtils {
     private final static String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     // Base of the encoding system
     private final static int base = 42;
+
+    public static void setClipboard(String text) {
+        try {
+            // Create a StringSelection object with the text to copy
+            StringSelection stringSelection = new StringSelection(text);
+
+            // Get the system clipboard
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+            // Set the text to the clipboard
+            clipboard.setContents(stringSelection, null);
+        } catch (Exception e) {
+            // Handle any exceptions that may occur
+            System.out.println("Error setting clipboard: " + e.getMessage());
+        }
+    }
 
     public static String encodeNumber(long number) {
         StringBuilder encodedString = new StringBuilder();

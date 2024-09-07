@@ -4,11 +4,12 @@
  */
 package com.xbuilders.engine.ui.topMenu;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.utils.progress.ProgressBar;
 import com.xbuilders.engine.utils.progress.ProgressData;
-import com.xbuilders.window.NKWindow;
+import com.xbuilders.engine.MainWindow;
 import java.nio.IntBuffer;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.nuklear.NkContext;
@@ -37,7 +38,7 @@ public class ProgressMenu implements MenuPage {
     ProgressData prog;
     TopMenu menu;
     NkContext ctx;
-    NKWindow window;
+    MainWindow window;
 
     public void enable(ProgressData prog, Runnable update, Runnable finishedTask, Runnable canceledTask) {
         this.prog = prog;
@@ -56,7 +57,7 @@ public class ProgressMenu implements MenuPage {
         thread.start();
     }
 
-    public ProgressMenu(NkContext ctx, NKWindow window, TopMenu menu) {
+    public ProgressMenu(NkContext ctx, MainWindow window, TopMenu menu) {
         this.menu = menu;
         this.ctx = ctx;
         this.window = window;

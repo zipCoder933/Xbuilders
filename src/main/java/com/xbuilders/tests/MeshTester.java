@@ -138,8 +138,7 @@ public class MeshTester extends Window {
     }
 
     public MeshTester() {
-        ResourceUtils.initialize(true);
-        initGLFW();
+        ResourceUtils.initialize(true, null);
         startWindow("3D WINDOW", false, 800, 600);
         init();
         showWindow();

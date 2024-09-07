@@ -3,8 +3,8 @@ package com.xbuilders.engine.ui.topMenu;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.Main;
 
 import java.awt.*;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class VersionInfo {
                 String changes = changesToString();
                 popupMessage.confirmation("A new version of XBuilders is out! ", changes +
                         "\n\nWould you like to get the latest version?", () -> {
-                    Main.minimizeWindow();
+                    MainWindow.minimizeWindow();
                     openInBrowser();
                 });
             }
@@ -52,7 +52,7 @@ public class VersionInfo {
     public String changesToString() {
         String changes = "";
         for (VersionChanges version : releases) {
-            if (version.version > Main.gameVersion) changes += version.toString();
+            if (version.version > MainWindow.gameVersion) changes += version.toString();
         }
         return changes;
     }
@@ -81,7 +81,7 @@ public class VersionInfo {
     }
 
     public boolean isNewerVersionAvailable() {
-        if (latestVersion > Main.gameVersion) {
+        if (latestVersion > MainWindow.gameVersion) {
             return true;
         } else return false;
     }

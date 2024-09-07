@@ -4,8 +4,8 @@
  */
 package com.xbuilders.engine.rendering.wireframeBox;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.window.BaseWindow;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -155,10 +155,10 @@ public class Box {
         int shaderProgram = GL20.glGetInteger(GL20.GL_CURRENT_PROGRAM);//Get the current shader
         shader.bind();
 
-        BaseWindow.printDebugsEnabled(false);
+        MainWindow.printDebugsEnabled(false);
         //Line width cannot be higher than 1, wide lines are depracated
         GL11.glLineWidth(lineWidth); //Set the line width
-        BaseWindow.printDebugsEnabled(true);
+        MainWindow.printDebugsEnabled(true);
 
         // Draw each line segment individually
         glDrawArrays(GL_LINE_LOOP, 0, 4); // Draw the four edges of the front face

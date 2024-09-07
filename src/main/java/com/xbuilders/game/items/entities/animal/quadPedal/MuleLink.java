@@ -1,11 +1,11 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.window.BaseWindow;
 
 public class MuleLink extends QuadPedalLandAnimalLink {
 
-    public MuleLink(BaseWindow window, int id, String name, String textureName) {
+    public MuleLink(MainWindow window, int id, String name, String textureName) {
         super(window, id, name, textureName);
         bodyPath = "items\\entity\\animal\\horse\\mule\\body.obj";
         legPath = "items\\entity\\animal\\horse\\mule\\leg.obj";

@@ -4,13 +4,12 @@
  */
 package com.xbuilders.game.items.entities.animal.landAndWater;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
-import com.xbuilders.game.Main;
 import com.xbuilders.game.items.entities.animal.mobile.Animal;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalUtils;
-import com.xbuilders.window.BaseWindow;
 import org.joml.Vector2f;
 
 import static com.xbuilders.game.items.entities.animal.mobile.AnimalAction.ActionType.*;
@@ -28,7 +27,7 @@ public abstract class LandAndWaterAnimal extends Animal {
     private float walkAmt = 0;
     float yVelocity, rotationVelocity, forwardVelocity;
 
-    public LandAndWaterAnimal(BaseWindow window) {
+    public LandAndWaterAnimal(MainWindow window) {
         super(window);
     }
 
@@ -179,7 +178,7 @@ public abstract class LandAndWaterAnimal extends Animal {
 
     public void animal_move() {
         if (inFrustum) { //In Frustum movement
-            if (Main.frameCount % 10 == 0) inWater = AnimalUtils.inWater(this);
+            if (MainWindow.frameCount % 10 == 0) inWater = AnimalUtils.inWater(this);
 
 
             if (inWater) {
@@ -188,7 +187,7 @@ public abstract class LandAndWaterAnimal extends Animal {
                 moveOnLand();
             }
         } else { //Out of Frustum movement
-            if (Main.frameCount % 10 != 0) return;
+            if (MainWindow.frameCount % 10 != 0) return;
             else if (getAction() != null && getAction().type == FOLLOW) {
                 return;
             } else {

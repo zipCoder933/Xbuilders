@@ -9,12 +9,11 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.game.Main;
-import com.xbuilders.window.NKWindow;
+import com.xbuilders.engine.MainWindow;
 import org.lwjgl.nuklear.*;
-import org.lwjgl.system.*;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.*;
@@ -27,7 +26,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class MenuHome implements MenuPage {
 
-    public MenuHome(NkContext ctx, NKWindow window, TopMenu menu) {
+    public MenuHome(NkContext ctx, MainWindow window, TopMenu menu) {
         this.ctx = ctx;
         this.window = window;
         this.menu = menu;
@@ -35,7 +34,7 @@ public class MenuHome implements MenuPage {
 
     NkContext ctx;
     TopMenu menu;
-    NKWindow window;
+    MainWindow window;
     final int boxWidth = 350;
     final int boxHeight = 445;
     final int titleHeight = 50;
@@ -51,9 +50,9 @@ public class MenuHome implements MenuPage {
             nk_style_set_font(ctx, Theme.font_9);
             nk_layout_row_dynamic(ctx, 40, 1);
             nk_label(ctx, "\n\n"+(
-                    Main.devMode ?
+                    MainWindow.devMode ?
                             "DEV MODE" :
-                            ("v" + Main.gameVersion)
+                            ("v" + MainWindow.gameVersion)
                     )+"\n\n", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);

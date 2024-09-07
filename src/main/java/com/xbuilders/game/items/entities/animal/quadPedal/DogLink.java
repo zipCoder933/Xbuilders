@@ -1,11 +1,11 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.window.BaseWindow;
 
 public class DogLink extends QuadPedalLandAnimalLink {
 
-    public DogLink(BaseWindow window, int id, String name, String textureName) {
+    public DogLink(MainWindow window, int id, String name, String textureName) {
         super(window, id, name, textureName);
         bodyPath = "items\\entity\\animal\\dog\\large\\body.obj";
         sittingModel = "items\\entity\\animal\\dog\\large\\sitting.obj";

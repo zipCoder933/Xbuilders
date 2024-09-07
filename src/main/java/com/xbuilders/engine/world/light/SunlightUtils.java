@@ -1,5 +1,6 @@
 package com.xbuilders.engine.world.light;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
@@ -9,7 +10,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Main;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
@@ -108,7 +108,7 @@ public class SunlightUtils {
     }
 
     public static void println(String s) {
-        Main.printlnDev(s);
+        MainWindow.printlnDev(s);
     }
 
     public static long updateFromQueue(

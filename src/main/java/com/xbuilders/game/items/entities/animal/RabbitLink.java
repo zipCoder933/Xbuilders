@@ -1,13 +1,11 @@
 package com.xbuilders.game.items.entities.animal;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.window.BaseWindow;
-
-import java.util.ArrayList;
 
 public class RabbitLink extends StaticLandAnimalLink {
 
-    public RabbitLink(BaseWindow window, int id, String name, String texture) {
+    public RabbitLink(MainWindow window, int id, String name, String texture) {
         super(window, id, name,
                 "items\\entity\\animal\\rabbit\\body.obj",
                 "items\\entity\\animal\\rabbit\\" + texture);

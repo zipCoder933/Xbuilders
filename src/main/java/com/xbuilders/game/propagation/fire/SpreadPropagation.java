@@ -5,9 +5,8 @@ import com.xbuilders.engine.gameScene.LivePropagationTask;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.game.Main;
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.game.MyGame;
-import com.xbuilders.game.items.blocks.RenderType;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
@@ -38,7 +37,7 @@ class SpreadPropagation extends LivePropagationTask {
     @Override
     public void update() {
         if (fireNodes.isEmpty()) return;
-        Main.printlnDev("fire prop nodes: " + fireNodes.size());
+        MainWindow.printlnDev("fire prop nodes: " + fireNodes.size());
         Iterator<Vector3i> iterator = fireNodes.iterator();
         while (iterator.hasNext()) {
             Vector3i node = iterator.next();
