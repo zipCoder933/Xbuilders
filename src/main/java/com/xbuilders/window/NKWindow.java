@@ -63,8 +63,8 @@ public abstract class NKWindow extends GLFWWindow {
 
 
     @Override
-    public void createWindow(String title, boolean fullscreen, int width, int height) {
-        super.createWindow(title, fullscreen, width, height);
+    public void createWindow(String title, int width, int height) {
+        super.createWindow(title,  width, height);
         ctx = setupWindow(getWindow());
         try {
             setupContext();
@@ -201,6 +201,7 @@ public abstract class NKWindow extends GLFWWindow {
     }
 
     public void startFrame() {
+        super.startFrame();
         nk_input_begin(ctx);
         glfwPollEvents();
 

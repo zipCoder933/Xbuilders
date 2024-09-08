@@ -39,7 +39,7 @@ class GameMenu extends GameUIElement {
         chunkDist.setValueAsNumber(GameScene.world.getViewDistance());
 
         chunkDist.setOnChangeEvent(() -> {
-            GameScene.world.setViewDistance((int) chunkDist.getValueAsNumber());
+            GameScene.world.setViewDistance(window.settings, (int) chunkDist.getValueAsNumber());
         });
         allSettings = new SettingsPage(ctx, window, () -> {
             page = GameMenuPage.SETTINGS;

@@ -72,21 +72,17 @@ public class MainWindow extends NKWindow {
 
     public static EngineSettings settings;
 
-    // We only need saving functionality to be public
-    private final static EngineSettingsUtils settingsUtils = new EngineSettingsUtils();
-
-    public static void saveSettings() {
-        settingsUtils.save(settings);
-        applySettings();
-    }
-
-    private static void applySettings() {
+    public void saveAndApplySettings() {
+        EngineSettingsUtils.save(settings);
         //Set vsync
         if (settings.video_vsync) {
             GLFW.glfwSwapInterval(1);
         } else {
             GLFW.glfwSwapInterval(0);
         }
+        if (settings.video_fullscreen) {
+            enableFullscreen(settings.video_fullscreenSize.value);
+        } else disableFullscreen();
     }
 
     private static boolean isGameMode = false;
@@ -102,7 +98,6 @@ public class MainWindow extends NKWindow {
 
     public static boolean devMode = false;
     public static String name = "XBuilders";
-    public static boolean isFullscreen;
 
     public MainWindow(String args[]) {
         super();
@@ -141,7 +136,11 @@ public class MainWindow extends NKWindow {
 
         try {
             init();
+            if (settings.video_fullscreen) {
+                enableFullscreen(settings.video_fullscreenSize.value);
+            }
             showWindow();
+
             while (!windowShouldClose()) {
                 /* Input */
                 beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
@@ -169,7 +168,7 @@ public class MainWindow extends NKWindow {
 
     private void init() throws Exception {
         GLFWWindow.initGLFW();
-        settings = settingsUtils.load(devMode);
+        settings = EngineSettingsUtils.load(devMode);
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
         System.out.println(user.toString());
 
@@ -185,29 +184,16 @@ public class MainWindow extends NKWindow {
         //Get the actual size of the screen
         int windowWidth = settings.internal_smallWindow ? 680 : 920;
         int windowHeight = settings.internal_smallWindow ? 600 : 720;
-        isFullscreen = settings.video_fullscreen;
 
 
-        if (isFullscreen) {
-            int screenWidth = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).width();
-            int screenHeight = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()).height();
+        createWindow("XBuilders", windowWidth, windowHeight);
 
-            windowWidth = (int) (screenWidth * settings.video_fullscreenSize.value);
-            windowHeight = (int) (screenHeight * settings.video_fullscreenSize.value);
 
-            System.out.println("FULLSCREEN MODE. Window size: " + windowWidth + "x" + windowHeight);
-        }
-
-        createWindow("XBuilders", settings.video_fullscreen, windowWidth, windowHeight);
         GLFW.glfwSwapInterval(settings.video_vsync ? 1 : 0);
 
         //If a fullscreen window is created, we need to set the focus callback so that the user can exit fullscreen if they lose focus
         // Get the current GLFW window handle
         long windowHandle = GLFW.glfwGetCurrentContext();
-
-        if (isFullscreen) { //Only call resize once if we are fullscreen
-            windowResizeEvent(windowWidth, windowHeight);
-        }
         // Create a new window focus callback
         GLFWWindowFocusCallback focusCallback = new GLFWWindowFocusCallback() {
             @Override
@@ -265,7 +251,7 @@ public class MainWindow extends NKWindow {
 
         iconRenderer.saveAllIcons();//Generate all icons
 
-        settingsUtils.save(new EngineSettings()); //Replace the old settings
+        EngineSettingsUtils.save(new EngineSettings()); //Replace the old settings
 
         createPopupWindow("Finished",
                 "XBuilders has finished setting up. Please restart the game to play.");
@@ -334,17 +320,17 @@ public class MainWindow extends NKWindow {
 
     @Override
     public void windowResizeEvent(int width, int height) {
-        if (!isFullscreen) {
+        if (!isFullscreen()) {
             gameScene.windowResizeEvent(width, height);
         }
     }
 
-    public static void minimizeWindow() {
+    public void minimizeWindow() {
         long windowHandle = GLFW.glfwGetCurrentContext();
         if (isGameMode) {
             gameScene.windowUnfocusEvent();
         }
-        if (isFullscreen) {
+        if (isFullscreen()) {
             GLFW.glfwIconifyWindow(windowHandle);
         }
     }
@@ -359,7 +345,7 @@ public class MainWindow extends NKWindow {
         if (isGameMode) {
             gameScene.windowUnfocusEvent();
         }
-        if (isFullscreen) {
+        if (isFullscreen()) {
             GLFW.glfwIconifyWindow(windowHandle);
         }
     }

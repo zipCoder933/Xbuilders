@@ -47,7 +47,13 @@ public abstract class GLFWWindow {
     protected int width, height, display_width, display_height;
     protected Vector2d cursor;
     protected long window;
-    protected GLFWFramebufferSizeCallback framebufferSizeCallback;
+    private long monitor;
+    private int[] wndPos = {0, 0};
+    private int[] wndSize = {0, 0};
+    private int[] vpSize = {0, 0};
+    private int[] monitorSize = {0, 0};
+    private boolean updateViewport = true;
+
     protected GLCapabilities capabilities;
     private static Callback debugProc;
 
@@ -177,6 +183,7 @@ public abstract class GLFWWindow {
 
     public GLFWWindow() {
         cursor = new Vector2d();
+        initGLFW();
     }
 
     // <editor-fold defaultstate="collapsed" desc="glfw implentations / random
@@ -310,34 +317,102 @@ public abstract class GLFWWindow {
         }
     }
 
-    protected void createWindow(String title, boolean fullscreen, int width, int height) {
+
+    public boolean isFullscreen() {
+        return GLFW.glfwGetWindowMonitor(window) != MemoryUtil.NULL;
+    }
+
+    public void disableFullscreen() {
+        if (!isFullscreen()) return;
+        // Restore windowed mode
+        GLFWVidMode vidMode = GLFW.glfwGetVideoMode(monitor);
+        GLFW.glfwSetWindowMonitor(window, MemoryUtil.NULL, wndPos[0], wndPos[1], wndSize[0], wndSize[1], vidMode.refreshRate());
+        updateViewport = true;
+    }
+
+    public void enableFullscreen(float resolutionScale) {
+        if (!isFullscreen()) {
+            // Store the window's position and size before entering fullscreen
+            IntBuffer posX = BufferUtils.createIntBuffer(1);
+            IntBuffer posY = BufferUtils.createIntBuffer(1);
+            IntBuffer width = BufferUtils.createIntBuffer(1);
+            IntBuffer height = BufferUtils.createIntBuffer(1);
+
+            GLFW.glfwGetWindowPos(window, posX, posY);
+            GLFW.glfwGetWindowSize(window, width, height);
+
+            wndPos[0] = posX.get(0);
+            wndPos[1] = posY.get(0);
+            wndSize[0] = width.get(0);
+            wndSize[1] = height.get(0);
+
+            // Backup window position and size
+            GLFW.glfwGetWindowPos(window, intBuffer(wndPos[0]), intBuffer(wndPos[1]));
+            GLFW.glfwGetWindowSize(window, intBuffer(wndSize[0]), intBuffer(wndSize[1]));
+
+            // Backup monitor size
+            GLFWVidMode vidMode = GLFW.glfwGetVideoMode(monitor);
+            monitorSize[0] = vidMode.width();
+            monitorSize[1] = vidMode.height();
+        }
+
+        if (resolutionScale > 1f) resolutionScale = 1f;
+        else if (resolutionScale < 0f) resolutionScale = 0f;
+        int fullscreenWidth = (int) (monitorSize[0] * resolutionScale);
+        int fullscreenHeight = (int) (monitorSize[1] * resolutionScale);
+
+        if (isFullscreen()) {
+            GLFW.glfwSetWindowSize(window, fullscreenWidth, fullscreenHeight);
+        } else {
+            GLFWVidMode vidMode = GLFW.glfwGetVideoMode(monitor);
+            GLFW.glfwSetWindowMonitor(window, monitor, 0, 0, fullscreenWidth, fullscreenHeight, vidMode.refreshRate());
+        }
+        updateViewport = true;
+    }
+
+    public void startFrame() {
+        if (updateViewport) {
+            GLFW.glfwGetFramebufferSize(window, intBuffer(vpSize[0]), intBuffer(vpSize[1]));
+            GL30.glViewport(0, 0, vpSize[0], vpSize[1]);
+            updateViewport = false;
+        }
+    }
+
+    public void endFrame() {
+        GLFW.glfwSwapBuffers(getWindow());
+        GLFW.glfwPollEvents();
+        tickMPF();
+    }
+
+    private IntBuffer intBuffer(int value) {
+        return BufferUtils.createIntBuffer(1).put(0, value);
+    }
+
+    public void createWindow(String title, int width, int height) {
         initGLFW();
-
         windowHints();
-        synchronized (windowCreateLock) {
-            if (fullscreen) {
-                // Get the primary monitor
-                long monitor = GLFW.glfwGetPrimaryMonitor();
-                // Set low resolution window size (initial size)
-                int low_res_x = width; // example value
-                int low_res_y = height; // example value
-                // Create the window
-                window = GLFW.glfwCreateWindow(low_res_x, low_res_y, title, monitor, NULL);
-            } else window = glfwCreateWindow(width, height, title, NULL, NULL);
 
-            if (getWindow() == NULL) {
-                throw new RuntimeException("Failed to create the GLFW window \"" + title + "\"");
+        synchronized (windowCreateLock) {
+            window = GLFW.glfwCreateWindow(width, height, title, MemoryUtil.NULL, MemoryUtil.NULL);
+            if (window == MemoryUtil.NULL) {
+                GLFW.glfwTerminate();
+                throw new RuntimeException("Error creating the window");
             }
         }
 
-        // all subsequent operations are directed to this window
-        glfwMakeContextCurrent(getWindow());
-        initCallbacks();
+        GLFW.glfwMakeContextCurrent(window);
+        capabilities = GL.createCapabilities();
+        monitor = GLFW.glfwGetPrimaryMonitor();
+        GLFW.glfwGetWindowSize(window, intBuffer(wndSize[0]), intBuffer(wndSize[1]));
+        GLFW.glfwGetWindowPos(window, intBuffer(wndPos[0]), intBuffer(wndPos[1]));
+
         GLFW.glfwSwapInterval(1);// to disable vsync GLFW.glfwSwapInterval(0); (1 = on, 0 = off)
         centerWindow();
         setWindowSizeVariables();
-        capabilities = GL.createCapabilities();
         initDebugs();
+        initCallbacks();
+        updateViewport = true;
+
         startMPF();
     }
 
@@ -404,7 +479,13 @@ public abstract class GLFWWindow {
     }
 
     private void initCallbacks() {
-        framebufferSizeCallback = new GLFWFramebufferSizeCallback() {
+        GLFW.glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback() {
+            @Override
+            public void invoke(long window, final int width, final int height) {
+                updateViewport = true;
+            }
+        });
+        GLFW.glfwSetFramebufferSizeCallback(getWindow(), new GLFWFramebufferSizeCallback() {
             @Override
             public void invoke(long window, final int width, final int height) {
                 glfwMakeContextCurrent(window);
@@ -413,9 +494,7 @@ public abstract class GLFWWindow {
                 windowResizeEvent(width, height);
                 // glfwMakeContextCurrent(NULL);
             }
-        };
-        GLFW.glfwSetFramebufferSizeCallback(getWindow(), framebufferSizeCallback);
-
+        });
     }
 
     /**

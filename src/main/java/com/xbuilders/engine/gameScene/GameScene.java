@@ -53,7 +53,7 @@ public class GameScene implements WindowEvents {
     public static UserControlledPlayer player;
     public static List<Player> otherPlayers;
     public static GameServer server;
-    NKWindow window;
+    static MainWindow window;
     public final static Matrix4f projection = new Matrix4f();
     public final static Matrix4f view = new Matrix4f();
     private static Game game;
@@ -61,7 +61,7 @@ public class GameScene implements WindowEvents {
     public static Local_PendingEntityChanges localEntityChanges;
 
 
-    public GameScene(NKWindow window) throws Exception {
+    public GameScene(MainWindow window) throws Exception {
         this.window = window;
         specialMode = true;
         player = new UserControlledPlayer(MainWindow.user);
@@ -156,12 +156,12 @@ public class GameScene implements WindowEvents {
     }
 
     public static void pauseGame() {
-        if (MainWindow.isFullscreen) MainWindow.minimizeWindow();
+        if (window.isFullscreen()) window.minimizeWindow();
         ui.showGameMenu();
     }
 
     public static void unpauseGame() {
-        if (MainWindow.isFullscreen) MainWindow.restoreWindow();
+        if (window.isFullscreen()) MainWindow.restoreWindow();
     }
 
 
@@ -338,7 +338,7 @@ public class GameScene implements WindowEvents {
     }
 
     public void windowUnfocusEvent() {
-        if (MainWindow.isFullscreen) ui.showGameMenu();
+        if (window.isFullscreen()) ui.showGameMenu();
         else if (!GameScene.ui.menusAreOpen()) {
             ui.showGameMenu();
         }

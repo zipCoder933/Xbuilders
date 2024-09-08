@@ -5,6 +5,8 @@ import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
+import com.xbuilders.engine.settings.EngineSettings;
+import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -79,13 +81,12 @@ public class World {
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
     public ChunkShader chunkShader;
 
-    public void setViewDistance(int viewDistance2) {
+    public void setViewDistance(EngineSettings settings, int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
-        MainWindow.settings.internal_viewDistance.value = viewDistance.get();
-        MainWindow.saveSettings();
+        settings.internal_viewDistance.value = viewDistance.get();
+        EngineSettingsUtils.save(settings);
         GameScene.server.updateChunkDistance(viewDistance.get());
-
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
         // maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) *
         // WORLD_CHUNK_HEIGHT;
@@ -198,7 +199,7 @@ public class World {
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
-        setViewDistance(MainWindow.settings.internal_viewDistance.value);
+        setViewDistance(MainWindow.settings, MainWindow.settings.internal_viewDistance.value);
         chunkShader.setSkyColor(GameScene.backgroundColor);
         sortByDistance = new SortByDistanceToPlayer(GameScene.player.worldPosition);
         entities.clear();

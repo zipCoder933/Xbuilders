@@ -12,12 +12,12 @@ import com.xbuilders.engine.utils.json.BoundedIntTypeAdapter;
 
 public class EngineSettingsUtils {
 
-    Gson gson = new GsonBuilder()
+    static Gson gson = new GsonBuilder()
             .registerTypeAdapter(BoundedInt.class, new BoundedIntTypeAdapter())
             .registerTypeAdapter(BoundedFloat.class, new BoundedFloatTypeAdapter())
             .create();
 
-    public EngineSettings load(boolean devMode) {
+    public static EngineSettings load(boolean devMode) {
         try {
             File settingsFile = ResourceUtils.appDataResource("settings.json");
             if (settingsFile.exists()) {
@@ -30,7 +30,7 @@ public class EngineSettingsUtils {
         return new EngineSettings().initVariables();
     }
 
-    public void save(EngineSettings settings) {
+    public static void save(EngineSettings settings) {
         settings.initVariables();
         File settingsFile = ResourceUtils.appDataResource("settings.json");
         // Save to JSON

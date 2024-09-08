@@ -90,7 +90,7 @@ public class TopMenu {
         });
 
 
-        VersionInfo versionInfo = new VersionInfo();
+        VersionInfo versionInfo = new VersionInfo(window);
         versionInfo.createUpdatePrompt(MainWindow.popupMessage);
     }
 

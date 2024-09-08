@@ -17,9 +17,11 @@ public class VersionInfo {
     final String versionsJson = "https://raw.githubusercontent.com/zipCoder933/Xbuilders/main/versions.json";
     Gson gson;
     float latestVersion;
+    MainWindow window;
     List<VersionChanges> releases = new ArrayList<>();
 
-    public VersionInfo() {
+    public VersionInfo(MainWindow window) {
+        this.window = window;
         gson = new Gson();
     }
 
@@ -30,7 +32,7 @@ public class VersionInfo {
                 String changes = changesToString();
                 popupMessage.confirmation("A new version of XBuilders is out! ", changes +
                         "\n\nWould you like to get the latest version?", () -> {
-                    MainWindow.minimizeWindow();
+                    window.minimizeWindow();
                     openInBrowser();
                 });
             }

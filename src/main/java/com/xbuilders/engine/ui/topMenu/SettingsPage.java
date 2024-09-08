@@ -41,7 +41,7 @@ public class SettingsPage implements MenuPage {
             field.setAccessible(true);
             if (!MainWindow.devMode && field.getName().startsWith("internal_")) continue;
             try {
-                fields.add(new SettingsField(field));
+                fields.add(new SettingsField(window, field));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -85,6 +85,7 @@ public class SettingsPage implements MenuPage {
             nk_layout_row_static(ctx, 60, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 1);
             if (nk_button_label(ctx, "BACK")) {
+                window.saveAndApplySettings();
                 backCallback.run();
             }
         }
