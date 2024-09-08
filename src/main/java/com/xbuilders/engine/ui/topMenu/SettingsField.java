@@ -1,9 +1,9 @@
 package com.xbuilders.engine.ui.topMenu;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.settings.BoundedFloat;
 import com.xbuilders.engine.settings.BoundedInt;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.nuklear.NkContext;
@@ -44,7 +44,7 @@ class SettingsField {
             boolean b = (boolean) value;
             if (nk_button_label(ctx, b ? "ENABLED" : "DISABLED")) {
                 setValue(!b);
-                EngineSettingsUtils.save(MainWindow.settings);
+                MainWindow.settings.save();
             }
         }
     }
@@ -129,7 +129,7 @@ class SettingsField {
         try {
             field.set(MainWindow.settings, value);
             this.value = value;
-            EngineSettingsUtils.save(MainWindow.settings);
+            MainWindow.settings.save();
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }

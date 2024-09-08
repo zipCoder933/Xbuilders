@@ -8,7 +8,6 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.settings.EngineSettings;
-import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
@@ -73,7 +72,7 @@ public class MainWindow extends NKWindow {
     public static EngineSettings settings;
 
     public void saveAndApplySettings() {
-        EngineSettingsUtils.save(settings);
+        settings.save();
         //Set vsync
         if (settings.video_vsync) {
             GLFW.glfwSwapInterval(1);
@@ -168,9 +167,10 @@ public class MainWindow extends NKWindow {
 
     private void init() throws Exception {
         GLFWWindow.initGLFW();
-        settings = EngineSettingsUtils.load(devMode);
+        settings = EngineSettings.load();
+        System.out.println(settings.toString());
+
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
-        System.out.println(user.toString());
 
         game = new MyGame(this);
         gameScene.setGame(game);
@@ -251,7 +251,7 @@ public class MainWindow extends NKWindow {
 
         iconRenderer.saveAllIcons();//Generate all icons
 
-        EngineSettingsUtils.save(new EngineSettings()); //Replace the old settings
+        new EngineSettings().save();
 
         createPopupWindow("Finished",
                 "XBuilders has finished setting up. Please restart the game to play.");

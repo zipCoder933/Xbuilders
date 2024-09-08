@@ -34,7 +34,7 @@ public class SettingsPage implements MenuPage {
         this.backCallback = backCallback;
         this.ctx = ctx;
         this.window = window;
-        boxWidth = MainWindow.settings.video_largerUI ? 800 : 700;
+        boxWidth = window.settings.video_largerUI ? 800 : 700;
 
         fields.clear();
         for (Field field : EngineSettings.class.getDeclaredFields()) {

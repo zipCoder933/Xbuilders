@@ -74,13 +74,13 @@ public class UserControlledPlayer extends Player {
 
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
-    //    private static final int KEY_TOGGLE_PASSTHROUGH = GLFW.GLFW_KEY_P;
     public static final int KEY_CREATE_MOUSE_BUTTON = GLFW.GLFW_KEY_EQUAL;
     public static final int KEY_DELETE_MOUSE_BUTTON = GLFW.GLFW_KEY_MINUS;
     public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_O;
-    public static final int KEY_CROUCH = GLFW.GLFW_KEY_LEFT_CONTROL;
 
-    private static final int KEY_ENABLE_FLYING = GLFW.GLFW_KEY_F;
+
+    private static final int KEY_FLY_UP = GLFW.GLFW_KEY_F;
+    public static final int KEY_FLY_DOWN = GLFW.GLFW_KEY_LEFT_CONTROL;
     private static final int KEY_JUMP = GLFW.GLFW_KEY_SPACE;
 
     private boolean keyInputAllowed() {
@@ -105,16 +105,6 @@ public class UserControlledPlayer extends Player {
     public boolean backwardKeyPressed() {
         if (!keyInputAllowed()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
-    }
-
-    public boolean upJumpKeyPressed() {
-        if (!keyInputAllowed()) return false;
-        return window.isKeyPressed(KEY_JUMP) || window.isKeyPressed(KEY_ENABLE_FLYING);
-    }
-
-    public boolean downKeyPressed() {
-        if (!keyInputAllowed()) return false;
-        return window.isKeyPressed(KEY_CROUCH);
     }
 
 
@@ -283,7 +273,7 @@ public class UserControlledPlayer extends Player {
             }
 
             if (isInsideOfLadder()) {
-                if (upJumpKeyPressed()) {
+                if (allowKeyInput && window.isKeyPressed(KEY_JUMP)) {
                     isClimbing = true;
                     disableFlying();
                     worldPosition.sub(0, 3f * window.smoothFrameDeltaSec, 0);
@@ -298,14 +288,14 @@ public class UserControlledPlayer extends Player {
                     positionHandler.setGravityEnabled(true);
                     isClimbing = false;
                 } else if (isFlyingMode) {
-                    if (upJumpKeyPressed()) {
+                    if (allowKeyInput && window.isKeyPressed(KEY_FLY_UP)) {
                         worldPosition.sub(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
-                    } else if (downKeyPressed()) {
+                    } else if (allowKeyInput && window.isKeyPressed(KEY_FLY_DOWN)) {
                         worldPosition.add(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     }
-                } else if (playerBlock.isLiquid() && upJumpKeyPressed()) {
+                } else if (playerBlock.isLiquid() && allowKeyInput && window.isKeyPressed(KEY_JUMP)) {
                     positionHandler.addVelocity(0, -0.05f, 0);
                 }
             }
@@ -355,16 +345,6 @@ public class UserControlledPlayer extends Player {
         positionHandler.collisionsEnabled = true;
     }
 
-    boolean doubleJumped() {
-        boolean jumped = false;
-        int jumpInterval = isFlyingMode ? 500 : 250;
-        if (System.currentTimeMillis() - lastJumpKeyPress < jumpInterval) {
-            jumped = true;
-        }
-        lastJumpKeyPress = System.currentTimeMillis();
-        return jumped;
-    }
-
     public void mouseButtonEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (button == UserControlledPlayer.getCreateMouseButton()
@@ -380,50 +360,36 @@ public class UserControlledPlayer extends Player {
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
         } else if (action == GLFW.GLFW_PRESS) {
-            if (key == GLFW.GLFW_KEY_LEFT_SHIFT) {
-                runningMode = true;
-            } else if (key == KEY_JUMP) {
-                if (positionLock != null) {
-                    positionLock = null;
+            switch (key) {
+                case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = true;
+                case KEY_JUMP -> {
+                    if (positionLock != null) {
+                        positionLock = null;
+                    }
+                    if (positionHandler.isGravityEnabled()) {
+                        jump();
+                    } else disableFlying();
                 }
-                if (positionHandler.isGravityEnabled()) {
-                    jump();
-                }
-            } else if (key == KEY_ENABLE_FLYING) {
-                enableFlying();
+                case KEY_FLY_UP -> enableFlying();
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (key == KEY_JUMP) {
-                if (doubleJumped()) {
-                    if (positionHandler.isGravityEnabled()) {
-                        enableFlying();
-                    } else {
-                        disableFlying();
+            switch (key) {
+                case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = false;
+                case KEY_CHANGE_RAYCAST_MODE -> {
+                    camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
+                    if (camera.cursorRay.cursorRayHitAllBlocks) {
+                        camera.cursorRay.rayDistance = 7;
                     }
                 }
-            } else {
-                switch (key) {
-                    case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = false;
-                    case KEY_CHANGE_RAYCAST_MODE -> {
-                        camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
-                        if (camera.cursorRay.cursorRayHitAllBlocks) {
-                            camera.cursorRay.rayDistance = 7;
-                        }
+                case KEY_TOGGLE_VIEW -> camera.cycleToNextView(15);
+                case KEY_CREATE_MOUSE_BUTTON -> {
+                    if (!camera.cursorRay.clickEvent(true)) {
+                        setItem(MainWindow.game.getSelectedItem());
                     }
-                    case KEY_TOGGLE_VIEW -> {
-                        camera.cycleToNextView(15);
-                    }
-                    case KEY_CREATE_MOUSE_BUTTON -> {
-                        if (!camera.cursorRay.clickEvent(true)) {
-                            setItem(MainWindow.game.getSelectedItem());
-                        }
-                    }
-                    case KEY_DELETE_MOUSE_BUTTON -> {
-                        if (!camera.cursorRay.clickEvent(false)) {
-                            removeItem();
-                        }
-                    }
-                    default -> {
+                }
+                case KEY_DELETE_MOUSE_BUTTON -> {
+                    if (!camera.cursorRay.clickEvent(false)) {
+                        removeItem();
                     }
                 }
             }

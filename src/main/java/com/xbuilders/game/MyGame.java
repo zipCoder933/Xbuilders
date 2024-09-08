@@ -466,15 +466,17 @@ public class MyGame extends Game {
                 new Camera(),
                 TOOL_ANIMAL_FEED
         };
-
+        System.out.println("Experimental features: "+window.settings.internal_experimentalFeatures);
 
         //Add terrains
 //        terrainsList.add(new TestTerrain());
 //        terrainsList.add(new BasicTerrain());
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
-        if (MainWindow.devMode) terrainsList.add(new DevTerrain());
-        if (MainWindow.settings.internal_experimentalFeatures) terrainsList.add(new ComplexTerrain());
+        if (window.devMode) terrainsList.add(new DevTerrain());
+        if (window.settings.internal_experimentalFeatures) {
+            terrainsList.add(new ComplexTerrain());
+        }
 
         //Set items AFTER setting block types
         ItemList.setAllItems(blockList, entityList, tools);

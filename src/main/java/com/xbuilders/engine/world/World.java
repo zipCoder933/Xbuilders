@@ -6,7 +6,6 @@ import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.settings.EngineSettings;
-import com.xbuilders.engine.settings.EngineSettingsUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -85,7 +84,7 @@ public class World {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
         settings.internal_viewDistance.value = viewDistance.get();
-        EngineSettingsUtils.save(settings);
+     settings.save();
         GameScene.server.updateChunkDistance(viewDistance.get());
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
         // maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) *

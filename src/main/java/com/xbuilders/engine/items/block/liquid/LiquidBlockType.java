@@ -29,7 +29,8 @@ public class LiquidBlockType extends BlockType {
     };
 
     public int getGreedyMesherPermissions() {
-        return MainWindow.settings.game_fixLiquidMesh ? DENY_GM : PERMIT_GM;
+//        return MainWindow.settings.game_fixLiquidMesh ? DENY_GM : PERMIT_GM;
+        return PERMIT_GM;
     }
 
     public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
