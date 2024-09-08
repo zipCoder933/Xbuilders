@@ -145,11 +145,6 @@ public class TopMenu {
         window.NKrender();
     }
 
-    public void disposeEvent() {
-        TextureUtils.deleteAllTextures();
-        GL.setCapabilities(null);
-    }
-
     private void loadWorldOnInit__Dev() {
         try {
             ArrayList<WorldInfo> worlds = new ArrayList<>();

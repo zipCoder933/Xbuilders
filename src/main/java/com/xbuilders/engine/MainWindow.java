@@ -162,7 +162,7 @@ public class MainWindow extends NKWindow {
                             "\n\n Log saved to clipboard.");
             ErrorHandler.log(e, "Fatal Error");
         } finally {
-            terminate();
+            destroyWindow();
         }
     }
 
@@ -312,17 +312,9 @@ public class MainWindow extends NKWindow {
         setTitle(name + (MainWindow.devMode ? "   " + mfpAndMemory : ""));
     }
 
-
     @Override
-    public void disposeEvent() {
-        topMenu.disposeEvent();
-    }
-
-    @Override
-    public void windowResizeEvent(int width, int height) {
-        if (!isFullscreen()) {
-            gameScene.windowResizeEvent(width, height);
-        }
+    public void framebufferResizeEvent(int width, int height) {
+        gameScene.windowResizeEvent(width, height);
     }
 
     public void minimizeWindow() {

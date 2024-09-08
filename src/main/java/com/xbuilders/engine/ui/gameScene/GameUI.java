@@ -11,6 +11,7 @@ package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.ui.RectOverlay;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;

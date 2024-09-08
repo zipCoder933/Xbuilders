@@ -64,7 +64,7 @@ public abstract class NKWindow extends GLFWWindow {
 
     @Override
     public void createWindow(String title, int width, int height) {
-        super.createWindow(title,  width, height);
+        super.createWindow(title, width, height);
         ctx = setupWindow(getWindow());
         try {
             setupContext();
@@ -227,18 +227,22 @@ public abstract class NKWindow extends GLFWWindow {
     }
 
     @Override
-    public void terminate() {
-        super.terminate();
+    public void destroyWindow() {
+        super.destroyWindow();
         Objects.requireNonNull(ctx.clip().copy()).free();
         Objects.requireNonNull(ctx.clip().paste()).free();
         nk_free(ctx);
-        NKdispose();
-        disposeEvent();
+
+        shader.delete();
+        glDeleteTextures(null_texture.texture().id());
+        glDeleteBuffers(vbo);
+        glDeleteBuffers(ebo);
+        nk_buffer_free(cmds);
+
         Objects.requireNonNull(ALLOCATOR.alloc()).free();
         Objects.requireNonNull(ALLOCATOR.mfree()).free();
     }
 
-    public abstract void disposeEvent();
 
     //<editor-fold defaultstate="collapsed" desc="Nuklear methods">
     private int vbo, vao, ebo;
@@ -253,13 +257,6 @@ public abstract class NKWindow extends GLFWWindow {
     private NkBuffer cmds = NkBuffer.create();
     private NkDrawNullTexture null_texture = NkDrawNullTexture.create();
 
-    private void NKdispose() {
-        shader.delete();
-        glDeleteTextures(null_texture.texture().id());
-        glDeleteBuffers(vbo);
-        glDeleteBuffers(ebo);
-        nk_buffer_free(cmds);
-    }
 
     private void setupContext() throws IOException {
         String NK_SHADER_VERSION = Platform.get() == Platform.MACOSX ? "#version 150\n" : "#version 300 es\n";

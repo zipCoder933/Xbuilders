@@ -52,7 +52,6 @@ public abstract class GLFWWindow {
     private int[] wndSize = {0, 0};
     private int[] vpSize = {0, 0};
     private int[] monitorSize = {0, 0};
-    private boolean updateViewport = true;
 
     protected GLCapabilities capabilities;
     private static Callback debugProc;
@@ -310,11 +309,22 @@ public abstract class GLFWWindow {
     public static final Object windowCreateLock = new Object();
     private static boolean isGLFWInitialized = false;
 
-    public static void initGLFW() {
+    public static final void initGLFW() {
         if (!isGLFWInitialized) { //Initialize GLFW if it hasn't been initialized yet
             isGLFWInitialized = true;
             if (!glfwInit()) throw new IllegalStateException("Unable to initialize glfw");
         }
+    }
+    /**
+     * Closes and cleans up the current window
+     */
+    public static final void endGLFW() {
+        GLFW.glfwSetErrorCallback(null).free();
+        if (GLFWWindow.debugProc != null) {
+            debugProc.free();
+        }
+        TextureUtils.deleteAllTextures();
+        GLFW.glfwTerminate();
     }
 
 
@@ -327,7 +337,6 @@ public abstract class GLFWWindow {
         // Restore windowed mode
         GLFWVidMode vidMode = GLFW.glfwGetVideoMode(monitor);
         GLFW.glfwSetWindowMonitor(window, MemoryUtil.NULL, wndPos[0], wndPos[1], wndSize[0], wndSize[1], vidMode.refreshRate());
-        updateViewport = true;
     }
 
     public void enableFullscreen(float resolutionScale) {
@@ -367,15 +376,9 @@ public abstract class GLFWWindow {
             GLFWVidMode vidMode = GLFW.glfwGetVideoMode(monitor);
             GLFW.glfwSetWindowMonitor(window, monitor, 0, 0, fullscreenWidth, fullscreenHeight, vidMode.refreshRate());
         }
-        updateViewport = true;
     }
 
     public void startFrame() {
-        if (updateViewport) {
-            GLFW.glfwGetFramebufferSize(window, intBuffer(vpSize[0]), intBuffer(vpSize[1]));
-            GL30.glViewport(0, 0, vpSize[0], vpSize[1]);
-            updateViewport = false;
-        }
     }
 
     public void endFrame() {
@@ -411,9 +414,12 @@ public abstract class GLFWWindow {
         setWindowSizeVariables();
         initDebugs();
         initCallbacks();
-        updateViewport = true;
-
         startMPF();
+    }
+
+    public void destroyWindow() {
+        Callbacks.glfwFreeCallbacks(window);
+        GLFW.glfwDestroyWindow(window);
     }
 
     private void initDebugs() {
@@ -479,20 +485,13 @@ public abstract class GLFWWindow {
     }
 
     private void initCallbacks() {
-        GLFW.glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback() {
-            @Override
-            public void invoke(long window, final int width, final int height) {
-                updateViewport = true;
-            }
-        });
         GLFW.glfwSetFramebufferSizeCallback(getWindow(), new GLFWFramebufferSizeCallback() {
             @Override
             public void invoke(long window, final int width, final int height) {
                 glfwMakeContextCurrent(window);
                 setWindowSizeVariables();
                 glViewport(0, 0, width, height);
-                windowResizeEvent(width, height);
-                // glfwMakeContextCurrent(NULL);
+                framebufferResizeEvent(width, height);
             }
         });
     }
@@ -503,7 +502,7 @@ public abstract class GLFWWindow {
      * @param width
      * @param height
      */
-    public abstract void windowResizeEvent(final int width, final int height);
+    public abstract void framebufferResizeEvent(final int width, final int height);
 
     // <editor-fold defaultstate="collapsed" desc="MPF">
     private double lastTime;
@@ -615,31 +614,5 @@ public abstract class GLFWWindow {
     }
     // </editor-fold>
 
-    /**
-     * Closes and cleans up the current window
-     */
-    public void terminate() {
-        Callbacks.glfwFreeCallbacks(getWindow());
-        GLFW.glfwDestroyWindow(getWindow());
-    }
 
-
-    /**
-     * end the program
-     */
-    public static final void endGLFW() {
-        GLFW.glfwSetErrorCallback(null).free();
-        if (debugProc != null) {
-            debugProc.free();
-        }
-        TextureUtils.deleteAllTextures();
-        GLFW.glfwTerminate();
-    }
-
-    /*
-     * // GLFW key event action constants
-     * int GLFW_PRESS = 1;
-     * int GLFW_RELEASE = 0;
-     * int GLFW_REPEAT = 2;
-     */
 }
