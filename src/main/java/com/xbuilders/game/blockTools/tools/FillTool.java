@@ -3,7 +3,7 @@ package com.xbuilders.game.blockTools.tools;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;

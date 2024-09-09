@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.items;
 
-import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.player.CursorRay;
 import java.util.function.Consumer;
 
 /**

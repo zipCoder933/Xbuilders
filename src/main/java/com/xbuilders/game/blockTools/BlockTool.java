@@ -3,7 +3,7 @@ package com.xbuilders.game.blockTools;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import org.lwjgl.nuklear.NkContext;

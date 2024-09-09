@@ -61,6 +61,10 @@ public class GameServer extends Server<PlayerClient> {
         this.userPlayer = player;
     }
 
+    public boolean isHosting() {
+        return req.hosting;
+    }
+
     public boolean isPlayingMultiplayer() {
         return !clients.isEmpty();
     }

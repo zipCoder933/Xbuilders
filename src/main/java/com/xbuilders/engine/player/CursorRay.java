@@ -1,10 +1,11 @@
-package com.xbuilders.engine.player.camera;
+package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
 import com.xbuilders.engine.utils.MiscUtils;

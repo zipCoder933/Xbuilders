@@ -1,11 +1,10 @@
 package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.game.blockTools.tools.*;
-import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
@@ -102,7 +101,7 @@ public class BlockTools extends GameUIElement {
                 }
             }
         }
-
+pallete.keyEvent(key, scancode, action, mods);
         return tools.get(selectedTool).keyEvent(key, scancode, action, mods);
     }
 

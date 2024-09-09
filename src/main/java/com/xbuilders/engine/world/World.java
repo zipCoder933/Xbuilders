@@ -42,6 +42,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.xbuilders.engine.world.skybox.SkyBackground;
 import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
 
@@ -79,12 +80,13 @@ public class World {
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
     public ChunkShader chunkShader;
+    SkyBackground background;
 
     public void setViewDistance(EngineSettings settings, int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
         settings.internal_viewDistance.value = viewDistance.get();
-     settings.save();
+        settings.save();
         GameScene.server.updateChunkDistance(viewDistance.get());
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
         // maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) *
@@ -193,7 +195,7 @@ public class World {
     }
 
     public void init(BlockArrayTexture textures) throws IOException {
-
+        background = new SkyBackground();
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
@@ -294,13 +296,25 @@ public class World {
      * This is so that the chunks dont end up being deleted and than recreated over
      * and over again
      */
-    private boolean chunkIsWithinRange(Vector3f player, Vector3i chunk, float viewDistance) {
+    private boolean chunkIsWithinRange_XZ(Vector3f player, Vector3i chunk, float viewDistance) {
         return MathUtils.dist(
                 player.x,
                 player.z,
                 chunk.x * Chunk.WIDTH,
                 chunk.z * Chunk.WIDTH) < viewDistance;
     }
+
+
+    private boolean chunkIsWithinRange_XYZ(Vector3f player, Vector3i chunk, int viewDistance) {
+        return MathUtils.dist(
+                player.x,
+                player.y,
+                player.z,
+                chunk.x * Chunk.WIDTH,
+                chunk.y * Chunk.WIDTH,
+                chunk.z * Chunk.WIDTH) < viewDistance;
+    }
+
 
     public static final int CHUNK_QUANTITY_Y = 16;
 
@@ -312,7 +326,7 @@ public class World {
         for (int y = TOP_Y_CHUNK; y <= BOTTOM_Y_CHUNK; ++y) {
             final Vector3i coords = new Vector3i(chunkX, y, chunkZ);
             if (!chunks.containsKey(coords)
-                    && chunkIsWithinRange(player, coords, getCreationViewDistance())) {
+                    && chunkIsWithinRange_XZ(player, coords, getCreationViewDistance())) {
                 chunkPillar[y - TOP_Y_CHUNK] = addChunk(coords, isTopChunk);
                 isTopChunk = false;
                 chunksGenerated++;
@@ -371,14 +385,14 @@ public class World {
         int removalViewDistance = getDeletionViewDistance();
 
         chunks.forEach((coords, chunk) -> {
-            if (!chunkIsWithinRange(playerPosition, coords, removalViewDistance)) {
+            if (!chunkIsWithinRange_XZ(playerPosition, coords, removalViewDistance)) {
                 chunksToUnload.add(chunk);
                 sortedChunksToRender.remove(chunk);
             } else {
                 // frameTester.startProcess();
                 if (needsSorting.get()) {
                     //Dont add chunk unless it is within the view distance
-                    if (chunkIsWithinRange(playerPosition, chunk.position, viewDistance.get())) {
+                    if (chunkIsWithinRange_XYZ(playerPosition, chunk.position, viewDistance.get())) {
                         sortedChunksToRender.add(chunk);
                     }
                 }
@@ -387,7 +401,7 @@ public class World {
                         coords.x, coords.y, coords.z,
                         lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
                 // frameTester.endProcess("UCTRL: sorting and frustum check");
-                chunk.prepare(terrain, frame, false);
+                chunk.prepare(terrain, MainWindow.frameCount, false);
             }
         });
         chunksToUnload.forEach(chunk -> {
@@ -400,17 +414,19 @@ public class World {
         frameTester.set("world entities", world.entities.size());
     }
 
-    long frame = 0;
 
-    public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) throws IOException {
+    public void drawChunks(Matrix4f projection, Matrix4f view, Matrix4f centeredView, Vector3f playerPosition) throws IOException {
+
+        background.draw(projection, centeredView);
+
+
         // <editor-fold defaultstate="collapsed" desc="chunk updating">
-        frame++;
         if (!lastPlayerPosition.equals(playerPosition)) {
             needsSorting.set(true);
             lastPlayerPosition.set(playerPosition);
         }
 
-        if (frame % 10 == 0) {
+        if (MainWindow.frameCount % 10 == 0) {
             frameTester.startProcess();
             world.fillChunksAroundPlayer(playerPosition, false);
             frameTester.endProcess("Fill chunks around player");
@@ -521,12 +537,13 @@ public class World {
         });
 
 
+
     }
 
     private boolean chunkIsVisible(Chunk chunk, Vector3f playerPosition) {
         return chunk.inFrustum
                 && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
-                && chunkIsWithinRange(playerPosition, chunk.position, getViewDistance());
+                && chunkIsWithinRange_XYZ(playerPosition, chunk.position, getViewDistance());
     }
 
     // <editor-fold defaultstate="collapsed" desc="block operations">

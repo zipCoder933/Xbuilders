@@ -136,13 +136,12 @@ public class UserControlledPlayer extends Player {
 
     public void init(
             MainWindow window, World world,
-            Matrix4f projection,
-            Matrix4f view) {
+            Matrix4f projection, Matrix4f view, Matrix4f centeredView) {
         this.window = window;
         this.chunks = world;
         this.projection = projection;
         this.view = view;
-        camera = new Camera(this, window, view, projection, world);
+        camera = new Camera(this, window, projection, view, centeredView);
 
 
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);

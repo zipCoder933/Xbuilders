@@ -26,7 +26,6 @@ public class BlockToolPallete {
     NkContext ctx;
     WidgetWidthMeasurement buttonWidth;
     BlockTools tools;
-//    BlockTool hoveredTool;
     boolean wasOpen = false;
 
     int palleteMaxColumns = 9;
@@ -74,11 +73,16 @@ public class BlockToolPallete {
             //Set window background color
 //            ctx.style().window().background().set(Theme.transparent);
 
+
             if (nk_begin(ctx, "Pallete", windowSize, Nuklear.NK_WINDOW_NO_SCROLLBAR)) {
                 nk_layout_row_dynamic(ctx, 15, 1);
 
                 Theme.resetTextColor(ctx);
                 Nuklear.nk_text(ctx, selectedTool.toolDescription(), Nuklear.NK_TEXT_ALIGN_CENTERED);
+
+                if (!nk_window_has_focus(ctx)) {
+                    enabled = false;
+                }
 
                 ctx.style().button().padding().set(0, 0);
 
@@ -145,6 +149,16 @@ public class BlockToolPallete {
     }
 
     public boolean isOpen() {
-        return window.isKeyPressed(GLFW.GLFW_KEY_LEFT_ALT);
+        return enabled;
+    }
+
+    boolean enabled = false;
+
+    public void keyEvent(int key, int scancode, int action, int mods) {
+        if (action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_LEFT_ALT) {
+            enabled = !enabled;
+        } else if (action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_ESCAPE) {
+            enabled = false;
+        }
     }
 }

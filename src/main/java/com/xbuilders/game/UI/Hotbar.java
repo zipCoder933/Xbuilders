@@ -6,7 +6,7 @@ package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;

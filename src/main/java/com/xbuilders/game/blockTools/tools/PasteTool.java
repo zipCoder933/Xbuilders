@@ -5,7 +5,7 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.player.camera.CursorRay;
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.rendering.block.BlockMeshBundle;
 import com.xbuilders.engine.rendering.block.BlockShader;
 import com.xbuilders.engine.rendering.wireframeBox.Box;

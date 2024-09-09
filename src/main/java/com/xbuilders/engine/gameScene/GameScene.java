@@ -56,6 +56,7 @@ public class GameScene implements WindowEvents {
     static MainWindow window;
     public final static Matrix4f projection = new Matrix4f();
     public final static Matrix4f view = new Matrix4f();
+    public final static Matrix4f centeredView = new Matrix4f();
     private static Game game;
     static HashMap<String, String> commandHelp;
     public static Local_PendingEntityChanges localEntityChanges;
@@ -106,6 +107,7 @@ public class GameScene implements WindowEvents {
         commandHelp.put("help", "Usage: help <command>");
         commandHelp.put("players", "Lists all connected players");
         commandHelp.put("goto", "Usage: goto <player>");
+        commandHelp.put("teleport", "Usage: teleport <x> <y> <z>");
         if (game.getCommandHelp() != null) commandHelp.putAll(game.getCommandHelp());
     }
 
@@ -113,43 +115,56 @@ public class GameScene implements WindowEvents {
         String[] parts = splitWhitespacePreserveQuotes(command);
         System.out.println("handleGameCommand: " + Arrays.toString(parts));
         if (parts.length > 0) {
-            switch (parts[0].toLowerCase()) {
-                case "help" -> {
-                    String out = "Available commands:\n";
-                    for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
-                        out += entry.getKey() + "\t    " + entry.getValue() + "\n";
-                    }
-                    return out;
-                }
-                case "players" -> {
-                    String str = "" + server.clients.size() + " players:\n";
-                    for (PlayerClient client : server.clients) {
-                        if (client.getPlayer() != null) str += client.getPlayer().name + "\n";
-                    }
-                    return str;
-                }
-                case "msg" -> {
-                    if (parts.length > 2) {
-                        return server.sendChatMessage(parts[1], parts[2]);
-                    } else return commandHelp.get("msg");
-                }
-                case "goto" -> {
-                    if (parts.length == 2) {
-                        PlayerClient target = server.getPlayerByName(parts[1]);
-                        if (target != null) {
-                            player.worldPosition.set(target.getPlayer().worldPosition);
-                            return null;
-                        } else {
-                            return "Player not found";
+            try {
+                switch (parts[0].toLowerCase()) {
+                    case "help" -> {
+                        String out = "Available commands:\n";
+                        for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
+                            out += entry.getKey() + "\t    " + entry.getValue() + "\n";
                         }
-                    } else return commandHelp.get("goto");
-                }
-                default -> {
-                    String out = game.handleCommand(parts);
-                    if (out != null) {
                         return out;
                     }
+                    case "players" -> {
+                        String str = "" + server.clients.size() + " players:\n";
+                        for (PlayerClient client : server.clients) {
+                            if (client.getPlayer() != null) str += client.getPlayer().name + "\n";
+                        }
+                        return str;
+                    }
+                    case "msg" -> {
+                        if (parts.length > 2) {
+                            return server.sendChatMessage(parts[1], parts[2]);
+                        } else return commandHelp.get("msg");
+                    }
+                    case "teleport" -> {
+                        if (parts.length > 3) {
+                            if (!server.isPlayingMultiplayer() || server.isHosting()) {
+                                player.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                            } else {
+                                return "You cannot teleport";
+                            }
+                        } else return commandHelp.get("teleport");
+                    }
+                    case "goto" -> {
+                        if (parts.length == 2) {
+                            PlayerClient target = server.getPlayerByName(parts[1]);
+                            if (target != null) {
+                                player.worldPosition.set(target.getPlayer().worldPosition);
+                                return null;
+                            } else {
+                                return "Player not found";
+                            }
+                        } else return commandHelp.get("goto");
+                    }
+                    default -> {
+                        String out = game.handleCommand(parts);
+                        if (out != null) {
+                            return out;
+                        }
+                    }
                 }
+            } catch (Exception e) {
+                return "Error handling command \"" + parts[0].toLowerCase() + "\": " + e.getMessage();
             }
         }
         return "Unknown command. Type 'help' for a list of commands";
@@ -290,7 +305,7 @@ public class GameScene implements WindowEvents {
         setProjection();
         ui = new GameUI(game, window.ctx, window);
         world.init(ItemList.blocks.textures);
-        player.init(window, world, projection, view);
+        player.init(window, world, projection, view, centeredView);
         ui.init();
         game.uiInit(window.ctx, ui);
     }
@@ -329,7 +344,7 @@ public class GameScene implements WindowEvents {
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        world.drawChunks(projection, view, player.worldPosition);
+        world.drawChunks(projection, view, centeredView, player.worldPosition);
         MainWindow.frameTester.endProcess("Drawing chunks");
         setInfoText();
         livePropagationHandler.update();

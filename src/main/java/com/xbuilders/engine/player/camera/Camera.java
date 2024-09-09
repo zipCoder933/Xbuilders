@@ -5,14 +5,15 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.BlockData;
+
 import java.awt.*;
 import java.lang.Math;
 import java.nio.IntBuffer;
@@ -28,6 +29,7 @@ public class Camera {
     public final Vector3f cursorRaycastLook = new Vector3f();
     public final Vector3f cameraRaycast = new Vector3f();
     public final Vector3f cameraForward = new Vector3f();
+    public final Vector3f identity = new Vector3f(0f, 0f, 0f);
 
     public float tilt, pan, normalizedPan;
     public final Ray cameraViewRay;
@@ -42,8 +44,8 @@ public class Camera {
     private Robot robot;
     private final UserControlledPlayer player;
     private final MainWindow window;
-    protected final Matrix4f view, projection;
-    private final World world;
+
+    public final Matrix4f view, centeredView, projection;
 
 
     private void calculateCameraOrientation() {
@@ -103,12 +105,11 @@ public class Camera {
 
     public Camera(UserControlledPlayer player,
                   MainWindow window,
-                  Matrix4f view, Matrix4f projection,
-                  World world) {
+                  Matrix4f projection, Matrix4f view, Matrix4f centeredView) {
 
         this.view = view;
+        this.centeredView = centeredView;
         this.projection = projection;
-        this.world = world;
         this.window = window;
         this.player = player;
         windowX = MemoryUtil.memAllocInt(1);
@@ -230,6 +231,7 @@ public class Camera {
         }
         cursorRay.cast(position, cursorRaycastLook, GameScene.world);
         view.identity().lookAt(position, target, up);
+        centeredView.identity().lookAt(identity, look, up);
         //We must update the frustum AFTER we update the camera
         frustum.update(projection, view);
     }
