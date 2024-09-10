@@ -23,12 +23,15 @@ public class ChunkShader extends Shader {
 
     public static final String CHUNK_SHADER_DIR = "/res/shaders/chunkShader";
 
-    public final int mvpUniform,
+    public final int mvpUniform;
+
+    private final int
             maxMult12bitsUniform,
             maxMult10bitsUniform,
             textureLayerCountUniform,
             viewDistanceUniform,
-            skyColorUniform,
+            tintUniform,
+            fogColorUniform,
             animationTimeUniform,
             flashlightDistanceUniform,
             colorUniform;
@@ -48,16 +51,16 @@ public class ChunkShader extends Shader {
             File fragShader = null;
             switch (fragmentShader) {
                 case FRAG_MODE_CHUNK:
-                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR+"/frag.glsl");
+                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR + "/frag.glsl");
                     break;
                 case FRAG_MODE_DIRECT:
-                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR+"/frag_direct.glsl");
+                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR + "/frag_direct.glsl");
                     break;
                 case FRAG_MODE_TEST:
-                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR+"/frag_test.glsl");
+                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR + "/frag_test.glsl");
                     break;
             }
-            init(ResourceUtils.localResource(CHUNK_SHADER_DIR+"/vertex.glsl"),
+            init(ResourceUtils.localResource(CHUNK_SHADER_DIR + "/vertex.glsl"),
                     fragShader);
         } catch (IOException e) {
             ErrorHandler.report(e);
@@ -67,14 +70,16 @@ public class ChunkShader extends Shader {
         maxMult10bitsUniform = getUniformLocation("maxMult10bits");
         textureLayerCountUniform = getUniformLocation("textureLayerCount");
         viewDistanceUniform = getUniformLocation("viewDistance");
-        skyColorUniform = getUniformLocation("skyColor");
         animationTimeUniform = getUniformLocation("animationTime");
         flashlightDistanceUniform = getUniformLocation("flashlightDistance");
         colorUniform = getUniformLocation("solidColor");
+        tintUniform = getUniformLocation("tint");
+        fogColorUniform = getUniformLocation("fogColor");
 
         loadFloat(maxMult10bitsUniform, CompactVertexSet.maxMult10bits);
         loadFloat(maxMult12bitsUniform, CompactVertexSet.maxMult12bits);
         loadInt(textureLayerCountUniform, textureLayers - 1);
+        loadVec3f(tintUniform, new Vector3f(1, 1, 1));
     }
 
     public void setFlashlightDistance(float distance) {
@@ -82,8 +87,15 @@ public class ChunkShader extends Shader {
         loadFloat(flashlightDistanceUniform, distance);
     }
 
+    //It makes sense to put both in the same place, After all, I notices some strange artifacts when rendering transparent fog
+    public void setTintAndFogColor(Vector3f fogColor, Vector3f tint) {
+        loadVec3f(tintUniform, tint);
+        loadVec3f(fogColorUniform, fogColor);
+    }
+
     public void setViewDistance(int viewDistance) {
         loadInt(viewDistanceUniform, viewDistance);
+//        if (Entity.shader != null) Entity.shader.loadInt(Entity.shader.uniform_view_distance, viewDistance);
     }
 
     public void setColorMode(float r, float g, float b) {
@@ -103,9 +115,6 @@ public class ChunkShader extends Shader {
         }
     }
 
-    public void setSkyColor(Vector3f color) {
-        loadVec3f(skyColorUniform, color);
-    }
 
     @Override
     public void bindAttributes() {

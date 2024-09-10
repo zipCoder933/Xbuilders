@@ -201,7 +201,6 @@ public class World {
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
         setViewDistance(MainWindow.settings, MainWindow.settings.internal_viewDistance.value);
-        chunkShader.setSkyColor(GameScene.backgroundColor);
         sortByDistance = new SortByDistanceToPlayer(GameScene.player.worldPosition);
         entities.clear();
     }

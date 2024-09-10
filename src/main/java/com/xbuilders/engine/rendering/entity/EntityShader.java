@@ -9,6 +9,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.render.Shader;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.io.IOException;
 
@@ -21,15 +22,17 @@ public class EntityShader extends Shader {
             uniform_projViewMatrix,
             uniform_modelMatrix,
             uniform_sun,
-            uniform_torch;
+            uniform_torch,
+            uniform_tint,
+    uniform_view_distance;
 
     static MVP mvp = new MVP();
 
     public EntityShader() {
         try {
             init(
-                    ResourceUtils.localResource("/res/shaders/entityShader/shader.vs"),
-                    ResourceUtils.localResource("/res/shaders/entityShader/shader.fs"));
+                    ResourceUtils.localResource("/res/shaders/entityShader/entity_shader.vs"),
+                    ResourceUtils.localResource("/res/shaders/entityShader/entity_shader.fs"));
         } catch (IOException e) {
             ErrorHandler.report(e);
         }
@@ -37,12 +40,18 @@ public class EntityShader extends Shader {
         uniform_modelMatrix = getUniformLocation("modelMatrix");
         uniform_sun = getUniformLocation("sun");
         uniform_torch = getUniformLocation("torch");
+        uniform_tint = getUniformLocation("tint");
+        uniform_view_distance = getUniformLocation("viewDistance");
 //        textureUniform = getUniformLocation("texture");
     }
 
     public void updateProjectionViewMatrix(Matrix4f projection, Matrix4f view) {
         mvp.update(projection, view);
         mvp.sendToShader(getID(), uniform_projViewMatrix);
+    }
+
+    public void setTint(Vector3f tint) {
+        loadVec3f(uniform_tint, tint);
     }
 
     @Override

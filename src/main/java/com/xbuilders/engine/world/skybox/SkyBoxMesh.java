@@ -92,7 +92,7 @@ import org.lwjgl.opengl.GL33;
         GL30.glDeleteBuffers(uvVBO);
     }
 
-    public void draw(boolean wireframe) {
+    public void draw() {
         GL30.glBindVertexArray(vao);
         GL11.glBindTexture(GL33.GL_TEXTURE_2D, textureID);//required to assign texture to mesh
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vertLength); //We have to specify how many verticies we want

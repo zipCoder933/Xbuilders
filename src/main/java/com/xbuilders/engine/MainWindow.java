@@ -168,7 +168,6 @@ public class MainWindow extends NKWindow {
     private void init() throws Exception {
         GLFWWindow.initGLFW();
         settings = EngineSettings.load();
-        System.out.println(settings.toString());
 
         user = new UserID(ResourceUtils.appDataResource("userID.txt"));
 
