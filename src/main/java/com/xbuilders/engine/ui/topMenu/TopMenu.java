@@ -9,10 +9,8 @@ import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
-import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
@@ -120,7 +118,7 @@ public class TopMenu {
             nk_rect(0, titleYEnd.get(0), window.getWidth(), titleHeight, windowDims);
             titleYEnd.put(0, titleYEnd.get(0) + titleHeight);
             if (nk_begin(window.ctx, "title", windowDims, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
-                nk_style_set_font(window.ctx, Theme.font_24);
+                nk_style_set_font(window.ctx, Theme.getFont_24());
                 nk_layout_row_dynamic(window.ctx, 40, 1);
                 nk_label(window.ctx, "X-Builders 3", NK_TEXT_CENTERED);
             }

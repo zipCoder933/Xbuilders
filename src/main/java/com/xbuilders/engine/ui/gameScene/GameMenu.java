@@ -61,7 +61,7 @@ class GameMenu extends GameUIElement {
         GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
         NkRect windowDims = NkRect.malloc(stack);
         ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
-        nk_style_set_font(ctx, Theme.font_10);
+        nk_style_set_font(ctx, Theme.getFont_10());
 
         switch (page) {
             case SETTINGS -> drawSettingsPage(windowDims);

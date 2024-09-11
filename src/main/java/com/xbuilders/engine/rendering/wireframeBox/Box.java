@@ -5,13 +5,18 @@
 package com.xbuilders.engine.rendering.wireframeBox;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.window.render.MVP;
+import com.xbuilders.window.utils.obj.OBJ;
+import com.xbuilders.window.utils.obj.OBJLoader;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.*;
+
+import java.io.FileNotFoundException;
 
 import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.GL_FILL;
@@ -22,10 +27,6 @@ import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glPolygonMode;
-
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 /**
  * @author zipCoder933
@@ -42,12 +43,12 @@ public class Box {
     }
 
     int vertBuffer;
-    SolidColorShader shader;
+    SolidColorShader solidShader;
     private float lineWidth = 1.0f;
     private MVP mvp;
     public final Matrix4f position = new Matrix4f();
     float[] vertices;
-    int vao;
+    private int vao;
 
 
     public void setPosition(Vector3f pos) {
@@ -56,9 +57,8 @@ public class Box {
 
     public Box() {
         vao = GL30.glGenVertexArrays();
-        shader = new SolidColorShader();
+        solidShader = new SolidColorShader();
         vertBuffer = GL15.glGenBuffers();
-
         GL30.glBindVertexArray(vao);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertBuffer);
         GL20.glVertexAttribPointer(
@@ -73,11 +73,11 @@ public class Box {
     }
 
     public void setColor(Vector4f color) {
-        shader.setColor(color);
+        solidShader.setColor(color);
     }
 
     public void setColor(float r, float g, float b, float a) {
-        shader.setColor(new Vector4f(r, g, b, a));
+        solidShader.setColor(new Vector4f(r, g, b, a));
     }
 
 
@@ -145,29 +145,22 @@ public class Box {
 
     public void draw(Matrix4f projection, Matrix4f view) {
         GL30.glBindVertexArray(vao);
-        //Set line mode
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Enable wireframe mode
-        glEnable(GL_CULL_FACE); // Enable face culling
         mvp.update(projection, view, position);
-        mvp.sendToShader(shader.getID(), shader.mvpUniform);
-
+        mvp.sendToShader(solidShader.getID(), solidShader.mvpUniform);
 
         int shaderProgram = GL20.glGetInteger(GL20.GL_CURRENT_PROGRAM);//Get the current shader
-        shader.bind();
-
-        MainWindow.printDebugsEnabled(false);
-        //Line width cannot be higher than 1, wide lines are depracated
+        MainWindow.printDebugsEnabled(false);  //Line width cannot be higher than 1, wide lines are depracated
         GL11.glLineWidth(lineWidth); //Set the line width
         MainWindow.printDebugsEnabled(true);
 
+        //TODO: Fix bug where box is outlined to match the skybox
+        GL11.glBindTexture(GL33.GL_TEXTURE_2D, 0);  //reset the texture
+        solidShader.bind();
         // Draw each line segment individually
         glDrawArrays(GL_LINE_LOOP, 0, 4); // Draw the four edges of the front face
         glDrawArrays(GL_LINE_LOOP, 4, 4); // Draw the four edges of the back face
         glDrawArrays(GL_LINES, 8, 8); // Draw the connectors
         glDrawArrays(GL_LINES, 16, 4);
-
-//DONT disable GL_CULL_FACE. chunks need CULL_FACE to do backface culling
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         GL20.glUseProgram(shaderProgram); //Bind the original shader
     }

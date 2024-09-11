@@ -415,9 +415,7 @@ public class World {
 
 
     public void drawChunks(Matrix4f projection, Matrix4f view, Matrix4f centeredView, Vector3f playerPosition) throws IOException {
-
         background.draw(projection, centeredView);
-
 
         // <editor-fold defaultstate="collapsed" desc="chunk updating">
         if (!lastPlayerPosition.equals(playerPosition)) {
@@ -534,9 +532,6 @@ public class World {
                 }
             }
         });
-
-
-
     }
 
     private boolean chunkIsVisible(Chunk chunk, Vector3f playerPosition) {

@@ -106,8 +106,8 @@ public class GameScene implements WindowEvents {
         commandHelp.put("msg", "Usage: msg <player/all> <message>");
         commandHelp.put("help", "Usage: help <command>");
         commandHelp.put("players", "Lists all connected players");
-        commandHelp.put("goto", "Usage: goto <player>");
-        commandHelp.put("teleport", "Usage: teleport <x> <y> <z>");
+        commandHelp.put("teleport", "Usage: teleport <player>" +
+                "\nUsage: teleport <x> <y> <z>");
         if (game.getCommandHelp() != null) commandHelp.putAll(game.getCommandHelp());
     }
 
@@ -120,7 +120,12 @@ public class GameScene implements WindowEvents {
                     case "help" -> {
                         String out = "Available commands:\n";
                         for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
-                            out += entry.getKey() + "\t    " + entry.getValue() + "\n";
+                            if (entry.getValue().contains("\n")) {
+                                String[] lines = entry.getValue().split("\n");
+                                for (String line : lines) {
+                                    out += entry.getKey() + "\t    " + line + "\n";
+                                }
+                            } else out += entry.getKey() + "\t    " + entry.getValue() + "\n";
                         }
                         return out;
                     }
@@ -137,15 +142,6 @@ public class GameScene implements WindowEvents {
                         } else return commandHelp.get("msg");
                     }
                     case "teleport" -> {
-                        if (parts.length > 3) {
-                            if (!server.isPlayingMultiplayer() || server.isHosting()) {
-                                player.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
-                            } else {
-                                return "You cannot teleport";
-                            }
-                        } else return commandHelp.get("teleport");
-                    }
-                    case "goto" -> {
                         if (parts.length == 2) {
                             PlayerClient target = server.getPlayerByName(parts[1]);
                             if (target != null) {
@@ -154,7 +150,13 @@ public class GameScene implements WindowEvents {
                             } else {
                                 return "Player not found";
                             }
-                        } else return commandHelp.get("goto");
+                        } else if (parts.length > 3) {
+                            if (!server.isPlayingMultiplayer() || server.isHosting()) {
+                                player.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                            } else {
+                                return "You cannot teleport";
+                            }
+                        } else return commandHelp.get("teleport");
                     }
                     default -> {
                         String out = game.handleCommand(parts);

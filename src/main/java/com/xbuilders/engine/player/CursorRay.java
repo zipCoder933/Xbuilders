@@ -53,7 +53,7 @@ public class CursorRay {
         cursorBox = new Box();
         cursorBox.setPosAndSize(0, 0, 0, 1, 1, 1);
         cursorBox.setColor(new Vector4f(0, 0, 0, 1));
-        cursorBox.setLineWidth(2);
+        cursorBox.setLineWidth(3);
         cursorRay = new Ray();
     }
 

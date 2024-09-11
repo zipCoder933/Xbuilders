@@ -34,30 +34,30 @@ public class SkyBackground {
     Vector3f defaultTint = new Vector3f(1, 1, 1);
     Vector3f defaultSkyColor = new Vector3f(0.5f, 0.5f, 0.5f);
 
-    public static double calculateLightness(double x) {
-        double lightness = (4 * (x - 0.5) * (x - 0.5));
-        lightness = lightness * 2 + 0.18f;
-        if (lightness > 1) lightness = 1;
-        return lightness;
+    private double calculateLightness(double x) {
+//        double lightness = (4 * (x - 0.5) * (x - 0.5));
+//        lightness = lightness * 2 + 0.18f;
+//        if (lightness > 1) lightness = 1;
+//        return lightness;
+        double light = (double) (skyImage.getRGB((int) (skyImage.getWidth() * textureXPan), skyImage.getHeight() - 1) & 0xFF) / 255;
+        if (light < 0.18) light = 0.18;
+        return light;
     }
 
     private void applyTint() {
-        // Get the pixel color at a specific location
-        int pixelColor = skyImage.getRGB((int) (skyImage.getWidth() * textureXPan), skyImage.getHeight() - 1);
-
-        // Extract the RGB values from the pixel color
-        int red = (pixelColor >> 16) & 0xFF;
-        int green = (pixelColor >> 8) & 0xFF;
-        int blue = pixelColor & 0xFF;
+        double lightness = calculateLightness(textureXPan);
+        int skyColor = skyImage.getRGB((int) (skyImage.getWidth() * textureXPan), skyImage.getHeight() - 2);
+        int red = (skyColor >> 16) & 0xFF;
+        int green = (skyColor >> 8) & 0xFF;
+        int blue = skyColor & 0xFF;
         defaultSkyColor.set(red / 255f, green / 255f, blue / 255f);
 
-        float lightness = (float) calculateLightness(textureXPan);
         if (defaultSkyColor.x > defaultSkyColor.z) { //If red is more dominant than blue
             float redDifference = (defaultSkyColor.x - defaultSkyColor.z) * 0.5f; //Choose how much % should be tinted red
             defaultTint.set(lightness + redDifference, lightness, lightness);
         } else defaultTint.set(lightness, lightness, lightness);
         GameScene.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
-        Entity.shader.setTint(defaultTint);
+        if (Entity.shader != null) Entity.shader.setTint(defaultTint);
     }
 
     public void setTimeOfDay(float timeOfDay) {
@@ -65,22 +65,23 @@ public class SkyBackground {
     }
 
     public void draw(Matrix4f projection, Matrix4f view) {
-        GL30.glDisable(GL30.GL_DEPTH_TEST);
-        skyBoxShader.bind();
-        skyBoxShader.updateMatrix(projection, view);
+//        if(MainWindow.devkeyF12) {
+            GL30.glDisable(GL30.GL_DEPTH_TEST);
+            skyBoxShader.bind();
+            skyBoxShader.updateMatrix(projection, view);
 
-        textureXPan += 0.0002f;
-        if (textureXPan > 1) {
-            textureXPan = 0;
-        }
+            textureXPan += 0.00005f;
+            if (textureXPan > 1) {
+                textureXPan = 0;
+            }
 
-        skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, textureXPan);
-        skyBoxMesh.draw();
+            skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, textureXPan);
+            skyBoxMesh.draw();
 
-        if (MainWindow.frameCount % 20 == 0) {
-            applyTint();
-        }
-
-        GL30.glEnable(GL30.GL_DEPTH_TEST);
+            if (MainWindow.frameCount % 5 == 0) {
+                applyTint();
+            }
+            GL30.glEnable(GL30.GL_DEPTH_TEST);
+//        }
     }
 }

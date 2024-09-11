@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKFontUtils;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
@@ -27,7 +26,12 @@ public class Theme {
     public static NkColor transparent, darkTransparent, backgroundColor, buttonColor, buttonHover,
             gray, lightGray, blue, darkBlue, white, black;
 
-    public static NkUserFont font_24, font_22, font_18, font_12, font_10, font_9;
+    private static NkUserFont font_24;
+    private static NkUserFont font_22;
+    private static NkUserFont font_18;
+    private static NkUserFont font_12;
+    private static NkUserFont font_10;
+    private static NkUserFont font_9;
 
     /**
      * crash from nuklear: https://github.com/LWJGL/lwjgl3/issues/986
@@ -51,7 +55,7 @@ public class Theme {
         font_10 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 12 : 10);
         font_9 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 10 : 9);
 
-        nk_style_set_font(context, font_9);
+        nk_style_set_font(context, getFont_9());
 
 
         try (MemoryStack stack = stackPush()) {
@@ -147,5 +151,30 @@ public class Theme {
 
     public static NkColor createColor(int r, int g, int b, int a) {
         return NkColor.create().set((byte) r, (byte) g, (byte) b, (byte) a);
+    }
+
+    //TODO: Improve GUI scaling
+    public static NkUserFont getFont_24() {
+        return font_24;
+    }
+
+    public static NkUserFont getFont_22() {
+        return font_22;
+    }
+
+    public static NkUserFont getFont_18() {
+        return font_18;
+    }
+
+    public static NkUserFont getFont_12() {
+        return font_12;
+    }
+
+    public static NkUserFont getFont_10() {
+        return font_10;
+    }
+
+    public static NkUserFont getFont_9() {
+        return font_9;
     }
 }

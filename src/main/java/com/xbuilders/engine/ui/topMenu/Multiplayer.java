@@ -14,7 +14,6 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.ui.Page;
-import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -85,12 +84,12 @@ public class Multiplayer implements MenuPage {
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
-        nk_style_set_font(ctx, Theme.font_12);
+        nk_style_set_font(ctx, Theme.getFont_12());
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), titleYEnd.get(0),
                 boxWidth, boxHeight, windowDims);
 
         if (nk_begin(ctx, (hosting ? "Host" : "Join") + " Multiplayer World", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-            nk_style_set_font(ctx, Theme.font_10);
+            nk_style_set_font(ctx, Theme.getFont_10());
             nk_layout_row_dynamic(ctx, 20, 1);
             NKUtils.text(ctx, "All computers wanting to join must enter " + (hosting ? "this" : "the host's") + "\n"
                     + "IP adress and port to proceed:", 10, NK_TEXT_ALIGN_LEFT);

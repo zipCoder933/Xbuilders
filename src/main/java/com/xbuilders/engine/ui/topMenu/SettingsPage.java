@@ -12,7 +12,6 @@ package com.xbuilders.engine.ui.topMenu;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.lang.reflect.Field;
@@ -58,7 +57,7 @@ public class SettingsPage implements MenuPage {
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
-        nk_style_set_font(ctx, Theme.font_12);
+        nk_style_set_font(ctx, Theme.getFont_12());
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), titleYEnd.get(0),
                 boxWidth, boxHeight, windowDims);
         draw(stack, windowDims);
@@ -73,7 +72,7 @@ public class SettingsPage implements MenuPage {
 
     private void draw(MemoryStack stack, NkRect windowDims) {
         if (nk_begin(ctx, "Settings", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-            nk_style_set_font(ctx, Theme.font_10);
+            nk_style_set_font(ctx, Theme.getFont_10());
             NKUtils.wrapText(ctx, "Note that some changes will only take effect after the game is restarted", windowDims.w() - 20);
             nk_layout_row_static(ctx, 30, 1, 2);
 

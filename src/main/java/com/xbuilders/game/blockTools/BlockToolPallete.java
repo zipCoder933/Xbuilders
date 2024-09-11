@@ -55,7 +55,7 @@ public class BlockToolPallete {
             Theme.resetEntireButtonStyle(ctx);
             Theme.resetWindowColor(ctx);
             Theme.resetWindowPadding(ctx);
-            nk_style_set_font(ctx, Theme.font_9);
+            nk_style_set_font(ctx, Theme.getFont_9());
 
 
             BlockTool selectedTool = tools.getSelectedTool();

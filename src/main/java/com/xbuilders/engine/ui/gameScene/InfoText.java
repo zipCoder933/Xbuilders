@@ -63,7 +63,7 @@ public class InfoText extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
-        nk_style_set_font(ctx, Theme.font_9);
+        nk_style_set_font(ctx, Theme.getFont_9());
 
         if (commandMode) {
             commandRect.x(sidePadding);

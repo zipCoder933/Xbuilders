@@ -176,7 +176,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
             Theme.resetEntireButtonStyle(ctx);
             Theme.resetWindowColor(ctx);
             Theme.resetWindowPadding(ctx);
-            nk_style_set_font(ctx, Theme.font_9);
+            nk_style_set_font(ctx, Theme.getFont_9());
 
             nk_rect(window.getWidth() / 2 - (menuWidth / 2), window.getHeight() / 2 - (menuHeight / 2), menuWidth, menuHeight, windowDims2);
 
