@@ -106,6 +106,7 @@ public class GameScene implements WindowEvents {
         commandHelp = new HashMap<>();
         commandHelp.put("msg", "Usage: msg <player/all> <message>");
         commandHelp.put("help", "Usage: help <command>");
+        commandHelp.put("time", "Usage: time <day/evening/night>");
         commandHelp.put("players", "Lists all connected players");
         commandHelp.put("teleport", "Usage: teleport <player>" +
                 "\nUsage: teleport <x> <y> <z>");
@@ -141,6 +142,22 @@ public class GameScene implements WindowEvents {
                         if (parts.length > 2) {
                             return server.sendChatMessage(parts[1], parts[2]);
                         } else return commandHelp.get("msg");
+                    }
+                    case "time" -> {
+                        if (parts.length == 2 ) {
+                            //It doesnt matter if we had 2 players with different time
+//                            if(!server.isHosting() && server.isPlayingMultiplayer()) return "You cannot change time";
+                            if (parts[1].toLowerCase().equals("day") || parts[1].toLowerCase().equals("morning")) {
+                                background.setTimeOfDay(0);
+                                return null;
+                            } else if (parts[1].toLowerCase().equals("evening")) {
+                                background.setTimeOfDay(0.25f);
+                                return null;
+                            } else if (parts[1].toLowerCase().equals("night")) {
+                                background.setTimeOfDay(0.5f);
+                                return null;
+                            } else return commandHelp.get("time");
+                        } else return commandHelp.get("time");
                     }
                     case "teleport" -> {
                         if (parts.length == 2) {
@@ -315,9 +332,9 @@ public class GameScene implements WindowEvents {
 
     boolean holdMouse;
     public static boolean specialMode;
-    public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
+//    public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
     public static GameUI ui;
-    SkyBackground background;
+    static SkyBackground background;
 
     public void pingAllPlayers() {
         for (PlayerClient p : server.clients) {
@@ -328,7 +345,7 @@ public class GameScene implements WindowEvents {
     public void render() throws IOException {
         MainWindow.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
-        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
+//        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         background.draw(projection, centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
 
         holdMouse = ui.canHoldMouse() && window.windowIsFocused();

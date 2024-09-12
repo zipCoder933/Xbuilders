@@ -62,7 +62,7 @@ public class GameServer extends Server<PlayerClient> {
     }
 
     public boolean isHosting() {
-        return req.hosting;
+        return req != null && req.hosting;
     }
 
     public boolean isPlayingMultiplayer() {

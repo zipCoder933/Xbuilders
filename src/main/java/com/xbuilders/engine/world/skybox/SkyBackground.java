@@ -15,7 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class SkyBackground {
-    private static final float UPDATE_SPEED = 0.00005f;
+
+    private static final float UPDATE_SPEED = 0.00001f;
     SkyBoxMesh skyBoxMesh;
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
@@ -36,10 +37,6 @@ public class SkyBackground {
     Vector3f defaultSkyColor = new Vector3f(0.5f, 0.5f, 0.5f);
 
     private double calculateLightness(double x) {
-//        double lightness = (4 * (x - 0.5) * (x - 0.5));
-//        lightness = lightness * 2 + 0.18f;
-//        if (lightness > 1) lightness = 1;
-//        return lightness;
         double light = (double) (skyImage.getRGB((int) (skyImage.getWidth() * textureXPan), skyImage.getHeight() - 1) & 0xFF) / 255;
         if (light < 0.18) light = 0.18;
         return light;
@@ -54,7 +51,7 @@ public class SkyBackground {
         defaultSkyColor.set(red / 255f, green / 255f, blue / 255f);
 
         if (defaultSkyColor.x > defaultSkyColor.z) { //If red is more dominant than blue
-            float redDifference = (defaultSkyColor.x - defaultSkyColor.z) * 0.5f; //Choose how much % should be tinted red
+            float redDifference = (defaultSkyColor.x - defaultSkyColor.z) * 0.3f; //Choose how much % should be tinted red
             defaultTint.set(lightness + redDifference, lightness, lightness);
         } else defaultTint.set(lightness, lightness, lightness);
         GameScene.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
@@ -78,7 +75,7 @@ public class SkyBackground {
         skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, textureXPan);
         skyBoxMesh.draw();
 
-        if (MainWindow.frameCount % 5 == 0) {
+        if (MainWindow.frameCount % 20 == 0) {
             applyTint();
         }
         GL30.glEnable(GL30.GL_DEPTH_TEST);
