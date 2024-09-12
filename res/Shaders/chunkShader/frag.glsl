@@ -74,7 +74,7 @@ void main()
         visibility = map(fragDistance, fogStart, fogStart + fogGradient, 1.0, 0.0);
         visibility = clamp(visibility, 0.01, 1.0);
     }
-    // val.a *= visibility;
+    val.a *= visibility;
 
     if (val.a == 0.0)
     { // ditch transparent fragments
@@ -108,8 +108,8 @@ void main()
         max(flashlight, max(tintedTorch.b, tintedSun.b)));
 
     // The final color
-     color = mix(vec4(fogColor, 1.0), val, visibility);
-    // color = vec4(val);
+     //color = mix(vec4(fogColor, 1.0), val, visibility);
+     color = vec4(val);
 
     //      color = vec4(sun,sun,sun,1.0);
     // // X is red, Y is green, Z is blue

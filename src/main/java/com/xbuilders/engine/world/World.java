@@ -80,7 +80,7 @@ public class World {
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
     public ChunkShader chunkShader;
-    SkyBackground background;
+
 
     public void setViewDistance(EngineSettings settings, int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
@@ -195,7 +195,6 @@ public class World {
     }
 
     public void init(BlockArrayTexture textures) throws IOException {
-        background = new SkyBackground();
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
@@ -413,10 +412,7 @@ public class World {
         frameTester.set("world entities", world.entities.size());
     }
 
-
-    public void drawChunks(Matrix4f projection, Matrix4f view, Matrix4f centeredView, Vector3f playerPosition) throws IOException {
-        background.draw(projection, centeredView);
-
+    public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) {
         // <editor-fold defaultstate="collapsed" desc="chunk updating">
         if (!lastPlayerPosition.equals(playerPosition)) {
             needsSorting.set(true);

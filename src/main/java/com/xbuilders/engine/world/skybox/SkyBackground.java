@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class SkyBackground {
+    private static final float UPDATE_SPEED = 0.00005f;
     SkyBoxMesh skyBoxMesh;
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
@@ -65,23 +66,21 @@ public class SkyBackground {
     }
 
     public void draw(Matrix4f projection, Matrix4f view) {
-//        if(MainWindow.devkeyF12) {
-            GL30.glDisable(GL30.GL_DEPTH_TEST);
-            skyBoxShader.bind();
-            skyBoxShader.updateMatrix(projection, view);
+        GL30.glDisable(GL30.GL_DEPTH_TEST);
+        skyBoxShader.bind();
+        skyBoxShader.updateMatrix(projection, view);
 
-            textureXPan += 0.00005f;
-            if (textureXPan > 1) {
-                textureXPan = 0;
-            }
+        textureXPan += UPDATE_SPEED;
+        if (textureXPan > 1) {
+            textureXPan = 0;
+        }
 
-            skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, textureXPan);
-            skyBoxMesh.draw();
+        skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, textureXPan);
+        skyBoxMesh.draw();
 
-            if (MainWindow.frameCount % 5 == 0) {
-                applyTint();
-            }
-            GL30.glEnable(GL30.GL_DEPTH_TEST);
-//        }
+        if (MainWindow.frameCount % 5 == 0) {
+            applyTint();
+        }
+        GL30.glEnable(GL30.GL_DEPTH_TEST);
     }
 }

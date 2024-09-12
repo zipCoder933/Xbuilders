@@ -52,11 +52,12 @@ public class CursorRay {
         this.camera = camera;
         cursorBox = new Box();
         cursorBox.setPosAndSize(0, 0, 0, 1, 1, 1);
-        cursorBox.setColor(new Vector4f(0, 0, 0, 1));
+        cursorBox.setColor(DEFAULT_COLOR);
         cursorBox.setLineWidth(3);
         cursorRay = new Ray();
     }
 
+    public final Vector4f DEFAULT_COLOR = new Vector4f(1, 1, 1, 1);
     public final Camera camera;
     public final Box cursorBox;
     protected final Ray cursorRay;
@@ -199,7 +200,7 @@ public class CursorRay {
             }
 
             if (boundaryIsWithinArea()) {
-                cursorBox.setColor(0, 0, 0, 1);
+                cursorBox.setColor(DEFAULT_COLOR);
             } else {
                 cursorBox.setColor(1, 0, 0, 1);
             }

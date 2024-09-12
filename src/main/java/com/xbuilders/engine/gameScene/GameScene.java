@@ -20,6 +20,7 @@ import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.skybox.SkyBackground;
 import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.MainWindow;
@@ -299,7 +300,7 @@ public class GameScene implements WindowEvents {
     }
 
     public void initialize(MainWindow window, MyGame game) throws Exception {
-
+        background = new SkyBackground();
         livePropagationHandler.tasks.clear();
 
         game.initialize(this);
@@ -316,6 +317,7 @@ public class GameScene implements WindowEvents {
     public static boolean specialMode;
     public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
     public static GameUI ui;
+    SkyBackground background;
 
     public void pingAllPlayers() {
         for (PlayerClient p : server.clients) {
@@ -327,6 +329,8 @@ public class GameScene implements WindowEvents {
         MainWindow.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
         GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
+        background.draw(projection, centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
+
         holdMouse = ui.canHoldMouse() && window.windowIsFocused();
         MainWindow.frameTester.endProcess("Clearing buffer");
 
@@ -346,7 +350,7 @@ public class GameScene implements WindowEvents {
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        world.drawChunks(projection, view, centeredView, player.worldPosition);
+        world.drawChunks(projection, view, player.worldPosition);
         MainWindow.frameTester.endProcess("Drawing chunks");
         setInfoText();
         livePropagationHandler.update();
