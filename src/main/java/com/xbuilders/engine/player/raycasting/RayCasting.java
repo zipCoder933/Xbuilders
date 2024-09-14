@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player.raycasting;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.ItemList;

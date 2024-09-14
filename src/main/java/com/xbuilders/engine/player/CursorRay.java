@@ -266,6 +266,7 @@ public class CursorRay {
                 }),
                 world);
 
+
         if (useBoundary && boundary_lockToPlane && boundary_isStartNodeSet) {
             if (simplifiedPanTilt.y != 0) {
                 cursorRay.hitPostition.y = boundary_startNode.y;
@@ -275,6 +276,14 @@ public class CursorRay {
                 cursorRay.hitPostition.z = boundary_startNode.z;
             }
         }
+
+
+        //Clamp the cursor position to the world bounds
+        cursorRay.hitPostition.x = MathUtils.clamp(cursorRay.hitPostition.x, World.WORLD_SIZE_NEG_X, World.WORLD_SIZE_POS_X);
+        cursorRay.hitPostition.z = MathUtils.clamp(cursorRay.hitPostition.z, World.WORLD_SIZE_NEG_Z, World.WORLD_SIZE_POS_Z);
+
+        if (cursorRay.hitPostition.y < World.WORLD_TOP_Y + 1)
+            cursorRay.hitPostition.y = World.WORLD_TOP_Y + 1;
     }
 
     public String toString() {

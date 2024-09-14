@@ -187,7 +187,7 @@ public class BlockEventPipeline {
         }
 
         eventsCopy.forEach((worldPos, blockHist) -> {
-            if (!World.worldYIsWithinBounds(worldPos.y)) return;
+            if (!World.inYBounds(worldPos.y)) return;
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
@@ -251,7 +251,7 @@ public class BlockEventPipeline {
         //Block events
         if (allowBlockEvents) {
             eventsCopy.forEach((worldPos, blockHist) -> {
-                if (World.worldYIsWithinBounds(worldPos.y)) {
+                if (World.inYBounds(worldPos.y)) {
                     if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the server
 
                         if (//TODO: Try to check for block data changes without setting off infinite recursion

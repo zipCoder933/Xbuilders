@@ -1,12 +1,11 @@
-package com.xbuilders.game.UI;
+package com.xbuilders.engine.ui;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.ui.OpenHandler;
-import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.components.TextBox;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
@@ -288,6 +287,10 @@ public class FileDialog extends GameUIElement implements WindowEvents {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
+        if(action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_ESCAPE) {
+            hide();
+            return true;
+        }
         return fileNameBox.isFocused();
     }
 

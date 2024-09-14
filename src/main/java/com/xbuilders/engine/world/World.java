@@ -42,7 +42,6 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.xbuilders.engine.world.skybox.SkyBackground;
 import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
 
@@ -117,16 +116,22 @@ public class World {
     public final static int WORLD_CHUNK_HEIGHT = BOTTOM_Y_CHUNK - TOP_Y_CHUNK;
 
     // voxel boundaries
-    public static final int WORLD_SIZE_NEG_X = -100000; // -X
+    public static final int WORLD_SIZE_NEG_X = -64000; // -X
     public static final int WORLD_TOP_Y = TOP_Y_CHUNK * Chunk.WIDTH; // up (-Y)
-    public static final int WORLD_SIZE_NEG_Z = -100000; // -Z
+    public static final int WORLD_SIZE_NEG_Z = -64000; // -Z
 
-    public static final int WORLD_SIZE_POS_X = 100000; // +X
+    public static final int WORLD_SIZE_POS_X = 64000; // +X
     public static final int WORLD_BOTTOM_Y = (BOTTOM_Y_CHUNK * Chunk.WIDTH) + Chunk.WIDTH; // down (+Y)
-    public static final int WORLD_SIZE_POS_Z = 100000; // +Z
+    public static final int WORLD_SIZE_POS_Z = 64000; // +Z
 
-    public static boolean worldYIsWithinBounds(int y) {
+    public static boolean inYBounds(int y) {
         return y > WORLD_TOP_Y && y < WORLD_BOTTOM_Y - 1;
+    }
+
+    public boolean inBounds(int ix, int iy, int iz) {
+        return ix >= WORLD_SIZE_NEG_X && ix < WORLD_SIZE_POS_X
+                && iz >= WORLD_SIZE_NEG_Z && iz < WORLD_SIZE_POS_Z
+                && inYBounds(iy);
     }
 
     private SortByDistanceToPlayer sortByDistance;

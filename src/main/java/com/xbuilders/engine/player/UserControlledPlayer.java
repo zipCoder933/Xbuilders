@@ -449,7 +449,7 @@ public class UserControlledPlayer extends Player {
     //Set block method ===============================================================================
 //The master method
     public void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
-        if (!World.worldYIsWithinBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
+        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = chunks.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block

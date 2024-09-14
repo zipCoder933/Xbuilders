@@ -25,15 +25,12 @@ import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.game.MyGame;
-import com.xbuilders.window.GLFWWindow;
-import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL11C;
 
 import java.io.IOException;
 import java.util.*;
@@ -144,7 +141,7 @@ public class GameScene implements WindowEvents {
                         } else return commandHelp.get("msg");
                     }
                     case "time" -> {
-                        if (parts.length == 2 ) {
+                        if (parts.length == 2) {
                             //It doesnt matter if we had 2 players with different time
 //                            if(!server.isHosting() && server.isPlayingMultiplayer()) return "You cannot change time";
                             if (parts[1].toLowerCase().equals("day") || parts[1].toLowerCase().equals("morning")) {
@@ -192,7 +189,7 @@ public class GameScene implements WindowEvents {
 
     public static void pauseGame() {
         if (window.isFullscreen()) window.minimizeWindow();
-        ui.showGameMenu();
+        ui.menu.setOpen(true);
     }
 
     public static void unpauseGame() {
@@ -332,7 +329,7 @@ public class GameScene implements WindowEvents {
 
     boolean holdMouse;
     public static boolean specialMode;
-//    public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
+    //    public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
     public static GameUI ui;
     static SkyBackground background;
 
@@ -348,7 +345,7 @@ public class GameScene implements WindowEvents {
 //        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         background.draw(projection, centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
 
-        holdMouse = ui.canHoldMouse() && window.windowIsFocused();
+        holdMouse = !ui.releaseMouse() && window.windowIsFocused();
         MainWindow.frameTester.endProcess("Clearing buffer");
 
         glEnable(GL_DEPTH_TEST);   // Enable depth test
@@ -376,9 +373,9 @@ public class GameScene implements WindowEvents {
     }
 
     public void windowUnfocusEvent() {
-        if (window.isFullscreen()) ui.showGameMenu();
+        if (window.isFullscreen()) ui.menu.setOpen(true);
         else if (!GameScene.ui.menusAreOpen()) {
-            ui.showGameMenu();
+            ui.menu.setOpen(true);
         }
         holdMouse = false;
     }

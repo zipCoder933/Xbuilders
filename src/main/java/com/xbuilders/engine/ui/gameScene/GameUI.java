@@ -11,8 +11,8 @@ package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.ui.FileDialog;
 import com.xbuilders.engine.ui.RectOverlay;
-import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
@@ -46,6 +46,7 @@ public class GameUI {
 
     public void init() {
         menu = new GameMenu(ctx, window);
+        fileDialog = new FileDialog(ctx, window);
         overlay = new RectOverlay();
         overlay.setColor(0, 0, 0, 0);
     }
@@ -54,24 +55,24 @@ public class GameUI {
         infoBox.setText(text);
     }
 
-    private boolean gameMenuVisible = true;
+
 
     public boolean menusAreOpen() {
-        return gameMenuVisible || game.menusAreOpen() || infoBox.isActive();
+        return menu.isOpen() || game.menusAreOpen() || infoBox.isActive() || fileDialog.isOpen();
     }
 
     public boolean baseMenusOpen() {
-        return gameMenuVisible || infoBox.isActive();
+        return menu.isOpen() || infoBox.isActive();
     }
 
     NkContext ctx;
     MainWindow window;
     Game game;
     private RectOverlay overlay;
-
+    public FileDialog fileDialog;
     Crosshair crosshair;
-    public InfoText infoBox;
-    GameMenu menu;
+    public static InfoText infoBox;
+    public static GameMenu menu;
     boolean drawUI = true;
 
     public void windowResizeEvent(int width, int height) {
@@ -87,15 +88,17 @@ public class GameUI {
         if (drawUI) {
             GL30.glDepthMask(false);
             if (game.menusAreOpen()) {
-                gameMenuVisible = false;
+                menu.setOpen(false);
             }
             initGLForUI();
             overlay.draw();
             crosshair.draw();
 
             try (MemoryStack stack = stackPush()) {
-                if (gameMenuVisible) {
+                if (menu.isOpen()) {
                     menu.draw(stack);
+                } else if (fileDialog.isOpen()) {
+                    fileDialog.draw(stack);
                 } else {
                     game.uiDraw(stack);
                     infoBox.draw(stack);
@@ -127,15 +130,12 @@ public class GameUI {
         } else game.uiMouseScrollEvent(scroll, xoffset, yoffset);
     }
 
-    public void showGameMenu() {
-        gameMenuVisible = true;
-    }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
                 case GLFW.GLFW_KEY_ESCAPE -> {
-                    gameMenuVisible = !gameMenuVisible;
+                    menu.setOpen(!menu.isOpen());
                     infoBox.escKey();
                 }
                 case GLFW.GLFW_KEY_F4 -> {
@@ -144,7 +144,9 @@ public class GameUI {
             }
         }
 
-        if (infoBox.keyEvent(key, scancode, action, mods)) {
+        if (fileDialog.isOpen() && fileDialog.keyEvent(key, scancode, action, mods)) {
+            return true;
+        } else if (infoBox.keyEvent(key, scancode, action, mods)) {
             return true;
         } else if (baseMenusOpen()) return true;
 
@@ -152,13 +154,17 @@ public class GameUI {
     }
 
     public boolean mouseButtonEvent(int button, int action, int mods) {
-        return game.uiMouseButtonEvent(button, action, mods);
+        if (fileDialog.isOpen() && fileDialog.mouseButtonEvent(button, action, mods)) {
+            return true;
+        } else return game.uiMouseButtonEvent(button, action, mods);
     }
 
-    public boolean canHoldMouse() {
-        if (menusAreOpen()) return false;
-        else if (infoBox.releaseMouse()) return false;
-        else if(game.releaseMouse()) return false;
-        return true;
+    public boolean releaseMouse() {
+        if (menusAreOpen()) return true;
+        else if (infoBox.releaseMouse()) return true;
+        else if (fileDialog.isOpen() && fileDialog.releaseMouse) return false;
+        else if (game.releaseMouse()) return true;
+
+        return false;
     }
 }
