@@ -135,8 +135,11 @@ public class GameUI {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
                 case GLFW.GLFW_KEY_ESCAPE -> {
+                    //When we hit ESC, we ALWAYS open the menu.
                     menu.setOpen(!menu.isOpen());
                     infoBox.escKey();
+
+                    game.uiKeyEvent(key, scancode, action, mods);
                 }
                 case GLFW.GLFW_KEY_F4 -> {
                     drawUI = !drawUI;

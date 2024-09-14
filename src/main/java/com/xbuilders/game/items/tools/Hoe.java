@@ -12,7 +12,11 @@ public class Hoe extends Tool {
         setIcon("hoe.png");
         setClickEvent((ray, creationMode) -> {
             Vector3i hit = ray.getHitPos();
-            if (GameScene.world.getBlockID(hit.x, hit.y, hit.z) == MyGame.BLOCK_DIRT) {
+            if (GameScene.world.getBlockID(hit.x, hit.y, hit.z) == MyGame.BLOCK_DIRT ||
+                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == MyGame.BLOCK_GRASS ||
+                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == MyGame.BLOCK_DRY_GRASS ||
+                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == MyGame.BLOCK_JUNGLE_GRASS ||
+                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == MyGame.BLOCK_SNOW_GRASS) {
                 GameScene.player.setBlock(MyGame.BLOCK_FARMLAND, hit.x, hit.y, hit.z);
             }
         });

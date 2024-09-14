@@ -10,6 +10,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.MyGame;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -54,6 +55,20 @@ public class BlockEventUtils {
                 Thread.sleep(fuseDelay);
                 if (GameScene.world.getBlockID(setX, setY, setZ) == MyGame.BLOCK_TNT_ACTIVE) {
                     GameScene.player.setBlock(BlockList.BLOCK_AIR.id, setX, setY, setZ);
+
+                    Vector3f direction = new Vector3f(
+                            GameScene.player.worldPosition.x - setX,
+                            GameScene.player.worldPosition.y - setY,
+                            GameScene.player.worldPosition.z - setZ).normalize();
+
+//                    //The direction should be stronger depending on the distance
+//                    direction = direction.mul(1f / MathUtils.dist(
+//                            GameScene.player.worldPosition.x,
+//                            GameScene.player.worldPosition.y,
+//                            GameScene.player.worldPosition.z, setX, setY, setZ));
+//
+//                    GameScene.player.positionHandler.addVelocity(direction.x, direction.y, direction.z);
+
                     removeEverythingWithinRadius(thisBlock, EXPLOSTION_RADIUS, new Vector3i(setX, setY, setZ));
                 }
             } catch (InterruptedException ex) {

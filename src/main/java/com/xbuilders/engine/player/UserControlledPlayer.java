@@ -66,7 +66,7 @@ public class UserControlledPlayer extends Player {
     Matrix4f projection;
     Matrix4f view;
     boolean isClimbing = false;
-    PositionHandler positionHandler;
+    public PositionHandler positionHandler;
     boolean usePositionHandler = true;
     public BlockEventPipeline eventPipeline;
     public PositionLock positionLock;
