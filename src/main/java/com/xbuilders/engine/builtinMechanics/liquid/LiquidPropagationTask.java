@@ -1,4 +1,4 @@
-package com.xbuilders.engine.items.defaultBehaviors.liquid;
+package com.xbuilders.engine.builtinMechanics.liquid;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;

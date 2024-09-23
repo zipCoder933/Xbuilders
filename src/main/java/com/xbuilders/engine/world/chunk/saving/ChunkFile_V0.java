@@ -50,8 +50,8 @@ public class ChunkFile_V0 {
         //Load the entities
         boolean hasEntities = false;
         while (bytes[start.get()] == ENTITY_BYTE) {
-            Entity entity = readEntity(chunk, bytes, start);
-            chunk.entities.list.add(entity);
+            Entity entity = makeEntity(chunk, bytes, start);
+
             hasEntities = true;
         }
         if (hasEntities) {
@@ -91,7 +91,7 @@ public class ChunkFile_V0 {
         return new Vector3f(x, y, z);
     }
 
-    protected static Entity readEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
+    protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
 //        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
         final short entityID = (short) bytesToShort(bytes[start.get() + 1], bytes[start.get() + 2]);
         EntityLink link = ItemList.getEntity(entityID);
@@ -115,8 +115,7 @@ public class ChunkFile_V0 {
         if (bytes[start.get()] != ENTITY_BYTE) {
             start.set(start.get() - 1);
         }
-//        System.out.println("Ending value: " + printSubList(bytes, start.get(), 5));
-        return link.makeNew(chunk,0,
+        return chunk.entities.placeNew(link, 0,
                 chunkVox.x + chunk.position.x * Chunk.WIDTH,
                 chunkVox.y + chunk.position.y * Chunk.WIDTH,
                 chunkVox.z + chunk.position.z * Chunk.WIDTH,

@@ -108,6 +108,7 @@ public class WCCi {
     // <editor-fold defaultstate="collapsed" desc="static methods">
 
     /**
+     * Converts world coordinate to chunk coordinate
      * Effectively the equivalent of floor(worldN / Chunk.WIDTH)
      * The chunk coordinate should START when the chunk-block coordinate is at
      * 0, and END when the block PASSES chunk width-1.

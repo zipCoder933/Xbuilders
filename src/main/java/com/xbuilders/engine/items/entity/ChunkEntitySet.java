@@ -26,12 +26,10 @@ public class ChunkEntitySet {
 
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
-    //    FrustumCullingTester frustum;
     public final ArrayList<Entity> list;
 
     public ChunkEntitySet(Chunk aThis) {
         this.thisChunk = aThis;
-//        this.frustum = frustum;
         list = new ArrayList<>();
     }
 
@@ -39,22 +37,37 @@ public class ChunkEntitySet {
         list.clear();
     }
 
+    public Entity placeNew(EntityLink link, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
+        if (link.supplier != null) {
+            Entity entity = link.supplier.get();
+            entity.link = link;
+            entity.chunk = thisChunk;
+            entity.identifier = identifier;
+            if (entity.identifier == 0) {
+                entity.generateIdentifier();
+            }
+            entity.worldPosition.set(worldX, worldY, worldZ);
+            entity.loadBytes = bytes;
+
+            //Add to world
+            GameScene.world.entities.put(entity.getIdentifier(), entity);
+            list.add(entity);
+            return entity;
+        }
+        return null;
+    }
+
     public Entity placeNew(Vector3f worldPos, EntityLink entity, byte[] data) {
-        Entity e = entity.makeNew(thisChunk, worldPos.x, worldPos.y, worldPos.z, data);
-        list.add(e);
-        return e;
+        return placeNew(entity, 0, worldPos.x, worldPos.y, worldPos.z, data);
     }
 
     public Entity placeNew(Vector3f worldPos, long identifier, EntityLink entity, byte[] data) {
-        Entity e = entity.makeNew(thisChunk, identifier, worldPos.x, worldPos.y, worldPos.z, data);
-        list.add(e);
-        return e;
+        return placeNew(entity, identifier, worldPos.x, worldPos.y, worldPos.z, data);
+
     }
 
     public Entity placeNew(Vector3i worldPos, EntityLink entity, byte[] data) {
-        Entity e = entity.makeNew(thisChunk, worldPos.x, worldPos.y, worldPos.z, data);
-        list.add(e);
-        return e;
+        return placeNew(entity, 0, worldPos.x, worldPos.y, worldPos.z, data);
     }
 
     public static void startDraw(Matrix4f projection, Matrix4f view) {

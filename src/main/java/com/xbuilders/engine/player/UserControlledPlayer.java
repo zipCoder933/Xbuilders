@@ -434,7 +434,7 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    private void setEntity(EntityLink entity, Vector3i w) {
+    public void setEntity(EntityLink entity, Vector3i w) {
         WCCi wcc = new WCCi();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);

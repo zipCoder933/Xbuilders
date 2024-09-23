@@ -47,9 +47,7 @@ public class ChunkFile_V1 {
                 start.set(start.get() + 1);
                 break;
             }
-
-            Entity entity = readEntity(chunk, bytes, start);
-            chunk.entities.list.add(entity);
+            Entity entity = makeEntity(chunk, bytes, start);
         }
 
 
@@ -82,7 +80,7 @@ public class ChunkFile_V1 {
         return new Vector3f(x, y, z);
     }
 
-    protected static Entity readEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
+    protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
         final short entityID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]); //read entity id
         EntityLink link = ItemList.getEntity(entityID);
         start.set(start.get() + 2);
@@ -92,8 +90,7 @@ public class ChunkFile_V1 {
         Vector3f chunkVox = readChunkVoxelCoords(start, bytes);  //Read position
         byte[] entityData = ChunkSavingLoadingUtils.readEntityData(bytes, start);//Read entity data
 
-
-        return link.makeNew(chunk, identifier,
+        return chunk.entities.placeNew(link, identifier,
                 chunkVox.x + chunk.position.x * Chunk.WIDTH,
                 chunkVox.y + chunk.position.y * Chunk.WIDTH,
                 chunkVox.z + chunk.position.z * Chunk.WIDTH,
@@ -120,8 +117,6 @@ public class ChunkFile_V1 {
 
 
     }
-
-
 
 
 }
