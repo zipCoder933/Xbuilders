@@ -22,17 +22,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  * @author zipCoder933
  */
 public class Theme {
-
-    public static NkColor transparent, darkTransparent, backgroundColor, buttonColor, buttonHover,
-            gray, lightGray, blue, darkBlue, white, black;
-
-    private static NkUserFont font_24;
-    private static NkUserFont font_22;
-    private static NkUserFont font_18;
-    private static NkUserFont font_12;
-    private static NkUserFont font_10;
-    private static NkUserFont font_9;
-
+    //<editor-fold desc="Nuklear Crash Fix, DO NOT REMOVE!" defaultstate="open">
     /**
      * crash from nuklear: https://github.com/LWJGL/lwjgl3/issues/986
      * "You need to ensure that the ByteBuffer passed to stbtt_InitFont is not garbage collected (or not freed when
@@ -40,23 +30,20 @@ public class Theme {
      * with stb_truetype."
      */
     public static ByteBuffer fontBuffer;
-    //----------------------------------------------------------------------------------------------
+    //</editor-fold>
 
 
-    public static void initialize(NkContext context, boolean largerFonts) throws IOException {
+    public static NkColor transparent, darkTransparent,
+            backgroundColor, buttonColor, buttonHover,
+            gray, lightGray, blue, darkBlue, white, black;
+
+    public static NkUserFont font_24, font_22, font_20, font_18, font_16, font_14, font_12, font_10, font_9;
+
+
+    public static void initialize(NkContext context) throws IOException {
         fontBuffer = NKFontUtils.loadFontData(ResourceUtils.RESOURCE_DIR + "\\fonts\\Press_Start_2P\\PressStart2P-Regular.ttf");
-
-        //Lets keep this font sizing. If we had a small enough screen size, we would still want small fonts
-        //Minecraft has a UI scale setting
-        font_24 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 26 : 24);
-        font_22 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 24 : 22);
-        font_18 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 20 : 18);
-        font_12 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 14 : 12);
-        font_10 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 12 : 10);
-        font_9 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, largerFonts ? 10 : 9);
-
-        nk_style_set_font(context, getFont_9());
-
+        initFonts(context);
+        nk_style_set_font(context, font_10);
 
         try (MemoryStack stack = stackPush()) {
             transparent = createColor(0, 0, 0, 0);
@@ -116,6 +103,20 @@ public class Theme {
         }
     }
 
+    private static void initFonts(NkContext context) {
+        //Lets keep this font sizing. If we had a small enough screen size, we would still want small fonts
+        //Minecraft has a UI scale setting
+        font_24 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 24);
+        font_22 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 22);
+        font_20 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 20);
+        font_18 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 18);
+        font_16 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 16);
+        font_14 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 14);
+        font_12 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 12);
+        font_10 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 10);
+        font_9 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 9);
+    }
+
     public static void resetWindowPadding(NkContext context) {
         context.style().window().padding().set(10, 10);
     }
@@ -153,28 +154,15 @@ public class Theme {
         return NkColor.create().set((byte) r, (byte) g, (byte) b, (byte) a);
     }
 
-    //TODO: Improve GUI scaling
-    public static NkUserFont getFont_24() {
-        return font_24;
-    }
 
-    public static NkUserFont getFont_22() {
-        return font_22;
-    }
+    /**
+     * Font  and UI scaling
+     * ===============================================================================================================
+     */
+    private static float scale = 1;
+    private static boolean largerUI = false;
 
-    public static NkUserFont getFont_18() {
-        return font_18;
-    }
-
-    public static NkUserFont getFont_12() {
-        return font_12;
-    }
-
-    public static NkUserFont getFont_10() {
-        return font_10;
-    }
-
-    public static NkUserFont getFont_9() {
-        return font_9;
+    public static float getUIScale() {
+        return scale;
     }
 }

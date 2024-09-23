@@ -21,7 +21,6 @@ public class EngineSettings {
     public boolean video_fullscreen = true;
     public final BoundedFloat video_fullscreenSize = new BoundedFloat(1);
     public boolean video_vsync = true;
-    public boolean video_largerUI = true;
 
     //If there are settings we dont want acesssable in UI, we can prepend them with "internal"
     public boolean internal_smallWindow = false;

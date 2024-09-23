@@ -87,12 +87,12 @@ public class ProgressMenu implements MenuPage {
             if (update != null) {
                 update.run();
             }
-            nk_style_set_font(ctx, Theme.getFont_12());
+            nk_style_set_font(ctx, Theme.font_12);
             nk_rect((window.getWidth() / 2) - (boxWidth / 2), titleYEnd.get(0),
                     boxWidth, boxHeight, windowDims);
 
             if (nk_begin(ctx, prog.title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-                nk_style_set_font(ctx, Theme.getFont_10());
+                nk_style_set_font(ctx, Theme.font_10);
                 nk_layout_row_static(ctx, 20, 1, 1);
                 nk_layout_row_dynamic(ctx, 20, 1);
                 nk_label(ctx, prog.getTask(), NK_TEXT_ALIGN_LEFT);

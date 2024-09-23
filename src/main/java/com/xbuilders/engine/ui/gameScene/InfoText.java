@@ -10,10 +10,7 @@ import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
@@ -63,7 +60,7 @@ public class InfoText extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
-        nk_style_set_font(ctx, Theme.getFont_9());
+        nk_style_set_font(ctx, Theme.font_10);
 
         if (commandMode) {
             commandRect.x(sidePadding);

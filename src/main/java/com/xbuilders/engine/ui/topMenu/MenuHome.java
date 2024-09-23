@@ -40,13 +40,13 @@ public class MenuHome implements MenuPage {
 
     @Override
     public void layout(MemoryStack stack, NkRect rect, IntBuffer titleYEnd) {
-        nk_style_set_font(ctx, Theme.getFont_12());
+        nk_style_set_font(ctx, Theme.font_12);
         nk_rect((window.getWidth() / 2) - (boxWidth / 2),
                 titleYEnd.get(0),
                 boxWidth, boxHeight, rect);
 
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-            nk_style_set_font(ctx, Theme.getFont_9());
+            nk_style_set_font(ctx, Theme.font_10);
             nk_layout_row_dynamic(ctx, 40, 1);
             nk_label(ctx, "\n\n"+(
                     MainWindow.devMode ?
@@ -54,7 +54,7 @@ public class MenuHome implements MenuPage {
                             ("v" + MainWindow.gameVersion)
                     )+"\n\n", NK_TEXT_CENTERED);
 
-            nk_style_set_font(ctx, Theme.getFont_12());
+            nk_style_set_font(ctx, Theme.font_12);
 
             nk_layout_row_static(ctx, 10, 1, 1);//Row static is just spacing
             nk_layout_row_dynamic(ctx, 40, 1); //Row dynamic affects the next components

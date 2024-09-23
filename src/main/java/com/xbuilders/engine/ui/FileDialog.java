@@ -6,10 +6,7 @@ import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.File;
@@ -87,7 +84,7 @@ public class FileDialog extends GameUIElement implements WindowEvents {
             if (nk_begin_titled(ctx, WINDOW_NAME_ID, title, windowDims, windowFlags)) {
                 Theme.resetEntireButtonStyle(ctx);
                 oh.autoClose();
-                nk_style_set_font(ctx, Theme.getFont_9());
+                nk_style_set_font(ctx, Theme.font_10);
 
 
                 Nuklear.nk_layout_row_dynamic(ctx, 25, 1);

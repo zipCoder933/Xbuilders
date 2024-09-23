@@ -14,10 +14,7 @@ import com.xbuilders.game.MyGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.NkContext;
-import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -55,7 +52,7 @@ public class Hotbar extends GameUIElement {
         ctx.style().button().normal().data().color().set(Theme.transparent);
         ctx.style().window().border_color().set(Theme.transparent);
         ctx.style().button().padding().set(0, 0);
-        nk_style_set_font(ctx, Theme.getFont_9());
+        nk_style_set_font(ctx, Theme.font_10);
 //
 //        // <editor-fold defaultstate="collapsed" desc="Draw title text">
 //        nk_rect(

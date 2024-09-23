@@ -82,6 +82,8 @@ public class MainWindow extends NKWindow {
         if (settings.video_fullscreen) {
             enableFullscreen(settings.video_fullscreenSize.value);
         } else disableFullscreen();
+
+//        Theme.setUIScale(settings.video_largerUI);
     }
 
     private static boolean isGameMode = false;
@@ -138,6 +140,7 @@ public class MainWindow extends NKWindow {
             if (settings.video_fullscreen) {
                 enableFullscreen(settings.video_fullscreenSize.value);
             }
+            saveAndApplySettings();   //DO THIS LAST Apply settings just in case the settings were not already applied
             showWindow();
 
             while (!windowShouldClose()) {
@@ -210,7 +213,7 @@ public class MainWindow extends NKWindow {
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
         ItemList.initialize();
 
-        Theme.initialize(ctx, settings.video_largerUI);
+        Theme.initialize(ctx);
         gameScene.initialize(this, game);
 
         topMenu.init(GameScene.server.getIpAdress());
