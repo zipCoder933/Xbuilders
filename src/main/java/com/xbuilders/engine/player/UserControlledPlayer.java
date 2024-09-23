@@ -102,8 +102,8 @@ public class UserControlledPlayer extends Player {
     }
 
     public boolean forwardKeyPressed() {
-        if (!keyInputAllowed()) return false;
         if (autoForward) return true;
+        if (!keyInputAllowed()) return false;
         return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
     }
 

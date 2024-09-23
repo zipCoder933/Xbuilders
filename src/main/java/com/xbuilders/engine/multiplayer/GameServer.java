@@ -260,7 +260,7 @@ public class GameServer extends Server<PlayerClient> {
                     loadedChunks++;
                     System.out.println("Received chunk " + x + ", " + y + ", " + z);
                 } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
-                    worldInfoEvent(receivedData);
+                    getWorldInformationFromHost(receivedData);
                 }
             }
         } catch (Exception e) {
@@ -294,36 +294,44 @@ public class GameServer extends Server<PlayerClient> {
     }
 
 
-    private void worldInfoEvent(byte[] receivedData) throws IOException {
+    private void getWorldInformationFromHost(byte[] receivedData) throws IOException {
         String value = new String(NetworkUtils.getMessage(receivedData));
         String name = value.split("\n")[0];
         String json = value.split("\n")[1];
-        WorldInfo hostWorld = new WorldInfo();
 
-        //Make a unique name, but join the existing one if it exists
-        int indx = 1;
-        String originalName = name + " (joined)";
-        name = originalName;
-        while (true) {
-            File existingWorld = WorldsHandler.worldFile(name);
-
-            if (existingWorld.exists()) {
-                WorldInfo i = new WorldInfo();
-                i.load(existingWorld);
-                if (i.infoFile.isJoinedMultiplayerWorld) break;
-            } else break;
-
-            indx++;
-            name = originalName + " (" + indx + ")";
-        }
-        System.out.println("Making new world: " + name);
-
-        hostWorld.makeNew(name, json);
+        WorldInfo hostsWorldInfo = new WorldInfo();
+        hostsWorldInfo.makeNew(name, json);
         if (!req.hosting) {
-            hostWorld.infoFile.isJoinedMultiplayerWorld = true;
+            hostsWorldInfo.infoFile.isJoinedMultiplayerWorld = true;
         }
-        WorldsHandler.makeNewWorld(hostWorld);
-        worldInfo = hostWorld;
+
+
+        //If an already existing world that is NOT the joined world, don't make a new one
+        int index = 0;
+        while (hasDifferentWorldUnderSameName(hostsWorldInfo)) {
+            String newName = name + " " + index;
+            index++;
+            System.out.println("World already exists under \"" + hostsWorldInfo.getName() + "\"! New world name: " + newName);
+            hostsWorldInfo.makeNew(newName, json);
+        }
+
+
+        //Make the world from the host
+        hostsWorldInfo.infoFile.isJoinedMultiplayerWorld = true;
+        WorldsHandler.makeNewWorld(hostsWorldInfo);
+        worldInfo = hostsWorldInfo;
+    }
+
+    private boolean hasDifferentWorldUnderSameName(WorldInfo hostWorld) throws IOException {
+        File existingWorld = WorldsHandler.worldFile(hostWorld.getName());
+        if (existingWorld.exists()) {
+            WorldInfo myWorld = new WorldInfo();
+            myWorld.load(existingWorld);
+            return !myWorld.infoFile.isJoinedMultiplayerWorld
+                    || !hostWorld.getTerrain().equals(myWorld.getTerrain())
+                    || hostWorld.getSeed() != myWorld.getSeed();
+        }
+        return false;
     }
 
     public PlayerClient getPlayerByName(String name) {
