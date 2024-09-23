@@ -73,8 +73,7 @@ public class CollisionHandler {
     }
 
     public synchronized void resolveCollisions(Matrix4f projection, Matrix4f view) {
-        collisionData.sideCollision = false;
-        collisionData.sideCollisionIsEntity = false;
+        collisionData.reset();
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             stepBox.set(myBox.box);
@@ -132,12 +131,14 @@ public class CollisionHandler {
                     compareEntityAABB(projection, view, chunk.entities.list.get(i).aabb);
                 }
             }
-            for (int i = 0; i < playerList.size(); i++) {
-                compareEntityAABB(projection, view, playerList.get(i).aabb);
+            if (playerList != null) {
+                for (int i = 0; i < playerList.size(); i++) {
+                    compareEntityAABB(projection, view, playerList.get(i).aabb);
+                }
             }
             // Comparison against user controlled player (all entity and player boxes are
             // skipped if they match themselves)
-            compareEntityAABB(projection, view, userControlledPlayerAABB);
+            if (userControlledPlayerAABB != null) compareEntityAABB(projection, view, userControlledPlayerAABB);
 
             driver.setFrozen(setFrozen);
         }

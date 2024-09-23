@@ -1,22 +1,43 @@
 package com.xbuilders.engine.builtinMechanics.gravityBlock;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.Entity;
+import org.joml.Vector3i;
 
 public class GravityBlock {
 
-    final static GravityBlockEntityLink link = new GravityBlockEntityLink();
+    final GravityBlockEntityLink link;
+
+    public GravityBlock(MainWindow window) {
+        link = new GravityBlockEntityLink(window);
+    }
 
     public void convert(Block block) {
         block.properties.put("gravity", "true");
-        block.localChangeEvent(((history, changedPosition, thisPosition) -> {
-            //Get the block below this block
-            Block blockBelow = GameScene.world.getBlock(thisPosition.x, thisPosition.y - 1, thisPosition.z);
-            if (!blockBelow.solid) {
-                System.out.println("Block below is not solid, not falling");
-                GameScene.player.setEntity(link, thisPosition);
-                return;
-            }
+        block.localChangeEvent(true, ((history, changedPosition, thisPosition) -> {
+            checkFall(block, thisPosition);
         }));
+        block.setBlockEvent(true, ((x, y, z) -> {
+            checkFall(block, new Vector3i(x, y, z));
+        }));
+    }
+
+    private void checkFall(Block block, Vector3i thisPosition) {
+        //Get the block below this block
+        Block blockBelow = GameScene.world.getBlock(thisPosition.x, thisPosition.y + 1, thisPosition.z);
+        if (!blockBelow.solid) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Entity e = GameScene.player.setEntity(link, thisPosition);
+            GravityBlockEntity gravityBlockEntity = (GravityBlockEntity) e;
+            gravityBlockEntity.block = block;
+            GameScene.player.setBlock(BlockList.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
+        }
     }
 }

@@ -17,13 +17,13 @@ public class StraightTrack extends Block {
         opaque = false;
         renderType = RenderType.FLOOR;
 
-        localChangeEvent(((history, changedPosition, thisPosition) -> {
+        localChangeEvent(false,((history, changedPosition, thisPosition) -> {
             int x = thisPosition.x;
             int y = thisPosition.y;
             int z = thisPosition.z;
             changeBlock(x, y, z);
         }));
-        setBlockEvent( (x, y, z) -> {
+        setBlockEvent(false, (x, y, z) -> {
             changeBlock(x, y, z);
         });
     }

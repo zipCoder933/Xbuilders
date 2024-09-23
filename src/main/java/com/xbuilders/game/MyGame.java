@@ -5,6 +5,7 @@
 package com.xbuilders.game;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
@@ -123,7 +124,7 @@ public class MyGame extends Game {
 
     @Override
     public void uiDraw(MemoryStack stack) {
-       if (inventory.isOpen()) {
+        if (inventory.isOpen()) {
             inventory.draw(stack);
         } else {
             blockTools.draw(stack);
@@ -157,7 +158,7 @@ public class MyGame extends Game {
 
     @Override
     public boolean uiKeyEvent(int key, int scancode, int action, int mods) {
-     if (inventory.keyEvent(key, scancode, action, mods)) {//Inventory needs a wake up key
+        if (inventory.keyEvent(key, scancode, action, mods)) {//Inventory needs a wake up key
             return true;
         } else if (blockTools.keyEvent(key, scancode, action, mods)) {
             return true;
@@ -169,7 +170,7 @@ public class MyGame extends Game {
 
     @Override
     public boolean uiMouseButtonEvent(int button, int action, int mods) {
-       if (inventory.isOpen() && inventory.mouseButtonEvent(button, action, mods)) {
+        if (inventory.isOpen() && inventory.mouseButtonEvent(button, action, mods)) {
             return true;
         } else if (blockTools.mouseButtonEvent(button, action, mods)) {
             return true;
@@ -458,7 +459,7 @@ public class MyGame extends Game {
                 new Camera(),
                 TOOL_ANIMAL_FEED
         };
-        System.out.println("Experimental features: "+window.settings.internal_experimentalFeatures);
+        System.out.println("Experimental features: " + window.settings.internal_experimentalFeatures);
 
         //Add terrains
 //        terrainsList.add(new TestTerrain());
@@ -494,11 +495,11 @@ public class MyGame extends Game {
         Plant.makePlant(ItemList.getBlock(BLOCK_POTATO_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_POTATOES_PLANT);
         Plant.makePlant(ItemList.getBlock(BLOCK_WHEAT_SEEDS), BLOCK_B1, BLOCK_B2, BLOCK_B3, BLOCK_B5, BLOCK_B6, BLOCK_WHEAT);
 
-        ItemList.getBlock(BLOCK_OAK_SAPLING).setBlockEvent_multithreaded(OakTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_SPRUCE_SAPLING).setBlockEvent_multithreaded(SpruceTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_BIRCH_SAPLING).setBlockEvent_multithreaded(BirchTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_JUNGLE_SAPLING).setBlockEvent_multithreaded(JungleTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_ACACIA_SAPLING).setBlockEvent_multithreaded(AcaciaTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_OAK_SAPLING).setBlockEvent(true, OakTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_SPRUCE_SAPLING).setBlockEvent(true, SpruceTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_BIRCH_SAPLING).setBlockEvent(true, BirchTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_JUNGLE_SAPLING).setBlockEvent(true, JungleTreeUtils.setBlockEvent);
+        ItemList.getBlock(BLOCK_ACACIA_SAPLING).setBlockEvent(true, AcaciaTreeUtils.setBlockEvent);
 
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_GRASS_TOP, BLOCK_TALL_GRASS);
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_DRY_GRASS_TOP, BLOCK_TALL_DRY_GRASS);
@@ -519,6 +520,9 @@ public class MyGame extends Game {
         ItemList.getBlock(BLOCK_OAK_LOG).properties.put("flammable", "true");
         ItemList.getBlock(BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
         ItemList.getBlock(BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
+
+        GravityBlock gravity = new GravityBlock(window);
+        gravity.convert(ItemList.getBlock(BLOCK_SAND));
     }
 
     @Override

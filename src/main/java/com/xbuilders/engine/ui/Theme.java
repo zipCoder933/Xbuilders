@@ -38,7 +38,7 @@ public class Theme {
             backgroundColor, buttonColor, buttonHover,
             gray, lightGray, blue, darkBlue, white, black;
 
-    public static NkUserFont font_24, font_22, font_20, font_18, font_16, font_14, font_12, font_10, font_9;
+    public static NkUserFont font_24, font_22, font_20, font_18, font_16, font_14, font_12, font_10, font_9, font_8;
 
 
     public static void initialize(NkContext context) throws IOException {
@@ -116,6 +116,7 @@ public class Theme {
         font_12 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 12);
         font_10 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 10);
         font_9 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 9);
+        font_8 = NKFontUtils.TTF_assignToNewTexture(fontBuffer, 8);
     }
 
     public static void resetWindowPadding(NkContext context) {

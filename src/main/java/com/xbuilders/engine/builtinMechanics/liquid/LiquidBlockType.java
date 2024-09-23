@@ -48,7 +48,7 @@ public class LiquidBlockType extends BlockType {
             b.solid = false;
             b.liquidMaxFlow = 7;
             //TODO: The user should not be allowed to delete water, just replace blocks over it
-            b.removeBlockEvent(((x, y, z, history) -> {
+            b.removeBlockEvent(false, ((x, y, z, history) -> {
                 //If we are a source block, put us back if we are surrounded by water
                 int defaultFlow = b.liquidMaxFlow + 1;
 //                System.out.println("Remove " + x + " " + y + " " + z);

@@ -34,7 +34,7 @@ public class FenceGateRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
-            b.setBlockEvent((x, y, z) -> {
+            b.setBlockEvent(false, (x, y, z) -> {
                 BlockData bd = GameScene.world.getBlockData(x, y, z);
                 // Get blocks at neighboring block locaitons
                 Block block = GameScene.world.getBlock(x - 1, y, z);

@@ -78,35 +78,38 @@ public class Block extends Item {
         public void run(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition);
     }
 
-    SetBlockEvent multithreadedSetBlockEvent = null;
+
     SetBlockEvent setBlockEvent = null;
     OnLocalChange localChangeEvent = null;
     RemoveBlockEvent removeBlockEvent = null;
     ClickEvent clickEvent = null;
+    boolean setBlockEvent_isMultithreaded = false;
+    boolean removeBlockEvent_isMultithreaded = false;
+    boolean clickEvent_isMultithreaded = false;
+    boolean localChangeEvent_isMultithreaded = false;
 
 
     public boolean allowExistence(int worldX, int worldY, int worldZ) {
         return true;
     }
 
-    public void setBlockEvent(SetBlockEvent setBlockEvent) {
-        this.setBlockEvent = setBlockEvent;
-    }
-
-    public void setBlockEvent_multithreaded(SetBlockEvent setBlockEvent) {
-        this.multithreadedSetBlockEvent = setBlockEvent;
-    }
-
     public void clickEvent(ClickEvent clickEvent) {
         this.clickEvent = clickEvent;
     }
 
-    public void removeBlockEvent(RemoveBlockEvent removeBlockEvent) {
-        this.removeBlockEvent = removeBlockEvent;
+    public void setBlockEvent(boolean multithreaded, SetBlockEvent setBlockEvent) {
+        this.setBlockEvent = setBlockEvent;
+        setBlockEvent_isMultithreaded = multithreaded;
     }
 
-    public void localChangeEvent(OnLocalChange onLocalChange) {
+    public void removeBlockEvent(boolean multithreaded, RemoveBlockEvent removeBlockEvent) {
+        this.removeBlockEvent = removeBlockEvent;
+        removeBlockEvent_isMultithreaded = multithreaded;
+    }
+
+    public void localChangeEvent(boolean multithreaded, OnLocalChange onLocalChange) {
         this.localChangeEvent = onLocalChange;
+        localChangeEvent_isMultithreaded = multithreaded;
     }
 
     public boolean clickThrough() {
@@ -125,26 +128,31 @@ public class Block extends Item {
         }
     }
 
-    public void run_RemoveBlockEvent(Vector3i worldPos, BlockHistory history) {
-        if (removeBlockEvent != null) {
-            removeBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, history);
-        }
-    }
-
-    public void run_SetBlockEvent(PriorityThreadPoolExecutor eventThread, Vector3i worldPos) {
-        if (setBlockEvent != null) {
-            setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z);
-        }
-        if (multithreadedSetBlockEvent != null) {
+    public void run_RemoveBlockEvent(PriorityThreadPoolExecutor eventThread,
+                                     Vector3i worldPos, BlockHistory history) {
+        if (removeBlockEvent == null) return;
+        if (removeBlockEvent_isMultithreaded)
             eventThread.submit(System.currentTimeMillis(),
-                    () -> multithreadedSetBlockEvent.run(worldPos.x, worldPos.y, worldPos.z));
-        }
+                    () -> removeBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, history));
+        else removeBlockEvent.run(worldPos.x, worldPos.y, worldPos.z, history);
     }
 
-    public void run_LocalChangeEvent(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition) {
-        if (localChangeEvent != null) {
-            localChangeEvent.run(history, changedPosition, thisPosition);
-        }
+    public void run_SetBlockEvent(PriorityThreadPoolExecutor eventThread,
+                                  Vector3i worldPos) {
+        if(setBlockEvent == null) return;
+        if (setBlockEvent_isMultithreaded)
+            eventThread.submit(System.currentTimeMillis(),
+                    () -> setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z));
+        else setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z);
+    }
+
+    public void run_LocalChangeEvent(PriorityThreadPoolExecutor eventThread,
+                                     BlockHistory history, Vector3i changedPosition, Vector3i thisPosition) {
+        if (localChangeEvent == null) return;
+        if (localChangeEvent_isMultithreaded)
+            eventThread.submit(System.currentTimeMillis(),
+                    () -> localChangeEvent.run(history, changedPosition, thisPosition));
+        else localChangeEvent.run(history, changedPosition, thisPosition);
     }
     // </editor-fold>
 

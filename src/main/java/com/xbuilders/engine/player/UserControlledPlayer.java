@@ -434,7 +434,7 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public void setEntity(EntityLink entity, Vector3i w) {
+    public Entity  setEntity(EntityLink entity, Vector3i w) {
         WCCi wcc = new WCCi();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
@@ -442,7 +442,9 @@ public class UserControlledPlayer extends Player {
             chunk.markAsModifiedByUser();
             Entity e = chunk.entities.placeNew(w, entity, null);
             e.sendMultiplayer = true;//Tells the chunkEntitySet to send the entity to the clients
+            return e;
         }
+        return null;
     }
 
 

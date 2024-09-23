@@ -82,7 +82,7 @@ public class PositionHandler {
     public float gravity = DEFAULT_GRAVITY;
     public float terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
     public boolean collisionsEnabled = true;
-    public final Box renderedBox;
+    protected Box renderedBox;
     public final EntityAABB aabb;
     public final CollisionHandler collisionHandler;
     public float stepHeight = 0.6f;
@@ -92,20 +92,25 @@ public class PositionHandler {
                            EntityAABB thisAABB,
                            EntityAABB UserPlayerAABB,
                            List<Player> playerList) {
-
         this.window = window;
         frozen = false;
         gravityEnabled = true;
-        renderedBox = new Box();
         this.aabb = thisAABB;
         collisionsEnabled = true;
-        renderedBox.setLineWidth(15);
         collisionHandler = new CollisionHandler(world, this, thisAABB,
                 UserPlayerAABB, playerList);
     }
 
 
     public void update() {
+
+        if (//Init the rendered box inside the draw method so that we dont get problems if it posHandler not constructed properly
+                (DRAW_COLLISION_CANDIDATES || DRAW_ENTITY_BOX)
+                        && renderedBox == null) {
+            renderedBox = new Box();
+            renderedBox.setLineWidth(15);
+        }
+
         try {
             frameDeltaSec = window.smoothFrameDeltaSec;
 

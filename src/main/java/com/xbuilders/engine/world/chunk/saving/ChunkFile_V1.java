@@ -47,7 +47,7 @@ public class ChunkFile_V1 {
                 start.set(start.get() + 1);
                 break;
             }
-            Entity entity = makeEntity(chunk, bytes, start);
+            makeEntity(chunk, bytes, start);
         }
 
 

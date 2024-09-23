@@ -60,9 +60,8 @@ public class InfoText extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
-        nk_style_set_font(ctx, Theme.font_10);
-
         if (commandMode) {
+            nk_style_set_font(ctx, Theme.font_9);
             commandRect.x(sidePadding);
             commandRect.w(window.getWidth() - (sidePadding * 2));
             commandRect.h(Math.min(commandBoxHeight, window.getHeight() - 150));
@@ -79,6 +78,7 @@ public class InfoText extends GameUIElement {
             }
             nk_end(ctx);
         } else {
+            nk_style_set_font(ctx, Theme.font_8);
             infoTextRect.w(window.getWidth());
             infoTextRect.h(300);
             ctx.style().window().fixed_background().data().color().set(Theme.transparent);

@@ -5,21 +5,24 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.utils.math.AABB;
+
 import java.nio.FloatBuffer;
+
 import org.joml.*;
 import org.lwjgl.system.MemoryUtil;
 
 /**
- *
  * @author zipCoder933
  */
 public class CollisionData {
 
+    //Information only useful to collision handler
+    protected Vector3i collisionNormal;//just a pointer to one of the 6 possible faces
+    protected final FloatBuffer penetration;//penetration amount
+    protected final FloatBuffer distances; //a list of distances
+    //Information useful everywhere
     public boolean sideCollision;
     public boolean sideCollisionIsEntity;
-    public Vector3i collisionNormal;//just a pointer to one of the 6 possible faces
-    public final FloatBuffer penetration;//penetration amount
-    public final FloatBuffer distances; //a list of distances
     public final Vector3f penPerAxes;//penetration per axes
 
     public CollisionData() {
@@ -30,9 +33,9 @@ public class CollisionData {
     }
 
     public static final Vector3i[] faces = {
-        new Vector3i(-1, 0, 0), new Vector3i(1, 0, 0),
-        new Vector3i(0, -1, 0), new Vector3i(0, 1, 0),
-        new Vector3i(0, 0, -1), new Vector3i(0, 0, 1),};
+            new Vector3i(-1, 0, 0), new Vector3i(1, 0, 0),
+            new Vector3i(0, -1, 0), new Vector3i(0, 1, 0),
+            new Vector3i(0, 0, -1), new Vector3i(0, 0, 1),};
 
     public void calculateCollision(AABB thisBox, AABB other) {
         Vector3f boxAPos = thisBox.min;
@@ -55,5 +58,10 @@ public class CollisionData {
             }
         }
         penPerAxes.set(collisionNormal).mul(penetration.get(0));
+    }
+
+    public void reset() {
+        sideCollision = false;
+        sideCollisionIsEntity = false;
     }
 }

@@ -38,7 +38,7 @@ public class ChunkEntitySet {
     }
 
     public Entity placeNew(EntityLink link, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
-        if (link.supplier != null) {
+        if (link != null && link.supplier != null) {
             Entity entity = link.supplier.get();
             entity.link = link;
             entity.chunk = thisChunk;

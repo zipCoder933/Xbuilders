@@ -13,7 +13,7 @@ public class Plant {
         block.renderType = RenderType.SPRITE;
 
         if (stages.length > 0) {
-            block.setBlockEvent_multithreaded((x, y, z) -> {
+            block.setBlockEvent(false,(x, y, z) -> {
                 boolean wasSet = false;
                 if (cropPlantable(x, y, z)) {
                     growPlant(2200, x, y, z, block.id, stages);

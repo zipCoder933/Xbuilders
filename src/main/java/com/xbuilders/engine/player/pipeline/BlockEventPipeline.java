@@ -259,7 +259,7 @@ public class BlockEventPipeline {
                         ) {
                             startLocalChange(worldPos, blockHist, allowBlockEvents);
                             MainWindow.gameScene.livePropagationHandler.addNode(worldPos, blockHist);
-                            blockHist.previousBlock.run_RemoveBlockEvent(worldPos, blockHist);
+                            blockHist.previousBlock.run_RemoveBlockEvent(eventThread, worldPos, blockHist);
                             blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
                         }
                     }
@@ -349,7 +349,7 @@ public class BlockEventPipeline {
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);
                     MainWindow.gameScene.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
-                    nBlock.run_LocalChangeEvent(hist, originPos, new Vector3i(nx, ny, nz));
+                    nBlock.run_LocalChangeEvent(eventThread, hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }
         }

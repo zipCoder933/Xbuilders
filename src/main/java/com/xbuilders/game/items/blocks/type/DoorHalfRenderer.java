@@ -52,17 +52,17 @@ public class DoorHalfRenderer extends BlockType {
                 Block topBlock = ItemList.getBlock(top);
                 Block bottomBlock = b;
 
-                topBlock.setBlockEvent((x, y, z) -> { //KEEP THIS!
+                topBlock.setBlockEvent(false, (x, y, z) -> { //KEEP THIS!
                     GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
                 });
 
-                topBlock.removeBlockEvent((x, y, z, history) -> {
+                topBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
                         GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y + 1, z);
                     }
                 });
 
-                bottomBlock.setBlockEvent((x, y, z) -> {
+                bottomBlock.setBlockEvent(false, (x, y, z) -> {
                     BlockData data = GameScene.world.getBlockData(x, y, z);
                     GameScene.player.setBlock(topBlock.id, x, y - 1, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
@@ -71,7 +71,7 @@ public class DoorHalfRenderer extends BlockType {
                     GameScene.world.setBlockData(data, x, y - 1, z);
                 });
 
-                bottomBlock.removeBlockEvent((x, y, z, history) -> {
+                bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
                         GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y - 1, z);
                     }
@@ -89,7 +89,7 @@ public class DoorHalfRenderer extends BlockType {
                 });
 
             } else {// If this is a single door
-                b.setBlockEvent((x, y, z) -> {
+                b.setBlockEvent(false, (x, y, z) -> {
                     BlockData data = GameScene.world.getBlockData(x, y, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                 });
