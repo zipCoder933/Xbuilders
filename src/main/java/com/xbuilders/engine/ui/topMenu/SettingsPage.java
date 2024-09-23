@@ -57,8 +57,8 @@ public class SettingsPage implements MenuPage {
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
         nk_style_set_font(ctx, Theme.font_12);
-        int boxWidth = (int) (BOX_DEFAULT_WIDTH * Theme.getUIScale());
-        int boxHeight = (int) (BOX_DEFAULT_HEIGHT * Theme.getUIScale());
+        int boxWidth = (int) (BOX_DEFAULT_WIDTH * Theme.getScale());
+        int boxHeight = (int) (BOX_DEFAULT_HEIGHT * Theme.getScale());
 
         nk_rect((window.getWidth() / 2) - (boxWidth / 2),
                 titleYEnd.get(0),
@@ -67,8 +67,8 @@ public class SettingsPage implements MenuPage {
     }
 
     public void layout(MemoryStack stack, NkRect windowDims) {
-        int boxWidth = (int) (BOX_DEFAULT_WIDTH * Theme.getUIScale());
-        int boxHeight = (int) (BOX_DEFAULT_HEIGHT * Theme.getUIScale());
+        int boxWidth = (int) (BOX_DEFAULT_WIDTH * Theme.getScale());
+        int boxHeight = (int) (BOX_DEFAULT_HEIGHT * Theme.getScale());
 
         nk_rect((window.getWidth() / 2) - (boxWidth / 2),
                 (window.getHeight() / 2) - (boxHeight / 2),

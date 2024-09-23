@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.nuklear.NKFontUtils;
+import org.joml.Vector2i;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
@@ -160,9 +161,17 @@ public class Theme {
      * ===============================================================================================================
      */
     private static float scale = 1;
-    private static boolean largerUI = false;
 
-    public static float getUIScale() {
+    public static void setScale(float scale) {
+        Theme.scale = scale;
+    }
+
+    public static float getScale() {
         return scale;
+    }
+
+    public static void applyWindowScale(Vector2i windowSize, final int defaultWidth, final int defaultHeight) {
+        windowSize.x = (int) (defaultWidth * scale);
+        windowSize.y = (int) (defaultHeight * scale);
     }
 }

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.items.block.liquid;
+package com.xbuilders.engine.items.defaultBehaviors.liquid;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;

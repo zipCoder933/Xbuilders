@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.block.BlockAir;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
-import com.xbuilders.engine.items.block.liquid.LiquidBlockType;
+import com.xbuilders.engine.items.defaultBehaviors.liquid.LiquidBlockType;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.IntMap;
 

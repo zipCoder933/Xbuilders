@@ -71,8 +71,8 @@ public class LoadWorld implements MenuPage {
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
-        int boxWidth = (int) (BOX_DEFAULT_WIDTH * Theme.getUIScale());
-        int boxHeight = (int) (BOX_DEFAULT_HEIGHT * Theme.getUIScale());
+        int boxWidth = (int) (BOX_DEFAULT_WIDTH * Theme.getScale());
+        int boxHeight = (int) (BOX_DEFAULT_HEIGHT * Theme.getScale());
 
         nk_rect((window.getWidth() / 2) - (boxWidth / 2),
                 titleYEnd.get(0),

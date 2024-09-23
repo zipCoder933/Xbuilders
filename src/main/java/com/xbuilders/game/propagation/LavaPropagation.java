@@ -1,10 +1,8 @@
 package com.xbuilders.game.propagation;
 
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.liquid.LiquidPropagationTask;
+import com.xbuilders.engine.items.defaultBehaviors.liquid.LiquidPropagationTask;
 import com.xbuilders.game.MyGame;
 
 public class LavaPropagation extends LiquidPropagationTask {
