@@ -53,21 +53,21 @@ public class BlockEventUtils {
                 Thread.sleep(fuseDelay);
                 if (GameScene.world.getBlockID(setX, setY, setZ) == MyGame.BLOCK_TNT_ACTIVE) {
                     GameScene.player.setBlock(BlockList.BLOCK_AIR.id, setX, setY, setZ);
+                    removeEverythingWithinRadius(thisBlock, EXPLOSTION_RADIUS, new Vector3i(setX, setY, setZ));
 
+
+
+                    //Move the player away
                     Vector3f direction = new Vector3f(
                             GameScene.player.worldPosition.x - setX,
                             GameScene.player.worldPosition.y - setY,
                             GameScene.player.worldPosition.z - setZ).normalize();
-
-//                    //The direction should be stronger depending on the distance
-//                    direction = direction.mul(1f / MathUtils.dist(
-//                            GameScene.player.worldPosition.x,
-//                            GameScene.player.worldPosition.y,
-//                            GameScene.player.worldPosition.z, setX, setY, setZ));
-//
-//                    GameScene.player.positionHandler.addVelocity(direction.x, direction.y, direction.z);
-
-                    removeEverythingWithinRadius(thisBlock, EXPLOSTION_RADIUS, new Vector3i(setX, setY, setZ));
+                    direction = direction.mul(1f / MathUtils.dist(
+                            GameScene.player.worldPosition.x,
+                            GameScene.player.worldPosition.y,
+                            GameScene.player.worldPosition.z, setX, setY, setZ));
+                    direction.mul(50);
+                    GameScene.player.positionHandler.addVelocity(direction.x, direction.y, direction.z);
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();

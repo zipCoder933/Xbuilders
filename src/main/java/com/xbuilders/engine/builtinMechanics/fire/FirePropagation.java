@@ -1,4 +1,4 @@
-package com.xbuilders.game.propagation.fire;
+package com.xbuilders.engine.builtinMechanics.fire;
 
 import com.xbuilders.engine.gameScene.LivePropagationHandler;
 

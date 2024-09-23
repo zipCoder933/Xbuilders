@@ -26,18 +26,23 @@ public class GravityBlock {
     }
 
     private void checkFall(Block block, Vector3i thisPosition) {
+
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         //Get the block below this block
         Block blockBelow = GameScene.world.getBlock(thisPosition.x, thisPosition.y + 1, thisPosition.z);
-        if (!blockBelow.solid) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        if (!blockBelow.solid
+                && GameScene.world.getBlockID(thisPosition.x, thisPosition.y, thisPosition.z) == block.id) {
+            GameScene.player.setBlock(BlockList.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
+
             Entity e = GameScene.player.setEntity(link, thisPosition);
             GravityBlockEntity gravityBlockEntity = (GravityBlockEntity) e;
             gravityBlockEntity.block = block;
-            GameScene.player.setBlock(BlockList.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
+
         }
     }
 }

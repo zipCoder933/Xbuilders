@@ -70,12 +70,16 @@ public class UserControlledPlayer extends Player {
     boolean usePositionHandler = true;
     public BlockEventPipeline eventPipeline;
     public PositionLock positionLock;
+    boolean autoForward = false;
+    boolean autoJump_unCollided = true;
+    float autoJump_ticksWhileColidingWithBlock = 0;
 
 
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
     public static final int KEY_CREATE_MOUSE_BUTTON = GLFW.GLFW_KEY_EQUAL;
     public static final int KEY_DELETE_MOUSE_BUTTON = GLFW.GLFW_KEY_MINUS;
+    public static final int KEY_TOGGLE_AUTO_FORWARD = GLFW.GLFW_KEY_J;
     public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_O;
 
 
@@ -99,6 +103,7 @@ public class UserControlledPlayer extends Player {
 
     public boolean forwardKeyPressed() {
         if (!keyInputAllowed()) return false;
+        if (autoForward) return true;
         return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
     }
 
@@ -157,6 +162,7 @@ public class UserControlledPlayer extends Player {
 
     public void startGame(WorldInfo world) {
         eventPipeline.startGame(world);
+        autoForward = false;
     }
 
     public void stopGame() {
@@ -308,6 +314,21 @@ public class UserControlledPlayer extends Player {
             aabb.update();
         }
 
+        if (MainWindow.settings.game_autoJump &&
+                Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.x) > 0 ||
+                Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.z) > 0) {
+
+            autoJump_ticksWhileColidingWithBlock += window.getMsPerFrame();
+            if (autoJump_ticksWhileColidingWithBlock > 200 && autoJump_unCollided) {
+                positionHandler.jump();
+                autoJump_ticksWhileColidingWithBlock = 0;
+                autoJump_unCollided = false;
+            }
+        } else {
+            autoJump_ticksWhileColidingWithBlock = 0;
+            autoJump_unCollided = true;
+        }
+
         // The key to preventing shaking during collision is to update the camera AFTER
         // the position handler is done its job
         camera.update(holdMouse);
@@ -391,6 +412,7 @@ public class UserControlledPlayer extends Player {
                         removeItem();
                     }
                 }
+                case KEY_TOGGLE_AUTO_FORWARD -> autoForward = !autoForward;
             }
         }
     }
@@ -434,7 +456,7 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public Entity  setEntity(EntityLink entity, Vector3i w) {
+    public Entity setEntity(EntityLink entity, Vector3i w) {
         WCCi wcc = new WCCi();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);

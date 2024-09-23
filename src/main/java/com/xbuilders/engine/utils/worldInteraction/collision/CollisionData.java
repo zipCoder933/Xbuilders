@@ -23,13 +23,13 @@ public class CollisionData {
     //Information useful everywhere
     public boolean sideCollision;
     public boolean sideCollisionIsEntity;
-    public final Vector3f penPerAxes;//penetration per axes
+    public final Vector3f penPerAxes= new Vector3f(); //penetration per axes
+    public final Vector3f totalPenPerAxes = new Vector3f(); //sum of all penetrations per axes
 
     public CollisionData() {
         distances = MemoryUtil.memAllocFloat(6);
         penetration = MemoryUtil.memAllocFloat(1);
         collisionNormal = null;
-        penPerAxes = new Vector3f();
     }
 
     public static final Vector3i[] faces = {
@@ -58,10 +58,12 @@ public class CollisionData {
             }
         }
         penPerAxes.set(collisionNormal).mul(penetration.get(0));
+        totalPenPerAxes.add(penPerAxes);
     }
 
     public void reset() {
         sideCollision = false;
         sideCollisionIsEntity = false;
+        totalPenPerAxes.set(0, 0, 0);
     }
 }

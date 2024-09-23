@@ -29,7 +29,7 @@ public class GravityBlockEntity extends Entity {
     public GravityBlockEntity(MainWindow window) {
         super();
         positionHandler = new PositionHandler(window, GameScene.world, aabb, null, null);
-        aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
+        aabb.setOffsetAndSize(0,0,0,1,1,1);
     }
 
     @Override
@@ -61,10 +61,10 @@ public class GravityBlockEntity extends Entity {
         box.set(aabb.box);
         box.draw(GameScene.projection, GameScene.view);
         positionHandler.update();
-        if (positionHandler.collisionHandler.collisionData.penPerAxes.y < 0) {
+        if (positionHandler.collisionHandler.collisionData.totalPenPerAxes.y < 0) {
             destroy();
             //Set a block here
-            GameScene.player.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+//            GameScene.player.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
         }
     }
 }

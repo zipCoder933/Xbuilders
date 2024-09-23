@@ -4,9 +4,12 @@
  */
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
+import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
 
 /**
@@ -26,9 +29,18 @@ public class EntityAABB {
         if (worldPosition.y > World.WORLD_BOTTOM_Y - box.getYLength()) {
             worldPosition.y = World.WORLD_BOTTOM_Y - box.getYLength();
         }
-        if(clampToTopOfWorld && worldPosition.y < World.WORLD_TOP_Y) {
+        if (clampToTopOfWorld && worldPosition.y < World.WORLD_TOP_Y) {
             worldPosition.y = World.WORLD_TOP_Y;
+
         }
+
+
+//        //We still need to clamp to the top of the world
+//        else if (worldPosition.y < World.WORLD_TOP_Y - GameScene.world.getViewDistance() * 2) {
+//            worldPosition.y = World.WORLD_TOP_Y - GameScene.world.getViewDistance() * 2;
+//        }
+
+
         worldPosition.x = MathUtils.clamp(worldPosition.x, World.WORLD_SIZE_NEG_X, World.WORLD_SIZE_POS_X);
         worldPosition.z = MathUtils.clamp(worldPosition.z, World.WORLD_SIZE_NEG_Z, World.WORLD_SIZE_POS_Z);
     }
