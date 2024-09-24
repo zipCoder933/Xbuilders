@@ -231,8 +231,7 @@ public class SunlightUtils {
             }
             if (!foundLight) break downwardLoop;
         }
-        println("Finished darkening boundary: " + queueBox.toString() +
-                " x-len: " + ((int) queueBox.getXLength()) + " z-len: " + ((int) queueBox.getZLength()));
+        //  println("Finished darkening boundary: " + queueBox.toString() + " x-len: " + ((int) queueBox.getXLength()) + " z-len: " + ((int) queueBox.getZLength()));
 
 
         //Now do a BFS with the remaining nodes
@@ -252,7 +251,7 @@ public class SunlightUtils {
         }
         repropagationNodes.addAll(BFS_repropNodes);
         //I think that when the propagation takes to long it is because there are so many BFS repropagation nodes
-        println("Finished erasing BFS nodes (BFS reprop " + BFS_repropNodes.size() + ", total " + repropagationNodes.size() + ")");
+        // println ("Finished erasing BFS nodes (BFS reprop " + BFS_repropNodes.size() + ", total " + repropagationNodes.size() + ")");
     }
 
 
@@ -313,7 +312,7 @@ public class SunlightUtils {
          * Start with as few nodes as possible!
          * The less nodes we start with, the faster we can finish the job.
          */
-        println("Starting propagating nodes: " + queue.size());
+        //  println("Starting propagating nodes: " + queue.size());
         while (!queue.isEmpty()) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
