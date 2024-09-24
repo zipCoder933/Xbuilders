@@ -9,6 +9,7 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
@@ -31,38 +32,18 @@ import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 public class UserControlledPlayer extends Player {
 
 
+    long lastSave = System.currentTimeMillis();
+
+    public void save() { //Periodic saving
+        eventPipeline.save();
+        saveModel();
+    }
+
     public Camera camera;
     public boolean allowKeyInput;
-    MainWindow window;
-
-
+    private MainWindow window;
     final Vector4f lastOrientation = new Vector4f();
-
     public boolean runningMode;
-
-    final static float WALK_SPEED = 6.5f;
-    final static float RUN_SPEED = 14f;
-
-    final static float FLY_VERTICAL_SPEED = 14f;
-    final static float FLY_WALK_SPEED = 14f;
-    final static float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
-
-    public static int getCreateMouseButton() {
-        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
-    }
-
-    public static int getDeleteMouseButton() {
-        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
-    }
-
-    public float getPan() {
-        return camera.pan;
-    }
-
-    public float getTilt() {
-        return camera.tilt;
-    }
-
     Matrix4f projection;
     Matrix4f view;
     boolean isClimbing = false;
@@ -86,6 +67,20 @@ public class UserControlledPlayer extends Player {
     private static final int KEY_FLY_UP = GLFW.GLFW_KEY_F;
     public static final int KEY_FLY_DOWN = GLFW.GLFW_KEY_LEFT_CONTROL;
     private static final int KEY_JUMP = GLFW.GLFW_KEY_SPACE;
+
+    final static float WALK_SPEED = 6.5f;
+    final static float RUN_SPEED = 14f;
+    final static float FLY_VERTICAL_SPEED = 14f;
+    final static float FLY_WALK_SPEED = 14f;
+    final static float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
+
+    public static int getCreateMouseButton() {
+        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
+    }
+
+    public static int getDeleteMouseButton() {
+        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+    }
 
     private boolean keyInputAllowed() {
         return allowKeyInput && !GameScene.ui.menusAreOpen();
@@ -117,11 +112,6 @@ public class UserControlledPlayer extends Player {
         positionHandler.setGravityEnabled(false);
     }
 
-    long lastSave = System.currentTimeMillis();
-
-    public void save() { //Periodic saving
-        eventPipeline.save();
-    }
 
     private void jump() {
         if (usePositionHandler)
@@ -158,6 +148,7 @@ public class UserControlledPlayer extends Player {
     public void startGame(WorldInfo world) {
         eventPipeline.startGame(world);
         autoForward = false;
+        save();
     }
 
     public void stopGame() {

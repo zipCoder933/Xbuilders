@@ -18,21 +18,21 @@ public class GravityBlock {
 
     public void convert(Block block) {
         block.properties.put("gravity", "true");
-        block.localChangeEvent(false, ((history, changedPosition, thisPosition) -> {
+        block.localChangeEvent(true, ((history, changedPosition, thisPosition) -> {
             checkFall(block, thisPosition);
         }));
-        block.setBlockEvent(false, ((x, y, z) -> {
+        block.setBlockEvent(true, ((x, y, z) -> {
             checkFall(block, new Vector3i(x, y, z));
         }));
     }
 
     private void checkFall(Block block, Vector3i thisPosition) {
 
-//        try {
-//            Thread.sleep(GravityBlockEntity.WAIT_TIME);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            Thread.sleep(GravityBlockEntity.WAIT_TIME);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         /**
          * There are 2 ways we can make the blocks fall

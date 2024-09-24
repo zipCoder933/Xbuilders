@@ -6,6 +6,7 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.engine.multiplayer.GameServer;
@@ -26,7 +27,7 @@ public class Player {
 
     public final static boolean simulatedServer = true;
     public Skin skin;
-    private static File playerModelFile;
+    private static final File playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
     public String name;
     public byte color;
     public final EntityAABB aabb;
@@ -61,8 +62,12 @@ public class Player {
         name = new String(nameBytes, StandardCharsets.UTF_8);
     }
 
-    public void saveModel() throws IOException {
-        Files.write(playerModelFile.toPath(), infoToBytes());
+    public void saveModel() {
+        try {
+            Files.write(playerModelFile.toPath(), infoToBytes());
+        } catch (IOException e) {
+            ErrorHandler.report(e);
+        }
     }
 
     public boolean isWithinReach(float worldX, float worldY, float worldZ) {
@@ -97,12 +102,10 @@ public class Player {
         aabb = new EntityAABB();
         initAABB();
         worldPosition = aabb.worldPosition;
-        if (playerModelFile == null) {
-            playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
-        }
 
         if (playerModelFile.exists()) {
             loadInfoFromBytes(Files.readAllBytes(playerModelFile.toPath()));
+            System.out.println("Loaded player model: " + toString());
         } else {
             name = user.userName;
             color = 0;

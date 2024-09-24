@@ -523,6 +523,10 @@ public class MyGame extends Game {
 
         GravityBlock gravity = new GravityBlock(window);
         gravity.convert(ItemList.getBlock(BLOCK_SAND));
+        gravity.convert(ItemList.getBlock(BLOCK_RED_SAND));
+        gravity.convert(ItemList.getBlock(BLOCK_GRAVEL));
+        gravity.convert(ItemList.getBlock(BLOCK_SNOW_BLOCK));
+        gravity.convert(ItemList.getBlock(BLOCK_CACTUS));
     }
 
     @Override
