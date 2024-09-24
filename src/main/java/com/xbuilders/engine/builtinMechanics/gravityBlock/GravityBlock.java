@@ -28,7 +28,7 @@ public class GravityBlock {
     private void checkFall(Block block, Vector3i thisPosition) {
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
