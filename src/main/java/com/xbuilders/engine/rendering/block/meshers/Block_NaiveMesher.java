@@ -6,6 +6,7 @@ package com.xbuilders.engine.rendering.block.meshers;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.VertexSet;
+import com.xbuilders.engine.rendering.block.BlockVertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.items.block.Block;
@@ -21,7 +22,7 @@ import org.lwjgl.system.MemoryStack;
  *
  * @author zipCoder933
  */
-public class Block_NaiveMesher extends BlockMesher<VertexSet> {
+public class Block_NaiveMesher extends BlockMesher {
 
     boolean generateAll;
 

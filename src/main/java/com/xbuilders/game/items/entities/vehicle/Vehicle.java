@@ -91,9 +91,12 @@ public abstract class Vehicle extends Entity {
         aabb.update();
         if (vehicle_move()) {
             posHandler.update();
-            if (posHandler.collisionHandler.collisionData.sideCollision
-                    && !posHandler.collisionHandler.collisionData.sideCollisionIsEntity
-                    && jumpWithSideCollision) {
+            if (
+
+                    (Math.abs(posHandler.collisionHandler.collisionData.block_penPerAxes.x) > 0
+                            || Math.abs(posHandler.collisionHandler.collisionData.block_penPerAxes.z) > 0)
+
+                            && jumpWithSideCollision) {
                 if (System.currentTimeMillis() - lastJumpMS > 200 && posHandler.onGround) {
                     posHandler.jump();
                     lastJumpMS = System.currentTimeMillis();
@@ -149,7 +152,7 @@ public abstract class Vehicle extends Entity {
     }
 
     public void loadState(byte[] state) {
-        if(state.length != 4) return;
+        if (state.length != 4) return;
         rotationYDeg = (ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]));
     }
 

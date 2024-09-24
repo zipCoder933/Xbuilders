@@ -20,11 +20,12 @@ public class CollisionData {
     protected Vector3i collisionNormal;//just a pointer to one of the 6 possible faces
     protected final FloatBuffer penetration;//penetration amount
     protected final FloatBuffer distances; //a list of distances
+    protected final Vector3f penPerAxes= new Vector3f(); //penetration per axes
+
     //Information useful everywhere
-    public boolean sideCollision;
-    public boolean sideCollisionIsEntity;
-    public final Vector3f penPerAxes= new Vector3f(); //penetration per axes
     public final Vector3f totalPenPerAxes = new Vector3f(); //sum of all penetrations per axes
+    public final Vector3f block_penPerAxes = new Vector3f(); //penetration per axes
+    public final Vector3f entity_penPerAxes = new Vector3f(); //sum of all penetrations per axes
 
     public CollisionData() {
         distances = MemoryUtil.memAllocFloat(6);
@@ -37,7 +38,7 @@ public class CollisionData {
             new Vector3i(0, -1, 0), new Vector3i(0, 1, 0),
             new Vector3i(0, 0, -1), new Vector3i(0, 0, 1),};
 
-    public void calculateCollision(AABB thisBox, AABB other) {
+    public void calculateCollision(AABB thisBox, AABB other, boolean otherBoxIsEntity) {
         Vector3f boxAPos = thisBox.min;
         Vector3f boxBPos = other.min;
         Vector3f maxA = new Vector3f(boxAPos).add(thisBox.getXLength(), thisBox.getYLength(), thisBox.getZLength());
@@ -58,12 +59,18 @@ public class CollisionData {
             }
         }
         penPerAxes.set(collisionNormal).mul(penetration.get(0));
+
         totalPenPerAxes.add(penPerAxes);
+        if(otherBoxIsEntity){
+            entity_penPerAxes.add(penPerAxes);
+        }else{
+            block_penPerAxes.add(penPerAxes);
+        }
     }
 
     public void reset() {
-        sideCollision = false;
-        sideCollisionIsEntity = false;
+        block_penPerAxes.set(0, 0, 0);
+        entity_penPerAxes.set(0, 0, 0);
         totalPenPerAxes.set(0, 0, 0);
     }
 }

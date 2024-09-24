@@ -101,9 +101,11 @@ public class PositionHandler {
                 UserPlayerAABB, playerList);
     }
 
-
     public void update() {
+        update(1);
+    }
 
+    public void update(final int timestepMultiplier) {
         if (//Init the rendered box inside the draw method so that we dont get problems if it posHandler not constructed properly
                 (DRAW_COLLISION_CANDIDATES || DRAW_ENTITY_BOX)
                         && renderedBox == null) {
@@ -157,9 +159,9 @@ public class PositionHandler {
                 }
 
                 //Calculate new AABB
-                aabb.box.setX(aabb.box.min.x + velocity.x);
-                aabb.box.setY(aabb.box.min.y + velocity.y);
-                aabb.box.setZ(aabb.box.min.z + velocity.z);
+                aabb.box.setX(aabb.box.min.x + (velocity.x * timestepMultiplier));
+                aabb.box.setY(aabb.box.min.y + (velocity.y * timestepMultiplier));
+                aabb.box.setZ(aabb.box.min.z + (velocity.z * timestepMultiplier));
 
                 //Apply coasting
                 velocity.x *= surfaceCoasting;

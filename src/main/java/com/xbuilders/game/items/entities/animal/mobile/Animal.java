@@ -157,9 +157,13 @@ public abstract class Animal extends Entity {
     private long lastJumpTime;
 
     private void jumpIfColliding(int interval /*ms*/, boolean jumpOverEntities) {
-        if ((Math.abs(pos.collisionHandler.collisionData.penPerAxes.x) > 0.02
-                || Math.abs(pos.collisionHandler.collisionData.penPerAxes.z) > 0.02)
-                && (jumpOverEntities || !pos.collisionHandler.collisionData.sideCollisionIsEntity)) {
+        if (!jumpOverEntities) return;
+
+        if (
+                (Math.abs(pos.collisionHandler.collisionData.block_penPerAxes.x) > 0
+                        || Math.abs(pos.collisionHandler.collisionData.block_penPerAxes.z) > 0)
+        ) {
+            System.out.println("Jumping");
             if (System.currentTimeMillis() - lastJumpTime > interval) {
                 lastJumpTime = System.currentTimeMillis();
                 pos.jump();

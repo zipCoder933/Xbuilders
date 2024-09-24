@@ -151,7 +151,7 @@ public class CollisionHandler {
         // }
 
         if (box.intersects(myBox.box)) {
-            collisionData.calculateCollision(box, myBox.box);
+            collisionData.calculateCollision(box, myBox.box, isEntity);
 
             if (isEntity) {
                 collisionData.penPerAxes.mul(0.8f);
@@ -169,16 +169,12 @@ public class CollisionHandler {
                 if (myBox.box.max.y - box.min.y < driver.stepHeight) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.x));
                 } else {
-                    collisionData.sideCollision = true;
-                    collisionData.sideCollisionIsEntity = isEntity;
                     myBox.box.setX(myBox.box.min.x + collisionData.penPerAxes.x);
                 }
             } else if (collisionData.collisionNormal.z != 0) {
                 if (myBox.box.max.y - box.min.y < driver.stepHeight) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.z));
                 } else {
-                    collisionData.sideCollision = true;
-                    collisionData.sideCollisionIsEntity = isEntity;
                     myBox.box.setZ(myBox.box.min.z + collisionData.penPerAxes.z);
                 }
 
