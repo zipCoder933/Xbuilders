@@ -301,8 +301,9 @@ public class UserControlledPlayer extends Player {
         }
 
         if (MainWindow.settings.game_autoJump &&
-                Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.x) > 0 ||
-                Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.z) > 0) {
+                (Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.x) > 0.02 ||
+                        Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.z) > 0.02)
+        ) {
 
             autoJump_ticksWhileColidingWithBlock += window.getMsPerFrame();
             if (autoJump_ticksWhileColidingWithBlock > 150 && autoJump_unCollided) {
