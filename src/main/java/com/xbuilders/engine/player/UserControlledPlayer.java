@@ -117,10 +117,6 @@ public class UserControlledPlayer extends Player {
         positionHandler.setGravityEnabled(false);
     }
 
-    public void setColor(float r, float g, float b) {
-        // positionHandler.color.set(r, g, b, 1);
-    }
-
     long lastSave = System.currentTimeMillis();
 
     public void save() { //Periodic saving
@@ -150,7 +146,6 @@ public class UserControlledPlayer extends Player {
 
 
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
-        setColor(1, 1, 0);
         skin = MainWindow.game.availableSkins.get(0).get(this);
         eventPipeline = new BlockEventPipeline(world, this);
     }
@@ -319,7 +314,7 @@ public class UserControlledPlayer extends Player {
                 Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.z) > 0) {
 
             autoJump_ticksWhileColidingWithBlock += window.getMsPerFrame();
-            if (autoJump_ticksWhileColidingWithBlock > 200 && autoJump_unCollided) {
+            if (autoJump_ticksWhileColidingWithBlock > 150 && autoJump_unCollided) {
                 positionHandler.jump();
                 autoJump_ticksWhileColidingWithBlock = 0;
                 autoJump_unCollided = false;
@@ -450,19 +445,19 @@ public class UserControlledPlayer extends Player {
                         w = camera.cursorRay.getHitPosPlusNormal();
                     }
 
-                    setEntity(entity, w);
+                    setEntity(entity, w, null);
                 }
             }
         }
     }
 
-    public Entity setEntity(EntityLink entity, Vector3i w) {
+    public Entity setEntity(EntityLink entity, Vector3i w, byte[] data) {
         WCCi wcc = new WCCi();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModifiedByUser();
-            Entity e = chunk.entities.placeNew(w, entity, null);
+            Entity e = chunk.entities.placeNew(w, entity, data);
             e.sendMultiplayer = true;//Tells the chunkEntitySet to send the entity to the clients
             return e;
         }

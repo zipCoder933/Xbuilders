@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.block.meshers;
+package com.xbuilders.engine.rendering.entity.block.meshers;
 
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.VertexSet;
-import com.xbuilders.engine.rendering.block.BlockVertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.items.block.Block;

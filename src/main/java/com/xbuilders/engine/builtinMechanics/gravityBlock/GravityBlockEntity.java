@@ -5,10 +5,10 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.rendering.block.BlockMesh;
-import com.xbuilders.engine.rendering.block.BlockShader;
-import com.xbuilders.engine.rendering.block.BlockVertexSet;
-import com.xbuilders.engine.rendering.block.meshers.Block_NaiveMesher;
+import com.xbuilders.engine.rendering.entity.EntityMesh_ArrayTexture;
+import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
+import com.xbuilders.engine.rendering.entity.block.BlockVertexSet;
+import com.xbuilders.engine.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
@@ -18,12 +18,13 @@ import org.lwjgl.system.MemoryStack;
 public class GravityBlockEntity extends Entity {
     private final BlockVertexSet buffer = new BlockVertexSet();
     private final ChunkVoxels voxels = new ChunkVoxels(1, 1, 1);
-    private BlockMesh mesh;
-    private BlockShader blockShader;
+    private EntityMesh_ArrayTexture mesh;
+
 
     Box box;
     PositionHandler positionHandler;
     Block block;
+    long startTime;
 
     public GravityBlockEntity(MainWindow window) {
         super();
@@ -34,11 +35,10 @@ public class GravityBlockEntity extends Entity {
 
     @Override
     public void initializeOnDraw(byte[] bytes) {
-        blockShader = new BlockShader();
         box = new Box();
         box.setColor(1, 0, 0, 1);
         box.setLineWidth(4);
-        mesh = new BlockMesh();
+        mesh = new EntityMesh_ArrayTexture();
         mesh.setTextureID(ItemList.blocks.textures.getTexture().id);
         buffer.reset();
         voxels.setBlock(0, 0, 0, block.id);
@@ -49,27 +49,27 @@ public class GravityBlockEntity extends Entity {
             buffer.makeVertexSet();
             buffer.sendToMesh(mesh);
         }
+        startTime = System.currentTimeMillis();
     }
+
+   public static final int WAIT_TIME = 100;
 
     @Override
     public void draw() {
         if (inFrustum) {
             //There is actually something in the buffer
-            blockShader.bind();//TODO: Make block shader compatable with the entity shader
-
-            blockShader.updateProjectionViewMatrix(GameScene.projection, GameScene.view);
-
-            modelMatrix.identity().translate(worldPosition.x, worldPosition.y, worldPosition.z);
+            arrayTextureShader.bind();//TODO: Allow better integration with an arrayTextureShader in Entity class
+            arrayTextureShader.setSunAndTorch(sunValue, torchValue);
+            arrayTextureShader.updateProjectionViewMatrix(GameScene.projection, GameScene.view);
             modelMatrix.update();
-            modelMatrix.sendToShader(blockShader.getID(), blockShader.uniform_modelMatrix);
-
-            mesh.draw(true);
+            modelMatrix.sendToShader(arrayTextureShader.getID(), arrayTextureShader.uniform_modelMatrix);
+            mesh.draw(false);
 
 //            box.set(aabb.box);
 //            box.draw(GameScene.projection, GameScene.view);
-            positionHandler.update(1);
+            if (System.currentTimeMillis() - startTime > WAIT_TIME) positionHandler.update(1);
         } else if (MainWindow.frameCount % 5 == 0) {
-            positionHandler.update(5);
+            if (System.currentTimeMillis() - startTime > WAIT_TIME) positionHandler.update(5);
         }
 
         if (positionHandler.isFrozen() ||

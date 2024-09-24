@@ -7,6 +7,7 @@ package com.xbuilders.engine.items.entity;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.rendering.entity.EntityShader;
+import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -29,6 +30,7 @@ public abstract class Entity {
      * https://stackoverflow.com/questions/69664014/should-every-object-have-its-own-shader
      */
     public static EntityShader shader;
+    public static EntityShader_ArrayTexture arrayTextureShader;
     public boolean sendMultiplayer;
 
     public boolean playerIsRidingThis() {
@@ -67,8 +69,8 @@ public abstract class Entity {
         torchValue = (float) ChunkVoxels.getTorch(light) / 15;
     }
 
-    private float sunValue;
-    private float torchValue;
+    public float sunValue;
+    public float torchValue;
     protected byte[] loadBytes;
     public EntityLink link;
     protected long identifier;
@@ -109,10 +111,12 @@ public abstract class Entity {
         if (shader == null) {
             shader = new EntityShader();
         }
+        if (arrayTextureShader == null) {
+            arrayTextureShader = new EntityShader_ArrayTexture();
+        }
         if (inFrustum) {
             modelMatrix.identity().translate(worldPosition);//Model matrix is already in world position
-            shader.loadFloat(shader.uniform_sun, sunValue);
-            shader.loadFloat(shader.uniform_torch, torchValue);
+            shader.setSunAndTorch(sunValue, torchValue);
         }
         draw();
     }
@@ -188,6 +192,7 @@ public abstract class Entity {
     }
 
     private static SecureRandom secureRandom = new SecureRandom();
+
     protected void generateIdentifier() {
         this.identifier = secureRandom.nextLong();
     }

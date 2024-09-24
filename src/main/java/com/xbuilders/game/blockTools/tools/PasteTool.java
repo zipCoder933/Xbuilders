@@ -6,8 +6,8 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
-import com.xbuilders.engine.rendering.block.BlockMeshBundle;
-import com.xbuilders.engine.rendering.block.BlockShader;
+import com.xbuilders.engine.rendering.entity.block.BlockMeshBundle;
+import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -16,6 +16,7 @@ import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
@@ -45,8 +46,7 @@ public class PasteTool extends BlockTool {
 
 
     public static ArrayList<Entity> clipboard_entities = new ArrayList<>(); //TODO: Add clipboard entities
-
-    static BlockShader shader = new BlockShader();
+    private final static EntityShader_ArrayTexture blockShader = new EntityShader_ArrayTexture();
     static BlockMeshBundle mesh = new BlockMeshBundle();
     static Box box = new Box();
 
@@ -127,13 +127,12 @@ public class PasteTool extends BlockTool {
             if (!ray.hitTarget()) return false;
         }
 
-        shader.updateProjectionViewMatrix(proj, view);
-
+        blockShader.bind();
+        blockShader.updateProjectionViewMatrix(proj, view);
         modelMatrix.identity().translate(offset.x, offset.y, offset.z);
-        modelMatrix.update();
-        modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
+        modelMatrix.updateAndSendToShader(blockShader.getID(), blockShader.uniform_modelMatrix);
+        mesh.draw();
 
-        mesh.draw(shader);
         box.setPosition(offset.x, offset.y, offset.z);
         box.draw(proj, view);
         return true;

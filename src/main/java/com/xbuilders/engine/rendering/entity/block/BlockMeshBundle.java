@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.block;
+package com.xbuilders.engine.rendering.entity.block;
 
 import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.rendering.block.meshers.Block_NaiveMesher;
+import com.xbuilders.engine.rendering.entity.block.meshers.Block_NaiveMesher;
+import com.xbuilders.engine.rendering.entity.EntityMesh_ArrayTexture;
+import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
@@ -23,15 +25,13 @@ public class BlockMeshBundle {
 
     final BlockVertexSet buffer = new BlockVertexSet();
     final BlockVertexSet transBuffer = new BlockVertexSet();
-    public final BlockMesh opaqueMesh, transMesh;
-
+    public final EntityMesh_ArrayTexture opaqueMesh, transMesh;
     private Block_NaiveMesher naiveMesher;
 
-
     public BlockMeshBundle() {
-        opaqueMesh = new BlockMesh();
+        opaqueMesh = new EntityMesh_ArrayTexture();
         opaqueMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
-        transMesh = new BlockMesh();
+        transMesh = new EntityMesh_ArrayTexture();
         transMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
 
     }
@@ -41,11 +41,9 @@ public class BlockMeshBundle {
         transMesh.reset();
     }
 
-    public void draw(BlockShader shader) {
-        shader.bind();
+    public void draw() {
         opaqueMesh.draw(true);
         transMesh.draw(true);
-        shader.unbind();
     }
 
     public synchronized void compute(ChunkVoxels voxels) {

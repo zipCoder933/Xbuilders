@@ -3,11 +3,11 @@
 in vec2 UV;
 in float normals;
 in vec3 position;
-
 out vec4 color;
+
+uniform sampler2D tex;
 uniform float sun;
 uniform float torch;
-uniform sampler2D tex;
 uniform vec3 tint;
 // uniform int viewDistance;
  

@@ -32,14 +32,26 @@ import org.lwjgl.opengl.GL33;
  */
 public class EntityMesh extends Mesh {
 
-    private final int vao;
-    private final int positionVBO;
-    private final int uvVBO;
-    private int textureID;
-    //    private final int normalVBO;
-    private int vertLength;
+    protected int vao;
+    protected int positionVBO;
+    protected int uvVBO;
+    protected int textureID;
+    //    protected final int normalVBO;
+    protected int vertLength;
+
+    public boolean isEmpty() {
+        return vertLength == 0;
+    }
+
+    public void reset() {
+        vertLength = 0;
+    }
 
     public EntityMesh() {
+        initVbos();
+    }
+
+    protected void initVbos() {
         vao = GL30.glGenVertexArrays();
         positionVBO = GL15.glGenBuffers();
         uvVBO = GL15.glGenBuffers();

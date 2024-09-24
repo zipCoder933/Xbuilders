@@ -1,4 +1,4 @@
-package com.xbuilders.engine.rendering.block.meshers;
+package com.xbuilders.engine.rendering.entity.block.meshers;
 
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;

@@ -55,7 +55,12 @@ public class SkyBackground {
             defaultTint.set(lightness + redDifference, lightness, lightness);
         } else defaultTint.set(lightness, lightness, lightness);
         GameScene.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
-        if (Entity.shader != null) Entity.shader.setTint(defaultTint);
+        if (Entity.shader != null) {
+            Entity.shader.setTint(defaultTint);
+        }
+        if (Entity.arrayTextureShader != null) {
+            Entity.arrayTextureShader.setTint(defaultTint);
+        }
     }
 
     public void setTimeOfDay(float timeOfDay) {

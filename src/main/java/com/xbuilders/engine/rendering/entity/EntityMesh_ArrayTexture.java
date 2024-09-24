@@ -2,44 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.block;
+package com.xbuilders.engine.rendering.entity;
 
-import com.xbuilders.engine.rendering.Mesh;
-import com.xbuilders.engine.rendering.entity.EntityMesh;
-import com.xbuilders.window.utils.obj.OBJ;
-import com.xbuilders.window.utils.obj.OBJLoader;
-import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
-import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.opengl.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_FILL;
 
 /**
+ * The only differences between EntityMesh and BlockMesh is that
+ * 1. BlockMesh has a array texture and entity mesh does not
+ *  a. 3-part UV coordinates
+ *  b. array texture for drawing
  * @author zipCoder933
  */
-public class BlockMesh extends Mesh {
+public class EntityMesh_ArrayTexture extends EntityMesh {
 
-    private final int vao;
-    private final int positionVBO;
-    private final int uvVBO;
-    private int textureID;
-    //    private final int normalVBO;
-    private int vertLength;
-
-    public boolean isEmpty() {
-        return vertLength == 0;
-    }
-
-    public void reset() {
-        vertLength = 0;
-    }
-
-    public BlockMesh() {
+    protected void initVbos() {
         vao = GL30.glGenVertexArrays();
         positionVBO = GL15.glGenBuffers();
         uvVBO = GL15.glGenBuffers();
@@ -52,28 +31,6 @@ public class BlockMesh extends Mesh {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL30.glBindVertexArray(0);
-    }
-
-    public void sendBuffersToGPU(float[] position, float[] uvs) {
-        GL30.glBindVertexArray(vao);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, positionVBO);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, position, GL15.GL_STATIC_DRAW);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, uvVBO);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, uvs, GL15.GL_STATIC_DRAW);
-
-        vertLength = position.length / 3;
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    }
-
-    @Override
-    public void setTextureID(int textureID) {
-        this.textureID = textureID;
-    }
-
-    public void delete() {
-        GL30.glDeleteVertexArrays(vao);
-        GL30.glDeleteBuffers(positionVBO);
-        GL30.glDeleteBuffers(uvVBO);
     }
 
     public void draw(boolean wireframe) {

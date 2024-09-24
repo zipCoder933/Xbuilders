@@ -2,6 +2,8 @@ package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
+import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
@@ -42,6 +44,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
 
@@ -543,6 +546,23 @@ public class World {
 
     // <editor-fold defaultstate="collapsed" desc="block operations">
 
+    /**
+     * Like player.setEntity but does NOT notify other players and does not guarantee save of the chunk
+     * @param entity
+     * @param w
+     * @return the entity
+     */
+    public Entity setEntity(EntityLink entity, Vector3i w, byte[] data) {
+        WCCi wcc = new WCCi();
+        wcc.set(w);
+        Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
+        if (chunk != null) {
+            Entity e = chunk.entities.placeNew(w, entity, data);
+            e.sendMultiplayer = false;
+            return e;
+        }
+        return null;
+    }
 
     public short getBlockID(int worldX, int worldY, int worldZ) {
         int blockX = positiveMod(worldX, Chunk.WIDTH);

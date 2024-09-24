@@ -24,25 +24,30 @@ public class EntityShader extends Shader {
             uniform_sun,
             uniform_torch,
             uniform_tint,
-    uniform_view_distance;
+            uniform_view_distance;
 
-    static MVP mvp = new MVP();
+    protected static MVP mvp = new MVP();
 
     public EntityShader() {
-        try {
-            init(
-                    ResourceUtils.localResource("/res/shaders/entityShader/entity_shader.vs"),
-                    ResourceUtils.localResource("/res/shaders/entityShader/entity_shader.fs"));
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
+        loadShader();
         uniform_projViewMatrix = getUniformLocation("projViewMatrix");
         uniform_modelMatrix = getUniformLocation("modelMatrix");
         uniform_sun = getUniformLocation("sun");
         uniform_torch = getUniformLocation("torch");
         uniform_tint = getUniformLocation("tint");
         uniform_view_distance = getUniformLocation("viewDistance");
-//        textureUniform = getUniformLocation("texture");
+        setTint(new Vector3f(1, 1, 1));
+        setSunAndTorch(1, 1);
+    }
+
+    public void loadShader() {
+        try {
+            init(
+                    ResourceUtils.localResource("/res/shaders/entityShader/default.vs"),
+                    ResourceUtils.localResource("/res/shaders/entityShader/default.fs"));
+        } catch (IOException e) {
+            ErrorHandler.report(e);
+        }
     }
 
     public void updateProjectionViewMatrix(Matrix4f projection, Matrix4f view) {
@@ -52,6 +57,11 @@ public class EntityShader extends Shader {
 
     public void setTint(Vector3f tint) {
         loadVec3f(uniform_tint, tint);
+    }
+
+    public void setSunAndTorch(float sunValue, float torchValue) {
+        loadFloat(uniform_sun, sunValue);
+        loadFloat(uniform_torch, torchValue);
     }
 
     @Override

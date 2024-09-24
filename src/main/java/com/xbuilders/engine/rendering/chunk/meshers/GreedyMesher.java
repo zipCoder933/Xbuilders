@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.rendering.block.meshers.BlockMesher;
+import com.xbuilders.engine.rendering.entity.block.meshers.BlockMesher;
 import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;

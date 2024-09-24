@@ -26,6 +26,7 @@ public class Camera {
 
     public final Vector2i simplifiedPanTilt;
     public final Vector3f right, look, target, position;
+    public final Vector3f centeredViewNegatedLook = new Vector3f();
     public final Vector3f cursorRaycastLook = new Vector3f();
     public final Vector3f cameraRaycast = new Vector3f();
     public final Vector3f cameraForward = new Vector3f();
@@ -197,6 +198,7 @@ public class Camera {
         target.set(player.worldPosition);
         position.set(player.worldPosition);
 
+
         if (getThirdPersonDist() == 0) {
             target.add(look);
             cursorRaycastLook.set(look);
@@ -228,10 +230,16 @@ public class Camera {
                 position.sub(look);
                 cursorRaycastLook.set(0).add(look);
             }
+
         }
         cursorRay.cast(position, cursorRaycastLook, GameScene.world);
         view.identity().lookAt(position, target, up);
-        centeredView.identity().lookAt(identity, look, up);
+
+        if (getThirdPersonDist() > 0) {
+            centeredViewNegatedLook.set(0).sub(look);
+            centeredView.identity().lookAt(identity, centeredViewNegatedLook, up);
+        } else centeredView.identity().lookAt(identity, look, up);
+
         //We must update the frustum AFTER we update the camera
         frustum.update(projection, view);
     }

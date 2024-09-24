@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.rendering.block;
+package com.xbuilders.engine.rendering.entity.block;
 
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.rendering.VertexSet;
+import com.xbuilders.engine.rendering.entity.EntityMesh_ArrayTexture;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 /**
  * @author zipCoder933
  */
-public class BlockVertexSet extends VertexSet<BlockMesh> {
+public class BlockVertexSet extends VertexSet<EntityMesh_ArrayTexture> {
     final ArrayList<Vector3f> positions = new ArrayList<Vector3f>();
     //    ArrayList<Vector3f> normals = new ArrayList<Vector3f>();
     final ArrayList<Vector3f> uvs = new ArrayList<Vector3f>();
@@ -54,7 +55,7 @@ public class BlockVertexSet extends VertexSet<BlockMesh> {
         }
     }
 
-    public void sendToMesh(BlockMesh mesh) {
+    public void sendToMesh(EntityMesh_ArrayTexture mesh) {
         if (positionsArray == null || positionsArray.length == 0) {
             return;
         }
