@@ -90,23 +90,23 @@ public class UserControlledPlayer extends Player {
 
     public boolean leftKeyPressed() {
         if (!keyInputAllowed()) return false;
-        return  window.isKeyPressed(KEY_MOVE_LEFT);
+        return window.isKeyPressed(KEY_MOVE_LEFT);
     }
 
     public boolean rightKeyPressed() {
         if (!keyInputAllowed()) return false;
-        return  window.isKeyPressed(KEY_MOVE_RIGHT);
+        return window.isKeyPressed(KEY_MOVE_RIGHT);
     }
 
     public boolean forwardKeyPressed() {
         if (autoForward) return true;
         if (!keyInputAllowed()) return false;
-        return  window.isKeyPressed(KEY_MOVE_FORWARD);
+        return window.isKeyPressed(KEY_MOVE_FORWARD);
     }
 
     public boolean backwardKeyPressed() {
         if (!keyInputAllowed()) return false;
-        return  window.isKeyPressed(KEY_MOVE_BACKWARD);
+        return window.isKeyPressed(KEY_MOVE_BACKWARD);
     }
 
 
@@ -192,10 +192,9 @@ public class UserControlledPlayer extends Player {
             cameraBlock = newCameraBlock;
             if (newCameraBlock.isAir()) {//Air is always transparent
                 GameScene.ui.setOverlayColor(0, 0, 0, 0);
-            } else if (newCameraBlock.opaque
-                    && newCameraBlock.colorInPlayerHead[3] == 0
-                    && positionHandler.collisionsEnabled
-                    && !MainWindow.devMode) { //If we are opaque, don't have a color and we are not in passthrough mode
+            } else if (newCameraBlock.opaque && newCameraBlock.colorInPlayerHead[3] == 0
+                    && positionHandler.collisionsEnabled && positionLock == null
+                    && camera.getThirdPersonDist() == 0) { //If we are opaque, don't have a color and we are not in passthrough mode
                 GameScene.ui.setOverlayColor(0, 0, 0, 1);
             } else {
                 GameScene.ui.setOverlayColor(
@@ -372,9 +371,7 @@ public class UserControlledPlayer extends Player {
             switch (key) {
                 case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = true;
                 case KEY_JUMP -> {
-                    if (positionLock != null) {
-                        positionLock = null;
-                    }
+                    dismount();
                     if (positionHandler.isGravityEnabled()) {
                         jump();
                     } else disableFlying();
@@ -403,6 +400,13 @@ public class UserControlledPlayer extends Player {
                 }
                 case KEY_TOGGLE_AUTO_FORWARD -> autoForward = !autoForward;
             }
+        }
+    }
+
+    private void dismount() {
+        if (positionLock != null) {
+            worldPosition.y = positionLock.entity.aabb.box.min.y - aabb.box.getYLength();
+            positionLock = null;
         }
     }
 

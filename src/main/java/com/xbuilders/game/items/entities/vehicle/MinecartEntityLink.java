@@ -48,7 +48,7 @@ public class MinecartEntityLink extends EntityLink {
 
     public class Minecart extends Vehicle {
 
-
+        final PositionLock positionLock;
         public Vector3f renderOffset = new Vector3f();
 
         public Vector3i getFixedPosition() {
@@ -59,12 +59,11 @@ public class MinecartEntityLink extends EntityLink {
             return fixedPosition;
         }
 
-
-        //TODO: Fix bugs with minecarts ascending or descending raised tracks
-        //The minecart gets stuck going up or it doesnt come down, because positionHandler.gravity is false
         public Minecart(MainWindow window) {
             super(window);
-            aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);
+            aabb.setOffsetAndSize(1f, 1f, 1f, true);
+            positionLock = new PositionLock(this, 0);
+
 
             //Instead of modifying the fixed position, we modify our offset and render offset around the world position
             aabb.offset.x += 0.5f;
@@ -74,6 +73,8 @@ public class MinecartEntityLink extends EntityLink {
             aabb.offset.y += 1;
             renderOffset.y += 1;
 
+            positionLock.setOffset(renderOffset.x, renderOffset.y, renderOffset.z);
+
             frustumSphereRadius = (3f);
         }
 
@@ -82,7 +83,7 @@ public class MinecartEntityLink extends EntityLink {
         public boolean run_ClickEvent() {
             UserControlledPlayer userControlledPlayer = GameScene.player;
             if (userControlledPlayer.positionLock == null) {
-                GameScene.player.positionLock = (new PositionLock(this, -0.7f));
+                GameScene.player.positionLock = positionLock;
                 forwardBackDir = 0;
                 resetKeyEvent();
                 onTrack = alignToNearestTrack();
@@ -108,7 +109,7 @@ public class MinecartEntityLink extends EntityLink {
         @Override
         public void vehicle_draw() {
             rotationYCurve = (float) MathUtils.curve(rotationYCurve, getRotationYDeg(), 0.25f);
-            modelMatrix.translate(renderOffset);
+            modelMatrix.translate(renderOffset).scale(0.7f);
             modelMatrix.rotateY((float) (rotationYCurve * (Math.PI / 180)));
 
             if (upOrDownState == -1) {

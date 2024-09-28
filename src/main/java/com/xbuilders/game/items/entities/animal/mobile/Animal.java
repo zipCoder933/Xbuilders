@@ -16,6 +16,7 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.game.MyGame;
 
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -157,13 +158,11 @@ public abstract class Animal extends Entity {
     private long lastJumpTime;
 
     private void jumpIfColliding(int interval /*ms*/, boolean jumpOverEntities) {
-        if (!jumpOverEntities) return;
+        Vector3f pen = pos.collisionHandler.collisionData.block_penPerAxes;
+        if (jumpOverEntities) pen = pos.collisionHandler.collisionData.totalPenPerAxes;
 
-        if (
-                (Math.abs(pos.collisionHandler.collisionData.block_penPerAxes.x) > 0
-                        || Math.abs(pos.collisionHandler.collisionData.block_penPerAxes.z) > 0)
-        ) {
-            System.out.println("Jumping");
+        if (Math.abs(pen.x) > 0.02
+                || Math.abs(pen.z) > 0.02) {
             if (System.currentTimeMillis() - lastJumpTime > interval) {
                 lastJumpTime = System.currentTimeMillis();
                 pos.jump();
