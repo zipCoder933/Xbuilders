@@ -6,7 +6,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ByteUtils;
-import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.utils.SynchronizedHashmap;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -17,7 +17,6 @@ import org.joml.Vector3i;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.BiConsumer;
@@ -41,7 +40,9 @@ import java.util.function.BiConsumer;
 //    }
 
 public class PendingBlockChanges {
-    HashMap<Vector3i, BlockHistory> blockChanges = new HashMap<>();
+
+    protected final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    SynchronizedHashmap<Vector3i, BlockHistory> blockChanges = new SynchronizedHashmap<>();
 
     public long lastRangeChange;
     public long allChangesUpdate;
@@ -88,27 +89,18 @@ public class PendingBlockChanges {
         return false;
     }
 
-    protected final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    protected final Lock readLock = readWriteLock.readLock();
-    protected final Lock writeLock = readWriteLock.writeLock();
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         addBlockChange(worldPos, new BlockHistory(block, data));
     }
 
     public void addBlockChange(Vector3i worldPos, BlockHistory change) {
-        writeLock.lock();
-        try {
-            //System.out.println("Adding Block Change: "+ MiscUtils.printVector(worldPos)+", "+change.toString());
-            blockChanges.put(worldPos, change);
-            changeEvent();
-        } finally {
-            writeLock.unlock();
-        }
+        blockChanges.put(worldPos, change);
+        changeEvent();
     }
 
     public boolean anyChangesWithinReach() {
-        readLock.lock();
+        blockChanges.readLock.lock();
         try {
             Iterator<Map.Entry<Vector3i, BlockHistory>> iterator
                     = blockChanges.entrySet().iterator();
@@ -121,7 +113,7 @@ public class PendingBlockChanges {
             }
             return false;
         } finally {
-            readLock.unlock();
+            blockChanges.readLock.unlock();
         }
     }
 
@@ -137,7 +129,7 @@ public class PendingBlockChanges {
 
     public int sendAllChanges() {
         if (blockChanges.isEmpty()) return 0;
-        readLock.lock();
+        blockChanges.readLock.lock();
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
@@ -158,7 +150,7 @@ public class PendingBlockChanges {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            readLock.unlock();
+            blockChanges.readLock.unlock();
         }
 
         return 0;
@@ -169,7 +161,8 @@ public class PendingBlockChanges {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int changesToBeSent = 0;
 
-        writeLock.lock();
+        blockChanges.readLock.lock();
+        blockChanges.writeLock.lock();
         try {
             Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = blockChanges.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -186,7 +179,8 @@ public class PendingBlockChanges {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            writeLock.unlock();
+            blockChanges.readLock.unlock();
+            blockChanges.writeLock.unlock();
         }
 
         try {
@@ -234,13 +228,8 @@ public class PendingBlockChanges {
     }
 
     public void clear() {
-        readLock.lock();
-        try {
-            blockChanges.clear();
-            changeEvent();
-        } finally {
-            readLock.unlock();
-        }
+        blockChanges.clear();
+        changeEvent();
     }
 
     protected void changeEvent() {

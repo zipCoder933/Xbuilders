@@ -24,18 +24,24 @@ public class Local_PendingBlockChanges extends PendingBlockChanges {
         int changesToBeSent = 0;
         if (this.blockChanges.isEmpty()) return 0;
 
-        Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = this.blockChanges.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Vector3i, BlockHistory> entry = iterator.next();
-            Vector3i worldPos = entry.getKey();
-            BlockHistory change = entry.getValue();
-            if (changeCanBeLoaded(player, worldPos)) {
-                changes.accept(worldPos, change);
-
-                iterator.remove(); // Remove it so we don't send it again
-                changeEvent();
-                changesToBeSent++;
+        blockChanges.readLock.lock();
+        blockChanges.writeLock.lock();
+        try {
+            Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = this.blockChanges.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<Vector3i, BlockHistory> entry = iterator.next();
+                Vector3i worldPos = entry.getKey();
+                BlockHistory change = entry.getValue();
+                if (changeCanBeLoaded(player, worldPos)) {
+                    changes.accept(worldPos, change);
+                    iterator.remove(); // Remove it so we don't send it again
+                    changeEvent();
+                    changesToBeSent++;
+                }
             }
+        } finally {
+            blockChanges.writeLock.unlock();
+            blockChanges.readLock.unlock();
         }
         return changesToBeSent;
     }
@@ -55,14 +61,14 @@ public class Local_PendingBlockChanges extends PendingBlockChanges {
 
     public void load(WorldInfo worldInfo) {
         clear();
-        File changeGile = new File(worldInfo.getDirectory(), blockChangeFile);
-        if (changeGile.exists()) {
-            loadRecord(changeGile);
+        File file = new File(worldInfo.getDirectory(), blockChangeFile);
+        if (file.exists()) {
+            loadRecord(file);
         }
     }
 
     private void saveRecord(File file) {
-        readLock.lock();
+        blockChanges.readLock.lock();
         try (FileOutputStream fos = new FileOutputStream(file)) {
             for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
                 Vector3i worldPos = entry.getKey();
@@ -73,24 +79,18 @@ public class Local_PendingBlockChanges extends PendingBlockChanges {
         } catch (IOException e) {
             ErrorHandler.report(e);
         } finally {
-            readLock.unlock();
+            blockChanges.readLock.unlock();
         }
     }
 
     private void loadRecord(File file) {
-        readLock.lock();
         try {
             byte[] bytes = Files.readAllBytes(file.toPath());
             readBlockChange(bytes, (worldPos, change) -> blockChanges.put(worldPos, change));
         } catch (IOException e) {
             ErrorHandler.report(e);
-        } finally {
-            readLock.unlock();
         }
     }
 
-
     final String blockChangeFile = "blockChanges.bin";
-
-
 }
