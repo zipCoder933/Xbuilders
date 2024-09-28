@@ -36,7 +36,7 @@ import java.util.Arrays;
 
 public class MainWindow extends NKWindow {
 
-    public static double gameVersion = 1.5;
+    public static double gameVersion = 1.6;
     public static boolean loadWorldOnStartup = false;
     public static boolean fpsTools = false;
     public static int frameCount = 0;
