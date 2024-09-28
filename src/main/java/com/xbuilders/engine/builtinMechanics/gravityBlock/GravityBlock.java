@@ -6,7 +6,10 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.world.World;
 import org.joml.Vector3i;
+
+import static com.xbuilders.engine.items.entity.ChunkEntitySet.MAX_ENTITY_DIST;
 
 public class GravityBlock {
 
@@ -33,7 +36,6 @@ public class GravityBlock {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
         /**
          * There are 2 ways we can make the blocks fall
          * 1. Wait Xms in another thread tham create an entity
@@ -50,6 +52,23 @@ public class GravityBlock {
         if (!blockBelow.solid
                 && GameScene.world.getBlockID(thisPosition.x, thisPosition.y, thisPosition.z) == block.id) {
             GameScene.player.setBlock(BlockList.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
+
+            //Under certain conditions, we immediately move the block to the bottom
+            if (thisPosition.distance(
+                    (int) GameScene.player.worldPosition.x,
+                    (int) GameScene.player.worldPosition.y,
+                    (int) GameScene.player.worldPosition.z) >= Math.min(50, MAX_ENTITY_DIST)) {
+
+                //Set the block at the bottom
+                for (int y = thisPosition.y + 1; y < World.WORLD_BOTTOM_Y; y++) {
+                    blockBelow = GameScene.world.getBlock(thisPosition.x, y, thisPosition.z);
+                    if (blockBelow.solid) {
+                        GameScene.player.setBlock(block.id, thisPosition.x, y - 1, thisPosition.z);
+                        break;
+                    }
+                }
+                return;
+            }
 
 //            Entity e = GameScene.player.setEntity(link, thisPosition, null);
             Entity e = GameScene.world.setEntity(link, thisPosition, null);
