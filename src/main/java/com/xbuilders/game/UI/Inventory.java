@@ -160,9 +160,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
     int windowFlags = Nuklear.NK_WINDOW_TITLE | Nuklear.NK_WINDOW_NO_SCROLLBAR | Nuklear.NK_WINDOW_CLOSABLE;
     final String WINDOW_TITLE = "Item List";
 
-    public boolean canCloseWithKeyEvents() {
-        return !searchBox.isFocused();
-    }
 
     @Override
     public void draw(MemoryStack stack) {
@@ -358,12 +355,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (isOpen()) {
-             return searchBox.isFocused();
+        if (isOpen() && searchBox.isFocused()) {
+            return true;
         } else if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
-            if (isOpen()) {
-                if (canCloseWithKeyEvents()) setOpen(false);
-            } else setOpen(true);
+            setOpen(!isOpen());
             return true;
         }
         return false;

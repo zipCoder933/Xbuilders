@@ -25,6 +25,7 @@ import org.lwjgl.nuklear.NkVec2;
 
 import java.io.IOException;
 
+import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
@@ -367,6 +368,7 @@ public class UserControlledPlayer extends Player {
 
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (camera.cursorRay.keyEvent(key, scancode, action, mods)) {
+            printKeyConsumption(camera.cursorRay.getClass());
         } else if (action == GLFW.GLFW_PRESS) {
             switch (key) {
                 case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = true;

@@ -88,7 +88,7 @@ public abstract class Game {
 
     public abstract boolean uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset);
 
-    public abstract boolean uiKeyEvent(int key, int scancode, int action, int mods);
+    public abstract boolean keyEvent(int key, int scancode, int action, int mods);
 
     public abstract boolean uiMouseButtonEvent(int button, int action, int mods);
 

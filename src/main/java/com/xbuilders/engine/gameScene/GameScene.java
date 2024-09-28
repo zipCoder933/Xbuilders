@@ -135,7 +135,7 @@ public class GameScene implements WindowEvents {
                     case "players" -> {
                         String str = "" + server.clients.size() + " players:\n";
                         for (PlayerClient client : server.clients) {
-                            if (client.getPlayer() != null) str += client.getPlayer().name + "\n";
+                            str += client.player.name + "\n";
                         }
                         return str;
                     }
@@ -164,7 +164,7 @@ public class GameScene implements WindowEvents {
                         if (parts.length == 2) {
                             PlayerClient target = server.getPlayerByName(parts[1]);
                             if (target != null) {
-                                player.worldPosition.set(target.getPlayer().worldPosition);
+                                player.worldPosition.set(target.player.worldPosition);
                                 return null;
                             } else {
                                 return "Player not found";
@@ -405,6 +405,7 @@ public class GameScene implements WindowEvents {
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (ui.keyEvent(key, scancode, action, mods)) {
+        } else if (game.keyEvent(key, scancode, action, mods)) {
         } else {
             player.keyEvent(key, scancode, action, mods);
         }

@@ -92,17 +92,11 @@ public class ErrorHandler {
     }
 
     private static File saveLogToFile(String devMessage, String errorStr) throws IOException {
-        File logFile;
-        if (devMessage == null){
-            String date = dateFormat.format(new Date()).replaceAll("[^a-zA-Z0-9]", "_");
-            logFile = ResourceUtils.localResource("error logs\\unknown_" + date + ".txt");
-        }
-        else {
-            String name = devMessage.replaceAll("[^a-zA-Z0-9]", "_");
-            logFile = ResourceUtils.localResource("error logs\\" + name + ".txt");
-        }
-
+        String date = dateFormat.format(new Date()).replace(":", "_");
+        File logFile = ResourceUtils.localResource("error logs\\" + date + ".txt");
         if (!logFile.getParentFile().exists()) logFile.getParentFile().mkdirs();
+
+        if (devMessage != null) errorStr = "Message: \t" + devMessage + "\n" + errorStr;
         Files.writeString(logFile.toPath(), errorStr);
         return logFile;
     }

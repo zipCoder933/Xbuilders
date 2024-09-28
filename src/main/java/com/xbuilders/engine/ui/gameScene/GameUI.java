@@ -56,7 +56,6 @@ public class GameUI {
     }
 
 
-
     public boolean anyMenuOpen() {
         return baseMenu.isOpen() || game.menusAreOpen() || infoBox.isActive() || fileDialog.isOpen();
     }
@@ -134,25 +133,32 @@ public class GameUI {
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_ESCAPE -> {
-                    //When we hit ESC, we ALWAYS open the menu.
+                case GLFW.GLFW_KEY_ESCAPE -> {  //When we hit ESC, we ALWAYS open the menu.
                     baseMenu.setOpen(!baseMenu.isOpen());
                     infoBox.escKey();
-                    game.uiKeyEvent(key, scancode, action, mods);
+                    return true;
                 }
                 case GLFW.GLFW_KEY_F4 -> {
                     drawUI = !drawUI;
+                    return true;
                 }
             }
         }
-
         if (fileDialog.isOpen() && fileDialog.keyEvent(key, scancode, action, mods)) {
+            printKeyConsumption(fileDialog.getClass());
             return true;
         } else if (infoBox.keyEvent(key, scancode, action, mods)) {
+            printKeyConsumption(infoBox.getClass());
             return true;
-        } else if (baseMenusOpen()) return true;
+        } else if (baseMenusOpen()) {
+            printKeyConsumption(baseMenu.getClass());
+            return true;
+        }
+        return false;
+    }
 
-        else return game.uiKeyEvent(key, scancode, action, mods);
+    public static void printKeyConsumption(Class aClass) {
+        MainWindow.printlnDev("keyEvent consumed by: " + aClass.getSimpleName());
     }
 
     public boolean mouseButtonEvent(int button, int action, int mods) {

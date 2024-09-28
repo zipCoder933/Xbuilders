@@ -56,6 +56,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
+
 /**
  * @author zipCoder933
  */
@@ -157,12 +159,15 @@ public class MyGame extends Game {
     }
 
     @Override
-    public boolean uiKeyEvent(int key, int scancode, int action, int mods) {
-        if (inventory.keyEvent(key, scancode, action, mods)) {//Inventory needs a wake up key
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
+        if (inventory.keyEvent(key, scancode, action, mods)) {
+            printKeyConsumption(inventory.getClass());
             return true;
         } else if (blockTools.keyEvent(key, scancode, action, mods)) {
+            printKeyConsumption(blockTools.getClass());
             return true;
         } else if (hotbar.keyEvent(key, scancode, action, mods)) {
+            printKeyConsumption(hotbar.getClass());
             return true;
         }
         return false;

@@ -12,23 +12,17 @@ import org.joml.Matrix4f;
  * The changes are changes that WE have made but are sending to the other player
  */
 public class PlayerClient extends NetworkSocket {
-    private Player player;
+    public final Player player = new Player();
     public boolean wasWithinReach = false;
     public boolean isHost = false;
     //    public int playerChunkDistance; //So far this feature is not used
     public PendingBlockChanges blockChanges;
     public PendingEntityChanges entityChanges;
 
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
+    public void initPlayer(byte[] receivedData) {
+        player.loadInfoFromBytes(receivedData);
         blockChanges = new PendingBlockChanges(this, player);
         entityChanges = new PendingEntityChanges(this, player);
-
-        this.player = player;//We MUST assign the player LAST!
     }
 
     public PlayerClient() {
@@ -36,8 +30,8 @@ public class PlayerClient extends NetworkSocket {
 
     public String getName() {
         String name = getHostAddress();
-        if (getPlayer() != null && getPlayer().name != null) {
-            name = getPlayer().name;
+        if (player.name != null) {
+            name = player.name;
         }
         return name + (isHost ? " (host)" : "");
     }
@@ -48,12 +42,9 @@ public class PlayerClient extends NetworkSocket {
     }
 
     public void update(UserControlledPlayer user, Matrix4f projection, Matrix4f view) {
-        if (player == null) {
-            return;
-        }
-        boolean inRange = getPlayer().isWithinReach(user);
+        boolean inRange = player.isWithinReach(user);
         if (inRange) {
-            getPlayer().update(projection, view);
+            player.update(projection, view);
         }
 
         if (blockChanges.periodicRangeSendCheck(2000)) { //Periodically send near changes
