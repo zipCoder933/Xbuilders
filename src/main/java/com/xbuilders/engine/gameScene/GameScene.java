@@ -107,6 +107,7 @@ public class GameScene implements WindowEvents {
         commandHelp.put("players", "Lists all connected players");
         commandHelp.put("teleport", "Usage: teleport <player>" +
                 "\nUsage: teleport <x> <y> <z>");
+        commandHelp.put("address", "Returns the server's address");
         if (game.getCommandHelp() != null) commandHelp.putAll(game.getCommandHelp());
     }
 
@@ -116,6 +117,9 @@ public class GameScene implements WindowEvents {
         if (parts.length > 0) {
             try {
                 switch (parts[0].toLowerCase()) {
+                    case "address" -> {
+                        return server.getIpAdress() + ":" + server.getPort();
+                    }
                     case "help" -> {
                         String out = "Available commands:\n";
                         for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
@@ -189,7 +193,7 @@ public class GameScene implements WindowEvents {
 
     public static void pauseGame() {
         if (window.isFullscreen()) window.minimizeWindow();
-        ui.menu.setOpen(true);
+        ui.baseMenu.setOpen(true);
     }
 
     public static void unpauseGame() {
@@ -373,9 +377,9 @@ public class GameScene implements WindowEvents {
     }
 
     public void windowUnfocusEvent() {
-        if (window.isFullscreen()) ui.menu.setOpen(true);
-        else if (!GameScene.ui.menusAreOpen()) {
-            ui.menu.setOpen(true);
+        if (window.isFullscreen()) ui.baseMenu.setOpen(true);
+        else if (!GameScene.ui.anyMenuOpen()) {
+            ui.baseMenu.setOpen(true);
         }
         holdMouse = false;
     }
@@ -401,9 +405,7 @@ public class GameScene implements WindowEvents {
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (ui.keyEvent(key, scancode, action, mods)) {
-            player.allowKeyInput = false;
         } else {
-            player.allowKeyInput = true;
             player.keyEvent(key, scancode, action, mods);
         }
         if (action == GLFW.GLFW_RELEASE) {
@@ -419,7 +421,7 @@ public class GameScene implements WindowEvents {
 
     public boolean mouseButtonEvent(int button, int action, int mods) {
         ui.mouseButtonEvent(button, action, mods);
-        if (!ui.menusAreOpen()) {
+        if (!ui.anyMenuOpen()) {
             player.mouseButtonEvent(button, action, mods);
         }
         return true;
@@ -427,7 +429,7 @@ public class GameScene implements WindowEvents {
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         boolean letUIHandleScroll = true;
-        if (!ui.menusAreOpen()) {
+        if (!ui.anyMenuOpen()) {
             letUIHandleScroll = !player.mouseScrollEvent(scroll, xoffset, yoffset);
         }
         if (letUIHandleScroll) ui.mouseScrollEvent(scroll, xoffset, yoffset);
@@ -485,6 +487,8 @@ public class GameScene implements WindowEvents {
                 }
 
                 text += "\nSpecial Mode: " + specialMode;
+                text += "\nAny Menu Open: " + GameScene.ui.anyMenuOpen();
+                text += "\nBase Menus Open: " + GameScene.ui.baseMenusOpen();
 
             } catch (Exception ex) {
                 text = "Error: " + ex.getMessage();

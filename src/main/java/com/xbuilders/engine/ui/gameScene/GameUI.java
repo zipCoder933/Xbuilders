@@ -45,7 +45,7 @@ public class GameUI {
     }
 
     public void init() {
-        menu = new GameMenu(ctx, window);
+        baseMenu = new GameMenu(ctx, window);
         fileDialog = new FileDialog(ctx, window);
         overlay = new RectOverlay();
         overlay.setColor(0, 0, 0, 0);
@@ -57,12 +57,12 @@ public class GameUI {
 
 
 
-    public boolean menusAreOpen() {
-        return menu.isOpen() || game.menusAreOpen() || infoBox.isActive() || fileDialog.isOpen();
+    public boolean anyMenuOpen() {
+        return baseMenu.isOpen() || game.menusAreOpen() || infoBox.isActive() || fileDialog.isOpen();
     }
 
     public boolean baseMenusOpen() {
-        return menu.isOpen() || infoBox.isActive();
+        return baseMenu.isOpen() || infoBox.isActive();
     }
 
     NkContext ctx;
@@ -72,7 +72,7 @@ public class GameUI {
     public FileDialog fileDialog;
     Crosshair crosshair;
     public static InfoText infoBox;
-    public static GameMenu menu;
+    public static GameMenu baseMenu;
     boolean drawUI = true;
 
     public void windowResizeEvent(int width, int height) {
@@ -88,15 +88,15 @@ public class GameUI {
         if (drawUI) {
             GL30.glDepthMask(false);
             if (game.menusAreOpen()) {
-                menu.setOpen(false);
+                baseMenu.setOpen(false);
             }
             initGLForUI();
             overlay.draw();
             crosshair.draw();
 
             try (MemoryStack stack = stackPush()) {
-                if (menu.isOpen()) {
-                    menu.draw(stack);
+                if (baseMenu.isOpen()) {
+                    baseMenu.draw(stack);
                 } else if (fileDialog.isOpen()) {
                     fileDialog.draw(stack);
                 } else {
@@ -136,9 +136,8 @@ public class GameUI {
             switch (key) {
                 case GLFW.GLFW_KEY_ESCAPE -> {
                     //When we hit ESC, we ALWAYS open the menu.
-                    menu.setOpen(!menu.isOpen());
+                    baseMenu.setOpen(!baseMenu.isOpen());
                     infoBox.escKey();
-
                     game.uiKeyEvent(key, scancode, action, mods);
                 }
                 case GLFW.GLFW_KEY_F4 -> {
@@ -163,7 +162,7 @@ public class GameUI {
     }
 
     public boolean releaseMouse() {
-        if (menusAreOpen()) return true;
+        if (anyMenuOpen()) return true;
         else if (infoBox.releaseMouse()) return true;
         else if (fileDialog.isOpen() && fileDialog.releaseMouse) return false;
         else if (game.releaseMouse()) return true;

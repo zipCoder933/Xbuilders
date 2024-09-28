@@ -9,7 +9,6 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
@@ -40,7 +39,6 @@ public class UserControlledPlayer extends Player {
     }
 
     public Camera camera;
-    public boolean allowKeyInput;
     private MainWindow window;
     final Vector4f lastOrientation = new Vector4f();
     public boolean runningMode;
@@ -63,6 +61,10 @@ public class UserControlledPlayer extends Player {
     public static final int KEY_TOGGLE_AUTO_FORWARD = GLFW.GLFW_KEY_J;
     public static final int KEY_TOGGLE_VIEW = GLFW.GLFW_KEY_O;
 
+    public static final int KEY_MOVE_RIGHT = GLFW.GLFW_KEY_D;
+    public static final int KEY_MOVE_LEFT = GLFW.GLFW_KEY_A;
+    public static final int KEY_MOVE_FORWARD = GLFW.GLFW_KEY_W;
+    public static final int KEY_MOVE_BACKWARD = GLFW.GLFW_KEY_S;
 
     private static final int KEY_FLY_UP = GLFW.GLFW_KEY_F;
     public static final int KEY_FLY_DOWN = GLFW.GLFW_KEY_LEFT_CONTROL;
@@ -83,28 +85,28 @@ public class UserControlledPlayer extends Player {
     }
 
     private boolean keyInputAllowed() {
-        return allowKeyInput && !GameScene.ui.menusAreOpen();
+        return !GameScene.ui.anyMenuOpen();
     }
 
     public boolean leftKeyPressed() {
         if (!keyInputAllowed()) return false;
-        return window.isKeyPressed(GLFW.GLFW_KEY_LEFT) || window.isKeyPressed(GLFW.GLFW_KEY_A);
+        return  window.isKeyPressed(KEY_MOVE_LEFT);
     }
 
     public boolean rightKeyPressed() {
         if (!keyInputAllowed()) return false;
-        return window.isKeyPressed(GLFW.GLFW_KEY_RIGHT) || window.isKeyPressed(GLFW.GLFW_KEY_D);
+        return  window.isKeyPressed(KEY_MOVE_RIGHT);
     }
 
     public boolean forwardKeyPressed() {
         if (autoForward) return true;
         if (!keyInputAllowed()) return false;
-        return window.isKeyPressed(GLFW.GLFW_KEY_UP) || window.isKeyPressed(GLFW.GLFW_KEY_W);
+        return  window.isKeyPressed(KEY_MOVE_FORWARD);
     }
 
     public boolean backwardKeyPressed() {
         if (!keyInputAllowed()) return false;
-        return window.isKeyPressed(GLFW.GLFW_KEY_DOWN) || window.isKeyPressed(GLFW.GLFW_KEY_S);
+        return  window.isKeyPressed(KEY_MOVE_BACKWARD);
     }
 
 
@@ -264,7 +266,7 @@ public class UserControlledPlayer extends Player {
             }
 
             if (isInsideOfLadder()) {
-                if (allowKeyInput && window.isKeyPressed(KEY_JUMP)) {
+                if (keyInputAllowed() && window.isKeyPressed(KEY_JUMP)) {
                     isClimbing = true;
                     disableFlying();
                     worldPosition.sub(0, 3f * window.smoothFrameDeltaSec, 0);
@@ -279,14 +281,14 @@ public class UserControlledPlayer extends Player {
                     positionHandler.setGravityEnabled(true);
                     isClimbing = false;
                 } else if (isFlyingMode) {
-                    if (allowKeyInput && window.isKeyPressed(KEY_FLY_UP)) {
+                    if (keyInputAllowed() && window.isKeyPressed(KEY_FLY_UP)) {
                         worldPosition.sub(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
-                    } else if (allowKeyInput && window.isKeyPressed(KEY_FLY_DOWN)) {
+                    } else if (keyInputAllowed() && window.isKeyPressed(KEY_FLY_DOWN)) {
                         worldPosition.add(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     }
-                } else if (playerBlock.isLiquid() && allowKeyInput && window.isKeyPressed(KEY_JUMP)) {
+                } else if (playerBlock.isLiquid() && keyInputAllowed() && window.isKeyPressed(KEY_JUMP)) {
                     positionHandler.addVelocity(0, -0.05f, 0);
                 }
             }

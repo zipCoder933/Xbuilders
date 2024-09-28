@@ -28,6 +28,7 @@ public class EngineSettings {
     public boolean internal_smallWindow = false;
     public final BoundedInt internal_viewDistance = new BoundedInt(Chunk.WIDTH * 5);
     public boolean internal_experimentalFeatures = false;
+    public float internal_blockBoundaryAreaLimit = 500000;
 
 
     public EngineSettings initVariables() {

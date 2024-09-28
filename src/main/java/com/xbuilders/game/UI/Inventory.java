@@ -358,11 +358,9 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (isOpen() && action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_ESCAPE) {
-            setOpen(false);
-            return true;
-        } else if (searchBox.isFocused()) return true;
-        else if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
+        if (isOpen()) {
+             return searchBox.isFocused();
+        } else if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
             if (isOpen()) {
                 if (canCloseWithKeyEvents()) setOpen(false);
             } else setOpen(true);

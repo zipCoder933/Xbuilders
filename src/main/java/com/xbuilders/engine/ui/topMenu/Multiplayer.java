@@ -57,11 +57,11 @@ public class Multiplayer implements MenuPage {
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
-        if(MainWindow.devMode){
-            if(hosting){
+        if (MainWindow.devMode) {
+            if (hosting) {
                 fromPortBox.setValueAsNumber(8081);
                 nameBox.setValueAsString("host");
-            }else{
+            } else {
                 portBox.setValueAsNumber(8081);
             }
         }
@@ -151,7 +151,7 @@ public class Multiplayer implements MenuPage {
         } else {
             if (MainWindow.devMode) {
                 ipAdressBox.setValueAsString(ipAdress);
-            } else ipAdressBox.setValueAsString("");
+            }
         }
     }
 

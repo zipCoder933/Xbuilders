@@ -175,7 +175,6 @@ public class CursorRay {
         setBoundaryStartNode(node);
     }
 
-    public final int BOUNDARY_MAX_AREA = 250000;
 
     public boolean boundaryIsWithinArea() {
         int maxWidth = GameScene.world.getDeletionViewDistance() - Chunk.WIDTH;
@@ -185,7 +184,8 @@ public class CursorRay {
                 (
                         boundary_aabb.getXLength() *
                                 boundary_aabb.getZLength() *
-                                boundary_aabb.getYLength() < BOUNDARY_MAX_AREA);
+                                boundary_aabb.getYLength() <
+                                MainWindow.settings.internal_blockBoundaryAreaLimit);
     }
 
     public void drawRay() {
