@@ -2,14 +2,17 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.*;
+import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.utils.UserID;
+import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
@@ -23,21 +26,14 @@ import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
-import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
-import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 public class UserControlledPlayer extends Player {
 
-
-    long lastSave = System.currentTimeMillis();
-
-    public void save() { //Periodic saving
-        eventPipeline.save();
-        saveModel();
-    }
 
     public Camera camera;
     private MainWindow window;
@@ -124,8 +120,29 @@ public class UserControlledPlayer extends Player {
         positionHandler.setGravityEnabled(true);
     }
 
-    public UserControlledPlayer(UserID user) throws IOException {
-        super(user);
+    public UserControlledPlayer() throws IOException {
+        super();
+        //Load first person data
+        if (playerModelFile.exists()) {
+            loadInfoFromBytes(Files.readAllBytes(playerModelFile.toPath()));
+            System.out.println("Loaded player model: " + toString());
+        } else {
+            name = System.getProperty("user.name");
+            save();
+        }
+    }
+
+    private static final File playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
+    long lastSave = System.currentTimeMillis();
+
+    public void save() { //Periodic saving
+        eventPipeline.save();
+        //Save first person data
+        try {
+            Files.write(playerModelFile.toPath(), infoToBytes());
+        } catch (IOException e) {
+            ErrorHandler.report(e);
+        }
     }
 
     public void init(
@@ -139,7 +156,6 @@ public class UserControlledPlayer extends Player {
 
 
         positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
-        skin = MainWindow.game.availableSkins.get(0).get(this);
         eventPipeline = new BlockEventPipeline(world, this);
     }
 
@@ -186,7 +202,6 @@ public class UserControlledPlayer extends Player {
 
     Block cameraBlock, playerBlock;
 
-    // playerForward,playerBackward,playerUp,playerDown,playerLeft,playerRight;
     public void update(boolean holdMouse) {
         Block newCameraBlock = getBlockAtCameraPos();
         if (newCameraBlock != cameraBlock) {
@@ -326,8 +341,7 @@ public class UserControlledPlayer extends Player {
 
         camera.cursorRay.drawRay();
         if (camera.getThirdPersonDist() != 0.0f) {
-            skin.init(projection, view);
-            skin.render();
+            getSkin().super_render(projection, view);
         }
 
         if (lastOrientation.x != worldPosition.x
@@ -389,7 +403,7 @@ public class UserControlledPlayer extends Player {
                         camera.cursorRay.rayDistance = 7;
                     }
                 }
-                case KEY_TOGGLE_VIEW -> camera.cycleToNextView(15);
+                case KEY_TOGGLE_VIEW -> camera.cycleToNextView(10);
                 case KEY_CREATE_MOUSE_BUTTON -> {
                     if (!camera.cursorRay.clickEvent(true)) {
                         setItem(MainWindow.game.getSelectedItem());

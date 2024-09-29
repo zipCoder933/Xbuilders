@@ -6,7 +6,6 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ByteUtils;
-import com.xbuilders.engine.utils.SynchronizedHashmap;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;

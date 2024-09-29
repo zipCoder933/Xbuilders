@@ -7,8 +7,7 @@ package com.xbuilders.engine.gameScene;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.player.Skin;
+import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
@@ -17,6 +16,7 @@ import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,18 +25,12 @@ import java.util.Map;
 public abstract class Game {
 
     public final MainWindow window;
-    public final ArrayList<Terrain> terrainsList;
-    public ArrayList<SkinSupplier> availableSkins = new ArrayList<>();
+    public final ArrayList<Terrain> terrainsList = new ArrayList<>();
+    public final HashMap<Integer, SkinLink> availableSkins = new HashMap<>();
 
     public boolean releaseMouse() {
         return false;
     }
-
-    @FunctionalInterface
-    public interface SkinSupplier {
-        public Skin get(Player player);
-    }
-
 
     long lastSaved;
 
@@ -50,7 +44,6 @@ public abstract class Game {
 
     public Game(MainWindow window) {
         this.window = window;
-        terrainsList = new ArrayList<>();
     }
 
     public abstract void startGame(WorldInfo worldInfo);

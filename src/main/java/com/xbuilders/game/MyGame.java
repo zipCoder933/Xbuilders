@@ -12,13 +12,13 @@ import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.CursorRay;
+import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.world.WorldInfo;
-import com.xbuilders.engine.ui.FileDialog;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.blockTools.BlockTools;
@@ -50,7 +50,6 @@ import org.lwjgl.system.MemoryStack;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -65,9 +64,25 @@ public class MyGame extends Game {
 
     public MyGame(MainWindow window) {
         super(window);
-        availableSkins = new ArrayList<>();
-        availableSkins.add((p) -> new FoxSkin(p));
+
+        //add skins
+        availableSkins.put(0, new SkinLink((p) -> new FoxSkin(p, "red")));
+        availableSkins.put(1, new SkinLink((p) -> new FoxSkin(p, "yellow")));
+        availableSkins.put(2, new SkinLink((p) -> new FoxSkin(p, "blue")));
+        availableSkins.put(3, new SkinLink((p) -> new FoxSkin(p, "green")));
+        availableSkins.put(4, new SkinLink((p) -> new FoxSkin(p, "magenta")));
+        availableSkins.put(5, new SkinLink((p) -> new FoxSkin(p, "white")));
+        availableSkins.put(6, new SkinLink((p) -> new FoxSkin(p, "gray")));
         json = new JsonManager();
+
+
+        //Add terrains;
+        terrainsList.add(new DefaultTerrain());
+        terrainsList.add(new FlatTerrain());
+        if (window.devMode) terrainsList.add(new DevTerrain());
+        if (window.settings.internal_experimentalFeatures) {
+            terrainsList.add(new ComplexTerrain());
+        }
     }
 
     public HashMap<String, String> getCommandHelp() {
@@ -464,17 +479,7 @@ public class MyGame extends Game {
                 new Camera(),
                 TOOL_ANIMAL_FEED
         };
-        System.out.println("Experimental features: " + window.settings.internal_experimentalFeatures);
 
-        //Add terrains
-//        terrainsList.add(new TestTerrain());
-//        terrainsList.add(new BasicTerrain());
-        terrainsList.add(new DefaultTerrain());
-        terrainsList.add(new FlatTerrain());
-        if (window.devMode) terrainsList.add(new DevTerrain());
-        if (window.settings.internal_experimentalFeatures) {
-            terrainsList.add(new ComplexTerrain());
-        }
 
         //Set items AFTER setting block types
         ItemList.setAllItems(blockList, entityList, tools);

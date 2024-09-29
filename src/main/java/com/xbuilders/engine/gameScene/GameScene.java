@@ -64,7 +64,7 @@ public class GameScene implements WindowEvents {
     public GameScene(MainWindow window) throws Exception {
         this.window = window;
         specialMode = true;
-        player = new UserControlledPlayer(MainWindow.user);
+        player = new UserControlledPlayer();
         localEntityChanges = new Local_PendingEntityChanges(player);
         otherPlayers = new ArrayList<>();
         server = new GameServer(player);

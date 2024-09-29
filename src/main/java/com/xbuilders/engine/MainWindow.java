@@ -13,7 +13,6 @@ import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.UserID;
 import com.xbuilders.game.MyGame;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
@@ -90,7 +89,6 @@ public class MainWindow extends NKWindow {
     public static MyGame game;
     public static TopMenu topMenu;
     public static GameScene gameScene;
-    public static UserID user;
     public static PopupMessage popupMessage;
 
     File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
@@ -171,8 +169,6 @@ public class MainWindow extends NKWindow {
     private void init() throws Exception {
         GLFWWindow.initGLFW();
         settings = EngineSettings.load();
-
-        user = new UserID(ResourceUtils.appDataResource("userID.txt"));
 
         game = new MyGame(this);
         gameScene.setGame(game);

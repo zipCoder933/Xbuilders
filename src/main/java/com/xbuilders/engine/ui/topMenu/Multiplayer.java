@@ -10,6 +10,7 @@ package com.xbuilders.engine.ui.topMenu;
  */
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;
@@ -21,7 +22,7 @@ import com.xbuilders.window.nuklear.components.TextBox;
 import java.nio.IntBuffer;
 
 import org.lwjgl.nuklear.*;
-import org.lwjgl.system.*;
+import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -54,6 +55,11 @@ public class Multiplayer implements MenuPage {
         nameBox = new TextBox(20);
         ipAdressBox = new TextBox(20);
 
+        nameBox.setOnChangeEvent(() -> {
+            player.name = nameBox.getValueAsString();
+            player.save();
+        });
+
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
@@ -78,6 +84,7 @@ public class Multiplayer implements MenuPage {
     NumberBox fromPortBox, portBox;
     TextBox nameBox, ipAdressBox;
     private WorldInfo world;
+    int chosenSkin = 0;
 
     final int boxWidth = 550;
     final int boxHeight = 450;
@@ -115,8 +122,10 @@ public class Multiplayer implements MenuPage {
             row("My Name:");
             nameBox.render(ctx);
 
-//            row("Player Type:");//TODO: Add this feature later
-//            nk_button_label(ctx, "Default");
+            row("Player Type:");
+            if (nk_button_label(ctx, GameScene.player.getSkin().name)) {
+                goToNextSkin();
+            }
 
             nk_layout_row_static(ctx, 75, 1, 1);
             nk_layout_row_dynamic(ctx, 40, 2);
@@ -141,6 +150,13 @@ public class Multiplayer implements MenuPage {
             }
         }
         nk_end(ctx);
+    }
+
+    private void goToNextSkin() {
+        chosenSkin++;
+        //Go to the next skin
+        GameScene.player.setSkin(chosenSkin % MainWindow.game.availableSkins.size());
+        GameScene.player.save();
     }
 
     @Override

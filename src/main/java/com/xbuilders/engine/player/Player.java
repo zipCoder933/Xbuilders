@@ -6,42 +6,46 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.UserID;
-import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-
 /**
  * @author zipCoder933
  */
 public class Player {
 
-    public final static boolean simulatedServer = true;
-    public Skin skin;
-    private static final File playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
+    private Skin skin;
+    private int skinID = 0;
+
+    public Skin getSkin() {
+        return skin;
+    }
+
+    public void setSkin(int id) {
+        this.skin = MainWindow.game.availableSkins.get(id).getSkin(this);
+        this.skinID = id;
+    }
+
+
     public String name;
-    public byte color;
     public final EntityAABB aabb;
     public final Vector3f worldPosition;
     public float pan, tilt;
-    public boolean initialized = false;
-
-
     final int nameStart = 2;
 
     public byte[] infoToBytes() throws IOException {
         byte[] data = new byte[name.length() + nameStart];  // Assuming color is a byte
         data[0] = GameServer.PLAYER_INFO;
-        data[1] = color;
+        data[1] = (byte) skinID;
 
         for (int i = 0; i < name.length(); i++) {
             data[i + nameStart] = (byte) name.charAt(i);  // Casting char to byte
@@ -53,7 +57,9 @@ public class Player {
         if (data.length < nameStart) {
             throw new IllegalArgumentException("Invalid data length");
         }
-        color = data[1];
+
+        //Load the skin
+        setSkin(data[1]);
 
         //Load the name
         int nameLength = data.length - nameStart; // Subtracting 2 for color and header
@@ -62,13 +68,7 @@ public class Player {
         name = new String(nameBytes, StandardCharsets.UTF_8);
     }
 
-    public void saveModel() {
-        try {
-            Files.write(playerModelFile.toPath(), infoToBytes());
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
-    }
+
 
     public boolean isWithinReach(float worldX, float worldY, float worldZ) {
         return worldPosition.distance(worldX, worldY, worldZ) < GameScene.world.getViewDistance();
@@ -78,10 +78,6 @@ public class Player {
         return worldPosition.distance(otherPlayer.worldPosition) < GameScene.world.getViewDistance();
     }
 
-    public void init() {
-        skin = MainWindow.game.availableSkins.get(0).get(this);
-        initialized = true;
-    }
 
     final static float PLAYER_HEIGHT = 1.5f;
     final static float PLAYER_WIDTH = 0.7f;
@@ -98,33 +94,13 @@ public class Player {
         worldPosition = aabb.worldPosition;
     }
 
-    public Player(UserID user) throws IOException {
-        aabb = new EntityAABB();
-        initAABB();
-        worldPosition = aabb.worldPosition;
-
-        if (playerModelFile.exists()) {
-            loadInfoFromBytes(Files.readAllBytes(playerModelFile.toPath()));
-            System.out.println("Loaded player model: " + toString());
-        } else {
-            name = user.userName;
-            color = 0;
-            saveModel();
-        }
-    }
-
     public void update(Matrix4f projection, Matrix4f view) {
-        if (!initialized) {
-            init();
-        }
-        skin.init(projection, view);
-        skin.render();
+        skin.super_render(projection, view);
     }
 
     @Override
     public String toString() {
-        return "Player{" + "name=" + name
-                + ", color=" + color;
+        return "Player{" + "name=" + name + '}';
     }
 
 

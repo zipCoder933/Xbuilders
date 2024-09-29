@@ -18,14 +18,20 @@ public abstract class Skin {
     public final Player player;
     WCCf chunkPosition;
     Vector3f prevWorldPosition = new Vector3f();
-    float sunValue,torchValue;
+    float sunValue, torchValue;
+    public final String name;
+    protected boolean initialized;
 
-    public Skin(Player player) {
+    public Skin(String name, Player player) {
+        this.name = name;
         this.player = player;
+        initialized = false;
         this.position = player.aabb;
         chunkPosition = new WCCf();
         modelMatrix = new MVP();
     }
+
+    public abstract void init();
 
     public abstract void render();
 
@@ -62,8 +68,13 @@ public abstract class Skin {
         torchValue = (float) ChunkVoxels.getTorch(light) / 15;
     }
 
-    public final void init(Matrix4f projection, Matrix4f view) {
-        if(shader == null) {
+    protected final void super_render(Matrix4f projection, Matrix4f view) {
+        if (!initialized) { //Initialize
+            init();
+            initialized = true;
+        }
+
+        if (shader == null) {
             shader = new EntityShader();
         }
         //Update position
@@ -78,11 +89,14 @@ public abstract class Skin {
                 .rotateY((float) (-player.pan - Math.PI / 2));
 
         modelMatrix.update();
-        modelMatrix.sendToShader(shader.getID(),shader.uniform_modelMatrix);
+        modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
         shader.loadFloat(shader.uniform_sun, sunValue);
         shader.loadFloat(shader.uniform_torch, torchValue);
 
         shader.bind();
         shader.updateProjectionViewMatrix(projection, view);
+
+        //Actually render the skin
+        render();
     }
 }
