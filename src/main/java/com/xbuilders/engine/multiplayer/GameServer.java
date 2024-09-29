@@ -195,7 +195,7 @@ public class GameServer extends Server<PlayerClient> {
 //            printDatafromClient(client, receivedData);
             if (receivedData.length > 0) {
                 if (receivedData[0] == PLAYER_INFO) {
-                    client.initPlayer(receivedData);
+                    client.player.loadInfoFromBytes(receivedData);
                     playerJoinEvent(client);
                     client.sendData(NetworkUtils.formatMessage(PLAYER_CHAT, "Welcome \"" + client.player.name + "\"!"));
                 } else if (receivedData[0] == PLAYER_CHAT) {

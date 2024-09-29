@@ -16,16 +16,12 @@ public class PlayerClient extends NetworkSocket {
     public boolean wasWithinReach = false;
     public boolean isHost = false;
     //    public int playerChunkDistance; //So far this feature is not used
-    public PendingBlockChanges blockChanges;
-    public PendingEntityChanges entityChanges;
-
-    public void initPlayer(byte[] receivedData) {
-        player.loadInfoFromBytes(receivedData);
-        blockChanges = new PendingBlockChanges(this, player);
-        entityChanges = new PendingEntityChanges(this, player);
-    }
+    final public PendingBlockChanges blockChanges;
+    final public PendingEntityChanges entityChanges;
 
     public PlayerClient() {
+        blockChanges = new PendingBlockChanges(this, player);
+        entityChanges = new PendingEntityChanges(this, player);
     }
 
     public String getName() {
