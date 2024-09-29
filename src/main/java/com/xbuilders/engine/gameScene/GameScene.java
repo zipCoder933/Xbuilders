@@ -14,6 +14,7 @@ import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
+import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.World;
@@ -149,13 +150,13 @@ public class GameScene implements WindowEvents {
                             //It doesnt matter if we had 2 players with different time
 //                            if(!server.isHosting() && server.isPlayingMultiplayer()) return "You cannot change time";
                             if (parts[1].toLowerCase().equals("day") || parts[1].toLowerCase().equals("morning")) {
-                                background.setTimeOfDay(0);
+                                setTimeOfDay(0.0f);
                                 return null;
                             } else if (parts[1].toLowerCase().equals("evening")) {
-                                background.setTimeOfDay(0.25f);
+                                setTimeOfDay(0.25f);
                                 return null;
                             } else if (parts[1].toLowerCase().equals("night")) {
-                                background.setTimeOfDay(0.5f);
+                                setTimeOfDay(0.5f);
                                 return null;
                             } else return commandHelp.get("time");
                         } else return commandHelp.get("time");
@@ -189,6 +190,12 @@ public class GameScene implements WindowEvents {
             }
         }
         return "Unknown command. Type 'help' for a list of commands";
+    }
+
+    private static void setTimeOfDay(float v) throws IOException {
+        background.setTimeOfDay(v);
+        byte[] timeFloat = ByteUtils.floatToBytes(v);
+        server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
     }
 
     public static void pauseGame() {
@@ -318,7 +325,7 @@ public class GameScene implements WindowEvents {
     }
 
     public void initialize(MainWindow window, MyGame game) throws Exception {
-        background = new SkyBackground();
+        background = new SkyBackground(window);
         livePropagationHandler.tasks.clear();
 
         game.initialize(this);
@@ -335,7 +342,7 @@ public class GameScene implements WindowEvents {
     public static boolean specialMode;
     //    public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
     public static GameUI ui;
-    static SkyBackground background;
+    public static SkyBackground background;
 
     public void pingAllPlayers() {
         for (PlayerClient p : server.clients) {

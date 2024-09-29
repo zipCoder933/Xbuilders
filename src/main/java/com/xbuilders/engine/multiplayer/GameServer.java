@@ -35,19 +35,19 @@ import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
 public class GameServer extends Server<PlayerClient> {
 
+    //All server message headers
     public static final byte PLAYER_INFO = -128;
     public static final byte WORLD_INFO = -127;
     public static final byte PLAYER_POSITION = -126;
     public static final byte PLAYER_CHAT = -125;
     public static final byte WORLD_CHUNK = -124;
     public static final byte READY_TO_START = -123;
-
     public static final byte VOXEL_BLOCK_CHANGE = -122;
     public static final byte ENTITY_CREATED = -121;
     public static final byte ENTITY_DELETED = -120;
     public static final byte ENTITY_UPDATED = -119;
-
     public static final byte PLAYER_CHUNK_DISTANCE = -118;
+    public static final byte SET_TIME = -117;
 
     NetworkJoinRequest req;
     UserControlledPlayer userPlayer;
@@ -263,6 +263,8 @@ public class GameServer extends Server<PlayerClient> {
                         System.out.println("Received chunk " + x + ", " + y + ", " + z);
                     } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
                         getWorldInformationFromHost(receivedData);
+                    } else if (receivedData[0] == SET_TIME) {
+                        GameScene.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
                     }
                 }
             }

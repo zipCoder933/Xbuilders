@@ -20,9 +20,11 @@ public class SkyBackground {
     SkyBoxMesh skyBoxMesh;
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
+    MainWindow mainWindow;
 
-    public SkyBackground() throws IOException {
+    public SkyBackground(MainWindow mainWindow) throws IOException {
         skyBoxMesh = new SkyBoxMesh();
+        this.mainWindow = mainWindow;
         skyBoxMesh.loadFromOBJ(ResourceUtils.resource("weather\\skybox.obj"));
 
         File texture = ResourceUtils.resource("weather\\skybox.png");
@@ -32,7 +34,7 @@ public class SkyBackground {
     }
 
 
-    float textureXPan;
+    double textureXPan;
     Vector3f defaultTint = new Vector3f(1, 1, 1);
     Vector3f defaultSkyColor = new Vector3f(0.5f, 0.5f, 0.5f);
 
@@ -72,16 +74,16 @@ public class SkyBackground {
         skyBoxShader.bind();
         skyBoxShader.updateMatrix(projection, view);
 
-        textureXPan += UPDATE_SPEED;
+        textureXPan += UPDATE_SPEED * ((double) mainWindow.frameDeltaSec);
         if (textureXPan > 1) {
             textureXPan = 0;
         }
 
-        skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, textureXPan);
+        skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, (float) textureXPan);
         skyBoxMesh.draw();
 
         if (MainWindow.frameCount % 20 == 0) {
-            applyTint();
+            applyTint();  //System.out.println(textureXPan);
         }
         GL30.glEnable(GL30.GL_DEPTH_TEST);
     }
