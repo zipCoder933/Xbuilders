@@ -83,10 +83,9 @@ public class ChunkEntitySet {
 
         for (int i = list.size() - 1; i >= 0; i--) {
             Entity e = list.get(i);
-            if (e.destroyMode) {
+            if (e == null || e.destroyMode) {
                 GameScene.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
-
                 GameScene.world.entities.remove(e.getIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread

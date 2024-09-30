@@ -458,7 +458,8 @@ public class GameScene implements WindowEvents {
                 text += "Player pos: " +
                         ((int) player.worldPosition.x) + ", " +
                         ((int) player.worldPosition.y) + ", " +
-                        ((int) player.worldPosition.z) + "\n";
+                        ((int) player.worldPosition.z) +
+                        "    Player velocity: " + MiscUtils.printVector(GameScene.player.positionHandler.getVelocity());
                 text += "\nPlayer camera: " + player.camera.toString();
 
                 if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {

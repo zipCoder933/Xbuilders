@@ -223,7 +223,7 @@ public class Camera {
                                 && (block2.solid || block2.opaque);
                     })
                     , GameScene.world);
-            look.mul(MathUtils.clamp(cameraViewRay.distanceTraveled, 2, thirdPersonDist2) - 1);
+            look.mul(MathUtils.clamp(cameraViewRay.distanceTraveled, 2, thirdPersonDist2) - 1.5f);
 
 
             if (getThirdPersonDist() > 0) {

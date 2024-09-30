@@ -21,12 +21,12 @@ public class GravityBlock {
 
     public void convert(Block block) {
         block.properties.put("gravity", "true");
-//        block.localChangeEvent(true, ((history, changedPosition, thisPosition) -> {
-//            checkFall(block, thisPosition);
-//        }));
-//        block.setBlockEvent(true, ((x, y, z) -> {
-//            checkFall(block, new Vector3i(x, y, z));
-//        }));
+        block.localChangeEvent(true, ((history, changedPosition, thisPosition) -> {
+            checkFall(block, thisPosition);
+        }));
+        block.setBlockEvent(true, ((x, y, z) -> {
+            checkFall(block, new Vector3i(x, y, z));
+        }));
     }
 
     private void checkFall(Block block, Vector3i thisPosition) {
@@ -68,12 +68,9 @@ public class GravityBlock {
                 }
                 return;
             }
-
-//            Entity e = GameScene.player.setEntity(link, thisPosition, null);
             Entity e = GameScene.world.setEntity(link, thisPosition, null);
             GravityBlockEntity gravityBlockEntity = (GravityBlockEntity) e;
             gravityBlockEntity.block = block;
-
         }
     }
 }

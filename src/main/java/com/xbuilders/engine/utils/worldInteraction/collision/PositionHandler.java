@@ -48,12 +48,12 @@ public class PositionHandler {
 
     public void setFallMedium(float gravity, float terminalVelocity) {
         this.gravity = gravity;
-        this.terminalVelocity = Math.min(terminalVelocity, DEFAULT_TERMINAL_VELOCITY);
+        this.terminalVelocity = Math.min(terminalVelocity, MAX_TERMINAL_VELOCITY);
     }
 
     public void resetFallMedium() {
         this.gravity = DEFAULT_GRAVITY;
-        this.terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
+        this.terminalVelocity = MAX_TERMINAL_VELOCITY;
     }
 
 
@@ -63,7 +63,7 @@ public class PositionHandler {
     public static final float BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS = 2;
     public static final float ENTITY_COLLISION_CANDIDATE_CHECK_RADIUS = 10;
     public static final float DEFAULT_GRAVITY = 0.42f;
-    public static final float DEFAULT_TERMINAL_VELOCITY = 0.6f;
+    public static final float MAX_TERMINAL_VELOCITY = 60f;
     public static final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
     public static final float DEFAULT_COAST = 0.6f;
 
@@ -80,7 +80,7 @@ public class PositionHandler {
 
 
     public float gravity = DEFAULT_GRAVITY;
-    public float terminalVelocity = DEFAULT_TERMINAL_VELOCITY;
+    public float terminalVelocity = MAX_TERMINAL_VELOCITY;
     public boolean collisionsEnabled = true;
     protected Box renderedBox;
     public final EntityAABB aabb;
@@ -152,11 +152,15 @@ public class PositionHandler {
                 } else {
                     velocity.y *= 0.75f; //Vertical coasting
                 }
-                if (velocity.y > -0.00001f) {
-                    onGround = true;
-                } else if (velocity.y > terminalVelocity * frameDeltaSec) {
+
+                if (velocity.y > terminalVelocity * frameDeltaSec) {
                     velocity.y = terminalVelocity * frameDeltaSec;
                 }
+
+                if (velocity.y > -0.00001f) {
+                    onGround = true;
+                }
+
 
                 //Calculate new AABB
                 aabb.box.setX(aabb.box.min.x + (velocity.x * timestepMultiplier));
@@ -201,5 +205,9 @@ public class PositionHandler {
     public void setVelocity(float x, float z) {
         this.velocity.x = x;
         this.velocity.z = z;
+    }
+
+    public Vector3f getVelocity() {
+        return velocity;
     }
 }

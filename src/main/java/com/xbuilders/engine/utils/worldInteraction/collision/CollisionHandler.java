@@ -157,8 +157,9 @@ public class CollisionHandler {
                 collisionData.penPerAxes.mul(0.8f);
             }
 
-            if (Math.abs(collisionData.penPerAxes.x) > 0.6f || Math.abs(collisionData.penPerAxes.y) > 0.6f
-                    || Math.abs(collisionData.penPerAxes.z) > 0.6f) {
+            if (Math.abs(collisionData.penPerAxes.x) > 0.6f ||
+                    Math.abs(collisionData.penPerAxes.z) > 0.6f ||
+                    Math.abs(collisionData.penPerAxes.y) > 0.6f) {
                 driver.velocity.y = 0;
                 driver.onGround = true;
                 setFrozen = true;

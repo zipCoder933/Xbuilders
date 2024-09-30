@@ -61,7 +61,7 @@ public class MinecartEntityLink extends EntityLink {
 
         public Minecart(MainWindow window) {
             super(window);
-            aabb.setOffsetAndSize(1f, 1f, 1f, true);
+            aabb.setOffsetAndSize(.9f, 1f, .9f, true);
             positionLock = new PositionLock(this, 0);
 
 
