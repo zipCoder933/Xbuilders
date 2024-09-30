@@ -64,7 +64,7 @@ public class GameScene implements WindowEvents {
     public GameScene(MainWindow window) throws Exception {
         this.window = window;
         specialMode = true;
-        player = new UserControlledPlayer();
+        player = new UserControlledPlayer(window, world, projection, view, centeredView);
         localEntityChanges = new Local_PendingEntityChanges(player);
         otherPlayers = new ArrayList<>();
         server = new GameServer(player);
@@ -192,9 +192,9 @@ public class GameScene implements WindowEvents {
         return "Unknown command. Type 'help' for a list of commands";
     }
 
-    private static void setTimeOfDay(float v) throws IOException {
+    public static void setTimeOfDay(double v) throws IOException {
         background.setTimeOfDay(v);
-        byte[] timeFloat = ByteUtils.floatToBytes(v);
+        byte[] timeFloat = ByteUtils.floatToBytes((float) v);
         server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
     }
 
@@ -333,7 +333,7 @@ public class GameScene implements WindowEvents {
         setProjection();
         ui = new GameUI(game, window.ctx, window);
         world.init(ItemList.blocks.textures);
-        player.init(window, world, projection, view, centeredView);
+        player.init();
         ui.init();
         game.uiInit(window.ctx, ui);
     }

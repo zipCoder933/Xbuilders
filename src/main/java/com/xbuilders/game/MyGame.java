@@ -71,8 +71,6 @@ public class MyGame extends Game {
         availableSkins.put(2, new SkinLink((p) -> new FoxSkin(p, "blue")));
         availableSkins.put(3, new SkinLink((p) -> new FoxSkin(p, "green")));
         availableSkins.put(4, new SkinLink((p) -> new FoxSkin(p, "magenta")));
-        availableSkins.put(5, new SkinLink((p) -> new FoxSkin(p, "white")));
-        availableSkins.put(6, new SkinLink((p) -> new FoxSkin(p, "gray")));
         json = new JsonManager();
 
 
@@ -113,6 +111,7 @@ public class MyGame extends Game {
 
     public static class GameInfo {
         public final Item[] playerBackpack;
+        public double timeOfDay;
 
         public GameInfo() {
             playerBackpack = new Item[22];
@@ -199,6 +198,64 @@ public class MyGame extends Game {
         }
     }
 
+
+    @Override
+    public boolean menusAreOpen() {
+        return inventory.isOpen() || blockTools.isOpen();
+    }
+
+    WorldInfo currentWorld;
+
+    @Override
+    public void startGame(WorldInfo worldInfo) {
+        this.currentWorld = worldInfo;
+        try {
+            loadState();
+            if (GameScene.server.isHosting() || !GameScene.server.isPlayingMultiplayer())
+                GameScene.setTimeOfDay(gameInfo.timeOfDay);
+
+        } catch (IOException ex) {
+            ErrorHandler.report(ex);
+        }
+
+        inventory.setPlayerInfo(gameInfo);
+        hotbar.setPlayerInfo(gameInfo);
+    }
+
+    private void loadState() throws FileNotFoundException {
+        File f = new File(currentWorld.getDirectory() + "\\game.json");
+        if (f.exists()) {
+            gameInfo = json.gson.fromJson(new FileReader(f), GameInfo.class);
+            if (gameInfo == null) {
+                gameInfo = new GameInfo();
+            }
+        } else {
+            System.out.println("Making new game info");
+            gameInfo = new GameInfo();
+        }
+    }
+
+    @Override
+    public void saveState() {
+        if (gameInfo != null) {
+            //Write variables
+            gameInfo.timeOfDay = GameScene.background.getTimeOfDay();
+
+            //Save game info
+            File f = new File(currentWorld.getDirectory() + "\\game.json");
+            try (FileWriter writer = new FileWriter(f)) {
+                json.gson.toJson(gameInfo, writer);
+            } catch (IOException ex) {
+                Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public boolean includeBlockIcon(Block block) {
+        return block.renderType != RenderType.SPRITE;
+    }
+
     private static Block[] getAllJsonBlocks(File jsonDirectory) {
         System.out.println("Adding all json blocks from " + jsonDirectory.getAbsolutePath());
         if (!jsonDirectory.exists()) jsonDirectory.mkdirs();
@@ -241,7 +298,7 @@ public class MyGame extends Game {
         return null;
     }
 
-
+    //<editor-fold defaultstate="collapsed" desc="Blocks and items">
     public static void exportBlocksToJson(List<Block> list, File out) {
         //Save list as json
         try {
@@ -538,53 +595,7 @@ public class MyGame extends Game {
         gravity.convert(ItemList.getBlock(BLOCK_SNOW_BLOCK));
         gravity.convert(ItemList.getBlock(BLOCK_CACTUS));
     }
-
-    @Override
-    public boolean menusAreOpen() {
-        return inventory.isOpen() || blockTools.isOpen();
-    }
-
-    WorldInfo currentWorld;
-
-    @Override
-    public void startGame(WorldInfo worldInfo) {
-        this.currentWorld = worldInfo;
-        try {
-            File f = new File(currentWorld.getDirectory() + "\\game.json");
-            if (f.exists()) {
-                gameInfo = json.gson.fromJson(new FileReader(f), GameInfo.class);
-                if (gameInfo == null) {
-                    gameInfo = new GameInfo();
-                }
-            } else {
-                System.out.println("Making new game info");
-                gameInfo = new GameInfo();
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        inventory.setPlayerInfo(gameInfo);
-        hotbar.setPlayerInfo(gameInfo);
-    }
-
-    @Override
-    public void saveState() {
-        if (gameInfo != null) {
-            File f = new File(currentWorld.getDirectory() + "\\game.json");
-            try (FileWriter writer = new FileWriter(f)) {
-                json.gson.toJson(gameInfo, writer);
-            } catch (IOException ex) {
-                Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    @Override
-    public boolean includeBlockIcon(Block block) {
-        return block.renderType != RenderType.SPRITE;
-    }
-
+    //</editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Block IDs">
     public static short BLOCK_BEDROCK = 1;
     public static short BLOCK_BIRCH_LOG = 2;

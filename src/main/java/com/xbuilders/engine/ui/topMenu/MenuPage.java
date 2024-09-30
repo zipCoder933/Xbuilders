@@ -5,6 +5,8 @@
 package com.xbuilders.engine.ui.topMenu;
 
 import java.nio.IntBuffer;
+
+import com.xbuilders.engine.ui.Page;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
@@ -14,7 +16,7 @@ import org.lwjgl.system.MemoryStack;
  */
 public interface MenuPage {
 
-    public void onOpen();
+    public void onOpen(Page lastPage);
 
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd);
 }

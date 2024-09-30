@@ -15,5 +15,6 @@ public enum Page {
     PROGRESS,
     HOST_MULTIPLAYER,
     JOIN_MULTIPLAYER,
-    SETTINGS
+    SETTINGS,
+    CUSTOMIZE_PLAYER,
 }

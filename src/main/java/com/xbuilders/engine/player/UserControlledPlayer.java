@@ -120,8 +120,17 @@ public class UserControlledPlayer extends Player {
         positionHandler.setGravityEnabled(true);
     }
 
-    public UserControlledPlayer() throws IOException {
+    public UserControlledPlayer(MainWindow window, World world,
+                                Matrix4f projection, Matrix4f view, Matrix4f centeredView) throws IOException {
         super();
+        this.window = window;
+        this.chunks = world;
+        this.projection = projection;
+        this.view = view;
+        camera = new Camera(this, window, projection, view, centeredView);
+        positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
+        eventPipeline = new BlockEventPipeline(world, this);
+
         //Load first person data
         if (playerModelFile.exists()) {
             loadInfoFromBytes(Files.readAllBytes(playerModelFile.toPath()));
@@ -130,6 +139,10 @@ public class UserControlledPlayer extends Player {
             name = System.getProperty("user.name");
             save();
         }
+    }
+
+    public void init() {
+        camera.init();
     }
 
     private static final File playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
@@ -143,20 +156,6 @@ public class UserControlledPlayer extends Player {
         } catch (IOException e) {
             ErrorHandler.report(e);
         }
-    }
-
-    public void init(
-            MainWindow window, World world,
-            Matrix4f projection, Matrix4f view, Matrix4f centeredView) {
-        this.window = window;
-        this.chunks = world;
-        this.projection = projection;
-        this.view = view;
-        camera = new Camera(this, window, projection, view, centeredView);
-
-
-        positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
-        eventPipeline = new BlockEventPipeline(world, this);
     }
 
 
@@ -542,6 +541,7 @@ public class UserControlledPlayer extends Player {
             setBlock(BlockList.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
         }
     }
+
 
 
 }

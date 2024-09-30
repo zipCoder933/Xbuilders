@@ -34,8 +34,8 @@ public class MenuHome implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     MainWindow window;
-    final int boxWidth = 350;
-    final int boxHeight = 445;
+    final int boxWidth = TopMenu.WIDTH_1;
+    final int boxHeight = 460;
     final int titleHeight = 50;
 
     @Override
@@ -46,51 +46,48 @@ public class MenuHome implements MenuPage {
                 boxWidth, boxHeight, rect);
 
         if (nk_begin(ctx, "Home", rect, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-            nk_style_set_font(ctx, Theme.font_10);
-            nk_layout_row_dynamic(ctx, 40, 1);
-            nk_label(ctx, "\n\n"+(
+            nk_style_set_font(ctx, Theme.font_9);
+            nk_layout_row_dynamic(ctx, 30, 1);
+            nk_label(ctx, "\n\n" + (
                     MainWindow.devMode ?
                             "DEV MODE" :
                             ("v" + MainWindow.gameVersion)
-                    )+"\n\n", NK_TEXT_CENTERED);
+            ) + "\n\n", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);
-
-            nk_layout_row_static(ctx, 10, 1, 1);//Row static is just spacing
-            nk_layout_row_dynamic(ctx, 40, 1); //Row dynamic affects the next components
-            if (nk_button_label(ctx, "NEW WORLD")) {
+            if (button(ctx, "NEW WORLD")) {
                 menu.setPage(Page.NEW_WORLD);
             }
-
-            nk_layout_row_static(ctx, 10, 1, 1);
-            nk_layout_row_dynamic(ctx, 40, 1);
-            if (nk_button_label(ctx, "LOAD WORLD")) {
+            if (button(ctx, "LOAD WORLD")) {
                 menu.setPage(Page.LOAD_WORLD);
             }
-
-            nk_layout_row_static(ctx, 10, 1, 1);
-            nk_layout_row_dynamic(ctx, 40, 1);
-            if (nk_button_label(ctx, "JOIN MULTIPLAYER")) {
+            if (button(ctx, "JOIN MULTIPLAYER")) {
                 menu.setPage(Page.JOIN_MULTIPLAYER);
             }
+            if (button(ctx, "CUSTOMIZE PLAYER")) {
+                menu.setPage(Page.CUSTOMIZE_PLAYER);
+            }
 
-            nk_layout_row_static(ctx, 45, 1, 1); //Spacer
-            nk_layout_row_dynamic(ctx, 40, 1);
-            if (nk_button_label(ctx, "SETTINGS")) {
+            nk_layout_row_static(ctx, 30, 1, 1);
+            if (button(ctx, "SETTINGS")) {
                 menu.setPage(Page.SETTINGS);
             }
-
-            nk_layout_row_static(ctx, 10, 1, 1);
-            nk_layout_row_dynamic(ctx, 40, 1);
-            if (nk_button_label(ctx, "QUIT")) {
+            if (button(ctx, "QUIT")) {
                 System.exit(0);
             }
+
         }
         nk_end(ctx);
     }
 
+    private boolean button(NkContext ctx, String text) {
+        nk_layout_row_static(ctx, 5, 1, 1);
+        nk_layout_row_dynamic(ctx, 40, 1);
+        return nk_button_label(ctx, text);
+    }
+
     @Override
-    public void onOpen() {
+    public void onOpen(Page lastPage) {
     }
 
 }

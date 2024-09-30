@@ -24,6 +24,7 @@ import java.nio.IntBuffer;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
+import static com.xbuilders.engine.ui.topMenu.TopMenu.row;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -52,13 +53,8 @@ public class Multiplayer implements MenuPage {
         this.menu = menu;
         portBox = new NumberBox(4, 0);
         fromPortBox = new NumberBox(4, 0);
-        nameBox = new TextBox(20);
         ipAdressBox = new TextBox(20);
 
-        nameBox.setOnChangeEvent(() -> {
-            player.name = nameBox.getValueAsString();
-            player.save();
-        });
 
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
@@ -66,7 +62,6 @@ public class Multiplayer implements MenuPage {
         if (MainWindow.devMode) {
             if (hosting) {
                 fromPortBox.setValueAsNumber(8081);
-                nameBox.setValueAsString("host");
             } else {
                 portBox.setValueAsNumber(8081);
             }
@@ -82,11 +77,11 @@ public class Multiplayer implements MenuPage {
     TopMenu menu;
     MainWindow window;
     NumberBox fromPortBox, portBox;
-    TextBox nameBox, ipAdressBox;
+    TextBox ipAdressBox;
     private WorldInfo world;
     int chosenSkin = 0;
 
-    final int boxWidth = 550;
+    final int boxWidth = menu.WIDTH_3;
     final int boxHeight = 450;
 
     @Override
@@ -102,7 +97,7 @@ public class Multiplayer implements MenuPage {
                     + "IP adress and port to proceed:", 10, NK_TEXT_ALIGN_LEFT);
             nk_layout_row_static(ctx, 40, 1, 1);
 
-            row("IP Adress:");
+            row(ctx, "IP Adress:", 2);
             if (hosting) {
                 nk_label(ctx, ipAdressBox.getValueAsString(), NK_TEXT_ALIGN_LEFT);
             } else {
@@ -110,47 +105,40 @@ public class Multiplayer implements MenuPage {
             }
 
             if (MainWindow.devMode) {
-                row("From Port:");
+                row(ctx, "From Port:", 2);
                 fromPortBox.render(ctx);
             }
 
-            row("Port:");
+            row(ctx, "Port:", 2);
             portBox.render(ctx);
 
-            nk_layout_row_static(ctx, 20, 1, 1);
-
-            row("My Name:");
-            nameBox.render(ctx);
-
-            row("Player Type:");
-            if (nk_button_label(ctx, GameScene.player.getSkin().name)) {
-                goToNextSkin();
+            TopMenu.divider(ctx);
+            nk_layout_row_dynamic(ctx, 40, 1);
+            if (nk_button_label(ctx, "Customize Player")) {
+                menu.setPage(Page.CUSTOMIZE_PLAYER);
             }
 
-            nk_layout_row_static(ctx, 75, 1, 1);
+            TopMenu.divider(ctx);
             nk_layout_row_dynamic(ctx, 40, 2);
 
             if (nk_button_label(ctx, "BACK")) {
-                menu.setPage(Page.LOAD_WORLD);
+                if (hosting) {
+                    menu.setPage(Page.LOAD_WORLD);
+                } else menu.setPage(Page.HOME);
             }
             if (nk_button_label(ctx, "CONTINUE")) {
                 int fromPortVal = (int) fromPortBox.getValueAsNumber();
                 int portVal = (int) portBox.getValueAsNumber();
-
                 if (!MainWindow.devMode) fromPortVal = portVal;
-
-                String playerName = nameBox.getValueAsString();
                 String ipAdress = this.ipAdressBox.getValueAsString();
-
-                player.name = playerName; //Assign player name
-
-                NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, playerName, ipAdress);
+                NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.name, ipAdress);
                 System.out.println(req.toString());
                 loadWorld.loadWorld(loadWorld.currentWorld, req);
             }
         }
         nk_end(ctx);
     }
+
 
     private void goToNextSkin() {
         chosenSkin++;
@@ -160,8 +148,7 @@ public class Multiplayer implements MenuPage {
     }
 
     @Override
-    public void onOpen() {
-        nameBox.setValueAsString(player.name);
+    public void onOpen(Page lastPage) {
         if (hosting) {
             ipAdressBox.setValueAsString(ipAdress);
         } else {
@@ -171,10 +158,5 @@ public class Multiplayer implements MenuPage {
         }
     }
 
-    public void row(String text) {
-        nk_layout_row_dynamic(ctx, 30, 2);
-//        Nuklear.nk_layout_
-        nk_label(ctx, text, NK_TEXT_ALIGN_LEFT);
-    }
 
 }

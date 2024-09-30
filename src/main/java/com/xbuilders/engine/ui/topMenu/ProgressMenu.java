@@ -63,7 +63,7 @@ public class ProgressMenu implements MenuPage {
     }
 
     @Override
-    public void onOpen() {
+    public void onOpen(Page lastPage) {
     }
 
     final int boxWidth = 550;

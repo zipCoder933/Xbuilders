@@ -11,6 +11,7 @@ package com.xbuilders.engine.ui.topMenu;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.settings.EngineSettings;
+import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.nuklear.NKUtils;
 
@@ -51,7 +52,7 @@ public class SettingsPage implements MenuPage {
     NkContext ctx;
     MainWindow window;
 
-    final int BOX_DEFAULT_WIDTH = 750;
+    final int BOX_DEFAULT_WIDTH = TopMenu.WIDTH_4;
     final int BOX_DEFAULT_HEIGHT = 500;
 
     @Override
@@ -103,7 +104,7 @@ public class SettingsPage implements MenuPage {
     ArrayList<SettingsField> fields = new ArrayList<>();
 
     @Override
-    public void onOpen() {
+    public void onOpen(Page lastPage) {
     }
 
 

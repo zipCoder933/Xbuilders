@@ -24,6 +24,7 @@ import java.nio.IntBuffer;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
 
+import static com.xbuilders.engine.ui.topMenu.TopMenu.row;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -46,7 +47,7 @@ public class NewWorld implements MenuPage {
     MainWindow window;
     TerrainSelector terrainSelector;
 
-    final int boxWidth = 450;
+    final int boxWidth = menu.WIDTH_2;
     final int boxHeight = 500;
 
     @Override
@@ -58,8 +59,7 @@ public class NewWorld implements MenuPage {
         if (nk_begin(ctx, "New World", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, Theme.font_10);
             nk_layout_row_static(ctx, 20, 1, 1);
-            nk_layout_row_dynamic(ctx, 20, 1);
-            nk_label(ctx, "World Name", NK_TEXT_ALIGN_LEFT);
+            row(ctx, "World Name", 1);
             nk_layout_row_dynamic(ctx, 30, 1);
             name.render(ctx);
 
@@ -74,8 +74,7 @@ public class NewWorld implements MenuPage {
             Terrain terrain = terrainSelector.getSelectedTerrain();
 
             if (!terrain.options.isEmpty()) { //Start the terrain properties
-                nk_layout_row_dynamic(ctx, 20, 1);
-                nk_label(ctx, "World Options", NK_TEXT_ALIGN_LEFT);
+                row(ctx, "World Options", 1);
                 nk_layout_row_dynamic(ctx, 20, 1);
                 terrain.options.forEach((key, value) -> {
                     ByteBuffer active = stack.malloc(1);
@@ -102,8 +101,9 @@ public class NewWorld implements MenuPage {
         nk_end(ctx);
     }
 
+
     @Override
-    public void onOpen() {
+    public void onOpen(Page lastPage) {
         name.setValueAsString("New World");
         terrainSelector.reset();
     }

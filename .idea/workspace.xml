@@ -104,17 +104,17 @@
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\gameScene" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.engine.ui.topMenu" />
       <recent name="com.xbuilders.engine.world.skybox" />
       <recent name="com.xbuilders.engine.items.block.liquid" />
       <recent name="com.xbuilders.game.items.entities.animal.landAndWater" />
       <recent name="com.xbuilders.game.items.entities.animal" />
-      <recent name="com.xbuilders.game.items.entities.animal.mobile" />
     </key>
   </component>
-  <component name="RunManager" selected="Compound.Multiplayer Test">
+  <component name="RunManager" selected="Application.Dev">
     <configuration name="Dev 2" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
-      <module name="Xbuilders3" />
+      <module name="XBuilders3" />
       <option name="PROGRAM_PARAMETERS" value="devmode appData=xbSecond name=DEV2" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -130,7 +130,7 @@
     </configuration>
     <configuration name="Dev" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
-      <module name="Xbuilders3" />
+      <module name="XBuilders3" />
       <option name="PROGRAM_PARAMETERS" value="devmode name=DEV" />
       <method v="2">
         <option name="Make" enabled="true" />

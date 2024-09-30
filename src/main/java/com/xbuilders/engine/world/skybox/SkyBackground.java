@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class SkyBackground {
 
-    private static final float UPDATE_SPEED = 0.00001f;
+
     SkyBoxMesh skyBoxMesh;
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
@@ -33,7 +33,9 @@ public class SkyBackground {
         skyBoxShader = new SkyBoxShader();
     }
 
-
+    private static final double UPDATE_SPEED = 0.00001f;
+//    private static final double UPDATE_SPEED = 0.0001f;
+    double offset;
     double textureXPan;
     Vector3f defaultTint = new Vector3f(1, 1, 1);
     Vector3f defaultSkyColor = new Vector3f(0.5f, 0.5f, 0.5f);
@@ -65,8 +67,19 @@ public class SkyBackground {
         }
     }
 
-    public void setTimeOfDay(float timeOfDay) {
-        textureXPan = MathUtils.clamp(timeOfDay, 0, 1);
+    private void calculateTime() {
+        double time = System.currentTimeMillis() * UPDATE_SPEED;
+        textureXPan = (time + offset) % 1.0;
+    }
+
+    public void setTimeOfDay(double start) {
+        double time = System.currentTimeMillis() * UPDATE_SPEED;
+        //Take the normalized time plus start minus current time
+        offset = Math.floor(time) + start - time;
+    }
+
+    public double getTimeOfDay() {
+        return textureXPan;
     }
 
     public void draw(Matrix4f projection, Matrix4f view) {
@@ -74,17 +87,19 @@ public class SkyBackground {
         skyBoxShader.bind();
         skyBoxShader.updateMatrix(projection, view);
 
-        textureXPan += UPDATE_SPEED * ((double) mainWindow.frameDeltaSec);
-        if (textureXPan > 1) {
-            textureXPan = 0;
-        }
+
+        calculateTime();
 
         skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, (float) textureXPan);
         skyBoxMesh.draw();
 
-        if (MainWindow.frameCount % 20 == 0) {
-            applyTint();  //System.out.println(textureXPan);
+        if (MainWindow.frameCount % 10 == 0) {
+            applyTint();
+//            System.out.println(textureXPan);
         }
         GL30.glEnable(GL30.GL_DEPTH_TEST);
     }
+
+
+
 }

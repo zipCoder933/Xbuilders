@@ -107,7 +107,7 @@ public class Camera {
     public Camera(UserControlledPlayer player,
                   MainWindow window,
                   Matrix4f projection, Matrix4f view, Matrix4f centeredView) {
-
+        cursorRay = new CursorRay(this);
         this.view = view;
         this.centeredView = centeredView;
         this.projection = projection;
@@ -116,7 +116,6 @@ public class Camera {
         windowX = MemoryUtil.memAllocInt(1);
         windowY = MemoryUtil.memAllocInt(1);
         simplifiedPanTilt = new Vector2i();
-        cursorRay = new CursorRay(this);
         cameraViewRay = new Ray();
 
         try {
@@ -131,6 +130,10 @@ public class Camera {
         look = new Vector3f(0f, 0.5f, 1f);
         pan = 0;
         tilt = 0f;
+    }
+
+    public void init(){
+       cursorRay.init();
     }
 
     public final CursorRay cursorRay;

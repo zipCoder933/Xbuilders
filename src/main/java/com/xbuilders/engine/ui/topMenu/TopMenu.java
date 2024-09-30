@@ -10,6 +10,7 @@ import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
@@ -28,6 +29,11 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  */
 public class TopMenu {
 
+    public static final int WIDTH_1 = 350;
+    public static final int WIDTH_2 = 450;
+    public static final int WIDTH_3 = 550;
+    public static final int WIDTH_4 = 750;
+
     /**
      * @return the page
      */
@@ -35,6 +41,15 @@ public class TopMenu {
         return page;
     }
 
+
+    public static void divider(NkContext ctx) {
+        nk_layout_row_static(ctx, 25, 1, 1);
+    }
+
+    public static void row(NkContext ctx, String text, int columns) {
+        nk_layout_row_dynamic(ctx, columns == 1 ? 20 : 30, columns);
+        nk_label(ctx, text, NK_TEXT_ALIGN_LEFT);
+    }
 
     MainWindow window;
 
@@ -45,22 +60,24 @@ public class TopMenu {
     private Multiplayer hostMultiplayer, joinMultiplayer;
     private SettingsPage settings;
     public ProgressMenu progress;
+    public CustomizePlayer customizePlayer;
     private Page page = Page.HOME;
     private Page lastPage = null;
 
     public void setPage(Page page) {
-        switch (page) {
-            case HOME -> menuHome.onOpen();
-            case LOAD_WORLD -> loadWorld.onOpen();
-            case NEW_WORLD -> newWorld.onOpen();
-            case PROGRESS -> progress.onOpen();
-            case HOST_MULTIPLAYER -> hostMultiplayer.onOpen();
-            case JOIN_MULTIPLAYER -> joinMultiplayer.onOpen();
-            case SETTINGS -> settings.onOpen();
-        }
         this.lastPage = this.page;
         this.page = page;
 
+        switch (page) {
+            case HOME -> menuHome.onOpen(lastPage);
+            case LOAD_WORLD -> loadWorld.onOpen(lastPage);
+            case NEW_WORLD -> newWorld.onOpen(lastPage);
+            case PROGRESS -> progress.onOpen(lastPage);
+            case HOST_MULTIPLAYER -> hostMultiplayer.onOpen(lastPage);
+            case JOIN_MULTIPLAYER -> joinMultiplayer.onOpen(lastPage);
+            case SETTINGS -> settings.onOpen(lastPage);
+            case CUSTOMIZE_PLAYER -> customizePlayer.onOpen(lastPage);
+        }
     }
 
     public void goBack() {
@@ -76,17 +93,16 @@ public class TopMenu {
 
 
     public void init(String ipAdress) throws IOException {
-
         menuHome = new MenuHome(window.ctx, window, this);
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
         progress = new ProgressMenu(window.ctx, window, this);
         hostMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.player, true, ipAdress, loadWorld);
         joinMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.player, false, ipAdress, loadWorld);
+        customizePlayer = new CustomizePlayer(window.ctx, window, this, MainWindow.gameScene.player);
         settings = new SettingsPage(window.ctx, window, () -> {
             goBack();
         });
-
 
         VersionInfo versionInfo = new VersionInfo(window);
         versionInfo.createUpdatePrompt(MainWindow.popupMessage);
@@ -133,6 +149,7 @@ public class TopMenu {
                 case HOST_MULTIPLAYER -> hostMultiplayer.layout(stack, windowDims, titleYEnd);
                 case JOIN_MULTIPLAYER -> joinMultiplayer.layout(stack, windowDims, titleYEnd);
                 case SETTINGS -> settings.layout(stack, windowDims, titleYEnd);
+                case CUSTOMIZE_PLAYER -> customizePlayer.layout(stack, windowDims, titleYEnd);
             }
 
         }

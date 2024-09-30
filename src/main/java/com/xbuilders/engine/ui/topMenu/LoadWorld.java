@@ -51,14 +51,14 @@ public class LoadWorld implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     MainWindow window;
-    final int BOX_DEFAULT_WIDTH = 800;
+    final int BOX_DEFAULT_WIDTH = TopMenu.WIDTH_4;
     final int BOX_DEFAULT_HEIGHT = 550;
     ArrayList<WorldInfo> worlds;
     WorldInfo currentWorld;
 //    NkImage image;
 
     @Override
-    public void onOpen() {
+    public void onOpen(Page lastPage) {
         try {
             WorldsHandler.listWorlds(worlds);
             if (worlds.size() > 0) {

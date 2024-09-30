@@ -50,16 +50,19 @@ public class CursorRay {
 
     public CursorRay(Camera camera) {
         this.camera = camera;
+        cursorRay = new Ray();
+    }
+
+    public void init() {
         cursorBox = new Box();
         cursorBox.setPosAndSize(0, 0, 0, 1, 1, 1);
         cursorBox.setColor(DEFAULT_COLOR);
         cursorBox.setLineWidth(3);
-        cursorRay = new Ray();
     }
 
     public final Vector4f DEFAULT_COLOR = new Vector4f(1, 1, 1, 1);
     public final Camera camera;
-    public final Box cursorBox;
+    public Box cursorBox;
     protected final Ray cursorRay;
     public boolean cursorRayHitAllBlocks = false;
 
@@ -289,4 +292,6 @@ public class CursorRay {
     public String toString() {
         return MiscUtils.printVector(cursorRay.getHitPosition());
     }
+
+
 }

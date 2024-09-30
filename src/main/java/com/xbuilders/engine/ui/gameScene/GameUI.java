@@ -158,7 +158,7 @@ public class GameUI {
     }
 
     public static void printKeyConsumption(Class aClass) {
-        MainWindow.printlnDev("keyEvent consumed by: " + aClass.getSimpleName());
+        System.out.println("keyEvent consumed by: " + aClass.getSimpleName());
     }
 
     public boolean mouseButtonEvent(int button, int action, int mods) {
