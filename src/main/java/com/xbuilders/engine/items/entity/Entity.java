@@ -86,7 +86,7 @@ public abstract class Entity {
     //Model view projection
     public final MVP modelMatrix = new MVP();
 
-    boolean destroyMode = false;
+    private boolean destroyMode = false;
     Chunk chunk;
     public float frustumSphereRadius = 1; //Each entity has a sphere that is used for frustum culling. This defines its radius.
     protected boolean needsInitialization;
@@ -178,6 +178,10 @@ public abstract class Entity {
 
     public void destroy() {
         destroyMode = true;
+    }
+
+    public boolean isDestroyMode() {
+        return destroyMode;
     }
 
     /**

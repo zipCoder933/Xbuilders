@@ -202,6 +202,10 @@ public class UserControlledPlayer extends Player {
     Block cameraBlock, playerBlock;
 
     public void update(boolean holdMouse) {
+        if (positionLock == null || positionLock.entity == null || positionLock.entity.isDestroyMode()) {
+            dismount();
+        }
+
         Block newCameraBlock = getBlockAtCameraPos();
         if (newCameraBlock != cameraBlock) {
             cameraBlock = newCameraBlock;
@@ -541,7 +545,6 @@ public class UserControlledPlayer extends Player {
             setBlock(BlockList.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
         }
     }
-
 
 
 }
