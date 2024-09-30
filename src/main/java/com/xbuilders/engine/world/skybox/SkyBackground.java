@@ -33,7 +33,7 @@ public class SkyBackground {
         skyBoxShader = new SkyBoxShader();
     }
 
-    private static final double UPDATE_SPEED = 0.00001f;
+    private static final double UPDATE_SPEED = 0.000001f;
 //    private static final double UPDATE_SPEED = 0.0001f;
     double offset;
     double textureXPan;

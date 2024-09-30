@@ -6,6 +6,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -15,33 +16,13 @@ import org.joml.Vector3i;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.BiConsumer;
-
-//    public void read() {
-//        readLock.lock();
-//        try {
-//// Perform read operations
-//        } finally {
-//            readLock.unlock();
-//        }
-//    }
-//
-//    public void write() {
-//        writeLock.lock();
-//        try {
-//// Perform write operations
-//        } finally {
-//            writeLock.unlock();
-//        }
-//    }
 
 public class PendingBlockChanges {
 
-    protected final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    SynchronizedHashmap<Vector3i, BlockHistory> blockChanges = new SynchronizedHashmap<>();
+    ConcurrentHashMap<Vector3i, BlockHistory> blockChanges = new ConcurrentHashMap<>();
 
     public long lastRangeChange;
     public long allChangesUpdate;
@@ -99,8 +80,7 @@ public class PendingBlockChanges {
     }
 
     public boolean anyChangesWithinReach() {
-        blockChanges.readLock.lock();
-        try {
+        if (!blockChanges.isEmpty()) {
             Iterator<Map.Entry<Vector3i, BlockHistory>> iterator
                     = blockChanges.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -110,10 +90,8 @@ public class PendingBlockChanges {
                     return true;
                 }
             }
-            return false;
-        } finally {
-            blockChanges.readLock.unlock();
         }
+        return false;
     }
 
 
@@ -127,31 +105,27 @@ public class PendingBlockChanges {
     }
 
     public int sendAllChanges() {
-        if (blockChanges.isEmpty()) return 0;
-        blockChanges.readLock.lock();
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
-                Vector3i worldPos = entry.getKey();
-                BlockHistory change = entry.getValue();
-                blockChangeRecord(baos, worldPos, change);
+        if (!blockChanges.isEmpty()) {
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
+                    Vector3i worldPos = entry.getKey();
+                    BlockHistory change = entry.getValue();
+                    blockChangeRecord(baos, worldPos, change);
+                }
+                baos.close();
+
+                lastRangeChange = System.currentTimeMillis();
+                byte byteList[] = baos.toByteArray();
+                socket.sendData(byteList);
+
+                int changesToBeSent = blockChanges.size();
+                clear();
+                return changesToBeSent;
+            } catch (IOException e) {
+                ErrorHandler.report(e);
             }
-            baos.close();
-
-            lastRangeChange = System.currentTimeMillis();
-            byte byteList[] = baos.toByteArray();
-            socket.sendData(byteList);
-
-            int changesToBeSent = blockChanges.size();
-            clear();
-
-            return changesToBeSent;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            blockChanges.readLock.unlock();
         }
-
         return 0;
     }
 
@@ -160,8 +134,6 @@ public class PendingBlockChanges {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int changesToBeSent = 0;
 
-        blockChanges.readLock.lock();
-        blockChanges.writeLock.lock();
         try {
             Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = blockChanges.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -177,9 +149,6 @@ public class PendingBlockChanges {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            blockChanges.readLock.unlock();
-            blockChanges.writeLock.unlock();
         }
 
         try {

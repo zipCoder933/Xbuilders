@@ -11,6 +11,7 @@ package com.xbuilders.engine.ui.topMenu;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.player.Skin;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
@@ -20,6 +21,7 @@ import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
+
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -63,11 +65,14 @@ public class CustomizePlayer implements MenuPage {
             nk_style_set_font(ctx, Theme.font_10);
 
             nk_layout_row_static(ctx, 20, 1, 1);
-            TopMenu.row(ctx, "My Name:",2);
+            TopMenu.row(ctx, "My Name:", 2);
             nameBox.render(ctx);
 
-            TopMenu.row(ctx, "Player Type:",2);
-            if (nk_button_label(ctx, GameScene.player.getSkin().name)) {
+            TopMenu.row(ctx, "Player Type:", 2);
+
+            Skin playerSkin = GameScene.player.getSkin();
+            if (nk_button_label(ctx,
+                    playerSkin == null ? "none" : playerSkin.name)) {
                 goToNextSkin();
             }
 

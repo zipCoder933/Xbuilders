@@ -11,6 +11,7 @@ import com.xbuilders.engine.rendering.entity.block.BlockVertexSet;
 import com.xbuilders.engine.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
+import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
@@ -52,7 +53,18 @@ public class GravityBlockEntity extends Entity {
         startTime = System.currentTimeMillis();
     }
 
-   public static final int WAIT_TIME = 100;
+    public static final int WAIT_TIME = 200;
+
+    private void instaPlant() {
+        //Set the block at the bottom
+        for (int y = (int) (worldPosition.y + 1); y < World.WORLD_BOTTOM_Y; y++) {
+            Block blockBelow = GameScene.world.getBlock((int) worldPosition.x, y, (int) worldPosition.z);
+            if (blockBelow.solid) {
+                GameScene.player.setBlock(block.id, (int) worldPosition.x, y - 1, (int) worldPosition.z);
+                destroy();
+            }
+        }
+    }
 
     @Override
     public void draw() {
@@ -68,9 +80,10 @@ public class GravityBlockEntity extends Entity {
 //            box.set(aabb.box);
 //            box.draw(GameScene.projection, GameScene.view);
             if (System.currentTimeMillis() - startTime > WAIT_TIME) positionHandler.update(1);
-        } else if (MainWindow.frameCount % 5 == 0) {
-            if (System.currentTimeMillis() - startTime > WAIT_TIME) positionHandler.update(5);
+        } else {
+            instaPlant();
         }
+
 
         if (positionHandler.isFrozen() ||
                 positionHandler.collisionHandler.collisionData.block_penPerAxes.y < 0) {

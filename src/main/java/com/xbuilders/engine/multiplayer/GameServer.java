@@ -416,14 +416,12 @@ public class GameServer extends Server<PlayerClient> {
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         for (PlayerClient client : clients) {
-            if (client.player == null) continue;
             client.blockChanges.addBlockChange(worldPos, block, data);
         }
     }
 
     public void addEntityChange(Entity entity, byte mode, boolean sendImmediately) {
         for (PlayerClient client : clients) {
-            if (client.player == null) continue;
             client.entityChanges.addEntityChange(entity, mode, sendImmediately);
         }
     }

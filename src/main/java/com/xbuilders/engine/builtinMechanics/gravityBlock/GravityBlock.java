@@ -21,18 +21,17 @@ public class GravityBlock {
 
     public void convert(Block block) {
         block.properties.put("gravity", "true");
-        block.localChangeEvent(true, ((history, changedPosition, thisPosition) -> {
-            checkFall(block, thisPosition);
-        }));
-        block.setBlockEvent(true, ((x, y, z) -> {
-            checkFall(block, new Vector3i(x, y, z));
-        }));
+//        block.localChangeEvent(true, ((history, changedPosition, thisPosition) -> {
+//            checkFall(block, thisPosition);
+//        }));
+//        block.setBlockEvent(true, ((x, y, z) -> {
+//            checkFall(block, new Vector3i(x, y, z));
+//        }));
     }
 
     private void checkFall(Block block, Vector3i thisPosition) {
-
         try {
-            Thread.sleep(GravityBlockEntity.WAIT_TIME);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

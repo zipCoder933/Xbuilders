@@ -1,17 +1,13 @@
 package com.xbuilders.engine.multiplayer;
 
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.WorldInfo;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -23,25 +19,17 @@ public class Local_PendingBlockChanges extends PendingBlockChanges {
     public int readApplicableChanges(BiConsumer<Vector3i, BlockHistory> changes) {
         int changesToBeSent = 0;
         if (this.blockChanges.isEmpty()) return 0;
-
-        blockChanges.readLock.lock();
-        blockChanges.writeLock.lock();
-        try {
-            Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = this.blockChanges.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<Vector3i, BlockHistory> entry = iterator.next();
-                Vector3i worldPos = entry.getKey();
-                BlockHistory change = entry.getValue();
-                if (changeCanBeLoaded(player, worldPos)) {
-                    changes.accept(worldPos, change);
-                    iterator.remove(); // Remove it so we don't send it again
-                    changeEvent();
-                    changesToBeSent++;
-                }
+        Iterator<Map.Entry<Vector3i, BlockHistory>> iterator = this.blockChanges.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Vector3i, BlockHistory> entry = iterator.next();
+            Vector3i worldPos = entry.getKey();
+            BlockHistory change = entry.getValue();
+            if (changeCanBeLoaded(player, worldPos)) {
+                changes.accept(worldPos, change);
+                iterator.remove(); // Remove it so we don't send it again
+                changeEvent();
+                changesToBeSent++;
             }
-        } finally {
-            blockChanges.writeLock.unlock();
-            blockChanges.readLock.unlock();
         }
         return changesToBeSent;
     }
@@ -68,7 +56,6 @@ public class Local_PendingBlockChanges extends PendingBlockChanges {
     }
 
     private void saveRecord(File file) {
-        blockChanges.readLock.lock();
         try (FileOutputStream fos = new FileOutputStream(file)) {
             for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
                 Vector3i worldPos = entry.getKey();
@@ -78,8 +65,6 @@ public class Local_PendingBlockChanges extends PendingBlockChanges {
             }
         } catch (IOException e) {
             ErrorHandler.report(e);
-        } finally {
-            blockChanges.readLock.unlock();
         }
     }
 
