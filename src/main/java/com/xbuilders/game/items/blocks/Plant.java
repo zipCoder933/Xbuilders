@@ -13,10 +13,9 @@ public class Plant {
         block.renderType = RenderType.SPRITE;
 
         if (stages.length > 0) {
-            block.setBlockEvent(false,(x, y, z) -> {
-                boolean wasSet = false;
+            block.setBlockEvent(true,(x, y, z) -> {
                 if (cropPlantable(x, y, z)) {
-                    growPlant(2200, x, y, z, block.id, stages);
+                    growPlant(15000, x, y, z, block.id, stages);
                 }
             });
         }

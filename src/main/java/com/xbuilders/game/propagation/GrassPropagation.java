@@ -81,7 +81,7 @@ public class GrassPropagation extends LivePropagationTask {
         }
     }
 
-    private boolean isGrass(short thisBlock) {
+    public static boolean isGrass(short thisBlock) {
         return thisBlock == MyGame.BLOCK_GRASS ||
                 thisBlock == MyGame.BLOCK_SNOW_GRASS ||
                 thisBlock == MyGame.BLOCK_JUNGLE_GRASS ||

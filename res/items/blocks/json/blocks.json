@@ -7056,7 +7056,7 @@
     "type": 9
   },
   {
-    "name": "Farmland",
+    "name": "Farmland (hidden)",
     "id": 452,
     "texture": {
       "neg_y": "farmland",

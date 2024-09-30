@@ -23,8 +23,7 @@ public class JungleTreeUtils {
     public static final Block.SetBlockEvent setBlockEvent = new Block.SetBlockEvent() {
         @Override
         public void run(int x, int y, int z) {
-            TreeUtils.waitForGrowth();
-            player_plantTree(new Random(), x, y, z);
+            if (TreeUtils.readyToGrow(x, y, z))          player_plantTree(new Random(), x, y, z);
         }
     };
 

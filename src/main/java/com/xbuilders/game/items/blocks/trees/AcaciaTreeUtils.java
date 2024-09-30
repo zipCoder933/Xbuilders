@@ -21,8 +21,7 @@ public class AcaciaTreeUtils {
     public static final Block.SetBlockEvent setBlockEvent = new Block.SetBlockEvent() {
         @Override
         public void run(int x, int y, int z) {
-            TreeUtils.waitForGrowth();
-            player_plantTree(new Random(), x, y, z);
+            if (TreeUtils.readyToGrow(x, y, z))            player_plantTree(new Random(), x, y, z);
         }
     };
     private static void player_treeBush(int x, int y, int z, int bushRadius) {
