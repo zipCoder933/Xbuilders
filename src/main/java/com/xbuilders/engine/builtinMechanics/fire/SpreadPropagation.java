@@ -2,6 +2,7 @@ package com.xbuilders.engine.builtinMechanics.fire;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
+import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
@@ -41,6 +42,7 @@ class SpreadPropagation extends LivePropagationTask {
         Iterator<Vector3i> iterator = fireNodes.iterator();
         while (iterator.hasNext()) {
             Vector3i node = iterator.next();
+            iterator.remove();
 
             if (Math.random() > 0.5) {
                 //Above 1
@@ -48,35 +50,49 @@ class SpreadPropagation extends LivePropagationTask {
                 lightBlock(node.x + 1,   /**/node.y, /**/node.z);
                 lightBlock(node.x,          /**/node.y, /**/node.z - 1);
                 lightBlock(node.x,          /**/node.y, /**/node.z + 1);
-
+            }
+            if (Math.random() > 0.5) {
                 //At the same height
                 lightBlock(node.x - 1,   /**/node.y + 1, /**/node.z);
                 lightBlock(node.x + 1,   /**/node.y + 1, /**/node.z);
                 lightBlock(node.x,          /**/node.y + 1, /**/node.z - 1);
                 lightBlock(node.x,          /**/node.y + 1, /**/node.z + 1);
-
+            }
+            if (Math.random() > 0.5) {
                 //Down 1
                 lightBlock(node.x - 1,   /**/node.y + 2, /**/node.z);
                 lightBlock(node.x + 1,   /**/node.y + 2, /**/node.z);
                 lightBlock(node.x,          /**/node.y + 2, /**/node.z - 1);
                 lightBlock(node.x,          /**/node.y + 2, /**/node.z + 1);
-                iterator.remove();
             }
+
+            //Get the block at this node
+            Block block = GameScene.world.getBlock(node.x, node.y+1, node.z);
+            //If it is not solid, remove it
+            if (!block.solid && isFlammable(block)) {
+                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y, node.z);
+                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y+1, node.z);
+            }else if (!isFlammable(block)) {
+                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y, node.z);
+            }
+
         }
     }
 
     private boolean isFlammable(Block block) {
-        if (block.properties.containsKey("flammable")
-                && block.properties.get("flammable").equals("true"))
+        if (block.properties.containsKey("flammable")) {
             return true;
+        }
         return false;
     }
 
-    private void lightBlock(int x, int y, int z) {
+    private boolean lightBlock(int x, int y, int z) {
         if (isFlammable(GameScene.world.getBlock(x, y, z))
                 && GameScene.world.getBlock(x, y - 1, z).isAir()) {
             GameScene.player.setBlock(MyGame.BLOCK_FIRE, x, y - 1, z);
             disintegrationNodes.add(new Vector3i(x, y, z));
+            return true;
         }
+        return false;
     }
 }

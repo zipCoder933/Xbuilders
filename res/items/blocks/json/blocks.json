@@ -7136,7 +7136,7 @@
     "type": 6
   },
   {
-    "name": "Campfire",
+    "name": "Fire",
     "id": 457,
     "texture": {
       "neg_y": "campfire",
@@ -7146,6 +7146,7 @@
       "neg_x": "campfire",
       "pos_y": "campfire"
     },
+    "icon": "fire.png",
     "solid": true,
     "opaque": true,
     "torch": 15,

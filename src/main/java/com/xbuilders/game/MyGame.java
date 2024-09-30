@@ -5,6 +5,7 @@
 package com.xbuilders.game;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.builtinMechanics.fire.FirePropagation;
 import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -570,7 +571,7 @@ public class MyGame extends Game {
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());
         gameScene.livePropagationHandler.addTask(new GrassPropagation());
-//        new FirePropagation(gameScene.livePropagationHandler);
+        new FirePropagation(gameScene.livePropagationHandler);
     }
 
     private void reassignBlocks(Block[] blocks, HashMap<Short, Block> reassignments) {
@@ -599,10 +600,20 @@ public class MyGame extends Game {
         lava.liquidMaxFlow = 6;
 
 
-        //Add coasting to all glass
         for (Block b : ItemList.blocks.getList()) {
+            //Add coasting to all glass
             if (b.name.toLowerCase().contains("glass")) {
                 b.surfaceCoast = 0.95f;
+            }
+
+            //Add flammable tag to various blocks
+            String lowercaseName = b.name.toLowerCase();
+            if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank")
+                    || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") ||
+                    lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") ||
+                    lowercaseName.contains("dark_oak") || lowercaseName.contains("crimson") || lowercaseName.contains("warped") ||
+                    lowercaseName.contains("dry")) {
+                b.properties.put("flammable", "true");
             }
         }
 
