@@ -176,21 +176,21 @@ public class UserControlledPlayer extends Player {
 
     World chunks;
 
-    private Block getBlockAtPlayerHead() {
+    public Block getBlockAtPlayerHead() {
         return GameScene.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z));
     }
 
-    private Block getBlockAtCameraPos() {
+    public Block getBlockAtCameraPos() {
         return GameScene.world.getBlock(
                 (int) Math.floor(camera.position.x),
                 (int) Math.floor(camera.position.y),
                 (int) Math.floor(camera.position.z));
     }
 
-    private boolean isInsideOfLadder() {
+    public boolean isInsideOfLadder() {
         return getBlockAtPlayerHead().climbable
                 ||
                 GameScene.world.getBlock(

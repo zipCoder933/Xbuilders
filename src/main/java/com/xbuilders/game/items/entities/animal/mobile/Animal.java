@@ -27,7 +27,7 @@ public abstract class Animal extends Entity {
 
     private static final float ONE_SIXTEENTH = (float) 1 / 16;
     public Limb[] limbs;
-    public PositionHandler pos;
+    public final PositionHandler pos;
     public final MainWindow window;
     public final Player player;
     public Consumer<Float> goForwardCallback;
@@ -47,6 +47,14 @@ public abstract class Animal extends Entity {
 
     public void tameAnimal() {
 
+    }
+
+    public void facePlayer() {
+        setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
+    }
+
+    public boolean isTamed() {
+        return false;
     }
 
     public final byte[] stateToBytes() {
@@ -88,6 +96,9 @@ public abstract class Animal extends Entity {
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.player;
+        this.pos = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
+        pos.setGravityEnabled(true);
+        random.setSeed(getIdentifier());
     }
 
     public abstract void animal_move();
@@ -119,9 +130,7 @@ public abstract class Animal extends Entity {
 
     @Override
     public final void initializeOnDraw(byte[] bytes) {
-        pos = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
-        pos.setGravityEnabled(true);
-        random.setSeed(getIdentifier());
+
     }
 
     public float getRotationYDeg() {

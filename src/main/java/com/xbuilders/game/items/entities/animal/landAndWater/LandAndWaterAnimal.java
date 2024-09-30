@@ -172,9 +172,7 @@ public abstract class LandAndWaterAnimal extends Animal {
         return random.noise(10) > 0 ? rotationAction * 10 : rotationAction * -10;
     }
 
-    private void facePlayer() {
-        setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
-    }
+
 
     public void animal_move() {
         if (inFrustum) { //In Frustum movement

@@ -30,6 +30,8 @@ import com.xbuilders.game.items.blocks.trees.*;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.items.entities.BannerEntityLink;
 import com.xbuilders.game.items.entities.animal.*;
+import com.xbuilders.game.items.entities.animal.fish.FishALink;
+import com.xbuilders.game.items.entities.animal.fish.FishBLink;
 import com.xbuilders.game.items.entities.animal.landAndWater.BeaverEntityLink;
 import com.xbuilders.game.items.entities.animal.landAndWater.TurtleEntityLink;
 import com.xbuilders.game.items.entities.animal.quadPedal.DogLink;
@@ -526,7 +528,29 @@ public class MyGame extends Game {
                 new TurtleEntityLink(window, 106, "Yellow Sea Turtle", "yellow_turtle.png"),
 
                 //Beavers
-                new BeaverEntityLink(window, 200, "Beaver")
+                new BeaverEntityLink(window, 200, "Beaver"),
+
+                //Fish
+                new FishBLink(window, 50, "Angel Fish", "angel.png"),
+                new FishBLink(window, 51, "Blue Ring Angelfish", "blue_ring_angel.png"),
+                new FishBLink(window, 52, "Copperband Butterfly", "copperband_butterfly.png"),
+                new FishBLink(window, 53, "Gold Butterfly Fish", "gold.png"),
+                new FishBLink(window, 54, "Ornate Butterfly Fish", "ornate_butterfly.png"),
+                new FishBLink(window, 36, "Red Butterfly Fish", "red_butterfly.png"),
+                new FishBLink(window, 37, "Regal Tang Fish", "regal_tang.png"),
+                new FishBLink(window, 38, "Striped Butterfly Fish", "striped_butterfly.png"),
+                new FishBLink(window, 49, "Yellow Angelfish", "yellow_angel.png"),
+                new FishBLink(window, 48, "Gray Glitterfish", "gray_glitter.png"),
+                new FishALink(window, 41, "Bicolor Angelfish", "bicolor_angel.png"),
+                new FishALink(window, 40, "Clown Fish", "clown.png"),
+                new FishALink(window, 43, "Clown Loach", "clown_loach.png"),
+                new FishALink(window, 44, "Cotton Candy Betta", "cotton_candy_betta.png"),
+                new FishALink(window, 45, "Damsel Fish", "damsel.png"),
+                new FishALink(window, 46, "Emporer Angelfish", "emporer_angel.png"),
+                new FishALink(window, 39, "Orange Green Betta", "orange_green_betta.png"),
+                new FishALink(window, 47, "Royal Gramma Fish", "royal_gramma.png"),
+                new FishALink(window, 42, "Salamander Betta", "salamander_betta.png"),
+                new FishALink(window, 55, "Tri-Band Betta", "tri_band_betta.png"),
         };
 
         Tool[] tools = new Tool[]{
@@ -595,6 +619,7 @@ public class MyGame extends Game {
         gravity.convert(ItemList.getBlock(BLOCK_SNOW_BLOCK));
         gravity.convert(ItemList.getBlock(BLOCK_CACTUS));
     }
+
     //</editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Block IDs">
     public static short BLOCK_BEDROCK = 1;
@@ -1318,10 +1343,7 @@ public class MyGame extends Game {
     public static short BLOCK_SPRUCE_LEAVES = 733;
     public static short BLOCK_SPRUCE_SAPLING = 734;
     public static short BLOCK_MERGE_TRACK = 736;
-    public static short BLOCK_RED_WIRE = 737;
-    public static short BLOCK_GREEN_WIRE = 738;
-    public static short BLOCK_BLUE_WIRE = 739;
-    public static short BLOCK_GRAY_WIRE = 740;
+    public static short BLOCK_WIRE = 737;
     public static short BLOCK_20_HP_ENGINE = 741;
     public static short BLOCK_70_HP_ENGINE = 744;
     public static short BLOCK_SILVER_BRICK = 747;
