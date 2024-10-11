@@ -202,7 +202,10 @@ public class UserControlledPlayer extends Player {
     Block cameraBlock, playerBlock;
 
     public void update(boolean holdMouse) {
-        if (positionLock == null || positionLock.entity == null || positionLock.entity.isDestroyMode()) {
+        if ( //If we are still mounted but there is no position lock
+                positionLock != null &&
+                        (positionLock.entity == null || positionLock.entity.isDestroyMode())
+        ) {
             dismount();
         }
 

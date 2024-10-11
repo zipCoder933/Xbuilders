@@ -130,9 +130,9 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
 
     int scrollValue = 0;
-    final int menuWidth = 700;
-    final int menuHeight = 600;
-    int itemListHeight = 300;
+    final int menuWidth = 680;  //Menu window size
+    final int menuHeight = 645; //Menu window size
+    int itemListHeight = 285; //iten list window size
     final int backpackMenuSize = menuHeight; // Its ok since this is the last row
     final int maxColumns = 11;
     Hotbar hotbar;

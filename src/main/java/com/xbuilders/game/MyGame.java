@@ -117,7 +117,7 @@ public class MyGame extends Game {
         public double timeOfDay;
 
         public GameInfo() {
-            playerBackpack = new Item[22];
+            playerBackpack = new Item[33];
         }
     }
 
