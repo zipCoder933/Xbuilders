@@ -19,6 +19,7 @@ public class EngineSettings {
     public boolean game_switchMouseButtons = false;
     public int game_cursorRayDist = 128;
     public boolean game_autoJump = false;
+    public boolean game_enableBlockGravity = true;
 
     public boolean video_fullscreen = true;
     public final BoundedFloat video_fullscreenSize = new BoundedFloat(1);
@@ -28,7 +29,7 @@ public class EngineSettings {
     public boolean internal_smallWindow = false;
     public final BoundedInt internal_viewDistance = new BoundedInt(Chunk.WIDTH * 5);
     public boolean internal_experimentalFeatures = false;
-    public float internal_blockBoundaryAreaLimit = 500000;
+    public long internal_blockBoundaryAreaLimit = 1000000;
 
 
     public EngineSettings initVariables() {

@@ -86,6 +86,13 @@ class SettingsField {
                 value = b;
                 setValue(b);
             });
+        } else if (type.equals(long.class)) {
+            numberBox = new NumberBox(50);
+            numberBox.setValueAsNumber((long) value);
+            numberBox.setOnChangeEvent(() -> {
+                value = (long) numberBox.getValueAsNumber();
+                setValue((long) value);
+            });
         } else if (type.equals(int.class)) {
             numberBox = new NumberBox(50);
             numberBox.setValueAsNumber((int) value);

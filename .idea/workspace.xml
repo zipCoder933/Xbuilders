@@ -10,14 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="Basic bugfixes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/tools/LightFixTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Xbuilders3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Xbuilders3.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend1" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/blocks and entities.blend2" beforeDir="false" afterPath="$PROJECT_DIR$/assets/blocks and entities.blend2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/MyGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/builtinMechanics/gravityBlock/GravityBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/builtinMechanics/gravityBlock/GravityBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/settings/EngineSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/settings/EngineSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/SettingsField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/SettingsField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/blockTools/BlockTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/MinecartEntityLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/entities/vehicle/MinecartEntityLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,11 +112,11 @@
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\gameScene" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.game.blockTools.tools" />
       <recent name="com.xbuilders.game.items.entities.animal.fish" />
       <recent name="com.xbuilders.engine.ui.topMenu" />
       <recent name="com.xbuilders.engine.world.skybox" />
       <recent name="com.xbuilders.engine.items.block.liquid" />
-      <recent name="com.xbuilders.game.items.entities.animal.landAndWater" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Dev">

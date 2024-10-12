@@ -26,6 +26,10 @@ import java.util.ArrayList;
  */
 public class MinecartEntityLink extends EntityLink {
 
+
+    public final float FORWARD_SPEED = 0.19f;
+    public final float UP_DOWN_SPEED = (FORWARD_SPEED / 2) - 0.005f;
+
     public MinecartEntityLink(MainWindow window, int id, String name, String textureFile, String iconPath) {
         super(id, name);
         supplier = (() -> new Minecart(window));
@@ -221,7 +225,7 @@ public class MinecartEntityLink extends EntityLink {
             if (isOnRoad()) {
                 rotateSpeed = 0.5f;
                 if (getPlayer().forwardKeyPressed()) {
-                    targetSpeed = 0.15f;
+                    targetSpeed = FORWARD_SPEED;
                     rotateSpeed = 2.0f;
                 } else if (getPlayer().backwardKeyPressed()) {
                     targetSpeed = -0.08f;
@@ -279,11 +283,10 @@ public class MinecartEntityLink extends EntityLink {
         }
 
 
-        final float upDownSpeed = 0.07f;
 
         private void moveWithTrack(Vector3i pos) {
             this.forwardBackDir = assignForwardOrBackward(this, forwardBackDir);//0=stop,-1=back,1=go
-            float speed = forwardBackDir > 0 ? 0.15f : -0.15f;
+            float speed = forwardBackDir > 0 ? FORWARD_SPEED : -FORWARD_SPEED;
             posHandler.setGravityEnabled(true);
 
             Block b = GameScene.world.getBlock(pos.x, pos.y, pos.z);
@@ -390,14 +393,14 @@ public class MinecartEntityLink extends EntityLink {
 
                         if (trackIsGoingUp) {
                             posHandler.setGravityEnabled(false);
-                            worldPosition.y -= upDownSpeed;
-                            goForward(upDownSpeed * forwardBackDir);
+                            worldPosition.y -= UP_DOWN_SPEED;
+                            goForward(UP_DOWN_SPEED * forwardBackDir);
                             upOrDownState = -1;
 //                            riseInertaChangeMS = System.currentTimeMillis();
                         } else {
                             posHandler.setGravityEnabled(false);
-                            worldPosition.y += upDownSpeed;
-                            goForward(upDownSpeed * forwardBackDir);
+                            worldPosition.y += UP_DOWN_SPEED;
+                            goForward(UP_DOWN_SPEED * forwardBackDir);
                             upOrDownState = 1;
 //                            riseInertaChangeMS = System.currentTimeMillis();
                         }

@@ -315,6 +315,7 @@ public abstract class GLFWWindow {
             if (!glfwInit()) throw new IllegalStateException("Unable to initialize glfw");
         }
     }
+
     /**
      * Closes and cleans up the current window
      */
@@ -418,7 +419,11 @@ public abstract class GLFWWindow {
     }
 
     public void destroyWindow() {
-        Callbacks.glfwFreeCallbacks(window);
+        try {//java.lang.NoClassDefFoundError: org/lwjgl/glfw/Callbacks
+            Callbacks.glfwFreeCallbacks(window);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         GLFW.glfwDestroyWindow(window);
     }
 
