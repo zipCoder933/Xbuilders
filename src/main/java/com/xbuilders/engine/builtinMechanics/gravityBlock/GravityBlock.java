@@ -29,8 +29,6 @@ public class GravityBlock {
     }
 
     private void checkFall(Block block, Vector3i thisPosition) {
-        if (MainWindow.settings.game_enableBlockGravity == false) return;
-
 //        try {
 //            Thread.sleep(100);
 //        } catch (InterruptedException e) {

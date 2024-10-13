@@ -19,7 +19,6 @@ public class EngineSettings {
     public boolean game_switchMouseButtons = false;
     public int game_cursorRayDist = 128;
     public boolean game_autoJump = false;
-    public boolean game_enableBlockGravity = true;
 
     public boolean video_fullscreen = true;
     public final BoundedFloat video_fullscreenSize = new BoundedFloat(1);
