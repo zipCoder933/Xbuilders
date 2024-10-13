@@ -11,6 +11,7 @@ package com.xbuilders.engine.ui.topMenu;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.WorldInfo;

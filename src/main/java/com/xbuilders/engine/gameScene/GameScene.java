@@ -13,7 +13,7 @@ import com.xbuilders.engine.multiplayer.PlayerClient;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.ui.topMenu.NetworkJoinRequest;
+import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;

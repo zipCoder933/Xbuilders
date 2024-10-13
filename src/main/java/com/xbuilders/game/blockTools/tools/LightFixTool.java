@@ -32,7 +32,6 @@
 //
 //    @Override
 //    public boolean activationKey(int key, int scancode, int action, int mods) {
-//        if (key == GLFW.GLFW_KEY_8) return true;
 //        return false;
 //    }
 //

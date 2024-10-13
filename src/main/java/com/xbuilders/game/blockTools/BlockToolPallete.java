@@ -31,8 +31,8 @@ public class BlockToolPallete {
     int palleteMaxColumns = 9;
 
     int menuWidth = 430;
-    int menu1Height = 120;
-    int menu2Height = 100;
+    int toolMenuHeight = 120;
+    int optionsMenuHeight = 150;
 
     List<BlockTool> toolsList;
 
@@ -62,9 +62,9 @@ public class BlockToolPallete {
             boolean showOptions = selectedTool.hasOptions;
 
             float menu1X = window.getWidth() / 2 - (menuWidth / 2);
-            float menu1Y = window.getHeight() / 2 - (menu1Height / 2) - menu1Height;
-            float menuHeight = menu1Height;
-            if (showOptions) menuHeight += menu2Height;
+            float menu1Y = window.getHeight() / 2 - (toolMenuHeight / 2) - toolMenuHeight;
+            float menuHeight = toolMenuHeight;
+            if (showOptions) menuHeight += optionsMenuHeight;
 
             nk_rect(menu1X, menu1Y,
                     menuWidth, menuHeight,
@@ -122,7 +122,7 @@ public class BlockToolPallete {
                     }
                 }
                 buttonWidth.measure(ctx, stack);
-                menu1Height = (int) ((totalRows * buttonWidth.width) - 1) + 20;
+                toolMenuHeight = (int) ((totalRows * buttonWidth.width) - 1) + 20;
                 Theme.resetEntireButtonStyle(ctx);
 
                 if (showOptions) optionsGroup(stack, windowSize, selectedTool);
@@ -141,7 +141,7 @@ public class BlockToolPallete {
     }
 
     private void optionsGroup(MemoryStack stack, NkRect windowSize, BlockTool tool) {
-        nk_layout_row_dynamic(ctx, menu2Height + 20, 1);//Super important
+        nk_layout_row_dynamic(ctx, optionsMenuHeight + 20, 1);//Super important
         if (Nuklear.nk_group_begin(ctx, "Options", Nuklear.NK_WINDOW_TITLE)) {
             tool.drawOptionsUI(stack, ctx, windowSize);
             Nuklear.nk_group_end(ctx);
@@ -154,11 +154,14 @@ public class BlockToolPallete {
 
     boolean enabled = false;
 
-    public void keyEvent(int key, int scancode, int action, int mods) {
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_LEFT_ALT) {
             enabled = !enabled;
+            return true;
         } else if (action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_ESCAPE) {
             enabled = false;
+            return true;
         }
+        return enabled;
     }
 }

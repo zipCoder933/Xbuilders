@@ -33,8 +33,8 @@ public class SkyBackground {
         skyBoxShader = new SkyBoxShader();
     }
 
-    private static final double UPDATE_SPEED = 0.000001f;
-//    private static final double UPDATE_SPEED = 0.0001f;
+    private static final double UPDATE_SPEED = 0.0000005f;
+    //    private static final double UPDATE_SPEED = 0.0001f;
     double offset;
     double textureXPan;
     Vector3f defaultTint = new Vector3f(1, 1, 1);
@@ -70,6 +70,7 @@ public class SkyBackground {
     private void calculateTime() {
         double time = System.currentTimeMillis() * UPDATE_SPEED;
         textureXPan = (time + offset) % 1.0;
+        if (MainWindow.devMode) textureXPan = 0;
     }
 
     public void setTimeOfDay(double start) {
@@ -99,7 +100,4 @@ public class SkyBackground {
         }
         GL30.glEnable(GL30.GL_DEPTH_TEST);
     }
-
-
-
 }

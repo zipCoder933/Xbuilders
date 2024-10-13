@@ -1,4 +1,4 @@
-package com.xbuilders.engine.ui.topMenu;
+package com.xbuilders.engine.multiplayer;
 
 public class NetworkJoinRequest {
     public boolean hosting;

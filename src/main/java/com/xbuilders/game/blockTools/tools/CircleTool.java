@@ -9,22 +9,58 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.window.nuklear.components.NumberBox;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashSet;
 
-public class FillTool extends BlockTool {
-    public FillTool(BlockTools tools, CursorRay cursorRay) {
-        super("Fill", tools, cursorRay);
+import static org.lwjgl.nuklear.Nuklear.*;
+
+public class CircleTool extends BlockTool {
+    public CircleTool(BlockTools tools, CursorRay cursorRay) {
+        super("Circle", tools, cursorRay);
+        hasOptions = true;
+        wallThickness = new NumberBox(10);
+        wallThickness.setMinValue(1);
+        wallThickness.setMaxValue(3);
+        wallThickness.setValueAsNumber(1);
         try {
-            setIcon(ResourceUtils.resource("blockTools\\fill.png"));
+            setIcon(ResourceUtils.resource("blockTools\\circle.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    final AABB renderingAABB = new AABB();
+    final AABB settingAABB = new AABB();
+    int size;
+    final int MAX_RADIUS = 50;
+    boolean placeOnHit = false;
+    boolean hollow = false;
+    NumberBox wallThickness;
+
+    @Override
+    public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
+        nk_layout_row_dynamic(ctx, 30, 1);
+        ByteBuffer active = stack.malloc(1);
+        active.put(0, hollow ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
+        if (nk_checkbox_label(ctx, "hollow", active)) {
+            hollow = !hollow;
+        }
+
+        nk_layout_row_dynamic(ctx, 30, 2);
+        nk_label(ctx, "Wall thickness", Nuklear.NK_TEXT_LEFT);
+        wallThickness.render(ctx);
     }
 
 
@@ -56,35 +92,49 @@ public class FillTool extends BlockTool {
         ArrayList<Vector3i> queue = new ArrayList<>();
         Vector3i origin = getStartingPos(ray);
         queue.add(origin);
+        HashSet<Vector3i> visited = new HashSet<>();
+
+          System.out.println("AABB: " + settingAABB.getXLength() + ", " + settingAABB.getYLength() + ", " + settingAABB.getZLength());
 
         while (!queue.isEmpty()) {
             Vector3i pos = queue.remove(0);
+            float radius = Math.max(settingAABB.getXLength(), settingAABB.getZLength()) / 2;
 
-            GameScene.player.setBlock(block.id, pos.x, pos.y, pos.z);
+            setBlock(origin, pos.x, pos.y, pos.z, block, radius);
 
-            propagate(origin, pos.x + 1, pos.y, pos.z, block, queue);
-            propagate(origin, pos.x - 1, pos.y, pos.z, block, queue);
-            propagate(origin, pos.x, pos.y + 1, pos.z, block, queue);
-            propagate(origin, pos.x, pos.y - 1, pos.z, block, queue);
-            propagate(origin, pos.x, pos.y, pos.z + 1, block, queue);
-            propagate(origin, pos.x, pos.y, pos.z - 1, block, queue);
+            if (settingAABB.getXLength() > 0) {
+                propagate(origin, pos.x + 1, pos.y, pos.z, block, queue, radius, visited);
+                propagate(origin, pos.x - 1, pos.y, pos.z, block, queue, radius, visited);
+            }
+            if (settingAABB.getYLength() > 0) {
+                propagate(origin, pos.x, pos.y + 1, pos.z, block, queue, radius, visited);
+                propagate(origin, pos.x, pos.y - 1, pos.z, block, queue, radius, visited);
+            }
+            if (settingAABB.getZLength() > 0) {
+                propagate(origin, pos.x, pos.y, pos.z + 1, block, queue, radius, visited);
+                propagate(origin, pos.x, pos.y, pos.z - 1, block, queue, radius, visited);
+            }
+
         }
 
         return true;
     }
 
-    private void propagate(Vector3i origin, int x, int y, int z, Block block, ArrayList<Vector3i> queue) {
-        if (x > settingAABB.max.x + 1 || x < settingAABB.min.x) return;
-        if (y > settingAABB.max.y + 1 || y < settingAABB.min.y) return;
-        if (z > settingAABB.max.z + 1 || z < settingAABB.min.z) return;
-
-        float radius = settingAABB.getXLength() / 2;
-        if (origin.distance(x, y, z) > radius) return;
-
-        Block b = GameScene.world.getBlock(x, y, z);
-        if (!b.solid && b.id != block.id) {
-//            System.out.println("\tPropagating neighbor: " + b + " this: " + block);
+    private void setBlock(Vector3i origin, int x, int y, int z, Block block, float radius) {
+        if (!hollow || origin.distance(x, y, z) > radius - wallThickness.getValueAsNumber()) {
             GameScene.player.setBlock(block.id, x, y, z);
+        }
+    }
+
+
+    private void propagate(Vector3i origin, int x, int y, int z, Block block,
+                           ArrayList<Vector3i> queue, float radius, HashSet<Vector3i> visited) {
+        if (origin.distance(x, y, z) > radius) return;
+        Block b = GameScene.world.getBlock(x, y, z);
+        if ((placeOnHit || !b.solid)
+                && !visited.contains(new Vector3i(x, y, z))) {
+            visited.add(new Vector3i(x, y, z));
+            setBlock(origin, x, y, z, block, radius);
             queue.add(new Vector3i(x, y, z));
         }
     }
@@ -127,11 +177,7 @@ public class FillTool extends BlockTool {
         return true;
     }
 
-    final AABB renderingAABB = new AABB();
-    final AABB settingAABB = new AABB();
-    int size;
-    final int maxLength = 25;
-    boolean placeOnHit = false;
+
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         //If K is pressed
@@ -149,7 +195,7 @@ public class FillTool extends BlockTool {
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         size += (int) yoffset;
-        size = MathUtils.clamp(size, 1, maxLength);
+        size = MathUtils.clamp(size, 1, MAX_RADIUS);
         return true;
     }
 

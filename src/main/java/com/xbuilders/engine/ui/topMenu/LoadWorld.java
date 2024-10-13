@@ -9,6 +9,7 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.MainWindow;
