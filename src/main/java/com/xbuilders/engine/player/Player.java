@@ -7,22 +7,19 @@ package com.xbuilders.engine.player;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.GameServer;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 /**
  * @author zipCoder933
  */
 public class Player {
 
+    public boolean isKnown = false;
     private Skin skin;
     private int skinID = 0;
 
@@ -69,7 +66,6 @@ public class Player {
     }
 
 
-
     public boolean isWithinReach(float worldX, float worldY, float worldZ) {
         return worldPosition.distance(worldX, worldY, worldZ) < GameScene.world.getViewDistance();
     }
@@ -95,7 +91,7 @@ public class Player {
     }
 
     public void update(Matrix4f projection, Matrix4f view) {
-        skin.super_render(projection, view);
+        if (skin != null) skin.super_render(projection, view);
     }
 
     @Override

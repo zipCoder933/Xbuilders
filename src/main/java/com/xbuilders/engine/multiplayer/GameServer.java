@@ -46,6 +46,7 @@ public class GameServer extends Server<PlayerClient> {
     public static final byte ENTITY_UPDATED = -119;
     public static final byte PLAYER_CHUNK_DISTANCE = -118;
     public static final byte SET_TIME = -117;
+    public static final byte PLEASE_CONNECT_TO_CLIENT = -116;
 
     NetworkJoinRequest req;
     UserControlledPlayer userPlayer;
@@ -119,153 +120,153 @@ public class GameServer extends Server<PlayerClient> {
 
     @Override
     public boolean newClientEvent(PlayerClient client) {
-        if (clientAlreadyJoined(client)) {
-            try {
-                client.sendString("You already joined the game!");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return false;
-        } else {
-            try {
+        try {
+            if (clientAlreadyJoined(client)) {
+                System.out.println(client.getRemoteSocketAddress().toString() + " has already joined");
+                return false;
+            } else {
+                client.sendData(userPlayer.infoToBytes());
                 if (req.hosting) {
-                    client.sendData(userPlayer.infoToBytes());
-                    System.out.println(GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson());
-
-                    //Send the world info
-                    client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
-                            GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson()));
-
-                    new Thread(() -> {  //Load every file of the chunk
-                        try {
-                            System.out.println("Loading chunks from " + worldInfo.getDirectory().getAbsolutePath());
-                            for (File f : worldInfo.getDirectory().listFiles()) {
-                                Vector3i coordinates = worldInfo.getPositionOfChunkFile(f);
-                                if (coordinates != null) {
-                                    long lastSaved = ChunkSavingLoadingUtils.getLastSaved(f);
-
-                                    System.out.println("Chunk " + coordinates.x + ", " + coordinates.y + ", " + coordinates.z
-                                            + " Last saved: " + formatTime(lastSaved));
-
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    baos.write(WORLD_CHUNK);
-                                    ByteUtils.writeInt(baos, coordinates.x);
-                                    ByteUtils.writeInt(baos, coordinates.y);
-                                    ByteUtils.writeInt(baos, coordinates.z);
-                                    baos.write(Files.readAllBytes(f.toPath()));
-                                    baos.flush();
-                                    client.sendData(baos.toByteArray());
-
-                                }
-                            }
-                            client.sendData(READY_TO_START);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }).start();
-
-
+                    sendWorldToClient(client);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                return true;
             }
-            return true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void printDatafromClient(PlayerClient client, byte[] receivedData) {
-        String playerName;
-        if (client.player == null) {
-            playerName = "Unknown";
-        } else {
-            playerName = client.player.name;
-        }
-        try {
-            GameScene.consoleOut(playerName + ":  (L" + receivedData.length + ") " + new String(receivedData));
-        } catch (Exception e) {
-            GameScene.consoleOut(playerName + ":  (L" + receivedData.length + ") " + Arrays.toString(receivedData));
-        }
+    private void sendWorldToClient(PlayerClient client) throws IOException {
+        //Send the world info to the client
+        System.out.println("Sending world to client: " + GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson());
+        client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
+                GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson()));
+
+        new Thread(() -> {  //Load every file of the chunk
+            try {
+                System.out.println("Loading chunks from " + worldInfo.getDirectory().getAbsolutePath());
+                for (File f : worldInfo.getDirectory().listFiles()) {
+                    Vector3i coordinates = worldInfo.getPositionOfChunkFile(f);
+                    if (coordinates != null) {
+                        long lastSaved = ChunkSavingLoadingUtils.getLastSaved(f);
+                        System.out.println("Chunk " + coordinates.x + ", " + coordinates.y + ", " + coordinates.z
+                                + " Last saved: " + formatTime(lastSaved));
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        baos.write(WORLD_CHUNK);
+                        ByteUtils.writeInt(baos, coordinates.x);
+                        ByteUtils.writeInt(baos, coordinates.y);
+                        ByteUtils.writeInt(baos, coordinates.z);
+                        baos.write(Files.readAllBytes(f.toPath()));
+                        baos.flush();
+                        client.sendData(baos.toByteArray());
+                    }
+                }
+                client.sendData(READY_TO_START);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
     @Override
     public void dataFromClientEvent(PlayerClient client, byte[] receivedData) {
         try {
-//            printDatafromClient(client, receivedData);
-            if (receivedData.length > 0) {
-                if (receivedData[0] == PLAYER_INFO) {
-                    client.player.loadInfoFromBytes(receivedData);
+            if (receivedData.length == 0) return;
+
+            if (receivedData[0] == PLAYER_INFO) { //Given when the player updates his info
+                //Update player information first
+                client.player.loadInfoFromBytes(receivedData);
+                //If the player has not joined yet, add him
+                if (!client.player.isKnown) {
+                    client.player.isKnown = true;
+                    if (isHosting()) { //If we are the host, ask other players to connect too
+                        sendChatMessage(client, "Welcome \"" + client.player.name + "\"!");
+
+                        byte[] joinMessage = NetworkUtils.formatMessage(PLEASE_CONNECT_TO_CLIENT,
+                                client.getRemoteSocketAddress().getHostName()
+                                        + ":" + client.getRemoteSocketAddress().getPort());
+                        for (PlayerClient otherClient : clients) {
+                            if (!otherClient.equals(client)) otherClient.sendData(joinMessage);
+                        }
+                    }
                     playerJoinEvent(client);
-                    client.sendData(NetworkUtils.formatMessage(PLAYER_CHAT, "Welcome \"" + client.player.name + "\"!"));
-                } else if (receivedData[0] == PLAYER_CHAT) {
-                    String message = new String(NetworkUtils.getMessage(receivedData));
-                    String playerName = client.player.name;
-                    GameScene.consoleOut(playerName + ":  \"" + message + "\"");
-                } else {
-                    if (receivedData[0] == PLAYER_POSITION) {
-                        float x = ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
-                        float y = ByteUtils.bytesToFloat(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
-                        float z = ByteUtils.bytesToFloat(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
-                        float pan = ByteUtils.bytesToFloat(receivedData[13], receivedData[14], receivedData[15], receivedData[16]);
-                        client.player.worldPosition.set(x, y, z);
-                        client.player.pan = (pan);
-                    } else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
-                        PendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
-                            if (PendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {
-                                GameScene.player.eventPipeline.addEvent(pos, blockHist);
-                            } else {//Cache changes if they are out of bounds
-                                //we should leave blockhist.fromNetwork to TRUE because the block events have likely already happened
-                                //blockHist.fromNetwork = false;
-                                GameScene.player.eventPipeline.outOfReachEvents.addBlockChange(pos, blockHist);
-                            }
-                        });
-                    } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
-                        PendingEntityChanges.readEntityChange(receivedData, (
-                                mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
-                            //                        printEntityChange(mode, entity, identifier, currentPos, data);
+                }
+            } else if (receivedData[0] == PLEASE_CONNECT_TO_CLIENT) {
+                String[] adress = new String(receivedData).substring(1).split(":");
+                int port = Integer.parseInt(adress[1]);
+                System.out.println("Trying to connect to fellow client: " + Arrays.toString(adress));
+                connectToServer(new InetSocketAddress(adress[0], port));
 
-                            if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
-                                if (mode == ENTITY_CREATED) {
-                                    setEntity(entity, identifier, currentPos, data);
-                                } else if (mode == ENTITY_DELETED) {
-                                    Entity e = GameScene.world.entities.get(identifier);
-                                    if (e != null) {
-                                        e.destroy();
-                                    }
-                                } else if (mode == ENTITY_UPDATED) {
-                                    Entity e = GameScene.world.entities.get(identifier);
-                                    if (e != null) {
-                                        e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
-                                    }
+            } else if (receivedData[0] == PLAYER_CHAT) {
+                String message = new String(NetworkUtils.getMessage(receivedData));
+                String playerName = client.player.name;
+                GameScene.consoleOut(playerName + ":  \"" + message + "\"");
+            } else {
+                if (receivedData[0] == PLAYER_POSITION) {
+                    float x = ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+                    float y = ByteUtils.bytesToFloat(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
+                    float z = ByteUtils.bytesToFloat(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
+                    float pan = ByteUtils.bytesToFloat(receivedData[13], receivedData[14], receivedData[15], receivedData[16]);
+                    client.player.worldPosition.set(x, y, z);
+                    client.player.pan = (pan);
+                } else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
+                    PendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
+                        if (PendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {
+                            GameScene.player.eventPipeline.addEvent(pos, blockHist);
+                        } else {//Cache changes if they are out of bounds
+                            //we should leave blockhist.fromNetwork to TRUE because the block events have likely already happened
+                            //blockHist.fromNetwork = false;
+                            GameScene.player.eventPipeline.outOfReachEvents.addBlockChange(pos, blockHist);
+                        }
+                    });
+                } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
+                    PendingEntityChanges.readEntityChange(receivedData, (
+                            mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
+                        //                        printEntityChange(mode, entity, identifier, currentPos, data);
+
+                        if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
+                            if (mode == ENTITY_CREATED) {
+                                setEntity(entity, identifier, currentPos, data);
+                            } else if (mode == ENTITY_DELETED) {
+                                Entity e = GameScene.world.entities.get(identifier);
+                                if (e != null) {
+                                    e.destroy();
                                 }
-                            } else {//Cache changes if they are out of bounds
-                                GameScene.localEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
+                            } else if (mode == ENTITY_UPDATED) {
+                                Entity e = GameScene.world.entities.get(identifier);
+                                if (e != null) {
+                                    e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
+                                }
                             }
-                        });
-                    } else if (receivedData[0] == PLAYER_CHUNK_DISTANCE) {
-                        //So far this feature is useless
-                        //                    client.playerChunkDistance = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
-                        //                    System.out.println("Player " + client.getName() + " chunk distance: " + client.playerChunkDistance);
-                    }
+                        } else {//Cache changes if they are out of bounds
+                            GameScene.localEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
+                        }
+                    });
+                } else if (receivedData[0] == PLAYER_CHUNK_DISTANCE) {
+                    //So far this feature is useless
+                    //                    client.playerChunkDistance = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+                    //                    System.out.println("Player " + client.getName() + " chunk distance: " + client.playerChunkDistance);
+                }
 
-                    //New world
-                    else if (receivedData[0] == READY_TO_START) {
-                        worldReady = true;
-                    } else if (receivedData[0] == WORLD_CHUNK) {
-                        int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
-                        int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
-                        int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
-                        File chunkFile = worldInfo.getChunkFile(new Vector3i(x, y, z));
-                        //Write the rest of the bytes to a file
-                        Files.write(chunkFile.toPath(), Arrays.copyOfRange(receivedData, 13, receivedData.length));
-                        loadedChunks++;
-                        System.out.println("Received chunk " + x + ", " + y + ", " + z);
-                    } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
-                        getWorldInformationFromHost(receivedData);
-                    } else if (receivedData[0] == SET_TIME) {
-                        GameScene.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
-                    }
+                //New world
+                else if (receivedData[0] == READY_TO_START) {
+                    worldReady = true;
+                } else if (receivedData[0] == WORLD_CHUNK) {
+                    int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+                    int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
+                    int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
+                    File chunkFile = worldInfo.getChunkFile(new Vector3i(x, y, z));
+                    //Write the rest of the bytes to a file
+                    Files.write(chunkFile.toPath(), Arrays.copyOfRange(receivedData, 13, receivedData.length));
+                    loadedChunks++;
+                    System.out.println("Received chunk " + x + ", " + y + ", " + z);
+                } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
+                    getWorldInformationFromHost(receivedData);
+                } else if (receivedData[0] == SET_TIME) {
+                    GameScene.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
                 }
             }
+
         } catch (Exception e) {
             ErrorHandler.report(e);
         }
@@ -382,6 +383,18 @@ public class GameServer extends Server<PlayerClient> {
         //Initial information that is important can be sent to new players
         updateChunkDistance(GameScene.world.getViewDistance());
         GameScene.alert("A new player has joined: " + client.player.toString());
+    }
+
+    public String sendChatMessage(PlayerClient player, String message) {
+        try {
+            byte[] data = new byte[message.length() + 1];
+            data[0] = PLAYER_CHAT;
+            System.arraycopy(message.getBytes(), 0, data, 1, message.length());
+            player.sendData(data);
+            return null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String sendChatMessage(String playerName, String message) {
