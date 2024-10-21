@@ -9,14 +9,9 @@ public class EntityMultiplayerInfo {
     public long lastUpdateTime;
     private boolean stateChanged;
     Entity e;
-
-    //    private final Vector3f lastWorldPos = new Vector3f();
-//    byte[] lastState;
-//    long lastStateCheckTime;
-//    long stateCheckInterval;
     public boolean controlMode;
 
-    //TODO: Is a COMPLETELY decentralized way the best idea? If we can assign players to control entities they should be the only ones sending the state
+    //Is a COMPLETELY decentralized way the best idea? If we can assign players to control entities they should be the only ones sending the state
     //When we have everyone sending states to each other, those states can contradict each other.
     //We have to find a way to take ownership and prioritize ownership  in certain circumstances,
     //For example, If I am riding and entity, that takes presence over being close to, or feeding the entity

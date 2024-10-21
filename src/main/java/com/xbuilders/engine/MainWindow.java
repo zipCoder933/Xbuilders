@@ -38,7 +38,7 @@ public class MainWindow extends NKWindow {
     public static double gameVersion = 1.8;
     public static boolean loadWorldOnStartup = false;
     public static boolean fpsTools = false;
-    public static int frameCount = 0;
+    public static int frameCount = 0; //TODO: replace with game tick
 
     public static void printlnDev(String message) {
         if (devMode) {

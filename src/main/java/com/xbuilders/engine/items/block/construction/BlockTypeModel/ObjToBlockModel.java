@@ -19,7 +19,6 @@ import java.util.Map;
 /**
  * @author zipCoder933
  */
-//TODO: Load obj files directly into the render class instead of converting them into raw code
 public class ObjToBlockModel {
 
 
