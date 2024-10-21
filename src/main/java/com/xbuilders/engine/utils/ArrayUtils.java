@@ -59,18 +59,27 @@ public class ArrayUtils {
         return arr1D;
     }
 
+    public static <T> T[] combineArrays(T[] array1, T[] array2) {
+        // Create a new array with the combined length of both arrays
+        @SuppressWarnings("unchecked")
+        T[] combinedArray = (T[]) java.lang.reflect.Array.newInstance(
+                array1.getClass().getComponentType(), array1.length + array2.length);
 
-    public static <T> T[] concatenateArrays(T[] array1, T[] array2) {
-        T[] concatenatedArray = Arrays.copyOf(array1, array1.length + array2.length);
-        System.arraycopy(array2, 0, concatenatedArray, array1.length, array2.length);
-        return concatenatedArray;
+        // Copy elements from both arrays
+        System.arraycopy(array1, 0, combinedArray, 0, array1.length);
+        System.arraycopy(array2, 0, combinedArray, array1.length, array2.length);
+
+        return combinedArray;
     }
 
-    public static byte[] concatenateArrays(byte[] array1, byte[] array2) {
-        byte[] concatenatedArray = Arrays.copyOf(array1, array1.length + array2.length);
-        System.arraycopy(array2, 0, concatenatedArray, array1.length, array2.length);
-        return concatenatedArray;
-    }
+    public static byte[] combineArrays(byte[] array1, byte[] array2) {
+        // Create a new array with the combined length of both arrays
+        byte[] combinedArray = new byte[array1.length + array2.length];
 
- 
+        // Copy elements from both arrays
+        System.arraycopy(array1, 0, combinedArray, 0, array1.length);
+        System.arraycopy(array2, 0, combinedArray, array1.length, array2.length);
+
+        return combinedArray;
+    }
 }

@@ -9,21 +9,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.nuklear.NkImage;
 
 /**
+ * An item is a static class. Each item has a unique ID, and can only exist once.
+ * Item stack is an item with a quantity, it is a nonstatic class and can exist in many places
+ *
  * @author zipCoder933
  */
 public abstract class Item {
 
-    public final ArrayList<String> tags;
+    public final ArrayList<String> tags = new ArrayList<>();
     public final HashMap<String, String> properties = new HashMap<>();
 
-    public final short id; //TODO: Find a way to represent block ID as an unsigned short (up to 65,000 IDs)
 
+    public final short id; //TODO: Find a way to represent block ID as an unsigned short (up to 65,000 IDs)
     public final ItemType itemType;
     public final String name;
     private int icon = 0;
@@ -39,7 +43,6 @@ public abstract class Item {
 
     public Item(int id, String name, ItemType itemType) {
         this.itemType = itemType;
-        tags = new ArrayList<>();
         if (id > Short.MAX_VALUE) {
             throw new IllegalArgumentException("Item ID Can not exceed " + Short.MAX_VALUE);
         }

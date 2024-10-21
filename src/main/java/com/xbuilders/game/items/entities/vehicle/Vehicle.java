@@ -147,11 +147,11 @@ public abstract class Vehicle extends Entity {
 
     public abstract void onDestructionCancel();
 
-    public byte[] stateToBytes() {
+    public byte[] entityState_toBytes() {
         return ByteUtils.floatToBytes(getRotationYDeg());
     }
 
-    public void loadState(byte[] state) {
+    public void entityState_load(byte[] state) {
         if (state.length != 4) return;
         rotationYDeg = (ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]));
     }

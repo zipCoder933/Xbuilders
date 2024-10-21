@@ -91,7 +91,7 @@ public class EntityMultiplayerInfo {
 
         if (controlledByUs()) return;
 
-        e.loadState(state);
+        e.entityState_load(state);
         e.worldPosition.set(newPosition);
     }
 }

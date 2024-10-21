@@ -5,28 +5,17 @@
 package com.xbuilders.engine.rendering.wireframeBox;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.window.render.MVP;
-import com.xbuilders.window.utils.obj.OBJ;
-import com.xbuilders.window.utils.obj.OBJLoader;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.*;
 
-import java.io.FileNotFoundException;
-
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.GL_FILL;
-import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
-import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glPolygonMode;
 
 /**
  * @author zipCoder933
@@ -46,13 +35,25 @@ public class Box {
     SolidColorShader solidShader;
     private float lineWidth = 1.0f;
     private MVP mvp;
-    public final Matrix4f position = new Matrix4f();
+    private final Matrix4f modelMatrix = new Matrix4f();
+
+    private Vector3f positionTemp = new Vector3f();
+    private Vector3f sizeTemp = new Vector3f();
+
     float[] vertices;
     private int vao;
 
 
-    public void setPosition(Vector3f pos) {
-        position.identity().translation(pos);
+    public void setModelMatrix(Vector3f pos) {
+        modelMatrix.identity().translation(pos);
+    }
+
+    public Vector3f getPosition() {
+        return modelMatrix.getTranslation(positionTemp);
+    }
+
+    public Vector3f getSize() {
+        return sizeTemp;
     }
 
     public Box() {
@@ -87,23 +88,27 @@ public class Box {
                 box.max.y - box.min.y,
                 box.max.z - box.min.z);
 
-        position.identity().translation(box.min);
+        modelMatrix.identity().translation(box.min);
     }
 
     public void setPosAndSize(float startX, float startY, float startZ, float lengthX, float lengthY, float lengthZ) {
         setSize(lengthX, lengthY, lengthZ);
-        position.identity().translation(startX, startY, startZ);
+        modelMatrix.identity().translation(startX, startY, startZ);
     }
 
     public void set(Vector3i start, Vector3i end) {
         setSize(end.x - start.x, end.y - start.y, end.z - start.z);
-        position.identity().translation(start.x, start.y, start.z);
+        modelMatrix.identity().translation(start.x, start.y, start.z);
     }
 
     float MAX_z, MAX_x, MAX_y;
 
     public void setPosition(float x, float y, float z) {
-        position.identity().translation(x, y, z);
+        modelMatrix.identity().translation(x, y, z);
+    }
+
+    public Matrix4f getModelMatrix() {
+        return modelMatrix;
     }
 
     public void setSize(
@@ -115,6 +120,7 @@ public class Box {
             MAX_x = maxX;
             MAX_y = maxY;
             MAX_z = maxZ;
+            sizeTemp.set(MAX_x, MAX_y, MAX_z);
 
             vertices = new float[]{
                     0, 0, 0, // V0
@@ -145,7 +151,7 @@ public class Box {
 
     public void draw(Matrix4f projection, Matrix4f view) {
         GL30.glBindVertexArray(vao);
-        mvp.update(projection, view, position);
+        mvp.update(projection, view, modelMatrix);
         mvp.sendToShader(solidShader.getID(), solidShader.mvpUniform);
 
         int shaderProgram = GL20.glGetInteger(GL20.GL_CURRENT_PROGRAM);//Get the current shader

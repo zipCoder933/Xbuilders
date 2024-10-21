@@ -8,6 +8,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -17,6 +18,7 @@ import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3f;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 
 /**
@@ -122,24 +124,29 @@ public abstract class Entity {
     }
 
     protected void hidden_entityInitialize(byte[] loadBytes) {
-        getLightForPosition();
-        initializeOnDraw(loadBytes);
+        try {
+            getLightForPosition();
+            initializeOnDraw(loadBytes != null && loadBytes.length > 0 ? loadBytes : null);
+        } catch (Exception e) {
+            ErrorHandler.log(e);
+            destroy();
+        }
     }
 
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.
     public abstract void initializeOnDraw(byte[] bytes);
 
 
-    public byte[] toBytes() {
-        return null;
-    }
-
-    public byte[] stateToBytes() {
+    public byte[] toBytes() throws IOException {
         return null;
     }
 
 
-    public void loadState(byte[] state) {
+    public byte[] entityState_toBytes() {
+        return null;
+    }
+
+    public void entityState_load(byte[] state) {
     }
 
     //This method will be called when a chunk is saved (or removed)

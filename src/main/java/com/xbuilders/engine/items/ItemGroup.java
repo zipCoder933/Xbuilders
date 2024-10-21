@@ -37,7 +37,7 @@ abstract class ItemGroup<T extends Item> {
         return idMap.get(id);
     }
 
-    protected int setList(T[] inputItems) {
+    protected final int setList(T[] inputItems) {
         //get typename of t
         String typename = inputItems.getClass().getComponentType().getSimpleName();
         System.out.println("\nChecking IDs for " + typename);

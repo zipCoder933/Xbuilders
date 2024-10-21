@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
+
 /**
  * @author zipCoder933
  */
@@ -31,6 +33,8 @@ public class BlockList extends ItemGroup<Block> {
     public final static int LIQUID_BLOCK_TYPE_ID = -1;
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
     public final static LiquidBlockType liquidBlockType = new LiquidBlockType();
+
+    //Predefined Blocks
     public final static Block BLOCK_AIR = new BlockAir();
 
     File blockIconDirectory, iconDirectory;
@@ -55,15 +59,14 @@ public class BlockList extends ItemGroup<Block> {
 
     @Override
     public void setItems(Block[] inputBlocks) {
-        //Add air to input blocks
-        Block[] inputBlocks2 = new Block[inputBlocks.length + 1];
-        for (int i = 0; i < inputBlocks.length; i++) {
-            inputBlocks2[i] = inputBlocks[i];
-        }
-        inputBlocks2[inputBlocks.length] = BLOCK_AIR;
-        //Set ID Map
-        setList(inputBlocks2);
-        try {//Initialize all blocks
+        inputBlocks = combineArrays(
+                new Block[]{BLOCK_AIR},
+                inputBlocks);
+        setList(inputBlocks);
+
+
+        //Initialize all blocks
+        try {
             for (Block block : getList()) {
                 block.initTextureAndIcon(textures, blockIconDirectory, iconDirectory, defaultIcon);
             }
@@ -71,6 +74,7 @@ public class BlockList extends ItemGroup<Block> {
             ErrorHandler.report(ex);
         }
     }
+
 
     public void addBlockType(String typeName, int typeID, BlockType type) {
         if (blockTypesHashmap.get(typeID) != null) {

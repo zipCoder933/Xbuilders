@@ -5,18 +5,24 @@
 package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.ItemDropEntityLink;
 import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.File;
 import java.io.IOException;
+
+import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 
 /**
  * @author zipCoder933
  */
 public class EntityList extends ItemGroup<EntityLink> {
 
-    File blockIconDirectory, iconDirectory;
+    File iconDirectory;
     int defaultIcon;
+
+    //Predefined entities
+   public static ItemDropEntityLink ENTITY_ITEM_DROP = new ItemDropEntityLink();
 
     public EntityList() {
         super(EntityLink.class);
@@ -29,6 +35,10 @@ public class EntityList extends ItemGroup<EntityLink> {
 
     @Override
     public void setItems(EntityLink[] inputBlocks) {
+        inputBlocks = combineArrays(
+                new EntityLink[]{ENTITY_ITEM_DROP},
+                inputBlocks);
+
         setList(inputBlocks);
 
         int i = 0;

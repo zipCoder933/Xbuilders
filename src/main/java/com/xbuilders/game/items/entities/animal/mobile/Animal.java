@@ -57,7 +57,7 @@ public abstract class Animal extends Entity {
         return false;
     }
 
-    public final byte[] stateToBytes() {
+    public final byte[] entityState_toBytes() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             baos.write(ByteUtils.floatToBytes(getRotationYDeg()));
@@ -76,7 +76,7 @@ public abstract class Animal extends Entity {
     public void animal_readState(byte[] state, AtomicInteger start) {
     }
 
-    public void loadState(byte[] state) {
+    public void entityState_load(byte[] state) {
         AtomicInteger start = new AtomicInteger(0);
         rotationYDeg = (ByteUtils.bytesToFloat(state, start));
         random.readState(state, start);

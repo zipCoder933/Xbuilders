@@ -171,7 +171,7 @@ public class PendingEntityChanges {
         //Send entity byte data (state or entity initialisation)
         byte[] data = null;
         if (entityOperation == GameServer.ENTITY_UPDATED) {
-            data = entity.stateToBytes();
+            data = entity.entityState_toBytes();
         } else if (entityOperation == GameServer.ENTITY_CREATED) {
             data = entity.toBytes();
         }

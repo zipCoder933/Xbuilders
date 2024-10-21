@@ -3,11 +3,13 @@ package com.xbuilders.engine.player;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.EntityList;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.ItemDropEntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
@@ -19,8 +21,10 @@ import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
@@ -36,7 +40,7 @@ public class UserControlledPlayer extends Player {
 
 
     public Camera camera;
-    private MainWindow window;
+    private final MainWindow window;
     final Vector4f lastOrientation = new Vector4f();
     public boolean runningMode;
     Matrix4f projection;
@@ -134,7 +138,7 @@ public class UserControlledPlayer extends Player {
         //Load first person data
         if (playerModelFile.exists()) {
             loadInfoFromBytes(Files.readAllBytes(playerModelFile.toPath()));
-            System.out.println("Loaded player model: " + toString());
+            System.out.println("Loaded player model: " + this);
         } else {
             name = System.getProperty("user.name");
             save();
@@ -465,14 +469,20 @@ public class UserControlledPlayer extends Player {
                         w = camera.cursorRay.getHitPosPlusNormal();
                     }
 
-                    setEntity(entity, w, null);
+                    setEntity(entity, new Vector3f(w), null);
                 }
             }
         }
     }
 
-    public Entity setEntity(EntityLink entity, Vector3i w, byte[] data) {
-        WCCi wcc = new WCCi();
+    public void dropItem(Item item) {
+       setEntity(EntityList.ENTITY_ITEM_DROP,
+               worldPosition,
+               ItemDropEntityLink.toBytes(null, ItemDropEntityLink.DROP_LIVE_TIME));
+    }
+
+    public Entity setEntity(EntityLink entity, Vector3f w, byte[] data) {
+        WCCf wcc = new WCCf();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
         if (chunk != null) {
