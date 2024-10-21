@@ -168,23 +168,27 @@ properties:
 Example: Items.DIAMOND_SWORD is an Item, which represents the diamond sword itself, not its count or state.
 
 ### ItemStack:
-
 Represents an instance of an item with specific data such as:
-
 - quantity
 - durability
 - NBT (Named Binary Tag) data.
-    - NBT (Named Binary Tag) data on an ItemStack can significantly affect the item's properties, depending on the item
-      type.
 
 It can hold multiple items of the same type in a stack, hence the name ItemStack.
-
 Example: An ItemStack of 5 diamond swords with specific durability values and enchantments. Each ItemStack can also be
 empty or have different quantities of the same item.
 
 ### Key Differences:
-
 Item is the base type, the blueprint of an item. It defines properties shared by all items of that type.
 ItemStack is the actual "container" holding a specific amount of an item, its state, and additional metadata like
 enchantments or custom names.
 
+### About NBT data:
+NBT (Named Binary Tag) data on an ItemStack can significantly affect the item's properties, depending on the item
+type.
+Comparison of NBT and JSON:
+- Both NBT and JSON can represent complex, nested data structures.
+- They both use a system of keys (or names) and corresponding values to store information.
+- JSON is human-readable, while NBT, although not as easily readable in its binary format, can be represented in a similar way using text format for inspection.
+- NBT is stored in a binary format, making it faster to read and write compared to the text-based format of JSON.
+- NBT supports a wider variety of primitive data types (e.g., byte, short, int, long, float, double, byte array) while JSON primarily supports strings, numbers, booleans, arrays, and objects.
+- NBT is generally more compact than JSON when serialized as binary, which makes it more efficient for storage and loading in Minecraft.
