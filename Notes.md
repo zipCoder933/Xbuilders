@@ -1,3 +1,9 @@
+# ToDo
+Implement game tick
+* https://minecraft.fandom.com/wiki/Tick
+* Use chunk ticks to randomly update blocks like in minecraft
+
+
 # Bugs/Performance
 ## A NOTE ABOUT DETERMINING BOTTLENECKS
 Using a profiler is CRUCIAL. You should be able to use tools to profile the CPU AND GPU

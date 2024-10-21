@@ -26,6 +26,3 @@ All entities and block types are made using blender.
 There are 2 blender profiles, one for blocks and one for entities
 * The block profile has +Y as up direction
 * The entity profile has -Y as up direction
-
-### Icon generation
-If the resulting icons from icon generation are empty, the most likely cause would be that the iconRTT.vs vertex shader was not updated to match the chunk vertex shader

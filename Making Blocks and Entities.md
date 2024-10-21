@@ -15,13 +15,13 @@ Use the existing "blocks and entities.blend" file to add new entities or blocks.
    - ![blender4.png](assets/notes/images/blender4.png)
 
 ## Operator Preset when exporting OBJ
-| property           | value                                                                                              |
---------------------|----------------------------------------------------------------------------------------------------
-| Selected only      | true                                                                                               |
-| Triangulate meshes | true                                                                                               |
-| Scale              | 1 (if your blockbench model doesnt align with the grid, this will have to be adjusted accordingly) |
-| Forward dir        | -Z                                                                                                 |
-| Up dir             | -Y                                                                                                 |
+| property           | value    |
+---------------------|------------
+| Selected only      | true     |
+| Triangulate meshes | true     |
+| Scale              | 1        |
+| Forward dir        | -Z       |
+| Up dir             | -Y       |
 
 # Making Entities
 * When exporting as an OBJ, set **up direction to -Y**
