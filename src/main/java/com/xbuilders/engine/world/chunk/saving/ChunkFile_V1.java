@@ -110,7 +110,7 @@ public class ChunkFile_V1 {
 
         if (blockID != BlockList.BLOCK_AIR.id) { //We dont read block data if the block is air
             BlockData blockData = ChunkSavingLoadingUtils.readBlockData(bytes, start); //Read block data
-            if (blockData.size() > 0) {
+            if (blockData != null && blockData.size() > 0) {
                 chunk.data.setBlockData(x, y, z, blockData);
             }
         }

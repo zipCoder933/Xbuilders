@@ -241,13 +241,13 @@ public class ChunkSavingLoadingUtils {
                 }
 
             } catch (FileNotFoundException ex) {
-                ErrorHandler.report("An error occurred reading chunk " + chunk, ex);
+                ErrorHandler.report("No Chunk file found! " + chunk, ex);
                 return false;
             } catch (IOException ex) {
-                ErrorHandler.report("An error occurred reading chunk " + chunk, ex);
+                ErrorHandler.report("IO error occurred reading chunk " + chunk, ex);
                 return false;
             } catch (Exception ex) {
-                ErrorHandler.report("An error occurred reading chunk " + chunk, ex);
+                ErrorHandler.report("Error occurred reading chunk " + chunk, ex);
                 return false;
             }
         }

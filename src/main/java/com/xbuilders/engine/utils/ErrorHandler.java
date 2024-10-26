@@ -52,8 +52,10 @@ public class ErrorHandler {
 
     public static void report(String userMsg, Throwable ex) {
         String errMessage = (ex.getMessage() != null ? " \n(" + ex.getMessage() + ")" : "");
-        MainWindow.popupMessage.message("Runtime Error", userMsg + errMessage + "\n(Content saved to clipboard)");
-        log(ex, "##" + userMsg + "##\t" + errMessage);
+        if (userMsg == null || userMsg.isBlank()) userMsg = "Runtime Error!";
+
+        MainWindow.popupMessage.message(userMsg, errMessage + "\n(Content saved to clipboard)");
+        log(ex, userMsg);
     }
 
 
@@ -64,30 +66,26 @@ public class ErrorHandler {
      * @param devMessage
      */
     public static void log(Throwable ex, String devMessage) {
-
-
-        String errorStr = "Message: \t" + devMessage + "\n";
-
+        String errorStr;
         if (ex != null) {
             if (ex.getMessage() == null) {
                 errorStr = "Message: \t" + devMessage + "\n"
                         + "Class: \t" + ex.getClass() + "\n\n"
                         + "Stack trace:\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n");
             } else {
-                errorStr = "Message: \t" + ex.getMessage() + "\n"
-                        + "Message: \t" + devMessage + "\n"
+                errorStr = "Message: \t" + devMessage + "\n"
+                        + "Error: \t" + ex.getMessage() + "\n"
                         + "Class: \t" + ex.getClass() + "\n\n"
                         + "Stack trace:\n" + Arrays.toString(ex.getStackTrace()).replace(",", "\n");
             }
-        }
-        System.out.println(errorStr);
-        try {
-            //Create log file directory if it doesn't exist
-            saveLogToFile(devMessage, errorStr);
-
-            //Copy to clipboard
-            MiscUtils.setClipboard(errorStr);
-        } catch (IOException ex1) {
+            System.out.println(errorStr);
+            try {
+                //Create log file directory if it doesn't exist
+                saveLogToFile(devMessage, errorStr);
+                //Copy to clipboard
+                MiscUtils.setClipboard(errorStr);
+            } catch (IOException ex1) {
+            }
         }
     }
 
