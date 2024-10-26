@@ -4,6 +4,8 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingBlockChanges;
+import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
@@ -147,6 +149,12 @@ public class World {
 
     public final WorldEntityMap entities = new WorldEntityMap(); // <chunkPos, entity>
 
+    /**
+     * This is a record of all the pending block changes that need to be applied.
+     * Before we load the world, all of the pending block changes must be applied to the world
+     */
+    public Local_MultiplayerPendingBlockChanges multiplayerPendingBlockChanges;
+
     public WorldInfo info;
     public Terrain terrain;
 
@@ -202,7 +210,8 @@ public class World {
 
     }
 
-    public void init(BlockArrayTexture textures) throws IOException {
+    public void init(UserControlledPlayer player, BlockArrayTexture textures) throws IOException {
+        multiplayerPendingBlockChanges = new Local_MultiplayerPendingBlockChanges(player);
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
@@ -267,11 +276,15 @@ public class World {
         }
         System.out.println("Loaded terrain: " + this.terrain.toString());
         prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
+
+        //Load pending blocks
+        multiplayerPendingBlockChanges.load(info);
+
         return true;
     }
 
     public void stopGame(Vector3f playerPos) {
-        saveAll(playerPos);
+        save(playerPos);
 
         // We may or may not actually need to shutdown the services, since chunks cancel
         // all tasks when they are disposed
@@ -444,7 +457,7 @@ public class World {
             lastSaveMS = System.currentTimeMillis();
             // Save chunks
             generationService.submit(0.0f, () -> {
-                saveAll(playerPosition);
+                save(playerPosition);
             });
         }
 
@@ -548,6 +561,7 @@ public class World {
 
     /**
      * Like player.setEntity but does NOT notify other players and does not guarantee save of the chunk
+     *
      * @param entity
      * @param w
      * @return the entity
@@ -642,20 +656,26 @@ public class World {
     }
     // </editor-fold>
 
-    public void saveAll(Vector3f playerPos) {
+    public void save(Vector3f playerPos) {
         // System.out.println("Saving...");
+
         // Save all chunks
         Iterator<Chunk> iterator = chunks.values().iterator();
         while (iterator.hasNext()) {
             Chunk chunk = iterator.next();
             chunk.save(info);
         }
-        info.setSpawnPoint(playerPos);
+
+        //Save world info
         try {
+            info.setSpawnPoint(playerPos);
             info.save();
         } catch (IOException ex) {
             ErrorHandler.report(ex);
         }
+
+        //Save multiplayer pending block changes
+        multiplayerPendingBlockChanges.save(info);
     }
 
     public FutureChunk newFutureChunk(Vector3i pos) {

@@ -72,9 +72,8 @@ public class ChunkSavingLoadingUtils {
             System.arraycopy(bytes, start.get(), data, 0, length);
             start.set(start.get() + length);
             return new BlockData(data);
-
         } catch (IndexOutOfBoundsException e) {
-            ErrorHandler.report(e);
+            ErrorHandler.log(e);
             return null; //Catch the error just to be safe
         }
     }

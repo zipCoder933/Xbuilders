@@ -210,21 +210,19 @@ public class GameServer extends Server<PlayerClient> {
                     client.player.worldPosition.set(x, y, z);
                     client.player.pan = (pan);
                 } else if (receivedData[0] == VOXEL_BLOCK_CHANGE) {
-                    PendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
-                        if (PendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {
+                    MultiplayerPendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
+                        if (MultiplayerPendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {
                             GameScene.player.eventPipeline.addEvent(pos, blockHist);
                         } else {//Cache changes if they are out of bounds
-                            //we should leave blockhist.fromNetwork to TRUE because the block events have likely already happened
-                            //blockHist.fromNetwork = false;
-                            GameScene.player.eventPipeline.outOfReachEvents.addBlockChange(pos, blockHist);
+                            GameScene.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
                         }
                     });
                 } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
-                    PendingEntityChanges.readEntityChange(receivedData, (
+                    MultiplayerPendingEntityChanges.readEntityChange(receivedData, (
                             mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
                         //                        printEntityChange(mode, entity, identifier, currentPos, data);
 
-                        if (PendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
+                        if (MultiplayerPendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
                             if (mode == ENTITY_CREATED) {
                                 setEntity(entity, identifier, currentPos, data);
                             } else if (mode == ENTITY_DELETED) {

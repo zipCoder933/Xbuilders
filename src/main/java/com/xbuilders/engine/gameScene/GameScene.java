@@ -8,7 +8,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.multiplayer.GameServer;
-import com.xbuilders.engine.multiplayer.Local_PendingEntityChanges;
+import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.multiplayer.PlayerClient;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
@@ -46,7 +46,7 @@ public class GameScene implements WindowEvents {
 
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
-    public static final World world = new World();
+    public static final World  world = new World();
     public static boolean drawWireframe;
     public static boolean drawBoundingBoxes;
     public static UserControlledPlayer player;
@@ -58,17 +58,30 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f centeredView = new Matrix4f();
     private static Game game;
     static HashMap<String, String> commandHelp;
-    public static Local_PendingEntityChanges localEntityChanges;
+    public static Local_MultiplayerPendingEntityChanges localEntityChanges;
 
 
     public GameScene(MainWindow window) throws Exception {
         this.window = window;
         specialMode = true;
         player = new UserControlledPlayer(window, world, projection, view, centeredView);
-        localEntityChanges = new Local_PendingEntityChanges(player);
+        localEntityChanges = new Local_MultiplayerPendingEntityChanges(player);
         otherPlayers = new ArrayList<>();
         server = new GameServer(player);
         livePropagationHandler = new LivePropagationHandler();
+    }
+
+
+    public void initialize(MainWindow window, MyGame game) throws Exception {
+        background = new SkyBackground(window);
+        livePropagationHandler.tasks.clear();
+        game.initialize(this);
+        setProjection();
+        ui = new GameUI(game, window.ctx, window);
+        player.init();
+        world.init(player, ItemList.blocks.textures);
+        ui.init();
+        game.uiInit(window.ctx, ui);
     }
 
 
@@ -324,19 +337,6 @@ public class GameScene implements WindowEvents {
         }
     }
 
-    public void initialize(MainWindow window, MyGame game) throws Exception {
-        background = new SkyBackground(window);
-        livePropagationHandler.tasks.clear();
-
-        game.initialize(this);
-
-        setProjection();
-        ui = new GameUI(game, window.ctx, window);
-        world.init(ItemList.blocks.textures);
-        player.init();
-        ui.init();
-        game.uiInit(window.ctx, ui);
-    }
 
     boolean holdMouse;
     public static boolean specialMode;

@@ -152,9 +152,7 @@ public class UserControlledPlayer extends Player {
     private static final File playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
     long lastSave = System.currentTimeMillis();
 
-    public void save() { //Periodic saving
-        eventPipeline.save();
-        //Save first person data
+    public void save() {
         try {
             Files.write(playerModelFile.toPath(), infoToBytes());
         } catch (IOException e) {

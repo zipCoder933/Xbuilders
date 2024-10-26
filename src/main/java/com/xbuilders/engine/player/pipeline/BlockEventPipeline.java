@@ -2,12 +2,11 @@ package com.xbuilders.engine.player.pipeline;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.multiplayer.Local_PendingBlockChanges;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.multiplayer.PendingBlockChanges;
+import com.xbuilders.engine.multiplayer.MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
@@ -29,7 +28,7 @@ public class BlockEventPipeline {
 
 
     private final Map<Vector3i, BlockHistory> events = new HashMap<>(); //ALL events must be submitted to this
-    public final Local_PendingBlockChanges outOfReachEvents;
+
 
 
     WCCi wcc = new WCCi();
@@ -40,14 +39,13 @@ public class BlockEventPipeline {
     public BlockEventPipeline(World world, UserControlledPlayer player) {
         this.world = world;
         this.player = player;
-        outOfReachEvents = new Local_PendingBlockChanges(player);
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
         if (blockHist != null) {
-            if (!PendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
+            if (!MultiplayerPendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
                 //If there is a block event that is on a empty chunk or too far away, don't add it
-                outOfReachEvents.addBlockChange(worldPos, blockHist);
+                GameScene.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
                 return;
             }
             blockChangesThisFrame++;
@@ -94,23 +92,13 @@ public class BlockEventPipeline {
                 100L, TimeUnit.MILLISECONDS,
                 new HighValueComparator());
 
-
         this.worldInfo = worldInfo;
-        outOfReachEvents.load(worldInfo);
-    }
-
-    public void save() {
-        if (outOfReachEvents.needsSaving) {
-            outOfReachEvents.save(worldInfo);
-            outOfReachEvents.needsSaving = false;
-        }
     }
 
     public void endGame() {
         events.clear();
         eventThread.shutdown();
         bulkBlockThread.shutdown();
-        save();
     }
 
 
@@ -126,8 +114,8 @@ public class BlockEventPipeline {
         if (MainWindow.devkeyF3 && MainWindow.devMode)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
-        if (outOfReachEvents.periodicRangeSendCheck(5000)) {
-            int changes = outOfReachEvents.readApplicableChanges((worldPos, history) -> {
+        if (GameScene.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
+            int changes = GameScene.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
             });
             MainWindow.printlnDev("Loaded " + changes + " local changes");
