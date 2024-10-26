@@ -1,9 +1,11 @@
 package com.xbuilders.game.blockTools.tools;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.BlockList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
+import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -60,10 +62,12 @@ public class PaintTool extends BlockTool {
         Vector3i origin = getStartingPos(ray);
         queue.add(origin);
 
-        while (!queue.isEmpty()) {
+        long start = System.currentTimeMillis();
+        while (!queue.isEmpty() && System.currentTimeMillis() - start < 5000) {
             Vector3i pos = queue.remove(0);
 
             GameScene.player.setBlock(newBlock.id, pos.x, pos.y, pos.z);
+            //MainWindow.printlnDev("Painting: " + MiscUtils.printVector(pos));
 
             propagate(origin, pos.x + 1, pos.y, pos.z, newBlock, replaceBlock, queue);
             propagate(origin, pos.x - 1, pos.y, pos.z, newBlock, replaceBlock, queue);
@@ -76,7 +80,7 @@ public class PaintTool extends BlockTool {
         return true;
     }
 
-    private void propagate(Vector3i origin, int x, int y, int z, Block newBlock, Block replaceBlock, ArrayList<Vector3i> queue) {
+    private void propagate(Vector3i origin, int x, int y, int z, Block newBlock, Block blockToReplace, ArrayList<Vector3i> queue) {
         if (x > settingAABB.max.x || x < settingAABB.min.x) return;
         if (y > settingAABB.max.y || y < settingAABB.min.y) return;
         if (z > settingAABB.max.z || z < settingAABB.min.z) return;
@@ -84,11 +88,15 @@ public class PaintTool extends BlockTool {
         float radius = settingAABB.getXLength() / 2;
         if (origin.distance(x, y, z) > radius) return;
 
-        Block b = GameScene.world.getBlock(x, y, z);
-        if (b.id == replaceBlock.id) {
-//            System.out.println("\tPropagating neighbor: " + b + " this: " + newBlock);
+        Block existingBlock = GameScene.world.getBlock(x, y, z);
+        if (existingBlock.id == blockToReplace.id) {
             GameScene.player.setBlock(newBlock.id, x, y, z);
-            queue.add(new Vector3i(x, y, z));
+
+            //Check again just in case
+            existingBlock = GameScene.world.getBlock(x, y, z);
+            if (existingBlock.id == newBlock.id) {
+                queue.add(new Vector3i(x, y, z));
+            }
         }
     }
 
