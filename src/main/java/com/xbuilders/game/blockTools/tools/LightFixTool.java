@@ -87,8 +87,8 @@ public class LightFixTool extends BlockTool {
             ArrayList<ChunkNode> filledPropagator = new ArrayList<>();
             ArrayList<ChunkNode> emptyPropagator = new ArrayList<>();
 
-            for (int x = -5; x < 10; x++) {
-                for (int z = -5; z < 10; z++) {
+            for (int x = -8; x < 16; x++) {
+                for (int z = -8; z < 16; z++) {
                     filledPropagator.add(new ChunkNode(new WCCi().set(
                             ray.getHitPosPlusNormal().x + x,
                             World.WORLD_TOP_Y + 1,

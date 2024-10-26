@@ -28,9 +28,9 @@ public class BlockToolPallete {
     BlockTools tools;
     boolean wasOpen = false;
 
-    int palleteMaxColumns = 9;
+    int palleteMaxColumns = 10;
 
-    int menuWidth = 430;
+    int menuWidth = 460;
     int toolMenuHeight = 120;
     int optionsMenuHeight = 150;
 
