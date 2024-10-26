@@ -161,7 +161,7 @@ public class LoadWorld implements MenuPage {
         MainWindow.gameScene.startGame(world, req, prog);
         menu.progress.enable(prog,
                 () -> {//update
-                    MainWindow.gameScene.newGameUpdate();
+                    MainWindow.gameScene.newGameUpdateEvent();
                 },
                 () -> {//finished
                     MainWindow.goToGamePage();

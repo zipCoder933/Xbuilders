@@ -10,7 +10,6 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.multiplayer.PlayerClient;
-import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
@@ -46,7 +45,7 @@ public class GameScene implements WindowEvents {
 
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
-    public static final World  world = new World();
+    public static final World world = new World();
     public static boolean drawWireframe;
     public static boolean drawBoundingBoxes;
     public static UserControlledPlayer player;
@@ -246,25 +245,26 @@ public class GameScene implements WindowEvents {
         livePropagationHandler.startGame(world);
     }
 
-    public void newGameUpdate() {
+    /**
+     * The event that starts the new game
+     */
+    public void newGameUpdateEvent() {
         switch (prog.stage) {
-            case 0 -> {//Start multiplayer
+            case 0 -> {
                 if (req != null) {
-                    prog.setTask(req.hosting ? "Hosting game..." : "Joining game...");
+                    server.initWorld(worldInfo, req);
                     try {
-                        GameScene.server.startGame(worldInfo, req);
-                    } catch (IOException | InterruptedException e) {
+                        prog.setTask("Joining game...");
+                        server.startJoiningWorld();
+                    } catch (Exception e) {
                         prog.abort("Error Starting Server", e.getMessage());
                     }
                 }
                 prog.stage++;
             }
             case 1 -> {
-                if (req != null) {//We want to wait until all chunks have been given from the host
-                    if (!req.hosting) {
-                        prog.setTask("Received " + server.loadedChunks + " chunks");
-                    }
-
+                if (req != null && !req.hosting) { //If we are not hosting, we need to get the world
+                    prog.setTask("Received " + server.loadedChunks + " chunks");
                     if (server.getWorldInfo() != null) {
                         worldInfo = server.getWorldInfo();//Reassign the world info to the one we got from the host
                         prog.stage++;
@@ -289,8 +289,17 @@ public class GameScene implements WindowEvents {
             case 3 -> {
                 waitForTasksToComplete(prog);
             }
+            case 4 -> { //After we have loaded all chunks, THAN host
+                try {
+                    prog.setTask("Hosting game...");
+                    server.startHostingWorld();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                prog.stage++;
+            }
 
-            case 4 -> { //Prepare chunks
+            case 5 -> { //Prepare chunks
                 if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING) {
                     prog.setTask("Preparing chunks");
                     AtomicInteger finishedChunks = new AtomicInteger();
@@ -340,7 +349,6 @@ public class GameScene implements WindowEvents {
     public static boolean specialMode;
     public static GameUI ui;
     public static SkyBackground background;
-
 
 
     public void render() throws IOException {

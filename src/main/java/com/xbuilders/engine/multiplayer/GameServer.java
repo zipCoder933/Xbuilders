@@ -75,23 +75,17 @@ public class GameServer extends Server<PlayerClient> {
 
     }
 
-    /**
-     * @param worldInfo the world info if we are hosting the game
-     * @param req       the network join request
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public void startGame(WorldInfo worldInfo, NetworkJoinRequest req) throws IOException, InterruptedException {
+
+    public void initWorld(WorldInfo worldInfo, NetworkJoinRequest req) {
         this.req = req;
         loadedChunks = 0;
         this.worldInfo = worldInfo;
         worldReady = false;
+    }
 
-        start(req.fromPortVal);
-        if (req.hosting) {
-            worldReady = true;
-        } else {
+    public void startJoiningWorld() throws IOException, InterruptedException {
+        if (!req.hosting) {
+            start(req.fromPortVal); //Start the server
             /**
              * We cant send our information until the host has accepted us and started listening for messages.
              * To get around this, we need to either wait, or only send our information when the host sends a welcome message
@@ -102,6 +96,13 @@ public class GameServer extends Server<PlayerClient> {
             hostClient.isHost = true;
             Thread.sleep(1000);
             hostClient.sendData(userPlayer.infoToBytes());
+        }
+    }
+
+    public void startHostingWorld() throws IOException {
+        if (req.hosting) {
+            start(req.fromPortVal); //Start the server
+            worldReady = true;
         }
     }
 
