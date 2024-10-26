@@ -50,7 +50,6 @@ public class GameScene implements WindowEvents {
     public static boolean drawWireframe;
     public static boolean drawBoundingBoxes;
     public static UserControlledPlayer player;
-    public static List<Player> otherPlayers;
     public static GameServer server;
     static MainWindow window;
     public final static Matrix4f projection = new Matrix4f();
@@ -66,7 +65,6 @@ public class GameScene implements WindowEvents {
         specialMode = true;
         player = new UserControlledPlayer(window, world, projection, view, centeredView);
         localEntityChanges = new Local_MultiplayerPendingEntityChanges(player);
-        otherPlayers = new ArrayList<>();
         server = new GameServer(player);
         livePropagationHandler = new LivePropagationHandler();
     }
@@ -263,7 +261,6 @@ public class GameScene implements WindowEvents {
             }
             case 1 -> {
                 if (req != null) {//We want to wait until all chunks have been given from the host
-
                     if (!req.hosting) {
                         prog.setTask("Received " + server.loadedChunks + " chunks");
                     }
@@ -292,7 +289,8 @@ public class GameScene implements WindowEvents {
             case 3 -> {
                 waitForTasksToComplete(prog);
             }
-            case 4 -> {
+
+            case 4 -> { //Prepare chunks
                 if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING) {
                     prog.setTask("Preparing chunks");
                     AtomicInteger finishedChunks = new AtomicInteger();
@@ -340,15 +338,10 @@ public class GameScene implements WindowEvents {
 
     boolean holdMouse;
     public static boolean specialMode;
-    //    public final static Vector3f backgroundColor = new Vector3f(0.5f, 0.5f, 1.0f);
     public static GameUI ui;
     public static SkyBackground background;
 
-    public void pingAllPlayers() {
-        for (PlayerClient p : server.clients) {
-            p.ping();
-        }
-    }
+
 
     public void render() throws IOException {
         MainWindow.frameTester.startProcess();

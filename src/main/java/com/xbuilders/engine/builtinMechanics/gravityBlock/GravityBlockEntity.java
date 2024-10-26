@@ -29,7 +29,7 @@ public class GravityBlockEntity extends Entity {
 
     public GravityBlockEntity(MainWindow window) {
         super();
-        positionHandler = new PositionHandler(window, GameScene.world, aabb, null, null);
+        positionHandler = new PositionHandler(window, GameScene.world, aabb, null);
         aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         frustumSphereRadius = 1;
     }

@@ -34,7 +34,6 @@ public class CollisionHandler {
     final HashSet<Chunk> exploredChunks = new HashSet<>();
     final EntityAABB myBox;
     final EntityAABB userControlledPlayerAABB;
-    final List<Player> playerList;
     final AABB stepBox;
     final AABB collisionBox;
     public final CollisionData collisionData;
@@ -45,11 +44,9 @@ public class CollisionHandler {
     Chunk chunk;
 
     public CollisionHandler(World chunks, PositionHandler driver, EntityAABB entityBox,
-                            EntityAABB userControlledPlayerAABB,
-                            List<Player> playerList) {
+                            EntityAABB userControlledPlayerAABB) {
 
         this.userControlledPlayerAABB = userControlledPlayerAABB;
-        this.playerList = playerList;
         this.chunks = chunks;
         this.myBox = entityBox;
         this.driver = driver;
@@ -131,11 +128,11 @@ public class CollisionHandler {
                     compareEntityAABB(projection, view, chunk.entities.list.get(i).aabb);
                 }
             }
-            if (playerList != null) {
-                for (int i = 0; i < playerList.size(); i++) {
-                    compareEntityAABB(projection, view, playerList.get(i).aabb);
-                }
-            }
+//            if (playerList != null) {
+//                for (int i = 0; i < playerList.size(); i++) {
+//                    compareEntityAABB(projection, view, playerList.get(i).aabb);
+//                }
+//            }
             // Comparison against user controlled player (all entity and player boxes are
             // skipped if they match themselves)
             if (userControlledPlayerAABB != null) compareEntityAABB(projection, view, userControlledPlayerAABB);

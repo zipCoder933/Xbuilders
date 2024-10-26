@@ -90,15 +90,13 @@ public class PositionHandler {
 
     public PositionHandler(GLFWWindow window, World world,
                            EntityAABB thisAABB,
-                           EntityAABB UserPlayerAABB,
-                           List<Player> playerList) {
+                           EntityAABB UserPlayerAABB) {
         this.window = window;
         frozen = false;
         gravityEnabled = true;
         this.aabb = thisAABB;
         collisionsEnabled = true;
-        collisionHandler = new CollisionHandler(world, this, thisAABB,
-                UserPlayerAABB, playerList);
+        collisionHandler = new CollisionHandler(world, this, thisAABB, UserPlayerAABB);
     }
 
     public void update() {

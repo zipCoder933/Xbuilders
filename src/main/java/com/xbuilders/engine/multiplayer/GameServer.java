@@ -168,6 +168,12 @@ public class GameServer extends Server<PlayerClient> {
         }).start();
     }
 
+    public void pingAllPlayers() {
+        for (PlayerClient p : clients) {
+            p.ping();
+        }
+    }
+
     @Override
     public void dataFromClientEvent(PlayerClient client, byte[] receivedData) {
         try {

@@ -132,7 +132,7 @@ public class UserControlledPlayer extends Player {
         this.projection = projection;
         this.view = view;
         camera = new Camera(this, window, projection, view, centeredView);
-        positionHandler = new PositionHandler(window, world, aabb, aabb, GameScene.otherPlayers);
+        positionHandler = new PositionHandler(window, world, aabb, aabb);
         eventPipeline = new BlockEventPipeline(world, this);
 
         //Load first person data

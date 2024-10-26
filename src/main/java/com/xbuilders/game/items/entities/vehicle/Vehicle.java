@@ -137,7 +137,7 @@ public abstract class Vehicle extends Entity {
         // box = new Box();
         // box.setColor(new Vector4f(1, 0, 1, 1));
         // box.setLineWidth(5);
-        posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
+        posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
         vehicle_initializeOnDraw(bytes);
     }
 

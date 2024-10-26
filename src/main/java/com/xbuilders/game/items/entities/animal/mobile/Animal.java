@@ -96,7 +96,7 @@ public abstract class Animal extends Entity {
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.player;
-        this.pos = new PositionHandler(window, GameScene.world, aabb, player.aabb, GameScene.otherPlayers);
+        this.pos = new PositionHandler(window, GameScene.world, aabb, player.aabb);
         pos.setGravityEnabled(true);
         random.setSeed(getIdentifier());
     }
