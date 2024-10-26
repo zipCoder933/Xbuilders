@@ -127,7 +127,7 @@ public class ChunkSunlightGenerator {
     }
 
 
-    static boolean generateSunlight(Chunk pillarChunk1, Terrain terrain) {
+   public static boolean generateSunlight(Chunk pillarChunk1) {
         ArrayList<ChunkNode> queue = new ArrayList<>();
         /**
          * Placing nodes:

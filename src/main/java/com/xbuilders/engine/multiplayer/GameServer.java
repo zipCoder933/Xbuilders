@@ -76,7 +76,7 @@ public class GameServer extends Server<PlayerClient> {
     }
 
 
-    public void initWorld(WorldInfo worldInfo, NetworkJoinRequest req) {
+    public void initNewGame(WorldInfo worldInfo, NetworkJoinRequest req) {
         this.req = req;
         loadedChunks = 0;
         this.worldInfo = worldInfo;
@@ -84,7 +84,7 @@ public class GameServer extends Server<PlayerClient> {
     }
 
     public void startJoiningWorld() throws IOException, InterruptedException {
-        if (!req.hosting) {
+        if (req != null && !req.hosting) {
             start(req.fromPortVal); //Start the server
             /**
              * We cant send our information until the host has accepted us and started listening for messages.
@@ -100,7 +100,7 @@ public class GameServer extends Server<PlayerClient> {
     }
 
     public void startHostingWorld() throws IOException {
-        if (req.hosting) {
+        if (req != null && req.hosting) {
             start(req.fromPortVal); //Start the server
             worldReady = true;
         }

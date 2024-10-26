@@ -1,73 +1,132 @@
-//package com.xbuilders.game.blockTools.tools;
-//
-//import com.xbuilders.engine.MainWindow;
-//import com.xbuilders.engine.gameScene.GameScene;
-//import com.xbuilders.engine.items.BlockList;
-//import com.xbuilders.engine.items.ItemType;
-//import com.xbuilders.engine.items.block.Block;
-//import com.xbuilders.engine.player.CursorRay;
-//import com.xbuilders.engine.utils.ResourceUtils;
-//import com.xbuilders.engine.utils.math.AABB;
-//import com.xbuilders.engine.world.World;
-//import com.xbuilders.engine.world.chunk.Chunk;
-//import com.xbuilders.engine.world.wcc.WCCi;
-//import com.xbuilders.game.blockTools.BlockTool;
-//import com.xbuilders.game.blockTools.BlockTools;
-//import org.joml.Vector3i;
-//import org.lwjgl.glfw.GLFW;
-//
-//import java.io.IOException;
-//import java.util.HashSet;
-//
-//public class LightFixTool extends BlockTool {
-//    public LightFixTool(BlockTools tools, CursorRay cursorRay) {
-//        super("Light Fix Tool", tools, cursorRay);
-//        try {
-//            setIcon(ResourceUtils.resource("blockTools\\boundary.png"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//
-//    @Override
-//    public boolean activationKey(int key, int scancode, int action, int mods) {
-//        return false;
-//    }
-//
-//    @Override
-//    public void activate() {
-//        GameScene.player.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
-//            blockBoundarySetEvent(aabb, created);
-//        });
-//        GameScene.player.camera.cursorRay.boundary_lockToPlane = false;
-//    }
-//
-//
-//    private void blockBoundarySetEvent(AABB aabb, boolean created) {
-//        System.out.println("Light Fix Tool");
-//        HashSet<Chunk> foundChunks = new HashSet<Chunk>();
-//        for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {
-//            for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
-//                for (int y = (int) GameScene.world.WORLD_TOP_Y; y < (int) aabb.max.y; y++) {
-//                    WCCi wcc = new WCCi();
-//                    wcc.set(x, y, z);
-//                    Chunk chunk = wcc.getChunk(GameScene.world);
-//                    GameScene.world.getChunk(new Vector3i()World.TOP_Y_CHUNK)
-//                    if (chunk == null) continue;
-//                    foundChunks.add(chunk);
-//                    chunk.data.setSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, 0);
-//                }
-//            }
-//        }
-//
-//        for (Chunk chunk : foundChunks) {
-//            chunk.generateMesh();
-//        }
-//    }
-//
-//    @Override
-//    public boolean keyEvent(int key, int scancode, int action, int mods) {
-//        return false;
-//    }
-//}
+package com.xbuilders.game.blockTools.tools;
+
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.player.CursorRay;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
+import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
+import com.xbuilders.engine.world.light.SunlightUtils;
+import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.game.blockTools.BlockTool;
+import com.xbuilders.game.blockTools.BlockTools;
+import org.lwjgl.glfw.GLFW;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
+
+public class LightFixTool extends BlockTool {
+    public LightFixTool(BlockTools tools, CursorRay cursorRay) {
+        super("Light Fix Tool", tools, cursorRay);
+        try {
+            setIcon(ResourceUtils.resource("blockTools\\lightbulb.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    boolean resetChunksMode;
+
+    public String toolDescription() {
+        return "Light Fix (Mode: " + (resetChunksMode ? "Reset Chunks" : "Light Fix Pen") + ")";
+    }
+
+    public static boolean fixSunlightPillar(HashSet<Chunk> affectedChunks, Chunk pillarChunk1) {
+
+        ArrayList<ChunkNode> repropQueue = new ArrayList<>();
+
+        for (Chunk chunk : pillarChunk1.pillarInformation.chunks) {
+            chunk.data.resetSun();
+        }
+
+        for (int x = 0; x < WIDTH; x++) {
+            for (int z = 0; z < WIDTH; z++) {
+                boolean addSun = true;
+                for (Chunk chunk : pillarChunk1.pillarInformation.chunks) {// Go DOWN from Y
+                    affectedChunks.add(chunk);
+                    for (int y = 0; y < Chunk.WIDTH; y++) {
+                        Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                        if (addSun) {
+                            if (block.opaque) {
+                                chunk.data.setSun(x, y, z, (byte) 0);
+                                addSun = false;
+                            }
+                        } else {
+                            chunk.data.setSun(x, y, z, (byte) 0);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        SunlightUtils.propagateSunlight(repropQueue, affectedChunks);
+
+
+        return true;
+    }
+
+    public boolean setBlock(Block item, final CursorRay ray, boolean isCreationMode) {
+        HashSet<Chunk> affectedChunks = new HashSet<>();
+        WCCi wcc = new WCCi().set(ray.getHitPosPlusNormal());
+        Chunk startChunk = GameScene.world.getChunk(wcc.chunk);
+
+        if (startChunk == null) return true;
+
+        if (resetChunksMode) {
+            System.out.println("Light Fix Tool at " + startChunk.toString());
+            PillarInformation pillarInformation = startChunk.pillarInformation;
+            fixSunlightPillar(affectedChunks, pillarInformation.getTopPillar());
+        } else {
+            ArrayList<ChunkNode> filledPropagator = new ArrayList<>();
+            ArrayList<ChunkNode> emptyPropagator = new ArrayList<>();
+
+            for (int x = -5; x < 10; x++) {
+                for (int z = -5; z < 10; z++) {
+                    filledPropagator.add(new ChunkNode(new WCCi().set(
+                            ray.getHitPosPlusNormal().x + x,
+                            World.WORLD_TOP_Y + 1,
+                            ray.getHitPosPlusNormal().z + z), GameScene.world));
+                }
+            }
+
+            SunlightUtils.updateFromQueue(filledPropagator, emptyPropagator, affectedChunks, null);
+            SunlightUtils.updateFromQueue(emptyPropagator, filledPropagator, affectedChunks, null);
+        }
+
+
+        for (Chunk chunk : affectedChunks) {
+            chunk.generateMesh();
+            chunk.markAsModifiedByUser();
+        }
+        return true;
+    }
+
+    public void changeMode() {
+        resetChunksMode = !resetChunksMode;
+    }
+
+    @Override
+    public boolean activationKey(int key, int scancode, int action, int mods) {
+        return false;
+    }
+
+    @Override
+    public void activate() {
+    }
+
+    @Override
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
+        if (action == GLFW.GLFW_RELEASE && key == GLFW.GLFW_KEY_M) {
+            changeMode();
+            return true;
+        }
+        return false;
+    }
+}

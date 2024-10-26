@@ -248,17 +248,13 @@ public class GameScene implements WindowEvents {
     /**
      * The event that starts the new game
      */
-    public void newGameUpdateEvent() {
+    public void newGameUpdateEvent() throws Exception {
         switch (prog.stage) {
             case 0 -> {
                 if (req != null) {
-                    server.initWorld(worldInfo, req);
-                    try {
-                        prog.setTask("Joining game...");
-                        server.startJoiningWorld();
-                    } catch (Exception e) {
-                        prog.abort("Error Starting Server", e.getMessage());
-                    }
+                    server.initNewGame(worldInfo, req);
+                    prog.setTask("Joining game...");
+                    server.startJoiningWorld();
                 }
                 prog.stage++;
             }
@@ -290,12 +286,8 @@ public class GameScene implements WindowEvents {
                 waitForTasksToComplete(prog);
             }
             case 4 -> { //After we have loaded all chunks, THAN host
-                try {
-                    prog.setTask("Hosting game...");
-                    server.startHostingWorld();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                prog.setTask("Hosting game...");
+                server.startHostingWorld();
                 prog.stage++;
             }
 

@@ -101,7 +101,7 @@ public class Chunk {
     public void init(Vector3i position, FutureChunk futureChunk,
                      float distToPlayer, boolean isTopChunk) {
         entities.clear();
-        data.clear();
+        data.reset();
         generationStatus = 0;//The only time we can reset the generation status
         loadFuture = null;
         mesherFuture = null;

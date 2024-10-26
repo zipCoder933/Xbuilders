@@ -5,13 +5,10 @@ package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.items.ItemList;
 
-import java.nio.ByteBuffer;
-import java.nio.ShortBuffer;
 import java.util.HashMap;
 
 import com.xbuilders.engine.utils.MiscUtils;
 import org.joml.Vector3i;
-import org.lwjgl.system.MemoryUtil;
 
 /**
  * If not having vector3i coords to get/set with this, becomes a sufficient
@@ -68,13 +65,20 @@ public class ChunkVoxels {
     }
 
 
-    public void clear() {
+    public void reset() {
         blockData.clear();
         for (int i = 0; i < dataSize; i++) {
             blocks[i] = (short) 0;
             light[i] = (byte) ((15 << 4)); // Set first 4 bits to 15, last 4 bits to 0
         }
         blocksAreEmpty = true;
+    }
+
+    public void resetSun() {
+        for (int i = 0; i < dataSize; i++) {
+            //Set the first 4 bits to 15 and leave the last 4 bits alone
+            light[i] = (byte) (light[i] | 0b11110000);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Sunlight">
