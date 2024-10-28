@@ -205,7 +205,7 @@ public class BlockEventPipeline {
                     blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
 
-                    // <editor-fold defaultstate="collapsed" desc="update sunlight and torchlight">
+                    // <editor-fold defaultstate="collapsed" desc="update torchlight and add nodes for sunlight">
                     if (blockHist.previousBlock.opaque && !blockHist.newBlock.opaque) {
                         SunlightUtils.addNodeForPropagation(sunNode_OpaqueToTrans, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         TorchUtils.opaqueToTransparent(affectedChunks, chunk, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);//TODO: We might need to optimize this by creating the nodes first and then propagating once

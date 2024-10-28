@@ -12,6 +12,7 @@ import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.settings.EngineSettings;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.gameScene.GameScene;
 
+import static com.xbuilders.engine.gameScene.GameScene.player;
 import static com.xbuilders.engine.gameScene.GameScene.world;
 
 import com.xbuilders.engine.items.BlockList;
@@ -39,15 +41,13 @@ import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.xbuilders.engine.world.light.SunlightUtils;
+import com.xbuilders.engine.world.light.TorchUtils;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
@@ -296,6 +296,7 @@ public class World {
         //Create lists of sorted changes
         HashMap<Vector2i, PendingPillarMultiplayerChanges> pillarSortedChanges = new HashMap<>();
 
+
         //Sort block changes
         for (Map.Entry<Vector3i, BlockHistory> entry : multiplayerPendingBlockChanges.blockChanges.entrySet()) {
             Vector3i worldPos = entry.getKey();
@@ -310,6 +311,11 @@ public class World {
             pillarSortedChanges.get(chunkCoords).blockChanges.put(worldPos, blockHistory);
         }
         prog.bar.setMax(pillarSortedChanges.size());
+
+
+        HashSet<Chunk> affectedChunks = new HashSet<>();
+        ArrayList<ChunkNode> sunNode_OpaqueToTrans = new ArrayList<>();
+        ArrayList<ChunkNode> sunNode_transToOpaque = new ArrayList<>();
 
         //Iterate over the sorted changes
         for (Map.Entry<Vector2i, PendingPillarMultiplayerChanges> entry : new HashMap<>(pillarSortedChanges).entrySet()) {
@@ -326,23 +332,57 @@ public class World {
             }
 
             //Apply the block changes
-            //TODO: Update sunlight and torchlight properly
             for (Map.Entry<Vector3i, BlockHistory> entry2 : pillarChanges.blockChanges.entrySet()) {
                 Vector3i worldPos = entry2.getKey();
-                BlockHistory blockHistory = entry2.getValue();
-
+                BlockHistory blockHist = entry2.getValue();
+                if (blockHist.previousBlock == null) { //Get the previous block if it doesn't exist
+                    blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                }
                 int blockX = positiveMod(worldPos.x, Chunk.WIDTH);
                 int blockY = positiveMod(worldPos.y, Chunk.WIDTH);
                 int blockZ = positiveMod(worldPos.z, Chunk.WIDTH);
                 Vector3i chunkPos = new Vector3i(pillarCoords.x, chunkDiv(worldPos.y), pillarCoords.y);
 
+                //Set the block
                 Chunk chunk = getChunk(chunkPos);
-                chunk.data.setBlock(blockX, blockY, blockZ, blockHistory.newBlock.id);
-                if (blockHistory.updateBlockData && blockHistory.newBlockData != null) {
-                    chunk.data.setBlockData(blockX, blockY, blockZ, blockHistory.newBlockData);
+                chunk.data.setBlock(blockX, blockY, blockZ, blockHist.newBlock.id);
+                if (blockHist.updateBlockData && blockHist.newBlockData != null) {
+                    chunk.data.setBlockData(blockX, blockY, blockZ, blockHist.newBlockData);
                 }
+
+                affectedChunks.add(chunk);
+                // <editor-fold defaultstate="collapsed" desc="update torchlight and add nodes for sunlight">
+                if (blockHist.previousBlock.opaque && !blockHist.newBlock.opaque) {
+                    SunlightUtils.addNodeForPropagation(sunNode_OpaqueToTrans, chunk, blockX, blockY, blockZ);
+                    TorchUtils.opaqueToTransparent(affectedChunks, chunk, blockX, blockY, blockZ);
+                } else if (!blockHist.previousBlock.opaque && blockHist.newBlock.opaque) {
+                    SunlightUtils.addNodeForErasure(sunNode_transToOpaque, chunk, blockX, blockY, blockZ);
+                    TorchUtils.transparentToOpaque(affectedChunks, chunk, blockX, blockY, blockZ);
+                }
+
+                if (!blockHist.previousBlock.isLuminous() && blockHist.newBlock.isLuminous()) {
+                    TorchUtils.setTorch(affectedChunks, chunk, blockX, blockY, blockZ,
+                            blockHist.newBlock.torchlightStartingValue);
+                } else if (blockHist.previousBlock.isLuminous() && !blockHist.newBlock.isLuminous()) {
+                    TorchUtils.removeTorch(affectedChunks, chunk, blockX, blockY, blockZ);
+                }
+                // </editor-fold>
+            }
+
+            //Update sunlight for the pillar
+            SunlightUtils.updateFromQueue(
+                    sunNode_OpaqueToTrans,
+                    sunNode_transToOpaque,
+                    affectedChunks,
+                    (time) -> {
+                        System.out.println("\t\tUpdating sunlight... " + time);
+                    });
+            for(Chunk chunk : affectedChunks) { //Mark the chunks as modified
                 chunk.markAsModifiedByUser();
             }
+            affectedChunks.clear();
+            sunNode_OpaqueToTrans.clear();
+            sunNode_transToOpaque.clear();
 
             //Remove the records from the list
             pillarSortedChanges.remove(pillarCoords);
@@ -379,7 +419,7 @@ public class World {
     }
 
     public void stopGame(Vector3f playerPos) {
-        save(playerPos);
+        save();
 
         // We may or may not actually need to shutdown the services, since chunks cancel
         // all tasks when they are disposed
@@ -553,7 +593,7 @@ public class World {
             lastSaveMS = System.currentTimeMillis();
             // Save chunks
             generationService.submit(0.0f, () -> {
-                save(playerPosition);
+                save();
             });
         }
 
@@ -752,7 +792,8 @@ public class World {
     }
     // </editor-fold>
 
-    public void save(Vector3f playerPos) {
+    public void save() {
+        Vector3f playerPos = player.worldPosition;
         //MainWindow.printlnDev("Saving world...");
         // Save all chunks
         Iterator<Chunk> iterator = chunks.values().iterator();

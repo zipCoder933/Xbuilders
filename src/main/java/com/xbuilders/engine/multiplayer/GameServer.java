@@ -144,6 +144,9 @@ public class GameServer extends Server<PlayerClient> {
     }
 
     private void sendWorldToClient(PlayerClient client) throws IOException {
+        //Save the world first to ensure that all changes are on the disk
+        GameScene.world.save();
+
         //Send the world info to the client
         System.out.println("Sending world to client: " + GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson());
         client.sendData(NetworkUtils.formatMessage(WORLD_INFO,

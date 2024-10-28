@@ -13,6 +13,7 @@ import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
+import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
@@ -130,6 +131,10 @@ public class LightFixTool extends BlockTool {
 
     @Override
     public void activate() {
+    }
+
+    public boolean drawCursor(CursorRay ray, Matrix4f proj, Matrix4f view) {
+        return true;
     }
 
     @Override
