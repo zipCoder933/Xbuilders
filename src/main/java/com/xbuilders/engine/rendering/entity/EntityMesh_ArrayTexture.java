@@ -33,7 +33,7 @@ public class EntityMesh_ArrayTexture extends EntityMesh {
         GL30.glBindVertexArray(0);
     }
 
-    public void draw(boolean wireframe) {
+    public void draw(boolean wireframe, int textureID) {
         GL30.glBindVertexArray(vao);
 
         if (wireframe) {

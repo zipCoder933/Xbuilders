@@ -6,6 +6,7 @@ package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.EntityMultiplayerInfo;
+import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -123,7 +124,7 @@ public abstract class Entity {
         draw();
     }
 
-    protected void hidden_entityInitialize(byte[] loadBytes) {
+    protected void hidden_entityInitialize() {
         try {
             getLightForPosition();
             initializeOnDraw(loadBytes != null && loadBytes.length > 0 ? loadBytes : null);
@@ -131,6 +132,13 @@ public abstract class Entity {
             ErrorHandler.log(e);
             destroy();
         }
+
+        needsInitialization = false;
+        updatePosition();
+
+        //We have to send the entity after it has been initialized
+        if (sendMultiplayer) GameScene.server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
+        loadBytes = null; //Do this last
     }
 
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.

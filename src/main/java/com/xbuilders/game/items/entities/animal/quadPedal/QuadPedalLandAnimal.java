@@ -3,27 +3,114 @@ package com.xbuilders.game.items.entities.animal.quadPedal;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.PositionLock;
+import com.xbuilders.engine.rendering.entity.EntityMesh;
+import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.utils.math.RandomUtils;
+import com.xbuilders.game.items.entities.animal.LegPair;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
+import com.xbuilders.window.utils.obj.OBJLoader;
+import com.xbuilders.window.utils.texture.TextureUtils;
 
-public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends LandAnimal {
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.function.Consumer;
 
-    T link;
+public abstract class QuadPedalLandAnimal extends LandAnimal {
 
-    public QuadPedalLandAnimal(MainWindow window) {
+
+    //This animal specific
+    int textureIndex;
+
+
+    public QuadPedalLandAnimal(MainWindow window, boolean rideable) {
         super(window);
         aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
-//            freezeMode = true;
+        this.rideable = rideable;
         frustumSphereRadius = 2;
     }
 
+    public static class QuadPedalLandAnimal_StaticData {
+        public EntityMesh body, sittingBody, saddle;
+        public int[] textures;
+        public LegPair legs;
 
-    public void animalInit(T link, byte[] bytes) {
-        this.link = link;
+        public QuadPedalLandAnimal_StaticData(
+                String bodyOBJ,
+                String sittingBodyOBJ,
+                String legOBJ,
+                String saddleOBJ,
+                String texturesDir) throws IOException {
+            //Generate body
+            body = new EntityMesh();
+            body.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(bodyOBJ)));
+
+            //Generate sitting body
+            if (sittingBodyOBJ != null) {
+                sittingBody = new EntityMesh();
+                sittingBody.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(sittingBodyOBJ)));
+            }
+
+            //Generate legs
+            EntityMesh legsModel = new EntityMesh();
+            legsModel.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(legOBJ)));
+            legs = new LegPair(legsModel);
+
+            //Generate saddle
+            if (saddleOBJ != null) {
+                saddle = new EntityMesh();
+                saddle.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(saddleOBJ)));
+            }
+
+            //Generate textures
+            File[] textureFiles = ResourceUtils.resource(texturesDir).listFiles();
+            textures = new int[textureFiles.length];
+            for (int i = 0; i < textureFiles.length; i++) {
+                textures[i] = Objects.requireNonNull(
+                        TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
+            }
+        }
+    }
+
+    @Override
+    public byte[] toBytes() throws IOException {
+        return new byte[]{(byte) textureIndex};
+    }
+
+
+    @Override
+    public void initializeOnDraw(byte[] state) {
         goForwardCallback = amount -> {
             legMovement += amount;
         };
+
+        //Get static data from subclass
+        try {
+            QuadPedalLandAnimal_StaticData ead = getStaticData();
+            this.body = ead.body;
+            this.sittingBody = ead.sittingBody;
+            this.legs = ead.legs;
+            this.saddle = ead.saddle;
+            this.textures = ead.textures;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (state != null) {
+            textureIndex = MathUtils.clamp(state[0], 0, this.textures.length - 1);
+        } else textureIndex = RandomUtils.random.nextInt(this.textures.length);
+
     }
+
+    public abstract QuadPedalLandAnimal_StaticData getStaticData() throws IOException;
+
+    //This speces
+    EntityMesh body, sittingBody, saddle;
+    public int[] textures;
+    LegPair legs;
+    boolean rideable = true;
 
     private float legMovement = 0;
     public float SCALE = 0.6f;
@@ -57,33 +144,29 @@ public class QuadPedalLandAnimal<T extends QuadPedalLandAnimalLink> extends Land
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
         if (currentAction.type == AnimalAction.ActionType.IDLE
-                && link.sitting != null
+                && sittingBody != null
                 && currentAction.duration > 1000) {
             drawSitting();
         } else {
             drawBody();
             //Z is the directon of the horse
-            link.legs.draw(modelMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement);
-            link.legs.draw(modelMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement);
+            legs.draw(modelMatrix, shader, legXSpacing, legYSpacing, legZSpacing, legMovement, textures[textureIndex]);
+            legs.draw(modelMatrix, shader, legXSpacing, legYSpacing, -legZSpacing, legMovement, textures[textureIndex]);
         }
     }
 
     protected void drawBody() {
-        link.body.draw(false);
+        body.draw(false, textures[textureIndex]);
+        if (saddle != null) saddle.draw(false, textures[textureIndex]);
     }
 
     protected void drawSitting() {
-        link.sitting.draw(false);
+        sittingBody.draw(false, textures[textureIndex]);
     }
-
-    /**
-     * //        rotationAnimation = (float) MathUtils.linearTravel(rotationAnimation, target % MathUtils.TWO_PI,  0.5f);
-     */
-
 
     @Override
     public boolean run_ClickEvent() {
-        if (link.rideable) {
+        if (rideable) {
             GameScene.player.positionLock = lock;
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {

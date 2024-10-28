@@ -40,7 +40,7 @@ public class GravityBlockEntity extends Entity {
         box.setColor(1, 0, 0, 1);
         box.setLineWidth(4);
         mesh = new EntityMesh_ArrayTexture();
-        mesh.setTextureID(ItemList.blocks.textures.getTexture().id);
+
         buffer.reset();
         voxels.setBlock(0, 0, 0, block.id);
 
@@ -75,7 +75,7 @@ public class GravityBlockEntity extends Entity {
             arrayTextureShader.updateProjectionViewMatrix(GameScene.projection, GameScene.view);
             modelMatrix.update();
             modelMatrix.sendToShader(arrayTextureShader.getID(), arrayTextureShader.uniform_modelMatrix);
-            mesh.draw(false);
+            mesh.draw(false, ItemList.blocks.textures.getTexture().id);
 
 //            box.set(aabb.box);
 //            box.draw(GameScene.projection, GameScene.view);

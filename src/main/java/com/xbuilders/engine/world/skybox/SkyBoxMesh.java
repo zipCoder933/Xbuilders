@@ -75,7 +75,6 @@ import org.lwjgl.opengl.GL33;
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
-    @Override
     public void setTextureID(int textureID) {
         this.textureID = textureID;
     }

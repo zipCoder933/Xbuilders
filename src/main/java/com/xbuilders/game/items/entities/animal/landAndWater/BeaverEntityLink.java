@@ -31,58 +31,12 @@ public class BeaverEntityLink extends EntityLink {
         tags.add("beaver");
     }
 
-    public EntityMesh body, head, tail, legs;
-
-
-    @Override
-    public void initializeEntity(Entity e, byte[] loadBytes) {
-        if (body == null) {
-            body = new EntityMesh();
-            head = new EntityMesh();
-            tail = new EntityMesh();
-            legs = new EntityMesh();
-            try {
-                int bodyTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\body.png").getAbsolutePath(),
-                        false)).id;
-
-                int headTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\head.png").getAbsolutePath(),
-                        false)).id;
-
-                int tailTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\tail.png").getAbsolutePath(),
-                        false)).id;
-
-                int legsTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\back leg.png").getAbsolutePath(),
-                        false)).id;
-
-                body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\body.obj"));
-                body.setTextureID(bodyTexture);
-
-                head.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\head.obj"));
-                head.setTextureID(headTexture);
-
-                tail.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\tail.obj"));
-                tail.setTextureID(tailTexture);
-
-                legs.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\legs.obj"));
-                legs.setTextureID(legsTexture);
-
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
-            }
-        }
-        super.initializeEntity(e, loadBytes); //we MUST ensure this is called
-    }
-
 
     public static class Beaver<T extends BeaverEntityLink> extends LandAndWaterAnimal {
         T link;
-        final static int LIMB_HEAD = 0;
-        final static int LIMB_TAIL = 1;
-        final static int LIMB_LEGS = 2;
+
+         static EntityMesh body, head, tail, legs;
+         static int bodyTexture, headTexture, tailTexture, legsTexture;
 
         //For now this is the only way to add offsets.
         //Blender and blockbench do not support this.
@@ -91,6 +45,49 @@ public class BeaverEntityLink extends EntityLink {
         final static Vector3f LIMB_HEAD_OFFSET = new Vector3f(0, -.5f, .3f);
         final static Vector3f LIMB_TAIL_OFFSET = new Vector3f(0, 0, 0);
         final static Vector3f LIMB_LEGS_OFFSET = new Vector3f(0, 0, 0);
+
+        @Override
+        public void initializeOnDraw(byte[] loadBytes) {
+            super.initializeOnDraw(loadBytes);
+            if (body == null) {
+                body = new EntityMesh();
+                head = new EntityMesh();
+                tail = new EntityMesh();
+                legs = new EntityMesh();
+                try {
+                    bodyTexture = Objects.requireNonNull(TextureUtils.loadTexture(
+                            ResourceUtils.resource("items\\entity\\animal\\beaver\\body.png").getAbsolutePath(),
+                            false)).id;
+
+                    headTexture = Objects.requireNonNull(TextureUtils.loadTexture(
+                            ResourceUtils.resource("items\\entity\\animal\\beaver\\head.png").getAbsolutePath(),
+                            false)).id;
+
+                    tailTexture = Objects.requireNonNull(TextureUtils.loadTexture(
+                            ResourceUtils.resource("items\\entity\\animal\\beaver\\tail.png").getAbsolutePath(),
+                            false)).id;
+
+                    legsTexture = Objects.requireNonNull(TextureUtils.loadTexture(
+                            ResourceUtils.resource("items\\entity\\animal\\beaver\\back leg.png").getAbsolutePath(),
+                            false)).id;
+
+                    body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\body.obj"));
+
+
+                    head.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\head.obj"));
+
+
+                    tail.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\tail.obj"));
+
+
+                    legs.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\legs.obj"));
+
+
+                } catch (IOException ex) {
+                    ErrorHandler.report(ex);
+                }
+            }
+        }
 
         public Beaver(MainWindow window, T link) {
             super(window);
@@ -109,13 +106,13 @@ public class BeaverEntityLink extends EntityLink {
                             AnimalUtils.rotateToFacePlayer(limbMatrix);
                         }
                         limbMatrix.updateAndSendToShader(shader.getID(), shader.uniform_modelMatrix);
-                        link.head.draw(false);
+                        head.draw(false, headTexture);
                     }),
                     new Limb((limbMatrix) -> {
-                        link.tail.draw(false);
+                        tail.draw(false, tailTexture);
                     }),
                     new Limb((limbMatrix) -> {
-                        link.legs.draw(false);
+                        legs.draw(false, legsTexture);
                     }),
             };
         }
@@ -124,7 +121,7 @@ public class BeaverEntityLink extends EntityLink {
         public void animal_drawBody() {
             modelMatrix.update();
             modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-            link.body.draw(false);
+            body.draw(false, bodyTexture);
         }
     }
 }

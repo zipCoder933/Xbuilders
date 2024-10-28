@@ -1,6 +1,7 @@
 package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
@@ -114,12 +115,7 @@ public class BlockTools extends GameUIElement {
     public void selectTool(int i) {
         tools.get(selectedTool).deactivate();
         selectedTool = i;
-        tools.get(selectedTool).activate();
-    }
-
-    public void selectTool(BlockTool tool) {
-        tools.get(selectedTool).deactivate();
-        selectedTool = tools.indexOf(tool);
+        GameScene.player.camera.cursorRay.disableBoundaryMode();
         tools.get(selectedTool).activate();
     }
 

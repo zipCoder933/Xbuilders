@@ -32,7 +32,7 @@ public class BannerEntityLink extends EntityLink {
                 try {
                     body = new EntityMesh();
                     body.loadFromOBJ(ResourceUtils.resource("items\\entity\\banner\\banner.obj"));
-                    body.setTexture(ResourceUtils.resource("items\\entity\\banner\\" + texturePath));
+//                    body.setTexture(ResourceUtils.resource("items\\entity\\banner\\" + texturePath));
                 } catch (IOException ex) {
                     ErrorHandler.report(ex);
                 }
@@ -116,7 +116,7 @@ public class BannerEntityLink extends EntityLink {
             modelMatrix.rotateZ((float) (Math.sin((frameCount * 0.05) + seed) * 0.1) + 0.1f);
             modelMatrix.update();
             modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-            body.draw(false);
+            body.draw(false,0);
             frameCount++;
         }
 

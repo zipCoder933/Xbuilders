@@ -2,30 +2,48 @@ package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntityLink;
 
-public class DogLink extends QuadPedalLandAnimalLink {
+import java.io.IOException;
 
-    public DogLink(MainWindow window, int id, String name, String textureName) {
-        super(window, id, name, textureName);
-        bodyPath = "items\\entity\\animal\\dog\\large\\body.obj";
-        sittingModel = "items\\entity\\animal\\dog\\large\\sitting.obj";
-        legPath = "items\\entity\\animal\\dog\\large\\leg.obj";
-        texturePrePath = "items\\entity\\animal\\dog\\";
+public class DogLink extends EntityLink {
+
+    public DogLink(MainWindow window, int id, String name) {
+        super(id, name, () -> new DogLink.Dog(window));
         setIcon("dog egg.png");
-        rideable = false;
     }
 
-    @Override
-    public void initializeEntity(Entity e, byte[] loadBytes) {
-        super.initializeEntity(e, loadBytes);
-        QuadPedalLandAnimal a = (QuadPedalLandAnimal) e; //Cast the entity to a fox
-//        a.freezeMode = true;
-        a.setActivity(0.7f);
+    public static class Dog extends QuadPedalLandAnimal {
+        public Dog(MainWindow window) {
+            super(window, false);
+        }
 
-        a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables
-        //Z is the direciton of the animal
-        a.legXSpacing = 0.30f * a.SCALE;
-        a.legZSpacing = 0.82f * a.SCALE;
-        a.legYSpacing = -1.15f * a.SCALE; //negative=higher, positive=lower
+        static QuadPedalLandAnimal_StaticData staticData;
+
+        @Override
+        public QuadPedalLandAnimal_StaticData getStaticData() throws IOException {
+            if (staticData == null) {
+                staticData = new QuadPedalLandAnimal_StaticData(
+                        "items\\entity\\animal\\dog\\large\\body.obj",
+                        "items\\entity\\animal\\dog\\large\\sitting.obj",
+                        "items\\entity\\animal\\dog\\large\\leg.obj",
+                        null,
+                        "items\\entity\\animal\\dog\\textures");
+            }
+            return staticData;
+        }
+
+
+        @Override
+        public void initializeOnDraw(byte[] state) {
+            super.initializeOnDraw(state);
+            setActivity(0.7f);
+            //Z is the direciton of the animal
+            legXSpacing = 0.30f * SCALE;
+            legZSpacing = 0.82f * SCALE;
+            legYSpacing = -1.15f * SCALE; //negative=higher, positive=lower
+        }
+
+
     }
 }

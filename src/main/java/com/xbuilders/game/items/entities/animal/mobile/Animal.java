@@ -128,11 +128,6 @@ public abstract class Animal extends Entity {
         updatePosHandler = true;
     }
 
-    @Override
-    public final void initializeOnDraw(byte[] bytes) {
-
-    }
-
     public float getRotationYDeg() {
         return rotationYDeg;
     }
@@ -141,6 +136,8 @@ public abstract class Animal extends Entity {
         multiplayerProps.markStateChanged();
         this.rotationYDeg = rotationYDeg;
     }
+
+    public void initializeOnDraw(byte[] state) {}
 
 
     /**

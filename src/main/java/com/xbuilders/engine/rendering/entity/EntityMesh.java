@@ -35,8 +35,6 @@ public class EntityMesh extends Mesh {
     protected int vao;
     protected int positionVBO;
     protected int uvVBO;
-    protected int textureID;
-    //    protected final int normalVBO;
     protected int vertLength;
 
     public boolean isEmpty() {
@@ -89,24 +87,13 @@ public class EntityMesh extends Mesh {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
-    @Override
-    public void setTextureID(int textureID) {
-        this.textureID = textureID;
-    }
-
-    public void setTexture(File texture) throws IOException {
-        this.textureID =
-                Objects.requireNonNull(
-                        TextureUtils.loadTexture(texture.getAbsolutePath(),false)).id;
-    }
-
     public void delete() {
         GL30.glDeleteVertexArrays(vao);
         GL30.glDeleteBuffers(positionVBO);
         GL30.glDeleteBuffers(uvVBO);
     }
 
-    public void draw(boolean wireframe) {
+    public void draw(boolean wireframe, int textureID) {
         GL30.glBindVertexArray(vao);
 
         if (wireframe) {

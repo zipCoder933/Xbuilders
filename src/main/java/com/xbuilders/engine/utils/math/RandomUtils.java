@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class RandomUtils {
 
-    static Random random = new Random();
+    public static Random random = new Random();
 
     public static int randInt(int lowerBound, int upperBound) {
         return random.nextInt(upperBound - lowerBound) + lowerBound;

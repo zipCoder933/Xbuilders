@@ -1,29 +1,53 @@
 package com.xbuilders.game.items.entities.animal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntityLink;
 
-public class RabbitLink extends StaticLandAnimalLink {
+import java.io.IOException;
 
-    public RabbitLink(MainWindow window, int id, String name, String texture) {
-        super(window, id, name,
-                "items\\entity\\animal\\rabbit\\body.obj",
-                "items\\entity\\animal\\rabbit\\" + texture);
+public class RabbitLink extends EntityLink {
+
+    public RabbitLink(MainWindow window, int id, String name) {
+        super(id, name, () -> new Rabbit(window));
         setIcon("rabbit egg.png");
+        tags.add("animal");
     }
 
-    long lastJumpTime = 0;
 
-    public void initializeEntity(Entity e, byte[] loadBytes) {
-        super.initializeEntity(e, loadBytes);
-        StaticLandAnimal a = (StaticLandAnimal) e;
-        a.goForwardCallback = (amount) -> {
-            if (amount > 0.01) {
-                if (System.currentTimeMillis() - lastJumpTime > 500) {
-                    lastJumpTime = System.currentTimeMillis();
-                    a.pos.jump();
+    public static class Rabbit extends StaticLandAnimal {
+        long lastJumpTime = 0;
+
+
+        public Rabbit(MainWindow window) {
+            super(window);
+        }
+
+        @Override
+        public void initializeOnDraw(byte[] state) {
+            super.initializeOnDraw(state);
+            goForwardCallback = (amount) -> {
+                if (amount > 0.01) {
+                    if (System.currentTimeMillis() - lastJumpTime > 500) {
+                        lastJumpTime = System.currentTimeMillis();
+                        pos.jump();
+                    }
                 }
+            };
+        }
+
+        static StaticLandAnimal_StaticData ead;
+        @Override
+        public StaticLandAnimal_StaticData getStaticData() throws IOException {
+            if (ead == null) {
+                ead = new StaticLandAnimal_StaticData(
+                        "items\\entity\\animal\\rabbit\\body.obj",
+                        "items\\entity\\animal\\rabbit\\textures");
+                body = ead.body;
+                textures = ead.textures;
             }
-        };
+            return ead;
+        }
+
+
     }
 }

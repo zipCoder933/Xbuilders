@@ -26,13 +26,13 @@ public class BlockMeshBundle {
     final BlockVertexSet buffer = new BlockVertexSet();
     final BlockVertexSet transBuffer = new BlockVertexSet();
     public final EntityMesh_ArrayTexture opaqueMesh, transMesh;
+    public final int texture;
     private Block_NaiveMesher naiveMesher;
 
     public BlockMeshBundle() {
         opaqueMesh = new EntityMesh_ArrayTexture();
-        opaqueMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
+        texture = (ItemList.blocks.textures.getTexture().id);
         transMesh = new EntityMesh_ArrayTexture();
-        transMesh.setTextureID(ItemList.blocks.textures.getTexture().id);
 
     }
 
@@ -42,8 +42,8 @@ public class BlockMeshBundle {
     }
 
     public void draw() {
-        opaqueMesh.draw(true);
-        transMesh.draw(true);
+        opaqueMesh.draw(true, texture);
+        transMesh.draw(true, texture);
     }
 
     public synchronized void compute(ChunkVoxels voxels) {

@@ -12,6 +12,7 @@ public class FoxSkin extends Skin {
 
     EntityMesh mesh;
     String texture;
+    //int texture;
 
     public FoxSkin(Player position, String texture) {
         super("fox (" + texture + ")", position);
@@ -22,7 +23,7 @@ public class FoxSkin extends Skin {
         mesh = new EntityMesh();
         try {
             mesh.loadFromOBJ(ResourceUtils.resource("skins\\fox\\body.obj"));
-            mesh.setTexture(ResourceUtils.resource("skins\\fox\\" + texture + ".png"));
+           // mesh.setTexture(ResourceUtils.resource("skins\\fox\\" + texture + ".png"));
         } catch (IOException e) {
             ErrorHandler.report(e);
         }
@@ -33,6 +34,6 @@ public class FoxSkin extends Skin {
         modelMatrix.translate(0, player.aabb.size.y, 0);
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-        mesh.draw(false);
+        mesh.draw(false,0);
     }
 }

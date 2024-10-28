@@ -1,25 +1,43 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntityLink;
+import java.io.IOException;
 
-public class MuleLink extends QuadPedalLandAnimalLink {
-
-    public MuleLink(MainWindow window, int id, String name, String textureName) {
-        super(window, id, name, textureName);
-        bodyPath = "items\\entity\\animal\\horse\\mule\\body.obj";
-        legPath = "items\\entity\\animal\\horse\\mule\\leg.obj";
-        texturePrePath = "items\\entity\\animal\\horse\\";
+public class MuleLink extends EntityLink {
+    public MuleLink(MainWindow window, int id, String name) {
+        super(id, name, () -> new MuleLink.Mule(window));
         setIcon("mule egg.png");
     }
 
-    @Override
-    public void initializeEntity(Entity e, byte[] loadBytes) {
-        super.initializeEntity(e, loadBytes);
-        QuadPedalLandAnimal a = (QuadPedalLandAnimal) e; //Cast the entity to a fox
-        a.animalInit(this, loadBytes); //Initialize the fox by passing the link so that the entity has access to the link variables
-        a.legXSpacing = 0.35f * a.SCALE;
-        a.legZSpacing = 0.8f * a.SCALE;
-        a.legYSpacing = -1f * a.SCALE;
+    public static class Mule extends QuadPedalLandAnimal {
+        public Mule(MainWindow window) {
+            super(window, true);
+        }
+
+        static QuadPedalLandAnimal_StaticData staticData;
+
+        @Override
+        public QuadPedalLandAnimal_StaticData getStaticData() throws IOException {
+            if (staticData == null) {
+                staticData = new QuadPedalLandAnimal_StaticData(
+                        "items\\entity\\animal\\horse\\mule\\body.obj",
+                        null,
+                        "items\\entity\\animal\\horse\\mule\\leg.obj",
+                        "items\\entity\\animal\\horse\\mule\\saddle.obj",
+                        "items\\entity\\animal\\horse\\mule\\textures");
+            }
+            return staticData;
+        }
+
+
+        @Override
+        public void initializeOnDraw(byte[] state) {
+            super.initializeOnDraw(state);
+            legXSpacing = 0.35f * SCALE;
+            legZSpacing = 0.8f * SCALE;
+            legYSpacing = -1f * SCALE;
+            lock.setOffset(-1);
+        }
     }
 }

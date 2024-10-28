@@ -40,7 +40,6 @@ public class CompactIndexedMesh extends Mesh {
     /**
      * @param textureID the textureID to set
      */
-    @Override
     public void setTextureID(int textureID) {
         this.textureID = textureID;
     }

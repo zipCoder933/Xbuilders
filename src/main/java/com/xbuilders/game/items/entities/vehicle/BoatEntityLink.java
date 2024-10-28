@@ -29,7 +29,7 @@ public class BoatEntityLink extends EntityLink {
                 model = new EntityMesh();
                 try {
                     model.loadFromOBJ(ResourceUtils.resource("items\\entity\\boat\\boat.obj"));
-                    model.setTexture(ResourceUtils.resource("items\\entity\\boat\\textures\\" + texturePath));
+//                    model.setTexture(ResourceUtils.resource("items\\entity\\boat\\textures\\" + texturePath));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -70,7 +70,7 @@ public class BoatEntityLink extends EntityLink {
             modelMatrix.update();
             modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
-            model.draw(false);
+            model.draw(false,0);
         }
 
         boolean rise;

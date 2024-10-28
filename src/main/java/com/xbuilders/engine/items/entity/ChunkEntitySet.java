@@ -89,13 +89,7 @@ public class ChunkEntitySet {
                 GameScene.world.entities.remove(e.getIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
-                    e.link.initializeEntity(e, e.loadBytes); //Sometimes the entity link has static variables, this is an attempt to fix that
-                    e.needsInitialization = false;
-                    e.updatePosition();
-
-                    //We have to send the entity after it has been initialized
-                    if (e.sendMultiplayer) GameScene.server.addEntityChange(e, GameServer.ENTITY_CREATED, true);
-                    e.loadBytes = null; //Do this last
+                    e.hidden_entityInitialize();
                 }
                 e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);//Sphere boundary checks are faster than AABB
                 e.distToPlayer = e.worldPosition.distance(playerPos);

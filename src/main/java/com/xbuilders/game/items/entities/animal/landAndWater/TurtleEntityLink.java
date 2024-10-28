@@ -11,9 +11,11 @@ import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.utils.math.RandomUtils;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -22,55 +24,21 @@ import java.util.Objects;
  */
 public class TurtleEntityLink extends EntityLink {
 
-    public TurtleEntityLink(MainWindow window, int id, String name, String textureFile) {
+    public TurtleEntityLink(MainWindow window, int id, String name) {
         super(id, name);
         supplier = () -> new Turtle(window, this);
         setIcon("turtle egg.png");
-        this.textureFile = textureFile;
         tags.add("animal");
         tags.add("turtle");
-    }
-
-    public EntityMesh left_fin, right_fin, left_back_fin, right_back_fin, body;
-    public String textureFile;
-
-
-    @Override
-    public void initializeEntity(Entity e, byte[] loadBytes) {
-        if (body == null) {
-            body = new EntityMesh();
-            left_fin = new EntityMesh();
-            right_fin = new EntityMesh();
-            left_back_fin = new EntityMesh();
-            right_back_fin = new EntityMesh();
-            try {
-                int texture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\turtle\\" + textureFile).getAbsolutePath(),
-                        false)).id;
-
-                body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\body.obj"));
-                left_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_fin.obj"));
-                right_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_fin.obj"));
-
-                left_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_back_fin.obj"));
-                right_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_back_fin.obj"));
-
-                body.setTextureID(texture);
-                left_fin.setTextureID(texture);
-                right_fin.setTextureID(texture);
-                left_back_fin.setTextureID(texture);
-                right_back_fin.setTextureID(texture);
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
-            }
-        }
-        super.initializeEntity(e, loadBytes); //we MUST ensure this is called
     }
 
 
     public static class Turtle<T extends TurtleEntityLink> extends LandAndWaterAnimal {
 
-        T link;
+        static EntityMesh left_fin, right_fin, left_back_fin, right_back_fin, body;
+        static int[] textures;
+
+        int textureIndex;
 
         public Turtle(MainWindow window, T link) {
             super(window);
@@ -81,27 +49,65 @@ public class TurtleEntityLink extends EntityLink {
             setActivity(0.5f);
         }
 
+
+        @Override
+        public byte[] toBytes() throws IOException {
+            return new byte[]{(byte) textureIndex};
+        }
+
+        @Override
+        public void initializeOnDraw(byte[] loadBytes) {
+            if (body == null) {
+                body = new EntityMesh();
+                left_fin = new EntityMesh();
+                right_fin = new EntityMesh();
+                left_back_fin = new EntityMesh();
+                right_back_fin = new EntityMesh();
+                try {
+                    File[] textureFiles = ResourceUtils.resource("items\\entity\\animal\\turtle\\textures").listFiles();
+                    textures = new int[textureFiles.length];
+                    for (int i = 0; i < textureFiles.length; i++) {
+                        textures[i] = Objects.requireNonNull(
+                                TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
+                    }
+
+                    body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\body.obj"));
+                    left_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_fin.obj"));
+                    right_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_fin.obj"));
+
+                    left_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_back_fin.obj"));
+                    right_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_back_fin.obj"));
+                } catch (IOException ex) {
+                    ErrorHandler.report(ex);
+                }
+            }
+
+            if (loadBytes != null) {
+                textureIndex = MathUtils.clamp(loadBytes[0], 0, textures.length - 1);
+            } else textureIndex = RandomUtils.random.nextInt(textures.length);
+        }
+
         @Override
         public void animal_drawBody() {
             modelMatrix.update();
             modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-            link.body.draw(false);
+            body.draw(false, textures[textureIndex]);
 
             float animationTarget = 0f;
             if (getWalkAmt() > 0) {
                 animationTarget = MathUtils.map(getWalkAmt(), 0, getMaxSpeed(), 0, 0.4f);
             }
-            drawFin(link.right_fin, 0, 0, ONE_SIXTEENTH * 7,
+            drawFin(right_fin, 0, 0, ONE_SIXTEENTH * 7,
                     animationTarget, 0.0f, 0.4f);
 
-            drawFin(link.left_fin, 0, 0, ONE_SIXTEENTH * 7,
+            drawFin(left_fin, 0, 0, ONE_SIXTEENTH * 7,
                     animationTarget, 1.5f, 0.4f);
 
-            drawFin(link.left_back_fin,
+            drawFin(left_back_fin,
                     0, 0, ONE_SIXTEENTH * -4,
                     animationTarget, 0.0f, 0.05f);
 
-            drawFin(link.right_back_fin,
+            drawFin(right_back_fin,
                     0, 0, ONE_SIXTEENTH * -4,
                     animationTarget, 0.0f, -0.05f);
         }
@@ -120,7 +126,7 @@ public class TurtleEntityLink extends EntityLink {
             }
             finModelMatrix.update();
             finModelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-            fin.draw(false);
+            fin.draw(false, textures[textureIndex]);
         }
 
     }

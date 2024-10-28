@@ -39,7 +39,4 @@ public class EntityLink extends Item {
         this.initializationCallback = initializationCallback;
     }
 
-    public void initializeEntity(Entity entity, byte[] loadBytes) {
-        entity.hidden_entityInitialize(loadBytes);
-    }
 }

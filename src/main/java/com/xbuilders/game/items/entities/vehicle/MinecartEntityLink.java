@@ -39,7 +39,7 @@ public class MinecartEntityLink extends EntityLink {
                 model = new EntityMesh();
                 try {
                     model.loadFromOBJ(ResourceUtils.resource("items\\entity\\minecart\\minecart.obj"));
-                    model.setTexture(ResourceUtils.resource("items\\entity\\minecart\\" + textureFile));
+                    //model.setTexture(ResourceUtils.resource("items\\entity\\minecart\\" + textureFile));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -132,7 +132,7 @@ public class MinecartEntityLink extends EntityLink {
 
             modelMatrix.update();
             modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-            model.draw(false);
+            model.draw(false,0);
         }
 
 
