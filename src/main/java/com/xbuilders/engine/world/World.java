@@ -289,11 +289,93 @@ public class World {
         prog.setTask("Applying multiplayer changes");
 
         multiplayerPendingBlockChanges.load(info);
+        System.out.println("Block changes from other players: " + multiplayerPendingBlockChanges.blockChanges.size());
         multiplayerPendingEntityChanges.load(info);//TODO: Implement local entity multiplayer changes
+        System.out.println("Entity changes from other players: " + 0);
 
-        System.out.println("Block change size: " + multiplayerPendingBlockChanges.blockChanges.size());
-        HashMap<Vector2i, ConcurrentHashMap<Vector3i, BlockHistory>> sortedChanges = new HashMap<>();
+        //Create lists of sorted changes
+        HashMap<Vector2i, PendingPillarMultiplayerChanges> pillarSortedChanges = new HashMap<>();
+
+        //Sort block changes
+        for (Map.Entry<Vector3i, BlockHistory> entry : multiplayerPendingBlockChanges.blockChanges.entrySet()) {
+            Vector3i worldPos = entry.getKey();
+            BlockHistory blockHistory = entry.getValue();
+
+            int chunkX = WCCi.chunkDiv(worldPos.x);
+            int chunkZ = WCCi.chunkDiv(worldPos.z);
+            Vector2i chunkCoords = new Vector2i(chunkX, chunkZ);
+            if (!pillarSortedChanges.containsKey(chunkCoords)) {
+                pillarSortedChanges.put(chunkCoords, new PendingPillarMultiplayerChanges());
+            }
+            pillarSortedChanges.get(chunkCoords).blockChanges.put(worldPos, blockHistory);
+        }
+        prog.bar.setMax(pillarSortedChanges.size());
+
+        //Iterate over the sorted changes
+        for (Map.Entry<Vector2i, PendingPillarMultiplayerChanges> entry : new HashMap<>(pillarSortedChanges).entrySet()) {
+            Vector2i pillarCoords = entry.getKey();
+            PendingPillarMultiplayerChanges pillarChanges = entry.getValue();
+            System.out.println("\tPillar: (" + pillarCoords.x + ", " + pillarCoords.y + "); block changes: " + pillarChanges.blockChanges.size());
+            prog.bar.setProgress(prog.bar.getIncrements() + 1);
+
+            //Load the pillar and its neighbors
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    addChunkPillar(pillarCoords.x + x, pillarCoords.y + z, null);
+                }
+            }
+
+            //Apply the block changes
+            //TODO: Update sunlight and torchlight properly
+            for (Map.Entry<Vector3i, BlockHistory> entry2 : pillarChanges.blockChanges.entrySet()) {
+                Vector3i worldPos = entry2.getKey();
+                BlockHistory blockHistory = entry2.getValue();
+
+                int blockX = positiveMod(worldPos.x, Chunk.WIDTH);
+                int blockY = positiveMod(worldPos.y, Chunk.WIDTH);
+                int blockZ = positiveMod(worldPos.z, Chunk.WIDTH);
+                Vector3i chunkPos = new Vector3i(pillarCoords.x, chunkDiv(worldPos.y), pillarCoords.y);
+
+                Chunk chunk = getChunk(chunkPos);
+                chunk.data.setBlock(blockX, blockY, blockZ, blockHistory.newBlock.id);
+                if (blockHistory.updateBlockData && blockHistory.newBlockData != null) {
+                    chunk.data.setBlockData(blockX, blockY, blockZ, blockHistory.newBlockData);
+                }
+                chunk.markAsModifiedByUser();
+            }
+
+            //Remove the records from the list
+            pillarSortedChanges.remove(pillarCoords);
+
+            //Save and remove any pillars that are no longer needed
+            new HashMap<>(chunks).forEach((coords, chunk) -> {
+                int chunksThatAreUnfinished = 0;
+                for (int x = -1; x <= 1; x++) {
+                    for (int z = -1; z <= 1; z++) {
+                        if (pillarSortedChanges.containsKey(new Vector2i(coords.x + x, coords.z + z))) {
+                            chunksThatAreUnfinished++;
+                        }
+                    }
+                }
+                //If the chunk pillar and all its neighbors are finished, save and remove it
+                if (chunksThatAreUnfinished == 0) {
+                    removeChunk(coords);
+                }
+            });
+            System.out.println("\tChunks: " + chunks.size() + "; unused chunks: " + unusedChunks.size());
+        }
+
         prog.bar.setMax(multiplayerPendingBlockChanges.blockChanges.size());
+
+        chunks.clear();
+        unusedChunks.clear();
+        System.gc();
+
+        //Do this last, (If an error occurs, the code shouldnt be able to reach this point)
+        multiplayerPendingEntityChanges.clear();
+        multiplayerPendingBlockChanges.clear();
+        multiplayerPendingEntityChanges.save(info);
+        multiplayerPendingBlockChanges.save(info);
     }
 
     public void stopGame(Vector3f playerPos) {

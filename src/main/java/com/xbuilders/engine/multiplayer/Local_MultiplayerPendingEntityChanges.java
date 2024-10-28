@@ -53,7 +53,6 @@ public class Local_MultiplayerPendingEntityChanges extends MultiplayerPendingEnt
 //
 //            needsSaving = false;
 //        }
-
     }
 
     final String CHANGE_FILE = "entityChanges.bin";

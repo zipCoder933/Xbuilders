@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
@@ -71,7 +72,12 @@ public class GameServer extends Server<PlayerClient> {
         for (int i = 0; i < clients.size(); i++) {
             clients.get(i).update(userPlayer, projection, view);
         }
+    }
 
+    public void sendAllChangesToClients() {
+        for (int i = 0; i < clients.size(); i++) {
+            clients.get(i).sendAllChanges();
+        }
     }
 
 
@@ -112,6 +118,7 @@ public class GameServer extends Server<PlayerClient> {
     }
 
     public void closeGame() throws IOException {
+        sendAllChangesToClients();
         onLeaveEvent();
         super.close();
         worldInfo = null;
@@ -215,13 +222,21 @@ public class GameServer extends Server<PlayerClient> {
                 client.player.worldPosition.set(x, y, z);
                 client.player.pan = (pan);
             } else if (receivedData[0] == VOXELS_UPDATED) {
+                final AtomicInteger inReachChanges = new AtomicInteger(0);
+                final AtomicInteger outOfReachChanges = new AtomicInteger(0);
+
                 MultiplayerPendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
                     if (MultiplayerPendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {//If change is within reach
                         GameScene.player.eventPipeline.addEvent(pos, blockHist);
+                        inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
                         GameScene.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
+                        outOfReachChanges.incrementAndGet();
                     }
                 });
+
+                System.out.println("Voxels updated event triggered\t In reach: " + inReachChanges.get() + "\tOut of reach: " + outOfReachChanges.get());
+
             } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
                 MultiplayerPendingEntityChanges.readEntityChange(receivedData, (
                         mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
@@ -361,7 +376,7 @@ public class GameServer extends Server<PlayerClient> {
 
     private void onLeaveEvent() {
         for (PlayerClient client : clients) {//Send all changes before we leave
-            client.blockChanges.sendAllChanges();
+            client.blockChangesForPlayer.sendAllChanges();
         }
     }
 
@@ -405,19 +420,19 @@ public class GameServer extends Server<PlayerClient> {
     public void sendNearBlockChanges() {
         for (PlayerClient client : clients) {
             if (client.player == null) continue;
-            client.blockChanges.sendNearBlockChanges();
+            client.blockChangesForPlayer.sendNearBlockChanges();
         }
     }
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         for (PlayerClient client : clients) {
-            client.blockChanges.addBlockChange(worldPos, block, data);
+            client.blockChangesForPlayer.addBlockChange(worldPos, block, data);
         }
     }
 
     public void addEntityChange(Entity entity, byte mode, boolean sendImmediately) {
         for (PlayerClient client : clients) {
-            client.entityChanges.addEntityChange(entity, mode, sendImmediately);
+            client.entityChangesForPlayer.addEntityChange(entity, mode, sendImmediately);
         }
     }
 

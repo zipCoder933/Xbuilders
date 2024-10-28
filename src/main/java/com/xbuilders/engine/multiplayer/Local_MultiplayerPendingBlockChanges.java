@@ -1,5 +1,6 @@
 package com.xbuilders.engine.multiplayer;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -48,7 +49,7 @@ public class Local_MultiplayerPendingBlockChanges extends MultiplayerPendingBloc
 
     public void save(WorldInfo worldInfo) {
         if (needsSaving) {
-            System.out.println("Saving mpbc... Changes " + blockChanges.size());
+            MainWindow.printlnDev("Saving mpbc... Changes " + blockChanges.size());
             File file = new File(worldInfo.getDirectory(), CHANGE_FILE);
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
@@ -79,8 +80,6 @@ public class Local_MultiplayerPendingBlockChanges extends MultiplayerPendingBloc
             }
         }
     }
-
-
 
 
 }

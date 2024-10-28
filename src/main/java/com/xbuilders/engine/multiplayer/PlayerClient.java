@@ -8,20 +8,23 @@ import org.joml.Matrix4f;
 
 
 /**
- * Player socket is a model of the other player.
- * The changes are changes that WE have made but are sending to the other player
+ * the Player Client class is a model of the other player.
+ *
  */
 public class PlayerClient extends NetworkSocket {
     public final Player player = new Player();
     public boolean wasWithinReach = false;
     public boolean isHost = false;
-    //    public int playerChunkDistance; //So far this feature is not used
-    final public MultiplayerPendingBlockChanges blockChanges;
-    final public MultiplayerPendingEntityChanges entityChanges;
+
+    /**
+     * These changes are changes that WE have made but are sending to the other player
+     */
+    final public MultiplayerPendingBlockChanges blockChangesForPlayer;
+    final public MultiplayerPendingEntityChanges entityChangesForPlayer;
 
     public PlayerClient() {
-        blockChanges = new MultiplayerPendingBlockChanges(this, player);
-        entityChanges = new MultiplayerPendingEntityChanges(this, player);
+        blockChangesForPlayer = new MultiplayerPendingBlockChanges(this, player);
+        entityChangesForPlayer = new MultiplayerPendingEntityChanges(this, player);
     }
 
     public String getName() {
@@ -41,7 +44,7 @@ public class PlayerClient extends NetworkSocket {
     long allChangesSentTime;
 
     public void sendAllChanges() {
-        int c = blockChanges.sendAllChanges();
+        int c = blockChangesForPlayer.sendAllChanges();
         MainWindow.printlnDev("Sent all block changes (" + c + ")");
     }
 
@@ -56,13 +59,13 @@ public class PlayerClient extends NetworkSocket {
             wasWithinReach = inRange;
         }
 
-        if (blockChanges.periodicRangeSendCheck(2000)) { //Periodically send near changes
-            int b = blockChanges.sendNearBlockChanges();
+        if (blockChangesForPlayer.periodicRangeSendCheck(2000)) { //Periodically send near changes
+            int b = blockChangesForPlayer.sendNearBlockChanges();
             MainWindow.printlnDev("Sent " + b + " near block changes");
             return;
         }
-        if (entityChanges.periodicRangeSendCheck(3000)) { //Periodically send near changes
-            int e = entityChanges.sendNearEntityChanges();
+        if (entityChangesForPlayer.periodicRangeSendCheck(3000)) { //Periodically send near changes
+            int e = entityChangesForPlayer.sendNearEntityChanges();
             MainWindow.printlnDev("Sent " + e + " near entity changes");
             return;
         }

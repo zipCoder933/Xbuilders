@@ -13,6 +13,8 @@ import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
+import org.joml.Vector2i;
+import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -72,6 +74,8 @@ public class LightFixTool extends BlockTool {
         return true;
     }
 
+    final int SIZE = 32;
+
     public boolean setBlock(Block item, final CursorRay ray, boolean isCreationMode) {
         HashSet<Chunk> affectedChunks = new HashSet<>();
         WCCi wcc = new WCCi().set(ray.getHitPosPlusNormal());
@@ -80,15 +84,22 @@ public class LightFixTool extends BlockTool {
         if (startChunk == null) return true;
 
         if (resetChunksMode) {
-            System.out.println("Light Fix Tool at " + startChunk.toString());
-            PillarInformation pillarInformation = startChunk.pillarInformation;
-            fixSunlightPillar(affectedChunks, pillarInformation.getTopPillar());
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    Chunk chunk = GameScene.world.getChunk(new Vector3i(
+                            startChunk.position.x + x,
+                            startChunk.position.y,
+                            startChunk.position.z + z));
+                    if (chunk != null)
+                        fixSunlightPillar(affectedChunks, chunk.pillarInformation.getTopPillar());
+                }
+            }
         } else {
             ArrayList<ChunkNode> filledPropagator = new ArrayList<>();
             ArrayList<ChunkNode> emptyPropagator = new ArrayList<>();
 
-            for (int x = -8; x < 16; x++) {
-                for (int z = -8; z < 16; z++) {
+            for (int x = -SIZE / 2; x < SIZE; x++) {
+                for (int z = -SIZE / 2; z < SIZE; z++) {
                     filledPropagator.add(new ChunkNode(new WCCi().set(
                             ray.getHitPosPlusNormal().x + x,
                             World.WORLD_TOP_Y + 1,

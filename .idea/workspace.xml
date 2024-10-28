@@ -86,7 +86,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.3908046&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -115,7 +115,7 @@
       <recent name="com.xbuilders.engine.world.skybox" />
     </key>
   </component>
-  <component name="RunManager" selected="Compound.Multiplayer Test">
+  <component name="RunManager" selected="Application.Dev">
     <configuration name="Dev 2" type="Application" factoryName="Application" folderName="devs" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
       <module name="XBuilders3" />
