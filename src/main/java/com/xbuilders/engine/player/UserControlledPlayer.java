@@ -78,11 +78,11 @@ public class UserControlledPlayer extends Player {
     final static float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     public static int getCreateMouseButton() {
-        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
+        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
     }
 
     public static int getDeleteMouseButton() {
-        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
     }
 
     private boolean keyInputAllowed() {
@@ -474,9 +474,9 @@ public class UserControlledPlayer extends Player {
     }
 
     public void dropItem(Item item) {
-       setEntity(EntityList.ENTITY_ITEM_DROP,
-               worldPosition,
-               ItemDropEntityLink.toBytes(null, ItemDropEntityLink.DROP_LIVE_TIME));
+        setEntity(EntityList.ENTITY_ITEM_DROP,
+                worldPosition,
+                ItemDropEntityLink.toBytes(null, ItemDropEntityLink.DROP_LIVE_TIME));
     }
 
     public Entity setEntity(EntityLink entity, Vector3f w, byte[] data) {

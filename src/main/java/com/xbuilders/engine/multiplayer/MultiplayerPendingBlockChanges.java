@@ -22,7 +22,7 @@ import java.util.function.BiConsumer;
 
 public class MultiplayerPendingBlockChanges {
 
-    ConcurrentHashMap<Vector3i, BlockHistory> blockChanges = new ConcurrentHashMap<>();
+    public final ConcurrentHashMap<Vector3i, BlockHistory> blockChanges = new ConcurrentHashMap<>();
 
     public long lastRangeChange;
     public long allChangesUpdate;

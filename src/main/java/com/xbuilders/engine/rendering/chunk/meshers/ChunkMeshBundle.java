@@ -54,7 +54,6 @@ public class ChunkMeshBundle {
                 break;
             }
         }
-        System.out.println("Chunk LOD set to: " + LOD_LEVEL);
     }
 
     public static int getLOD() {

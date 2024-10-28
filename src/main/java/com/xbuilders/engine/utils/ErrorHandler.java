@@ -49,6 +49,10 @@ public class ErrorHandler {
         report("error", ex);
     }
 
+    public static void report(String title, String details) {
+        if (title == null || title.isBlank()) title = "Error";
+        MainWindow.popupMessage.message(title, details);
+    }
 
     public static void report(String userMsg, Throwable ex) {
         String errMessage = (ex.getMessage() != null ? " \n(" + ex.getMessage() + ")" : "");

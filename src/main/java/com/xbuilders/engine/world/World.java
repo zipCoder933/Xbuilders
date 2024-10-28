@@ -264,27 +264,36 @@ public class World {
     // </editor-fold>
 
     public boolean startGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
-        prog.setTask("Generating chunks");
+        System.out.println("\n\nStarting new game: " + info.getName());
+        prog.setTask("Starting new game");
         this.chunks.clear();
         this.unusedChunks.clear();
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
         this.info = info;
         entities.clear();
-
+        //Get the terrain from worldInfo
         this.terrain = MainWindow.game.getTerrainFromInfo(info);
         if (terrain == null) {
-            MainWindow.popupMessage.message("Terrain not found",
-                    "Terrain " + info.getTerrain() + " not found");
+            ErrorHandler.report("Error", "Terrain " + info.getTerrain() + " not found");
             return false;
-        }
-        System.out.println("Loaded terrain: " + this.terrain.toString());
-        prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
+        } else System.out.println("Terrain: " + this.terrain);
 
         //Load pending blocks
-        multiplayerPendingBlockChanges.load(info);
+        loadPendingMultiplayerChanges(prog);
 
+        prog.setTask("Generating chunks");
+        prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
         return true;
+    }
+
+    private void loadPendingMultiplayerChanges(ProgressData prog) {
+        prog.setTask("Applying multiplayer changes");
+
+        multiplayerPendingBlockChanges.load(info);
+//        multiplayerPendingEntityChanges.load();
+        System.out.println("Block change size: " + multiplayerPendingBlockChanges.blockChanges.size());
+        prog.bar.setMax(multiplayerPendingBlockChanges.blockChanges.size());
     }
 
     public void stopGame(Vector3f playerPos) {
