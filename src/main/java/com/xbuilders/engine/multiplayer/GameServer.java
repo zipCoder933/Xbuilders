@@ -244,7 +244,7 @@ public class GameServer extends Server<PlayerClient> {
                                 }
                             }
                         } else {//Cache changes if they are out of bounds
-                            GameScene.localEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
+                            GameScene.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
                         }
                     });
                 } else if (receivedData[0] == PLAYER_CHUNK_DISTANCE) {

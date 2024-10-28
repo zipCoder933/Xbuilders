@@ -5,6 +5,7 @@ import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingBlockChanges;
+import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
@@ -150,10 +151,11 @@ public class World {
     public final WorldEntityMap entities = new WorldEntityMap(); // <chunkPos, entity>
 
     /**
-     * This is a record of all the pending block changes that need to be applied.
+     * This is a record of all the pending changes that need to be applied.
      * Before we load the world, all of the pending block changes must be applied to the world
      */
     public Local_MultiplayerPendingBlockChanges multiplayerPendingBlockChanges;
+    public Local_MultiplayerPendingEntityChanges multiplayerPendingEntityChanges;
 
     public WorldInfo info;
     public Terrain terrain;
@@ -212,6 +214,8 @@ public class World {
 
     public void init(UserControlledPlayer player, BlockArrayTexture textures) throws IOException {
         multiplayerPendingBlockChanges = new Local_MultiplayerPendingBlockChanges(player);
+        multiplayerPendingEntityChanges = new Local_MultiplayerPendingEntityChanges(player);
+
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);

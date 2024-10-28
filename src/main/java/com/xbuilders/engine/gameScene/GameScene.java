@@ -56,14 +56,14 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f centeredView = new Matrix4f();
     private static Game game;
     static HashMap<String, String> commandHelp;
-    public static Local_MultiplayerPendingEntityChanges localEntityChanges;
+
 
 
     public GameScene(MainWindow window) throws Exception {
         this.window = window;
         specialMode = true;
         player = new UserControlledPlayer(window, world, projection, view, centeredView);
-        localEntityChanges = new Local_MultiplayerPendingEntityChanges(player);
+
         server = new GameServer(player);
         livePropagationHandler = new LivePropagationHandler();
     }

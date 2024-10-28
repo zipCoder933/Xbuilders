@@ -19,9 +19,6 @@ import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import com.xbuilders.window.developmentTools.MemoryProfiler;
-import org.joml.Vector2d;
-import org.joml.Vector3f;
-import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.nuklear.NkVec2;
@@ -99,7 +96,7 @@ public class MainWindow extends NKWindow {
 
 
     public static boolean devMode = false;
-    public static String name = "XBuilders";
+    public static String title = "XBuilders";
 
     public MainWindow(String args[]) {
         super();
@@ -118,7 +115,7 @@ public class MainWindow extends NKWindow {
             } else if (arg.startsWith("appData")) {
                 customAppData = arg.split("=")[1];
             } else if (arg.startsWith("name")) {
-                name = arg.split("=")[1];
+                title = arg.split("=")[1];
             } else if (arg.equals("loadWorldOnStartup")) {
                 loadWorldOnStartup = true;
             }
@@ -158,8 +155,8 @@ public class MainWindow extends NKWindow {
                 endScreenshot();
             }
         } catch (Exception e) {
-            ErrorHandler.createPopupWindow(name + " has crashed",
-                    name + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
+            ErrorHandler.createPopupWindow(title + " has crashed",
+                    title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
                             "Stack trace:\n" +
                             String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
                             "\n\n Log saved to clipboard.");
@@ -310,7 +307,13 @@ public class MainWindow extends NKWindow {
         // Our goal is to get as close to 16.666 MPF (60 FPS) as possible
         String formattedNumber = df.format(getMsPerFrame());
         mfpAndMemory = "mpf: " + formattedNumber + "    memory: " + MemoryProfiler.getMemoryUsageAsString();
-        setTitle(name + (MainWindow.devMode ? "   " + mfpAndMemory : ""));
+
+        String playerName = "";
+        try {
+            playerName = " (" + GameScene.player.name + ") ";
+        } finally {
+        }
+        setTitle(title + playerName + (MainWindow.devMode ? "   " + mfpAndMemory : ""));
     }
 
     @Override
