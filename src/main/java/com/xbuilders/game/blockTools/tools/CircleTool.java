@@ -57,10 +57,11 @@ public class CircleTool extends BlockTool {
         if (nk_checkbox_label(ctx, "hollow", active)) {
             hollow = !hollow;
         }
-
-        nk_layout_row_dynamic(ctx, 30, 2);
-        nk_label(ctx, "Wall thickness", Nuklear.NK_TEXT_LEFT);
-        wallThickness.render(ctx);
+        if (hollow) {
+            nk_layout_row_dynamic(ctx, 30, 2);
+            nk_label(ctx, "Wall thickness", Nuklear.NK_TEXT_LEFT);
+            wallThickness.render(ctx);
+        }
     }
 
 
@@ -94,7 +95,7 @@ public class CircleTool extends BlockTool {
         queue.add(origin);
         HashSet<Vector3i> visited = new HashSet<>();
 
-          System.out.println("AABB: " + settingAABB.getXLength() + ", " + settingAABB.getYLength() + ", " + settingAABB.getZLength());
+        System.out.println("AABB: " + settingAABB.getXLength() + ", " + settingAABB.getYLength() + ", " + settingAABB.getZLength());
 
         while (!queue.isEmpty()) {
             Vector3i pos = queue.remove(0);
@@ -176,7 +177,6 @@ public class CircleTool extends BlockTool {
         ray.cursorBox.draw(proj, view);
         return true;
     }
-
 
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {

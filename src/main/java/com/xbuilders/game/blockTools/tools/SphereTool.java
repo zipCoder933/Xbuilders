@@ -16,6 +16,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class SphereTool extends BlockTool {
         super("Sphere", tools, cursorRay);
         hasOptions = true;
         wallThickness = new NumberBox(10);
+        wallThickness.setValueAsNumber(1);
         wallThickness.setMinValue(1);
         wallThickness.setMaxValue(10);
 
@@ -48,6 +50,11 @@ public class SphereTool extends BlockTool {
         active.put(0, hollow ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
         if (nk_checkbox_label(ctx, "hollow sphere", active)) {
             hollow = !hollow;
+        }
+        if (hollow) {
+            nk_layout_row_dynamic(ctx, 30, 2);
+            nk_label(ctx, "Wall thickness", Nuklear.NK_TEXT_LEFT);
+            wallThickness.render(ctx);
         }
     }
 
@@ -91,7 +98,8 @@ public class SphereTool extends BlockTool {
     private void set(int x, int y, int z, Vector3i origin, Block newBlock) {
         float radius = aabb.getXLength() / 2;
         if (origin.distance(x, y, z) > radius) return;
-        if (!newBlock.isAir() && hollow && origin.distance(x, y, z) < radius - 2) return; //Make the sphere hollow
+        if (!newBlock.isAir() && hollow &&
+                origin.distance(x, y, z) < radius - wallThickness.getValueAsNumber()) return; //Make the sphere hollow
 
         Block prevBlock = GameScene.world.getBlock(x, y, z);
         if (prevBlock != newBlock && (!prevBlock.solid || newBlock.isAir())) {

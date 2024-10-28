@@ -9,29 +9,59 @@ import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.rendering.entity.block.BlockMeshBundle;
 import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.game.blockTools.PrefabUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
+
 public class PasteTool extends BlockTool {
     public PasteTool(BlockTools tools, CursorRay cursorRay) {
         super("Paste", tools, cursorRay);
+        hasOptions = true;
         try {
             setIcon(ResourceUtils.resource("blockTools\\paste.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
+        nk_layout_row_dynamic(ctx, 30, 2);
+        if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
+            GameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+                    false, "xbprefab", (file) -> {
+                        System.out.println("LOADING " + file.getAbsolutePath());
+                        try {
+                            PasteTool.clipboard = PrefabUtils.loadPrefabFromFile(file);
+                        } catch (IOException e) {
+                            ErrorHandler.report(e);
+                        }
+                        System.out.println(PasteTool.clipboard.toString());
+                        PasteTool.updateMesh();
+                    });
+        }
+        if (Nuklear.nk_button_label(ctx, (additionMode ? "Additive Paste" : "Paste"))) {
+            additionMode = !additionMode;
         }
     }
 

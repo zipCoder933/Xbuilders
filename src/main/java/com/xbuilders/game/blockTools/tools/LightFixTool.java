@@ -5,6 +5,7 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -13,24 +14,40 @@ import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.game.blockTools.PrefabUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.Nuklear;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
+import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class LightFixTool extends BlockTool {
     public LightFixTool(BlockTools tools, CursorRay cursorRay) {
         super("Light Fix Tool", tools, cursorRay);
+        hasOptions = true;
         try {
             setIcon(ResourceUtils.resource("blockTools\\lightbulb.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
+        nk_layout_row_dynamic(ctx, 30, 1);
+        Nuklear.nk_label(ctx, "Mode: ", Nuklear.NK_TEXT_ALIGN_LEFT);
+        if (Nuklear.nk_button_label(ctx, (resetChunksMode ? "Reset Chunks" : "Light Fix Pen"))) {
+            resetChunksMode = !resetChunksMode;
         }
     }
 

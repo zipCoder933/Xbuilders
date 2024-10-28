@@ -31,10 +31,6 @@ public class CopyTool extends BlockTool {
         }
     }
 
-    int prefabLoadMode = 0;
-    final int LOAD_PREFAB = 1;
-    final int SAVE_PREFAB = 2;
-
     @Override
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
