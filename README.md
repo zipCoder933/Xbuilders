@@ -4,8 +4,11 @@
 **A voxel game written in Java + LWJGL.**
 
 ## Running the Game
-1. In the source folder, there should be a file called "XBuilders3.jar". Double-click to run it.
-   - If nothing happens, it could be that you dont have JRE 17 or later installed on your machine. In that case, you can install openJDK 17 here: https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17
+1. There should be a file called "XBuilders3.jar". Double-click to run it.
+
+If nothing happens, it could be that you dont have JRE 17 installed on your machine.
+1. Test if you have java installed with `java -version`
+2. Install JDK 17: https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17)
 
 ## Important notes
 * The JVM version must be 17. If it is higher, the following message will show in output:
