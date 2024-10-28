@@ -21,12 +21,12 @@ public class AnimalUtils {
         Vector3f playerHeadPos = GameScene.player.camera.position;
 
         //If the head twists more than 1.7 radians, then don't rotate
-        if (Math.abs(calculateYaw(playerHeadPos, entityHeadPos)) < 1.7f) {
+        //if (Math.abs(calculateYaw(playerHeadPos, entityHeadPos)) < 1.7f) {
             MatrixUtils.removeRotation(matrix);
             MatrixUtils.rotateToFaceCamera(matrix,
                     playerHeadPos, entityHeadPos,
                     upVector);
-        }
+        //}
     }
 
     public static boolean inWater(Entity entity) {

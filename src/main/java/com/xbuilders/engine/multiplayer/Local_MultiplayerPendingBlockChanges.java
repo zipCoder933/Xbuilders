@@ -48,41 +48,39 @@ public class Local_MultiplayerPendingBlockChanges extends MultiplayerPendingBloc
 
     public void save(WorldInfo worldInfo) {
         if (needsSaving) {
-            saveRecord(new File(worldInfo.getDirectory(), blockChangeFile));
+            System.out.println("Saving mpbc... Changes " + blockChanges.size());
+            File file = new File(worldInfo.getDirectory(), CHANGE_FILE);
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
+                    Vector3i worldPos = entry.getKey();
+                    BlockHistory change = entry.getValue();
+                    blockChangeRecord(fos, worldPos, change); //Save the record
+                }
+            } catch (IOException e) {
+                ErrorHandler.report(e);
+            }
+
             needsSaving = false;
         }
 
     }
 
+    final String CHANGE_FILE = "blockChanges.bin";
+
     public void load(WorldInfo worldInfo) {
         clear();
-        File file = new File(worldInfo.getDirectory(), blockChangeFile);
+        File file = new File(worldInfo.getDirectory(), CHANGE_FILE);
         if (file.exists()) {
-            loadRecord(file);
-        }
-    }
-
-    private void saveRecord(File file) {
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            for (Map.Entry<Vector3i, BlockHistory> entry : blockChanges.entrySet()) {
-                Vector3i worldPos = entry.getKey();
-                BlockHistory change = entry.getValue();
-                blockChangeRecord(fos, worldPos, change);
-                return;
+            try {
+                byte[] bytes = Files.readAllBytes(file.toPath());
+                readBlockChange(bytes, blockChanges::put);
+            } catch (IOException e) {
+                ErrorHandler.report(e);
             }
-        } catch (IOException e) {
-            ErrorHandler.report(e);
         }
     }
 
-    private void loadRecord(File file) {
-        try {
-            byte[] bytes = Files.readAllBytes(file.toPath());
-            readBlockChange(bytes, (worldPos, change) -> blockChanges.put(worldPos, change));
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
-    }
 
-    final String blockChangeFile = "blockChanges.bin";
+
+
 }

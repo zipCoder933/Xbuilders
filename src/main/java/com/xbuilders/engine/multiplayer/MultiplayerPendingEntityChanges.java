@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -22,20 +23,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 //1) It is less complicated this way
 //2) the blockPipeline does not need to know anything aout syncing local entities
 public class MultiplayerPendingEntityChanges {
-    HashSet<Entity> entityCreation = new HashSet<>();
-    HashSet<Entity> entityDeletion = new HashSet<>();
-    HashSet<Entity> entityUpdate = new HashSet<>(); //TODO: Maybe we dont have to have a list of changes. Maybe we can just iterate over each entity ourselves
+
+
+    final ConcurrentHashMap.KeySetView<Entity, Boolean> entityCreation = ConcurrentHashMap.newKeySet();
+    final ConcurrentHashMap.KeySetView<Entity, Boolean> entityDeletion = ConcurrentHashMap.newKeySet();
+    final ConcurrentHashMap.KeySetView<Entity, Boolean> entityUpdate = ConcurrentHashMap.newKeySet();
 
     public long rangeChangesUpdate;
-    public long allChangesUpdate;
     NetworkSocket socket;
     Player player;
-
-    //Each list gets its own read and write lock
-    protected final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    protected final Lock readLock = readWriteLock.readLock();
-    protected final Lock writeLock = readWriteLock.writeLock();
-
 
     public MultiplayerPendingEntityChanges(NetworkSocket socket, Player player) {
         this.socket = socket;
@@ -47,6 +43,7 @@ public class MultiplayerPendingEntityChanges {
                 currentPos.x,
                 currentPos.y,
                 currentPos.z);
+
     }
 
     @FunctionalInterface
@@ -59,18 +56,10 @@ public class MultiplayerPendingEntityChanges {
         if (entityCreation.isEmpty() && entityDeletion.isEmpty() && entityUpdate.isEmpty()) return 0;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            HashSet<Entity> deletionCopy;
-            HashSet<Entity> creationCopy;
-            HashSet<Entity> updateCopy;
+            HashSet<Entity> deletionCopy = new HashSet<>(entityDeletion);
+            HashSet<Entity> creationCopy = new HashSet<>(entityCreation);
+            HashSet<Entity> updateCopy = new HashSet<>(entityUpdate);
 
-            writeLock.lock();
-            try { //Make a copy of the change list first
-                deletionCopy = new HashSet<>(entityDeletion);
-                creationCopy = new HashSet<>(entityCreation);
-                updateCopy = new HashSet<>(entityUpdate);
-            } finally {
-                writeLock.unlock();
-            }
 
             int createChanges = 0;
             int deleteChanges = 0;
@@ -133,23 +122,8 @@ public class MultiplayerPendingEntityChanges {
         }
     }
 
-    public boolean periodicSendAllCheck(int interval) {
-        if (System.currentTimeMillis() - allChangesUpdate > interval
-                && (entityCreation.size() > 0 || entityDeletion.size() > 0 || entityUpdate.size() > 0)) {
-            allChangesUpdate = System.currentTimeMillis();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private boolean anyChangesWithinReach() {
-        readLock.lock();
-        try {
-            return !entityCreation.isEmpty() || !entityDeletion.isEmpty() || !entityUpdate.isEmpty();
-        } finally {
-            readLock.unlock();
-        }
+        return !entityCreation.isEmpty() || !entityDeletion.isEmpty() || !entityUpdate.isEmpty();
     }
 
     public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
@@ -218,15 +192,11 @@ public class MultiplayerPendingEntityChanges {
 
     public void addEntityChange(Entity entity, byte operation, boolean sendImmediately) {
         if (sendImmediately && sendInstantChange(entity, operation)) return;
-        writeLock.lock();
-        try {
-            if (operation == GameServer.ENTITY_CREATED) entityCreation.add(entity);
-            else if (operation == GameServer.ENTITY_DELETED) entityDeletion.add(entity);
-            else if (operation == GameServer.ENTITY_UPDATED) entityUpdate.add(entity);
-            changeEvent();
-        } finally {
-            writeLock.unlock();
-        }
+
+        if (operation == GameServer.ENTITY_CREATED) entityCreation.add(entity);
+        else if (operation == GameServer.ENTITY_DELETED) entityDeletion.add(entity);
+        else if (operation == GameServer.ENTITY_UPDATED) entityUpdate.add(entity);
+        changeEvent();
     }
 
     private boolean sendInstantChange(Entity entity, byte operation) {
@@ -245,17 +215,11 @@ public class MultiplayerPendingEntityChanges {
     }
 
 
-
     public void clear() {
-        readLock.lock();
-        try {
-            entityCreation.clear();
-            entityDeletion.clear();
-            entityUpdate.clear();
-            changeEvent();
-        } finally {
-            readLock.unlock();
-        }
+        entityCreation.clear();
+        entityDeletion.clear();
+        entityUpdate.clear();
+        changeEvent();
     }
 
     protected void changeEvent() {

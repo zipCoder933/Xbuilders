@@ -105,7 +105,7 @@ public class BeaverEntityLink extends EntityLink {
             limbs = new Limb[]{
                     new Limb((limbMatrix) -> {
                         limbMatrix.translate(LIMB_HEAD_OFFSET);
-                        if (distToPlayer < 5) {
+                        if (distToPlayer < 6) {
                             AnimalUtils.rotateToFacePlayer(limbMatrix);
                         }
                         limbMatrix.updateAndSendToShader(shader.getID(), shader.uniform_modelMatrix);

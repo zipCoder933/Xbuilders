@@ -93,8 +93,10 @@ public class ChunkShader extends Shader {
         loadVec3f(fogColorUniform, fogColor);
     }
 
+    final int MIN_VIEW_DIST = 100;
+
     public void setViewDistance(int viewDistance) {
-        loadInt(viewDistanceUniform, viewDistance);
+        loadInt(viewDistanceUniform, Math.min(MIN_VIEW_DIST, viewDistance));
 //        if (Entity.shader != null) Entity.shader.loadInt(Entity.shader.uniform_view_distance, viewDistance);
     }
 

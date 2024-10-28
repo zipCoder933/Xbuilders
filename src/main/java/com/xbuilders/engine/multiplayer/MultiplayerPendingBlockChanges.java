@@ -25,7 +25,7 @@ public class MultiplayerPendingBlockChanges {
     public final ConcurrentHashMap<Vector3i, BlockHistory> blockChanges = new ConcurrentHashMap<>();
 
     public long lastRangeChange;
-    public long allChangesUpdate;
+
     NetworkSocket socket;
     Player player;
 
@@ -45,15 +45,7 @@ public class MultiplayerPendingBlockChanges {
         }
     }
 
-    public boolean periodicSendAllCheck(int interval) {
-        if (System.currentTimeMillis() - allChangesUpdate > interval
-                && !blockChanges.isEmpty()) {
-            allChangesUpdate = System.currentTimeMillis();
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     public static boolean changeWithinReach(Player player, Vector3i worldPos) {
         return player.isWithinReach(worldPos.x, worldPos.y, worldPos.z);
@@ -64,7 +56,7 @@ public class MultiplayerPendingBlockChanges {
             Vector3i chunkPos = new Vector3i();
             WCCi.getChunkAtWorldPos(chunkPos, worldPos.x, worldPos.y, worldPos.z);
             Chunk chunk = GameScene.world.getChunk(chunkPos);
-            if (chunk != null && chunk.gen_Complete()) return true;
+            return chunk != null && chunk.gen_Complete();
         }
         return false;
     }
@@ -96,7 +88,7 @@ public class MultiplayerPendingBlockChanges {
 
 
     public void blockChangeRecord(OutputStream baos, Vector3i worldPos, BlockHistory change) throws IOException {
-        baos.write(new byte[]{GameServer.VOXEL_BLOCK_CHANGE});
+        baos.write(new byte[]{GameServer.VOXELS_UPDATED});
         baos.write(ByteUtils.intToBytes(worldPos.x));
         baos.write(ByteUtils.intToBytes(worldPos.y));
         baos.write(ByteUtils.intToBytes(worldPos.z));
@@ -170,7 +162,7 @@ public class MultiplayerPendingBlockChanges {
         //Split the recievedData by the newline byte
         AtomicInteger start = new AtomicInteger(0);
         while (start.get() < receivedData.length) {
-            if (receivedData[start.get()] == GameServer.VOXEL_BLOCK_CHANGE) {
+            if (receivedData[start.get()] == GameServer.VOXELS_UPDATED) {
 
 
                 //XYZ coordinates

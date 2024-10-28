@@ -8,6 +8,7 @@ import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.player.camera.Camera;
+import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.settings.EngineSettings;
@@ -92,10 +93,7 @@ public class World {
         // Settings
         settings.internal_viewDistance.value = viewDistance.get();
         settings.save();
-        GameScene.server.updateChunkDistance(viewDistance.get());
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
-        // maxChunksForViewDistance = (int) Math.pow(viewDistance.get() * 2, 2) *
-        // WORLD_CHUNK_HEIGHT;
         maxChunksForViewDistance = Integer.MAX_VALUE;
     }
 
@@ -143,7 +141,7 @@ public class World {
     private SortByDistanceToPlayer sortByDistance;
 
     private final List<Chunk> unusedChunks = new ArrayList<>();
-    public final Map<Vector3i, Chunk> chunks = new HashMap();
+    public final Map<Vector3i, Chunk> chunks = new HashMap<>();
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
@@ -291,8 +289,10 @@ public class World {
         prog.setTask("Applying multiplayer changes");
 
         multiplayerPendingBlockChanges.load(info);
-//        multiplayerPendingEntityChanges.load();
+        multiplayerPendingEntityChanges.load(info);//TODO: Implement local entity multiplayer changes
+
         System.out.println("Block change size: " + multiplayerPendingBlockChanges.blockChanges.size());
+        HashMap<Vector2i, ConcurrentHashMap<Vector3i, BlockHistory>> sortedChanges = new HashMap<>();
         prog.bar.setMax(multiplayerPendingBlockChanges.blockChanges.size());
     }
 
@@ -350,20 +350,21 @@ public class World {
 
     public static final int CHUNK_QUANTITY_Y = 16;
 
-    public int addChunkPillar(int chunkX, int chunkZ, Vector3f player) {
+    public int addChunkPillar(int chunkX, int chunkZ, Vector3f playerPos) {
         int chunksGenerated = 0;
         boolean isTopChunk = true;
 
         Chunk[] chunkPillar = new Chunk[PillarInformation.CHUNKS_IN_PILLAR];
         for (int y = TOP_Y_CHUNK; y <= BOTTOM_Y_CHUNK; ++y) {
-            final Vector3i coords = new Vector3i(chunkX, y, chunkZ);
-            if (!chunks.containsKey(coords)
-                    && chunkIsWithinRange_XZ(player, coords, getCreationViewDistance())) {
-                chunkPillar[y - TOP_Y_CHUNK] = addChunk(coords, isTopChunk);
+            final Vector3i chunkCoords = new Vector3i(chunkX, y, chunkZ);
+            boolean isWithinReach = playerPos == null || chunkIsWithinRange_XZ(playerPos, chunkCoords, getCreationViewDistance());
+
+            if (!chunks.containsKey(chunkCoords) && isWithinReach) {
+                chunkPillar[y - TOP_Y_CHUNK] = addChunk(chunkCoords, isTopChunk);
                 isTopChunk = false;
                 chunksGenerated++;
             } else {
-                chunkPillar[y - TOP_Y_CHUNK] = getChunk(coords);
+                chunkPillar[y - TOP_Y_CHUNK] = getChunk(chunkCoords);
             }
         }
         for (Chunk chunk : chunkPillar) {
@@ -670,8 +671,7 @@ public class World {
     // </editor-fold>
 
     public void save(Vector3f playerPos) {
-        // System.out.println("Saving...");
-
+        //MainWindow.printlnDev("Saving world...");
         // Save all chunks
         Iterator<Chunk> iterator = chunks.values().iterator();
         while (iterator.hasNext()) {
@@ -689,6 +689,7 @@ public class World {
 
         //Save multiplayer pending block changes
         multiplayerPendingBlockChanges.save(info);
+        multiplayerPendingEntityChanges.save(info);
     }
 
     public FutureChunk newFutureChunk(Vector3i pos) {

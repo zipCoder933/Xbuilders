@@ -37,32 +37,42 @@ public class PlayerClient extends NetworkSocket {
         return "PlayerSocket(" + getName() + '}';
     }
 
+    long pingSendTime;
+    long allChangesSentTime;
+
+    public void sendAllChanges() {
+        int c = blockChanges.sendAllChanges();
+        MainWindow.printlnDev("Sent all block changes (" + c + ")");
+    }
+
     public void update(UserControlledPlayer user, Matrix4f projection, Matrix4f view) {
+        //Check if the player is in range
         boolean inRange = player.isWithinReach(user);
         if (inRange) {
             player.update(projection, view);
+        }
+        if (inRange != wasWithinReach) {
+            MainWindow.printlnDev("Player " + getName() + " " + (inRange ? "in" : "out") + " reach");
+            wasWithinReach = inRange;
         }
 
         if (blockChanges.periodicRangeSendCheck(2000)) { //Periodically send near changes
             int b = blockChanges.sendNearBlockChanges();
             MainWindow.printlnDev("Sent " + b + " near block changes");
-        } else if (blockChanges.periodicSendAllCheck(30000)) { //If the player disconnects unexpectedly, we want to send all changes
-            int c = blockChanges.sendAllChanges();
-            MainWindow.printlnDev("Sent all block changes (" + c + ")");
+            return;
         }
-
         if (entityChanges.periodicRangeSendCheck(3000)) { //Periodically send near changes
             int e = entityChanges.sendNearEntityChanges();
             MainWindow.printlnDev("Sent " + e + " near entity changes");
+            return;
         }
-
-        if (inRange != wasWithinReach) {
-            MainWindow.printlnDev("Player " + getName() + " " + (inRange ? "in" : "out") + " reach");
-            wasWithinReach = inRange;
+        //Periodically send All changes
+        if (System.currentTimeMillis() - allChangesSentTime > 30000) {
+            allChangesSentTime = System.currentTimeMillis();
+            sendAllChanges();
         }
     }
 
-    long pingSendTime;
 
     public void ping() {
         pingSendTime = System.currentTimeMillis();
