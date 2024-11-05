@@ -29,7 +29,7 @@ import com.xbuilders.game.items.blocks.RenderType;
 import com.xbuilders.game.items.blocks.StraightTrack;
 import com.xbuilders.game.items.blocks.trees.*;
 import com.xbuilders.game.items.blocks.type.*;
-import com.xbuilders.game.items.entities.BannerEntityLink;
+import com.xbuilders.game.items.entities.Banner;
 import com.xbuilders.game.items.entities.animal.*;
 import com.xbuilders.game.items.entities.animal.fish.FishALink;
 import com.xbuilders.game.items.entities.animal.fish.FishBLink;
@@ -38,8 +38,8 @@ import com.xbuilders.game.items.entities.animal.landAndWater.TurtleEntityLink;
 import com.xbuilders.game.items.entities.animal.quadPedal.DogLink;
 import com.xbuilders.game.items.entities.animal.quadPedal.HorseLink;
 import com.xbuilders.game.items.entities.animal.quadPedal.MuleLink;
-import com.xbuilders.game.items.entities.vehicle.BoatEntityLink;
-import com.xbuilders.game.items.entities.vehicle.MinecartEntityLink;
+import com.xbuilders.game.items.entities.vehicle.Boat;
+import com.xbuilders.game.items.entities.vehicle.Minecart;
 import com.xbuilders.game.items.tools.*;
 import com.xbuilders.game.propagation.*;
 import com.xbuilders.game.skins.FoxSkin;
@@ -388,19 +388,9 @@ public class MyGame extends Game {
         // exportBlocksToJson(syBlocks, ResourceUtils.resource("items\\blocks\\json\\doors.json"));
     }
 
-    public static final BannerEntityLink BANNER = new BannerEntityLink(82, "Red Banner", "red.png");
-    public static final BannerEntityLink BANNER1 = new BannerEntityLink(81, "Orange Banner", "orange.png");
-    public static final BannerEntityLink BANNER2 = new BannerEntityLink(72, "Yellow Banner", "yellow.png");
-    public static final BannerEntityLink BANNER3 = new BannerEntityLink(75, "Lime Banner", "lime.png");
-    public static final BannerEntityLink BANNER4 = new BannerEntityLink(78, "Green Banner", "green.png");
-    public static final BannerEntityLink BANNER5 = new BannerEntityLink(73, "Blue Banner", "blue.png");
-    public static final BannerEntityLink BANNER6 = new BannerEntityLink(77, "Gray Banner", "gray.png");
-    public static final BannerEntityLink BANNER7 = new BannerEntityLink(76, "Pink Banner", "pink.png");
-    public static final BannerEntityLink BANNER8 = new BannerEntityLink(84, "Purple Banner", "purple.png");
-    public static final BannerEntityLink BANNER9 = new BannerEntityLink(74, "White Banner", "white.png");
-    public static final BannerEntityLink BANNER10 = new BannerEntityLink(83, "Xbuilders Banner", "blue_logo.png");
-    public static final BannerEntityLink BANNER11 = new BannerEntityLink(80, "Regal Banner", "regal.png");
-    public static final BannerEntityLink BANNER12 = new BannerEntityLink(79, "Royal Banner", "royal.png");
+
+
+
 
 
     public static final Tool TOOL_ANIMAL_FEED = new AnimalFeed();
@@ -445,37 +435,37 @@ public class MyGame extends Game {
 
         EntityLink[] entityList = new EntityLink[]{
                 //Banners
-                BANNER,
-                BANNER1,
-                BANNER2,
-                BANNER3,
-                BANNER4,
-                BANNER5,
-                BANNER6,
-                BANNER7,
-                BANNER8,
-                BANNER9,
-                BANNER10,
-                BANNER11,
-                BANNER12,
+                new EntityLink(82, "Red Banner", () -> new Banner()),
+                new EntityLink(81, "Orange Banner", () -> new Banner()),
+                new EntityLink(72, "Yellow Banner", () -> new Banner()),
+                new EntityLink(75, "Lime Banner", () -> new Banner()),
+                new EntityLink(78, "Green Banner", () -> new Banner()),
+                new EntityLink(73, "Blue Banner", () -> new Banner()),
+                new EntityLink(77, "Gray Banner", () -> new Banner()),
+                new EntityLink(76, "Pink Banner", () -> new Banner()),
+                new EntityLink(84, "Purple Banner", () -> new Banner()),
+                new EntityLink(74, "White Banner", () -> new Banner()),
+                new EntityLink(83, "Xbuilders Banner", () -> new Banner()),
+                new EntityLink(80, "Regal Banner", () -> new Banner()),
+                new EntityLink(79, "Royal Banner", () -> new Banner()),
 
 
                 //Boats
-                new BoatEntityLink(window, 92, "Oak Boat", "boat_oak.png", "boat\\boat_oak.png"),
-                new BoatEntityLink(window, 95, "Dark Oak Boat", "boat_darkoak.png", "boat\\boat_darkoak.png"),
-                new BoatEntityLink(window, 96, "Spruce Boat", "boat_spruce.png", "boat\\boat_spruce.png"),
-                new BoatEntityLink(window, 94, "Acacia Boat", "boat_acacia.png", "boat\\boat_acacia.png"),
-                new BoatEntityLink(window, 93, "Jungle Boat", "boat_jungle.png", "boat\\boat_jungle.png"),
-                new BoatEntityLink(window, 97, "Birch Boat", "boat_birch.png", "boat\\boat_birch.png"),
+                new EntityLink(92, "Oak Boat", () -> new Boat(window)),
+                new EntityLink(95, "Dark Oak Boat", () -> new Boat(window)),
+                new EntityLink(96, "Spruce Boat", () -> new Boat(window)),
+                new EntityLink(94, "Acacia Boat", () -> new Boat(window)),
+                new EntityLink(93, "Jungle Boat", () -> new Boat(window)),
+                new EntityLink(97, "Birch Boat", () -> new Boat(window)),
 
                 //Minecarts
-                new MinecartEntityLink(window, 103, "Blue Minecart", "blue.png", "minecart\\blue.png"),
-                new MinecartEntityLink(window, 99, "Charcoal Minecart", "charcoal.png", "minecart\\black.png"),
-                new MinecartEntityLink(window, 104, "Cyan Minecart", "cyan.png", "minecart\\cyan.png"),
-                new MinecartEntityLink(window, 101, "Green Minecart", "green.png", "minecart\\green.png"),
-                new MinecartEntityLink(window, 98, "Iron Minecart", "iron.png", "minecart\\white.png"),
-                new MinecartEntityLink(window, 100, "Red Minecart", "red.png", "minecart\\red.png"),
-                new MinecartEntityLink(window, 102, "Yellow Minecart", "yellow.png", "minecart\\yellow.png"),
+                new EntityLink(103, "Blue Minecart", () -> new Minecart(window)),
+                new EntityLink(99, "Charcoal Minecart", () -> new Minecart(window)),
+                new EntityLink(104, "Cyan Minecart", () -> new Minecart(window)),
+                new EntityLink(101, "Green Minecart", () -> new Minecart(window)),
+                new EntityLink(98, "Iron Minecart", () -> new Minecart(window)),
+                new EntityLink(100, "Red Minecart", () -> new Minecart(window)),
+                new EntityLink(102, "Yellow Minecart", () -> new Minecart(window)),
 
                 //Foxes
                 new FoxLink(window, 56, "Fox"),

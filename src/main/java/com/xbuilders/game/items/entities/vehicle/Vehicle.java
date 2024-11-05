@@ -133,15 +133,9 @@ public abstract class Vehicle extends Entity {
     }
 
     @Override
-    public final void initializeOnDraw(byte[] bytes) {
-        // box = new Box();
-        // box.setColor(new Vector4f(1, 0, 1, 1));
-        // box.setLineWidth(5);
+    public void initializeOnDraw(byte[] bytes) {
         posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
-        vehicle_initializeOnDraw(bytes);
     }
-
-    public abstract void vehicle_initializeOnDraw(byte[] bytes);
 
     public abstract void onDestructionInitiated();
 

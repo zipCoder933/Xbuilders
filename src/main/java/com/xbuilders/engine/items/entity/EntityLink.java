@@ -20,23 +20,11 @@ import java.util.function.Supplier;
  */
 public class EntityLink extends Item {
 
-    public Supplier<Entity> supplier = null;
-    public Consumer<EntityLink> initializationCallback;
-
-    public EntityLink(int id, String name) {
-        super(id, name, ItemType.ENTITY_LINK);
-    }
+    public final Supplier<Entity> supplier;
 
     public EntityLink(int id, String name, Supplier<Entity> supplier) {
         super(id, name, ItemType.ENTITY_LINK);
         this.supplier = supplier;
-    }
-
-    public EntityLink(int id, String name, Supplier<Entity> supplier,
-                      Consumer<EntityLink> initializationCallback) {
-        super(id, name, ItemType.ENTITY_LINK);
-        this.supplier = supplier;
-        this.initializationCallback = initializationCallback;
     }
 
 }

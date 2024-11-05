@@ -44,9 +44,6 @@ public class EntityList extends ItemGroup<EntityLink> {
         int i = 0;
         try {
             for (EntityLink entity : getList()) {//init all entities
-                if (entity.initializationCallback != null) {
-                    entity.initializationCallback.accept(entity);
-                }
                 entity.initIcon(iconDirectory, defaultIcon);
                 i++;
             }

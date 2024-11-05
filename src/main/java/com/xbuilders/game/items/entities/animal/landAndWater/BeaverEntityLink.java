@@ -24,8 +24,7 @@ import java.util.Objects;
 public class BeaverEntityLink extends EntityLink {
 
     public BeaverEntityLink(MainWindow window, int id, String name) {
-        super(id, name);
-        supplier = () -> new Beaver(window, this);
+        super(id, name, () -> new Beaver(window));
         setIcon("beaver egg.png");
         tags.add("animal");
         tags.add("beaver");
@@ -33,7 +32,7 @@ public class BeaverEntityLink extends EntityLink {
 
 
     public static class Beaver<T extends BeaverEntityLink> extends LandAndWaterAnimal {
-        T link;
+
 
          static EntityMesh body, head, tail, legs;
          static int bodyTexture, headTexture, tailTexture, legsTexture;
@@ -89,9 +88,8 @@ public class BeaverEntityLink extends EntityLink {
             }
         }
 
-        public Beaver(MainWindow window, T link) {
+        public Beaver(MainWindow window) {
             super(window);
-            this.link = link;
             aabb.setOffsetAndSize(.8f, 1f, .8f, true);
             frustumSphereRadius = 2;
             setMaxSpeed(0.1f);
