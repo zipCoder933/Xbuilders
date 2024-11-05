@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.Texture;
@@ -25,6 +27,7 @@ public abstract class Item {
 
     public final ArrayList<String> tags = new ArrayList<>();
     public final HashMap<String, String> properties = new HashMap<>();
+    public Consumer<Item> initializationCallback;
 
 
     public final short id; //TODO: Find a way to represent block ID as an unsigned short (up to 65,000 IDs)
@@ -33,6 +36,30 @@ public abstract class Item {
     private int icon = 0;
     private final NkImage NKicon;
     public String iconFilename;
+
+
+
+    // <editor-fold defaultstate="collapsed" desc="tool events">
+    //Create a functional interface for setBlockEvent
+    //A functional interface for onLocalChange
+    @FunctionalInterface
+    public interface OnClickEvent {
+        public void run(CursorRay ray, boolean creationMode);
+    }
+
+    OnClickEvent clickEvent = null;
+
+    public void setClickEvent(OnClickEvent createClickEvent) {
+        this.clickEvent = createClickEvent;
+    }
+
+
+    public void run_ClickEvent(CursorRay ray, boolean creationMode) {
+        if (clickEvent != null) {
+            clickEvent.run(ray, creationMode);
+        }
+    }
+    // </editor-fold>
 
     /**
      * @return the type

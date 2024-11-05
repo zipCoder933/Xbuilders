@@ -1,10 +1,11 @@
 package com.xbuilders.game.items.tools;
 
-import com.xbuilders.engine.items.Tool;
+import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.ItemType;
 
-public class AnimalFeed extends Tool {
+public class AnimalFeed extends Item {
     public AnimalFeed() {
-        super(0, "Animal Feed");
+        super(0, "Animal Feed", ItemType.TOOL);
         setIcon("animal_feed.png");
     }
 }

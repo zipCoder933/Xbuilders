@@ -93,7 +93,7 @@ public class CursorRay {
     public boolean clickEvent(boolean creationMode) {
         Item selectedItem = MainWindow.game.getSelectedItem();
         if (selectedItem != null && selectedItem.itemType == ItemType.TOOL) { //Tool click event
-            ((Tool) selectedItem).run_ClickEvent(this, creationMode);
+            selectedItem.run_ClickEvent(this, creationMode);
             return true;
         }
 

@@ -1,14 +1,15 @@
 package com.xbuilders.game.items.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Tool;
+import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.game.MyGame;
 import org.joml.Vector3i;
 
-public class Hoe extends Tool {
+public class Hoe extends Item {
 
     public Hoe() {
-        super(3, "Hoe");
+        super(3, "Hoe", ItemType.TOOL);
         setIcon("hoe.png");
         setClickEvent((ray, creationMode) -> {
             Vector3i hit = ray.getHitPos();

@@ -74,7 +74,7 @@ public class ItemList {
         tools.init(iconDirectory, ItemList.defaultIcon);
     }
 
-    public static void setAllItems(Block[] blockList, EntityLink[] entityList, Tool[] toolList) {
+    public static void setAllItems(Block[] blockList, EntityLink[] entityList, Item[] toolList) {
         blocks.setItems(blockList);
         entities.setItems(entityList);
         tools.setItems(toolList);
@@ -109,7 +109,7 @@ public class ItemList {
         return entities.getItem(blockID);
     }
 
-    public static Tool getTool(short blockID) {
+    public static Item getTool(short blockID) {
         return tools.getItem(blockID);
     }
 

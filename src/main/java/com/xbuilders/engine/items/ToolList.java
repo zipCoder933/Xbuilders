@@ -12,13 +12,13 @@ import java.io.IOException;
 /**
  * @author zipCoder933
  */
-public class ToolList extends ItemGroup<Tool> {
+public class ToolList extends ItemGroup<Item> {
 
     File iconDirectory;
     int defaultIcon;
 
     public ToolList() {
-        super(Tool.class);
+        super(Item.class);
     }
 
     public void init(File iconDirectory, int defaultIcon) throws IOException {
@@ -27,11 +27,11 @@ public class ToolList extends ItemGroup<Tool> {
     }
 
     @Override
-    public void setItems(Tool[] inputBlocks) {
+    public void setItems(Item[] inputBlocks) {
         setList(inputBlocks);
         int i = 0;
         try {
-            for (Tool block : getList()) {
+            for (Item block : getList()) {
                 if (block.initializationCallback != null) {
                     block.initializationCallback.accept(block);
                 }

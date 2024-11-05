@@ -393,7 +393,7 @@ public class MyGame extends Game {
 
 
 
-    public static final Tool TOOL_ANIMAL_FEED = new AnimalFeed();
+    public static final Item TOOL_ANIMAL_FEED = new AnimalFeed();
 
     @Override
     public void initialize(GameScene gameScene) throws Exception {
@@ -552,7 +552,7 @@ public class MyGame extends Game {
 //                new FishALink(window, 55, "Tri-Band Betta", "tri_band_betta.png"),
         };
 
-        Tool[] tools = new Tool[]{
+        Item[] tools = new Item[]{
                 new Saddle(),
                 new Hoe(),
                 new Flashlight(),
