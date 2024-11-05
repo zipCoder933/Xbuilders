@@ -24,7 +24,7 @@ import java.util.Objects;
 public class BeaverEntityLink extends EntityLink {
 
     public BeaverEntityLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new Beaver(window));
+        super(id, name, () -> new Beaver(id,window));
         setIcon("beaver egg.png");
         tags.add("animal");
         tags.add("beaver");
@@ -88,8 +88,8 @@ public class BeaverEntityLink extends EntityLink {
             }
         }
 
-        public Beaver(MainWindow window) {
-            super(window);
+        public Beaver(int id, MainWindow window) {
+            super(id,window);
             aabb.setOffsetAndSize(.8f, 1f, .8f, true);
             frustumSphereRadius = 2;
             setMaxSpeed(0.1f);

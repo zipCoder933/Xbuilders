@@ -9,6 +9,6 @@ import java.util.function.Supplier;
 
 public class GravityBlockEntityLink extends EntityLink {
     public GravityBlockEntityLink(MainWindow window) {
-        super(-1, "gravity block", () -> new GravityBlockEntity(window));
+        super(-1, "gravity block", () -> new GravityBlockEntity(-1, window));
     }
 }

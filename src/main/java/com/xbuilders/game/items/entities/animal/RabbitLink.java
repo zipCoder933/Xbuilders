@@ -8,7 +8,7 @@ import java.io.IOException;
 public class RabbitLink extends EntityLink {
 
     public RabbitLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new Rabbit(window));
+        super(id, name, () -> new Rabbit(id,window));
         setIcon("rabbit egg.png");
         tags.add("animal");
     }
@@ -18,8 +18,8 @@ public class RabbitLink extends EntityLink {
         long lastJumpTime = 0;
 
 
-        public Rabbit(MainWindow window) {
-            super(window);
+        public Rabbit(int id, MainWindow window) {
+            super(id, window);
         }
 
         @Override

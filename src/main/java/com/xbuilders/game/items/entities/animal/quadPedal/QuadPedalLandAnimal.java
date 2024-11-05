@@ -25,8 +25,8 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     int textureIndex;
 
 
-    public QuadPedalLandAnimal(MainWindow window, boolean rideable) {
-        super(window);
+    public QuadPedalLandAnimal(int id, MainWindow window, boolean rideable) {
+        super(id,window);
         aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
         this.rideable = rideable;
         frustumSphereRadius = 2;

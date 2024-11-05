@@ -8,13 +8,13 @@ import java.io.IOException;
 public class FoxLink extends EntityLink {
 
     public FoxLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new Fox(window));
+        super(id, name, () -> new Fox(id, window));
         setIcon("fox egg.png");
     }
 
     static class Fox extends StaticLandAnimal {
-        public Fox(MainWindow window) {
-            super(window);
+        public Fox(int id, MainWindow window) {
+            super(id, window);
         }
 
         @Override

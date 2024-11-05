@@ -27,7 +27,7 @@ import java.util.Random;
 public class FishALink extends EntityLink {
 
     public FishALink(MainWindow window, int id, String name) {
-        super(id, name, () -> new FishObject(window));
+        super(id, name, () -> new FishObject(id, window));
         setIcon("fish egg.png");
         tags.add("animal");
         tags.add("fish");
@@ -36,8 +36,8 @@ public class FishALink extends EntityLink {
 
 
     public static class FishObject extends FishAnimal {
-        public FishObject(MainWindow window) {
-            super(window);
+        public FishObject(int id, MainWindow window) {
+            super(id, window);
         }
 
         static EntityMesh body;

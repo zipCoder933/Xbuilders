@@ -25,7 +25,7 @@ import java.util.Objects;
 public class FishBLink extends EntityLink {
 
     public FishBLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new FishObject(window));
+        super(id, name, () -> new FishObject(id, window));
         setIcon("fish egg.png");
         tags.add("animal");
         tags.add("fish");
@@ -34,8 +34,8 @@ public class FishBLink extends EntityLink {
 
     public static class FishObject extends FishAnimal {
 
-        public FishObject(MainWindow window) {
-            super(window);
+        public FishObject(int id, MainWindow window) {
+            super(id, window);
         }
 
         static EntityMesh body;

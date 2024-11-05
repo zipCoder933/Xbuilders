@@ -6,7 +6,6 @@ import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.rendering.entity.EntityMesh_ArrayTexture;
-import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.rendering.entity.block.BlockVertexSet;
 import com.xbuilders.engine.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
@@ -27,8 +26,8 @@ public class GravityBlockEntity extends Entity {
     Block block;
     long startTime;
 
-    public GravityBlockEntity(MainWindow window) {
-        super();
+    public GravityBlockEntity(int id, MainWindow window) {
+        super(id);
         positionHandler = new PositionHandler(window, GameScene.world, aabb, null);
         aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         frustumSphereRadius = 1;

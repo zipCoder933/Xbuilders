@@ -9,7 +9,6 @@ import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.ByteUtils;
-import org.joml.Vector3i;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,7 +16,7 @@ import java.util.Arrays;
 public class ItemDropEntityLink extends EntityLink {
 
     public ItemDropEntityLink() {
-        super(0, "item drop", () -> new ItemDrop());
+        super(0, "item drop", () -> new ItemDrop(0));
     }
 
     public final static int DROP_LIVE_TIME = 1000;
@@ -40,7 +39,8 @@ public class ItemDropEntityLink extends EntityLink {
         double rand;
         int lifetime;
 
-        public ItemDrop() {
+        public ItemDrop(int id) {
+            super(id);
             aabb.isSolid = false;
         }
 

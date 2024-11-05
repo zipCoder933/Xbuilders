@@ -9,13 +9,13 @@ import java.io.IOException;
 public class DogLink extends EntityLink {
 
     public DogLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new DogLink.Dog(window));
+        super(id, name, () -> new DogLink.Dog(id,window));
         setIcon("dog egg.png");
     }
 
     public static class Dog extends QuadPedalLandAnimal {
-        public Dog(MainWindow window) {
-            super(window, false);
+        public Dog(int id, MainWindow window) {
+            super(id, window, false);
         }
 
         static QuadPedalLandAnimal_StaticData staticData;

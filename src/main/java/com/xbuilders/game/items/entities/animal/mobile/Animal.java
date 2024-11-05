@@ -92,7 +92,8 @@ public abstract class Animal extends Entity {
     public void eatAnimalFeed() {
     }
 
-    public Animal(MainWindow window) {
+    public Animal(int id,MainWindow window) {
+        super(id);
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.player;

@@ -25,7 +25,7 @@ import java.util.Objects;
 public class TurtleEntityLink extends EntityLink {
 
     public TurtleEntityLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new Turtle(window));
+        super(id, name, () -> new Turtle(id,window));
         setIcon("turtle egg.png");
         tags.add("animal");
         tags.add("turtle");
@@ -39,8 +39,8 @@ public class TurtleEntityLink extends EntityLink {
 
         int textureIndex;
 
-        public Turtle(MainWindow window) {
-            super(window);
+        public Turtle(int id,MainWindow window) {
+            super(id,window);
             aabb.setOffsetAndSize(1f, 1f, 1f, true);
             frustumSphereRadius = 3;
             setMaxSpeed(0.1f);

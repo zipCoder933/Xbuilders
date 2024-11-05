@@ -6,13 +6,13 @@ import java.io.IOException;
 
 public class HorseLink extends EntityLink {
     public HorseLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new HorseLink.Horse(window));
+        super(id, name, () -> new HorseLink.Horse(id,window));
         setIcon("horse egg.png");
     }
 
     public static class Horse extends QuadPedalLandAnimal {
-        public Horse(MainWindow window) {
-            super(window, true);
+        public Horse(int id, MainWindow window) {
+            super(id, window, true);
         }
 
         static QuadPedalLandAnimal_StaticData staticData;

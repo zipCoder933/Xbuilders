@@ -6,13 +6,13 @@ import java.io.IOException;
 
 public class MuleLink extends EntityLink {
     public MuleLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new MuleLink.Mule(window));
+        super(id, name, () -> new MuleLink.Mule(id,window));
         setIcon("mule egg.png");
     }
 
     public static class Mule extends QuadPedalLandAnimal {
-        public Mule(MainWindow window) {
-            super(window, true);
+        public Mule(int id, MainWindow window) {
+            super(id, window, true);
         }
 
         static QuadPedalLandAnimal_StaticData staticData;

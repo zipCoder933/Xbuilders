@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class LandAnimal extends Animal {
 
-    public LandAnimal(MainWindow window) {
-        super(window);
+    public LandAnimal(int id,MainWindow window) {
+        super(id,window);
     }
 
     public AnimalAction currentAction = null;

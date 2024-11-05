@@ -9,13 +9,13 @@ import java.io.IOException;
 public class CatLink extends EntityLink {
 
     public CatLink(MainWindow window, int id, String name) {
-        super(id, name, () -> new CatLink.Cat(window));
+        super(id, name, () -> new CatLink.Cat(id, window));
         setIcon("cat egg.png");
     }
 
     static class Cat extends StaticLandAnimal {
-        public Cat(MainWindow window) {
-            super(window);
+        public Cat(int id, MainWindow window) {
+            super(id, window);
         }
 
         @Override

@@ -6,7 +6,6 @@ package com.xbuilders.game.items.entities;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -22,8 +21,8 @@ public class Banner extends Entity {
     static EntityMesh body;
     static int texture;
 
-    public Banner() {
-        super();
+    public Banner(int id) {
+        super(id);
         frustumSphereRadius = 2f;
         aabb.isSolid = false;
     }

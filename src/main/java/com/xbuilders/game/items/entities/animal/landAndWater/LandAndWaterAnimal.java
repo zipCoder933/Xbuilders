@@ -27,8 +27,8 @@ public abstract class LandAndWaterAnimal extends Animal {
     private float walkAmt = 0;
     float yVelocity, rotationVelocity, forwardVelocity;
 
-    public LandAndWaterAnimal(MainWindow window) {
-        super(window);
+    public LandAndWaterAnimal(int id, MainWindow window) {
+        super(id, window);
     }
 
 
@@ -171,7 +171,6 @@ public abstract class LandAndWaterAnimal extends Animal {
         float rotationAction = MathUtils.clamp(getActivity(), 0.2f, 1);
         return random.noise(10) > 0 ? rotationAction * 10 : rotationAction * -10;
     }
-
 
 
     public void animal_move() {

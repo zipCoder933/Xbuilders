@@ -18,8 +18,8 @@ public abstract class StaticLandAnimal extends LandAnimal {
     int[] textures;
     int textureIndex;
 
-    public StaticLandAnimal(MainWindow window) {
-        super(window);
+    public StaticLandAnimal(int id,MainWindow window) {
+        super(id,window);
         aabb.setOffsetAndSize(0.8f, 0.9f, 0.8f, true);
         jumpOverBlocks = true;
         frustumSphereRadius = 2;

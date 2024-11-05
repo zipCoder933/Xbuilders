@@ -23,8 +23,8 @@ public class Boat extends Vehicle {
     public static EntityMesh model;
     public static int texture;
 
-    public Boat(MainWindow window) {
-        super(window);
+    public Boat(int id, MainWindow window) {
+        super(id,window);
         frustumSphereRadius = (1.5f);
         aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);
     }
