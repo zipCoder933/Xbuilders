@@ -126,10 +126,15 @@ public class Item {
     }
 
     public final void initIcon(BlockArrayTexture textures,
-                                    File blockIconDirectory,
-                                    File iconDirectory,
-                                    int defaultIcon) throws IOException {
+                               File blockIconDirectory,
+                               File iconDirectory,
+                               int defaultIcon) throws IOException {
 
+        if (block != null) {
+            iconFilename = block.iconFilename;
+        }else if(entity != null) {
+            iconFilename = entity.iconFilename;
+        }
 
         if (iconFilename != null) { //If we have a custom icon
             File iconFile = new File(iconDirectory, iconFilename);
