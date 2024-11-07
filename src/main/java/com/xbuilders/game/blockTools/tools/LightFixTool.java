@@ -1,22 +1,18 @@
 package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
-import com.xbuilders.game.blockTools.PrefabUtils;
 import org.joml.Matrix4f;
-import org.joml.Vector2i;
 import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
@@ -71,7 +67,7 @@ public class LightFixTool extends BlockTool {
                 for (Chunk chunk : pillarChunk1.pillarInformation.chunks) {// Go DOWN from Y
                     affectedChunks.add(chunk);
                     for (int y = 0; y < Chunk.WIDTH; y++) {
-                        Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                        Block block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
                         if (addSun) {
                             if (block.opaque) {
                                 chunk.data.setSun(x, y, z, (byte) 0);

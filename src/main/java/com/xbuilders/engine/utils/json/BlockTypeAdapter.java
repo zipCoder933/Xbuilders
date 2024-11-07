@@ -9,7 +9,7 @@ package com.xbuilders.engine.utils.json;
  */
 
 import com.google.gson.*;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 
@@ -69,7 +69,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             if (typeStr == null || isInteger(typeStr)) {// If the type is an integer
                 block.renderType = jsonObject.get("type").getAsInt();
             } else { // Otherwise it's a string
-                block.renderType = ItemList.blocks.getBlockType(typeStr);
+                block.renderType = Registrys.blocks.getBlockType(typeStr);
             }
         }
         if (jsonObject.has("icon"))

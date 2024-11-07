@@ -2,9 +2,9 @@ package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
@@ -59,7 +59,7 @@ public class ItemDropEntityLink extends EntityLink {
                 destroy();
             } else {
                 System.out.println(Arrays.toString(bytes));
-                item = ItemList.getItem((short) ByteUtils.bytesToShort(bytes[0], bytes[1]), ItemType.values()[bytes[2]]);
+                item = Registrys.getItem((short) ByteUtils.bytesToShort(bytes[0], bytes[1]), ItemType.values()[bytes[2]]);
                 lifetime = ByteUtils.bytesToInt(bytes[3], bytes[4], bytes[5], bytes[6]);
             }
         }
@@ -74,7 +74,7 @@ public class ItemDropEntityLink extends EntityLink {
                     x,
                     y,
                     z);
-            return block.id == BlockList.BLOCK_AIR.id || block == camBlock;
+            return block.id == BlockRegistry.BLOCK_AIR.id || block == camBlock;
         }
 
         @Override

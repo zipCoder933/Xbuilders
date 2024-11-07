@@ -4,18 +4,14 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.player.CursorRay;
-import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.JsonManager;
+import org.joml.Vector3f;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class ItemUtils {
 
@@ -64,27 +60,43 @@ public class ItemUtils {
         return new ArrayList<>();
     }
 
-    public static ArrayList<Item> getItemsFromBlocks(ArrayList<Block> blocks) {
+    public static ArrayList<Item> getItemsFromBlocks(ArrayList<Block> blocks, ArrayList<EntityLink> entities) {
         ArrayList<Item> items = new ArrayList<>();
         for (Block block : blocks) {
             if (block == null) continue;
             Item item = new Item(0, block.name, ItemType.ITEM);
             item.block = block;
-            item.setClickEvent( ( ray,  creationMode)->{
-                GameScene.player.setBlock(block.id,
-                        ray.getHitPosPlusNormal().x,
-                        ray.getHitPosPlusNormal().y,
-                        ray.getHitPosPlusNormal().z);
+            item.setClickEvent((ray, creationMode) -> {
+                if (creationMode) {
+                    GameScene.player.setBlock(block.id,
+                            ray.getHitPosPlusNormal().x,
+                            ray.getHitPosPlusNormal().y,
+                            ray.getHitPosPlusNormal().z);
+                } else {
+                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id,
+                            ray.getHitPos().x,
+                            ray.getHitPos().y,
+                            ray.getHitPos().z);
+                }
             });
 
             items.add(item);
         }
+        for (EntityLink entity : entities) {
+            if (entity == null) continue;
+            System.out.println(entity.name);
+            Item item = new Item(0, entity.name, ItemType.ITEM);
+            item.iconFilename = entity.iconFilename;
+            item.setClickEvent((ray, creationMode) -> {
+                if (creationMode) {
+                    Vector3f pos = new Vector3f(ray.getHitPosPlusNormal());
+                    GameScene.player.setEntity(entity, pos,null);
+                }
+            });
+            items.add(item);
+        }
         return items;
     }
-
-
-
-
 
 
 }

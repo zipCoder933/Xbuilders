@@ -1,6 +1,6 @@
 package com.xbuilders.game.terrain.defaultTerrain;
 
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -314,7 +314,7 @@ public class DefaultTerrain extends Terrain {
                         final float alpha = getValueFractal((float) wx * 3, (float) wz * 3 - 500.0f);
                         plantSod(session, x, y, z, wx, wy, wz, alpha, biome, chunk);
                     } else if (wy > heightmap && wy < heightmap + 2) {
-                        if (chunk.data.getBlock(x, y, z) == BlockList.BLOCK_AIR.id) {
+                        if (chunk.data.getBlock(x, y, z) == BlockRegistry.BLOCK_AIR.id) {
                             chunk.data.setBlock(x, y, z, MyGame.BLOCK_DIRT);
                         }
                     } else if (wy > heightmap &&

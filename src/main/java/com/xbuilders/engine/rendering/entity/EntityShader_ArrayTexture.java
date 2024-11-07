@@ -1,6 +1,6 @@
 package com.xbuilders.engine.rendering.entity;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 
@@ -14,7 +14,7 @@ public class EntityShader_ArrayTexture extends EntityShader {
         super();
         //Texture layers (array texture)
         uniform_textureLayerCount = getUniformLocation("textureLayerCount");
-        int textureLayers = ItemList.blocks.textures.layerCount;
+        int textureLayers = Registrys.blocks.textures.layerCount;
         loadInt(uniform_textureLayerCount, textureLayers - 1);
     }
 

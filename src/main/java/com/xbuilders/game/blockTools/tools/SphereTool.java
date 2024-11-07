@@ -1,7 +1,7 @@
 package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -81,7 +81,7 @@ public class SphereTool extends BlockTool {
 
         //Get block at cursor hit position
         Vector3i origin = getStartingPos(ray);
-        Block newBlock = isCreationMode ? getSelectedBlock() : BlockList.BLOCK_AIR;
+        Block newBlock = isCreationMode ? getSelectedBlock() : BlockRegistry.BLOCK_AIR;
         if (newBlock == null) return false;
 
         for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {

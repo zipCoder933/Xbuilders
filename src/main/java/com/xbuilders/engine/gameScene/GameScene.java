@@ -4,11 +4,10 @@
  */
 package com.xbuilders.engine.gameScene;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.multiplayer.GameServer;
-import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.multiplayer.PlayerClient;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.gameScene.GameUI;
@@ -76,7 +75,7 @@ public class GameScene implements WindowEvents {
         setProjection();
         ui = new GameUI(game, window.ctx, window);
         player.init();
-        world.init(player, ItemList.blocks.textures);
+        world.init(player, Registrys.blocks.textures);
         ui.init();
         game.uiInit(window.ctx, ui);
     }
@@ -478,11 +477,11 @@ public class GameScene implements WindowEvents {
                         text += "\nchunk mesh: " + chunk.meshes;
                         text += "\nchunk last modified: " + MiscUtils.formatTime(chunk.lastModifiedTime);
 
-                        Block block = ItemList.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
+                        Block block = Registrys.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
                         BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-                        text += "\n" + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + ItemList.blocks.getBlockType(block.renderType);
+                        text += "\n" + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + Registrys.blocks.getBlockType(block.renderType);
                         text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }
 

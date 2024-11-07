@@ -2,8 +2,8 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.EntityList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.EntityRegistry;
 import com.xbuilders.engine.items.Item;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
@@ -255,7 +255,7 @@ public class UserControlledPlayer extends Player {
         Block newPlayerBlock = getBlockAtPlayerHead();
         if (playerBlock == null || newPlayerBlock.id != playerBlock.id) {
             playerBlock = newPlayerBlock;
-            if (newCameraBlock.renderType == BlockList.LIQUID_BLOCK_TYPE_ID) {
+            if (newCameraBlock.renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.setVelocity(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 8,
                         PositionHandler.MAX_TERMINAL_VELOCITY / 30);
@@ -469,7 +469,7 @@ public class UserControlledPlayer extends Player {
                             camera.cursorRay.getHitPos().y,
                             camera.cursorRay.getHitPos().z);
 
-                    if (block == BlockList.BLOCK_AIR
+                    if (block == BlockRegistry.BLOCK_AIR
                             || !camera.cursorRay.hitTarget()
                             || blockAtHitPos.getRenderType().replaceOnSet) {
                         w = camera.cursorRay.getHitPos();
@@ -497,7 +497,7 @@ public class UserControlledPlayer extends Player {
     }
 
     public void dropItem(Item item) {
-        setEntity(EntityList.ENTITY_ITEM_DROP,
+        setEntity(EntityRegistry.ENTITY_ITEM_DROP,
                 worldPosition,
                 ItemDropEntityLink.toBytes(null, ItemDropEntityLink.DROP_LIVE_TIME));
     }
@@ -576,7 +576,7 @@ public class UserControlledPlayer extends Player {
         if (camera.cursorRay.getEntity() != null) {
             camera.cursorRay.getEntity().destroy();
         } else {
-            setBlock(BlockList.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
+            setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
         }
     }
 

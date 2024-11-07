@@ -2,8 +2,8 @@ package com.xbuilders.engine.player.pipeline;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.multiplayer.MultiplayerPendingBlockChanges;
@@ -180,7 +180,7 @@ public class BlockEventPipeline {
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
 
-            BlockType type = ItemList.blocks.getBlockType(blockHist.newBlock.renderType);
+            BlockType type = Registrys.blocks.getBlockType(blockHist.newBlock.renderType);
             BlockData newBlockData = null;
             if (blockHist.updateBlockData) {
                 newBlockData = blockHist.newBlockData;
@@ -325,14 +325,14 @@ public class BlockEventPipeline {
         WCCi wcc = new WCCi().set(nx, ny, nz);
         Chunk chunk = wcc.getChunk(GameScene.world);
         if (chunk != null) {
-            Block nBlock = ItemList.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
+            Block nBlock = Registrys.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
             if (nBlock != null && !nBlock.isAir()) {
-                if (!ItemList.blocks.getBlockType(nBlock.renderType).allowExistence(hist.newBlock, nx, ny, nz)) {
+                if (!Registrys.blocks.getBlockType(nBlock.renderType).allowExistence(hist.newBlock, nx, ny, nz)) {
 
                     //Set blocks that are not allowed here to air
                     short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                    chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, BlockList.BLOCK_AIR.id);
-                    addEvent(wcc, new BlockHistory(previousBlock, BlockList.BLOCK_AIR.id));
+                    chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, BlockRegistry.BLOCK_AIR.id);
+                    addEvent(wcc, new BlockHistory(previousBlock, BlockRegistry.BLOCK_AIR.id));
 
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);

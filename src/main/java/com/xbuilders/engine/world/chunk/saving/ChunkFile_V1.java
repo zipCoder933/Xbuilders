@@ -1,7 +1,7 @@
 package com.xbuilders.engine.world.chunk.saving;
 
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.utils.ByteUtils;
@@ -82,7 +82,7 @@ public class ChunkFile_V1 {
 
     protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
         final short entityID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]); //read entity id
-        EntityLink link = ItemList.getEntity(entityID);
+        EntityLink link = Registrys.getEntity(entityID);
         start.set(start.get() + 2);
 
         long identifier = ByteUtils.bytesToLong(bytes, start); //read entity identifier
@@ -108,7 +108,7 @@ public class ChunkFile_V1 {
         chunk.data.setPackedLight(x, y, z, bytes[start.get() + 2]);   //Read light
         start.set(start.get() + 3);
 
-        if (blockID != BlockList.BLOCK_AIR.id) { //We dont read block data if the block is air
+        if (blockID != BlockRegistry.BLOCK_AIR.id) { //We dont read block data if the block is air
             BlockData blockData = ChunkSavingLoadingUtils.readBlockData(bytes, start); //Read block data
             if (blockData != null && blockData.size() > 0) {
                 chunk.data.setBlockData(x, y, z, blockData);

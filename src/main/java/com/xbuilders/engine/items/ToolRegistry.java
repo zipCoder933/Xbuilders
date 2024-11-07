@@ -4,55 +4,50 @@
  */
 package com.xbuilders.engine.items;
 
-import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.items.entity.ItemDropEntityLink;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 
 /**
  * @author zipCoder933
  */
-public class EntityList {
+public class ToolRegistry {
 
-    File iconDirectory;
+    File iconDirectory, blockIconDirectory;
     int defaultIcon;
-    final IntMap<EntityLink> idMap = new IntMap<>(EntityLink.class);
-    private EntityLink[] list;
+    public BlockArrayTexture textures;
 
-    public EntityLink[] getList() {
+    final IntMap<Item> idMap = new IntMap<>(Item.class);
+    private Item[] list;
+
+    public Item[] getList() {
         return list;
     }
 
-    public EntityLink getItem(short blockID) {
+    public Item getItem(short blockID) {
         return idMap.get(blockID);
     }
 
-    //Predefined entities
-    public static ItemDropEntityLink ENTITY_ITEM_DROP = new ItemDropEntityLink();
-
-    public EntityList() {
-
-    }
-
-    public void init(File iconDirectory, int defaultIcon) {
+    public ToolRegistry(File textureDirectory,
+                        File blockIconDirectory,
+                        File iconDirectory,
+                        int defaultIcon) throws IOException {
         this.iconDirectory = iconDirectory;
         this.defaultIcon = defaultIcon;
+        this.blockIconDirectory = blockIconDirectory;
+        textures = new BlockArrayTexture(textureDirectory);
     }
 
 
-    private int verifyEntityIds(List<EntityLink> inputItems) {
-        System.out.println("\nChecking entity IDs");
+    private int assignMapAndVerify(List<Item> inputItems) {
+        System.out.println("\nChecking block IDs");
         int highestId = 0;
-        HashMap<Integer, EntityLink> map = new HashMap<>();
+        HashMap<Integer, Item> map = new HashMap<>();
 
         for (int i = 0; i < inputItems.size(); i++) {
             if (inputItems.get(i) == null) {
@@ -61,7 +56,7 @@ public class EntityList {
             }
             int id = inputItems.get(i).id;
             if (map.get(id) != null) {
-                System.err.println("Entity " + inputItems.get(i) + " ID conflicts with an existing ID: " + id);
+                System.err.println("Block " + inputItems.get(i) + " ID conflicts with an existing ID: " + id);
             }
             map.put(id, inputItems.get(i));
             if (id > highestId) {
@@ -87,19 +82,24 @@ public class EntityList {
         return highestId;
     }
 
-    public void setItems(List<EntityLink> inputBlocks) {
-        inputBlocks.add(ENTITY_ITEM_DROP);
-        verifyEntityIds(inputBlocks);
-        list = inputBlocks.toArray(new EntityLink[0]);
+    public void setAndInit(List<Item> inputBlocks) {
+        list = inputBlocks.toArray(new Item[0]);
+        assignMapAndVerify(inputBlocks);
 
-        int i = 0;
+
+        //Initialize all blocks
         try {
-            for (EntityLink entity : getList()) {//init all entities
-                entity.initIcon(iconDirectory, defaultIcon);
-                i++;
+            for (Item item : getList()) {
+                if (item.initializationCallback != null) {
+                    item.initializationCallback.accept(item);
+                }
+                item.initIcon(textures, blockIconDirectory, iconDirectory, defaultIcon);
             }
-        } catch (IOException e) {
-            ErrorHandler.report(e);
+        } catch (IOException ex) {
+            ErrorHandler.report(ex);
         }
+
     }
+
+
 }

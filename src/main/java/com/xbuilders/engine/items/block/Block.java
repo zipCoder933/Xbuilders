@@ -1,25 +1,20 @@
 package com.xbuilders.engine.items.block;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
-import com.xbuilders.engine.utils.worldInteraction.collision.CollisionHandler;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.window.utils.texture.Texture;
-import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3i;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.function.Consumer;
 
 public class Block extends Item {
@@ -40,7 +35,7 @@ public class Block extends Item {
     public float bounciness = 0; //The "Bounciness" of the block
 
     public BlockType getRenderType() {
-        return ItemList.blocks.getBlockType(renderType);
+        return Registrys.blocks.getBlockType(renderType);
     }
 
     public final boolean isLuminous() {
@@ -48,7 +43,7 @@ public class Block extends Item {
     }
 
     public final boolean isLiquid() {
-        return renderType == BlockList.LIQUID_BLOCK_TYPE_ID;
+        return renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID;
     }
 
     // <editor-fold defaultstate="collapsed" desc="block events">
@@ -160,77 +155,19 @@ public class Block extends Item {
         return false;
     }
 
-    public final void initTextureAndIcon(BlockArrayTexture textures,
-                                         File blockIconDirectory,
-                                         File iconDirectory,
-                                         int defaultIcon) throws IOException {
-        if (this.texture != null) { //ALWAYS init the texture first
-            this.texture.init(textures);
-        }
-
-        //Run initialization callbacks
-        if (ItemList.blocks.getBlockType(renderType) != null) {
-            Consumer<Block> typeInitCallback = ItemList.blocks.getBlockType(renderType).initializationCallback;
-            if (typeInitCallback != null) typeInitCallback.accept(this);
-        }
-        //Run our custom initialization callback last
-        if (initializationCallback != null) {
-            initializationCallback.accept(this);
-        }
-
-        //Init the icon
-        if (initIcon(iconDirectory, defaultIcon)) {
-            //Init the regular icon
-        } else if (this.texture != null) {
 
 
-            File blockIcon = new File(blockIconDirectory, id + ".png");
-            if (blockIcon.exists()) {
-                Texture icon = TextureUtils.loadTexture(blockIcon.getAbsolutePath(), true);
-                super.setIcon(icon.id);
-            } else {//If there is no generated block icon, default to the texture
-                File file = textures.getTextureFile(this.texture.NEG_Y_NAME);
-                if (file != null) {
-                    super.setIcon(loadBlockTexture(file));
-                } else {
-                    super.setIcon(defaultIcon);
-                }
-            }
-        } else {
-            super.setIcon(defaultIcon);
-        }
-    }
 
-    private int loadBlockTexture(File file) throws IOException {
-        Texture tex;
-//        try (MemoryStack stack = MemoryStack.stackPush()) {
-//            IntBuffer w = stack.mallocInt(1);
-//            IntBuffer h = stack.mallocInt(1);
-//            IntBuffer channels = stack.mallocInt(1);
-//            ByteBuffer buffer = STBImage.stbi_load(file.getAbsolutePath(), w, h, channels, 4);
-//
-//            int maxWidth = Math.min(w.get(), h.get());
-//            w.put(maxWidth);
-//            h.put(maxWidth);
-//
-//            TextureFile textureFile = new TextureFile(null, 0, 0, maxWidth, maxWidth);
-//            buffer = TextureUtils.makeRegionOfImage(buffer, textureFile, w.get(), h.get());
-//
-//            tex = TextureUtils.loadTexture(buffer, w.get(), h.get(), false);
-//        }
-        tex = TextureUtils.loadTexture(file.getAbsolutePath(), false);
-        return tex.id;
-    }
 
     public Block(int id, String name) {
         super(id, name, ItemType.BLOCK);
-        this.renderType = BlockList.DEFAULT_BLOCK_TYPE_ID;
+        this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
     }
 
     public Block(int id, String name, BlockTexture texture) {
         super(id, name, ItemType.BLOCK);
-        this.renderType = BlockList.DEFAULT_BLOCK_TYPE_ID;
+        this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = texture;
     }
 
@@ -250,7 +187,7 @@ public class Block extends Item {
     public Block(int id, String name, BlockTexture texture, Consumer<Block> initialization) {
         super(id, name, ItemType.BLOCK);
         this.texture = texture;
-        this.renderType = BlockList.DEFAULT_BLOCK_TYPE_ID;
+        this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.initializationCallback = initialization;
     }
 

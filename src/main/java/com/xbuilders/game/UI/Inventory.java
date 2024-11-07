@@ -48,9 +48,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
             searchBox.setValueAsString("");
             scrollValue = 0;
         });
-//        searchBox.setOnChangeEvent(() -> {
-//            scrollValue = 0;
-//        });
 
         // We have to create the window initially
         nk_begin(ctx, WINDOW_TITLE, NkRect.create(), windowFlags);

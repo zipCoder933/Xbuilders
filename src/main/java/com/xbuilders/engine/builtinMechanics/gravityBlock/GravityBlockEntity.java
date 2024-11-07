@@ -2,7 +2,7 @@ package com.xbuilders.engine.builtinMechanics.gravityBlock;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.rendering.entity.EntityMesh_ArrayTexture;
@@ -74,7 +74,7 @@ public class GravityBlockEntity extends Entity {
             arrayTextureShader.updateProjectionViewMatrix(GameScene.projection, GameScene.view);
             modelMatrix.update();
             modelMatrix.sendToShader(arrayTextureShader.getID(), arrayTextureShader.uniform_modelMatrix);
-            mesh.draw(false, ItemList.blocks.textures.getTexture().id);
+            mesh.draw(false, Registrys.blocks.textures.getTexture().id);
 
 //            box.set(aabb.box);
 //            box.draw(GameScene.projection, GameScene.view);

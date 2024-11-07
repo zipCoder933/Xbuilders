@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.rendering.chunk;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -46,7 +46,7 @@ public class ChunkShader extends Shader {
 
 
     public ChunkShader(int fragmentShader) {
-        int textureLayers = ItemList.blocks.textures.layerCount;
+        int textureLayers = Registrys.blocks.textures.layerCount;
         try {
             File fragShader = null;
             switch (fragmentShader) {

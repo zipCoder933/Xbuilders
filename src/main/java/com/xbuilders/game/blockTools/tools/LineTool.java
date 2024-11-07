@@ -1,7 +1,7 @@
 package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -52,7 +52,7 @@ public class LineTool extends BlockTool {
         for (int i = 0; i <= Math.abs(length); i++) {
 
             if (isCreationMode) GameScene.player.setBlock(item.id, pos.x, pos.y, pos.z);
-            else GameScene.player.setBlock(BlockList.BLOCK_AIR.id, pos.x, pos.y, pos.z);
+            else GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, pos.x, pos.y, pos.z);
 
             if (length < 0) pos.sub(ray.getHitNormalAsInt());
             else {

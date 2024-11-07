@@ -4,7 +4,7 @@
 package com.xbuilders.game.terrain.complexTerrain;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
@@ -89,7 +89,7 @@ public class ComplexTerrain extends Terrain {
 
                         if (makeTerrain > 0.5f) {
                             boolean placeSod =
-                                    GameScene.world.getBlockID(wx, wy - 1, wz) == BlockList.BLOCK_AIR.id;
+                                    GameScene.world.getBlockID(wx, wy - 1, wz) == BlockRegistry.BLOCK_AIR.id;
                             if (placeSod) {
                                 //Terrain dryness from 0 to 1
                                 final float dryness = (float) perlinNoise.noise(wx * DRYNESS_SCALE, 0, wz * DRYNESS_SCALE) + 1;
@@ -97,7 +97,7 @@ public class ComplexTerrain extends Terrain {
                                 TerrainSod.placeSod(this, session, chunk, cx, cy, cz, wx, wy, wz,
                                         getBiomeOfVoxel(valleyLikelyhood, dryness, wx, wy, wz),
                                         valleyLikelyhood, dryness, makeTerrain);
-                            } else if (chunk.data.getBlock(cx, cy, cz) == BlockList.BLOCK_AIR.id) {
+                            } else if (chunk.data.getBlock(cx, cy, cz) == BlockRegistry.BLOCK_AIR.id) {
                                 chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
                             }
                         }

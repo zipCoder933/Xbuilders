@@ -4,10 +4,9 @@
  */
 package com.xbuilders.engine.rendering.entity.block;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.rendering.entity.EntityMesh_ArrayTexture;
-import com.xbuilders.engine.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
@@ -31,7 +30,7 @@ public class BlockMeshBundle {
 
     public BlockMeshBundle() {
         opaqueMesh = new EntityMesh_ArrayTexture();
-        texture = (ItemList.blocks.textures.getTexture().id);
+        texture = (Registrys.blocks.textures.getTexture().id);
         transMesh = new EntityMesh_ArrayTexture();
 
     }

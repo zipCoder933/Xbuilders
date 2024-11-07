@@ -1,6 +1,6 @@
 package com.xbuilders.engine.player.pipeline;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.chunk.BlockData;
 
@@ -22,8 +22,8 @@ public class BlockHistory {
     }
 
     public BlockHistory(short previousBlock, short currentBlock) {
-        this.previousBlock = ItemList.getBlock(previousBlock);
-        this.newBlock = ItemList.getBlock(currentBlock);
+        this.previousBlock = Registrys.getBlock(previousBlock);
+        this.newBlock = Registrys.getBlock(currentBlock);
         if(newBlock ==null) throw new IllegalArgumentException("NewBlock is null");
     }
 

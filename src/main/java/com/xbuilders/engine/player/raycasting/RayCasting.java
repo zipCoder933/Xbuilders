@@ -1,9 +1,8 @@
 package com.xbuilders.engine.player.raycasting;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.utils.math.AABB;
@@ -238,7 +237,7 @@ public class RayCasting {
                             wcc.chunkVoxel.z);
 
                     if (blockCriteria == null ?
-                            block != BlockList.BLOCK_AIR.id && block != forbiddenBlock :
+                            block != BlockRegistry.BLOCK_AIR.id && block != forbiddenBlock :
                             blockCriteria.shouldHitBlock(block, forbiddenBlock, ix, iy, iz)
                     ) {
                         ray.hitTarget = true;
@@ -412,11 +411,11 @@ public class RayCasting {
 
 
                     if (blockCriteria == null ?
-                            block != BlockList.BLOCK_AIR.id && block != forbiddenBlock :
+                            block != BlockRegistry.BLOCK_AIR.id && block != forbiddenBlock :
                             blockCriteria.shouldHitBlock(block, forbiddenBlock, ix, iy, iz)) {//If block is hittable
-                        Block realBlock = ItemList.getBlock(block);
+                        Block realBlock = Registrys.getBlock(block);
                         BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                        BlockType blockType = realBlock == null ? null : ItemList.blocks.getBlockType(realBlock.renderType);
+                        BlockType blockType = realBlock == null ? null : Registrys.blocks.getBlockType(realBlock.renderType);
 
                         if ((blockType != null && !blockType.isCubeShape()) || !entityAABBList.isEmpty()) {
 

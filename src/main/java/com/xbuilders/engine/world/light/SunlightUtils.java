@@ -2,7 +2,7 @@ package com.xbuilders.engine.world.light;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -335,7 +335,7 @@ public class SunlightUtils {
 
         Block neigborBlock;
         if (Chunk.inBounds(x, y, z)) {
-            neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+            neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
         } else {
             final Vector3i neighboringChunk = new Vector3i();
             WCCi.getNeighboringChunk(neighboringChunk, chunk.position, x, y, z);
@@ -345,7 +345,7 @@ public class SunlightUtils {
                 x = MathUtils.positiveMod(x, Chunk.WIDTH);
                 y = MathUtils.positiveMod(y, Chunk.WIDTH);
                 z = MathUtils.positiveMod(z, Chunk.WIDTH);
-                neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
             } else return;
         }
         if (neigborBlock != null && !neigborBlock.opaque) {

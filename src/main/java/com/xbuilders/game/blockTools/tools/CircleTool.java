@@ -1,7 +1,7 @@
 package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -86,7 +86,7 @@ public class CircleTool extends BlockTool {
     public boolean setBlock(Block item, CursorRay ray, boolean isCreationMode) {
         setAABB(settingAABB, ray);
 
-        Block block = isCreationMode ? getSelectedBlock() : BlockList.BLOCK_AIR;
+        Block block = isCreationMode ? getSelectedBlock() : BlockRegistry.BLOCK_AIR;
         if (block == null) return false;
 
         //do A BFS from the center of the box

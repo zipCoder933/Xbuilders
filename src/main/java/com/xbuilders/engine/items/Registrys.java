@@ -13,7 +13,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,43 +45,34 @@ import java.util.List;
  *
  * @author zipCoder933
  */
-public class ItemList {
+public class Registrys {
 
-    /**
-     * @return the itemList
-     */
-    public static Item[] getAllItems() {
-        return allItems;
-    }
 
     private static int defaultIcon;
-    public static final BlockList blocks = new BlockList();
-    public static final EntityList entities = new EntityList();
-    public static final ToolList tools = new ToolList();
-    private static Item[] allItems;
+    public static BlockRegistry blocks;
+    public static EntityRegistry entities;
+    public static ToolRegistry items;
 
     public static void initialize() throws IOException {
         File blockTextures = ResourceUtils.BLOCK_TEXTURE_DIR;
         File blockIconDirectory = ResourceUtils.BLOCK_ICON_DIR;
         File iconDirectory = ResourceUtils.ICONS_DIR;
 
-        ItemList.defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false).id;
-        blocks.init(blockTextures, blockIconDirectory, iconDirectory, ItemList.defaultIcon);
-        entities.init(iconDirectory, ItemList.defaultIcon);
-        tools.init(iconDirectory, ItemList.defaultIcon);
+        Registrys.defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false).id;
+
+        entities = new EntityRegistry();
+        blocks = new BlockRegistry(blockTextures);
+        items = new ToolRegistry(blockTextures, blockIconDirectory, iconDirectory, Registrys.defaultIcon);
     }
 
     public static void setAllItems(
             List<Block> blockList,
-            List< EntityLink> entityList,
-                                   List<Item> toolList) {
-        blocks.setItems(blockList);
-        entities.setItems(entityList);
-        tools.setItems(toolList);
-
-        allItems = concatArrays(
-                entities.getList(), tools.getList(), blocks.getList()
-        );
+            List<EntityLink> entityList,
+            List<Item> toolList) {
+        blocks.setAndInit(blockList);
+        entities.setAndInit(entityList);
+        //Do last
+        items.setAndInit(toolList);
     }
 
     public static BlockData getInitialBlockData(Block block, Ray ray) {
@@ -94,9 +84,9 @@ public class ItemList {
             return null;
         } else {
             return switch (itemType) {
-                case BLOCK -> ItemList.getBlock(id);
-                case ENTITY_LINK -> ItemList.getEntity(id);
-                case ITEM -> ItemList.getTool(id);
+                case BLOCK -> Registrys.getBlock(id);
+                case ENTITY_LINK -> Registrys.getEntity(id);
+                case ITEM -> Registrys.getTool(id);
                 default -> null;
             };
         }
@@ -111,7 +101,7 @@ public class ItemList {
     }
 
     public static Item getTool(short blockID) {
-        return tools.getItem(blockID);
+        return items.getItem(blockID);
     }
 
     private static Item[] concatArrays(Item[]... arrays) {

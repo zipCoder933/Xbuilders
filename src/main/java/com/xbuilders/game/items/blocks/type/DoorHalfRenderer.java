@@ -5,8 +5,8 @@
 package com.xbuilders.game.items.blocks.type;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -49,7 +49,7 @@ public class DoorHalfRenderer extends BlockType {
                     && b.properties.get("placement").equals("bottom")) { // If this is the bottom of a pair
                 // System.out.println("DOOR: "+b.properties);
                 short top = Short.parseShort(b.properties.get("vertical-pair"));
-                Block topBlock = ItemList.getBlock(top);
+                Block topBlock = Registrys.getBlock(top);
                 Block bottomBlock = b;
 
                 topBlock.setBlockEvent(false, (x, y, z) -> { //KEEP THIS!
@@ -58,7 +58,7 @@ public class DoorHalfRenderer extends BlockType {
 
                 topBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
-                        GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y + 1, z);
+                        GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
                     }
                 });
 
@@ -73,7 +73,7 @@ public class DoorHalfRenderer extends BlockType {
 
                 bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
-                        GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y - 1, z);
+                        GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
                     }
                 });
 

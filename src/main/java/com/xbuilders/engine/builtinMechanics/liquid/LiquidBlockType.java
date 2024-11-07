@@ -2,7 +2,7 @@ package com.xbuilders.engine.builtinMechanics.liquid;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -52,7 +52,7 @@ public class LiquidBlockType extends BlockType {
                 //If we are a source block, put us back if we are surrounded by water
                 int defaultFlow = b.liquidMaxFlow + 1;
 //                System.out.println("Remove " + x + " " + y + " " + z);
-                if (history.newBlock == BlockList.BLOCK_AIR &&
+                if (history.newBlock == BlockRegistry.BLOCK_AIR &&
                         WaterPropagation.getFlow(history.previousBlockData, defaultFlow) == defaultFlow) {
 
                     //If there is no water above us

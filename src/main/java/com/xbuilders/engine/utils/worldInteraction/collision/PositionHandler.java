@@ -5,13 +5,10 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.player.Player;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.window.GLFWWindow;
-
-import java.util.List;
 
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -127,7 +124,7 @@ public class PositionHandler {
                 //Set the coast and friction
                 if (!onGround || !gravityEnabled || !collisionsEnabled ||
                         collisionHandler.floorBlock == null ||
-                        collisionHandler.floorBlock == BlockList.BLOCK_AIR) {
+                        collisionHandler.floorBlock == BlockRegistry.BLOCK_AIR) {
                     surfaceCoasting = DEFAULT_COAST;
                     surfaceFriction = 0;
                 } else {

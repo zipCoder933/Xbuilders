@@ -2,7 +2,7 @@ package com.xbuilders.engine.builtinMechanics.liquid;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -81,7 +81,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
             ) {
                 Block below = GameScene.world.getBlock(v.x, v.y + 1, v.z);
                 if (below.solid) reduceFlow(newNodes, v.x, v.y, v.z);
-                else GameScene.player.setBlock(BlockList.BLOCK_AIR.id, v.x, v.y, v.z);
+                else GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, v.x, v.y, v.z);
                 continue;
             } else if (thisFlow < liquidBlock.liquidMaxFlow && //If we are flowing sideways
                     !(getFlow(GameScene.world.getBlockData(v.x - 1, v.y, v.z), 0) > thisFlow || //and there is no neighboring value higher than us
@@ -154,7 +154,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
 
                 return true;
             } else {
-                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y, z);
+                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
             }
         }
         return false;

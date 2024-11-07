@@ -1,22 +1,18 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.wcc.WCCi;
 
 import java.util.HashSet;
-import java.util.List;
 
-import com.xbuilders.game.MyGame;
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
@@ -40,7 +36,7 @@ public class CollisionHandler {
     boolean setFrozen = false;
     Block b;
     BlockData d;
-    public Block floorBlock = BlockList.BLOCK_AIR;
+    public Block floorBlock = BlockRegistry.BLOCK_AIR;
     Chunk chunk;
 
     public CollisionHandler(World chunks, PositionHandler driver, EntityAABB entityBox,
@@ -93,7 +89,7 @@ public class CollisionHandler {
                         if (chunk != null) {
                             exploredChunks.add(chunk);
                             // if (Main.specialMode1) {
-                            b = ItemList.blocks.getItem(chunk.data.getBlock(
+                            b = Registrys.blocks.getItem(chunk.data.getBlock(
                                     wcc.chunkVoxel.x,
                                     wcc.chunkVoxel.y,
                                     wcc.chunkVoxel.z));
@@ -106,7 +102,7 @@ public class CollisionHandler {
                                         wcc.chunkVoxel.y,
                                         wcc.chunkVoxel.z);
                                 // }
-                                BlockType type = ItemList.blocks.getBlockType(b.renderType);
+                                BlockType type = Registrys.blocks.getBlockType(b.renderType);
                                 try {
                                     if (type != null) {
                                         type.getCollisionBoxes((aabb) -> {

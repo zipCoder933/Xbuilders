@@ -3,7 +3,7 @@
 // 
 package com.xbuilders.engine.world.chunk;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 
 import java.util.HashMap;
 
@@ -141,7 +141,7 @@ public class ChunkVoxels {
     public void setBlock(final int x, final int y, final int z, final short value) {
         // try {//TODO: Decide if we should throw an error if we set blocks out of bounds or just ignore it
         this.blocks[getIndexOfCoords(x, y, z)] = value;
-        if (value != ItemList.blocks.BLOCK_AIR.id) {
+        if (value != Registrys.blocks.BLOCK_AIR.id) {
             blocksAreEmpty = false;
         }
         // } catch (IndexOutOfBoundsException e) {

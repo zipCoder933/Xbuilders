@@ -261,7 +261,7 @@ public class CursorRay {
                     if (cursorRayHitAllBlocks) {
                         return block != forbiddenBlock;
                     } else
-                        return block != BlockList.BLOCK_AIR.id &&
+                        return block != BlockRegistry.BLOCK_AIR.id &&
                                 block != forbiddenBlock;
                 }),
                 ((entity) -> {

@@ -1,8 +1,8 @@
 package com.xbuilders.engine.world.light;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -128,7 +128,7 @@ public class old_SunlightUtils {
      * @param z
      */
     public static void addInitialNodesForSunlightErasure(List<ChunkNode> queue, Chunk chunk, int x, int y, int z) {
-        Block block = BlockList.BLOCK_AIR;
+        Block block = BlockRegistry.BLOCK_AIR;
         if(chunk == null) {
             return;
         }
@@ -137,7 +137,7 @@ public class old_SunlightUtils {
         while (true) {
             y++;
             if (chunk.inBoundsY(y)) {
-                block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
             } else {
                 WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
                 chunk = GameScene.world.getChunk(newCoords.chunk);
@@ -145,7 +145,7 @@ public class old_SunlightUtils {
                 y = newCoords.chunkVoxel.y;
                 z = newCoords.chunkVoxel.z;
                 if (chunk != null) {
-                    block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                    block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
                 }
             }
             if (block == null || block.opaque) {
@@ -243,7 +243,7 @@ public class old_SunlightUtils {
 
         Block neigborBlock;
         if (chunk.inBounds(x, y, z)) {
-            neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+            neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
         } else {
             final Vector3i neighboringChunk = new Vector3i();
             WCCi.getNeighboringChunk(neighboringChunk, chunk.position, x, y, z);
@@ -253,7 +253,7 @@ public class old_SunlightUtils {
                 x = MathUtils.positiveMod(x, Chunk.WIDTH);
                 y = MathUtils.positiveMod(y, Chunk.WIDTH);
                 z = MathUtils.positiveMod(z, Chunk.WIDTH);
-                neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
             } else return;
         }
         if (neigborBlock != null && !neigborBlock.opaque) {

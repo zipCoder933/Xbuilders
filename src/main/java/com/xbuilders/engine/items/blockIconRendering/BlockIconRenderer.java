@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items.block.blockIconRendering;
+package com.xbuilders.engine.items.blockIconRendering;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.chunk.IconGenShader;
@@ -133,7 +133,7 @@ public class BlockIconRenderer {
                 mesh.setTextureID(textures.createNewArrayTexture());
                 // </editor-fold>
 
-                Block[] list = ItemList.blocks.getList();
+                Block[] list = Registrys.blocks.getList();
                 exportDirectory.mkdirs();
                 for (int i = 0; !glfwWindowShouldClose(window1); i++) {
                     GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebuffer);
@@ -163,7 +163,7 @@ public class BlockIconRenderer {
     }
 
     public boolean shouldMakeIcon(Block block) {
-        BlockType type = ItemList.blocks.getBlockType(block.renderType);
+        BlockType type = Registrys.blocks.getBlockType(block.renderType);
         if (type == null || !type.generate3DIcon || block.texture == null) {
             return false;
         }
@@ -184,16 +184,16 @@ public class BlockIconRenderer {
 
     private boolean makeBlockMesh(Block block) {
         TraditionalVertexSet buffers = new TraditionalVertexSet();
-        BlockType type = ItemList.blocks.getBlockType(block.renderType);
+        BlockType type = Registrys.blocks.getBlockType(block.renderType);
         if (type == null) {
             return false;
         }
-        Block[] blockNeghbors = new Block[] { BlockList.BLOCK_AIR,
-                BlockList.BLOCK_AIR,
-                BlockList.BLOCK_AIR,
-                BlockList.BLOCK_AIR,
-                BlockList.BLOCK_AIR,
-                BlockList.BLOCK_AIR };
+        Block[] blockNeghbors = new Block[] { BlockRegistry.BLOCK_AIR,
+                BlockRegistry.BLOCK_AIR,
+                BlockRegistry.BLOCK_AIR,
+                BlockRegistry.BLOCK_AIR,
+                BlockRegistry.BLOCK_AIR,
+                BlockRegistry.BLOCK_AIR };
         byte[] lightNeghbors = new byte[] { 15, 15, 15, 15, 15, 15 };
         BlockData[] neighborData = new BlockData[6];
 

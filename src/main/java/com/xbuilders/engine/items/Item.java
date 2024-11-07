@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -130,14 +131,17 @@ public class Item {
         return this.id == other.id && this.getType() == other.getType();
     }
 
-    protected boolean initIcon(File iconDirectory, int defaultIcon) throws IOException {
-        if (iconFilename != null) {
-            File iconFile = new File(iconDirectory, iconFilename);
+    public final void initIcon(BlockArrayTexture textures,
+                                    File blockIconDirectory,
+                                    File iconDirectory,
+                                    int defaultIcon) throws IOException {
 
+
+        if (iconFilename != null) { //If we have a custom icon
+            File iconFile = new File(iconDirectory, iconFilename);
             if (!iconFile.getAbsolutePath().endsWith(".png") && !iconFile.exists()) {
                 iconFile = new File(iconDirectory, iconFilename + ".png"); //Add .png if it doesn't exist
             }
-
             if (iconFile.exists()) {
                 Texture icon = TextureUtils.loadTexture(iconFile.getAbsolutePath(), false);
                 setIcon(icon.id);
@@ -145,9 +149,24 @@ public class Item {
                 System.err.println("Icon file not found: " + iconFile.getAbsolutePath());
                 setIcon(defaultIcon);
             }
-            return true;
+        } else if (block != null && block.texture != null) { //If we have a block, use its texture as the icon
+            File blockIcon = new File(blockIconDirectory, block.id + ".png");
+//            System.out.println("Block icon file: " + blockIcon.getAbsolutePath());
+            if (blockIcon.exists()) {
+                Texture icon = TextureUtils.loadTexture(blockIcon.getAbsolutePath(), true);
+                setIcon(icon.id);
+            } else {//If there is no generated block icon, default to the texture
+                File file = textures.getTextureFile(block.texture.NEG_Y_NAME);
+                if (file != null) {
+                    Texture tex = TextureUtils.loadTexture(file.getAbsolutePath(), false);
+                    setIcon(tex.id);
+                } else {
+                    setIcon(defaultIcon);
+                }
+            }
+        } else {
+            setIcon(defaultIcon);
         }
-        return false;
     }
 
     @Override

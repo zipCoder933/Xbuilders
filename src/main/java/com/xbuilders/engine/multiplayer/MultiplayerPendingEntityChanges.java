@@ -1,6 +1,6 @@
 package com.xbuilders.engine.multiplayer;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.Player;
@@ -15,9 +15,6 @@ import java.io.OutputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 //This WILL be another class for 2 reasons
 //1) It is less complicated this way
@@ -178,7 +175,7 @@ public class MultiplayerPendingEntityChanges {
 
                 //Entity ID
                 int blockID = ByteUtils.bytesToShort(receivedData[start.get()], receivedData[start.get() + 1]);
-                EntityLink entity = ItemList.getEntity((short) blockID);
+                EntityLink entity = Registrys.getEntity((short) blockID);
                 start.set(start.get() + 2);
 
                 //Block data

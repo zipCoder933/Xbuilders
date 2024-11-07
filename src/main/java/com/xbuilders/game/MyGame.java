@@ -15,7 +15,6 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.json.JsonManager;
@@ -110,7 +109,7 @@ public class MyGame extends Game {
 
     public boolean setBlock(final CursorRay ray, boolean isCreationMode) {
         Item item = getSelectedItem();
-        Block block = BlockList.BLOCK_AIR;
+        Block block = BlockRegistry.BLOCK_AIR;
         if (item != null && item.itemType == ItemType.BLOCK) block = (Block) item;
         return blockTools.getSelectedTool().setBlock(block, ray, isCreationMode);
     }
@@ -158,7 +157,7 @@ public class MyGame extends Game {
     public void uiInit(NkContext ctx, GameUI gameUI) {
         try {
             hotbar = new Hotbar(ctx, window);
-            inventory = new Inventory(ctx, ItemList.getAllItems(), window, hotbar);
+            inventory = new Inventory(ctx, Registrys.items.getList(), window, hotbar);
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         } catch (IOException ex) {
@@ -356,21 +355,21 @@ public class MyGame extends Game {
     @Override
     public void initialize(GameScene gameScene) throws Exception {
         //Add block types FIRST. We need them to be able to setup blocks properly
-        ItemList.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
-        ItemList.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
-        ItemList.blocks.addBlockType("orientable", RenderType.ORIENTABLE_BLOCK, new OrientableBlockRenderer());
-        ItemList.blocks.addBlockType("slab", RenderType.SLAB, new SlabRenderer());
-        ItemList.blocks.addBlockType("stairs", RenderType.STAIRS, new StairsRenderer());
-        ItemList.blocks.addBlockType("fence", RenderType.FENCE, new FenceRenderer());
-        ItemList.blocks.addBlockType("wall", RenderType.WALL_ITEM, new WallItemRenderer());
-        ItemList.blocks.addBlockType("lamp", RenderType.LAMP, new LampRenderer());
-        ItemList.blocks.addBlockType("pane", RenderType.PANE, new PaneRenderer());
-        ItemList.blocks.addBlockType("track", RenderType.RAISED_TRACK, new RaisedTrackRenderer());
-        ItemList.blocks.addBlockType("torch", RenderType.TORCH, new TorchRenderer());
-        ItemList.blocks.addBlockType("pillar", RenderType.PILLAR, new PillarRenderer());
-        ItemList.blocks.addBlockType("trapdoor", RenderType.TRAPDOOR, new TrapdoorRenderer());
-        ItemList.blocks.addBlockType("fence gate", RenderType.FENCE_GATE, new FenceGateRenderer());
-        ItemList.blocks.addBlockType("door half", RenderType.DOOR_HALF, new DoorHalfRenderer());
+        Registrys.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
+        Registrys.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
+        Registrys.blocks.addBlockType("orientable", RenderType.ORIENTABLE_BLOCK, new OrientableBlockRenderer());
+        Registrys.blocks.addBlockType("slab", RenderType.SLAB, new SlabRenderer());
+        Registrys.blocks.addBlockType("stairs", RenderType.STAIRS, new StairsRenderer());
+        Registrys.blocks.addBlockType("fence", RenderType.FENCE, new FenceRenderer());
+        Registrys.blocks.addBlockType("wall", RenderType.WALL_ITEM, new WallItemRenderer());
+        Registrys.blocks.addBlockType("lamp", RenderType.LAMP, new LampRenderer());
+        Registrys.blocks.addBlockType("pane", RenderType.PANE, new PaneRenderer());
+        Registrys.blocks.addBlockType("track", RenderType.RAISED_TRACK, new RaisedTrackRenderer());
+        Registrys.blocks.addBlockType("torch", RenderType.TORCH, new TorchRenderer());
+        Registrys.blocks.addBlockType("pillar", RenderType.PILLAR, new PillarRenderer());
+        Registrys.blocks.addBlockType("trapdoor", RenderType.TRAPDOOR, new TrapdoorRenderer());
+        Registrys.blocks.addBlockType("fence gate", RenderType.FENCE_GATE, new FenceGateRenderer());
+        Registrys.blocks.addBlockType("door half", RenderType.DOOR_HALF, new DoorHalfRenderer());
 
 
         System.out.println("Initializing items...");
@@ -516,13 +515,15 @@ public class MyGame extends Game {
         itemList.add(new Flashlight());
         itemList.add(new Camera());
         itemList.add(TOOL_ANIMAL_FEED);
-        itemList.addAll(ItemUtils.getItemsFromBlocks(blockList));
+
 
         ArrayList<EntityLink> entityList = new ArrayList<>();
         entityList.addAll(Arrays.asList(entityArray));
 
+        itemList.addAll(ItemUtils.getItemsFromBlocks(blockList, entityList));
+
         //Set items AFTER setting block types
-        ItemList.setAllItems(blockList, entityList, itemList);
+        Registrys.setAllItems(blockList, entityList, itemList);
         initializeAllItems();
 
 
@@ -537,28 +538,28 @@ public class MyGame extends Game {
     }
 
     private void initializeAllItems() {
-        BlockEventUtils.setTNTEvents(ItemList.getBlock(BLOCK_TNT), 5, 2000);
-        BlockEventUtils.setTNTEvents(ItemList.getBlock(BLOCK_MEGA_TNT), 10, 5000);
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(BLOCK_TNT), 5, 2000);
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(BLOCK_MEGA_TNT), 10, 5000);
 
-        Plant.makePlant(ItemList.getBlock(BLOCK_BEETROOT_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_BEETS);
-        Plant.makePlant(ItemList.getBlock(BLOCK_CARROT_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_CARROTS_PLANT);
-        Plant.makePlant(ItemList.getBlock(BLOCK_POTATO_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_POTATOES_PLANT);
-        Plant.makePlant(ItemList.getBlock(BLOCK_WHEAT_SEEDS), BLOCK_B1, BLOCK_B2, BLOCK_B3, BLOCK_B5, BLOCK_B6, BLOCK_WHEAT);
+        Plant.makePlant(Registrys.getBlock(BLOCK_BEETROOT_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_BEETS);
+        Plant.makePlant(Registrys.getBlock(BLOCK_CARROT_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_CARROTS_PLANT);
+        Plant.makePlant(Registrys.getBlock(BLOCK_POTATO_SEEDS), BLOCK_A1, BLOCK_A2, BLOCK_POTATOES_PLANT);
+        Plant.makePlant(Registrys.getBlock(BLOCK_WHEAT_SEEDS), BLOCK_B1, BLOCK_B2, BLOCK_B3, BLOCK_B5, BLOCK_B6, BLOCK_WHEAT);
 
-        ItemList.getBlock(BLOCK_OAK_SAPLING).setBlockEvent(true, OakTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_SPRUCE_SAPLING).setBlockEvent(true, SpruceTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_BIRCH_SAPLING).setBlockEvent(true, BirchTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_JUNGLE_SAPLING).setBlockEvent(true, JungleTreeUtils.setBlockEvent);
-        ItemList.getBlock(BLOCK_ACACIA_SAPLING).setBlockEvent(true, AcaciaTreeUtils.setBlockEvent);
+        Registrys.getBlock(BLOCK_OAK_SAPLING).setBlockEvent(true, OakTreeUtils.setBlockEvent);
+        Registrys.getBlock(BLOCK_SPRUCE_SAPLING).setBlockEvent(true, SpruceTreeUtils.setBlockEvent);
+        Registrys.getBlock(BLOCK_BIRCH_SAPLING).setBlockEvent(true, BirchTreeUtils.setBlockEvent);
+        Registrys.getBlock(BLOCK_JUNGLE_SAPLING).setBlockEvent(true, JungleTreeUtils.setBlockEvent);
+        Registrys.getBlock(BLOCK_ACACIA_SAPLING).setBlockEvent(true, AcaciaTreeUtils.setBlockEvent);
 
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_GRASS_TOP, BLOCK_TALL_GRASS);
         BlockEventUtils.makeVerticalPairedBlock(BLOCK_TALL_DRY_GRASS_TOP, BLOCK_TALL_DRY_GRASS);
 
-        Block lava = ItemList.getBlock(BLOCK_LAVA);
+        Block lava = Registrys.getBlock(BLOCK_LAVA);
         lava.liquidMaxFlow = 6;
 
 
-        for (Block b : ItemList.blocks.getList()) {
+        for (Block b : Registrys.blocks.getList()) {
             //Add coasting to all glass
             if (b.name.toLowerCase().contains("glass")) {
                 b.surfaceCoast = 0.95f;
@@ -575,18 +576,18 @@ public class MyGame extends Game {
             }
         }
 
-        ItemList.getBlock(BLOCK_ICE).surfaceCoast = 0.995f;
-        ItemList.getBlock(BLOCK_CACTUS).surfaceFriction = 0.5f;
-        ItemList.getBlock(BLOCK_OAK_LOG).properties.put("flammable", "true");
-        ItemList.getBlock(BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
-        ItemList.getBlock(BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
+        Registrys.getBlock(BLOCK_ICE).surfaceCoast = 0.995f;
+        Registrys.getBlock(BLOCK_CACTUS).surfaceFriction = 0.5f;
+        Registrys.getBlock(BLOCK_OAK_LOG).properties.put("flammable", "true");
+        Registrys.getBlock(BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
+        Registrys.getBlock(BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
 
         GravityBlock gravity = new GravityBlock(window);
-        gravity.convert(ItemList.getBlock(BLOCK_SAND));
-        gravity.convert(ItemList.getBlock(BLOCK_RED_SAND));
-        gravity.convert(ItemList.getBlock(BLOCK_GRAVEL));
-        gravity.convert(ItemList.getBlock(BLOCK_SNOW_BLOCK));
-        gravity.convert(ItemList.getBlock(BLOCK_CACTUS));
+        gravity.convert(Registrys.getBlock(BLOCK_SAND));
+        gravity.convert(Registrys.getBlock(BLOCK_RED_SAND));
+        gravity.convert(Registrys.getBlock(BLOCK_GRAVEL));
+        gravity.convert(Registrys.getBlock(BLOCK_SNOW_BLOCK));
+        gravity.convert(Registrys.getBlock(BLOCK_CACTUS));
     }
 
     //</editor-fold>

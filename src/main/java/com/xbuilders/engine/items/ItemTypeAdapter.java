@@ -28,6 +28,6 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
         ItemType itemType = ItemType.valueOf(jsonObject.get("itemType").getAsString());
         short id = jsonObject.get("id").getAsShort();
         // You may need to adjust this part based on your constructor
-       return ItemList.getItem(id, itemType);
+       return Registrys.getItem(id, itemType);
     }
 }

@@ -2,7 +2,7 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
@@ -50,7 +50,7 @@ public class BoundaryTool extends BlockTool {
 
     private void blockBoundarySetEvent(AABB aabb, boolean created) {
 
-        Block block = BlockList.BLOCK_AIR;
+        Block block = BlockRegistry.BLOCK_AIR;
         if (created){
             if (MainWindow.game.getSelectedItem() == null || MainWindow.game.getSelectedItem().getType() != ItemType.BLOCK) return;
             block = (Block) MainWindow.game.getSelectedItem();

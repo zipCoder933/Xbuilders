@@ -5,7 +5,7 @@
 package com.xbuilders.engine.rendering.chunk.meshers;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -175,8 +175,8 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                         for (x[u] = 0; x[u] < dims[u]; x[u]++) {
                             retrieveMaskVoxels(x, q, d, backChunk, forwardChunk, voxelPos,
                                     thisPlaneVoxel, nextPlaneVoxel, lodLevel);
-                            block = ItemList.getBlock(thisPlaneVoxel.get(0));
-                            block1 = ItemList.getBlock(nextPlaneVoxel.get(0));
+                            block = Registrys.getBlock(thisPlaneVoxel.get(0));
+                            block1 = Registrys.getBlock(nextPlaneVoxel.get(0));
 
 
                             if (block == null || block.isAir()
@@ -309,7 +309,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
     }
 
     private boolean useGreedyMesher(Block block, int x, int y, int z) {
-        BlockType blockType1 = ItemList.blocks.getBlockType(block.renderType);
+        BlockType blockType1 = Registrys.blocks.getBlockType(block.renderType);
 
         if (blockType1.getGreedyMesherPermissions() == BlockType.ALWAYS_USE_GM) {
             return true;
@@ -392,7 +392,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
         l_lb = (byte) packedLight; // bottom left
         l_rb = (byte) packedLight; // bottom right
 
-        Block block = ItemList.getBlock(blockVal);
+        Block block = Registrys.getBlock(blockVal);
 
         if (block.isLuminous()) {//Light blocks are fullbright
             l_lb = (byte) 255;

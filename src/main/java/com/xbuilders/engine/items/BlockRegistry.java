@@ -10,20 +10,20 @@ import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.builtinMechanics.liquid.LiquidBlockType;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 
 /**
  * @author zipCoder933
  */
-public class BlockList {
+public class BlockRegistry {
 
     public BlockArrayTexture textures;
     private final HashMap<Integer, BlockType> blockTypesHashmap = new HashMap<>();
@@ -46,23 +46,11 @@ public class BlockList {
     //Predefined Blocks
     public final static Block BLOCK_AIR = new BlockAir();
 
-    File blockIconDirectory, iconDirectory;
-    int defaultIcon;
-
-    public BlockList() {
+    public BlockRegistry(File textureDirectory) throws IOException {
+        textures = new BlockArrayTexture(textureDirectory);
         blockTypesHashmap.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
         blockTypesIntMap.setList(blockTypesHashmap);
         addBlockType("liquid", LIQUID_BLOCK_TYPE_ID, liquidBlockType);
-    }
-
-    public void init(File textureDirectory,
-                     File blockIconDirectory,
-                     File iconDirectory,
-                     int defaultIcon) throws IOException {
-        this.blockIconDirectory = blockIconDirectory;
-        this.iconDirectory = iconDirectory;
-        this.defaultIcon = defaultIcon;
-        textures = new BlockArrayTexture(textureDirectory);
     }
 
 
@@ -104,19 +92,26 @@ public class BlockList {
         return highestId;
     }
 
-    public void setItems(List<Block> blockArray) {
+    public void setAndInit(List<Block> blockArray) {
         blockArray.add(BLOCK_AIR);
 
         assignMapAndVerify(blockArray);
         list = blockArray.toArray(new Block[0]);
 
         //Initialize all blocks
-        try {
-            for (Block block : getList()) {
-                block.initTextureAndIcon(textures, blockIconDirectory, iconDirectory, defaultIcon);
+        for (Block block : getList()) {
+            if (block.texture != null) { //ALWAYS init the texture first
+                block.texture.init(textures);
             }
-        } catch (IOException ex) {
-            ErrorHandler.report(ex);
+            //Run initialization callbacks
+            if (Registrys.blocks.getBlockType(block.renderType) != null) {
+                Consumer<Block> typeInitCallback = Registrys.blocks.getBlockType(block.renderType).initializationCallback;
+                if (typeInitCallback != null) typeInitCallback.accept(block);
+            }
+            //Run our custom initialization callback last
+            if (block.initializationCallback != null) {
+                block.initializationCallback.accept(block);
+            }
         }
     }
 

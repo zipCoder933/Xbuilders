@@ -6,7 +6,7 @@
 //
 //import com.xbuilders.engine.gameScene.Game;
 //import com.xbuilders.engine.items.ItemList;
-//import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
+//import com.xbuilders.engine.items.blockIconRendering.BlockIconRenderer;
 //import com.xbuilders.engine.ui.gameScene.GameUI;
 //import com.xbuilders.engine.utils.ResourceUtils;
 //import com.xbuilders.game.MyGame;

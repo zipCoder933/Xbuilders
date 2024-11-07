@@ -3,8 +3,8 @@ package com.xbuilders.engine.builtinMechanics.fire;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.game.MyGame;
@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 class DisintegrationPropagation extends LivePropagationTask {
 
-    Block FIRE_BLOCK = ItemList.getBlock(MyGame.BLOCK_FIRE);
+    Block FIRE_BLOCK = Registrys.getBlock(MyGame.BLOCK_FIRE);
     HashSet<Vector3i> disintegrationNodes = new HashSet<>();
 
     @Override
@@ -42,8 +42,8 @@ class DisintegrationPropagation extends LivePropagationTask {
             Vector3i node = iterator.next();
             if (Math.random() > 0.5) {
                 if (GameScene.world.getBlock(node.x, node.y - 1, node.z).id == FIRE_BLOCK.id) {
-                    GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y, node.z);
-                    GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y - 1, node.z);
+                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y - 1, node.z);
                     iterator.remove();
                 }
             }

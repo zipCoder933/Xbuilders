@@ -5,8 +5,8 @@
 package com.xbuilders.engine;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
-import com.xbuilders.engine.items.block.blockIconRendering.BlockIconRenderer;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.topMenu.PopupMessage;
@@ -207,7 +207,7 @@ public class MainWindow extends NKWindow {
         setIcon(ResourceUtils.resource("icon16.png").getAbsolutePath(),
                 ResourceUtils.resource("icon32.png").getAbsolutePath(),
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
-        ItemList.initialize();
+        Registrys.initialize();
 
         Theme.initialize(ctx);
         gameScene.initialize(this, game);
@@ -244,7 +244,7 @@ public class MainWindow extends NKWindow {
         createPopupWindow("First time setup",
                 "XBuilders is setting up. Please standby...");
         BlockIconRenderer iconRenderer = new BlockIconRenderer(
-                ItemList.blocks.textures,
+                Registrys.blocks.textures,
                 blockIconsDirectory);
 
         iconRenderer.saveAllIcons();//Generate all icons

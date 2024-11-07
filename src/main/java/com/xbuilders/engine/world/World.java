@@ -1,6 +1,7 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
@@ -29,9 +30,8 @@ import com.xbuilders.engine.gameScene.GameScene;
 import static com.xbuilders.engine.gameScene.GameScene.player;
 import static com.xbuilders.engine.gameScene.GameScene.world;
 
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
 
@@ -771,8 +771,8 @@ public class World {
     }
 
     public Block getBlock(int worldX, int worldY, int worldZ) {
-        Block block = ItemList.getBlock(getBlockID(worldX, worldY, worldZ));
-        return block == null ? BlockList.BLOCK_AIR : block;
+        Block block = Registrys.getBlock(getBlockID(worldX, worldY, worldZ));
+        return block == null ? BlockRegistry.BLOCK_AIR : block;
     }
 
     public BlockData getBlockData(int worldX, int worldY, int worldZ) {

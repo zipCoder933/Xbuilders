@@ -5,11 +5,10 @@
 package com.xbuilders.engine.world.chunk.pillar;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
@@ -145,7 +144,7 @@ public class ChunkSunlightGenerator {
                 for (Chunk chunk : pillarChunk1.pillarInformation.chunks) {// Go DOWN from Y
 //                    if(terrain.isBelowMinHeight(chunk.position,-2)) //Lets wait before implementing this. I dont want issues to be caused with saved chunks
                     for (int y = 0; y < Chunk.WIDTH; y++) {
-                        Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                        Block block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
                         if (addSun) {
                             if (block.opaque) {
                                 // Place a node just above the opaque block
@@ -184,7 +183,7 @@ public class ChunkSunlightGenerator {
                 yLoop:
                 for (Chunk chunk : pillarChunk1.pillarInformation.chunks) {// Go DOWN from Y
                     for (int y = 0; y < Chunk.WIDTH; y++) {
-                        Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                        Block block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
                         if (!block.opaque) {
                             int sun = chunk.data.getSun(x, y, z);
                             if (sun == 0) {
@@ -253,7 +252,7 @@ public class ChunkSunlightGenerator {
                                                    final ArrayList<ChunkNode> queue, boolean isBelow) {
         Block neigborBlock;
         if (Chunk.inBounds(x, y, z)) {
-            neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+            neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
         } else {
             final Vector3i neighboringChunk = new Vector3i();
             WCCi.getNeighboringChunk(neighboringChunk, chunk.position, x, y, z);
@@ -263,7 +262,7 @@ public class ChunkSunlightGenerator {
                 x = MathUtils.positiveMod(x, Chunk.WIDTH);
                 y = MathUtils.positiveMod(y, Chunk.WIDTH);
                 z = MathUtils.positiveMod(z, Chunk.WIDTH);
-                neigborBlock = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+                neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
             } else {
                 return;
             }

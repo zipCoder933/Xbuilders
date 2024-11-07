@@ -5,8 +5,8 @@
 package com.xbuilders.engine.rendering.chunk.meshers;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.rendering.entity.block.meshers.BlockMesher;
@@ -131,13 +131,13 @@ public class GreedyMesher extends BlockMesher<CompactVertexSet> {
                         for (x[u] = 0; x[u] < dims[u]; x[u]++) {
                             retrieveMaskVoxels(x, q, d, backChunk, forwardChunk, voxelPos,
                                     thisPlaneVoxel, nextPlaneVoxel, lodLevel);
-                            block = ItemList.getBlock(thisPlaneVoxel.get(0));
-                            block1 = ItemList.getBlock(nextPlaneVoxel.get(0));
+                            block = Registrys.getBlock(thisPlaneVoxel.get(0));
+                            block1 = Registrys.getBlock(nextPlaneVoxel.get(0));
 
-                            if (block.isAir() || block.renderType != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block.isAir() || block.renderType != BlockRegistry.DEFAULT_BLOCK_TYPE_ID) {
                                 thisPlaneVoxel.put(0, (short) 0);
                             }
-                            if (block1.isAir() || block1.renderType != BlockList.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block1.isAir() || block1.renderType != BlockRegistry.DEFAULT_BLOCK_TYPE_ID) {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 
@@ -296,7 +296,7 @@ public class GreedyMesher extends BlockMesher<CompactVertexSet> {
 
 //        short blockVal = (short) ((voxel >> 8) & 0xFFFF);
 //        byte sun = (byte) (voxel & 0xFF);
-        Block block = ItemList.getBlock(blockVal);
+        Block block = Registrys.getBlock(blockVal);
 
         if (block != null && block.texture != null) {
             int[] indexes = backFace ? indexes1 : indexes2;

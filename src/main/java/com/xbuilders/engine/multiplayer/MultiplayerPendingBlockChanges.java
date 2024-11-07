@@ -1,7 +1,7 @@
 package com.xbuilders.engine.multiplayer;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
@@ -172,7 +172,7 @@ public class MultiplayerPendingBlockChanges {
 
                 //Block ID
                 int newBlock = ByteUtils.bytesToShort(receivedData[start.get() + 13], receivedData[start.get() + 14]);
-                BlockHistory blockHistory = new BlockHistory(ItemList.getBlock((short) newBlock));
+                BlockHistory blockHistory = new BlockHistory(Registrys.getBlock((short) newBlock));
                 blockHistory.fromNetwork = true;
                 start.set(start.get() + 15);
 

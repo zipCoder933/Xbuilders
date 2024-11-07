@@ -1,7 +1,7 @@
 package com.xbuilders.game.items.blocks;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.game.MyGame;
 
@@ -36,7 +36,7 @@ public class Plant {
                     lastStage = stage;
                 } else {
                     if (i == 0) {
-                        GameScene.player.setBlock(BlockList.BLOCK_AIR.id, x, y, z);
+                        GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
                     }
                     return;
                 }

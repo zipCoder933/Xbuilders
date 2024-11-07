@@ -2,8 +2,8 @@ package com.xbuilders.engine.player.camera;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.UserControlledPlayer;
@@ -217,8 +217,8 @@ public class Camera {
             }
             RayCasting.traceSimpleRay(cameraViewRay, position, cameraRaycast, (int) thirdPersonDist2 + 1,
                     ((block, forbiddenBlock, rx, ry, rz) -> {
-                        Block block2 = ItemList.getBlock(block);
-                        return block != BlockList.BLOCK_AIR.id &&
+                        Block block2 = Registrys.getBlock(block);
+                        return block != BlockRegistry.BLOCK_AIR.id &&
                                 block != forbiddenBlock
                                 && (block2.solid || block2.opaque);
                     })

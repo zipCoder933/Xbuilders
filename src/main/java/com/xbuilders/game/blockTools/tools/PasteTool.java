@@ -1,8 +1,8 @@
 package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
@@ -16,10 +16,8 @@ import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.blockTools.PrefabUtils;
-import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
@@ -179,7 +177,7 @@ public class PasteTool extends BlockTool {
         for (int x = 0; x < clipboard.size.x; x++) {
             for (int y = 0; y < clipboard.size.y; y++) {
                 for (int z = 0; z < clipboard.size.z; z++) {
-                    if (clipboard.getBlock(x, y, z) != BlockList.BLOCK_AIR.id || !additionMode) {
+                    if (clipboard.getBlock(x, y, z) != BlockRegistry.BLOCK_AIR.id || !additionMode) {
                         GameScene.player.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
                     }
                 }
@@ -199,7 +197,7 @@ public class PasteTool extends BlockTool {
                         int newZ = x;
                         int newY = y;
 
-                        Block block = ItemList.getBlock(clipboard.getBlock(x, y, z));
+                        Block block = Registrys.getBlock(clipboard.getBlock(x, y, z));
                         newClipboard.setBlock(newX, newY, newZ, block.id);
 
                         BlockData oldData = clipboard.getBlockData(x, y, z);

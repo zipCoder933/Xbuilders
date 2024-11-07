@@ -2,8 +2,8 @@ package com.xbuilders.engine.builtinMechanics.fire;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
-import com.xbuilders.engine.items.BlockList;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.MainWindow;
@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 class SpreadPropagation extends LivePropagationTask {
 
-    Block FIRE_BLOCK = ItemList.getBlock(MyGame.BLOCK_FIRE);
+    Block FIRE_BLOCK = Registrys.getBlock(MyGame.BLOCK_FIRE);
     HashSet<Vector3i> fireNodes = new HashSet<>();
     HashSet<Vector3i> disintegrationNodes;
 
@@ -70,10 +70,10 @@ class SpreadPropagation extends LivePropagationTask {
             Block block = GameScene.world.getBlock(node.x, node.y+1, node.z);
             //If it is not solid, remove it
             if (!block.solid && isFlammable(block)) {
-                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y, node.z);
-                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y+1, node.z);
+                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y+1, node.z);
             }else if (!isFlammable(block)) {
-                GameScene.player.setBlock(BlockList.BLOCK_AIR.id, node.x, node.y, node.z);
+                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
             }
 
         }

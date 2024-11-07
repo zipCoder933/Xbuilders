@@ -1,8 +1,8 @@
 package com.xbuilders.engine.world.chunk.saving;
 
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.items.ItemList;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -94,7 +94,7 @@ public class ChunkFile_V0 {
     protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
 //        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
         final short entityID = (short) bytesToShort(bytes[start.get() + 1], bytes[start.get() + 2]);
-        EntityLink link = ItemList.getEntity(entityID);
+        EntityLink link = Registrys.getEntity(entityID);
         start.set(start.get() + 3);
 
         //Read position

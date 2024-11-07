@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.items.block.construction;
 
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.rendering.VertexSet;
@@ -171,7 +171,7 @@ public abstract class BlockType {
         if (neighbor == null) {
             return true;
         } else {
-            BlockType type = ItemList.blocks.getBlockType(neighbor.renderType);
+            BlockType type = Registrys.blocks.getBlockType(neighbor.renderType);
             if (!neighbor.opaque || (type == null) || !type.isCubeShape()) {
                 return true;
             }

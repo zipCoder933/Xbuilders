@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.world.chunk.saving;
 
-import com.xbuilders.engine.items.BlockList;
+import com.xbuilders.engine.items.BlockRegistry;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -191,7 +191,7 @@ public class ChunkSavingLoadingUtils {
 
                                 out.write(chunk.data.getPackedLight(x, y, z)); //Write light as a single byte
 
-                                if (blockID != BlockList.BLOCK_AIR.id) { //We dont have to write block data if the block is air
+                                if (blockID != BlockRegistry.BLOCK_AIR.id) { //We dont have to write block data if the block is air
                                     final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
                                     writeBlockData(blockData, out);
                                 }

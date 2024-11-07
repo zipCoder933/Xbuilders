@@ -2,7 +2,7 @@ package com.xbuilders.engine.world.light;
 
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.ItemList;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -108,7 +108,7 @@ public class TorchUtils {
             z = wcc.chunkVoxel.z;
         }
         final int neighborLevel = chunk.data.getTorch(x, y, z);
-        final Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+        final Block block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
         if ((!block.opaque || block.isLuminous()) && neighborLevel + 2 <= lightLevel) {
             chunk.data.setTorch(x, y, z, lightLevel - 1);
 
@@ -151,7 +151,7 @@ public class TorchUtils {
         }
         final int neighborLevel = chunk.data.getTorch(x, y, z);
         if (neighborLevel < lightLevel) {
-            Block block = ItemList.getBlock(chunk.data.getBlock(x, y, z));
+            Block block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
             if (block.isLuminous()) {//Instead of deleting source light of other torches, reset its original light value
                 repropagation.add(new TorchNode(chunk, x, y, z, block.torchlightStartingValue));
             }
