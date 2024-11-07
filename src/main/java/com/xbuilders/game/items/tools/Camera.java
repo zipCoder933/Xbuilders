@@ -2,16 +2,16 @@ package com.xbuilders.game.items.tools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemType;
 
 public class Camera extends Item {
 
     public Camera() {
         super(4, "Camera");
         setIcon("camera.png");
-        setClickEvent((ray, creationMode) -> {
+        this.createClickEvent = (ray) -> {
             MainWindow.takeScreenshot();
-        });
+            return true;
+        };
     }
 
 }

@@ -14,7 +14,6 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
@@ -110,7 +109,7 @@ public class MyGame extends Game {
         return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
     }
 
-    public boolean setBlock(final CursorRay ray, boolean isCreationMode) {
+    public boolean clickEvent(final CursorRay ray, boolean isCreationMode) {
         Item item = getSelectedItem();
         Block block = BlockRegistry.BLOCK_AIR;
         if (item != null && item.block != null) block = item.block;

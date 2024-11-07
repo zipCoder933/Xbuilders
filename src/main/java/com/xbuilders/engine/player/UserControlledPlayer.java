@@ -217,20 +217,16 @@ public class UserControlledPlayer extends Player {
 
         //Auto click
         if (window.isMouseButtonPressed(getCreateMouseButton())) {
-            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL*1.5 &&
+            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
                     System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
                 autoClick_lastClicked = System.currentTimeMillis();
-                if (!camera.cursorRay.clickEvent(true)) {
-                    setItem(MainWindow.game.getSelectedItem());
-                }
+                camera.cursorRay.clickEvent(true);
             }
         } else if (window.isMouseButtonPressed(getDeleteMouseButton())) {
-            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL*1.5 &&
+            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
                     System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
                 autoClick_lastClicked = System.currentTimeMillis();
-                if (!camera.cursorRay.clickEvent(false)) {
-                    removeItem();
-                }
+                camera.cursorRay.clickEvent(false);
             }
         } else autoClick_timeSinceReleased = System.currentTimeMillis();
 
@@ -385,7 +381,6 @@ public class UserControlledPlayer extends Player {
     }
 
     boolean isFlyingMode = true;
-    long lastJumpKeyPress = 0;
 
     public void enableFlying() {
         isFlyingMode = true;
@@ -401,12 +396,10 @@ public class UserControlledPlayer extends Player {
 
     public void mouseButtonEvent(int button, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
-            if (button == UserControlledPlayer.getCreateMouseButton()
-                    && !camera.cursorRay.clickEvent(true)) {
-                setItem(MainWindow.game.getSelectedItem());
-            } else if (button == UserControlledPlayer.getDeleteMouseButton()
-                    && !camera.cursorRay.clickEvent(false)) {
-                removeItem();
+            if (button == UserControlledPlayer.getCreateMouseButton()) {
+                camera.cursorRay.clickEvent(true);
+            } else if (button == UserControlledPlayer.getDeleteMouseButton()) {
+                camera.cursorRay.clickEvent(false);
             }
         }
     }
@@ -436,14 +429,10 @@ public class UserControlledPlayer extends Player {
                 }
                 case KEY_TOGGLE_VIEW -> camera.cycleToNextView(10);
                 case KEY_CREATE_MOUSE_BUTTON -> {
-                    if (!camera.cursorRay.clickEvent(true)) {
-                        setItem(MainWindow.game.getSelectedItem());
-                    }
+                    camera.cursorRay.clickEvent(true);
                 }
                 case KEY_DELETE_MOUSE_BUTTON -> {
-                    if (!camera.cursorRay.clickEvent(false)) {
-                        removeItem();
-                    }
+                    camera.cursorRay.clickEvent(false);
                 }
                 case KEY_TOGGLE_AUTO_FORWARD -> autoForward = !autoForward;
             }
@@ -454,45 +443,6 @@ public class UserControlledPlayer extends Player {
         if (positionLock != null) {
             worldPosition.y = positionLock.entity.aabb.box.min.y - aabb.box.getYLength();
             positionLock = null;
-        }
-    }
-
-    public void setItem(Item item) {
-        if (camera.cursorRay != null && camera.cursorRay.hitTarget()) {
-            if (item != null) {
-                if (item.block != null) {
-                    Block block = item.block;
-                    Vector3i w;
-
-                    Block blockAtHitPos = GameScene.world.getBlock(
-                            camera.cursorRay.getHitPos().x,
-                            camera.cursorRay.getHitPos().y,
-                            camera.cursorRay.getHitPos().z);
-
-                    if (block == BlockRegistry.BLOCK_AIR
-                            || !camera.cursorRay.hitTarget()
-                            || blockAtHitPos.getRenderType().replaceOnSet) {
-                        w = camera.cursorRay.getHitPos();
-                    } else {
-                        w = camera.cursorRay.getHitPosPlusNormal();
-                    }
-
-                    WCCi wcc = new WCCi();
-                    wcc.set(w);
-                    setBlock(block.id, wcc);
-                } else if (item.entity != null) {
-                    EntityLink entity = item.entity;
-                    Vector3i w;
-
-                    if (!camera.cursorRay.hitTarget()) {
-                        w = camera.cursorRay.getHitPos();
-                    } else {
-                        w = camera.cursorRay.getHitPosPlusNormal();
-                    }
-
-                    setEntity(entity, new Vector3f(w), null);
-                }
-            }
         }
     }
 
@@ -566,14 +516,5 @@ public class UserControlledPlayer extends Player {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         return false;
     }
-
-    private void removeItem() {
-        if (camera.cursorRay.getEntity() != null) {
-            camera.cursorRay.getEntity().destroy();
-        } else {
-            setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(camera.cursorRay.getHitPos()));
-        }
-    }
-
 
 }

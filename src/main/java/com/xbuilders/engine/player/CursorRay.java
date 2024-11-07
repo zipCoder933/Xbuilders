@@ -6,7 +6,6 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
@@ -15,7 +14,9 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -94,25 +95,46 @@ public class CursorRay {
      */
     public boolean clickEvent(boolean creationMode) {
         Item selectedItem = MainWindow.game.getSelectedItem();
-        if (selectedItem != null) { //Tool click event
-            selectedItem.run_ClickEvent(this, creationMode);
+
+        if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event
             return true;
+        } else if (useBoundary) { //Boundary click event
+            boundaryClickEvent(creationMode);
+            return true;
+        } else if (selectedItem != null) { //Item click event
+            if (creationMode) {
+                if (selectedItem.createClickEvent != null) {
+                    return selectedItem.createClickEvent.run(this);
+                }
+            } else {
+                if (selectedItem.destroyClickEvent != null) {
+                    return selectedItem.destroyClickEvent.run(this);
+                }
+            }
         }
 
-        if (creationMode) {
+        if (creationMode) {//Block and entity click event
             if (cursorRay.entity != null) { //Entity click event
                 return cursorRay.entity.run_ClickEvent();
             } else { //Block click event
                 Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
-                block.run_ClickEvent(getHitPos());
+                if (block.clickEvent != null) {
+                    WCCi wcc = new WCCi().set(getHitPos());
+                    Chunk chunk = wcc.getChunk(GameScene.world);
+                    if (chunk != null) {
+                        BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        block.clickEvent.run(getHitPos().x, getHitPos().y, getHitPos().z, data);
+                        chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                    }
+                }
                 if (!block.clickThrough()) return true;
             }
-        }
-
-        if (MainWindow.game.setBlock(this, creationMode)) {
-            return true;
-        } else if (useBoundary) {
-            boundaryClickEvent(creationMode);
+        } else if (hitTarget() && !creationMode) { //By default, remove anything the cursor is pointing at
+            if (getEntity() != null) {
+                getEntity().destroy();
+            } else {
+                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+            }
             return true;
         }
         return false;

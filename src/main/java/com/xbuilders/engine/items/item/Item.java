@@ -7,7 +7,6 @@ package com.xbuilders.engine.items.item;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.function.Consumer;
 
 import com.xbuilders.engine.items.block.Block;
@@ -47,21 +46,12 @@ public class Item {
     //A functional interface for onLocalChange
     @FunctionalInterface
     public interface OnClickEvent {
-        public void run(CursorRay ray, boolean creationMode);
+        public boolean run(CursorRay ray);
     }
 
-    OnClickEvent clickEvent = null;
-
-    public void setClickEvent(OnClickEvent createClickEvent) {
-        this.clickEvent = createClickEvent;
-    }
+    public OnClickEvent createClickEvent, destroyClickEvent;
 
 
-    public void run_ClickEvent(CursorRay ray, boolean creationMode) {
-        if (clickEvent != null) {
-            clickEvent.run(ray, creationMode);
-        }
-    }
     // </editor-fold>
 
 
@@ -132,7 +122,7 @@ public class Item {
 
         if (block != null) {
             iconFilename = block.iconFilename;
-        }else if(entity != null) {
+        } else if (entity != null) {
             iconFilename = entity.iconFilename;
         }
 

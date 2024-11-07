@@ -6,7 +6,6 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.JsonManager;
 import org.joml.Vector3f;
@@ -69,19 +68,13 @@ public class ItemUtils {
             if (block == null) continue;
             Item item = new Item(0, block.name);
             item.block = block;
-            item.setClickEvent((ray, creationMode) -> {
-                if (creationMode) {
-                    GameScene.player.setBlock(block.id,
-                            ray.getHitPosPlusNormal().x,
-                            ray.getHitPosPlusNormal().y,
-                            ray.getHitPosPlusNormal().z);
-                } else {
-                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id,
-                            ray.getHitPos().x,
-                            ray.getHitPos().y,
-                            ray.getHitPos().z);
-                }
-            });
+            item.createClickEvent = (ray) -> {
+                GameScene.player.setBlock(block.id,
+                        ray.getHitPosPlusNormal().x,
+                        ray.getHitPosPlusNormal().y,
+                        ray.getHitPosPlusNormal().z);
+                return true;
+            };
 
             items.add(item);
         }
@@ -91,12 +84,11 @@ public class ItemUtils {
             Item item = new Item(0, entity.name);
             item.entity = entity;
             item.iconFilename = entity.iconFilename;
-            item.setClickEvent((ray, creationMode) -> {
-                if (creationMode) {
-                    Vector3f pos = new Vector3f(ray.getHitPosPlusNormal());
-                    GameScene.player.setEntity(entity, pos,null);
-                }
-            });
+            item.createClickEvent = (ray) -> {
+                Vector3f pos = new Vector3f(ray.getHitPosPlusNormal());
+                GameScene.player.setEntity(entity, pos, null);
+                return true;
+            };
             items.add(item);
         }
         return items;

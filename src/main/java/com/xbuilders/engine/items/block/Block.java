@@ -90,7 +90,7 @@ public class Block {
     SetBlockEvent setBlockEvent = null;
     OnLocalChange localChangeEvent = null;
     RemoveBlockEvent removeBlockEvent = null;
-    ClickEvent clickEvent = null;
+    public ClickEvent clickEvent = null;
     boolean setBlockEvent_isMultithreaded = false;
     boolean removeBlockEvent_isMultithreaded = false;
     boolean clickEvent_isMultithreaded = false;
@@ -122,18 +122,6 @@ public class Block {
 
     public boolean clickThrough() {
         return clickEvent == null;
-    }
-
-    public void run_ClickEvent(Vector3i worldPos) {
-        if (clickEvent != null) {
-            WCCi wcc = new WCCi();
-            wcc.set(worldPos);
-            Chunk chunk = wcc.getChunk(GameScene.world);
-            if (chunk == null) return;
-            BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-            clickEvent.run(worldPos.x, worldPos.y, worldPos.z, data);
-            chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-        }
     }
 
     public void run_RemoveBlockEvent(PriorityThreadPoolExecutor eventThread,
