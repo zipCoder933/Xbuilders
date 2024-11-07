@@ -16,6 +16,7 @@ import com.xbuilders.engine.world.chunk.ChunkVoxels;
 import com.xbuilders.game.blockTools.BlockTool;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.blockTools.PrefabUtils;
+import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -63,6 +64,11 @@ public class PasteTool extends BlockTool {
         if (Nuklear.nk_button_label(ctx, (additionMode ? "Additive Paste" : "Paste"))) {
             additionMode = !additionMode;
         }
+//        NKUtils.wrapText(ctx,"Help: \n" +
+//                "Change mode: M \n" +
+//                "Change offset point: mouse wheel \n" +
+//                "Paste blocks: Enter\n" +
+//                "Click to set the paste boundary and click again ro release it",windowSize.w()-20);
     }
 
 
@@ -94,11 +100,7 @@ public class PasteTool extends BlockTool {
 
     @Override
     public boolean activationKey(int key, int scancode, int action, int mods) {
-        //Only activate with Ctrl+C
-        if (key == GLFW.GLFW_KEY_V && (mods & GLFW.GLFW_MOD_CONTROL) != 0) {
-            return true;
-        }
-        return false;
+        return key == GLFW.GLFW_KEY_V && (mods & GLFW.GLFW_MOD_CONTROL) != 0;
     }
 
     public void activate() {
@@ -169,15 +171,7 @@ public class PasteTool extends BlockTool {
     }
 
     public boolean setBlock(Block item, final CursorRay ray, boolean isCreationMode) {
-
-        if (positioningMode) {
-            positioningMode = false;
-        } else {
-            if (isCreationMode) {
-                paste();
-            }
-            positioningMode = true;
-        }
+        positioningMode = !positioningMode;
         return true;
     }
 
@@ -191,6 +185,7 @@ public class PasteTool extends BlockTool {
                 }
             }
         }
+//        positioningMode = true;
     }
 
     public static void rotatePasteBox() {
@@ -283,7 +278,7 @@ public class PasteTool extends BlockTool {
                 return true;
             } else if (!positioningMode && key == GLFW.GLFW_KEY_ENTER) {
                 paste();
-                positioningMode = true;
+
                 return true;
             }
         }
