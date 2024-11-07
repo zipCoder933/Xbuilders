@@ -166,12 +166,12 @@ public class Hotbar extends GameUIElement {
     }
 
     private void pickItem() {
-        CursorRay ray = GameScene.player.camera.cursorRay;
-        if (ray.hitTarget()) {
-            if (ray.getEntity() != null) {
-                acquireItem(ray.getEntity().link);
-            } else acquireItem(GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z));
-        }
+//        CursorRay ray = GameScene.player.camera.cursorRay;
+//        if (ray.hitTarget()) {
+//            if (ray.getEntity() != null) {
+//                acquireItem(ray.getEntity().link);
+//            } else acquireItem(GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z));
+//        }
     }
 
     public Item getSelectedItem(){

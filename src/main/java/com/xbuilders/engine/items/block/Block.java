@@ -14,11 +14,25 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.function.Consumer;
 
-public class Block extends Item {
+public class Block {
 
     //A block texture is a REQUIRED field
+    public final short id;
+    public final String name;
+
+    public String iconFilename;
+    public void setIcon(String iconFilename) {
+        this.iconFilename = iconFilename;
+    }
+
+
+    public final HashMap<String, String> properties = new HashMap<>();
+    public final HashSet<String> tags = new HashSet<>();
+
     public final BlockTexture texture;
     public int renderType = 0;
     public boolean solid = true;
@@ -133,7 +147,7 @@ public class Block extends Item {
 
     public void run_SetBlockEvent(PriorityThreadPoolExecutor eventThread,
                                   Vector3i worldPos) {
-        if(setBlockEvent == null) return;
+        if (setBlockEvent == null) return;
         if (setBlockEvent_isMultithreaded)
             eventThread.submit(System.currentTimeMillis(),
                     () -> setBlockEvent.run(worldPos.x, worldPos.y, worldPos.z));
@@ -155,36 +169,38 @@ public class Block extends Item {
     }
 
 
-
-
-
     public Block(int id, String name) {
-        super(id, name, ItemType.BLOCK);
+        this.id = (short) id;
+        this.name = name;
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
     }
 
     public Block(int id, String name, BlockTexture texture) {
-        super(id, name, ItemType.BLOCK);
+        this.id = (short) id;
+        this.name = name;
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = texture;
     }
 
     public Block(int id, String name, BlockTexture texture, int renderType) {
-        super(id, name, ItemType.BLOCK);
+        this.id = (short) id;
+        this.name = name;
         this.texture = texture;
         this.renderType = renderType;
     }
 
     public Block(int id, String name, BlockTexture texture, int renderType, Consumer<Block> initialization) {
-        super(id, name, ItemType.BLOCK);
+        this.id = (short) id;
+        this.name = name;
         this.texture = texture;
         this.renderType = renderType;
         this.initializationCallback = initialization;
     }
 
     public Block(int id, String name, BlockTexture texture, Consumer<Block> initialization) {
-        super(id, name, ItemType.BLOCK);
+        this.id = (short) id;
+        this.name = name;
         this.texture = texture;
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.initializationCallback = initialization;

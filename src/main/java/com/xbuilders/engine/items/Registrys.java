@@ -10,7 +10,6 @@ import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemRegistry;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -84,19 +83,6 @@ public class Registrys {
         return null;
     }
 
-    public static Item getItem(short id, ItemType itemType) {
-        if (null == itemType) {
-            return null;
-        } else {
-            return switch (itemType) {
-                case BLOCK -> Registrys.getBlock(id);
-                case ENTITY_LINK -> Registrys.getEntity(id);
-                case ITEM -> Registrys.getTool(id);
-                default -> null;
-            };
-        }
-    }
-
     public static Block getBlock(short blockID) {
         return blocks.getItem(blockID);
     }
@@ -105,7 +91,7 @@ public class Registrys {
         return entities.getItem(blockID);
     }
 
-    public static Item getTool(short blockID) {
+    public static Item getItem(short blockID) {
         return items.getItem(blockID);
     }
 

@@ -460,8 +460,8 @@ public class UserControlledPlayer extends Player {
     public void setItem(Item item) {
         if (camera.cursorRay != null && camera.cursorRay.hitTarget()) {
             if (item != null) {
-                if (item.getType() == ItemType.BLOCK) {
-                    Block block = (Block) item;
+                if (item.block != null) {
+                    Block block = item.block;
                     Vector3i w;
 
                     Block blockAtHitPos = GameScene.world.getBlock(
@@ -480,8 +480,8 @@ public class UserControlledPlayer extends Player {
                     WCCi wcc = new WCCi();
                     wcc.set(w);
                     setBlock(block.id, wcc);
-                } else if (item.getType() == ItemType.ENTITY_LINK) {
-                    EntityLink entity = (EntityLink) item;
+                } else if (item.entity != null) {
+                    EntityLink entity = item.entity;
                     Vector3i w;
 
                     if (!camera.cursorRay.hitTarget()) {
@@ -496,11 +496,6 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public void dropItem(Item item) {
-        setEntity(EntityRegistry.ENTITY_ITEM_DROP,
-                worldPosition,
-                ItemDropEntityLink.toBytes(null, ItemDropEntityLink.DROP_LIVE_TIME));
-    }
 
     public Entity setEntity(EntityLink entity, Vector3f w, byte[] data) {
         WCCf wcc = new WCCf();

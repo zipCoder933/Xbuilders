@@ -10,7 +10,7 @@ public class Flashlight extends Item {
     boolean on = false;
 
     public Flashlight() {
-        super(6, "Flashlight", ItemType.ITEM);
+        super(6, "Flashlight");
         setIcon("flashlight");
         setClickEvent((ray, creationMode) -> {
             GameScene.player.setFlashlight(on ? 0 : distance);

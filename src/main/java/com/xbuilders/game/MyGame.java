@@ -113,7 +113,7 @@ public class MyGame extends Game {
     public boolean setBlock(final CursorRay ray, boolean isCreationMode) {
         Item item = getSelectedItem();
         Block block = BlockRegistry.BLOCK_AIR;
-        if (item != null && item.itemType == ItemType.BLOCK) block = (Block) item;
+        if (item != null && item.block != null) block = item.block;
         return blockTools.getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 

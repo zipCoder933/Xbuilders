@@ -7,7 +7,7 @@ import com.xbuilders.engine.items.item.ItemType;
 public class Camera extends Item {
 
     public Camera() {
-        super(4, "Camera", ItemType.ITEM);
+        super(4, "Camera");
         setIcon("camera.png");
         setClickEvent((ray, creationMode) -> {
             MainWindow.takeScreenshot();

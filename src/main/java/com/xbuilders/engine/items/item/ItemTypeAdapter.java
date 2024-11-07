@@ -19,7 +19,6 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
     public JsonElement serialize(Item src, Type typeOfSrc, JsonSerializationContext context) {
 //        System.out.println("Using custom type adapter");
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("itemType", src.itemType.toString());
         jsonObject.addProperty("id", src.id);
         return jsonObject;
     }
@@ -27,9 +26,8 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
     @Override
     public Item deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
-        ItemType itemType = ItemType.valueOf(jsonObject.get("itemType").getAsString());
         short id = jsonObject.get("id").getAsShort();
         // You may need to adjust this part based on your constructor
-       return Registrys.getItem(id, itemType);
+       return Registrys.getItem(id);
     }
 }

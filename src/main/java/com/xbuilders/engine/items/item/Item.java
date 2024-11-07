@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.Texture;
@@ -27,17 +28,18 @@ import org.lwjgl.nuklear.NkImage;
 public class Item {
 
     public final ArrayList<String> tags = new ArrayList<>();
-    public final HashMap<String, String> properties = new HashMap<>();
+
     public Consumer<Item> initializationCallback;
 
 
     public final short id; //TODO: Find a way to represent block ID as an unsigned short (up to 65,000 IDs)
-    public final ItemType itemType;
+
     public final String name;
     private int icon = 0;
     private final NkImage NKicon;
     public String iconFilename;
     public Block block;
+    public EntityLink entity;
 
 
     // <editor-fold defaultstate="collapsed" desc="tool events">
@@ -62,15 +64,8 @@ public class Item {
     }
     // </editor-fold>
 
-    /**
-     * @return the type
-     */
-    public ItemType getType() {
-        return itemType;
-    }
 
-    public Item(int id, String name, ItemType itemType) {
-        this.itemType = itemType;
+    public Item(int id, String name) {
         if (id > Short.MAX_VALUE) {
             throw new IllegalArgumentException("Item ID Can not exceed " + Short.MAX_VALUE);
         }
@@ -127,7 +122,7 @@ public class Item {
             return false;
         }
         final Item other = (Item) obj;
-        return this.id == other.id && this.getType() == other.getType();
+        return this.id == other.id;
     }
 
     public final void initIcon(BlockArrayTexture textures,
@@ -170,7 +165,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return getType().toString().toLowerCase().replace("_", " ") + " \"" + name + "\" (id: " + id + ")";
+        return "Item \"" + name + "\" (id: " + id + ")";
     }
 
 }

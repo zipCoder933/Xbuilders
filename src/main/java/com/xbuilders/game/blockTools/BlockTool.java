@@ -1,6 +1,7 @@
 package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
@@ -26,8 +27,10 @@ public abstract class BlockTool {
     }
 
     public Block getSelectedBlock() {
-        if (MainWindow.game.getSelectedItem() == null || MainWindow.game.getSelectedItem().getType() != ItemType.BLOCK) return null;
-        return (Block) MainWindow.game.getSelectedItem();
+        Item selectedItem =  MainWindow.game.getSelectedItem();
+        if(selectedItem == null) return null;
+        if(selectedItem.block == null) return null;
+        return selectedItem.block;
     }
 
     public BlockTool(String name, BlockTools blockTools, CursorRay cursorRay) {

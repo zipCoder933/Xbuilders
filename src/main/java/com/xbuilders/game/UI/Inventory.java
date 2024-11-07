@@ -96,33 +96,9 @@ public class Inventory extends GameUIElement implements WindowEvents {
                         return 0;
                     }
                 }
-                if (o1.itemType.equals(o2.itemType)) { // Else if 2 items have the same type
-                    if (o1.itemType == ItemType.BLOCK) {
-                        Block b1 = (Block) o1;
-                        Block b2 = (Block) o2;
-                        if (b1.renderType == b2.renderType) {
-                            // System.out.println("Same block: " + b1.type);
-                            return 0;
-                        } else return b1.renderType > b2.renderType ? 1 : -1;
-                    }
-                }
-
-
-                //Tools come before blocks and Blocks come before entities
-                if (o1.itemType == ItemType.ITEM && o2.itemType != ItemType.ITEM) {
-                    return -1;
-                } else if (o1.itemType != ItemType.ITEM && o2.itemType == ItemType.ITEM) {
-                    return 1;
-                } else if (o1.itemType == ItemType.ENTITY_LINK && o2.itemType != ItemType.ENTITY_LINK) {
-                    return 1;
-                } else if (o1.itemType != ItemType.ENTITY_LINK && o2.itemType == ItemType.ENTITY_LINK) {
-                    return -1;
-                }
                 return 1;
             }
         }
-
-        ;
     };
 
 

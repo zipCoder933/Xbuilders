@@ -4,20 +4,30 @@
  */
 package com.xbuilders.engine.items.entity;
 
-import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemType;
+import com.xbuilders.engine.utils.ResourceUtils;
 
+import java.io.File;
+import java.util.HashSet;
 import java.util.function.Supplier;
 
 /**
  * @author zipCoder933
  */
-public class EntityLink extends Item {
+public class EntityLink {
+    public final short id;
+    public final String name;
+    public final HashSet<String> tags = new HashSet<>();
 
     public final Supplier<Entity> supplier;
 
+    public String iconFilename;
+    public void setIcon(String iconFilename) {
+        this.iconFilename = iconFilename;
+    }
+
     public EntityLink(int id, String name, Supplier<Entity> supplier) {
-        super(id, name, ItemType.ENTITY_LINK);
+        this.id = (short)id;
+        this.name = name;
         this.supplier = supplier;
     }
 

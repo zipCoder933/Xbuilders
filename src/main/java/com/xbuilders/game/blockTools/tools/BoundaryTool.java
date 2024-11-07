@@ -52,8 +52,7 @@ public class BoundaryTool extends BlockTool {
 
         Block block = BlockRegistry.BLOCK_AIR;
         if (created){
-            if (MainWindow.game.getSelectedItem() == null || MainWindow.game.getSelectedItem().getType() != ItemType.BLOCK) return;
-            block = (Block) MainWindow.game.getSelectedItem();
+           block = getSelectedBlock();
         }
 
         HashSet<Chunk> foundChunks = new HashSet<Chunk>();

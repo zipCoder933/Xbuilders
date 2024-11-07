@@ -46,8 +46,7 @@ public class PlaneTool extends BlockTool {
     private void blockBoundarySetEvent(AABB aabb, boolean created) {
         Block block = BlockRegistry.BLOCK_AIR;
         if (created) {
-            if (MainWindow.game.getSelectedItem() == null || MainWindow.game.getSelectedItem().getType() != ItemType.BLOCK) return;
-            block = (Block) MainWindow.game.getSelectedItem();
+            block = getSelectedBlock();
         }
 
         for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {

@@ -76,7 +76,7 @@ public class BlockRegistry {
         System.out.print("\tID Gaps: ");
         for (int id = 1; id < highestId; id++) {
             boolean found = false;
-            for (Item item : inputItems) {
+            for (Block item : inputItems) {
                 if (item.id == id) {
                     found = true;
                     break;

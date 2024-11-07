@@ -21,15 +21,14 @@ public class ItemDropEntityLink extends EntityLink {
 
     public final static int DROP_LIVE_TIME = 1000;
 
-   public static byte[] toBytes(Item item, int lifetime) {
-        if (item == null) return null;
-        byte[] id = ByteUtils.shortToBytes(item.id);
-        byte[] lifetimeBytes = ByteUtils.intToBytes(lifetime);
-        return new byte[]{
-                id[0], id[1],
-                (byte) item.itemType.ordinal(),
-                lifetimeBytes[0], lifetimeBytes[1], lifetimeBytes[2], lifetimeBytes[3]};
-    }
+//   public static byte[] toBytes(Item item, int lifetime) {
+//        if (item == null) return null;
+//        byte[] id = ByteUtils.shortToBytes(item.id);
+//        byte[] lifetimeBytes = ByteUtils.intToBytes(lifetime);
+//        return new byte[]{
+//                id[0], id[1],
+//                lifetimeBytes[0], lifetimeBytes[1], lifetimeBytes[2], lifetimeBytes[3]};
+//    }
 
 
     static class ItemDrop extends Entity {
@@ -58,16 +57,16 @@ public class ItemDropEntityLink extends EntityLink {
             if (bytes == null) {
                 destroy();
             } else {
-                System.out.println(Arrays.toString(bytes));
-                item = Registrys.getItem((short) ByteUtils.bytesToShort(bytes[0], bytes[1]), ItemType.values()[bytes[2]]);
-                lifetime = ByteUtils.bytesToInt(bytes[3], bytes[4], bytes[5], bytes[6]);
+//                System.out.println(Arrays.toString(bytes));
+//                item = Registrys.getItem((short) ByteUtils.bytesToShort(bytes[0], bytes[1]));
+//                lifetime = ByteUtils.bytesToInt(bytes[3], bytes[4], bytes[5], bytes[6]);
             }
         }
 
-        @Override
-        public byte[] toBytes() throws IOException {
-            return ItemDropEntityLink.toBytes(item, lifetime);
-        }
+//        @Override
+//        public byte[] toBytes() throws IOException {
+//            return ItemDropEntityLink.toBytes(item, lifetime);
+//        }
 
         private boolean blockIsClear(Block camBlock, int x, int y, int z) {
             Block block = GameScene.world.getBlock(

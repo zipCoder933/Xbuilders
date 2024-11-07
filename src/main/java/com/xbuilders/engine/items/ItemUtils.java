@@ -67,7 +67,7 @@ public class ItemUtils {
         ArrayList<Item> items = new ArrayList<>();
         for (Block block : blocks) {
             if (block == null) continue;
-            Item item = new Item(0, block.name, ItemType.ITEM);
+            Item item = new Item(0, block.name);
             item.block = block;
             item.setClickEvent((ray, creationMode) -> {
                 if (creationMode) {
@@ -88,7 +88,8 @@ public class ItemUtils {
         for (EntityLink entity : entities) {
             if (entity == null) continue;
             System.out.println(entity.name);
-            Item item = new Item(0, entity.name, ItemType.ITEM);
+            Item item = new Item(0, entity.name);
+            item.entity = entity;
             item.iconFilename = entity.iconFilename;
             item.setClickEvent((ray, creationMode) -> {
                 if (creationMode) {
