@@ -516,7 +516,7 @@ public class MyGame extends Game {
         itemList.add(new Flashlight());
         itemList.add(new Camera());
         itemList.add(TOOL_ANIMAL_FEED);
-       // itemList.addAll(ItemUtils.getItemsFromBlocks(blockList));
+        itemList.addAll(ItemUtils.getItemsFromBlocks(blockList));
 
         ArrayList<EntityLink> entityList = new ArrayList<>();
         entityList.addAll(Arrays.asList(entityArray));

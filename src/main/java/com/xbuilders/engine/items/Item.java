@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -23,7 +24,7 @@ import org.lwjgl.nuklear.NkImage;
  *
  * @author zipCoder933
  */
-public abstract class Item {
+public class Item {
 
     public final ArrayList<String> tags = new ArrayList<>();
     public final HashMap<String, String> properties = new HashMap<>();
@@ -36,7 +37,7 @@ public abstract class Item {
     private int icon = 0;
     private final NkImage NKicon;
     public String iconFilename;
-
+    public Block block;
 
 
     // <editor-fold defaultstate="collapsed" desc="tool events">

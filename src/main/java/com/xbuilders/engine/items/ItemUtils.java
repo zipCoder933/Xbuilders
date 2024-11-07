@@ -1,8 +1,11 @@
 package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.player.CursorRay;
+import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.ArrayUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.JsonManager;
@@ -65,12 +68,15 @@ public class ItemUtils {
         ArrayList<Item> items = new ArrayList<>();
         for (Block block : blocks) {
             if (block == null) continue;
-            Item item = new Item(0, block.name, ItemType.ITEM) {
-                @Override
-                public void setClickEvent(OnClickEvent createClickEvent) {
-                    super.setClickEvent(createClickEvent);
-                }
-            };
+            Item item = new Item(0, block.name, ItemType.ITEM);
+            item.block = block;
+            item.setClickEvent( ( ray,  creationMode)->{
+                GameScene.player.setBlock(block.id,
+                        ray.getHitPosPlusNormal().x,
+                        ray.getHitPosPlusNormal().y,
+                        ray.getHitPosPlusNormal().z);
+            });
+
             items.add(item);
         }
         return items;
