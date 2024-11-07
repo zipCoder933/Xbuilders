@@ -4,8 +4,8 @@
  */
 package com.xbuilders.game.UI;
 
-import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;

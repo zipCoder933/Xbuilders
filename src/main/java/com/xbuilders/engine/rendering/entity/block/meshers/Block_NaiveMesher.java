@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.rendering.entity.block.meshers;
 
-import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.rendering.VertexSet;

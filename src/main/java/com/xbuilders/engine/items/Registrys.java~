@@ -5,12 +5,7 @@
 package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.items.entity.EntityRegistry;
-import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemRegistry;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -56,7 +51,7 @@ public class Registrys {
     private static int defaultIcon;
     public static BlockRegistry blocks;
     public static EntityRegistry entities;
-    public static ItemRegistry items;
+    public static ToolRegistry items;
 
     public static void initialize() throws IOException {
         File blockTextures = ResourceUtils.BLOCK_TEXTURE_DIR;
@@ -67,7 +62,7 @@ public class Registrys {
 
         entities = new EntityRegistry();
         blocks = new BlockRegistry(blockTextures);
-        items = new ItemRegistry(blockTextures, blockIconDirectory, iconDirectory, Registrys.defaultIcon);
+        items = new ToolRegistry(blockTextures, blockIconDirectory, iconDirectory, Registrys.defaultIcon);
     }
 
     public static void setAllItems(

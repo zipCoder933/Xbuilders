@@ -2,7 +2,7 @@ package com.xbuilders.game.items.blocks;
 
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;

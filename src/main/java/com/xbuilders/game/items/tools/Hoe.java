@@ -1,8 +1,8 @@
 package com.xbuilders.game.items.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.game.MyGame;
 import org.joml.Vector3i;
 

@@ -7,7 +7,7 @@ package com.xbuilders.engine.utils.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 

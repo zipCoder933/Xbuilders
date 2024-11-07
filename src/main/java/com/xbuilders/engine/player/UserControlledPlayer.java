@@ -2,10 +2,10 @@ package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockRegistry;
-import com.xbuilders.engine.items.EntityRegistry;
-import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.block.BlockRegistry;
+import com.xbuilders.engine.items.entity.EntityRegistry;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;

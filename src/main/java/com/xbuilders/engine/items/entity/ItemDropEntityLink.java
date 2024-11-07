@@ -2,10 +2,10 @@ package com.xbuilders.engine.items.entity;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockRegistry;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.block.BlockRegistry;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.ByteUtils;

@@ -2,13 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items;
+package com.xbuilders.engine.items.item;
 
 /**
  *
  * @author zipCoder933
  */
 import com.google.gson.*;
+import com.xbuilders.engine.items.Registrys;
+
 import java.lang.reflect.Type;
 
 public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<Item> {

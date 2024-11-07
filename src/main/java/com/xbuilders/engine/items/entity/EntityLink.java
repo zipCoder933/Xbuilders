@@ -4,15 +4,9 @@
  */
 package com.xbuilders.engine.items.entity;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemType;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.WCCf;
-import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemType;
 
-import java.util.ArrayList;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items;
+package com.xbuilders.engine.items.item;
 
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author zipCoder933
  */
-public class ToolRegistry {
+public class ItemRegistry {
 
     File iconDirectory, blockIconDirectory;
     int defaultIcon;
@@ -33,7 +33,7 @@ public class ToolRegistry {
         return idMap.get(blockID);
     }
 
-    public ToolRegistry(File textureDirectory,
+    public ItemRegistry(File textureDirectory,
                         File blockIconDirectory,
                         File iconDirectory,
                         int defaultIcon) throws IOException {

@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items;
+package com.xbuilders.engine.items.block;
 
-import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.BlockAir;
-import com.xbuilders.engine.items.block.BlockArrayTexture;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.builtinMechanics.liquid.LiquidBlockType;

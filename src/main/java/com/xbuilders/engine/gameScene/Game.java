@@ -5,7 +5,7 @@
 package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;

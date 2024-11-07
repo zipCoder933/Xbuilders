@@ -2,7 +2,7 @@ package com.xbuilders.engine.builtinMechanics.liquid;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
-import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;

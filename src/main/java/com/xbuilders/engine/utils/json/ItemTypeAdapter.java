@@ -9,9 +9,9 @@ package com.xbuilders.engine.utils.json;
  * @author zipCoder933
  */
 import com.google.gson.*;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.item.ItemType;
 
 import java.lang.reflect.Type;
 

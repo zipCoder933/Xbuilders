@@ -1,6 +1,6 @@
 package com.xbuilders.engine.world.chunk.saving;
 
-import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityLink;

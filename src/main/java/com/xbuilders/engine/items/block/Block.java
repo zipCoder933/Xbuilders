@@ -1,11 +1,10 @@
 package com.xbuilders.engine.items.block;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockRegistry;
-import com.xbuilders.engine.items.Item;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;

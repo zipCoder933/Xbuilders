@@ -2,8 +2,8 @@ package com.xbuilders.game.blockTools.tools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.BlockRegistry;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.block.BlockRegistry;
+import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;

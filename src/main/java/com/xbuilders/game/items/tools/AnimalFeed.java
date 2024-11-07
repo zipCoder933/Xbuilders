@@ -1,7 +1,7 @@
 package com.xbuilders.game.items.tools;
 
-import com.xbuilders.engine.items.Item;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemType;
 
 public class AnimalFeed extends Item {
     public AnimalFeed() {

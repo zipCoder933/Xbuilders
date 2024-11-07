@@ -1,7 +1,7 @@
 package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.ItemType;
+import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.window.utils.texture.TextureUtils;

@@ -30,7 +30,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import static com.xbuilders.engine.gameScene.GameScene.player;
 import static com.xbuilders.engine.gameScene.GameScene.world;
 
-import com.xbuilders.engine.items.BlockRegistry;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;

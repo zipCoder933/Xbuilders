@@ -6,7 +6,7 @@ package com.xbuilders.engine;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.blockIconRendering.BlockIconRenderer;
+import com.xbuilders.engine.items.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.topMenu.PopupMessage;

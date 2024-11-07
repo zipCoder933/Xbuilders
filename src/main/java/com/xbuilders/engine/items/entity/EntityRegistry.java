@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.items;
+package com.xbuilders.engine.items.entity;
 
-import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.items.entity.ItemDropEntityLink;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.util.HashMap;
