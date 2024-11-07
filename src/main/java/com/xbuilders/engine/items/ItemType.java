@@ -11,5 +11,5 @@ package com.xbuilders.engine.items;
 public enum ItemType {
     BLOCK,
     ENTITY_LINK,
-    TOOL
+    ITEM
 }

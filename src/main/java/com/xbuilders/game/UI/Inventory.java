@@ -112,9 +112,9 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
 
                 //Tools come before blocks and Blocks come before entities
-                if (o1.itemType == ItemType.TOOL && o2.itemType != ItemType.TOOL) {
+                if (o1.itemType == ItemType.ITEM && o2.itemType != ItemType.ITEM) {
                     return -1;
-                } else if (o1.itemType != ItemType.TOOL && o2.itemType == ItemType.TOOL) {
+                } else if (o1.itemType != ItemType.ITEM && o2.itemType == ItemType.ITEM) {
                     return 1;
                 } else if (o1.itemType == ItemType.ENTITY_LINK && o2.itemType != ItemType.ENTITY_LINK) {
                     return 1;

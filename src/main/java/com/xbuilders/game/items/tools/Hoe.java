@@ -9,7 +9,7 @@ import org.joml.Vector3i;
 public class Hoe extends Item {
 
     public Hoe() {
-        super(3, "Hoe", ItemType.TOOL);
+        super(3, "Hoe", ItemType.ITEM);
         setIcon("hoe.png");
         setClickEvent((ray, creationMode) -> {
             Vector3i hit = ray.getHitPos();

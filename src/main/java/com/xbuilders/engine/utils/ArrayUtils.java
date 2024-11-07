@@ -17,13 +17,7 @@ import java.util.List;
  */
 public class ArrayUtils {
 
-    public static byte[] ListByteToArray(List<Byte> list) {
-        byte[] arr = new byte[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            arr[i] = list.get(i);
-        }
-        return arr;
-    }
+
 
     public static <T> T[] convert3Dto1D(T[][][] arr3D) {
         T[] flatBlocks = Arrays.stream(arr3D)

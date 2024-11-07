@@ -53,11 +53,14 @@ import org.lwjgl.system.MemoryStack;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.xbuilders.engine.items.ItemUtils.getAllJsonBlocks;
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
 /**
@@ -259,47 +262,6 @@ public class MyGame extends Game {
         return block.renderType != RenderType.SPRITE;
     }
 
-    private static Block[] getAllJsonBlocks(File jsonDirectory) {
-        System.out.println("Adding all json blocks from " + jsonDirectory.getAbsolutePath());
-        if (!jsonDirectory.exists()) jsonDirectory.mkdirs();
-        Block[] allBlocks = new Block[0];
-        try {
-            for (File file : jsonDirectory.listFiles()) {
-
-                if (!file.getName().endsWith(".json")) continue;
-                if (!MainWindow.devMode && file.getName().contains("devmode")) continue;
-
-                String jsonString = Files.readString(file.toPath());
-                Block[] jsonBlocks2 = JsonManager.gson_jsonBlock.fromJson(jsonString, Block[].class);
-                if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
-                    //append to list
-                    allBlocks = ArrayUtils.combineArrays(allBlocks, jsonBlocks2); //concatenateArrays
-                }
-            }
-            StringBuilder blockClasses = new StringBuilder();
-            StringBuilder blockIDs = new StringBuilder();
-            for (Block block : allBlocks) {
-                if (block == null) {
-                    System.err.println("A block is null");
-                    continue;
-                }
-                String nameTitle = block.name.toUpperCase();
-                nameTitle = nameTitle.
-                        replaceAll("hidden", "")
-                        .replaceAll("[^A-Z0-9_]", "")
-                        .replaceAll("\\s+", "_");
-
-                blockClasses.append("public static Block BLOCK_" + nameTitle + " = ItemList.getBlock((short)(short)").append(block.id).append(");").append("\n");
-                blockIDs.append("public static short BLOCK_" + nameTitle + " = ").append(block.id).append(";").append("\n");
-            }
-            Files.writeString(new File(jsonDirectory, "BlockClasses.java").toPath(), blockClasses.toString());
-            Files.writeString(new File(jsonDirectory, "BlockIDs.java").toPath(), blockIDs.toString());
-            return allBlocks;
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
-        return null;
-    }
 
     //<editor-fold defaultstate="collapsed" desc="Blocks and items">
     public static void exportBlocksToJson(List<Block> list, File out) {
@@ -389,10 +351,6 @@ public class MyGame extends Game {
     }
 
 
-
-
-
-
     public static final Item TOOL_ANIMAL_FEED = new AnimalFeed();
 
     @Override
@@ -417,55 +375,55 @@ public class MyGame extends Game {
 
         System.out.println("Initializing items...");
 
-        Block blockList[] = getAllJsonBlocks(ResourceUtils.resource("\\items\\blocks\\json"));
-        synthesizeBlocks(blockList);
+        ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.resource("\\items\\blocks\\json"));
+
 
         HashMap<Short, Block> reassignments = new HashMap<>();
-        reassignBlocks(blockList, reassignments);
-        for (int i = 0; i < blockList.length; i++) { //Reassign blocks if we want to use actual classes
-            if (reassignments.containsKey(blockList[i].id)) {
-                System.out.println("Reassigned Block " + blockList[i].toString());
-                short originalID = blockList[i].id;
-                blockList[i] = reassignments.get(blockList[i].id);
-                if (blockList[i].id != originalID)
-                    throw new RuntimeException("Reassigned Block ID " + originalID + " changed to " + blockList[i].id);
+        reassignBlocks(reassignments);
+        for (int i = 0; i < blockList.size(); i++) { //Reassign blocks if we want to use actual classes
+            if (reassignments.containsKey(blockList.get(i).id)) {
+                System.out.println("Reassigned Block " + blockList.get(i).toString());
+                short originalID = blockList.get(i).id;
+                blockList.set(i, reassignments.get(blockList.get(i).id));
+                if (blockList.get(i).id != originalID)
+                    throw new RuntimeException("Reassigned Block ID " + originalID + " changed to " + blockList.get(i).id);
             }
         }
 
 
-        EntityLink[] entityList = new EntityLink[]{
+        EntityLink[] entityArray = new EntityLink[]{
                 //Banners
-                new EntityLink(82, "Red Banner", () ->      new Banner(82)),
-                new EntityLink(81, "Orange Banner", () ->   new Banner(81)),
-                new EntityLink(72, "Yellow Banner", () ->   new Banner(72)),
-                new EntityLink(75, "Lime Banner", () ->     new Banner( 75)),
-                new EntityLink(78, "Green Banner", () ->    new Banner( 78)),
-                new EntityLink(73, "Blue Banner", () ->     new Banner( 73)),
-                new EntityLink(77, "Gray Banner", () ->     new Banner( 77)),
-                new EntityLink(76, "Pink Banner", () ->     new Banner( 76)),
-                new EntityLink(84, "Purple Banner", () ->   new Banner( 84)),
-                new EntityLink(74, "White Banner", () ->    new Banner( 74)),
-                new EntityLink(83, "Xbuilders Banner", () -> new Banner( 83)),
-                new EntityLink(80, "Regal Banner", () ->    new Banner(  80)),
-                new EntityLink(79, "Royal Banner", () -> new Banner( 79)),
+                new EntityLink(82, "Red Banner", () -> new Banner(82)),
+                new EntityLink(81, "Orange Banner", () -> new Banner(81)),
+                new EntityLink(72, "Yellow Banner", () -> new Banner(72)),
+                new EntityLink(75, "Lime Banner", () -> new Banner(75)),
+                new EntityLink(78, "Green Banner", () -> new Banner(78)),
+                new EntityLink(73, "Blue Banner", () -> new Banner(73)),
+                new EntityLink(77, "Gray Banner", () -> new Banner(77)),
+                new EntityLink(76, "Pink Banner", () -> new Banner(76)),
+                new EntityLink(84, "Purple Banner", () -> new Banner(84)),
+                new EntityLink(74, "White Banner", () -> new Banner(74)),
+                new EntityLink(83, "Xbuilders Banner", () -> new Banner(83)),
+                new EntityLink(80, "Regal Banner", () -> new Banner(80)),
+                new EntityLink(79, "Royal Banner", () -> new Banner(79)),
 
 
                 //Boats
-                new EntityLink(92, "Oak Boat", () -> new Boat( 92,window)),
-                new EntityLink(95, "Dark Oak Boat", () -> new Boat( 95,window)),
-                new EntityLink(96, "Spruce Boat", () -> new Boat( 96,window)),
-                new EntityLink(94, "Acacia Boat", () -> new Boat( 94,window)),
-                new EntityLink(93, "Jungle Boat", () -> new Boat( 93,window)),
-                new EntityLink(97, "Birch Boat", () -> new Boat( 97,window)),
+                new EntityLink(92, "Oak Boat", () -> new Boat(92, window)),
+                new EntityLink(95, "Dark Oak Boat", () -> new Boat(95, window)),
+                new EntityLink(96, "Spruce Boat", () -> new Boat(96, window)),
+                new EntityLink(94, "Acacia Boat", () -> new Boat(94, window)),
+                new EntityLink(93, "Jungle Boat", () -> new Boat(93, window)),
+                new EntityLink(97, "Birch Boat", () -> new Boat(97, window)),
 
                 //Minecarts
-                new EntityLink(103, "Blue Minecart", () -> new Minecart( 103,window)),
-                new EntityLink(99, "Charcoal Minecart", () -> new Minecart( 99,window)),
-                new EntityLink(104, "Cyan Minecart", () -> new Minecart( 104,window)),
-                new EntityLink(101, "Green Minecart", () -> new Minecart( 101,window)),
-                new EntityLink(98, "Iron Minecart", () -> new Minecart( 98,window)),
-                new EntityLink(100, "Red Minecart", () -> new Minecart( 100,window)),
-                new EntityLink(102, "Yellow Minecart", () -> new Minecart( 102,window)),
+                new EntityLink(103, "Blue Minecart", () -> new Minecart(103, window)),
+                new EntityLink(99, "Charcoal Minecart", () -> new Minecart(99, window)),
+                new EntityLink(104, "Cyan Minecart", () -> new Minecart(104, window)),
+                new EntityLink(101, "Green Minecart", () -> new Minecart(101, window)),
+                new EntityLink(98, "Iron Minecart", () -> new Minecart(98, window)),
+                new EntityLink(100, "Red Minecart", () -> new Minecart(100, window)),
+                new EntityLink(102, "Yellow Minecart", () -> new Minecart(102, window)),
 
                 //Foxes
                 new FoxLink(window, 56, "Fox"),
@@ -552,17 +510,19 @@ public class MyGame extends Game {
 //                new FishALink(window, 55, "Tri-Band Betta", "tri_band_betta.png"),
         };
 
-        Item[] tools = new Item[]{
-                new Saddle(),
-                new Hoe(),
-                new Flashlight(),
-                new Camera(),
-                TOOL_ANIMAL_FEED
-        };
+        ArrayList<Item> itemList = new ArrayList<>();
+        itemList.add(new Saddle());
+        itemList.add(new Hoe());
+        itemList.add(new Flashlight());
+        itemList.add(new Camera());
+        itemList.add(TOOL_ANIMAL_FEED);
+       // itemList.addAll(ItemUtils.getItemsFromBlocks(blockList));
 
+        ArrayList<EntityLink> entityList = new ArrayList<>();
+        entityList.addAll(Arrays.asList(entityArray));
 
         //Set items AFTER setting block types
-        ItemList.setAllItems(blockList, entityList, tools);
+        ItemList.setAllItems(blockList, entityList, itemList);
         initializeAllItems();
 
 
@@ -572,7 +532,7 @@ public class MyGame extends Game {
         new FirePropagation(gameScene.livePropagationHandler);
     }
 
-    private void reassignBlocks(Block[] blocks, HashMap<Short, Block> reassignments) {
+    private void reassignBlocks(HashMap<Short, Block> reassignments) {
         reassignments.put(BLOCK_TRACK, new StraightTrack(BLOCK_TRACK));
     }
 

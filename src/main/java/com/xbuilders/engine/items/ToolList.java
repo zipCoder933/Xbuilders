@@ -4,21 +4,32 @@
  */
 package com.xbuilders.engine.items;
 
+import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.IntMap;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zipCoder933
  */
-public class ToolList extends ItemGroup<Item> {
+public class ToolList {
 
     File iconDirectory;
     int defaultIcon;
 
-    public ToolList() {
-        super(Item.class);
+    final IntMap<Item> idMap = new IntMap<>(Item.class);
+    private Item[] list;
+
+    public Item[] getList() {
+        return list;
+    }
+
+    public Item getItem(short blockID) {
+        return idMap.get(blockID);
     }
 
     public void init(File iconDirectory, int defaultIcon) throws IOException {
@@ -26,9 +37,9 @@ public class ToolList extends ItemGroup<Item> {
         this.defaultIcon = defaultIcon;
     }
 
-    @Override
-    public void setItems(Item[] inputBlocks) {
-        setList(inputBlocks);
+    public void setItems(List<Item> inputBlocks) {
+        list = inputBlocks.toArray(new Item[0]);
+
         int i = 0;
         try {
             for (Item block : getList()) {

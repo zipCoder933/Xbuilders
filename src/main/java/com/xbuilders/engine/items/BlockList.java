@@ -16,13 +16,14 @@ import com.xbuilders.engine.utils.IntMap;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 
 /**
  * @author zipCoder933
  */
-public class BlockList extends ItemGroup<Block> {
+public class BlockList {
 
     public BlockArrayTexture textures;
     private final HashMap<Integer, BlockType> blockTypesHashmap = new HashMap<>();
@@ -34,6 +35,14 @@ public class BlockList extends ItemGroup<Block> {
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
     public final static LiquidBlockType liquidBlockType = new LiquidBlockType();
 
+    final IntMap<Block> idMap = new IntMap<>(Block.class);
+    private Block[] list;
+
+    public Block[] getList() {
+        return list;
+    }
+
+
     //Predefined Blocks
     public final static Block BLOCK_AIR = new BlockAir();
 
@@ -41,7 +50,6 @@ public class BlockList extends ItemGroup<Block> {
     int defaultIcon;
 
     public BlockList() {
-        super(Block.class);
         blockTypesHashmap.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
         blockTypesIntMap.setList(blockTypesHashmap);
         addBlockType("liquid", LIQUID_BLOCK_TYPE_ID, liquidBlockType);
@@ -57,13 +65,50 @@ public class BlockList extends ItemGroup<Block> {
         textures = new BlockArrayTexture(textureDirectory);
     }
 
-    @Override
-    public void setItems(Block[] inputBlocks) {
-        inputBlocks = combineArrays(
-                new Block[]{BLOCK_AIR},
-                inputBlocks);
-        setList(inputBlocks);
 
+    private int assignMapAndVerify(List<Block> inputItems) {
+        System.out.println("\nChecking block IDs");
+        int highestId = 0;
+        HashMap<Integer, Block> map = new HashMap<>();
+
+        for (int i = 0; i < inputItems.size(); i++) {
+            if (inputItems.get(i) == null) {
+                System.err.println("item at index " + i + " is null");
+                continue;
+            }
+            int id = inputItems.get(i).id;
+            if (map.get(id) != null) {
+                System.err.println("Block " + inputItems.get(i) + " ID conflicts with an existing ID: " + id);
+            }
+            map.put(id, inputItems.get(i));
+            if (id > highestId) {
+                highestId = id;
+            }
+        }
+        System.out.println("\t(The highest item ID is: " + highestId + ")");
+        System.out.print("\tID Gaps: ");
+        for (int id = 1; id < highestId; id++) {
+            boolean found = false;
+            for (Item item : inputItems) {
+                if (item.id == id) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.print(id + ", ");
+            }
+        }
+        System.out.println("");
+        idMap.setList(map);
+        return highestId;
+    }
+
+    public void setItems(List<Block> blockArray) {
+        blockArray.add(BLOCK_AIR);
+
+        assignMapAndVerify(blockArray);
+        list = blockArray.toArray(new Block[0]);
 
         //Initialize all blocks
         try {
@@ -114,7 +159,6 @@ public class BlockList extends ItemGroup<Block> {
         return (float) Math.max(0, Math.min(d, type));
     }
 
-    @Override
     public Block getItem(short blockID) {
         Block block = idMap.get(blockID);
         if (block == null)

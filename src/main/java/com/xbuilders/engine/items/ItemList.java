@@ -7,16 +7,14 @@ package com.xbuilders.engine.items;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.player.raycasting.Ray;
-import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * I have chosen to make ItemList fully static. There will only ever be one, and
@@ -74,7 +72,10 @@ public class ItemList {
         tools.init(iconDirectory, ItemList.defaultIcon);
     }
 
-    public static void setAllItems(Block[] blockList, EntityLink[] entityList, Item[] toolList) {
+    public static void setAllItems(
+            List<Block> blockList,
+            List< EntityLink> entityList,
+                                   List<Item> toolList) {
         blocks.setItems(blockList);
         entities.setItems(entityList);
         tools.setItems(toolList);
@@ -95,7 +96,7 @@ public class ItemList {
             return switch (itemType) {
                 case BLOCK -> ItemList.getBlock(id);
                 case ENTITY_LINK -> ItemList.getEntity(id);
-                case TOOL -> ItemList.getTool(id);
+                case ITEM -> ItemList.getTool(id);
                 default -> null;
             };
         }
