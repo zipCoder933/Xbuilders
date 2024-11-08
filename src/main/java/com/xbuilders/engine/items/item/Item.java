@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.Texture;
@@ -38,7 +38,7 @@ public class Item {
     private final NkImage NKicon;
     public String iconFilename;
     public Block block;
-    public EntityLink entity;
+    public EntitySupplier entity;
 
 
     // <editor-fold defaultstate="collapsed" desc="tool events">

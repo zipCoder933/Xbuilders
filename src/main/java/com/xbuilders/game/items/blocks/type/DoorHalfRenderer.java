@@ -77,12 +77,14 @@ public class DoorHalfRenderer extends BlockType {
                     }
                 });
 
-                topBlock.clickEvent((x, y, z, bd) -> {
+                topBlock.clickEvent(false, (x, y, z) -> {
+                    BlockData bd = GameScene.world.getBlockData(x, y, z);
                     bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
                     // Transfer block data to bottom block
                     GameScene.world.setBlockData(bd, x, y + 1, z);
                 });
-                bottomBlock.clickEvent((x, y, z, bd) -> {
+                bottomBlock.clickEvent(false, (x, y, z) -> {
+                    BlockData bd = GameScene.world.getBlockData(x, y, z);
                     bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
                     // Transfer block data to top block
                     GameScene.world.setBlockData(bd, x, y - 1, z);
@@ -93,7 +95,8 @@ public class DoorHalfRenderer extends BlockType {
                     BlockData data = GameScene.world.getBlockData(x, y, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                 });
-                b.clickEvent((x, y, z, bd) -> {
+                b.clickEvent(false, (x, y, z) -> {
+                    BlockData bd = GameScene.world.getBlockData(x, y, z);
                     bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
                     GameScene.world.setBlockData(bd, x, y - 1, z);
                 });

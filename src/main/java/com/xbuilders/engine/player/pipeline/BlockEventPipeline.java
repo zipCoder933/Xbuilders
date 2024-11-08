@@ -77,12 +77,18 @@ public class BlockEventPipeline {
      * threadFactory: The factory to use when creating new threads.
      * handler: The handler to use when tasks cannot be executed.
      */
-    PriorityThreadPoolExecutor bulkBlockThread;
-    PriorityThreadPoolExecutor eventThread;
+    public PriorityThreadPoolExecutor bulkBlockThread;
+    public PriorityThreadPoolExecutor eventThread;
+    public PriorityThreadPoolExecutor clickEventThread;
     WorldInfo worldInfo;
 
     public void startGame(WorldInfo worldInfo) {
         eventThread = new PriorityThreadPoolExecutor(
+                100, 1000,
+                0L, TimeUnit.MILLISECONDS,
+                new HighValueComparator());
+
+        clickEventThread = new PriorityThreadPoolExecutor(
                 100, 1000,
                 0L, TimeUnit.MILLISECONDS,
                 new HighValueComparator());

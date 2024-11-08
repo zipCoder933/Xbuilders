@@ -1,12 +1,11 @@
 package com.xbuilders.game.items.entities.animal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 
 import java.io.IOException;
 
-public class CatLink extends EntityLink {
+public class CatLink extends EntitySupplier {
 
     public CatLink(MainWindow window, int id, String name) {
         super(id, name, () -> new CatLink.Cat(id, window));

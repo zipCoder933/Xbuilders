@@ -7,7 +7,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import com.xbuilders.game.items.blocks.RenderType;
 import org.joml.Vector3i;
 
@@ -119,8 +119,8 @@ public class LiquidPropagationTask extends LivePropagationTask {
     public boolean setWater(int x, int y, int z, int flow) {
         Block existingBlock = GameScene.world.getBlock(x, y, z);
 
-        if (existingBlock.id == MyGame.BLOCK_LAVA && liquidBlock.id == MyGame.BLOCK_WATER) { //If that is lava and we are water
-            GameScene.player.setBlock(MyGame.BLOCK_COBBLESTONE, x, y, z);
+        if (existingBlock.id == Blocks.BLOCK_LAVA && liquidBlock.id == Blocks.BLOCK_WATER) { //If that is lava and we are water
+            GameScene.player.setBlock(Blocks.BLOCK_COBBLESTONE, x, y, z);
         } else if (existingBlock.id == liquidBlock.id || isPenetrable(existingBlock)) {
             int existingFlow = getFlow(GameScene.world.getBlockData(x, y, z), 0);
             flow = Math.max(flow, existingFlow); //We dont want to set something lower than the existing flow

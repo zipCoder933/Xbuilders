@@ -10,7 +10,7 @@ import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 
 import java.util.HashMap;
 
@@ -47,13 +47,13 @@ public class BasicTerrain extends Terrain {
                                 -1, 1, MAX_SURFACE_HEIGHT, MIN_SURFACE_HEIGHT);
 
                         if (wy == heightmap) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
                             if (session.random.nextFloat() > 0.995) {
                                 TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
                                 genOutsideBoundary = true;
                             }
                         } else if (heightmap < wy) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_DIRT);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
                         }
 //                        else if (heightmap > wy) {
 //                            if (perlinNoise.noise(wx, wy , wz ) > 0.1f) {

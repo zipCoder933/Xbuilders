@@ -4,14 +4,10 @@
  */
 package com.xbuilders.game.terrain;
 
-import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.MyGame;
-import com.xbuilders.game.items.blocks.trees.AcaciaTreeUtils;
-import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
+import com.xbuilders.game.Blocks;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
-import com.xbuilders.game.terrain.defaultTerrain.DefaultTerrainUtils;
 
 import java.util.HashMap;
 
@@ -84,13 +80,13 @@ public class FlatTerrain extends Terrain {
 
                         int wy = cy + (chunk.position.y * Chunk.WIDTH);
                         if (wy == MAX_SURFACE_HEIGHT) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
                         } else if (wy > MAX_SURFACE_HEIGHT + 100) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_BEDROCK);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_BEDROCK);
                         } else if (wy > MAX_SURFACE_HEIGHT + 10) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                         } else if (wy > MAX_SURFACE_HEIGHT) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_DIRT);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
                         }
                     }
                 }

@@ -3,7 +3,7 @@ package com.xbuilders.engine.world.chunk.saving;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -82,7 +82,7 @@ public class ChunkFile_V1 {
 
     protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
         final short entityID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]); //read entity id
-        EntityLink link = Registrys.getEntity(entityID);
+        EntitySupplier link = Registrys.getEntity(entityID);
         start.set(start.get() + 2);
 
         long identifier = ByteUtils.bytesToLong(bytes, start); //read entity identifier

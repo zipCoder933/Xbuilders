@@ -75,7 +75,7 @@ public abstract class Entity {
     public float sunValue;
     public float torchValue;
     protected byte[] loadBytes;
-    public EntityLink link;
+    public EntitySupplier link;
     protected long identifier;
 
 

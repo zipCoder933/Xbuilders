@@ -6,7 +6,7 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemRegistry;
@@ -71,7 +71,7 @@ public class Registrys {
 
     public static void setAllItems(
             List<Block> blockList,
-            List<EntityLink> entityList,
+            List<EntitySupplier> entityList,
             List<Item> toolList) {
         blocks.setAndInit(blockList);
         entities.setAndInit(entityList);
@@ -87,7 +87,7 @@ public class Registrys {
         return blocks.getItem(blockID);
     }
 
-    public static EntityLink getEntity(short blockID) {
+    public static EntitySupplier getEntity(short blockID) {
         return entities.getItem(blockID);
     }
 

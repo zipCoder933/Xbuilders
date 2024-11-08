@@ -3,13 +3,9 @@ package com.xbuilders.engine.player;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
-import com.xbuilders.engine.items.entity.EntityRegistry;
-import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemType;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
-import com.xbuilders.engine.items.entity.ItemDropEntityLink;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
@@ -25,7 +21,6 @@ import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
@@ -447,7 +442,7 @@ public class UserControlledPlayer extends Player {
     }
 
 
-    public Entity setEntity(EntityLink entity, Vector3f w, byte[] data) {
+    public Entity setEntity(EntitySupplier entity, Vector3f w, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);

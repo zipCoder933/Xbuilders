@@ -10,7 +10,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -33,8 +33,8 @@ class TreeUtils {
         //Check if the block below is dirt
         short b = GameScene.world.getBlockID(x, y + 1, z);
         if (isGrass(b) ||
-                b == MyGame.BLOCK_DIRT ||
-                b == MyGame.BLOCK_FARMLAND) {
+                b == Blocks.BLOCK_DIRT ||
+                b == Blocks.BLOCK_FARMLAND) {
             return true;
         }
         return false;

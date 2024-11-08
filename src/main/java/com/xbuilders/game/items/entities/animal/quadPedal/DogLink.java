@@ -1,12 +1,11 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 
 import java.io.IOException;
 
-public class DogLink extends EntityLink {
+public class DogLink extends EntitySupplier {
 
     public DogLink(MainWindow window, int id, String name) {
         super(id, name, () -> new DogLink.Dog(id,window));

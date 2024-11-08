@@ -25,6 +25,7 @@ public class Block {
     public final String name;
 
     public String iconFilename;
+
     public void setIcon(String iconFilename) {
         this.iconFilename = iconFilename;
     }
@@ -73,11 +74,6 @@ public class Block {
         public void run(int x, int y, int z, BlockHistory history);
     }
 
-    @FunctionalInterface
-    public interface ClickEvent {
-
-        public void run(int x, int y, int z, BlockData data);
-    }
 
     //A functional interface for onLocalChange
     @FunctionalInterface
@@ -90,7 +86,7 @@ public class Block {
     SetBlockEvent setBlockEvent = null;
     OnLocalChange localChangeEvent = null;
     RemoveBlockEvent removeBlockEvent = null;
-    public ClickEvent clickEvent = null;
+    public SetBlockEvent clickEvent = null;
     boolean setBlockEvent_isMultithreaded = false;
     boolean removeBlockEvent_isMultithreaded = false;
     boolean clickEvent_isMultithreaded = false;
@@ -101,8 +97,9 @@ public class Block {
         return true;
     }
 
-    public void clickEvent(ClickEvent clickEvent) {
+    public void clickEvent(boolean multithreaded, SetBlockEvent clickEvent) {
         this.clickEvent = clickEvent;
+        clickEvent_isMultithreaded = multithreaded;
     }
 
     public void setBlockEvent(boolean multithreaded, SetBlockEvent setBlockEvent) {
@@ -122,6 +119,32 @@ public class Block {
 
     public boolean clickThrough() {
         return clickEvent == null;
+    }
+
+    /**
+     * @param eventThread
+     * @param worldPos
+     * @return if the event was consumed
+     */
+    public boolean run_ClickEvent(PriorityThreadPoolExecutor eventThread,
+                                  Vector3i worldPos) {
+        if (clickEvent != null) {
+            WCCi wcc = new WCCi().set(worldPos);
+            Chunk chunk = wcc.getChunk(GameScene.world);
+
+            if (chunk == null || clickEvent == null) return false;
+
+            if (clickEvent_isMultithreaded) {
+                eventThread.submit(System.currentTimeMillis(), () -> {
+                    clickEvent.run(worldPos.x, worldPos.y, worldPos.z);
+                    chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                });
+            } else {
+                clickEvent.run(worldPos.x, worldPos.y, worldPos.z);
+                chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            }
+        }
+        return !clickThrough();
     }
 
     public void run_RemoveBlockEvent(PriorityThreadPoolExecutor eventThread,

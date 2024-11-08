@@ -2,7 +2,7 @@ package com.xbuilders.engine.multiplayer;
 
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
@@ -45,7 +45,7 @@ public class MultiplayerPendingEntityChanges {
 
     @FunctionalInterface
     public interface ReadConsumer {
-        void accept(int mode, EntityLink entityLink, long identifier,
+        void accept(int mode, EntitySupplier entityLink, long identifier,
                     Vector3f currentPos, byte[] data, boolean isControlledByAnotherPlayer);
     }
 
@@ -175,7 +175,7 @@ public class MultiplayerPendingEntityChanges {
 
                 //Entity ID
                 int blockID = ByteUtils.bytesToShort(receivedData[start.get()], receivedData[start.get() + 1]);
-                EntityLink entity = Registrys.getEntity((short) blockID);
+                EntitySupplier entity = Registrys.getEntity((short) blockID);
                 start.set(start.get() + 2);
 
                 //Block data

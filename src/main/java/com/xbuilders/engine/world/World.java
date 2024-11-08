@@ -4,7 +4,7 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.player.UserControlledPlayer;
@@ -377,7 +377,7 @@ public class World {
                     (time) -> {
                         System.out.println("\t\tUpdating sunlight... " + time);
                     });
-            for(Chunk chunk : affectedChunks) { //Mark the chunks as modified
+            for (Chunk chunk : affectedChunks) { //Mark the chunks as modified
                 chunk.markAsModifiedByUser();
             }
             affectedChunks.clear();
@@ -702,7 +702,7 @@ public class World {
      * @param w
      * @return the entity
      */
-    public Entity setEntity(EntityLink entity, Vector3i w, byte[] data) {
+    public Entity setEntity(EntitySupplier entity, Vector3i w, byte[] data) {
         WCCi wcc = new WCCi();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
@@ -773,6 +773,10 @@ public class World {
     public Block getBlock(int worldX, int worldY, int worldZ) {
         Block block = Registrys.getBlock(getBlockID(worldX, worldY, worldZ));
         return block == null ? BlockRegistry.BLOCK_AIR : block;
+    }
+
+    public Block getBlock(Vector3i pos) {
+        return getBlock(pos.x, pos.y, pos.z);
     }
 
     public BlockData getBlockData(int worldX, int worldY, int worldZ) {

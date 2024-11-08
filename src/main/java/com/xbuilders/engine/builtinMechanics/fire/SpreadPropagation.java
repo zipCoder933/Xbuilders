@@ -7,7 +7,7 @@ import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 class SpreadPropagation extends LivePropagationTask {
 
-    Block FIRE_BLOCK = Registrys.getBlock(MyGame.BLOCK_FIRE);
+    Block FIRE_BLOCK = Registrys.getBlock(Blocks.BLOCK_FIRE);
     HashSet<Vector3i> fireNodes = new HashSet<>();
     HashSet<Vector3i> disintegrationNodes;
 
@@ -89,7 +89,7 @@ class SpreadPropagation extends LivePropagationTask {
     private boolean lightBlock(int x, int y, int z) {
         if (isFlammable(GameScene.world.getBlock(x, y, z))
                 && GameScene.world.getBlock(x, y - 1, z).isAir()) {
-            GameScene.player.setBlock(MyGame.BLOCK_FIRE, x, y - 1, z);
+            GameScene.player.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             disintegrationNodes.add(new Vector3i(x, y, z));
             return true;
         }

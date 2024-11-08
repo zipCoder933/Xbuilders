@@ -37,7 +37,7 @@ public class ChunkEntitySet {
         list.clear();
     }
 
-    public Entity placeNew(EntityLink link, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
+    public Entity placeNew(EntitySupplier link, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
         if (link != null && link.supplier != null) {
             Entity entity = link.supplier.get();
             entity.link = link;
@@ -57,16 +57,16 @@ public class ChunkEntitySet {
         return null;
     }
 
-    public Entity placeNew(Vector3f worldPos, EntityLink entity, byte[] data) {
+    public Entity placeNew(Vector3f worldPos, EntitySupplier entity, byte[] data) {
         return placeNew(entity, 0, worldPos.x, worldPos.y, worldPos.z, data);
     }
 
-    public Entity placeNew(Vector3f worldPos, long identifier, EntityLink entity, byte[] data) {
+    public Entity placeNew(Vector3f worldPos, long identifier, EntitySupplier entity, byte[] data) {
         return placeNew(entity, identifier, worldPos.x, worldPos.y, worldPos.z, data);
 
     }
 
-    public Entity placeNew(Vector3i worldPos, EntityLink entity, byte[] data) {
+    public Entity placeNew(Vector3i worldPos, EntitySupplier entity, byte[] data) {
         return placeNew(entity, 0, worldPos.x, worldPos.y, worldPos.z, data);
     }
 

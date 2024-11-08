@@ -1,22 +1,9 @@
 package com.xbuilders.engine.multiplayer;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.player.UserControlledPlayer;
-import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.world.WorldInfo;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Map;
 
 //This WILL be another class for 2 reasons
 //1) It is less complicated this way
@@ -34,7 +21,7 @@ public class Local_MultiplayerPendingEntityChanges extends MultiplayerPendingEnt
         needsSaving=true;
     }
 
-    public void addEntityChange(int mode, EntityLink entity, long identifier, Vector3f currentPos, byte[] data) {
+    public void addEntityChange(int mode, EntitySupplier entity, long identifier, Vector3f currentPos, byte[] data) {
     }
 
     public void save(WorldInfo worldInfo) {

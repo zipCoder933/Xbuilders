@@ -7,7 +7,7 @@ package com.xbuilders.game.items.blocks.trees;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 
 import java.util.Random;
 
@@ -28,28 +28,28 @@ public class BirchTreeUtils {
     public static void player_plantTree(Random rand, int x, int y, int z) {
         int height = randomInt(rand, 5, 7);
         for (int k = 0; k < height; k++) {
-            TreeUtils.player_setBlockAndOverride(MyGame.BLOCK_BIRCH_LOG, x, y - k, z);
+            TreeUtils.player_setBlockAndOverride(Blocks.BLOCK_BIRCH_LOG, x, y - k, z);
         }
 
-        TreeUtils.player_roundedSquareLeavesLayer(x, y - height + 2, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
-        TreeUtils.player_roundedSquareLeavesLayer(x, y - height + 1, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
-        TreeUtils.player_diamondLeavesLayer(x, y - height, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
+        TreeUtils.player_roundedSquareLeavesLayer(x, y - height + 2, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
+        TreeUtils.player_roundedSquareLeavesLayer(x, y - height + 1, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
+        TreeUtils.player_diamondLeavesLayer(x, y - height, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
         if (rand.nextDouble() > 0.8) {
-            TreeUtils.player_diamondLeavesLayer(x, y - height - 1, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
+            TreeUtils.player_diamondLeavesLayer(x, y - height - 1, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
         }
     }
 
     public static void terrain_plantTree(Terrain.GenSession terrain, Chunk source, int x, int y, int z) {
         int height = randomInt(terrain.random, 5, 7);
         for (int k = 0; k < height; k++) {
-            terrain.setBlockWorld(MyGame.BLOCK_BIRCH_LOG, x, y - k, z);
+            terrain.setBlockWorld(Blocks.BLOCK_BIRCH_LOG, x, y - k, z);
         }
 
-        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, y - height + 2, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
-        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, y - height + 1, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
-        TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
+        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, y - height + 2, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
+        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, y - height + 1, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
+        TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
         if (terrain.random.nextDouble() > 0.8) {
-            TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height - 1, z, 2, MyGame.BLOCK_BIRCH_LEAVES);
+            TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height - 1, z, 2, Blocks.BLOCK_BIRCH_LEAVES);
         }
     }
 }

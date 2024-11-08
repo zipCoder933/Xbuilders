@@ -4,7 +4,6 @@
  */
 package com.xbuilders.engine.items.entity;
 
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.util.HashMap;
@@ -17,14 +16,14 @@ import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
  */
 public class EntityRegistry {
 
-    final IntMap<EntityLink> idMap = new IntMap<>(EntityLink.class);
-    private EntityLink[] list;
+    final IntMap<EntitySupplier> idMap = new IntMap<>(EntitySupplier.class);
+    private EntitySupplier[] list;
 
-    public EntityLink[] getList() {
+    public EntitySupplier[] getList() {
         return list;
     }
 
-    public EntityLink getItem(short blockID) {
+    public EntitySupplier getItem(short blockID) {
         return idMap.get(blockID);
     }
 
@@ -36,10 +35,10 @@ public class EntityRegistry {
     }
 
 
-    private int verifyEntityIds(List<EntityLink> inputItems) {
+    private int verifyEntityIds(List<EntitySupplier> inputItems) {
         System.out.println("\nChecking entity IDs");
         int highestId = 0;
-        HashMap<Integer, EntityLink> map = new HashMap<>();
+        HashMap<Integer, EntitySupplier> map = new HashMap<>();
 
         for (int i = 0; i < inputItems.size(); i++) {
             if (inputItems.get(i) == null) {
@@ -59,7 +58,7 @@ public class EntityRegistry {
         System.out.print("\tID Gaps: ");
         for (int id = 1; id < highestId; id++) {
             boolean found = false;
-            for (EntityLink item : inputItems) {
+            for (EntitySupplier item : inputItems) {
                 if (item.id == id) {
                     found = true;
                     break;
@@ -74,9 +73,9 @@ public class EntityRegistry {
         return highestId;
     }
 
-    public void setAndInit(List<EntityLink> inputBlocks) {
+    public void setAndInit(List<EntitySupplier> inputBlocks) {
         inputBlocks.add(ENTITY_ITEM_DROP);
         verifyEntityIds(inputBlocks);
-        list = inputBlocks.toArray(new EntityLink[0]);
+        list = inputBlocks.toArray(new EntitySupplier[0]);
     }
 }

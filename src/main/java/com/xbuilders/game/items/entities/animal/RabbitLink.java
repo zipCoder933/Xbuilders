@@ -1,11 +1,11 @@
 package com.xbuilders.game.items.entities.animal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 
 import java.io.IOException;
 
-public class RabbitLink extends EntityLink {
+public class RabbitLink extends EntitySupplier {
 
     public RabbitLink(MainWindow window, int id, String name) {
         super(id, name, () -> new Rabbit(id,window));

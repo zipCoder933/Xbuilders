@@ -11,7 +11,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import org.joml.Vector2f;
 
 public abstract class Vehicle extends Entity {
@@ -37,8 +37,8 @@ public abstract class Vehicle extends Entity {
         short b1 = GameScene.world.getBlockID(x, y, z);
         short b2 = GameScene.world.getBlockID(x, y + 1, z);
 
-        return b1 == (MyGame.BLOCK_MINECART_ROAD_BLOCK) || b1 == (MyGame.BLOCK_MINECART_ROAD_SLAB)
-                || b2 == (MyGame.BLOCK_MINECART_ROAD_BLOCK) || b2 == (MyGame.BLOCK_MINECART_ROAD_SLAB);
+        return b1 == (Blocks.BLOCK_MINECART_ROAD_BLOCK) || b1 == (Blocks.BLOCK_MINECART_ROAD_SLAB)
+                || b2 == (Blocks.BLOCK_MINECART_ROAD_BLOCK) || b2 == (Blocks.BLOCK_MINECART_ROAD_SLAB);
     }
 
     private float rotationYDeg = 0;

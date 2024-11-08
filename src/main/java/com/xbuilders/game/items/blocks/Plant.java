@@ -3,7 +3,7 @@ package com.xbuilders.game.items.blocks;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 
 public class Plant {
 
@@ -54,7 +54,7 @@ public class Plant {
     }
 
     public static boolean cropPlantable(final int x, final int y, final int z) {
-        return GameScene.world.getBlockID(x, y + 1, z) == MyGame.BLOCK_FARMLAND;
+        return GameScene.world.getBlockID(x, y + 1, z) == Blocks.BLOCK_FARMLAND;
     }
 
     public static boolean plantable(final int x, final int y, final int z) {
@@ -62,12 +62,12 @@ public class Plant {
     }
 
     public static boolean blockIsGrassSnowOrDirt(Block block) {
-        return block.id == MyGame.BLOCK_FARMLAND
-                || block.id == MyGame.BLOCK_DIRT
-                || block.id == MyGame.BLOCK_GRASS
-                || block.id == MyGame.BLOCK_SNOW_GRASS
-                || block.id == MyGame.BLOCK_JUNGLE_GRASS
-                || block.id == MyGame.BLOCK_DRY_GRASS;
+        return block.id == Blocks.BLOCK_FARMLAND
+                || block.id == Blocks.BLOCK_DIRT
+                || block.id == Blocks.BLOCK_GRASS
+                || block.id == Blocks.BLOCK_SNOW_GRASS
+                || block.id == Blocks.BLOCK_JUNGLE_GRASS
+                || block.id == Blocks.BLOCK_DRY_GRASS;
     }
 
 

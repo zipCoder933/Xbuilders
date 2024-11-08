@@ -10,7 +10,7 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 
 import java.util.HashMap;
 
@@ -45,9 +45,9 @@ public class TestTerrain extends Terrain {
 
                         if (wy >= MAX_SURFACE_HEIGHT) {
                             if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRASS);
+                                chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
                             } else {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
+                                chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                             }
                             if (wy == MAX_SURFACE_HEIGHT && session.random.nextFloat() > 0.995) {
                                 TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
@@ -55,7 +55,7 @@ public class TestTerrain extends Terrain {
                             }
                         } else if (wy == MIN_SURFACE_HEIGHT && perlinNoise.noise(wx * 0.3f, wz * 0.3f) > -0.1f) {
                             if (perlinNoise.noise(wx, wy, wz) > -0.1f) {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_GRANITE);
+                                chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRANITE);
                             }
                         }
                     }

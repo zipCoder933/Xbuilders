@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -47,11 +47,11 @@ public class BlockEventUtils {
 
 
     public static void setTNTEvents(Block thisBlock, final int EXPLOSTION_RADIUS, long fuseDelay) {
-        thisBlock.setBlockEvent(true, (setX, setY, setZ) -> {
-            GameScene.player.setBlock(MyGame.BLOCK_TNT_ACTIVE, setX, setY, setZ);
+        thisBlock.clickEvent(true, (setX, setY, setZ) -> {
+            GameScene.player.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
             try {
                 Thread.sleep(fuseDelay);
-                if (GameScene.world.getBlockID(setX, setY, setZ) == MyGame.BLOCK_TNT_ACTIVE) {
+                if (GameScene.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
                     GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                     removeEverythingWithinRadius(thisBlock, EXPLOSTION_RADIUS, new Vector3i(setX, setY, setZ));
 

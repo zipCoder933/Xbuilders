@@ -7,7 +7,7 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import org.joml.Vector3i;
 
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 class DisintegrationPropagation extends LivePropagationTask {
 
-    Block FIRE_BLOCK = Registrys.getBlock(MyGame.BLOCK_FIRE);
+    Block FIRE_BLOCK = Registrys.getBlock(Blocks.BLOCK_FIRE);
     HashSet<Vector3i> disintegrationNodes = new HashSet<>();
 
     @Override

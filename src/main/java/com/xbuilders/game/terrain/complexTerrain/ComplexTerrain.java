@@ -9,7 +9,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 
 import java.util.HashMap;
 
@@ -80,9 +80,9 @@ public class ComplexTerrain extends Terrain {
                     final int wy = cy + (chunk.position.y * Chunk.WIDTH);
 
                     if (wy >= TERRAIN_BOTTOM - 1) {
-                        chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_BEDROCK);
+                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_BEDROCK);
                     } else if (wy > TERRAIN_All_ROCK_POINT) {
-                        chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
+                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                     } else if (wy > TERRAIN_MOUNTAINS_TOP) {
                         //The rock percentage from 0 to 1 (im assuming)
                         final float makeTerrain = this.placeRock(valleyLikelyhood, wx, wy, wz);
@@ -98,7 +98,7 @@ public class ComplexTerrain extends Terrain {
                                         getBiomeOfVoxel(valleyLikelyhood, dryness, wx, wy, wz),
                                         valleyLikelyhood, dryness, makeTerrain);
                             } else if (chunk.data.getBlock(cx, cy, cz) == BlockRegistry.BLOCK_AIR.id) {
-                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
+                                chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                             }
                         }
                     }

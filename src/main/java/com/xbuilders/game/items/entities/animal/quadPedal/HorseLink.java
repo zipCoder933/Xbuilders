@@ -1,10 +1,10 @@
 package com.xbuilders.game.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import java.io.IOException;
 
-public class HorseLink extends EntityLink {
+public class HorseLink extends EntitySupplier {
     public HorseLink(MainWindow window, int id, String name) {
         super(id, name, () -> new HorseLink.Horse(id,window));
         setIcon("horse egg.png");

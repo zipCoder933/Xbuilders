@@ -5,7 +5,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
 import org.joml.Vector3i;
 
@@ -24,7 +24,7 @@ public class GrassPropagation extends LivePropagationTask {
 
     public boolean addNode(Vector3i worldPos, BlockHistory hist) {
         if (isGrass(hist.newBlock.id)
-                || hist.newBlock.id == MyGame.BLOCK_DIRT) {
+                || hist.newBlock.id == Blocks.BLOCK_DIRT) {
             long setTime = (long) (System.currentTimeMillis() + (Math.random() * 5000));
             nodes.put(worldPos, setTime);
             return true;
@@ -51,12 +51,12 @@ public class GrassPropagation extends LivePropagationTask {
             Block aboveBlock = GameScene.world.getBlock(node.x, node.y - 1, node.z);
 
             if (System.currentTimeMillis() - setTime > UPDATE_INTERVAL / 2) { //If it's been 10 seconds since we last set the block
-                if (thisBlock == MyGame.BLOCK_DIRT && !aboveBlock.solid) {
+                if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
                     GameScene.player.setBlock(
                             getGrassBlockOfBiome(node.x, node.y, node.z),
                             node.x, node.y, node.z);
                 } else if (isGrass(thisBlock) && aboveBlock.solid) {
-                    GameScene.player.setBlock(MyGame.BLOCK_DIRT, node.x, node.y, node.z);
+                    GameScene.player.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
                 }
                 iterator.remove(); // remove the entry from the map
             }
@@ -67,24 +67,24 @@ public class GrassPropagation extends LivePropagationTask {
         int biome = GameScene.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case ComplexTerrain.BIOME_SNOWY -> {
-                return MyGame.BLOCK_SNOW_GRASS;
+                return Blocks.BLOCK_SNOW_GRASS;
             }
             case ComplexTerrain.BIOME_JUNGLE -> {
-                return MyGame.BLOCK_JUNGLE_GRASS;
+                return Blocks.BLOCK_JUNGLE_GRASS;
             }
             case ComplexTerrain.BIOME_SAVANNAH, ComplexTerrain.BIOME_DESERT -> {
-                return MyGame.BLOCK_DRY_GRASS;
+                return Blocks.BLOCK_DRY_GRASS;
             }
             default -> {
-                return MyGame.BLOCK_GRASS;
+                return Blocks.BLOCK_GRASS;
             }
         }
     }
 
     public static boolean isGrass(short thisBlock) {
-        return thisBlock == MyGame.BLOCK_GRASS ||
-                thisBlock == MyGame.BLOCK_SNOW_GRASS ||
-                thisBlock == MyGame.BLOCK_JUNGLE_GRASS ||
-                thisBlock == MyGame.BLOCK_DRY_GRASS;
+        return thisBlock == Blocks.BLOCK_GRASS ||
+                thisBlock == Blocks.BLOCK_SNOW_GRASS ||
+                thisBlock == Blocks.BLOCK_JUNGLE_GRASS ||
+                thisBlock == Blocks.BLOCK_DRY_GRASS;
     }
 }

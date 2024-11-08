@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.blocks.type;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.BlockTypeModel.BlockModel;
@@ -32,7 +33,8 @@ public class TrapdoorRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
-            b.clickEvent((x, y, z, bd) -> {
+            b.clickEvent(false, (x, y, z) -> {
+                BlockData bd = GameScene.world.getBlockData(x, y, z);
                 bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
             });
         };

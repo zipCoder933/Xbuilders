@@ -4,7 +4,7 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -285,7 +285,7 @@ public class GameServer extends Server<PlayerClient> {
         }
     }
 
-    private void printEntityChange(int mode, EntityLink entity, long identifier, Vector3f currentPos, byte[] data) {
+    private void printEntityChange(int mode, EntitySupplier entity, long identifier, Vector3f currentPos, byte[] data) {
         String modeStr;
         switch (mode) {
             case ENTITY_CREATED -> modeStr = "CREATED";
@@ -299,7 +299,7 @@ public class GameServer extends Server<PlayerClient> {
                 ", data=" + Arrays.toString(data));
     }
 
-    public Entity setEntity(EntityLink entity, long identifier, Vector3f worldPosition, byte[] data) {
+    public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(worldPosition);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);

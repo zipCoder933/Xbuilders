@@ -5,8 +5,7 @@
 package com.xbuilders.game.items.entities.animal.fish;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -16,15 +15,13 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.Random;
 
 
 /**
  * @author zipCoder933
  */
-public class FishALink extends EntityLink {
+public class FishALink extends EntitySupplier {
 
     public FishALink(MainWindow window, int id, String name) {
         super(id, name, () -> new FishObject(id, window));

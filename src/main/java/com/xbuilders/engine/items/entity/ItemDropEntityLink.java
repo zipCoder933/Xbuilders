@@ -4,16 +4,10 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.ByteUtils;
 
-import java.io.IOException;
-import java.util.Arrays;
-
-public class ItemDropEntityLink extends EntityLink {
+public class ItemDropEntityLink extends EntitySupplier {
 
     public ItemDropEntityLink() {
         super(0, "item drop", () -> new ItemDrop(0));

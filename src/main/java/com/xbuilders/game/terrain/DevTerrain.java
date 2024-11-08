@@ -10,7 +10,7 @@ import static com.xbuilders.engine.world.chunk.Chunk.WIDTH;
 
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 
 import java.util.HashMap;
 
@@ -42,8 +42,8 @@ public class DevTerrain extends Terrain {
                 for (int cz = 0; cz < WIDTH; cz++) {
                     if (wy >= heightmap) {
                         if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
-                            chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_SAND);
-                        } else chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_SAND);
+                        } else chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                     }
                 }
             }

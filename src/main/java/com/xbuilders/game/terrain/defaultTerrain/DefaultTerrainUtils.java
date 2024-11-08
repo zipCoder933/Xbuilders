@@ -2,7 +2,7 @@ package com.xbuilders.game.terrain.defaultTerrain;
 
 import com.xbuilders.engine.world.Terrain.GenSession;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import com.xbuilders.game.items.blocks.trees.BirchTreeUtils;
 import com.xbuilders.game.items.blocks.trees.OakTreeUtils;
 import com.xbuilders.game.items.blocks.trees.SpruceTreeUtils;
@@ -89,19 +89,19 @@ public class DefaultTerrainUtils {
         short block = 0;
         switch (session.random.nextInt(4)) {
             case 0 -> {
-                block = MyGame.BLOCK_ROSES;
+                block = Blocks.BLOCK_ROSES;
             }
             case 1 -> {
-                block = MyGame.BLOCK_PANSIES;
+                block = Blocks.BLOCK_PANSIES;
             }
             case 2 -> {
-                block = MyGame.BLOCK_AZURE_BLUET;
+                block = Blocks.BLOCK_AZURE_BLUET;
             }
             case 3 -> {
-                block = MyGame.BLOCK_DANDELION;
+                block = Blocks.BLOCK_DANDELION;
             }
             default -> {
-                block = MyGame.BLOCK_BLUE_ORCHID;
+                block = Blocks.BLOCK_BLUE_ORCHID;
             }
         }
 

@@ -8,7 +8,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -70,31 +70,31 @@ public class JungleTreeUtils {
         int height = randInt(rand, MIN_HEIGHT, MAX_HEIGHT);
         int firstLayerWide = 0;
         firstLayerWide = randInt(rand, 2, 4);
-        TreeUtils.player_roundedSquareLeavesLayer(x, (y - height + 2), z, firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.player_roundedSquareLeavesLayer(x, (y - height + 2), z, firstLayerWide, Blocks.BLOCK_JUNGLE_LEAVES);
         TreeUtils.player_roundedSquareLeavesLayer(x + randInt(rand, -1, 1),
                 (y - height + 1),
                 z + randInt(rand, -1, 1),
-                firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
+                firstLayerWide, Blocks.BLOCK_JUNGLE_LEAVES);
 
         VineBranchPair vb = setVinesAndBranches(rand, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-            GameScene.player.setBlock(MyGame.BLOCK_JUNGLE_LOG, x, y - k, z);
+            GameScene.player.setBlock(Blocks.BLOCK_JUNGLE_LOG, x, y - k, z);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {
-                        TreeUtils.player_setBlock(MyGame.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
+                        TreeUtils.player_setBlock(Blocks.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
                     }
                 }
                 for (Vector3i vine : vb.vines) {
-                    TreeUtils.player_setBlock(MyGame.BLOCK_VINES, vine.x, y - k, vine.z);
+                    TreeUtils.player_setBlock(Blocks.BLOCK_VINES, vine.x, y - k, vine.z);
                 }
             }
         }
 
-        TreeUtils.player_diamondLeavesLayer(x, y - height, z, 3, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.player_diamondLeavesLayer(x, y - height, z, 3, Blocks.BLOCK_JUNGLE_LEAVES);
         if (rand.nextDouble() > 0.8) {
-            TreeUtils.player_diamondLeavesLayer(x, y - height - 1, z, 2, MyGame.BLOCK_JUNGLE_LEAVES);
+            TreeUtils.player_diamondLeavesLayer(x, y - height - 1, z, 2, Blocks.BLOCK_JUNGLE_LEAVES);
         }
     }
 
@@ -102,36 +102,36 @@ public class JungleTreeUtils {
         int height = randInt(terrain.random, MIN_HEIGHT, MAX_HEIGHT);
         int firstLayerWide = 0;
         firstLayerWide = randInt(terrain.random, 2, 4);
-        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, (y - height + 2), z, firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, (y - height + 2), z, firstLayerWide, Blocks.BLOCK_JUNGLE_LEAVES);
         TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source,
                 x + randInt(terrain.random, -1, 1),
                 (y - height + 1),
                 z + randInt(terrain.random, -1, 1),
-                firstLayerWide, MyGame.BLOCK_JUNGLE_LEAVES);
+                firstLayerWide, Blocks.BLOCK_JUNGLE_LEAVES);
 
         VineBranchPair vb = setVinesAndBranches(terrain.random, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-            terrain.setBlockWorld(MyGame.BLOCK_JUNGLE_LOG, x, y - k, z);
+            terrain.setBlockWorld(Blocks.BLOCK_JUNGLE_LOG, x, y - k, z);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {
                         if (branch.x != x && branch.z != z) {
-                            terrain.setBlockWorld(MyGame.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
+                            terrain.setBlockWorld(Blocks.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
                         }
                     }
                 }
                 for (Vector3i vine : vb.vines) {
                     if (vine.x != x && vine.z != z) {
-                        terrain.setBlockWorld(MyGame.BLOCK_VINES, vine.x, y - k, vine.z);
+                        terrain.setBlockWorld(Blocks.BLOCK_VINES, vine.x, y - k, vine.z);
                     }
                 }
             }
         }
 
-        TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height, z, 3, MyGame.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height, z, 3, Blocks.BLOCK_JUNGLE_LEAVES);
         if (terrain.random.nextDouble() > 0.8) {
-            TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height - 1, z, 2, MyGame.BLOCK_JUNGLE_LEAVES);
+            TreeUtils.terrain_diamondLeavesLayer(terrain, source, x, y - height - 1, z, 2, Blocks.BLOCK_JUNGLE_LEAVES);
         }
     }
 }

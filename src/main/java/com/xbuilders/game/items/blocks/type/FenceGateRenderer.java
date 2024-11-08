@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.items.blocks.type;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;
@@ -47,7 +48,8 @@ public class FenceGateRenderer extends BlockType {
                     bd.set(0, (byte) 1);
                 }
             });
-            b.clickEvent((x, y, z, bd) -> {
+            b.clickEvent(false, (x, y, z) -> {
+                BlockData bd = GameScene.world.getBlockData(x, y, z);
                 bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
             });
         };

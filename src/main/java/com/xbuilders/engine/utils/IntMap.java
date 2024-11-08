@@ -8,6 +8,7 @@ public class IntMap<T> {
     private final Class<T> type;
 
     public IntMap(Class<T> type) {
+        list = (T[]) Array.newInstance(type, 0);
         this.type = type;
     }
 

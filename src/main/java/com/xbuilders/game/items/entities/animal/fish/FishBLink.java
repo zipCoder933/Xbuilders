@@ -5,8 +5,7 @@
 package com.xbuilders.game.items.entities.animal.fish;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -22,7 +21,7 @@ import java.util.Objects;
 /**
  * @author zipCoder933
  */
-public class FishBLink extends EntityLink {
+public class FishBLink extends EntitySupplier {
 
     public FishBLink(MainWindow window, int id, String name) {
         super(id, name, () -> new FishObject(id, window));

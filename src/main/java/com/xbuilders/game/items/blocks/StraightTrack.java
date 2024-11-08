@@ -4,7 +4,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -36,13 +36,13 @@ public class StraightTrack extends Block {
     }
 
     public static boolean isTrack(Block block) {
-        return block.id == MyGame.BLOCK_TRACK
-                || block.id == MyGame.BLOCK_RAISED_TRACK
-                || block.id == MyGame.BLOCK_CROSSTRACK
-                || block.id == MyGame.BLOCK_CURVED_TRACK
-                || block.id == MyGame.BLOCK_SWITCH_JUNCTION
-                || block.id == MyGame.BLOCK_MERGE_TRACK
-                || block.id == MyGame.BLOCK_TRACK_STOP;
+        return block.id == Blocks.BLOCK_TRACK
+                || block.id == Blocks.BLOCK_RAISED_TRACK
+                || block.id == Blocks.BLOCK_CROSSTRACK
+                || block.id == Blocks.BLOCK_CURVED_TRACK
+                || block.id == Blocks.BLOCK_SWITCH_JUNCTION
+                || block.id == Blocks.BLOCK_MERGE_TRACK
+                || block.id == Blocks.BLOCK_TRACK_STOP;
     }
 
     private void changeBlock(int x, int y, int z) {
@@ -74,22 +74,22 @@ public class StraightTrack extends Block {
         if (!trackNeighbors.isEmpty()) {
             if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 3);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 0);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 2);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(MyGame.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } //=====================
@@ -106,19 +106,19 @@ public class StraightTrack extends Block {
         if (!curvedTrack) {
             if (isTrackAtPos(trackNeighbors, x + 1, y - 1, z)) {
                 orientation.set(0, (byte) 2);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x - 1, y - 1, z)) {
                 orientation.set(0, (byte) 0);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z + 1)) {
                 orientation.set(0, (byte) 3);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z - 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(MyGame.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             }
         }

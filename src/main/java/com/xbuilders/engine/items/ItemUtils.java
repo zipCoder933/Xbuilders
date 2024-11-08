@@ -1,14 +1,11 @@
 package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.BlockRegistry;
-import com.xbuilders.engine.items.entity.EntityLink;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.JsonManager;
-import org.joml.Vector3f;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,33 +59,22 @@ public class ItemUtils {
         return new ArrayList<>();
     }
 
-    public static ArrayList<Item> getItemsFromBlocks(ArrayList<Block> blocks, ArrayList<EntityLink> entities) {
+    public static ArrayList<Item> getItemsFromBlocks(ArrayList<Block> blocks, ArrayList<EntitySupplier> entities) {
         ArrayList<Item> items = new ArrayList<>();
         for (Block block : blocks) {
             if (block == null) continue;
+            if(block.name.toLowerCase().contains("hidden")) continue;
             Item item = new Item(0, block.name);
             item.block = block;
-            item.createClickEvent = (ray) -> {
-                GameScene.player.setBlock(block.id,
-                        ray.getHitPosPlusNormal().x,
-                        ray.getHitPosPlusNormal().y,
-                        ray.getHitPosPlusNormal().z);
-                return true;
-            };
-
             items.add(item);
         }
-        for (EntityLink entity : entities) {
+        for (EntitySupplier entity : entities) {
             if (entity == null) continue;
+            if(entity.name.toLowerCase().contains("hidden")) continue;
             System.out.println(entity.name);
             Item item = new Item(0, entity.name);
             item.entity = entity;
             item.iconFilename = entity.iconFilename;
-            item.createClickEvent = (ray) -> {
-                Vector3f pos = new Vector3f(ray.getHitPosPlusNormal());
-                GameScene.player.setEntity(entity, pos, null);
-                return true;
-            };
             items.add(item);
         }
         return items;

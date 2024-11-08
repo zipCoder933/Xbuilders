@@ -6,7 +6,6 @@ package com.xbuilders.game.items.entities.vehicle;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.entity.EntityLink;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.PositionLock;
 import com.xbuilders.engine.player.UserControlledPlayer;
@@ -14,7 +13,7 @@ import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.Blocks;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -284,7 +283,7 @@ public class Minecart extends Vehicle {
 
 
         if (forwardBackDir == 0) {//If we are stopped
-            if (b.id == MyGame.BLOCK_SWITCH_JUNCTION) {
+            if (b.id == Blocks.BLOCK_SWITCH_JUNCTION) {
                 if (GameScene.player.leftKeyPressed()) {
                     if (switchJunctionKeyEvent) {
                         float rotationY1 = getRotationYDeg() + 90;
@@ -302,16 +301,16 @@ public class Minecart extends Vehicle {
                 }
             }
         } else {
-            if (b.id == MyGame.BLOCK_SWITCH_JUNCTION) {
+            if (b.id == Blocks.BLOCK_SWITCH_JUNCTION) {
                 stop(pos);
                 goForward(speed);
-            } else if (b.id == MyGame.BLOCK_TRACK_STOP) {
+            } else if (b.id == Blocks.BLOCK_TRACK_STOP) {
                 stop(pos);
                 goForward(speed);
-            } else if (b.id == MyGame.BLOCK_CROSSTRACK) {
+            } else if (b.id == Blocks.BLOCK_CROSSTRACK) {
                 enableRotation();
                 goForward(speed);
-            } else if (b.id == MyGame.BLOCK_CURVED_TRACK) {
+            } else if (b.id == Blocks.BLOCK_CURVED_TRACK) {
                 if (rotationEnabled) {
                     worldPosition.x = pos.x;
                     worldPosition.z = pos.z;
@@ -326,7 +325,7 @@ public class Minecart extends Vehicle {
                     disableRotation(pos);
                 }
                 goForward(speed);
-            } else if (b.id == MyGame.BLOCK_MERGE_TRACK) {
+            } else if (b.id == Blocks.BLOCK_MERGE_TRACK) {
                 if (rotationEnabled) {
                     worldPosition.x = pos.x;
                     worldPosition.z = pos.z;
@@ -346,29 +345,29 @@ public class Minecart extends Vehicle {
 
                 //Raise or lower tracks
                 if (
-                        b.id == MyGame.BLOCK_RAISED_TRACK ||
-                                bup.id == MyGame.BLOCK_RAISED_TRACK ||
-                                bdown.id == MyGame.BLOCK_RAISED_TRACK
+                        b.id == Blocks.BLOCK_RAISED_TRACK ||
+                                bup.id == Blocks.BLOCK_RAISED_TRACK ||
+                                bdown.id == Blocks.BLOCK_RAISED_TRACK
                 ) {
 
                     boolean trackIsGoingUp = true;
 
                     int orientation = -1;
-                    if (b.id == MyGame.BLOCK_RAISED_TRACK) {
+                    if (b.id == Blocks.BLOCK_RAISED_TRACK) {
                         orientation = getOrientation(GameScene.world.getBlockData(pos.x, pos.y, pos.z));
-                    } else if (bdown.id == MyGame.BLOCK_RAISED_TRACK) {
+                    } else if (bdown.id == Blocks.BLOCK_RAISED_TRACK) {
                         orientation = getOrientation(GameScene.world.getBlockData(pos.x, pos.y + 1, pos.z));
-                    } else if (bup.id == MyGame.BLOCK_RAISED_TRACK) {
+                    } else if (bup.id == Blocks.BLOCK_RAISED_TRACK) {
                         orientation = getOrientation(GameScene.world.getBlockData(pos.x, pos.y - 1, pos.z));
                     }
 
                     trackIsGoingUp = true;
                     if (getLastStep() == null) {
                         //If there is a raised track above us, we are probbably going up
-                        trackIsGoingUp = bup.id == MyGame.BLOCK_RAISED_TRACK;
+                        trackIsGoingUp = bup.id == Blocks.BLOCK_RAISED_TRACK;
 
                         //If there is a raised track below us, we are going down
-                        if (bdown.id == MyGame.BLOCK_RAISED_TRACK) trackIsGoingUp = false;
+                        if (bdown.id == Blocks.BLOCK_RAISED_TRACK) trackIsGoingUp = false;
                     } else {
                         switch (orientation) {
                             case 0 -> trackIsGoingUp = getLastStep().x > pos.x;
@@ -534,13 +533,13 @@ public class Minecart extends Vehicle {
     }
 
     public static boolean isTrack(short block) {
-        return block == MyGame.BLOCK_TRACK
-                || block == MyGame.BLOCK_RAISED_TRACK
-                || block == MyGame.BLOCK_CROSSTRACK
-                || block == MyGame.BLOCK_CURVED_TRACK
-                || block == MyGame.BLOCK_SWITCH_JUNCTION
-                || block == MyGame.BLOCK_MERGE_TRACK
-                || block == MyGame.BLOCK_TRACK_STOP;
+        return block == Blocks.BLOCK_TRACK
+                || block == Blocks.BLOCK_RAISED_TRACK
+                || block == Blocks.BLOCK_CROSSTRACK
+                || block == Blocks.BLOCK_CURVED_TRACK
+                || block == Blocks.BLOCK_SWITCH_JUNCTION
+                || block == Blocks.BLOCK_MERGE_TRACK
+                || block == Blocks.BLOCK_TRACK_STOP;
     }
 
     public static Vector3i getNearestTrackPiece(int x, int y, int z) {
