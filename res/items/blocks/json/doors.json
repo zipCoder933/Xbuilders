@@ -1723,7 +1723,7 @@
         }
     },
     {
-        "name": "Gray Space Door",
+        "name": "Gray Space Door 2",
         "id": 959,
         "texture": {
             "pos_y": "door\\gray 2_0_1.png",
@@ -2493,7 +2493,7 @@
         }
     },
     {
-        "name": "White Space Door",
+        "name": "White Space Door 2",
         "id": 994,
         "texture": {
             "pos_y": "door\\white 2_0_1.png",

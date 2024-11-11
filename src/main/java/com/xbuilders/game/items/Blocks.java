@@ -1,19 +1,42 @@
-package com.xbuilders.game;
+package com.xbuilders.game.items;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.items.blocks.BlockEventUtils;
 import com.xbuilders.game.items.blocks.Plant;
 import com.xbuilders.game.items.blocks.StraightTrack;
 import com.xbuilders.game.items.blocks.trees.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import static com.xbuilders.engine.items.ItemUtils.getAllJsonBlocks;
 
 public class Blocks {
 
-    public static void reassignBlocks(HashMap<Short, Block> reassignments) {
+    public static ArrayList<Block> starup_getBlocks() {
+        ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.resource("\\items\\blocks\\json"));
+
+        //Reassign blocks
+        HashMap<Short, Block> reassignments = new HashMap<>();
+        Blocks.reassignBlocks(reassignments);
+        for (int i = 0; i < blockList.size(); i++) { //Check to ensure the blocks ID remains the same
+            if (reassignments.containsKey(blockList.get(i).id)) {
+                System.out.println("Reassigned Block " + blockList.get(i).toString());
+                short originalID = blockList.get(i).id;
+                blockList.set(i, reassignments.get(blockList.get(i).id));
+                if (blockList.get(i).id != originalID)
+                    throw new RuntimeException("Reassigned Block ID " + originalID + " changed to " + blockList.get(i).id);
+            }
+        }
+
+        return blockList;
+    }
+
+    private static void reassignBlocks(HashMap<Short, Block> reassignments) {
         reassignments.put(Blocks.BLOCK_TRACK, new StraightTrack(Blocks.BLOCK_TRACK));
     }
 

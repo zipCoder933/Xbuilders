@@ -2,13 +2,13 @@ package com.xbuilders.game.items.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import org.joml.Vector3i;
 
 public class Hoe extends Item {
 
     public Hoe() {
-        super(3, "Hoe");
+        super("xbuilders:hoe", "Hoe");
         setIcon("hoe.png");
         this.createClickEvent = (ray) -> {
             Vector3i hit = ray.getHitPos();

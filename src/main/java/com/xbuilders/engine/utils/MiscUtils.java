@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
- *
  * @author zipCoder933
  */
 public class MiscUtils {
@@ -74,6 +73,26 @@ public class MiscUtils {
         // This means that if the sum of the coordinates is even, the point is black;
         // otherwise, it is white
         return (x + y + z) % 2 == 0;
+    }
+
+    public static String toCamelCase(String input) {
+        StringBuilder sb = new StringBuilder();
+        boolean capitalizeNext = true;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isLetterOrDigit(c)) {
+                if (capitalizeNext) {
+                    sb.append(Character.toUpperCase(c));
+                } else {
+                    sb.append(Character.toLowerCase(c));
+                }
+                capitalizeNext = false;
+            } else {
+                capitalizeNext = true;
+            }
+        }
+
+        return sb.toString();
     }
 
     public static String capitalizeWords(String input) {

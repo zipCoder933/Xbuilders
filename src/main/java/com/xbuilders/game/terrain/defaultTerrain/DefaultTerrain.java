@@ -4,7 +4,7 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import com.xbuilders.game.items.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
 

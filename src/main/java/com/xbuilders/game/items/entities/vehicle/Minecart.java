@@ -13,7 +13,7 @@ import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

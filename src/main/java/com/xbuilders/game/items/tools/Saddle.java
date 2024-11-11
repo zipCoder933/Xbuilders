@@ -6,7 +6,7 @@ import com.xbuilders.engine.items.item.ItemType;
 public class Saddle extends Item {
 
     public Saddle() {
-        super(1, "Saddle");
+        super("xbuilders:saddle", "Saddle");
         setIcon("saddle.png");
     }
 

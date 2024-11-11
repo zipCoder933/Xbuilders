@@ -3,7 +3,7 @@ package com.xbuilders.game.items.blocks;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 
 public class Plant {
 

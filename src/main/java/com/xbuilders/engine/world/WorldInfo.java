@@ -30,7 +30,7 @@ public class WorldInfo {
     final String INFO_FILENAME = "info.json";
     Image image;
     private String name;
-    private static final Gson gson = new JsonManager().gson;
+    private static final Gson gson = new JsonManager().gson_itemAdapter;
     public InfoFile infoFile;
 
     public File getChunkFile(Vector3i position) {

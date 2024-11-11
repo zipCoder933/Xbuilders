@@ -4,7 +4,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;

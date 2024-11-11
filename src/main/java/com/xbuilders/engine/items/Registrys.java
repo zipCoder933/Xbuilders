@@ -76,7 +76,7 @@ public class Registrys {
         blocks.setAndInit(blockList);
         entities.setAndInit(entityList);
         //Do last
-        items.setAndInit(toolList);
+        items.setAndInit(blocks.getIdMap(), entities.getIdMap(), toolList);
     }
 
     public static BlockData getInitialBlockData(Block block, Ray ray) {
@@ -91,7 +91,7 @@ public class Registrys {
         return entities.getItem(blockID);
     }
 
-    public static Item getItem(short blockID) {
+    public static Item getItem(String blockID) {
         return items.getItem(blockID);
     }
 

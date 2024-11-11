@@ -5,7 +5,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
 import org.joml.Vector3i;
 

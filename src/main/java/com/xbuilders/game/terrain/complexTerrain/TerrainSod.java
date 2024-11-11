@@ -7,7 +7,7 @@ package com.xbuilders.game.terrain.complexTerrain;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import com.xbuilders.game.terrain.TreeUtils;
 
 public class TerrainSod {

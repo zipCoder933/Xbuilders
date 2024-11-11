@@ -15,6 +15,7 @@ import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.game.MyGame;
 
+import com.xbuilders.game.items.Items;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -86,7 +87,7 @@ public abstract class Animal extends Entity {
 
     public boolean playerHasAnimalFeed() {
         Item heldItem = MainWindow.game.getSelectedItem();
-        return heldItem != null && heldItem.equals(MyGame.TOOL_ANIMAL_FEED);
+        return heldItem != null && heldItem.equals(Items.TOOL_ANIMAL_FEED);
     }
 
     public void eatAnimalFeed() {

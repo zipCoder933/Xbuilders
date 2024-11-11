@@ -16,11 +16,11 @@ import com.xbuilders.engine.items.block.construction.BlockTexture;
  */
 public class JsonManager {
     public static BlockTextureTypeAdapter textureAdapter = new BlockTextureTypeAdapter();
-    public static Gson gson = new GsonBuilder()
+    public static Gson gson_itemAdapter = new GsonBuilder()
             .registerTypeHierarchyAdapter(Item.class, new ItemTypeAdapter())
             .create();
 
-    public static Gson gson_jsonBlock = new GsonBuilder()
+    public static Gson gson_blockAdapter = new GsonBuilder()
             .registerTypeHierarchyAdapter(Block.class, new BlockTypeAdapter())
             .registerTypeAdapter(BlockTexture.class, textureAdapter)
             .create();

@@ -5,7 +5,7 @@ import com.xbuilders.engine.items.item.ItemType;
 
 public class AnimalFeed extends Item {
     public AnimalFeed() {
-        super(0, "Animal Feed");
+        super("xbuilders:animal-feed", "Animal Feed");
         setIcon("animal_feed.png");
     }
 }

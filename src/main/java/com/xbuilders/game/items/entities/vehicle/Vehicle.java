@@ -11,7 +11,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import org.joml.Vector2f;
 
 public abstract class Vehicle extends Entity {

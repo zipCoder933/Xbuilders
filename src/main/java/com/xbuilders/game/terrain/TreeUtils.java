@@ -5,7 +5,7 @@
 package com.xbuilders.game.terrain;
 
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 
 import java.util.Random;
 

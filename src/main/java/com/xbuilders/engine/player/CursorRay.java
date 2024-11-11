@@ -8,7 +8,6 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.player.camera.Camera;
-import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -16,7 +15,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector2i;
@@ -119,8 +117,8 @@ public class CursorRay {
             if (creationMode) {
                 if (selectedItem.createClickEvent != null) {
                     return selectedItem.createClickEvent.run(this);
-                } else if (selectedItem.block != null) defaultBlockClickEvent(selectedItem.block);
-                else if (selectedItem.entity != null) defaultEntityClickEvent(selectedItem.entity);
+                } else if (selectedItem.getBlock() != null) defaultBlockClickEvent(selectedItem.getBlock());
+                else if (selectedItem.getEntity() != null) defaultEntityClickEvent(selectedItem.getEntity());
             } else {
                 if (selectedItem.destroyClickEvent != null) {
                     return selectedItem.destroyClickEvent.run(this);

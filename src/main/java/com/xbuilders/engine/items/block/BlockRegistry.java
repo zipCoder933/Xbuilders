@@ -41,6 +41,10 @@ public class BlockRegistry {
         return list;
     }
 
+    public IntMap<Block> getIdMap() {
+        return idMap;
+    }
+
 
     //Predefined Blocks
     public final static Block BLOCK_AIR = new BlockAir();

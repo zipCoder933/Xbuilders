@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.Blocks;
+import com.xbuilders.game.items.Blocks;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
