@@ -20,6 +20,10 @@ public class JsonManager {
             .registerTypeHierarchyAdapter(Item.class, new ItemTypeAdapter())
             .create();
 
+    public static Gson gson_itemStackAdapter = new GsonBuilder()
+            .registerTypeHierarchyAdapter(Item.class, new ItemStackTypeAdapter())
+            .create();
+
     public static Gson gson_blockAdapter = new GsonBuilder()
             .registerTypeHierarchyAdapter(Block.class, new BlockTypeAdapter())
             .registerTypeAdapter(BlockTexture.class, textureAdapter)

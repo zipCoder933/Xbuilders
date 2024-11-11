@@ -1,0 +1,66 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.xbuilders.engine.utils.json;
+
+/**
+ * @author zipCoder933
+ */
+
+import com.google.gson.*;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
+
+import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Note that this is for saving and loading items as a JSON file, it is not used for item ids
+ */
+public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
+
+    @Override
+    public JsonElement serialize(ItemStack src, Type typeOfSrc, JsonSerializationContext context) {
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("item", src.item.id);
+        jsonObject.addProperty("stackSize", src.stackSize);
+        jsonObject.addProperty("durability", src.durability);
+        jsonObject.add("data", context.serialize(src.nbtData)); //We add serialized NBT data
+
+        return jsonObject;
+    }
+
+    /**
+     * This should be called AFTER registering all items
+     *
+     * @param json
+     * @param typeOfT
+     * @param context
+     * @return
+     * @throws JsonParseException
+     */
+    @Override
+    public ItemStack deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        JsonObject jsonObject = json.getAsJsonObject();
+        String itemID = jsonObject.get("item").getAsString();
+        Item item = Registrys.items.getItem(itemID); //We get the item from the registry
+
+        ItemStack itemStack = new ItemStack(item); //We create the ItemStack
+        itemStack.stackSize = jsonObject.get("stackSize").getAsByte();
+
+        if (jsonObject.has("durability"))
+            itemStack.durability = jsonObject.get("durability").getAsInt();
+
+        if (jsonObject.has("data")) {
+            JsonObject dataObj = jsonObject.get("data").getAsJsonObject();
+            byte[] data = context.deserialize(dataObj, byte[].class);
+            itemStack.nbtData = data;
+        }
+
+        return itemStack;
+    }
+}

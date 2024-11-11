@@ -32,10 +32,13 @@ public class Item {
 
     public final String id;
     public final String name;
+
+    //Icon
     private int icon = 0;
     private final NkImage NKicon;
     public String iconFilename;
 
+    //Block or entity
     private Block block;
     private EntitySupplier entity;
 
@@ -59,6 +62,8 @@ public class Item {
         return entity;
     }
 
+    int maxDurability = -1;
+    int maxStackSize = -1;
 
     // <editor-fold defaultstate="collapsed" desc="tool events">
     //Create a functional interface for setBlockEvent
