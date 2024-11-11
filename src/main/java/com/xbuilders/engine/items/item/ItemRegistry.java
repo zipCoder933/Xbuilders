@@ -4,14 +4,13 @@
  */
 package com.xbuilders.engine.items.item;
 
-import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockArrayTexture;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.IntMap;
+import com.xbuilders.engine.utils.ResourceUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +20,6 @@ import java.util.List;
  */
 public class ItemRegistry {
 
-    File iconDirectory, blockIconDirectory;
-    int defaultIcon;
-    public BlockArrayTexture textures;
 
     final HashMap<String, Item> idMap = new HashMap<>();
     private Item[] list;
@@ -36,14 +32,7 @@ public class ItemRegistry {
         return idMap.get(id);
     }
 
-    public ItemRegistry(File textureDirectory,
-                        File blockIconDirectory,
-                        File iconDirectory,
-                        int defaultIcon) throws IOException {
-        this.iconDirectory = iconDirectory;
-        this.defaultIcon = defaultIcon;
-        this.blockIconDirectory = blockIconDirectory;
-        textures = new BlockArrayTexture(textureDirectory);
+    public ItemRegistry() {
     }
 
 
@@ -62,7 +51,9 @@ public class ItemRegistry {
         }
     }
 
-    public void setAndInit(IntMap<Block> blockMap,
+    public void initialize(int defaultIcon,
+                           BlockArrayTexture textures,
+                           IntMap<Block> blockMap,
                            IntMap<EntitySupplier> entityMap,
                            List<Item> inputBlocks) {
         list = inputBlocks.toArray(new Item[0]);
@@ -75,7 +66,9 @@ public class ItemRegistry {
                     item.initializationCallback.accept(item);
                 }
                 item.init(blockMap, entityMap,
-                        textures, blockIconDirectory, iconDirectory, defaultIcon);
+                        textures,
+                        ResourceUtils.BLOCK_ICON_DIR,
+                        ResourceUtils.ICONS_DIR, defaultIcon);
             }
         } catch (IOException ex) {
             ErrorHandler.report(ex);

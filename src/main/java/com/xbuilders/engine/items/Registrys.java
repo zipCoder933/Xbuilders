@@ -6,16 +6,14 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemRegistry;
-import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -50,37 +48,22 @@ import java.util.List;
  * @author zipCoder933
  */
 public class Registrys {
-
-
     private static int defaultIcon;
-    public static BlockRegistry blocks;
-    public static EntityRegistry entities;
-    public static ItemRegistry items;
+    public static final BlockRegistry blocks = new BlockRegistry();
+    public static final EntityRegistry entities = new EntityRegistry();
+    public static final ItemRegistry items = new ItemRegistry();
 
-    public static void initialize() throws IOException {
-        File blockTextures = ResourceUtils.BLOCK_TEXTURE_DIR;
-        File blockIconDirectory = ResourceUtils.BLOCK_ICON_DIR;
-        File iconDirectory = ResourceUtils.ICONS_DIR;
+    public static void initialize(
+            List<Block> blockList, List<EntitySupplier> entityList, List<Item> toolList) throws IOException {
 
         Registrys.defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false).id;
 
-        entities = new EntityRegistry();
-        blocks = new BlockRegistry(blockTextures);
-        items = new ItemRegistry(blockTextures, blockIconDirectory, iconDirectory, Registrys.defaultIcon);
-    }
-
-    public static void setAllItems(
-            List<Block> blockList,
-            List<EntitySupplier> entityList,
-            List<Item> toolList) {
-        blocks.setAndInit(blockList);
-        entities.setAndInit(entityList);
-        //Do last
-        items.setAndInit(blocks.getIdMap(), entities.getIdMap(), toolList);
-    }
-
-    public static BlockData getInitialBlockData(Block block, Ray ray) {
-        return null;
+        blocks.initialize(blockList);
+        entities.initialize(entityList);
+        items.initialize(
+                Registrys.defaultIcon,
+                blocks.textures,
+                blocks.getIdMap(), entities.getIdMap(), toolList);
     }
 
     public static Block getBlock(short blockID) {
@@ -95,22 +78,17 @@ public class Registrys {
         return items.getItem(blockID);
     }
 
-    private static Item[] concatArrays(Item[]... arrays) {
-        int totalLength = 0;
-        for (Item[] array : arrays) {
-            totalLength += array.length;
+    public static Item getItem(Block block){
+        for(Item item : items.getList()){
+            if(item.getBlock() != null && item.getBlock().id == block.id) return item;
         }
-        Item[] resultArray = new Item[totalLength];
-        int currentIndex = 0;
-
-        for (Item[] array : arrays) {
-            for (Item value : array) {
-                resultArray[currentIndex] = value;
-                currentIndex++;
-            }
-        }
-        return resultArray;
+        return null;
     }
 
-
+    public static Item getItem(Entity entity){
+        for(Item item : items.getList()){
+            if(item.getEntity() != null && item.getEntity().id == entity.id) return item;
+        }
+        return null;
+    }
 }

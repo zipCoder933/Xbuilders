@@ -95,8 +95,7 @@ public abstract class Entity {
     protected boolean needsInitialization;
     public boolean inFrustum; //This value is automatically set by the frustum culling tester
     public float distToPlayer;
-
-    final int id;
+    public final int id;
 
     public Entity(int id) {
         this.id = id;

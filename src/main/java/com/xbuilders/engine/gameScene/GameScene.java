@@ -71,7 +71,7 @@ public class GameScene implements WindowEvents {
     public void initialize(MainWindow window, MyGame game) throws Exception {
         background = new SkyBackground(window);
         livePropagationHandler.tasks.clear();
-        game.initialize(this);
+        game.setup(this);
         setProjection();
         ui = new GameUI(game, window.ctx, window);
         player.init();

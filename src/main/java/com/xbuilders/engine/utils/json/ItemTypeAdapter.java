@@ -45,7 +45,6 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
     public Item deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String id = jsonObject.get("id").getAsString();
-        System.out.println(id);
         String name = jsonObject.get("name").getAsString();
 
         Item item = new Item(id,name);

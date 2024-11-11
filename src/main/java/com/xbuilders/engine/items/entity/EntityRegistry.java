@@ -4,7 +4,6 @@
  */
 package com.xbuilders.engine.items.entity;
 
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.util.HashMap;
@@ -77,7 +76,7 @@ public class EntityRegistry {
         return highestId;
     }
 
-    public void setAndInit(List<EntitySupplier> inputBlocks) {
+    public void initialize(List<EntitySupplier> inputBlocks) {
         inputBlocks.add(ENTITY_ITEM_DROP);
         verifyEntityIds(inputBlocks);
         list = inputBlocks.toArray(new EntitySupplier[0]);

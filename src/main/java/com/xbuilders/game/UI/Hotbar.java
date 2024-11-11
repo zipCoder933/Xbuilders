@@ -5,6 +5,9 @@
 package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
@@ -142,36 +145,27 @@ public class Hotbar extends GameUIElement {
         changeSelectedIndex(scroll.y());
     }
 
-    final int PICK_KEY = GLFW.GLFW_KEY_0;
-
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
                 changeSelectedIndex(-1);
             } else if (key == GLFW.GLFW_KEY_PERIOD) {
                 changeSelectedIndex(1);
-            } else if (key == PICK_KEY) {
-                pickItem();
             }
         }
         return false;
     }
 
-    public boolean mouseButtonEvent(int button, int action, int mods) {
-        if (action == GLFW.GLFW_RELEASE && button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-            pickItem();
-            return true;
+    public void pickItem(CursorRay ray) {
+        if (ray.hitTarget()) {
+            if (ray.getEntity() != null) {
+                Entity entity =ray.getEntity();
+                acquireItem(Registrys.getItem(entity));
+            } else{
+                Block block = GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
+                acquireItem(Registrys.getItem(block));
+            }
         }
-        return false;
-    }
-
-    private void pickItem() {
-//        CursorRay ray = GameScene.player.camera.cursorRay;
-//        if (ray.hitTarget()) {
-//            if (ray.getEntity() != null) {
-//                acquireItem(ray.getEntity().link);
-//            } else acquireItem(GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z));
-//        }
     }
 
     public Item getSelectedItem(){
@@ -179,9 +173,7 @@ public class Hotbar extends GameUIElement {
     }
 
     private void acquireItem(Item item) {
-        if (item.name.toLowerCase().contains("hidden") || item.getTags().contains("hidden"))
-            return;
-        // First check if the player already has the item
+
         for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
             if (playerInfo.playerBackpack[i] != null && playerInfo.playerBackpack[i].equals(item)) {
                 setSelectedIndex(i);

@@ -35,7 +35,7 @@ public class ResourceUtils {
         System.out.println("\tResource path: " + RESOURCE_DIR);
 
         BLOCK_ICON_DIR = resource("items\\blocks\\icons");
-        DEFAULT_ICON = resource("items\\defaultIcon.png");
+        DEFAULT_ICON = resource("items\\items\\defaultIcon.png");
         BLOCK_TEXTURE_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\textures");
         ICONS_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\items\\icons");
     }

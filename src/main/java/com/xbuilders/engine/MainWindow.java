@@ -207,7 +207,6 @@ public class MainWindow extends NKWindow {
         setIcon(ResourceUtils.resource("icon16.png").getAbsolutePath(),
                 ResourceUtils.resource("icon32.png").getAbsolutePath(),
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
-        Registrys.initialize();
 
         Theme.initialize(ctx);
         gameScene.initialize(this, game);

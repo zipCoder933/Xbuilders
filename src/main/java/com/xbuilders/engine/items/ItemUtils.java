@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemUtils {
 
@@ -120,6 +121,17 @@ public class ItemUtils {
                         .replaceAll("hidden", "")
                         .replaceAll("[^A-Z0-9_]", "")
                         .replaceAll("\\s+", "_");
+    }
+
+    public static void exportBlocksToJson(List<Block> list, File out) {
+        //Save list as json
+        try {
+            String jsonString = JsonManager.gson_blockAdapter.toJson(list);
+            Files.writeString(out.toPath(), jsonString);
+            System.out.println("Saved " + list.size() + " blocks to " + out.getAbsolutePath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void item_makeClassJavaFiles(ArrayList<Item> items, File directory) throws IOException {

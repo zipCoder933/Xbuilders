@@ -4,14 +4,13 @@
  */
 package com.xbuilders.engine.items.block;
 
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.items.block.construction.DefaultBlockType;
 import com.xbuilders.engine.builtinMechanics.liquid.LiquidBlockType;
 import com.xbuilders.engine.utils.IntMap;
+import com.xbuilders.engine.utils.ResourceUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -49,8 +48,7 @@ public class BlockRegistry {
     //Predefined Blocks
     public final static Block BLOCK_AIR = new BlockAir();
 
-    public BlockRegistry(File textureDirectory) throws IOException {
-        textures = new BlockArrayTexture(textureDirectory);
+    public BlockRegistry() {
         blockTypesHashmap.put(DEFAULT_BLOCK_TYPE_ID, defaultBlockType);
         blockTypesIntMap.setList(blockTypesHashmap);
         addBlockType("liquid", LIQUID_BLOCK_TYPE_ID, liquidBlockType);
@@ -95,7 +93,9 @@ public class BlockRegistry {
         return highestId;
     }
 
-    public void setAndInit(List<Block> blockArray) {
+    public void initialize(List<Block> blockArray) throws IOException {
+        textures = new BlockArrayTexture(ResourceUtils.BLOCK_TEXTURE_DIR);
+
         blockArray.add(BLOCK_AIR);
 
         assignMapAndVerify(blockArray);

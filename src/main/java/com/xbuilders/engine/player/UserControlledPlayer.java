@@ -395,6 +395,8 @@ public class UserControlledPlayer extends Player {
                 camera.cursorRay.clickEvent(true);
             } else if (button == UserControlledPlayer.getDeleteMouseButton()) {
                 camera.cursorRay.clickEvent(false);
+            } else if(button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE){
+                MainWindow.game.hotbar.pickItem(camera.cursorRay);
             }
         }
     }
