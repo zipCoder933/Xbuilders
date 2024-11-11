@@ -8836,12 +8836,12 @@
     "name": "Bamboo Block",
     "id": 566,
     "texture": {
-      "neg_y": "bamboo",
+      "neg_y": "bamboo block top",
       "pos_x": "bamboo front",
       "pos_z": "bamboo front",
       "neg_z": "bamboo front",
       "neg_x": "bamboo front",
-      "pos_y": "bamboo"
+      "pos_y": "bamboo block top"
     },
     "solid": true,
     "opaque": true,
