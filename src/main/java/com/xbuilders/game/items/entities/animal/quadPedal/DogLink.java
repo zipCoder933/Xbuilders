@@ -9,7 +9,6 @@ public class DogLink extends EntitySupplier {
 
     public DogLink(MainWindow window, int id, String name) {
         super(id, name, () -> new DogLink.Dog(id,window));
-        setIcon("dog egg.png");
     }
 
     public static class Dog extends QuadPedalLandAnimal {

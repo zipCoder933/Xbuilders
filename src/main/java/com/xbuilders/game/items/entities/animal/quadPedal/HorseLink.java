@@ -7,7 +7,6 @@ import java.io.IOException;
 public class HorseLink extends EntitySupplier {
     public HorseLink(MainWindow window, int id, String name) {
         super(id, name, () -> new HorseLink.Horse(id,window));
-        setIcon("horse egg.png");
     }
 
     public static class Horse extends QuadPedalLandAnimal {

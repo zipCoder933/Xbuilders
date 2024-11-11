@@ -24,9 +24,6 @@ public class BeaverEntityLink extends EntitySupplier {
 
     public BeaverEntityLink(MainWindow window, int id, String name) {
         super(id, name, () -> new Beaver(id,window));
-        setIcon("beaver egg.png");
-        tags.add("animal");
-        tags.add("beaver");
     }
 
 

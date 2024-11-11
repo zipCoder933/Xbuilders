@@ -9,8 +9,6 @@ public class RabbitLink extends EntitySupplier {
 
     public RabbitLink(MainWindow window, int id, String name) {
         super(id, name, () -> new Rabbit(id,window));
-        setIcon("rabbit egg.png");
-        tags.add("animal");
     }
 
 

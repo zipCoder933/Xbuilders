@@ -26,7 +26,6 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("name", src.name);
         jsonObject.addProperty("id", src.id);
         jsonObject.add("texture", JsonManager.textureAdapter.serialize(src.texture, typeOfSrc, context));
-        jsonObject.addProperty("icon", src.iconFilename);
         jsonObject.addProperty("solid", src.solid);
         jsonObject.addProperty("opaque", src.opaque);
         jsonObject.addProperty("torch", src.torchlightStartingValue);
@@ -35,9 +34,6 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             JsonElement colorElement = context.serialize(src.colorInPlayerHead);
             jsonObject.add("colorInPlayerHead", colorElement);
         }
-        // Export tags (arraylist)
-        JsonElement tagsElement = context.serialize(src.tags);
-        jsonObject.add("tags", tagsElement);
 
         // Export properties (hashmap)
         JsonElement propertiesElement = context.serialize(src.properties);
@@ -70,16 +66,6 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
                 block.renderType = jsonObject.get("type").getAsInt();
             } else { // Otherwise it's a string
                 block.renderType = Registrys.blocks.getBlockType(typeStr);
-            }
-        }
-        if (jsonObject.has("icon"))
-            block.iconFilename = jsonObject.get("icon").getAsString();
-
-        // Import tags (arraylist)
-        if (jsonObject.has("tags")) {
-            JsonArray tagsArray = jsonObject.get("tags").getAsJsonArray();
-            for (JsonElement tagElement : tagsArray) {
-                block.tags.add(tagElement.getAsString());
             }
         }
 

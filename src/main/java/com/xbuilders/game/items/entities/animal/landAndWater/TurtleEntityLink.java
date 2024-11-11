@@ -25,9 +25,6 @@ public class TurtleEntityLink extends EntitySupplier {
 
     public TurtleEntityLink(MainWindow window, int id, String name) {
         super(id, name, () -> new Turtle(id,window));
-        setIcon("turtle egg.png");
-        tags.add("animal");
-        tags.add("turtle");
     }
 
 

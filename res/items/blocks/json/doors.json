@@ -1,2539 +1,2481 @@
 [
-    {
-        "name": "Acacia2 Door (Top, Hidden)",
-        "id": 878,
-        "texture": {
-            "pos_y": "door\\acacia2_0_0.png",
-            "pos_x": "door\\acacia2_0_0.png",
-            "pos_z": "door\\acacia2_0_0.png",
-            "neg_z": "door\\acacia2_0_0.png",
-            "neg_x": "door\\acacia2_0_0.png",
-            "neg_y": "door\\acacia2_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "937",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Acacia Door (Top, Hidden)",
-        "id": 879,
-        "texture": {
-            "pos_y": "door\\acacia_0_0.png",
-            "pos_x": "door\\acacia_0_0.png",
-            "pos_z": "door\\acacia_0_0.png",
-            "neg_z": "door\\acacia_0_0.png",
-            "neg_x": "door\\acacia_0_0.png",
-            "neg_y": "door\\acacia_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "938",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Bamboo 2 Door (Top, Hidden)",
-        "id": 880,
-        "texture": {
-            "pos_y": "door\\bamboo 2_0_0.png",
-            "pos_x": "door\\bamboo 2_0_0.png",
-            "pos_z": "door\\bamboo 2_0_0.png",
-            "neg_z": "door\\bamboo 2_0_0.png",
-            "neg_x": "door\\bamboo 2_0_0.png",
-            "neg_y": "door\\bamboo 2_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "939",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Bamboo Door (Top, Hidden)",
-        "id": 881,
-        "texture": {
-            "pos_y": "door\\bamboo_0_0.png",
-            "pos_x": "door\\bamboo_0_0.png",
-            "pos_z": "door\\bamboo_0_0.png",
-            "neg_z": "door\\bamboo_0_0.png",
-            "neg_x": "door\\bamboo_0_0.png",
-            "neg_y": "door\\bamboo_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "940",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Birch Door (Top, Hidden)",
-        "id": 882,
-        "texture": {
-            "pos_y": "door\\birch_0_0.png",
-            "pos_x": "door\\birch_0_0.png",
-            "pos_z": "door\\birch_0_0.png",
-            "neg_z": "door\\birch_0_0.png",
-            "neg_x": "door\\birch_0_0.png",
-            "neg_y": "door\\birch_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "941",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Cladded Blue Door (Top, Hidden)",
-        "id": 883,
-        "texture": {
-            "pos_y": "door\\cladded blue_0_0.png",
-            "pos_x": "door\\cladded blue_0_0.png",
-            "pos_z": "door\\cladded blue_0_0.png",
-            "neg_z": "door\\cladded blue_0_0.png",
-            "neg_x": "door\\cladded blue_0_0.png",
-            "neg_y": "door\\cladded blue_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "942",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Cladded Green Door (Top, Hidden)",
-        "id": 884,
-        "texture": {
-            "pos_y": "door\\cladded green_0_0.png",
-            "pos_x": "door\\cladded green_0_0.png",
-            "pos_z": "door\\cladded green_0_0.png",
-            "neg_z": "door\\cladded green_0_0.png",
-            "neg_x": "door\\cladded green_0_0.png",
-            "neg_y": "door\\cladded green_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "943",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Cladded Magenta Door (Top, Hidden)",
-        "id": 885,
-        "texture": {
-            "pos_y": "door\\cladded magenta_0_0.png",
-            "pos_x": "door\\cladded magenta_0_0.png",
-            "pos_z": "door\\cladded magenta_0_0.png",
-            "neg_z": "door\\cladded magenta_0_0.png",
-            "neg_x": "door\\cladded magenta_0_0.png",
-            "neg_y": "door\\cladded magenta_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "944",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Cladded Door (Top, Hidden)",
-        "id": 886,
-        "texture": {
-            "pos_y": "door\\cladded_0_0.png",
-            "pos_x": "door\\cladded_0_0.png",
-            "pos_z": "door\\cladded_0_0.png",
-            "neg_z": "door\\cladded_0_0.png",
-            "neg_x": "door\\cladded_0_0.png",
-            "neg_y": "door\\cladded_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "945",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Bamboo Windows Door (Top, Hidden)",
-        "id": 887,
-        "texture": {
-            "pos_y": "door\\french bamboo windows_0_0.png",
-            "pos_x": "door\\french bamboo windows_0_0.png",
-            "pos_z": "door\\french bamboo windows_0_0.png",
-            "neg_z": "door\\french bamboo windows_0_0.png",
-            "neg_x": "door\\french bamboo windows_0_0.png",
-            "neg_y": "door\\french bamboo windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "946",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Bamboo Door (Top, Hidden)",
-        "id": 888,
-        "texture": {
-            "pos_y": "door\\french bamboo_0_0.png",
-            "pos_x": "door\\french bamboo_0_0.png",
-            "pos_z": "door\\french bamboo_0_0.png",
-            "neg_z": "door\\french bamboo_0_0.png",
-            "neg_x": "door\\french bamboo_0_0.png",
-            "neg_y": "door\\french bamboo_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "947",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Blue Windows Door (Top, Hidden)",
-        "id": 889,
-        "texture": {
-            "pos_y": "door\\french blue windows_0_0.png",
-            "pos_x": "door\\french blue windows_0_0.png",
-            "pos_z": "door\\french blue windows_0_0.png",
-            "neg_z": "door\\french blue windows_0_0.png",
-            "neg_x": "door\\french blue windows_0_0.png",
-            "neg_y": "door\\french blue windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "948",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Blue Door (Top, Hidden)",
-        "id": 890,
-        "texture": {
-            "pos_y": "door\\french blue_0_0.png",
-            "pos_x": "door\\french blue_0_0.png",
-            "pos_z": "door\\french blue_0_0.png",
-            "neg_z": "door\\french blue_0_0.png",
-            "neg_x": "door\\french blue_0_0.png",
-            "neg_y": "door\\french blue_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "949",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Green Windows Door (Top, Hidden)",
-        "id": 891,
-        "texture": {
-            "pos_y": "door\\french green windows_0_0.png",
-            "pos_x": "door\\french green windows_0_0.png",
-            "pos_z": "door\\french green windows_0_0.png",
-            "neg_z": "door\\french green windows_0_0.png",
-            "neg_x": "door\\french green windows_0_0.png",
-            "neg_y": "door\\french green windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "950",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Green Door (Top, Hidden)",
-        "id": 892,
-        "texture": {
-            "pos_y": "door\\french green_0_0.png",
-            "pos_x": "door\\french green_0_0.png",
-            "pos_z": "door\\french green_0_0.png",
-            "neg_z": "door\\french green_0_0.png",
-            "neg_x": "door\\french green_0_0.png",
-            "neg_y": "door\\french green_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "951",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Magenta Windows Door (Top, Hidden)",
-        "id": 893,
-        "texture": {
-            "pos_y": "door\\french magenta windows_0_0.png",
-            "pos_x": "door\\french magenta windows_0_0.png",
-            "pos_z": "door\\french magenta windows_0_0.png",
-            "neg_z": "door\\french magenta windows_0_0.png",
-            "neg_x": "door\\french magenta windows_0_0.png",
-            "neg_y": "door\\french magenta windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "952",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Magenta Door (Top, Hidden)",
-        "id": 894,
-        "texture": {
-            "pos_y": "door\\french magenta_0_0.png",
-            "pos_x": "door\\french magenta_0_0.png",
-            "pos_z": "door\\french magenta_0_0.png",
-            "neg_z": "door\\french magenta_0_0.png",
-            "neg_x": "door\\french magenta_0_0.png",
-            "neg_y": "door\\french magenta_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "953",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Windows Door (Top, Hidden)",
-        "id": 895,
-        "texture": {
-            "pos_y": "door\\french windows_0_0.png",
-            "pos_x": "door\\french windows_0_0.png",
-            "pos_z": "door\\french windows_0_0.png",
-            "neg_z": "door\\french windows_0_0.png",
-            "neg_x": "door\\french windows_0_0.png",
-            "neg_y": "door\\french windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "954",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "French Door (Top, Hidden)",
-        "id": 896,
-        "texture": {
-            "pos_y": "door\\french_0_0.png",
-            "pos_x": "door\\french_0_0.png",
-            "pos_z": "door\\french_0_0.png",
-            "neg_z": "door\\french_0_0.png",
-            "neg_x": "door\\french_0_0.png",
-            "neg_y": "door\\french_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "955",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Glass Door (Top, Hidden)",
-        "id": 897,
-        "texture": {
-            "pos_y": "door\\glass_0_0.png",
-            "pos_x": "door\\glass_0_0.png",
-            "pos_z": "door\\glass_0_0.png",
-            "neg_z": "door\\glass_0_0.png",
-            "neg_x": "door\\glass_0_0.png",
-            "neg_y": "door\\glass_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "956",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Gray Space Door (Top, Hidden)",
-        "id": 898,
-        "texture": {
-            "pos_y": "door\\gray 1_0_0.png",
-            "pos_x": "door\\gray 1_0_0.png",
-            "pos_z": "door\\gray 1_0_0.png",
-            "neg_z": "door\\gray 1_0_0.png",
-            "neg_x": "door\\gray 1_0_0.png",
-            "neg_y": "door\\gray 1_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "957",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Gray Space Control-Panel Door (Top, Hidden)",
-        "id": 899,
-        "texture": {
-            "pos_y": "door\\gray 2 control-panel_0_0.png",
-            "pos_x": "door\\gray 2 control-panel_0_0.png",
-            "pos_z": "door\\gray 2 control-panel_0_0.png",
-            "neg_z": "door\\gray 2 control-panel_0_0.png",
-            "neg_x": "door\\gray 2 control-panel_0_0.png",
-            "neg_y": "door\\gray 2 control-panel_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "958",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Gray 2 Door (Top, Hidden)",
-        "id": 900,
-        "texture": {
-            "pos_y": "door\\gray 2_0_0.png",
-            "pos_x": "door\\gray 2_0_0.png",
-            "pos_z": "door\\gray 2_0_0.png",
-            "neg_z": "door\\gray 2_0_0.png",
-            "neg_x": "door\\gray 2_0_0.png",
-            "neg_y": "door\\gray 2_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "959",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Bamboo Windows Door (Top, Hidden)",
-        "id": 901,
-        "texture": {
-            "pos_y": "door\\italian bamboo windows_0_0.png",
-            "pos_x": "door\\italian bamboo windows_0_0.png",
-            "pos_z": "door\\italian bamboo windows_0_0.png",
-            "neg_z": "door\\italian bamboo windows_0_0.png",
-            "neg_x": "door\\italian bamboo windows_0_0.png",
-            "neg_y": "door\\italian bamboo windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "960",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Bamboo Door (Top, Hidden)",
-        "id": 902,
-        "texture": {
-            "pos_y": "door\\italian bamboo_0_0.png",
-            "pos_x": "door\\italian bamboo_0_0.png",
-            "pos_z": "door\\italian bamboo_0_0.png",
-            "neg_z": "door\\italian bamboo_0_0.png",
-            "neg_x": "door\\italian bamboo_0_0.png",
-            "neg_y": "door\\italian bamboo_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "961",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Blue Windows Door (Top, Hidden)",
-        "id": 903,
-        "texture": {
-            "pos_y": "door\\italian blue windows_0_0.png",
-            "pos_x": "door\\italian blue windows_0_0.png",
-            "pos_z": "door\\italian blue windows_0_0.png",
-            "neg_z": "door\\italian blue windows_0_0.png",
-            "neg_x": "door\\italian blue windows_0_0.png",
-            "neg_y": "door\\italian blue windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "962",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Blue Door (Top, Hidden)",
-        "id": 904,
-        "texture": {
-            "pos_y": "door\\italian blue_0_0.png",
-            "pos_x": "door\\italian blue_0_0.png",
-            "pos_z": "door\\italian blue_0_0.png",
-            "neg_z": "door\\italian blue_0_0.png",
-            "neg_x": "door\\italian blue_0_0.png",
-            "neg_y": "door\\italian blue_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "963",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Green Windows Door (Top, Hidden)",
-        "id": 905,
-        "texture": {
-            "pos_y": "door\\italian green windows_0_0.png",
-            "pos_x": "door\\italian green windows_0_0.png",
-            "pos_z": "door\\italian green windows_0_0.png",
-            "neg_z": "door\\italian green windows_0_0.png",
-            "neg_x": "door\\italian green windows_0_0.png",
-            "neg_y": "door\\italian green windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "964",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Green Door (Top, Hidden)",
-        "id": 906,
-        "texture": {
-            "pos_y": "door\\italian green_0_0.png",
-            "pos_x": "door\\italian green_0_0.png",
-            "pos_z": "door\\italian green_0_0.png",
-            "neg_z": "door\\italian green_0_0.png",
-            "neg_x": "door\\italian green_0_0.png",
-            "neg_y": "door\\italian green_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "965",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Magenta Windows Door (Top, Hidden)",
-        "id": 907,
-        "texture": {
-            "pos_y": "door\\italian magenta windows_0_0.png",
-            "pos_x": "door\\italian magenta windows_0_0.png",
-            "pos_z": "door\\italian magenta windows_0_0.png",
-            "neg_z": "door\\italian magenta windows_0_0.png",
-            "neg_x": "door\\italian magenta windows_0_0.png",
-            "neg_y": "door\\italian magenta windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "966",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Magenta Door (Top, Hidden)",
-        "id": 908,
-        "texture": {
-            "pos_y": "door\\italian magenta_0_0.png",
-            "pos_x": "door\\italian magenta_0_0.png",
-            "pos_z": "door\\italian magenta_0_0.png",
-            "neg_z": "door\\italian magenta_0_0.png",
-            "neg_x": "door\\italian magenta_0_0.png",
-            "neg_y": "door\\italian magenta_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "967",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Windows Door (Top, Hidden)",
-        "id": 909,
-        "texture": {
-            "pos_y": "door\\italian windows_0_0.png",
-            "pos_x": "door\\italian windows_0_0.png",
-            "pos_z": "door\\italian windows_0_0.png",
-            "neg_z": "door\\italian windows_0_0.png",
-            "neg_x": "door\\italian windows_0_0.png",
-            "neg_y": "door\\italian windows_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "968",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Italian Door (Top, Hidden)",
-        "id": 910,
-        "texture": {
-            "pos_y": "door\\italian_0_0.png",
-            "pos_x": "door\\italian_0_0.png",
-            "pos_z": "door\\italian_0_0.png",
-            "neg_z": "door\\italian_0_0.png",
-            "neg_x": "door\\italian_0_0.png",
-            "neg_y": "door\\italian_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "969",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Jungle 2 Door (Top, Hidden)",
-        "id": 911,
-        "texture": {
-            "pos_y": "door\\jungle 2_0_0.png",
-            "pos_x": "door\\jungle 2_0_0.png",
-            "pos_z": "door\\jungle 2_0_0.png",
-            "neg_z": "door\\jungle 2_0_0.png",
-            "neg_x": "door\\jungle 2_0_0.png",
-            "neg_y": "door\\jungle 2_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "970",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Jungle Door (Top, Hidden)",
-        "id": 912,
-        "texture": {
-            "pos_y": "door\\jungle_0_0.png",
-            "pos_x": "door\\jungle_0_0.png",
-            "pos_z": "door\\jungle_0_0.png",
-            "neg_z": "door\\jungle_0_0.png",
-            "neg_x": "door\\jungle_0_0.png",
-            "neg_y": "door\\jungle_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "971",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oak 2 Door (Top, Hidden)",
-        "id": 913,
-        "texture": {
-            "pos_y": "door\\oak 2_0_0.png",
-            "pos_x": "door\\oak 2_0_0.png",
-            "pos_z": "door\\oak 2_0_0.png",
-            "neg_z": "door\\oak 2_0_0.png",
-            "neg_x": "door\\oak 2_0_0.png",
-            "neg_y": "door\\oak 2_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "972",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oak Renaissance Door (Top, Hidden)",
-        "id": 914,
-        "texture": {
-            "pos_y": "door\\oak renaissance_0_0.png",
-            "pos_x": "door\\oak renaissance_0_0.png",
-            "pos_z": "door\\oak renaissance_0_0.png",
-            "neg_z": "door\\oak renaissance_0_0.png",
-            "neg_x": "door\\oak renaissance_0_0.png",
-            "neg_y": "door\\oak renaissance_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "973",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oak Door (Top, Hidden)",
-        "id": 915,
-        "texture": {
-            "pos_y": "door\\oak_0_0.png",
-            "pos_x": "door\\oak_0_0.png",
-            "pos_z": "door\\oak_0_0.png",
-            "neg_z": "door\\oak_0_0.png",
-            "neg_x": "door\\oak_0_0.png",
-            "neg_y": "door\\oak_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "974",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oval Bamboo Door (Top, Hidden)",
-        "id": 916,
-        "texture": {
-            "pos_y": "door\\oval bamboo_0_0.png",
-            "pos_x": "door\\oval bamboo_0_0.png",
-            "pos_z": "door\\oval bamboo_0_0.png",
-            "neg_z": "door\\oval bamboo_0_0.png",
-            "neg_x": "door\\oval bamboo_0_0.png",
-            "neg_y": "door\\oval bamboo_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "975",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oval Blue Door (Top, Hidden)",
-        "id": 917,
-        "texture": {
-            "pos_y": "door\\oval blue_0_0.png",
-            "pos_x": "door\\oval blue_0_0.png",
-            "pos_z": "door\\oval blue_0_0.png",
-            "neg_z": "door\\oval blue_0_0.png",
-            "neg_x": "door\\oval blue_0_0.png",
-            "neg_y": "door\\oval blue_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "976",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oval Green Door (Top, Hidden)",
-        "id": 918,
-        "texture": {
-            "pos_y": "door\\oval green_0_0.png",
-            "pos_x": "door\\oval green_0_0.png",
-            "pos_z": "door\\oval green_0_0.png",
-            "neg_z": "door\\oval green_0_0.png",
-            "neg_x": "door\\oval green_0_0.png",
-            "neg_y": "door\\oval green_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "977",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oval Magenta Door (Top, Hidden)",
-        "id": 919,
-        "texture": {
-            "pos_y": "door\\oval magenta_0_0.png",
-            "pos_x": "door\\oval magenta_0_0.png",
-            "pos_z": "door\\oval magenta_0_0.png",
-            "neg_z": "door\\oval magenta_0_0.png",
-            "neg_x": "door\\oval magenta_0_0.png",
-            "neg_y": "door\\oval magenta_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "978",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Oval Door (Top, Hidden)",
-        "id": 920,
-        "texture": {
-            "pos_y": "door\\oval_0_0.png",
-            "pos_x": "door\\oval_0_0.png",
-            "pos_z": "door\\oval_0_0.png",
-            "neg_z": "door\\oval_0_0.png",
-            "neg_x": "door\\oval_0_0.png",
-            "neg_y": "door\\oval_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "979",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Party Blue Door (Top, Hidden)",
-        "id": 921,
-        "texture": {
-            "pos_y": "door\\party blue_0_0.png",
-            "pos_x": "door\\party blue_0_0.png",
-            "pos_z": "door\\party blue_0_0.png",
-            "neg_z": "door\\party blue_0_0.png",
-            "neg_x": "door\\party blue_0_0.png",
-            "neg_y": "door\\party blue_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "980",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Party Green Door (Top, Hidden)",
-        "id": 922,
-        "texture": {
-            "pos_y": "door\\party green_0_0.png",
-            "pos_x": "door\\party green_0_0.png",
-            "pos_z": "door\\party green_0_0.png",
-            "neg_z": "door\\party green_0_0.png",
-            "neg_x": "door\\party green_0_0.png",
-            "neg_y": "door\\party green_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "981",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Party Magenta Door (Top, Hidden)",
-        "id": 923,
-        "texture": {
-            "pos_y": "door\\party magenta_0_0.png",
-            "pos_x": "door\\party magenta_0_0.png",
-            "pos_z": "door\\party magenta_0_0.png",
-            "neg_z": "door\\party magenta_0_0.png",
-            "neg_x": "door\\party magenta_0_0.png",
-            "neg_y": "door\\party magenta_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "982",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Party Purple Door (Top, Hidden)",
-        "id": 924,
-        "texture": {
-            "pos_y": "door\\party purple_0_0.png",
-            "pos_x": "door\\party purple_0_0.png",
-            "pos_z": "door\\party purple_0_0.png",
-            "neg_z": "door\\party purple_0_0.png",
-            "neg_x": "door\\party purple_0_0.png",
-            "neg_y": "door\\party purple_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "983",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Party Red Door (Top, Hidden)",
-        "id": 925,
-        "texture": {
-            "pos_y": "door\\party red_0_0.png",
-            "pos_x": "door\\party red_0_0.png",
-            "pos_z": "door\\party red_0_0.png",
-            "neg_z": "door\\party red_0_0.png",
-            "neg_x": "door\\party red_0_0.png",
-            "neg_y": "door\\party red_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "984",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Party Yellow Door (Top, Hidden)",
-        "id": 926,
-        "texture": {
-            "pos_y": "door\\party yellow_0_0.png",
-            "pos_x": "door\\party yellow_0_0.png",
-            "pos_z": "door\\party yellow_0_0.png",
-            "neg_z": "door\\party yellow_0_0.png",
-            "neg_x": "door\\party yellow_0_0.png",
-            "neg_y": "door\\party yellow_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "985",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Red Door (Top, Hidden)",
-        "id": 927,
-        "texture": {
-            "pos_y": "door\\red_0_0.png",
-            "pos_x": "door\\red_0_0.png",
-            "pos_z": "door\\red_0_0.png",
-            "neg_z": "door\\red_0_0.png",
-            "neg_x": "door\\red_0_0.png",
-            "neg_y": "door\\red_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "986",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Spruce 2 Door (Top, Hidden)",
-        "id": 928,
-        "texture": {
-            "pos_y": "door\\spruce 2_0_0.png",
-            "pos_x": "door\\spruce 2_0_0.png",
-            "pos_z": "door\\spruce 2_0_0.png",
-            "neg_z": "door\\spruce 2_0_0.png",
-            "neg_x": "door\\spruce 2_0_0.png",
-            "neg_y": "door\\spruce 2_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "987",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Spruce Door (Top, Hidden)",
-        "id": 929,
-        "texture": {
-            "pos_y": "door\\spruce_0_0.png",
-            "pos_x": "door\\spruce_0_0.png",
-            "pos_z": "door\\spruce_0_0.png",
-            "neg_z": "door\\spruce_0_0.png",
-            "neg_x": "door\\spruce_0_0.png",
-            "neg_y": "door\\spruce_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "988",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Steel Door (Top, Hidden)",
-        "id": 930,
-        "texture": {
-            "pos_y": "door\\steel_0_0.png",
-            "pos_x": "door\\steel_0_0.png",
-            "pos_z": "door\\steel_0_0.png",
-            "neg_z": "door\\steel_0_0.png",
-            "neg_x": "door\\steel_0_0.png",
-            "neg_y": "door\\steel_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "989",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Warped Door (Top, Hidden)",
-        "id": 931,
-        "texture": {
-            "pos_y": "door\\warped_0_0.png",
-            "pos_x": "door\\warped_0_0.png",
-            "pos_z": "door\\warped_0_0.png",
-            "neg_z": "door\\warped_0_0.png",
-            "neg_x": "door\\warped_0_0.png",
-            "neg_y": "door\\warped_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "990",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Web Door (Top, Hidden)",
-        "id": 932,
-        "texture": {
-            "pos_y": "door\\web_0_0.png",
-            "pos_x": "door\\web_0_0.png",
-            "pos_z": "door\\web_0_0.png",
-            "neg_z": "door\\web_0_0.png",
-            "neg_x": "door\\web_0_0.png",
-            "neg_y": "door\\web_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "991",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "White 1 Door (Top, Hidden)",
-        "id": 933,
-        "texture": {
-            "pos_y": "door\\white 1_0_0.png",
-            "pos_x": "door\\white 1_0_0.png",
-            "pos_z": "door\\white 1_0_0.png",
-            "neg_z": "door\\white 1_0_0.png",
-            "neg_x": "door\\white 1_0_0.png",
-            "neg_y": "door\\white 1_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "992",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "White 2 Control-Panel Door (Top, Hidden)",
-        "id": 934,
-        "texture": {
-            "pos_y": "door\\white 2 control-panel_0_0.png",
-            "pos_x": "door\\white 2 control-panel_0_0.png",
-            "pos_z": "door\\white 2 control-panel_0_0.png",
-            "neg_z": "door\\white 2 control-panel_0_0.png",
-            "neg_x": "door\\white 2 control-panel_0_0.png",
-            "neg_y": "door\\white 2 control-panel_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "993",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "White 2 Door (Top, Hidden)",
-        "id": 935,
-        "texture": {
-            "pos_y": "door\\white 2_0_0.png",
-            "pos_x": "door\\white 2_0_0.png",
-            "pos_z": "door\\white 2_0_0.png",
-            "neg_z": "door\\white 2_0_0.png",
-            "neg_x": "door\\white 2_0_0.png",
-            "neg_y": "door\\white 2_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "994",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "White Door (Top, Hidden)",
-        "id": 936,
-        "texture": {
-            "pos_y": "door\\white_0_0.png",
-            "pos_x": "door\\white_0_0.png",
-            "pos_z": "door\\white_0_0.png",
-            "neg_z": "door\\white_0_0.png",
-            "neg_x": "door\\white_0_0.png",
-            "neg_y": "door\\white_0_0.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "995",
-            "placement": "top"
-        }
-    },
-    {
-        "name": "Acacia Door 2",
-        "id": 937,
-        "texture": {
-            "pos_y": "door\\acacia2_0_1.png",
-            "pos_x": "door\\acacia2_0_1.png",
-            "pos_z": "door\\acacia2_0_1.png",
-            "neg_z": "door\\acacia2_0_1.png",
-            "neg_x": "door\\acacia2_0_1.png",
-            "neg_y": "door\\acacia2_0_1.png"
-        },
-        "icon": "door\\acacia.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "878",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Acacia Door",
-        "id": 938,
-        "texture": {
-            "pos_y": "door\\acacia_0_1.png",
-            "pos_x": "door\\acacia_0_1.png",
-            "pos_z": "door\\acacia_0_1.png",
-            "neg_z": "door\\acacia_0_1.png",
-            "neg_x": "door\\acacia_0_1.png",
-            "neg_y": "door\\acacia_0_1.png"
-        },
-        "icon": "door\\acaica2.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "879",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Bamboo 2 Door",
-        "id": 939,
-        "texture": {
-            "pos_y": "door\\bamboo 2_0_1.png",
-            "pos_x": "door\\bamboo 2_0_1.png",
-            "pos_z": "door\\bamboo 2_0_1.png",
-            "neg_z": "door\\bamboo 2_0_1.png",
-            "neg_x": "door\\bamboo 2_0_1.png",
-            "neg_y": "door\\bamboo 2_0_1.png"
-        },
-        "icon": "door\\bamboo 2.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "880",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Bamboo Door",
-        "id": 940,
-        "texture": {
-            "pos_y": "door\\bamboo_0_1.png",
-            "pos_x": "door\\bamboo_0_1.png",
-            "pos_z": "door\\bamboo_0_1.png",
-            "neg_z": "door\\bamboo_0_1.png",
-            "neg_x": "door\\bamboo_0_1.png",
-            "neg_y": "door\\bamboo_0_1.png"
-        },
-        "icon": "door\\bamboo.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "881",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Birch Door",
-        "id": 941,
-        "texture": {
-            "pos_y": "door\\birch_0_1.png",
-            "pos_x": "door\\birch_0_1.png",
-            "pos_z": "door\\birch_0_1.png",
-            "neg_z": "door\\birch_0_1.png",
-            "neg_x": "door\\birch_0_1.png",
-            "neg_y": "door\\birch_0_1.png"
-        },
-        "icon": "door\\birch.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "882",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Cladded Blue Door",
-        "id": 942,
-        "texture": {
-            "pos_y": "door\\cladded blue_0_1.png",
-            "pos_x": "door\\cladded blue_0_1.png",
-            "pos_z": "door\\cladded blue_0_1.png",
-            "neg_z": "door\\cladded blue_0_1.png",
-            "neg_x": "door\\cladded blue_0_1.png",
-            "neg_y": "door\\cladded blue_0_1.png"
-        },
-        "icon": "door\\cladded.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "883",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Cladded Green Door",
-        "id": 943,
-        "texture": {
-            "pos_y": "door\\cladded green_0_1.png",
-            "pos_x": "door\\cladded green_0_1.png",
-            "pos_z": "door\\cladded green_0_1.png",
-            "neg_z": "door\\cladded green_0_1.png",
-            "neg_x": "door\\cladded green_0_1.png",
-            "neg_y": "door\\cladded green_0_1.png"
-        },
-        "icon": "door\\cladded.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "884",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Cladded Magenta Door",
-        "id": 944,
-        "texture": {
-            "pos_y": "door\\cladded magenta_0_1.png",
-            "pos_x": "door\\cladded magenta_0_1.png",
-            "pos_z": "door\\cladded magenta_0_1.png",
-            "neg_z": "door\\cladded magenta_0_1.png",
-            "neg_x": "door\\cladded magenta_0_1.png",
-            "neg_y": "door\\cladded magenta_0_1.png"
-        },
-        "icon": "door\\cladded.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "885",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Cladded Door",
-        "id": 945,
-        "texture": {
-            "pos_y": "door\\cladded_0_1.png",
-            "pos_x": "door\\cladded_0_1.png",
-            "pos_z": "door\\cladded_0_1.png",
-            "neg_z": "door\\cladded_0_1.png",
-            "neg_x": "door\\cladded_0_1.png",
-            "neg_y": "door\\cladded_0_1.png"
-        },
-        "icon": "door\\cladded.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "886",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Bamboo Windows Door",
-        "id": 946,
-        "texture": {
-            "pos_y": "door\\french bamboo windows_0_1.png",
-            "pos_x": "door\\french bamboo windows_0_1.png",
-            "pos_z": "door\\french bamboo windows_0_1.png",
-            "neg_z": "door\\french bamboo windows_0_1.png",
-            "neg_x": "door\\french bamboo windows_0_1.png",
-            "neg_y": "door\\french bamboo windows_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "887",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Bamboo Door",
-        "id": 947,
-        "texture": {
-            "pos_y": "door\\french bamboo_0_1.png",
-            "pos_x": "door\\french bamboo_0_1.png",
-            "pos_z": "door\\french bamboo_0_1.png",
-            "neg_z": "door\\french bamboo_0_1.png",
-            "neg_x": "door\\french bamboo_0_1.png",
-            "neg_y": "door\\french bamboo_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "888",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Blue Windows Door",
-        "id": 948,
-        "texture": {
-            "pos_y": "door\\french blue windows_0_1.png",
-            "pos_x": "door\\french blue windows_0_1.png",
-            "pos_z": "door\\french blue windows_0_1.png",
-            "neg_z": "door\\french blue windows_0_1.png",
-            "neg_x": "door\\french blue windows_0_1.png",
-            "neg_y": "door\\french blue windows_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "889",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Blue Door",
-        "id": 949,
-        "texture": {
-            "pos_y": "door\\french blue_0_1.png",
-            "pos_x": "door\\french blue_0_1.png",
-            "pos_z": "door\\french blue_0_1.png",
-            "neg_z": "door\\french blue_0_1.png",
-            "neg_x": "door\\french blue_0_1.png",
-            "neg_y": "door\\french blue_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "890",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Green Windows Door",
-        "id": 950,
-        "texture": {
-            "pos_y": "door\\french green windows_0_1.png",
-            "pos_x": "door\\french green windows_0_1.png",
-            "pos_z": "door\\french green windows_0_1.png",
-            "neg_z": "door\\french green windows_0_1.png",
-            "neg_x": "door\\french green windows_0_1.png",
-            "neg_y": "door\\french green windows_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "891",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Green Door",
-        "id": 951,
-        "texture": {
-            "pos_y": "door\\french green_0_1.png",
-            "pos_x": "door\\french green_0_1.png",
-            "pos_z": "door\\french green_0_1.png",
-            "neg_z": "door\\french green_0_1.png",
-            "neg_x": "door\\french green_0_1.png",
-            "neg_y": "door\\french green_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "892",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Magenta Windows Door",
-        "id": 952,
-        "texture": {
-            "pos_y": "door\\french magenta windows_0_1.png",
-            "pos_x": "door\\french magenta windows_0_1.png",
-            "pos_z": "door\\french magenta windows_0_1.png",
-            "neg_z": "door\\french magenta windows_0_1.png",
-            "neg_x": "door\\french magenta windows_0_1.png",
-            "neg_y": "door\\french magenta windows_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "893",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Magenta Door",
-        "id": 953,
-        "texture": {
-            "pos_y": "door\\french magenta_0_1.png",
-            "pos_x": "door\\french magenta_0_1.png",
-            "pos_z": "door\\french magenta_0_1.png",
-            "neg_z": "door\\french magenta_0_1.png",
-            "neg_x": "door\\french magenta_0_1.png",
-            "neg_y": "door\\french magenta_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "894",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Windows Door",
-        "id": 954,
-        "texture": {
-            "pos_y": "door\\french windows_0_1.png",
-            "pos_x": "door\\french windows_0_1.png",
-            "pos_z": "door\\french windows_0_1.png",
-            "neg_z": "door\\french windows_0_1.png",
-            "neg_x": "door\\french windows_0_1.png",
-            "neg_y": "door\\french windows_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "895",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "French Door",
-        "id": 955,
-        "texture": {
-            "pos_y": "door\\french_0_1.png",
-            "pos_x": "door\\french_0_1.png",
-            "pos_z": "door\\french_0_1.png",
-            "neg_z": "door\\french_0_1.png",
-            "neg_x": "door\\french_0_1.png",
-            "neg_y": "door\\french_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "896",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Glass Door",
-        "id": 956,
-        "texture": {
-            "pos_y": "door\\glass_0_1.png",
-            "pos_x": "door\\glass_0_1.png",
-            "pos_z": "door\\glass_0_1.png",
-            "neg_z": "door\\glass_0_1.png",
-            "neg_x": "door\\glass_0_1.png",
-            "neg_y": "door\\glass_0_1.png"
-        },
-        "icon": "door\\glass.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "897",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Gray Space Door",
-        "id": 957,
-        "texture": {
-            "pos_y": "door\\gray 1_0_1.png",
-            "pos_x": "door\\gray 1_0_1.png",
-            "pos_z": "door\\gray 1_0_1.png",
-            "neg_z": "door\\gray 1_0_1.png",
-            "neg_x": "door\\gray 1_0_1.png",
-            "neg_y": "door\\gray 1_0_1.png"
-        },
-        "icon": "door\\space (4).png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "898",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Gray Space Control-Panel Door",
-        "id": 958,
-        "texture": {
-            "pos_y": "door\\gray 2 control-panel_0_1.png",
-            "pos_x": "door\\gray 2 control-panel_0_1.png",
-            "pos_z": "door\\gray 2 control-panel_0_1.png",
-            "neg_z": "door\\gray 2 control-panel_0_1.png",
-            "neg_x": "door\\gray 2 control-panel_0_1.png",
-            "neg_y": "door\\gray 2 control-panel_0_1.png"
-        },
-        "icon": "door\\space (1).png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "899",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Gray Space Door 2",
-        "id": 959,
-        "texture": {
-            "pos_y": "door\\gray 2_0_1.png",
-            "pos_x": "door\\gray 2_0_1.png",
-            "pos_z": "door\\gray 2_0_1.png",
-            "neg_z": "door\\gray 2_0_1.png",
-            "neg_x": "door\\gray 2_0_1.png",
-            "neg_y": "door\\gray 2_0_1.png"
-        },
-        "icon": "door\\space (1).png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "900",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Bamboo Windows Door",
-        "id": 960,
-        "texture": {
-            "pos_y": "door\\italian bamboo windows_0_1.png",
-            "pos_x": "door\\italian bamboo windows_0_1.png",
-            "pos_z": "door\\italian bamboo windows_0_1.png",
-            "neg_z": "door\\italian bamboo windows_0_1.png",
-            "neg_x": "door\\italian bamboo windows_0_1.png",
-            "neg_y": "door\\italian bamboo windows_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "901",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Bamboo Door",
-        "id": 961,
-        "texture": {
-            "pos_y": "door\\italian bamboo_0_1.png",
-            "pos_x": "door\\italian bamboo_0_1.png",
-            "pos_z": "door\\italian bamboo_0_1.png",
-            "neg_z": "door\\italian bamboo_0_1.png",
-            "neg_x": "door\\italian bamboo_0_1.png",
-            "neg_y": "door\\italian bamboo_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "902",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Blue Windows Door",
-        "id": 962,
-        "texture": {
-            "pos_y": "door\\italian blue windows_0_1.png",
-            "pos_x": "door\\italian blue windows_0_1.png",
-            "pos_z": "door\\italian blue windows_0_1.png",
-            "neg_z": "door\\italian blue windows_0_1.png",
-            "neg_x": "door\\italian blue windows_0_1.png",
-            "neg_y": "door\\italian blue windows_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "903",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Blue Door",
-        "id": 963,
-        "texture": {
-            "pos_y": "door\\italian blue_0_1.png",
-            "pos_x": "door\\italian blue_0_1.png",
-            "pos_z": "door\\italian blue_0_1.png",
-            "neg_z": "door\\italian blue_0_1.png",
-            "neg_x": "door\\italian blue_0_1.png",
-            "neg_y": "door\\italian blue_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "904",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Green Windows Door",
-        "id": 964,
-        "texture": {
-            "pos_y": "door\\italian green windows_0_1.png",
-            "pos_x": "door\\italian green windows_0_1.png",
-            "pos_z": "door\\italian green windows_0_1.png",
-            "neg_z": "door\\italian green windows_0_1.png",
-            "neg_x": "door\\italian green windows_0_1.png",
-            "neg_y": "door\\italian green windows_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "905",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Green Door",
-        "id": 965,
-        "texture": {
-            "pos_y": "door\\italian green_0_1.png",
-            "pos_x": "door\\italian green_0_1.png",
-            "pos_z": "door\\italian green_0_1.png",
-            "neg_z": "door\\italian green_0_1.png",
-            "neg_x": "door\\italian green_0_1.png",
-            "neg_y": "door\\italian green_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "906",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Magenta Windows Door",
-        "id": 966,
-        "texture": {
-            "pos_y": "door\\italian magenta windows_0_1.png",
-            "pos_x": "door\\italian magenta windows_0_1.png",
-            "pos_z": "door\\italian magenta windows_0_1.png",
-            "neg_z": "door\\italian magenta windows_0_1.png",
-            "neg_x": "door\\italian magenta windows_0_1.png",
-            "neg_y": "door\\italian magenta windows_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "907",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Magenta Door",
-        "id": 967,
-        "texture": {
-            "pos_y": "door\\italian magenta_0_1.png",
-            "pos_x": "door\\italian magenta_0_1.png",
-            "pos_z": "door\\italian magenta_0_1.png",
-            "neg_z": "door\\italian magenta_0_1.png",
-            "neg_x": "door\\italian magenta_0_1.png",
-            "neg_y": "door\\italian magenta_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "908",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Windows Door",
-        "id": 968,
-        "texture": {
-            "pos_y": "door\\italian windows_0_1.png",
-            "pos_x": "door\\italian windows_0_1.png",
-            "pos_z": "door\\italian windows_0_1.png",
-            "neg_z": "door\\italian windows_0_1.png",
-            "neg_x": "door\\italian windows_0_1.png",
-            "neg_y": "door\\italian windows_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "909",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Italian Door",
-        "id": 969,
-        "texture": {
-            "pos_y": "door\\italian_0_1.png",
-            "pos_x": "door\\italian_0_1.png",
-            "pos_z": "door\\italian_0_1.png",
-            "neg_z": "door\\italian_0_1.png",
-            "neg_x": "door\\italian_0_1.png",
-            "neg_y": "door\\italian_0_1.png"
-        },
-        "icon": "door\\italian.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "910",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Jungle 2 Door",
-        "id": 970,
-        "texture": {
-            "pos_y": "door\\jungle 2_0_1.png",
-            "pos_x": "door\\jungle 2_0_1.png",
-            "pos_z": "door\\jungle 2_0_1.png",
-            "neg_z": "door\\jungle 2_0_1.png",
-            "neg_x": "door\\jungle 2_0_1.png",
-            "neg_y": "door\\jungle 2_0_1.png"
-        },
-        "icon": "door\\jungle2.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "911",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Jungle Door",
-        "id": 971,
-        "texture": {
-            "pos_y": "door\\jungle_0_1.png",
-            "pos_x": "door\\jungle_0_1.png",
-            "pos_z": "door\\jungle_0_1.png",
-            "neg_z": "door\\jungle_0_1.png",
-            "neg_x": "door\\jungle_0_1.png",
-            "neg_y": "door\\jungle_0_1.png"
-        },
-        "icon": "door\\jungle.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "912",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oak 2 Door",
-        "id": 972,
-        "texture": {
-            "pos_y": "door\\oak 2_0_1.png",
-            "pos_x": "door\\oak 2_0_1.png",
-            "pos_z": "door\\oak 2_0_1.png",
-            "neg_z": "door\\oak 2_0_1.png",
-            "neg_x": "door\\oak 2_0_1.png",
-            "neg_y": "door\\oak 2_0_1.png"
-        },
-        "icon": "door\\icon_0_0.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "913",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oak Renaissance Door",
-        "id": 973,
-        "texture": {
-            "pos_y": "door\\oak renaissance_0_1.png",
-            "pos_x": "door\\oak renaissance_0_1.png",
-            "pos_z": "door\\oak renaissance_0_1.png",
-            "neg_z": "door\\oak renaissance_0_1.png",
-            "neg_x": "door\\oak renaissance_0_1.png",
-            "neg_y": "door\\oak renaissance_0_1.png"
-        },
-        "icon": "door\\icon_17_0.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "914",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oak Door",
-        "id": 974,
-        "texture": {
-            "pos_y": "door\\oak_0_1.png",
-            "pos_x": "door\\oak_0_1.png",
-            "pos_z": "door\\oak_0_1.png",
-            "neg_z": "door\\oak_0_1.png",
-            "neg_x": "door\\oak_0_1.png",
-            "neg_y": "door\\oak_0_1.png"
-        },
-        "icon": "door\\icon_6_0.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "915",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oval Bamboo Door",
-        "id": 975,
-        "texture": {
-            "pos_y": "door\\oval bamboo_0_1.png",
-            "pos_x": "door\\oval bamboo_0_1.png",
-            "pos_z": "door\\oval bamboo_0_1.png",
-            "neg_z": "door\\oval bamboo_0_1.png",
-            "neg_x": "door\\oval bamboo_0_1.png",
-            "neg_y": "door\\oval bamboo_0_1.png"
-        },
-        "icon": "door\\oval.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "916",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oval Blue Door",
-        "id": 976,
-        "texture": {
-            "pos_y": "door\\oval blue_0_1.png",
-            "pos_x": "door\\oval blue_0_1.png",
-            "pos_z": "door\\oval blue_0_1.png",
-            "neg_z": "door\\oval blue_0_1.png",
-            "neg_x": "door\\oval blue_0_1.png",
-            "neg_y": "door\\oval blue_0_1.png"
-        },
-        "icon": "door\\oval.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "917",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oval Green Door",
-        "id": 977,
-        "texture": {
-            "pos_y": "door\\oval green_0_1.png",
-            "pos_x": "door\\oval green_0_1.png",
-            "pos_z": "door\\oval green_0_1.png",
-            "neg_z": "door\\oval green_0_1.png",
-            "neg_x": "door\\oval green_0_1.png",
-            "neg_y": "door\\oval green_0_1.png"
-        },
-        "icon": "door\\oval.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "918",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oval Magenta Door",
-        "id": 978,
-        "texture": {
-            "pos_y": "door\\oval magenta_0_1.png",
-            "pos_x": "door\\oval magenta_0_1.png",
-            "pos_z": "door\\oval magenta_0_1.png",
-            "neg_z": "door\\oval magenta_0_1.png",
-            "neg_x": "door\\oval magenta_0_1.png",
-            "neg_y": "door\\oval magenta_0_1.png"
-        },
-        "icon": "door\\oval.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "919",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Oval Door",
-        "id": 979,
-        "texture": {
-            "pos_y": "door\\oval_0_1.png",
-            "pos_x": "door\\oval_0_1.png",
-            "pos_z": "door\\oval_0_1.png",
-            "neg_z": "door\\oval_0_1.png",
-            "neg_x": "door\\oval_0_1.png",
-            "neg_y": "door\\oval_0_1.png"
-        },
-        "icon": "door\\oval.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "920",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Party Blue Door",
-        "id": 980,
-        "texture": {
-            "pos_y": "door\\party blue_0_1.png",
-            "pos_x": "door\\party blue_0_1.png",
-            "pos_z": "door\\party blue_0_1.png",
-            "neg_z": "door\\party blue_0_1.png",
-            "neg_x": "door\\party blue_0_1.png",
-            "neg_y": "door\\party blue_0_1.png"
-        },
-        "icon": "door\\party blue.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "921",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Party Green Door",
-        "id": 981,
-        "texture": {
-            "pos_y": "door\\party green_0_1.png",
-            "pos_x": "door\\party green_0_1.png",
-            "pos_z": "door\\party green_0_1.png",
-            "neg_z": "door\\party green_0_1.png",
-            "neg_x": "door\\party green_0_1.png",
-            "neg_y": "door\\party green_0_1.png"
-        },
-        "icon": "door\\party green.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "922",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Party Magenta Door",
-        "id": 982,
-        "texture": {
-            "pos_y": "door\\party magenta_0_1.png",
-            "pos_x": "door\\party magenta_0_1.png",
-            "pos_z": "door\\party magenta_0_1.png",
-            "neg_z": "door\\party magenta_0_1.png",
-            "neg_x": "door\\party magenta_0_1.png",
-            "neg_y": "door\\party magenta_0_1.png"
-        },
-        "icon": "door\\party magenta.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "923",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Party Purple Door",
-        "id": 983,
-        "texture": {
-            "pos_y": "door\\party purple_0_1.png",
-            "pos_x": "door\\party purple_0_1.png",
-            "pos_z": "door\\party purple_0_1.png",
-            "neg_z": "door\\party purple_0_1.png",
-            "neg_x": "door\\party purple_0_1.png",
-            "neg_y": "door\\party purple_0_1.png"
-        },
-        "icon": "door\\party purple.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "924",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Party Red Door",
-        "id": 984,
-        "texture": {
-            "pos_y": "door\\party red_0_1.png",
-            "pos_x": "door\\party red_0_1.png",
-            "pos_z": "door\\party red_0_1.png",
-            "neg_z": "door\\party red_0_1.png",
-            "neg_x": "door\\party red_0_1.png",
-            "neg_y": "door\\party red_0_1.png"
-        },
-        "icon": "door\\party red.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "925",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Party Yellow Door",
-        "id": 985,
-        "texture": {
-            "pos_y": "door\\party yellow_0_1.png",
-            "pos_x": "door\\party yellow_0_1.png",
-            "pos_z": "door\\party yellow_0_1.png",
-            "neg_z": "door\\party yellow_0_1.png",
-            "neg_x": "door\\party yellow_0_1.png",
-            "neg_y": "door\\party yellow_0_1.png"
-        },
-        "icon": "door\\party yellow.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "926",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Red Door",
-        "id": 986,
-        "texture": {
-            "pos_y": "door\\red_0_1.png",
-            "pos_x": "door\\red_0_1.png",
-            "pos_z": "door\\red_0_1.png",
-            "neg_z": "door\\red_0_1.png",
-            "neg_x": "door\\red_0_1.png",
-            "neg_y": "door\\red_0_1.png"
-        },
-        "icon": "door\\red.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "927",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Spruce 2 Door",
-        "id": 987,
-        "texture": {
-            "pos_y": "door\\spruce 2_0_1.png",
-            "pos_x": "door\\spruce 2_0_1.png",
-            "pos_z": "door\\spruce 2_0_1.png",
-            "neg_z": "door\\spruce 2_0_1.png",
-            "neg_x": "door\\spruce 2_0_1.png",
-            "neg_y": "door\\spruce 2_0_1.png"
-        },
-        "icon": "door\\icon_6_0.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "928",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Spruce Door",
-        "id": 988,
-        "texture": {
-            "pos_y": "door\\spruce_0_1.png",
-            "pos_x": "door\\spruce_0_1.png",
-            "pos_z": "door\\spruce_0_1.png",
-            "neg_z": "door\\spruce_0_1.png",
-            "neg_x": "door\\spruce_0_1.png",
-            "neg_y": "door\\spruce_0_1.png"
-        },
-        "icon": "door\\spruce.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "929",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Steel Door",
-        "id": 989,
-        "texture": {
-            "pos_y": "door\\steel_0_1.png",
-            "pos_x": "door\\steel_0_1.png",
-            "pos_z": "door\\steel_0_1.png",
-            "neg_z": "door\\steel_0_1.png",
-            "neg_x": "door\\steel_0_1.png",
-            "neg_y": "door\\steel_0_1.png"
-        },
-        "icon": "door\\icon_7_0.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "930",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Warped Door",
-        "id": 990,
-        "texture": {
-            "pos_y": "door\\warped_0_1.png",
-            "pos_x": "door\\warped_0_1.png",
-            "pos_z": "door\\warped_0_1.png",
-            "neg_z": "door\\warped_0_1.png",
-            "neg_x": "door\\warped_0_1.png",
-            "neg_y": "door\\warped_0_1.png"
-        },
-        "icon": "door\\warped.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "931",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "Web Door",
-        "id": 991,
-        "texture": {
-            "pos_y": "door\\web_0_1.png",
-            "pos_x": "door\\web_0_1.png",
-            "pos_z": "door\\web_0_1.png",
-            "neg_z": "door\\web_0_1.png",
-            "neg_x": "door\\web_0_1.png",
-            "neg_y": "door\\web_0_1.png"
-        },
-        "icon": "door\\web.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "932",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "White Space Door",
-        "id": 992,
-        "texture": {
-            "pos_y": "door\\white 1_0_1.png",
-            "pos_x": "door\\white 1_0_1.png",
-            "pos_z": "door\\white 1_0_1.png",
-            "neg_z": "door\\white 1_0_1.png",
-            "neg_x": "door\\white 1_0_1.png",
-            "neg_y": "door\\white 1_0_1.png"
-        },
-        "icon": "door\\space (2).png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "933",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "White Space Control-Panel Door",
-        "id": 993,
-        "texture": {
-            "pos_y": "door\\white 2 control-panel_0_1.png",
-            "pos_x": "door\\white 2 control-panel_0_1.png",
-            "pos_z": "door\\white 2 control-panel_0_1.png",
-            "neg_z": "door\\white 2 control-panel_0_1.png",
-            "neg_x": "door\\white 2 control-panel_0_1.png",
-            "neg_y": "door\\white 2 control-panel_0_1.png"
-        },
-        "icon": "door\\space (3).png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "934",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "White Space Door 2",
-        "id": 994,
-        "texture": {
-            "pos_y": "door\\white 2_0_1.png",
-            "pos_x": "door\\white 2_0_1.png",
-            "pos_z": "door\\white 2_0_1.png",
-            "neg_z": "door\\white 2_0_1.png",
-            "neg_x": "door\\white 2_0_1.png",
-            "neg_y": "door\\white 2_0_1.png"
-        },
-        "icon": "door\\space (3).png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "935",
-            "placement": "bottom"
-        }
-    },
-    {
-        "name": "White Door",
-        "id": 995,
-        "texture": {
-            "pos_y": "door\\white_0_1.png",
-            "pos_x": "door\\white_0_1.png",
-            "pos_z": "door\\white_0_1.png",
-            "neg_z": "door\\white_0_1.png",
-            "neg_x": "door\\white_0_1.png",
-            "neg_y": "door\\white_0_1.png"
-        },
-        "icon": "door\\generic.png",
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 18,
-        "tags": [],
-        "properties": {
-            "vertical-pair": "936",
-            "placement": "bottom"
-        }
+  {
+    "name": "Acacia2 Door (Top, Hidden)",
+    "id": 878,
+    "texture": {
+      "pos_y": "door\\acacia2_0_0.png",
+      "pos_x": "door\\acacia2_0_0.png",
+      "pos_z": "door\\acacia2_0_0.png",
+      "neg_z": "door\\acacia2_0_0.png",
+      "neg_x": "door\\acacia2_0_0.png",
+      "neg_y": "door\\acacia2_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "937",
+      "placement": "top"
     }
+  },
+  {
+    "name": "Acacia Door (Top, Hidden)",
+    "id": 879,
+    "texture": {
+      "pos_y": "door\\acacia_0_0.png",
+      "pos_x": "door\\acacia_0_0.png",
+      "pos_z": "door\\acacia_0_0.png",
+      "neg_z": "door\\acacia_0_0.png",
+      "neg_x": "door\\acacia_0_0.png",
+      "neg_y": "door\\acacia_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "938",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Bamboo 2 Door (Top, Hidden)",
+    "id": 880,
+    "texture": {
+      "pos_y": "door\\bamboo 2_0_0.png",
+      "pos_x": "door\\bamboo 2_0_0.png",
+      "pos_z": "door\\bamboo 2_0_0.png",
+      "neg_z": "door\\bamboo 2_0_0.png",
+      "neg_x": "door\\bamboo 2_0_0.png",
+      "neg_y": "door\\bamboo 2_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "939",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Bamboo Door (Top, Hidden)",
+    "id": 881,
+    "texture": {
+      "pos_y": "door\\bamboo_0_0.png",
+      "pos_x": "door\\bamboo_0_0.png",
+      "pos_z": "door\\bamboo_0_0.png",
+      "neg_z": "door\\bamboo_0_0.png",
+      "neg_x": "door\\bamboo_0_0.png",
+      "neg_y": "door\\bamboo_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "940",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Birch Door (Top, Hidden)",
+    "id": 882,
+    "texture": {
+      "pos_y": "door\\birch_0_0.png",
+      "pos_x": "door\\birch_0_0.png",
+      "pos_z": "door\\birch_0_0.png",
+      "neg_z": "door\\birch_0_0.png",
+      "neg_x": "door\\birch_0_0.png",
+      "neg_y": "door\\birch_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "941",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Cladded Blue Door (Top, Hidden)",
+    "id": 883,
+    "texture": {
+      "pos_y": "door\\cladded blue_0_0.png",
+      "pos_x": "door\\cladded blue_0_0.png",
+      "pos_z": "door\\cladded blue_0_0.png",
+      "neg_z": "door\\cladded blue_0_0.png",
+      "neg_x": "door\\cladded blue_0_0.png",
+      "neg_y": "door\\cladded blue_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "942",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Cladded Green Door (Top, Hidden)",
+    "id": 884,
+    "texture": {
+      "pos_y": "door\\cladded green_0_0.png",
+      "pos_x": "door\\cladded green_0_0.png",
+      "pos_z": "door\\cladded green_0_0.png",
+      "neg_z": "door\\cladded green_0_0.png",
+      "neg_x": "door\\cladded green_0_0.png",
+      "neg_y": "door\\cladded green_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "943",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Cladded Magenta Door (Top, Hidden)",
+    "id": 885,
+    "texture": {
+      "pos_y": "door\\cladded magenta_0_0.png",
+      "pos_x": "door\\cladded magenta_0_0.png",
+      "pos_z": "door\\cladded magenta_0_0.png",
+      "neg_z": "door\\cladded magenta_0_0.png",
+      "neg_x": "door\\cladded magenta_0_0.png",
+      "neg_y": "door\\cladded magenta_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "944",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Cladded Door (Top, Hidden)",
+    "id": 886,
+    "texture": {
+      "pos_y": "door\\cladded_0_0.png",
+      "pos_x": "door\\cladded_0_0.png",
+      "pos_z": "door\\cladded_0_0.png",
+      "neg_z": "door\\cladded_0_0.png",
+      "neg_x": "door\\cladded_0_0.png",
+      "neg_y": "door\\cladded_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "945",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Bamboo Windows Door (Top, Hidden)",
+    "id": 887,
+    "texture": {
+      "pos_y": "door\\french bamboo windows_0_0.png",
+      "pos_x": "door\\french bamboo windows_0_0.png",
+      "pos_z": "door\\french bamboo windows_0_0.png",
+      "neg_z": "door\\french bamboo windows_0_0.png",
+      "neg_x": "door\\french bamboo windows_0_0.png",
+      "neg_y": "door\\french bamboo windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "946",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Bamboo Door (Top, Hidden)",
+    "id": 888,
+    "texture": {
+      "pos_y": "door\\french bamboo_0_0.png",
+      "pos_x": "door\\french bamboo_0_0.png",
+      "pos_z": "door\\french bamboo_0_0.png",
+      "neg_z": "door\\french bamboo_0_0.png",
+      "neg_x": "door\\french bamboo_0_0.png",
+      "neg_y": "door\\french bamboo_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "947",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Blue Windows Door (Top, Hidden)",
+    "id": 889,
+    "texture": {
+      "pos_y": "door\\french blue windows_0_0.png",
+      "pos_x": "door\\french blue windows_0_0.png",
+      "pos_z": "door\\french blue windows_0_0.png",
+      "neg_z": "door\\french blue windows_0_0.png",
+      "neg_x": "door\\french blue windows_0_0.png",
+      "neg_y": "door\\french blue windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "948",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Blue Door (Top, Hidden)",
+    "id": 890,
+    "texture": {
+      "pos_y": "door\\french blue_0_0.png",
+      "pos_x": "door\\french blue_0_0.png",
+      "pos_z": "door\\french blue_0_0.png",
+      "neg_z": "door\\french blue_0_0.png",
+      "neg_x": "door\\french blue_0_0.png",
+      "neg_y": "door\\french blue_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "949",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Green Windows Door (Top, Hidden)",
+    "id": 891,
+    "texture": {
+      "pos_y": "door\\french green windows_0_0.png",
+      "pos_x": "door\\french green windows_0_0.png",
+      "pos_z": "door\\french green windows_0_0.png",
+      "neg_z": "door\\french green windows_0_0.png",
+      "neg_x": "door\\french green windows_0_0.png",
+      "neg_y": "door\\french green windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "950",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Green Door (Top, Hidden)",
+    "id": 892,
+    "texture": {
+      "pos_y": "door\\french green_0_0.png",
+      "pos_x": "door\\french green_0_0.png",
+      "pos_z": "door\\french green_0_0.png",
+      "neg_z": "door\\french green_0_0.png",
+      "neg_x": "door\\french green_0_0.png",
+      "neg_y": "door\\french green_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "951",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Magenta Windows Door (Top, Hidden)",
+    "id": 893,
+    "texture": {
+      "pos_y": "door\\french magenta windows_0_0.png",
+      "pos_x": "door\\french magenta windows_0_0.png",
+      "pos_z": "door\\french magenta windows_0_0.png",
+      "neg_z": "door\\french magenta windows_0_0.png",
+      "neg_x": "door\\french magenta windows_0_0.png",
+      "neg_y": "door\\french magenta windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "952",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Magenta Door (Top, Hidden)",
+    "id": 894,
+    "texture": {
+      "pos_y": "door\\french magenta_0_0.png",
+      "pos_x": "door\\french magenta_0_0.png",
+      "pos_z": "door\\french magenta_0_0.png",
+      "neg_z": "door\\french magenta_0_0.png",
+      "neg_x": "door\\french magenta_0_0.png",
+      "neg_y": "door\\french magenta_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "953",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Windows Door (Top, Hidden)",
+    "id": 895,
+    "texture": {
+      "pos_y": "door\\french windows_0_0.png",
+      "pos_x": "door\\french windows_0_0.png",
+      "pos_z": "door\\french windows_0_0.png",
+      "neg_z": "door\\french windows_0_0.png",
+      "neg_x": "door\\french windows_0_0.png",
+      "neg_y": "door\\french windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "954",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "French Door (Top, Hidden)",
+    "id": 896,
+    "texture": {
+      "pos_y": "door\\french_0_0.png",
+      "pos_x": "door\\french_0_0.png",
+      "pos_z": "door\\french_0_0.png",
+      "neg_z": "door\\french_0_0.png",
+      "neg_x": "door\\french_0_0.png",
+      "neg_y": "door\\french_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "955",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Glass Door (Top, Hidden)",
+    "id": 897,
+    "texture": {
+      "pos_y": "door\\glass_0_0.png",
+      "pos_x": "door\\glass_0_0.png",
+      "pos_z": "door\\glass_0_0.png",
+      "neg_z": "door\\glass_0_0.png",
+      "neg_x": "door\\glass_0_0.png",
+      "neg_y": "door\\glass_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "956",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Gray Space Door (Top, Hidden)",
+    "id": 898,
+    "texture": {
+      "pos_y": "door\\gray 1_0_0.png",
+      "pos_x": "door\\gray 1_0_0.png",
+      "pos_z": "door\\gray 1_0_0.png",
+      "neg_z": "door\\gray 1_0_0.png",
+      "neg_x": "door\\gray 1_0_0.png",
+      "neg_y": "door\\gray 1_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "957",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Gray Space Control-Panel Door (Top, Hidden)",
+    "id": 899,
+    "texture": {
+      "pos_y": "door\\gray 2 control-panel_0_0.png",
+      "pos_x": "door\\gray 2 control-panel_0_0.png",
+      "pos_z": "door\\gray 2 control-panel_0_0.png",
+      "neg_z": "door\\gray 2 control-panel_0_0.png",
+      "neg_x": "door\\gray 2 control-panel_0_0.png",
+      "neg_y": "door\\gray 2 control-panel_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "958",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Gray 2 Door (Top, Hidden)",
+    "id": 900,
+    "texture": {
+      "pos_y": "door\\gray 2_0_0.png",
+      "pos_x": "door\\gray 2_0_0.png",
+      "pos_z": "door\\gray 2_0_0.png",
+      "neg_z": "door\\gray 2_0_0.png",
+      "neg_x": "door\\gray 2_0_0.png",
+      "neg_y": "door\\gray 2_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "959",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Bamboo Windows Door (Top, Hidden)",
+    "id": 901,
+    "texture": {
+      "pos_y": "door\\italian bamboo windows_0_0.png",
+      "pos_x": "door\\italian bamboo windows_0_0.png",
+      "pos_z": "door\\italian bamboo windows_0_0.png",
+      "neg_z": "door\\italian bamboo windows_0_0.png",
+      "neg_x": "door\\italian bamboo windows_0_0.png",
+      "neg_y": "door\\italian bamboo windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "960",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Bamboo Door (Top, Hidden)",
+    "id": 902,
+    "texture": {
+      "pos_y": "door\\italian bamboo_0_0.png",
+      "pos_x": "door\\italian bamboo_0_0.png",
+      "pos_z": "door\\italian bamboo_0_0.png",
+      "neg_z": "door\\italian bamboo_0_0.png",
+      "neg_x": "door\\italian bamboo_0_0.png",
+      "neg_y": "door\\italian bamboo_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "961",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Blue Windows Door (Top, Hidden)",
+    "id": 903,
+    "texture": {
+      "pos_y": "door\\italian blue windows_0_0.png",
+      "pos_x": "door\\italian blue windows_0_0.png",
+      "pos_z": "door\\italian blue windows_0_0.png",
+      "neg_z": "door\\italian blue windows_0_0.png",
+      "neg_x": "door\\italian blue windows_0_0.png",
+      "neg_y": "door\\italian blue windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "962",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Blue Door (Top, Hidden)",
+    "id": 904,
+    "texture": {
+      "pos_y": "door\\italian blue_0_0.png",
+      "pos_x": "door\\italian blue_0_0.png",
+      "pos_z": "door\\italian blue_0_0.png",
+      "neg_z": "door\\italian blue_0_0.png",
+      "neg_x": "door\\italian blue_0_0.png",
+      "neg_y": "door\\italian blue_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "963",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Green Windows Door (Top, Hidden)",
+    "id": 905,
+    "texture": {
+      "pos_y": "door\\italian green windows_0_0.png",
+      "pos_x": "door\\italian green windows_0_0.png",
+      "pos_z": "door\\italian green windows_0_0.png",
+      "neg_z": "door\\italian green windows_0_0.png",
+      "neg_x": "door\\italian green windows_0_0.png",
+      "neg_y": "door\\italian green windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "964",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Green Door (Top, Hidden)",
+    "id": 906,
+    "texture": {
+      "pos_y": "door\\italian green_0_0.png",
+      "pos_x": "door\\italian green_0_0.png",
+      "pos_z": "door\\italian green_0_0.png",
+      "neg_z": "door\\italian green_0_0.png",
+      "neg_x": "door\\italian green_0_0.png",
+      "neg_y": "door\\italian green_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "965",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Magenta Windows Door (Top, Hidden)",
+    "id": 907,
+    "texture": {
+      "pos_y": "door\\italian magenta windows_0_0.png",
+      "pos_x": "door\\italian magenta windows_0_0.png",
+      "pos_z": "door\\italian magenta windows_0_0.png",
+      "neg_z": "door\\italian magenta windows_0_0.png",
+      "neg_x": "door\\italian magenta windows_0_0.png",
+      "neg_y": "door\\italian magenta windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "966",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Magenta Door (Top, Hidden)",
+    "id": 908,
+    "texture": {
+      "pos_y": "door\\italian magenta_0_0.png",
+      "pos_x": "door\\italian magenta_0_0.png",
+      "pos_z": "door\\italian magenta_0_0.png",
+      "neg_z": "door\\italian magenta_0_0.png",
+      "neg_x": "door\\italian magenta_0_0.png",
+      "neg_y": "door\\italian magenta_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "967",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Windows Door (Top, Hidden)",
+    "id": 909,
+    "texture": {
+      "pos_y": "door\\italian windows_0_0.png",
+      "pos_x": "door\\italian windows_0_0.png",
+      "pos_z": "door\\italian windows_0_0.png",
+      "neg_z": "door\\italian windows_0_0.png",
+      "neg_x": "door\\italian windows_0_0.png",
+      "neg_y": "door\\italian windows_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "968",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Italian Door (Top, Hidden)",
+    "id": 910,
+    "texture": {
+      "pos_y": "door\\italian_0_0.png",
+      "pos_x": "door\\italian_0_0.png",
+      "pos_z": "door\\italian_0_0.png",
+      "neg_z": "door\\italian_0_0.png",
+      "neg_x": "door\\italian_0_0.png",
+      "neg_y": "door\\italian_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "969",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Jungle 2 Door (Top, Hidden)",
+    "id": 911,
+    "texture": {
+      "pos_y": "door\\jungle 2_0_0.png",
+      "pos_x": "door\\jungle 2_0_0.png",
+      "pos_z": "door\\jungle 2_0_0.png",
+      "neg_z": "door\\jungle 2_0_0.png",
+      "neg_x": "door\\jungle 2_0_0.png",
+      "neg_y": "door\\jungle 2_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "970",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Jungle Door (Top, Hidden)",
+    "id": 912,
+    "texture": {
+      "pos_y": "door\\jungle_0_0.png",
+      "pos_x": "door\\jungle_0_0.png",
+      "pos_z": "door\\jungle_0_0.png",
+      "neg_z": "door\\jungle_0_0.png",
+      "neg_x": "door\\jungle_0_0.png",
+      "neg_y": "door\\jungle_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "971",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oak 2 Door (Top, Hidden)",
+    "id": 913,
+    "texture": {
+      "pos_y": "door\\oak 2_0_0.png",
+      "pos_x": "door\\oak 2_0_0.png",
+      "pos_z": "door\\oak 2_0_0.png",
+      "neg_z": "door\\oak 2_0_0.png",
+      "neg_x": "door\\oak 2_0_0.png",
+      "neg_y": "door\\oak 2_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "972",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oak Renaissance Door (Top, Hidden)",
+    "id": 914,
+    "texture": {
+      "pos_y": "door\\oak renaissance_0_0.png",
+      "pos_x": "door\\oak renaissance_0_0.png",
+      "pos_z": "door\\oak renaissance_0_0.png",
+      "neg_z": "door\\oak renaissance_0_0.png",
+      "neg_x": "door\\oak renaissance_0_0.png",
+      "neg_y": "door\\oak renaissance_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "973",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oak Door (Top, Hidden)",
+    "id": 915,
+    "texture": {
+      "pos_y": "door\\oak_0_0.png",
+      "pos_x": "door\\oak_0_0.png",
+      "pos_z": "door\\oak_0_0.png",
+      "neg_z": "door\\oak_0_0.png",
+      "neg_x": "door\\oak_0_0.png",
+      "neg_y": "door\\oak_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "974",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oval Bamboo Door (Top, Hidden)",
+    "id": 916,
+    "texture": {
+      "pos_y": "door\\oval bamboo_0_0.png",
+      "pos_x": "door\\oval bamboo_0_0.png",
+      "pos_z": "door\\oval bamboo_0_0.png",
+      "neg_z": "door\\oval bamboo_0_0.png",
+      "neg_x": "door\\oval bamboo_0_0.png",
+      "neg_y": "door\\oval bamboo_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "975",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oval Blue Door (Top, Hidden)",
+    "id": 917,
+    "texture": {
+      "pos_y": "door\\oval blue_0_0.png",
+      "pos_x": "door\\oval blue_0_0.png",
+      "pos_z": "door\\oval blue_0_0.png",
+      "neg_z": "door\\oval blue_0_0.png",
+      "neg_x": "door\\oval blue_0_0.png",
+      "neg_y": "door\\oval blue_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "976",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oval Green Door (Top, Hidden)",
+    "id": 918,
+    "texture": {
+      "pos_y": "door\\oval green_0_0.png",
+      "pos_x": "door\\oval green_0_0.png",
+      "pos_z": "door\\oval green_0_0.png",
+      "neg_z": "door\\oval green_0_0.png",
+      "neg_x": "door\\oval green_0_0.png",
+      "neg_y": "door\\oval green_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "977",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oval Magenta Door (Top, Hidden)",
+    "id": 919,
+    "texture": {
+      "pos_y": "door\\oval magenta_0_0.png",
+      "pos_x": "door\\oval magenta_0_0.png",
+      "pos_z": "door\\oval magenta_0_0.png",
+      "neg_z": "door\\oval magenta_0_0.png",
+      "neg_x": "door\\oval magenta_0_0.png",
+      "neg_y": "door\\oval magenta_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "978",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Oval Door (Top, Hidden)",
+    "id": 920,
+    "texture": {
+      "pos_y": "door\\oval_0_0.png",
+      "pos_x": "door\\oval_0_0.png",
+      "pos_z": "door\\oval_0_0.png",
+      "neg_z": "door\\oval_0_0.png",
+      "neg_x": "door\\oval_0_0.png",
+      "neg_y": "door\\oval_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "979",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Party Blue Door (Top, Hidden)",
+    "id": 921,
+    "texture": {
+      "pos_y": "door\\party blue_0_0.png",
+      "pos_x": "door\\party blue_0_0.png",
+      "pos_z": "door\\party blue_0_0.png",
+      "neg_z": "door\\party blue_0_0.png",
+      "neg_x": "door\\party blue_0_0.png",
+      "neg_y": "door\\party blue_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "980",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Party Green Door (Top, Hidden)",
+    "id": 922,
+    "texture": {
+      "pos_y": "door\\party green_0_0.png",
+      "pos_x": "door\\party green_0_0.png",
+      "pos_z": "door\\party green_0_0.png",
+      "neg_z": "door\\party green_0_0.png",
+      "neg_x": "door\\party green_0_0.png",
+      "neg_y": "door\\party green_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "981",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Party Magenta Door (Top, Hidden)",
+    "id": 923,
+    "texture": {
+      "pos_y": "door\\party magenta_0_0.png",
+      "pos_x": "door\\party magenta_0_0.png",
+      "pos_z": "door\\party magenta_0_0.png",
+      "neg_z": "door\\party magenta_0_0.png",
+      "neg_x": "door\\party magenta_0_0.png",
+      "neg_y": "door\\party magenta_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "982",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Party Purple Door (Top, Hidden)",
+    "id": 924,
+    "texture": {
+      "pos_y": "door\\party purple_0_0.png",
+      "pos_x": "door\\party purple_0_0.png",
+      "pos_z": "door\\party purple_0_0.png",
+      "neg_z": "door\\party purple_0_0.png",
+      "neg_x": "door\\party purple_0_0.png",
+      "neg_y": "door\\party purple_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "983",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Party Red Door (Top, Hidden)",
+    "id": 925,
+    "texture": {
+      "pos_y": "door\\party red_0_0.png",
+      "pos_x": "door\\party red_0_0.png",
+      "pos_z": "door\\party red_0_0.png",
+      "neg_z": "door\\party red_0_0.png",
+      "neg_x": "door\\party red_0_0.png",
+      "neg_y": "door\\party red_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "984",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Party Yellow Door (Top, Hidden)",
+    "id": 926,
+    "texture": {
+      "pos_y": "door\\party yellow_0_0.png",
+      "pos_x": "door\\party yellow_0_0.png",
+      "pos_z": "door\\party yellow_0_0.png",
+      "neg_z": "door\\party yellow_0_0.png",
+      "neg_x": "door\\party yellow_0_0.png",
+      "neg_y": "door\\party yellow_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "985",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Red Door (Top, Hidden)",
+    "id": 927,
+    "texture": {
+      "pos_y": "door\\red_0_0.png",
+      "pos_x": "door\\red_0_0.png",
+      "pos_z": "door\\red_0_0.png",
+      "neg_z": "door\\red_0_0.png",
+      "neg_x": "door\\red_0_0.png",
+      "neg_y": "door\\red_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "986",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Spruce 2 Door (Top, Hidden)",
+    "id": 928,
+    "texture": {
+      "pos_y": "door\\spruce 2_0_0.png",
+      "pos_x": "door\\spruce 2_0_0.png",
+      "pos_z": "door\\spruce 2_0_0.png",
+      "neg_z": "door\\spruce 2_0_0.png",
+      "neg_x": "door\\spruce 2_0_0.png",
+      "neg_y": "door\\spruce 2_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "987",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Spruce Door (Top, Hidden)",
+    "id": 929,
+    "texture": {
+      "pos_y": "door\\spruce_0_0.png",
+      "pos_x": "door\\spruce_0_0.png",
+      "pos_z": "door\\spruce_0_0.png",
+      "neg_z": "door\\spruce_0_0.png",
+      "neg_x": "door\\spruce_0_0.png",
+      "neg_y": "door\\spruce_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "988",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Steel Door (Top, Hidden)",
+    "id": 930,
+    "texture": {
+      "pos_y": "door\\steel_0_0.png",
+      "pos_x": "door\\steel_0_0.png",
+      "pos_z": "door\\steel_0_0.png",
+      "neg_z": "door\\steel_0_0.png",
+      "neg_x": "door\\steel_0_0.png",
+      "neg_y": "door\\steel_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "989",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Warped Door (Top, Hidden)",
+    "id": 931,
+    "texture": {
+      "pos_y": "door\\warped_0_0.png",
+      "pos_x": "door\\warped_0_0.png",
+      "pos_z": "door\\warped_0_0.png",
+      "neg_z": "door\\warped_0_0.png",
+      "neg_x": "door\\warped_0_0.png",
+      "neg_y": "door\\warped_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "990",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Web Door (Top, Hidden)",
+    "id": 932,
+    "texture": {
+      "pos_y": "door\\web_0_0.png",
+      "pos_x": "door\\web_0_0.png",
+      "pos_z": "door\\web_0_0.png",
+      "neg_z": "door\\web_0_0.png",
+      "neg_x": "door\\web_0_0.png",
+      "neg_y": "door\\web_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "991",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "White 1 Door (Top, Hidden)",
+    "id": 933,
+    "texture": {
+      "pos_y": "door\\white 1_0_0.png",
+      "pos_x": "door\\white 1_0_0.png",
+      "pos_z": "door\\white 1_0_0.png",
+      "neg_z": "door\\white 1_0_0.png",
+      "neg_x": "door\\white 1_0_0.png",
+      "neg_y": "door\\white 1_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "992",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "White 2 Control-Panel Door (Top, Hidden)",
+    "id": 934,
+    "texture": {
+      "pos_y": "door\\white 2 control-panel_0_0.png",
+      "pos_x": "door\\white 2 control-panel_0_0.png",
+      "pos_z": "door\\white 2 control-panel_0_0.png",
+      "neg_z": "door\\white 2 control-panel_0_0.png",
+      "neg_x": "door\\white 2 control-panel_0_0.png",
+      "neg_y": "door\\white 2 control-panel_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "993",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "White 2 Door (Top, Hidden)",
+    "id": 935,
+    "texture": {
+      "pos_y": "door\\white 2_0_0.png",
+      "pos_x": "door\\white 2_0_0.png",
+      "pos_z": "door\\white 2_0_0.png",
+      "neg_z": "door\\white 2_0_0.png",
+      "neg_x": "door\\white 2_0_0.png",
+      "neg_y": "door\\white 2_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "994",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "White Door (Top, Hidden)",
+    "id": 936,
+    "texture": {
+      "pos_y": "door\\white_0_0.png",
+      "pos_x": "door\\white_0_0.png",
+      "pos_z": "door\\white_0_0.png",
+      "neg_z": "door\\white_0_0.png",
+      "neg_x": "door\\white_0_0.png",
+      "neg_y": "door\\white_0_0.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "995",
+      "placement": "top"
+    }
+  },
+  {
+    "name": "Acacia Door 2",
+    "id": 937,
+    "texture": {
+      "pos_y": "door\\acacia2_0_1.png",
+      "pos_x": "door\\acacia2_0_1.png",
+      "pos_z": "door\\acacia2_0_1.png",
+      "neg_z": "door\\acacia2_0_1.png",
+      "neg_x": "door\\acacia2_0_1.png",
+      "neg_y": "door\\acacia2_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "878",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Acacia Door",
+    "id": 938,
+    "texture": {
+      "pos_y": "door\\acacia_0_1.png",
+      "pos_x": "door\\acacia_0_1.png",
+      "pos_z": "door\\acacia_0_1.png",
+      "neg_z": "door\\acacia_0_1.png",
+      "neg_x": "door\\acacia_0_1.png",
+      "neg_y": "door\\acacia_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "879",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Bamboo 2 Door",
+    "id": 939,
+    "texture": {
+      "pos_y": "door\\bamboo 2_0_1.png",
+      "pos_x": "door\\bamboo 2_0_1.png",
+      "pos_z": "door\\bamboo 2_0_1.png",
+      "neg_z": "door\\bamboo 2_0_1.png",
+      "neg_x": "door\\bamboo 2_0_1.png",
+      "neg_y": "door\\bamboo 2_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "880",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Bamboo Door",
+    "id": 940,
+    "texture": {
+      "pos_y": "door\\bamboo_0_1.png",
+      "pos_x": "door\\bamboo_0_1.png",
+      "pos_z": "door\\bamboo_0_1.png",
+      "neg_z": "door\\bamboo_0_1.png",
+      "neg_x": "door\\bamboo_0_1.png",
+      "neg_y": "door\\bamboo_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "881",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Birch Door",
+    "id": 941,
+    "texture": {
+      "pos_y": "door\\birch_0_1.png",
+      "pos_x": "door\\birch_0_1.png",
+      "pos_z": "door\\birch_0_1.png",
+      "neg_z": "door\\birch_0_1.png",
+      "neg_x": "door\\birch_0_1.png",
+      "neg_y": "door\\birch_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "882",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Cladded Blue Door",
+    "id": 942,
+    "texture": {
+      "pos_y": "door\\cladded blue_0_1.png",
+      "pos_x": "door\\cladded blue_0_1.png",
+      "pos_z": "door\\cladded blue_0_1.png",
+      "neg_z": "door\\cladded blue_0_1.png",
+      "neg_x": "door\\cladded blue_0_1.png",
+      "neg_y": "door\\cladded blue_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "883",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Cladded Green Door",
+    "id": 943,
+    "texture": {
+      "pos_y": "door\\cladded green_0_1.png",
+      "pos_x": "door\\cladded green_0_1.png",
+      "pos_z": "door\\cladded green_0_1.png",
+      "neg_z": "door\\cladded green_0_1.png",
+      "neg_x": "door\\cladded green_0_1.png",
+      "neg_y": "door\\cladded green_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "884",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Cladded Magenta Door",
+    "id": 944,
+    "texture": {
+      "pos_y": "door\\cladded magenta_0_1.png",
+      "pos_x": "door\\cladded magenta_0_1.png",
+      "pos_z": "door\\cladded magenta_0_1.png",
+      "neg_z": "door\\cladded magenta_0_1.png",
+      "neg_x": "door\\cladded magenta_0_1.png",
+      "neg_y": "door\\cladded magenta_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "885",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Cladded Door",
+    "id": 945,
+    "texture": {
+      "pos_y": "door\\cladded_0_1.png",
+      "pos_x": "door\\cladded_0_1.png",
+      "pos_z": "door\\cladded_0_1.png",
+      "neg_z": "door\\cladded_0_1.png",
+      "neg_x": "door\\cladded_0_1.png",
+      "neg_y": "door\\cladded_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "886",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Bamboo Windows Door",
+    "id": 946,
+    "texture": {
+      "pos_y": "door\\french bamboo windows_0_1.png",
+      "pos_x": "door\\french bamboo windows_0_1.png",
+      "pos_z": "door\\french bamboo windows_0_1.png",
+      "neg_z": "door\\french bamboo windows_0_1.png",
+      "neg_x": "door\\french bamboo windows_0_1.png",
+      "neg_y": "door\\french bamboo windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "887",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Bamboo Door",
+    "id": 947,
+    "texture": {
+      "pos_y": "door\\french bamboo_0_1.png",
+      "pos_x": "door\\french bamboo_0_1.png",
+      "pos_z": "door\\french bamboo_0_1.png",
+      "neg_z": "door\\french bamboo_0_1.png",
+      "neg_x": "door\\french bamboo_0_1.png",
+      "neg_y": "door\\french bamboo_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "888",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Blue Windows Door",
+    "id": 948,
+    "texture": {
+      "pos_y": "door\\french blue windows_0_1.png",
+      "pos_x": "door\\french blue windows_0_1.png",
+      "pos_z": "door\\french blue windows_0_1.png",
+      "neg_z": "door\\french blue windows_0_1.png",
+      "neg_x": "door\\french blue windows_0_1.png",
+      "neg_y": "door\\french blue windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "889",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Blue Door",
+    "id": 949,
+    "texture": {
+      "pos_y": "door\\french blue_0_1.png",
+      "pos_x": "door\\french blue_0_1.png",
+      "pos_z": "door\\french blue_0_1.png",
+      "neg_z": "door\\french blue_0_1.png",
+      "neg_x": "door\\french blue_0_1.png",
+      "neg_y": "door\\french blue_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "890",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Green Windows Door",
+    "id": 950,
+    "texture": {
+      "pos_y": "door\\french green windows_0_1.png",
+      "pos_x": "door\\french green windows_0_1.png",
+      "pos_z": "door\\french green windows_0_1.png",
+      "neg_z": "door\\french green windows_0_1.png",
+      "neg_x": "door\\french green windows_0_1.png",
+      "neg_y": "door\\french green windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "891",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Green Door",
+    "id": 951,
+    "texture": {
+      "pos_y": "door\\french green_0_1.png",
+      "pos_x": "door\\french green_0_1.png",
+      "pos_z": "door\\french green_0_1.png",
+      "neg_z": "door\\french green_0_1.png",
+      "neg_x": "door\\french green_0_1.png",
+      "neg_y": "door\\french green_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "892",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Magenta Windows Door",
+    "id": 952,
+    "texture": {
+      "pos_y": "door\\french magenta windows_0_1.png",
+      "pos_x": "door\\french magenta windows_0_1.png",
+      "pos_z": "door\\french magenta windows_0_1.png",
+      "neg_z": "door\\french magenta windows_0_1.png",
+      "neg_x": "door\\french magenta windows_0_1.png",
+      "neg_y": "door\\french magenta windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "893",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Magenta Door",
+    "id": 953,
+    "texture": {
+      "pos_y": "door\\french magenta_0_1.png",
+      "pos_x": "door\\french magenta_0_1.png",
+      "pos_z": "door\\french magenta_0_1.png",
+      "neg_z": "door\\french magenta_0_1.png",
+      "neg_x": "door\\french magenta_0_1.png",
+      "neg_y": "door\\french magenta_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "894",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Windows Door",
+    "id": 954,
+    "texture": {
+      "pos_y": "door\\french windows_0_1.png",
+      "pos_x": "door\\french windows_0_1.png",
+      "pos_z": "door\\french windows_0_1.png",
+      "neg_z": "door\\french windows_0_1.png",
+      "neg_x": "door\\french windows_0_1.png",
+      "neg_y": "door\\french windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "895",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "French Door",
+    "id": 955,
+    "texture": {
+      "pos_y": "door\\french_0_1.png",
+      "pos_x": "door\\french_0_1.png",
+      "pos_z": "door\\french_0_1.png",
+      "neg_z": "door\\french_0_1.png",
+      "neg_x": "door\\french_0_1.png",
+      "neg_y": "door\\french_0_1.png"
+    },
+    "icon": "door\\generic.png",
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "896",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Glass Door",
+    "id": 956,
+    "texture": {
+      "pos_y": "door\\glass_0_1.png",
+      "pos_x": "door\\glass_0_1.png",
+      "pos_z": "door\\glass_0_1.png",
+      "neg_z": "door\\glass_0_1.png",
+      "neg_x": "door\\glass_0_1.png",
+      "neg_y": "door\\glass_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "897",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Gray Space Door",
+    "id": 957,
+    "texture": {
+      "pos_y": "door\\gray 1_0_1.png",
+      "pos_x": "door\\gray 1_0_1.png",
+      "pos_z": "door\\gray 1_0_1.png",
+      "neg_z": "door\\gray 1_0_1.png",
+      "neg_x": "door\\gray 1_0_1.png",
+      "neg_y": "door\\gray 1_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "898",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Gray Space Control-Panel Door",
+    "id": 958,
+    "texture": {
+      "pos_y": "door\\gray 2 control-panel_0_1.png",
+      "pos_x": "door\\gray 2 control-panel_0_1.png",
+      "pos_z": "door\\gray 2 control-panel_0_1.png",
+      "neg_z": "door\\gray 2 control-panel_0_1.png",
+      "neg_x": "door\\gray 2 control-panel_0_1.png",
+      "neg_y": "door\\gray 2 control-panel_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "899",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Gray Space Door 2",
+    "id": 959,
+    "texture": {
+      "pos_y": "door\\gray 2_0_1.png",
+      "pos_x": "door\\gray 2_0_1.png",
+      "pos_z": "door\\gray 2_0_1.png",
+      "neg_z": "door\\gray 2_0_1.png",
+      "neg_x": "door\\gray 2_0_1.png",
+      "neg_y": "door\\gray 2_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "900",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Bamboo Windows Door",
+    "id": 960,
+    "texture": {
+      "pos_y": "door\\italian bamboo windows_0_1.png",
+      "pos_x": "door\\italian bamboo windows_0_1.png",
+      "pos_z": "door\\italian bamboo windows_0_1.png",
+      "neg_z": "door\\italian bamboo windows_0_1.png",
+      "neg_x": "door\\italian bamboo windows_0_1.png",
+      "neg_y": "door\\italian bamboo windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "901",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Bamboo Door",
+    "id": 961,
+    "texture": {
+      "pos_y": "door\\italian bamboo_0_1.png",
+      "pos_x": "door\\italian bamboo_0_1.png",
+      "pos_z": "door\\italian bamboo_0_1.png",
+      "neg_z": "door\\italian bamboo_0_1.png",
+      "neg_x": "door\\italian bamboo_0_1.png",
+      "neg_y": "door\\italian bamboo_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "902",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Blue Windows Door",
+    "id": 962,
+    "texture": {
+      "pos_y": "door\\italian blue windows_0_1.png",
+      "pos_x": "door\\italian blue windows_0_1.png",
+      "pos_z": "door\\italian blue windows_0_1.png",
+      "neg_z": "door\\italian blue windows_0_1.png",
+      "neg_x": "door\\italian blue windows_0_1.png",
+      "neg_y": "door\\italian blue windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "903",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Blue Door",
+    "id": 963,
+    "texture": {
+      "pos_y": "door\\italian blue_0_1.png",
+      "pos_x": "door\\italian blue_0_1.png",
+      "pos_z": "door\\italian blue_0_1.png",
+      "neg_z": "door\\italian blue_0_1.png",
+      "neg_x": "door\\italian blue_0_1.png",
+      "neg_y": "door\\italian blue_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "904",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Green Windows Door",
+    "id": 964,
+    "texture": {
+      "pos_y": "door\\italian green windows_0_1.png",
+      "pos_x": "door\\italian green windows_0_1.png",
+      "pos_z": "door\\italian green windows_0_1.png",
+      "neg_z": "door\\italian green windows_0_1.png",
+      "neg_x": "door\\italian green windows_0_1.png",
+      "neg_y": "door\\italian green windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "905",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Green Door",
+    "id": 965,
+    "texture": {
+      "pos_y": "door\\italian green_0_1.png",
+      "pos_x": "door\\italian green_0_1.png",
+      "pos_z": "door\\italian green_0_1.png",
+      "neg_z": "door\\italian green_0_1.png",
+      "neg_x": "door\\italian green_0_1.png",
+      "neg_y": "door\\italian green_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "906",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Magenta Windows Door",
+    "id": 966,
+    "texture": {
+      "pos_y": "door\\italian magenta windows_0_1.png",
+      "pos_x": "door\\italian magenta windows_0_1.png",
+      "pos_z": "door\\italian magenta windows_0_1.png",
+      "neg_z": "door\\italian magenta windows_0_1.png",
+      "neg_x": "door\\italian magenta windows_0_1.png",
+      "neg_y": "door\\italian magenta windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "907",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Magenta Door",
+    "id": 967,
+    "texture": {
+      "pos_y": "door\\italian magenta_0_1.png",
+      "pos_x": "door\\italian magenta_0_1.png",
+      "pos_z": "door\\italian magenta_0_1.png",
+      "neg_z": "door\\italian magenta_0_1.png",
+      "neg_x": "door\\italian magenta_0_1.png",
+      "neg_y": "door\\italian magenta_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "908",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Windows Door",
+    "id": 968,
+    "texture": {
+      "pos_y": "door\\italian windows_0_1.png",
+      "pos_x": "door\\italian windows_0_1.png",
+      "pos_z": "door\\italian windows_0_1.png",
+      "neg_z": "door\\italian windows_0_1.png",
+      "neg_x": "door\\italian windows_0_1.png",
+      "neg_y": "door\\italian windows_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "909",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Italian Door",
+    "id": 969,
+    "texture": {
+      "pos_y": "door\\italian_0_1.png",
+      "pos_x": "door\\italian_0_1.png",
+      "pos_z": "door\\italian_0_1.png",
+      "neg_z": "door\\italian_0_1.png",
+      "neg_x": "door\\italian_0_1.png",
+      "neg_y": "door\\italian_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "910",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Jungle 2 Door",
+    "id": 970,
+    "texture": {
+      "pos_y": "door\\jungle 2_0_1.png",
+      "pos_x": "door\\jungle 2_0_1.png",
+      "pos_z": "door\\jungle 2_0_1.png",
+      "neg_z": "door\\jungle 2_0_1.png",
+      "neg_x": "door\\jungle 2_0_1.png",
+      "neg_y": "door\\jungle 2_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "911",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Jungle Door",
+    "id": 971,
+    "texture": {
+      "pos_y": "door\\jungle_0_1.png",
+      "pos_x": "door\\jungle_0_1.png",
+      "pos_z": "door\\jungle_0_1.png",
+      "neg_z": "door\\jungle_0_1.png",
+      "neg_x": "door\\jungle_0_1.png",
+      "neg_y": "door\\jungle_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "912",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oak 2 Door",
+    "id": 972,
+    "texture": {
+      "pos_y": "door\\oak 2_0_1.png",
+      "pos_x": "door\\oak 2_0_1.png",
+      "pos_z": "door\\oak 2_0_1.png",
+      "neg_z": "door\\oak 2_0_1.png",
+      "neg_x": "door\\oak 2_0_1.png",
+      "neg_y": "door\\oak 2_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "913",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oak Renaissance Door",
+    "id": 973,
+    "texture": {
+      "pos_y": "door\\oak renaissance_0_1.png",
+      "pos_x": "door\\oak renaissance_0_1.png",
+      "pos_z": "door\\oak renaissance_0_1.png",
+      "neg_z": "door\\oak renaissance_0_1.png",
+      "neg_x": "door\\oak renaissance_0_1.png",
+      "neg_y": "door\\oak renaissance_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "914",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oak Door",
+    "id": 974,
+    "texture": {
+      "pos_y": "door\\oak_0_1.png",
+      "pos_x": "door\\oak_0_1.png",
+      "pos_z": "door\\oak_0_1.png",
+      "neg_z": "door\\oak_0_1.png",
+      "neg_x": "door\\oak_0_1.png",
+      "neg_y": "door\\oak_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "915",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oval Bamboo Door",
+    "id": 975,
+    "texture": {
+      "pos_y": "door\\oval bamboo_0_1.png",
+      "pos_x": "door\\oval bamboo_0_1.png",
+      "pos_z": "door\\oval bamboo_0_1.png",
+      "neg_z": "door\\oval bamboo_0_1.png",
+      "neg_x": "door\\oval bamboo_0_1.png",
+      "neg_y": "door\\oval bamboo_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "916",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oval Blue Door",
+    "id": 976,
+    "texture": {
+      "pos_y": "door\\oval blue_0_1.png",
+      "pos_x": "door\\oval blue_0_1.png",
+      "pos_z": "door\\oval blue_0_1.png",
+      "neg_z": "door\\oval blue_0_1.png",
+      "neg_x": "door\\oval blue_0_1.png",
+      "neg_y": "door\\oval blue_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "917",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oval Green Door",
+    "id": 977,
+    "texture": {
+      "pos_y": "door\\oval green_0_1.png",
+      "pos_x": "door\\oval green_0_1.png",
+      "pos_z": "door\\oval green_0_1.png",
+      "neg_z": "door\\oval green_0_1.png",
+      "neg_x": "door\\oval green_0_1.png",
+      "neg_y": "door\\oval green_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "918",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oval Magenta Door",
+    "id": 978,
+    "texture": {
+      "pos_y": "door\\oval magenta_0_1.png",
+      "pos_x": "door\\oval magenta_0_1.png",
+      "pos_z": "door\\oval magenta_0_1.png",
+      "neg_z": "door\\oval magenta_0_1.png",
+      "neg_x": "door\\oval magenta_0_1.png",
+      "neg_y": "door\\oval magenta_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "919",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Oval Door",
+    "id": 979,
+    "texture": {
+      "pos_y": "door\\oval_0_1.png",
+      "pos_x": "door\\oval_0_1.png",
+      "pos_z": "door\\oval_0_1.png",
+      "neg_z": "door\\oval_0_1.png",
+      "neg_x": "door\\oval_0_1.png",
+      "neg_y": "door\\oval_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "920",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Party Blue Door",
+    "id": 980,
+    "texture": {
+      "pos_y": "door\\party blue_0_1.png",
+      "pos_x": "door\\party blue_0_1.png",
+      "pos_z": "door\\party blue_0_1.png",
+      "neg_z": "door\\party blue_0_1.png",
+      "neg_x": "door\\party blue_0_1.png",
+      "neg_y": "door\\party blue_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "921",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Party Green Door",
+    "id": 981,
+    "texture": {
+      "pos_y": "door\\party green_0_1.png",
+      "pos_x": "door\\party green_0_1.png",
+      "pos_z": "door\\party green_0_1.png",
+      "neg_z": "door\\party green_0_1.png",
+      "neg_x": "door\\party green_0_1.png",
+      "neg_y": "door\\party green_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "922",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Party Magenta Door",
+    "id": 982,
+    "texture": {
+      "pos_y": "door\\party magenta_0_1.png",
+      "pos_x": "door\\party magenta_0_1.png",
+      "pos_z": "door\\party magenta_0_1.png",
+      "neg_z": "door\\party magenta_0_1.png",
+      "neg_x": "door\\party magenta_0_1.png",
+      "neg_y": "door\\party magenta_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "923",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Party Purple Door",
+    "id": 983,
+    "texture": {
+      "pos_y": "door\\party purple_0_1.png",
+      "pos_x": "door\\party purple_0_1.png",
+      "pos_z": "door\\party purple_0_1.png",
+      "neg_z": "door\\party purple_0_1.png",
+      "neg_x": "door\\party purple_0_1.png",
+      "neg_y": "door\\party purple_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "924",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Party Red Door",
+    "id": 984,
+    "texture": {
+      "pos_y": "door\\party red_0_1.png",
+      "pos_x": "door\\party red_0_1.png",
+      "pos_z": "door\\party red_0_1.png",
+      "neg_z": "door\\party red_0_1.png",
+      "neg_x": "door\\party red_0_1.png",
+      "neg_y": "door\\party red_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "925",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Party Yellow Door",
+    "id": 985,
+    "texture": {
+      "pos_y": "door\\party yellow_0_1.png",
+      "pos_x": "door\\party yellow_0_1.png",
+      "pos_z": "door\\party yellow_0_1.png",
+      "neg_z": "door\\party yellow_0_1.png",
+      "neg_x": "door\\party yellow_0_1.png",
+      "neg_y": "door\\party yellow_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "926",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Red Door",
+    "id": 986,
+    "texture": {
+      "pos_y": "door\\red_0_1.png",
+      "pos_x": "door\\red_0_1.png",
+      "pos_z": "door\\red_0_1.png",
+      "neg_z": "door\\red_0_1.png",
+      "neg_x": "door\\red_0_1.png",
+      "neg_y": "door\\red_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "927",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Spruce 2 Door",
+    "id": 987,
+    "texture": {
+      "pos_y": "door\\spruce 2_0_1.png",
+      "pos_x": "door\\spruce 2_0_1.png",
+      "pos_z": "door\\spruce 2_0_1.png",
+      "neg_z": "door\\spruce 2_0_1.png",
+      "neg_x": "door\\spruce 2_0_1.png",
+      "neg_y": "door\\spruce 2_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "928",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Spruce Door",
+    "id": 988,
+    "texture": {
+      "pos_y": "door\\spruce_0_1.png",
+      "pos_x": "door\\spruce_0_1.png",
+      "pos_z": "door\\spruce_0_1.png",
+      "neg_z": "door\\spruce_0_1.png",
+      "neg_x": "door\\spruce_0_1.png",
+      "neg_y": "door\\spruce_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "929",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Steel Door",
+    "id": 989,
+    "texture": {
+      "pos_y": "door\\steel_0_1.png",
+      "pos_x": "door\\steel_0_1.png",
+      "pos_z": "door\\steel_0_1.png",
+      "neg_z": "door\\steel_0_1.png",
+      "neg_x": "door\\steel_0_1.png",
+      "neg_y": "door\\steel_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "930",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Warped Door",
+    "id": 990,
+    "texture": {
+      "pos_y": "door\\warped_0_1.png",
+      "pos_x": "door\\warped_0_1.png",
+      "pos_z": "door\\warped_0_1.png",
+      "neg_z": "door\\warped_0_1.png",
+      "neg_x": "door\\warped_0_1.png",
+      "neg_y": "door\\warped_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "931",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "Web Door",
+    "id": 991,
+    "texture": {
+      "pos_y": "door\\web_0_1.png",
+      "pos_x": "door\\web_0_1.png",
+      "pos_z": "door\\web_0_1.png",
+      "neg_z": "door\\web_0_1.png",
+      "neg_x": "door\\web_0_1.png",
+      "neg_y": "door\\web_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "932",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "White Space Door",
+    "id": 992,
+    "texture": {
+      "pos_y": "door\\white 1_0_1.png",
+      "pos_x": "door\\white 1_0_1.png",
+      "pos_z": "door\\white 1_0_1.png",
+      "neg_z": "door\\white 1_0_1.png",
+      "neg_x": "door\\white 1_0_1.png",
+      "neg_y": "door\\white 1_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "933",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "White Space Control-Panel Door",
+    "id": 993,
+    "texture": {
+      "pos_y": "door\\white 2 control-panel_0_1.png",
+      "pos_x": "door\\white 2 control-panel_0_1.png",
+      "pos_z": "door\\white 2 control-panel_0_1.png",
+      "neg_z": "door\\white 2 control-panel_0_1.png",
+      "neg_x": "door\\white 2 control-panel_0_1.png",
+      "neg_y": "door\\white 2 control-panel_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "934",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "White Space Door 2",
+    "id": 994,
+    "texture": {
+      "pos_y": "door\\white 2_0_1.png",
+      "pos_x": "door\\white 2_0_1.png",
+      "pos_z": "door\\white 2_0_1.png",
+      "neg_z": "door\\white 2_0_1.png",
+      "neg_x": "door\\white 2_0_1.png",
+      "neg_y": "door\\white 2_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "935",
+      "placement": "bottom"
+    }
+  },
+  {
+    "name": "White Door",
+    "id": 995,
+    "texture": {
+      "pos_y": "door\\white_0_1.png",
+      "pos_x": "door\\white_0_1.png",
+      "pos_z": "door\\white_0_1.png",
+      "neg_z": "door\\white_0_1.png",
+      "neg_x": "door\\white_0_1.png",
+      "neg_y": "door\\white_0_1.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "tags": [],
+    "properties": {
+      "vertical-pair": "936",
+      "placement": "bottom"
+    }
+  }
 ]

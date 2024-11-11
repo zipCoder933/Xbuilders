@@ -107,7 +107,6 @@ public class ItemUtils {
             System.out.println(entity.name);
             Item item = new Item(nameToID(entity.name), entity.name);
             item.setEntity(entity.id);
-            item.iconFilename = entity.iconFilename;
             items.add(item);
         }
         String json = JsonManager.gson_itemAdapter.toJson(items);

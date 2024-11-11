@@ -7,7 +7,6 @@ import java.io.IOException;
 public class MuleLink extends EntitySupplier {
     public MuleLink(MainWindow window, int id, String name) {
         super(id, name, () -> new MuleLink.Mule(id,window));
-        setIcon("mule egg.png");
     }
 
     public static class Mule extends QuadPedalLandAnimal {

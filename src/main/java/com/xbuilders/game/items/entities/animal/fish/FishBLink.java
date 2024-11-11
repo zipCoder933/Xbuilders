@@ -25,9 +25,6 @@ public class FishBLink extends EntitySupplier {
 
     public FishBLink(MainWindow window, int id, String name) {
         super(id, name, () -> new FishObject(id, window));
-        setIcon("fish egg.png");
-        tags.add("animal");
-        tags.add("fish");
     }
 
 

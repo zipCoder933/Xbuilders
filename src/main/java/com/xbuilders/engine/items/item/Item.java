@@ -132,12 +132,6 @@ public class Item {
         if (blockID != -1) block = blockMap.get(blockID);
         if (entityID != -1) entity = entityMap.get(entityID);
 
-        if (getBlock() != null) {
-            iconFilename = getBlock().iconFilename;
-        } else if (getEntity() != null) {
-            iconFilename = getEntity().iconFilename;
-        }
-
         if (iconFilename != null) { //If we have a custom icon
             File iconFile = new File(iconDirectory, iconFilename);
             if (!iconFile.getAbsolutePath().endsWith(".png") && !iconFile.exists()) {

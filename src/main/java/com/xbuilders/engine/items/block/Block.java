@@ -23,16 +23,7 @@ public class Block {
     //A block texture is a REQUIRED field
     public final short id;
     public final String name;
-
-    public String iconFilename;
-
-    public void setIcon(String iconFilename) {
-        this.iconFilename = iconFilename;
-    }
-
-
     public final HashMap<String, String> properties = new HashMap<>();
-    public final HashSet<String> tags = new HashSet<>();
 
     public final BlockTexture texture;
     public int renderType = 0;

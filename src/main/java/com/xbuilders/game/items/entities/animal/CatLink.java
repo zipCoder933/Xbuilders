@@ -9,7 +9,6 @@ public class CatLink extends EntitySupplier {
 
     public CatLink(MainWindow window, int id, String name) {
         super(id, name, () -> new CatLink.Cat(id, window));
-        setIcon("cat egg.png");
     }
 
     static class Cat extends StaticLandAnimal {

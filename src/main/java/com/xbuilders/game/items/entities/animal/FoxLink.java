@@ -9,7 +9,6 @@ public class FoxLink extends EntitySupplier {
 
     public FoxLink(MainWindow window, int id, String name) {
         super(id, name, () -> new Fox(id, window));
-        setIcon("fox egg.png");
     }
 
     static class Fox extends StaticLandAnimal {

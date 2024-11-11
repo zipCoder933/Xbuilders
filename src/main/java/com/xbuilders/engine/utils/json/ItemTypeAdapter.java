@@ -30,6 +30,8 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
         if (src.getEntity() != null) {
             jsonObject.addProperty("entity", src.getEntity().id);
         }
+        jsonObject.addProperty("icon", src.iconFilename);
+
         return jsonObject;
     }
 
@@ -57,6 +59,8 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
             short entityID = jsonObject.get("entity").getAsShort();
             item.setEntity(entityID);
         }
+        if (jsonObject.has("icon"))
+            item.iconFilename = jsonObject.get("icon").getAsString();
 
         return item;
     }
