@@ -29,7 +29,7 @@ public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDese
         jsonObject.addProperty("item", src.item.id);
         jsonObject.addProperty("stackSize", src.stackSize);
         jsonObject.addProperty("durability", src.durability);
-        jsonObject.add("data", context.serialize(src.nbtData)); //We add serialized NBT data
+        jsonObject.addProperty("data", new String(src.nbtData)); //We add serialized NBT data
 
         return jsonObject;
     }
@@ -56,9 +56,7 @@ public class ItemStackTypeAdapter implements JsonSerializer<ItemStack>, JsonDese
             itemStack.durability = jsonObject.get("durability").getAsInt();
 
         if (jsonObject.has("data")) {
-            JsonObject dataObj = jsonObject.get("data").getAsJsonObject();
-            byte[] data = context.deserialize(dataObj, byte[].class);
-            itemStack.nbtData = data;
+            itemStack.nbtData = jsonObject.get("durability").getAsString().getBytes();
         }
 
         return itemStack;
