@@ -155,7 +155,7 @@ public class World {
     public Local_MultiplayerPendingBlockChanges multiplayerPendingBlockChanges;
     public Local_MultiplayerPendingEntityChanges multiplayerPendingEntityChanges;
 
-    public WorldInfo info;
+    public WorldData data;
     public Terrain terrain;
 
     /**
@@ -237,7 +237,7 @@ public class World {
         if (!unusedChunks.isEmpty()) {
             chunk = unusedChunks.remove(unusedChunks.size() - 1);
         } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = new Chunk(blockTextureID, info, terrain);
+            chunk = new Chunk(blockTextureID, data, terrain);
         }
         if (chunk != null) {
             float distToPlayer = MathUtils.dist(
@@ -255,20 +255,20 @@ public class World {
         if (hasChunk(coords)) {
             Chunk chunk = this.chunks.remove(coords);
             entities.removeAllEntitiesFromChunk(chunk);
-            chunk.save(info);
+            chunk.save(data);
             unusedChunks.add(chunk);
         }
     }
     // </editor-fold>
 
-    public boolean startGame(ProgressData prog, WorldInfo info, Vector3f playerPosition) {
+    public boolean startGame(ProgressData prog, WorldData info, Vector3f playerPosition) {
         System.out.println("\n\nStarting new game: " + info.getName());
         prog.setTask("Starting new game");
         this.chunks.clear();
         this.unusedChunks.clear();
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
-        this.info = info;
+        this.data = info;
         entities.clear();
         //Get the terrain from worldInfo
         this.terrain = MainWindow.game.getTerrainFromInfo(info);
@@ -288,9 +288,9 @@ public class World {
     private void loadPendingMultiplayerChanges(ProgressData prog) {
         prog.setTask("Applying multiplayer changes");
 
-        multiplayerPendingBlockChanges.load(info);
+        multiplayerPendingBlockChanges.load(data);
         System.out.println("Block changes from other players: " + multiplayerPendingBlockChanges.blockChanges.size());
-        multiplayerPendingEntityChanges.load(info);//TODO: Implement local entity multiplayer changes
+        multiplayerPendingEntityChanges.load(data);//TODO: Implement local entity multiplayer changes
         System.out.println("Entity changes from other players: " + 0);
 
         //Create lists of sorted changes
@@ -414,8 +414,8 @@ public class World {
         //Do this last, (If an error occurs, the code shouldnt be able to reach this point)
         multiplayerPendingEntityChanges.clear();
         multiplayerPendingBlockChanges.clear();
-        multiplayerPendingEntityChanges.save(info);
-        multiplayerPendingBlockChanges.save(info);
+        multiplayerPendingEntityChanges.save(data);
+        multiplayerPendingBlockChanges.save(data);
     }
 
     public void stopGame(Vector3f playerPos) {
@@ -440,7 +440,7 @@ public class World {
         futureChunks.clear(); // Important!
 
         System.gc();
-        info = null;
+        data = null;
         terrain = null;
     }
 
@@ -803,20 +803,20 @@ public class World {
         Iterator<Chunk> iterator = chunks.values().iterator();
         while (iterator.hasNext()) {
             Chunk chunk = iterator.next();
-            chunk.save(info);
+            chunk.save(data);
         }
 
         //Save world info
         try {
-            info.setSpawnPoint(playerPos);
-            info.save();
+            data.setSpawnPoint(playerPos);
+            data.save();
         } catch (IOException ex) {
             ErrorHandler.report(ex);
         }
 
         //Save multiplayer pending block changes
-        multiplayerPendingBlockChanges.save(info);
-        multiplayerPendingEntityChanges.save(info);
+        multiplayerPendingBlockChanges.save(data);
+        multiplayerPendingEntityChanges.save(data);
     }
 
     public FutureChunk newFutureChunk(Vector3i pos) {

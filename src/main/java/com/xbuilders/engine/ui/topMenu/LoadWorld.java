@@ -10,7 +10,7 @@ package com.xbuilders.engine.ui.topMenu;
  */
 
 import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Page;
@@ -54,8 +54,8 @@ public class LoadWorld implements MenuPage {
     MainWindow window;
     final int BOX_DEFAULT_WIDTH = TopMenu.WIDTH_4;
     final int BOX_DEFAULT_HEIGHT = 550;
-    ArrayList<WorldInfo> worlds;
-    WorldInfo currentWorld;
+    ArrayList<WorldData> worlds;
+    WorldData currentWorld;
 //    NkImage image;
 
     @Override
@@ -108,7 +108,7 @@ public class LoadWorld implements MenuPage {
 
                 nk_style_set_font(ctx, Theme.font_12);
 
-                if (!currentWorld.infoFile.isJoinedMultiplayerWorld) {
+                if (!currentWorld.dataFile.isJoinedMultiplayerWorld) {
                     if (nk_button_label(ctx, "LOAD WORLD")) {
                         loadWorld(currentWorld, null);
                     }
@@ -148,7 +148,7 @@ public class LoadWorld implements MenuPage {
         currentWorld = null;
     }
 
-    public void loadWorld(final WorldInfo world, NetworkJoinRequest req) {
+    public void loadWorld(final WorldData world, NetworkJoinRequest req) {
 
 //        if (world.infoFile.isJoinedMultiplayerWorld) {
 //            menu.popupMessage.message("Denied", "Cannot this world unless it has been joined as a multiplayer world");

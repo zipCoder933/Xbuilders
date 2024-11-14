@@ -7,7 +7,7 @@ package com.xbuilders.engine.ui.topMenu;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
@@ -162,7 +162,7 @@ public class TopMenu {
 
     private void loadWorldOnInit__Dev() {
         try {
-            ArrayList<WorldInfo> worlds = new ArrayList<>();
+            ArrayList<WorldData> worlds = new ArrayList<>();
             WorldsHandler.listWorlds(worlds);
             if (!worlds.isEmpty()) {
                 loadWorld.loadWorld(worlds.get(0), null);

@@ -15,7 +15,7 @@ public class WorldsHandler {
         return new File(ResourceUtils.WORLDS_DIR, formatWorldName(name));
     }
 
-    public static final void makeNewWorld(final WorldInfo info) throws IOException {
+    public static final void makeNewWorld(final WorldData info) throws IOException {
         info.getDirectory().mkdirs();
         info.save();
     }
@@ -28,7 +28,7 @@ public class WorldsHandler {
         return worldFile(name).exists();
     }
 
-    public static void deleteWorld(WorldInfo info) throws IOException {
+    public static void deleteWorld(WorldData info) throws IOException {
         if (info != null) {
             System.out.println("Deleting " + info.getDirectory().toString());
             for (final File file : info.getDirectory().listFiles()) {
@@ -39,11 +39,11 @@ public class WorldsHandler {
         }
     }
 
-    public static ArrayList<WorldInfo> listWorlds(ArrayList<WorldInfo> worlds) throws IOException {
+    public static ArrayList<WorldData> listWorlds(ArrayList<WorldData> worlds) throws IOException {
         worlds.clear();
         for (final File subDir : ResourceUtils.WORLDS_DIR.listFiles()) {
             if (subDir.isDirectory()) {
-                WorldInfo info = new WorldInfo();
+                WorldData info = new WorldData();
                 try {
                     info.load(subDir);
                     worlds.add(info);

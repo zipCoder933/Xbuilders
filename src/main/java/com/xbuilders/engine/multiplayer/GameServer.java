@@ -12,7 +12,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
 import com.xbuilders.engine.utils.network.server.Server;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -53,7 +53,7 @@ public class GameServer extends Server<PlayerClient> {
 
     NetworkJoinRequest req;
     UserControlledPlayer userPlayer;
-    private WorldInfo worldInfo;
+    private WorldData worldInfo;
     public int loadedChunks = 0;
     boolean worldReady = false;
     PlayerClient hostClient;
@@ -84,7 +84,7 @@ public class GameServer extends Server<PlayerClient> {
     }
 
 
-    public void initNewGame(WorldInfo worldInfo, NetworkJoinRequest req) {
+    public void initNewGame(WorldData worldInfo, NetworkJoinRequest req) {
         this.req = req;
         loadedChunks = 0;
         this.worldInfo = worldInfo;
@@ -115,7 +115,7 @@ public class GameServer extends Server<PlayerClient> {
     }
 
 
-    public WorldInfo getWorldInfo() {
+    public WorldData getWorldInfo() {
         if (!worldReady) return null;
         return worldInfo;
     }
@@ -151,9 +151,9 @@ public class GameServer extends Server<PlayerClient> {
         GameScene.world.save();
 
         //Send the world info to the client
-        System.out.println("Sending world to client: " + GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson());
+        System.out.println("Sending world to client: " + GameScene.world.data.getName() + "\n" + GameScene.world.data.toJson());
         client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
-                GameScene.world.info.getName() + "\n" + GameScene.world.info.toJson()));
+                GameScene.world.data.getName() + "\n" + GameScene.world.data.toJson()));
 
         new Thread(() -> {  //Load every file of the chunk
             try {
@@ -334,10 +334,10 @@ public class GameServer extends Server<PlayerClient> {
         String name = value.split("\n")[0];
         String json = value.split("\n")[1];
 
-        WorldInfo hostsWorldInfo = new WorldInfo();
+        WorldData hostsWorldInfo = new WorldData();
         hostsWorldInfo.makeNew(name, json);
         if (!req.hosting) {
-            hostsWorldInfo.infoFile.isJoinedMultiplayerWorld = true;
+            hostsWorldInfo.dataFile.isJoinedMultiplayerWorld = true;
         }
 
 
@@ -352,17 +352,17 @@ public class GameServer extends Server<PlayerClient> {
 
 
         //Make the world from the host
-        hostsWorldInfo.infoFile.isJoinedMultiplayerWorld = true;
+        hostsWorldInfo.dataFile.isJoinedMultiplayerWorld = true;
         WorldsHandler.makeNewWorld(hostsWorldInfo);
         worldInfo = hostsWorldInfo;
     }
 
-    private boolean hasDifferentWorldUnderSameName(WorldInfo hostWorld) throws IOException {
+    private boolean hasDifferentWorldUnderSameName(WorldData hostWorld) throws IOException {
         File existingWorld = WorldsHandler.worldFile(hostWorld.getName());
         if (existingWorld.exists()) {
-            WorldInfo myWorld = new WorldInfo();
+            WorldData myWorld = new WorldData();
             myWorld.load(existingWorld);
-            return !myWorld.infoFile.isJoinedMultiplayerWorld
+            return !myWorld.dataFile.isJoinedMultiplayerWorld
                     || !hostWorld.getTerrain().equals(myWorld.getTerrain())
                     || hostWorld.getSeed() != myWorld.getSeed();
         }

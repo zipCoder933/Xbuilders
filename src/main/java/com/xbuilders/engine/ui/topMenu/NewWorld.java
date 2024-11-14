@@ -12,7 +12,7 @@ package com.xbuilders.engine.ui.topMenu;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.MainWindow;
@@ -127,9 +127,9 @@ public class NewWorld implements MenuPage {
 
     private boolean makeNewWorld(String name, int size, Terrain terrain, int seed) {
         try {
-            WorldInfo info = new WorldInfo();
+            WorldData info = new WorldData();
             info.makeNew(name, size, terrain, seed);
-            info.infoFile.gameMode = gameMode.ordinal();
+            info.dataFile.gameMode = gameMode.ordinal();
             if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
                 MainWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
                 return false;

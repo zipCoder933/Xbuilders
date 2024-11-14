@@ -2,7 +2,7 @@ package com.xbuilders.engine.multiplayer;
 
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import org.joml.Vector3f;
 
 //This WILL be another class for 2 reasons
@@ -24,7 +24,7 @@ public class Local_MultiplayerPendingEntityChanges extends MultiplayerPendingEnt
     public void addEntityChange(int mode, EntitySupplier entity, long identifier, Vector3f currentPos, byte[] data) {
     }
 
-    public void save(WorldInfo worldInfo) {
+    public void save(WorldData worldInfo) {
 //        if (needsSaving) {
 //            System.out.println("Saving mpec... Changes " + blockChanges.size());
 //            File file = new File(worldInfo.getDirectory(), CHANGE_FILE);
@@ -44,7 +44,7 @@ public class Local_MultiplayerPendingEntityChanges extends MultiplayerPendingEnt
 
     final String CHANGE_FILE = "entityChanges.bin";
 
-    public void load(WorldInfo worldInfo) {
+    public void load(WorldData worldInfo) {
 //        clear();
 //        File file = new File(worldInfo.getDirectory(), CHANGE_FILE);
 //        if (file.exists()) {

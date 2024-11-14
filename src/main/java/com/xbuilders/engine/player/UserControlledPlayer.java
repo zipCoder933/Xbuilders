@@ -8,14 +8,13 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.player.camera.Camera;
+import com.xbuilders.engine.player.data.PlayerData;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCf;
@@ -28,7 +27,6 @@ import org.lwjgl.nuklear.NkVec2;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
@@ -50,6 +48,20 @@ public class UserControlledPlayer extends Player {
     boolean autoJump_unCollided = true;
     float autoJump_ticksWhileColidingWithBlock = 0;
 
+    //Player data
+    public PlayerData data;
+    long lastSave = System.currentTimeMillis();
+    final long DATA_SAVE_INTERVAL = 60 * 1000;
+    final String PLAYER_DATA_FILENAME = "player.json";
+
+    public void loadData() {
+        File dataFile = new File(GameScene.world.data.getDirectory(), PLAYER_DATA_FILENAME);
+    }
+
+    public void saveData() {
+        File dataFile = new File(GameScene.world.data.getDirectory(), PLAYER_DATA_FILENAME);
+//        JsonManager.gson_itemAdapter.toJson(data, PlayerData.class);
+    }
 
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
@@ -130,46 +142,26 @@ public class UserControlledPlayer extends Player {
         camera = new Camera(this, window, projection, view, centeredView);
         positionHandler = new PositionHandler(window, world, aabb, aabb);
         eventPipeline = new BlockEventPipeline(world, this);
-
-        //Load first person data
-        if (playerModelFile.exists()) {
-            loadInfoFromBytes(Files.readAllBytes(playerModelFile.toPath()));
-            System.out.println("Loaded player model: " + this);
-        } else {
-            name = System.getProperty("user.name");
-            save();
-        }
+        data = new PlayerData();
     }
 
     public void init() {
         camera.init();
     }
 
-    private static final File playerModelFile = ResourceUtils.appDataResource("playerModel.bin");
-    long lastSave = System.currentTimeMillis();
-
-    public void save() {
-        try {
-            Files.write(playerModelFile.toPath(), infoToBytes());
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
-    }
-
-
     public void setFlashlight(float distance) {
         GameScene.world.chunkShader.setFlashlightDistance(distance);
     }
 
-    public void startGame(WorldInfo world) {
+    public void startGame(WorldData world) {
         eventPipeline.startGame(world);
         autoForward = false;
         isFlyingMode = true;
-        save();
+        loadData();
     }
 
     public void stopGame() {
-        save();
+        saveData();
         eventPipeline.endGame();
     }
 
@@ -258,9 +250,9 @@ public class UserControlledPlayer extends Player {
 
         eventPipeline.update();
 
-        if (System.currentTimeMillis() - lastSave > 60000) {
+        if (System.currentTimeMillis() - lastSave > DATA_SAVE_INTERVAL) {
             lastSave = System.currentTimeMillis();
-            save();   //Save every 60 seconds
+            saveData();   //Save every 60 seconds
         }
 
         if (positionHandler.isGravityEnabled()) {

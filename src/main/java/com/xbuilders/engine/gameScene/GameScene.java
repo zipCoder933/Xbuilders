@@ -15,7 +15,7 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.skybox.SkyBackground;
@@ -121,6 +121,7 @@ public class GameScene implements WindowEvents {
 
 
     public static void setTimeOfDay(double v) throws IOException {
+        System.out.println("Setting time of day to " + v);
         background.setTimeOfDay(v);
         byte[] timeFloat = ByteUtils.floatToBytes((float) v);
         server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
@@ -138,10 +139,9 @@ public class GameScene implements WindowEvents {
 
     public void gameClosedEvent() {
         if (world.terrain != null) {
-            System.out.println("Closing " + world.info.getName() + "...");
+            System.out.println("Closing " + world.data.getName() + "...");
             player.stopGame();
             world.stopGame(player.worldPosition);
-            game.saveState();
         }
         livePropagationHandler.endGame();
         try {
@@ -152,11 +152,11 @@ public class GameScene implements WindowEvents {
     }
 
     int completeChunks, framesWithCompleteChunkValue;
-    WorldInfo worldInfo;
+    WorldData worldInfo;
     NetworkJoinRequest req;
     ProgressData prog;
 
-    public void startGame(WorldInfo world, NetworkJoinRequest req, ProgressData prog) {
+    public void startGame(WorldData world, NetworkJoinRequest req, ProgressData prog) {
         this.worldInfo = world;//WorldInfo could be null here
         this.req = req;
         this.prog = prog;
@@ -187,7 +187,7 @@ public class GameScene implements WindowEvents {
             }
             case 2 -> {
                 prog.setTask("Starting game...");
-                gameMode = (GameMode.values()[worldInfo.infoFile.gameMode]);
+                gameMode = (GameMode.values()[worldInfo.dataFile.gameMode]);
                 if (worldInfo.getSpawnPoint() == null) { //Create spawn point
                     player.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
@@ -238,8 +238,10 @@ public class GameScene implements WindowEvents {
                     //Find spawn point
                     player.setNewSpawnPoint(world.terrain);
                 }
+                setTimeOfDay(worldInfo.dataFile.timeOfDay);
                 game.startGame(worldInfo);
                 isOperator = ownsGame();
+                System.out.println("Starting game... Operator: " + isOperator);
                 player.startGame(worldInfo);
                 prog.finish();
                 setProjection();
@@ -293,7 +295,6 @@ public class GameScene implements WindowEvents {
         setInfoText();
         livePropagationHandler.update();
         ui.draw();
-        game.update();
     }
 
     public void windowUnfocusEvent() {

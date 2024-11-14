@@ -4,7 +4,7 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import org.joml.Vector3i;
 
 import java.io.*;
@@ -47,7 +47,7 @@ public class Local_MultiplayerPendingBlockChanges extends MultiplayerPendingBloc
     private boolean needsSaving = false;
 
 
-    public void save(WorldInfo worldInfo) {
+    public void save(WorldData worldInfo) {
         if (needsSaving) {
             MainWindow.printlnDev("Saving mpbc... Changes " + blockChanges.size());
             File file = new File(worldInfo.getDirectory(), CHANGE_FILE);
@@ -68,7 +68,7 @@ public class Local_MultiplayerPendingBlockChanges extends MultiplayerPendingBloc
 
     final String CHANGE_FILE = "blockChanges.bin";
 
-    public void load(WorldInfo worldInfo) {
+    public void load(WorldData worldInfo) {
         clear();
         File file = new File(worldInfo.getDirectory(), CHANGE_FILE);
         if (file.exists()) {

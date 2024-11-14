@@ -90,14 +90,14 @@ public class GameCommands {
                         if (parts.length == 2) {
                             //It doesnt matter if we had 2 players with different time
 //                            if(!server.isHosting() && server.isPlayingMultiplayer()) return "You cannot change time";
-                            if (parts[1].toLowerCase().equals("day") || parts[1].toLowerCase().equals("morning")) {
-                                gameScene.setTimeOfDay(0.0f);
+                            if (parts[1].equalsIgnoreCase("day") || parts[1].equalsIgnoreCase("morning")) {
+                                GameScene.setTimeOfDay(0.0f);
                                 return null;
-                            } else if (parts[1].toLowerCase().equals("evening")) {
-                                gameScene.setTimeOfDay(0.25f);
+                            } else if (parts[1].equalsIgnoreCase("evening")) {
+                                GameScene.setTimeOfDay(0.25f);
                                 return null;
-                            } else if (parts[1].toLowerCase().equals("night")) {
-                                gameScene.setTimeOfDay(0.5f);
+                            } else if (parts[1].equalsIgnoreCase("night")) {
+                                GameScene.setTimeOfDay(0.5f);
                                 return null;
                             } else return commandHelp.get("time");
                         } else return commandHelp.get("time");

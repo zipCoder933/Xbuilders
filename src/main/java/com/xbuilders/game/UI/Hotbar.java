@@ -10,6 +10,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
+import com.xbuilders.engine.player.data.PlayerData;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -27,22 +28,18 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class Hotbar extends GameUIElement {
 
-    /**
-     * @param playerInfo the playerBackpack to set
-     */
-    public void setPlayerInfo(XbuildersGame.GameInfo playerInfo) {
-        this.playerInfo = playerInfo;
-    }
 
-    public Hotbar(NkContext ctx, NKWindow window) {
+
+    public Hotbar(NkContext ctx, NKWindow window, PlayerData playerInfo) {
         super(ctx, window);
+        this.playerInfo = playerInfo;
         buttonHeight = new WidgetWidthMeasurement(0);
     }
 
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    private XbuildersGame.GameInfo playerInfo;
+    private PlayerData playerInfo;
     WidgetWidthMeasurement buttonHeight;
     private int selectedItemIndex;
     int pushValue;

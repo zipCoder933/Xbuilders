@@ -1,7 +1,7 @@
 package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class LivePropagationHandler extends Thread {
         }
     }
 
-    public void startGame(WorldInfo world) {
+    public void startGame(WorldData world) {
     }
 
     public void endGame() {

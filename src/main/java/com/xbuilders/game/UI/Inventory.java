@@ -6,6 +6,7 @@ package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.player.data.PlayerData;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -30,16 +31,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
-    /**
-     * @param gameInfo the playerBackpack to set
-     */
-    public void setgameInfo(XbuildersGame.GameInfo gameInfo) {
-        this.gameInfo = gameInfo;
-    }
-
-    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, Hotbar hotbar) throws IOException {
+    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, Hotbar hotbar, PlayerData playerData) throws IOException {
         super(ctx, window);
         this.hotbar = hotbar;
+        this.gameInfo = playerData;
         setItemList(itemList);
         buttonWidth = new WidgetWidthMeasurement(0);
 
@@ -110,7 +105,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     final int maxColumns = 11;
     Hotbar hotbar;
     Item[] itemList;
-    private XbuildersGame.GameInfo gameInfo;
+    private PlayerData gameInfo;
     TextBox searchBox;
 
     WidgetWidthMeasurement buttonWidth;

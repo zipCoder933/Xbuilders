@@ -40,7 +40,7 @@ public class CustomizePlayer implements MenuPage {
         nameBox = new TextBox(20);
         nameBox.setOnChangeEvent(() -> {
             player.name = nameBox.getValueAsString();
-            player.save();
+            player.saveData();
         });
         this.player = player;
     }
@@ -91,7 +91,7 @@ public class CustomizePlayer implements MenuPage {
         chosenSkin++;
         //Go to the next skin
         GameScene.player.setSkin(chosenSkin % MainWindow.game.availableSkins.size());
-        GameScene.player.save();
+        GameScene.player.saveData();
     }
 
     @Override

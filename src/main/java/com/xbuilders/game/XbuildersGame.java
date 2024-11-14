@@ -17,9 +17,7 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.json.JsonManager;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.blockTools.BlockTools;
@@ -61,7 +59,6 @@ public class XbuildersGame extends Game {
         availableSkins.put(2, new SkinLink((p) -> new FoxSkin(p, "blue")));
         availableSkins.put(3, new SkinLink((p) -> new FoxSkin(p, "green")));
         availableSkins.put(4, new SkinLink((p) -> new FoxSkin(p, "magenta")));
-        json = new JsonManager();
 
 
         //Add terrains;
@@ -92,36 +89,12 @@ public class XbuildersGame extends Game {
         return blockTools.clickEvent(getSelectedItem().item, ray, isCreationMode);
     }
 
-    public static class GameInfo {
-        public final PlayerStuff playerStuff;
-        public double timeOfDay;
-
-        public GameInfo() {
-            playerStuff = new PlayerStuff(33);
-        }
-
-        public void save(WorldInfo currentWorld) {
-            //Write variables
-            timeOfDay = GameScene.background.getTimeOfDay();
-
-            //Save game info
-            File f = new File(currentWorld.getDirectory() + "\\game.json");
-            try (FileWriter writer = new FileWriter(f)) {
-                JsonManager.gson_itemAdapter.toJson(this, writer);
-            } catch (IOException ex) {
-                Logger.getLogger(XbuildersGame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
 
     public boolean releaseMouse() {
         return blockTools.releaseMouse();
     }
 
 
-    JsonManager json;
-    GameInfo gameInfo;
     Inventory inventory;
     public Hotbar hotbar;
     BlockTools blockTools;
@@ -145,8 +118,8 @@ public class XbuildersGame extends Game {
     @Override
     public void uiInit(NkContext ctx, GameUI gameUI) {
         try {
-            hotbar = new Hotbar(ctx, window);
-            inventory = new Inventory(ctx, Registrys.items.getList(), window, hotbar);
+            hotbar = new Hotbar(ctx, window, GameScene.player.data);
+            inventory = new Inventory(ctx, Registrys.items.getList(), window, hotbar, GameScene.player.data);
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         } catch (IOException ex) {
@@ -202,44 +175,12 @@ public class XbuildersGame extends Game {
         return inventory.isOpen() || blockTools.isOpen();
     }
 
-    WorldInfo currentWorld;
+    WorldData currentWorld;
 
     @Override
-    public void startGame(WorldInfo worldInfo) {
+    public void startGame(WorldData worldInfo) {
         this.currentWorld = worldInfo;
-        try {
-            loadState();
-            if (GameScene.server.isHosting() || !GameScene.server.isPlayingMultiplayer())
-                GameScene.setTimeOfDay(gameInfo.timeOfDay);
-
-        } catch (IOException ex) {
-            ErrorHandler.report(ex);
-        }
-
-        inventory.setgameInfo(gameInfo);
-        hotbar.setPlayerInfo(gameInfo);
     }
-
-    private void loadState() throws FileNotFoundException {
-        File f = new File(currentWorld.getDirectory() + "\\game.json");
-//        if (f.exists()) {
-//            gameInfo = json.gson_itemAdapter.fromJson(new FileReader(f), GameInfo.class);
-//            if (gameInfo == null) {
-//                gameInfo = new GameInfo();
-//            }
-//        } else {
-        System.out.println("Making new game info");
-        gameInfo = new GameInfo();
-//        }
-    }
-
-    @Override
-    public void saveState() {
-        if (gameInfo != null) {
-            gameInfo.save(currentWorld);
-        }
-    }
-
 
     @Override
     public void setup(GameScene gameScene) throws Exception {

@@ -14,7 +14,6 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.world.WorldInfo;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
@@ -139,7 +138,7 @@ public class Multiplayer implements MenuPage {
         chosenSkin++;
         //Go to the next skin
         GameScene.player.setSkin(chosenSkin % MainWindow.game.availableSkins.size());
-        GameScene.player.save();
+        GameScene.player.saveData();
     }
 
     @Override

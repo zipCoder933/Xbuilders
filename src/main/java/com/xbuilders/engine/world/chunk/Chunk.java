@@ -8,7 +8,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.Terrain.GenSession;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.WorldInfo;
+import com.xbuilders.engine.world.WorldData;
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.window.render.MVP;
@@ -82,10 +82,10 @@ public class Chunk {
     public boolean isTopChunk;
     public PillarInformation pillarInformation;
     Terrain terrain;
-    WorldInfo info;
+    WorldData info;
     FutureChunk futureChunk;
 
-    public Chunk(int texture, WorldInfo info, Terrain terrain) {
+    public Chunk(int texture, WorldData info, Terrain terrain) {
         this.position = new Vector3i();
         mvp = new MVP();
         data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
@@ -137,7 +137,7 @@ public class Chunk {
         });
     }
 
-    public void loadChunk(WorldInfo info, Terrain terrain, FutureChunk futureChunk) {
+    public void loadChunk(WorldData info, Terrain terrain, FutureChunk futureChunk) {
         File f = info.getChunkFile(position);
 
         try {
@@ -268,7 +268,7 @@ public class Chunk {
                     World.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
 
-                        if (GameScene.world.info == null)
+                        if (GameScene.world.data == null)
                             return null; // Quick fix. TODO: remove this line
 
                         meshes.compute();
@@ -339,7 +339,7 @@ public class Chunk {
      * @param info
      * @return if the chunk was really saved
      */
-    public boolean save(WorldInfo info) {
+    public boolean save(WorldData info) {
         if (isOwnedByUser() && needsToBeSaved) {
             synchronized (saveLock) {
                 needsToBeSaved = false;

@@ -4,6 +4,7 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.gameScene.GameMode;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.ErrorHandler;
 import org.joml.Vector3f;
 
@@ -23,7 +24,7 @@ import org.joml.Vector3i;
 
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
-public class WorldInfo {
+public class WorldData {
 
     public final int LATEST_TERRAIN_VERSION = 1;
     private File directory;
@@ -32,7 +33,7 @@ public class WorldInfo {
     Image image;
     private String name;
     private static final Gson gson = new JsonManager().gson_itemAdapter;
-    public InfoFile infoFile;
+    public DataFile dataFile;
 
     public File getChunkFile(Vector3i position) {
         return new File(this.directory.getAbsolutePath(), "chunk " + position.x + " " + position.y + " " + position.z);
@@ -68,47 +69,44 @@ public class WorldInfo {
     }
 
     public int getTerrainVersion() {
-        return this.infoFile.terrainVersion;
+        return this.dataFile.terrainVersion;
     }
 
     public Vector3f getSpawnPoint() {
-        if (this.infoFile.spawnX == -1.0) {
+        if (this.dataFile.spawnX == -1.0) {
             return null;
         }
         return new Vector3f(
-                this.infoFile.spawnX,
-                this.infoFile.spawnY,
-                this.infoFile.spawnZ);
+                this.dataFile.spawnX,
+                this.dataFile.spawnY,
+                this.dataFile.spawnZ);
     }
 
     public void setSpawnPoint(Vector3f playerPos) {
-        this.infoFile.spawnX = (int) playerPos.x;
-        this.infoFile.spawnY = (int) playerPos.y;
-        this.infoFile.spawnZ = (int) playerPos.z;
+        this.dataFile.spawnX = (int) playerPos.x;
+        this.dataFile.spawnY = (int) playerPos.y;
+        this.dataFile.spawnZ = (int) playerPos.z;
     }
 
     public int getSize() {
-        return this.infoFile.size;
+        return this.dataFile.size;
     }
 
     public long getLastSaved() {
-        return this.infoFile.lastSaved;
+        return this.dataFile.lastSaved;
     }
 
     public String getTerrain() {
-        return this.infoFile.terrain;
+        return this.dataFile.terrain;
     }
 
     public int getSeed() {
-        return this.infoFile.seed;
+        return this.dataFile.seed;
     }
 
-    public void setSeed(final int seed) throws IOException {
-        this.infoFile.seed = seed;
-    }
 
-    public WorldInfo() {
-        infoFile = new InfoFile();
+    public WorldData() {
+        dataFile = new DataFile();
     }
 
     public void load(final File directory) throws IOException {
@@ -118,7 +116,7 @@ public class WorldInfo {
         this.directory = directory;
         this.name = directory.getName();
         try {
-            this.infoFile = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), InfoFile.class);
+            this.dataFile = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), DataFile.class);
         } catch (Exception ex) {
             ErrorHandler.report(
                     "Failed to load world info for world \"" + name + "\"", ex);
@@ -127,7 +125,7 @@ public class WorldInfo {
 
 
     public String toJson() {
-        return gson.toJson(infoFile);
+        return gson.toJson(dataFile);
     }
 
 
@@ -137,23 +135,24 @@ public class WorldInfo {
         if (!getDirectory().exists()) {
             getDirectory().mkdirs();
         }
-        infoFile.lastSaved = System.currentTimeMillis();
-        String json = gson.toJson(infoFile);
+        dataFile.timeOfDay = GameScene.background.getTimeOfDay();
+        dataFile.lastSaved = System.currentTimeMillis();
+        String json = gson.toJson(dataFile);
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);
     }
 
     public void makeNew(String name, int size, Terrain terrain, int seed) {
         this.name = name;
-        this.infoFile.size = size;
-        this.infoFile.terrain = terrain.name;
-        this.infoFile.terrainVersion = terrain.version;
-        this.infoFile.terrainOptions = new HashMap<>(terrain.options);
-        this.infoFile.seed = seed == 0 ? (int) (Math.random() * Integer.MAX_VALUE) : seed;
+        this.dataFile.size = size;
+        this.dataFile.terrain = terrain.name;
+        this.dataFile.terrainVersion = terrain.version;
+        this.dataFile.terrainOptions = new HashMap<>(terrain.options);
+        this.dataFile.seed = seed == 0 ? (int) (Math.random() * Integer.MAX_VALUE) : seed;
         this.directory = WorldsHandler.worldFile(name);
     }
 
     public void makeNew(String name, String json) {
-        this.infoFile = gson.fromJson(json, InfoFile.class);
+        this.dataFile = gson.fromJson(json, DataFile.class);
         this.name = name;
         this.directory = WorldsHandler.worldFile(name);
     }
@@ -161,18 +160,18 @@ public class WorldInfo {
     public String getDetails() {
         try {
             return "Name: " + name + "\n"
-                    + (infoFile.isJoinedMultiplayerWorld ? "(Joined World)" : "") + "\n"
-                    + "\nType: " + infoFile.terrain + "\n"
-                    + "\nGame: " + GameMode.values()[infoFile.gameMode] + "\n"
+                    + (dataFile.isJoinedMultiplayerWorld ? "(Joined World)" : "") + "\n"
+                    + "\nType: " + dataFile.terrain + "\n"
+                    + "\nGame: " + GameMode.values()[dataFile.gameMode] + "\n"
                     + "Last played:\n" + formatTime(getLastSaved()) + "\n"
-                    + "Seed: " + infoFile.seed;
+                    + "Seed: " + dataFile.seed;
         } catch (Exception ex) {
             return "Error getting world details";
         }
     }
 
 
-    public class InfoFile {
+    public class DataFile {
 
         public boolean isJoinedMultiplayerWorld;
         public int size;
@@ -184,9 +183,10 @@ public class WorldInfo {
         public String terrain;
         public int seed;
         public int gameMode;
+        public double timeOfDay;
         public HashMap<String, Boolean> terrainOptions = new HashMap<>();
 
-        public InfoFile() {
+        public DataFile() {
             this.spawnX = -1.0f;
             this.spawnY = -1.0f;
             this.spawnZ = -1.0f;

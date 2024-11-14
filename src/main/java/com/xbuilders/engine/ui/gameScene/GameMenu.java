@@ -129,7 +129,7 @@ public class GameMenu extends GameUIElement {
     }
 
     private void waypoint(boolean save) {
-        File waypointDir = new File(GameScene.world.info.getDirectory(), "waypoints");
+        File waypointDir = new File(GameScene.world.data.getDirectory(), "waypoints");
         if (!waypointDir.exists()) {
             waypointDir.mkdirs();
         }
