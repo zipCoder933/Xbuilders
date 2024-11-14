@@ -34,12 +34,6 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class Multiplayer implements MenuPage {
 
-    /**
-     * @param world the world to set
-     */
-    public void setWorld(WorldInfo world) {
-        this.world = world;
-    }
 
     final String ipAdress;
     LoadWorld loadWorld;
@@ -55,6 +49,7 @@ public class Multiplayer implements MenuPage {
         portBox = new NumberBox(4, 0);
         fromPortBox = new NumberBox(4, 0);
         ipAdressBox = new TextBox(20);
+        ipAdressBox.setValueAsString("192.168.0.");
 
 
         fromPortBox.setValueAsNumber(8080);
@@ -79,11 +74,10 @@ public class Multiplayer implements MenuPage {
     MainWindow window;
     NumberBox fromPortBox, portBox;
     TextBox ipAdressBox;
-    private WorldInfo world;
     int chosenSkin = 0;
 
     final int boxWidth = menu.WIDTH_3;
-    final int boxHeight = 450;
+    final int boxHeight = 420;
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
