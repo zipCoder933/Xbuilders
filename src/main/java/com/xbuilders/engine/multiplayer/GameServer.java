@@ -238,7 +238,7 @@ public class GameServer extends Server<PlayerClient> {
                     }
                 });
 
-                System.out.println("Voxels updated event triggered\t In reach: " + inReachChanges.get() + "\tOut of reach: " + outOfReachChanges.get());
+//                MainWindow.printlnDev("Voxels updated event triggered\t In reach: " + inReachChanges.get() + "\tOut of reach: " + outOfReachChanges.get());
 
             } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
                 MultiplayerPendingEntityChanges.readEntityChange(receivedData, (
