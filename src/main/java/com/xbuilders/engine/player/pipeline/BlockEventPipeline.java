@@ -11,7 +11,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.light.SunlightUtils;

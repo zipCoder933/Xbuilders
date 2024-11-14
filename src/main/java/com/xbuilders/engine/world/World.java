@@ -46,6 +46,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.light.TorchUtils;
 import com.xbuilders.engine.world.wcc.WCCi;

@@ -2,7 +2,7 @@ package com.xbuilders.engine.multiplayer;
 
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.player.Player;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import org.joml.Vector3f;
 
 //This WILL be another class for 2 reasons

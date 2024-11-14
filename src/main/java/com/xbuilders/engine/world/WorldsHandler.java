@@ -4,6 +4,8 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.world.data.WorldData;
+
 import java.nio.file.Files;
 import java.io.File;
 import java.io.IOException;

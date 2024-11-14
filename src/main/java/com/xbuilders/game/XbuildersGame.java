@@ -17,7 +17,7 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.game.UI.Hotbar;
 import com.xbuilders.game.UI.Inventory;
 import com.xbuilders.game.blockTools.BlockTools;

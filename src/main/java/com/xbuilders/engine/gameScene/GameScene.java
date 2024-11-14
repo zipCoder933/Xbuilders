@@ -15,7 +15,7 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.skybox.SkyBackground;

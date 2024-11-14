@@ -12,7 +12,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
 import com.xbuilders.engine.utils.network.server.Server;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;

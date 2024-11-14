@@ -1,11 +1,13 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.world;
+package com.xbuilders.engine.world.data;
 
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.WorldsHandler;
 import org.joml.Vector3f;
 
 import java.nio.file.Files;

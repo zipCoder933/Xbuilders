@@ -8,7 +8,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.Terrain.GenSession;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.window.render.MVP;

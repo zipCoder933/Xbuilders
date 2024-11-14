@@ -7,7 +7,7 @@ package com.xbuilders.engine.ui.topMenu;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;

@@ -1,7 +1,7 @@
 package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;

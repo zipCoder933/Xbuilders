@@ -3,7 +3,7 @@ package com.xbuilders.engine.world.chunk.pillar;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.ArrayList;

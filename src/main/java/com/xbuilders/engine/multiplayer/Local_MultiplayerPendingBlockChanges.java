@@ -4,7 +4,7 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import org.joml.Vector3i;
 
 import java.io.*;

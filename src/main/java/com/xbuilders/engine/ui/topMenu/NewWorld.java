@@ -12,7 +12,7 @@ package com.xbuilders.engine.ui.topMenu;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
 import com.xbuilders.engine.ui.Page;
 import com.xbuilders.engine.MainWindow;

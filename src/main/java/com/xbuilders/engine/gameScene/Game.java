@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.Terrain;
-import com.xbuilders.engine.world.WorldData;
+import com.xbuilders.engine.world.data.WorldData;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
