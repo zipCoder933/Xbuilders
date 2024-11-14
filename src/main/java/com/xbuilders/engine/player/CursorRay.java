@@ -94,7 +94,7 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
-        Item selectedItem = MainWindow.game.getSelectedItem();
+        Item selectedItem = MainWindow.game.getSelectedItem().item;
 
         if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event
             return true;

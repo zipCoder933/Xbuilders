@@ -7,12 +7,13 @@ package com.xbuilders.game;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.builtinMechanics.fire.FirePropagation;
 import com.xbuilders.engine.gameScene.GameMode;
-import com.xbuilders.engine.gameScene.GameProperties;
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
@@ -48,10 +49,10 @@ import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 /**
  * @author zipCoder933
  */
-public class XbuildersGameProps extends GameProperties {
+public class XbuildersGame extends Game {
 
 
-    public XbuildersGameProps(MainWindow window) {
+    public XbuildersGame(MainWindow window) {
         super(window);
 
         //add skins
@@ -88,15 +89,28 @@ public class XbuildersGameProps extends GameProperties {
     }
 
     public boolean clickEvent(final CursorRay ray, boolean isCreationMode) {
-        return blockTools.clickEvent(getSelectedItem(), ray, isCreationMode);
+        return blockTools.clickEvent(getSelectedItem().item, ray, isCreationMode);
     }
 
     public static class GameInfo {
-        public final Item[] playerBackpack;
+        public final PlayerStuff playerStuff;
         public double timeOfDay;
 
         public GameInfo() {
-            playerBackpack = new Item[33];
+            playerStuff = new PlayerStuff(33);
+        }
+
+        public void save(WorldInfo currentWorld) {
+            //Write variables
+            timeOfDay = GameScene.background.getTimeOfDay();
+
+            //Save game info
+            File f = new File(currentWorld.getDirectory() + "\\game.json");
+            try (FileWriter writer = new FileWriter(f)) {
+                JsonManager.gson_itemAdapter.toJson(this, writer);
+            } catch (IOException ex) {
+                Logger.getLogger(XbuildersGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -113,7 +127,7 @@ public class XbuildersGameProps extends GameProperties {
     BlockTools blockTools;
 
     @Override
-    public Item getSelectedItem() {
+    public ItemStack getSelectedItem() {
         return hotbar.getSelectedItem();
     }
 
@@ -136,7 +150,7 @@ public class XbuildersGameProps extends GameProperties {
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         } catch (IOException ex) {
-            Logger.getLogger(XbuildersGameProps.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XbuildersGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -202,7 +216,7 @@ public class XbuildersGameProps extends GameProperties {
             ErrorHandler.report(ex);
         }
 
-        inventory.setPlayerInfo(gameInfo);
+        inventory.setgameInfo(gameInfo);
         hotbar.setPlayerInfo(gameInfo);
     }
 
@@ -222,23 +236,10 @@ public class XbuildersGameProps extends GameProperties {
     @Override
     public void saveState() {
         if (gameInfo != null) {
-            //Write variables
-            gameInfo.timeOfDay = GameScene.background.getTimeOfDay();
-
-            //Save game info
-            File f = new File(currentWorld.getDirectory() + "\\game.json");
-            try (FileWriter writer = new FileWriter(f)) {
-                json.gson_itemAdapter.toJson(gameInfo, writer);
-            } catch (IOException ex) {
-                Logger.getLogger(XbuildersGameProps.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            gameInfo.save(currentWorld);
         }
     }
 
-    @Override
-    public boolean includeBlockIcon(Block block) {
-        return block.renderType != RenderType.SPRITE;
-    }
 
     @Override
     public void setup(GameScene gameScene) throws Exception {

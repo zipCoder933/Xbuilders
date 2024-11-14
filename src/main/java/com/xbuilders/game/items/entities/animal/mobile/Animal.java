@@ -7,6 +7,7 @@ package com.xbuilders.game.items.entities.animal.mobile;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -85,8 +86,8 @@ public abstract class Animal extends Entity {
 
 
     public boolean playerHasAnimalFeed() {
-        Item heldItem = MainWindow.game.getSelectedItem();
-        return heldItem != null && heldItem.equals(Items.TOOL_ANIMAL_FEED);
+        ItemStack heldItem = MainWindow.game.getSelectedItem();
+        return heldItem != null && heldItem.item.equals(Items.TOOL_ANIMAL_FEED);
     }
 
     public void eatAnimalFeed() {

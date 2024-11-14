@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 public class GameCommands {
     public final HashMap<String, String> commandHelp;
     GameScene gameScene;
-    GameProperties game;
+    Game game;
 
-    public GameCommands(GameScene gameScene, GameProperties game) {
+    public GameCommands(GameScene gameScene, Game game) {
         this.gameScene = gameScene;
         this.game = game;
 

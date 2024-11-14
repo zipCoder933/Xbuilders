@@ -5,10 +5,11 @@
 package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.XbuildersGameProps;
+import com.xbuilders.game.XbuildersGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
@@ -30,10 +31,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
     /**
-     * @param playerInfo the playerBackpack to set
+     * @param gameInfo the playerBackpack to set
      */
-    public void setPlayerInfo(XbuildersGameProps.GameInfo playerInfo) {
-        this.playerInfo = playerInfo;
+    public void setgameInfo(XbuildersGame.GameInfo gameInfo) {
+        this.gameInfo = gameInfo;
     }
 
     public Inventory(NkContext ctx, Item[] itemList, NKWindow window, Hotbar hotbar) throws IOException {
@@ -41,6 +42,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
         this.hotbar = hotbar;
         setItemList(itemList);
         buttonWidth = new WidgetWidthMeasurement(0);
+
         searchBox = new TextBox(25);
         searchBox.setOnSelectEvent(() -> {
             searchBox.setValueAsString("");
@@ -108,7 +110,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     final int maxColumns = 11;
     Hotbar hotbar;
     Item[] itemList;
-    private XbuildersGameProps.GameInfo playerInfo;
+    private XbuildersGame.GameInfo gameInfo;
     TextBox searchBox;
 
     WidgetWidthMeasurement buttonWidth;
@@ -159,7 +161,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
                 ctx.style().button().padding().set(0, 0);
                 inventoryGroup(stack);
-                backpackGroup();
+                drawPlayerStuff();
 
                 Theme.resetEntireButtonStyle(ctx);
             }
@@ -217,7 +219,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                         hoveredItem = item.toString();
                     }
                     if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
-                        addItemToBackpack(item);
+                        gameInfo.playerStuff.freeplay_getItem(item);
                     }
                     buttonWidth.measure(ctx, stack);
                     column++;
@@ -228,17 +230,17 @@ public class Inventory extends GameUIElement implements WindowEvents {
         Nuklear.nk_group_end(ctx);
     }
 
-    private void backpackGroup() {
+    protected void drawPlayerStuff() {
         nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
         if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
             nk_layout_row_dynamic(ctx, 20, 3);
             if (Nuklear.nk_button_label(ctx, "Organize")) {
-                organizeBackpack();
+                gameInfo.playerStuff.organize();
             } else if (Nuklear.nk_button_label(ctx, "Remove")) {
-                playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = null;
+                gameInfo.playerStuff.set(hotbar.getSelectedItemIndex(), null);
             } else if (Nuklear.nk_button_label(ctx, "Clear")) {
-                for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
-                    playerInfo.playerBackpack[i] = null;
+                for (int i = 0; i < gameInfo.playerStuff.size(); i++) {
+                    gameInfo.playerStuff.set(i, null);
                 }
             }
 
@@ -248,10 +250,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
                 cols:
                 for (int i = 0; i < maxColumns; i++) {
-                    if (itemID >= playerInfo.playerBackpack.length) {
+                    if (itemID >= gameInfo.playerStuff.size()) {
                         break rows;
                     }
-                    Item item = playerInfo.playerBackpack[itemID];
+                    ItemStack item = gameInfo.playerStuff.get(itemID);
 
                     if (itemID == hotbar.getSelectedItemIndex()) {
                         ctx.style().button().border_color().set(Theme.white);
@@ -262,9 +264,9 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
                     if (item != null) {
                         if (Nuklear.nk_widget_is_hovered(ctx)) {
-                            hoveredItem = item.toString();
+//                            hoveredItem = item.toString();
                         }
-                        if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
+                        if (drawItemStack(ctx, item)) {
                             hotbar.setSelectedIndex(itemID);
                         }
                     } else if (Nuklear.nk_button_text(ctx, "")) {
@@ -277,21 +279,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
         Nuklear.nk_group_end(ctx);
     }
 
-    private void organizeBackpack() {
-        HashSet<Item> newBackpack = new HashSet();
-        for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
-            if (playerInfo.playerBackpack[i] != null) {
-                newBackpack.add(playerInfo.playerBackpack[i]);
-            }
-            playerInfo.playerBackpack[i] = null;
-        }
-        int index = 0;
-        for (Item item : newBackpack) {
-            playerInfo.playerBackpack[index] = item;
-            index++;
-        }
-        hotbar.setSelectedIndex(0);
+    public static boolean drawItemStack(NkContext ctx, ItemStack itemStack) {
+        return Nuklear.nk_button_image(ctx, itemStack.item.getNKIcon());
     }
+
 
     private boolean matchesSearch(Item item, String searchCriteria) {
         if (searchCriteria == null || searchCriteria.isBlank() || item.name == null) return true;
@@ -304,21 +295,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
         return item.name.toLowerCase().contains(searchCriteria);
     }
 
-    private void addItemToBackpack(Item item) {
-        if (playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] == item) {
-            playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = null;
-        } else {
-            for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
-                if (playerInfo.playerBackpack[i] == null) {
-                    playerInfo.playerBackpack[i] = item;
-                    hotbar.setSelectedIndex(i);
-                    return;
-                }
-            }
-            playerInfo.playerBackpack[hotbar.getSelectedItemIndex()] = item;
-            hotbar.changeSelectedIndex(1);
-        }
-    }
 
     @Override
     public void windowResizeEvent(int width, int height) {

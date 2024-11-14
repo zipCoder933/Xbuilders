@@ -48,7 +48,7 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f projection = new Matrix4f();
     public final static Matrix4f view = new Matrix4f();
     public final static Matrix4f centeredView = new Matrix4f();
-    private static GameProperties game;
+    private static Game game;
     public static GameCommands commands;
 
     //Game Mode =======================================================================================================
@@ -87,7 +87,7 @@ public class GameScene implements WindowEvents {
     }
 
 
-    public GameScene(MainWindow window, GameProperties myGame) throws Exception {
+    public GameScene(MainWindow window, Game myGame) throws Exception {
         game = myGame;
         this.window = window;
         specialMode = true;

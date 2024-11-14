@@ -8,12 +8,12 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.XbuildersGameProps;
+import com.xbuilders.game.XbuildersGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import org.lwjgl.glfw.GLFW;
@@ -30,7 +30,7 @@ public class Hotbar extends GameUIElement {
     /**
      * @param playerInfo the playerBackpack to set
      */
-    public void setPlayerInfo(XbuildersGameProps.GameInfo playerInfo) {
+    public void setPlayerInfo(XbuildersGame.GameInfo playerInfo) {
         this.playerInfo = playerInfo;
     }
 
@@ -42,7 +42,7 @@ public class Hotbar extends GameUIElement {
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    private XbuildersGameProps.GameInfo playerInfo;
+    private XbuildersGame.GameInfo playerInfo;
     WidgetWidthMeasurement buttonHeight;
     private int selectedItemIndex;
     int pushValue;
@@ -81,8 +81,8 @@ public class Hotbar extends GameUIElement {
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
             // Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (playerInfo.playerBackpack[getSelectedItemIndex()] != null) {
-                nk_text(ctx, playerInfo.playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
+            if (playerInfo.playerStuff.get(getSelectedItemIndex()) != null) {
+                nk_text(ctx, playerInfo.playerStuff.get(getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
             }
 
             nk_layout_row_dynamic(ctx, buttonHeight.width, ELEMENTS);
@@ -90,10 +90,10 @@ public class Hotbar extends GameUIElement {
             for (int j = 0; j < ELEMENTS; j++) {
                 i = j + pushValue;
 
-                if (i >= playerInfo.playerBackpack.length) {
+                if (i >= playerInfo.playerStuff.size()) {
                     break;
                 }
-                Item item = playerInfo.playerBackpack[i];
+                ItemStack item = playerInfo.playerStuff.get(i);
 
                 if (buttonHeight.isCalibrated()) {
                     if (i == getSelectedItemIndex()) {
@@ -103,7 +103,7 @@ public class Hotbar extends GameUIElement {
                     }
                 }
                 if (item != null) {
-                    nk_button_image(ctx, item.getNKIcon());
+                    Inventory.drawItemStack(ctx, item);
                 } else {
                     Nuklear.nk_button_text(ctx, "");
                 }
@@ -122,19 +122,19 @@ public class Hotbar extends GameUIElement {
 
     protected void changeSelectedIndex(float increment) {
         selectedItemIndex += increment;
-        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerInfo.playerBackpack.length - 1));
+        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerInfo.playerStuff.size() - 1));
 
         if (getSelectedItemIndex() >= ELEMENTS + pushValue) {
             pushValue++;
         } else if (getSelectedItemIndex() < pushValue) {
             pushValue--;
         }
-        pushValue = MathUtils.clamp(pushValue, 0, playerInfo.playerBackpack.length - ELEMENTS);
+        pushValue = MathUtils.clamp(pushValue, 0, playerInfo.playerStuff.size() - ELEMENTS);
     }
 
     public void setSelectedIndex(int index) {
-        selectedItemIndex = MathUtils.clamp(index, 0, playerInfo.playerBackpack.length - 1);
-        pushValue = MathUtils.clamp(selectedItemIndex, 0, playerInfo.playerBackpack.length - ELEMENTS);
+        selectedItemIndex = MathUtils.clamp(index, 0, playerInfo.playerStuff.size() - 1);
+        pushValue = MathUtils.clamp(selectedItemIndex, 0, playerInfo.playerStuff.size() - ELEMENTS);
     }
 
     public int getSelectedItemIndex() {
@@ -159,37 +159,36 @@ public class Hotbar extends GameUIElement {
     public void pickItem(CursorRay ray) {
         if (ray.hitTarget()) {
             if (ray.getEntity() != null) {
-                Entity entity =ray.getEntity();
-                acquireItem(Registrys.getItem(entity));
-            } else{
+                Entity entity = ray.getEntity();
+                acquireItem(new ItemStack(Registrys.getItem(entity)));
+            } else {
                 Block block = GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
-                acquireItem(Registrys.getItem(block));
+                acquireItem(new ItemStack(Registrys.getItem(block)));
             }
         }
     }
 
-    public Item getSelectedItem(){
-        return playerInfo.playerBackpack[getSelectedItemIndex()];
+    public ItemStack getSelectedItem() {
+        return playerInfo.playerStuff.get(getSelectedItemIndex());
     }
 
-    private void acquireItem(Item item) {
-
-        for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
-            if (playerInfo.playerBackpack[i] != null && playerInfo.playerBackpack[i].equals(item)) {
+    private void acquireItem(ItemStack item) {
+        for (int i = 0; i < playerInfo.playerStuff.size(); i++) {
+            if (playerInfo.playerStuff.get(i) != null && playerInfo.playerStuff.get(i).equals(item)) {
                 setSelectedIndex(i);
                 return;
             }
         }
         // otherwise add it
-        for (int i = 0; i < playerInfo.playerBackpack.length; i++) {
-            if (playerInfo.playerBackpack[i] == null) {
-                playerInfo.playerBackpack[i] = item;
+        for (int i = 0; i < playerInfo.playerStuff.size(); i++) {
+            if (playerInfo.playerStuff.get(i) == null) {
+                playerInfo.playerStuff.set(i,item);
                 setSelectedIndex(i);
                 return;
             }
         }
         // If there is no room, then remove the first item
-        playerInfo.playerBackpack[0] = item;
+        playerInfo.playerStuff.set(0,item);
         setSelectedIndex(0);
     }
 

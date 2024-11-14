@@ -10,7 +10,7 @@ package com.xbuilders.engine.ui.gameScene;
  */
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.gameScene.GameProperties;
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.ui.FileDialog;
 import com.xbuilders.engine.ui.RectOverlay;
 import org.lwjgl.glfw.GLFW;
@@ -36,7 +36,7 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  */
 public class GameUI {
 
-    public GameUI(GameProperties game, NkContext ctx, MainWindow window) throws IOException {
+    public GameUI(Game game, NkContext ctx, MainWindow window) throws IOException {
         this.ctx = ctx;
         this.window = window;
         this.game = game;
@@ -66,7 +66,7 @@ public class GameUI {
 
     NkContext ctx;
     MainWindow window;
-    GameProperties game;
+    Game game;
     private RectOverlay overlay;
     public FileDialog fileDialog;
     Crosshair crosshair;

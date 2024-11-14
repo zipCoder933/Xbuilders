@@ -13,7 +13,7 @@ import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.XbuildersGameProps;
+import com.xbuilders.game.XbuildersGame;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;
@@ -111,7 +111,7 @@ public class MainWindow extends NKWindow {
     }
 
     private static boolean isGameMode = false;
-    public static XbuildersGameProps game;
+    public static XbuildersGame game;
     public static TopMenu topMenu;
     public static GameScene gameScene;
     public static PopupMessage popupMessage;
@@ -195,7 +195,7 @@ public class MainWindow extends NKWindow {
         GLFWWindow.initGLFW();
         settings = EngineSettings.load();
 
-        game = new XbuildersGameProps(this);
+        game = new XbuildersGame(this);
         popupMessage = new PopupMessage(ctx, this);
         topMenu = new TopMenu(this);
         gameScene = new GameScene(this, game);

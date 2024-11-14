@@ -7,6 +7,7 @@ package com.xbuilders.engine.gameScene;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.Terrain;
@@ -22,8 +23,9 @@ import java.util.Map;
 /**
  * @author zipCoder933
  */
-public abstract class GameProperties {
+public abstract class Game {
 
+    private long lastSaved;
     public final MainWindow window;
     public final ArrayList<Terrain> terrainsList = new ArrayList<>();
     public final HashMap<Integer, SkinLink> availableSkins = new HashMap<>();
@@ -31,8 +33,6 @@ public abstract class GameProperties {
     public boolean releaseMouse() {
         return false;
     }
-
-    long lastSaved;
 
 
     protected void update() {
@@ -42,7 +42,7 @@ public abstract class GameProperties {
         }
     }
 
-    public GameProperties(MainWindow window) {
+    public Game(MainWindow window) {
         this.window = window;
     }
 
@@ -67,11 +67,7 @@ public abstract class GameProperties {
 
     }
 
-    public boolean includeBlockIcon(Block block) {
-        return false;
-    }
-
-    public Item getSelectedItem() {
+    public ItemStack getSelectedItem() {
         return null;
     }
 
