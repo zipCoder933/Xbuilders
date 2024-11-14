@@ -1,8 +1,8 @@
 {
-  "latest-version": 1.0,
+  "latest-version": 1000000,
   "releases": [
     {
-      "version": 1.0,
+      "version": 1000000,
       "changes": [
         "The initial relase!"
       ]

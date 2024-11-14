@@ -54,16 +54,16 @@ public class VersionInfo {
     public String changesToString() {
         String changes = "";
         for (VersionChanges version : releases) {
-            if (version.version > MainWindow.gameVersion) changes += version.toString();
+            if (version.version > MainWindow.numericalVersion) changes += version.toString();
         }
         return changes;
     }
 
     public static class VersionChanges {
-        public float version;
+        public long version;
         public List<String> changes;
 
-        public VersionChanges(float version) {
+        public VersionChanges(long version) {
             this.version = version;
             this.changes = new ArrayList<>();
         }
@@ -83,7 +83,7 @@ public class VersionInfo {
     }
 
     public boolean isNewerVersionAvailable() {
-        if (latestVersion > MainWindow.gameVersion) {
+        if (latestVersion > MainWindow.numericalVersion) {
             return true;
         } else return false;
     }
@@ -105,7 +105,7 @@ public class VersionInfo {
 
         //Get changes since this version
         for (JsonElement release : jsonElement.getAsJsonObject().get("releases").getAsJsonArray()) {
-            float v = release.getAsJsonObject().get("version").getAsFloat();
+            long v = release.getAsJsonObject().get("version").getAsLong();
             VersionChanges version = new VersionChanges(v);
             releases.add(version);
             JsonArray changes = release.getAsJsonObject().get("changes").getAsJsonArray();

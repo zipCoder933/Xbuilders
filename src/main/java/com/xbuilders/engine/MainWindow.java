@@ -35,7 +35,32 @@ import java.util.Arrays;
 
 public class MainWindow extends NKWindow {
 
-    public static double gameVersion = 1.8;
+    public static final String GAME_VERSION = "1.0.0";
+
+
+    //==================================================================================================================
+    //==================================================================================================================
+    //==================================================================================================================
+    //==================================================================================================================
+    //==================================================================================================================
+    //==================================================================================================================
+
+    public static long numericalVersion;
+
+    public static long versionStringToNumber(String version) {
+        String[] parts = version.split("\\.");
+        int major = Integer.parseInt(parts[0]);
+        int minor = Integer.parseInt(parts[1]);
+        int patch = Integer.parseInt(parts[2]);
+
+        // Combine parts into a single number by shifting bits or scaling by powers of 1000.
+        return (major * 1_000_000L) + (minor * 1_000L) + patch;
+    }
+
+    static {
+        numericalVersion = versionStringToNumber(GAME_VERSION);
+    }
+
     public static boolean loadWorldOnStartup = false;
     public static boolean fpsTools = false;
     public static int frameCount = 0; //TODO: replace with game tick
@@ -100,7 +125,7 @@ public class MainWindow extends NKWindow {
 
     public MainWindow(String args[]) {
         super();
-        System.out.println("XBuilders (" + gameVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        System.out.println("XBuilders (" + numericalVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         System.out.println("args: " + Arrays.toString(args));
 
         String customAppData = null;

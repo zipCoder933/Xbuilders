@@ -51,7 +51,7 @@ public class MenuHome implements MenuPage {
             nk_label(ctx, "\n\n" + (
                     MainWindow.devMode ?
                             "DEV MODE" :
-                            ("v" + MainWindow.gameVersion)
+                            ("v" + MainWindow.GAME_VERSION)
             ) + "\n\n", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);
