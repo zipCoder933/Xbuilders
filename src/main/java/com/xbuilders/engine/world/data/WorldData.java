@@ -35,7 +35,7 @@ public class WorldData {
     Image image;
     private String name;
     private static final Gson gson = new JsonManager().gson_itemAdapter;
-    public DataFile dataFile;
+    public DataFile data;
 
     public File getChunkFile(Vector3i position) {
         return new File(this.directory.getAbsolutePath(), "chunk " + position.x + " " + position.y + " " + position.z);
@@ -71,44 +71,44 @@ public class WorldData {
     }
 
     public int getTerrainVersion() {
-        return this.dataFile.terrainVersion;
+        return this.data.terrainVersion;
     }
 
     public Vector3f getSpawnPoint() {
-        if (this.dataFile.spawnX == -1.0) {
+        if (this.data.spawnX == -1.0) {
             return null;
         }
         return new Vector3f(
-                this.dataFile.spawnX,
-                this.dataFile.spawnY,
-                this.dataFile.spawnZ);
+                this.data.spawnX,
+                this.data.spawnY,
+                this.data.spawnZ);
     }
 
     public void setSpawnPoint(Vector3f playerPos) {
-        this.dataFile.spawnX = (int) playerPos.x;
-        this.dataFile.spawnY = (int) playerPos.y;
-        this.dataFile.spawnZ = (int) playerPos.z;
+        this.data.spawnX = (int) playerPos.x;
+        this.data.spawnY = (int) playerPos.y;
+        this.data.spawnZ = (int) playerPos.z;
     }
 
     public int getSize() {
-        return this.dataFile.size;
+        return this.data.size;
     }
 
     public long getLastSaved() {
-        return this.dataFile.lastSaved;
+        return this.data.lastSaved;
     }
 
     public String getTerrain() {
-        return this.dataFile.terrain;
+        return this.data.terrain;
     }
 
     public int getSeed() {
-        return this.dataFile.seed;
+        return this.data.seed;
     }
 
 
     public WorldData() {
-        dataFile = new DataFile();
+        data = new DataFile();
     }
 
     public void load(final File directory) throws IOException {
@@ -118,7 +118,7 @@ public class WorldData {
         this.directory = directory;
         this.name = directory.getName();
         try {
-            this.dataFile = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), DataFile.class);
+            this.data = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), DataFile.class);
         } catch (Exception ex) {
             ErrorHandler.report(
                     "Failed to load world info for world \"" + name + "\"", ex);
@@ -127,7 +127,7 @@ public class WorldData {
 
 
     public String toJson() {
-        return gson.toJson(dataFile);
+        return gson.toJson(data);
     }
 
 
@@ -137,24 +137,24 @@ public class WorldData {
         if (!getDirectory().exists()) {
             getDirectory().mkdirs();
         }
-        dataFile.timeOfDay = GameScene.background.getTimeOfDay();
-        dataFile.lastSaved = System.currentTimeMillis();
-        String json = gson.toJson(dataFile);
+        data.timeOfDay = GameScene.background.getTimeOfDay();
+        data.lastSaved = System.currentTimeMillis();
+        String json = gson.toJson(data);
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);
     }
 
     public void makeNew(String name, int size, Terrain terrain, int seed) {
         this.name = name;
-        this.dataFile.size = size;
-        this.dataFile.terrain = terrain.name;
-        this.dataFile.terrainVersion = terrain.version;
-        this.dataFile.terrainOptions = new HashMap<>(terrain.options);
-        this.dataFile.seed = seed == 0 ? (int) (Math.random() * Integer.MAX_VALUE) : seed;
+        this.data.size = size;
+        this.data.terrain = terrain.name;
+        this.data.terrainVersion = terrain.version;
+        this.data.terrainOptions = new HashMap<>(terrain.options);
+        this.data.seed = seed == 0 ? (int) (Math.random() * Integer.MAX_VALUE) : seed;
         this.directory = WorldsHandler.worldFile(name);
     }
 
     public void makeNew(String name, String json) {
-        this.dataFile = gson.fromJson(json, DataFile.class);
+        this.data = gson.fromJson(json, DataFile.class);
         this.name = name;
         this.directory = WorldsHandler.worldFile(name);
     }
@@ -162,11 +162,11 @@ public class WorldData {
     public String getDetails() {
         try {
             return "Name: " + name + "\n"
-                    + (dataFile.isJoinedMultiplayerWorld ? "(Joined World)" : "") + "\n"
-                    + "\nType: " + dataFile.terrain + "\n"
-                    + "\nGame: " + GameMode.values()[dataFile.gameMode] + "\n"
+                    + (data.isJoinedMultiplayerWorld ? "(Joined World)" : "") + "\n"
+                    + "\nType: " + data.terrain + "\n"
+                    + "\nGame: " + GameMode.values()[data.gameMode] + "\n"
                     + "Last played:\n" + formatTime(getLastSaved()) + "\n"
-                    + "Seed: " + dataFile.seed;
+                    + "Seed: " + data.seed;
         } catch (Exception ex) {
             return "Error getting world details";
         }
@@ -186,6 +186,7 @@ public class WorldData {
         public int seed;
         public int gameMode;
         public double timeOfDay;
+        public final PlayerData playerData;
         public HashMap<String, Boolean> terrainOptions = new HashMap<>();
 
         public DataFile() {
@@ -194,6 +195,7 @@ public class WorldData {
             this.spawnZ = -1.0f;
             this.terrainVersion = 0;
             this.gameMode = GameMode.FREEPLAY.ordinal();
+            playerData = new PlayerData();
             isJoinedMultiplayerWorld = false;
         }
 

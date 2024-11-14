@@ -108,7 +108,7 @@ public class LoadWorld implements MenuPage {
 
                 nk_style_set_font(ctx, Theme.font_12);
 
-                if (!currentWorld.dataFile.isJoinedMultiplayerWorld) {
+                if (!currentWorld.data.isJoinedMultiplayerWorld) {
                     if (nk_button_label(ctx, "LOAD WORLD")) {
                         loadWorld(currentWorld, null);
                     }

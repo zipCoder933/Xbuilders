@@ -103,7 +103,7 @@ public class GameServer extends Server<PlayerClient> {
             hostClient = connectToServer(new InetSocketAddress(req.hostIpAdress, req.toPortVal));
             hostClient.isHost = true;
             Thread.sleep(1000);
-            hostClient.sendData(userPlayer.infoToBytes());
+            hostClient.sendData(userPlayer.userInfo.toBytes());
         }
     }
 
@@ -135,7 +135,7 @@ public class GameServer extends Server<PlayerClient> {
                 System.out.println(client.getRemoteSocketAddress().toString() + " has already joined");
                 return false;
             } else {
-                client.sendData(userPlayer.infoToBytes());
+                client.sendData(userPlayer.userInfo.toBytes());
                 if (req.hosting) {
                     sendWorldToClient(client);
                 }
@@ -194,12 +194,12 @@ public class GameServer extends Server<PlayerClient> {
 
             if (receivedData[0] == PLAYER_INFO) { //Given when the player updates his info
                 //Update player information first
-                client.player.loadInfoFromBytes(receivedData);
+                client.player.userInfo.fromBytes(receivedData);
                 //If the player has not joined yet, add him
                 if (!client.player.isKnown) {
                     client.player.isKnown = true;
                     if (isHosting()) { //If we are the host, ask other players to connect too
-                        sendChatMessage(client, "Welcome \"" + client.player.name + "\"!");
+                        sendChatMessage(client, "Welcome \"" + client.player.userInfo.name + "\"!");
 
                         byte[] joinMessage = NetworkUtils.formatMessage(PLEASE_CONNECT_TO_CLIENT,
                                 client.getRemoteSocketAddress().getHostName()
@@ -218,7 +218,7 @@ public class GameServer extends Server<PlayerClient> {
 
             } else if (receivedData[0] == PLAYER_CHAT) {
                 String message = new String(NetworkUtils.getMessage(receivedData));
-                String playerName = client.player.name;
+                String playerName = client.player.userInfo.name;
                 GameScene.consoleOut(playerName + ":  \"" + message + "\"");
             } else if (receivedData[0] == PLAYER_POSITION) {
                 float x = ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
@@ -337,7 +337,7 @@ public class GameServer extends Server<PlayerClient> {
         WorldData hostsWorldInfo = new WorldData();
         hostsWorldInfo.makeNew(name, json);
         if (!req.hosting) {
-            hostsWorldInfo.dataFile.isJoinedMultiplayerWorld = true;
+            hostsWorldInfo.data.isJoinedMultiplayerWorld = true;
         }
 
 
@@ -352,7 +352,7 @@ public class GameServer extends Server<PlayerClient> {
 
 
         //Make the world from the host
-        hostsWorldInfo.dataFile.isJoinedMultiplayerWorld = true;
+        hostsWorldInfo.data.isJoinedMultiplayerWorld = true;
         WorldsHandler.makeNewWorld(hostsWorldInfo);
         worldInfo = hostsWorldInfo;
     }
@@ -362,7 +362,7 @@ public class GameServer extends Server<PlayerClient> {
         if (existingWorld.exists()) {
             WorldData myWorld = new WorldData();
             myWorld.load(existingWorld);
-            return !myWorld.dataFile.isJoinedMultiplayerWorld
+            return !myWorld.data.isJoinedMultiplayerWorld
                     || !hostWorld.getTerrain().equals(myWorld.getTerrain())
                     || hostWorld.getSeed() != myWorld.getSeed();
         }
@@ -372,7 +372,7 @@ public class GameServer extends Server<PlayerClient> {
     public PlayerClient getPlayerByName(String name) {
         for (PlayerClient client : clients) {
             if (client.player != null) {
-                if (client.player.name.equalsIgnoreCase(name)) {
+                if (client.player.userInfo.name.equalsIgnoreCase(name)) {
                     return client;
                 }
             }

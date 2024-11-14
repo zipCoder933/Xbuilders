@@ -29,8 +29,8 @@ public class PlayerClient extends NetworkSocket {
 
     public String getName() {
         String name = getHostAddress();
-        if (player.name != null) {
-            name = player.name;
+        if (player.userInfo.name != null) {
+            name = player.userInfo.name;
         }
         return name + (isHost ? " (host)" : "");
     }

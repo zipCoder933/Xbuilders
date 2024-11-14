@@ -129,7 +129,7 @@ public class NewWorld implements MenuPage {
         try {
             WorldData info = new WorldData();
             info.makeNew(name, size, terrain, seed);
-            info.dataFile.gameMode = gameMode.ordinal();
+            info.data.gameMode = gameMode.ordinal();
             if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
                 MainWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
                 return false;

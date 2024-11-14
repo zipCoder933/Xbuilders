@@ -187,7 +187,7 @@ public class GameScene implements WindowEvents {
             }
             case 2 -> {
                 prog.setTask("Starting game...");
-                gameMode = (GameMode.values()[worldInfo.dataFile.gameMode]);
+                gameMode = (GameMode.values()[worldInfo.data.gameMode]);
                 if (worldInfo.getSpawnPoint() == null) { //Create spawn point
                     player.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
@@ -238,7 +238,7 @@ public class GameScene implements WindowEvents {
                     //Find spawn point
                     player.setNewSpawnPoint(world.terrain);
                 }
-                setTimeOfDay(worldInfo.dataFile.timeOfDay);
+                setTimeOfDay(worldInfo.data.timeOfDay);
                 game.startGame(worldInfo);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);

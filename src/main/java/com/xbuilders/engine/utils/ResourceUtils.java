@@ -22,7 +22,7 @@ public class ResourceUtils {
     public static File LOCAL_DIR;
 
     //Individual paths
-    public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, ICONS_DIR;
+    public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, ICONS_DIR, PLAYER_GLOBAL_INFO;
 
 
     static{
@@ -45,6 +45,9 @@ public class ResourceUtils {
         APP_DATA_DIR.mkdirs();
         System.out.println("\tApp Data path: " + APP_DATA_DIR);
 
+        //Individual files
+        PLAYER_GLOBAL_INFO = new File(APP_DATA_DIR, "player_global_info.dat");
+        //Worlds
         WORLDS_DIR = new File(APP_DATA_DIR, (gameDevResources ? "game_dev" : "game"));
         WORLDS_DIR.mkdirs();
         System.out.println("\tWorlds path: " + WORLDS_DIR);

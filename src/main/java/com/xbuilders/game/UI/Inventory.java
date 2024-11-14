@@ -4,13 +4,13 @@
  */
 package com.xbuilders.game.UI;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.player.data.PlayerData;
+import com.xbuilders.engine.world.data.PlayerData;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.XbuildersGame;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
@@ -31,10 +31,9 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
-    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, Hotbar hotbar, PlayerData playerData) throws IOException {
+    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, Hotbar hotbar) throws IOException {
         super(ctx, window);
         this.hotbar = hotbar;
-        this.gameInfo = playerData;
         setItemList(itemList);
         buttonWidth = new WidgetWidthMeasurement(0);
 
@@ -105,7 +104,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
     final int maxColumns = 11;
     Hotbar hotbar;
     Item[] itemList;
-    private PlayerData gameInfo;
     TextBox searchBox;
 
     WidgetWidthMeasurement buttonWidth;
@@ -183,6 +181,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     private void inventoryGroup(MemoryStack stack) {
+        PlayerData gameInfo = GameScene.world.data.data.playerData;
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(itemListHeight / buttonWidth.width) - 1);
@@ -226,6 +225,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     protected void drawPlayerStuff() {
+        PlayerData gameInfo = GameScene.world.data.data.playerData;
         nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
         if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
             nk_layout_row_dynamic(ctx, 20, 3);

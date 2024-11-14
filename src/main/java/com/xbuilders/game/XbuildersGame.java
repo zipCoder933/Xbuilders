@@ -118,8 +118,8 @@ public class XbuildersGame extends Game {
     @Override
     public void uiInit(NkContext ctx, GameUI gameUI) {
         try {
-            hotbar = new Hotbar(ctx, window, GameScene.player.data);
-            inventory = new Inventory(ctx, Registrys.items.getList(), window, hotbar, GameScene.player.data);
+            hotbar = new Hotbar(ctx, window);
+            inventory = new Inventory(ctx, Registrys.items.getList(), window, hotbar);
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         } catch (IOException ex) {

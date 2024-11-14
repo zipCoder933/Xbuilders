@@ -8,7 +8,6 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.player.camera.Camera;
-import com.xbuilders.engine.player.data.PlayerData;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
@@ -25,8 +24,7 @@ import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
@@ -47,21 +45,6 @@ public class UserControlledPlayer extends Player {
     boolean autoForward = false;
     boolean autoJump_unCollided = true;
     float autoJump_ticksWhileColidingWithBlock = 0;
-
-    //Player data
-    public PlayerData data;
-    long lastSave = System.currentTimeMillis();
-    final long DATA_SAVE_INTERVAL = 60 * 1000;
-    final String PLAYER_DATA_FILENAME = "player.json";
-
-    public void loadData() {
-        File dataFile = new File(GameScene.world.data.getDirectory(), PLAYER_DATA_FILENAME);
-    }
-
-    public void saveData() {
-        File dataFile = new File(GameScene.world.data.getDirectory(), PLAYER_DATA_FILENAME);
-//        JsonManager.gson_itemAdapter.toJson(data, PlayerData.class);
-    }
 
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
@@ -142,7 +125,7 @@ public class UserControlledPlayer extends Player {
         camera = new Camera(this, window, projection, view, centeredView);
         positionHandler = new PositionHandler(window, world, aabb, aabb);
         eventPipeline = new BlockEventPipeline(world, this);
-        data = new PlayerData();
+        userInfo.loadFromDisk();
     }
 
     public void init() {
@@ -157,11 +140,9 @@ public class UserControlledPlayer extends Player {
         eventPipeline.startGame(world);
         autoForward = false;
         isFlyingMode = true;
-        loadData();
     }
 
     public void stopGame() {
-        saveData();
         eventPipeline.endGame();
     }
 
@@ -249,11 +230,6 @@ public class UserControlledPlayer extends Player {
         }
 
         eventPipeline.update();
-
-        if (System.currentTimeMillis() - lastSave > DATA_SAVE_INTERVAL) {
-            lastSave = System.currentTimeMillis();
-            saveData();   //Save every 60 seconds
-        }
 
         if (positionHandler.isGravityEnabled()) {
             disableFlying();
@@ -356,7 +332,7 @@ public class UserControlledPlayer extends Player {
 
         camera.cursorRay.drawRay();
         if (camera.getThirdPersonDist() != 0.0f) {
-            getSkin().super_render(projection, view);
+            userInfo.getSkin().super_render(projection, view);
         }
 
         if (lastOrientation.x != worldPosition.x

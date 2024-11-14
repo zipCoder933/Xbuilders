@@ -125,7 +125,7 @@ public class Multiplayer implements MenuPage {
                 int portVal = (int) portBox.getValueAsNumber();
                 if (!MainWindow.devMode) fromPortVal = portVal;
                 String ipAdress = this.ipAdressBox.getValueAsString();
-                NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.name, ipAdress);
+                NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.userInfo.name, ipAdress);
                 System.out.println(req.toString());
                 loadWorld.loadWorld(loadWorld.currentWorld, req);
             }
@@ -133,13 +133,6 @@ public class Multiplayer implements MenuPage {
         nk_end(ctx);
     }
 
-
-    private void goToNextSkin() {
-        chosenSkin++;
-        //Go to the next skin
-        GameScene.player.setSkin(chosenSkin % MainWindow.game.availableSkins.size());
-        GameScene.player.saveData();
-    }
 
     @Override
     public void onOpen(Page lastPage) {

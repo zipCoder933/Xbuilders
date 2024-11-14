@@ -45,7 +45,7 @@ public abstract class Game {
     public final Terrain getTerrainFromInfo(WorldData info) {
         for (Terrain terrain : terrainsList) {
             if (terrain.name.equals(info.getTerrain())) {
-                terrain.initForWorld(info.getSeed(), info.dataFile.terrainOptions, info.dataFile.terrainVersion);
+                terrain.initForWorld(info.getSeed(), info.data.terrainOptions, info.data.terrainVersion);
                 return terrain;
             }
         }

@@ -39,8 +39,8 @@ public class CustomizePlayer implements MenuPage {
         this.menu = menu;
         nameBox = new TextBox(20);
         nameBox.setOnChangeEvent(() -> {
-            player.name = nameBox.getValueAsString();
-            player.saveData();
+            player.userInfo.name = nameBox.getValueAsString();
+            player.userInfo.saveToDisk();
         });
         this.player = player;
     }
@@ -70,7 +70,7 @@ public class CustomizePlayer implements MenuPage {
 
             TopMenu.row(ctx, "Player Type:", 2);
 
-            Skin playerSkin = GameScene.player.getSkin();
+            Skin playerSkin = GameScene.player.userInfo.getSkin();
             if (nk_button_label(ctx,
                     playerSkin == null ? "none" : playerSkin.name)) {
                 goToNextSkin();
@@ -90,13 +90,13 @@ public class CustomizePlayer implements MenuPage {
     private void goToNextSkin() {
         chosenSkin++;
         //Go to the next skin
-        GameScene.player.setSkin(chosenSkin % MainWindow.game.availableSkins.size());
-        GameScene.player.saveData();
+        GameScene.player.userInfo.setSkin(chosenSkin % MainWindow.game.availableSkins.size());
+        GameScene.player.userInfo.saveToDisk();
     }
 
     @Override
     public void onOpen(Page lastPage) {
-        nameBox.setValueAsString(player.name);
+        nameBox.setValueAsString(player.userInfo.name);
     }
 
 

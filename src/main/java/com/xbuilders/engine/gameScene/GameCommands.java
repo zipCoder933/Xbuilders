@@ -76,7 +76,7 @@ public class GameCommands {
                     case "players" -> {
                         String str = "" + gameScene.server.clients.size() + " players:\n";
                         for (PlayerClient client : gameScene.server.clients) {
-                            str += client.player.name + "\n";
+                            str += client.player.userInfo.name + "\n";
                         }
                         return str;
                     }
@@ -146,7 +146,7 @@ public class GameCommands {
                             PlayerClient target = gameScene.server.getPlayerByName(parts[2]);
                             if (target != null) {
                                 target.sendData(new byte[]{GameServer.CHANGE_PLAYER_PERMISSION, (byte) (operator ? 1 : 0)});
-                                return "Player " + target.player.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
+                                return "Player " + target.player.userInfo.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
                             } else {
                                 return "Player not found";
                             }

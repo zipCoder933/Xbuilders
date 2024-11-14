@@ -10,11 +10,11 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
-import com.xbuilders.engine.player.data.PlayerData;
+import com.xbuilders.engine.world.data.PlayerData;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.XbuildersGame;
+import com.xbuilders.engine.world.data.PlayerStuff;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import org.lwjgl.glfw.GLFW;
@@ -29,23 +29,21 @@ import static org.lwjgl.nuklear.Nuklear.*;
 public class Hotbar extends GameUIElement {
 
 
-
-    public Hotbar(NkContext ctx, NKWindow window, PlayerData playerInfo) {
+    public Hotbar(NkContext ctx, NKWindow window) {
         super(ctx, window);
-        this.playerInfo = playerInfo;
         buttonHeight = new WidgetWidthMeasurement(0);
     }
 
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    private PlayerData playerInfo;
     WidgetWidthMeasurement buttonHeight;
     private int selectedItemIndex;
     int pushValue;
 
     @Override
     public void draw(MemoryStack stack) {
+        PlayerData playerInfo = GameScene.world.data.data.playerData;
         NkRect windowDims2 = NkRect.malloc(stack);
 
         ctx.style().window().fixed_background().data().color().set(Theme.transparent);
@@ -118,6 +116,7 @@ public class Hotbar extends GameUIElement {
     }
 
     protected void changeSelectedIndex(float increment) {
+        PlayerData playerInfo = GameScene.world.data.data.playerData;
         selectedItemIndex += increment;
         selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerInfo.playerStuff.size() - 1));
 
@@ -130,6 +129,7 @@ public class Hotbar extends GameUIElement {
     }
 
     public void setSelectedIndex(int index) {
+        PlayerData playerInfo = GameScene.world.data.data.playerData;
         selectedItemIndex = MathUtils.clamp(index, 0, playerInfo.playerStuff.size() - 1);
         pushValue = MathUtils.clamp(selectedItemIndex, 0, playerInfo.playerStuff.size() - ELEMENTS);
     }
@@ -166,10 +166,12 @@ public class Hotbar extends GameUIElement {
     }
 
     public ItemStack getSelectedItem() {
+        PlayerData playerInfo = GameScene.world.data.data.playerData;
         return playerInfo.playerStuff.get(getSelectedItemIndex());
     }
 
     private void acquireItem(ItemStack item) {
+        PlayerData playerInfo = GameScene.world.data.data.playerData;
         for (int i = 0; i < playerInfo.playerStuff.size(); i++) {
             if (playerInfo.playerStuff.get(i) != null && playerInfo.playerStuff.get(i).equals(item)) {
                 setSelectedIndex(i);
@@ -179,13 +181,13 @@ public class Hotbar extends GameUIElement {
         // otherwise add it
         for (int i = 0; i < playerInfo.playerStuff.size(); i++) {
             if (playerInfo.playerStuff.get(i) == null) {
-                playerInfo.playerStuff.set(i,item);
+                playerInfo.playerStuff.set(i, item);
                 setSelectedIndex(i);
                 return;
             }
         }
         // If there is no room, then remove the first item
-        playerInfo.playerStuff.set(0,item);
+        playerInfo.playerStuff.set(0, item);
         setSelectedIndex(0);
     }
 
