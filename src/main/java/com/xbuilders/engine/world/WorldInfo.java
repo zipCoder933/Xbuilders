@@ -3,6 +3,7 @@
 // 
 package com.xbuilders.engine.world;
 
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.utils.ErrorHandler;
 import org.joml.Vector3f;
 
@@ -158,11 +159,16 @@ public class WorldInfo {
     }
 
     public String getDetails() {
-        return "Name: " + name + "\n"
-                + (infoFile.isJoinedMultiplayerWorld ? "(Joined World)" : "") + "\n"
-                + "\nType: " + infoFile.terrain + "\n"
-                + "Last saved:\n" + formatTime(getLastSaved()) + "\n"
-                + "Seed: " + infoFile.seed;
+        try {
+            return "Name: " + name + "\n"
+                    + (infoFile.isJoinedMultiplayerWorld ? "(Joined World)" : "") + "\n"
+                    + "\nType: " + infoFile.terrain + "\n"
+                    + "\nGame: " + GameMode.values()[infoFile.gameMode] + "\n"
+                    + "Last played:\n" + formatTime(getLastSaved()) + "\n"
+                    + "Seed: " + infoFile.seed;
+        } catch (Exception ex) {
+            return "Error getting world details";
+        }
     }
 
 
@@ -177,6 +183,7 @@ public class WorldInfo {
         public long lastSaved;
         public String terrain;
         public int seed;
+        public int gameMode;
         public HashMap<String, Boolean> terrainOptions = new HashMap<>();
 
         public InfoFile() {
@@ -184,6 +191,7 @@ public class WorldInfo {
             this.spawnY = -1.0f;
             this.spawnZ = -1.0f;
             this.terrainVersion = 0;
+            this.gameMode = GameMode.FREEPLAY.ordinal();
             isJoinedMultiplayerWorld = false;
         }
 

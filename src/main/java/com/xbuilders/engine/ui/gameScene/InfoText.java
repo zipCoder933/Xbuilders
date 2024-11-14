@@ -49,7 +49,7 @@ public class InfoText extends GameUIElement {
 
     private void submitCommand(String valueAsString) {
         addToHistory("< " + valueAsString);
-        String str = GameScene.handleGameCommand(valueAsString);
+        String str = GameScene.commands.handleGameCommand(valueAsString);
         if (str != null) {
             addToHistory("> " + str);
         }

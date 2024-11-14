@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * @author zipCoder933
  */
-public abstract class Game {
+public abstract class GameProperties {
 
     public final MainWindow window;
     public final ArrayList<Terrain> terrainsList = new ArrayList<>();
@@ -42,7 +42,7 @@ public abstract class Game {
         }
     }
 
-    public Game(MainWindow window) {
+    public GameProperties(MainWindow window) {
         this.window = window;
     }
 

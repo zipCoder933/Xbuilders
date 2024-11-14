@@ -5,12 +5,10 @@
 package com.xbuilders.game.UI;
 
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemType;
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.XbuildersGameProps;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
@@ -34,7 +32,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     /**
      * @param playerInfo the playerBackpack to set
      */
-    public void setPlayerInfo(MyGame.GameInfo playerInfo) {
+    public void setPlayerInfo(XbuildersGameProps.GameInfo playerInfo) {
         this.playerInfo = playerInfo;
     }
 
@@ -110,7 +108,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     final int maxColumns = 11;
     Hotbar hotbar;
     Item[] itemList;
-    private MyGame.GameInfo playerInfo;
+    private XbuildersGameProps.GameInfo playerInfo;
     TextBox searchBox;
 
     WidgetWidthMeasurement buttonWidth;

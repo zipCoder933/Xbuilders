@@ -4,12 +4,9 @@
  */
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
-import com.xbuilders.engine.gameScene.Game;
-import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
 
 /**

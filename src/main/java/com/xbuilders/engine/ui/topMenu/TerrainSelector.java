@@ -37,7 +37,7 @@ public class TerrainSelector {
     }
 
     public void draw() {
-        if (nk_button_label(ctx, terrainList.get(selectedTerrain).name)) {
+        if (NewWorld.labeledButton(ctx, "Terrain:", terrainList.get(selectedTerrain).name)) {
             selectedTerrain++;
             if (selectedTerrain >= terrainList.size()) {
                 selectedTerrain = 0;

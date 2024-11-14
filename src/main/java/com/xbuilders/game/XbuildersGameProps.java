@@ -6,7 +6,7 @@ package com.xbuilders.game;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.builtinMechanics.fire.FirePropagation;
-import com.xbuilders.engine.gameScene.Game;
+import com.xbuilders.engine.gameScene.GameProperties;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
@@ -38,10 +38,8 @@ import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,10 +48,10 @@ import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 /**
  * @author zipCoder933
  */
-public class MyGame extends Game {
+public class XbuildersGameProps extends GameProperties {
 
 
-    public MyGame(MainWindow window) {
+    public XbuildersGameProps(MainWindow window) {
         super(window);
 
         //add skins
@@ -147,7 +145,7 @@ public class MyGame extends Game {
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         } catch (IOException ex) {
-            Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XbuildersGameProps.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -236,7 +234,7 @@ public class MyGame extends Game {
             try (FileWriter writer = new FileWriter(f)) {
                 json.gson_itemAdapter.toJson(gameInfo, writer);
             } catch (IOException ex) {
-                Logger.getLogger(MyGame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XbuildersGameProps.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.xbuilders.engine.multiplayer;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
@@ -47,6 +48,8 @@ public class GameServer extends Server<PlayerClient> {
     public static final byte ENTITY_UPDATED = -119;
     public static final byte SET_TIME = -117;
     public static final byte PLEASE_CONNECT_TO_CLIENT = -116;
+    public static final byte CHANGE_GAME_MODE = -115;
+    public static final byte CHANGE_PLAYER_PERMISSION = -114;
 
     NetworkJoinRequest req;
     UserControlledPlayer userPlayer;
@@ -277,6 +280,22 @@ public class GameServer extends Server<PlayerClient> {
                 getWorldInformationFromHost(receivedData);
             } else if (receivedData[0] == SET_TIME) {
                 GameScene.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
+            } else if (receivedData[0] == CHANGE_GAME_MODE) {
+                try {
+                    int mode = receivedData[1];
+                    GameMode gameMode = GameMode.values()[mode];
+                    GameScene.gameMode = gameMode;
+                    GameScene.alert("Game mode changed to: " + gameMode);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    GameScene.alert("Unable to change game mode");
+                }
+            } else if (receivedData[0] == CHANGE_PLAYER_PERMISSION) {
+                try {
+                    boolean permission = receivedData[1] == 1;
+                    GameScene.setOperator(permission);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    GameScene.alert("Unable to change player permission");
+                }
             }
 
 

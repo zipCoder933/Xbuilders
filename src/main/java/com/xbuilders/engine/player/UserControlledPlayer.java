@@ -1,6 +1,7 @@
 package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
@@ -163,6 +164,7 @@ public class UserControlledPlayer extends Player {
     public void startGame(WorldInfo world) {
         eventPipeline.startGame(world);
         autoForward = false;
+        isFlyingMode = true;
         save();
     }
 
@@ -378,9 +380,11 @@ public class UserControlledPlayer extends Player {
     boolean isFlyingMode = true;
 
     public void enableFlying() {
-        isFlyingMode = true;
-        positionHandler.setGravityEnabled(false);
-        positionHandler.collisionsEnabled = false;
+        if (GameScene.gameMode == GameMode.FREEPLAY) {
+            isFlyingMode = true;
+            positionHandler.setGravityEnabled(false);
+            positionHandler.collisionsEnabled = false;
+        }
     }
 
     public void disableFlying() {
@@ -395,7 +399,7 @@ public class UserControlledPlayer extends Player {
                 camera.cursorRay.clickEvent(true);
             } else if (button == UserControlledPlayer.getDeleteMouseButton()) {
                 camera.cursorRay.clickEvent(false);
-            } else if(button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE){
+            } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
                 MainWindow.game.hotbar.pickItem(camera.cursorRay);
             }
         }

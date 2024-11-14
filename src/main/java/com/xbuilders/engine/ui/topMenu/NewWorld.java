@@ -9,6 +9,7 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.WorldInfo;
@@ -49,6 +50,18 @@ public class NewWorld implements MenuPage {
 
     final int boxWidth = menu.WIDTH_2;
     final int boxHeight = 500;
+    GameMode gameMode = GameMode.ADVENTURE;
+
+
+    public static boolean labeledButton(NkContext ctx, String label, String button) {
+        nk_layout_row_static(ctx, 20, 1, 1);
+        nk_layout_row_dynamic(ctx, 10, 1);
+        nk_style_set_font(ctx, Theme.font_10);
+        nk_text(ctx, label, NK_TEXT_ALIGN_LEFT);
+        nk_layout_row_dynamic(ctx, 40, 1);
+        nk_style_set_font(ctx, Theme.font_12);
+        return nk_button_label(ctx, button);
+    }
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
@@ -63,8 +76,12 @@ public class NewWorld implements MenuPage {
             nk_layout_row_dynamic(ctx, 30, 1);
             name.render(ctx);
 
-            nk_layout_row_static(ctx, 20, 1, 1);
-            nk_layout_row_dynamic(ctx, 30, 1);
+            if (labeledButton(ctx, "Game Mode:", gameMode.toString())) {
+                //Go to the next game mode
+                int index = gameMode.ordinal() + 1;
+                index = index % GameMode.values().length;
+                gameMode = GameMode.values()[index];
+            }
             terrainSelector.draw();
 
 
@@ -112,6 +129,7 @@ public class NewWorld implements MenuPage {
         try {
             WorldInfo info = new WorldInfo();
             info.makeNew(name, size, terrain, seed);
+            info.infoFile.gameMode = gameMode.ordinal();
             if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
                 MainWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
                 return false;

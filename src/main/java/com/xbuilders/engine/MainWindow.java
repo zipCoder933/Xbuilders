@@ -13,7 +13,7 @@ import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.XbuildersGameProps;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;
@@ -111,7 +111,7 @@ public class MainWindow extends NKWindow {
     }
 
     private static boolean isGameMode = false;
-    public static MyGame game;
+    public static XbuildersGameProps game;
     public static TopMenu topMenu;
     public static GameScene gameScene;
     public static PopupMessage popupMessage;
@@ -195,11 +195,10 @@ public class MainWindow extends NKWindow {
         GLFWWindow.initGLFW();
         settings = EngineSettings.load();
 
-        game = new MyGame(this);
-        gameScene.setGame(game);
+        game = new XbuildersGameProps(this);
         popupMessage = new PopupMessage(ctx, this);
         topMenu = new TopMenu(this);
-        gameScene = new GameScene(this);
+        gameScene = new GameScene(this, game);
 
         setMpfUpdateInterval(1000);
         MemoryProfiler.setIntervalMS(500);
@@ -234,7 +233,7 @@ public class MainWindow extends NKWindow {
                 ResourceUtils.resource("icon256.png").getAbsolutePath());
 
         Theme.initialize(ctx);
-        gameScene.initialize(this, game);
+        gameScene.initialize(this);
 
         topMenu.init(GameScene.server.getIpAdress());
 

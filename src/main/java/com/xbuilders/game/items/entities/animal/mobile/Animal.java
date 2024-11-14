@@ -13,7 +13,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.game.MyGame;
 
 import com.xbuilders.game.items.Items;
 import org.joml.Vector2f;

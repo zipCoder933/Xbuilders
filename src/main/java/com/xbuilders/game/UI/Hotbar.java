@@ -13,7 +13,7 @@ import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.MyGame;
+import com.xbuilders.game.XbuildersGameProps;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import org.lwjgl.glfw.GLFW;
@@ -30,7 +30,7 @@ public class Hotbar extends GameUIElement {
     /**
      * @param playerInfo the playerBackpack to set
      */
-    public void setPlayerInfo(MyGame.GameInfo playerInfo) {
+    public void setPlayerInfo(XbuildersGameProps.GameInfo playerInfo) {
         this.playerInfo = playerInfo;
     }
 
@@ -42,7 +42,7 @@ public class Hotbar extends GameUIElement {
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    private MyGame.GameInfo playerInfo;
+    private XbuildersGameProps.GameInfo playerInfo;
     WidgetWidthMeasurement buttonHeight;
     private int selectedItemIndex;
     int pushValue;

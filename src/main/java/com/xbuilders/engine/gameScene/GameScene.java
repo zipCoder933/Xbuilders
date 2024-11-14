@@ -8,7 +8,6 @@ import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.multiplayer.GameServer;
-import com.xbuilders.engine.multiplayer.PlayerClient;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
@@ -23,7 +22,6 @@ import com.xbuilders.engine.world.skybox.SkyBackground;
 import com.xbuilders.engine.world.wcc.WCCf;
 import com.xbuilders.engine.world.wcc.WCCi;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.game.MyGame;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -32,10 +30,7 @@ import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
-import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengles.GLES20.GL_BLEND;
@@ -53,22 +48,42 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f projection = new Matrix4f();
     public final static Matrix4f view = new Matrix4f();
     public final static Matrix4f centeredView = new Matrix4f();
-    private static Game game;
-    static HashMap<String, String> commandHelp;
+    private static GameProperties game;
+    public static GameCommands commands;
+    public static GameMode gameMode = GameMode.ADVENTURE;
+
+    //Permissions
+    private static boolean isOperator;
+
+    public static boolean isOperator() {
+        return isOperator;
+    }
+
+    public static boolean setOperator(boolean isOperator2) {
+        if (ownsGame()) return false;
+        else {
+            isOperator = isOperator2;
+            alert("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
+        }
+        return true;
+    }
+
+    public static boolean ownsGame() {
+        return (server.isPlayingMultiplayer() && server.isHosting()) || !server.isPlayingMultiplayer();
+    }
 
 
-
-    public GameScene(MainWindow window) throws Exception {
+    public GameScene(MainWindow window, GameProperties myGame) throws Exception {
+        game = myGame;
         this.window = window;
         specialMode = true;
         player = new UserControlledPlayer(window, world, projection, view, centeredView);
-
         server = new GameServer(player);
         livePropagationHandler = new LivePropagationHandler();
     }
 
 
-    public void initialize(MainWindow window, MyGame game) throws Exception {
+    public void initialize(MainWindow window) throws Exception {
         background = new SkyBackground(window);
         livePropagationHandler.tasks.clear();
         game.setup(this);
@@ -78,6 +93,7 @@ public class GameScene implements WindowEvents {
         world.init(player, Registrys.blocks.textures);
         ui.init();
         game.uiInit(window.ctx, ui);
+        commands = new GameCommands(this, game);
     }
 
 
@@ -89,117 +105,6 @@ public class GameScene implements WindowEvents {
         ui.infoBox.addToHistory(s);
     }
 
-    private static String[] splitWhitespacePreserveQuotes(String input) {
-        ArrayList<String> parts = new ArrayList<>();
-
-        Pattern pattern = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
-        Matcher matcher = pattern.matcher(input);
-
-        while (matcher.find()) {
-            if (matcher.group(1) != null) {
-                parts.add(matcher.group(1)); // Add double-quoted string without quotes
-            } else if (matcher.group(2) != null) {
-                parts.add(matcher.group(2)); // Add single-quoted string without quotes
-            } else {
-                parts.add(matcher.group()); // Add unquoted word
-            }
-        }
-
-        return parts.toArray(new String[0]);
-    }
-
-    public static void setGame(Game game2) {
-        game = game2;
-        commandHelp = new HashMap<>();
-        commandHelp.put("msg", "Usage: msg <player/all> <message>");
-        commandHelp.put("help", "Usage: help <command>");
-        commandHelp.put("time", "Usage: time <day/evening/night>");
-        commandHelp.put("players", "Lists all connected players");
-        commandHelp.put("teleport", "Usage: teleport <player>" +
-                "\nUsage: teleport <x> <y> <z>");
-        commandHelp.put("address", "Returns the server's address");
-        if (game.getCommandHelp() != null) commandHelp.putAll(game.getCommandHelp());
-    }
-
-    public static String handleGameCommand(String command) {
-        String[] parts = splitWhitespacePreserveQuotes(command);
-        System.out.println("handleGameCommand: " + Arrays.toString(parts));
-        if (parts.length > 0) {
-            try {
-                switch (parts[0].toLowerCase()) {
-                    case "address" -> {
-                        return server.getIpAdress() + ":" + server.getPort();
-                    }
-                    case "help" -> {
-                        String out = "Available commands:\n";
-                        for (Map.Entry<String, String> entry : commandHelp.entrySet()) {
-                            if (entry.getValue().contains("\n")) {
-                                String[] lines = entry.getValue().split("\n");
-                                for (String line : lines) {
-                                    out += entry.getKey() + "\t    " + line + "\n";
-                                }
-                            } else out += entry.getKey() + "\t    " + entry.getValue() + "\n";
-                        }
-                        return out;
-                    }
-                    case "players" -> {
-                        String str = "" + server.clients.size() + " players:\n";
-                        for (PlayerClient client : server.clients) {
-                            str += client.player.name + "\n";
-                        }
-                        return str;
-                    }
-                    case "msg" -> {
-                        if (parts.length > 2) {
-                            return server.sendChatMessage(parts[1], parts[2]);
-                        } else return commandHelp.get("msg");
-                    }
-                    case "time" -> {
-                        if (parts.length == 2) {
-                            //It doesnt matter if we had 2 players with different time
-//                            if(!server.isHosting() && server.isPlayingMultiplayer()) return "You cannot change time";
-                            if (parts[1].toLowerCase().equals("day") || parts[1].toLowerCase().equals("morning")) {
-                                setTimeOfDay(0.0f);
-                                return null;
-                            } else if (parts[1].toLowerCase().equals("evening")) {
-                                setTimeOfDay(0.25f);
-                                return null;
-                            } else if (parts[1].toLowerCase().equals("night")) {
-                                setTimeOfDay(0.5f);
-                                return null;
-                            } else return commandHelp.get("time");
-                        } else return commandHelp.get("time");
-                    }
-                    case "teleport" -> {
-                        if (parts.length == 2) {
-                            PlayerClient target = server.getPlayerByName(parts[1]);
-                            if (target != null) {
-                                player.worldPosition.set(target.player.worldPosition);
-                                return null;
-                            } else {
-                                return "Player not found";
-                            }
-                        } else if (parts.length > 3) {
-                            if (!server.isPlayingMultiplayer() || server.isHosting()) {
-                                player.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
-                            } else {
-                                return "You cannot teleport";
-                            }
-                        } else return commandHelp.get("teleport");
-                    }
-                    default -> {
-                        String out = game.handleCommand(parts);
-                        if (out != null) {
-                            return out;
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                return "Error handling command \"" + parts[0].toLowerCase() + "\": " + e.getMessage();
-            }
-        }
-        return "Unknown command. Type 'help' for a list of commands";
-    }
 
     public static void setTimeOfDay(double v) throws IOException {
         background.setTimeOfDay(v);
@@ -238,7 +143,7 @@ public class GameScene implements WindowEvents {
     ProgressData prog;
 
     public void startGame(WorldInfo world, NetworkJoinRequest req, ProgressData prog) {
-        this.worldInfo = world;
+        this.worldInfo = world;//WorldInfo could be null here
         this.req = req;
         this.prog = prog;
         livePropagationHandler.startGame(world);
@@ -268,6 +173,7 @@ public class GameScene implements WindowEvents {
             }
             case 2 -> {
                 prog.setTask("Starting game...");
+                gameMode = GameMode.values()[worldInfo.infoFile.gameMode];
                 if (worldInfo.getSpawnPoint() == null) { //Create spawn point
                     player.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
@@ -319,12 +225,14 @@ public class GameScene implements WindowEvents {
                     player.setNewSpawnPoint(world.terrain);
                 }
                 game.startGame(worldInfo);
+                isOperator = ownsGame();
                 player.startGame(worldInfo);
                 prog.finish();
                 setProjection();
             }
         }
     }
+
 
     private void waitForTasksToComplete(ProgressData prog) {
         if (world.newGameTasks.get() < prog.bar.getMax()) {
