@@ -134,6 +134,8 @@ public class BlockToolPallete {
         wasOpen = false;
     }
 
+
+
     private void onCloseEvent() {
     }
 

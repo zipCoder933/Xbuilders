@@ -88,4 +88,7 @@ public abstract class GameProperties {
     public abstract String handleCommand(String[] parts);
 
     public abstract Map<String, String> getCommandHelp();
+
+    public void gameModeChanged(GameMode gameMode) {
+    }
 }

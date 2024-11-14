@@ -50,9 +50,23 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f centeredView = new Matrix4f();
     private static GameProperties game;
     public static GameCommands commands;
-    public static GameMode gameMode = GameMode.ADVENTURE;
 
-    //Permissions
+    //Game Mode =======================================================================================================
+    private static GameMode gameMode = GameMode.ADVENTURE;
+
+    public static GameMode getGameMode() {
+        return gameMode;
+    }
+
+    public static void setGameMode(GameMode gameMode) {
+        GameScene.gameMode = gameMode;
+        game.gameModeChanged(getGameMode());
+        player.gameModeChanged(getGameMode());
+        GameScene.alert("Game mode changed to: " + gameMode);
+    }
+
+
+    //Permissions =======================================================================================================
     private static boolean isOperator;
 
     public static boolean isOperator() {
@@ -173,7 +187,7 @@ public class GameScene implements WindowEvents {
             }
             case 2 -> {
                 prog.setTask("Starting game...");
-                gameMode = GameMode.values()[worldInfo.infoFile.gameMode];
+                gameMode = (GameMode.values()[worldInfo.infoFile.gameMode]);
                 if (worldInfo.getSpawnPoint() == null) { //Create spawn point
                     player.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
@@ -248,7 +262,6 @@ public class GameScene implements WindowEvents {
     public static boolean specialMode;
     public static GameUI ui;
     public static SkyBackground background;
-
 
     public void render() throws IOException {
         MainWindow.frameTester.startProcess();

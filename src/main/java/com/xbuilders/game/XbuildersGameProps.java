@@ -6,11 +6,11 @@ package com.xbuilders.game;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.builtinMechanics.fire.FirePropagation;
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameProperties;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.player.CursorRay;
@@ -74,28 +74,21 @@ public class XbuildersGameProps extends GameProperties {
 
     public HashMap<String, String> getCommandHelp() {
         HashMap<String, String> commandHelp = new HashMap<>();
-//        commandHelp.put("send", "send clipboard");
         return commandHelp;
     }
 
     @Override
     public String handleCommand(String[] parts) {
-//        if (parts[0].equals("send")) {
-//            PasteTool.clipboard.toBytes();
-//            return "Clipboard: ";
-//        }
         return null;
     }
 
     public boolean drawCursor(CursorRay cursorRay) {
+        if (GameScene.getGameMode() != GameMode.FREEPLAY) return false;
         return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
     }
 
     public boolean clickEvent(final CursorRay ray, boolean isCreationMode) {
-        Item item = getSelectedItem();
-        Block block = BlockRegistry.BLOCK_AIR;
-        if (item != null && item.getBlock() != null) block = item.getBlock();
-        return blockTools.getSelectedTool().setBlock(block, ray, isCreationMode);
+        return blockTools.clickEvent(getSelectedItem(), ray, isCreationMode);
     }
 
     public static class GameInfo {
@@ -115,8 +108,6 @@ public class XbuildersGameProps extends GameProperties {
 
     JsonManager json;
     GameInfo gameInfo;
-
-
     Inventory inventory;
     public Hotbar hotbar;
     BlockTools blockTools;
@@ -176,11 +167,16 @@ public class XbuildersGameProps extends GameProperties {
         return false;
     }
 
+    public void gameModeChanged(GameMode gameMode) {
+        GameScene.player.camera.cursorRay.disableBoundaryMode();
+        blockTools.reset();
+    }
+
     @Override
     public boolean uiMouseButtonEvent(int button, int action, int mods) {
         if (inventory.isOpen() && inventory.mouseButtonEvent(button, action, mods)) {
             return true;
-        } else if (blockTools.mouseButtonEvent(button, action, mods)) {
+        } else if (blockTools.UIMouseButtonEvent(button, action, mods)) {
             return true;
         }
         return false;

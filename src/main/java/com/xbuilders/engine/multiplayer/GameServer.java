@@ -284,8 +284,7 @@ public class GameServer extends Server<PlayerClient> {
                 try {
                     int mode = receivedData[1];
                     GameMode gameMode = GameMode.values()[mode];
-                    GameScene.gameMode = gameMode;
-                    GameScene.alert("Game mode changed to: " + gameMode);
+                    GameScene.setGameMode(gameMode);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     GameScene.alert("Unable to change game mode");
                 }

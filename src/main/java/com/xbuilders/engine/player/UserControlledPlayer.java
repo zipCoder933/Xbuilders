@@ -205,10 +205,9 @@ public class UserControlledPlayer extends Player {
     Block cameraBlock, playerBlock;
 
     public void update(boolean holdMouse) {
-        if ( //If we are still mounted but there is no position lock
-                positionLock != null &&
-                        (positionLock.entity == null || positionLock.entity.isDestroyMode())
-        ) {
+
+        if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode())) {
+            //Dismount if riding entity is destroyed
             dismount();
         }
 
@@ -377,10 +376,10 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    boolean isFlyingMode = true;
+    private boolean isFlyingMode = true;
 
     public void enableFlying() {
-        if (GameScene.gameMode == GameMode.FREEPLAY) {
+        if (GameScene.getGameMode() == GameMode.FREEPLAY) {
             isFlyingMode = true;
             positionHandler.setGravityEnabled(false);
             positionHandler.collisionsEnabled = false;
@@ -518,4 +517,9 @@ public class UserControlledPlayer extends Player {
         return false;
     }
 
+    public void gameModeChanged(GameMode gameMode) {
+        if (gameMode != GameMode.FREEPLAY) {
+            disableFlying();
+        }
+    }
 }

@@ -86,7 +86,7 @@ public class GameCommands {
                         } else return commandHelp.get("msg");
                     }
                     case "time" -> {
-                        if(!GameScene.isOperator()) return null;
+                        if (!GameScene.isOperator()) return null;
                         if (parts.length == 2) {
                             //It doesnt matter if we had 2 players with different time
 //                            if(!server.isHosting() && server.isPlayingMultiplayer()) return "You cannot change time";
@@ -125,21 +125,22 @@ public class GameCommands {
                         if (!GameScene.isOperator()) return null;
 
                         if (parts.length == 1) {
-                            return "Game mode: " + GameScene.gameMode;
+                            return "Game mode: " + GameScene.getGameMode();
                         } else if (parts.length == 2) {
                             String mode = parts[1].toUpperCase().trim().replace(" ", "_");
                             try {
-                                GameScene.gameMode = GameMode.valueOf(mode.toUpperCase());
+                                GameScene.setGameMode(GameMode.valueOf(mode.toUpperCase()));
                                 if (gameScene.server.isPlayingMultiplayer())
-                                    gameScene.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) GameScene.gameMode.ordinal()});
-                                return "Game mode changed to: " + GameScene.gameMode;
+                                    gameScene.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) GameScene.getGameMode().ordinal()});
+                                return "Game mode changed to: " + GameScene.getGameMode();
                             } catch (IllegalArgumentException e) {
                                 return "Unknown game mode: " + mode;
                             }
                         } else return commandHelp.get("gamemode");
                     }
                     case "op" -> {
-                        if (!GameScene.ownsGame() || !GameScene.isOperator()) return null; //We cant change permissions if we arent the host
+                        if (!GameScene.ownsGame() || !GameScene.isOperator())
+                            return null; //We cant change permissions if we arent the host
                         if (parts.length == 3) {
                             boolean operator = Boolean.parseBoolean(parts[1]);
                             PlayerClient target = gameScene.server.getPlayerByName(parts[2]);
