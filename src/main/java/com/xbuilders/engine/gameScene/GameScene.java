@@ -140,7 +140,7 @@ public class GameScene implements WindowEvents {
     public void gameClosedEvent() {
         if (world.terrain != null) {
             System.out.println("Closing " + world.data.getName() + "...");
-            player.stopGame();
+            player.stopGameEvent();
             world.stopGame(player.worldPosition);
         }
         livePropagationHandler.endGame();
@@ -242,7 +242,7 @@ public class GameScene implements WindowEvents {
                 game.startGame(worldInfo);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);
-                player.startGame(worldInfo);
+                player.startGameEvent(worldInfo);
                 prog.finish();
                 setProjection();
             }
@@ -369,6 +369,7 @@ public class GameScene implements WindowEvents {
                 WCCf wcc2 = new WCCf();
                 wcc2.set(player.worldPosition);
                 text += MainWindow.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
+                text += "Saved " + world.getTimeSinceLastSave() + "ms ago\n";
                 text += "Player pos: " +
                         ((int) player.worldPosition.x) + ", " +
                         ((int) player.worldPosition.y) + ", " +

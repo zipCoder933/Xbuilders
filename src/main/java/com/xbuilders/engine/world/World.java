@@ -797,10 +797,14 @@ public class World {
     }
     // </editor-fold>
 
+    public long getTimeSinceLastSave() {
+        return System.currentTimeMillis() - lastSaveMS;
+    }
+
     public void save() {
         Vector3f playerPos = player.worldPosition;
-        //MainWindow.printlnDev("Saving world...");
-        // Save all chunks
+        MainWindow.printlnDev("Saving world...");
+        // Save all modified chunks
         Iterator<Chunk> iterator = chunks.values().iterator();
         while (iterator.hasNext()) {
             Chunk chunk = iterator.next();
@@ -814,6 +818,9 @@ public class World {
         } catch (IOException ex) {
             ErrorHandler.report(ex);
         }
+
+        //Save player info
+        player.saveToWorld(data);
 
         //Save multiplayer pending block changes
         multiplayerPendingBlockChanges.save(data);

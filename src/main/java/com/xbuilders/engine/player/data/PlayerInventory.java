@@ -5,10 +5,10 @@ import com.xbuilders.engine.items.item.ItemStack;
 
 import java.util.HashSet;
 
-public class PlayerStuff {
+public class PlayerInventory {
     public final ItemStack[] items;
 
-    public PlayerStuff(int size) {
+    public PlayerInventory(int size) {
         items = new ItemStack[size];
     }
 

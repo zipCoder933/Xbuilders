@@ -1,7 +1,9 @@
 package com.xbuilders.engine.player;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -9,13 +11,18 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
+import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
+import com.xbuilders.engine.utils.json.ItemTypeAdapter;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.player.data.PlayerStuff;
+import com.xbuilders.engine.player.data.PlayerInventory;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -28,6 +35,8 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
@@ -48,21 +57,60 @@ public class UserControlledPlayer extends Player {
     boolean autoForward = false;
     boolean autoJump_unCollided = true;
     float autoJump_ticksWhileColidingWithBlock = 0;
-    public final PlayerStuff playerStuff;
+
+    //Saving/loading in world
+    public final PlayerInventory inventory;
+    private final Gson pdGson = new GsonBuilder()
+            .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackTypeAdapter())
+            .create();
+
     public final String PLAYER_DATA_FILE = "player.json";
 
+    public void saveToWorld(WorldData worldData) {
+        File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
+
+        JsonObject jsonObject = new JsonObject();
+        // Serialize playerStuff and other data
+        jsonObject.add("inventory", pdGson.toJsonTree(inventory.items));
+        jsonObject.addProperty("x", (float) worldPosition.x);
+        jsonObject.addProperty("y", (float) worldPosition.y);
+        jsonObject.addProperty("z", (float) worldPosition.z);
+
+        try {
+            Files.write(playerFile.toPath(), pdGson.toJson(jsonObject).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loadFromWorld(WorldData worldData) {
-//        File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
-//        JsonObject jsonObject = new JsonObject();
-//        // Serialzie playerStuff
-//        Gson gson = new Gson();
-//        String json = gson.toJson(playerStuff);
-//        jsonObject.addProperty("playerStuff", json);
-//        try {
-//            Files.write(playerFile.toPath(), jsonObject.toString().getBytes());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
+
+        if (playerFile.exists()) {
+            try {
+                String jsonData = new String(Files.readAllBytes(playerFile.toPath()));
+                JsonObject jsonObject = JsonParser.parseString(jsonData).getAsJsonObject();
+
+                // Deserialize playerStuff if present
+                if (jsonObject.has("inventory")) {
+                    AtomicInteger i = new AtomicInteger(0);
+                    jsonObject.get("inventory").getAsJsonArray().forEach(element -> {
+                        ItemStack itemStack = pdGson.fromJson(element, ItemStack.class);
+                        inventory.items[i.get()] = itemStack;
+                        i.addAndGet(1);
+                    });
+                }
+
+                // Deserialize worldPosition
+                if (jsonObject.has("x") && jsonObject.has("y") && jsonObject.has("z")) {
+                    worldPosition.x = jsonObject.get("x").getAsInt();
+                    worldPosition.y = jsonObject.get("y").getAsInt();
+                    worldPosition.z = jsonObject.get("z").getAsInt();
+                }
+            } catch (Exception e) {
+                ErrorHandler.report(e);
+            }
+        }
     }
 
     // Keys
@@ -141,7 +189,7 @@ public class UserControlledPlayer extends Player {
         this.chunks = world;
         this.projection = projection;
         this.view = view;
-        playerStuff = new PlayerStuff(33);
+        inventory = new PlayerInventory(33);
         camera = new Camera(this, window, projection, view, centeredView);
         positionHandler = new PositionHandler(window, world, aabb, aabb);
         eventPipeline = new BlockEventPipeline(world, this);
@@ -156,13 +204,14 @@ public class UserControlledPlayer extends Player {
         GameScene.world.chunkShader.setFlashlightDistance(distance);
     }
 
-    public void startGame(WorldData world) {
+    public void startGameEvent(WorldData world) {
         eventPipeline.startGame(world);
         autoForward = false;
         isFlyingMode = true;
+        loadFromWorld(world);
     }
 
-    public void stopGame() {
+    public void stopGameEvent() {
         eventPipeline.endGame();
     }
 

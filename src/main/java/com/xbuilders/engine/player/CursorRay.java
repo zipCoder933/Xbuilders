@@ -7,6 +7,7 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
@@ -94,7 +95,7 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
-        Item selectedItem = MainWindow.game.getSelectedItem().item;
+        ItemStack selectedItem = MainWindow.game.getSelectedItem();
 
         if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event
             return true;
@@ -114,14 +115,15 @@ public class CursorRay {
         }
 
         if (selectedItem != null) { //Item click event
+            Item item = selectedItem.item;
             if (creationMode) {
-                if (selectedItem.createClickEvent != null) {
-                    return selectedItem.createClickEvent.run(this);
-                } else if (selectedItem.getBlock() != null) defaultBlockClickEvent(selectedItem.getBlock());
-                else if (selectedItem.getEntity() != null) defaultEntityClickEvent(selectedItem.getEntity());
+                if (item.createClickEvent != null) {
+                    return item.createClickEvent.run(this);
+                } else if (item.getBlock() != null) defaultBlockClickEvent(item.getBlock());
+                else if (item.getEntity() != null) defaultEntityClickEvent(item.getEntity());
             } else {
-                if (selectedItem.destroyClickEvent != null) {
-                    return selectedItem.destroyClickEvent.run(this);
+                if (item.destroyClickEvent != null) {
+                    return item.destroyClickEvent.run(this);
                 }
             }
         }

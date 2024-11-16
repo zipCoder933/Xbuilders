@@ -211,7 +211,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                         hoveredItem = item.toString();
                     }
                     if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
-                        GameScene.player.playerStuff.freeplay_getItem(item);
+                        GameScene.player.inventory.freeplay_getItem(item);
                     }
                     buttonWidth.measure(ctx, stack);
                     column++;
@@ -227,12 +227,12 @@ public class Inventory extends GameUIElement implements WindowEvents {
         if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
             nk_layout_row_dynamic(ctx, 20, 3);
             if (Nuklear.nk_button_label(ctx, "Organize")) {
-                GameScene.player.playerStuff.organize();
+                GameScene.player.inventory.organize();
             } else if (Nuklear.nk_button_label(ctx, "Remove")) {
-                GameScene.player.playerStuff.set(hotbar.getSelectedItemIndex(), null);
+                GameScene.player.inventory.set(hotbar.getSelectedItemIndex(), null);
             } else if (Nuklear.nk_button_label(ctx, "Clear")) {
-                for (int i = 0; i < GameScene.player.playerStuff.size(); i++) {
-                    GameScene.player.playerStuff.set(i, null);
+                for (int i = 0; i < GameScene.player.inventory.size(); i++) {
+                    GameScene.player.inventory.set(i, null);
                 }
             }
 
@@ -242,10 +242,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
                 cols:
                 for (int i = 0; i < maxColumns; i++) {
-                    if (itemID >= GameScene.player.playerStuff.size()) {
+                    if (itemID >= GameScene.player.inventory.size()) {
                         break rows;
                     }
-                    ItemStack item = GameScene.player.playerStuff.get(itemID);
+                    ItemStack item = GameScene.player.inventory.get(itemID);
 
                     if (itemID == hotbar.getSelectedItemIndex()) {
                         ctx.style().button().border_color().set(Theme.white);

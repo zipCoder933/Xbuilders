@@ -73,8 +73,8 @@ public class Hotbar extends GameUIElement {
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
             // Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (GameScene.player.playerStuff.get(getSelectedItemIndex()) != null) {
-                nk_text(ctx, GameScene.player.playerStuff.get(getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
+            if (GameScene.player.inventory.get(getSelectedItemIndex()) != null) {
+                nk_text(ctx, GameScene.player.inventory.get(getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
             }
 
             nk_layout_row_dynamic(ctx, buttonHeight.width, ELEMENTS);
@@ -82,10 +82,10 @@ public class Hotbar extends GameUIElement {
             for (int j = 0; j < ELEMENTS; j++) {
                 i = j + pushValue;
 
-                if (i >= GameScene.player.playerStuff.size()) {
+                if (i >= GameScene.player.inventory.size()) {
                     break;
                 }
-                ItemStack item = GameScene.player.playerStuff.get(i);
+                ItemStack item = GameScene.player.inventory.get(i);
 
                 if (buttonHeight.isCalibrated()) {
                     if (i == getSelectedItemIndex()) {
@@ -114,20 +114,20 @@ public class Hotbar extends GameUIElement {
 
     protected void changeSelectedIndex(float increment) {
         selectedItemIndex += increment;
-        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, GameScene.player.playerStuff.size() - 1));
+        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, GameScene.player.inventory.size() - 1));
 
         if (getSelectedItemIndex() >= ELEMENTS + pushValue) {
             pushValue++;
         } else if (getSelectedItemIndex() < pushValue) {
             pushValue--;
         }
-        pushValue = MathUtils.clamp(pushValue, 0, GameScene.player.playerStuff.size() - ELEMENTS);
+        pushValue = MathUtils.clamp(pushValue, 0, GameScene.player.inventory.size() - ELEMENTS);
     }
 
     public void setSelectedIndex(int index) {
 
-        selectedItemIndex = MathUtils.clamp(index, 0, GameScene.player.playerStuff.size() - 1);
-        pushValue = MathUtils.clamp(selectedItemIndex, 0, GameScene.player.playerStuff.size() - ELEMENTS);
+        selectedItemIndex = MathUtils.clamp(index, 0, GameScene.player.inventory.size() - 1);
+        pushValue = MathUtils.clamp(selectedItemIndex, 0, GameScene.player.inventory.size() - ELEMENTS);
     }
 
     public int getSelectedItemIndex() {
@@ -162,26 +162,26 @@ public class Hotbar extends GameUIElement {
     }
 
     public ItemStack getSelectedItem() {
-        return GameScene.player.playerStuff.get(getSelectedItemIndex());
+        return GameScene.player.inventory.get(getSelectedItemIndex());
     }
 
     private void acquireItem(ItemStack item) {
-        for (int i = 0; i < GameScene.player.playerStuff.size(); i++) {
-            if (GameScene.player.playerStuff.get(i) != null && GameScene.player.playerStuff.get(i).equals(item)) {
+        for (int i = 0; i < GameScene.player.inventory.size(); i++) {
+            if (GameScene.player.inventory.get(i) != null && GameScene.player.inventory.get(i).equals(item)) {
                 setSelectedIndex(i);
                 return;
             }
         }
         // otherwise add it
-        for (int i = 0; i < GameScene.player.playerStuff.size(); i++) {
-            if (GameScene.player.playerStuff.get(i) == null) {
-                GameScene.player.playerStuff.set(i, item);
+        for (int i = 0; i < GameScene.player.inventory.size(); i++) {
+            if (GameScene.player.inventory.get(i) == null) {
+                GameScene.player.inventory.set(i, item);
                 setSelectedIndex(i);
                 return;
             }
         }
         // If there is no room, then remove the first item
-        GameScene.player.playerStuff.set(0, item);
+        GameScene.player.inventory.set(0, item);
         setSelectedIndex(0);
     }
 

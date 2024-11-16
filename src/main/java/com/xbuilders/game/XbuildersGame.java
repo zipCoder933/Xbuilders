@@ -86,7 +86,7 @@ public class XbuildersGame extends Game {
     }
 
     public boolean clickEvent(final CursorRay ray, boolean isCreationMode) {
-        return blockTools.clickEvent(getSelectedItem().item, ray, isCreationMode);
+        return blockTools.clickEvent(getSelectedItem(), ray, isCreationMode);
     }
 
 

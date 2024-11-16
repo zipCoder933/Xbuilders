@@ -3,6 +3,7 @@
 // 
 package com.xbuilders.engine.world;
 
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.data.WorldData;
 
@@ -26,7 +27,7 @@ public class WorldsHandler {
         return name.replaceAll("[^A-z\\s0-9_-]", "").replace("^", "").strip();
     }
 
-    public static boolean worldNameAlreadyExists(final String name){
+    public static boolean worldNameAlreadyExists(final String name) {
         return worldFile(name).exists();
     }
 
@@ -34,7 +35,7 @@ public class WorldsHandler {
         if (info != null) {
             System.out.println("Deleting " + info.getDirectory().toString());
             for (final File file : info.getDirectory().listFiles()) {
-                System.out.println("\tDeleting "+file.toString());
+                System.out.println("\tDeleting " + file.toString());
                 file.delete();
             }
             Files.delete(info.getDirectory().toPath());
@@ -50,8 +51,7 @@ public class WorldsHandler {
                     info.load(subDir);
                     worlds.add(info);
                 } catch (IOException ex) {
-                    System.out.println("Error loading world " + subDir);
-//                    ex.printStackTrace();
+                    ErrorHandler.report("World \"" + formatWorldName(subDir.getName()) + "\" could not be loaded", ex);
                 }
             }
         }

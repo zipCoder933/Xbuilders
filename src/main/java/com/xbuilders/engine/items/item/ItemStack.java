@@ -1,5 +1,7 @@
 package com.xbuilders.engine.items.item;
 
+import com.xbuilders.engine.items.block.BlockRegistry;
+
 public class ItemStack {
     public final Item item;
     public byte stackSize;

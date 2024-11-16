@@ -6,6 +6,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
@@ -122,11 +123,11 @@ public class BlockTools extends GameUIElement {
         tools.get(selectedTool).activate();
     }
 
-    public boolean clickEvent(Item item, CursorRay ray, boolean isCreationMode) {
+    public boolean clickEvent(ItemStack item, CursorRay ray, boolean isCreationMode) {
         if (GameScene.getGameMode() != GameMode.FREEPLAY) return false;
 
         Block block = BlockRegistry.BLOCK_AIR;
-        if (item != null && item.getBlock() != null) block = item.getBlock();
+        if (item != null && item.item != null && item.item.getBlock() != null) block = item.item.getBlock();
         return getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 
