@@ -33,10 +33,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
+import static com.xbuilders.Main.GAME_VERSION;
+
 public class MainWindow extends NKWindow {
-
-    public static final String GAME_VERSION = "1.0.0";
-
 
     //==================================================================================================================
     //==================================================================================================================

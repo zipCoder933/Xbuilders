@@ -303,7 +303,7 @@ public class DefaultTerrain extends Terrain {
                 for (int y = 0; y < Chunk.WIDTH; y++) {
                     wy = y + (chunk.position.y * Chunk.WIDTH);
 
-                    if (wy > WORLD_BOTTOM_Y - 4) {
+                    if (wy > WORLD_BOTTOM_Y - 2) {
                         chunk.data.setBlock(x, y, z, Blocks.BLOCK_BEDROCK);
                     } /*
                      * else if (wy >= heightmap) {
