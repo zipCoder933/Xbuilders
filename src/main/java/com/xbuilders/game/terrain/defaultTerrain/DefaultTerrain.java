@@ -10,6 +10,8 @@ import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
 
 import java.util.HashMap;
 
+import static com.xbuilders.engine.world.World.WORLD_BOTTOM_Y;
+import static com.xbuilders.engine.world.World.WORLD_CHUNK_HEIGHT;
 import static com.xbuilders.game.terrain.complexTerrain.ComplexTerrain.*;
 
 public class DefaultTerrain extends Terrain {
@@ -301,7 +303,7 @@ public class DefaultTerrain extends Terrain {
                 for (int y = 0; y < Chunk.WIDTH; y++) {
                     wy = y + (chunk.position.y * Chunk.WIDTH);
 
-                    if (wy > 252) {
+                    if (wy > WORLD_BOTTOM_Y - 4) {
                         chunk.data.setBlock(x, y, z, Blocks.BLOCK_BEDROCK);
                     } /*
                      * else if (wy >= heightmap) {
