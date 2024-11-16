@@ -9,6 +9,7 @@ import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactV
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.render.Shader;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -96,7 +97,7 @@ public class ChunkShader extends Shader {
     final int MIN_VIEW_DIST = 100;
 
     public void setViewDistance(int viewDistance) {
-        loadInt(viewDistanceUniform, Math.min(MIN_VIEW_DIST, viewDistance));
+        loadInt(viewDistanceUniform, Math.max(MIN_VIEW_DIST, viewDistance));
 //        if (Entity.shader != null) Entity.shader.loadInt(Entity.shader.uniform_view_distance, viewDistance);
     }
 

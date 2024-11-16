@@ -81,7 +81,7 @@ public class World {
     public static final int CHUNK_MESH_THREADS = 1;
 
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
-    public static int VIEW_DIST_MAX = Chunk.WIDTH * 12; //Allowing higher view distances increases flexibility
+    public static int VIEW_DIST_MAX = Chunk.WIDTH * 16; //Allowing higher view distances increases flexibility
 
     private int maxChunksForViewDistance;
     private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
@@ -548,7 +548,7 @@ public class World {
                 // frameTester.startProcess();
                 if (needsSorting.get()) {
                     //Dont add chunk unless it is within the view distance
-                    if (chunkIsWithinRange_XYZ(playerPosition, chunk.position, viewDistance.get())) {
+                    if (chunkIsWithinRange_XYZ(playerPosition, chunk.position, viewDistance.get() + Chunk.HALF_WIDTH)) {
                         sortedChunksToRender.add(chunk);
                     }
                 }
