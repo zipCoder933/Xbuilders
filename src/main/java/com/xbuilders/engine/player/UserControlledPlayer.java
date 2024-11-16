@@ -1,5 +1,7 @@
 package com.xbuilders.engine.player;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -13,6 +15,7 @@ import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.player.data.PlayerStuff;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -45,6 +48,22 @@ public class UserControlledPlayer extends Player {
     boolean autoForward = false;
     boolean autoJump_unCollided = true;
     float autoJump_ticksWhileColidingWithBlock = 0;
+    public final PlayerStuff playerStuff;
+    public final String PLAYER_DATA_FILE = "player.json";
+
+    public void loadFromWorld(WorldData worldData) {
+//        File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
+//        JsonObject jsonObject = new JsonObject();
+//        // Serialzie playerStuff
+//        Gson gson = new Gson();
+//        String json = gson.toJson(playerStuff);
+//        jsonObject.addProperty("playerStuff", json);
+//        try {
+//            Files.write(playerFile.toPath(), jsonObject.toString().getBytes());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
 
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
@@ -122,6 +141,7 @@ public class UserControlledPlayer extends Player {
         this.chunks = world;
         this.projection = projection;
         this.view = view;
+        playerStuff = new PlayerStuff(33);
         camera = new Camera(this, window, projection, view, centeredView);
         positionHandler = new PositionHandler(window, world, aabb, aabb);
         eventPipeline = new BlockEventPipeline(world, this);

@@ -174,7 +174,6 @@ public class WorldData {
 
 
     public class DataFile {
-
         public boolean isJoinedMultiplayerWorld;
         public int size;
         public float spawnX;
@@ -186,7 +185,6 @@ public class WorldData {
         public int seed;
         public int gameMode;
         public double timeOfDay;
-        public final PlayerData playerData;
         public HashMap<String, Boolean> terrainOptions = new HashMap<>();
 
         public DataFile() {
@@ -195,7 +193,6 @@ public class WorldData {
             this.spawnZ = -1.0f;
             this.terrainVersion = 0;
             this.gameMode = GameMode.FREEPLAY.ordinal();
-            playerData = new PlayerData();
             isJoinedMultiplayerWorld = false;
         }
 
