@@ -7,7 +7,6 @@ package com.xbuilders.game.UI;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.world.data.PlayerData;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -181,7 +180,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     private void inventoryGroup(MemoryStack stack) {
-        PlayerData gameInfo = GameScene.world.data.data.playerData;
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(itemListHeight / buttonWidth.width) - 1);
@@ -213,7 +211,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                         hoveredItem = item.toString();
                     }
                     if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
-                        gameInfo.playerStuff.freeplay_getItem(item);
+                        GameScene.player.playerStuff.freeplay_getItem(item);
                     }
                     buttonWidth.measure(ctx, stack);
                     column++;
@@ -225,17 +223,16 @@ public class Inventory extends GameUIElement implements WindowEvents {
     }
 
     protected void drawPlayerStuff() {
-        PlayerData gameInfo = GameScene.world.data.data.playerData;
         nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
         if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
             nk_layout_row_dynamic(ctx, 20, 3);
             if (Nuklear.nk_button_label(ctx, "Organize")) {
-                gameInfo.playerStuff.organize();
+                GameScene.player.playerStuff.organize();
             } else if (Nuklear.nk_button_label(ctx, "Remove")) {
-                gameInfo.playerStuff.set(hotbar.getSelectedItemIndex(), null);
+                GameScene.player.playerStuff.set(hotbar.getSelectedItemIndex(), null);
             } else if (Nuklear.nk_button_label(ctx, "Clear")) {
-                for (int i = 0; i < gameInfo.playerStuff.size(); i++) {
-                    gameInfo.playerStuff.set(i, null);
+                for (int i = 0; i < GameScene.player.playerStuff.size(); i++) {
+                    GameScene.player.playerStuff.set(i, null);
                 }
             }
 
@@ -245,10 +242,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
                 nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
                 cols:
                 for (int i = 0; i < maxColumns; i++) {
-                    if (itemID >= gameInfo.playerStuff.size()) {
+                    if (itemID >= GameScene.player.playerStuff.size()) {
                         break rows;
                     }
-                    ItemStack item = gameInfo.playerStuff.get(itemID);
+                    ItemStack item = GameScene.player.playerStuff.get(itemID);
 
                     if (itemID == hotbar.getSelectedItemIndex()) {
                         ctx.style().button().border_color().set(Theme.white);
