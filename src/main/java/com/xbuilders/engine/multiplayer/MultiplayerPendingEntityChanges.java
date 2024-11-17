@@ -129,7 +129,7 @@ public class MultiplayerPendingEntityChanges {
         entity.multiplayerProps.controlMode = false;
 
         //Send identifier
-        ByteUtils.writeLong(baos, entity.getIdentifier());
+        ByteUtils.writeLong(baos, entity.getUniqueIdentifier());
 
         //Send current position
         baos.write(ByteUtils.floatToBytes(entity.worldPosition.x));

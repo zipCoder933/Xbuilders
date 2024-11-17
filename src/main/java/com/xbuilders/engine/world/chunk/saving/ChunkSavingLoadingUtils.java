@@ -168,7 +168,7 @@ public class ChunkSavingLoadingUtils {
 
                     Entity entity = chunk.entities.list.get(i);
                     writeShort(out, entity.link.id); //Write entity id
-                    writeLong(out, entity.getIdentifier()); //Write entity identifier
+                    writeLong(out, entity.getUniqueIdentifier()); //Write entity identifier
 
                     entity.updatePosition();  //Write position
                     writeChunkVoxelCoords(out, entity.chunkPosition.chunkVoxel);

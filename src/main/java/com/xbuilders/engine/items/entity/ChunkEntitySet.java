@@ -11,7 +11,6 @@ import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import org.joml.Matrix4f;
@@ -28,7 +27,7 @@ public class ChunkEntitySet {
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
     public final ArrayList<Entity> list;
-    private static final SecureRandom entityIdentifierGenerator = new SecureRandom();
+
 
     public ChunkEntitySet(Chunk aThis) {
         this.thisChunk = aThis;
@@ -44,15 +43,15 @@ public class ChunkEntitySet {
             Entity entity = link.supplier.get();
             entity.link = link;
             entity.chunk = thisChunk;
+            //We can set the entity unique identifier if we want to
+            if (identifier != 0) entity.uniqueIdentifier = identifier;
 
-            if (identifier == 0) entity.identifier = entityIdentifierGenerator.nextLong();
-            else entity.identifier = identifier;
 
             entity.worldPosition.set(worldX, worldY, worldZ);
             entity.loadBytes = bytes;
 
             //Add to world
-            GameScene.world.entities.put(entity.getIdentifier(), entity);
+            GameScene.world.entities.put(entity.getUniqueIdentifier(), entity);
             list.add(entity);
             return entity;
         }
@@ -88,7 +87,7 @@ public class ChunkEntitySet {
             if (e == null || e.isDestroyMode()) {
                 GameScene.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
-                GameScene.world.entities.remove(e.getIdentifier(), e); //remove from world
+                GameScene.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_entityInitialize();

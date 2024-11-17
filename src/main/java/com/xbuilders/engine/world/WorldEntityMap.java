@@ -4,8 +4,6 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.world.chunk.Chunk;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class WorldEntityMap extends HashMap<Long, Entity> {
     public void removeAllEntitiesFromChunk(Chunk chunk) {
@@ -19,7 +17,7 @@ public class WorldEntityMap extends HashMap<Long, Entity> {
 
     public void addAllEntitiesFromChunk(Chunk chunk) {
         for (Entity e : chunk.entities.list) {
-            put(e.getIdentifier(), e);
+            put(e.getUniqueIdentifier(), e);
         }
     }
 }

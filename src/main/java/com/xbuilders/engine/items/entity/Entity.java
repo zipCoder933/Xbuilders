@@ -76,7 +76,7 @@ public abstract class Entity {
     public float torchValue;
     protected byte[] loadBytes;
     public EntitySupplier link;
-    protected long identifier;
+    protected long uniqueIdentifier;
 
 
     //Position
@@ -96,6 +96,7 @@ public abstract class Entity {
     public boolean inFrustum; //This value is automatically set by the frustum culling tester
     public float distToPlayer;
     public final int id;
+    private static final SecureRandom entityIdentifierGenerator = new SecureRandom();
 
     public Entity(int id) {
         this.id = id;
@@ -106,6 +107,7 @@ public abstract class Entity {
         chunkPosition = new WCCf();
         needsInitialization = true;
         multiplayerProps = new EntityMultiplayerInfo(this);
+        uniqueIdentifier = entityIdentifierGenerator.nextLong(); //Auto generate the identifier
     }
 
 
@@ -190,7 +192,7 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return "Entity{" + link.name + ", id=" + Long.toHexString(getIdentifier()) + '}';
+        return "Entity{" + link.name + ", id=" + Long.toHexString(getUniqueIdentifier()) + '}';
     }
 
     public void destroy() {
@@ -208,8 +210,8 @@ public abstract class Entity {
         return false;
     }
 
-    public long getIdentifier() {
-        return identifier;
+    public long getUniqueIdentifier() {
+        return uniqueIdentifier;
     }
 
 }
