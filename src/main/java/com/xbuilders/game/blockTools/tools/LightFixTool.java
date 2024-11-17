@@ -127,7 +127,7 @@ public class LightFixTool extends BlockTool {
 
 
         for (Chunk chunk : affectedChunks) {
-            chunk.generateMesh();
+            chunk.generateMesh(true);
             chunk.markAsModifiedByUser();
         }
         return true;

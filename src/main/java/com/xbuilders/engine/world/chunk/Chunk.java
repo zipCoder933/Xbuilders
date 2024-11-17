@@ -179,30 +179,30 @@ public class Chunk {
         if (!neghbors.allFacingNeghborsLoaded) {
             neghbors.cacheNeighbors();
         }
-        generateMesh();
+        generateMesh(true);
         if (neghbors.allFacingNeghborsLoaded) {
             if (x == 0 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.NEG_X_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.NEG_X_NEIGHBOR].generateMesh();
+                    neghbors.neighbors[neghbors.NEG_X_NEIGHBOR].generateMesh(true);
             } else if (x == Chunk.WIDTH - 1 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.POS_X_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.POS_X_NEIGHBOR].generateMesh();
+                    neghbors.neighbors[neghbors.POS_X_NEIGHBOR].generateMesh(true);
             }
 
             if (y == 0 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR].generateMesh();
+                    neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR].generateMesh(true);
             } else if (y == Chunk.WIDTH - 1 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.POS_Y_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.POS_Y_NEIGHBOR].generateMesh();
+                    neghbors.neighbors[neghbors.POS_Y_NEIGHBOR].generateMesh(true);
             }
 
             if (z == 0 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR].generateMesh();
+                    neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR].generateMesh(true);
             } else if (z == Chunk.WIDTH - 1 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.POS_Z_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.POS_Z_NEIGHBOR].generateMesh();
+                    neghbors.neighbors[neghbors.POS_Z_NEIGHBOR].generateMesh(true);
             }
         }
     }
@@ -302,16 +302,23 @@ public class Chunk {
     /**
      * Queues a task to mesh the chunk
      */
-    public void generateMesh() {
+    public void generateMesh(boolean isPlayerUpdate) {
         setGenerationStatus(GEN_COMPLETE);
         if (mesherFuture != null) {
             mesherFuture.cancel(true);
             mesherFuture = null;
         }
-        mesherFuture = meshService.submit(() -> {
-            meshes.compute();
-            return meshes;
-        });
+
+        if(isPlayerUpdate)
+            mesherFuture = playerUpdating_meshService.submit(() -> {
+                meshes.compute();
+                return meshes;
+            });
+        else
+            mesherFuture = meshService.submit(() -> {
+                meshes.compute();
+                return meshes;
+            });
     }
 
     /**

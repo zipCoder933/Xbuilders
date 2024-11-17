@@ -79,6 +79,7 @@ public class World {
     public static final int CHUNK_LOAD_THREADS = 12; //Redicing the number of threads helps performance
     public static final int CHUNK_LIGHT_THREADS = 1;
     public static final int CHUNK_MESH_THREADS = 1;
+    public static final int PLAYER_CHUNK_MESH_THREADS = 3; //The number of threads allocated to player based chunk updating
 
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
     public static int VIEW_DIST_MAX = Chunk.WIDTH * 16; //Allowing higher view distances increases flexibility
@@ -205,6 +206,18 @@ public class World {
                 thread.setDaemon(true);
                 return thread;
             }, new LowValueComparator());
+
+
+    public static final ThreadPoolExecutor playerUpdating_meshService = new ThreadPoolExecutor(
+            PLAYER_CHUNK_MESH_THREADS, PLAYER_CHUNK_MESH_THREADS,
+            1L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
+            new LinkedBlockingQueue<Runnable>(), r -> {
+        frameTester.count("Player Mesh threads", 1);
+        Thread thread = new Thread(r, "Player Mesh Thread");
+        thread.setDaemon(true);
+        thread.setPriority(10);
+        return thread;
+    });
 
     public World() {
         this.needsSorting = new AtomicBoolean(true);
@@ -427,6 +440,7 @@ public class World {
         ExecutorServiceUtils.cancelAllTasks(generationService);
         ExecutorServiceUtils.cancelAllTasks(lightService);
         ExecutorServiceUtils.cancelAllTasks(meshService);
+        ExecutorServiceUtils.cancelAllTasks(playerUpdating_meshService);
 
         chunks.forEach((coords, chunk) -> chunk.dispose());
         unusedChunks.forEach((chunk) -> {
