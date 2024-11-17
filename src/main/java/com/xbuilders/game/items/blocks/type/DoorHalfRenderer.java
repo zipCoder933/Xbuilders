@@ -18,6 +18,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
+import com.xbuilders.game.items.blocks.RenderType;
 
 /**
  * @author zipCoder933
@@ -148,24 +149,30 @@ public class DoorHalfRenderer extends BlockType {
                 renderSide);
     }
 
+    private boolean check_orientRightOrLeft(int x,int y,int z) {
+        Block block = GameScene.world.getBlock(x, y, z);
+        return block.solid
+                && block.getRenderType().isCubeShape();
+    }
+
     private boolean orientRightOrLeft(BlockData data, int x, int y, int z) {
         // Get blocks at neighboring block locaitons
         boolean right = true;
         int xzOrientation = data.get(0);
         if (xzOrientation == 1) {
-            if (GameScene.world.getBlock((int) x - 1, (int) y, (int) z).solid) {
+            if (check_orientRightOrLeft((int) x - 1, (int) y, (int) z)) {
                 right = false;
             }
         } else if (xzOrientation == 2) {
-            if (GameScene.world.getBlock((int) x, (int) y, (int) z - 1).solid) {
+            if (check_orientRightOrLeft((int) x, (int) y, (int) z - 1)) {
                 right = false;
             }
         } else if (xzOrientation == 3) {
-            if (GameScene.world.getBlock((int) x + 1, (int) y, (int) z).solid) {
+            if (check_orientRightOrLeft((int) x + 1, (int) y, (int) z)) {
                 right = false;
             }
         } else {
-            if (GameScene.world.getBlock((int) x, (int) y, (int) z + 1).solid) {
+            if (check_orientRightOrLeft((int) x, (int) y, (int) z + 1)) {
                 right = false;
             }
         }
