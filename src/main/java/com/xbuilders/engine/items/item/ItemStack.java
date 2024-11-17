@@ -9,7 +9,8 @@ public class ItemStack {
     public byte[] nbtData;//The NBT data of the item
 
     public ItemStack(Item item) {
-        this.item = item;
+        this.item = item; //We must be able to guarantee that the item is not null
+        if (this.item == null) throw new NullPointerException("Item in ItemStack cannot be null");
     }
 
     public ItemStack(Item item, byte stackSize) {
