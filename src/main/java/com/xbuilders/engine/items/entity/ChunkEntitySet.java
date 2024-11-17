@@ -11,6 +11,7 @@ import com.xbuilders.engine.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import org.joml.Matrix4f;
@@ -27,6 +28,7 @@ public class ChunkEntitySet {
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
     public final ArrayList<Entity> list;
+    private static final SecureRandom entityIdentifierGenerator = new SecureRandom();
 
     public ChunkEntitySet(Chunk aThis) {
         this.thisChunk = aThis;
@@ -42,10 +44,10 @@ public class ChunkEntitySet {
             Entity entity = link.supplier.get();
             entity.link = link;
             entity.chunk = thisChunk;
-            entity.identifier = identifier;
-            if (entity.identifier == 0) {
-                entity.generateIdentifier();
-            }
+
+            if (identifier == 0) entity.identifier = entityIdentifierGenerator.nextLong();
+            else entity.identifier = identifier;
+
             entity.worldPosition.set(worldX, worldY, worldZ);
             entity.loadBytes = bytes;
 

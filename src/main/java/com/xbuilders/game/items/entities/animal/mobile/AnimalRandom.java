@@ -59,11 +59,11 @@ public class AnimalRandom {
         random = new CustomRandom();
     }
 
-    public void setSeed(long seed) {
+    public void setSeed(int seed) {
         noiseIndex = 0;
-        noiseSeed = (int) (seed);
+        noiseSeed = (seed);
         random.setSeed(seed);
-        noise.SetSeed((int) (seed));
+        noise.SetSeed((seed));
     }
 
 

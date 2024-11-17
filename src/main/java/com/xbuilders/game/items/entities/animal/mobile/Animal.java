@@ -93,14 +93,14 @@ public abstract class Animal extends Entity {
     public void eatAnimalFeed() {
     }
 
-    public Animal(int id,MainWindow window) {
+    public Animal(int id, MainWindow window) {
         super(id);
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.player;
         this.pos = new PositionHandler(window, GameScene.world, aabb, player.aabb);
         pos.setGravityEnabled(true);
-        random.setSeed(getIdentifier());
+        random.setSeed((int) (Math.random() * Integer.MAX_VALUE));
     }
 
     public abstract void animal_move();
@@ -139,7 +139,8 @@ public abstract class Animal extends Entity {
         this.rotationYDeg = rotationYDeg;
     }
 
-    public void initializeOnDraw(byte[] state) {}
+    public void initializeOnDraw(byte[] state) {
+    }
 
 
     /**

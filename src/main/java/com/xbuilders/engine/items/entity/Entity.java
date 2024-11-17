@@ -212,9 +212,4 @@ public abstract class Entity {
         return identifier;
     }
 
-    private static SecureRandom secureRandom = new SecureRandom();
-
-    protected void generateIdentifier() {
-        this.identifier = secureRandom.nextLong();
-    }
 }
