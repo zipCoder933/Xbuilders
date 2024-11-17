@@ -15,7 +15,6 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
-import com.xbuilders.engine.player.SkinLink;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.game.UI.Hotbar;
@@ -54,11 +53,11 @@ public class XbuildersGame extends Game {
         super(window);
 
         //add skins
-        availableSkins.put(0, new SkinLink((p) -> new FoxSkin(p, "red")));
-        availableSkins.put(1, new SkinLink((p) -> new FoxSkin(p, "yellow")));
-        availableSkins.put(2, new SkinLink((p) -> new FoxSkin(p, "blue")));
-        availableSkins.put(3, new SkinLink((p) -> new FoxSkin(p, "green")));
-        availableSkins.put(4, new SkinLink((p) -> new FoxSkin(p, "magenta")));
+        availableSkins.put(0, (p) -> new FoxSkin(p, "red"));
+        availableSkins.put(1, (p) -> new FoxSkin(p, "yellow"));
+        availableSkins.put(2, (p) -> new FoxSkin(p, "blue"));
+        availableSkins.put(3, (p) -> new FoxSkin(p, "green"));
+        availableSkins.put(4, (p) -> new FoxSkin(p, "magenta"));
 
 
         //Add terrains;

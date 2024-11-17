@@ -37,7 +37,7 @@ public class UserInfo {
     }
 
     public void setSkin(int id) {
-        this.skin = MainWindow.game.availableSkins.get(id).getSkin(player);
+        this.skin = MainWindow.game.availableSkins.get(id).get(player);
         this.skinID = id;
     }
 

@@ -6,7 +6,7 @@ package com.xbuilders.engine.gameScene;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.player.SkinLink;
+import com.xbuilders.engine.player.SkinSupplier;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.data.WorldData;
@@ -25,7 +25,7 @@ public abstract class Game {
 
     public final MainWindow window;
     public final ArrayList<Terrain> terrainsList = new ArrayList<>();
-    public final HashMap<Integer, SkinLink> availableSkins = new HashMap<>();
+    public final HashMap<Integer, SkinSupplier> availableSkins = new HashMap<>();
 
     public boolean releaseMouse() {
         return false;
