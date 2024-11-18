@@ -16,7 +16,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public abstract class QuadPedalLandAnimal extends LandAnimal {
 
@@ -25,8 +24,8 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     int textureIndex;
 
 
-    public QuadPedalLandAnimal(int id, MainWindow window, boolean rideable) {
-        super(id,window);
+    public QuadPedalLandAnimal(int id, long uniqueIdentifier, MainWindow window, boolean rideable) {
+        super(id, uniqueIdentifier, window);
         aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
         this.rideable = rideable;
         frustumSphereRadius = 2;

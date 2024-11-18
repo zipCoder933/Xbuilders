@@ -12,8 +12,8 @@ import org.joml.Vector2f;
  */
 public abstract class FishAnimal<ActionEnum> extends Animal {
 
-    public FishAnimal(int id,MainWindow window) {
-        super(id,window);
+    public FishAnimal(int id, long uniqueIdentifier, MainWindow window) {
+        super(id, uniqueIdentifier, window);
         pos.aabb.setOffsetAndSize(.5f, .5f, .5f, false);
         lastInWater = System.currentTimeMillis();
         inWater = inWater();

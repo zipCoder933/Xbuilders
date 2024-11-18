@@ -5,6 +5,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.world.World;
 import org.joml.Vector3i;
 
@@ -12,10 +13,10 @@ import static com.xbuilders.engine.items.entity.ChunkEntitySet.MAX_ENTITY_DIST;
 
 public class GravityBlock {
 
-    final GravityBlockEntityLink link;
+    EntitySupplier entitySupplier;
 
     public GravityBlock(MainWindow window) {
-        link = new GravityBlockEntityLink(window);
+        entitySupplier = new EntitySupplier(0, (uniqueIdentifier) -> new GravityBlockEntity(uniqueIdentifier, window));
     }
 
     public void convert(Block block) {
@@ -67,7 +68,7 @@ public class GravityBlock {
                 }
                 return;
             }
-            Entity e = GameScene.world.setEntity(link, thisPosition, null);
+            Entity e = GameScene.world.setEntity(entitySupplier, thisPosition, null);
             GravityBlockEntity gravityBlockEntity = (GravityBlockEntity) e;
             gravityBlockEntity.block = block;
         }

@@ -43,8 +43,8 @@ public class Minecart extends Vehicle {
         return fixedPosition;
     }
 
-    public Minecart(int id, MainWindow window) {
-        super(id,window);
+    public Minecart(int id, MainWindow window, long uniqueIdentifier) {
+        super(id, window, uniqueIdentifier);
         aabb.setOffsetAndSize(.9f, 1f, .9f, true);
         positionLock = new PositionLock(this, 0);
 

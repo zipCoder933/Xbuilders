@@ -137,7 +137,7 @@ public class MultiplayerPendingEntityChanges {
         baos.write(ByteUtils.floatToBytes(entity.worldPosition.z));
 
         //Send entity ID
-        baos.write(ByteUtils.shortToBytes(entity.link.id));
+        baos.write(ByteUtils.shortToBytes(entity.id));
 
         //Send entity byte data (state or entity initialisation)
         byte[] data = null;

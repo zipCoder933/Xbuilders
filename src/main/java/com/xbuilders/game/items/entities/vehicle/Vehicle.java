@@ -50,8 +50,8 @@ public abstract class Vehicle extends Entity {
     UserControlledPlayer player;
 
 
-    public Vehicle(int id, MainWindow window) {
-        super(id);
+    public Vehicle(int id, MainWindow window, long uniqueIdentifier) {
+        super(id, uniqueIdentifier);
         this.window = window;
         this.player = GameScene.player;
     }
@@ -115,11 +115,6 @@ public abstract class Vehicle extends Entity {
     }
 
     public abstract void vehicle_entityMoveEvent();
-
-    @Override
-    public String toString() {
-        return "mob \"" + this.link.name + "\" (hash=" + this.hashCode() + ")";
-    }
 
     public UserControlledPlayer getPlayer() {
         return GameScene.player;

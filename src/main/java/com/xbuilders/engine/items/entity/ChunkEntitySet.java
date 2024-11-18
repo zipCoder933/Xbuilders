@@ -39,12 +39,10 @@ public class ChunkEntitySet {
     }
 
     public Entity placeNew(EntitySupplier link, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
-        if (link != null && link.supplier != null) {
-            Entity entity = link.supplier.get();
+        if (link != null) {
+            Entity entity = link.get(identifier);
             entity.link = link;
             entity.chunk = thisChunk;
-            //We can set the entity unique identifier if we want to
-            if (identifier != 0) entity.uniqueIdentifier = identifier;
 
 
             entity.worldPosition.set(worldX, worldY, worldZ);

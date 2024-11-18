@@ -91,27 +91,27 @@ public class ItemUtils {
         return "xbuilders:" + id;
     }
 
-    public static void synthesizeItems(ArrayList<Block> blocks,
-                                       ArrayList<EntitySupplier> entities, File outputFile) throws IOException {
-        ArrayList<Item> items = new ArrayList<>();
-        for (Block block : blocks) {
-            if (block == null) continue;
-            if (block.name.toLowerCase().contains("hidden")) continue;
-            Item item = new Item(nameToID(block.name), block.name);
-            item.setBlock(block.id);
-            items.add(item);
-        }
-        for (EntitySupplier entity : entities) {
-            if (entity == null) continue;
-            if (entity.name.toLowerCase().contains("hidden")) continue;
-            System.out.println(entity.name);
-            Item item = new Item(nameToID(entity.name), entity.name);
-            item.setEntity(entity.id);
-            items.add(item);
-        }
-        String json = JsonManager.gson_itemAdapter.toJson(items);
-        Files.writeString(outputFile.toPath(), json);
-    }
+//    public static void synthesizeItems(ArrayList<Block> blocks,
+//                                       ArrayList<EntitySupplier> entities, File outputFile) throws IOException {
+//        ArrayList<Item> items = new ArrayList<>();
+//        for (Block block : blocks) {
+//            if (block == null) continue;
+//            if (block.name.toLowerCase().contains("hidden")) continue;
+//            Item item = new Item(nameToID(block.name), block.name);
+//            item.setBlock(block.id);
+//            items.add(item);
+//        }
+//        for (EntitySupplier entity : entities) {
+//            if (entity == null) continue;
+//            if (entity.name.toLowerCase().contains("hidden")) continue;
+//            System.out.println(entity.name);
+//            Item item = new Item(nameToID(entity.name), entity.name);
+//            item.setEntity(entity.id);
+//            items.add(item);
+//        }
+//        String json = JsonManager.gson_itemAdapter.toJson(items);
+//        Files.writeString(outputFile.toPath(), json);
+//    }
 
     private static String nameToJavaName(String prefix, String name) {
         return prefix.toUpperCase().replaceAll("_", "") +
@@ -133,33 +133,33 @@ public class ItemUtils {
         }
     }
 
-    public static void item_makeClassJavaFiles(ArrayList<Item> items, File directory) throws IOException {
-        StringBuilder itemClasses = new StringBuilder();
-        for (Item item : items) {
-            String entry = "public static final Item " + nameToJavaName("item", item.name) +
-                    " = new Item(\"" + item.id + "\", \"" + item.name + "\");\n";
-            if (item.getBlock() != null) {
-
-            }
-            itemClasses.append(entry);
-        }
-        itemClasses.append("""
-                
-                    public static void initItems(
-                            IntMap<Block> blocks,
-                            IntMap<EntitySupplier> entities) {
-                """);
-        for (Item item : items) {
-            if (item.getBlock() != null) {
-                itemClasses.append(nameToJavaName("item", item.name) + ".block = blocks.get(" + item.getBlock().id + ");\n");
-            } else if (item.getEntity() != null) {
-                itemClasses.append(nameToJavaName("item", item.name) + ".entity = entities.get(" + item.getEntity().id + ");\n");
-            }
-        }
-
-        itemClasses.append("\n\n}");
-        Files.writeString(new File(directory, "ItemClasses.java").toPath(), itemClasses.toString());
-    }
+//    public static void item_makeClassJavaFiles(ArrayList<Item> items, File directory) throws IOException {
+//        StringBuilder itemClasses = new StringBuilder();
+//        for (Item item : items) {
+//            String entry = "public static final Item " + nameToJavaName("item", item.name) +
+//                    " = new Item(\"" + item.id + "\", \"" + item.name + "\");\n";
+//            if (item.getBlock() != null) {
+//
+//            }
+//            itemClasses.append(entry);
+//        }
+//        itemClasses.append("""
+//
+//                    public static void initItems(
+//                            IntMap<Block> blocks,
+//                            IntMap<EntitySupplier> entities) {
+//                """);
+//        for (Item item : items) {
+//            if (item.getBlock() != null) {
+//                itemClasses.append(nameToJavaName("item", item.name) + ".block = blocks.get(" + item.getBlock().id + ");\n");
+//            } else if (item.getEntity() != null) {
+//                itemClasses.append(nameToJavaName("item", item.name) + ".entity = entities.get(" + item.getEntity().id + ");\n");
+//            }
+//        }
+//
+//        itemClasses.append("\n\n}");
+//        Files.writeString(new File(directory, "ItemClasses.java").toPath(), itemClasses.toString());
+//    }
 
 
 }

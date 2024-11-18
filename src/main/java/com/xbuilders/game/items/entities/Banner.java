@@ -21,8 +21,8 @@ public class Banner extends Entity {
     static EntityMesh body;
     static int texture;
 
-    public Banner(int id) {
-        super(id);
+    public Banner(int id, long uniqueIdentifier) {
+        super(id, uniqueIdentifier);
         frustumSphereRadius = 2f;
         aabb.isSolid = false;
     }

@@ -167,7 +167,7 @@ public class ChunkSavingLoadingUtils {
                 for (int i = 0; i < chunk.entities.list.size(); i++) {
 
                     Entity entity = chunk.entities.list.get(i);
-                    writeShort(out, entity.link.id); //Write entity id
+                    writeShort(out, entity.id); //Write entity id
                     writeLong(out, entity.getUniqueIdentifier()); //Write entity identifier
 
                     entity.updatePosition();  //Write position

@@ -27,8 +27,8 @@ public abstract class LandAndWaterAnimal extends Animal {
     private float walkAmt = 0;
     float yVelocity, rotationVelocity, forwardVelocity;
 
-    public LandAndWaterAnimal(int id, MainWindow window) {
-        super(id, window);
+    public LandAndWaterAnimal(int id, long uniqueIdentifier, MainWindow window) {
+        super(id, uniqueIdentifier, window);
     }
 
 

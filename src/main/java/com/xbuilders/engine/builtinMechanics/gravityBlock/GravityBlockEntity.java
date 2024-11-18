@@ -26,8 +26,8 @@ public class GravityBlockEntity extends Entity {
     Block block;
     long startTime;
 
-    public GravityBlockEntity(int id, MainWindow window) {
-        super(id);
+    public GravityBlockEntity(long uniqueIdentifier, MainWindow window) {
+        super(-1,uniqueIdentifier);
         positionHandler = new PositionHandler(window, GameScene.world, aabb, null);
         aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         frustumSphereRadius = 1;

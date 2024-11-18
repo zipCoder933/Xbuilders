@@ -8,6 +8,7 @@ import com.xbuilders.engine.utils.IntMap;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 
@@ -17,7 +18,7 @@ import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 public class EntityRegistry {
 
     //Predefined entities
-    public static ItemDropEntityLink ENTITY_ITEM_DROP = new ItemDropEntityLink();
+//    public static ItemDropEntityLink ENTITY_ITEM_DROP = new ItemDropEntityLink();
 
     final IntMap<EntitySupplier> idMap = new IntMap<>(EntitySupplier.class);
     private EntitySupplier[] list;
@@ -48,7 +49,7 @@ public class EntityRegistry {
                 System.err.println("item at index " + i + " is null");
                 continue;
             }
-            int id = inputItems.get(i).id;
+            int id = inputItems.get(i).get(1).id;
             if (map.get(id) != null) {
                 System.err.println("Entity " + inputItems.get(i) + " ID conflicts with an existing ID: " + id);
             }
@@ -59,16 +60,11 @@ public class EntityRegistry {
         }
         System.out.println("\t(The highest item ID is: " + highestId + ")");
         System.out.print("\tID Gaps: ");
-        for (int id = 1; id < highestId; id++) {
-            boolean found = false;
-            for (EntitySupplier item : inputItems) {
-                if (item.id == id) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                System.out.print(id + ", ");
+        //iterate over map
+        for( Map.Entry<Integer, EntitySupplier> entry : map.entrySet()) {
+            int id = entry.getKey();
+            if(idMap.get(id) == null) {
+                System.out.print(id + " ");
             }
         }
         System.out.println("");
@@ -77,7 +73,7 @@ public class EntityRegistry {
     }
 
     public void initialize(List<EntitySupplier> inputBlocks) {
-        inputBlocks.add(ENTITY_ITEM_DROP);
+//        inputBlocks.add(ENTITY_ITEM_DROP);
         verifyEntityIds(inputBlocks);
         list = inputBlocks.toArray(new EntitySupplier[0]);
     }
