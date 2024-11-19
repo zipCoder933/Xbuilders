@@ -42,12 +42,7 @@ public class UI_Hotbar extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
-        //iterate over all inventory and delete empty items
-        for (int i = 0; i < GameScene.player.inventory.size(); i++) {
-            if (GameScene.player.inventory.get(i) != null && GameScene.player.inventory.get(i).stackSize <= 0) {
-                GameScene.player.inventory.set(i, null);
-            }
-        }
+       GameScene.player.inventory.deleteEmptyItems();
 
         NkRect windowDims2 = NkRect.malloc(stack);
 
@@ -157,7 +152,7 @@ public class UI_Hotbar extends GameUIElement {
         return false;
     }
 
-    public void pickItem(CursorRay ray) {
+    public void pickItem(CursorRay ray, boolean allowAcquire) {
         ItemStack stack = null;
         StorageSpace storageSpace = GameScene.player.inventory;
         if (ray.hitTarget()) {
@@ -176,7 +171,7 @@ public class UI_Hotbar extends GameUIElement {
                 return;
             }
         }
-        setSelectedIndex(storageSpace.acquireItem(stack));
+        if (allowAcquire) setSelectedIndex(storageSpace.acquireItem(stack));
     }
 
     public ItemStack getSelectedItem() {

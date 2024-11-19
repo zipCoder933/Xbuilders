@@ -433,8 +433,8 @@ public class UserControlledPlayer extends Player {
                 camera.cursorRay.clickEvent(true);
             } else if (button == UserControlledPlayer.getDeleteMouseButton()) {
                 camera.cursorRay.clickEvent(false);
-            } else if (GameScene.getGameMode() == GameMode.FREEPLAY && button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-                MainWindow.game.hotbar.pickItem(camera.cursorRay);
+            } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+                MainWindow.game.hotbar.pickItem(camera.cursorRay, GameScene.getGameMode() == GameMode.FREEPLAY);
             }
         }
     }

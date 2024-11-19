@@ -1,5 +1,6 @@
 package com.xbuilders.engine.player.data;
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 
@@ -43,5 +44,14 @@ public class StorageSpace {
             if (item2 == null) return -1;
             return item1.item.equals(item2) ? 0 : (item1.item.hashCode() - item2.item.hashCode());
         });
+    }
+
+    public void deleteEmptyItems() {
+        //iterate over all inventory and delete empty items
+        for (int i = 0; i < size(); i++) {
+            if (get(i) != null && get(i).stackSize <= 0) {
+                set(i, null);
+            }
+        }
     }
 }
