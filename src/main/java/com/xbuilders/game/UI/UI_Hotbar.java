@@ -10,6 +10,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
+import com.xbuilders.engine.player.data.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -102,7 +103,7 @@ public class UI_Hotbar extends GameUIElement {
                     }
                 }
                 if (item != null) {
-                    UI_Inventory.drawItemStack(stack, ctx, item);
+                    UI_ItemWindow.drawItemStack(stack, ctx, item);
                 } else {
                     Nuklear.nk_button_text(ctx, "");
                 }
@@ -132,9 +133,9 @@ public class UI_Hotbar extends GameUIElement {
     }
 
     public void setSelectedIndex(int index) {
-
         selectedItemIndex = MathUtils.clamp(index, 0, GameScene.player.inventory.size() - 1);
-        pushValue = MathUtils.clamp(selectedItemIndex, 0, GameScene.player.inventory.size() - ELEMENTS);
+        pushValue = selectedItemIndex - ELEMENTS / 2;
+        pushValue = MathUtils.clamp(pushValue, 0, GameScene.player.inventory.size() - ELEMENTS);
     }
 
     public int getSelectedItemIndex() {
@@ -157,39 +158,30 @@ public class UI_Hotbar extends GameUIElement {
     }
 
     public void pickItem(CursorRay ray) {
+        ItemStack stack = null;
+        StorageSpace storageSpace = GameScene.player.inventory;
         if (ray.hitTarget()) {
             if (ray.getEntity() != null) {
                 Entity entity = ray.getEntity();
-                acquireItem(new ItemStack(Registrys.getItem(entity),1));
+                stack = new ItemStack(Registrys.getItem(entity), 1);
             } else {
                 Block block = GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
-                acquireItem(new ItemStack(Registrys.getItem(block),1));
+                stack = new ItemStack(Registrys.getItem(block), 1);
             }
         }
+        for (int i = 0; i < storageSpace.size(); i++) {
+            ItemStack item = storageSpace.get(i);
+            if (item != null && item.item == stack.item) {
+                setSelectedIndex(i);
+                return;
+            }
+        }
+        setSelectedIndex(storageSpace.acquireItem(stack));
     }
 
     public ItemStack getSelectedItem() {
         return GameScene.player.inventory.get(getSelectedItemIndex());
     }
 
-    private void acquireItem(ItemStack item) {
-        for (int i = 0; i < GameScene.player.inventory.size(); i++) {
-            if (GameScene.player.inventory.get(i) != null && GameScene.player.inventory.get(i).equals(item)) {
-                setSelectedIndex(i);
-                return;
-            }
-        }
-        // otherwise add it
-        for (int i = 0; i < GameScene.player.inventory.size(); i++) {
-            if (GameScene.player.inventory.get(i) == null) {
-                GameScene.player.inventory.set(i, item);
-                setSelectedIndex(i);
-                return;
-            }
-        }
-        // If there is no room, then remove the first item
-        GameScene.player.inventory.set(0, item);
-        setSelectedIndex(0);
-    }
 
 }

@@ -3,7 +3,7 @@ package com.xbuilders.engine.player.data;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 
-import java.util.HashSet;
+import java.util.Arrays;
 
 public class StorageSpace {
     public final ItemStack[] items;
@@ -12,14 +12,15 @@ public class StorageSpace {
         items = new ItemStack[size];
     }
 
-    public void freeplay_getItem(Item item, int amount) {
+    public int acquireItem(ItemStack stack) {
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null) {
-                items[i] = new ItemStack(item, (byte) amount);
-                return;
+                items[i] = stack;
+                return i;
             }
         }
-        items[0] = new ItemStack(item, (byte) amount);
+        items[0] = stack;
+        return 0;
     }
 
     public ItemStack get(int index) {
@@ -35,18 +36,12 @@ public class StorageSpace {
     }
 
     public void organize() {
-        HashSet<ItemStack> newBackpack = new HashSet();
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null) {
-                newBackpack.add(items[i]);
-            }
-            items[i] = null;
-        }
-        int index = 0;
-        for (ItemStack item : newBackpack) {
-            items[index] = item;
-            index++;
-        }
+        Arrays.sort(items, (item1, item2) -> {
+            // Use equals() to compare the two ItemStack objects
+            if (item1 == null && item2 == null) return 0;
+            if (item1 == null) return 1;
+            if (item2 == null) return -1;
+            return item1.item.equals(item2) ? 0 : (item1.item.hashCode() - item2.item.hashCode());
+        });
     }
-
 }

@@ -123,6 +123,10 @@ public class Theme {
         context.style().window().padding().set(10, 10);
     }
 
+    public static void setWindowStyle(NkContext context, NkColor backgroundColor, NkColor borderColor) {
+        context.style().window().fixed_background().data().color().set(backgroundColor);
+        context.style().window().border_color().set(borderColor);
+    }
     public static void resetWindowColor(NkContext context) {
         context.style().window().fixed_background().data().color().set(Theme.backgroundColor);
         context.style().window().border_color().set(Theme.blue);

@@ -5,7 +5,9 @@
 package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.window.NKWindow;
+import org.joml.Vector2d;
 import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
 /**
@@ -22,6 +24,11 @@ public abstract class GameUIElement {
     public boolean releaseMouse = false;
     public final NkContext ctx;
     public final NKWindow window;
+
+    public boolean inBounds(NkRect bounds) {
+        Vector2d cursor = window.getCursorVector();
+        return cursor.x > bounds.x() && cursor.x < bounds.x() + bounds.w() && cursor.y > bounds.y() && cursor.y < bounds.y() + bounds.h();
+    }
 
     public abstract void draw(MemoryStack stack);
 
