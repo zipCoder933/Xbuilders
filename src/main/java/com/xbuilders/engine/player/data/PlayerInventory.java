@@ -12,24 +12,24 @@ public class PlayerInventory {
         items = new ItemStack[size];
     }
 
-    public void freeplay_getItem(Item item) {
+    public void freeplay_getItem(Item item, int amount) {
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null) {
-                items[i] = new ItemStack(item);
+                items[i] = new ItemStack(item, (byte) amount);
                 return;
             }
         }
-        items[0] = new ItemStack(item);
+        items[0] = new ItemStack(item, (byte) amount);
     }
-    
+
     public ItemStack get(int index) {
         return items[index];
     }
-    
+
     public void set(int index, ItemStack item) {
         items[index] = item;
     }
-    
+
     public int size() {
         return items.length;
     }

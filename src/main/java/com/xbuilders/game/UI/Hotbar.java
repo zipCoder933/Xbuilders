@@ -41,6 +41,13 @@ public class Hotbar extends GameUIElement {
 
     @Override
     public void draw(MemoryStack stack) {
+        //iterate over all inventory and delete empty items
+        for (int i = 0; i < GameScene.player.inventory.size(); i++) {
+            if (GameScene.player.inventory.get(i) != null && GameScene.player.inventory.get(i).stackSize <= 0) {
+                GameScene.player.inventory.set(i, null);
+            }
+        }
+
         NkRect windowDims2 = NkRect.malloc(stack);
 
         ctx.style().window().fixed_background().data().color().set(Theme.transparent);
@@ -153,10 +160,10 @@ public class Hotbar extends GameUIElement {
         if (ray.hitTarget()) {
             if (ray.getEntity() != null) {
                 Entity entity = ray.getEntity();
-                acquireItem(new ItemStack(Registrys.getItem(entity)));
+                acquireItem(new ItemStack(Registrys.getItem(entity),1));
             } else {
                 Block block = GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
-                acquireItem(new ItemStack(Registrys.getItem(block)));
+                acquireItem(new ItemStack(Registrys.getItem(block),1));
             }
         }
     }

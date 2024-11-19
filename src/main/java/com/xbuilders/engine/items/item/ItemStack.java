@@ -3,6 +3,8 @@ package com.xbuilders.engine.items.item;
 import com.xbuilders.engine.items.block.BlockRegistry;
 
 public class ItemStack {
+    public static final byte MAX_STACK_SIZE = 64;
+
     public final Item item;
     public byte stackSize;
     public int durability;//The amount of damage the item has left
@@ -13,8 +15,8 @@ public class ItemStack {
         if (this.item == null) throw new NullPointerException("Item in ItemStack cannot be null");
     }
 
-    public ItemStack(Item item, byte stackSize) {
+    public ItemStack(Item item, int stackSize) {
         this.item = item;
-        this.stackSize = stackSize;
+        this.stackSize = (byte) stackSize;
     }
 }

@@ -57,9 +57,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
             if (itemList[i] == null || !isVisible(itemList[i])) continue;
             items.add(itemList[i]);
         }
-
-        // TODO: Figure out how to effectively sort items
-        // Sort items by value in ascending order
         Collections.sort(items, comparator);
 
         // Convert arraylist to array
@@ -83,8 +80,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
             } else if (o2 == null) {
                 return 1;
             } else {
-
-
                 for (String tag : o1.getTags()) {  // If 2 items have a shared tag
                     if (o2.getTags().equals(tag)) {
                         return 0;
@@ -184,13 +179,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (nk_group_begin(ctx, WINDOW_TITLE, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(itemListHeight / buttonWidth.width) - 1);
-//            Nuklear.nk_slider_float(ctx, 0.0f, floatValue, 1.0f, 0.1f);
-//            System.out.println(floatValue[0]);
-//            scrollValue = (int) (Math.sin(System.currentTimeMillis()*0.01) * 10)+10;
-//            clampScroll();
-//            Nuklear.nk_group_set_scroll(ctx, WINDOW_TITLE, 0, scrollValue);
-
-
             updateVisibleEntries();
             scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (visibleEntries.size() / maxColumns) - 1));
             int itemID = scrollValue * maxColumns;
@@ -212,7 +200,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                         hoveredItem = item.toString();
                     }
                     if (nk_button_image(ctx, item.getNKIcon())) {
-                        GameScene.player.inventory.freeplay_getItem(item);
+                        GameScene.player.inventory.freeplay_getItem(item, ItemStack.MAX_STACK_SIZE);
                     }
                     buttonWidth.measure(ctx, stack);
                     column++;
@@ -305,7 +293,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
         //draw durability
         bounds.set(buttonBounds);
-        bounds.y(bounds.y() + bounds.h() - 3 - 5);
+        bounds.y(bounds.y() + bounds.h() - 3 - 4);
         bounds.x(bounds.x() + 2);
         bounds.w(MathUtils.map(0.5f, 0, 1, 0, bounds.w() - 4));
         bounds.h(3);
