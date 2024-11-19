@@ -1,5 +1,6 @@
 package com.xbuilders.engine.world.chunk;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.rendering.chunk.meshers.ChunkMeshBundle;
@@ -176,6 +177,10 @@ public class Chunk {
     }
 
     public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
+        if (updateAllNeighbors) MainWindow.printlnDev("Regenerating all neighbors");
+        else MainWindow.printlnDev("Regenerating mesh at " + x + ", " + y + ", " + z);
+
+
         if (!neghbors.allFacingNeghborsLoaded) {
             neghbors.cacheNeighbors();
         }
@@ -309,7 +314,7 @@ public class Chunk {
             mesherFuture = null;
         }
 
-        if(isPlayerUpdate)
+        if (isPlayerUpdate)
             mesherFuture = playerUpdating_meshService.submit(() -> {
                 meshes.compute();
                 return meshes;

@@ -19,6 +19,7 @@ import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -122,7 +123,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
         }
     }
 
-    int windowFlags = Nuklear.NK_WINDOW_TITLE | Nuklear.NK_WINDOW_NO_SCROLLBAR | Nuklear.NK_WINDOW_CLOSABLE;
+    int windowFlags = NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_CLOSABLE;
     final String WINDOW_TITLE = "Item List";
 
 
@@ -142,12 +143,12 @@ public class Inventory extends GameUIElement implements WindowEvents {
             if (nk_begin(ctx, WINDOW_TITLE, windowDims2, windowFlags)) {
                 nk_layout_row_dynamic(ctx, 20, 1);
                 ctx.style().text().color().set(Theme.lightGray);
-                Nuklear.nk_text(ctx, hoveredItem, Nuklear.NK_TEXT_ALIGN_CENTERED);
+                nk_text(ctx, hoveredItem, NK_TEXT_ALIGN_CENTERED);
                 Theme.resetTextColor(ctx);
 
                 // Draw a search bar
                 nk_layout_row_dynamic(ctx, 20, 1);
-                Nuklear.nk_label(ctx, "Search Item List", Nuklear.NK_TEXT_LEFT);
+                nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
                 nk_layout_row_dynamic(ctx, 25, 1);
                 searchBox.render(ctx);
 
@@ -181,7 +182,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
     private void inventoryGroup(MemoryStack stack) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
-        if (Nuklear.nk_group_begin(ctx, WINDOW_TITLE, Nuklear.NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
+        if (nk_group_begin(ctx, WINDOW_TITLE, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(itemListHeight / buttonWidth.width) - 1);
 //            Nuklear.nk_slider_float(ctx, 0.0f, floatValue, 1.0f, 0.1f);
 //            System.out.println(floatValue[0]);
@@ -207,10 +208,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
                     }
 
                     Item item = visibleEntries.get(itemID);
-                    if (Nuklear.nk_widget_is_hovered(ctx)) {
+                    if (nk_widget_is_hovered(ctx)) {
                         hoveredItem = item.toString();
                     }
-                    if (Nuklear.nk_button_image(ctx, item.getNKIcon())) {
+                    if (nk_button_image(ctx, item.getNKIcon())) {
                         GameScene.player.inventory.freeplay_getItem(item);
                     }
                     buttonWidth.measure(ctx, stack);
@@ -219,18 +220,18 @@ public class Inventory extends GameUIElement implements WindowEvents {
                 }
             }
         }
-        Nuklear.nk_group_end(ctx);
+        nk_group_end(ctx);
     }
 
     protected void drawPlayerStuff() {
         nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
-        if (Nuklear.nk_group_begin(ctx, "My Items", Nuklear.NK_WINDOW_TITLE)) {
+        if (nk_group_begin(ctx, "My Items", NK_WINDOW_TITLE)) {
             nk_layout_row_dynamic(ctx, 20, 3);
-            if (Nuklear.nk_button_label(ctx, "Organize")) {
+            if (nk_button_label(ctx, "Organize")) {
                 GameScene.player.inventory.organize();
-            } else if (Nuklear.nk_button_label(ctx, "Remove")) {
+            } else if (nk_button_label(ctx, "Remove")) {
                 GameScene.player.inventory.set(hotbar.getSelectedItemIndex(), null);
-            } else if (Nuklear.nk_button_label(ctx, "Clear")) {
+            } else if (nk_button_label(ctx, "Clear")) {
                 for (int i = 0; i < GameScene.player.inventory.size(); i++) {
                     GameScene.player.inventory.set(i, null);
                 }
@@ -255,24 +256,52 @@ public class Inventory extends GameUIElement implements WindowEvents {
                     }
 
                     if (item != null) {
-                        if (Nuklear.nk_widget_is_hovered(ctx)) {
+                        if (nk_widget_is_hovered(ctx)) {
 //                            hoveredItem = item.toString();
                         }
                         if (drawItemStack(ctx, item)) {
                             hotbar.setSelectedIndex(itemID);
                         }
-                    } else if (Nuklear.nk_button_text(ctx, "")) {
+                    } else if (nk_button_text(ctx, "")) {
                         hotbar.setSelectedIndex(itemID);
                     }
                     itemID++;
                 }
             }
         }
-        Nuklear.nk_group_end(ctx);
+        nk_group_end(ctx);
     }
 
+    final static  NkColor white = Theme.createColor(255, 255, 255, 255);
+    final static  NkColor green = Theme.createColor(0, 255, 0, 255);
+    final static NkColor black = Theme.createColor(0, 0, 0, 255);
+
     public static boolean drawItemStack(NkContext ctx, ItemStack itemStack) {
-        return Nuklear.nk_button_image(ctx, itemStack.item.getNKIcon());
+        ctx.style().window().padding().set(0, 0);
+        ctx.style().window().group_padding().set(0, 0);
+        ctx.style().window().border(0);
+
+        NkCommandBuffer buffer = nk_window_get_canvas(ctx);
+        NkImage bgImage = itemStack.item.getNKIcon();
+
+
+        NkRect buttonBounds = NkRect.create();
+        Nuklear.nk_widget_bounds(ctx, buttonBounds);
+        boolean pressed = nk_button_image(ctx, bgImage);
+
+        nk_draw_image(buffer, buttonBounds, bgImage, white);
+
+        NkRect textBounds = NkRect.create().set(buttonBounds).x(buttonBounds.x() + 10).y(buttonBounds.y() + 10);
+        NkCommandBuffer canvas = Nuklear.nk_window_get_canvas(ctx); // Get the current drawing canvas
+        Nuklear.nk_draw_text(canvas, textBounds, "x" + itemStack.stackSize, Theme.font_10, black, white);
+
+        NkRect barBounds = NkRect.create().set(buttonBounds);
+        barBounds.y(barBounds.y() + barBounds.h() - 10);
+        barBounds.h(10);
+        // Draw the rectangle
+        Nuklear.nk_fill_rect(canvas, barBounds, 0.0f, green); // 0.0f for no rounding
+
+        return pressed;
     }
 
 
