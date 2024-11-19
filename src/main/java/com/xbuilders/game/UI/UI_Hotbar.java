@@ -24,10 +24,10 @@ import static org.lwjgl.nuklear.Nuklear.*;
 /**
  * @author zipCoder933
  */
-public class Hotbar extends GameUIElement {
+public class UI_Hotbar extends GameUIElement {
 
 
-    public Hotbar(NkContext ctx, NKWindow window) {
+    public UI_Hotbar(NkContext ctx, NKWindow window) {
         super(ctx, window);
         buttonHeight = new WidgetWidthMeasurement(0);
     }
@@ -102,7 +102,7 @@ public class Hotbar extends GameUIElement {
                     }
                 }
                 if (item != null) {
-                    Inventory.drawItemStack(stack, ctx, item);
+                    UI_Inventory.drawItemStack(stack, ctx, item);
                 } else {
                     Nuklear.nk_button_text(ctx, "");
                 }

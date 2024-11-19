@@ -17,8 +17,8 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.data.WorldData;
-import com.xbuilders.game.UI.Hotbar;
-import com.xbuilders.game.UI.Inventory;
+import com.xbuilders.game.UI.UI_Hotbar;
+import com.xbuilders.game.UI.UI_Inventory;
 import com.xbuilders.game.blockTools.BlockTools;
 import com.xbuilders.game.items.Blocks;
 import com.xbuilders.game.items.Entities;
@@ -94,8 +94,8 @@ public class XbuildersGame extends Game {
     }
 
 
-    Inventory inventory;
-    public Hotbar hotbar;
+    UI_Inventory inventory;
+    public UI_Hotbar hotbar;
     BlockTools blockTools;
 
     @Override
@@ -117,8 +117,8 @@ public class XbuildersGame extends Game {
     @Override
     public void uiInit(NkContext ctx, GameUI gameUI) {
         try {
-            hotbar = new Hotbar(ctx, window);
-            inventory = new Inventory(ctx, Registrys.items.getList(), window, hotbar);
+            hotbar = new UI_Hotbar(ctx, window);
+            inventory = new UI_Inventory(ctx, Registrys.items.getList(), window, hotbar);
             blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         } catch (IOException ex) {

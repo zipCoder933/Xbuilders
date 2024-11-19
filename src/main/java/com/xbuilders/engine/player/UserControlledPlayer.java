@@ -11,18 +11,16 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
-import com.xbuilders.engine.utils.json.ItemTypeAdapter;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.player.data.PlayerInventory;
+import com.xbuilders.engine.player.data.StorageSpace;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
@@ -59,7 +57,7 @@ public class UserControlledPlayer extends Player {
     float autoJump_ticksWhileColidingWithBlock = 0;
 
     //Saving/loading in world
-    public final PlayerInventory inventory;
+    public final StorageSpace inventory;
     private final Gson pdGson = new GsonBuilder()
             .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackTypeAdapter())
             .create();
@@ -189,7 +187,7 @@ public class UserControlledPlayer extends Player {
         this.chunks = world;
         this.projection = projection;
         this.view = view;
-        inventory = new PlayerInventory(33);
+        inventory = new StorageSpace(33);
         camera = new Camera(this, window, projection, view, centeredView);
         positionHandler = new PositionHandler(window, world, aabb, aabb);
         eventPipeline = new BlockEventPipeline(world, this);

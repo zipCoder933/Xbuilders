@@ -4,22 +4,25 @@
  */
 package com.xbuilders.game.UI;
 
+import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.game.items.Items;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import com.xbuilders.window.nuklear.components.TextBox;
+import org.joml.Vector2d;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.*;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -27,11 +30,11 @@ import static org.lwjgl.nuklear.Nuklear.*;
 /**
  * @author zipCoder933
  */
-public class Inventory extends GameUIElement implements WindowEvents {
+public class UI_Inventory extends GameUIElement implements WindowEvents {
 
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
-    public Inventory(NkContext ctx, Item[] itemList, NKWindow window, Hotbar hotbar) throws IOException {
+    public UI_Inventory(NkContext ctx, Item[] itemList, NKWindow window, UI_Hotbar hotbar) throws IOException {
         super(ctx, window);
         this.hotbar = hotbar;
         setItemList(itemList);
@@ -42,7 +45,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
             searchBox.setValueAsString("");
             scrollValue = 0;
         });
-
+        playerInventory = new UI_ItemStackGrid("Inventory", GameScene.player.inventory);
         // We have to create the window initially
         nk_begin(ctx, WINDOW_TITLE, NkRect.create(), windowFlags);
         nk_end(ctx);
@@ -97,12 +100,11 @@ public class Inventory extends GameUIElement implements WindowEvents {
     int itemListHeight = 285; //iten list window size
     final int backpackMenuSize = menuHeight; // Its ok since this is the last row
     final int maxColumns = 11;
-    Hotbar hotbar;
+    UI_Hotbar hotbar;
     Item[] itemList;
     TextBox searchBox;
-
     WidgetWidthMeasurement buttonWidth;
-    String hoveredItem = "";
+    String hoveredItem;
     boolean isOpen = false;
 
     public boolean isOpen() {
@@ -125,7 +127,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
     @Override
     public void draw(MemoryStack stack) {
         if (isOpen) {
-
+            hoveredItem = null;
             GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
             NkRect windowDims2 = NkRect.malloc(stack);
             Theme.resetEntireButtonStyle(ctx);
@@ -136,12 +138,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
             nk_rect(window.getWidth() / 2 - (menuWidth / 2), window.getHeight() / 2 - (menuHeight / 2), menuWidth, menuHeight, windowDims2);
 
             if (nk_begin(ctx, WINDOW_TITLE, windowDims2, windowFlags)) {
-                nk_layout_row_dynamic(ctx, 20, 1);
-                ctx.style().text().color().set(Theme.lightGray);
-                nk_text(ctx, hoveredItem, NK_TEXT_ALIGN_CENTERED);
-                Theme.resetTextColor(ctx);
-
-                // Draw a search bar
+                //Search box
                 nk_layout_row_dynamic(ctx, 20, 1);
                 nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
                 nk_layout_row_dynamic(ctx, 25, 1);
@@ -152,12 +149,25 @@ public class Inventory extends GameUIElement implements WindowEvents {
                 drawPlayerStuff(stack);
 
                 Theme.resetEntireButtonStyle(ctx);
+                if (hoveredItem != null) Nuklear.nk_tooltip(ctx, " "+hoveredItem+")"); //ending character is important
             }
             nk_end(ctx);
+
         }
         if (nk_window_is_hidden(ctx, WINDOW_TITLE)) {
             isOpen = false;
         }
+
+
+        NkRect rect = NkRect.malloc(stack);
+        Vector2d cursor = window.getCursorVector();
+        rect.set(0,0, buttonWidth.width, buttonWidth.width);
+        if (nk_begin(ctx, "Test", rect, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_NO_INPUT|NK_WINDOW_BACKGROUND)) {
+            nk_layout_row_dynamic(ctx, buttonWidth.width, 1);
+            drawItemStack(stack, ctx, new ItemStack(Items.TOOL_ANIMAL_FEED, 1));
+        }
+        nk_end(ctx);
+
     }
 
     final ArrayList<Item> visibleEntries = new ArrayList<>();
@@ -197,7 +207,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
                     Item item = visibleEntries.get(itemID);
                     if (nk_widget_is_hovered(ctx)) {
-                        hoveredItem = item.toString();
+                        hoveredItem = item.name;
                     }
                     if (nk_button_image(ctx, item.getNKIcon())) {
                         GameScene.player.inventory.freeplay_getItem(item, ItemStack.MAX_STACK_SIZE);
@@ -211,53 +221,10 @@ public class Inventory extends GameUIElement implements WindowEvents {
         nk_group_end(ctx);
     }
 
+    UI_ItemStackGrid playerInventory;
+
     protected void drawPlayerStuff(MemoryStack stack) {
-        nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
-        if (nk_group_begin(ctx, "My Items", NK_WINDOW_TITLE)) {
-            nk_layout_row_dynamic(ctx, 20, 3);
-            if (nk_button_label(ctx, "Organize")) {
-                GameScene.player.inventory.organize();
-            } else if (nk_button_label(ctx, "Remove")) {
-                GameScene.player.inventory.set(hotbar.getSelectedItemIndex(), null);
-            } else if (nk_button_label(ctx, "Clear")) {
-                for (int i = 0; i < GameScene.player.inventory.size(); i++) {
-                    GameScene.player.inventory.set(i, null);
-                }
-            }
-
-            int itemID = 0;
-            rows:
-            while (true) {
-                nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
-                cols:
-                for (int i = 0; i < maxColumns; i++) {
-                    if (itemID >= GameScene.player.inventory.size()) {
-                        break rows;
-                    }
-                    ItemStack item = GameScene.player.inventory.get(itemID);
-
-                    if (itemID == hotbar.getSelectedItemIndex()) {
-                        ctx.style().button().border_color().set(Theme.white);
-
-                    } else {
-                        ctx.style().button().border_color().set(Theme.blue);
-                    }
-
-                    if (item != null) {
-                        if (nk_widget_is_hovered(ctx)) {
-//                            hoveredItem = item.toString();
-                        }
-                        if (drawItemStack(stack, ctx, item)) {
-                            hotbar.setSelectedIndex(itemID);
-                        }
-                    } else if (nk_button_text(ctx, "")) {
-                        hotbar.setSelectedIndex(itemID);
-                    }
-                    itemID++;
-                }
-            }
-        }
-        nk_group_end(ctx);
+        playerInventory.draw(stack, ctx, maxColumns, backpackMenuSize);
     }
 
     final static NkColor white = Theme.createColor(255, 255, 255, 255);
@@ -270,12 +237,20 @@ public class Inventory extends GameUIElement implements WindowEvents {
         ctx.style().window().group_padding().set(0, 0);
         ctx.style().window().border(0);
 
-        NkCommandBuffer buffer = nk_window_get_canvas(ctx);
+
         NkImage bgImage = itemStack.item.getNKIcon();
 
         NkRect buttonBounds = NkRect.calloc(stack);
         Nuklear.nk_widget_bounds(ctx, buttonBounds);
         boolean pressed = nk_button_image(ctx, bgImage);
+
+        drawItemStackOverlay(stack, ctx, itemStack, buttonBounds);
+        return pressed;
+    }
+
+    private static void drawItemStackOverlay(MemoryStack stack, NkContext ctx, ItemStack itemStack, NkRect buttonBounds) {
+        NkCommandBuffer buffer = nk_window_get_canvas(ctx);
+        NkImage bgImage = itemStack.item.getNKIcon();
 
         NkRect bounds = NkRect.calloc(stack).set(buttonBounds);
         bounds.x(buttonBounds.x() + padding).y(buttonBounds.y() + padding).w(buttonBounds.w() - padding - padding).h(buttonBounds.h() - padding - padding);
@@ -299,7 +274,6 @@ public class Inventory extends GameUIElement implements WindowEvents {
         bounds.h(3);
         Nuklear.nk_fill_rect(canvas, bounds, 0.0f, green); // 0.0f for no rounding
 
-        return pressed;
     }
 
 
