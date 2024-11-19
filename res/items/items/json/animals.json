@@ -1,0 +1,62 @@
+[
+  {
+    "id": "xbuilders:fox",
+    "name": "Fox",
+    "entity": 56,
+    "icon": "egg.png"
+  },
+  {
+    "id": "xbuilders:cat",
+    "name": "Cat",
+    "entity": 3,
+    "icon": "egg.png"
+  },
+  {
+    "id": "xbuilders:rabbit",
+    "name": "Rabbit",
+    "entity": 15,
+    "icon": "egg.png"
+  },
+  {
+    "id": "xbuilders:horse",
+    "name": "Horse",
+    "entity": 23,
+    "icon": "egg.png"
+  },
+  {
+    "id": "xbuilders:mule",
+    "name": "Mule",
+    "entity": 30,
+    "icon": "egg.png"
+  },
+  {
+    "id": "xbuilders:dog",
+    "name": "Dog",
+    "entity": 32,
+    "icon": "egg.png"
+  },
+  {
+    "id": "xbuilders:sea-turtle",
+    "name": "Sea Turtle",
+    "entity": 105,
+    "icon": "egg.png"
+  },
+  {
+    "id": "xbuilders:beaver",
+    "name": "Beaver",
+    "entity": 200,
+    "icon": "beaver egg.png"
+  },
+  {
+    "id": "xbuilders:butterfly-fish",
+    "name": "Butterfly Fish",
+    "entity": 41,
+    "icon": "fish egg.png"
+  },
+  {
+    "id": "xbuilders:angler-fish",
+    "name": "Angler Fish",
+    "entity": 42,
+    "icon": "fish egg.png"
+  }
+]

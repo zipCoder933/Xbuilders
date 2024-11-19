@@ -5,9 +5,10 @@ import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.game.items.blocks.BlockBarrel;
 import com.xbuilders.game.items.blocks.BlockEventUtils;
-import com.xbuilders.game.items.blocks.Plant;
-import com.xbuilders.game.items.blocks.StraightTrack;
+import com.xbuilders.game.items.blocks.PlantUtils;
+import com.xbuilders.game.items.blocks.BlockStraightTrack;
 import com.xbuilders.game.items.blocks.trees.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class Blocks {
 
     public static ArrayList<Block> starup_getBlocks() {
         ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.resource("\\items\\blocks\\json"));
+
+        //Add blocks
+        blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "Barrel"));
 
         //Reassign blocks
         HashMap<Short, Block> reassignments = new HashMap<>();
@@ -37,17 +41,17 @@ public class Blocks {
     }
 
     private static void reassignBlocks(HashMap<Short, Block> reassignments) {
-        reassignments.put(Blocks.BLOCK_TRACK, new StraightTrack(Blocks.BLOCK_TRACK));
+        reassignments.put(Blocks.BLOCK_TRACK, new BlockStraightTrack(Blocks.BLOCK_TRACK));
     }
 
     public static void editBlocks(MainWindow window) {
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
 
-        Plant.makePlant(Registrys.getBlock(Blocks.BLOCK_BEETROOT_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_BEETS);
-        Plant.makePlant(Registrys.getBlock(Blocks.BLOCK_CARROT_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_CARROTS_PLANT);
-        Plant.makePlant(Registrys.getBlock(Blocks.BLOCK_POTATO_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_POTATOES_PLANT);
-        Plant.makePlant(Registrys.getBlock(Blocks.BLOCK_WHEAT_SEEDS), Blocks.BLOCK_B1, Blocks.BLOCK_B2, Blocks.BLOCK_B3, Blocks.BLOCK_B5, Blocks.BLOCK_B6, Blocks.BLOCK_WHEAT);
+        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_BEETROOT_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_BEETS);
+        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_CARROT_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_CARROTS_PLANT);
+        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_POTATO_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_POTATOES_PLANT);
+        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_WHEAT_SEEDS), Blocks.BLOCK_B1, Blocks.BLOCK_B2, Blocks.BLOCK_B3, Blocks.BLOCK_B5, Blocks.BLOCK_B6, Blocks.BLOCK_WHEAT);
 
         Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).setBlockEvent(true, OakTreeUtils.setBlockEvent);
         Registrys.getBlock(Blocks.BLOCK_SPRUCE_SAPLING).setBlockEvent(true, SpruceTreeUtils.setBlockEvent);
@@ -93,7 +97,7 @@ public class Blocks {
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_CACTUS));
     }
 
-
+    public static short BLOCK_BARREL = 45;
     public static short BLOCK_BEDROCK = 1;
     public static short BLOCK_BIRCH_LOG = 2;
     public static short BLOCK_BIRCH_LEAVES = 3;

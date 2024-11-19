@@ -62,8 +62,8 @@ public class Item {
         return entity;
     }
 
-    int maxDurability = -1;
-    int maxStackSize = -1;
+    public int maxDurability = 0;
+    public int maxStackSize = ItemStack.MAX_STACK_SIZE;
 
     // <editor-fold defaultstate="collapsed" desc="tool events">
     //Create a functional interface for setBlockEvent
@@ -81,6 +81,11 @@ public class Item {
 
     public Item(String id, String name) {
         this.id = id;
+        if (id.isBlank()) throw new IllegalArgumentException("Item ID cannot be empty");
+        else if (id.contains(" ")) throw new IllegalArgumentException("Item ID cannot contain spaces");
+        if (id.contains("_"))
+            System.err.println("It is not recommended to use underscores in item IDs, use hyphens instead");
+
         this.name = MiscUtils.capitalizeWords(name.trim()); //We can auto-format the name
         NKicon = NkImage.create();
     }

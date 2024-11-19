@@ -50,6 +50,7 @@ public class ItemUtils {
             for (File file : jsonDirectory.listFiles()) {
                 if (!file.getName().endsWith(".json")) continue;
                 if (!MainWindow.devMode && file.getName().contains("devmode")) continue;
+                System.out.println("\t"+file.getName());
                 String jsonString = Files.readString(file.toPath());
                 Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
                 if (jsonBlocks2 != null && jsonBlocks2.length > 0) {

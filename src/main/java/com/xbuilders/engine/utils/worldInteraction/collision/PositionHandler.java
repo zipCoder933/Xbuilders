@@ -155,6 +155,7 @@ public class PositionHandler {
                 }
 
 
+                //We dont want to modify the actual velocity because we need to compute fall damage
                 maxFallSpeed = terminalVelocity * frameDeltaSec;
 //                if (velocity.y > maxFallSpeed) {
 //                    System.out.println("FALLING FAST!: " + velocity.y);

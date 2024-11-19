@@ -17,6 +17,6 @@ public class ItemStack {
 
     public ItemStack(Item item, int stackSize) {
         this.item = item;
-        this.stackSize = (byte) stackSize;
+        this.stackSize = (byte) Math.min(item.maxStackSize, stackSize);
     }
 }
