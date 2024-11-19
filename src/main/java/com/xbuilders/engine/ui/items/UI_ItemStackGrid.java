@@ -1,4 +1,4 @@
-package com.xbuilders.game.UI;
+package com.xbuilders.engine.ui.items;
 
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -7,7 +7,6 @@ import com.xbuilders.engine.player.data.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
@@ -31,7 +30,7 @@ public class UI_ItemStackGrid {
         buttonWidth = new WidgetWidthMeasurement(0);
     }
 
-    protected void draw(MemoryStack stack, NkContext ctx, int maxColumns, int height) {
+    public void draw(MemoryStack stack, NkContext ctx, int maxColumns, int height) {
         hoveredItem = null;
         nk_layout_row_dynamic(ctx, height, 1);
         nk_style_set_font(ctx, Theme.font_10);

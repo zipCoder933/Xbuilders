@@ -8,6 +8,8 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.Theme;
+import com.xbuilders.engine.ui.items.UI_ItemStackGrid;
+import com.xbuilders.engine.ui.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
@@ -29,7 +31,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
     public UI_Inventory(NkContext ctx, Item[] itemList, NKWindow window, UI_Hotbar hotbar) throws IOException {
-        super(ctx, window);
+        super(ctx, window, "Item List");
         this.hotbar = hotbar;
         setItemList(itemList);
         searchBox = new TextBox(25);
@@ -39,7 +41,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         });
         playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.player.inventory, this);
         // We have to create the window initially
-        nk_begin(ctx, WINDOW_TITLE, NkRect.create(), windowFlags);
+        nk_begin(ctx, title, NkRect.create(), windowFlags);
         nk_end(ctx);
         setOpen(false);
     }
@@ -85,86 +87,33 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         }
     };
 
-
+    UI_ItemStackGrid playerInventory;
     int scrollValue = 0;
-    final int menuWidth = 645;  //Menu window size
-    final int menuHeight = 645; //Menu window size
     int itemListHeight = 285; //iten list window size
-    final int backpackMenuSize = menuHeight; // Its ok since this is the last row
-    final int maxColumns = 11;
+    final int backpackMenuSize = menuDimensions.y; // Its ok since this is the last row
     UI_Hotbar hotbar;
     Item[] itemList;
     TextBox searchBox;
 
     String hoveredItem;
-    boolean isOpen = false;
-
-    public boolean isOpen() {
-        return isOpen;
-    }
-
-    public void setOpen(boolean open) {
-        if (open) {
-            nk_window_show(ctx, WINDOW_TITLE, windowFlags);
-            isOpen = true;
-        } else {
-            isOpen = false;
-        }
-    }
-
-    int windowFlags = NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_CLOSABLE;
-    final String WINDOW_TITLE = "Item List";
 
 
     @Override
-    public void draw(MemoryStack stack) {
+    public void drawWindow(MemoryStack stack, NkRect windowDims2) {
+        hoveredItem = null;
+        //Search box
+        nk_layout_row_dynamic(ctx, 20, 1);
+        nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
+        nk_layout_row_dynamic(ctx, 25, 1);
+        searchBox.render(ctx);
 
+        ctx.style().button().padding().set(0, 0);
+        inventoryGroup(stack);
+        playerInventory.draw(stack, ctx, maxColumns, backpackMenuSize);
 
-        if (isOpen) {
-            hoveredItem = null;
-            GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-            NkRect windowDims2 = NkRect.malloc(stack);
-            Theme.resetEntireButtonStyle(ctx);
-            Theme.resetWindowColor(ctx);
-            Theme.resetWindowPadding(ctx);
-            nk_style_set_font(ctx, Theme.font_10);
-
-            nk_rect(window.getWidth() / 2 - (menuWidth / 2), window.getHeight() / 2 - (menuHeight / 2), menuWidth, menuHeight, windowDims2);
-
-            if (nk_begin(ctx, WINDOW_TITLE, windowDims2, windowFlags)) {
-                //Search box
-                nk_layout_row_dynamic(ctx, 20, 1);
-                nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
-                nk_layout_row_dynamic(ctx, 25, 1);
-                searchBox.render(ctx);
-
-                ctx.style().button().padding().set(0, 0);
-                inventoryGroup(stack);
-                drawPlayerStuff(stack);
-
-                Theme.resetEntireButtonStyle(ctx);
-                if (hoveredItem != null)
-                    Nuklear.nk_tooltip(ctx, " " + hoveredItem + ")"); //ending character is important
-            }
-
-            if (draggingItem != null) drawItemAtCursor(window, stack, ctx, draggingItem);
-
-            nk_end(ctx);
-
-            if (draggingItem != null) {
-                drawOutOfBoundsStackAtCursor(window, stack, ctx, draggingItem);
-                if (!inBounds(windowDims2) && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-                    //Drop the item
-                    draggingItem = null;
-                }
-            }
-
-        }
-        if (nk_window_is_hidden(ctx, WINDOW_TITLE)) {
-            isOpen = false;
-        }
-
-
+        Theme.resetEntireButtonStyle(ctx);
+        if (hoveredItem != null)
+            Nuklear.nk_tooltip(ctx, " " + hoveredItem + ")"); //ending character is important
     }
 
 
@@ -185,7 +134,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     private void inventoryGroup(MemoryStack stack) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
-        if (nk_group_begin(ctx, WINDOW_TITLE, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
+        if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(itemListHeight / itemWidth.width) - 1);
             updateVisibleEntries();
             scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (visibleEntries.size() / maxColumns) - 1));
@@ -218,13 +167,6 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         }
         nk_group_end(ctx);
     }
-
-    UI_ItemStackGrid playerInventory;
-
-    protected void drawPlayerStuff(MemoryStack stack) {
-        playerInventory.draw(stack, ctx, maxColumns, backpackMenuSize);
-    }
-
 
     private boolean matchesSearch(Item item, String searchCriteria) {
         if (searchCriteria == null || searchCriteria.isBlank() || item.name == null) return true;
@@ -263,11 +205,5 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         scrollValue -= yoffset;
         return true;
     }
-
-    private float buttonWidthPlusPadding() {
-        NkVec2 padding = ctx.style().button().padding();
-        return itemWidth.width + (padding.y()) + 0.02f;
-    }
-
 
 }

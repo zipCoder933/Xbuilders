@@ -13,6 +13,7 @@ import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.player.data.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.engine.ui.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;

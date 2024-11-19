@@ -1,25 +1,80 @@
-package com.xbuilders.game.UI;
+package com.xbuilders.engine.ui.items;
 
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.GameUIElement;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
 import org.joml.Vector2d;
+import org.joml.Vector2i;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
 public abstract class UI_ItemWindow extends GameUIElement {
-    public UI_ItemWindow(NkContext ctx, NKWindow window) {
+    public UI_ItemWindow(NkContext ctx, NKWindow window, String title) {
         super(ctx, window);
+        this.title = title;
     }
 
-    ItemStack draggingItem = null;
+    public ItemStack draggingItem = null;
+    public Vector2i menuDimensions = new Vector2i(645, 645);
+    public final int maxColumns = 11;
+    private boolean isOpen = false;
+    public final int windowFlags = NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_CLOSABLE;
+    public final String title;
 
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        if (open) {
+            nk_window_show(ctx, title, windowFlags);
+            isOpen = true;
+        } else {
+            isOpen = false;
+        }
+    }
+
+    @Override
+    public final void draw(MemoryStack stack) {
+        if (isOpen) {
+            GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+            NkRect windowDims2 = NkRect.malloc(stack);
+            Theme.resetEntireButtonStyle(ctx);
+            Theme.resetWindowColor(ctx);
+            Theme.resetWindowPadding(ctx);
+            nk_style_set_font(ctx, Theme.font_10);
+
+            nk_rect(window.getWidth() / 2 - (menuDimensions.x / 2),
+                    window.getHeight() / 2 - (menuDimensions.y / 2),
+                    menuDimensions.x, menuDimensions.y, windowDims2);
+
+            if (nk_begin(ctx, title, windowDims2, windowFlags)) {
+                drawWindow(stack, windowDims2);
+                if (draggingItem != null) drawItemAtCursor(window, stack, ctx, draggingItem);
+            }
+            nk_end(ctx);
+
+            if (draggingItem != null) {
+                drawOutOfBoundsStackAtCursor(window, stack, ctx, draggingItem);
+                if (!inBounds(windowDims2) && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+                    //Drop the item
+                    draggingItem = null;
+                }
+            }
+        }
+        if (nk_window_is_hidden(ctx, title)) {
+            isOpen = false;
+        }
+    }
+
+    public abstract void drawWindow(MemoryStack stack, NkRect windowDims2);
 
     final static NkColor white = Theme.createColor(255, 255, 255, 255);
     final static NkColor green = Theme.createColor(0, 255, 0, 255);
@@ -43,7 +98,7 @@ public abstract class UI_ItemWindow extends GameUIElement {
         return pressed;
     }
 
-    private static  void drawItemStackOverlay(MemoryStack stack, NkContext ctx, ItemStack itemStack, NkRect buttonBounds) {
+    private static void drawItemStackOverlay(MemoryStack stack, NkContext ctx, ItemStack itemStack, NkRect buttonBounds) {
         NkCommandBuffer canvas = Nuklear.nk_window_get_canvas(ctx); // Get the current drawing canvas
         NkImage bgImage = itemStack.item.getNKIcon();
 
@@ -71,7 +126,7 @@ public abstract class UI_ItemWindow extends GameUIElement {
 
     }
 
-    public  void drawItemAtCursor(NKWindow window, MemoryStack stack, NkContext ctx, ItemStack itemStack) {
+    public void drawItemAtCursor(NKWindow window, MemoryStack stack, NkContext ctx, ItemStack itemStack) {
         NkRect rect = NkRect.malloc(stack);
         Vector2d cursor = window.getCursorVector();
         rect.set((float) cursor.x - (itemWidth.width / 2), (float) cursor.y - (itemWidth.width / 2), itemWidth.width, itemWidth.width);
@@ -79,7 +134,7 @@ public abstract class UI_ItemWindow extends GameUIElement {
         drawItemStackOverlay(stack, ctx, itemStack, rect);
     }
 
-    public  void drawOutOfBoundsStackAtCursor(NKWindow window, MemoryStack stack, NkContext ctx, ItemStack itemStack) {
+    public void drawOutOfBoundsStackAtCursor(NKWindow window, MemoryStack stack, NkContext ctx, ItemStack itemStack) {
         NkRect rect = NkRect.malloc(stack);
         Vector2d cursor = window.getCursorVector();
         rect.set((float) cursor.x - (itemWidth.width / 2), (float) cursor.y - (itemWidth.width / 2), itemWidth.width, itemWidth.width);
