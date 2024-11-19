@@ -95,7 +95,7 @@ public class Hotbar extends GameUIElement {
                     }
                 }
                 if (item != null) {
-                    Inventory.drawItemStack(ctx, item);
+                    Inventory.drawItemStack(stack, ctx, item);
                 } else {
                     Nuklear.nk_button_text(ctx, "");
                 }
@@ -135,7 +135,7 @@ public class Hotbar extends GameUIElement {
     }
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        changeSelectedIndex(scroll.y());
+        changeSelectedIndex(-scroll.y());
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {

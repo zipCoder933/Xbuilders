@@ -154,7 +154,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
 
                 ctx.style().button().padding().set(0, 0);
                 inventoryGroup(stack);
-                drawPlayerStuff();
+                drawPlayerStuff(stack);
 
                 Theme.resetEntireButtonStyle(ctx);
             }
@@ -223,7 +223,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
         nk_group_end(ctx);
     }
 
-    protected void drawPlayerStuff() {
+    protected void drawPlayerStuff(MemoryStack stack) {
         nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
         if (nk_group_begin(ctx, "My Items", NK_WINDOW_TITLE)) {
             nk_layout_row_dynamic(ctx, 20, 3);
@@ -259,7 +259,7 @@ public class Inventory extends GameUIElement implements WindowEvents {
                         if (nk_widget_is_hovered(ctx)) {
 //                            hoveredItem = item.toString();
                         }
-                        if (drawItemStack(ctx, item)) {
+                        if (drawItemStack(stack, ctx, item)) {
                             hotbar.setSelectedIndex(itemID);
                         }
                     } else if (nk_button_text(ctx, "")) {
@@ -272,11 +272,12 @@ public class Inventory extends GameUIElement implements WindowEvents {
         nk_group_end(ctx);
     }
 
-    final static  NkColor white = Theme.createColor(255, 255, 255, 255);
-    final static  NkColor green = Theme.createColor(0, 255, 0, 255);
+    final static NkColor white = Theme.createColor(255, 255, 255, 255);
+    final static NkColor green = Theme.createColor(0, 255, 0, 255);
     final static NkColor black = Theme.createColor(0, 0, 0, 255);
+    final static int padding = 5;
 
-    public static boolean drawItemStack(NkContext ctx, ItemStack itemStack) {
+    public static boolean drawItemStack(MemoryStack stack, NkContext ctx, ItemStack itemStack) {
         ctx.style().window().padding().set(0, 0);
         ctx.style().window().group_padding().set(0, 0);
         ctx.style().window().border(0);
@@ -284,22 +285,31 @@ public class Inventory extends GameUIElement implements WindowEvents {
         NkCommandBuffer buffer = nk_window_get_canvas(ctx);
         NkImage bgImage = itemStack.item.getNKIcon();
 
-
-        NkRect buttonBounds = NkRect.create();
+        NkRect buttonBounds = NkRect.calloc(stack);
         Nuklear.nk_widget_bounds(ctx, buttonBounds);
         boolean pressed = nk_button_image(ctx, bgImage);
 
-        nk_draw_image(buffer, buttonBounds, bgImage, white);
+        NkRect bounds = NkRect.calloc(stack).set(buttonBounds);
+        bounds.x(buttonBounds.x() + padding).y(buttonBounds.y() + padding).w(buttonBounds.w() - padding - padding).h(buttonBounds.h() - padding - padding);
+        nk_draw_image(buffer, bounds, bgImage, white);
 
-        NkRect textBounds = NkRect.create().set(buttonBounds).x(buttonBounds.x() + 10).y(buttonBounds.y() + 10);
+        //draw quantity
+        bounds.set(buttonBounds);
+        bounds.x(buttonBounds.x() + 5).y(buttonBounds.y() + buttonBounds.w() - 16);
+
         NkCommandBuffer canvas = Nuklear.nk_window_get_canvas(ctx); // Get the current drawing canvas
-        Nuklear.nk_draw_text(canvas, textBounds, "x" + itemStack.stackSize, Theme.font_10, black, white);
+        Nuklear.nk_draw_text(canvas, bounds, "" + itemStack.stackSize, Theme.font_10, white, black);
 
-        NkRect barBounds = NkRect.create().set(buttonBounds);
-        barBounds.y(barBounds.y() + barBounds.h() - 10);
-        barBounds.h(10);
-        // Draw the rectangle
-        Nuklear.nk_fill_rect(canvas, barBounds, 0.0f, green); // 0.0f for no rounding
+        bounds.y(bounds.y() - 1).x(bounds.x() - 1);
+        Nuklear.nk_draw_text(canvas, bounds, "" + itemStack.stackSize, Theme.font_10, black, white);
+
+        //draw durability
+        bounds.set(buttonBounds);
+        bounds.y(bounds.y() + bounds.h() - 3 - 5);
+        bounds.x(bounds.x() + 2);
+        bounds.w(MathUtils.map(0.5f, 0, 1, 0, bounds.w() - 4));
+        bounds.h(3);
+        Nuklear.nk_fill_rect(canvas, bounds, 0.0f, green); // 0.0f for no rounding
 
         return pressed;
     }
