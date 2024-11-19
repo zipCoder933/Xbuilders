@@ -65,6 +65,7 @@ public class PositionHandler {
     public static final float DEFAULT_COAST = 0.6f;
 
     //Variables
+    public float maxFallSpeed;
     protected final Vector3f velocity = new Vector3f();
     private boolean frozen = false;
     private boolean gravityEnabled;
@@ -148,18 +149,19 @@ public class PositionHandler {
                     velocity.y *= 0.75f; //Vertical coasting
                 }
 
-                if (velocity.y > terminalVelocity * frameDeltaSec) {
-                    velocity.y = terminalVelocity * frameDeltaSec;
-                }
 
-                if (velocity.y > -0.00001f) {
+                if (velocity.y > -0.00001f && collisionHandler.floorBlock != null && collisionHandler.floorBlock != BlockRegistry.BLOCK_AIR) {
                     onGround = true;
                 }
 
 
+                maxFallSpeed = terminalVelocity * frameDeltaSec;
+//                if (velocity.y > maxFallSpeed) {
+//                    System.out.println("FALLING FAST!: " + velocity.y);
+//                }
                 //Calculate new AABB
                 aabb.box.setX(aabb.box.min.x + (velocity.x * timestepMultiplier));
-                aabb.box.setY(aabb.box.min.y + (velocity.y * timestepMultiplier));
+                aabb.box.setY(aabb.box.min.y + (Math.min(velocity.y, maxFallSpeed) * timestepMultiplier));
                 aabb.box.setZ(aabb.box.min.z + (velocity.z * timestepMultiplier));
 
                 //Apply coasting

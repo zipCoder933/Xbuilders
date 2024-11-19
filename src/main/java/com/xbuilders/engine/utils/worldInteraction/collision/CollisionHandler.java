@@ -67,6 +67,7 @@ public class CollisionHandler {
 
     public synchronized void resolveCollisions(Matrix4f projection, Matrix4f view) {
         collisionData.reset();
+        floorBlock = BlockRegistry.BLOCK_AIR;
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             stepBox.set(myBox.box);
@@ -137,6 +138,9 @@ public class CollisionHandler {
         }
     }
 
+
+    long lastIllegalFloorCollisionTime = 0;
+
     private void processBox(AABB box, Block block, boolean isEntity) {
         // if (stepBox.intersects(box)) {
         // stepWillHitCeiling = true;
@@ -150,7 +154,12 @@ public class CollisionHandler {
                 collisionData.penPerAxes.mul(0.8f);
             }
 
-            if (Math.abs(collisionData.penPerAxes.x) > 0.6f ||
+            if (driver.velocity.y >= driver.maxFallSpeed * 0.99f) {
+//                System.out.println("HARD COLLISION!: " + collisionData.penPerAxes);
+                if (collisionData.collisionNormal.y == -1) { //If we are hitting the ground hard, we still want to collide with it
+                    handleFloorCollision(box, block);
+                }
+            } else if (Math.abs(collisionData.penPerAxes.x) > 0.6f ||
                     Math.abs(collisionData.penPerAxes.z) > 0.6f ||
                     Math.abs(collisionData.penPerAxes.y) > 0.6f) {
                 driver.velocity.y = 0;
@@ -163,25 +172,22 @@ public class CollisionHandler {
                 if (myBox.box.max.y - box.min.y < driver.stepHeight) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.x));
                 } else {
-                    myBox.box.setX(myBox.box.min.x + collisionData.penPerAxes.x);
+                    myBox.box.setX(myBox.box.min.x + (collisionData.penPerAxes.x));
                 }
             } else if (collisionData.collisionNormal.z != 0) {
                 if (myBox.box.max.y - box.min.y < driver.stepHeight) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.z));
                 } else {
-                    myBox.box.setZ(myBox.box.min.z + collisionData.penPerAxes.z);
+                    myBox.box.setZ(myBox.box.min.z + (collisionData.penPerAxes.z));
                 }
-
-            } else if (collisionData.collisionNormal.y == -1) {//Floor collision
-                floorBlock = block;
-                if (floorBlock != null
-                        && floorBlock.bounciness > 0) {
-                    driver.velocity.y = -driver.velocity.y * floorBlock.bounciness;
-                } else {
-                    driver.velocity.y = 0;
+            }
+            //Floor collision
+            else if (collisionData.collisionNormal.y == -1) {
+                if (CollisionData.calculateXIntersection(myBox.box, box) < 0.25f
+                        || CollisionData.calculateZIntersection(myBox.box, box) < 0.25f) {
+                    return;
                 }
-                driver.onGround = true;
-                myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
+                handleFloorCollision(box, block);
             } else if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) { //Ceiling collision
                 driver.velocity.y = 0;
                 myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
@@ -189,5 +195,17 @@ public class CollisionHandler {
 
 
         }
+    }
+
+    private void handleFloorCollision(AABB box, Block block) {
+        floorBlock = block;
+        if (floorBlock != null
+                && floorBlock.bounciness > 0) {
+            driver.velocity.y = -driver.velocity.y * floorBlock.bounciness;
+        } else {
+            driver.velocity.y = 0;
+        }
+        driver.onGround = true;
+        myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
     }
 }

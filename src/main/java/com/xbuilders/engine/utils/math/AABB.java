@@ -7,6 +7,8 @@ package com.xbuilders.engine.utils.math;
 import com.xbuilders.engine.utils.MiscUtils;
 
 import java.nio.FloatBuffer;
+import java.util.Objects;
+
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
@@ -150,4 +152,15 @@ public class AABB {
         return "AABB{" + MiscUtils.printVector(min) + ", " + MiscUtils.printVector(max) + "}";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        AABB aabb = (AABB) o;
+        return Objects.equals(min, aabb.min) && Objects.equals(max, aabb.max);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(min, max);
+    }
 }

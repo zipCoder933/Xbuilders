@@ -6,6 +6,7 @@ package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.utils.math.AABB;
 
+import java.lang.Math;
 import java.nio.FloatBuffer;
 
 import org.joml.*;
@@ -20,7 +21,7 @@ public class CollisionData {
     protected Vector3i collisionNormal;//just a pointer to one of the 6 possible faces
     protected final FloatBuffer penetration;//penetration amount
     protected final FloatBuffer distances; //a list of distances
-    protected final Vector3f penPerAxes= new Vector3f(); //penetration per axes
+    protected final Vector3f penPerAxes = new Vector3f(); //penetration per axes
 
     //Information useful everywhere
     public final Vector3f totalPenPerAxes = new Vector3f(); //sum of all penetrations per axes
@@ -38,19 +39,33 @@ public class CollisionData {
             new Vector3i(0, -1, 0), new Vector3i(0, 1, 0),
             new Vector3i(0, 0, -1), new Vector3i(0, 0, 1),};
 
-    public void calculateCollision(AABB thisBox, AABB other, boolean otherBoxIsEntity) {
-        Vector3f boxAPos = thisBox.min;
-        Vector3f boxBPos = other.min;
-        Vector3f maxA = new Vector3f(boxAPos).add(thisBox.getXLength(), thisBox.getYLength(), thisBox.getZLength());
-        Vector3f maxB = new Vector3f(boxBPos).add(other.getXLength(), other.getYLength(), other.getZLength());
+    public static double calculateXIntersection(AABB boxA, AABB boxB) {
+        // Determine the intersection rectangle's boundaries
+        double intersectMinX = Math.max(boxA.min.x, boxB.min.x);
+        double intersectMaxX = Math.min(boxA.max.x, boxB.max.x);
+        return Math.max(0, intersectMaxX - intersectMinX);
+    }
+
+    public static double calculateZIntersection(AABB boxA, AABB boxB) {
+        // Determine the intersection rectangle's boundaries
+        double intersectMinZ = Math.max(boxA.min.z, boxB.min.z);
+        double intersectMaxZ = Math.min(boxA.max.z, boxB.max.z);
+        return Math.max(0, intersectMaxZ - intersectMinZ);
+    }
+
+    public void calculateCollision(AABB boxA, AABB boxB, boolean otherBoxIsEntity) {
+        Vector3f minA = boxA.min;
+        Vector3f minB = boxB.min;
+        Vector3f maxA = new Vector3f(minA).add(boxA.getXLength(), boxA.getYLength(), boxA.getZLength());
+        Vector3f maxB = new Vector3f(minB).add(boxB.getXLength(), boxB.getYLength(), boxB.getZLength());
         penetration.put(0, Float.MAX_VALUE);
 
-        distances.put(0, (maxB.x - boxAPos.x));// distance of box 'b' to 'left ' of 'a '.
-        distances.put(1, (maxA.x - boxBPos.x));// distance of box 'b' to 'right ' of 'a '.
-        distances.put(2, (maxB.y - boxAPos.y));// distance of box 'b' to 'bottom ' of 'a '.
-        distances.put(3, (maxA.y - boxBPos.y));// distance of box 'b' to 'top ' of 'a '.
-        distances.put(4, (maxB.z - boxAPos.z));// distance of box 'b' to 'far ' of 'a '.
-        distances.put(5, (maxA.z - boxBPos.z)); // distance of box 'b' to 'near ' of 'a '.
+        distances.put(0, (maxB.x - minA.x));// distance of box 'b' to 'left ' of 'a '.
+        distances.put(1, (maxA.x - minB.x));// distance of box 'b' to 'right ' of 'a '.
+        distances.put(2, (maxB.y - minA.y));// distance of box 'b' to 'bottom ' of 'a '.
+        distances.put(3, (maxA.y - minB.y));// distance of box 'b' to 'top ' of 'a '.
+        distances.put(4, (maxB.z - minA.z));// distance of box 'b' to 'far ' of 'a '.
+        distances.put(5, (maxA.z - minB.z)); // distance of box 'b' to 'near ' of 'a '.
 
         for (int i = 0; i < 6; i++) {
             if (distances.get(i) < penetration.get(0)) {
@@ -61,9 +76,9 @@ public class CollisionData {
         penPerAxes.set(collisionNormal).mul(penetration.get(0));
 
         totalPenPerAxes.add(penPerAxes);
-        if(otherBoxIsEntity){
+        if (otherBoxIsEntity) {
             entity_penPerAxes.add(penPerAxes);
-        }else{
+        } else {
             block_penPerAxes.add(penPerAxes);
         }
     }
