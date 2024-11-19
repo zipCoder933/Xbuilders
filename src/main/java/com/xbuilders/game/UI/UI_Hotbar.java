@@ -10,13 +10,13 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
-import com.xbuilders.engine.player.data.StorageSpace;
+import com.xbuilders.engine.items.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.ui.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
+import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
@@ -26,18 +26,18 @@ import static org.lwjgl.nuklear.Nuklear.*;
 /**
  * @author zipCoder933
  */
-public class UI_Hotbar extends GameUIElement {
+public class UI_Hotbar extends UI_GameMenu {
 
 
     public UI_Hotbar(NkContext ctx, NKWindow window) {
         super(ctx, window);
-        buttonHeight = new WidgetWidthMeasurement(0);
+        buttonHeight = new WidgetSizeMeasurement(0);
     }
 
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    WidgetWidthMeasurement buttonHeight;
+    WidgetSizeMeasurement buttonHeight;
     private int selectedItemIndex;
     int pushValue;
 

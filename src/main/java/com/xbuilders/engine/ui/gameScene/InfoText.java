@@ -20,7 +20,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 /**
  * @author zipCoder933
  */
-public class InfoText extends GameUIElement {
+public class InfoText extends UI_GameMenu {
 
     /**
      * @param text the text to set

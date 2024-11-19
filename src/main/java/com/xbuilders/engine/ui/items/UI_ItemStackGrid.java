@@ -3,10 +3,10 @@ package com.xbuilders.engine.ui.items;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.player.data.StorageSpace;
+import com.xbuilders.engine.items.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
+import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
@@ -15,19 +15,20 @@ import static org.lwjgl.nuklear.Nuklear.*;
 import static org.lwjgl.nuklear.Nuklear.nk_group_end;
 
 public class UI_ItemStackGrid {
-    WidgetWidthMeasurement buttonWidth;
+    WidgetSizeMeasurement buttonSize;
     final String title;
     String hoveredItem;
     final StorageSpace storageSpace;
     UI_ItemWindow box;
     NKWindow window;
+    int rowCount = 0;
 
     public UI_ItemStackGrid(NKWindow window, String title, StorageSpace storageSpace, UI_ItemWindow box) {
         this.title = title;
         this.storageSpace = storageSpace;
         this.box = box;
         this.window = window;
-        buttonWidth = new WidgetWidthMeasurement(0);
+        buttonSize = new WidgetSizeMeasurement(0);
     }
 
     public void draw(MemoryStack stack, NkContext ctx, int maxColumns, int height) {
@@ -35,7 +36,9 @@ public class UI_ItemStackGrid {
         nk_layout_row_dynamic(ctx, height, 1);
         nk_style_set_font(ctx, Theme.font_10);
 
-        if (nk_group_begin(ctx, title, NK_WINDOW_TITLE)) {
+
+        if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
+
             nk_layout_row_dynamic(ctx, 20, GameScene.getGameMode() == GameMode.FREEPLAY ? 2 : 1);
             if (nk_button_label(ctx, "Sort")) {
                 storageSpace.organize();
@@ -45,10 +48,12 @@ public class UI_ItemStackGrid {
                 }
             }
 
+            rowCount = 0;
             int index = 0;
             rows:
             while (true) {
-                nk_layout_row_dynamic(ctx, buttonWidth.width, maxColumns);
+                nk_layout_row_dynamic(ctx, buttonSize.width, maxColumns);
+                rowCount++;
                 cols:
                 for (int i = 0; i < maxColumns; i++) {
                     if (index >= storageSpace.size()) {
@@ -69,7 +74,7 @@ public class UI_ItemStackGrid {
                         itemClickEvent(item, index);
                     }
                     index++;
-                    buttonWidth.measure(ctx, stack);
+                    buttonSize.measure(ctx, stack);
                 }
             }
             if (hoveredItem != null) Nuklear.nk_tooltip(ctx, " " + hoveredItem + ")");

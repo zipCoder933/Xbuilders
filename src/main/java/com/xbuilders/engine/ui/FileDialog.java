@@ -1,7 +1,7 @@
 package com.xbuilders.engine.ui;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.window.WindowEvents;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
-public class FileDialog extends GameUIElement implements WindowEvents {
+public class FileDialog extends UI_GameMenu implements WindowEvents {
 
     public FileDialog(NkContext ctx, MainWindow window) {
         super(ctx, window);

@@ -2,10 +2,10 @@ package com.xbuilders.engine.ui.items;
 
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
+import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
 import org.joml.Vector2d;
 import org.joml.Vector2i;
 import org.lwjgl.glfw.GLFW;
@@ -14,7 +14,7 @@ import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
-public abstract class UI_ItemWindow extends GameUIElement {
+public abstract class UI_ItemWindow extends UI_GameMenu {
     public UI_ItemWindow(NkContext ctx, NKWindow window, String title) {
         super(ctx, window);
         this.title = title;
@@ -80,7 +80,7 @@ public abstract class UI_ItemWindow extends GameUIElement {
     final static NkColor green = Theme.createColor(0, 255, 0, 255);
     final static NkColor black = Theme.createColor(0, 0, 0, 255);
     final static int padding = 5;
-    public final static WidgetWidthMeasurement itemWidth = new WidgetWidthMeasurement(0);
+    public final static WidgetSizeMeasurement itemWidth = new WidgetSizeMeasurement(0);
 
     public static boolean drawItemStack(MemoryStack stack, NkContext ctx, ItemStack itemStack) {
         ctx.style().window().padding().set(0, 0);

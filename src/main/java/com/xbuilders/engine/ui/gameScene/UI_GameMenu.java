@@ -14,9 +14,9 @@ import org.lwjgl.system.MemoryStack;
  *
  * @author zipCoder933
  */
-public abstract class GameUIElement {
+public abstract class UI_GameMenu {
 
-    public GameUIElement(NkContext ctx, NKWindow window) {
+    public UI_GameMenu(NkContext ctx, NKWindow window) {
         this.ctx = ctx;
         this.window = window;
     }

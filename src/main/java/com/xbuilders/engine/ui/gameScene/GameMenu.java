@@ -28,7 +28,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 /**
  * @author zipCoder933
  */
-public class GameMenu extends GameUIElement {
+public class GameMenu extends UI_GameMenu {
 
     final int menuWidth = 340;
     final int menuHeight = 280;

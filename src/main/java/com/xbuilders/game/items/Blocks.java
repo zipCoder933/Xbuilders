@@ -5,7 +5,7 @@ import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.items.blocks.BlockBarrel;
+import com.xbuilders.game.items.blocks.barrel.BlockBarrel;
 import com.xbuilders.game.items.blocks.BlockEventUtils;
 import com.xbuilders.game.items.blocks.PlantUtils;
 import com.xbuilders.game.items.blocks.BlockStraightTrack;

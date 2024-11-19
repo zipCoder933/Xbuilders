@@ -5,11 +5,10 @@ import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.game.blockTools.tools.*;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
@@ -20,7 +19,7 @@ import java.util.List;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
-public class BlockTools extends GameUIElement {
+public class BlockTools extends UI_GameMenu {
 
     public BlockTools(NkContext ctx, MainWindow window, CursorRay cursorRay) {
         super(ctx, window);

@@ -6,7 +6,7 @@ package com.xbuilders.game.blockTools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.window.nuklear.WidgetWidthMeasurement;
+import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
@@ -24,7 +24,7 @@ public class BlockToolPallete {
 
     MainWindow window;
     NkContext ctx;
-    WidgetWidthMeasurement buttonWidth;
+    WidgetSizeMeasurement buttonWidth;
     BlockTools tools;
     boolean wasOpen = false;
 
@@ -42,7 +42,7 @@ public class BlockToolPallete {
         this.tools = tools;
         this.ctx = ctx;
         this.window = window;
-        buttonWidth = new WidgetWidthMeasurement(0);
+        buttonWidth = new WidgetSizeMeasurement(0);
     }
 
     public void draw(MemoryStack stack) {

@@ -1,7 +1,7 @@
 package com.xbuilders.game.UI;
 
 
-import com.xbuilders.engine.ui.gameScene.GameUIElement;
+import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 public class GameMenus {
 
-    public final ArrayList<GameUIElement> menus = new ArrayList<>();
+    public final ArrayList<UI_GameMenu> menus = new ArrayList<>();
 
     public boolean draw(MemoryStack stack) {
-//        for (int i = 0; i < menus.size(); i++) {
-//            UI_GameMenu menu = menus.get(i);
-//            if (menu.isOpen()) {
-//                menu.draw(stack);
-//                return true;
-//            }
-//        }
+        for (int i = 0; i < menus.size(); i++) {
+            UI_GameMenu menu = menus.get(i);
+            if (menu.isOpen()) {
+                menu.draw(stack);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -53,12 +53,12 @@ public class GameMenus {
     }
 
     public boolean isOpen() {
-//        for (int i = 0; i < menus.size(); i++) {
-//            UI_GameMenu menu = menus.get(i);
-//            if (menu.isOpen()) {
-//                return true;
-//            }
-//        }
+        for (int i = 0; i < menus.size(); i++) {
+            UI_GameMenu menu = menus.get(i);
+            if (menu.isOpen()) {
+                return true;
+            }
+        }
         return false;
     }
 }

@@ -1,7 +1,5 @@
-package com.xbuilders.engine.player.data;
+package com.xbuilders.engine.items;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 
 import java.util.Arrays;

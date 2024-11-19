@@ -20,7 +20,7 @@ import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.player.data.StorageSpace;
+import com.xbuilders.engine.items.StorageSpace;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;

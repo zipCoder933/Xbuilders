@@ -13,14 +13,14 @@ import org.lwjgl.system.MemoryStack;
  *
  * @author zipCoder933
  */
-public class WidgetWidthMeasurement {
+public class WidgetSizeMeasurement {
 
     public float width;
     public float height;
     private int calibrations;
-    private int maxCalibrations = 1;
+    private final int maxCalibrations = 1;
 
-    public WidgetWidthMeasurement(float initialValue) {
+    public WidgetSizeMeasurement(float initialValue) {
         width = initialValue;
         height = initialValue;
         calibrations = 0;

@@ -30,7 +30,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
-    public UI_Inventory(NkContext ctx, Item[] itemList, NKWindow window, UI_Hotbar hotbar) throws IOException {
+    public UI_Inventory(NkContext ctx, Item[] itemList, NKWindow window, UI_Hotbar hotbar){
         super(ctx, window, "Item List");
         this.hotbar = hotbar;
         setItemList(itemList);
@@ -48,12 +48,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     public void setItemList(Item[] itemList) {
         List<Item> items = new ArrayList<>();
-
-        // Only keep items that are visible
-        for (int i = 0; i < itemList.length; i++) {
-            if (itemList[i] == null || !isVisible(itemList[i])) continue;
-            items.add(itemList[i]);
-        }
+        items.addAll(Arrays.asList(itemList));
         Collections.sort(items, comparator);
 
         // Convert arraylist to array
@@ -61,10 +56,6 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         for (int i = 0; i < items.size(); i++) {
             this.itemList[i] = items.get(i);
         }
-    }
-
-    private boolean isVisible(Item item) {
-        return item.name != null && !item.name.toLowerCase().contains("hidden");
     }
 
     Comparator<Item> comparator = new Comparator<Item>() {
@@ -117,27 +108,15 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
 
-    final ArrayList<Item> visibleEntries = new ArrayList<>();
 
-    private void updateVisibleEntries() {
-        String searchCriteria = searchBox.getValueAsString();
-        if (searchCriteria.equals("") || searchCriteria.isBlank() || searchCriteria == null) {
-            searchCriteria = null;
-        } else searchCriteria = searchCriteria.toLowerCase();
-        visibleEntries.clear();
-        for (Item item : itemList) {
-            if (isVisible(item) && matchesSearch(item, searchCriteria)) {
-                visibleEntries.add(item);
-            }
-        }
-    }
+
 
     private void inventoryGroup(MemoryStack stack) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(itemListHeight / itemWidth.width) - 1);
-            updateVisibleEntries();
-            scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (visibleEntries.size() / maxColumns) - 1));
+
+            scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (itemList.length / maxColumns) - 1));
             int itemID = scrollValue * maxColumns;
             int rows = 0;
 
@@ -148,11 +127,11 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
                 rows++;
 
                 for (int column = 0; column < maxColumns; ) {
-                    if (itemID >= visibleEntries.size()) {
+                    if (itemID >= itemList.length) {
                         break rows;
                     }
 
-                    Item item = visibleEntries.get(itemID);
+                    Item item = itemList[itemID];
                     if (nk_widget_is_hovered(ctx)) {
                         hoveredItem = item.name;
                     }
