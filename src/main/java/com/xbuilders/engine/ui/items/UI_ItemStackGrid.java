@@ -86,11 +86,26 @@ public class UI_ItemStackGrid {
 
     }
 
+    /**
+     * When the box is clicked
+     *
+     * @param item
+     * @param index
+     */
     private void itemClickEvent(ItemStack item, int index) {
         if (box.draggingItem != null) {
-            ItemStack replaceStack = storageSpace.get(index);
-            storageSpace.set(index, box.draggingItem);
-            box.draggingItem = replaceStack;
+            if (item != null && box.draggingItem.item.equals(item.item) && item.item.maxStackSize > 1) {
+                ItemStack thisStack = storageSpace.get(index);
+                thisStack.stackSize += box.draggingItem.stackSize;
+                if (thisStack.stackSize > thisStack.item.maxStackSize) {
+                    box.draggingItem.stackSize -= (byte) (thisStack.stackSize - thisStack.item.maxStackSize);
+                    thisStack.stackSize = (byte) thisStack.item.maxStackSize;
+                } else box.draggingItem = null;
+            } else {
+                ItemStack replaceStack = storageSpace.get(index);
+                storageSpace.set(index, box.draggingItem);
+                box.draggingItem = replaceStack;
+            }
         } else if (item != null) {
             box.draggingItem = item;
             storageSpace.set(index, null);

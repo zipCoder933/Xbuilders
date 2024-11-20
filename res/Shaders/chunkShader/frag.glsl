@@ -89,13 +89,16 @@ void main()
 
     // Calculate the sun
     vec3 tintedSun = vec3(sun * tint.r, sun * tint.g, sun * tint.b);
-    if (normal == 2.0f)
+    //Top = 4
+    if (normal == 0.0f) //pos x
         tintedSun *= 0.9;
-    if (normal == 1.0f)
-        tintedSun *= 0.85;
-    if (normal == 3.0f)
+    else if (normal == 1.0f) //neg x
         tintedSun *= 0.8;
-    if (normal == 5.0f)
+    else if (normal == 2.0f) //pos z
+        tintedSun *= 0.85;
+    else if (normal == 3.0f) //neg z
+        tintedSun *= 0.85;
+    else if (normal == 5.0f) //bottom
         tintedSun *= 0.7;
 
     // calculate the torch

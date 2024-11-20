@@ -1,5 +1,7 @@
 package com.xbuilders.engine.ui.items;
 
+import com.xbuilders.engine.gameScene.GameMode;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
@@ -107,14 +109,13 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         nk_draw_image(canvas, bounds, bgImage, white);
 
         //draw quantity
-        bounds.set(buttonBounds);
-        bounds.x(buttonBounds.x() + 5).y(buttonBounds.y() + buttonBounds.w() - 16);
-
-
-        Nuklear.nk_draw_text(canvas, bounds, "" + itemStack.stackSize, Theme.font_10, white, black);
-
-        bounds.y(bounds.y() - 1).x(bounds.x() - 1);
-        Nuklear.nk_draw_text(canvas, bounds, "" + itemStack.stackSize, Theme.font_10, black, white);
+        if (!(GameScene.getGameMode() == GameMode.FREEPLAY && itemStack.stackSize == 1) && itemStack.item.maxStackSize > 1) {
+            bounds.set(buttonBounds);
+            bounds.x(buttonBounds.x() + 5).y(buttonBounds.y() + buttonBounds.w() - 16);
+            Nuklear.nk_draw_text(canvas, bounds, "" + itemStack.stackSize, Theme.font_10, white, black);
+            bounds.y(bounds.y() - 1).x(bounds.x() - 1);
+            Nuklear.nk_draw_text(canvas, bounds, "" + itemStack.stackSize, Theme.font_10, black, white);
+        }
 
         //draw durability
         bounds.set(buttonBounds);

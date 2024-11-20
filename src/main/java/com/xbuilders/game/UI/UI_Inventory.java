@@ -18,7 +18,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.IOException;
 import java.util.*;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -30,15 +29,14 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     public static final int KEY_OPEN_INVENTORY = GLFW.GLFW_KEY_E;
 
-    public UI_Inventory(NkContext ctx, Item[] itemList, NKWindow window, UI_Hotbar hotbar){
+    public UI_Inventory(NkContext ctx, Item[] itemList, NKWindow window, UI_Hotbar hotbar) {
         super(ctx, window, "Item List");
         this.hotbar = hotbar;
         setItemList(itemList);
         searchBox = new TextBox(25);
-        searchBox.setOnSelectEvent(() -> {
-            searchBox.setValueAsString("");
-            scrollValue = 0;
-        });
+        searchBox.setOnSelectEvent(() -> clearSearch());
+        searchBox.setOnChangeEvent(() -> searchQueryEvent());
+
         playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.player.inventory, this);
         // We have to create the window initially
         nk_begin(ctx, title, NkRect.create(), windowFlags);
@@ -46,35 +44,43 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         setOpen(false);
     }
 
-    public void setItemList(Item[] itemList) {
-        List<Item> items = new ArrayList<>();
-        items.addAll(Arrays.asList(itemList));
-        Collections.sort(items, comparator);
+    private void clearSearch() {
+        searchBox.setValueAsString("");
+        scrollValue = 0;
+        filteredItems.clear();
+        filteredItems.addAll(allItems);
+    }
 
-        // Convert arraylist to array
-        this.itemList = new Item[items.size()];
-        for (int i = 0; i < items.size(); i++) {
-            this.itemList[i] = items.get(i);
+    private void searchQueryEvent() {
+        filteredItems.clear();
+        for (Item item : allItems) {
+            if (matchesSearch(item, searchBox.getValueAsString())) {
+                filteredItems.add(item);
+            }
         }
     }
 
-    Comparator<Item> comparator = new Comparator<Item>() {
-        @Override
-        public int compare(Item o1, Item o2) {
-            if (o1 == null && o2 == null) {
-                return 0;
-            } else if (o1 == null) {
-                return -1;
-            } else if (o2 == null) {
-                return 1;
-            } else {
-                for (String tag : o1.getTags()) {  // If 2 items have a shared tag
-                    if (o2.getTags().equals(tag)) {
-                        return 0;
-                    }
+    public void setItemList(Item[] itemList) {
+        allItems.clear();
+        allItems.addAll(Arrays.asList(itemList));
+        Collections.sort(allItems, comparator);
+        filteredItems.addAll(allItems);
+    }
+
+    final Comparator<Item> comparator = (o1, o2) -> {
+        if (o1 == null && o2 == null) {
+            return 0;
+        } else if (o1 == null) {
+            return -1;
+        } else if (o2 == null) {
+            return 1;
+        } else {
+            for (String tag : o1.getTags()) {  // If 2 items have a shared tag
+                if (o2.getTags().equals(tag)) {
+                    return 0;
                 }
-                return 1;
             }
+            return 1;
         }
     };
 
@@ -83,9 +89,9 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     int itemListHeight = 285; //iten list window size
     final int backpackMenuSize = menuDimensions.y; // Its ok since this is the last row
     UI_Hotbar hotbar;
-    Item[] itemList;
+    final List<Item> allItems = new ArrayList<>();
+    final List<Item> filteredItems = new ArrayList<>(); //filtered items>
     TextBox searchBox;
-
     String hoveredItem;
 
 
@@ -97,9 +103,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
         nk_layout_row_dynamic(ctx, 25, 1);
         searchBox.render(ctx);
-
         ctx.style().button().padding().set(0, 0);
-        inventoryGroup(stack);
+        inventoryGroup(stack, filteredItems);
         playerInventory.draw(stack, ctx, maxColumns, backpackMenuSize);
 
         Theme.resetEntireButtonStyle(ctx);
@@ -108,15 +113,12 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
 
-
-
-
-    private void inventoryGroup(MemoryStack stack) {
+    private void inventoryGroup(MemoryStack stack, List<Item> items) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(itemListHeight / itemWidth.width) - 1);
 
-            scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (itemList.length / maxColumns) - 1));
+            scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (items.size() / maxColumns) - 1));
             int itemID = scrollValue * maxColumns;
             int rows = 0;
 
@@ -127,16 +129,16 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
                 rows++;
 
                 for (int column = 0; column < maxColumns; ) {
-                    if (itemID >= itemList.length) {
+                    if (itemID >= items.size()) {
                         break rows;
                     }
 
-                    Item item = itemList[itemID];
+                    Item item = items.get(itemID);
                     if (nk_widget_is_hovered(ctx)) {
                         hoveredItem = item.name;
                     }
                     if (nk_button_image(ctx, item.getNKIcon())) {
-                        GameScene.player.inventory.acquireItem(new ItemStack(item, ItemStack.MAX_STACK_SIZE));
+                        GameScene.player.inventory.acquireItem(new ItemStack(item, 1));
                     }
                     itemWidth.measure(ctx, stack);
                     column++;
@@ -166,6 +168,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (isOpen() && searchBox.isFocused()) {
+            searchQueryEvent();
             return true;
         } else if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
             setOpen(!isOpen());
@@ -173,6 +176,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         }
         return false;
     }
+
 
     @Override
     public boolean mouseButtonEvent(int button, int action, int mods) {

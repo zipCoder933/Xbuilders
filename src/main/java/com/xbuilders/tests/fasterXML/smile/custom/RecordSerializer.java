@@ -3,7 +3,7 @@ package com.xbuilders.tests.fasterXML.smile.custom;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.example.smile.smileObject;
+import com.xbuilders.tests.fasterXML.smile.smileObject;
 
 import java.io.IOException;
 

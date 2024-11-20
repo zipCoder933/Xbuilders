@@ -3,7 +3,7 @@ package com.xbuilders.tests.fasterXML.json.custom;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.example.json.jsonObject;
+import com.xbuilders.tests.fasterXML.json.jsonObject;
 
 import java.io.IOException;
 

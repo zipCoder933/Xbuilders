@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
-import org.example.smile.custom.RecordDeserializer;
-import org.example.smile.custom.RecordSerializer;
-
+import com.xbuilders.tests.fasterXML.smile.custom.RecordDeserializer;
+import com.xbuilders.tests.fasterXML.smile.custom.RecordSerializer;
 import java.io.ByteArrayOutputStream;
 
 public class Main {

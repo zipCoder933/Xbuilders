@@ -2,8 +2,8 @@ package com.xbuilders.tests.fasterXML.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.example.json.custom.RecordDeserializer;
-import org.example.json.custom.RecordSerializer;
+import com.xbuilders.tests.fasterXML.json.custom.RecordDeserializer;
+import com.xbuilders.tests.fasterXML.json.custom.RecordSerializer;
 
 public class Main {
 

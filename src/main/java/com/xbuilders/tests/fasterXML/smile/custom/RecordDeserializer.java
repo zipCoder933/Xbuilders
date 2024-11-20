@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import org.example.smile.smileObject;
+import com.xbuilders.tests.fasterXML.smile.smileObject;
 
 import java.io.IOException;
 
