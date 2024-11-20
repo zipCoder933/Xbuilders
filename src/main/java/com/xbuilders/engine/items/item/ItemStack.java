@@ -6,7 +6,7 @@ public class ItemStack {
     public static final byte MAX_STACK_SIZE = 64;
 
     public final Item item;
-    public byte stackSize;
+    public int stackSize;
     public int durability;//The amount of damage the item has left
     public byte[] nbtData;//The NBT data of the item
 

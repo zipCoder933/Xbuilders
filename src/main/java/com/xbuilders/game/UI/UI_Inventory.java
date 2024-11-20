@@ -138,7 +138,9 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
                         hoveredItem = item.name;
                     }
                     if (nk_button_image(ctx, item.getNKIcon())) {
-                        GameScene.player.inventory.acquireItem(new ItemStack(item, 1));
+                        if (window.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                            draggingItem = new ItemStack(item, item.maxStackSize);
+                        } else draggingItem = new ItemStack(item, 1);
                     }
                     itemWidth.measure(ctx, stack);
                     column++;
