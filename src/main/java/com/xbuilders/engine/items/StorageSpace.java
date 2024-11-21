@@ -53,9 +53,12 @@ public class StorageSpace {
     public void deleteEmptyItems() {
         //iterate over all inventory and delete empty items
         for (int i = 0; i < size(); i++) {
-            if (get(i) != null && get(i).stackSize <= 0) {
-                set(i, null);
+            if (get(i) != null) {
+                if (get(i).stackSize <= 0 || get(i).durability <= 0) {
+                    set(i, null);
+                }
             }
         }
     }
+
 }

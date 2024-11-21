@@ -19,7 +19,7 @@ public class ItemStackSerializer extends StdSerializer<ItemStack> {
 
         gen.writeStartObject();
         gen.writeStringField("item", src.item.id);
-        gen.writeNumberField("durability", src.durability);
+        gen.writeNumberField("durability", (int) src.durability);
         gen.writeNumberField("stackSize", src.stackSize);
         if (src.nbtData != null) gen.writeStringField("data", new String(src.nbtData));
         gen.writeEndObject();

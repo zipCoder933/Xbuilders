@@ -149,7 +149,9 @@ public class XbuildersGame extends Game {
         if (inventory.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(inventory.getClass());
             return true;
-        } else if (blockTools.keyEvent(key, scancode, action, mods)) {
+        } else if(gameMenus.keyEvent(key, scancode, action, mods)) {
+            return true;
+        }else if (blockTools.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(blockTools.getClass());
             return true;
         } else if (hotbar.keyEvent(key, scancode, action, mods)) {
@@ -167,6 +169,8 @@ public class XbuildersGame extends Game {
     @Override
     public boolean uiMouseButtonEvent(int button, int action, int mods) {
         if (inventory.isOpen() && inventory.mouseButtonEvent(button, action, mods)) {
+            return true;
+        } else if (gameMenus.mouseButtonEvent(button, action, mods)) {
             return true;
         } else if (blockTools.UIMouseButtonEvent(button, action, mods)) {
             return true;

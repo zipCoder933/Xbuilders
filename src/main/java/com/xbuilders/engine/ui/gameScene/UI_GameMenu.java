@@ -11,7 +11,6 @@ import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
 /**
- *
  * @author zipCoder933
  */
 public abstract class UI_GameMenu {
@@ -28,6 +27,14 @@ public abstract class UI_GameMenu {
     public boolean inBounds(NkRect bounds) {
         Vector2d cursor = window.getCursorVector();
         return cursor.x > bounds.x() && cursor.x < bounds.x() + bounds.w() && cursor.y > bounds.y() && cursor.y < bounds.y() + bounds.h();
+    }
+
+    public boolean mouseButtonEvent(int button, int action, int mods) {
+        return false;
+    }
+
+    public boolean keyEvent(int key, int scancode, int action, int mods) {
+        return false;
     }
 
     public abstract void draw(MemoryStack stack);

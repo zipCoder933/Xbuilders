@@ -32,7 +32,7 @@ public class ItemStackDeserializer extends StdDeserializer<ItemStack> {
         String itemID = node.get("item").asText();
         Item item = itemsRegistry.get(itemID); //We get the item from the registry
         ItemStack obj = new ItemStack(item); //We create the ItemStack
-        obj.durability = node.get("durability").asInt();
+        obj.durability = (float) node.get("durability").asInt();
         obj.stackSize = node.get("stackSize").asInt();
 
         if (node.has("data")) {

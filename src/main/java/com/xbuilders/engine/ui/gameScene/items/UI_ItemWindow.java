@@ -113,18 +113,18 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     final static NkColor black = Theme.createColor(0, 0, 0, 255);
     final static int padding = 5;
     public final static WidgetSizeMeasurement itemWidth = new WidgetSizeMeasurement(0);
+    final static String empty = "";
 
     public static boolean drawItemStack(MemoryStack stack, NkContext ctx, ItemStack itemStack) {
         ctx.style().window().padding().set(0, 0);
         ctx.style().window().group_padding().set(0, 0);
         ctx.style().window().border(0);
 
-
-        NkImage bgImage = itemStack.item.getNKIcon();
+//        NkImage bgImage = itemStack.item.getNKIcon();
 
         NkRect buttonBounds = NkRect.calloc(stack);
         Nuklear.nk_widget_bounds(ctx, buttonBounds);
-        boolean pressed = nk_button_image(ctx, bgImage);
+        boolean pressed = nk_button_label(ctx, empty);
 
         drawItemStackOverlay(stack, ctx, itemStack, buttonBounds);
         return pressed;
@@ -148,12 +148,14 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         }
 
         //draw durability
-        bounds.set(buttonBounds);
-        bounds.y(bounds.y() + bounds.h() - 3 - 4);
-        bounds.x(bounds.x() + 2);
-        bounds.w(MathUtils.map(0.5f, 0, 1, 0, bounds.w() - 4));
-        bounds.h(3);
-        Nuklear.nk_fill_rect(canvas, bounds, 0.0f, green); // 0.0f for no rounding
+        if (itemStack.item.maxDurability > 0 && itemStack.durability < itemStack.item.maxDurability) {
+            bounds.set(buttonBounds);
+            bounds.y(bounds.y() + bounds.h() - 3 - 4);
+            bounds.x(bounds.x() + 2);
+            bounds.w(MathUtils.map((float) itemStack.durability / itemStack.item.maxDurability, 0, 1, 0, bounds.w() - 4));
+            bounds.h(3);
+            Nuklear.nk_fill_rect(canvas, bounds, 0.0f, green); // 0.0f for no rounding
+        }
 
     }
 

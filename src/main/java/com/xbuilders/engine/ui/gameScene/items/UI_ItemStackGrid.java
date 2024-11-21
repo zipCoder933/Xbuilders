@@ -66,7 +66,7 @@ public class UI_ItemStackGrid {
 
                     if (item != null) {
                         if (nk_widget_is_hovered(ctx)) {
-                            hoveredItem = item.item.name;
+                            hoveredItem = itemTooltip(item);
                         }
                         if (UI_ItemWindow.drawItemStack(stack, ctx, item)) {
                             itemClickEvent(item, index);
@@ -85,6 +85,10 @@ public class UI_ItemStackGrid {
         }
         nk_group_end(ctx);
 
+    }
+
+    private String itemTooltip(ItemStack item) {
+        return item.item.name + "\n " + ((int) item.durability) + " / " + item.item.maxDurability;
     }
 
     /**

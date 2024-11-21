@@ -152,6 +152,8 @@ public class CursorRay {
             if (GameScene.getGameMode() != GameMode.FREEPLAY) {
                 float miningSpeed = getMiningSpeed(selectedItem);
                 float blockToughness = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z).toughness;
+                if (selectedItem != null) selectedItem.durability -= 0.1f;
+
                 breakPercentage = breakAmt / blockToughness;
 //                System.out.println("Break: " + Math.round(breakPercentage * 100) + "%");
                 breakAmt += miningSpeed;
