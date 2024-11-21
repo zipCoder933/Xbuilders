@@ -183,7 +183,7 @@ public abstract class Entity {
     }
 
     public void markAsModifiedByUser() {
-        chunk.markAsModifiedByUser();
+        chunk.markAsModified();
     }
 
     protected void hidden_entityOnChunkMeshChanged() {

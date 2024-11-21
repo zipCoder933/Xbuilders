@@ -28,4 +28,8 @@ public class JsonManager {
             .registerTypeHierarchyAdapter(Block.class, new BlockTypeAdapter())
             .registerTypeAdapter(BlockTexture.class, textureAdapter)
             .create();
+
+    public static String printSmileData(byte[] data) {
+        return (data.length + " bytes\t " + new String(data).replaceAll("\n", ""));
+    }
 }

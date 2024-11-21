@@ -110,7 +110,7 @@ public class XbuildersGame extends Game {
         hotbar = new UI_Hotbar(ctx, window);
         inventory = new UI_Inventory(ctx, Registrys.items.getList(), window, hotbar);
         blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
-        barrel = new BarrelUI(ctx, window, 33);
+        barrel = new BarrelUI(ctx, window);
         gameMenus.menus.add(barrel);
     }
 

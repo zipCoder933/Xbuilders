@@ -378,7 +378,6 @@ public class GameScene implements WindowEvents {
                 text += "\nPlayer camera: " + player.camera.toString();
 
                 if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {
-
                     if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
                         rayWCC.set(player.camera.cursorRay.getHitPosPlusNormal());
                         text += "\nRay+normal (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
@@ -404,7 +403,7 @@ public class GameScene implements WindowEvents {
                         BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-                        text += "\n" + block + " data: " + (data == null ? "null" : data.toString()) + " type: " + Registrys.blocks.getBlockType(block.renderType);
+                        text += "\n" + block + " data: " + printBlockData(data) + " type: " + Registrys.blocks.getBlockType(block.renderType);
                         text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }
 
@@ -420,6 +419,14 @@ public class GameScene implements WindowEvents {
             }
             ui.setDevText(text);
         } else ui.setDevText(null);
+    }
+
+    private String printBlockData(BlockData data) {
+        if (data == null) return "null";
+        else if (data.size() > 20)
+            return "l=" + data.size() + "   \"" + new String(data.toByteArray())
+                    .replaceAll("\n", "").replaceAll("\\s+", "")+"\"";
+        else return data.toString();
     }
 
 

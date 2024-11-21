@@ -66,6 +66,9 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
                     menuDimensions.x, menuDimensions.y, windowDims2);
 
             if (nk_begin(ctx, title, windowDims2, windowFlags)) {
+                if (!itemWidth.isCalibrated()) {
+                    calibrate(stack, ctx);
+                }
                 drawWindow(stack, windowDims2);
                 if (draggingItem != null) drawItemAtCursor(window, stack, ctx, draggingItem);
             }
@@ -77,11 +80,23 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
                     //Drop the item
                     draggingItem = null;
                 }
+            } else if (
+                    !inBounds(windowDims2) && (window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT) || window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_RIGHT))) {
+                setOpen(false);
             }
         }
         if (nk_window_is_hidden(ctx, title)) {
-            if(isOpen)onCloseEvent();
+            if (isOpen) onCloseEvent();
             isOpen = false;
+        }
+    }
+
+    private void calibrate(MemoryStack stack, NkContext ctx) {
+        System.out.println("Calibrating item width");
+        nk_layout_row_dynamic(ctx, itemWidth.width, maxColumns);// row
+        for (int column = 0; column < maxColumns; column++) {
+            nk_button_label(ctx, "");
+            itemWidth.measure(ctx, stack);
         }
     }
 

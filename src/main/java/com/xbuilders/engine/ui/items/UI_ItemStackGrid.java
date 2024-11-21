@@ -7,6 +7,7 @@ import com.xbuilders.engine.items.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
@@ -89,13 +90,24 @@ public class UI_ItemStackGrid {
     /**
      * When the box is clicked
      *
-     * @param item
+     * @param clickedItem
      * @param index
      */
-    private void itemClickEvent(ItemStack item, int index) {
+    private void itemClickEvent(ItemStack clickedItem, int index) {
         if (box.draggingItem != null) {
-            if (item != null && box.draggingItem.item.equals(item.item)
-                    && item.item.maxStackSize > 1 && box.draggingItem.stackSize < item.item.maxStackSize) {
+            if (window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
+                System.out.println("Right click");
+                if (box.draggingItem.stackSize > 1) {
+                    if (clickedItem == null) {
+                        box.draggingItem.stackSize--;
+                        storageSpace.set(index, new ItemStack(box.draggingItem.item, 1));
+                    } else if (clickedItem.item.equals(box.draggingItem.item) && clickedItem.stackSize < clickedItem.item.maxStackSize) {
+                        box.draggingItem.stackSize--;
+                        clickedItem.stackSize++;
+                    }
+                }
+            } else if (clickedItem != null && box.draggingItem.item.equals(clickedItem.item)
+                    && clickedItem.item.maxStackSize > 1 && box.draggingItem.stackSize < clickedItem.item.maxStackSize) {
                 ItemStack thisStack = storageSpace.get(index);
 
                 int totalStackSize = thisStack.stackSize + box.draggingItem.stackSize;
@@ -111,8 +123,8 @@ public class UI_ItemStackGrid {
                 storageSpace.set(index, box.draggingItem);
                 box.draggingItem = replaceStack;
             }
-        } else if (item != null) {
-            box.draggingItem = item;
+        } else if (clickedItem != null) {
+            box.draggingItem = clickedItem;
             storageSpace.set(index, null);
         }
     }

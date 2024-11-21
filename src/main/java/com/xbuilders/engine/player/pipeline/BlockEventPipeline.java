@@ -204,7 +204,7 @@ public class BlockEventPipeline {
                     //set block
                     if (!blockHist.fromNetwork)  //only send change if not from network
                         GameScene.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
-                    chunk.markAsModifiedByUser();
+                    chunk.markAsModified();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
 
                     //set block data
@@ -236,7 +236,7 @@ public class BlockEventPipeline {
 
                 blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
-                chunk.markAsModifiedByUser();
+                chunk.markAsModified();
                 affectedChunks.add(chunk);
             }
         });

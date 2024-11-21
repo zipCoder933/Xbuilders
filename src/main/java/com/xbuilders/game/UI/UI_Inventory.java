@@ -142,7 +142,6 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
                             draggingItem = new ItemStack(item, item.maxStackSize);
                         } else draggingItem = new ItemStack(item, 1);
                     }
-                    itemWidth.measure(ctx, stack);
                     column++;
                     itemID++;
                 }

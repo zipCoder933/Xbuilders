@@ -8,16 +8,13 @@ import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.StorageSpace;
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.json.fasterXML.ItemStackDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.ItemStackSerializer;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.tests.fasterXML.smile.custom.RecordDeserializer;
-import com.xbuilders.tests.fasterXML.smile.custom.RecordSerializer;
-import com.xbuilders.tests.fasterXML.smile.smileObject;
+import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
@@ -25,17 +22,17 @@ import org.lwjgl.system.MemoryStack;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 public class BarrelUI extends UI_ItemWindow {
     UI_ItemStackGrid barrelGrid, playerGrid;
     final StorageSpace barrelStorage;
     BlockData barrelData;
     final ObjectMapper objectMapper;
+    Chunk chunk;
 
-    public BarrelUI(NkContext ctx, NKWindow window, int slots) {
+    public BarrelUI(NkContext ctx, NKWindow window) {
         super(ctx, window, "Barrel Grid");
-        barrelStorage = new StorageSpace(slots);
+        barrelStorage = new StorageSpace(33);
         menuDimensions.y = 550;
         barrelGrid = new UI_ItemStackGrid(window, "Barrel", barrelStorage, this);
         playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.player.inventory, this);
@@ -51,6 +48,7 @@ public class BarrelUI extends UI_ItemWindow {
         SimpleModule module = new SimpleModule();
         module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
         module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
+        objectMapper.registerModule(module);
     }
 
     @Override
@@ -59,13 +57,14 @@ public class BarrelUI extends UI_ItemWindow {
         playerGrid.draw(stack, ctx, maxColumns, 250);
     }
 
-    public void openUI(BlockData data) {
+    public void openUI(BlockData data, Chunk chunk) {
         barrelData = data;
         barrelStorage.clear();
-
+        this.chunk = chunk;
         if (data != null) {
             try {
                 // Deserialize the JSON string back into the object
+//                System.out.println("Deserializing " + printSmileData(data.toByteArray()));
                 ItemStack[] deserializedObject = objectMapper.readValue(data.toByteArray(),
                         new TypeReference<ItemStack[]>() {
                         });
@@ -74,23 +73,21 @@ public class BarrelUI extends UI_ItemWindow {
                     barrelStorage.items[i] = deserializedObject[i];
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error deserializing JSON, Making storage empty: " + e.getMessage());
             }
         }
         setOpen(true);
     }
 
     public void onCloseEvent() {
-        // Use ByteArrayOutputStream (byte-based)
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        // Serialize the object to JSON using the ByteArrayOutputStream (byte-based)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            objectMapper.writeValue(byteArrayOutputStream, barrelStorage.items);
+            objectMapper.writeValue(baos, barrelStorage.items);
+            barrelData.setByteArray(baos.toByteArray());
+            chunk.markAsModified();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        barrelData.setByteArray(byteArrayOutputStream.toByteArray());
         barrelStorage.clear();
     }
 }

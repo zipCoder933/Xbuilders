@@ -35,7 +35,7 @@ public class Chunk {
      * <p>
      * Mark the chunk as changed by the user (sets ownedByUser and needsToBeSaved to true)
      */
-    public void markAsModifiedByUser() {
+    public void markAsModified() {
         ownedByUser = true;
         needsToBeSaved = true;
         lastModifiedTime = System.currentTimeMillis();

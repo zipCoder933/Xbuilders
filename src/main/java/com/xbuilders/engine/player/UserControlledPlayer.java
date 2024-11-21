@@ -487,7 +487,7 @@ public class UserControlledPlayer extends Player {
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
         if (chunk != null) {
-            chunk.markAsModifiedByUser();
+            chunk.markAsModified();
             Entity e = chunk.entities.placeNew(w, entity, data);
             e.sendMultiplayer = true;//Tells the chunkEntitySet to send the entity to the clients
             return e;

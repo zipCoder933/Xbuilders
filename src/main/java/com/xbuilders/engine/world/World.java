@@ -392,7 +392,7 @@ public class World {
                         System.out.println("\t\tUpdating sunlight... " + time);
                     });
             for (Chunk chunk : affectedChunks) { //Mark the chunks as modified
-                chunk.markAsModifiedByUser();
+                chunk.markAsModified();
             }
             affectedChunks.clear();
             sunNode_OpaqueToTrans.clear();
@@ -782,6 +782,34 @@ public class World {
         } else {
             chunk.data.setBlock(blockX, blockY, blockZ, blockID);
         }
+        return chunk;
+    }
+
+    public Chunk updateMesh(boolean updateAllNeighbors, boolean markAsModified,
+                            int worldX, int worldY, int worldZ) {
+        int blockX = positiveMod(worldX, Chunk.WIDTH);
+        int blockY = positiveMod(worldY, Chunk.WIDTH);
+        int blockZ = positiveMod(worldZ, Chunk.WIDTH);
+
+        int chunkX = chunkDiv(worldX);
+        int chunkY = chunkDiv(worldY);
+        int chunkZ = chunkDiv(worldZ);
+        Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
+        Chunk chunk = getChunk(pos);
+        if (chunk != null) {
+            if (markAsModified) chunk.markAsModified();
+            chunk.updateMesh(updateAllNeighbors, blockX, blockY, blockZ);
+        }
+        return chunk;
+    }
+
+    public Chunk markAsModified(int worldX, int worldY, int worldZ) {
+        int chunkX = chunkDiv(worldX);
+        int chunkY = chunkDiv(worldY);
+        int chunkZ = chunkDiv(worldZ);
+        Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
+        Chunk chunk = getChunk(pos);
+        if (chunk != null) chunk.markAsModified();
         return chunk;
     }
 

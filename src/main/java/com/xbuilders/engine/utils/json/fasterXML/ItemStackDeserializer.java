@@ -28,15 +28,12 @@ public class ItemStackDeserializer extends StdDeserializer<ItemStack> {
     @Override
     public ItemStack deserialize(JsonParser parser, DeserializationContext ctx)
             throws IOException, JacksonException {
-
         JsonNode node = parser.getCodec().readTree(parser);
-
         String itemID = node.get("item").asText();
         Item item = itemsRegistry.get(itemID); //We get the item from the registry
-
         ItemStack obj = new ItemStack(item); //We create the ItemStack
-        obj.stackSize = node.get("stackSize").asInt();
         obj.durability = node.get("durability").asInt();
+        obj.stackSize = node.get("stackSize").asInt();
 
         if (node.has("data")) {
             obj.nbtData = node.get("data").asText().getBytes();

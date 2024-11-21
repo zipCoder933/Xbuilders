@@ -322,7 +322,7 @@ public class GameServer extends Server<PlayerClient> {
         wcc.set(worldPosition);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
         if (chunk != null) {
-            chunk.markAsModifiedByUser();
+            chunk.markAsModified();
             return chunk.entities.placeNew(worldPosition, identifier, entity, data);
         }
         return null;
