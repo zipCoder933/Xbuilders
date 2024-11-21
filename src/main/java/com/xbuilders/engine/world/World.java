@@ -671,7 +671,6 @@ public class World {
         sortedChunksToRender.forEach(chunk -> {
             if (chunkIsVisible(chunk, playerPosition)) {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
-                chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                 initShaderUniforms(chunk);
                 chunk.meshes.opaqueMesh.getQueryResult();
                 chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
@@ -703,7 +702,6 @@ public class World {
         sortedChunksToRender.forEach(chunk -> {
             if (!chunk.meshes.transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
                 if (chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty()) {
-                    chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
                     initShaderUniforms(chunk);
                     chunk.meshes.transMesh.draw(GameScene.drawWireframe);
                 }
@@ -712,6 +710,7 @@ public class World {
     }
 
     private void initShaderUniforms(Chunk chunk) {
+        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
         chunkShader.setChunkPosition(chunk.position);
     }
 
