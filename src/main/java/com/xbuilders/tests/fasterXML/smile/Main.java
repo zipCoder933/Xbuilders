@@ -17,10 +17,7 @@ import com.xbuilders.tests.fasterXML.smile.custom.RecordDeserializer;
 import com.xbuilders.tests.fasterXML.smile.custom.RecordSerializer;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -75,11 +72,12 @@ public class Main {
         }
 
         try {
-            ArrayList<ItemStack> itemStacks = new ArrayList<>();
-            itemStacks.add(new ItemStack(item, 14));
-            itemStacks.add(new ItemStack(item, 5));
-            itemStacks.add(new ItemStack(item, 64));
-            System.out.println("\n\nOriginal Object: " + itemStacks);
+            ItemStack[] itemStacks = new ItemStack[]{
+                    new ItemStack(item, 14),
+                    new ItemStack(item, 15),
+                    new ItemStack(item, 16)
+            };
+            System.out.println("\n\nOriginal Object: " + Arrays.toString(itemStacks));
 
             // Use ByteArrayOutputStream (byte-based)
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -89,12 +87,10 @@ public class Main {
             System.out.println("Serialized JSON: " + new String(byteArrayOutputStream.toByteArray()));
 
             // Deserialize the JSON string back into the object
-            ArrayList<ItemStack> deserializedObject = objectMapper.readValue(byteArrayOutputStream.toByteArray(),
-                    new TypeReference<ArrayList<ItemStack>>() {
+            ItemStack[] deserializedObject = objectMapper.readValue(byteArrayOutputStream.toByteArray(),
+                    new TypeReference<ItemStack[]>() {
                     });
-            System.out.println("Deserialized Object: " + deserializedObject);
-            //Each element is a linked hashmap
-            System.out.println("Deserialized Element: " + (deserializedObject.get(0)));
+            System.out.println("Deserialized Object: " + Arrays.toString(deserializedObject));
         } catch (Exception e) {
             e.printStackTrace();
         }

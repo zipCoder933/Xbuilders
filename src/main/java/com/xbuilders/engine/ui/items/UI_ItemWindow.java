@@ -34,12 +34,20 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         return isOpen;
     }
 
+    public void onOpenEvent() {
+    }
+
+    public void onCloseEvent() {
+    }
+
     public void setOpen(boolean open) {
         if (open) {
             nk_window_show(ctx, title, windowFlags);
             isOpen = true;
+            onOpenEvent();
         } else {
             isOpen = false;
+            onCloseEvent();
         }
     }
 
@@ -72,6 +80,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
             }
         }
         if (nk_window_is_hidden(ctx, title)) {
+            if(isOpen)onCloseEvent();
             isOpen = false;
         }
     }

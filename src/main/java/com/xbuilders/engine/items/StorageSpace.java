@@ -44,6 +44,12 @@ public class StorageSpace {
         });
     }
 
+    public void clear() {
+        for (int i = 0; i < size(); i++) {
+            items[i] = null;
+        }
+    }
+
     public void deleteEmptyItems() {
         //iterate over all inventory and delete empty items
         for (int i = 0; i < size(); i++) {

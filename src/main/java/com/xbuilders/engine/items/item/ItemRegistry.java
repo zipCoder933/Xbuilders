@@ -21,7 +21,7 @@ import java.util.List;
 public class ItemRegistry {
 
 
-    final HashMap<String, Item> idMap = new HashMap<>();
+   public final HashMap<String, Item> idMap = new HashMap<>();
     private Item[] list;
 
     public Item[] getList() {

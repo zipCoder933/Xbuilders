@@ -70,8 +70,6 @@ public class BlockData {
 //        buff = Arrays.copyOf(buff, size);
 ////        MemoryUtil.memRealloc(buff, size);
 //    }
-
-
     public byte get(int i) {
 //        return buff.get(i);
         return buff[i];
@@ -112,5 +110,9 @@ public class BlockData {
 
     public byte[] toByteArray() {
         return buff;
+    }
+
+    public void setByteArray(byte[] byteArray) {
+        buff = byteArray;
     }
 }
