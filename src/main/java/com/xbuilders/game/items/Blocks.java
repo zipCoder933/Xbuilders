@@ -95,6 +95,15 @@ public class Blocks {
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_GRAVEL));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_SNOW_BLOCK));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_CACTUS));
+
+        //set toughness levels
+        Registrys.getBlock(Blocks.BLOCK_BEDROCK).toughness = 1000f;
+        for (Block b : Registrys.blocks.getList()) {
+            if (b.toughness == 1 && !b.solid) b.toughness = 0.2f;
+            if (b.name.toLowerCase().contains("sand")
+                    || b.name.toLowerCase().contains("gravel")
+                    || b.name.toLowerCase().contains("glass")) b.toughness = 0.5f;
+        }
     }
 
     public static short BLOCK_BARREL = 45;

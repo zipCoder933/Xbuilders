@@ -52,8 +52,9 @@ public class CursorRay {
         return cursorRay.entity;
     }
 
-    public CursorRay(Camera camera) {
+    public CursorRay(Camera camera, MainWindow window) {
         this.camera = camera;
+        this.window = window;
         cursorRay = new Ray();
     }
 
@@ -69,6 +70,7 @@ public class CursorRay {
     public Box cursorBox;
     public final Ray cursorRay;
     public boolean cursorRayHitAllBlocks = false;
+    MainWindow window;
 
     // Boundary mode:
     private boolean useBoundary = false;
@@ -95,6 +97,8 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
+        breakAmt = 0;
+        breakPercentage = 0;
         ItemStack selectedItem = MainWindow.game.getSelectedItem();
 
         if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event
@@ -128,14 +132,70 @@ public class CursorRay {
         }
 
         if (hitTarget() && !creationMode) { //By default, remove anything the cursor is pointing at
-            if (getEntity() != null) {
-                getEntity().destroy();
-            } else {
-                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
-            }
+            defaultRemoveEvent(false, selectedItem);
             return true;
         }
         return false;
+    }
+
+    private float breakAmt = 0;
+    public float breakPercentage = 0;
+
+    private float getMiningSpeed(ItemStack selectedItem) {
+        float miningSpeed = 0.005f;
+        if (selectedItem != null) miningSpeed *= selectedItem.item.miningSpeedMultiplier;
+        return miningSpeed;
+    }
+
+    private void defaultRemoveEvent(boolean isHeld, ItemStack selectedItem) {
+        if (isHeld) { //Hold
+            if (GameScene.getGameMode() != GameMode.FREEPLAY) {
+                float miningSpeed = getMiningSpeed(selectedItem);
+                float blockToughness = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z).toughness;
+                breakPercentage = breakAmt / blockToughness;
+//                System.out.println("Break: " + Math.round(breakPercentage * 100) + "%");
+                breakAmt += miningSpeed;
+                if (breakAmt >= blockToughness) {
+                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                    breakAmt = 0;
+                }
+            }
+        } else { //Click
+            if (GameScene.getGameMode() == GameMode.FREEPLAY) {
+                if (getEntity() != null) {
+                    getEntity().destroy();
+                } else {
+                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                }
+            }
+        }
+    }
+
+    long autoClick_timeSinceReleased;
+    long autoClick_lastClicked = 0;
+    final int AUTO_CLICK_INTERVAL = 250;
+
+    public void update() {
+        //Auto click
+        if (window.isMouseButtonPressed(UserControlledPlayer.getCreateMouseButton())) {
+            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
+                    System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
+                autoClick_lastClicked = System.currentTimeMillis();
+                camera.cursorRay.clickEvent(true);
+            }
+        } else if (GameScene.getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
+                    System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
+                autoClick_lastClicked = System.currentTimeMillis();
+                camera.cursorRay.clickEvent(false);
+            }
+        } else autoClick_timeSinceReleased = System.currentTimeMillis();
+
+        //Removal
+        if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+            ItemStack selectedItem = MainWindow.game.getSelectedItem();
+            defaultRemoveEvent(true, selectedItem);
+        } else breakPercentage = 0;
     }
 
     private void defaultSetEvent(ItemStack stack) {

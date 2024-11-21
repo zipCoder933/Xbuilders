@@ -107,7 +107,7 @@ public class Camera {
     public Camera(UserControlledPlayer player,
                   MainWindow window,
                   Matrix4f projection, Matrix4f view, Matrix4f centeredView) {
-        cursorRay = new CursorRay(this);
+        cursorRay = new CursorRay(this,window);
         this.view = view;
         this.centeredView = centeredView;
         this.projection = projection;

@@ -38,6 +38,7 @@ public class Block {
     public float surfaceCoast = PositionHandler.DEFAULT_COAST; //The "Coast" of the block
     public float surfaceFriction = 0; //The "Friction" of the block
     public float bounciness = 0; //The "Bounciness" of the block
+    public float toughness = 1; //The difficulty of breaking the block
 
     public BlockType getRenderType() {
         return Registrys.blocks.getBlockType(renderType);

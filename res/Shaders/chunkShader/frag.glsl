@@ -49,6 +49,9 @@ uniform vec3 fogColor;
 uniform vec3 cursorMin;
 uniform vec3 cursorMax;
 uniform int textureLayerCount;
+uniform float blockBreakPercentage;
+
+const int BLOCK_BREAK_TEXTURE_COUNT = 10;
 
 //This is the default chunk shader
 // Light
@@ -74,9 +77,15 @@ void main()
     && worldspace_position.x >= cursorMin.x - 0.01 && worldspace_position.x <= cursorMax.x + 0.01
     && worldspace_position.y >= cursorMin.y - 0.01 && worldspace_position.y <= cursorMax.y + 0.01
     ) {
-        float textureLayer = float(max(0, min(textureLayerCount, floor(0 - 0.5f))));
-        vec4 tex = texture(textureArray, vec3(UV.x, UV.y, textureLayer));
-        val = mix(val, tex, tex.a);
+        if(blockBreakPercentage > 0.0) {
+           float textureID = blockBreakPercentage * BLOCK_BREAK_TEXTURE_COUNT;
+           float type = floor(textureID - 0.5f);
+           float textureLayer = float(max(0, min(textureLayerCount, type)));
+
+           vec4 tex = texture(textureArray, vec3(UV.x, UV.y, textureLayer));
+           val = mix(val, tex, tex.a);
+        }
+
 
        // color = vec4(
        // worldspace_position.x - cursorMin.x,

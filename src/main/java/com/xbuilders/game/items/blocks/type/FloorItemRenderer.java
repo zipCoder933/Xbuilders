@@ -39,6 +39,7 @@ public class FloorItemRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
+            b.toughness = 0.1f;
         };
     }
 

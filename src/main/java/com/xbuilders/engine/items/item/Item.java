@@ -63,6 +63,7 @@ public class Item {
     }
 
     public int maxDurability = 0;
+    public float miningSpeedMultiplier = 1.0f;
     public int maxStackSize = ItemStack.MAX_STACK_SIZE;
 
     // <editor-fold defaultstate="collapsed" desc="tool events">

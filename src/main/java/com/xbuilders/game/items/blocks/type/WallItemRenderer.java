@@ -27,6 +27,7 @@ public class WallItemRenderer extends BlockType {
             b.opaque = false;
             b.solid = false;
             b.climbable = true;
+            b.toughness = 0.1f;
         };
         generate3DIcon = false;
         wall0 = BlockModelLoader.load(ResourceUtils.resource("block types\\wall\\wall0.blockType"), renderSide_subBlock);

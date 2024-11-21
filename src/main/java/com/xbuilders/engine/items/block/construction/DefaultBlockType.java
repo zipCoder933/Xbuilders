@@ -19,6 +19,9 @@ public class DefaultBlockType extends BlockType {
 
     public DefaultBlockType() {
         super();
+        initializationCallback = (b) -> {
+
+        };
     }
 
     public int getGreedyMesherPermissions() {

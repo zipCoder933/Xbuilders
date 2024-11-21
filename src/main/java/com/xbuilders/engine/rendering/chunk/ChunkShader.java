@@ -37,7 +37,8 @@ public class ChunkShader extends Shader {
             flashlightDistanceUniform,
             colorUniform,
             chunkPositionUniform,
-            cursorMinUniform, cursorMaxUniform;
+            cursorMinUniform, cursorMaxUniform,
+            blockBreakPercentage;
 
     int animationTime = 0;
     long lastTick = 0;
@@ -81,6 +82,7 @@ public class ChunkShader extends Shader {
         chunkPositionUniform = getUniformLocation("chunkPosition");
         cursorMinUniform = getUniformLocation("cursorMin");
         cursorMaxUniform = getUniformLocation("cursorMax");
+        blockBreakPercentage = getUniformLocation("blockBreakPercentage");
 
         loadFloat(maxMult10bitsUniform, CompactVertexSet.maxMult10bits);
         loadFloat(maxMult12bitsUniform, CompactVertexSet.maxMult12bits);
@@ -96,6 +98,11 @@ public class ChunkShader extends Shader {
     public void setFlashlightDistance(float distance) {
         distance = MathUtils.clamp(distance, 0, 100);
         loadFloat(flashlightDistanceUniform, distance);
+    }
+
+    public void setBlockBreakPercentage(float percentage) {
+        percentage = MathUtils.clamp(percentage, 0, 1);
+        loadFloat(blockBreakPercentage, percentage);
     }
 
     //It makes sense to put both in the same place, After all, I notices some strange artifacts when rendering transparent fog

@@ -238,34 +238,17 @@ public class UserControlledPlayer extends Player {
                         (int) Math.floor(worldPosition.z)).climbable;
     }
 
-    long autoClick_timeSinceReleased;
-    long autoClick_lastClicked = 0;
-    final int AUTO_CLICK_INTERVAL = 250;
+
 
     Block cameraBlock, playerBlock;
 
     public void update(boolean holdMouse) {
-
+        camera.cursorRay.update();
 
         if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode())) {
             //Dismount if riding entity is destroyed
             dismount();
         }
-
-        //Auto click
-        if (window.isMouseButtonPressed(getCreateMouseButton())) {
-            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
-                    System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
-                autoClick_lastClicked = System.currentTimeMillis();
-                camera.cursorRay.clickEvent(true);
-            }
-        } else if (window.isMouseButtonPressed(getDeleteMouseButton())) {
-            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
-                    System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
-                autoClick_lastClicked = System.currentTimeMillis();
-                camera.cursorRay.clickEvent(false);
-            }
-        } else autoClick_timeSinceReleased = System.currentTimeMillis();
 
         Block newCameraBlock = getBlockAtCameraPos();
         if (newCameraBlock != cameraBlock) {
