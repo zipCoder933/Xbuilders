@@ -14,6 +14,7 @@ import com.xbuilders.engine.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.settings.EngineSettings;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
+import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -584,7 +585,8 @@ public class World {
         frameTester.set("world entities", world.entities.size());
     }
 
-    final Vector3f chunkShaderCursorPos = new Vector3f();
+    final Vector3f chunkShader_cursorMin = new Vector3f();
+    final Vector3f chunkShader_cursorMax = new Vector3f();
 
     public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) {
         // <editor-fold defaultstate="collapsed" desc="chunk updating">
@@ -662,8 +664,15 @@ public class World {
          */
 
 
-        chunkShaderCursorPos.set(player.camera.cursorRay.getHitPos());
-        chunkShader.setCursorPosition(chunkShaderCursorPos);
+        chunkShader_cursorMin.set(player.camera.cursorRay.getHitPos());
+        chunkShader_cursorMax.set(chunkShader_cursorMin).add(1,1,1);
+
+        List<AABB> cursorBoxes = player.camera.cursorRay.cursorRay.cursorBoxes;
+        if (cursorBoxes != null && !cursorBoxes.isEmpty()) {
+            chunkShader_cursorMin.set(cursorBoxes.get(0).min);
+            chunkShader_cursorMax.set(cursorBoxes.get(0).max);
+        }
+        chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMax);
 
         // Render visible opaque meshes
         chunkShader.bind();

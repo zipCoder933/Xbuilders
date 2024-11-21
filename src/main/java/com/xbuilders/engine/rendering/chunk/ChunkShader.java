@@ -9,7 +9,6 @@ import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.vertexSet.CompactV
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.render.Shader;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -38,7 +37,7 @@ public class ChunkShader extends Shader {
             flashlightDistanceUniform,
             colorUniform,
             chunkPositionUniform,
-            cursorPositionUniform;
+            cursorMinUniform, cursorMaxUniform;
 
     int animationTime = 0;
     long lastTick = 0;
@@ -80,7 +79,8 @@ public class ChunkShader extends Shader {
         tintUniform = getUniformLocation("tint");
         fogColorUniform = getUniformLocation("fogColor");
         chunkPositionUniform = getUniformLocation("chunkPosition");
-        cursorPositionUniform = getUniformLocation("cursorPosition");
+        cursorMinUniform = getUniformLocation("cursorMin");
+        cursorMaxUniform = getUniformLocation("cursorMax");
 
         loadFloat(maxMult10bitsUniform, CompactVertexSet.maxMult10bits);
         loadFloat(maxMult12bitsUniform, CompactVertexSet.maxMult12bits);
@@ -88,8 +88,9 @@ public class ChunkShader extends Shader {
         loadVec3f(tintUniform, new Vector3f(1, 1, 1));
     }
 
-    public void setCursorPosition(Vector3f cursorPosition) {
-        loadVec3f(cursorPositionUniform, cursorPosition);
+    public void setCursorPosition(Vector3f cursorMin, Vector3f cursorMax) {
+        loadVec3f(cursorMinUniform, cursorMin);
+        loadVec3f(cursorMaxUniform, cursorMax);
     }
 
     public void setFlashlightDistance(float distance) {

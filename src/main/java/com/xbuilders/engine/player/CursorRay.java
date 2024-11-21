@@ -67,7 +67,7 @@ public class CursorRay {
     public final Vector4f DEFAULT_COLOR = new Vector4f(1, 1, 1, 1);
     public final Camera camera;
     public Box cursorBox;
-    protected final Ray cursorRay;
+    public final Ray cursorRay;
     public boolean cursorRayHitAllBlocks = false;
 
     // Boundary mode:

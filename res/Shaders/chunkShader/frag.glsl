@@ -46,7 +46,8 @@ uniform float flashlightDistance;
 uniform vec4 solidColor;
 uniform vec3 tint;
 uniform vec3 fogColor;
-uniform vec3 cursorPosition;
+uniform vec3 cursorMin;
+uniform vec3 cursorMax;
 
 //This is the default chunk shader
 // Light
@@ -121,11 +122,15 @@ void main()
    // color = vec4(worldspace_position.x, worldspace_position.y, worldspace_position.z, 1.0);
 
 //Cursor overlay
-    if(worldspace_position.z >= cursorPosition.z - 0.01 && worldspace_position.z <= cursorPosition.z + 1.01
-    && worldspace_position.x >= cursorPosition.x - 0.01 && worldspace_position.x <= cursorPosition.x + 1.01
-    && worldspace_position.y >= cursorPosition.y - 0.01 && worldspace_position.y <= cursorPosition.y + 1.01
+    if(worldspace_position.z >= cursorMin.z - 0.01 && worldspace_position.z <= cursorMax.z + 0.01
+    && worldspace_position.x >= cursorMin.x - 0.01 && worldspace_position.x <= cursorMax.x + 0.01
+    && worldspace_position.y >= cursorMin.y - 0.01 && worldspace_position.y <= cursorMax.y + 0.01
     ) {
-        color = vec4(0.0,0.0,0.0,1.0);
+        //color = vec4(0.0,0.0,0.0,1.0);
+        color = vec4(
+        worldspace_position.x - cursorMin.x,
+         worldspace_position.y - cursorMin.y,
+          worldspace_position.z - cursorMin.z, 1.0);
     }
 
 
