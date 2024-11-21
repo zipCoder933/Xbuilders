@@ -8,8 +8,8 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.items.UI_ItemStackGrid;
-import com.xbuilders.engine.ui.items.UI_ItemWindow;
+import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
+import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
@@ -175,12 +175,6 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
             setOpen(!isOpen());
             return true;
         }
-        return false;
-    }
-
-
-    @Override
-    public boolean mouseButtonEvent(int button, int action, int mods) {
         return false;
     }
 

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.ui.items;
+package com.xbuilders.engine.ui.gameScene.items;
 
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;

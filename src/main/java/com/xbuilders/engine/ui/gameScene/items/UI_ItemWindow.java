@@ -1,4 +1,4 @@
-package com.xbuilders.engine.ui.items;
+package com.xbuilders.engine.ui.gameScene.items;
 
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -28,6 +28,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     private boolean isOpen = false;
     public final int windowFlags = NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_CLOSABLE;
     public final String title;
+    private final NkRect windowDims = NkRect.create();
 
 
     public boolean isOpen() {
@@ -55,7 +56,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     public final void draw(MemoryStack stack) {
         if (isOpen) {
             GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-            NkRect windowDims2 = NkRect.malloc(stack);
+
             Theme.resetEntireButtonStyle(ctx);
             Theme.resetWindowColor(ctx);
             Theme.resetWindowPadding(ctx);
@@ -63,32 +64,37 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
 
             nk_rect(window.getWidth() / 2 - (menuDimensions.x / 2),
                     window.getHeight() / 2 - (menuDimensions.y / 2),
-                    menuDimensions.x, menuDimensions.y, windowDims2);
+                    menuDimensions.x, menuDimensions.y, windowDims);
 
-            if (nk_begin(ctx, title, windowDims2, windowFlags)) {
+            if (nk_begin(ctx, title, windowDims, windowFlags)) {
                 if (!itemWidth.isCalibrated()) {
                     calibrate(stack, ctx);
                 }
-                drawWindow(stack, windowDims2);
+                drawWindow(stack, windowDims);
                 if (draggingItem != null) drawItemAtCursor(window, stack, ctx, draggingItem);
             }
             nk_end(ctx);
 
             if (draggingItem != null) {
                 drawOutOfBoundsStackAtCursor(window, stack, ctx, draggingItem);
-                if (!inBounds(windowDims2) && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-                    //Drop the item
-                    draggingItem = null;
-                }
-            } else if (
-                    !inBounds(windowDims2) && (window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT) || window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_RIGHT))) {
-                setOpen(false);
             }
         }
         if (nk_window_is_hidden(ctx, title)) {
             if (isOpen) onCloseEvent();
             isOpen = false;
         }
+    }
+
+    public boolean mouseButtonEvent(int button, int action, int mods) {
+        if (action == GLFW.GLFW_RELEASE) {
+            if (!inBounds(windowDims) && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
+                if (draggingItem != null) {
+                    draggingItem = null;
+                } else setOpen(false);
+                return true;
+            }
+        }
+        return false;
     }
 
     private void calibrate(MemoryStack stack, NkContext ctx) {
