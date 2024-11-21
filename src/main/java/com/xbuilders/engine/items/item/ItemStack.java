@@ -2,6 +2,8 @@ package com.xbuilders.engine.items.item;
 
 import com.xbuilders.engine.items.block.BlockRegistry;
 
+import java.util.Arrays;
+
 public class ItemStack {
     public static final byte MAX_STACK_SIZE = 64;
 
@@ -18,5 +20,16 @@ public class ItemStack {
     public ItemStack(Item item, int stackSize) {
         this.item = item;
         this.stackSize = (byte) Math.min(item.maxStackSize, stackSize);
+    }
+
+
+    @Override
+    public String toString() {
+        return "ItemStack{" +
+                "item=" + item +
+                ", stackSize=" + stackSize +
+                ", durability=" + durability +
+                (nbtData == null ? "" : ", nbtData=" + Arrays.toString(nbtData)) +
+                '}';
     }
 }

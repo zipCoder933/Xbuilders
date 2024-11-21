@@ -176,7 +176,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item \"" + name + "\" (id: " + id + ")";
+        return id;
     }
 
 }

@@ -16,12 +16,6 @@ public class RecordSerializer extends StdSerializer<smileObject> {
     @Override
     public void serialize(smileObject value, JsonGenerator gen,
                           SerializerProvider serializers) throws IOException {
-/*
-*   gen.writeStartObject();
-        gen.writeStringField("customName", value.getName().toUpperCase());  // Custom serialization logic
-        gen.writeNumberField("customValue", value.getValue() * 2);  // Custom logic for 'value'
-        gen.writeEndObject();
-* */
         gen.writeStartObject();
         gen.writeNumberField("value", value.getValue());
         gen.writeStringField("name", value.getName());
