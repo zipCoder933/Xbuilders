@@ -68,7 +68,7 @@ void main()
         textureID += animationTime - (animationSize * maxTicks);
     }
 
-    float type = floor(textureID - 0.5f); //-1+0.5
+    float type = floor(textureID - 0.5f);
     float textureLayer = float(max(0, min(textureLayerCount, type)));
 
     // Output position of the vertex, in clip space : MVP * position

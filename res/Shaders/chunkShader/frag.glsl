@@ -48,6 +48,7 @@ uniform vec3 tint;
 uniform vec3 fogColor;
 uniform vec3 cursorMin;
 uniform vec3 cursorMax;
+uniform int textureLayerCount;
 
 //This is the default chunk shader
 // Light
@@ -68,6 +69,21 @@ void main()
 
     // get the color from the texture
     vec4 val = texture(textureArray, UV);
+    //Cursor overlay
+    if(worldspace_position.z >= cursorMin.z - 0.01 && worldspace_position.z <= cursorMax.z + 0.01
+    && worldspace_position.x >= cursorMin.x - 0.01 && worldspace_position.x <= cursorMax.x + 0.01
+    && worldspace_position.y >= cursorMin.y - 0.01 && worldspace_position.y <= cursorMax.y + 0.01
+    ) {
+        float textureLayer = float(max(0, min(textureLayerCount, floor(0 - 0.5f))));
+        vec4 tex = texture(textureArray, vec3(UV.x, UV.y, textureLayer));
+        val = mix(val, tex, tex.a);
+
+       // color = vec4(
+       // worldspace_position.x - cursorMin.x,
+       //  worldspace_position.y - cursorMin.y,
+        //  worldspace_position.z - cursorMin.z, 1.0);
+    }
+
 
     // calculate and apply Fog visiblity
     float fragDistance = length(position);
@@ -120,18 +136,6 @@ void main()
     color = vec4(val); //fog is just alpha channel
 
    // color = vec4(worldspace_position.x, worldspace_position.y, worldspace_position.z, 1.0);
-
-//Cursor overlay
-    if(worldspace_position.z >= cursorMin.z - 0.01 && worldspace_position.z <= cursorMax.z + 0.01
-    && worldspace_position.x >= cursorMin.x - 0.01 && worldspace_position.x <= cursorMax.x + 0.01
-    && worldspace_position.y >= cursorMin.y - 0.01 && worldspace_position.y <= cursorMax.y + 0.01
-    ) {
-        //color = vec4(0.0,0.0,0.0,1.0);
-        color = vec4(
-        worldspace_position.x - cursorMin.x,
-         worldspace_position.y - cursorMin.y,
-          worldspace_position.z - cursorMin.z, 1.0);
-    }
 
 
     //      color = vec4(sun,sun,sun,1.0);

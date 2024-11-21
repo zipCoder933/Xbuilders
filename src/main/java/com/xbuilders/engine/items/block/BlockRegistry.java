@@ -94,7 +94,7 @@ public class BlockRegistry {
     }
 
     public void initialize(List<Block> blockArray) throws IOException {
-        textures = new BlockArrayTexture(ResourceUtils.BLOCK_TEXTURE_DIR);
+        textures = new BlockArrayTexture(ResourceUtils.BLOCK_TEXTURE_DIR, ResourceUtils.BLOCK_BUILTIN_TEXTURE_DIR);
 
         blockArray.add(BLOCK_AIR);
 

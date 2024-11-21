@@ -42,6 +42,7 @@ import static com.xbuilders.engine.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 
+import java.lang.Math;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -671,6 +672,10 @@ public class World {
         if (cursorBoxes != null && !cursorBoxes.isEmpty()) {
             chunkShader_cursorMin.set(cursorBoxes.get(0).min);
             chunkShader_cursorMax.set(cursorBoxes.get(0).max);
+            for(AABB aabb : cursorBoxes){
+                chunkShader_cursorMin.set(Math.min(chunkShader_cursorMin.x, aabb.min.x), Math.min(chunkShader_cursorMin.y, aabb.min.y), Math.min(chunkShader_cursorMin.z, aabb.min.z));
+                chunkShader_cursorMax.set(Math.max(chunkShader_cursorMax.x, aabb.max.x), Math.max(chunkShader_cursorMax.y, aabb.max.y), Math.max(chunkShader_cursorMax.z, aabb.max.z));
+            }
         }
         chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMax);
 

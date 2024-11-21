@@ -22,7 +22,7 @@ public class ResourceUtils {
     public static File LOCAL_DIR;
 
     //Individual paths
-    public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, ICONS_DIR, PLAYER_GLOBAL_INFO;
+    public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, BLOCK_BUILTIN_TEXTURE_DIR, ICONS_DIR, PLAYER_GLOBAL_INFO;
 
 
     static{
@@ -37,6 +37,7 @@ public class ResourceUtils {
         BLOCK_ICON_DIR = resource("items\\blocks\\icons");
         DEFAULT_ICON = resource("items\\items\\defaultIcon.png");
         BLOCK_TEXTURE_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\textures");
+        BLOCK_BUILTIN_TEXTURE_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\blocks\\default textures");
         ICONS_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\items\\icons");
     }
 

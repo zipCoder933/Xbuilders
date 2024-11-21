@@ -63,7 +63,7 @@ public class BlockArrayTexture {
 
     AtomicInteger index = new AtomicInteger();
 
-    public BlockArrayTexture(File blockTexturesDir) throws IOException {
+    public BlockArrayTexture(File blockTexturesDir, File builtinBlockTexturesDir) throws IOException {
         textureMap = new HashMap<>();
         fileMap = new HashMap<>();
         animationMap = new HashMap<>();
@@ -79,7 +79,17 @@ public class BlockArrayTexture {
 
         List<TextureFile> imageFiles = new ArrayList<>();
         index.set(1);
-        indexDirectory(blockTexturesDir, files, imageFiles);
+
+        /**
+         * Image files is the list that is given directly to the texture array
+         * All other files are just for finding the texture
+         * The index tells us where in the array the texture is
+         */
+        //Add some default textures first
+        imageFiles.add(new TextureFile(builtinBlockTexturesDir.getAbsolutePath() + "/break_10.png", 0, 0, textureSize, textureSize));
+        index.incrementAndGet();
+
+        addTexturesFromDir(blockTexturesDir, files, imageFiles);
         filePaths = new TextureFile[imageFiles.size()];
         for (int i = 0; i < filePaths.length; i++) {
             filePaths[i] = imageFiles.get(i);
@@ -93,10 +103,14 @@ public class BlockArrayTexture {
         return TextureUtils.makeTextureArray(textureSize, textureSize, false, filePaths).id;
     }
 
-    private void indexDirectory(File baseDir, File[] files, List<TextureFile> imageFiles) throws IOException {
-//        System.out.println("Indexing directory: " + files[0].getParentFile().getAbsolutePath());
+    private void addTexturesFromDir(File baseDir,
+                                    File[] files, List<TextureFile> imageFiles) throws IOException {
+
+        //Search through the files
         for (int i = 0; i < files.length; i++) {
-            if (files[i].isDirectory()) indexDirectory(baseDir, files[i].listFiles(), imageFiles);
+            //Recursively search through directories
+            if (files[i].isDirectory()) addTexturesFromDir(baseDir,
+                    files[i].listFiles(), imageFiles);
             else {
                 String name = files[i].getName();
                 if (name.toLowerCase().endsWith(".png")
@@ -118,7 +132,8 @@ public class BlockArrayTexture {
                             imageFiles.add(new TextureFile(path, 0, j * image.getWidth(), image.getWidth(), image.getWidth()));
                             index.getAndAdd(1);
                         }
-                        if(lengthMultiplier > MAX_BLOCK_ANIMATION_LENGTH) lengthMultiplier = MAX_BLOCK_ANIMATION_LENGTH;
+                        if (lengthMultiplier > MAX_BLOCK_ANIMATION_LENGTH)
+                            lengthMultiplier = MAX_BLOCK_ANIMATION_LENGTH;
 //                        System.out.println("Splitting " + name + " into " + lengthMultiplier + " pieces");
                         animationMap.put(name, lengthMultiplier);
                     } else {
