@@ -88,7 +88,11 @@ public class UI_ItemStackGrid {
     }
 
     private String itemTooltip(ItemStack item) {
-        return item.item.name + "\n " + ((int) item.durability) + " / " + item.item.maxDurability;
+        String str = item.item.name;
+        if (item.item.maxDurability > 0 && item.durability < item.item.maxDurability) {
+            str += "\n " + ((int) item.durability) + " / " + item.item.maxDurability;
+        }
+        return str;
     }
 
     /**
