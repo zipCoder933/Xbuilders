@@ -34,33 +34,39 @@ public class Ray {
     }
 
     public Vector3i getHitPositionAsInt() {
-        return MathUtils.floatToInt(hitPostition);
+        hitPositionInt.set((int) hitPostition.x, (int) hitPostition.y, (int) hitPostition.z);
+        return hitPositionInt;
     }
 
     public Vector3i getHitNormalAsInt() {
-        return MathUtils.floatToInt(hitNormal);
+        hitNormalInt.set((int) hitNormal.x, (int) hitNormal.y, (int) hitNormal.z);
+        return hitNormalInt;
     }
 
     /**
      * @return the hitPosPlusNormal
      */
     public Vector3i getHitPosPlusNormal() {
-        return MathUtils.floatToInt(hitPostition).add((int) hitNormal.x, (int) hitNormal.y, (int) hitNormal.z);
+        hitPosPlusNormal.set((int) hitPostition.x, (int) hitPostition.y, (int) hitPostition.z);
+        hitPosPlusNormal.add((int) hitNormal.x, (int) hitNormal.y, (int) hitNormal.z);
+        return hitPosPlusNormal;
     }
 
     public Ray() {
         hitTarget = false;
-        hitPostition = new Vector3f();
-        hitNormal = new Vector3f();
-        origin = new Vector3f();
-        direction = new Vector3f();
     }
 
     public boolean hitTarget;
-    public final Vector3f origin;
-    public final Vector3f direction;
-    public final Vector3f hitPostition;
-    public final Vector3f hitNormal;
+    public final Vector3f origin = new Vector3f();
+    public final Vector3f direction = new Vector3f();
+    public final Vector3f hitPostition = new Vector3f();
+    public final Vector3f hitNormal = new Vector3f();
+
+    public final Vector3i hitPosPlusNormal = new Vector3i();
+    public final Vector3i hitPositionInt = new Vector3i();
+    public final Vector3i hitNormalInt = new Vector3i();
+
+
     public float distanceTraveled;
     public Entity entity;
     public List<AABB> cursorBoxes;

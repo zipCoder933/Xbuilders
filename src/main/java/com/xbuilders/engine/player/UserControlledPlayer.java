@@ -246,6 +246,7 @@ public class UserControlledPlayer extends Player {
 
     public void update(boolean holdMouse) {
 
+
         if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode())) {
             //Dismount if riding entity is destroyed
             dismount();

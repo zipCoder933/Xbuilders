@@ -32,6 +32,8 @@ in float normal;
 in float sun;
 in float torch;
 in vec3 position;
+in vec3 chunkspace_position;
+in vec3 worldspace_position;
 
 // Ouput data
 out vec4 color;
@@ -44,7 +46,9 @@ uniform float flashlightDistance;
 uniform vec4 solidColor;
 uniform vec3 tint;
 uniform vec3 fogColor;
+uniform vec3 cursorPosition;
 
+//This is the default chunk shader
 // Light
 //  POS_X = 0;
 //  NEG_X = 1;
@@ -110,9 +114,20 @@ void main()
         max(flashlight, max(tintedTorch.g, tintedSun.g)),
         max(flashlight, max(tintedTorch.b, tintedSun.b)));
 
-    // The final color
-     //color = mix(vec4(fogColor, 1.0), val, visibility);
-     color = vec4(val);
+
+  //color = mix(vec4(fogColor, 1.0), val, visibility); //with colored fog
+    color = vec4(val); //fog is just alpha channel
+
+   // color = vec4(worldspace_position.x, worldspace_position.y, worldspace_position.z, 1.0);
+
+//Cursor overlay
+    if(worldspace_position.z >= cursorPosition.z - 0.01 && worldspace_position.z <= cursorPosition.z + 1.01
+    && worldspace_position.x >= cursorPosition.x - 0.01 && worldspace_position.x <= cursorPosition.x + 1.01
+    && worldspace_position.y >= cursorPosition.y - 0.01 && worldspace_position.y <= cursorPosition.y + 1.01
+    ) {
+        color = vec4(0.0,0.0,0.0,1.0);
+    }
+
 
     //      color = vec4(sun,sun,sun,1.0);
     // // X is red, Y is green, Z is blue

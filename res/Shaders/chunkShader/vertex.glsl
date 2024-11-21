@@ -6,17 +6,21 @@ precision mediump int;
 // Input vertex data, different for all executions of this shader.
 layout(location = 0) in uvec3 vertex;
 
+const int CHUNK_WIDTH = 32;
+
 // Output data ; will be interpolated for each fragment.
 out vec3 UV;
 out float normal;
 out float sun;
 out float torch;
 out vec3 position;
+out vec3 chunkspace_position;
+out vec3 worldspace_position;
 
 // Values that stay constant for the whole mesh.
 uniform mat4 MVP;
 uniform int animationTime;
-
+uniform vec3 chunkPosition;
 uniform float maxMult12bits;
 uniform float maxMult10bits;
 uniform int textureLayerCount;
@@ -51,6 +55,11 @@ void main()
     uint packedTorch = packedInt & 0xFu;
     sun = float(packedSun) / 15.0;
     torch = float(packedTorch) / 15.0;
+    chunkspace_position = vec3(vertX, vertY, vertZ);
+    worldspace_position = vec3(
+            vertX + (chunkPosition.x*CHUNK_WIDTH),
+            vertY + (chunkPosition.y*CHUNK_WIDTH),
+            vertZ + (chunkPosition.z*CHUNK_WIDTH));
 
     //----------------------------------------
     if (animationSize > 1)

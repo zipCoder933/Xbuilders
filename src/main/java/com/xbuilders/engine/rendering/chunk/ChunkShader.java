@@ -12,6 +12,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.render.Shader;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.joml.Vector4f;
 
 import java.io.File;
@@ -35,7 +36,9 @@ public class ChunkShader extends Shader {
             fogColorUniform,
             animationTimeUniform,
             flashlightDistanceUniform,
-            colorUniform;
+            colorUniform,
+            chunkPositionUniform,
+            cursorPositionUniform;
 
     int animationTime = 0;
     long lastTick = 0;
@@ -76,11 +79,17 @@ public class ChunkShader extends Shader {
         colorUniform = getUniformLocation("solidColor");
         tintUniform = getUniformLocation("tint");
         fogColorUniform = getUniformLocation("fogColor");
+        chunkPositionUniform = getUniformLocation("chunkPosition");
+        cursorPositionUniform = getUniformLocation("cursorPosition");
 
         loadFloat(maxMult10bitsUniform, CompactVertexSet.maxMult10bits);
         loadFloat(maxMult12bitsUniform, CompactVertexSet.maxMult12bits);
         loadInt(textureLayerCountUniform, textureLayers - 1);
         loadVec3f(tintUniform, new Vector3f(1, 1, 1));
+    }
+
+    public void setCursorPosition(Vector3f cursorPosition) {
+        loadVec3f(cursorPositionUniform, cursorPosition);
     }
 
     public void setFlashlightDistance(float distance) {
@@ -99,6 +108,13 @@ public class ChunkShader extends Shader {
     public void setViewDistance(int viewDistance) {
         loadInt(viewDistanceUniform, Math.max(MIN_VIEW_DIST, viewDistance));
 //        if (Entity.shader != null) Entity.shader.loadInt(Entity.shader.uniform_view_distance, viewDistance);
+    }
+
+    private final Vector3f chunkPositionTemp = new Vector3f();
+
+    public void setChunkPosition(Vector3i chunkPosition) {
+        chunkPositionTemp.set(chunkPosition.x, chunkPosition.y, chunkPosition.z);
+        loadVec3f(chunkPositionUniform, chunkPositionTemp);
     }
 
     public void setColorMode(float r, float g, float b) {

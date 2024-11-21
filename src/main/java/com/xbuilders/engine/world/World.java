@@ -584,6 +584,8 @@ public class World {
         frameTester.set("world entities", world.entities.size());
     }
 
+    final Vector3f chunkShaderCursorPos = new Vector3f();
+
     public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) {
         // <editor-fold defaultstate="collapsed" desc="chunk updating">
         if (!lastPlayerPosition.equals(playerPosition)) {
@@ -659,6 +661,10 @@ public class World {
          * (End of render loop)
          */
 
+
+        chunkShaderCursorPos.set(player.camera.cursorRay.getHitPos());
+        chunkShader.setCursorPosition(chunkShaderCursorPos);
+
         // Render visible opaque meshes
         chunkShader.bind();
         chunkShader.tickAnimation();
@@ -666,6 +672,7 @@ public class World {
             if (chunkIsVisible(chunk, playerPosition)) {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                initShaderUniforms(chunk);
                 chunk.meshes.opaqueMesh.getQueryResult();
                 chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
 
@@ -677,6 +684,7 @@ public class World {
         CompactOcclusionMesh.startInvisible();
         sortedChunksToRender.forEach(chunk -> {
             if (chunkIsVisible(chunk, playerPosition)) {
+                // chunkShader.setChunkPosition(chunk.position);
                 chunk.meshes.opaqueMesh.drawInvisible();
             }
         });
@@ -696,10 +704,15 @@ public class World {
             if (!chunk.meshes.transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
                 if (chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty()) {
                     chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
+                    initShaderUniforms(chunk);
                     chunk.meshes.transMesh.draw(GameScene.drawWireframe);
                 }
             }
         });
+    }
+
+    private void initShaderUniforms(Chunk chunk) {
+        chunkShader.setChunkPosition(chunk.position);
     }
 
     private boolean chunkIsVisible(Chunk chunk, Vector3f playerPosition) {
