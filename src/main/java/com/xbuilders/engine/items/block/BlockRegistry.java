@@ -33,15 +33,17 @@ public class BlockRegistry {
     public final static DefaultBlockType defaultBlockType = new DefaultBlockType();
     public final static LiquidBlockType liquidBlockType = new LiquidBlockType();
 
-    final IntMap<Block> idMap = new IntMap<>(Block.class);
+    public final IntMap<Block> idToBlockMap = new IntMap<>(Block.class);
+    public final HashMap<String, Short> aliasToIDMap = new HashMap<>();
+
     private Block[] list;
 
     public Block[] getList() {
         return list;
     }
 
-    public IntMap<Block> getIdMap() {
-        return idMap;
+    public IntMap<Block> getIdToBlockMap() {
+        return idToBlockMap;
     }
 
 
@@ -57,23 +59,32 @@ public class BlockRegistry {
 
     private int assignMapAndVerify(List<Block> inputItems) {
         System.out.println("\nChecking block IDs");
+
+        //Assign all the maps
         int highestId = 0;
-        HashMap<Integer, Block> map = new HashMap<>();
+        HashMap<Integer, Block> idToBlock_temp = new HashMap<>();
+        aliasToIDMap.clear();
 
         for (int i = 0; i < inputItems.size(); i++) {
-            if (inputItems.get(i) == null) {
+            Block block = inputItems.get(i);
+            if (block == null) {
                 System.err.println("item at index " + i + " is null");
                 continue;
             }
-            int id = inputItems.get(i).id;
-            if (map.get(id) != null) {
-                System.err.println("Block " + inputItems.get(i) + " ID conflicts with an existing ID: " + id);
+            int id = block.id;
+            if (idToBlock_temp.get(id) != null) {
+                System.err.println("Block " + block + " ID conflicts with an existing ID: " + id);
             }
-            map.put(id, inputItems.get(i));
+            idToBlock_temp.put(id, block);
+            aliasToIDMap.put(block.alias, (short) id);
+
             if (id > highestId) {
                 highestId = id;
             }
         }
+        idToBlockMap.setList(idToBlock_temp);
+
+        //Check for gaps
         System.out.println("\t(The highest item ID is: " + highestId + ")");
         System.out.print("\tID Gaps: ");
         for (int id = 1; id < highestId; id++) {
@@ -89,7 +100,6 @@ public class BlockRegistry {
             }
         }
         System.out.println("");
-        idMap.setList(map);
         return highestId;
     }
 
@@ -136,6 +146,21 @@ public class BlockRegistry {
     // });
     // }
 
+    public static String formatAlias(String alias) {
+        return alias.toLowerCase().trim().replaceAll("\\s+", "-");
+    }
+
+    public Block getBlock(String alias) {
+        return idToBlockMap.get(aliasToIDMap.get(alias));
+    }
+
+    public Block getBlock(short blockID) {
+        Block block = idToBlockMap.get(blockID);
+        if (block == null)
+            block = BLOCK_AIR; // Important to prevent bugs with proceses not knowing how to handle null blocks
+        return block;
+    }
+
     public BlockType getBlockType(int typeID) {
         BlockType type = blockTypesIntMap.get(typeID);//Using an intmap is easier on memory
         if (type == null) //To make the code more robust
@@ -157,10 +182,5 @@ public class BlockRegistry {
         return (float) Math.max(0, Math.min(d, type));
     }
 
-    public Block getItem(short blockID) {
-        Block block = idMap.get(blockID);
-        if (block == null)
-            block = BLOCK_AIR; // Important to prevent bugs with proceses not knowing how to handle null blocks
-        return block;
-    }
+
 }

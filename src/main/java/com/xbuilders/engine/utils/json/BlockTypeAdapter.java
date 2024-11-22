@@ -23,8 +23,9 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
     public JsonElement serialize(Block src, Type typeOfSrc, JsonSerializationContext context) {
         // System.out.println("Using custom type adapter");
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("name", src.name);
+
         jsonObject.addProperty("id", src.id);
+        jsonObject.addProperty("alias", src.alias);
         jsonObject.add("texture", JsonManager.textureAdapter.serialize(src.texture, typeOfSrc, context));
         jsonObject.addProperty("solid", src.solid);
         jsonObject.addProperty("opaque", src.opaque);
@@ -48,7 +49,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         JsonObject jsonObject = json.getAsJsonObject();
 
         short id = jsonObject.get("id").getAsShort();
-        String name = jsonObject.get("name").getAsString();
+        String name = jsonObject.get("alias").getAsString();
         JsonObject textureProperty = jsonObject.get("texture").getAsJsonObject();
         BlockTexture texture = JsonManager.textureAdapter.deserialize(textureProperty, BlockTexture.class, context);
 

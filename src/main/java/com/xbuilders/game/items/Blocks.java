@@ -68,12 +68,12 @@ public class Blocks {
 
         for (Block b : Registrys.blocks.getList()) {
             //Add coasting to all glass
-            if (b.name.toLowerCase().contains("glass")) {
+            if (b.alias.toLowerCase().contains("glass")) {
                 b.surfaceCoast = 0.95f;
             }
 
             //Add flammable tag to various blocks
-            String lowercaseName = b.name.toLowerCase();
+            String lowercaseName = b.alias.toLowerCase();
             if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank")
                     || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") ||
                     lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") ||
@@ -100,9 +100,9 @@ public class Blocks {
         Registrys.getBlock(Blocks.BLOCK_BEDROCK).toughness = 1000f;
         for (Block b : Registrys.blocks.getList()) {
             if (b.toughness == 1 && !b.solid) b.toughness = 0.2f;
-            if (b.name.toLowerCase().contains("sand")
-                    || b.name.toLowerCase().contains("gravel")
-                    || b.name.toLowerCase().contains("glass")) b.toughness = 0.5f;
+            if (b.alias.toLowerCase().contains("sand")
+                    || b.alias.toLowerCase().contains("gravel")
+                    || b.alias.toLowerCase().contains("glass")) b.toughness = 0.5f;
         }
     }
 

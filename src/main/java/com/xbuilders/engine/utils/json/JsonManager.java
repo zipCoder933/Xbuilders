@@ -15,6 +15,8 @@ import com.xbuilders.engine.items.block.construction.BlockTexture;
  * @author zipCoder933
  */
 public class JsonManager {
+
+
     public static BlockTextureTypeAdapter textureAdapter = new BlockTextureTypeAdapter();
     public static Gson gson_itemAdapter = new GsonBuilder()
             .registerTypeHierarchyAdapter(Item.class, new ItemTypeAdapter())

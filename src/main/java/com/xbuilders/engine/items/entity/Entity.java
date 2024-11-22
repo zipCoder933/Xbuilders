@@ -96,10 +96,12 @@ public abstract class Entity {
     public boolean inFrustum; //This value is automatically set by the frustum culling tester
     public float distToPlayer;
     public final short id;
+    public final String alias;
     private static final SecureRandom entityIdentifierGenerator = new SecureRandom();
 
     public Entity(int id, long uniqueIdentifier) {
         this.id = (short) id;
+        this.alias = null;
         sendMultiplayer = false;
         aabb = new EntityAABB();
         worldPosition = aabb.worldPosition;

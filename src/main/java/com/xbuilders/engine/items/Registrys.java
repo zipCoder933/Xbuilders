@@ -63,11 +63,11 @@ public class Registrys {
         items.initialize(
                 Registrys.defaultIcon,
                 blocks.textures,
-                blocks.getIdMap(), entities.getIdMap(), toolList);
+                blocks.getIdToBlockMap(), entities.getIdMap(), toolList);
     }
 
     public static Block getBlock(short blockID) {
-        return blocks.getItem(blockID);
+        return blocks.getBlock(blockID);
     }
 
     public static EntitySupplier getEntity(short blockID) {

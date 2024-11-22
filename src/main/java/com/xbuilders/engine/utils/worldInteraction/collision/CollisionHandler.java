@@ -90,7 +90,7 @@ public class CollisionHandler {
                         if (chunk != null) {
                             exploredChunks.add(chunk);
                             // if (Main.specialMode1) {
-                            b = Registrys.blocks.getItem(chunk.data.getBlock(
+                            b = Registrys.blocks.getBlock(chunk.data.getBlock(
                                     wcc.chunkVoxel.x,
                                     wcc.chunkVoxel.y,
                                     wcc.chunkVoxel.z));

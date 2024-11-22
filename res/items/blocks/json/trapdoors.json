@@ -1,380 +1,485 @@
 [
-    {
-        "name": "Acacia Trapdoor",
-        "id": 857,
-        "texture": {
-            "pos_y": "trapdoor\\acacia.png",
-            "pos_x": "trapdoor\\acacia.png",
-            "pos_z": "trapdoor\\acacia.png",
-            "neg_z": "trapdoor\\acacia.png",
-            "neg_x": "trapdoor\\acacia.png",
-            "neg_y": "trapdoor\\acacia.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+  {
+    "alias": "acacia-trapdoor",
+    "id": 857,
+    "texture": {
+      "pos_y": "trapdoor\\acacia.png",
+      "pos_x": "trapdoor\\acacia.png",
+      "pos_z": "trapdoor\\acacia.png",
+      "neg_z": "trapdoor\\acacia.png",
+      "neg_x": "trapdoor\\acacia.png",
+      "neg_y": "trapdoor\\acacia.png"
     },
-    {
-        "name": "Acacia2 Trapdoor",
-        "id": 858,
-        "texture": {
-            "pos_y": "trapdoor\\acacia2.png",
-            "pos_x": "trapdoor\\acacia2.png",
-            "pos_z": "trapdoor\\acacia2.png",
-            "neg_z": "trapdoor\\acacia2.png",
-            "neg_x": "trapdoor\\acacia2.png",
-            "neg_y": "trapdoor\\acacia2.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "acacia2-trapdoor",
+    "id": 858,
+    "texture": {
+      "pos_y": "trapdoor\\acacia2.png",
+      "pos_x": "trapdoor\\acacia2.png",
+      "pos_z": "trapdoor\\acacia2.png",
+      "neg_z": "trapdoor\\acacia2.png",
+      "neg_x": "trapdoor\\acacia2.png",
+      "neg_y": "trapdoor\\acacia2.png"
     },
-    {
-        "name": "Bamboo 2 Trapdoor",
-        "id": 859,
-        "texture": {
-            "pos_y": "trapdoor\\bamboo 2.png",
-            "pos_x": "trapdoor\\bamboo 2.png",
-            "pos_z": "trapdoor\\bamboo 2.png",
-            "neg_z": "trapdoor\\bamboo 2.png",
-            "neg_x": "trapdoor\\bamboo 2.png",
-            "neg_y": "trapdoor\\bamboo 2.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "bamboo-2-trapdoor",
+    "id": 859,
+    "texture": {
+      "pos_y": "trapdoor\\bamboo 2.png",
+      "pos_x": "trapdoor\\bamboo 2.png",
+      "pos_z": "trapdoor\\bamboo 2.png",
+      "neg_z": "trapdoor\\bamboo 2.png",
+      "neg_x": "trapdoor\\bamboo 2.png",
+      "neg_y": "trapdoor\\bamboo 2.png"
     },
-    {
-        "name": "Bamboo Trapdoor",
-        "id": 860,
-        "texture": {
-            "pos_y": "trapdoor\\bamboo.png",
-            "pos_x": "trapdoor\\bamboo.png",
-            "pos_z": "trapdoor\\bamboo.png",
-            "neg_z": "trapdoor\\bamboo.png",
-            "neg_x": "trapdoor\\bamboo.png",
-            "neg_y": "trapdoor\\bamboo.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "bamboo-trapdoor",
+    "id": 860,
+    "texture": {
+      "pos_y": "trapdoor\\bamboo.png",
+      "pos_x": "trapdoor\\bamboo.png",
+      "pos_z": "trapdoor\\bamboo.png",
+      "neg_z": "trapdoor\\bamboo.png",
+      "neg_x": "trapdoor\\bamboo.png",
+      "neg_y": "trapdoor\\bamboo.png"
     },
-    {
-        "name": "Birch Trapdoor",
-        "id": 861,
-        "texture": {
-            "pos_y": "trapdoor\\birch.png",
-            "pos_x": "trapdoor\\birch.png",
-            "pos_z": "trapdoor\\birch.png",
-            "neg_z": "trapdoor\\birch.png",
-            "neg_x": "trapdoor\\birch.png",
-            "neg_y": "trapdoor\\birch.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "birch-trapdoor",
+    "id": 861,
+    "texture": {
+      "pos_y": "trapdoor\\birch.png",
+      "pos_x": "trapdoor\\birch.png",
+      "pos_z": "trapdoor\\birch.png",
+      "neg_z": "trapdoor\\birch.png",
+      "neg_x": "trapdoor\\birch.png",
+      "neg_y": "trapdoor\\birch.png"
     },
-    {
-        "name": "Cladded Birch Trapdoor",
-        "id": 862,
-        "texture": {
-            "pos_y": "trapdoor\\cladded birch.png",
-            "pos_x": "trapdoor\\cladded birch.png",
-            "pos_z": "trapdoor\\cladded birch.png",
-            "neg_z": "trapdoor\\cladded birch.png",
-            "neg_x": "trapdoor\\cladded birch.png",
-            "neg_y": "trapdoor\\cladded birch.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "cladded-birch-trapdoor",
+    "id": 862,
+    "texture": {
+      "pos_y": "trapdoor\\cladded birch.png",
+      "pos_x": "trapdoor\\cladded birch.png",
+      "pos_z": "trapdoor\\cladded birch.png",
+      "neg_z": "trapdoor\\cladded birch.png",
+      "neg_x": "trapdoor\\cladded birch.png",
+      "neg_y": "trapdoor\\cladded birch.png"
     },
-    {
-        "name": "Cladded Redwood Trapdoor",
-        "id": 863,
-        "texture": {
-            "pos_y": "trapdoor\\cladded redwood.png",
-            "pos_x": "trapdoor\\cladded redwood.png",
-            "pos_z": "trapdoor\\cladded redwood.png",
-            "neg_z": "trapdoor\\cladded redwood.png",
-            "neg_x": "trapdoor\\cladded redwood.png",
-            "neg_y": "trapdoor\\cladded redwood.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "cladded-redwood-trapdoor",
+    "id": 863,
+    "texture": {
+      "pos_y": "trapdoor\\cladded redwood.png",
+      "pos_x": "trapdoor\\cladded redwood.png",
+      "pos_z": "trapdoor\\cladded redwood.png",
+      "neg_z": "trapdoor\\cladded redwood.png",
+      "neg_x": "trapdoor\\cladded redwood.png",
+      "neg_y": "trapdoor\\cladded redwood.png"
     },
-    {
-        "name": "Cladded White Trapdoor",
-        "id": 864,
-        "texture": {
-            "pos_y": "trapdoor\\cladded white.png",
-            "pos_x": "trapdoor\\cladded white.png",
-            "pos_z": "trapdoor\\cladded white.png",
-            "neg_z": "trapdoor\\cladded white.png",
-            "neg_x": "trapdoor\\cladded white.png",
-            "neg_y": "trapdoor\\cladded white.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "cladded-white-trapdoor",
+    "id": 864,
+    "texture": {
+      "pos_y": "trapdoor\\cladded white.png",
+      "pos_x": "trapdoor\\cladded white.png",
+      "pos_z": "trapdoor\\cladded white.png",
+      "neg_z": "trapdoor\\cladded white.png",
+      "neg_x": "trapdoor\\cladded white.png",
+      "neg_y": "trapdoor\\cladded white.png"
     },
-    {
-        "name": "Glass Trapdoor",
-        "id": 865,
-        "texture": {
-            "pos_y": "trapdoor\\glass.png",
-            "pos_x": "trapdoor\\glass.png",
-            "pos_z": "trapdoor\\glass.png",
-            "neg_z": "trapdoor\\glass.png",
-            "neg_x": "trapdoor\\glass.png",
-            "neg_y": "trapdoor\\glass.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "glass-trapdoor",
+    "id": 865,
+    "texture": {
+      "pos_y": "trapdoor\\glass.png",
+      "pos_x": "trapdoor\\glass.png",
+      "pos_z": "trapdoor\\glass.png",
+      "neg_z": "trapdoor\\glass.png",
+      "neg_x": "trapdoor\\glass.png",
+      "neg_y": "trapdoor\\glass.png"
     },
-    {
-        "name": "Gray Space Trapdoor Trapdoor",
-        "id": 866,
-        "texture": {
-            "pos_y": "trapdoor\\gray space trapdoor.png",
-            "pos_x": "trapdoor\\gray space trapdoor.png",
-            "pos_z": "trapdoor\\gray space trapdoor.png",
-            "neg_z": "trapdoor\\gray space trapdoor.png",
-            "neg_x": "trapdoor\\gray space trapdoor.png",
-            "neg_y": "trapdoor\\gray space trapdoor.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "gray-space-trapdoor-trapdoor",
+    "id": 866,
+    "texture": {
+      "pos_y": "trapdoor\\gray space trapdoor.png",
+      "pos_x": "trapdoor\\gray space trapdoor.png",
+      "pos_z": "trapdoor\\gray space trapdoor.png",
+      "neg_z": "trapdoor\\gray space trapdoor.png",
+      "neg_x": "trapdoor\\gray space trapdoor.png",
+      "neg_y": "trapdoor\\gray space trapdoor.png"
     },
-    {
-        "name": "Jungle 2 Trapdoor",
-        "id": 867,
-        "texture": {
-            "pos_y": "trapdoor\\jungle 2.png",
-            "pos_x": "trapdoor\\jungle 2.png",
-            "pos_z": "trapdoor\\jungle 2.png",
-            "neg_z": "trapdoor\\jungle 2.png",
-            "neg_x": "trapdoor\\jungle 2.png",
-            "neg_y": "trapdoor\\jungle 2.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "jungle-2-trapdoor",
+    "id": 867,
+    "texture": {
+      "pos_y": "trapdoor\\jungle 2.png",
+      "pos_x": "trapdoor\\jungle 2.png",
+      "pos_z": "trapdoor\\jungle 2.png",
+      "neg_z": "trapdoor\\jungle 2.png",
+      "neg_x": "trapdoor\\jungle 2.png",
+      "neg_y": "trapdoor\\jungle 2.png"
     },
-    {
-        "name": "Jungle Trapdoor",
-        "id": 868,
-        "texture": {
-            "pos_y": "trapdoor\\jungle.png",
-            "pos_x": "trapdoor\\jungle.png",
-            "pos_z": "trapdoor\\jungle.png",
-            "neg_z": "trapdoor\\jungle.png",
-            "neg_x": "trapdoor\\jungle.png",
-            "neg_y": "trapdoor\\jungle.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "jungle-trapdoor",
+    "id": 868,
+    "texture": {
+      "pos_y": "trapdoor\\jungle.png",
+      "pos_x": "trapdoor\\jungle.png",
+      "pos_z": "trapdoor\\jungle.png",
+      "neg_z": "trapdoor\\jungle.png",
+      "neg_x": "trapdoor\\jungle.png",
+      "neg_y": "trapdoor\\jungle.png"
     },
-    {
-        "name": "Oak 2 Trapdoor",
-        "id": 869,
-        "texture": {
-            "pos_y": "trapdoor\\oak 2.png",
-            "pos_x": "trapdoor\\oak 2.png",
-            "pos_z": "trapdoor\\oak 2.png",
-            "neg_z": "trapdoor\\oak 2.png",
-            "neg_x": "trapdoor\\oak 2.png",
-            "neg_y": "trapdoor\\oak 2.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "oak-2-trapdoor",
+    "id": 869,
+    "texture": {
+      "pos_y": "trapdoor\\oak 2.png",
+      "pos_x": "trapdoor\\oak 2.png",
+      "pos_z": "trapdoor\\oak 2.png",
+      "neg_z": "trapdoor\\oak 2.png",
+      "neg_x": "trapdoor\\oak 2.png",
+      "neg_y": "trapdoor\\oak 2.png"
     },
-    {
-        "name": "Oak Trapdoor",
-        "id": 870,
-        "texture": {
-            "pos_y": "trapdoor\\oak.png",
-            "pos_x": "trapdoor\\oak.png",
-            "pos_z": "trapdoor\\oak.png",
-            "neg_z": "trapdoor\\oak.png",
-            "neg_x": "trapdoor\\oak.png",
-            "neg_y": "trapdoor\\oak.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "oak-trapdoor",
+    "id": 870,
+    "texture": {
+      "pos_y": "trapdoor\\oak.png",
+      "pos_x": "trapdoor\\oak.png",
+      "pos_z": "trapdoor\\oak.png",
+      "neg_z": "trapdoor\\oak.png",
+      "neg_x": "trapdoor\\oak.png",
+      "neg_y": "trapdoor\\oak.png"
     },
-    {
-        "name": "Red Trapdoor",
-        "id": 871,
-        "texture": {
-            "pos_y": "trapdoor\\red.png",
-            "pos_x": "trapdoor\\red.png",
-            "pos_z": "trapdoor\\red.png",
-            "neg_z": "trapdoor\\red.png",
-            "neg_x": "trapdoor\\red.png",
-            "neg_y": "trapdoor\\red.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "red-trapdoor",
+    "id": 871,
+    "texture": {
+      "pos_y": "trapdoor\\red.png",
+      "pos_x": "trapdoor\\red.png",
+      "pos_z": "trapdoor\\red.png",
+      "neg_z": "trapdoor\\red.png",
+      "neg_x": "trapdoor\\red.png",
+      "neg_y": "trapdoor\\red.png"
     },
-    {
-        "name": "Renaissance Trapdoor",
-        "id": 872,
-        "texture": {
-            "pos_y": "trapdoor\\renaissance.png",
-            "pos_x": "trapdoor\\renaissance.png",
-            "pos_z": "trapdoor\\renaissance.png",
-            "neg_z": "trapdoor\\renaissance.png",
-            "neg_x": "trapdoor\\renaissance.png",
-            "neg_y": "trapdoor\\renaissance.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "renaissance-trapdoor",
+    "id": 872,
+    "texture": {
+      "pos_y": "trapdoor\\renaissance.png",
+      "pos_x": "trapdoor\\renaissance.png",
+      "pos_z": "trapdoor\\renaissance.png",
+      "neg_z": "trapdoor\\renaissance.png",
+      "neg_x": "trapdoor\\renaissance.png",
+      "neg_y": "trapdoor\\renaissance.png"
     },
-    {
-        "name": "Spruce Trapdoor",
-        "id": 873,
-        "texture": {
-            "pos_y": "trapdoor\\spruce.png",
-            "pos_x": "trapdoor\\spruce.png",
-            "pos_z": "trapdoor\\spruce.png",
-            "neg_z": "trapdoor\\spruce.png",
-            "neg_x": "trapdoor\\spruce.png",
-            "neg_y": "trapdoor\\spruce.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "spruce-trapdoor",
+    "id": 873,
+    "texture": {
+      "pos_y": "trapdoor\\spruce.png",
+      "pos_x": "trapdoor\\spruce.png",
+      "pos_z": "trapdoor\\spruce.png",
+      "neg_z": "trapdoor\\spruce.png",
+      "neg_x": "trapdoor\\spruce.png",
+      "neg_y": "trapdoor\\spruce.png"
     },
-    {
-        "name": "Steel Trapdoor",
-        "id": 874,
-        "texture": {
-            "pos_y": "trapdoor\\steel.png",
-            "pos_x": "trapdoor\\steel.png",
-            "pos_z": "trapdoor\\steel.png",
-            "neg_z": "trapdoor\\steel.png",
-            "neg_x": "trapdoor\\steel.png",
-            "neg_y": "trapdoor\\steel.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "steel-trapdoor",
+    "id": 874,
+    "texture": {
+      "pos_y": "trapdoor\\steel.png",
+      "pos_x": "trapdoor\\steel.png",
+      "pos_z": "trapdoor\\steel.png",
+      "neg_z": "trapdoor\\steel.png",
+      "neg_x": "trapdoor\\steel.png",
+      "neg_y": "trapdoor\\steel.png"
     },
-    {
-        "name": "Warped Trapdoor",
-        "id": 875,
-        "texture": {
-            "pos_y": "trapdoor\\warped.png",
-            "pos_x": "trapdoor\\warped.png",
-            "pos_z": "trapdoor\\warped.png",
-            "neg_z": "trapdoor\\warped.png",
-            "neg_x": "trapdoor\\warped.png",
-            "neg_y": "trapdoor\\warped.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "warped-trapdoor",
+    "id": 875,
+    "texture": {
+      "pos_y": "trapdoor\\warped.png",
+      "pos_x": "trapdoor\\warped.png",
+      "pos_z": "trapdoor\\warped.png",
+      "neg_z": "trapdoor\\warped.png",
+      "neg_x": "trapdoor\\warped.png",
+      "neg_y": "trapdoor\\warped.png"
     },
-    {
-        "name": "White Space Trapdoor Trapdoor",
-        "id": 876,
-        "texture": {
-            "pos_y": "trapdoor\\white space trapdoor.png",
-            "pos_x": "trapdoor\\white space trapdoor.png",
-            "pos_z": "trapdoor\\white space trapdoor.png",
-            "neg_z": "trapdoor\\white space trapdoor.png",
-            "neg_x": "trapdoor\\white space trapdoor.png",
-            "neg_y": "trapdoor\\white space trapdoor.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "white-space-trapdoor-trapdoor",
+    "id": 876,
+    "texture": {
+      "pos_y": "trapdoor\\white space trapdoor.png",
+      "pos_x": "trapdoor\\white space trapdoor.png",
+      "pos_z": "trapdoor\\white space trapdoor.png",
+      "neg_z": "trapdoor\\white space trapdoor.png",
+      "neg_x": "trapdoor\\white space trapdoor.png",
+      "neg_y": "trapdoor\\white space trapdoor.png"
     },
-    {
-        "name": "White Trapdoor",
-        "id": 877,
-        "texture": {
-            "pos_y": "trapdoor\\white.png",
-            "pos_x": "trapdoor\\white.png",
-            "pos_z": "trapdoor\\white.png",
-            "neg_z": "trapdoor\\white.png",
-            "neg_x": "trapdoor\\white.png",
-            "neg_y": "trapdoor\\white.png"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 16,
-        "tags": [],
-        "properties": {}
-    }
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "white-trapdoor",
+    "id": 877,
+    "texture": {
+      "pos_y": "trapdoor\\white.png",
+      "pos_x": "trapdoor\\white.png",
+      "pos_z": "trapdoor\\white.png",
+      "neg_z": "trapdoor\\white.png",
+      "neg_x": "trapdoor\\white.png",
+      "neg_y": "trapdoor\\white.png"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  }
 ]

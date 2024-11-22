@@ -173,7 +173,7 @@ public class BlockIconRenderer {
     private void generateAndSaveIcon(Block block, File baseFile, int renderedTexture) throws IOException {
         if (block.texture != null && shouldMakeIcon(block)) {
             if (makeBlockMesh(block)) {
-                MainWindow.printlnDev("\tblock: " + block.id + " (" + block.name + ")");
+                MainWindow.printlnDev("\tblock: " + block.id + " (" + block.alias + ")");
                 shader.bind();
                 mesh.draw(false);
                 File outFile = new File(baseFile, block.id + ".png");

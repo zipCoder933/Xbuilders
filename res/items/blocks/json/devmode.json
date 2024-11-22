@@ -1,98 +1,140 @@
 [
-    {
-        "name": "Test Block",
-        "id": -1,
-        "texture": {
-            "neg_y": "test\\neg y",
-            "pos_x": "test\\pos x",
-            "pos_z": "test\\pos z",
-            "neg_z": "test\\neg z",
-            "neg_x": "test\\neg x",
-            "pos_y": "test\\pos y"
-        },
-        "solid": true,
-        "opaque": true,
-        "torch": 0,
-        "type": 0
+  {
+    "alias": "test-block",
+    "id": -1,
+    "texture": {
+      "pos_y": "test\\neg y",
+      "pos_x": "test\\pos x",
+      "pos_z": "test\\pos z",
+      "neg_z": "test\\neg z",
+      "neg_x": "test\\neg x",
+      "neg_y": "test\\pos y"
     },
-    {
-        "name": "Test Orientable",
-        "id": -2,
-        "texture": {
-            "neg_y": "test\\neg y",
-            "pos_x": "test\\pos x",
-            "pos_z": "test\\pos z",
-            "neg_z": "test\\neg z",
-            "neg_x": "test\\neg x",
-            "pos_y": "test\\pos y"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": "orientable"
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "test-orientable",
+    "id": -2,
+    "texture": {
+      "pos_y": "test\\neg y",
+      "pos_x": "test\\pos x",
+      "pos_z": "test\\pos z",
+      "neg_z": "test\\neg z",
+      "neg_x": "test\\neg x",
+      "neg_y": "test\\pos y"
     },
-    {
-        "name": "Test Slab",
-        "id": -3,
-        "texture": {
-            "neg_y": "test\\neg y",
-            "pos_x": "test\\pos x",
-            "pos_z": "test\\pos z",
-            "neg_z": "test\\neg z",
-            "neg_x": "test\\neg x",
-            "pos_y": "test\\pos y"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": 4
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 1,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "test-slab",
+    "id": -3,
+    "texture": {
+      "pos_y": "test\\neg y",
+      "pos_x": "test\\pos x",
+      "pos_z": "test\\pos z",
+      "neg_z": "test\\neg z",
+      "neg_x": "test\\neg x",
+      "neg_y": "test\\pos y"
     },
-    {
-        "name": "Test Trapdoor",
-        "id": -4,
-        "texture": {
-            "neg_y": "test\\neg y",
-            "pos_x": "test\\pos x",
-            "pos_z": "test\\pos z",
-            "neg_z": "test\\neg z",
-            "neg_x": "test\\neg x",
-            "pos_y": "test\\pos y"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": "trapdoor"
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 4,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "test-trapdoor",
+    "id": -4,
+    "texture": {
+      "pos_y": "test\\neg y",
+      "pos_x": "test\\pos x",
+      "pos_z": "test\\pos z",
+      "neg_z": "test\\neg z",
+      "neg_x": "test\\neg x",
+      "neg_y": "test\\pos y"
     },
-    {
-        "name": "Test Fence Gate",
-        "id": -5,
-        "texture": {
-            "neg_y": "test\\neg y",
-            "pos_x": "test\\pos x",
-            "pos_z": "test\\pos z",
-            "neg_z": "test\\neg z",
-            "neg_x": "test\\neg x",
-            "pos_y": "test\\pos y"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": "fence gate"
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 16,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "test-fence-gate",
+    "id": -5,
+    "texture": {
+      "pos_y": "test\\neg y",
+      "pos_x": "test\\pos x",
+      "pos_z": "test\\pos z",
+      "neg_z": "test\\neg z",
+      "neg_x": "test\\neg x",
+      "neg_y": "test\\pos y"
     },
-    {
-        "name": "Test Door Half",
-        "id": -6,
-        "texture": {
-            "neg_y": "test\\neg y",
-            "pos_x": "test\\pos x",
-            "pos_z": "test\\pos z",
-            "neg_z": "test\\neg z",
-            "neg_x": "test\\neg x",
-            "pos_y": "test\\pos y"
-        },
-        "solid": true,
-        "opaque": false,
-        "torch": 0,
-        "type": "door half"
-    }
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 17,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "test-door-half",
+    "id": -6,
+    "texture": {
+      "pos_y": "test\\neg y",
+      "pos_x": "test\\pos x",
+      "pos_z": "test\\pos z",
+      "neg_z": "test\\neg z",
+      "neg_x": "test\\neg x",
+      "neg_y": "test\\pos y"
+    },
+    "solid": true,
+    "opaque": false,
+    "torch": 0,
+    "type": 18,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  }
 ]

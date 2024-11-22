@@ -2,7 +2,7 @@ package com.xbuilders.engine.items;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.entity.EntitySupplier;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.JsonManager;
@@ -27,6 +27,19 @@ public class ItemUtils {
 
                 String jsonString = Files.readString(file.toPath());
                 Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
+
+/*
+//DANGER! This code will Change the JSON and write it back
+//                System.out.println("Read " + jsonBlocks2.length + " blocks from " + file.getName());
+//                for(Block block : jsonBlocks2) {
+//                    block.alias = BlockRegistry.formatAlias(block.alias);
+//                }
+//                //Write it back to json
+//                String json = JsonManager.gson_blockAdapter.toJson(jsonBlocks2);
+//                Files.writeString(file.toPath(), json);
+ */
+
+
                 if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
                     // append to list
                     for (Block block : jsonBlocks2) {
@@ -50,7 +63,7 @@ public class ItemUtils {
             for (File file : jsonDirectory.listFiles()) {
                 if (!file.getName().endsWith(".json")) continue;
                 if (!MainWindow.devMode && file.getName().contains("devmode")) continue;
-                System.out.println("\t"+file.getName());
+                System.out.println("\t" + file.getName());
                 String jsonString = Files.readString(file.toPath());
                 Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
                 if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
@@ -78,10 +91,10 @@ public class ItemUtils {
 
 
             blockClasses.append("public static Block BLOCK_" +
-                            nameToJavaName("block", block.name) + " = ItemList.getBlock((short)")
+                            nameToJavaName("block", block.alias) + " = ItemList.getBlock((short)")
                     .append(block.id).append(");").append("\n");
             blockIDs.append("public static short BLOCK_" +
-                    nameToJavaName("block", block.name) + " = ").append(block.id).append(";").append("\n");
+                    nameToJavaName("block", block.alias) + " = ").append(block.id).append(";").append("\n");
         }
         Files.writeString(new File(directory, "BlockClasses.java").toPath(), blockClasses.toString());
         Files.writeString(new File(directory, "BlockIDs.java").toPath(), blockIDs.toString());

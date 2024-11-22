@@ -1,28 +1,24 @@
 package com.xbuilders.engine.items.block;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.construction.BlockType;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.function.Consumer;
 
 public class Block {
 
     //A block texture is a REQUIRED field
     public final short id;
-    public final String name;
+    public final String alias;
     public final HashMap<String, String> properties = new HashMap<>();
 
     public final BlockTexture texture;
@@ -172,38 +168,38 @@ public class Block {
     }
 
 
-    public Block(int id, String name) {
+    public Block(int id, String alias) {
         this.id = (short) id;
-        this.name = name;
+        this.alias = BlockRegistry.formatAlias(alias);
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
     }
 
-    public Block(int id, String name, BlockTexture texture) {
+    public Block(int id, String alias, BlockTexture texture) {
         this.id = (short) id;
-        this.name = name;
+        this.alias = BlockRegistry.formatAlias(alias);
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = texture;
     }
 
-    public Block(int id, String name, BlockTexture texture, int renderType) {
+    public Block(int id, String alias, BlockTexture texture, int renderType) {
         this.id = (short) id;
-        this.name = name;
+        this.alias = BlockRegistry.formatAlias(alias);
         this.texture = texture;
         this.renderType = renderType;
     }
 
-    public Block(int id, String name, BlockTexture texture, int renderType, Consumer<Block> initialization) {
+    public Block(int id, String alias, BlockTexture texture, int renderType, Consumer<Block> initialization) {
         this.id = (short) id;
-        this.name = name;
+        this.alias = BlockRegistry.formatAlias(alias);
         this.texture = texture;
         this.renderType = renderType;
         this.initializationCallback = initialization;
     }
 
-    public Block(int id, String name, BlockTexture texture, Consumer<Block> initialization) {
+    public Block(int id, String alias, BlockTexture texture, Consumer<Block> initialization) {
         this.id = (short) id;
-        this.name = name;
+        this.alias = BlockRegistry.formatAlias(alias);
         this.texture = texture;
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.initializationCallback = initialization;
@@ -212,6 +208,6 @@ public class Block {
 
     @Override
     public String toString() {
-        return "\"" + name + "\" Block (id: " + id + ")";
+        return "\"" + alias + "\" Block (id: " + id + ")";
     }
 }

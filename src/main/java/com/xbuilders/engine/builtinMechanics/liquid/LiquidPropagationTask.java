@@ -59,7 +59,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
             return;
         }
         HashSet<Vector3i> newNodes = new HashSet<>();
-        MainWindow.printlnDev(liquidBlock.name + " prop nodes: " + nodes.size());
+        MainWindow.printlnDev(liquidBlock.alias + " prop nodes: " + nodes.size());
         final int SOURCE_FLOW = liquidBlock.liquidMaxFlow + 1;
 
         for (Vector3i v : nodes) {
