@@ -3,6 +3,7 @@ package com.xbuilders.engine.items.loot;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootSerializer;
 
@@ -12,11 +13,12 @@ import java.nio.file.Files;
 import java.util.HashMap;
 
 public class LootTables {
-    public static final HashMap<Short, LootList> blockLootTables = new HashMap<>();
-
+    public static final HashMap<String, LootList> blockLootTables = new HashMap<>();
 
     public static final ObjectMapper lootMapper;
-    public static final TypeReference<HashMap<Short, LootList>> lootTableType = new TypeReference<HashMap<Short, LootList>>() {
+    public static final TypeReference<HashMap<String, LootList>> stringIDTable = new TypeReference<HashMap<String, LootList>>() {
+    };
+    public static final TypeReference<HashMap<Short, LootList>> shortIDTable = new TypeReference<HashMap<Short, LootList>>() {
     };
 
     static {
@@ -32,12 +34,17 @@ public class LootTables {
 
     public static void loadBlockLootTable(File json) throws IOException {
         String jsonString = Files.readString(json.toPath());
-        blockLootTables.putAll(lootMapper.readValue(jsonString, lootTableType));
+        blockLootTables.putAll(lootMapper.readValue(jsonString, stringIDTable));
     }
 
     public static void writeLootTableToJson(HashMap<Short, LootList> table, File json) throws IOException {
         String jsonString = lootMapper.writeValueAsString(table);
         Files.writeString(json.toPath(), jsonString);
     }
+
+//    public static void writeLootTableToJson(HashMap<String, LootList> table, File json) throws IOException {
+//        String jsonString = lootMapper.writeValueAsString(table);
+//        Files.writeString(json.toPath(), jsonString);
+//    }
 
 }

@@ -7,6 +7,7 @@ package com.xbuilders.engine.items.entity;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -61,9 +62,9 @@ public class EntityRegistry {
         System.out.println("\t(The highest item ID is: " + highestId + ")");
         System.out.print("\tID Gaps: ");
         //iterate over map
-        for( Map.Entry<Integer, EntitySupplier> entry : map.entrySet()) {
+        for (Map.Entry<Integer, EntitySupplier> entry : map.entrySet()) {
             int id = entry.getKey();
-            if(idMap.get(id) == null) {
+            if (idMap.get(id) == null) {
                 System.out.print(id + " ");
             }
         }
@@ -73,7 +74,7 @@ public class EntityRegistry {
     }
 
     public void initialize(List<EntitySupplier> inputBlocks) {
-//        inputBlocks.add(ENTITY_ITEM_DROP);
+        HashSet<String> uniqueAliases = new HashSet<>();
         verifyEntityIds(inputBlocks);
         list = inputBlocks.toArray(new EntitySupplier[0]);
     }

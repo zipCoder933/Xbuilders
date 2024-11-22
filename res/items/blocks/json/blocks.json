@@ -5382,7 +5382,7 @@
     "properties": {}
   },
   {
-    "alias": "curved-track-hidden",
+    "alias": "curved-track",
     "id": 245,
     "texture": {
       "pos_y": "curved track",
@@ -5543,7 +5543,7 @@
     "properties": {}
   },
   {
-    "alias": "raised-track-hidden",
+    "alias": "raised-track",
     "id": 252,
     "texture": {
       "pos_y": "track",

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class BlockStraightTrack extends Block {
 
     public BlockStraightTrack(int id) {
-        super(id, "Track", new BlockTexture("track.png", "track.png", "track.png"));
+        super(id, "straight track", new BlockTexture("track.png", "track.png", "track.png"));
         solid = false;
         opaque = false;
         renderType = RenderType.FLOOR;

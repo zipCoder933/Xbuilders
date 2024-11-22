@@ -170,9 +170,8 @@ public class CursorRay {
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
                 if (breakAmt >= blockToughness) {
-                    if (LootTables.blockLootTables.get(existingBlock.id) != null) {
-                        LootTables.blockLootTables.get(existingBlock.id).randomItems((itemStack) -> {
-                            System.out.println("Acquired: " + itemStack);
+                    if (LootTables.blockLootTables.get(existingBlock.alias) != null) {
+                        LootTables.blockLootTables.get(existingBlock.alias).randomItems((itemStack) -> {
                             GameScene.player.inventory.acquireItem(itemStack);
                         });
                     }

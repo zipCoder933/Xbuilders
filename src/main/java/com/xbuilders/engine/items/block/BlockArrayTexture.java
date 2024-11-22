@@ -109,7 +109,6 @@ public class BlockArrayTexture {
         int layers = image.getHeight() / image.getWidth();
 //        builtin_breakTextures = new int[layers];
         for (int i = 0; i < layers; i++) {
-            System.out.println("\t" + i);
             imageFiles.add(new TextureFile(breakTexture, 0, i * image.getWidth(), textureSize, textureSize));
 //            builtin_breakTextures[i] = index.get();
             index.incrementAndGet();

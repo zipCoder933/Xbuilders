@@ -170,28 +170,28 @@ public class Block {
 
     public Block(int id, String alias) {
         this.id = (short) id;
-        this.alias = BlockRegistry.formatAlias(alias);
+        this.alias = Registrys.formatAlias(alias);
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
     }
 
     public Block(int id, String alias, BlockTexture texture) {
         this.id = (short) id;
-        this.alias = BlockRegistry.formatAlias(alias);
+        this.alias = Registrys.formatAlias(alias);
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = texture;
     }
 
     public Block(int id, String alias, BlockTexture texture, int renderType) {
         this.id = (short) id;
-        this.alias = BlockRegistry.formatAlias(alias);
+        this.alias = Registrys.formatAlias(alias);
         this.texture = texture;
         this.renderType = renderType;
     }
 
     public Block(int id, String alias, BlockTexture texture, int renderType, Consumer<Block> initialization) {
         this.id = (short) id;
-        this.alias = BlockRegistry.formatAlias(alias);
+        this.alias = Registrys.formatAlias(alias);
         this.texture = texture;
         this.renderType = renderType;
         this.initializationCallback = initialization;
@@ -199,7 +199,7 @@ public class Block {
 
     public Block(int id, String alias, BlockTexture texture, Consumer<Block> initialization) {
         this.id = (short) id;
-        this.alias = BlockRegistry.formatAlias(alias);
+        this.alias = Registrys.formatAlias(alias);
         this.texture = texture;
         this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.initializationCallback = initialization;

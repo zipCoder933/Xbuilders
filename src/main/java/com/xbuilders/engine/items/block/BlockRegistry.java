@@ -13,6 +13,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -57,11 +58,12 @@ public class BlockRegistry {
     }
 
 
-    private int assignMapAndVerify(List<Block> inputItems) {
+    private int assignMapAndVerify(HashSet<String> uniqueAliases, List<Block> inputItems) {
         System.out.println("\nChecking block IDs");
 
         //Assign all the maps
         int highestId = 0;
+
         HashMap<Integer, Block> idToBlock_temp = new HashMap<>();
         aliasToIDMap.clear();
 
@@ -75,6 +77,10 @@ public class BlockRegistry {
             if (idToBlock_temp.get(id) != null) {
                 System.err.println("Block " + block + " ID conflicts with an existing ID: " + id);
             }
+            if (uniqueAliases.contains(block.alias)) {
+                System.err.println("Block " + block + " alias conflicts with an existing alias: " + block.alias);
+            } else uniqueAliases.add(block.alias);
+
             idToBlock_temp.put(id, block);
             aliasToIDMap.put(block.alias, (short) id);
 
@@ -104,11 +110,12 @@ public class BlockRegistry {
     }
 
     public void initialize(List<Block> blockArray) throws IOException {
+        HashSet<String> uniqueAliases = new HashSet<>();
         textures = new BlockArrayTexture(ResourceUtils.BLOCK_TEXTURE_DIR, ResourceUtils.BLOCK_BUILTIN_TEXTURE_DIR);
 
         blockArray.add(BLOCK_AIR);
 
-        assignMapAndVerify(blockArray);
+        assignMapAndVerify(uniqueAliases, blockArray);
         list = blockArray.toArray(new Block[0]);
 
         //Initialize all blocks
@@ -145,10 +152,6 @@ public class BlockRegistry {
     // map.put(val, value).getCollisionBoxes(box);
     // });
     // }
-
-    public static String formatAlias(String alias) {
-        return alias.toLowerCase().trim().replaceAll("\\s+", "-");
-    }
 
     public Block getBlock(String alias) {
         return idToBlockMap.get(aliasToIDMap.get(alias));

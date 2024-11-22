@@ -11,10 +11,12 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemRegistry;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -78,17 +80,23 @@ public class Registrys {
         return items.getItem(blockID);
     }
 
-    public static Item getItem(Block block){
-        for(Item item : items.getList()){
-            if(item.getBlock() != null && item.getBlock().id == block.id) return item;
+    public static Item getItem(Block block) {
+        for (Item item : items.getList()) {
+            if (item.getBlock() != null && item.getBlock().id == block.id) return item;
         }
         return null;
     }
 
-    public static Item getItem(Entity entity){
-        for(Item item : items.getList()){
-            if(item.getEntity() != null && item.getEntity().id == entity.id) return item;
+    public static Item getItem(Entity entity) {
+        for (Item item : items.getList()) {
+            if (item.getEntity() != null && item.getEntity().id == entity.id) return item;
         }
         return null;
     }
+
+
+    public static String formatAlias(String alias) {
+        return alias.toLowerCase().trim().replaceAll("\\s+", "-");
+    }
+
 }
