@@ -160,8 +160,8 @@ public class CursorRay {
                 Block existingBlock = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
                 float miningSpeed = getMiningSpeed(selectedItem);
                 float blockToughness = existingBlock.toughness;
-                if (selectedItem != null) {
-                    selectedItem.durability -= 0.1f;
+                if (selectedItem != null && selectedItem.item.maxDurability > 0) {
+                    selectedItem.durability -= 0.01f;
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
 
@@ -171,10 +171,12 @@ public class CursorRay {
                 breakAmt += miningSpeed;
                 if (breakAmt >= blockToughness) {
 
-                    LootTables.blockLootTables.get(existingBlock.id).randomItems((itemStack) -> {
-                        System.out.println("Acquired: " + itemStack);
-                        GameScene.player.inventory.acquireItem(itemStack);
-                    });
+                    if (LootTables.blockLootTables.get(existingBlock.id) != null) {
+                        LootTables.blockLootTables.get(existingBlock.id).randomItems((itemStack) -> {
+                            System.out.println("Acquired: " + itemStack);
+                            GameScene.player.inventory.acquireItem(itemStack);
+                        });
+                    }
 
                     GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                     breakAmt = 0;
@@ -196,26 +198,28 @@ public class CursorRay {
     final int AUTO_CLICK_INTERVAL = 250;
 
     public void update() {
-        //Auto click
-        if (window.isMouseButtonPressed(UserControlledPlayer.getCreateMouseButton())) {
-            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
-                    System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
-                autoClick_lastClicked = System.currentTimeMillis();
-                camera.cursorRay.clickEvent(true);
-            }
-        } else if (GameScene.getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
-            if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
-                    System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
-                autoClick_lastClicked = System.currentTimeMillis();
-                camera.cursorRay.clickEvent(false);
-            }
-        } else autoClick_timeSinceReleased = System.currentTimeMillis();
+        if (!GameScene.ui.anyMenuOpen()) {
+            //Auto click
+            if (window.isMouseButtonPressed(UserControlledPlayer.getCreateMouseButton())) {
+                if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
+                        System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
+                    autoClick_lastClicked = System.currentTimeMillis();
+                    camera.cursorRay.clickEvent(true);
+                }
+            } else if (GameScene.getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+                if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
+                        System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
+                    autoClick_lastClicked = System.currentTimeMillis();
+                    camera.cursorRay.clickEvent(false);
+                }
+            } else autoClick_timeSinceReleased = System.currentTimeMillis();
 
-        //Removal
-        if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
-            ItemStack selectedItem = MainWindow.game.getSelectedItem();
-            defaultRemoveEvent(true, selectedItem);
-        } else breakPercentage = 0;
+            //Removal
+            if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+                ItemStack selectedItem = MainWindow.game.getSelectedItem();
+                defaultRemoveEvent(true, selectedItem);
+            } else breakPercentage = 0;
+        }
     }
 
     private void defaultSetEvent(ItemStack stack) {

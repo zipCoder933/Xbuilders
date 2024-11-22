@@ -37,6 +37,8 @@ public class UI_ItemStackGrid {
         nk_layout_row_dynamic(ctx, height, 1);
         nk_style_set_font(ctx, Theme.font_10);
 
+        storageSpace.deleteEmptyItems();
+
 
         if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
 
