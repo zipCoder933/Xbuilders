@@ -1,6 +1,8 @@
 package com.xbuilders.engine.items.item;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StorageSpace {
     public final ItemStack[] items;
@@ -84,14 +86,35 @@ public class StorageSpace {
     }
 
     public void deleteEmptyItems() {
-        //iterate over all inventory and delete empty items
+        Set<ItemStack> seenItems = new HashSet<>();
+
         for (int i = 0; i < size(); i++) {
-            if (get(i) != null) {
-                if (get(i).stackSize <= 0 || get(i).destroy) {
+            ItemStack currentItem = get(i);
+
+            if (currentItem != null) {
+                // Remove empty or marked-for-destruction items
+                if (currentItem.stackSize <= 0 || currentItem.destroy) {
                     set(i, null);
+                    continue;
+                }
+
+                // Check for duplicate references (same object in memory)
+                boolean isDuplicate = false;
+                for (ItemStack item : seenItems) {
+                    if (item == currentItem) { // Reference equality
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+
+                if (isDuplicate) {
+                    set(i, null); // Remove duplicate reference
+                } else {
+                    seenItems.add(currentItem); // Track unique reference
                 }
             }
         }
     }
+
 
 }

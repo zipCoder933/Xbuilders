@@ -1,0 +1,30 @@
+package com.xbuilders.engine.utils.json.fasterXML.loot;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.items.loot.Loot;
+
+import java.io.IOException;
+
+public class LootSerializer extends StdSerializer<Loot> {
+
+    public LootSerializer() {
+        super(Loot.class);
+    }
+
+    @Override
+    public void serialize(Loot src, JsonGenerator gen,
+                          SerializerProvider serializers) throws IOException {
+
+        gen.writeStartObject();
+        String itemId = src.itemSupplier.get().item.id;
+
+        gen.writeStringField("item", itemId);
+        gen.writeNumberField("chance", src.chance);
+        gen.writeNumberField("maxItems", src.maxItems);
+        gen.writeEndObject();
+
+    }
+}

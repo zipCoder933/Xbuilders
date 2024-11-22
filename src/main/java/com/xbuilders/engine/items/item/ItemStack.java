@@ -30,6 +30,7 @@ public class ItemStack {
         this.item = Registrys.getItem(item);
         this.durability = this.item.maxDurability; //We set the durability to the max durability
         this.stackSize = Math.min(this.item.maxStackSize, stackSize);
+        if (this.item == null) throw new NullPointerException("Item in ItemStack cannot be null");
     }
 
     public ItemStack(Item item) {
@@ -43,6 +44,7 @@ public class ItemStack {
         this.item = item;
         this.durability = item.maxDurability; //We set the durability to the max durability
         this.stackSize = Math.min(item.maxStackSize, stackSize);
+        if (this.item == null) throw new NullPointerException("Item in ItemStack cannot be null");
     }
 
 

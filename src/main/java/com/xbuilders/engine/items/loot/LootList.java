@@ -23,9 +23,14 @@ public class LootList extends ArrayList<Loot> {
 
     public void randomItems(Consumer<ItemStack> output) {
         for (Loot loot : this) {
-            if (random.nextFloat() < loot.chance) {
-                output.accept(loot.itemSupplier.get());
+
+            int itemCount = random.nextInt(loot.maxItems) + 1; //random number between 1 and maxItems
+            for (int i = 0; i < itemCount; i++) {
+                if (random.nextFloat() < loot.chance) {
+                    output.accept(loot.itemSupplier.get());
+                }
             }
+
         }
     }
 }

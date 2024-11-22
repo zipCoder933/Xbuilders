@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.json.fasterXML;
+package com.xbuilders.engine.utils.json.fasterXML.itemStack;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;

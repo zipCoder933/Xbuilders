@@ -5,14 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.utils.IntMap;
-import com.xbuilders.engine.utils.json.fasterXML.ItemStackDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.ItemStackSerializer;
+import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
+import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.tests.fasterXML.smile.custom.RecordDeserializer;
 import com.xbuilders.tests.fasterXML.smile.custom.RecordSerializer;
 

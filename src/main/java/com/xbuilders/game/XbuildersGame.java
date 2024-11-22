@@ -14,11 +14,11 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.items.loot.Loot;
 import com.xbuilders.engine.items.loot.LootList;
 import com.xbuilders.engine.items.loot.LootTables;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.game.UI.GameMenus;
 import com.xbuilders.game.UI.UI_Hotbar;
@@ -40,11 +40,8 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
@@ -221,9 +218,12 @@ public class XbuildersGame extends Game {
 
         Registrys.initialize(blockList, entityList, itemList);
 
-        LootTables.blockLootTables.put(Blocks.BLOCK_SAND, new LootList(
-                new Loot(() -> new ItemStack("xbuilders:sand"), 1.0f)
-        ));
+        LootTables.loadBlockLootTable(ResourceUtils.resource("items/loot/block.json"));
+//        LootTables.blockLootTables.put(Blocks.BLOCK_SAND, new LootList(
+//                new Loot(() -> new ItemStack("xbuilders:sand"), 1.0f, 3),
+//                new Loot(() -> new ItemStack("xbuilders:bamboo"), 0.05f, 1)
+//        ));
+//        LootTables.writeLootTableToJson(LootTables.blockLootTables, ResourceUtils.resource("items/loot/block.json"));
 
         Blocks.editBlocks(window);
 

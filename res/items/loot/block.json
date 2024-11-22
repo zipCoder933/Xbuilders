@@ -1,0 +1,14 @@
+{
+  "16": [
+    {
+      "item": "xbuilders:sand",
+      "chance": 1.0,
+      "maxItems": 3
+    },
+    {
+      "item": "xbuilders:bamboo",
+      "chance": 0.05,
+      "maxItems": 1
+    }
+  ]
+}

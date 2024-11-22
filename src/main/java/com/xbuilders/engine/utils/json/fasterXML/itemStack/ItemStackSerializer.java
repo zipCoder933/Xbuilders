@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.json.fasterXML;
+package com.xbuilders.engine.utils.json.fasterXML.itemStack;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
