@@ -151,6 +151,8 @@ public class CursorRay {
     }
 
     private void defaultRemoveEvent(boolean isHeld, ItemStack selectedItem) {
+        if (!GameScene.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
+
         if (isHeld) { //Hold
             if (GameScene.getGameMode() != GameMode.FREEPLAY) {
                 if (!getHitPos().equals(lastBreakPos)) {
@@ -160,24 +162,20 @@ public class CursorRay {
                 Block existingBlock = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
                 float miningSpeed = getMiningSpeed(selectedItem);
                 float blockToughness = existingBlock.toughness;
+                breakPercentage = breakAmt / blockToughness;
+                breakAmt += miningSpeed;
+
                 if (selectedItem != null && selectedItem.item.maxDurability > 0) {
-                    selectedItem.durability -= 0.01f;
+                    selectedItem.durability -= 0.1f;
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
-
-
-                breakPercentage = breakAmt / blockToughness;
-//                System.out.println("Break: " + Math.round(breakPercentage * 100) + "%");
-                breakAmt += miningSpeed;
                 if (breakAmt >= blockToughness) {
-
                     if (LootTables.blockLootTables.get(existingBlock.id) != null) {
                         LootTables.blockLootTables.get(existingBlock.id).randomItems((itemStack) -> {
                             System.out.println("Acquired: " + itemStack);
                             GameScene.player.inventory.acquireItem(itemStack);
                         });
                     }
-
                     GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                     breakAmt = 0;
                 }

@@ -222,7 +222,7 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         LootTables.blockLootTables.put(Blocks.BLOCK_SAND, new LootList(
-                new Loot(new ItemStack("xbuilders:sand"), 1.0f)
+                new Loot(() -> new ItemStack("xbuilders:sand"), 1.0f)
         ));
 
         Blocks.editBlocks(window);
