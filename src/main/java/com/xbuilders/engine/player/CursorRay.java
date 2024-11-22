@@ -8,6 +8,7 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.items.loot.LootTables;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
@@ -156,16 +157,25 @@ public class CursorRay {
                     breakAmt = 0;
                     lastBreakPos.set(getHitPos());
                 }
-
+                Block existingBlock = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
                 float miningSpeed = getMiningSpeed(selectedItem);
-                float blockToughness = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z).toughness;
-                if (selectedItem != null) selectedItem.durability -= 0.1f;
+                float blockToughness = existingBlock.toughness;
+                if (selectedItem != null) {
+                    selectedItem.durability -= 0.1f;
+                    if (selectedItem.durability <= 0) selectedItem.destroy();
+                }
 
 
                 breakPercentage = breakAmt / blockToughness;
 //                System.out.println("Break: " + Math.round(breakPercentage * 100) + "%");
                 breakAmt += miningSpeed;
                 if (breakAmt >= blockToughness) {
+
+                    LootTables.blockLootTables.get(existingBlock.id).randomItems((itemStack) -> {
+                        System.out.println("Acquired: " + itemStack);
+                        GameScene.player.inventory.acquireItem(itemStack);
+                    });
+
                     GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                     breakAmt = 0;
                 }

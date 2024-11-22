@@ -3,7 +3,7 @@ package com.xbuilders.engine.ui.gameScene.items;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.items.StorageSpace;
+import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.WidgetSizeMeasurement;

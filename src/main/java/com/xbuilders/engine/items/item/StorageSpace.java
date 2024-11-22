@@ -1,6 +1,4 @@
-package com.xbuilders.engine.items;
-
-import com.xbuilders.engine.items.item.ItemStack;
+package com.xbuilders.engine.items.item;
 
 import java.util.Arrays;
 
@@ -14,6 +12,7 @@ public class StorageSpace {
     public int acquireItem(ItemStack stack) {
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null) {
+                System.out.println("Setting item at index " + i + " to " + stack);
                 items[i] = stack;
                 return i;
             }
@@ -54,7 +53,7 @@ public class StorageSpace {
         //iterate over all inventory and delete empty items
         for (int i = 0; i < size(); i++) {
             if (get(i) != null) {
-                if (get(i).stackSize <= 0 || get(i).durability <= 0) {
+                if (get(i).stackSize <= 0 || get(i).destroy) {
                     set(i, null);
                 }
             }

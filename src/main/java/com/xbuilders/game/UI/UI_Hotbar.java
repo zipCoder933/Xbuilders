@@ -10,7 +10,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
-import com.xbuilders.engine.items.StorageSpace;
+import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;

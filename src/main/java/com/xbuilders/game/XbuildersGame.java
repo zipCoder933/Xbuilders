@@ -14,6 +14,9 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.items.loot.Loot;
+import com.xbuilders.engine.items.loot.LootList;
+import com.xbuilders.engine.items.loot.LootTables;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.world.data.WorldData;
@@ -149,9 +152,9 @@ public class XbuildersGame extends Game {
         if (inventory.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(inventory.getClass());
             return true;
-        } else if(gameMenus.keyEvent(key, scancode, action, mods)) {
+        } else if (gameMenus.keyEvent(key, scancode, action, mods)) {
             return true;
-        }else if (blockTools.keyEvent(key, scancode, action, mods)) {
+        } else if (blockTools.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(blockTools.getClass());
             return true;
         } else if (hotbar.keyEvent(key, scancode, action, mods)) {
@@ -217,6 +220,10 @@ public class XbuildersGame extends Game {
         ArrayList<Item> itemList = Items.startup_getItems();
 
         Registrys.initialize(blockList, entityList, itemList);
+
+        LootTables.blockLootTables.put(Blocks.BLOCK_SAND, new LootList(
+                new Loot(new ItemStack("xbuilders:sand"), 1.0f)
+        ));
 
         Blocks.editBlocks(window);
 

@@ -3,5 +3,5 @@ package com.xbuilders.engine.items.loot;
 import java.util.HashMap;
 
 public class LootTables {
-   final HashMap<String, LootList> blockLootTables = new HashMap<>();
+    public static final HashMap<Short, LootList> blockLootTables = new HashMap<>();
 }
