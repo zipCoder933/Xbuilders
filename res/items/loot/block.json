@@ -1,13 +1,6301 @@
 {
+  "lime-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:lime-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:pastel-blue-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "20-hp-engine": [
+    {
+      "item": "xbuilders:20-hp-engine",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "electric-light": [
+    {
+      "item": "xbuilders:electric-light",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-red-stairs": [
+    {
+      "item": "xbuilders:wool-red-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-oak-fence": [
+    {
+      "item": "xbuilders:dark-oak-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-2-door": [
+    {
+      "item": "xbuilders:jungle-2-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-wood-stairs": [
+    {
+      "item": "xbuilders:lime-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-glass-stairs": [
+    {
+      "item": "xbuilders:red-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:magenta-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-wood": [
+    {
+      "item": "xbuilders:yellow-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-siding": [
+    {
+      "item": "xbuilders:brown-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-marble-tile": [
+    {
+      "item": "xbuilders:cyan-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mosaic-bamboo-wood-slab": [
+    {
+      "item": "xbuilders:mosaic-bamboo-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-marble-tile-stairs": [
+    {
+      "item": "xbuilders:green-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gold-block-slab": [
+    {
+      "item": "xbuilders:gold-block-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:black-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-glazed-teracotta": [
+    {
+      "item": "xbuilders:red-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-pillar": [
+    {
+      "item": "xbuilders:palisade-stone-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:gray-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "horn-coral": [
+    {
+      "item": "xbuilders:horn-coral",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-wood-stairs": [
+    {
+      "item": "xbuilders:green-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-wood-fence": [
+    {
+      "item": "xbuilders:blue-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-marble-tile-pillar": [
+    {
+      "item": "xbuilders:cyan-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-deep-blue-slab": [
+    {
+      "item": "xbuilders:wool-deep-blue-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-brown-slab": [
+    {
+      "item": "xbuilders:wool-brown-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-marble-tile-slab": [
+    {
+      "item": "xbuilders:magenta-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-concrete-fence": [
+    {
+      "item": "xbuilders:pink-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-diorite-fence": [
+    {
+      "item": "xbuilders:polished-diorite-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cracked-stone-stairs": [
+    {
+      "item": "xbuilders:cracked-stone-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-concrete-fence": [
+    {
+      "item": "xbuilders:lime-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-with-vines-stairs": [
+    {
+      "item": "xbuilders:stone-with-vines-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-glass-slab": [
+    {
+      "item": "xbuilders:purple-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-wood-fence-gate": [
+    {
+      "item": "xbuilders:bamboo-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-concrete-slab": [
+    {
+      "item": "xbuilders:green-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "silver-brick": [
+    {
+      "item": "xbuilders:silver-brick",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-space-control-panel-door": [
+    {
+      "item": "xbuilders:white-space-control-panel-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "minecart-road-block": [
+    {
+      "item": "xbuilders:minecart-road-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:light-blue-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "marble-tile-pillar": [
+    {
+      "item": "xbuilders:marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-andesite-fence-gate": [
+    {
+      "item": "xbuilders:polished-andesite-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-glazed-teracotta": [
+    {
+      "item": "xbuilders:cyan-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-glazed-teracotta": [
+    {
+      "item": "xbuilders:magenta-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-log": [
+    {
+      "item": "xbuilders:birch-log",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-glass-stairs": [
+    {
+      "item": "xbuilders:white-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-concrete-stairs": [
+    {
+      "item": "xbuilders:lime-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-andesite-stairs": [
+    {
+      "item": "xbuilders:polished-andesite-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-stained-glass-slab": [
+    {
+      "item": "xbuilders:light-gray-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-carpet": [
+    {
+      "item": "xbuilders:gray-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-concrete": [
+    {
+      "item": "xbuilders:black-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-door": [
+    {
+      "item": "xbuilders:italian-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-carpet": [
+    {
+      "item": "xbuilders:black-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:green-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jade-crystal": [
+    {
+      "item": "xbuilders:jade-crystal",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-sandstone-pillar": [
+    {
+      "item": "xbuilders:red-sandstone-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:pastel-red-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-sapling": [
+    {
+      "item": "xbuilders:oak-sapling",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-wood": [
+    {
+      "item": "xbuilders:lime-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-wood": [
+    {
+      "item": "xbuilders:purple-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-wood-fence": [
+    {
+      "item": "xbuilders:pink-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:pink-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-concrete-stairs": [
+    {
+      "item": "xbuilders:black-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:cyan-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "chiseled-quartz-pillar": [
+    {
+      "item": "xbuilders:chiseled-quartz-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-wood-stairs": [
+    {
+      "item": "xbuilders:red-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-carpet": [
+    {
+      "item": "xbuilders:pink-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-trapdoor": [
+    {
+      "item": "xbuilders:birch-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "granite-brick": [
+    {
+      "item": "xbuilders:granite-brick",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "sunflower-seeds": [
+    {
+      "item": "xbuilders:sunflower-seeds",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-glass": [
+    {
+      "item": "xbuilders:white-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-concrete-fence": [
+    {
+      "item": "xbuilders:magenta-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-bamboo-windows-door": [
+    {
+      "item": "xbuilders:french-bamboo-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
   "sand": [
     {
       "item": "xbuilders:sand",
       "chance": 1.0,
-      "maxItems": 3
-    },
+      "maxItems": 1
+    }
+  ],
+  "wire": [
+    {
+      "item": "xbuilders:wire",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-orange-slab": [
+    {
+      "item": "xbuilders:wool-orange-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-concrete-slab": [
+    {
+      "item": "xbuilders:orange-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-glass-stairs": [
+    {
+      "item": "xbuilders:orange-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:purple-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-glass-pane": [
+    {
+      "item": "xbuilders:blue-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-wood-slab": [
+    {
+      "item": "xbuilders:pink-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "fire-coral-block": [
+    {
+      "item": "xbuilders:fire-coral-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-orange-stairs": [
+    {
+      "item": "xbuilders:wool-orange-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-siding": [
+    {
+      "item": "xbuilders:cyan-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-wood-fence": [
+    {
+      "item": "xbuilders:gray-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "checkerboard-chiseled-marble-slab": [
+    {
+      "item": "xbuilders:checkerboard-chiseled-marble-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cracked-stone-fence": [
+    {
+      "item": "xbuilders:cracked-stone-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-pink-slab": [
+    {
+      "item": "xbuilders:wool-pink-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-turquoise-slab": [
+    {
+      "item": "xbuilders:wool-turquoise-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "beehive": [
+    {
+      "item": "xbuilders:beehive",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-concrete": [
+    {
+      "item": "xbuilders:green-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-concrete": [
+    {
+      "item": "xbuilders:gray-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-wood": [
+    {
+      "item": "xbuilders:jungle-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-glass-pane": [
+    {
+      "item": "xbuilders:gray-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-glass-pane": [
+    {
+      "item": "xbuilders:pink-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "croissant": [
+    {
+      "item": "xbuilders:croissant",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-wood": [
+    {
+      "item": "xbuilders:black-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "beetroot-seeds": [
+    {
+      "item": "xbuilders:beetroot-seeds",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-carpet": [
+    {
+      "item": "xbuilders:purple-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:white-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-space-tile": [
+    {
+      "item": "xbuilders:white-space-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "party-red-door": [
+    {
+      "item": "xbuilders:party-red-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pastel-blue-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-marble-tile-pillar": [
+    {
+      "item": "xbuilders:blue-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-2-stairs": [
+    {
+      "item": "xbuilders:palisade-stone-2-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:yellow-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-prismarine-brick-fence-gate": [
+    {
+      "item": "xbuilders:dark-prismarine-brick-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-concrete-fence": [
+    {
+      "item": "xbuilders:white-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-marble-tile": [
+    {
+      "item": "xbuilders:black-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-wood-slab": [
+    {
+      "item": "xbuilders:blue-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:black-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:purple-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-pink-stairs": [
+    {
+      "item": "xbuilders:wool-pink-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-siding": [
+    {
+      "item": "xbuilders:orange-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-sandstone": [
+    {
+      "item": "xbuilders:red-sandstone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-concrete-fence-gate": [
+    {
+      "item": "xbuilders:lime-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-concrete-stairs": [
+    {
+      "item": "xbuilders:orange-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-door": [
+    {
+      "item": "xbuilders:red-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-carpet": [
+    {
+      "item": "xbuilders:blue-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-wood-stairs": [
+    {
+      "item": "xbuilders:acacia-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:purple-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "phantom-stone-brick": [
+    {
+      "item": "xbuilders:phantom-stone-brick",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "obsidian-slab": [
+    {
+      "item": "xbuilders:obsidian-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "party-purple-door": [
+    {
+      "item": "xbuilders:party-purple-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "music-box": [
+    {
+      "item": "xbuilders:music-box",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tall-dry-grass": [
+    {
+      "item": "xbuilders:tall-dry-grass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-glass": [
+    {
+      "item": "xbuilders:red-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:burgundy-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-marble-tile": [
+    {
+      "item": "xbuilders:yellow-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-marble-tile-slab": [
+    {
+      "item": "xbuilders:burgundy-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:blue-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-wood-stairs": [
+    {
+      "item": "xbuilders:birch-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-palisade-sandstone-fence": [
+    {
+      "item": "xbuilders:red-palisade-sandstone-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-with-vines-slab": [
+    {
+      "item": "xbuilders:stone-with-vines-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-concrete-stairs": [
+    {
+      "item": "xbuilders:brown-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "diorite": [
+    {
+      "item": "xbuilders:diorite",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-concrete-slab": [
+    {
+      "item": "xbuilders:cyan-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-glass-pane": [
+    {
+      "item": "xbuilders:red-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "fire-coral-fan": [
+    {
+      "item": "xbuilders:fire-coral-fan",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:light-gray-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pastel-green-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-gray-stairs": [
+    {
+      "item": "xbuilders:wool-gray-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "emerald-fence-gate": [
+    {
+      "item": "xbuilders:emerald-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "party-green-door": [
+    {
+      "item": "xbuilders:party-green-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "prismarine-brick-fence-gate": [
+    {
+      "item": "xbuilders:prismarine-brick-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gravel": [
+    {
+      "item": "xbuilders:gravel",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "coal-block": [
+    {
+      "item": "xbuilders:coal-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-andesite-slab": [
+    {
+      "item": "xbuilders:polished-andesite-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-concrete-stairs": [
+    {
+      "item": "xbuilders:green-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-brick-pillar": [
+    {
+      "item": "xbuilders:stone-brick-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oval-blue-door": [
+    {
+      "item": "xbuilders:oval-blue-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-log": [
+    {
+      "item": "xbuilders:jungle-log",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-turquoise": [
+    {
+      "item": "xbuilders:wool-turquoise",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tnt": [
+    {
+      "item": "xbuilders:tnt",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "checkerboard-chiseled-marble-stairs": [
+    {
+      "item": "xbuilders:checkerboard-chiseled-marble-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "glass-stairs": [
+    {
+      "item": "xbuilders:glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-wood-stairs": [
+    {
+      "item": "xbuilders:blue-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-prismarine-brick-slab": [
+    {
+      "item": "xbuilders:dark-prismarine-brick-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "sandstone": [
+    {
+      "item": "xbuilders:sandstone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-sapling": [
+    {
+      "item": "xbuilders:birch-sapling",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-marble-tile-slab": [
+    {
+      "item": "xbuilders:gray-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "chiseled-marble-slab": [
+    {
+      "item": "xbuilders:chiseled-marble-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bedrock": [
+    {
+      "item": "xbuilders:bedrock",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bubble-coral-block": [
+    {
+      "item": "xbuilders:bubble-coral-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-glass": [
+    {
+      "item": "xbuilders:magenta-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-marble-tile-slab": [
+    {
+      "item": "xbuilders:cyan-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "party-blue-door": [
+    {
+      "item": "xbuilders:party-blue-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-candle": [
+    {
+      "item": "xbuilders:red-candle",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "chiseled-quartz-slab": [
+    {
+      "item": "xbuilders:chiseled-quartz-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oval-magenta-door": [
+    {
+      "item": "xbuilders:oval-magenta-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-wood": [
+    {
+      "item": "xbuilders:light-blue-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-with-vines": [
+    {
+      "item": "xbuilders:stone-with-vines",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "ruby-crystal": [
+    {
+      "item": "xbuilders:ruby-crystal",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-magenta-windows-door": [
+    {
+      "item": "xbuilders:french-magenta-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-oak-wood-slab": [
+    {
+      "item": "xbuilders:dark-oak-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-concrete-fence-gate": [
+    {
+      "item": "xbuilders:red-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-andesite-fence": [
+    {
+      "item": "xbuilders:polished-andesite-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:magenta-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-concrete-fence-gate": [
+    {
+      "item": "xbuilders:green-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "prismarine-brick-slab": [
+    {
+      "item": "xbuilders:prismarine-brick-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-blue-windows-door": [
+    {
+      "item": "xbuilders:italian-blue-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:orange-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-seat": [
+    {
+      "item": "xbuilders:white-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-wood-stairs": [
+    {
+      "item": "xbuilders:light-blue-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "chiseled-quartz": [
+    {
+      "item": "xbuilders:chiseled-quartz",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "test-fence-gate": [
+    {
+      "item": "xbuilders:test-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "glass-trapdoor": [
+    {
+      "item": "xbuilders:glass-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-concrete-fence": [
+    {
+      "item": "xbuilders:light-blue-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-marble-tile-slab": [
+    {
+      "item": "xbuilders:blue-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-marble-tile": [
+    {
+      "item": "xbuilders:pastel-blue-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-concrete-stairs": [
+    {
+      "item": "xbuilders:white-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-brown-stairs": [
+    {
+      "item": "xbuilders:wool-brown-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-concrete-fence-gate": [
+    {
+      "item": "xbuilders:light-gray-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cave-vines": [
+    {
+      "item": "xbuilders:cave-vines",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:purple-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-marble-tile-pillar": [
+    {
+      "item": "xbuilders:yellow-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-concrete-fence": [
+    {
+      "item": "xbuilders:red-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tube-coral": [
+    {
+      "item": "xbuilders:tube-coral",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:brown-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:magenta-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-glazed-teracotta": [
+    {
+      "item": "xbuilders:black-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "snow": [
+    {
+      "item": "xbuilders:snow",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pink-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pastel-red-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-wood-slab": [
+    {
+      "item": "xbuilders:white-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lapis-lazul-fence-gate": [
+    {
+      "item": "xbuilders:lapis-lazul-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-marble-tile": [
+    {
+      "item": "xbuilders:pastel-green-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "prismarine-bricks": [
+    {
+      "item": "xbuilders:prismarine-bricks",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-marble-tile-stairs": [
+    {
+      "item": "xbuilders:blue-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lapis-lazul-fence": [
+    {
+      "item": "xbuilders:lapis-lazul-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-torch": [
+    {
+      "item": "xbuilders:blue-torch",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-marble-tile-pillar": [
+    {
+      "item": "xbuilders:burgundy-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-wood-slab": [
+    {
+      "item": "xbuilders:lime-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-glazed-teracotta": [
+    {
+      "item": "xbuilders:yellow-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-wood-fence": [
+    {
+      "item": "xbuilders:white-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-concrete-slab": [
+    {
+      "item": "xbuilders:brown-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-fence-gate": [
+    {
+      "item": "xbuilders:palisade-stone-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-sky-blue-slab": [
+    {
+      "item": "xbuilders:wool-sky-blue-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-glass-slab": [
+    {
+      "item": "xbuilders:magenta-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tube-coral-fan": [
+    {
+      "item": "xbuilders:tube-coral-fan",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-dark-green": [
+    {
+      "item": "xbuilders:wool-dark-green",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-magenta-slab": [
+    {
+      "item": "xbuilders:wool-magenta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-marble-tile-stairs": [
+    {
+      "item": "xbuilders:magenta-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lamp": [
+    {
+      "item": "xbuilders:lamp",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-wood-stairs": [
+    {
+      "item": "xbuilders:cyan-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:pink-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-wood-fence": [
+    {
+      "item": "xbuilders:red-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:purple-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:pastel-red-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "iron-ladder": [
+    {
+      "item": "xbuilders:iron-ladder",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:lime-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:light-blue-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bubble-coral-fan": [
+    {
+      "item": "xbuilders:bubble-coral-fan",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-palisade-sandstone": [
+    {
+      "item": "xbuilders:red-palisade-sandstone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:gray-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-glass-pane": [
+    {
+      "item": "xbuilders:black-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-concrete-stairs": [
+    {
+      "item": "xbuilders:cyan-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-glazed-teracotta": [
+    {
+      "item": "xbuilders:purple-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pastel-red-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gold-fence-gate": [
+    {
+      "item": "xbuilders:gold-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cake": [
+    {
+      "item": "xbuilders:cake",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:red-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:blue-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:pink-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-lamp": [
+    {
+      "item": "xbuilders:blue-lamp",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-wood-fence": [
+    {
+      "item": "xbuilders:magenta-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:black-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "steel-stairs": [
+    {
+      "item": "xbuilders:steel-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:yellow-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:orange-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "ice-block-slab": [
+    {
+      "item": "xbuilders:ice-block-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "honeycomb-block-stairs": [
+    {
+      "item": "xbuilders:honeycomb-block-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-sand": [
+    {
+      "item": "xbuilders:red-sand",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:green-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo": [
     {
       "item": "xbuilders:bamboo",
-      "chance": 0.05,
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:yellow-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pastel-green-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cladded-white-trapdoor": [
+    {
+      "item": "xbuilders:cladded-white-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pastel-blue-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cup": [
+    {
+      "item": "xbuilders:cup",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-glass-pane": [
+    {
+      "item": "xbuilders:white-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-marble-tile": [
+    {
+      "item": "xbuilders:pink-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-wood": [
+    {
+      "item": "xbuilders:magenta-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:red-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-marble-tile-stairs": [
+    {
+      "item": "xbuilders:burgundy-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-wood": [
+    {
+      "item": "xbuilders:acacia-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-marble-tile": [
+    {
+      "item": "xbuilders:burgundy-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "clay": [
+    {
+      "item": "xbuilders:clay",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-wood-fence": [
+    {
+      "item": "xbuilders:yellow-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:green-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-sky-blue-stairs": [
+    {
+      "item": "xbuilders:wool-sky-blue-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-siding": [
+    {
+      "item": "xbuilders:white-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-stained-glass": [
+    {
+      "item": "xbuilders:brown-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "renaissance-trapdoor": [
+    {
+      "item": "xbuilders:renaissance-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:light-blue-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-space-trapdoor-trapdoor": [
+    {
+      "item": "xbuilders:gray-space-trapdoor-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-brick": [
+    {
+      "item": "xbuilders:burgundy-brick",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gold-block": [
+    {
+      "item": "xbuilders:gold-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-wood": [
+    {
+      "item": "xbuilders:blue-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "diamond-stairs": [
+    {
+      "item": "xbuilders:diamond-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-trapdoor": [
+    {
+      "item": "xbuilders:red-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pink-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dry-grass-plant": [
+    {
+      "item": "xbuilders:dry-grass-plant",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-glass-pane": [
+    {
+      "item": "xbuilders:light-blue-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-diorite-stairs": [
+    {
+      "item": "xbuilders:polished-diorite-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-wood-slab": [
+    {
+      "item": "xbuilders:acacia-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "steel-fence-gate": [
+    {
+      "item": "xbuilders:steel-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-marble-tile": [
+    {
+      "item": "xbuilders:magenta-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-vines": [
+    {
+      "item": "xbuilders:red-vines",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:cyan-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-2-trapdoor": [
+    {
+      "item": "xbuilders:bamboo-2-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-stairs": [
+    {
+      "item": "xbuilders:wool-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-door": [
+    {
+      "item": "xbuilders:bamboo-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-glass-slab": [
+    {
+      "item": "xbuilders:green-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-wood": [
+    {
+      "item": "xbuilders:white-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-wood": [
+    {
+      "item": "xbuilders:red-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-seat": [
+    {
+      "item": "xbuilders:pink-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-glass-pane": [
+    {
+      "item": "xbuilders:cyan-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-marble-tile": [
+    {
+      "item": "xbuilders:pastel-red-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-marble-tile-slab": [
+    {
+      "item": "xbuilders:purple-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-2-door": [
+    {
+      "item": "xbuilders:oak-2-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:brown-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-space-tile": [
+    {
+      "item": "xbuilders:gray-space-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:yellow-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-stairs": [
+    {
+      "item": "xbuilders:palisade-stone-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tall-grass": [
+    {
+      "item": "xbuilders:tall-grass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-concrete-slab": [
+    {
+      "item": "xbuilders:light-blue-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "test-door-half": [
+    {
+      "item": "xbuilders:test-door-half",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pink-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-seat": [
+    {
+      "item": "xbuilders:brown-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:cyan-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "glass": [
+    {
+      "item": "xbuilders:glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-dark-green-stairs": [
+    {
+      "item": "xbuilders:wool-dark-green-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "sea-light": [
+    {
+      "item": "xbuilders:sea-light",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-glazed-teracotta": [
+    {
+      "item": "xbuilders:brown-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dead-bush": [
+    {
+      "item": "xbuilders:dead-bush",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-leaves": [
+    {
+      "item": "xbuilders:birch-leaves",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bubble-coral": [
+    {
+      "item": "xbuilders:bubble-coral",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "sandstone-slab": [
+    {
+      "item": "xbuilders:sandstone-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-siding": [
+    {
+      "item": "xbuilders:magenta-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-bamboo-windows-door": [
+    {
+      "item": "xbuilders:italian-bamboo-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "large-helicopter-blade": [
+    {
+      "item": "xbuilders:large-helicopter-blade",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-door": [
+    {
+      "item": "xbuilders:french-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-brick-stairs": [
+    {
+      "item": "xbuilders:burgundy-brick-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wine-glass": [
+    {
+      "item": "xbuilders:wine-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-glass": [
+    {
+      "item": "xbuilders:lime-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-concrete-slab": [
+    {
+      "item": "xbuilders:gray-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mosaic-bamboo-wood": [
+    {
+      "item": "xbuilders:mosaic-bamboo-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "granite-brick-fence-gate": [
+    {
+      "item": "xbuilders:granite-brick-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lava": [
+    {
+      "item": "xbuilders:lava",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-door-2": [
+    {
+      "item": "xbuilders:acacia-door-2",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:yellow-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "granite-brick-stairs": [
+    {
+      "item": "xbuilders:granite-brick-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "steel-trapdoor": [
+    {
+      "item": "xbuilders:steel-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-magenta": [
+    {
+      "item": "xbuilders:wool-magenta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-marble-tile-pillar": [
+    {
+      "item": "xbuilders:green-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cobblestone-slab": [
+    {
+      "item": "xbuilders:cobblestone-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-blue-windows-door": [
+    {
+      "item": "xbuilders:french-blue-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-black-stairs": [
+    {
+      "item": "xbuilders:wool-black-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-wood": [
+    {
+      "item": "xbuilders:gray-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-glass": [
+    {
+      "item": "xbuilders:black-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-glass-stairs": [
+    {
+      "item": "xbuilders:purple-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pastel-red-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-marble-tile": [
+    {
+      "item": "xbuilders:blue-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "metal-grate": [
+    {
+      "item": "xbuilders:metal-grate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "glass-slab": [
+    {
+      "item": "xbuilders:glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-glass-pane": [
+    {
+      "item": "xbuilders:lime-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-siding": [
+    {
+      "item": "xbuilders:light-gray-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-concrete": [
+    {
+      "item": "xbuilders:light-gray-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-log": [
+    {
+      "item": "xbuilders:oak-log",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "spruce-trapdoor": [
+    {
+      "item": "xbuilders:spruce-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pastel-red-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-grass": [
+    {
+      "item": "xbuilders:jungle-grass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-concrete-stairs": [
+    {
+      "item": "xbuilders:gray-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-space-trapdoor-trapdoor": [
+    {
+      "item": "xbuilders:white-space-trapdoor-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "phantom-stone": [
+    {
+      "item": "xbuilders:phantom-stone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-black": [
+    {
+      "item": "xbuilders:wool-black",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-wood-slab": [
+    {
+      "item": "xbuilders:birch-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-magenta-door": [
+    {
+      "item": "xbuilders:italian-magenta-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:gray-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-wood-stairs": [
+    {
+      "item": "xbuilders:pink-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-carpet": [
+    {
+      "item": "xbuilders:red-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:pink-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-concrete-slab": [
+    {
+      "item": "xbuilders:purple-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "chiseled-marble-stairs": [
+    {
+      "item": "xbuilders:chiseled-marble-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "spruce-sapling": [
+    {
+      "item": "xbuilders:spruce-sapling",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "amethyst-crystal": [
+    {
+      "item": "xbuilders:amethyst-crystal",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:brown-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-space-control-panel-door": [
+    {
+      "item": "xbuilders:gray-space-control-panel-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "emerald-stairs": [
+    {
+      "item": "xbuilders:emerald-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cement-fence": [
+    {
+      "item": "xbuilders:cement-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-glass-slab": [
+    {
+      "item": "xbuilders:pink-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "steel-fence": [
+    {
+      "item": "xbuilders:steel-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-sky-blue": [
+    {
+      "item": "xbuilders:wool-sky-blue",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cracked-stone-fence-gate": [
+    {
+      "item": "xbuilders:cracked-stone-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-flower": [
+    {
+      "item": "xbuilders:red-flower",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-wood-fence": [
+    {
+      "item": "xbuilders:green-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-carpet": [
+    {
+      "item": "xbuilders:lime-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:cyan-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-wood-stairs": [
+    {
+      "item": "xbuilders:oak-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "party-magenta-door": [
+    {
+      "item": "xbuilders:party-magenta-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia2-trapdoor": [
+    {
+      "item": "xbuilders:acacia2-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-marble-tile": [
+    {
+      "item": "xbuilders:purple-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "barrel": [
+    {
+      "item": "xbuilders:barrel",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-glazed-teracotta": [
+    {
+      "item": "xbuilders:blue-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "diamond-block": [
+    {
+      "item": "xbuilders:diamond-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-wood-slab": [
+    {
+      "item": "xbuilders:light-blue-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-rose": [
+    {
+      "item": "xbuilders:red-rose",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:blue-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-2-slab": [
+    {
+      "item": "xbuilders:palisade-stone-2-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:blue-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-orange": [
+    {
+      "item": "xbuilders:wool-orange",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-carpet": [
+    {
+      "item": "xbuilders:light-blue-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "drivers-seat": [
+    {
+      "item": "xbuilders:drivers-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-glazed-teracotta": [
+    {
+      "item": "xbuilders:gray-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-marble-tile-slab": [
+    {
+      "item": "xbuilders:pastel-blue-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-candle": [
+    {
+      "item": "xbuilders:blue-candle",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "test-orientable": [
+    {
+      "item": "xbuilders:test-orientable",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-trapdoor": [
+    {
+      "item": "xbuilders:acacia-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-concrete-fence": [
+    {
+      "item": "xbuilders:yellow-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-glass-stairs": [
+    {
+      "item": "xbuilders:black-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-wood": [
+    {
+      "item": "xbuilders:orange-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-concrete-slab": [
+    {
+      "item": "xbuilders:blue-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-concrete": [
+    {
+      "item": "xbuilders:pink-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-seat": [
+    {
+      "item": "xbuilders:green-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-space-door": [
+    {
+      "item": "xbuilders:gray-space-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-glass-stairs": [
+    {
+      "item": "xbuilders:yellow-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "marble-tile-slab": [
+    {
+      "item": "xbuilders:marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-glass-pane": [
+    {
+      "item": "xbuilders:purple-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-palisade-sandstone-fence-gate": [
+    {
+      "item": "xbuilders:red-palisade-sandstone-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "water": [
+    {
+      "item": "xbuilders:water",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "prismarine-brick-fence": [
+    {
+      "item": "xbuilders:prismarine-brick-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cracked-stone-pillar": [
+    {
+      "item": "xbuilders:cracked-stone-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-prismarine-brick-fence": [
+    {
+      "item": "xbuilders:dark-prismarine-brick-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-stained-glass-stairs": [
+    {
+      "item": "xbuilders:light-gray-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-brick-fence-gate": [
+    {
+      "item": "xbuilders:stone-brick-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-concrete-stairs": [
+    {
+      "item": "xbuilders:yellow-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pastel-blue-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "glow-rock": [
+    {
+      "item": "xbuilders:glow-rock",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-sandstone-fence": [
+    {
+      "item": "xbuilders:palisade-sandstone-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-prismarine-brick-stairs": [
+    {
+      "item": "xbuilders:dark-prismarine-brick-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-oak-fence-gate": [
+    {
+      "item": "xbuilders:dark-oak-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-glazed-teracotta": [
+    {
+      "item": "xbuilders:lime-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-deep-blue-stairs": [
+    {
+      "item": "xbuilders:wool-deep-blue-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-andesite": [
+    {
+      "item": "xbuilders:polished-andesite",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-glazed-teracotta": [
+    {
+      "item": "xbuilders:pink-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:black-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-windows-door": [
+    {
+      "item": "xbuilders:french-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "horn-coral-fan": [
+    {
+      "item": "xbuilders:horn-coral-fan",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "steel-door": [
+    {
+      "item": "xbuilders:steel-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-green": [
+    {
+      "item": "xbuilders:wool-green",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-concrete-fence-gate": [
+    {
+      "item": "xbuilders:blue-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "warped-door": [
+    {
+      "item": "xbuilders:warped-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-purple-stairs": [
+    {
+      "item": "xbuilders:wool-purple-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "quartz-pillar": [
+    {
+      "item": "xbuilders:quartz-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-sandstone-stairs": [
+    {
+      "item": "xbuilders:red-sandstone-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pastel-green-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-wood-stairs": [
+    {
+      "item": "xbuilders:purple-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-glass-stairs": [
+    {
+      "item": "xbuilders:cyan-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-seat": [
+    {
+      "item": "xbuilders:cyan-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gold-seat": [
+    {
+      "item": "xbuilders:gold-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-marble-tile-slab": [
+    {
+      "item": "xbuilders:yellow-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pink-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-yellow-stairs": [
+    {
+      "item": "xbuilders:wool-yellow-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-green-windows-door": [
+    {
+      "item": "xbuilders:italian-green-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cracked-stone": [
+    {
+      "item": "xbuilders:cracked-stone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-stained-glass-stairs": [
+    {
+      "item": "xbuilders:brown-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-marble-tile-slab": [
+    {
+      "item": "xbuilders:black-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "emerald-fence": [
+    {
+      "item": "xbuilders:emerald-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-deep-blue": [
+    {
+      "item": "xbuilders:wool-deep-blue",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-glazed-teracotta": [
+    {
+      "item": "xbuilders:white-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-wood": [
+    {
+      "item": "xbuilders:oak-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-wood": [
+    {
+      "item": "xbuilders:birch-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-concrete-slab": [
+    {
+      "item": "xbuilders:white-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-wood-slab": [
+    {
+      "item": "xbuilders:purple-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:brown-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:cyan-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-2-trapdoor": [
+    {
+      "item": "xbuilders:oak-2-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:light-gray-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "honeycomb-block-slab": [
+    {
+      "item": "xbuilders:honeycomb-block-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-dark-green-slab": [
+    {
+      "item": "xbuilders:wool-dark-green-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:red-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:yellow-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-sapling": [
+    {
+      "item": "xbuilders:jungle-sapling",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-siding": [
+    {
+      "item": "xbuilders:gray-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-candle": [
+    {
+      "item": "xbuilders:yellow-candle",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cladded-magenta-door": [
+    {
+      "item": "xbuilders:cladded-magenta-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-wood": [
+    {
+      "item": "xbuilders:pink-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "aquamarine-crystal": [
+    {
+      "item": "xbuilders:aquamarine-crystal",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bottle": [
+    {
+      "item": "xbuilders:bottle",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-glass": [
+    {
+      "item": "xbuilders:blue-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "grass": [
+    {
+      "item": "xbuilders:grass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "steel-block": [
+    {
+      "item": "xbuilders:steel-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-grass-plant": [
+    {
+      "item": "xbuilders:jungle-grass-plant",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-concrete": [
+    {
+      "item": "xbuilders:purple-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-marble-tile-stairs": [
+    {
+      "item": "xbuilders:orange-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-brick-slab": [
+    {
+      "item": "xbuilders:stone-brick-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:pink-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-2-fence": [
+    {
+      "item": "xbuilders:palisade-stone-2-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "engraved-sandstone": [
+    {
+      "item": "xbuilders:engraved-sandstone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lily-pad": [
+    {
+      "item": "xbuilders:lily-pad",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-concrete": [
+    {
+      "item": "xbuilders:orange-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-stained-glass-pane": [
+    {
+      "item": "xbuilders:brown-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-wood-slab": [
+    {
+      "item": "xbuilders:green-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone": [
+    {
+      "item": "xbuilders:palisade-stone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-green-seat": [
+    {
+      "item": "xbuilders:light-green-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-windows-door": [
+    {
+      "item": "xbuilders:italian-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brain-coral": [
+    {
+      "item": "xbuilders:brain-coral",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-carpet": [
+    {
+      "item": "xbuilders:brown-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-concrete-fence": [
+    {
+      "item": "xbuilders:gray-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-carpet": [
+    {
+      "item": "xbuilders:cyan-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-concrete": [
+    {
+      "item": "xbuilders:light-blue-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-glazed-teracotta": [
+    {
+      "item": "xbuilders:light-gray-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-wood-stairs": [
+    {
+      "item": "xbuilders:bamboo-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cladded-green-door": [
+    {
+      "item": "xbuilders:cladded-green-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-orchid": [
+    {
+      "item": "xbuilders:blue-orchid",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "spruce-wood": [
+    {
+      "item": "xbuilders:spruce-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dandelion": [
+    {
+      "item": "xbuilders:dandelion",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-concrete-slab": [
+    {
+      "item": "xbuilders:magenta-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:pastel-blue-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-concrete-stairs": [
+    {
+      "item": "xbuilders:light-gray-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:purple-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-space-door-2": [
+    {
+      "item": "xbuilders:white-space-door-2",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:burgundy-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-concrete-fence": [
+    {
+      "item": "xbuilders:green-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-marble-tile-slab": [
+    {
+      "item": "xbuilders:green-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cobblestone-stairs": [
+    {
+      "item": "xbuilders:cobblestone-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tan-siding": [
+    {
+      "item": "xbuilders:tan-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "minecart-road-slab": [
+    {
+      "item": "xbuilders:minecart-road-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-concrete-slab": [
+    {
+      "item": "xbuilders:red-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-concrete-stairs": [
+    {
+      "item": "xbuilders:purple-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-pink": [
+    {
+      "item": "xbuilders:wool-pink",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-brick-fence-gate": [
+    {
+      "item": "xbuilders:burgundy-brick-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-fence": [
+    {
+      "item": "xbuilders:jungle-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-concrete-fence-gate": [
+    {
+      "item": "xbuilders:magenta-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "vines": [
+    {
+      "item": "xbuilders:vines",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "obsidian-fence": [
+    {
+      "item": "xbuilders:obsidian-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-ladder": [
+    {
+      "item": "xbuilders:oak-ladder",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-glass": [
+    {
+      "item": "xbuilders:purple-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:purple-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-marble-tile-pillar": [
+    {
+      "item": "xbuilders:black-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-renaissance-door": [
+    {
+      "item": "xbuilders:oak-renaissance-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-wood": [
+    {
+      "item": "xbuilders:green-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mosaic-bamboo-wood-fence-gate": [
+    {
+      "item": "xbuilders:mosaic-bamboo-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-2": [
+    {
+      "item": "xbuilders:palisade-stone-2",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "obsidian-stairs": [
+    {
+      "item": "xbuilders:obsidian-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cracked-stone-slab": [
+    {
+      "item": "xbuilders:cracked-stone-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cement-slab": [
+    {
+      "item": "xbuilders:cement-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-glass-stairs": [
+    {
+      "item": "xbuilders:light-blue-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cladded-blue-door": [
+    {
+      "item": "xbuilders:cladded-blue-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-purple": [
+    {
+      "item": "xbuilders:wool-purple",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-rose": [
+    {
+      "item": "xbuilders:white-rose",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-glass": [
+    {
+      "item": "xbuilders:cyan-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-brick-stairs": [
+    {
+      "item": "xbuilders:stone-brick-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "web-door": [
+    {
+      "item": "xbuilders:web-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "70-hp-engine": [
+    {
+      "item": "xbuilders:70-hp-engine",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-leaves": [
+    {
+      "item": "xbuilders:acacia-leaves",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "quartz-pillar-block": [
+    {
+      "item": "xbuilders:quartz-pillar-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:blue-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mushroom-2": [
+    {
+      "item": "xbuilders:mushroom-2",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-purple-slab": [
+    {
+      "item": "xbuilders:wool-purple-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-glass-slab": [
+    {
+      "item": "xbuilders:red-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "flat-vines": [
+    {
+      "item": "xbuilders:flat-vines",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-with-vines-fence": [
+    {
+      "item": "xbuilders:stone-with-vines-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-concrete-fence": [
+    {
+      "item": "xbuilders:orange-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-green-door": [
+    {
+      "item": "xbuilders:italian-green-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-concrete-stairs": [
+    {
+      "item": "xbuilders:blue-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:brown-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-space-tile-stairs": [
+    {
+      "item": "xbuilders:gray-space-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "small-helicopter-blade": [
+    {
+      "item": "xbuilders:small-helicopter-blade",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-magenta-door": [
+    {
+      "item": "xbuilders:french-magenta-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cladded-birch-trapdoor": [
+    {
+      "item": "xbuilders:cladded-birch-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-slab": [
+    {
+      "item": "xbuilders:palisade-stone-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-concrete-fence-gate": [
+    {
+      "item": "xbuilders:yellow-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-yellow": [
+    {
+      "item": "xbuilders:wool-yellow",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-vines-flat": [
+    {
+      "item": "xbuilders:red-vines-flat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-concrete": [
+    {
+      "item": "xbuilders:red-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-seat": [
+    {
+      "item": "xbuilders:light-gray-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-slab": [
+    {
+      "item": "xbuilders:wool-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-space-door-2": [
+    {
+      "item": "xbuilders:gray-space-door-2",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-glass-slab": [
+    {
+      "item": "xbuilders:yellow-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-trapdoor": [
+    {
+      "item": "xbuilders:oak-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "chiseled-marble": [
+    {
+      "item": "xbuilders:chiseled-marble",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-seat": [
+    {
+      "item": "xbuilders:gray-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "marble-tile-stairs": [
+    {
+      "item": "xbuilders:marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-marble-tile-slab": [
+    {
+      "item": "xbuilders:brown-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-diorite-slab": [
+    {
+      "item": "xbuilders:polished-diorite-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-concrete-fence": [
+    {
+      "item": "xbuilders:cyan-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bookshelf": [
+    {
+      "item": "xbuilders:bookshelf",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "track-stop": [
+    {
+      "item": "xbuilders:track-stop",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cement-stairs": [
+    {
+      "item": "xbuilders:cement-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "flat-dragon-vines": [
+    {
+      "item": "xbuilders:flat-dragon-vines",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-palisade-sandstone-slab": [
+    {
+      "item": "xbuilders:red-palisade-sandstone-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-marble-tile-pillar": [
+    {
+      "item": "xbuilders:magenta-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-fence": [
+    {
+      "item": "xbuilders:acacia-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-seat": [
+    {
+      "item": "xbuilders:yellow-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "fire-coral": [
+    {
+      "item": "xbuilders:fire-coral",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-concrete-slab": [
+    {
+      "item": "xbuilders:light-gray-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gold-siding": [
+    {
+      "item": "xbuilders:gold-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-carpet": [
+    {
+      "item": "xbuilders:orange-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-trapdoor": [
+    {
+      "item": "xbuilders:white-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-wood": [
+    {
+      "item": "xbuilders:bamboo-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-with-vines-fence-gate": [
+    {
+      "item": "xbuilders:stone-with-vines-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-glass-stairs": [
+    {
+      "item": "xbuilders:magenta-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-glass-pane": [
+    {
+      "item": "xbuilders:orange-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:cyan-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-door": [
+    {
+      "item": "xbuilders:acacia-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cladded-door": [
+    {
+      "item": "xbuilders:cladded-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mini-cactus": [
+    {
+      "item": "xbuilders:mini-cactus",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-flower": [
+    {
+      "item": "xbuilders:yellow-flower",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-wood-fence": [
+    {
+      "item": "xbuilders:orange-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-siding": [
+    {
+      "item": "xbuilders:purple-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-blue-door": [
+    {
+      "item": "xbuilders:french-blue-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-marble-tile-stairs": [
+    {
+      "item": "xbuilders:yellow-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-concrete-fence-gate": [
+    {
+      "item": "xbuilders:gray-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-trapdoor": [
+    {
+      "item": "xbuilders:bamboo-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "plant-grass": [
+    {
+      "item": "xbuilders:plant-grass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bread": [
+    {
+      "item": "xbuilders:bread",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-marble-tile-slab": [
+    {
+      "item": "xbuilders:orange-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oval-bamboo-door": [
+    {
+      "item": "xbuilders:oval-bamboo-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-glass": [
+    {
+      "item": "xbuilders:yellow-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "torch": [
+    {
+      "item": "xbuilders:torch",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-brick": [
+    {
+      "item": "xbuilders:stone-brick",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-siding": [
+    {
+      "item": "xbuilders:blue-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "candle": [
+    {
+      "item": "xbuilders:candle",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "honeycomb-block": [
+    {
+      "item": "xbuilders:honeycomb-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-concrete": [
+    {
+      "item": "xbuilders:blue-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-concrete-slab": [
+    {
+      "item": "xbuilders:pink-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lapis-lazul-stairs": [
+    {
+      "item": "xbuilders:lapis-lazul-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "steel-block-slab": [
+    {
+      "item": "xbuilders:steel-block-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-red-slab": [
+    {
+      "item": "xbuilders:wool-red-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-wood-fence": [
+    {
+      "item": "xbuilders:light-blue-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-red": [
+    {
+      "item": "xbuilders:wool-red",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:orange-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-seat": [
+    {
+      "item": "xbuilders:magenta-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-glass-slab": [
+    {
+      "item": "xbuilders:blue-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:gray-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:yellow-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-fence-gate": [
+    {
+      "item": "xbuilders:birch-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-ladder": [
+    {
+      "item": "xbuilders:bamboo-ladder",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:blue-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-concrete-fence-gate": [
+    {
+      "item": "xbuilders:purple-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dirt": [
+    {
+      "item": "xbuilders:dirt",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "granite-brick-fence": [
+    {
+      "item": "xbuilders:granite-brick-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-concrete-fence": [
+    {
+      "item": "xbuilders:light-gray-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "snow-block": [
+    {
+      "item": "xbuilders:snow-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-concrete-fence": [
+    {
+      "item": "xbuilders:brown-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:green-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-siding": [
+    {
+      "item": "xbuilders:yellow-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-concrete": [
+    {
+      "item": "xbuilders:yellow-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "marble-pillar-block": [
+    {
+      "item": "xbuilders:marble-pillar-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mosaic-bamboo-wood-fence": [
+    {
+      "item": "xbuilders:mosaic-bamboo-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-marble-tile": [
+    {
+      "item": "xbuilders:orange-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "spruce-log": [
+    {
+      "item": "xbuilders:spruce-log",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brain-coral-fan": [
+    {
+      "item": "xbuilders:brain-coral-fan",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-marble-tile-slab": [
+    {
+      "item": "xbuilders:pink-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cladded-redwood-trapdoor": [
+    {
+      "item": "xbuilders:cladded-redwood-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "switch-junction": [
+    {
+      "item": "xbuilders:switch-junction",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "granite-brick-pillar": [
+    {
+      "item": "xbuilders:granite-brick-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "spruce-leaves": [
+    {
+      "item": "xbuilders:spruce-leaves",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:orange-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-fence-gate": [
+    {
+      "item": "xbuilders:jungle-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cobblestone": [
+    {
+      "item": "xbuilders:cobblestone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-brick-slab": [
+    {
+      "item": "xbuilders:burgundy-brick-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-siding": [
+    {
+      "item": "xbuilders:pink-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "merge-track": [
+    {
+      "item": "xbuilders:merge-track",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:black-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:green-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brick": [
+    {
+      "item": "xbuilders:brick",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-stained-wood-slab": [
+    {
+      "item": "xbuilders:red-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "horn-coral-block": [
+    {
+      "item": "xbuilders:horn-coral-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:black-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-siding": [
+    {
+      "item": "xbuilders:green-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lapis-lazul-block": [
+    {
+      "item": "xbuilders:lapis-lazul-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-green-slab": [
+    {
+      "item": "xbuilders:wool-green-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-brown": [
+    {
+      "item": "xbuilders:wool-brown",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-log": [
+    {
+      "item": "xbuilders:acacia-log",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-wood-stairs": [
+    {
+      "item": "xbuilders:black-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oval-door": [
+    {
+      "item": "xbuilders:oval-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-carpet": [
+    {
+      "item": "xbuilders:magenta-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-wood-stairs": [
+    {
+      "item": "xbuilders:orange-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-oak-ladder": [
+    {
+      "item": "xbuilders:dark-oak-ladder",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:gray-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-concrete-fence": [
+    {
+      "item": "xbuilders:purple-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-wood-stairs": [
+    {
+      "item": "xbuilders:white-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-glass-stairs": [
+    {
+      "item": "xbuilders:green-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:cyan-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-sandstone-fence-gate": [
+    {
+      "item": "xbuilders:palisade-sandstone-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-marble-tile-pillar": [
+    {
+      "item": "xbuilders:pastel-green-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-marble-tile-stairs": [
+    {
+      "item": "xbuilders:purple-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-concrete-fence-gate": [
+    {
+      "item": "xbuilders:pink-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:white-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-glass-pane": [
+    {
+      "item": "xbuilders:magenta-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cave-vines-flat": [
+    {
+      "item": "xbuilders:cave-vines-flat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brick-slab": [
+    {
+      "item": "xbuilders:brick-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "glass-pane": [
+    {
+      "item": "xbuilders:glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-wood-stairs": [
+    {
+      "item": "xbuilders:yellow-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-palisade-sandstone-stairs": [
+    {
+      "item": "xbuilders:red-palisade-sandstone-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "fire": [
+    {
+      "item": "xbuilders:fire",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "andesite": [
+    {
+      "item": "xbuilders:andesite",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mushroom": [
+    {
+      "item": "xbuilders:mushroom",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-glass-slab": [
+    {
+      "item": "xbuilders:orange-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "straight-track": [
+    {
+      "item": "xbuilders:track",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:blue-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:pastel-green-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-glass": [
+    {
+      "item": "xbuilders:pink-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-wood-fence": [
+    {
+      "item": "xbuilders:black-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-magenta-stairs": [
+    {
+      "item": "xbuilders:wool-magenta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-green-stairs": [
+    {
+      "item": "xbuilders:wool-green-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-red-marble-tile-slab": [
+    {
+      "item": "xbuilders:pastel-red-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gold-fence": [
+    {
+      "item": "xbuilders:gold-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mosaic-bamboo-wood-stairs": [
+    {
+      "item": "xbuilders:mosaic-bamboo-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-bamboo-door": [
+    {
+      "item": "xbuilders:french-bamboo-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "glass-door": [
+    {
+      "item": "xbuilders:glass-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cactus": [
+    {
+      "item": "xbuilders:cactus",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-wood-slab": [
+    {
+      "item": "xbuilders:yellow-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-wood-slab": [
+    {
+      "item": "xbuilders:oak-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-concrete-slab": [
+    {
+      "item": "xbuilders:lime-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-stained-glass-pane": [
+    {
+      "item": "xbuilders:yellow-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-wood-stairs": [
+    {
+      "item": "xbuilders:gray-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-sandstone-slab": [
+    {
+      "item": "xbuilders:palisade-sandstone-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "spruce-2-door": [
+    {
+      "item": "xbuilders:spruce-2-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-glass": [
+    {
+      "item": "xbuilders:gray-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dragon-vines": [
+    {
+      "item": "xbuilders:dragon-vines",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "party-yellow-door": [
+    {
+      "item": "xbuilders:party-yellow-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:magenta-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cement": [
+    {
+      "item": "xbuilders:cement",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "test-slab": [
+    {
+      "item": "xbuilders:test-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-door": [
+    {
+      "item": "xbuilders:white-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "granite-brick-slab": [
+    {
+      "item": "xbuilders:granite-brick-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-marble-tile": [
+    {
+      "item": "xbuilders:gray-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "diamond-fence-gate": [
+    {
+      "item": "xbuilders:diamond-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:orange-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lapis-lazul-block-slab": [
+    {
+      "item": "xbuilders:lapis-lazul-block-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-seat": [
+    {
+      "item": "xbuilders:orange-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "phantom-sandstone": [
+    {
+      "item": "xbuilders:phantom-sandstone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool": [
+    {
+      "item": "xbuilders:wool",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-magenta-windows-door": [
+    {
+      "item": "xbuilders:italian-magenta-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-trapdoor": [
+    {
+      "item": "xbuilders:jungle-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-wood-slab": [
+    {
+      "item": "xbuilders:bamboo-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-prismarine-bricks": [
+    {
+      "item": "xbuilders:dark-prismarine-bricks",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-marble-tile": [
+    {
+      "item": "xbuilders:green-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:magenta-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dark-oak-wood-stairs": [
+    {
+      "item": "xbuilders:dark-oak-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-carpet": [
+    {
+      "item": "xbuilders:white-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-fence-gate": [
+    {
+      "item": "xbuilders:acacia-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:black-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-fence": [
+    {
+      "item": "xbuilders:birch-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-block": [
+    {
+      "item": "xbuilders:bamboo-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-carpet": [
+    {
+      "item": "xbuilders:yellow-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-wood-slab": [
+    {
+      "item": "xbuilders:magenta-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "carrot-seeds": [
+    {
+      "item": "xbuilders:carrot-seeds",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-bamboo-door": [
+    {
+      "item": "xbuilders:italian-bamboo-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-concrete-fence-gate": [
+    {
+      "item": "xbuilders:brown-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-marble-tile-pillar": [
+    {
+      "item": "xbuilders:gray-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-glass-slab": [
+    {
+      "item": "xbuilders:white-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "obsidian": [
+    {
+      "item": "xbuilders:obsidian",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-sandstone": [
+    {
+      "item": "xbuilders:palisade-sandstone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-blue-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:pastel-blue-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-chiseled-marble-tile-slab": [
+    {
+      "item": "xbuilders:magenta-chiseled-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-concrete-stairs": [
+    {
+      "item": "xbuilders:light-blue-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oval-green-door": [
+    {
+      "item": "xbuilders:oval-green-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wheat-seeds": [
+    {
+      "item": "xbuilders:wheat-seeds",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:burgundy-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brain-coral-block": [
+    {
+      "item": "xbuilders:brain-coral-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-stained-glass-stairs": [
+    {
+      "item": "xbuilders:pink-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-concrete-fence": [
+    {
+      "item": "xbuilders:blue-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-marble-tile-pillar": [
+    {
+      "item": "xbuilders:orange-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "30-hp-engine": [
+    {
+      "item": "xbuilders:30-hp-engine",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-concrete": [
+    {
+      "item": "xbuilders:white-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:brown-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-2-fence-gate": [
+    {
+      "item": "xbuilders:palisade-stone-2-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "sea-grass": [
+    {
+      "item": "xbuilders:sea-grass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-gray-slab": [
+    {
+      "item": "xbuilders:wool-gray-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-brick-fence": [
+    {
+      "item": "xbuilders:stone-brick-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-concrete": [
+    {
+      "item": "xbuilders:cyan-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "prismarine-brick-stairs": [
+    {
+      "item": "xbuilders:prismarine-brick-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "crosstrack": [
+    {
+      "item": "xbuilders:crosstrack",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-wood-stairs": [
+    {
+      "item": "xbuilders:jungle-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "55-hp-engine": [
+    {
+      "item": "xbuilders:55-hp-engine",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-fence": [
+    {
+      "item": "xbuilders:palisade-stone-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-stained-wood-stairs": [
+    {
+      "item": "xbuilders:magenta-stained-wood-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:gray-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-wood-fence": [
+    {
+      "item": "xbuilders:lime-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-leaves": [
+    {
+      "item": "xbuilders:jungle-leaves",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-glass-stairs": [
+    {
+      "item": "xbuilders:gray-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-carpet": [
+    {
+      "item": "xbuilders:green-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "sandstone-stairs": [
+    {
+      "item": "xbuilders:sandstone-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "checkerboard-chiseled-marble": [
+    {
+      "item": "xbuilders:checkerboard-chiseled-marble",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-black-slab": [
+    {
+      "item": "xbuilders:wool-black-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-sandstone-pillar": [
+    {
+      "item": "xbuilders:palisade-sandstone-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tube-coral-block": [
+    {
+      "item": "xbuilders:tube-coral-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-chiseled-marble-tile-pillar": [
+    {
+      "item": "xbuilders:magenta-chiseled-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-candle": [
+    {
+      "item": "xbuilders:green-candle",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "ice-block-stairs": [
+    {
+      "item": "xbuilders:ice-block-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-seat": [
+    {
+      "item": "xbuilders:blue-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-wood-fence": [
+    {
+      "item": "xbuilders:cyan-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone": [
+    {
+      "item": "xbuilders:stone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-fence": [
+    {
+      "item": "xbuilders:oak-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "azure-bluet": [
+    {
+      "item": "xbuilders:azure-bluet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-tulip": [
+    {
+      "item": "xbuilders:orange-tulip",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-glazed-teracotta-stairs": [
+    {
+      "item": "xbuilders:lime-glazed-teracotta-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:green-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-yellow-slab": [
+    {
+      "item": "xbuilders:wool-yellow-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "crosswalk-paint": [
+    {
+      "item": "xbuilders:crosswalk-paint",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-green-siding": [
+    {
+      "item": "xbuilders:light-green-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-glass-slab": [
+    {
+      "item": "xbuilders:gray-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-glazed-teracotta-slab": [
+    {
+      "item": "xbuilders:green-glazed-teracotta-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-stained-glass-pane": [
+    {
+      "item": "xbuilders:light-gray-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-fence-gate": [
+    {
+      "item": "xbuilders:oak-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:burgundy-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "fern": [
+    {
+      "item": "xbuilders:fern",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "tan-seat": [
+    {
+      "item": "xbuilders:tan-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "burgundy-brick-fence": [
+    {
+      "item": "xbuilders:burgundy-brick-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-concrete-stairs": [
+    {
+      "item": "xbuilders:magenta-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-glass": [
+    {
+      "item": "xbuilders:light-blue-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-stained-glass-slab": [
+    {
+      "item": "xbuilders:brown-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-glass-slab": [
+    {
+      "item": "xbuilders:black-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pansies": [
+    {
+      "item": "xbuilders:pansies",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "emerald-block": [
+    {
+      "item": "xbuilders:emerald-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "engraved-red-sandstone": [
+    {
+      "item": "xbuilders:engraved-red-sandstone",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-wood-slab": [
+    {
+      "item": "xbuilders:jungle-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-wood-fence": [
+    {
+      "item": "xbuilders:bamboo-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-glass-pane": [
+    {
+      "item": "xbuilders:green-stained-glass-pane",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cement-fence-gate": [
+    {
+      "item": "xbuilders:cement-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-glass": [
+    {
+      "item": "xbuilders:orange-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "engraved-sandstone-2": [
+    {
+      "item": "xbuilders:engraved-sandstone-2",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "birch-door": [
+    {
+      "item": "xbuilders:birch-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "marble-tile": [
+    {
+      "item": "xbuilders:marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:gray-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-concrete-stairs": [
+    {
+      "item": "xbuilders:red-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "warped-trapdoor": [
+    {
+      "item": "xbuilders:warped-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "emerald-block-slab": [
+    {
+      "item": "xbuilders:emerald-block-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-door": [
+    {
+      "item": "xbuilders:oak-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-chiseled-marble-tile-stairs": [
+    {
+      "item": "xbuilders:orange-chiseled-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-stained-glass": [
+    {
+      "item": "xbuilders:light-gray-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-gray": [
+    {
+      "item": "xbuilders:wool-gray",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-glass-stairs": [
+    {
+      "item": "xbuilders:lime-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "stone-with-vines-pillar": [
+    {
+      "item": "xbuilders:stone-with-vines-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-2-trapdoor": [
+    {
+      "item": "xbuilders:jungle-2-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-space-tile-slab": [
+    {
+      "item": "xbuilders:gray-space-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-siding": [
+    {
+      "item": "xbuilders:red-siding",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-concrete": [
+    {
+      "item": "xbuilders:brown-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "road-markings": [
+    {
+      "item": "xbuilders:road-markings",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-eye-susan": [
+    {
+      "item": "xbuilders:black-eye-susan",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "wool-turquoise-stairs": [
+    {
+      "item": "xbuilders:wool-turquoise-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-space-tile-slab": [
+    {
+      "item": "xbuilders:white-space-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-marble-tile-stairs": [
+    {
+      "item": "xbuilders:brown-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-space-tile-stairs": [
+    {
+      "item": "xbuilders:white-space-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "obsidian-fence-gate": [
+    {
+      "item": "xbuilders:obsidian-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-stained-glass-slab": [
+    {
+      "item": "xbuilders:light-blue-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-glazed-teracotta": [
+    {
+      "item": "xbuilders:green-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "magenta-concrete": [
+    {
+      "item": "xbuilders:magenta-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "dry-grass": [
+    {
+      "item": "xbuilders:dry-grass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-concrete-slab": [
+    {
+      "item": "xbuilders:black-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "chiseled-quartz-stairs": [
+    {
+      "item": "xbuilders:chiseled-quartz-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-wood-slab": [
+    {
+      "item": "xbuilders:orange-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "oak-leaves": [
+    {
+      "item": "xbuilders:oak-leaves",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "hay-bail": [
+    {
+      "item": "xbuilders:hay-bail",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "edison-light": [
+    {
+      "item": "xbuilders:edison-light",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-glazed-teracotta": [
+    {
+      "item": "xbuilders:light-blue-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "roses": [
+    {
+      "item": "xbuilders:roses",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "acacia-sapling": [
+    {
+      "item": "xbuilders:acacia-sapling",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "peony-bush": [
+    {
+      "item": "xbuilders:peony-bush",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brick-stairs": [
+    {
+      "item": "xbuilders:brick-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-green-windows-door": [
+    {
+      "item": "xbuilders:french-green-windows-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-stained-glass-slab": [
+    {
+      "item": "xbuilders:lime-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-chiseled-marble-tile": [
+    {
+      "item": "xbuilders:pastel-green-chiseled-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:white-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-palisade-sandstone-pillar": [
+    {
+      "item": "xbuilders:red-palisade-sandstone-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "diamond-fence": [
+    {
+      "item": "xbuilders:diamond-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "solar-panel": [
+    {
+      "item": "xbuilders:solar-panel",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "italian-blue-door": [
+    {
+      "item": "xbuilders:italian-blue-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "spruce-door": [
+    {
+      "item": "xbuilders:spruce-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-blue-concrete-fence-gate": [
+    {
+      "item": "xbuilders:light-blue-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "ice-block": [
+    {
+      "item": "xbuilders:ice-block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "green-stained-glass": [
+    {
+      "item": "xbuilders:green-stained-glass",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-stained-wood-fence": [
+    {
+      "item": "xbuilders:purple-stained-wood-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gold-stairs": [
+    {
+      "item": "xbuilders:gold-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-marble-tile-pillar": [
+    {
+      "item": "xbuilders:brown-marble-tile-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-diorite": [
+    {
+      "item": "xbuilders:polished-diorite",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-glazed-teracotta": [
+    {
+      "item": "xbuilders:orange-glazed-teracotta",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-concrete-fence-gate": [
+    {
+      "item": "xbuilders:orange-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-wood-slab": [
+    {
+      "item": "xbuilders:cyan-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-concrete-fence": [
+    {
+      "item": "xbuilders:black-concrete-fence",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-seat": [
+    {
+      "item": "xbuilders:red-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-stained-wood-slab": [
+    {
+      "item": "xbuilders:black-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-stained-wood-slab": [
+    {
+      "item": "xbuilders:gray-stained-wood-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-seat": [
+    {
+      "item": "xbuilders:purple-seat",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "lime-concrete": [
+    {
+      "item": "xbuilders:lime-concrete",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-stone-2-pillar": [
+    {
+      "item": "xbuilders:palisade-stone-2-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "mega-tnt": [
+    {
+      "item": "xbuilders:mega-tnt",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "polished-diorite-fence-gate": [
+    {
+      "item": "xbuilders:polished-diorite-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "potato-seeds": [
+    {
+      "item": "xbuilders:potato-seeds",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "light-gray-carpet": [
+    {
+      "item": "xbuilders:light-gray-carpet",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "diamond-block-slab": [
+    {
+      "item": "xbuilders:diamond-block-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-concrete-fence-gate": [
+    {
+      "item": "xbuilders:white-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pink-concrete-stairs": [
+    {
+      "item": "xbuilders:pink-concrete-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "pastel-green-marble-tile-slab": [
+    {
+      "item": "xbuilders:pastel-green-marble-tile-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "french-green-door": [
+    {
+      "item": "xbuilders:french-green-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-marble-tile-stairs": [
+    {
+      "item": "xbuilders:black-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-glass-slab": [
+    {
+      "item": "xbuilders:cyan-stained-glass-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "test-trapdoor": [
+    {
+      "item": "xbuilders:test-trapdoor",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "yellow-concrete-slab": [
+    {
+      "item": "xbuilders:yellow-concrete-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "jungle-door": [
+    {
+      "item": "xbuilders:jungle-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "bamboo-2-door": [
+    {
+      "item": "xbuilders:bamboo-2-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-concrete-fence-gate": [
+    {
+      "item": "xbuilders:cyan-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "engraved-red-sandstone-2": [
+    {
+      "item": "xbuilders:engraved-red-sandstone-2",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-marble-tile-stairs": [
+    {
+      "item": "xbuilders:cyan-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "black-concrete-fence-gate": [
+    {
+      "item": "xbuilders:black-concrete-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "white-space-door": [
+    {
+      "item": "xbuilders:white-space-door",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "orange-stained-wood-fence-gate": [
+    {
+      "item": "xbuilders:orange-stained-wood-fence-gate",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "palisade-sandstone-stairs": [
+    {
+      "item": "xbuilders:palisade-sandstone-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "gray-marble-tile-stairs": [
+    {
+      "item": "xbuilders:gray-marble-tile-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "brown-marble-tile": [
+    {
+      "item": "xbuilders:brown-marble-tile",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "marble-pillar": [
+    {
+      "item": "xbuilders:marble-pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "red-sandstone-slab": [
+    {
+      "item": "xbuilders:red-sandstone-slab",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "granite": [
+    {
+      "item": "xbuilders:granite",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "blue-stained-glass-stairs": [
+    {
+      "item": "xbuilders:blue-stained-glass-stairs",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "cyan-stained-wood": [
+    {
+      "item": "xbuilders:cyan-stained-wood",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "purple-marble-tile-pillar": [
+    {
+      "item": "xbuilders:purple-marble-tile-pillar",
+      "chance": 1.0,
       "maxItems": 1
     }
   ]

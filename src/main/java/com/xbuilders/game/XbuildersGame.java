@@ -14,6 +14,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.items.loot.Loot;
 import com.xbuilders.engine.items.loot.LootList;
 import com.xbuilders.engine.items.loot.LootTables;
 import com.xbuilders.engine.player.CursorRay;
@@ -223,6 +224,13 @@ public class XbuildersGame extends Game {
 //                new Loot(() -> new ItemStack("xbuilders:sand"), 1.0f, 3),
 //                new Loot(() -> new ItemStack("xbuilders:bamboo"), 0.05f, 1)
 //        ));
+//        for(Item item :Registrys.items.getList()) {
+//            if(item.getBlock() !=null){
+//                LootTables.blockLootTables.put(item.getBlock().alias, new LootList(
+//                        new Loot(() -> new ItemStack(item), 1.0f, 1)
+//                ));
+//            }
+//        }
 //        LootTables.writeLootTableToJson(LootTables.blockLootTables, ResourceUtils.resource("items/loot/block.json"));
 
         Blocks.editBlocks(window);

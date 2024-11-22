@@ -3,7 +3,6 @@ package com.xbuilders.engine.items.loot;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootSerializer;
 
@@ -37,7 +36,7 @@ public class LootTables {
         blockLootTables.putAll(lootMapper.readValue(jsonString, stringIDTable));
     }
 
-    public static void writeLootTableToJson(HashMap<Short, LootList> table, File json) throws IOException {
+    public static void writeLootTableToJson(HashMap<String, LootList> table, File json) throws IOException {
         String jsonString = lootMapper.writeValueAsString(table);
         Files.writeString(json.toPath(), jsonString);
     }

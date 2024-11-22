@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.items.entity;
 
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.util.HashMap;
@@ -19,10 +20,11 @@ import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 public class EntityRegistry {
 
     //Predefined entities
-//    public static ItemDropEntityLink ENTITY_ITEM_DROP = new ItemDropEntityLink();
+    public static EntitySupplier ENTITY_ITEM_DROP;
 
     final IntMap<EntitySupplier> idMap = new IntMap<>(EntitySupplier.class);
     private EntitySupplier[] list;
+    public static final int NULL_ID = -1;
 
     public EntityRegistry() {
     }
@@ -75,6 +77,9 @@ public class EntityRegistry {
 
     public void initialize(List<EntitySupplier> inputBlocks) {
         HashSet<String> uniqueAliases = new HashSet<>();
+        ENTITY_ITEM_DROP = new EntitySupplier(NULL_ID, (uniqueID2) -> new ItemDrop(NULL_ID, uniqueID2));
+        inputBlocks.add(ENTITY_ITEM_DROP);
+
         verifyEntityIds(inputBlocks);
         list = inputBlocks.toArray(new EntitySupplier[0]);
     }

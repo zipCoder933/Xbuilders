@@ -1,11 +1,13 @@
 package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.loot.LootTables;
@@ -172,7 +174,10 @@ public class CursorRay {
                 if (breakAmt >= blockToughness) {
                     if (LootTables.blockLootTables.get(existingBlock.alias) != null) {
                         LootTables.blockLootTables.get(existingBlock.alias).randomItems((itemStack) -> {
-                            GameScene.player.inventory.acquireItem(itemStack);
+                            GameScene.player.setEntity(
+                                    EntityRegistry.ENTITY_ITEM_DROP,
+                                    new Vector3f(getHitPos()),
+                                    itemStack.item.id.getBytes());
                         });
                     }
                     GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
