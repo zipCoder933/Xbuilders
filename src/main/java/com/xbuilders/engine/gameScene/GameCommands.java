@@ -21,8 +21,8 @@ public class GameCommands {
 
         commandHelp = new HashMap<>();
         commandHelp.put("msg", "Usage: msg <player/all> <message>");
-        commandHelp.put("gamemode", "Usage (to get the current mode): gamemode\n" +
-                "Usage (to change mode): gamemode <mode>");
+        commandHelp.put("mode", "Usage (to get the current mode): mode\n" +
+                "Usage (to change mode): mode <mode>");
         commandHelp.put("op", "Usage: op <true/false> <player>");
         commandHelp.put("help", "Usage: help <command>");
         commandHelp.put("time", "Usage: time <day/evening/night>");
@@ -121,7 +121,7 @@ public class GameCommands {
                             }
                         } else return commandHelp.get("teleport");
                     }
-                    case "gamemode" -> {
+                    case "mode" -> {
                         if (!GameScene.isOperator()) return null;
 
                         if (parts.length == 1) {
@@ -136,7 +136,7 @@ public class GameCommands {
                             } catch (IllegalArgumentException e) {
                                 return "Unknown game mode: " + mode;
                             }
-                        } else return commandHelp.get("gamemode");
+                        } else return commandHelp.get("mode");
                     }
                     case "op" -> {
                         if (!GameScene.ownsGame() || !GameScene.isOperator())

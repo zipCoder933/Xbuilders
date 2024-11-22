@@ -161,7 +161,7 @@ public class XbuildersGame extends Game {
         return false;
     }
 
-    public void gameModeChanged(GameMode gameMode) {
+    public void event_gameModeChanged(GameMode gameMode) {
         GameScene.player.camera.cursorRay.disableBoundaryMode();
         blockTools.reset();
     }

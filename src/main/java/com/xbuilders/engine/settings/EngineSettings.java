@@ -17,7 +17,6 @@ public class EngineSettings {
      * NEVER declare a primitive type as static. It will cause issues when reading the values.
      */
     public boolean game_switchMouseButtons = false;
-    public int game_cursorRayDist = 128;
     public boolean game_autoJump = false;
 
     public boolean video_fullscreen = true;

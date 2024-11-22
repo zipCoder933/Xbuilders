@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * @author zipCoder933
  */
-public abstract class Game {
+public abstract class Game implements GameSceneEvents{
 
     public final MainWindow window;
     public final ArrayList<Terrain> terrainsList = new ArrayList<>();
@@ -76,6 +76,4 @@ public abstract class Game {
 
     public abstract Map<String, String> getCommandHelp();
 
-    public void gameModeChanged(GameMode gameMode) {
-    }
 }

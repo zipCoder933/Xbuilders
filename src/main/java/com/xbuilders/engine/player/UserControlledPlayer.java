@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.gameScene.GameSceneEvents;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
@@ -38,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
-public class UserControlledPlayer extends Player {
+public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     public Camera camera;
@@ -207,6 +208,16 @@ public class UserControlledPlayer extends Player {
         autoForward = false;
         isFlyingMode = true;
         loadFromWorld(world);
+        event_gameModeChanged(GameScene.getGameMode());
+    }
+
+    public void event_gameModeChanged(GameMode gameMode) {
+        if (gameMode != GameMode.FREEPLAY) {
+            disableFlying();
+        }
+        if (GameScene.getGameMode() == GameMode.FREEPLAY) {
+            camera.cursorRay.setRayDistance(128);
+        } else camera.cursorRay.setRayDistance(6);
     }
 
     public void stopGameEvent() {
@@ -237,7 +248,6 @@ public class UserControlledPlayer extends Player {
                         (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                         (int) Math.floor(worldPosition.z)).climbable;
     }
-
 
 
     Block cameraBlock, playerBlock;
@@ -377,6 +387,7 @@ public class UserControlledPlayer extends Player {
 
         // The key to preventing shaking during collision is to update the camera AFTER
         // the position handler is done its job
+
         camera.update(holdMouse);
         this.pan = camera.pan;
         this.tilt = camera.tilt;
@@ -443,7 +454,7 @@ public class UserControlledPlayer extends Player {
                 case KEY_CHANGE_RAYCAST_MODE -> {
                     camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
                     if (camera.cursorRay.cursorRayHitAllBlocks) {
-                        camera.cursorRay.rayDistance = 7;
+                        camera.cursorRay.setRayDistance(7);
                     }
                 }
                 case KEY_TOGGLE_VIEW -> camera.cycleToNextView(10);
@@ -536,9 +547,4 @@ public class UserControlledPlayer extends Player {
         return false;
     }
 
-    public void gameModeChanged(GameMode gameMode) {
-        if (gameMode != GameMode.FREEPLAY) {
-            disableFlying();
-        }
-    }
 }

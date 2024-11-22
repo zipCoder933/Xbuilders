@@ -140,6 +140,8 @@ public class CursorRay {
 
     private float breakAmt = 0;
     public float breakPercentage = 0;
+    private final Vector3i lastBreakPos = new Vector3i();
+
 
     private float getMiningSpeed(ItemStack selectedItem) {
         float miningSpeed = 0.005f;
@@ -150,9 +152,15 @@ public class CursorRay {
     private void defaultRemoveEvent(boolean isHeld, ItemStack selectedItem) {
         if (isHeld) { //Hold
             if (GameScene.getGameMode() != GameMode.FREEPLAY) {
+                if (!getHitPos().equals(lastBreakPos)) {
+                    breakAmt = 0;
+                    lastBreakPos.set(getHitPos());
+                }
+
                 float miningSpeed = getMiningSpeed(selectedItem);
                 float blockToughness = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z).toughness;
                 if (selectedItem != null) selectedItem.durability -= 0.1f;
+
 
                 breakPercentage = breakAmt / blockToughness;
 //                System.out.println("Break: " + Math.round(breakPercentage * 100) + "%");
@@ -332,17 +340,14 @@ public class CursorRay {
         }
     }
 
-    public int rayDistance = 1000;// Max distance for front ray
+    final int MAX_RAY_DISTANCE = 512;
+    private int rayDistance = MAX_RAY_DISTANCE;// Max distance for front ray
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
-        if (cursorRayHitAllBlocks)
-            rayDistance = MathUtils.clamp(rayDistance, 1, MainWindow.settings.game_cursorRayDist);
-        else
-            rayDistance = MainWindow.settings.game_cursorRayDist;
 
         Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
 
-        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, rayDistance,
+        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, getRayDistance(),
                 ((block, forbiddenBlock, rx, ry, rz) -> {
                     // block ray if we are locking boundary to plane
                     if (useBoundary && boundary_lockToPlane && boundary_isStartNodeSet) {
@@ -396,4 +401,11 @@ public class CursorRay {
     }
 
 
+    public int getRayDistance() {
+        return rayDistance;
+    }
+
+    public void setRayDistance(int rayDistance) {
+        this.rayDistance = MathUtils.clamp(rayDistance, 1, MAX_RAY_DISTANCE);
+    }
 }

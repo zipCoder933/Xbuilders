@@ -60,8 +60,9 @@ public class GameScene implements WindowEvents {
 
     public static void setGameMode(GameMode gameMode) {
         GameScene.gameMode = gameMode;
-        game.gameModeChanged(getGameMode());
-        player.gameModeChanged(getGameMode());
+        //Handle events
+        game.event_gameModeChanged(getGameMode());
+        player.event_gameModeChanged(getGameMode());
         GameScene.alert("Game mode changed to: " + gameMode);
     }
 

@@ -665,20 +665,26 @@ public class World {
          */
 
 
-        chunkShader_cursorMin.set(player.camera.cursorRay.getHitPos());
-        chunkShader_cursorMax.set(chunkShader_cursorMin).add(1, 1, 1);
+        if (player.camera.cursorRay.hitTarget()) {
+            chunkShader_cursorMin.set(player.camera.cursorRay.getHitPos());
+            chunkShader_cursorMax.set(chunkShader_cursorMin).add(1, 1, 1);
 
-        List<AABB> cursorBoxes = player.camera.cursorRay.cursorRay.cursorBoxes;
-        if (cursorBoxes != null && !cursorBoxes.isEmpty()) {
-            chunkShader_cursorMin.set(cursorBoxes.get(0).min);
-            chunkShader_cursorMax.set(cursorBoxes.get(0).max);
-            for (AABB aabb : cursorBoxes) {
-                chunkShader_cursorMin.set(Math.min(chunkShader_cursorMin.x, aabb.min.x), Math.min(chunkShader_cursorMin.y, aabb.min.y), Math.min(chunkShader_cursorMin.z, aabb.min.z));
-                chunkShader_cursorMax.set(Math.max(chunkShader_cursorMax.x, aabb.max.x), Math.max(chunkShader_cursorMax.y, aabb.max.y), Math.max(chunkShader_cursorMax.z, aabb.max.z));
+            List<AABB> cursorBoxes = player.camera.cursorRay.cursorRay.cursorBoxes;
+            if (cursorBoxes != null && !cursorBoxes.isEmpty()) {
+                chunkShader_cursorMin.set(cursorBoxes.get(0).min);
+                chunkShader_cursorMax.set(cursorBoxes.get(0).max);
+                for (AABB aabb : cursorBoxes) {
+                    chunkShader_cursorMin.set(Math.min(chunkShader_cursorMin.x, aabb.min.x), Math.min(chunkShader_cursorMin.y, aabb.min.y), Math.min(chunkShader_cursorMin.z, aabb.min.z));
+                    chunkShader_cursorMax.set(Math.max(chunkShader_cursorMax.x, aabb.max.x), Math.max(chunkShader_cursorMax.y, aabb.max.y), Math.max(chunkShader_cursorMax.z, aabb.max.z));
+                }
             }
+            chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMax);
+            chunkShader.setBlockBreakPercentage(player.camera.cursorRay.breakPercentage);
+        } else {
+            chunkShader.setBlockBreakPercentage(0);
+            chunkShader_cursorMin.set(0, 0, 0);
+            chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMin);
         }
-        chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMax);
-        chunkShader.setBlockBreakPercentage(player.camera.cursorRay.breakPercentage);
 
         // Render visible opaque meshes
         chunkShader.bind();
