@@ -35,7 +35,7 @@ Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.lwjgl.nuklear.Nuklear.nnk_group_end(J)V+0
 j  org.lwjgl.nuklear.Nuklear.nk_group_end(Lorg/lwjgl/nuklear/NkContext;)V+4
 j  com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid.draw(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkContext;I)V+333
-j  com.xbuilders.game.items.blocks.CraftingUI.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V+44
+j  com.xbuilders.game.UI.CraftingUI.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V+44
 j  com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V+160
 j  com.xbuilders.game.UI.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z+34
 j  com.xbuilders.game.XbuildersGame.uiDraw(Lorg/lwjgl/system/MemoryStack;)V+26

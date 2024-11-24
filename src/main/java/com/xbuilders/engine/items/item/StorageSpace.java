@@ -1,18 +1,37 @@
 package com.xbuilders.engine.items.item;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class StorageSpace {
-    public final ItemStack[] items;
+    //Items needs to be private so that we can properly handle changes
+    private final ItemStack[] items;
+
+    public ItemStack[] getAsList() {
+        return items;
+    }
+
+//    public void writeToJson(ByteArrayOutputStream baos, ObjectMapper obj) throws IOException {
+//        obj.writeValue(baos, items);
+//    }
+
+    public Runnable changeEvent;
+
+    private void changeEvent() {
+        deleteEmptyItems();
+        if (changeEvent != null) changeEvent.run();
+    }
 
     public StorageSpace(int size) {
         items = new ItemStack[size];
     }
 
     public int acquireItem(ItemStack stack) {
-        deleteEmptyItems();
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null && items[i].item.equals(stack.item)
                     && items[i].stackSize + stack.stackSize <= items[i].item.maxStackSize) {
@@ -26,8 +45,10 @@ public class StorageSpace {
                 return i;
             }
         }
+        changeEvent();
         return -1;
     }
+
 
     public ItemStack get(int index) {
         return items[index];
@@ -35,6 +56,7 @@ public class StorageSpace {
 
     public void set(int index, ItemStack item) {
         items[index] = item;
+        changeEvent();
     }
 
     public int size() {
@@ -63,8 +85,7 @@ public class StorageSpace {
             }
             sortItems(); // Bring non-null items to the beginning
         }
-
-        deleteEmptyItems(); // Clean up any leftover empty spaces
+        changeEvent();
     }
 
     // Move non-null items to the start of the array

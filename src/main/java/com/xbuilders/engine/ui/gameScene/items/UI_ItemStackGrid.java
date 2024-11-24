@@ -11,13 +11,17 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.FileFilter;
+import java.util.function.Predicate;
+
 import static org.lwjgl.nuklear.Nuklear.*;
 import static org.lwjgl.nuklear.Nuklear.nk_group_end;
 
 public class UI_ItemStackGrid {
     final String title;
+    public Predicate<ItemStack> itemFilter;
     String hoveredItem;
-    final StorageSpace storageSpace;
+    public final StorageSpace storageSpace;
     UI_ItemWindow box;
     NKWindow window;
     int rowCount = 0;
@@ -37,10 +41,9 @@ public class UI_ItemStackGrid {
 
     public void draw(MemoryStack stack, NkContext ctx, int maxColumns) {
         if (nk_group_begin(ctx, title, flags)) {
-
+            storageSpace.deleteEmptyItems();
             //Set up
             nk_style_set_font(ctx, Theme.font_10);
-            storageSpace.deleteEmptyItems();
             hoveredItem = null;
 
             //Draw buttons
@@ -107,6 +110,7 @@ public class UI_ItemStackGrid {
         return str;
     }
 
+
     /**
      * When the box is clicked
      *
@@ -114,7 +118,7 @@ public class UI_ItemStackGrid {
      * @param index
      */
     private void itemClickEvent(ItemStack clickedItem, int index) {
-        if (box.draggingItem != null) {
+        if (box.draggingItem != null && (itemFilter == null || itemFilter.test(box.draggingItem))) {
             if (window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
                 System.out.println("Right click");
                 if (box.draggingItem.stackSize > 1) {

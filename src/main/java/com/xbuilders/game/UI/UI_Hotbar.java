@@ -41,8 +41,6 @@ public class UI_Hotbar extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
-       GameScene.player.inventory.deleteEmptyItems();
-
         NkRect windowDims2 = NkRect.malloc(stack);
 
         ctx.style().window().fixed_background().data().color().set(Theme.transparent);

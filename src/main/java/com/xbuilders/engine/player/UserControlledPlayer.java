@@ -70,7 +70,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
         JsonObject jsonObject = new JsonObject();
         // Serialize playerStuff and other data
-        jsonObject.add("inventory", pdGson.toJsonTree(inventory.items));
+        jsonObject.add("inventory", pdGson.toJsonTree(inventory.getAsList()));
         jsonObject.addProperty("x", (float) worldPosition.x);
         jsonObject.addProperty("y", (float) worldPosition.y);
         jsonObject.addProperty("z", (float) worldPosition.z);
@@ -95,7 +95,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     AtomicInteger i = new AtomicInteger(0);
                     jsonObject.get("inventory").getAsJsonArray().forEach(element -> {
                         ItemStack itemStack = pdGson.fromJson(element, ItemStack.class);
-                        inventory.items[i.get()] = itemStack;
+                        inventory.set(i.get(), itemStack);
                         i.addAndGet(1);
                     });
                 }

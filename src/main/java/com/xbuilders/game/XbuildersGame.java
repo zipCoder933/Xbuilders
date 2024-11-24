@@ -15,6 +15,7 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.loot.LootTables;
+import com.xbuilders.engine.items.recipes.CraftingRecipes;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -27,8 +28,8 @@ import com.xbuilders.game.items.Blocks;
 import com.xbuilders.game.items.Entities;
 import com.xbuilders.game.items.Items;
 import com.xbuilders.game.items.blocks.RenderType;
-import com.xbuilders.game.items.blocks.BarrelUI;
-import com.xbuilders.game.items.blocks.CraftingUI;
+import com.xbuilders.game.UI.BarrelUI;
+import com.xbuilders.game.UI.CraftingUI;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.propagation.*;
 import com.xbuilders.game.skins.FoxSkin;
@@ -226,11 +227,13 @@ public class XbuildersGame extends Game {
 
         Registrys.initialize(blockList, entityList, itemList);
 
+        //Load Loot
         LootTables.loadBlockLootTable(ResourceUtils.resource("items/loot/block.json"));
 //        LootTables.blockLootTables.put(Blocks.BLOCK_SAND, new LootList(
 //                new Loot(() -> new ItemStack("xbuilders:sand"), 1.0f, 3),
 //                new Loot(() -> new ItemStack("xbuilders:bamboo"), 0.05f, 1)
 //        ));
+        //Auto generate loot (temporary code)
 //        for(Item item :Registrys.items.getList()) {
 //            if(item.getBlock() !=null){
 //                LootTables.blockLootTables.put(item.getBlock().alias, new LootList(
@@ -239,6 +242,12 @@ public class XbuildersGame extends Game {
 //            }
 //        }
 //        LootTables.writeLootTableToJson(LootTables.blockLootTables, ResourceUtils.resource("items/loot/block.json"));
+
+        //Load recipes
+        CraftingRecipes.recipeMap.put(new String[]{
+                "xbuilders:cobblestone", "xbuilders:cobblestone", "xbuilders:cobblestone",
+                "xbuilders:cobblestone", "xbuilders:cobblestone", "xbuilders:cobblestone",
+                "xbuilders:cobblestone", "xbuilders:cobblestone", "xbuilders:cobblestone"}, "xbuilders:stone");
 
         Blocks.editBlocks(window);
 

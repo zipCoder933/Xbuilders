@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.blocks;
+package com.xbuilders.game.UI;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +75,7 @@ public class BarrelUI extends UI_ItemWindow {
                         });
 
                 for (int i = 0; i < deserializedObject.length; i++) {
-                    barrelStorage.items[i] = deserializedObject[i];
+                    barrelStorage.set(i, deserializedObject[i]);
                 }
             } catch (IOException e) {
                 System.out.println("Error deserializing JSON, Making storage empty: " + e.getMessage());
@@ -87,7 +87,7 @@ public class BarrelUI extends UI_ItemWindow {
     public void onCloseEvent() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            objectMapper.writeValue(baos, barrelStorage.items);
+            objectMapper.writeValue(baos, barrelStorage.getAsList());
             barrelData.setByteArray(baos.toByteArray());
             chunk.markAsModified();
         } catch (IOException e) {
