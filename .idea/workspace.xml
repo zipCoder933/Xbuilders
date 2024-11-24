@@ -10,7 +10,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/CraftingTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/CraftingUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/Furnace.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/blocks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/tables.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/textures/crafting table front.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/textures/crafting table side.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/textures/crafting table top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/json/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/items/json/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/PositionLock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/PositionLock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemStackGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemStackGrid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/UI_Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/UI_Hotbar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/UI_Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/UI_Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/XbuildersGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/XbuildersGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/Blocks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/barrel/BarrelUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/BarrelUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/barrel/BlockBarrel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/items/blocks/BlockBarrel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +67,9 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2iBx9jWbm7cSDvGV3eo4UEA81OK" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -76,7 +96,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders/src/main/java/com/xbuilders/engine/utils/json/fasterXML/loot&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders/src/main/java/com/xbuilders/game/items/blocks/craftingTable&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.3908046&quot;,
@@ -92,6 +112,7 @@
       <recent name="com.xbuilders.engine.ui.topMenu" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\game\items\blocks\craftingTable" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\utils\json\fasterXML\loot" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\utils\json\fasterXML" />
       <recent name="D:\Xbuilders" />
@@ -104,6 +125,7 @@
       <recent name="C:\Local Files\github\Xbuilders\res\items\entity\animal\horse\horse" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow" />
       <recent name="com.xbuilders.engine.items.Registrys" />
       <recent name="com.xbuilders.game.Blocks" />
     </key>
@@ -115,7 +137,7 @@
       <recent name="com.xbuilders.game.items.entities.animal.fish" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Dev">
+  <component name="RunManager" selected="Application.Dev (Load World)">
     <configuration name="Dev 2" type="Application" factoryName="Application" folderName="devs" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
       <module name="XBuilders3" />
@@ -150,7 +172,7 @@
     </configuration>
     <configuration name="Dev" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
-      <module name="Xbuilders3" />
+      <module name="XBuilders3" />
       <option name="PROGRAM_PARAMETERS" value="devmode name=DEV" />
       <method v="2">
         <option name="Make" enabled="true" />

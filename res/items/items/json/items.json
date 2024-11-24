@@ -4723,5 +4723,15 @@
     "id": "xbuilders:barrel",
     "name": "Barrel",
     "block": 45
+  },
+  {
+    "id": "xbuilders:crafting-table",
+    "name": "Crafting Table",
+    "block": 50
+  },
+  {
+    "id": "xbuilders:furnace",
+    "name": "Furnace",
+    "block": 99
   }
 ]

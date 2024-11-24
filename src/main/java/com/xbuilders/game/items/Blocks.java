@@ -5,43 +5,38 @@ import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.items.blocks.barrel.BlockBarrel;
+import com.xbuilders.game.items.blocks.Furnace;
+import com.xbuilders.game.items.blocks.BlockBarrel;
 import com.xbuilders.game.items.blocks.BlockEventUtils;
 import com.xbuilders.game.items.blocks.PlantUtils;
 import com.xbuilders.game.items.blocks.BlockStraightTrack;
+import com.xbuilders.game.items.blocks.CraftingTable;
 import com.xbuilders.game.items.blocks.trees.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static com.xbuilders.engine.items.ItemUtils.getAllJsonBlocks;
 
 public class Blocks {
 
+
+    /**
+     * Returns a list of all blocks for initialization
+     *
+     * @return
+     */
     public static ArrayList<Block> starup_getBlocks() {
+
+        //Load blocks from our json files
         ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.resource("\\items\\blocks\\json"));
 
         //Add blocks
-        blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "Barrel"));
-
-        //Reassign blocks
-        HashMap<Short, Block> reassignments = new HashMap<>();
-        Blocks.reassignBlocks(reassignments);
-        for (int i = 0; i < blockList.size(); i++) { //Check to ensure the blocks ID remains the same
-            if (reassignments.containsKey(blockList.get(i).id)) {
-                System.out.println("Reassigned Block " + blockList.get(i).toString());
-                short originalID = blockList.get(i).id;
-                blockList.set(i, reassignments.get(blockList.get(i).id));
-                if (blockList.get(i).id != originalID)
-                    throw new RuntimeException("Reassigned Block ID " + originalID + " changed to " + blockList.get(i).id);
-            }
-        }
+        blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
+        blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
+        blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
+        blockList.add(new BlockStraightTrack(Blocks.BLOCK_TRACK));
 
         return blockList;
-    }
-
-    private static void reassignBlocks(HashMap<Short, Block> reassignments) {
-        reassignments.put(Blocks.BLOCK_TRACK, new BlockStraightTrack(Blocks.BLOCK_TRACK));
     }
 
     public static void editBlocks(MainWindow window) {
@@ -106,6 +101,10 @@ public class Blocks {
         }
     }
 
+
+    //List of all block IDs
+    public static short BLOCK_CRAFTING_TABLE = 50;
+    public static short BLOCK_FURNACE = 99;
     public static short BLOCK_BARREL = 45;
     public static short BLOCK_BEDROCK = 1;
     public static short BLOCK_BIRCH_LOG = 2;

@@ -37,7 +37,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         searchBox.setOnSelectEvent(() -> clearSearch());
         searchBox.setOnChangeEvent(() -> searchQueryEvent());
 
-        playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.player.inventory, this);
+        playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.player.inventory, this, true);
         // We have to create the window initially
         nk_begin(ctx, title, NkRect.create(), windowFlags);
         nk_end(ctx);
@@ -105,7 +105,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         searchBox.render(ctx);
         ctx.style().button().padding().set(0, 0);
         inventoryGroup(stack, filteredItems);
-        playerInventory.draw(stack, ctx, maxColumns, backpackMenuSize);
+        nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
+        playerInventory.draw(stack, ctx, maxColumns);
 
         Theme.resetEntireButtonStyle(ctx);
         if (hoveredItem != null)
@@ -116,7 +117,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     private void inventoryGroup(MemoryStack stack, List<Item> items) {
         nk_layout_row_dynamic(ctx, itemListHeight, 1);
         if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
-            int maxRows = (int) (Math.floor(itemListHeight / itemWidth.width) - 1);
+            int maxRows = (int) (Math.floor(itemListHeight / getItemSize()) - 1);
 
             scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (items.size() / maxColumns) - 1));
             int itemID = scrollValue * maxColumns;
@@ -125,7 +126,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
             rows:
             while (rows < maxRows) {
-                nk_layout_row_dynamic(ctx, itemWidth.width, maxColumns);// row
+              //  nk_layout_row_dynamic(ctx, getItemSize(), maxColumns);// row
+                nk_layout_row_static(ctx, getItemSize(), getItemSize(), maxColumns);
                 rows++;
 
                 for (int column = 0; column < maxColumns; ) {

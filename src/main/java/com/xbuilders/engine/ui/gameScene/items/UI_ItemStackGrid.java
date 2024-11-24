@@ -6,7 +6,6 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
@@ -16,46 +15,57 @@ import static org.lwjgl.nuklear.Nuklear.*;
 import static org.lwjgl.nuklear.Nuklear.nk_group_end;
 
 public class UI_ItemStackGrid {
-    WidgetSizeMeasurement buttonSize;
     final String title;
     String hoveredItem;
     final StorageSpace storageSpace;
     UI_ItemWindow box;
     NKWindow window;
     int rowCount = 0;
+    final int flags;
+    public boolean showButtons = true;
 
-    public UI_ItemStackGrid(NKWindow window, String title, StorageSpace storageSpace, UI_ItemWindow box) {
+
+    public UI_ItemStackGrid(NKWindow window, String title, StorageSpace storageSpace, UI_ItemWindow box, boolean showTitle) {
         this.title = title;
         this.storageSpace = storageSpace;
         this.box = box;
         this.window = window;
-        buttonSize = new WidgetSizeMeasurement(0);
+
+        if (showTitle) flags = NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR;
+        else flags = NK_WINDOW_NO_SCROLLBAR;
     }
 
-    public void draw(MemoryStack stack, NkContext ctx, int maxColumns, int height) {
-        hoveredItem = null;
-        nk_layout_row_dynamic(ctx, height, 1);
-        nk_style_set_font(ctx, Theme.font_10);
+    public void draw(MemoryStack stack, NkContext ctx, int maxColumns) {
+        if (nk_group_begin(ctx, title, flags)) {
 
-        storageSpace.deleteEmptyItems();
+            //Set up
+            nk_style_set_font(ctx, Theme.font_10);
+            storageSpace.deleteEmptyItems();
+            hoveredItem = null;
 
-
-        if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
-
-            nk_layout_row_dynamic(ctx, 20, GameScene.getGameMode() == GameMode.FREEPLAY ? 2 : 1);
-            if (nk_button_label(ctx, "Sort")) {
-                storageSpace.organize();
-            } else if (GameScene.getGameMode() == GameMode.FREEPLAY && nk_button_label(ctx, "Clear")) {
-                for (int i = 0; i < storageSpace.size(); i++) {
-                    storageSpace.set(i, null);
+            //Draw buttons
+            if (showButtons) {
+                nk_layout_row_dynamic(ctx, 20, GameScene.getGameMode() == GameMode.FREEPLAY ? 2 : 1);
+                if (nk_button_label(ctx, "Sort")) {
+                    storageSpace.organize();
+                } else if (GameScene.getGameMode() == GameMode.FREEPLAY && nk_button_label(ctx, "Clear")) {
+                    for (int i = 0; i < storageSpace.size(); i++) {
+                        storageSpace.set(i, null);
+                    }
                 }
             }
 
+            //Draw item grid
             rowCount = 0;
             int index = 0;
             rows:
             while (true) {
-                nk_layout_row_dynamic(ctx, buttonSize.width, maxColumns);
+                nk_layout_row_static(ctx, UI_ItemWindow.getItemSize(), UI_ItemWindow.getItemSize(), maxColumns);
+
+//                if (buttonSize.isCalibrated()) {
+//                    nk_layout_row_static(ctx, buttonSize.width, (int) buttonSize.width, maxColumns);
+//                } else nk_layout_row_dynamic(ctx, buttonSize.width, maxColumns);
+
                 rowCount++;
                 cols:
                 for (int i = 0; i < maxColumns; i++) {
@@ -77,7 +87,7 @@ public class UI_ItemStackGrid {
                         itemClickEvent(item, index);
                     }
                     index++;
-                    buttonSize.measure(ctx, stack);
+//                    buttonSize.measure(ctx, stack);
                 }
             }
             if (hoveredItem != null) Nuklear.nk_tooltip(ctx, " " + hoveredItem + ")");

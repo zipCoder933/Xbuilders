@@ -31,13 +31,11 @@ public class UI_Hotbar extends UI_GameMenu {
 
     public UI_Hotbar(NkContext ctx, NKWindow window) {
         super(ctx, window);
-        buttonHeight = new WidgetSizeMeasurement(0);
     }
 
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    WidgetSizeMeasurement buttonHeight;
     private int selectedItemIndex;
     int pushValue;
 
@@ -52,21 +50,6 @@ public class UI_Hotbar extends UI_GameMenu {
         ctx.style().window().border_color().set(Theme.transparent);
         ctx.style().button().padding().set(0, 0);
         nk_style_set_font(ctx, Theme.font_10);
-//
-//        // <editor-fold defaultstate="collapsed" desc="Draw title text">
-//        nk_rect(
-//                window.getWidth() / 2 - (menuWidth / 2),
-//                window.getHeight() - menuHeight - 20 - 20,
-//                menuWidth, 20, windowDims2);
-//        ctx.style().window().padding().set(0, 0);
-//        if (nk_begin(ctx, "hotbarA", windowDims2, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {
-//            nk_layout_row_dynamic(ctx, 40, 1);
-//            if (playerInfo.playerBackpack[getSelectedItemIndex()] != null) {
-//                nk_text(ctx, playerInfo.playerBackpack[getSelectedItemIndex()].name, NK_TEXT_ALIGN_CENTERED);
-//            }
-//        }
-//        nk_end(ctx);
-//        // </editor-fold>
 
         nk_rect(
                 window.getWidth() / 2 - (menuWidth / 2),
@@ -81,7 +64,7 @@ public class UI_Hotbar extends UI_GameMenu {
                 nk_text(ctx, GameScene.player.inventory.get(getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
             }
 
-            nk_layout_row_dynamic(ctx, buttonHeight.width, ELEMENTS);
+            nk_layout_row_dynamic(ctx, UI_ItemWindow.getItemSize(), ELEMENTS);
             int i = 0;
             for (int j = 0; j < ELEMENTS; j++) {
                 i = j + pushValue;
@@ -91,19 +74,19 @@ public class UI_Hotbar extends UI_GameMenu {
                 }
                 ItemStack item = GameScene.player.inventory.get(i);
 
-                if (buttonHeight.isCalibrated()) {
+                //if (buttonHeight.isCalibrated()) {
                     if (i == getSelectedItemIndex()) {
                         ctx.style().button().border_color().set(Theme.white);
                     } else {
                         ctx.style().button().border_color().set(Theme.blue);
                     }
-                }
+                //}
                 if (item != null) {
                     UI_ItemWindow.drawItemStack(stack, ctx, item);
                 } else {
                     Nuklear.nk_button_text(ctx, "");
                 }
-                buttonHeight.measure(ctx, stack);
+                //buttonHeight.measure(ctx, stack);
             }
         }
         nk_end(ctx);

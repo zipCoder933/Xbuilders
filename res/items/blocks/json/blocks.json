@@ -3427,29 +3427,6 @@
     "properties": {}
   },
   {
-    "alias": "track",
-    "id": 155,
-    "texture": {
-      "neg_y": "track",
-      "pos_x": "track",
-      "pos_z": "track",
-      "neg_z": "track",
-      "neg_x": "track",
-      "pos_y": "track"
-    },
-    "solid": true,
-    "opaque": true,
-    "torch": 0,
-    "type": 10,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
-  {
     "alias": "wool-magenta",
     "id": 156,
     "texture": {

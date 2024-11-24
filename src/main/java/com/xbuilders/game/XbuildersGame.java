@@ -14,8 +14,6 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.items.loot.Loot;
-import com.xbuilders.engine.items.loot.LootList;
 import com.xbuilders.engine.items.loot.LootTables;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
@@ -29,7 +27,8 @@ import com.xbuilders.game.items.Blocks;
 import com.xbuilders.game.items.Entities;
 import com.xbuilders.game.items.Items;
 import com.xbuilders.game.items.blocks.RenderType;
-import com.xbuilders.game.items.blocks.barrel.BarrelUI;
+import com.xbuilders.game.items.blocks.BarrelUI;
+import com.xbuilders.game.items.blocks.CraftingUI;
 import com.xbuilders.game.items.blocks.type.*;
 import com.xbuilders.game.propagation.*;
 import com.xbuilders.game.skins.FoxSkin;
@@ -102,17 +101,25 @@ public class XbuildersGame extends Game {
     public UI_Hotbar hotbar;
     public BlockTools blockTools;
 
+
     //Custom menus
-    public BarrelUI barrel;
+    public BarrelUI barrelUI;
+    public CraftingUI craftingUI;
     public GameMenus gameMenus = new GameMenus();
 
     @Override
     public void uiInit(NkContext ctx, GameUI gameUI) {
+
+        //Menus
         hotbar = new UI_Hotbar(ctx, window);
         inventory = new UI_Inventory(ctx, Registrys.items.getList(), window, hotbar);
         blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
-        barrel = new BarrelUI(ctx, window);
-        gameMenus.menus.add(barrel);
+
+        //Menus
+        barrelUI = new BarrelUI(ctx, window);
+        craftingUI = new CraftingUI(ctx, window);
+        gameMenus.menus.add(barrelUI);
+        gameMenus.menus.add(craftingUI);
     }
 
     @Override

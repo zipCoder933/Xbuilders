@@ -7,7 +7,6 @@ import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
 import org.joml.Vector2d;
 import org.joml.Vector2i;
 import org.lwjgl.glfw.GLFW;
@@ -17,6 +16,13 @@ import org.lwjgl.system.MemoryStack;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 public abstract class UI_ItemWindow extends UI_GameMenu {
+    //    static WidgetSizeMeasurement buttonSize = new WidgetSizeMeasurement(0);
+    private static final int ITEM_WIDTH = 53;
+
+    public static final int getItemSize() {
+        return ITEM_WIDTH;
+    }
+
     public UI_ItemWindow(NkContext ctx, NKWindow window, String title) {
         super(ctx, window);
         this.title = title;
@@ -67,9 +73,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
                     menuDimensions.x, menuDimensions.y, windowDims);
 
             if (nk_begin(ctx, title, windowDims, windowFlags)) {
-                if (!itemWidth.isCalibrated()) {
-                    calibrate(stack, ctx);
-                }
+//              calibrate(stack, ctx);
                 drawWindow(stack, windowDims);
                 if (draggingItem != null) drawItemAtCursor(window, stack, ctx, draggingItem);
             }
@@ -97,14 +101,17 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         return false;
     }
 
-    private void calibrate(MemoryStack stack, NkContext ctx) {
-        System.out.println("Calibrating item width");
-        nk_layout_row_dynamic(ctx, itemWidth.width, maxColumns);// row
-        for (int column = 0; column < maxColumns; column++) {
-            nk_button_label(ctx, "");
-            itemWidth.measure(ctx, stack);
-        }
-    }
+
+//    private void calibrate(MemoryStack stack, NkContext ctx) {
+//     if (!itemWidth.isCalibrated()){
+//        System.out.println("Calibrating item width");
+//        nk_layout_row_dynamic(ctx, getItemSize(), maxColumns);// row
+//        for (int column = 0; column < maxColumns; column++) {
+//            nk_button_label(ctx, "");
+//            itemWidth.measure(ctx, stack);
+//        }
+//    }
+//    }
 
     public abstract void drawWindow(MemoryStack stack, NkRect windowDims2);
 
@@ -112,7 +119,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     final static NkColor green = Theme.createColor(0, 255, 0, 255);
     final static NkColor black = Theme.createColor(0, 0, 0, 255);
     final static int padding = 5;
-    public final static WidgetSizeMeasurement itemWidth = new WidgetSizeMeasurement(0);
+    //    public final static WidgetSizeMeasurement itemWidth = new WidgetSizeMeasurement(0);
     final static String empty = "";
 
     public static boolean drawItemStack(MemoryStack stack, NkContext ctx, ItemStack itemStack) {
@@ -162,19 +169,19 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     public void drawItemAtCursor(NKWindow window, MemoryStack stack, NkContext ctx, ItemStack itemStack) {
         NkRect rect = NkRect.malloc(stack);
         Vector2d cursor = window.getCursorVector();
-        rect.set((float) cursor.x - (itemWidth.width / 2), (float) cursor.y - (itemWidth.width / 2), itemWidth.width, itemWidth.width);
-        nk_layout_row_dynamic(ctx, itemWidth.width, 1);
+        rect.set((float) cursor.x - (getItemSize() / 2), (float) cursor.y - (getItemSize() / 2), getItemSize(), getItemSize());
+        nk_layout_row_dynamic(ctx, getItemSize(), 1);
         drawItemStackOverlay(stack, ctx, itemStack, rect);
     }
 
     public void drawOutOfBoundsStackAtCursor(NKWindow window, MemoryStack stack, NkContext ctx, ItemStack itemStack) {
         NkRect rect = NkRect.malloc(stack);
         Vector2d cursor = window.getCursorVector();
-        rect.set((float) cursor.x - (itemWidth.width / 2), (float) cursor.y - (itemWidth.width / 2), itemWidth.width, itemWidth.width);
+        rect.set((float) cursor.x - (getItemSize() / 2), (float) cursor.y - (getItemSize() / 2), getItemSize(), getItemSize());
 
         Theme.setWindowStyle(ctx, Theme.transparent, Theme.transparent);
         if (nk_begin(ctx, "cursor_stack", rect, NK_WINDOW_NO_INPUT | NK_WINDOW_BACKGROUND | NK_WINDOW_NO_SCROLLBAR)) {
-            nk_layout_row_dynamic(ctx, itemWidth.width, 1);
+            nk_layout_row_dynamic(ctx, getItemSize(), 1);
             drawItemStackOverlay(stack, ctx, itemStack, rect);
         }
         Theme.resetWindowColor(ctx);

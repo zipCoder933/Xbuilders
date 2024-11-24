@@ -10,7 +10,6 @@ public class PositionLock {
 
     public PositionLock(Entity lock, float yOffset) {
         this.entity = lock;
-        System.out.println(lock.aabb.offset.x + " " + lock.aabb.offset.y + " " + lock.aabb.offset.z);
         this.playerDisplacement = new Matrix4f();
         setOffset(yOffset);
     }
