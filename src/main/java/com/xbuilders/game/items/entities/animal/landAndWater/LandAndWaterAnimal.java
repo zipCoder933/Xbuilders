@@ -6,7 +6,6 @@ package com.xbuilders.game.items.entities.animal.landAndWater;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.game.items.entities.animal.mobile.Animal;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.items.entities.animal.mobile.AnimalUtils;
@@ -154,7 +153,7 @@ public abstract class LandAndWaterAnimal extends Animal {
             walkAmt = speed;
         }
 
-        Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), speed);
+        Vector2f vec = MathUtils.getCircumferencePoint(-getRotationYDeg(), speed);
         worldPosition.add(vec.x, 0, vec.y);
 
     }

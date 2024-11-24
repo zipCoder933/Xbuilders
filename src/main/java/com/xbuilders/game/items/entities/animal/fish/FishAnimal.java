@@ -3,7 +3,6 @@ package com.xbuilders.game.items.entities.animal.fish;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.game.items.entities.animal.mobile.Animal;
 import org.joml.Vector2f;
 
@@ -110,10 +109,10 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
 
 
         if (isPendingDestruction() && inWater) {
-            Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), maxSpeed * 0.7f);
+            Vector2f vec = MathUtils.getCircumferencePoint(-getRotationYDeg(), maxSpeed * 0.7f);
             worldPosition.add(vec.x, 0, vec.y);
         } else {
-            Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), forwardVelocity);
+            Vector2f vec = MathUtils.getCircumferencePoint(-getRotationYDeg(), forwardVelocity);
             worldPosition.add(vec.x, 0, vec.y);
         }
 

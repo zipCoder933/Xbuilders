@@ -14,6 +14,7 @@
     "opaque": true,
     "torch": 0,
     "type": 0,
+    "toughness": 100,
     "colorInPlayerHead": [
       0.0,
       0.0,

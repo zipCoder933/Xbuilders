@@ -31,6 +31,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("opaque", src.opaque);
         jsonObject.addProperty("torch", src.torchlightStartingValue);
         jsonObject.addProperty("type", src.renderType);
+        jsonObject.addProperty("toughness", src.toughness);
         if (src.colorInPlayerHead != null) {
             JsonElement colorElement = context.serialize(src.colorInPlayerHead);
             jsonObject.add("colorInPlayerHead", colorElement);
@@ -60,6 +61,8 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             block.opaque = jsonObject.get("opaque").getAsBoolean();
         if (jsonObject.has("torch"))
             block.torchlightStartingValue = jsonObject.get("torch").getAsByte();
+        if (jsonObject.has("toughness"))
+            block.toughness = jsonObject.get("toughness").getAsFloat();
 
         if (jsonObject.has("type")) {
             String typeStr = jsonObject.get("type").getAsString();
@@ -76,7 +79,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             block.colorInPlayerHead[0] = jsonColor[0];
             block.colorInPlayerHead[1] = jsonColor[1];
             block.colorInPlayerHead[2] = jsonColor[2];
-            if(jsonColor.length >= 4) block.colorInPlayerHead[3] = jsonColor[3];
+            if (jsonColor.length >= 4) block.colorInPlayerHead[3] = jsonColor[3];
             else block.colorInPlayerHead[3] = 1.0f;
         }
 

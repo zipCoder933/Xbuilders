@@ -291,6 +291,49 @@ public class MathUtils {
         return number >= max && number <= min;
     }
 
+    /**
+     *
+     * @param x the z position of the center-point
+     * @param z the x position of the center-point
+     * @param rot the angle (in degrees)
+     * @param d the distance from the center-point
+     * @return the point in space from the center point given the angle
+     */
+    public static Vector2f getCircumferencePoint(double rot, double d) {
+        rot = ((float) rot / 360) * TWO_PI;
+        float tX = (float) (Math.cos(rot + HALF_PI) * d);
+        float tY = (float) (Math.sin(rot + HALF_PI) * d);
+        return new Vector2f(tX, tY);
+    }
+
+    /**
+     *
+     * @param targetX
+     * @param targetZ
+     * @param thisX
+     * @param thisZ
+     * @return the angle between two 2D points (in degrees)
+     */
+    public static float getAngleOfPoints(float thisX, float thisZ, float targetX, float targetZ) {
+        float angle = (float) Math.toDegrees(Math.atan2(targetX - thisX, targetZ - thisZ));
+
+        if (angle < 0) {
+            angle += 360;
+        }
+
+        return angle;
+    }
+
+    /**
+     * @return the Shortest distance (angular) between two angles. It will be in
+     * range [0, 180].
+     */
+    public static float getSignedAngleDistance(float targetA, float sourceA) {
+        float a = targetA - sourceA;
+        a = (a + 180) % 360 - 180;
+        return a;
+    }
+
     public double degreesToRadiants(double degrees) {
         return degrees * (Math.PI / 180);
     }

@@ -91,8 +91,7 @@ public class Blocks {
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_SNOW_BLOCK));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_CACTUS));
 
-        //set toughness levels
-        Registrys.getBlock(Blocks.BLOCK_BEDROCK).toughness = 1000f;
+        //set toughness levels automatically
         for (Block b : Registrys.blocks.getList()) {
             if (b.toughness == 1 && !b.solid) b.toughness = 0.2f;
             if (b.alias.toLowerCase().contains("sand")

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.math.random;
+package com.xbuilders.engine.utils.math;
 
 
 import java.util.concurrent.atomic.AtomicLong;

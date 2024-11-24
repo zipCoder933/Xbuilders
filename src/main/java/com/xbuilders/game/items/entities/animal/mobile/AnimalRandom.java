@@ -7,13 +7,11 @@ package com.xbuilders.game.items.entities.animal.mobile;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.random.CustomRandom;
+import com.xbuilders.engine.utils.math.CustomRandom;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author zipCoder933

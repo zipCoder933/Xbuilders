@@ -3,6 +3,13 @@ package com.xbuilders.engine.utils;
 import java.lang.reflect.Array;
 import java.util.HashMap;
 
+/**
+ * Used as a more efficient way to store items than a hashmap.
+ * With hashmaps, there is a small memory overhead when getting an item. Assuming there are very few gaps in the values,
+ * you can treat the map as an array.
+ *
+ * @param <T>
+ */
 public class IntMap<T> {
     private T[] list;
     private final Class<T> type;

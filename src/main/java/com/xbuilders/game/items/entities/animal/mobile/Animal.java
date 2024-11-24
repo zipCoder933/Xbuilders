@@ -6,12 +6,10 @@ package com.xbuilders.game.items.entities.animal.mobile;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.TrigUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.MainWindow;
 
@@ -157,7 +155,7 @@ public abstract class Animal extends Entity {
     public void goForward(float amount, boolean jump) {
         amount *= window.smoothFrameDeltaSec * 50;
         if (freezeMode) return;
-        Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), amount);
+        Vector2f vec = MathUtils.getCircumferencePoint(-getRotationYDeg(), amount);
         worldPosition.add(vec.x, 0, vec.y);
         if (goForwardCallback != null) goForwardCallback.accept(amount);
         if (jump) jumpIfColliding(400, false);

@@ -31,7 +31,6 @@ public class LootDeserializer extends StdDeserializer<Loot> {
         JsonNode node = parser.getCodec().readTree(parser);
         String itemID = node.get("item").asText();
 //        Item item = itemsRegistry.get(itemID); //We get the item from the registry
-
         Loot obj = new Loot(
                 () -> new ItemStack(itemID),
                 (float) node.get("chance").asDouble(),

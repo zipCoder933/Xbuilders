@@ -9,7 +9,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
-import com.xbuilders.engine.utils.math.TrigUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.game.items.Blocks;
 import org.joml.Vector2f;
@@ -72,7 +72,7 @@ public abstract class Vehicle extends Entity {
 
     public float getAngleToPlayer() {
         UserControlledPlayer userControlledPlayer = GameScene.player;
-        return TrigUtils.getAngleOfPoints(worldPosition.x, worldPosition.z,
+        return MathUtils.getAngleOfPoints(worldPosition.x, worldPosition.z,
                 userControlledPlayer.worldPosition.x,
                 userControlledPlayer.worldPosition.z);
     }
@@ -122,7 +122,7 @@ public abstract class Vehicle extends Entity {
 
 
     public void goForward(float amount) {
-        Vector2f vec = TrigUtils.getCircumferencePoint(-getRotationYDeg(), amount);
+        Vector2f vec = MathUtils.getCircumferencePoint(-getRotationYDeg(), amount);
         worldPosition.add(vec.x, 0, vec.y);
         multiplayerProps.markStateChanged();
     }
