@@ -6,12 +6,12 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.NKWindow;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkInput;
+import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.FileFilter;
 import java.util.function.Predicate;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -41,6 +41,9 @@ public class UI_ItemStackGrid {
 
     public void draw(MemoryStack stack, NkContext ctx, int maxColumns) {
         if (nk_group_begin(ctx, title, flags)) {
+            NkRect buttonBounds = NkRect.calloc(stack);
+            NkInput input = ctx.input();
+
             storageSpace.deleteEmptyItems();
             //Set up
             nk_style_set_font(ctx, Theme.font_10);
@@ -83,11 +86,18 @@ public class UI_ItemStackGrid {
                         if (nk_widget_is_hovered(ctx)) {
                             hoveredItem = itemTooltip(item);
                         }
-                        if (UI_ItemWindow.drawItemStack(stack, ctx, item)) {
-                            itemClickEvent(item, index);
+                        if (UI_ItemWindow.drawItemStackButton(stack, ctx, item, buttonBounds)) {//Left click
+                            itemLeftClickEvent(item, index, false);
+                        } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
+                            itemLeftClickEvent(item, index, true);
                         }
-                    } else if (nk_button_text(ctx, "")) {
-                        itemClickEvent(item, index);
+                    } else {
+                        Nuklear.nk_widget_bounds(ctx, buttonBounds);
+                        if (nk_button_text(ctx, "")) {//Left click
+                            itemLeftClickEvent(item, index, false);
+                        } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
+                            itemLeftClickEvent(item, index, true);
+                        }
                     }
                     index++;
 //                    buttonSize.measure(ctx, stack);
@@ -101,6 +111,7 @@ public class UI_ItemStackGrid {
         nk_group_end(ctx);
 
     }
+
 
     private String itemTooltip(ItemStack item) {
         String str = item.item.name;
@@ -117,11 +128,10 @@ public class UI_ItemStackGrid {
      * @param clickedItem
      * @param index
      */
-    private void itemClickEvent(ItemStack clickedItem, int index) {
+    private void itemLeftClickEvent(ItemStack clickedItem, int index, boolean rightClick) {
         if (box.draggingItem != null && (itemFilter == null || itemFilter.test(box.draggingItem))) {
-            if (window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
-                System.out.println("Right click");
-                if (box.draggingItem.stackSize > 1) {
+            if (rightClick) {
+                if (box.draggingItem.stackSize > 0) {
                     if (clickedItem == null) {
                         box.draggingItem.stackSize--;
                         storageSpace.set(index, new ItemStack(box.draggingItem.item, 1));
@@ -130,6 +140,7 @@ public class UI_ItemStackGrid {
                         clickedItem.stackSize++;
                     }
                 }
+                if(box.draggingItem.stackSize <= 0) box.draggingItem = null;
             } else if (clickedItem != null && box.draggingItem.item.equals(clickedItem.item)
                     && clickedItem.item.maxStackSize > 1 && box.draggingItem.stackSize < clickedItem.item.maxStackSize) {
                 ItemStack thisStack = storageSpace.get(index);

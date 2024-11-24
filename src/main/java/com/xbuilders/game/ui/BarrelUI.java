@@ -1,4 +1,4 @@
-package com.xbuilders.game.UI;
+package com.xbuilders.game.ui;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

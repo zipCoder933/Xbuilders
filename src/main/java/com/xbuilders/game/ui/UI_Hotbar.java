@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.UI;
+package com.xbuilders.game.ui;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
@@ -16,7 +16,6 @@ import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.nuklear.WidgetSizeMeasurement;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
@@ -80,7 +79,7 @@ public class UI_Hotbar extends UI_GameMenu {
                     }
                 //}
                 if (item != null) {
-                    UI_ItemWindow.drawItemStack(stack, ctx, item);
+                    UI_ItemWindow.drawItemStackButton(stack, ctx, item);
                 } else {
                     Nuklear.nk_button_text(ctx, "");
                 }

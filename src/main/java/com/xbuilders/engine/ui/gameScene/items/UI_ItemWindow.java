@@ -122,22 +122,26 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     //    public final static WidgetSizeMeasurement itemWidth = new WidgetSizeMeasurement(0);
     final static String empty = "";
 
-    public static boolean drawItemStack(MemoryStack stack, NkContext ctx, ItemStack itemStack) {
-        ctx.style().window().padding().set(0, 0);
-        ctx.style().window().group_padding().set(0, 0);
-        ctx.style().window().border(0);
+    public static boolean drawItemStackButton(MemoryStack stack, NkContext ctx, ItemStack itemStack) {
+        return drawItemStackButton(stack, ctx, itemStack, null);
+    }
 
-//        NkImage bgImage = itemStack.item.getNKIcon();
+    public static boolean drawItemStackButton(MemoryStack stack, NkContext ctx, ItemStack itemStack, NkRect buttonBounds) {
+        NkRect widgetBounds = NkRect.calloc(stack); //Get the bounds of the widget
+        Nuklear.nk_widget_bounds(ctx, widgetBounds);
 
-        NkRect buttonBounds = NkRect.calloc(stack);
-        Nuklear.nk_widget_bounds(ctx, buttonBounds);
+        //Draw an empty button
         boolean pressed = nk_button_label(ctx, empty);
 
-        drawItemStackOverlay(stack, ctx, itemStack, buttonBounds);
+        //Set button bounds if the user wants to know them
+        if (buttonBounds != null) buttonBounds.set(widgetBounds);
+
+        //We will be reusing widgetBounds to draw the image
+        drawItemStack(stack, ctx, itemStack, widgetBounds);
         return pressed;
     }
 
-    private static void drawItemStackOverlay(MemoryStack stack, NkContext ctx, ItemStack itemStack, NkRect buttonBounds) {
+    private static void drawItemStack(MemoryStack stack, NkContext ctx, ItemStack itemStack, NkRect buttonBounds) {
         NkCommandBuffer canvas = Nuklear.nk_window_get_canvas(ctx); // Get the current drawing canvas
         NkImage bgImage = itemStack.item.getNKIcon();
 
@@ -171,7 +175,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         Vector2d cursor = window.getCursorVector();
         rect.set((float) cursor.x - (getItemSize() / 2), (float) cursor.y - (getItemSize() / 2), getItemSize(), getItemSize());
         nk_layout_row_dynamic(ctx, getItemSize(), 1);
-        drawItemStackOverlay(stack, ctx, itemStack, rect);
+        drawItemStack(stack, ctx, itemStack, rect);
     }
 
     public void drawOutOfBoundsStackAtCursor(NKWindow window, MemoryStack stack, NkContext ctx, ItemStack itemStack) {
@@ -182,7 +186,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         Theme.setWindowStyle(ctx, Theme.transparent, Theme.transparent);
         if (nk_begin(ctx, "cursor_stack", rect, NK_WINDOW_NO_INPUT | NK_WINDOW_BACKGROUND | NK_WINDOW_NO_SCROLLBAR)) {
             nk_layout_row_dynamic(ctx, getItemSize(), 1);
-            drawItemStackOverlay(stack, ctx, itemStack, rect);
+            drawItemStack(stack, ctx, itemStack, rect);
         }
         Theme.resetWindowColor(ctx);
         nk_end(ctx);

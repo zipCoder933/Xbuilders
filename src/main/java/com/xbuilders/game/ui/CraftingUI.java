@@ -1,29 +1,14 @@
-package com.xbuilders.game.UI;
+package com.xbuilders.game.ui;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
-import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.items.recipes.CraftingRecipes;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
-import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
-import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
