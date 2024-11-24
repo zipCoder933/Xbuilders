@@ -87,16 +87,16 @@ public class UI_ItemStackGrid {
                             hoveredItem = itemTooltip(item);
                         }
                         if (UI_ItemWindow.drawItemStackButton(stack, ctx, item, buttonBounds)) {//Left click
-                            itemLeftClickEvent(item, index, false);
+                            itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                            itemLeftClickEvent(item, index, true);
+                            itemClickEvent(item, index, true);
                         }
                     } else {
                         Nuklear.nk_widget_bounds(ctx, buttonBounds);
                         if (nk_button_text(ctx, "")) {//Left click
-                            itemLeftClickEvent(item, index, false);
+                            itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                            itemLeftClickEvent(item, index, true);
+                            itemClickEvent(item, index, true);
                         }
                     }
                     index++;
@@ -128,7 +128,7 @@ public class UI_ItemStackGrid {
      * @param clickedItem
      * @param index
      */
-    private void itemLeftClickEvent(ItemStack clickedItem, int index, boolean rightClick) {
+    private void itemClickEvent(ItemStack clickedItem, int index, boolean rightClick) {
         if (box.draggingItem != null && (itemFilter == null || itemFilter.test(box.draggingItem))) {
             if (rightClick) {
                 if (box.draggingItem.stackSize > 0) {
