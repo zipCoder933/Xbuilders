@@ -11,16 +11,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid11256.log" beforeDir="false" afterPath="$PROJECT_DIR$/hs_err_pid11256.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hs_err_pid21540.log" beforeDir="false" afterPath="$PROJECT_DIR$/hs_err_pid21540.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemStackGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemStackGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/BarrelUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/ui/BarrelUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/CraftingUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/ui/CraftingUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/GameMenus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/ui/GameMenus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/UI_Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/ui/UI_Hotbar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/UI/UI_Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/ui/UI_Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/XbuildersGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/XbuildersGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/ui/CraftingUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/ui/CraftingUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

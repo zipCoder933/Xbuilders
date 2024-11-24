@@ -1,6 +1,7 @@
 package com.xbuilders.game.ui;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.items.recipes.CraftingRecipes;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
@@ -10,6 +11,8 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
+import java.util.Arrays;
+
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class CraftingUI extends UI_ItemWindow {
@@ -17,7 +20,7 @@ public class CraftingUI extends UI_ItemWindow {
 
     public CraftingUI(NkContext ctx, NKWindow window) {
         super(ctx, window, "Crafting");
-        menuDimensions.y = 550;
+        menuDimensions.y = 500;
         craftingGrid = new UI_ItemStackGrid(window, "Grid", new StorageSpace(9), this, true);
         outputGrid = new UI_ItemStackGrid(window, "Output", new StorageSpace(1), this, true);
         outputGrid.showButtons = false;
@@ -27,10 +30,14 @@ public class CraftingUI extends UI_ItemWindow {
             System.out.println("Changed");
             String[] recipeMap = new String[9];
             for(int i = 0; i < craftingGrid.storageSpace.size(); i++) {
-                recipeMap[i] = craftingGrid.storageSpace.get(i) == null ? null : craftingGrid.storageSpace.get(i).item.name;
+                recipeMap[i] = craftingGrid.storageSpace.get(i) == null ? null : craftingGrid.storageSpace.get(i).item.id;
             }
+            System.out.println("RecipeMap: " + Arrays.toString(recipeMap));
             String output = CraftingRecipes.recipeMap.get(recipeMap);
             System.out.println("Output: " + output);
+            if(output != null) {
+                outputGrid.storageSpace.set(0, new ItemStack(output, 1));
+            }else outputGrid.storageSpace.set(0, null);
         };
 
         craftingGrid.showButtons = false;
@@ -53,6 +60,7 @@ public class CraftingUI extends UI_ItemWindow {
             if (craftingGrid.storageSpace.get(i) != null) {
                 GameScene.player.inventory.acquireItem(craftingGrid.storageSpace.get(i));
             }
+            craftingGrid.storageSpace.set(i, null);
         }
     }
 }

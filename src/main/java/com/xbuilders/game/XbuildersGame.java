@@ -245,9 +245,9 @@ public class XbuildersGame extends Game {
 
         //Load recipes
         CraftingRecipes.recipeMap.put(new String[]{
-                "xbuilders:cobblestone", "xbuilders:cobblestone", "xbuilders:cobblestone",
-                "xbuilders:cobblestone", "xbuilders:cobblestone", "xbuilders:cobblestone",
-                "xbuilders:cobblestone", "xbuilders:cobblestone", "xbuilders:cobblestone"}, "xbuilders:stone");
+                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand",
+                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand",
+                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand"}, "xbuilders:stone");
 
         Blocks.editBlocks(window);
 
