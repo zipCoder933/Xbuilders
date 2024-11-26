@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.entities.animal;
+package com.xbuilders.game.vanilla.items.entities.animal;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
@@ -6,7 +6,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
-import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
+import com.xbuilders.game.vanilla.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.entities.animal.quadPedal;
+package com.xbuilders.game.vanilla.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -7,9 +7,9 @@ import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
-import com.xbuilders.game.items.entities.animal.LegPair;
-import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
-import com.xbuilders.game.items.entities.animal.mobile.LandAnimal;
+import com.xbuilders.game.vanilla.items.entities.animal.LegPair;
+import com.xbuilders.game.vanilla.items.entities.animal.mobile.AnimalAction;
+import com.xbuilders.game.vanilla.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 

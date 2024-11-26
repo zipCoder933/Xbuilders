@@ -1,9 +1,9 @@
-package com.xbuilders.game.items;
+package com.xbuilders.game.vanilla.items;
 
 import com.xbuilders.engine.items.ItemUtils;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.items.items.*;
+import com.xbuilders.game.vanilla.items.items.*;
 
 import java.util.ArrayList;
 

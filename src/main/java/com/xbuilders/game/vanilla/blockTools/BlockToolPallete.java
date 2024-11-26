@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.blockTools;
+package com.xbuilders.game.vanilla.blockTools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.ui.Theme;

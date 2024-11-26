@@ -10,7 +10,7 @@ import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.rendering.VertexSet;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.propagation.WaterPropagation;
+import com.xbuilders.game.vanilla.propagation.WaterPropagation;
 import org.joml.Vector3i;
 
 public class LiquidBlockType extends BlockType {

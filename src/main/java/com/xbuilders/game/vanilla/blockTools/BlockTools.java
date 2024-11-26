@@ -1,4 +1,4 @@
-package com.xbuilders.game.blockTools;
+package com.xbuilders.game.vanilla.blockTools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameMode;
@@ -9,7 +9,7 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
-import com.xbuilders.game.blockTools.tools.*;
+import com.xbuilders.game.vanilla.blockTools.tools.*;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;

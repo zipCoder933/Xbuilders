@@ -1,4 +1,4 @@
-package com.xbuilders.game.blockTools;
+package com.xbuilders.game.vanilla.blockTools;
 
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;

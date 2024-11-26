@@ -7,7 +7,7 @@ import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.game.items.Blocks;
+import com.xbuilders.game.vanilla.items.Blocks;
 import org.joml.Vector3i;
 
 import java.util.HashSet;

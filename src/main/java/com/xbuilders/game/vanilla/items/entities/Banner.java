@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.entities;
+package com.xbuilders.game.vanilla.items.entities;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.items.blocks.RenderType;
+import com.xbuilders.game.vanilla.items.blocks.RenderType;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;

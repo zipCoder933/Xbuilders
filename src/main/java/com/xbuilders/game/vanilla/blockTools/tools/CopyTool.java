@@ -1,4 +1,4 @@
-package com.xbuilders.game.blockTools.tools;
+package com.xbuilders.game.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -7,9 +7,9 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.world.chunk.ChunkVoxels;
-import com.xbuilders.game.blockTools.BlockTool;
-import com.xbuilders.game.blockTools.BlockTools;
-import com.xbuilders.game.blockTools.PrefabUtils;
+import com.xbuilders.game.vanilla.blockTools.BlockTool;
+import com.xbuilders.game.vanilla.blockTools.BlockTools;
+import com.xbuilders.game.vanilla.blockTools.PrefabUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;

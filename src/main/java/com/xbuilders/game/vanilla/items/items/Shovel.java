@@ -1,8 +1,8 @@
-package com.xbuilders.game.items.items;
+package com.xbuilders.game.vanilla.items.items;
 
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.game.items.Items;
+import com.xbuilders.game.vanilla.items.Items;
 
 import java.util.HashMap;
 

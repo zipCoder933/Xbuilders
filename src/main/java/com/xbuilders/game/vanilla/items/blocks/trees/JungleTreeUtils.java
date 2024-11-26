@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.blocks.trees;
+package com.xbuilders.game.vanilla.items.blocks.trees;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.items.Blocks;
+import com.xbuilders.game.vanilla.items.Blocks;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.items;
+package com.xbuilders.game.vanilla.items.items;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.item.Item;

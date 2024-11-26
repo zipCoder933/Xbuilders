@@ -1,4 +1,4 @@
-package com.xbuilders.game.blockTools;
+package com.xbuilders.game.vanilla.blockTools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.item.Item;

@@ -1,18 +1,17 @@
-package com.xbuilders.game.terrain.defaultTerrain;
+package com.xbuilders.game.vanilla.terrain.defaultTerrain;
 
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.items.Blocks;
-import com.xbuilders.game.items.blocks.trees.AcaciaTreeUtils;
-import com.xbuilders.game.items.blocks.trees.JungleTreeUtils;
+import com.xbuilders.game.vanilla.items.Blocks;
+import com.xbuilders.game.vanilla.items.blocks.trees.AcaciaTreeUtils;
+import com.xbuilders.game.vanilla.items.blocks.trees.JungleTreeUtils;
 
 import java.util.HashMap;
 
 import static com.xbuilders.engine.world.World.WORLD_BOTTOM_Y;
-import static com.xbuilders.engine.world.World.WORLD_CHUNK_HEIGHT;
-import static com.xbuilders.game.terrain.complexTerrain.ComplexTerrain.*;
+import static com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain.*;
 
 public class DefaultTerrain extends Terrain {
 

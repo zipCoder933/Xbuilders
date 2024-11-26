@@ -1,8 +1,8 @@
-package com.xbuilders.game.propagation;
+package com.xbuilders.game.vanilla.propagation;
 
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.builtinMechanics.liquid.LiquidPropagationTask;
-import com.xbuilders.game.items.Blocks;
+import com.xbuilders.game.vanilla.items.Blocks;
 
 
 public class WaterPropagation extends LiquidPropagationTask {

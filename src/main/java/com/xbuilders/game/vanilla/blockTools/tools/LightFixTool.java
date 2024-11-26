@@ -1,4 +1,4 @@
-package com.xbuilders.game.blockTools.tools;
+package com.xbuilders.game.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
@@ -10,8 +10,8 @@ import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.light.SunlightUtils;
 import com.xbuilders.engine.world.wcc.WCCi;
-import com.xbuilders.game.blockTools.BlockTool;
-import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.game.vanilla.blockTools.BlockTool;
+import com.xbuilders.game.vanilla.blockTools.BlockTools;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;

@@ -1,9 +1,9 @@
-package com.xbuilders.game.items.blocks;
+package com.xbuilders.game.vanilla.items.blocks;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.game.items.Blocks;
+import com.xbuilders.game.vanilla.items.Blocks;
 
 public class PlantUtils {
 

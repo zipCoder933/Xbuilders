@@ -1,4 +1,4 @@
-package com.xbuilders.game.ui;
+package com.xbuilders.game.vanilla.ui;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.ItemStack;

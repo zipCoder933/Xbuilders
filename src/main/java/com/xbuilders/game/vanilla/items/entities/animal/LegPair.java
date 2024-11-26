@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.entities.animal;
+package com.xbuilders.game.vanilla.items.entities.animal;
 
 import com.xbuilders.engine.rendering.entity.EntityMesh;
 import com.xbuilders.engine.rendering.entity.EntityShader;

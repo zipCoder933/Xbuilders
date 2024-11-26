@@ -1,9 +1,9 @@
-package com.xbuilders.game.items.entities.animal.fish;
+package com.xbuilders.game.vanilla.items.entities.animal.fish;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.items.entities.animal.mobile.Animal;
+import com.xbuilders.game.vanilla.items.entities.animal.mobile.Animal;
 import org.joml.Vector2f;
 
 /**

@@ -2,16 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.entities.animal.landAndWater;
+package com.xbuilders.game.vanilla.items.entities.animal.landAndWater;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.game.items.entities.animal.mobile.Animal;
-import com.xbuilders.game.items.entities.animal.mobile.AnimalAction;
-import com.xbuilders.game.items.entities.animal.mobile.AnimalUtils;
+import com.xbuilders.game.vanilla.items.entities.animal.mobile.Animal;
+import com.xbuilders.game.vanilla.items.entities.animal.mobile.AnimalAction;
+import com.xbuilders.game.vanilla.items.entities.animal.mobile.AnimalUtils;
 import org.joml.Vector2f;
 
-import static com.xbuilders.game.items.entities.animal.mobile.AnimalAction.ActionType.*;
+import static com.xbuilders.game.vanilla.items.entities.animal.mobile.AnimalAction.ActionType.*;
 
 /**
  * @author zipCoder933

@@ -1,4 +1,4 @@
-package com.xbuilders.game.ui;
+package com.xbuilders.game.vanilla.ui;
 
 
 import com.xbuilders.engine.ui.gameScene.UI_GameMenu;

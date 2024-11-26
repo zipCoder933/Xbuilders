@@ -1,20 +1,20 @@
-package com.xbuilders.game.items;
+package com.xbuilders.game.vanilla.items;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.EntitySupplier;
-import com.xbuilders.game.items.entities.Banner;
-import com.xbuilders.game.items.entities.animal.Cat;
-import com.xbuilders.game.items.entities.animal.Fox;
-import com.xbuilders.game.items.entities.animal.Rabbit;
-import com.xbuilders.game.items.entities.animal.fish.FishA;
-import com.xbuilders.game.items.entities.animal.fish.FishB;
-import com.xbuilders.game.items.entities.animal.landAndWater.Beaver;
-import com.xbuilders.game.items.entities.animal.landAndWater.Turtle;
-import com.xbuilders.game.items.entities.animal.quadPedal.Dog;
-import com.xbuilders.game.items.entities.animal.quadPedal.Horse;
-import com.xbuilders.game.items.entities.animal.quadPedal.Mule;
-import com.xbuilders.game.items.entities.vehicle.Boat;
-import com.xbuilders.game.items.entities.vehicle.Minecart;
+import com.xbuilders.game.vanilla.items.entities.Banner;
+import com.xbuilders.game.vanilla.items.entities.animal.Cat;
+import com.xbuilders.game.vanilla.items.entities.animal.Fox;
+import com.xbuilders.game.vanilla.items.entities.animal.Rabbit;
+import com.xbuilders.game.vanilla.items.entities.animal.fish.FishA;
+import com.xbuilders.game.vanilla.items.entities.animal.fish.FishB;
+import com.xbuilders.game.vanilla.items.entities.animal.landAndWater.Beaver;
+import com.xbuilders.game.vanilla.items.entities.animal.landAndWater.Turtle;
+import com.xbuilders.game.vanilla.items.entities.animal.quadPedal.Dog;
+import com.xbuilders.game.vanilla.items.entities.animal.quadPedal.Horse;
+import com.xbuilders.game.vanilla.items.entities.animal.quadPedal.Mule;
+import com.xbuilders.game.vanilla.items.entities.vehicle.Boat;
+import com.xbuilders.game.vanilla.items.entities.vehicle.Minecart;
 
 import java.util.ArrayList;
 import java.util.Arrays;

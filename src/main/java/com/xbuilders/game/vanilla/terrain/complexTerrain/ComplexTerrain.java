@@ -1,7 +1,7 @@
 //
 // Decompiled by Procyon v0.5.36
 //
-package com.xbuilders.game.terrain.complexTerrain;
+package com.xbuilders.game.vanilla.terrain.complexTerrain;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
@@ -9,7 +9,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.items.Blocks;
+import com.xbuilders.game.vanilla.items.Blocks;
 
 import java.util.HashMap;
 

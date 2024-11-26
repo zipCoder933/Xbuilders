@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.blocks.type;
+package com.xbuilders.game.vanilla.items.blocks.type;
 
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockType;

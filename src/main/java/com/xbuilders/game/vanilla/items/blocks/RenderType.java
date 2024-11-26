@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package com.xbuilders.game.items.blocks;
+package com.xbuilders.game.vanilla.items.blocks;
 
 /**
  * @author zipCoder933

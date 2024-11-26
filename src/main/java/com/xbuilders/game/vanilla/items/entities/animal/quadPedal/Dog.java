@@ -1,4 +1,4 @@
-package com.xbuilders.game.items.entities.animal.quadPedal;
+package com.xbuilders.game.vanilla.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.entity.EntitySupplier;

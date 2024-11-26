@@ -1,17 +1,17 @@
-package com.xbuilders.game.items;
+package com.xbuilders.game.vanilla.items;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.items.blocks.Furnace;
-import com.xbuilders.game.items.blocks.BlockBarrel;
-import com.xbuilders.game.items.blocks.BlockEventUtils;
-import com.xbuilders.game.items.blocks.PlantUtils;
-import com.xbuilders.game.items.blocks.BlockStraightTrack;
-import com.xbuilders.game.items.blocks.CraftingTable;
-import com.xbuilders.game.items.blocks.trees.*;
+import com.xbuilders.game.vanilla.items.blocks.Furnace;
+import com.xbuilders.game.vanilla.items.blocks.BlockBarrel;
+import com.xbuilders.game.vanilla.items.blocks.BlockEventUtils;
+import com.xbuilders.game.vanilla.items.blocks.PlantUtils;
+import com.xbuilders.game.vanilla.items.blocks.BlockStraightTrack;
+import com.xbuilders.game.vanilla.items.blocks.CraftingTable;
+import com.xbuilders.game.vanilla.items.blocks.trees.*;
 
 import java.util.ArrayList;
 

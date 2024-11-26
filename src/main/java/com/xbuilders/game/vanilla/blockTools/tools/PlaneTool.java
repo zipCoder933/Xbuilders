@@ -1,4 +1,4 @@
-package com.xbuilders.game.blockTools.tools;
+package com.xbuilders.game.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
@@ -8,8 +8,8 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.game.blockTools.BlockTool;
-import com.xbuilders.game.blockTools.BlockTools;
+import com.xbuilders.game.vanilla.blockTools.BlockTool;
+import com.xbuilders.game.vanilla.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;

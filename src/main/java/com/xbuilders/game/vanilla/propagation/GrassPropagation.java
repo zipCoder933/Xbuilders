@@ -1,12 +1,12 @@
-package com.xbuilders.game.propagation;
+package com.xbuilders.game.vanilla.propagation;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.LivePropagationTask;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.game.items.Blocks;
-import com.xbuilders.game.terrain.complexTerrain.ComplexTerrain;
+import com.xbuilders.game.vanilla.items.Blocks;
+import com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain;
 import org.joml.Vector3i;
 
 import java.util.*;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.items.blocks.type;
+package com.xbuilders.game.vanilla.items.blocks.type;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
@@ -18,7 +18,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.items.blocks.RenderType;
+import com.xbuilders.game.vanilla.items.blocks.RenderType;
 
 /**
  * @author zipCoder933

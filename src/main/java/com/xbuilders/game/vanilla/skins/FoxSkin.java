@@ -1,4 +1,4 @@
-package com.xbuilders.game.skins;
+package com.xbuilders.game.vanilla.skins;
 
 import com.xbuilders.engine.player.Player;
 import com.xbuilders.engine.player.Skin;
