@@ -3,6 +3,7 @@ package com.xbuilders.game.ui;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
+import com.xbuilders.engine.items.recipes.CraftingRecipeInput;
 import com.xbuilders.engine.items.recipes.CraftingRecipes;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
@@ -10,8 +11,6 @@ import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
-
-import java.util.Arrays;
 
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
@@ -25,19 +24,29 @@ public class CraftingUI extends UI_ItemWindow {
         outputGrid = new UI_ItemStackGrid(window, "Output", new StorageSpace(1), this, true);
         outputGrid.showButtons = false;
         outputGrid.itemFilter = (stack) -> false;
+
         craftingGrid.storageSpace.changeEvent = () -> {
-            craftingGrid.storageSpace.getAsList();
-            System.out.println("Changed");
+            System.out.println("Crafting grid changed");
+            craftingGrid.storageSpace.getList();
             String[] recipeMap = new String[9];
-            for(int i = 0; i < craftingGrid.storageSpace.size(); i++) {
+            for (int i = 0; i < craftingGrid.storageSpace.size(); i++) {
                 recipeMap[i] = craftingGrid.storageSpace.get(i) == null ? null : craftingGrid.storageSpace.get(i).item.id;
             }
-            System.out.println("RecipeMap: " + Arrays.toString(recipeMap));
-            String output = CraftingRecipes.recipeMap.get(recipeMap);
-            System.out.println("Output: " + output);
-            if(output != null) {
+            CraftingRecipeInput recipeInput = new CraftingRecipeInput(recipeMap);
+            //Print every entry in the recipeMap
+            String output = CraftingRecipes.recipeMap.get(recipeInput);
+            if (output != null) {
                 outputGrid.storageSpace.set(0, new ItemStack(output, 1));
-            }else outputGrid.storageSpace.set(0, null);
+            } else outputGrid.storageSpace.set(0, null);
+        };
+
+        outputGrid.storageSpace.changeEvent = () -> {
+            if (outputGrid.storageSpace.get(0) == null && draggingItem != null) {
+                outputGrid.storageSpace.getList()[0] = null; //We cant use set event otherwise we will get an infinite loop
+                for (int i = 0; i < craftingGrid.storageSpace.size(); i++) { //We cant use clear() otherwise we will get an infinite loop
+                    craftingGrid.storageSpace.getList()[i] = null;
+                }
+            }
         };
 
         craftingGrid.showButtons = false;

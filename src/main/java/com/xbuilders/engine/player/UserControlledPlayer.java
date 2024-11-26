@@ -70,7 +70,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
         JsonObject jsonObject = new JsonObject();
         // Serialize playerStuff and other data
-        jsonObject.add("inventory", pdGson.toJsonTree(inventory.getAsList()));
+        jsonObject.add("inventory", pdGson.toJsonTree(inventory.getList()));
         jsonObject.addProperty("x", (float) worldPosition.x);
         jsonObject.addProperty("y", (float) worldPosition.y);
         jsonObject.addProperty("z", (float) worldPosition.z);

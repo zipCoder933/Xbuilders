@@ -1,47 +1,46 @@
 package com.xbuilders.engine.items.item;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class StorageSpace {
     //Items needs to be private so that we can properly handle changes
-    private final ItemStack[] items;
+    private final ItemStack[] list;
 
-    public ItemStack[] getAsList() {
-        return items;
+    private final static Object changeEventLock = new Object();
+    private static boolean isChangeEventRunning = false; //To prevent infinite recursion if we use set method within changeEvent
+
+    public ItemStack[] getList() {
+        return list;
     }
-
-//    public void writeToJson(ByteArrayOutputStream baos, ObjectMapper obj) throws IOException {
-//        obj.writeValue(baos, items);
-//    }
 
     public Runnable changeEvent;
 
     private void changeEvent() {
-        deleteEmptyItems();
-        if (changeEvent != null) changeEvent.run();
+        synchronized (changeEventLock) {
+            isChangeEventRunning = true;
+            deleteEmptyItems();
+            if (changeEvent != null) changeEvent.run();
+            isChangeEventRunning = false;
+        }
     }
 
     public StorageSpace(int size) {
-        items = new ItemStack[size];
+        list = new ItemStack[size];
     }
 
     public int acquireItem(ItemStack stack) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].item.equals(stack.item)
-                    && items[i].stackSize + stack.stackSize <= items[i].item.maxStackSize) {
-                items[i].stackSize += stack.stackSize;
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null && list[i].item.equals(stack.item)
+                    && list[i].stackSize + stack.stackSize <= list[i].item.maxStackSize) {
+                list[i].stackSize += stack.stackSize;
                 return i;
             }
         }
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                items[i] = stack;
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] == null) {
+                list[i] = stack;
                 return i;
             }
         }
@@ -51,16 +50,16 @@ public class StorageSpace {
 
 
     public ItemStack get(int index) {
-        return items[index];
+        return list[index];
     }
 
     public void set(int index, ItemStack item) {
-        items[index] = item;
-        changeEvent();
+        list[index] = item;
+        if (!isChangeEventRunning) changeEvent();
     }
 
     public int size() {
-        return items.length;
+        return list.length;
     }
 
     public void organize() {
@@ -68,17 +67,17 @@ public class StorageSpace {
         boolean hasMerged = true;
         while (hasMerged) {
             hasMerged = false;
-            for (int i = 0; i < items.length - 1; i++) {
-                if (items[i] != null && items[i + 1] != null && items[i].item.equals(items[i + 1].item)) {
-                    items[i].stackSize += items[i + 1].stackSize;
+            for (int i = 0; i < list.length - 1; i++) {
+                if (list[i] != null && list[i + 1] != null && list[i].item.equals(list[i + 1].item)) {
+                    list[i].stackSize += list[i + 1].stackSize;
 
 
-                    if (items[i].stackSize > items[i].item.maxStackSize) {
+                    if (list[i].stackSize > list[i].item.maxStackSize) {
                         // Handle overflow by keeping the excess in the next slot
-                        items[i + 1].stackSize = items[i].stackSize - items[i].item.maxStackSize;
-                        items[i].stackSize = items[i].item.maxStackSize;
+                        list[i + 1].stackSize = list[i].stackSize - list[i].item.maxStackSize;
+                        list[i].stackSize = list[i].item.maxStackSize;
                     } else {
-                        items[i + 1] = null; // Fully combined, clear the next slot
+                        list[i + 1] = null; // Fully combined, clear the next slot
                         hasMerged = true; // Mark as combined so we continue looping
                     }
                 }
@@ -91,7 +90,7 @@ public class StorageSpace {
     // Move non-null items to the start of the array
     private void sortItems() {
         // Sort items based on the custom comparator
-        Arrays.sort(items, (item1, item2) -> {
+        Arrays.sort(list, (item1, item2) -> {
             if (item1 == null && item2 == null) return 0;
             if (item1 == null) return 1;
             if (item2 == null) return -1;
@@ -102,7 +101,7 @@ public class StorageSpace {
 
     public void clear() {
         for (int i = 0; i < size(); i++) {
-            items[i] = null;
+            list[i] = null;
         }
     }
 
@@ -110,12 +109,12 @@ public class StorageSpace {
         Set<ItemStack> seenItems = new HashSet<>();
 
         for (int i = 0; i < size(); i++) {
-            ItemStack currentItem = get(i);
+            ItemStack currentItem = list[i];
 
             if (currentItem != null) {
                 // Remove empty or marked-for-destruction items
                 if (currentItem.stackSize <= 0 || currentItem.destroy) {
-                    set(i, null);
+                    list[i] = null;
                     continue;
                 }
 
@@ -129,7 +128,7 @@ public class StorageSpace {
                 }
 
                 if (isDuplicate) {
-                    set(i, null); // Remove duplicate reference
+                    list[i] = null; // Remove duplicate reference
                 } else {
                     seenItems.add(currentItem); // Track unique reference
                 }

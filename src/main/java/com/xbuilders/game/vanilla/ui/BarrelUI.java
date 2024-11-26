@@ -87,7 +87,7 @@ public class BarrelUI extends UI_ItemWindow {
     public void onCloseEvent() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            objectMapper.writeValue(baos, barrelStorage.getAsList());
+            objectMapper.writeValue(baos, barrelStorage.getList());
             barrelData.setByteArray(baos.toByteArray());
             chunk.markAsModified();
         } catch (IOException e) {

@@ -15,6 +15,7 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.loot.LootTables;
+import com.xbuilders.engine.items.recipes.CraftingRecipeInput;
 import com.xbuilders.engine.items.recipes.CraftingRecipes;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
@@ -244,10 +245,11 @@ public class XbuildersGame extends Game {
 //        LootTables.writeLootTableToJson(LootTables.blockLootTables, ResourceUtils.resource("items/loot/block.json"));
 
         //Load recipes
-        CraftingRecipes.recipeMap.put(new String[]{
+        CraftingRecipes.recipeMap.put(
+                new CraftingRecipeInput(
                 "xbuilders:sand", "xbuilders:sand", "xbuilders:sand",
                 "xbuilders:sand", "xbuilders:sand", "xbuilders:sand",
-                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand"}, "xbuilders:stone");
+                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand"), "xbuilders:stone");
 
         Blocks.editBlocks(window);
 
