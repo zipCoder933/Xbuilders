@@ -13,7 +13,7 @@ import com.xbuilders.engine.ui.topMenu.PopupMessage;
 import com.xbuilders.engine.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.XbuildersGame;
+import com.xbuilders.game.vanilla.XbuildersGame;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;
