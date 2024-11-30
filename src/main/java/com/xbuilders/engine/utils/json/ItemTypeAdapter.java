@@ -32,11 +32,19 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
         }
         jsonObject.addProperty("icon", src.iconFilename);
 
+        //Add tags as a property
+        JsonArray tags = new JsonArray();
+        for (String tag : src.getTags()) {
+            tags.add(tag);
+        }
+        jsonObject.add("tags", tags);
+
         return jsonObject;
     }
 
     /**
      * This should be called AFTER blocks and entities are loaded
+     *
      * @param json
      * @param typeOfT
      * @param context
@@ -49,18 +57,27 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
         String id = jsonObject.get("id").getAsString();
         String name = jsonObject.get("name").getAsString();
 
-        Item item = new Item(id,name);
+        Item item = new Item(id, name);
 
-        if(jsonObject.has("block")){
+        if (jsonObject.has("block")) {
             short blockID = jsonObject.get("block").getAsShort();
             item.setBlock(blockID);
         }
-        if(jsonObject.has("entity")){
+        if (jsonObject.has("entity")) {
             short entityID = jsonObject.get("entity").getAsShort();
             item.setEntity(entityID);
         }
         if (jsonObject.has("icon"))
             item.iconFilename = jsonObject.get("icon").getAsString();
+
+        //Load tags
+        if (jsonObject.has("tags")) {
+            JsonArray tags = jsonObject.get("tags").getAsJsonArray();
+            for (JsonElement tag : tags) {
+                item.tags.add(tag.getAsString());
+            }
+        }
+
 
         return item;
     }

@@ -4,6 +4,14 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class CraftingRecipe {
+
+    /**
+     * There are a few ways to define a crafting recipe input:
+     *
+     * #tag             Specific to a tag
+     * xbuilders:item   Specific to an item
+     */
+
     public String[] input = new String[9];
     public String output;
     public int amount = 1;
@@ -43,6 +51,6 @@ public class CraftingRecipe {
     }
 
     public String toString() {
-        return Arrays.toString(input)+" -> "+output;
+        return Arrays.toString(input) + " -> " + output;
     }
 }

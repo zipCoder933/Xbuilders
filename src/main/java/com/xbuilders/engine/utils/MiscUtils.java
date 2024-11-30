@@ -148,4 +148,13 @@ public class MiscUtils {
     public static String printVector(Vector4d vec) {
         return vec.x + "," + vec.y + "," + vec.z + "," + vec.w;
     }
+
+    public static <T> boolean equalOrNull(T str1, T str2) {
+        // Both are null, consider them equal
+        if (str1 == null && str2 == null) return true;
+        // Only one is null, they are not equal
+        if (str1 == null || str2 == null) return false;
+        // Compare their actual content
+        return str1.equals(str2);
+    }
 }

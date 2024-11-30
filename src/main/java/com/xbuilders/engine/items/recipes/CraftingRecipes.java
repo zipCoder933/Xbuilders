@@ -3,6 +3,9 @@ package com.xbuilders.engine.items.recipes;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.utils.MiscUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,14 +33,41 @@ public class CraftingRecipes {
 
     public CraftingRecipe getFromInput(String[] input) {
         for (CraftingRecipe recipe : craftingRecipes) {
-            if (Objects.deepEquals(recipe.input, input)) {
+            if (inputMatches(recipe.input, input)) {
                 return recipe;
             }
         }
         return null;
     }
 
-    public CraftingRecipe getFromOutput(String outputID) {
+
+    public static boolean inputMatches(String[] recipe, String[] itemIDs) {
+        if (Objects.deepEquals(itemIDs, recipe)) { //If the inputs are the same
+            return true;
+        } else {
+            for (int i = 0; i < recipe.length; i++) {
+                String rItem = recipe[i];
+                String item = itemIDs[i];
+
+                if (rItem != null && rItem.startsWith("#")) {
+                    String A_tag = rItem.substring(1);
+                    Item B_item = Registrys.items.getItem(item);
+                    if (B_item == null) return false;
+//                    System.out.println("\tTag match: " + A_tag + " vs  item: " + B_item.id + " tags: " + B_item.tags.toString());
+
+                    if (!B_item.getTags().contains(A_tag)) {
+                        return false;
+                    }
+                } else if (!MiscUtils.equalOrNull(rItem, item)) { //if any input doesn't match
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+
+    public CraftingRecipe getFromOutput(String outputID) {//TODO: Add tag recipes to this too
         for (CraftingRecipe recipe : craftingRecipes) {
             if (recipe.output.equals(outputID)) {
                 return recipe;

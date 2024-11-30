@@ -135,7 +135,8 @@
   {
     "id": "xbuilders:jungle-wood",
     "name": "Jungle Wood",
-    "block": 30
+    "block": 30,
+    "tags": ["wood"]
   },
   {
     "id": "xbuilders:jungle-wood-slab",
@@ -590,17 +591,26 @@
   {
     "id": "xbuilders:birch-wood",
     "name": "Birch Wood",
-    "block": 128
+    "block": 128,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:red-stained-wood",
     "name": "Red Stained Wood",
-    "block": 129
+    "block": 129,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:oak-wood",
     "name": "Oak Wood",
-    "block": 130
+    "block": 130,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:wool-red",
@@ -2692,7 +2702,10 @@
   {
     "id": "xbuilders:bamboo-wood",
     "name": "Bamboo Wood",
-    "block": 573
+    "block": 573,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:bottle",
@@ -2747,12 +2760,18 @@
   {
     "id": "xbuilders:yellow-stained-wood",
     "name": "Yellow Stained Wood",
-    "block": 584
+    "block": 584,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:black-stained-wood",
     "name": "Black Stained Wood",
-    "block": 585
+    "block": 585,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:yellow-marble-tile-stairs",
@@ -2792,7 +2811,10 @@
   {
     "id": "xbuilders:cyan-stained-wood",
     "name": "Cyan Stained Wood",
-    "block": 593
+    "block": 593,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:pink-chiseled-marble-tile-pillar",
@@ -3157,42 +3179,66 @@
   {
     "id": "xbuilders:gray-stained-wood",
     "name": "Gray Stained Wood",
-    "block": 666
+    "block": 666,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:green-stained-wood",
     "name": "Green Stained Wood",
-    "block": 667
+    "block": 667,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:light-blue-stained-wood",
     "name": "Light Blue Stained Wood",
-    "block": 668
+    "block": 668,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:lime-stained-wood",
     "name": "Lime Stained Wood",
-    "block": 669
+    "block": 669,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:magenta-stained-wood",
     "name": "Magenta Stained Wood",
-    "block": 670
+    "block": 670,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:orange-stained-wood",
     "name": "Orange Stained Wood",
-    "block": 671
+    "block": 671,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:pink-stained-wood",
     "name": "Pink Stained Wood",
-    "block": 672
+    "block": 672,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:purple-stained-wood",
     "name": "Purple Stained Wood",
-    "block": 673
+    "block": 673,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:white-space-tile-stairs",
@@ -3202,7 +3248,10 @@
   {
     "id": "xbuilders:white-stained-wood",
     "name": "White Stained Wood",
-    "block": 675
+    "block": 675,
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:engraved-sandstone-2",

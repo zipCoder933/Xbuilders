@@ -42,7 +42,7 @@ public class UI_Hotbar extends UI_GameMenu {
     @Override
     public void draw(MemoryStack stack) {
         NkRect windowDims2 = NkRect.malloc(stack);
-        
+
         ctx.style().window().fixed_background().data().color().set(Theme.transparent);
         ctx.style().button().normal().data().color().set(Theme.transparent);
         ctx.style().window().border_color().set(Theme.transparent);

@@ -32,6 +32,15 @@ public class ItemRegistry {
         return idMap.get(id);
     }
 
+    public Item getItemFromTag(String tag) {
+        for (Item item : list) {
+            if (item.getTags().contains(tag)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     public ItemRegistry() {
     }
 

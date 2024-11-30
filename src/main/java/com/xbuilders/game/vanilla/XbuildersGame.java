@@ -237,6 +237,30 @@ public class XbuildersGame extends Game {
 //        synthesizeLootAndRecipes(itemList, blockList);
 
 
+        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                "#wood", "#wood", "#wood",
+                null, "xbuilders:stick", null,
+                null, "xbuilders:stick", null,
+                "xbuilders:wooden-pickaxe", 1));
+
+        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                null, "#wood", null,
+                null, "xbuilders:stick", null,
+                null, "xbuilders:stick", null,
+                "xbuilders:wooden-shovel", 1));
+
+        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                "#wood", "#wood", null,
+                "#wood", "xbuilders:stick", null,
+                null, "xbuilders:stick", null,
+                "xbuilders:wooden-axe", 1));
+
+        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                "#wood", "#wood", null,
+                null, "xbuilders:stick", null,
+                null, "xbuilders:stick", null,
+                "xbuilders:hoe", 1));
+
         Blocks.editBlocks(window);
 
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
