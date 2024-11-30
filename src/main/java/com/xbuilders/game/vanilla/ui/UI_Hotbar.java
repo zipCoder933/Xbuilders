@@ -37,11 +37,12 @@ public class UI_Hotbar extends UI_GameMenu {
     final int ELEMENTS = 11;
     private int selectedItemIndex;
     int pushValue;
+    static final StorageSpace playerStorage = GameScene.player.inventory;
 
     @Override
     public void draw(MemoryStack stack) {
         NkRect windowDims2 = NkRect.malloc(stack);
-
+        
         ctx.style().window().fixed_background().data().color().set(Theme.transparent);
         ctx.style().button().normal().data().color().set(Theme.transparent);
         ctx.style().window().border_color().set(Theme.transparent);
@@ -55,10 +56,11 @@ public class UI_Hotbar extends UI_GameMenu {
         ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
         ctx.style().window().padding().set(4, 4);
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
+            playerStorage.deleteEmptyItems();
             // Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (GameScene.player.inventory.get(getSelectedItemIndex()) != null) {
-                nk_text(ctx, GameScene.player.inventory.get(getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
+            if (playerStorage.get(getSelectedItemIndex()) != null) {
+                nk_text(ctx, playerStorage.get(getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
             }
 
             nk_layout_row_dynamic(ctx, UI_ItemWindow.getItemSize(), ELEMENTS);
@@ -66,17 +68,17 @@ public class UI_Hotbar extends UI_GameMenu {
             for (int j = 0; j < ELEMENTS; j++) {
                 i = j + pushValue;
 
-                if (i >= GameScene.player.inventory.size()) {
+                if (i >= playerStorage.size()) {
                     break;
                 }
-                ItemStack item = GameScene.player.inventory.get(i);
+                ItemStack item = playerStorage.get(i);
 
                 //if (buttonHeight.isCalibrated()) {
-                    if (i == getSelectedItemIndex()) {
-                        ctx.style().button().border_color().set(Theme.white);
-                    } else {
-                        ctx.style().button().border_color().set(Theme.blue);
-                    }
+                if (i == getSelectedItemIndex()) {
+                    ctx.style().button().border_color().set(Theme.white);
+                } else {
+                    ctx.style().button().border_color().set(Theme.blue);
+                }
                 //}
                 if (item != null) {
                     UI_ItemWindow.drawItemStackButton(stack, ctx, item);
@@ -98,20 +100,20 @@ public class UI_Hotbar extends UI_GameMenu {
 
     protected void changeSelectedIndex(float increment) {
         selectedItemIndex += increment;
-        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, GameScene.player.inventory.size() - 1));
+        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerStorage.size() - 1));
 
         if (getSelectedItemIndex() >= ELEMENTS + pushValue) {
             pushValue++;
         } else if (getSelectedItemIndex() < pushValue) {
             pushValue--;
         }
-        pushValue = MathUtils.clamp(pushValue, 0, GameScene.player.inventory.size() - ELEMENTS);
+        pushValue = MathUtils.clamp(pushValue, 0, playerStorage.size() - ELEMENTS);
     }
 
     public void setSelectedIndex(int index) {
-        selectedItemIndex = MathUtils.clamp(index, 0, GameScene.player.inventory.size() - 1);
+        selectedItemIndex = MathUtils.clamp(index, 0, playerStorage.size() - 1);
         pushValue = selectedItemIndex - ELEMENTS / 2;
-        pushValue = MathUtils.clamp(pushValue, 0, GameScene.player.inventory.size() - ELEMENTS);
+        pushValue = MathUtils.clamp(pushValue, 0, playerStorage.size() - ELEMENTS);
     }
 
     public int getSelectedItemIndex() {
@@ -135,7 +137,7 @@ public class UI_Hotbar extends UI_GameMenu {
 
     public void pickItem(CursorRay ray, boolean allowAcquire) {
         ItemStack stack = null;
-        StorageSpace storageSpace = GameScene.player.inventory;
+        StorageSpace storageSpace = playerStorage;
         if (ray.hitTarget()) {
             if (ray.getEntity() != null) {
                 Entity entity = ray.getEntity();
@@ -156,7 +158,7 @@ public class UI_Hotbar extends UI_GameMenu {
     }
 
     public ItemStack getSelectedItem() {
-        return GameScene.player.inventory.get(getSelectedItemIndex());
+        return playerStorage.get(getSelectedItemIndex());
     }
 
 

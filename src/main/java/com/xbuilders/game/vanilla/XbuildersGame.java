@@ -11,12 +11,13 @@ import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.items.loot.LootTables;
-import com.xbuilders.engine.items.recipes.CraftingRecipeInput;
-import com.xbuilders.engine.items.recipes.CraftingRecipes;
+import com.xbuilders.engine.items.loot.LootTableRegistry;
+import com.xbuilders.engine.items.recipes.CraftingRecipe;
+import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -38,6 +39,7 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -225,27 +227,15 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        LootTables.loadBlockLootTable(ResourceUtils.resource("items/loot/block.json"));
-//        LootTables.blockLootTables.put(Blocks.BLOCK_SAND, new LootList(
-//                new Loot(() -> new ItemStack("xbuilders:sand"), 1.0f, 3),
-//                new Loot(() -> new ItemStack("xbuilders:bamboo"), 0.05f, 1)
-//        ));
-        //Auto generate loot (temporary code)
-//        for(Item item :Registrys.items.getList()) {
-//            if(item.getBlock() !=null){
-//                LootTables.blockLootTables.put(item.getBlock().alias, new LootList(
-//                        new Loot(() -> new ItemStack(item), 1.0f, 1)
-//                ));
-//            }
-//        }
-//        LootTables.writeLootTableToJson(LootTables.blockLootTables, ResourceUtils.resource("items/loot/block.json"));
+        LootTableRegistry.blockLootTables.loadFromFile(ResourceUtils.resource("items/loot/block.json"));
+
 
         //Load recipes
-        CraftingRecipes.recipeMap.put(
-                new CraftingRecipeInput(
-                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand",
-                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand",
-                "xbuilders:sand", "xbuilders:sand", "xbuilders:sand"), "xbuilders:stone");
+        RecipeRegistry.craftingRecipes.loadFromFile(ResourceUtils.resource("items/recipes/crafting/variants.json"));
+        RecipeRegistry.craftingRecipes.loadFromFile(ResourceUtils.resource("items/recipes/crafting/tools.json"));
+
+//        synthesizeLootAndRecipes(itemList, blockList);
+
 
         Blocks.editBlocks(window);
 
@@ -253,6 +243,63 @@ public class XbuildersGame extends Game {
         gameScene.livePropagationHandler.addTask(new LavaPropagation());
         gameScene.livePropagationHandler.addTask(new GrassPropagation());
         new FirePropagation(gameScene.livePropagationHandler);
+    }
+
+
+    /**
+     * For temporary purposes
+     *
+     * @param itemList
+     */
+    private void synthesizeBlockVariantRecipes(ArrayList<Item> itemList) throws IOException {
+        System.out.println("Synthesizing block variants...");
+        //Write recipes
+        for (Item item : itemList) {
+            Block block = item.getBlock();
+            if (block == null) continue;
+//            if (RecipeRegistry.craftingRecipes.getFromOutput(item.id) != null) continue;//If there is already a recipe, skip it
+            Item blockVariant = Items.getBlockVariant(item, BlockRegistry.DEFAULT_BLOCK_TYPE_ID, RenderType.ORIENTABLE_BLOCK);
+            if (blockVariant == null) continue;
+
+            if (block.renderType == RenderType.SLAB) {
+                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                        null, null, null,
+                        null, null, null,
+                        blockVariant.id, blockVariant.id, blockVariant.id,
+                        item.id, 6));
+            } else if (block.renderType == RenderType.STAIRS) {
+                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                        null, null, blockVariant.id,
+                        null, blockVariant.id, blockVariant.id,
+                        blockVariant.id, blockVariant.id, blockVariant.id,
+                        item.id, 6));
+            } else if (block.renderType == RenderType.FENCE) {
+                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                        null, null, null,
+                        blockVariant.id, "xbuilders:stick", blockVariant.id,
+                        blockVariant.id, "xbuilders:stick", blockVariant.id,
+                        item.id, 10));
+            } else if (block.renderType == RenderType.FENCE_GATE) {
+                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                        null, null, null,
+                        "xbuilders:stick", blockVariant.id, "xbuilders:stick",
+                        "xbuilders:stick", blockVariant.id, "xbuilders:stick",
+                        item.id, 4));
+            } else if (block.renderType == RenderType.PILLAR) {
+                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                        null, blockVariant.id, null,
+                        null, blockVariant.id, null,
+                        null, blockVariant.id, null,
+                        item.id, 4));
+            } else if (block.renderType == RenderType.PANE) {
+                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
+                        blockVariant.id, null, blockVariant.id,
+                        blockVariant.id, null, blockVariant.id,
+                        blockVariant.id, null, blockVariant.id,
+                        item.id, 12));
+            }
+        }
+        RecipeRegistry.craftingRecipes.writeToFile(ResourceUtils.resource("items/recipes/variants.json"));
     }
 
 

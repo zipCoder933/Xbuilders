@@ -1,4 +1,4 @@
-package com.xbuilders.engine.items.loot;
+package com.xbuilders.engine.items.loot.output;
 
 import com.xbuilders.engine.items.item.ItemStack;
 
@@ -7,7 +7,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 public class LootList extends ArrayList<Loot> {
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public LootList(Loot... loot) {
         super(new ArrayList<>(java.util.Arrays.asList(loot)));

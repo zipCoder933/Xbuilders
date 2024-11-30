@@ -1,7 +1,6 @@
 package com.xbuilders.engine.player;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
@@ -10,7 +9,7 @@ import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.items.loot.LootTables;
+import com.xbuilders.engine.items.loot.LootTableRegistry;
 import com.xbuilders.engine.player.camera.Camera;
 import com.xbuilders.engine.player.raycasting.Ray;
 import com.xbuilders.engine.player.raycasting.RayCasting;
@@ -172,8 +171,8 @@ public class CursorRay {
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
                 if (breakAmt >= blockToughness) {
-                    if (LootTables.blockLootTables.get(existingBlock.alias) != null) {
-                        LootTables.blockLootTables.get(existingBlock.alias).randomItems((itemStack) -> {
+                    if (LootTableRegistry.blockLootTables.get(existingBlock.alias) != null) {
+                        LootTableRegistry.blockLootTables.get(existingBlock.alias).randomItems((itemStack) -> {
                             GameScene.player.setEntity(
                                     EntityRegistry.ENTITY_ITEM_DROP,
                                     new Vector3f(getHitPos()),

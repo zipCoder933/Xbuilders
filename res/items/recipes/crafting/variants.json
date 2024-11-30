@@ -1,0 +1,7067 @@
+[
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:jungle-wood",
+      "xbuilders:jungle-wood",
+      "xbuilders:jungle-wood"
+    ],
+    "output": "xbuilders:jungle-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:jungle-wood",
+      null,
+      "xbuilders:jungle-wood",
+      "xbuilders:jungle-wood",
+      "xbuilders:jungle-wood",
+      "xbuilders:jungle-wood",
+      "xbuilders:jungle-wood"
+    ],
+    "output": "xbuilders:jungle-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:jungle-wood",
+      "xbuilders:stick",
+      "xbuilders:jungle-wood",
+      "xbuilders:jungle-wood",
+      "xbuilders:stick",
+      "xbuilders:jungle-wood"
+    ],
+    "output": "xbuilders:jungle-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:honeycomb-block",
+      null,
+      "xbuilders:honeycomb-block",
+      "xbuilders:honeycomb-block",
+      "xbuilders:honeycomb-block",
+      "xbuilders:honeycomb-block",
+      "xbuilders:honeycomb-block"
+    ],
+    "output": "xbuilders:honeycomb-block-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:oak-wood",
+      "xbuilders:stick",
+      "xbuilders:oak-wood",
+      "xbuilders:oak-wood",
+      "xbuilders:stick",
+      "xbuilders:oak-wood"
+    ],
+    "output": "xbuilders:oak-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:birch-wood",
+      "xbuilders:stick",
+      "xbuilders:birch-wood",
+      "xbuilders:birch-wood",
+      "xbuilders:stick",
+      "xbuilders:birch-wood"
+    ],
+    "output": "xbuilders:birch-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:granite-brick",
+      null,
+      "xbuilders:granite-brick",
+      "xbuilders:granite-brick",
+      "xbuilders:granite-brick",
+      "xbuilders:granite-brick",
+      "xbuilders:granite-brick"
+    ],
+    "output": "xbuilders:granite-brick-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:spruce-wood",
+      "xbuilders:stick",
+      "xbuilders:spruce-wood",
+      "xbuilders:spruce-wood",
+      "xbuilders:stick",
+      "xbuilders:spruce-wood"
+    ],
+    "output": "xbuilders:dark-oak-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:birch-wood",
+      null,
+      "xbuilders:birch-wood",
+      "xbuilders:birch-wood",
+      "xbuilders:birch-wood",
+      "xbuilders:birch-wood",
+      "xbuilders:birch-wood"
+    ],
+    "output": "xbuilders:birch-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:oak-wood",
+      null,
+      "xbuilders:oak-wood",
+      "xbuilders:oak-wood",
+      "xbuilders:oak-wood",
+      "xbuilders:oak-wood",
+      "xbuilders:oak-wood"
+    ],
+    "output": "xbuilders:oak-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:spruce-wood",
+      null,
+      "xbuilders:spruce-wood",
+      "xbuilders:spruce-wood",
+      "xbuilders:spruce-wood",
+      "xbuilders:spruce-wood",
+      "xbuilders:spruce-wood"
+    ],
+    "output": "xbuilders:dark-oak-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:honeycomb-block",
+      "xbuilders:honeycomb-block",
+      "xbuilders:honeycomb-block"
+    ],
+    "output": "xbuilders:honeycomb-block-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:prismarine-bricks",
+      null,
+      "xbuilders:prismarine-bricks",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:prismarine-bricks"
+    ],
+    "output": "xbuilders:prismarine-brick-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:sandstone",
+      null,
+      "xbuilders:sandstone",
+      "xbuilders:sandstone",
+      "xbuilders:sandstone",
+      "xbuilders:sandstone",
+      "xbuilders:sandstone"
+    ],
+    "output": "xbuilders:sandstone-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:polished-diorite",
+      null,
+      "xbuilders:polished-diorite",
+      "xbuilders:polished-diorite",
+      "xbuilders:polished-diorite",
+      "xbuilders:polished-diorite",
+      "xbuilders:polished-diorite"
+    ],
+    "output": "xbuilders:polished-diorite-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:birch-wood",
+      "xbuilders:birch-wood",
+      "xbuilders:birch-wood"
+    ],
+    "output": "xbuilders:birch-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:oak-wood",
+      "xbuilders:oak-wood",
+      "xbuilders:oak-wood"
+    ],
+    "output": "xbuilders:oak-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:spruce-wood",
+      "xbuilders:spruce-wood",
+      "xbuilders:spruce-wood"
+    ],
+    "output": "xbuilders:dark-oak-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:bamboo-wood",
+      null,
+      "xbuilders:bamboo-wood",
+      "xbuilders:bamboo-wood",
+      "xbuilders:bamboo-wood",
+      "xbuilders:bamboo-wood",
+      "xbuilders:bamboo-wood"
+    ],
+    "output": "xbuilders:bamboo-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:stone-brick",
+      "xbuilders:stone-brick",
+      "xbuilders:stone-brick"
+    ],
+    "output": "xbuilders:stone-brick-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-sandstone",
+      "xbuilders:red-sandstone",
+      "xbuilders:red-sandstone"
+    ],
+    "output": "xbuilders:red-sandstone-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:sandstone",
+      "xbuilders:sandstone",
+      "xbuilders:sandstone"
+    ],
+    "output": "xbuilders:sandstone-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:polished-andesite",
+      "xbuilders:polished-andesite",
+      "xbuilders:polished-andesite"
+    ],
+    "output": "xbuilders:polished-andesite-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:polished-andesite",
+      null,
+      "xbuilders:polished-andesite",
+      "xbuilders:polished-andesite",
+      "xbuilders:polished-andesite",
+      "xbuilders:polished-andesite",
+      "xbuilders:polished-andesite"
+    ],
+    "output": "xbuilders:polished-andesite-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:polished-diorite",
+      "xbuilders:polished-diorite",
+      "xbuilders:polished-diorite"
+    ],
+    "output": "xbuilders:polished-diorite-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:acacia-wood",
+      "xbuilders:stick",
+      "xbuilders:acacia-wood",
+      "xbuilders:acacia-wood",
+      "xbuilders:stick",
+      "xbuilders:acacia-wood"
+    ],
+    "output": "xbuilders:acacia-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:acacia-wood",
+      null,
+      "xbuilders:acacia-wood",
+      "xbuilders:acacia-wood",
+      "xbuilders:acacia-wood",
+      "xbuilders:acacia-wood",
+      "xbuilders:acacia-wood"
+    ],
+    "output": "xbuilders:acacia-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:acacia-wood",
+      "xbuilders:acacia-wood",
+      "xbuilders:acacia-wood"
+    ],
+    "output": "xbuilders:acacia-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:bamboo-wood",
+      "xbuilders:bamboo-wood",
+      "xbuilders:bamboo-wood"
+    ],
+    "output": "xbuilders:bamboo-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:red-sandstone",
+      null,
+      "xbuilders:red-sandstone",
+      "xbuilders:red-sandstone",
+      "xbuilders:red-sandstone",
+      "xbuilders:red-sandstone",
+      "xbuilders:red-sandstone"
+    ],
+    "output": "xbuilders:red-sandstone-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:stone-brick",
+      null,
+      "xbuilders:stone-brick",
+      "xbuilders:stone-brick",
+      "xbuilders:stone-brick",
+      "xbuilders:stone-brick",
+      "xbuilders:stone-brick"
+    ],
+    "output": "xbuilders:stone-brick-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stone-brick",
+      "xbuilders:stick",
+      "xbuilders:stone-brick",
+      "xbuilders:stone-brick",
+      "xbuilders:stick",
+      "xbuilders:stone-brick"
+    ],
+    "output": "xbuilders:stone-brick-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:brick",
+      null,
+      "xbuilders:brick",
+      "xbuilders:brick",
+      "xbuilders:brick",
+      "xbuilders:brick",
+      "xbuilders:brick"
+    ],
+    "output": "xbuilders:brick-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brick",
+      "xbuilders:brick",
+      "xbuilders:brick"
+    ],
+    "output": "xbuilders:brick-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cobblestone",
+      null,
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone"
+    ],
+    "output": "xbuilders:cobblestone-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone"
+    ],
+    "output": "xbuilders:cobblestone-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:palisade-stone",
+      null,
+      "xbuilders:palisade-stone",
+      "xbuilders:palisade-stone",
+      "xbuilders:palisade-stone",
+      "xbuilders:palisade-stone",
+      "xbuilders:palisade-stone"
+    ],
+    "output": "xbuilders:palisade-stone-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:palisade-stone",
+      "xbuilders:palisade-stone",
+      "xbuilders:palisade-stone"
+    ],
+    "output": "xbuilders:palisade-stone-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:palisade-stone",
+      "xbuilders:stick",
+      "xbuilders:palisade-stone",
+      "xbuilders:palisade-stone",
+      "xbuilders:stick",
+      "xbuilders:palisade-stone"
+    ],
+    "output": "xbuilders:palisade-stone-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:palisade-stone-2",
+      null,
+      "xbuilders:palisade-stone-2",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:palisade-stone-2"
+    ],
+    "output": "xbuilders:palisade-stone-2-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:palisade-stone-2",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:palisade-stone-2"
+    ],
+    "output": "xbuilders:palisade-stone-2-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:palisade-stone-2",
+      "xbuilders:stick",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:stick",
+      "xbuilders:palisade-stone-2"
+    ],
+    "output": "xbuilders:palisade-stone-2-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:polished-diorite",
+      "xbuilders:stick",
+      "xbuilders:polished-diorite",
+      "xbuilders:polished-diorite",
+      "xbuilders:stick",
+      "xbuilders:polished-diorite"
+    ],
+    "output": "xbuilders:polished-diorite-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:polished-andesite",
+      "xbuilders:stick",
+      "xbuilders:polished-andesite",
+      "xbuilders:polished-andesite",
+      "xbuilders:stick",
+      "xbuilders:polished-andesite"
+    ],
+    "output": "xbuilders:polished-andesite-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cracked-stone",
+      null,
+      "xbuilders:cracked-stone",
+      "xbuilders:cracked-stone",
+      "xbuilders:cracked-stone",
+      "xbuilders:cracked-stone",
+      "xbuilders:cracked-stone"
+    ],
+    "output": "xbuilders:cracked-stone-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cracked-stone",
+      "xbuilders:cracked-stone",
+      "xbuilders:cracked-stone"
+    ],
+    "output": "xbuilders:cracked-stone-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:cracked-stone",
+      "xbuilders:stick",
+      "xbuilders:cracked-stone",
+      "xbuilders:cracked-stone",
+      "xbuilders:stick",
+      "xbuilders:cracked-stone"
+    ],
+    "output": "xbuilders:cracked-stone-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:stone-with-vines",
+      null,
+      "xbuilders:stone-with-vines",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stone-with-vines"
+    ],
+    "output": "xbuilders:stone-with-vines-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:stone-with-vines",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stone-with-vines"
+    ],
+    "output": "xbuilders:stone-with-vines-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stone-with-vines",
+      "xbuilders:stick",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stick",
+      "xbuilders:stone-with-vines"
+    ],
+    "output": "xbuilders:stone-with-vines-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:burgundy-brick",
+      null,
+      "xbuilders:burgundy-brick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:burgundy-brick"
+    ],
+    "output": "xbuilders:burgundy-brick-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:burgundy-brick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:burgundy-brick"
+    ],
+    "output": "xbuilders:burgundy-brick-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:burgundy-brick",
+      "xbuilders:stick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:stick",
+      "xbuilders:burgundy-brick"
+    ],
+    "output": "xbuilders:burgundy-brick-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:red-palisade-sandstone",
+      null,
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:red-palisade-sandstone"
+    ],
+    "output": "xbuilders:red-palisade-sandstone-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:red-palisade-sandstone"
+    ],
+    "output": "xbuilders:red-palisade-sandstone-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:stick",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:stick",
+      "xbuilders:red-palisade-sandstone"
+    ],
+    "output": "xbuilders:red-palisade-sandstone-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:palisade-sandstone",
+      null,
+      "xbuilders:palisade-sandstone",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:palisade-sandstone"
+    ],
+    "output": "xbuilders:palisade-sandstone-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:palisade-sandstone",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:palisade-sandstone"
+    ],
+    "output": "xbuilders:palisade-sandstone-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:palisade-sandstone",
+      "xbuilders:stick",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:stick",
+      "xbuilders:palisade-sandstone"
+    ],
+    "output": "xbuilders:palisade-sandstone-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool",
+      null,
+      "xbuilders:wool",
+      "xbuilders:wool",
+      "xbuilders:wool",
+      "xbuilders:wool",
+      "xbuilders:wool"
+    ],
+    "output": "xbuilders:wool-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool",
+      "xbuilders:wool",
+      "xbuilders:wool"
+    ],
+    "output": "xbuilders:wool-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-gray",
+      null,
+      "xbuilders:wool-gray",
+      "xbuilders:wool-gray",
+      "xbuilders:wool-gray",
+      "xbuilders:wool-gray",
+      "xbuilders:wool-gray"
+    ],
+    "output": "xbuilders:wool-gray-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-gray",
+      "xbuilders:wool-gray",
+      "xbuilders:wool-gray"
+    ],
+    "output": "xbuilders:wool-gray-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-red",
+      null,
+      "xbuilders:wool-red",
+      "xbuilders:wool-red",
+      "xbuilders:wool-red",
+      "xbuilders:wool-red",
+      "xbuilders:wool-red"
+    ],
+    "output": "xbuilders:wool-red-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-red",
+      "xbuilders:wool-red",
+      "xbuilders:wool-red"
+    ],
+    "output": "xbuilders:wool-red-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-pink",
+      null,
+      "xbuilders:wool-pink",
+      "xbuilders:wool-pink",
+      "xbuilders:wool-pink",
+      "xbuilders:wool-pink",
+      "xbuilders:wool-pink"
+    ],
+    "output": "xbuilders:wool-pink-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-pink",
+      "xbuilders:wool-pink",
+      "xbuilders:wool-pink"
+    ],
+    "output": "xbuilders:wool-pink-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-orange",
+      null,
+      "xbuilders:wool-orange",
+      "xbuilders:wool-orange",
+      "xbuilders:wool-orange",
+      "xbuilders:wool-orange",
+      "xbuilders:wool-orange"
+    ],
+    "output": "xbuilders:wool-orange-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-orange",
+      "xbuilders:wool-orange",
+      "xbuilders:wool-orange"
+    ],
+    "output": "xbuilders:wool-orange-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-yellow",
+      null,
+      "xbuilders:wool-yellow",
+      "xbuilders:wool-yellow",
+      "xbuilders:wool-yellow",
+      "xbuilders:wool-yellow",
+      "xbuilders:wool-yellow"
+    ],
+    "output": "xbuilders:wool-yellow-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-yellow",
+      "xbuilders:wool-yellow",
+      "xbuilders:wool-yellow"
+    ],
+    "output": "xbuilders:wool-yellow-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-green",
+      null,
+      "xbuilders:wool-green",
+      "xbuilders:wool-green",
+      "xbuilders:wool-green",
+      "xbuilders:wool-green",
+      "xbuilders:wool-green"
+    ],
+    "output": "xbuilders:wool-green-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-green",
+      "xbuilders:wool-green",
+      "xbuilders:wool-green"
+    ],
+    "output": "xbuilders:wool-green-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-dark-green",
+      null,
+      "xbuilders:wool-dark-green",
+      "xbuilders:wool-dark-green",
+      "xbuilders:wool-dark-green",
+      "xbuilders:wool-dark-green",
+      "xbuilders:wool-dark-green"
+    ],
+    "output": "xbuilders:wool-dark-green-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-dark-green",
+      "xbuilders:wool-dark-green",
+      "xbuilders:wool-dark-green"
+    ],
+    "output": "xbuilders:wool-dark-green-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-turquoise",
+      null,
+      "xbuilders:wool-turquoise",
+      "xbuilders:wool-turquoise",
+      "xbuilders:wool-turquoise",
+      "xbuilders:wool-turquoise",
+      "xbuilders:wool-turquoise"
+    ],
+    "output": "xbuilders:wool-turquoise-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-turquoise",
+      "xbuilders:wool-turquoise",
+      "xbuilders:wool-turquoise"
+    ],
+    "output": "xbuilders:wool-turquoise-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-deep-blue",
+      null,
+      "xbuilders:wool-deep-blue",
+      "xbuilders:wool-deep-blue",
+      "xbuilders:wool-deep-blue",
+      "xbuilders:wool-deep-blue",
+      "xbuilders:wool-deep-blue"
+    ],
+    "output": "xbuilders:wool-deep-blue-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-deep-blue",
+      "xbuilders:wool-deep-blue",
+      "xbuilders:wool-deep-blue"
+    ],
+    "output": "xbuilders:wool-deep-blue-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-sky-blue",
+      null,
+      "xbuilders:wool-sky-blue",
+      "xbuilders:wool-sky-blue",
+      "xbuilders:wool-sky-blue",
+      "xbuilders:wool-sky-blue",
+      "xbuilders:wool-sky-blue"
+    ],
+    "output": "xbuilders:wool-sky-blue-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-sky-blue",
+      "xbuilders:wool-sky-blue",
+      "xbuilders:wool-sky-blue"
+    ],
+    "output": "xbuilders:wool-sky-blue-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-brown",
+      null,
+      "xbuilders:wool-brown",
+      "xbuilders:wool-brown",
+      "xbuilders:wool-brown",
+      "xbuilders:wool-brown",
+      "xbuilders:wool-brown"
+    ],
+    "output": "xbuilders:wool-brown-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-brown",
+      "xbuilders:wool-brown",
+      "xbuilders:wool-brown"
+    ],
+    "output": "xbuilders:wool-brown-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-purple",
+      null,
+      "xbuilders:wool-purple",
+      "xbuilders:wool-purple",
+      "xbuilders:wool-purple",
+      "xbuilders:wool-purple",
+      "xbuilders:wool-purple"
+    ],
+    "output": "xbuilders:wool-purple-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-purple",
+      "xbuilders:wool-purple",
+      "xbuilders:wool-purple"
+    ],
+    "output": "xbuilders:wool-purple-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-magenta",
+      null,
+      "xbuilders:wool-magenta",
+      "xbuilders:wool-magenta",
+      "xbuilders:wool-magenta",
+      "xbuilders:wool-magenta",
+      "xbuilders:wool-magenta"
+    ],
+    "output": "xbuilders:wool-magenta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-magenta",
+      "xbuilders:wool-magenta",
+      "xbuilders:wool-magenta"
+    ],
+    "output": "xbuilders:wool-magenta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:wool-black",
+      null,
+      "xbuilders:wool-black",
+      "xbuilders:wool-black",
+      "xbuilders:wool-black",
+      "xbuilders:wool-black",
+      "xbuilders:wool-black"
+    ],
+    "output": "xbuilders:wool-black-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wool-black",
+      "xbuilders:wool-black",
+      "xbuilders:wool-black"
+    ],
+    "output": "xbuilders:wool-black-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:yellow-concrete",
+      null,
+      "xbuilders:yellow-concrete",
+      "xbuilders:yellow-concrete",
+      "xbuilders:yellow-concrete",
+      "xbuilders:yellow-concrete",
+      "xbuilders:yellow-concrete"
+    ],
+    "output": "xbuilders:yellow-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-concrete",
+      "xbuilders:yellow-concrete",
+      "xbuilders:yellow-concrete"
+    ],
+    "output": "xbuilders:yellow-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:yellow-concrete",
+      "xbuilders:stick",
+      "xbuilders:yellow-concrete",
+      "xbuilders:yellow-concrete",
+      "xbuilders:stick",
+      "xbuilders:yellow-concrete"
+    ],
+    "output": "xbuilders:yellow-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:black-concrete",
+      null,
+      "xbuilders:black-concrete",
+      "xbuilders:black-concrete",
+      "xbuilders:black-concrete",
+      "xbuilders:black-concrete",
+      "xbuilders:black-concrete"
+    ],
+    "output": "xbuilders:black-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-concrete",
+      "xbuilders:black-concrete",
+      "xbuilders:black-concrete"
+    ],
+    "output": "xbuilders:black-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:black-concrete",
+      "xbuilders:stick",
+      "xbuilders:black-concrete",
+      "xbuilders:black-concrete",
+      "xbuilders:stick",
+      "xbuilders:black-concrete"
+    ],
+    "output": "xbuilders:black-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:blue-concrete",
+      null,
+      "xbuilders:blue-concrete",
+      "xbuilders:blue-concrete",
+      "xbuilders:blue-concrete",
+      "xbuilders:blue-concrete",
+      "xbuilders:blue-concrete"
+    ],
+    "output": "xbuilders:blue-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-concrete",
+      "xbuilders:blue-concrete",
+      "xbuilders:blue-concrete"
+    ],
+    "output": "xbuilders:blue-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:blue-concrete",
+      "xbuilders:stick",
+      "xbuilders:blue-concrete",
+      "xbuilders:blue-concrete",
+      "xbuilders:stick",
+      "xbuilders:blue-concrete"
+    ],
+    "output": "xbuilders:blue-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:brown-concrete",
+      null,
+      "xbuilders:brown-concrete",
+      "xbuilders:brown-concrete",
+      "xbuilders:brown-concrete",
+      "xbuilders:brown-concrete",
+      "xbuilders:brown-concrete"
+    ],
+    "output": "xbuilders:brown-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brown-concrete",
+      "xbuilders:brown-concrete",
+      "xbuilders:brown-concrete"
+    ],
+    "output": "xbuilders:brown-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:brown-concrete",
+      "xbuilders:stick",
+      "xbuilders:brown-concrete",
+      "xbuilders:brown-concrete",
+      "xbuilders:stick",
+      "xbuilders:brown-concrete"
+    ],
+    "output": "xbuilders:brown-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cyan-concrete",
+      null,
+      "xbuilders:cyan-concrete",
+      "xbuilders:cyan-concrete",
+      "xbuilders:cyan-concrete",
+      "xbuilders:cyan-concrete",
+      "xbuilders:cyan-concrete"
+    ],
+    "output": "xbuilders:cyan-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-concrete",
+      "xbuilders:cyan-concrete",
+      "xbuilders:cyan-concrete"
+    ],
+    "output": "xbuilders:cyan-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:cyan-concrete",
+      "xbuilders:stick",
+      "xbuilders:cyan-concrete",
+      "xbuilders:cyan-concrete",
+      "xbuilders:stick",
+      "xbuilders:cyan-concrete"
+    ],
+    "output": "xbuilders:cyan-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gray-concrete",
+      null,
+      "xbuilders:gray-concrete",
+      "xbuilders:gray-concrete",
+      "xbuilders:gray-concrete",
+      "xbuilders:gray-concrete",
+      "xbuilders:gray-concrete"
+    ],
+    "output": "xbuilders:gray-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-concrete",
+      "xbuilders:gray-concrete",
+      "xbuilders:gray-concrete"
+    ],
+    "output": "xbuilders:gray-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:gray-concrete",
+      "xbuilders:stick",
+      "xbuilders:gray-concrete",
+      "xbuilders:gray-concrete",
+      "xbuilders:stick",
+      "xbuilders:gray-concrete"
+    ],
+    "output": "xbuilders:gray-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:green-concrete",
+      null,
+      "xbuilders:green-concrete",
+      "xbuilders:green-concrete",
+      "xbuilders:green-concrete",
+      "xbuilders:green-concrete",
+      "xbuilders:green-concrete"
+    ],
+    "output": "xbuilders:green-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-concrete",
+      "xbuilders:green-concrete",
+      "xbuilders:green-concrete"
+    ],
+    "output": "xbuilders:green-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:green-concrete",
+      "xbuilders:stick",
+      "xbuilders:green-concrete",
+      "xbuilders:green-concrete",
+      "xbuilders:stick",
+      "xbuilders:green-concrete"
+    ],
+    "output": "xbuilders:green-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:light-blue-concrete",
+      null,
+      "xbuilders:light-blue-concrete",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:light-blue-concrete"
+    ],
+    "output": "xbuilders:light-blue-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:light-blue-concrete",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:light-blue-concrete"
+    ],
+    "output": "xbuilders:light-blue-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:light-blue-concrete",
+      "xbuilders:stick",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:stick",
+      "xbuilders:light-blue-concrete"
+    ],
+    "output": "xbuilders:light-blue-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:light-gray-concrete",
+      null,
+      "xbuilders:light-gray-concrete",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:light-gray-concrete"
+    ],
+    "output": "xbuilders:light-gray-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:light-gray-concrete",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:light-gray-concrete"
+    ],
+    "output": "xbuilders:light-gray-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:light-gray-concrete",
+      "xbuilders:stick",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:stick",
+      "xbuilders:light-gray-concrete"
+    ],
+    "output": "xbuilders:light-gray-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:lime-concrete",
+      null,
+      "xbuilders:lime-concrete",
+      "xbuilders:lime-concrete",
+      "xbuilders:lime-concrete",
+      "xbuilders:lime-concrete",
+      "xbuilders:lime-concrete"
+    ],
+    "output": "xbuilders:lime-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:lime-concrete",
+      "xbuilders:lime-concrete",
+      "xbuilders:lime-concrete"
+    ],
+    "output": "xbuilders:lime-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:lime-concrete",
+      "xbuilders:stick",
+      "xbuilders:lime-concrete",
+      "xbuilders:lime-concrete",
+      "xbuilders:stick",
+      "xbuilders:lime-concrete"
+    ],
+    "output": "xbuilders:lime-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:magenta-concrete",
+      null,
+      "xbuilders:magenta-concrete",
+      "xbuilders:magenta-concrete",
+      "xbuilders:magenta-concrete",
+      "xbuilders:magenta-concrete",
+      "xbuilders:magenta-concrete"
+    ],
+    "output": "xbuilders:magenta-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-concrete",
+      "xbuilders:magenta-concrete",
+      "xbuilders:magenta-concrete"
+    ],
+    "output": "xbuilders:magenta-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:magenta-concrete",
+      "xbuilders:stick",
+      "xbuilders:magenta-concrete",
+      "xbuilders:magenta-concrete",
+      "xbuilders:stick",
+      "xbuilders:magenta-concrete"
+    ],
+    "output": "xbuilders:magenta-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:orange-concrete",
+      null,
+      "xbuilders:orange-concrete",
+      "xbuilders:orange-concrete",
+      "xbuilders:orange-concrete",
+      "xbuilders:orange-concrete",
+      "xbuilders:orange-concrete"
+    ],
+    "output": "xbuilders:orange-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-concrete",
+      "xbuilders:orange-concrete",
+      "xbuilders:orange-concrete"
+    ],
+    "output": "xbuilders:orange-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:orange-concrete",
+      "xbuilders:stick",
+      "xbuilders:orange-concrete",
+      "xbuilders:orange-concrete",
+      "xbuilders:stick",
+      "xbuilders:orange-concrete"
+    ],
+    "output": "xbuilders:orange-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pink-concrete",
+      null,
+      "xbuilders:pink-concrete",
+      "xbuilders:pink-concrete",
+      "xbuilders:pink-concrete",
+      "xbuilders:pink-concrete",
+      "xbuilders:pink-concrete"
+    ],
+    "output": "xbuilders:pink-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-concrete",
+      "xbuilders:pink-concrete",
+      "xbuilders:pink-concrete"
+    ],
+    "output": "xbuilders:pink-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:pink-concrete",
+      "xbuilders:stick",
+      "xbuilders:pink-concrete",
+      "xbuilders:pink-concrete",
+      "xbuilders:stick",
+      "xbuilders:pink-concrete"
+    ],
+    "output": "xbuilders:pink-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:purple-concrete",
+      null,
+      "xbuilders:purple-concrete",
+      "xbuilders:purple-concrete",
+      "xbuilders:purple-concrete",
+      "xbuilders:purple-concrete",
+      "xbuilders:purple-concrete"
+    ],
+    "output": "xbuilders:purple-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-concrete",
+      "xbuilders:purple-concrete",
+      "xbuilders:purple-concrete"
+    ],
+    "output": "xbuilders:purple-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:purple-concrete",
+      "xbuilders:stick",
+      "xbuilders:purple-concrete",
+      "xbuilders:purple-concrete",
+      "xbuilders:stick",
+      "xbuilders:purple-concrete"
+    ],
+    "output": "xbuilders:purple-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:red-concrete",
+      null,
+      "xbuilders:red-concrete",
+      "xbuilders:red-concrete",
+      "xbuilders:red-concrete",
+      "xbuilders:red-concrete",
+      "xbuilders:red-concrete"
+    ],
+    "output": "xbuilders:red-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-concrete",
+      "xbuilders:red-concrete",
+      "xbuilders:red-concrete"
+    ],
+    "output": "xbuilders:red-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:red-concrete",
+      "xbuilders:stick",
+      "xbuilders:red-concrete",
+      "xbuilders:red-concrete",
+      "xbuilders:stick",
+      "xbuilders:red-concrete"
+    ],
+    "output": "xbuilders:red-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:white-concrete",
+      null,
+      "xbuilders:white-concrete",
+      "xbuilders:white-concrete",
+      "xbuilders:white-concrete",
+      "xbuilders:white-concrete",
+      "xbuilders:white-concrete"
+    ],
+    "output": "xbuilders:white-concrete-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:white-concrete",
+      "xbuilders:white-concrete",
+      "xbuilders:white-concrete"
+    ],
+    "output": "xbuilders:white-concrete-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:white-concrete",
+      "xbuilders:stick",
+      "xbuilders:white-concrete",
+      "xbuilders:white-concrete",
+      "xbuilders:stick",
+      "xbuilders:white-concrete"
+    ],
+    "output": "xbuilders:white-concrete-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:yellow-glazed-teracotta",
+      null,
+      "xbuilders:yellow-glazed-teracotta",
+      "xbuilders:yellow-glazed-teracotta",
+      "xbuilders:yellow-glazed-teracotta",
+      "xbuilders:yellow-glazed-teracotta",
+      "xbuilders:yellow-glazed-teracotta"
+    ],
+    "output": "xbuilders:yellow-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-glazed-teracotta",
+      "xbuilders:yellow-glazed-teracotta",
+      "xbuilders:yellow-glazed-teracotta"
+    ],
+    "output": "xbuilders:yellow-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:black-glazed-teracotta",
+      null,
+      "xbuilders:black-glazed-teracotta",
+      "xbuilders:black-glazed-teracotta",
+      "xbuilders:black-glazed-teracotta",
+      "xbuilders:black-glazed-teracotta",
+      "xbuilders:black-glazed-teracotta"
+    ],
+    "output": "xbuilders:black-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-glazed-teracotta",
+      "xbuilders:black-glazed-teracotta",
+      "xbuilders:black-glazed-teracotta"
+    ],
+    "output": "xbuilders:black-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:blue-glazed-teracotta",
+      null,
+      "xbuilders:blue-glazed-teracotta",
+      "xbuilders:blue-glazed-teracotta",
+      "xbuilders:blue-glazed-teracotta",
+      "xbuilders:blue-glazed-teracotta",
+      "xbuilders:blue-glazed-teracotta"
+    ],
+    "output": "xbuilders:blue-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-glazed-teracotta",
+      "xbuilders:blue-glazed-teracotta",
+      "xbuilders:blue-glazed-teracotta"
+    ],
+    "output": "xbuilders:blue-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:brown-glazed-teracotta",
+      null,
+      "xbuilders:brown-glazed-teracotta",
+      "xbuilders:brown-glazed-teracotta",
+      "xbuilders:brown-glazed-teracotta",
+      "xbuilders:brown-glazed-teracotta",
+      "xbuilders:brown-glazed-teracotta"
+    ],
+    "output": "xbuilders:brown-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brown-glazed-teracotta",
+      "xbuilders:brown-glazed-teracotta",
+      "xbuilders:brown-glazed-teracotta"
+    ],
+    "output": "xbuilders:brown-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cyan-glazed-teracotta",
+      null,
+      "xbuilders:cyan-glazed-teracotta",
+      "xbuilders:cyan-glazed-teracotta",
+      "xbuilders:cyan-glazed-teracotta",
+      "xbuilders:cyan-glazed-teracotta",
+      "xbuilders:cyan-glazed-teracotta"
+    ],
+    "output": "xbuilders:cyan-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-glazed-teracotta",
+      "xbuilders:cyan-glazed-teracotta",
+      "xbuilders:cyan-glazed-teracotta"
+    ],
+    "output": "xbuilders:cyan-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gray-glazed-teracotta",
+      null,
+      "xbuilders:gray-glazed-teracotta",
+      "xbuilders:gray-glazed-teracotta",
+      "xbuilders:gray-glazed-teracotta",
+      "xbuilders:gray-glazed-teracotta",
+      "xbuilders:gray-glazed-teracotta"
+    ],
+    "output": "xbuilders:gray-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-glazed-teracotta",
+      "xbuilders:gray-glazed-teracotta",
+      "xbuilders:gray-glazed-teracotta"
+    ],
+    "output": "xbuilders:gray-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:green-glazed-teracotta",
+      null,
+      "xbuilders:green-glazed-teracotta",
+      "xbuilders:green-glazed-teracotta",
+      "xbuilders:green-glazed-teracotta",
+      "xbuilders:green-glazed-teracotta",
+      "xbuilders:green-glazed-teracotta"
+    ],
+    "output": "xbuilders:green-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-glazed-teracotta",
+      "xbuilders:green-glazed-teracotta",
+      "xbuilders:green-glazed-teracotta"
+    ],
+    "output": "xbuilders:green-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:light-blue-glazed-teracotta",
+      null,
+      "xbuilders:light-blue-glazed-teracotta",
+      "xbuilders:light-blue-glazed-teracotta",
+      "xbuilders:light-blue-glazed-teracotta",
+      "xbuilders:light-blue-glazed-teracotta",
+      "xbuilders:light-blue-glazed-teracotta"
+    ],
+    "output": "xbuilders:light-blue-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:light-blue-glazed-teracotta",
+      "xbuilders:light-blue-glazed-teracotta",
+      "xbuilders:light-blue-glazed-teracotta"
+    ],
+    "output": "xbuilders:light-blue-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:light-gray-glazed-teracotta",
+      null,
+      "xbuilders:light-gray-glazed-teracotta",
+      "xbuilders:light-gray-glazed-teracotta",
+      "xbuilders:light-gray-glazed-teracotta",
+      "xbuilders:light-gray-glazed-teracotta",
+      "xbuilders:light-gray-glazed-teracotta"
+    ],
+    "output": "xbuilders:light-gray-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:light-gray-glazed-teracotta",
+      "xbuilders:light-gray-glazed-teracotta",
+      "xbuilders:light-gray-glazed-teracotta"
+    ],
+    "output": "xbuilders:light-gray-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:lime-glazed-teracotta",
+      null,
+      "xbuilders:lime-glazed-teracotta",
+      "xbuilders:lime-glazed-teracotta",
+      "xbuilders:lime-glazed-teracotta",
+      "xbuilders:lime-glazed-teracotta",
+      "xbuilders:lime-glazed-teracotta"
+    ],
+    "output": "xbuilders:lime-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:lime-glazed-teracotta",
+      "xbuilders:lime-glazed-teracotta",
+      "xbuilders:lime-glazed-teracotta"
+    ],
+    "output": "xbuilders:lime-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:magenta-glazed-teracotta",
+      null,
+      "xbuilders:magenta-glazed-teracotta",
+      "xbuilders:magenta-glazed-teracotta",
+      "xbuilders:magenta-glazed-teracotta",
+      "xbuilders:magenta-glazed-teracotta",
+      "xbuilders:magenta-glazed-teracotta"
+    ],
+    "output": "xbuilders:magenta-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-glazed-teracotta",
+      "xbuilders:magenta-glazed-teracotta",
+      "xbuilders:magenta-glazed-teracotta"
+    ],
+    "output": "xbuilders:magenta-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:orange-glazed-teracotta",
+      null,
+      "xbuilders:orange-glazed-teracotta",
+      "xbuilders:orange-glazed-teracotta",
+      "xbuilders:orange-glazed-teracotta",
+      "xbuilders:orange-glazed-teracotta",
+      "xbuilders:orange-glazed-teracotta"
+    ],
+    "output": "xbuilders:orange-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-glazed-teracotta",
+      "xbuilders:orange-glazed-teracotta",
+      "xbuilders:orange-glazed-teracotta"
+    ],
+    "output": "xbuilders:orange-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pink-glazed-teracotta",
+      null,
+      "xbuilders:pink-glazed-teracotta",
+      "xbuilders:pink-glazed-teracotta",
+      "xbuilders:pink-glazed-teracotta",
+      "xbuilders:pink-glazed-teracotta",
+      "xbuilders:pink-glazed-teracotta"
+    ],
+    "output": "xbuilders:pink-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-glazed-teracotta",
+      "xbuilders:pink-glazed-teracotta",
+      "xbuilders:pink-glazed-teracotta"
+    ],
+    "output": "xbuilders:pink-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:purple-glazed-teracotta",
+      null,
+      "xbuilders:purple-glazed-teracotta",
+      "xbuilders:purple-glazed-teracotta",
+      "xbuilders:purple-glazed-teracotta",
+      "xbuilders:purple-glazed-teracotta",
+      "xbuilders:purple-glazed-teracotta"
+    ],
+    "output": "xbuilders:purple-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-glazed-teracotta",
+      "xbuilders:purple-glazed-teracotta",
+      "xbuilders:purple-glazed-teracotta"
+    ],
+    "output": "xbuilders:purple-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:red-glazed-teracotta",
+      null,
+      "xbuilders:red-glazed-teracotta",
+      "xbuilders:red-glazed-teracotta",
+      "xbuilders:red-glazed-teracotta",
+      "xbuilders:red-glazed-teracotta",
+      "xbuilders:red-glazed-teracotta"
+    ],
+    "output": "xbuilders:red-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-glazed-teracotta",
+      "xbuilders:red-glazed-teracotta",
+      "xbuilders:red-glazed-teracotta"
+    ],
+    "output": "xbuilders:red-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:white-glazed-teracotta",
+      null,
+      "xbuilders:white-glazed-teracotta",
+      "xbuilders:white-glazed-teracotta",
+      "xbuilders:white-glazed-teracotta",
+      "xbuilders:white-glazed-teracotta",
+      "xbuilders:white-glazed-teracotta"
+    ],
+    "output": "xbuilders:white-glazed-teracotta-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:white-glazed-teracotta",
+      "xbuilders:white-glazed-teracotta",
+      "xbuilders:white-glazed-teracotta"
+    ],
+    "output": "xbuilders:white-glazed-teracotta-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:bamboo-wood",
+      "xbuilders:stick",
+      "xbuilders:bamboo-wood",
+      "xbuilders:bamboo-wood",
+      "xbuilders:stick",
+      "xbuilders:bamboo-wood"
+    ],
+    "output": "xbuilders:bamboo-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:minecart-road-block",
+      "xbuilders:minecart-road-block",
+      "xbuilders:minecart-road-block"
+    ],
+    "output": "xbuilders:minecart-road-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:glass",
+      null,
+      "xbuilders:glass",
+      "xbuilders:glass",
+      "xbuilders:glass",
+      "xbuilders:glass",
+      "xbuilders:glass"
+    ],
+    "output": "xbuilders:glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:glass",
+      "xbuilders:glass",
+      "xbuilders:glass"
+    ],
+    "output": "xbuilders:glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cement",
+      null,
+      "xbuilders:cement",
+      "xbuilders:cement",
+      "xbuilders:cement",
+      "xbuilders:cement",
+      "xbuilders:cement"
+    ],
+    "output": "xbuilders:cement-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:cement",
+      "xbuilders:stick",
+      "xbuilders:cement",
+      "xbuilders:cement",
+      "xbuilders:stick",
+      "xbuilders:cement"
+    ],
+    "output": "xbuilders:cement-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cement",
+      "xbuilders:cement",
+      "xbuilders:cement"
+    ],
+    "output": "xbuilders:cement-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:obsidian",
+      "xbuilders:obsidian",
+      "xbuilders:obsidian"
+    ],
+    "output": "xbuilders:obsidian-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:obsidian",
+      "xbuilders:stick",
+      "xbuilders:obsidian",
+      "xbuilders:obsidian",
+      "xbuilders:stick",
+      "xbuilders:obsidian"
+    ],
+    "output": "xbuilders:obsidian-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:lapis-lazul-block",
+      null,
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:lapis-lazul-block"
+    ],
+    "output": "xbuilders:lapis-lazul-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:lapis-lazul-block"
+    ],
+    "output": "xbuilders:lapis-lazul-block-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:stick",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:stick",
+      "xbuilders:lapis-lazul-block"
+    ],
+    "output": "xbuilders:lapis-lazul-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:steel-block",
+      null,
+      "xbuilders:steel-block",
+      "xbuilders:steel-block",
+      "xbuilders:steel-block",
+      "xbuilders:steel-block",
+      "xbuilders:steel-block"
+    ],
+    "output": "xbuilders:steel-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:steel-block",
+      "xbuilders:steel-block",
+      "xbuilders:steel-block"
+    ],
+    "output": "xbuilders:steel-block-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:steel-block",
+      "xbuilders:stick",
+      "xbuilders:steel-block",
+      "xbuilders:steel-block",
+      "xbuilders:stick",
+      "xbuilders:steel-block"
+    ],
+    "output": "xbuilders:steel-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gold-block",
+      null,
+      "xbuilders:gold-block",
+      "xbuilders:gold-block",
+      "xbuilders:gold-block",
+      "xbuilders:gold-block",
+      "xbuilders:gold-block"
+    ],
+    "output": "xbuilders:gold-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gold-block",
+      "xbuilders:gold-block",
+      "xbuilders:gold-block"
+    ],
+    "output": "xbuilders:gold-block-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:gold-block",
+      "xbuilders:stick",
+      "xbuilders:gold-block",
+      "xbuilders:gold-block",
+      "xbuilders:stick",
+      "xbuilders:gold-block"
+    ],
+    "output": "xbuilders:gold-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:emerald-block",
+      null,
+      "xbuilders:emerald-block",
+      "xbuilders:emerald-block",
+      "xbuilders:emerald-block",
+      "xbuilders:emerald-block",
+      "xbuilders:emerald-block"
+    ],
+    "output": "xbuilders:emerald-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:emerald-block",
+      "xbuilders:emerald-block",
+      "xbuilders:emerald-block"
+    ],
+    "output": "xbuilders:emerald-block-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:emerald-block",
+      "xbuilders:stick",
+      "xbuilders:emerald-block",
+      "xbuilders:emerald-block",
+      "xbuilders:stick",
+      "xbuilders:emerald-block"
+    ],
+    "output": "xbuilders:emerald-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:diamond-block",
+      null,
+      "xbuilders:diamond-block",
+      "xbuilders:diamond-block",
+      "xbuilders:diamond-block",
+      "xbuilders:diamond-block",
+      "xbuilders:diamond-block"
+    ],
+    "output": "xbuilders:diamond-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:diamond-block",
+      "xbuilders:diamond-block",
+      "xbuilders:diamond-block"
+    ],
+    "output": "xbuilders:diamond-block-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:diamond-block",
+      "xbuilders:stick",
+      "xbuilders:diamond-block",
+      "xbuilders:diamond-block",
+      "xbuilders:stick",
+      "xbuilders:diamond-block"
+    ],
+    "output": "xbuilders:diamond-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:dark-prismarine-bricks",
+      null,
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:dark-prismarine-bricks"
+    ],
+    "output": "xbuilders:dark-prismarine-brick-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:prismarine-bricks",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:prismarine-bricks"
+    ],
+    "output": "xbuilders:prismarine-brick-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:obsidian",
+      null,
+      "xbuilders:obsidian",
+      "xbuilders:obsidian",
+      "xbuilders:obsidian",
+      "xbuilders:obsidian",
+      "xbuilders:obsidian"
+    ],
+    "output": "xbuilders:obsidian-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:prismarine-bricks",
+      "xbuilders:stick",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:stick",
+      "xbuilders:prismarine-bricks"
+    ],
+    "output": "xbuilders:prismarine-brick-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-sandstone",
+      null,
+      null,
+      "xbuilders:red-sandstone",
+      null
+    ],
+    "output": "xbuilders:red-sandstone-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:stone-brick",
+      null,
+      null,
+      "xbuilders:stone-brick",
+      null
+    ],
+    "output": "xbuilders:stone-brick-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:palisade-sandstone",
+      null,
+      null,
+      "xbuilders:palisade-sandstone",
+      null
+    ],
+    "output": "xbuilders:palisade-sandstone-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:palisade-stone",
+      null,
+      null,
+      "xbuilders:palisade-stone",
+      null
+    ],
+    "output": "xbuilders:palisade-stone-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:palisade-stone-2",
+      null,
+      null,
+      "xbuilders:palisade-stone-2",
+      null
+    ],
+    "output": "xbuilders:palisade-stone-2-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cracked-stone",
+      null,
+      null,
+      "xbuilders:cracked-stone",
+      null
+    ],
+    "output": "xbuilders:cracked-stone-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:stone-with-vines",
+      null,
+      null,
+      "xbuilders:stone-with-vines",
+      null
+    ],
+    "output": "xbuilders:stone-with-vines-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-palisade-sandstone",
+      null,
+      null,
+      "xbuilders:red-palisade-sandstone",
+      null
+    ],
+    "output": "xbuilders:red-palisade-sandstone-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:quartz-pillar-block",
+      null,
+      null,
+      "xbuilders:quartz-pillar-block",
+      null
+    ],
+    "output": "xbuilders:quartz-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:marble-pillar-block",
+      null,
+      null,
+      "xbuilders:marble-pillar-block",
+      null
+    ],
+    "output": "xbuilders:marble-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:granite-brick",
+      null,
+      null,
+      "xbuilders:granite-brick",
+      null
+    ],
+    "output": "xbuilders:granite-brick-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:granite-brick",
+      "xbuilders:granite-brick",
+      "xbuilders:granite-brick"
+    ],
+    "output": "xbuilders:granite-brick-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:granite-brick",
+      "xbuilders:stick",
+      "xbuilders:granite-brick",
+      "xbuilders:granite-brick",
+      "xbuilders:stick",
+      "xbuilders:granite-brick"
+    ],
+    "output": "xbuilders:granite-brick-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:dark-prismarine-bricks"
+    ],
+    "output": "xbuilders:dark-prismarine-brick-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:stick",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:stick",
+      "xbuilders:dark-prismarine-bricks"
+    ],
+    "output": "xbuilders:dark-prismarine-brick-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-marble-tile",
+      "xbuilders:orange-marble-tile",
+      "xbuilders:orange-marble-tile"
+    ],
+    "output": "xbuilders:orange-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:orange-marble-tile",
+      null,
+      "xbuilders:orange-marble-tile",
+      "xbuilders:orange-marble-tile",
+      "xbuilders:orange-marble-tile",
+      "xbuilders:orange-marble-tile",
+      "xbuilders:orange-marble-tile"
+    ],
+    "output": "xbuilders:orange-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-marble-tile",
+      "xbuilders:green-marble-tile",
+      "xbuilders:green-marble-tile"
+    ],
+    "output": "xbuilders:green-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:yellow-stained-glass",
+      null,
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass"
+    ],
+    "output": "xbuilders:yellow-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass"
+    ],
+    "output": "xbuilders:yellow-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:black-stained-glass",
+      null,
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass"
+    ],
+    "output": "xbuilders:black-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass"
+    ],
+    "output": "xbuilders:black-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:blue-stained-glass",
+      null,
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass"
+    ],
+    "output": "xbuilders:blue-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass"
+    ],
+    "output": "xbuilders:blue-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:brown-stained-glass",
+      null,
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass"
+    ],
+    "output": "xbuilders:brown-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass"
+    ],
+    "output": "xbuilders:brown-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cyan-stained-glass",
+      null,
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass"
+    ],
+    "output": "xbuilders:cyan-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass"
+    ],
+    "output": "xbuilders:cyan-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gray-stained-glass",
+      null,
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass"
+    ],
+    "output": "xbuilders:gray-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass"
+    ],
+    "output": "xbuilders:gray-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:green-stained-glass",
+      null,
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass"
+    ],
+    "output": "xbuilders:green-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass"
+    ],
+    "output": "xbuilders:green-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:light-blue-stained-glass",
+      null,
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass"
+    ],
+    "output": "xbuilders:light-blue-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass"
+    ],
+    "output": "xbuilders:light-blue-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:light-gray-stained-glass",
+      null,
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass"
+    ],
+    "output": "xbuilders:light-gray-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass"
+    ],
+    "output": "xbuilders:light-gray-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:lime-stained-glass",
+      null,
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass"
+    ],
+    "output": "xbuilders:lime-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass"
+    ],
+    "output": "xbuilders:lime-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:magenta-stained-glass",
+      null,
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass"
+    ],
+    "output": "xbuilders:magenta-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass"
+    ],
+    "output": "xbuilders:magenta-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:orange-stained-glass",
+      null,
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass"
+    ],
+    "output": "xbuilders:orange-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass"
+    ],
+    "output": "xbuilders:orange-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pink-stained-glass",
+      null,
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass"
+    ],
+    "output": "xbuilders:pink-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass"
+    ],
+    "output": "xbuilders:pink-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:purple-stained-glass",
+      null,
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass"
+    ],
+    "output": "xbuilders:purple-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass"
+    ],
+    "output": "xbuilders:purple-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:red-stained-glass",
+      null,
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass"
+    ],
+    "output": "xbuilders:red-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass"
+    ],
+    "output": "xbuilders:red-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:white-stained-glass",
+      null,
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass"
+    ],
+    "output": "xbuilders:white-stained-glass-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass"
+    ],
+    "output": "xbuilders:white-stained-glass-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:checkerboard-chiseled-marble",
+      null,
+      "xbuilders:checkerboard-chiseled-marble",
+      "xbuilders:checkerboard-chiseled-marble",
+      "xbuilders:checkerboard-chiseled-marble",
+      "xbuilders:checkerboard-chiseled-marble",
+      "xbuilders:checkerboard-chiseled-marble"
+    ],
+    "output": "xbuilders:checkerboard-chiseled-marble-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:checkerboard-chiseled-marble",
+      "xbuilders:checkerboard-chiseled-marble",
+      "xbuilders:checkerboard-chiseled-marble"
+    ],
+    "output": "xbuilders:checkerboard-chiseled-marble-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:chiseled-marble",
+      null,
+      "xbuilders:chiseled-marble",
+      "xbuilders:chiseled-marble",
+      "xbuilders:chiseled-marble",
+      "xbuilders:chiseled-marble",
+      "xbuilders:chiseled-marble"
+    ],
+    "output": "xbuilders:chiseled-marble-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:chiseled-marble",
+      "xbuilders:chiseled-marble",
+      "xbuilders:chiseled-marble"
+    ],
+    "output": "xbuilders:chiseled-marble-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:marble-tile",
+      null,
+      "xbuilders:marble-tile",
+      "xbuilders:marble-tile",
+      "xbuilders:marble-tile",
+      "xbuilders:marble-tile",
+      "xbuilders:marble-tile"
+    ],
+    "output": "xbuilders:marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:marble-tile",
+      "xbuilders:marble-tile",
+      "xbuilders:marble-tile"
+    ],
+    "output": "xbuilders:marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gray-marble-tile",
+      null,
+      "xbuilders:gray-marble-tile",
+      "xbuilders:gray-marble-tile",
+      "xbuilders:gray-marble-tile",
+      "xbuilders:gray-marble-tile",
+      "xbuilders:gray-marble-tile"
+    ],
+    "output": "xbuilders:gray-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-marble-tile",
+      "xbuilders:gray-marble-tile",
+      "xbuilders:gray-marble-tile"
+    ],
+    "output": "xbuilders:gray-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:blue-marble-tile",
+      null,
+      "xbuilders:blue-marble-tile",
+      "xbuilders:blue-marble-tile",
+      "xbuilders:blue-marble-tile",
+      "xbuilders:blue-marble-tile",
+      "xbuilders:blue-marble-tile"
+    ],
+    "output": "xbuilders:blue-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-marble-tile",
+      "xbuilders:blue-marble-tile",
+      "xbuilders:blue-marble-tile"
+    ],
+    "output": "xbuilders:blue-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:green-marble-tile",
+      null,
+      "xbuilders:green-marble-tile",
+      "xbuilders:green-marble-tile",
+      "xbuilders:green-marble-tile",
+      "xbuilders:green-marble-tile",
+      "xbuilders:green-marble-tile"
+    ],
+    "output": "xbuilders:green-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:chiseled-quartz",
+      null,
+      "xbuilders:chiseled-quartz",
+      "xbuilders:chiseled-quartz",
+      "xbuilders:chiseled-quartz",
+      "xbuilders:chiseled-quartz",
+      "xbuilders:chiseled-quartz"
+    ],
+    "output": "xbuilders:chiseled-quartz-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:chiseled-quartz",
+      "xbuilders:chiseled-quartz",
+      "xbuilders:chiseled-quartz"
+    ],
+    "output": "xbuilders:chiseled-quartz-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:chiseled-quartz",
+      null,
+      null,
+      "xbuilders:chiseled-quartz",
+      null
+    ],
+    "output": "xbuilders:chiseled-quartz-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-marble-tile",
+      null,
+      null,
+      "xbuilders:gray-marble-tile",
+      null
+    ],
+    "output": "xbuilders:gray-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-marble-tile",
+      null,
+      null,
+      "xbuilders:blue-marble-tile",
+      null
+    ],
+    "output": "xbuilders:blue-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-marble-tile",
+      null,
+      null,
+      "xbuilders:green-marble-tile",
+      null
+    ],
+    "output": "xbuilders:green-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-marble-tile",
+      null,
+      null,
+      "xbuilders:orange-marble-tile",
+      null
+    ],
+    "output": "xbuilders:orange-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:marble-tile",
+      null,
+      null,
+      "xbuilders:marble-tile",
+      null
+    ],
+    "output": "xbuilders:marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      "xbuilders:glass",
+      null,
+      "xbuilders:glass",
+      "xbuilders:glass",
+      null,
+      "xbuilders:glass",
+      "xbuilders:glass",
+      null,
+      "xbuilders:glass"
+    ],
+    "output": "xbuilders:glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:yellow-stained-glass",
+      null,
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass",
+      null,
+      "xbuilders:yellow-stained-glass",
+      "xbuilders:yellow-stained-glass",
+      null,
+      "xbuilders:yellow-stained-glass"
+    ],
+    "output": "xbuilders:yellow-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:black-stained-glass",
+      null,
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass",
+      null,
+      "xbuilders:black-stained-glass",
+      "xbuilders:black-stained-glass",
+      null,
+      "xbuilders:black-stained-glass"
+    ],
+    "output": "xbuilders:black-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:blue-stained-glass",
+      null,
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass",
+      null,
+      "xbuilders:blue-stained-glass",
+      "xbuilders:blue-stained-glass",
+      null,
+      "xbuilders:blue-stained-glass"
+    ],
+    "output": "xbuilders:blue-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:brown-stained-glass",
+      null,
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass",
+      null,
+      "xbuilders:brown-stained-glass",
+      "xbuilders:brown-stained-glass",
+      null,
+      "xbuilders:brown-stained-glass"
+    ],
+    "output": "xbuilders:brown-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:cyan-stained-glass",
+      null,
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass",
+      null,
+      "xbuilders:cyan-stained-glass",
+      "xbuilders:cyan-stained-glass",
+      null,
+      "xbuilders:cyan-stained-glass"
+    ],
+    "output": "xbuilders:cyan-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:gray-stained-glass",
+      null,
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass",
+      null,
+      "xbuilders:gray-stained-glass",
+      "xbuilders:gray-stained-glass",
+      null,
+      "xbuilders:gray-stained-glass"
+    ],
+    "output": "xbuilders:gray-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:green-stained-glass",
+      null,
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass",
+      null,
+      "xbuilders:green-stained-glass",
+      "xbuilders:green-stained-glass",
+      null,
+      "xbuilders:green-stained-glass"
+    ],
+    "output": "xbuilders:green-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:light-blue-stained-glass",
+      null,
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass",
+      null,
+      "xbuilders:light-blue-stained-glass",
+      "xbuilders:light-blue-stained-glass",
+      null,
+      "xbuilders:light-blue-stained-glass"
+    ],
+    "output": "xbuilders:light-blue-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:light-gray-stained-glass",
+      null,
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass",
+      null,
+      "xbuilders:light-gray-stained-glass",
+      "xbuilders:light-gray-stained-glass",
+      null,
+      "xbuilders:light-gray-stained-glass"
+    ],
+    "output": "xbuilders:light-gray-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:lime-stained-glass",
+      null,
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass",
+      null,
+      "xbuilders:lime-stained-glass",
+      "xbuilders:lime-stained-glass",
+      null,
+      "xbuilders:lime-stained-glass"
+    ],
+    "output": "xbuilders:lime-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:magenta-stained-glass",
+      null,
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass",
+      null,
+      "xbuilders:magenta-stained-glass",
+      "xbuilders:magenta-stained-glass",
+      null,
+      "xbuilders:magenta-stained-glass"
+    ],
+    "output": "xbuilders:magenta-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:orange-stained-glass",
+      null,
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass",
+      null,
+      "xbuilders:orange-stained-glass",
+      "xbuilders:orange-stained-glass",
+      null,
+      "xbuilders:orange-stained-glass"
+    ],
+    "output": "xbuilders:orange-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:pink-stained-glass",
+      null,
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass",
+      null,
+      "xbuilders:pink-stained-glass",
+      "xbuilders:pink-stained-glass",
+      null,
+      "xbuilders:pink-stained-glass"
+    ],
+    "output": "xbuilders:pink-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:purple-stained-glass",
+      null,
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass",
+      null,
+      "xbuilders:purple-stained-glass",
+      "xbuilders:purple-stained-glass",
+      null,
+      "xbuilders:purple-stained-glass"
+    ],
+    "output": "xbuilders:purple-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:red-stained-glass",
+      null,
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass",
+      null,
+      "xbuilders:red-stained-glass",
+      "xbuilders:red-stained-glass",
+      null,
+      "xbuilders:red-stained-glass"
+    ],
+    "output": "xbuilders:red-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      "xbuilders:white-stained-glass",
+      null,
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass",
+      null,
+      "xbuilders:white-stained-glass",
+      "xbuilders:white-stained-glass",
+      null,
+      "xbuilders:white-stained-glass"
+    ],
+    "output": "xbuilders:white-stained-glass-pane",
+    "amount": 12
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:yellow-marble-tile",
+      null,
+      "xbuilders:yellow-marble-tile",
+      "xbuilders:yellow-marble-tile",
+      "xbuilders:yellow-marble-tile",
+      "xbuilders:yellow-marble-tile",
+      "xbuilders:yellow-marble-tile"
+    ],
+    "output": "xbuilders:yellow-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-marble-tile",
+      "xbuilders:yellow-marble-tile",
+      "xbuilders:yellow-marble-tile"
+    ],
+    "output": "xbuilders:yellow-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-marble-tile",
+      null,
+      null,
+      "xbuilders:yellow-marble-tile",
+      null
+    ],
+    "output": "xbuilders:yellow-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:black-marble-tile",
+      null,
+      "xbuilders:black-marble-tile",
+      "xbuilders:black-marble-tile",
+      "xbuilders:black-marble-tile",
+      "xbuilders:black-marble-tile",
+      "xbuilders:black-marble-tile"
+    ],
+    "output": "xbuilders:black-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-marble-tile",
+      "xbuilders:black-marble-tile",
+      "xbuilders:black-marble-tile"
+    ],
+    "output": "xbuilders:black-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-marble-tile",
+      null,
+      null,
+      "xbuilders:black-marble-tile",
+      null
+    ],
+    "output": "xbuilders:black-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:pink-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pink-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:brown-marble-tile",
+      null,
+      "xbuilders:brown-marble-tile",
+      "xbuilders:brown-marble-tile",
+      "xbuilders:brown-marble-tile",
+      "xbuilders:brown-marble-tile",
+      "xbuilders:brown-marble-tile"
+    ],
+    "output": "xbuilders:brown-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brown-marble-tile",
+      "xbuilders:brown-marble-tile",
+      "xbuilders:brown-marble-tile"
+    ],
+    "output": "xbuilders:brown-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brown-marble-tile",
+      null,
+      null,
+      "xbuilders:brown-marble-tile",
+      null
+    ],
+    "output": "xbuilders:brown-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cyan-marble-tile",
+      null,
+      "xbuilders:cyan-marble-tile",
+      "xbuilders:cyan-marble-tile",
+      "xbuilders:cyan-marble-tile",
+      "xbuilders:cyan-marble-tile",
+      "xbuilders:cyan-marble-tile"
+    ],
+    "output": "xbuilders:cyan-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-marble-tile",
+      "xbuilders:cyan-marble-tile",
+      "xbuilders:cyan-marble-tile"
+    ],
+    "output": "xbuilders:cyan-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-marble-tile",
+      null,
+      null,
+      "xbuilders:cyan-marble-tile",
+      null
+    ],
+    "output": "xbuilders:cyan-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:purple-chiseled-marble-tile",
+      null,
+      "xbuilders:purple-chiseled-marble-tile",
+      "xbuilders:purple-chiseled-marble-tile",
+      "xbuilders:purple-chiseled-marble-tile",
+      "xbuilders:purple-chiseled-marble-tile",
+      "xbuilders:purple-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:purple-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-chiseled-marble-tile",
+      "xbuilders:purple-chiseled-marble-tile",
+      "xbuilders:purple-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:purple-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:purple-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:purple-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:burgundy-chiseled-marble-tile",
+      null,
+      "xbuilders:burgundy-chiseled-marble-tile",
+      "xbuilders:burgundy-chiseled-marble-tile",
+      "xbuilders:burgundy-chiseled-marble-tile",
+      "xbuilders:burgundy-chiseled-marble-tile",
+      "xbuilders:burgundy-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:burgundy-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:burgundy-chiseled-marble-tile",
+      "xbuilders:burgundy-chiseled-marble-tile",
+      "xbuilders:burgundy-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:burgundy-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:burgundy-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:burgundy-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:burgundy-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pastel-blue-marble-tile",
+      null,
+      "xbuilders:pastel-blue-marble-tile",
+      "xbuilders:pastel-blue-marble-tile",
+      "xbuilders:pastel-blue-marble-tile",
+      "xbuilders:pastel-blue-marble-tile",
+      "xbuilders:pastel-blue-marble-tile"
+    ],
+    "output": "xbuilders:pastel-blue-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-blue-marble-tile",
+      "xbuilders:pastel-blue-marble-tile",
+      "xbuilders:pastel-blue-marble-tile"
+    ],
+    "output": "xbuilders:pastel-blue-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-blue-marble-tile",
+      null,
+      null,
+      "xbuilders:pastel-blue-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pastel-blue-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pastel-green-marble-tile",
+      null,
+      "xbuilders:pastel-green-marble-tile",
+      "xbuilders:pastel-green-marble-tile",
+      "xbuilders:pastel-green-marble-tile",
+      "xbuilders:pastel-green-marble-tile",
+      "xbuilders:pastel-green-marble-tile"
+    ],
+    "output": "xbuilders:pastel-green-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-green-marble-tile",
+      "xbuilders:pastel-green-marble-tile",
+      "xbuilders:pastel-green-marble-tile"
+    ],
+    "output": "xbuilders:pastel-green-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-green-marble-tile",
+      null,
+      null,
+      "xbuilders:pastel-green-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pastel-green-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:magenta-marble-tile",
+      null,
+      "xbuilders:magenta-marble-tile",
+      "xbuilders:magenta-marble-tile",
+      "xbuilders:magenta-marble-tile",
+      "xbuilders:magenta-marble-tile",
+      "xbuilders:magenta-marble-tile"
+    ],
+    "output": "xbuilders:magenta-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-marble-tile",
+      "xbuilders:magenta-marble-tile",
+      "xbuilders:magenta-marble-tile"
+    ],
+    "output": "xbuilders:magenta-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-marble-tile",
+      null,
+      null,
+      "xbuilders:magenta-marble-tile",
+      null
+    ],
+    "output": "xbuilders:magenta-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      null,
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      "xbuilders:pastel-red-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pastel-red-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      "xbuilders:pastel-red-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pastel-red-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:pastel-red-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pastel-red-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pink-marble-tile",
+      null,
+      "xbuilders:pink-marble-tile",
+      "xbuilders:pink-marble-tile",
+      "xbuilders:pink-marble-tile",
+      "xbuilders:pink-marble-tile",
+      "xbuilders:pink-marble-tile"
+    ],
+    "output": "xbuilders:pink-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-marble-tile",
+      "xbuilders:pink-marble-tile",
+      "xbuilders:pink-marble-tile"
+    ],
+    "output": "xbuilders:pink-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-marble-tile",
+      null,
+      null,
+      "xbuilders:pink-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pink-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:purple-marble-tile",
+      null,
+      "xbuilders:purple-marble-tile",
+      "xbuilders:purple-marble-tile",
+      "xbuilders:purple-marble-tile",
+      "xbuilders:purple-marble-tile",
+      "xbuilders:purple-marble-tile"
+    ],
+    "output": "xbuilders:purple-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-marble-tile",
+      "xbuilders:purple-marble-tile",
+      "xbuilders:purple-marble-tile"
+    ],
+    "output": "xbuilders:purple-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-marble-tile",
+      null,
+      null,
+      "xbuilders:purple-marble-tile",
+      null
+    ],
+    "output": "xbuilders:purple-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:burgundy-marble-tile",
+      null,
+      "xbuilders:burgundy-marble-tile",
+      "xbuilders:burgundy-marble-tile",
+      "xbuilders:burgundy-marble-tile",
+      "xbuilders:burgundy-marble-tile",
+      "xbuilders:burgundy-marble-tile"
+    ],
+    "output": "xbuilders:burgundy-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:burgundy-marble-tile",
+      "xbuilders:burgundy-marble-tile",
+      "xbuilders:burgundy-marble-tile"
+    ],
+    "output": "xbuilders:burgundy-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:burgundy-marble-tile",
+      null,
+      null,
+      "xbuilders:burgundy-marble-tile",
+      null
+    ],
+    "output": "xbuilders:burgundy-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pastel-red-marble-tile",
+      null,
+      "xbuilders:pastel-red-marble-tile",
+      "xbuilders:pastel-red-marble-tile",
+      "xbuilders:pastel-red-marble-tile",
+      "xbuilders:pastel-red-marble-tile",
+      "xbuilders:pastel-red-marble-tile"
+    ],
+    "output": "xbuilders:pastel-red-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-red-marble-tile",
+      "xbuilders:pastel-red-marble-tile",
+      "xbuilders:pastel-red-marble-tile"
+    ],
+    "output": "xbuilders:pastel-red-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-red-marble-tile",
+      null,
+      null,
+      "xbuilders:pastel-red-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pastel-red-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:yellow-chiseled-marble-tile",
+      null,
+      "xbuilders:yellow-chiseled-marble-tile",
+      "xbuilders:yellow-chiseled-marble-tile",
+      "xbuilders:yellow-chiseled-marble-tile",
+      "xbuilders:yellow-chiseled-marble-tile",
+      "xbuilders:yellow-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:yellow-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-chiseled-marble-tile",
+      "xbuilders:yellow-chiseled-marble-tile",
+      "xbuilders:yellow-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:yellow-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:yellow-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:yellow-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:black-chiseled-marble-tile",
+      null,
+      "xbuilders:black-chiseled-marble-tile",
+      "xbuilders:black-chiseled-marble-tile",
+      "xbuilders:black-chiseled-marble-tile",
+      "xbuilders:black-chiseled-marble-tile",
+      "xbuilders:black-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:black-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-chiseled-marble-tile",
+      "xbuilders:black-chiseled-marble-tile",
+      "xbuilders:black-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:black-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:black-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:black-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:blue-chiseled-marble-tile",
+      null,
+      "xbuilders:blue-chiseled-marble-tile",
+      "xbuilders:blue-chiseled-marble-tile",
+      "xbuilders:blue-chiseled-marble-tile",
+      "xbuilders:blue-chiseled-marble-tile",
+      "xbuilders:blue-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:blue-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-chiseled-marble-tile",
+      "xbuilders:blue-chiseled-marble-tile",
+      "xbuilders:blue-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:blue-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:blue-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:blue-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:brown-chiseled-marble-tile",
+      null,
+      "xbuilders:brown-chiseled-marble-tile",
+      "xbuilders:brown-chiseled-marble-tile",
+      "xbuilders:brown-chiseled-marble-tile",
+      "xbuilders:brown-chiseled-marble-tile",
+      "xbuilders:brown-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:brown-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brown-chiseled-marble-tile",
+      "xbuilders:brown-chiseled-marble-tile",
+      "xbuilders:brown-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:brown-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:brown-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:brown-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:brown-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cyan-chiseled-marble-tile",
+      null,
+      "xbuilders:cyan-chiseled-marble-tile",
+      "xbuilders:cyan-chiseled-marble-tile",
+      "xbuilders:cyan-chiseled-marble-tile",
+      "xbuilders:cyan-chiseled-marble-tile",
+      "xbuilders:cyan-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:cyan-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-chiseled-marble-tile",
+      "xbuilders:cyan-chiseled-marble-tile",
+      "xbuilders:cyan-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:cyan-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:cyan-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:cyan-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gray-chiseled-marble-tile",
+      null,
+      "xbuilders:gray-chiseled-marble-tile",
+      "xbuilders:gray-chiseled-marble-tile",
+      "xbuilders:gray-chiseled-marble-tile",
+      "xbuilders:gray-chiseled-marble-tile",
+      "xbuilders:gray-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:gray-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-chiseled-marble-tile",
+      "xbuilders:gray-chiseled-marble-tile",
+      "xbuilders:gray-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:gray-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:gray-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:gray-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:green-chiseled-marble-tile",
+      null,
+      "xbuilders:green-chiseled-marble-tile",
+      "xbuilders:green-chiseled-marble-tile",
+      "xbuilders:green-chiseled-marble-tile",
+      "xbuilders:green-chiseled-marble-tile",
+      "xbuilders:green-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:green-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-chiseled-marble-tile",
+      "xbuilders:green-chiseled-marble-tile",
+      "xbuilders:green-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:green-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:green-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:green-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      null,
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      "xbuilders:pastel-blue-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pastel-blue-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      "xbuilders:pastel-blue-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pastel-blue-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:pastel-blue-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pastel-blue-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      null,
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      "xbuilders:pastel-green-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pastel-green-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      "xbuilders:pastel-green-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pastel-green-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:pastel-green-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:pastel-green-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:magenta-chiseled-marble-tile",
+      null,
+      "xbuilders:magenta-chiseled-marble-tile",
+      "xbuilders:magenta-chiseled-marble-tile",
+      "xbuilders:magenta-chiseled-marble-tile",
+      "xbuilders:magenta-chiseled-marble-tile",
+      "xbuilders:magenta-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:magenta-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-chiseled-marble-tile",
+      "xbuilders:magenta-chiseled-marble-tile",
+      "xbuilders:magenta-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:magenta-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:magenta-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:magenta-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:orange-chiseled-marble-tile",
+      null,
+      "xbuilders:orange-chiseled-marble-tile",
+      "xbuilders:orange-chiseled-marble-tile",
+      "xbuilders:orange-chiseled-marble-tile",
+      "xbuilders:orange-chiseled-marble-tile",
+      "xbuilders:orange-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:orange-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-chiseled-marble-tile",
+      "xbuilders:orange-chiseled-marble-tile",
+      "xbuilders:orange-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:orange-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-chiseled-marble-tile",
+      null,
+      null,
+      "xbuilders:orange-chiseled-marble-tile",
+      null
+    ],
+    "output": "xbuilders:orange-chiseled-marble-tile-pillar",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pink-chiseled-marble-tile",
+      null,
+      "xbuilders:pink-chiseled-marble-tile",
+      "xbuilders:pink-chiseled-marble-tile",
+      "xbuilders:pink-chiseled-marble-tile",
+      "xbuilders:pink-chiseled-marble-tile",
+      "xbuilders:pink-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pink-chiseled-marble-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-chiseled-marble-tile",
+      "xbuilders:pink-chiseled-marble-tile",
+      "xbuilders:pink-chiseled-marble-tile"
+    ],
+    "output": "xbuilders:pink-chiseled-marble-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:white-space-tile",
+      null,
+      "xbuilders:white-space-tile",
+      "xbuilders:white-space-tile",
+      "xbuilders:white-space-tile",
+      "xbuilders:white-space-tile",
+      "xbuilders:white-space-tile"
+    ],
+    "output": "xbuilders:white-space-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:ice-block",
+      null,
+      "xbuilders:ice-block",
+      "xbuilders:ice-block",
+      "xbuilders:ice-block",
+      "xbuilders:ice-block",
+      "xbuilders:ice-block"
+    ],
+    "output": "xbuilders:ice-block-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:ice-block",
+      "xbuilders:ice-block",
+      "xbuilders:ice-block"
+    ],
+    "output": "xbuilders:ice-block-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:mosaic-bamboo-wood",
+      null,
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:mosaic-bamboo-wood"
+    ],
+    "output": "xbuilders:mosaic-bamboo-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:mosaic-bamboo-wood"
+    ],
+    "output": "xbuilders:mosaic-bamboo-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:stick",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:stick",
+      "xbuilders:mosaic-bamboo-wood"
+    ],
+    "output": "xbuilders:mosaic-bamboo-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:yellow-stained-wood",
+      null,
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:yellow-stained-wood"
+    ],
+    "output": "xbuilders:yellow-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:yellow-stained-wood"
+    ],
+    "output": "xbuilders:yellow-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:yellow-stained-wood"
+    ],
+    "output": "xbuilders:yellow-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:black-stained-wood",
+      null,
+      "xbuilders:black-stained-wood",
+      "xbuilders:black-stained-wood",
+      "xbuilders:black-stained-wood",
+      "xbuilders:black-stained-wood",
+      "xbuilders:black-stained-wood"
+    ],
+    "output": "xbuilders:black-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:black-stained-wood",
+      "xbuilders:black-stained-wood",
+      "xbuilders:black-stained-wood"
+    ],
+    "output": "xbuilders:black-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:black-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:black-stained-wood",
+      "xbuilders:black-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:black-stained-wood"
+    ],
+    "output": "xbuilders:black-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:blue-stained-wood",
+      null,
+      "xbuilders:blue-stained-wood",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:blue-stained-wood"
+    ],
+    "output": "xbuilders:blue-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:blue-stained-wood",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:blue-stained-wood"
+    ],
+    "output": "xbuilders:blue-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:blue-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:blue-stained-wood"
+    ],
+    "output": "xbuilders:blue-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:cyan-stained-wood",
+      null,
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:cyan-stained-wood"
+    ],
+    "output": "xbuilders:cyan-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:cyan-stained-wood"
+    ],
+    "output": "xbuilders:cyan-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:cyan-stained-wood"
+    ],
+    "output": "xbuilders:cyan-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gray-stained-wood",
+      null,
+      "xbuilders:gray-stained-wood",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:gray-stained-wood"
+    ],
+    "output": "xbuilders:gray-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-stained-wood",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:gray-stained-wood"
+    ],
+    "output": "xbuilders:gray-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:gray-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:gray-stained-wood"
+    ],
+    "output": "xbuilders:gray-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:green-stained-wood",
+      null,
+      "xbuilders:green-stained-wood",
+      "xbuilders:green-stained-wood",
+      "xbuilders:green-stained-wood",
+      "xbuilders:green-stained-wood",
+      "xbuilders:green-stained-wood"
+    ],
+    "output": "xbuilders:green-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:green-stained-wood",
+      "xbuilders:green-stained-wood",
+      "xbuilders:green-stained-wood"
+    ],
+    "output": "xbuilders:green-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:green-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:green-stained-wood",
+      "xbuilders:green-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:green-stained-wood"
+    ],
+    "output": "xbuilders:green-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:light-blue-stained-wood",
+      null,
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:light-blue-stained-wood"
+    ],
+    "output": "xbuilders:light-blue-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:light-blue-stained-wood"
+    ],
+    "output": "xbuilders:light-blue-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:light-blue-stained-wood"
+    ],
+    "output": "xbuilders:light-blue-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:lime-stained-wood",
+      null,
+      "xbuilders:lime-stained-wood",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:lime-stained-wood"
+    ],
+    "output": "xbuilders:lime-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:lime-stained-wood",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:lime-stained-wood"
+    ],
+    "output": "xbuilders:lime-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:lime-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:lime-stained-wood"
+    ],
+    "output": "xbuilders:lime-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:magenta-stained-wood",
+      null,
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:magenta-stained-wood"
+    ],
+    "output": "xbuilders:magenta-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:magenta-stained-wood"
+    ],
+    "output": "xbuilders:magenta-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:magenta-stained-wood"
+    ],
+    "output": "xbuilders:magenta-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:orange-stained-wood",
+      null,
+      "xbuilders:orange-stained-wood",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:orange-stained-wood"
+    ],
+    "output": "xbuilders:orange-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:orange-stained-wood",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:orange-stained-wood"
+    ],
+    "output": "xbuilders:orange-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:orange-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:orange-stained-wood"
+    ],
+    "output": "xbuilders:orange-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:pink-stained-wood",
+      null,
+      "xbuilders:pink-stained-wood",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:pink-stained-wood"
+    ],
+    "output": "xbuilders:pink-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:pink-stained-wood",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:pink-stained-wood"
+    ],
+    "output": "xbuilders:pink-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:pink-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:pink-stained-wood"
+    ],
+    "output": "xbuilders:pink-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:purple-stained-wood",
+      null,
+      "xbuilders:purple-stained-wood",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:purple-stained-wood"
+    ],
+    "output": "xbuilders:purple-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:purple-stained-wood",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:purple-stained-wood"
+    ],
+    "output": "xbuilders:purple-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:purple-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:purple-stained-wood"
+    ],
+    "output": "xbuilders:purple-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:red-stained-wood",
+      null,
+      "xbuilders:red-stained-wood",
+      "xbuilders:red-stained-wood",
+      "xbuilders:red-stained-wood",
+      "xbuilders:red-stained-wood",
+      "xbuilders:red-stained-wood"
+    ],
+    "output": "xbuilders:red-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:red-stained-wood",
+      "xbuilders:red-stained-wood",
+      "xbuilders:red-stained-wood"
+    ],
+    "output": "xbuilders:red-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:red-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:red-stained-wood",
+      "xbuilders:red-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:red-stained-wood"
+    ],
+    "output": "xbuilders:red-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:white-stained-wood",
+      null,
+      "xbuilders:white-stained-wood",
+      "xbuilders:white-stained-wood",
+      "xbuilders:white-stained-wood",
+      "xbuilders:white-stained-wood",
+      "xbuilders:white-stained-wood"
+    ],
+    "output": "xbuilders:white-stained-wood-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:white-stained-wood",
+      "xbuilders:white-stained-wood",
+      "xbuilders:white-stained-wood"
+    ],
+    "output": "xbuilders:white-stained-wood-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:white-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:white-stained-wood",
+      "xbuilders:white-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:white-stained-wood"
+    ],
+    "output": "xbuilders:white-stained-wood-fence",
+    "amount": 10
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:white-space-tile",
+      "xbuilders:white-space-tile",
+      "xbuilders:white-space-tile"
+    ],
+    "output": "xbuilders:white-space-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      "xbuilders:gray-space-tile",
+      null,
+      "xbuilders:gray-space-tile",
+      "xbuilders:gray-space-tile",
+      "xbuilders:gray-space-tile",
+      "xbuilders:gray-space-tile",
+      "xbuilders:gray-space-tile"
+    ],
+    "output": "xbuilders:gray-space-tile-stairs",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:gray-space-tile",
+      "xbuilders:gray-space-tile",
+      "xbuilders:gray-space-tile"
+    ],
+    "output": "xbuilders:gray-space-tile-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:test-orientable",
+      "xbuilders:test-orientable",
+      "xbuilders:test-orientable"
+    ],
+    "output": "xbuilders:test-slab",
+    "amount": 6
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:test-orientable",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:test-orientable",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:test-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:jungle-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:jungle-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:jungle-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:oak-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:oak-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:oak-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:birch-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:birch-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:birch-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:spruce-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:spruce-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:dark-oak-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:acacia-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:acacia-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:acacia-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:stone-brick",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:stone-brick",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:stone-brick-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:palisade-stone",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:palisade-stone",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:palisade-stone-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:palisade-stone-2",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:palisade-stone-2-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:polished-diorite",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:polished-diorite",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:polished-diorite-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:polished-andesite",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:polished-andesite",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:polished-andesite-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:cracked-stone",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:cracked-stone",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:cracked-stone-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:stone-with-vines",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:stone-with-vines-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:burgundy-brick",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:burgundy-brick-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:red-palisade-sandstone",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:red-palisade-sandstone-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:palisade-sandstone",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:palisade-sandstone-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:yellow-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:yellow-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:yellow-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:black-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:black-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:black-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:blue-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:blue-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:blue-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:brown-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:brown-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:brown-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:cyan-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:cyan-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:cyan-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:gray-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:gray-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:gray-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:green-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:green-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:green-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:light-blue-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:light-blue-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:light-gray-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:light-gray-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:lime-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:lime-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:lime-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:magenta-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:magenta-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:magenta-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:orange-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:orange-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:orange-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:pink-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:pink-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:pink-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:purple-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:purple-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:purple-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:red-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:red-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:red-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:white-concrete",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:white-concrete",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:white-concrete-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:bamboo-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:bamboo-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:bamboo-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:cement",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:cement",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:cement-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:obsidian",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:obsidian",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:obsidian-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:lapis-lazul-block",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:lapis-lazul-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:steel-block",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:steel-block",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:steel-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:gold-block",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:gold-block",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:gold-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:emerald-block",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:emerald-block",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:emerald-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:diamond-block",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:diamond-block",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:diamond-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:prismarine-bricks",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:prismarine-brick-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:granite-brick",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:granite-brick",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:granite-brick-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:dark-prismarine-bricks",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:dark-prismarine-brick-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:mosaic-bamboo-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:mosaic-bamboo-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:yellow-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:yellow-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:black-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:black-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:black-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:blue-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:blue-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:cyan-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:cyan-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:gray-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:gray-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:green-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:green-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:green-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:light-blue-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:light-blue-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:lime-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:lime-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:magenta-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:magenta-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:orange-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:orange-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:pink-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:pink-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:purple-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:purple-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:red-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:red-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:red-stained-wood-fence-gate",
+    "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:stick",
+      "xbuilders:white-stained-wood",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:white-stained-wood",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:white-stained-wood-fence-gate",
+    "amount": 4
+  }
+]

@@ -58,7 +58,7 @@ public class BlockArrayTexture {
         return fileMap.get(formatFilepath(name));
     }
 
-    private String formatFilepath(String path) {
+    public static String formatFilepath(String path) {
         return path.replaceAll("\\\\", "/").replaceAll(fileExtensionCode, "");
     }
 

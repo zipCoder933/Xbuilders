@@ -3,8 +3,8 @@ package com.xbuilders.game.vanilla.ui;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
-import com.xbuilders.engine.items.recipes.CraftingRecipeInput;
-import com.xbuilders.engine.items.recipes.CraftingRecipes;
+import com.xbuilders.engine.items.recipes.CraftingRecipe;
+import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.window.NKWindow;
@@ -26,17 +26,15 @@ public class CraftingUI extends UI_ItemWindow {
         outputGrid.itemFilter = (stack) -> false;
 
         craftingGrid.storageSpace.changeEvent = () -> {
-            System.out.println("Crafting grid changed");
             craftingGrid.storageSpace.getList();
             String[] recipeMap = new String[9];
             for (int i = 0; i < craftingGrid.storageSpace.size(); i++) {
                 recipeMap[i] = craftingGrid.storageSpace.get(i) == null ? null : craftingGrid.storageSpace.get(i).item.id;
             }
-            CraftingRecipeInput recipeInput = new CraftingRecipeInput(recipeMap);
             //Print every entry in the recipeMap
-            String output = CraftingRecipes.recipeMap.get(recipeInput);
-            if (output != null) {
-                outputGrid.storageSpace.set(0, new ItemStack(output, 1));
+            CraftingRecipe recipe = RecipeRegistry.craftingRecipes.getFromInput(recipeMap);
+            if (recipe != null) {
+                outputGrid.storageSpace.set(0, new ItemStack(recipe.output, recipe.amount));
             } else outputGrid.storageSpace.set(0, null);
         };
 

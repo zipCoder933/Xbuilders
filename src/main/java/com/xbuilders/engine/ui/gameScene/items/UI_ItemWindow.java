@@ -17,7 +17,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public abstract class UI_ItemWindow extends UI_GameMenu {
     //    static WidgetSizeMeasurement buttonSize = new WidgetSizeMeasurement(0);
-    private static final int ITEM_WIDTH = 53;
+    private static final int ITEM_WIDTH = 52;
 
     public static final int getItemSize() {
         return ITEM_WIDTH;

@@ -1,6 +1,5 @@
-package com.xbuilders.engine.items.loot;
+package com.xbuilders.engine.items.loot.output;
 
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 
 import java.util.function.Supplier;

@@ -4733,5 +4733,25 @@
     "id": "xbuilders:furnace",
     "name": "Furnace",
     "block": 99
+  },
+  {
+    "id": "xbuilders:stick",
+    "name": "Stick",
+    "icon": "pp\\stick.png"
+  },
+  {
+    "id": "xbuilders:string",
+    "name": "String",
+    "icon": "pp\\string.png"
+  },
+  {
+    "id": "xbuilders:sugar-cane",
+    "name": "Sugar Cane",
+    "icon": "pp\\sugar_cane.png"
+  },
+  {
+    "id": "xbuilders:sugar",
+    "name": "Sugar",
+    "icon": "pp\\sugar.png"
   }
 ]
