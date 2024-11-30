@@ -9,6 +9,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector2d;
 import org.joml.Vector2i;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
@@ -93,6 +94,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         if (action == GLFW.GLFW_RELEASE) {
             if (!inBounds(windowDims) && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
                 if (draggingItem != null) {
+                    GameScene.player.dropItem(draggingItem);
                     draggingItem = null;
                 } else setOpen(false);
                 return true;

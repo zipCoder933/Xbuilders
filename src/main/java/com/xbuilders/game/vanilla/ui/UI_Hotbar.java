@@ -18,6 +18,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
+import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -130,6 +131,9 @@ public class UI_Hotbar extends UI_GameMenu {
                 changeSelectedIndex(-1);
             } else if (key == GLFW.GLFW_KEY_PERIOD) {
                 changeSelectedIndex(1);
+            } else if (key == GLFW.GLFW_KEY_Q) {
+                GameScene.player.dropItem(getSelectedItem());
+                playerStorage.set(getSelectedItemIndex(), null);
             }
         }
         return false;
