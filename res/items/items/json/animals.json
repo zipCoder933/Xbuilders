@@ -36,7 +36,7 @@
     "icon": "egg.png"
   },
   {
-    "id": "xbuilders:sea-turtle",
+    "id": "xbuilders:sea_turtle",
     "name": "Sea Turtle",
     "entity": 105,
     "icon": "egg.png"
@@ -48,13 +48,13 @@
     "icon": "beaver egg.png"
   },
   {
-    "id": "xbuilders:butterfly-fish",
+    "id": "xbuilders:butterfly_fish",
     "name": "Butterfly Fish",
     "entity": 41,
     "icon": "fish egg.png"
   },
   {
-    "id": "xbuilders:angler-fish",
+    "id": "xbuilders:angler_fish",
     "name": "Angler Fish",
     "entity": 42,
     "icon": "fish egg.png"

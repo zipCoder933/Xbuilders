@@ -241,19 +241,19 @@ public class XbuildersGame extends Game {
                 "#wood", "#wood", "#wood",
                 null, "xbuilders:stick", null,
                 null, "xbuilders:stick", null,
-                "xbuilders:wooden-pickaxe", 1));
+                "xbuilders:wooden_pickaxe", 1));
 
         RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
                 null, "#wood", null,
                 null, "xbuilders:stick", null,
                 null, "xbuilders:stick", null,
-                "xbuilders:wooden-shovel", 1));
+                "xbuilders:wooden_shovel", 1));
 
         RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
                 "#wood", "#wood", null,
                 "#wood", "xbuilders:stick", null,
                 null, "xbuilders:stick", null,
-                "xbuilders:wooden-axe", 1));
+                "xbuilders:wooden_axe", 1));
 
         RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
                 "#wood", "#wood", null,

@@ -1,6 +1,6 @@
 [
   {
-    "alias": "acacia-trapdoor",
+    "alias": "acacia_trapdoor",
     "id": 857,
     "texture": {
       "pos_y": "trapdoor\\acacia.png",
@@ -23,7 +23,7 @@
     "properties": {}
   },
   {
-    "alias": "acacia2-trapdoor",
+    "alias": "acacia2_trapdoor",
     "id": 858,
     "texture": {
       "pos_y": "trapdoor\\acacia2.png",
@@ -46,7 +46,7 @@
     "properties": {}
   },
   {
-    "alias": "bamboo-2-trapdoor",
+    "alias": "bamboo_2_trapdoor",
     "id": 859,
     "texture": {
       "pos_y": "trapdoor\\bamboo 2.png",
@@ -69,7 +69,7 @@
     "properties": {}
   },
   {
-    "alias": "bamboo-trapdoor",
+    "alias": "bamboo_trapdoor",
     "id": 860,
     "texture": {
       "pos_y": "trapdoor\\bamboo.png",
@@ -92,7 +92,7 @@
     "properties": {}
   },
   {
-    "alias": "birch-trapdoor",
+    "alias": "birch_trapdoor",
     "id": 861,
     "texture": {
       "pos_y": "trapdoor\\birch.png",
@@ -115,7 +115,7 @@
     "properties": {}
   },
   {
-    "alias": "cladded-birch-trapdoor",
+    "alias": "cladded_birch_trapdoor",
     "id": 862,
     "texture": {
       "pos_y": "trapdoor\\cladded birch.png",
@@ -138,7 +138,7 @@
     "properties": {}
   },
   {
-    "alias": "cladded-redwood-trapdoor",
+    "alias": "cladded_redwood_trapdoor",
     "id": 863,
     "texture": {
       "pos_y": "trapdoor\\cladded redwood.png",
@@ -161,7 +161,7 @@
     "properties": {}
   },
   {
-    "alias": "cladded-white-trapdoor",
+    "alias": "cladded_white_trapdoor",
     "id": 864,
     "texture": {
       "pos_y": "trapdoor\\cladded white.png",
@@ -184,7 +184,7 @@
     "properties": {}
   },
   {
-    "alias": "glass-trapdoor",
+    "alias": "glass_trapdoor",
     "id": 865,
     "texture": {
       "pos_y": "trapdoor\\glass.png",
@@ -207,7 +207,7 @@
     "properties": {}
   },
   {
-    "alias": "gray-space-trapdoor-trapdoor",
+    "alias": "gray_space_trapdoor_trapdoor",
     "id": 866,
     "texture": {
       "pos_y": "trapdoor\\gray space trapdoor.png",
@@ -230,7 +230,7 @@
     "properties": {}
   },
   {
-    "alias": "jungle-2-trapdoor",
+    "alias": "jungle_2_trapdoor",
     "id": 867,
     "texture": {
       "pos_y": "trapdoor\\jungle 2.png",
@@ -253,7 +253,7 @@
     "properties": {}
   },
   {
-    "alias": "jungle-trapdoor",
+    "alias": "jungle_trapdoor",
     "id": 868,
     "texture": {
       "pos_y": "trapdoor\\jungle.png",
@@ -276,7 +276,7 @@
     "properties": {}
   },
   {
-    "alias": "oak-2-trapdoor",
+    "alias": "oak_2_trapdoor",
     "id": 869,
     "texture": {
       "pos_y": "trapdoor\\oak 2.png",
@@ -299,7 +299,7 @@
     "properties": {}
   },
   {
-    "alias": "oak-trapdoor",
+    "alias": "oak_trapdoor",
     "id": 870,
     "texture": {
       "pos_y": "trapdoor\\oak.png",
@@ -322,7 +322,7 @@
     "properties": {}
   },
   {
-    "alias": "red-trapdoor",
+    "alias": "red_trapdoor",
     "id": 871,
     "texture": {
       "pos_y": "trapdoor\\red.png",
@@ -345,7 +345,7 @@
     "properties": {}
   },
   {
-    "alias": "renaissance-trapdoor",
+    "alias": "renaissance_trapdoor",
     "id": 872,
     "texture": {
       "pos_y": "trapdoor\\renaissance.png",
@@ -368,7 +368,7 @@
     "properties": {}
   },
   {
-    "alias": "spruce-trapdoor",
+    "alias": "spruce_trapdoor",
     "id": 873,
     "texture": {
       "pos_y": "trapdoor\\spruce.png",
@@ -391,7 +391,7 @@
     "properties": {}
   },
   {
-    "alias": "steel-trapdoor",
+    "alias": "steel_trapdoor",
     "id": 874,
     "texture": {
       "pos_y": "trapdoor\\steel.png",
@@ -414,7 +414,7 @@
     "properties": {}
   },
   {
-    "alias": "warped-trapdoor",
+    "alias": "warped_trapdoor",
     "id": 875,
     "texture": {
       "pos_y": "trapdoor\\warped.png",
@@ -437,7 +437,7 @@
     "properties": {}
   },
   {
-    "alias": "white-space-trapdoor-trapdoor",
+    "alias": "white_space_trapdoor_trapdoor",
     "id": 876,
     "texture": {
       "pos_y": "trapdoor\\white space trapdoor.png",
@@ -460,7 +460,7 @@
     "properties": {}
   },
   {
-    "alias": "white-trapdoor",
+    "alias": "white_trapdoor",
     "id": 877,
     "texture": {
       "pos_y": "trapdoor\\white.png",

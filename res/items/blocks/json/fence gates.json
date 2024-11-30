@@ -1,6 +1,6 @@
 [
   {
-    "alias": "jungle-fence-gate",
+    "alias": "jungle_fence_gate",
     "id": 800,
     "texture": {
       "pos_y": "jungle planks",
@@ -23,7 +23,7 @@
     "properties": {}
   },
   {
-    "alias": "oak-fence-gate",
+    "alias": "oak_fence_gate",
     "id": 801,
     "texture": {
       "pos_y": "oak planks",
@@ -46,7 +46,7 @@
     "properties": {}
   },
   {
-    "alias": "birch-fence-gate",
+    "alias": "birch_fence_gate",
     "id": 802,
     "texture": {
       "pos_y": "bookshelf",
@@ -69,7 +69,7 @@
     "properties": {}
   },
   {
-    "alias": "dark-oak-fence-gate",
+    "alias": "dark_oak_fence_gate",
     "id": 803,
     "texture": {
       "pos_y": "spruce planks",
@@ -92,7 +92,7 @@
     "properties": {}
   },
   {
-    "alias": "acacia-fence-gate",
+    "alias": "acacia_fence_gate",
     "id": 804,
     "texture": {
       "pos_y": "acacia planks",
@@ -115,7 +115,7 @@
     "properties": {}
   },
   {
-    "alias": "stone-brick-fence-gate",
+    "alias": "stone_brick_fence_gate",
     "id": 805,
     "texture": {
       "pos_y": "stone brick",
@@ -138,7 +138,7 @@
     "properties": {}
   },
   {
-    "alias": "palisade-stone-fence-gate",
+    "alias": "palisade_stone_fence_gate",
     "id": 806,
     "texture": {
       "pos_y": "palisade stone",
@@ -161,7 +161,7 @@
     "properties": {}
   },
   {
-    "alias": "palisade-stone-2-fence-gate",
+    "alias": "palisade_stone_2_fence_gate",
     "id": 807,
     "texture": {
       "pos_y": "palisade stone 2",
@@ -184,7 +184,7 @@
     "properties": {}
   },
   {
-    "alias": "polished-diorite-fence-gate",
+    "alias": "polished_diorite_fence_gate",
     "id": 808,
     "texture": {
       "pos_y": "polished diorite",
@@ -207,7 +207,7 @@
     "properties": {}
   },
   {
-    "alias": "polished-andesite-fence-gate",
+    "alias": "polished_andesite_fence_gate",
     "id": 809,
     "texture": {
       "pos_y": "polished andesite",
@@ -230,7 +230,7 @@
     "properties": {}
   },
   {
-    "alias": "cracked-stone-fence-gate",
+    "alias": "cracked_stone_fence_gate",
     "id": 810,
     "texture": {
       "pos_y": "cracked stone",
@@ -253,7 +253,7 @@
     "properties": {}
   },
   {
-    "alias": "stone-with-vines-fence-gate",
+    "alias": "stone_with_vines_fence_gate",
     "id": 811,
     "texture": {
       "pos_y": "stone with vines",
@@ -276,7 +276,7 @@
     "properties": {}
   },
   {
-    "alias": "burgundy-brick-fence-gate",
+    "alias": "burgundy_brick_fence_gate",
     "id": 812,
     "texture": {
       "pos_y": "burgundy brick",
@@ -299,7 +299,7 @@
     "properties": {}
   },
   {
-    "alias": "red-palisade-sandstone-fence-gate",
+    "alias": "red_palisade_sandstone_fence_gate",
     "id": 813,
     "texture": {
       "pos_y": "red palisade sandstone",
@@ -322,7 +322,7 @@
     "properties": {}
   },
   {
-    "alias": "palisade-sandstone-fence-gate",
+    "alias": "palisade_sandstone_fence_gate",
     "id": 814,
     "texture": {
       "pos_y": "palisade sandstone",
@@ -345,7 +345,7 @@
     "properties": {}
   },
   {
-    "alias": "yellow-concrete-fence-gate",
+    "alias": "yellow_concrete_fence_gate",
     "id": 815,
     "texture": {
       "pos_y": "yellow concrete",
@@ -368,7 +368,7 @@
     "properties": {}
   },
   {
-    "alias": "black-concrete-fence-gate",
+    "alias": "black_concrete_fence_gate",
     "id": 816,
     "texture": {
       "pos_y": "black concrete",
@@ -391,7 +391,7 @@
     "properties": {}
   },
   {
-    "alias": "blue-concrete-fence-gate",
+    "alias": "blue_concrete_fence_gate",
     "id": 817,
     "texture": {
       "pos_y": "blue concrete",
@@ -414,7 +414,7 @@
     "properties": {}
   },
   {
-    "alias": "brown-concrete-fence-gate",
+    "alias": "brown_concrete_fence_gate",
     "id": 818,
     "texture": {
       "pos_y": "brown concrete",
@@ -437,7 +437,7 @@
     "properties": {}
   },
   {
-    "alias": "cyan-concrete-fence-gate",
+    "alias": "cyan_concrete_fence_gate",
     "id": 819,
     "texture": {
       "pos_y": "cyan concrete",
@@ -460,7 +460,7 @@
     "properties": {}
   },
   {
-    "alias": "gray-concrete-fence-gate",
+    "alias": "gray_concrete_fence_gate",
     "id": 820,
     "texture": {
       "pos_y": "gray concrete",
@@ -483,7 +483,7 @@
     "properties": {}
   },
   {
-    "alias": "green-concrete-fence-gate",
+    "alias": "green_concrete_fence_gate",
     "id": 821,
     "texture": {
       "pos_y": "green concrete",
@@ -506,7 +506,7 @@
     "properties": {}
   },
   {
-    "alias": "light-blue-concrete-fence-gate",
+    "alias": "light_blue_concrete_fence_gate",
     "id": 822,
     "texture": {
       "pos_y": "light blue concrete",
@@ -529,7 +529,7 @@
     "properties": {}
   },
   {
-    "alias": "light-gray-concrete-fence-gate",
+    "alias": "light_gray_concrete_fence_gate",
     "id": 823,
     "texture": {
       "pos_y": "light gray concrete",
@@ -552,7 +552,7 @@
     "properties": {}
   },
   {
-    "alias": "lime-concrete-fence-gate",
+    "alias": "lime_concrete_fence_gate",
     "id": 824,
     "texture": {
       "pos_y": "lime concrete",
@@ -575,7 +575,7 @@
     "properties": {}
   },
   {
-    "alias": "magenta-concrete-fence-gate",
+    "alias": "magenta_concrete_fence_gate",
     "id": 825,
     "texture": {
       "pos_y": "magenta concrete",
@@ -598,7 +598,7 @@
     "properties": {}
   },
   {
-    "alias": "orange-concrete-fence-gate",
+    "alias": "orange_concrete_fence_gate",
     "id": 826,
     "texture": {
       "pos_y": "orange concrete",
@@ -621,7 +621,7 @@
     "properties": {}
   },
   {
-    "alias": "pink-concrete-fence-gate",
+    "alias": "pink_concrete_fence_gate",
     "id": 827,
     "texture": {
       "pos_y": "pink concrete",
@@ -644,7 +644,7 @@
     "properties": {}
   },
   {
-    "alias": "purple-concrete-fence-gate",
+    "alias": "purple_concrete_fence_gate",
     "id": 828,
     "texture": {
       "pos_y": "purple concrete",
@@ -667,7 +667,7 @@
     "properties": {}
   },
   {
-    "alias": "red-concrete-fence-gate",
+    "alias": "red_concrete_fence_gate",
     "id": 829,
     "texture": {
       "pos_y": "red concrete",
@@ -690,7 +690,7 @@
     "properties": {}
   },
   {
-    "alias": "white-concrete-fence-gate",
+    "alias": "white_concrete_fence_gate",
     "id": 830,
     "texture": {
       "pos_y": "white concrete",
@@ -713,7 +713,7 @@
     "properties": {}
   },
   {
-    "alias": "bamboo-wood-fence-gate",
+    "alias": "bamboo_wood_fence_gate",
     "id": 831,
     "texture": {
       "pos_y": "bamboo wood",
@@ -736,7 +736,7 @@
     "properties": {}
   },
   {
-    "alias": "cement-fence-gate",
+    "alias": "cement_fence_gate",
     "id": 832,
     "texture": {
       "pos_y": "cement",
@@ -759,7 +759,7 @@
     "properties": {}
   },
   {
-    "alias": "obsidian-fence-gate",
+    "alias": "obsidian_fence_gate",
     "id": 833,
     "texture": {
       "pos_y": "obsidian",
@@ -782,7 +782,7 @@
     "properties": {}
   },
   {
-    "alias": "lapis-lazul-fence-gate",
+    "alias": "lapis_lazul_fence_gate",
     "id": 834,
     "texture": {
       "pos_y": "lapis lazul",
@@ -805,7 +805,7 @@
     "properties": {}
   },
   {
-    "alias": "steel-fence-gate",
+    "alias": "steel_fence_gate",
     "id": 835,
     "texture": {
       "pos_y": "steel",
@@ -828,7 +828,7 @@
     "properties": {}
   },
   {
-    "alias": "gold-fence-gate",
+    "alias": "gold_fence_gate",
     "id": 836,
     "texture": {
       "pos_y": "gold",
@@ -851,7 +851,7 @@
     "properties": {}
   },
   {
-    "alias": "emerald-fence-gate",
+    "alias": "emerald_fence_gate",
     "id": 837,
     "texture": {
       "pos_y": "emerald",
@@ -874,7 +874,7 @@
     "properties": {}
   },
   {
-    "alias": "diamond-fence-gate",
+    "alias": "diamond_fence_gate",
     "id": 838,
     "texture": {
       "pos_y": "diamond",
@@ -897,7 +897,7 @@
     "properties": {}
   },
   {
-    "alias": "prismarine-brick-fence-gate",
+    "alias": "prismarine_brick_fence_gate",
     "id": 839,
     "texture": {
       "pos_y": "prismarine brick",
@@ -920,7 +920,7 @@
     "properties": {}
   },
   {
-    "alias": "granite-brick-fence-gate",
+    "alias": "granite_brick_fence_gate",
     "id": 840,
     "texture": {
       "pos_y": "granite brick",
@@ -943,7 +943,7 @@
     "properties": {}
   },
   {
-    "alias": "dark-prismarine-brick-fence-gate",
+    "alias": "dark_prismarine_brick_fence_gate",
     "id": 841,
     "texture": {
       "pos_y": "dark prismarine bricks",
@@ -966,7 +966,7 @@
     "properties": {}
   },
   {
-    "alias": "mosaic-bamboo-wood-fence-gate",
+    "alias": "mosaic_bamboo_wood_fence_gate",
     "id": 842,
     "texture": {
       "pos_y": "mosaic bamboo wood",
@@ -989,7 +989,7 @@
     "properties": {}
   },
   {
-    "alias": "yellow-stained-wood-fence-gate",
+    "alias": "yellow_stained_wood_fence_gate",
     "id": 843,
     "texture": {
       "pos_y": "yellow stained wood",
@@ -1012,7 +1012,7 @@
     "properties": {}
   },
   {
-    "alias": "black-stained-wood-fence-gate",
+    "alias": "black_stained_wood_fence_gate",
     "id": 844,
     "texture": {
       "pos_y": "black stained wood",
@@ -1035,7 +1035,7 @@
     "properties": {}
   },
   {
-    "alias": "blue-stained-wood-fence-gate",
+    "alias": "blue_stained_wood_fence_gate",
     "id": 845,
     "texture": {
       "pos_y": "blue stained wood",
@@ -1058,7 +1058,7 @@
     "properties": {}
   },
   {
-    "alias": "cyan-stained-wood-fence-gate",
+    "alias": "cyan_stained_wood_fence_gate",
     "id": 846,
     "texture": {
       "pos_y": "cyan stained wood",
@@ -1081,7 +1081,7 @@
     "properties": {}
   },
   {
-    "alias": "gray-stained-wood-fence-gate",
+    "alias": "gray_stained_wood_fence_gate",
     "id": 847,
     "texture": {
       "pos_y": "gray stained wood",
@@ -1104,7 +1104,7 @@
     "properties": {}
   },
   {
-    "alias": "green-stained-wood-fence-gate",
+    "alias": "green_stained_wood_fence_gate",
     "id": 848,
     "texture": {
       "pos_y": "green stained wood",
@@ -1127,7 +1127,7 @@
     "properties": {}
   },
   {
-    "alias": "light-blue-stained-wood-fence-gate",
+    "alias": "light_blue_stained_wood_fence_gate",
     "id": 849,
     "texture": {
       "pos_y": "light blue stained wood",
@@ -1150,7 +1150,7 @@
     "properties": {}
   },
   {
-    "alias": "lime-stained-wood-fence-gate",
+    "alias": "lime_stained_wood_fence_gate",
     "id": 850,
     "texture": {
       "pos_y": "lime stained wood",
@@ -1173,7 +1173,7 @@
     "properties": {}
   },
   {
-    "alias": "magenta-stained-wood-fence-gate",
+    "alias": "magenta_stained_wood_fence_gate",
     "id": 851,
     "texture": {
       "pos_y": "magenta stained wood",
@@ -1196,7 +1196,7 @@
     "properties": {}
   },
   {
-    "alias": "orange-stained-wood-fence-gate",
+    "alias": "orange_stained_wood_fence_gate",
     "id": 852,
     "texture": {
       "pos_y": "orange stained wood",
@@ -1219,7 +1219,7 @@
     "properties": {}
   },
   {
-    "alias": "pink-stained-wood-fence-gate",
+    "alias": "pink_stained_wood_fence_gate",
     "id": 853,
     "texture": {
       "pos_y": "pink stained wood",
@@ -1242,7 +1242,7 @@
     "properties": {}
   },
   {
-    "alias": "purple-stained-wood-fence-gate",
+    "alias": "purple_stained_wood_fence_gate",
     "id": 854,
     "texture": {
       "pos_y": "purple stained wood",
@@ -1265,7 +1265,7 @@
     "properties": {}
   },
   {
-    "alias": "red-stained-wood-fence-gate",
+    "alias": "red_stained_wood_fence_gate",
     "id": 855,
     "texture": {
       "pos_y": "red stained wood",
@@ -1288,7 +1288,7 @@
     "properties": {}
   },
   {
-    "alias": "white-stained-wood-fence-gate",
+    "alias": "white_stained_wood_fence_gate",
     "id": 856,
     "texture": {
       "pos_y": "white stained wood",

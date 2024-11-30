@@ -1,6 +1,6 @@
 [
   {
-    "alias": "acacia2-door-(top,-hidden)",
+    "alias": "acacia2_door_(top,_hidden)",
     "id": 878,
     "texture": {
       "pos_y": "door\\acacia2_0_0.png",
@@ -21,12 +21,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "937",
+      "vertical_pair": "937",
       "placement": "top"
     }
   },
   {
-    "alias": "acacia-door-(top,-hidden)",
+    "alias": "acacia_door_(top,_hidden)",
     "id": 879,
     "texture": {
       "pos_y": "door\\acacia_0_0.png",
@@ -47,12 +47,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "938",
+      "vertical_pair": "938",
       "placement": "top"
     }
   },
   {
-    "alias": "bamboo-2-door-(top,-hidden)",
+    "alias": "bamboo_2_door_(top,_hidden)",
     "id": 880,
     "texture": {
       "pos_y": "door\\bamboo 2_0_0.png",
@@ -73,12 +73,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "939",
+      "vertical_pair": "939",
       "placement": "top"
     }
   },
   {
-    "alias": "bamboo-door-(top,-hidden)",
+    "alias": "bamboo_door_(top,_hidden)",
     "id": 881,
     "texture": {
       "pos_y": "door\\bamboo_0_0.png",
@@ -99,12 +99,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "940",
+      "vertical_pair": "940",
       "placement": "top"
     }
   },
   {
-    "alias": "birch-door-(top,-hidden)",
+    "alias": "birch_door_(top,_hidden)",
     "id": 882,
     "texture": {
       "pos_y": "door\\birch_0_0.png",
@@ -125,12 +125,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "941",
+      "vertical_pair": "941",
       "placement": "top"
     }
   },
   {
-    "alias": "cladded-blue-door-(top,-hidden)",
+    "alias": "cladded_blue_door_(top,_hidden)",
     "id": 883,
     "texture": {
       "pos_y": "door\\cladded blue_0_0.png",
@@ -151,12 +151,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "942",
+      "vertical_pair": "942",
       "placement": "top"
     }
   },
   {
-    "alias": "cladded-green-door-(top,-hidden)",
+    "alias": "cladded_green_door_(top,_hidden)",
     "id": 884,
     "texture": {
       "pos_y": "door\\cladded green_0_0.png",
@@ -177,12 +177,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "943",
+      "vertical_pair": "943",
       "placement": "top"
     }
   },
   {
-    "alias": "cladded-magenta-door-(top,-hidden)",
+    "alias": "cladded_magenta_door_(top,_hidden)",
     "id": 885,
     "texture": {
       "pos_y": "door\\cladded magenta_0_0.png",
@@ -203,12 +203,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "944",
+      "vertical_pair": "944",
       "placement": "top"
     }
   },
   {
-    "alias": "cladded-door-(top,-hidden)",
+    "alias": "cladded_door_(top,_hidden)",
     "id": 886,
     "texture": {
       "pos_y": "door\\cladded_0_0.png",
@@ -229,12 +229,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "945",
+      "vertical_pair": "945",
       "placement": "top"
     }
   },
   {
-    "alias": "french-bamboo-windows-door-(top,-hidden)",
+    "alias": "french_bamboo_windows_door_(top,_hidden)",
     "id": 887,
     "texture": {
       "pos_y": "door\\french bamboo windows_0_0.png",
@@ -255,12 +255,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "946",
+      "vertical_pair": "946",
       "placement": "top"
     }
   },
   {
-    "alias": "french-bamboo-door-(top,-hidden)",
+    "alias": "french_bamboo_door_(top,_hidden)",
     "id": 888,
     "texture": {
       "pos_y": "door\\french bamboo_0_0.png",
@@ -281,12 +281,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "947",
+      "vertical_pair": "947",
       "placement": "top"
     }
   },
   {
-    "alias": "french-blue-windows-door-(top,-hidden)",
+    "alias": "french_blue_windows_door_(top,_hidden)",
     "id": 889,
     "texture": {
       "pos_y": "door\\french blue windows_0_0.png",
@@ -307,12 +307,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "948",
+      "vertical_pair": "948",
       "placement": "top"
     }
   },
   {
-    "alias": "french-blue-door-(top,-hidden)",
+    "alias": "french_blue_door_(top,_hidden)",
     "id": 890,
     "texture": {
       "pos_y": "door\\french blue_0_0.png",
@@ -333,12 +333,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "949",
+      "vertical_pair": "949",
       "placement": "top"
     }
   },
   {
-    "alias": "french-green-windows-door-(top,-hidden)",
+    "alias": "french_green_windows_door_(top,_hidden)",
     "id": 891,
     "texture": {
       "pos_y": "door\\french green windows_0_0.png",
@@ -359,12 +359,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "950",
+      "vertical_pair": "950",
       "placement": "top"
     }
   },
   {
-    "alias": "french-green-door-(top,-hidden)",
+    "alias": "french_green_door_(top,_hidden)",
     "id": 892,
     "texture": {
       "pos_y": "door\\french green_0_0.png",
@@ -385,12 +385,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "951",
+      "vertical_pair": "951",
       "placement": "top"
     }
   },
   {
-    "alias": "french-magenta-windows-door-(top,-hidden)",
+    "alias": "french_magenta_windows_door_(top,_hidden)",
     "id": 893,
     "texture": {
       "pos_y": "door\\french magenta windows_0_0.png",
@@ -411,12 +411,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "952",
+      "vertical_pair": "952",
       "placement": "top"
     }
   },
   {
-    "alias": "french-magenta-door-(top,-hidden)",
+    "alias": "french_magenta_door_(top,_hidden)",
     "id": 894,
     "texture": {
       "pos_y": "door\\french magenta_0_0.png",
@@ -437,12 +437,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "953",
+      "vertical_pair": "953",
       "placement": "top"
     }
   },
   {
-    "alias": "french-windows-door-(top,-hidden)",
+    "alias": "french_windows_door_(top,_hidden)",
     "id": 895,
     "texture": {
       "pos_y": "door\\french windows_0_0.png",
@@ -463,12 +463,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "954",
+      "vertical_pair": "954",
       "placement": "top"
     }
   },
   {
-    "alias": "french-door-(top,-hidden)",
+    "alias": "french_door_(top,_hidden)",
     "id": 896,
     "texture": {
       "pos_y": "door\\french_0_0.png",
@@ -489,12 +489,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "955",
+      "vertical_pair": "955",
       "placement": "top"
     }
   },
   {
-    "alias": "glass-door-(top,-hidden)",
+    "alias": "glass_door_(top,_hidden)",
     "id": 897,
     "texture": {
       "pos_y": "door\\glass_0_0.png",
@@ -515,12 +515,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "956",
+      "vertical_pair": "956",
       "placement": "top"
     }
   },
   {
-    "alias": "gray-space-door-(top,-hidden)",
+    "alias": "gray_space_door_(top,_hidden)",
     "id": 898,
     "texture": {
       "pos_y": "door\\gray 1_0_0.png",
@@ -541,12 +541,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "957",
+      "vertical_pair": "957",
       "placement": "top"
     }
   },
   {
-    "alias": "gray-space-control-panel-door-(top,-hidden)",
+    "alias": "gray_space_control_panel_door_(top,_hidden)",
     "id": 899,
     "texture": {
       "pos_y": "door\\gray 2 control-panel_0_0.png",
@@ -567,12 +567,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "958",
+      "vertical_pair": "958",
       "placement": "top"
     }
   },
   {
-    "alias": "gray-2-door-(top,-hidden)",
+    "alias": "gray_2_door_(top,_hidden)",
     "id": 900,
     "texture": {
       "pos_y": "door\\gray 2_0_0.png",
@@ -593,12 +593,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "959",
+      "vertical_pair": "959",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-bamboo-windows-door-(top,-hidden)",
+    "alias": "italian_bamboo_windows_door_(top,_hidden)",
     "id": 901,
     "texture": {
       "pos_y": "door\\italian bamboo windows_0_0.png",
@@ -619,12 +619,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "960",
+      "vertical_pair": "960",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-bamboo-door-(top,-hidden)",
+    "alias": "italian_bamboo_door_(top,_hidden)",
     "id": 902,
     "texture": {
       "pos_y": "door\\italian bamboo_0_0.png",
@@ -645,12 +645,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "961",
+      "vertical_pair": "961",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-blue-windows-door-(top,-hidden)",
+    "alias": "italian_blue_windows_door_(top,_hidden)",
     "id": 903,
     "texture": {
       "pos_y": "door\\italian blue windows_0_0.png",
@@ -671,12 +671,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "962",
+      "vertical_pair": "962",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-blue-door-(top,-hidden)",
+    "alias": "italian_blue_door_(top,_hidden)",
     "id": 904,
     "texture": {
       "pos_y": "door\\italian blue_0_0.png",
@@ -697,12 +697,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "963",
+      "vertical_pair": "963",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-green-windows-door-(top,-hidden)",
+    "alias": "italian_green_windows_door_(top,_hidden)",
     "id": 905,
     "texture": {
       "pos_y": "door\\italian green windows_0_0.png",
@@ -723,12 +723,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "964",
+      "vertical_pair": "964",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-green-door-(top,-hidden)",
+    "alias": "italian_green_door_(top,_hidden)",
     "id": 906,
     "texture": {
       "pos_y": "door\\italian green_0_0.png",
@@ -749,12 +749,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "965",
+      "vertical_pair": "965",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-magenta-windows-door-(top,-hidden)",
+    "alias": "italian_magenta_windows_door_(top,_hidden)",
     "id": 907,
     "texture": {
       "pos_y": "door\\italian magenta windows_0_0.png",
@@ -775,12 +775,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "966",
+      "vertical_pair": "966",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-magenta-door-(top,-hidden)",
+    "alias": "italian_magenta_door_(top,_hidden)",
     "id": 908,
     "texture": {
       "pos_y": "door\\italian magenta_0_0.png",
@@ -801,12 +801,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "967",
+      "vertical_pair": "967",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-windows-door-(top,-hidden)",
+    "alias": "italian_windows_door_(top,_hidden)",
     "id": 909,
     "texture": {
       "pos_y": "door\\italian windows_0_0.png",
@@ -827,12 +827,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "968",
+      "vertical_pair": "968",
       "placement": "top"
     }
   },
   {
-    "alias": "italian-door-(top,-hidden)",
+    "alias": "italian_door_(top,_hidden)",
     "id": 910,
     "texture": {
       "pos_y": "door\\italian_0_0.png",
@@ -853,12 +853,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "969",
+      "vertical_pair": "969",
       "placement": "top"
     }
   },
   {
-    "alias": "jungle-2-door-(top,-hidden)",
+    "alias": "jungle_2_door_(top,_hidden)",
     "id": 911,
     "texture": {
       "pos_y": "door\\jungle 2_0_0.png",
@@ -879,12 +879,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "970",
+      "vertical_pair": "970",
       "placement": "top"
     }
   },
   {
-    "alias": "jungle-door-(top,-hidden)",
+    "alias": "jungle_door_(top,_hidden)",
     "id": 912,
     "texture": {
       "pos_y": "door\\jungle_0_0.png",
@@ -905,12 +905,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "971",
+      "vertical_pair": "971",
       "placement": "top"
     }
   },
   {
-    "alias": "oak-2-door-(top,-hidden)",
+    "alias": "oak_2_door_(top,_hidden)",
     "id": 913,
     "texture": {
       "pos_y": "door\\oak 2_0_0.png",
@@ -931,12 +931,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "972",
+      "vertical_pair": "972",
       "placement": "top"
     }
   },
   {
-    "alias": "oak-renaissance-door-(top,-hidden)",
+    "alias": "oak_renaissance_door_(top,_hidden)",
     "id": 914,
     "texture": {
       "pos_y": "door\\oak renaissance_0_0.png",
@@ -957,12 +957,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "973",
+      "vertical_pair": "973",
       "placement": "top"
     }
   },
   {
-    "alias": "oak-door-(top,-hidden)",
+    "alias": "oak_door_(top,_hidden)",
     "id": 915,
     "texture": {
       "pos_y": "door\\oak_0_0.png",
@@ -983,12 +983,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "974",
+      "vertical_pair": "974",
       "placement": "top"
     }
   },
   {
-    "alias": "oval-bamboo-door-(top,-hidden)",
+    "alias": "oval_bamboo_door_(top,_hidden)",
     "id": 916,
     "texture": {
       "pos_y": "door\\oval bamboo_0_0.png",
@@ -1009,12 +1009,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "975",
+      "vertical_pair": "975",
       "placement": "top"
     }
   },
   {
-    "alias": "oval-blue-door-(top,-hidden)",
+    "alias": "oval_blue_door_(top,_hidden)",
     "id": 917,
     "texture": {
       "pos_y": "door\\oval blue_0_0.png",
@@ -1035,12 +1035,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "976",
+      "vertical_pair": "976",
       "placement": "top"
     }
   },
   {
-    "alias": "oval-green-door-(top,-hidden)",
+    "alias": "oval_green_door_(top,_hidden)",
     "id": 918,
     "texture": {
       "pos_y": "door\\oval green_0_0.png",
@@ -1061,12 +1061,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "977",
+      "vertical_pair": "977",
       "placement": "top"
     }
   },
   {
-    "alias": "oval-magenta-door-(top,-hidden)",
+    "alias": "oval_magenta_door_(top,_hidden)",
     "id": 919,
     "texture": {
       "pos_y": "door\\oval magenta_0_0.png",
@@ -1087,12 +1087,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "978",
+      "vertical_pair": "978",
       "placement": "top"
     }
   },
   {
-    "alias": "oval-door-(top,-hidden)",
+    "alias": "oval_door_(top,_hidden)",
     "id": 920,
     "texture": {
       "pos_y": "door\\oval_0_0.png",
@@ -1113,12 +1113,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "979",
+      "vertical_pair": "979",
       "placement": "top"
     }
   },
   {
-    "alias": "party-blue-door-(top,-hidden)",
+    "alias": "party_blue_door_(top,_hidden)",
     "id": 921,
     "texture": {
       "pos_y": "door\\party blue_0_0.png",
@@ -1139,12 +1139,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "980",
+      "vertical_pair": "980",
       "placement": "top"
     }
   },
   {
-    "alias": "party-green-door-(top,-hidden)",
+    "alias": "party_green_door_(top,_hidden)",
     "id": 922,
     "texture": {
       "pos_y": "door\\party green_0_0.png",
@@ -1165,12 +1165,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "981",
+      "vertical_pair": "981",
       "placement": "top"
     }
   },
   {
-    "alias": "party-magenta-door-(top,-hidden)",
+    "alias": "party_magenta_door_(top,_hidden)",
     "id": 923,
     "texture": {
       "pos_y": "door\\party magenta_0_0.png",
@@ -1191,12 +1191,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "982",
+      "vertical_pair": "982",
       "placement": "top"
     }
   },
   {
-    "alias": "party-purple-door-(top,-hidden)",
+    "alias": "party_purple_door_(top,_hidden)",
     "id": 924,
     "texture": {
       "pos_y": "door\\party purple_0_0.png",
@@ -1217,12 +1217,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "983",
+      "vertical_pair": "983",
       "placement": "top"
     }
   },
   {
-    "alias": "party-red-door-(top,-hidden)",
+    "alias": "party_red_door_(top,_hidden)",
     "id": 925,
     "texture": {
       "pos_y": "door\\party red_0_0.png",
@@ -1243,12 +1243,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "984",
+      "vertical_pair": "984",
       "placement": "top"
     }
   },
   {
-    "alias": "party-yellow-door-(top,-hidden)",
+    "alias": "party_yellow_door_(top,_hidden)",
     "id": 926,
     "texture": {
       "pos_y": "door\\party yellow_0_0.png",
@@ -1269,12 +1269,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "985",
+      "vertical_pair": "985",
       "placement": "top"
     }
   },
   {
-    "alias": "red-door-(top,-hidden)",
+    "alias": "red_door_(top,_hidden)",
     "id": 927,
     "texture": {
       "pos_y": "door\\red_0_0.png",
@@ -1295,12 +1295,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "986",
+      "vertical_pair": "986",
       "placement": "top"
     }
   },
   {
-    "alias": "spruce-2-door-(top,-hidden)",
+    "alias": "spruce_2_door_(top,_hidden)",
     "id": 928,
     "texture": {
       "pos_y": "door\\spruce 2_0_0.png",
@@ -1321,12 +1321,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "987",
+      "vertical_pair": "987",
       "placement": "top"
     }
   },
   {
-    "alias": "spruce-door-(top,-hidden)",
+    "alias": "spruce_door_(top,_hidden)",
     "id": 929,
     "texture": {
       "pos_y": "door\\spruce_0_0.png",
@@ -1347,12 +1347,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "988",
+      "vertical_pair": "988",
       "placement": "top"
     }
   },
   {
-    "alias": "steel-door-(top,-hidden)",
+    "alias": "steel_door_(top,_hidden)",
     "id": 930,
     "texture": {
       "pos_y": "door\\steel_0_0.png",
@@ -1373,12 +1373,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "989",
+      "vertical_pair": "989",
       "placement": "top"
     }
   },
   {
-    "alias": "warped-door-(top,-hidden)",
+    "alias": "warped_door_(top,_hidden)",
     "id": 931,
     "texture": {
       "pos_y": "door\\warped_0_0.png",
@@ -1399,12 +1399,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "990",
+      "vertical_pair": "990",
       "placement": "top"
     }
   },
   {
-    "alias": "web-door-(top,-hidden)",
+    "alias": "web_door_(top,_hidden)",
     "id": 932,
     "texture": {
       "pos_y": "door\\web_0_0.png",
@@ -1425,12 +1425,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "991",
+      "vertical_pair": "991",
       "placement": "top"
     }
   },
   {
-    "alias": "white-1-door-(top,-hidden)",
+    "alias": "white_1_door_(top,_hidden)",
     "id": 933,
     "texture": {
       "pos_y": "door\\white 1_0_0.png",
@@ -1451,12 +1451,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "992",
+      "vertical_pair": "992",
       "placement": "top"
     }
   },
   {
-    "alias": "white-2-control-panel-door-(top,-hidden)",
+    "alias": "white_2_control_panel_door_(top,_hidden)",
     "id": 934,
     "texture": {
       "pos_y": "door\\white 2 control-panel_0_0.png",
@@ -1477,12 +1477,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "993",
+      "vertical_pair": "993",
       "placement": "top"
     }
   },
   {
-    "alias": "white-2-door-(top,-hidden)",
+    "alias": "white_2_door_(top,_hidden)",
     "id": 935,
     "texture": {
       "pos_y": "door\\white 2_0_0.png",
@@ -1503,12 +1503,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "994",
+      "vertical_pair": "994",
       "placement": "top"
     }
   },
   {
-    "alias": "white-door-(top,-hidden)",
+    "alias": "white_door_(top,_hidden)",
     "id": 936,
     "texture": {
       "pos_y": "door\\white_0_0.png",
@@ -1529,12 +1529,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "995",
+      "vertical_pair": "995",
       "placement": "top"
     }
   },
   {
-    "alias": "acacia-door-2",
+    "alias": "acacia_door_2",
     "id": 937,
     "texture": {
       "pos_y": "door\\acacia2_0_1.png",
@@ -1555,12 +1555,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "878",
+      "vertical_pair": "878",
       "placement": "bottom"
     }
   },
   {
-    "alias": "acacia-door",
+    "alias": "acacia_door",
     "id": 938,
     "texture": {
       "pos_y": "door\\acacia_0_1.png",
@@ -1581,12 +1581,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "879",
+      "vertical_pair": "879",
       "placement": "bottom"
     }
   },
   {
-    "alias": "bamboo-2-door",
+    "alias": "bamboo_2_door",
     "id": 939,
     "texture": {
       "pos_y": "door\\bamboo 2_0_1.png",
@@ -1607,12 +1607,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "880",
+      "vertical_pair": "880",
       "placement": "bottom"
     }
   },
   {
-    "alias": "bamboo-door",
+    "alias": "bamboo_door",
     "id": 940,
     "texture": {
       "pos_y": "door\\bamboo_0_1.png",
@@ -1633,12 +1633,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "881",
+      "vertical_pair": "881",
       "placement": "bottom"
     }
   },
   {
-    "alias": "birch-door",
+    "alias": "birch_door",
     "id": 941,
     "texture": {
       "pos_y": "door\\birch_0_1.png",
@@ -1659,12 +1659,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "882",
+      "vertical_pair": "882",
       "placement": "bottom"
     }
   },
   {
-    "alias": "cladded-blue-door",
+    "alias": "cladded_blue_door",
     "id": 942,
     "texture": {
       "pos_y": "door\\cladded blue_0_1.png",
@@ -1685,12 +1685,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "883",
+      "vertical_pair": "883",
       "placement": "bottom"
     }
   },
   {
-    "alias": "cladded-green-door",
+    "alias": "cladded_green_door",
     "id": 943,
     "texture": {
       "pos_y": "door\\cladded green_0_1.png",
@@ -1711,12 +1711,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "884",
+      "vertical_pair": "884",
       "placement": "bottom"
     }
   },
   {
-    "alias": "cladded-magenta-door",
+    "alias": "cladded_magenta_door",
     "id": 944,
     "texture": {
       "pos_y": "door\\cladded magenta_0_1.png",
@@ -1737,12 +1737,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "885",
+      "vertical_pair": "885",
       "placement": "bottom"
     }
   },
   {
-    "alias": "cladded-door",
+    "alias": "cladded_door",
     "id": 945,
     "texture": {
       "pos_y": "door\\cladded_0_1.png",
@@ -1763,12 +1763,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "886",
+      "vertical_pair": "886",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-bamboo-windows-door",
+    "alias": "french_bamboo_windows_door",
     "id": 946,
     "texture": {
       "pos_y": "door\\french bamboo windows_0_1.png",
@@ -1789,12 +1789,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "887",
+      "vertical_pair": "887",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-bamboo-door",
+    "alias": "french_bamboo_door",
     "id": 947,
     "texture": {
       "pos_y": "door\\french bamboo_0_1.png",
@@ -1815,12 +1815,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "888",
+      "vertical_pair": "888",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-blue-windows-door",
+    "alias": "french_blue_windows_door",
     "id": 948,
     "texture": {
       "pos_y": "door\\french blue windows_0_1.png",
@@ -1841,12 +1841,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "889",
+      "vertical_pair": "889",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-blue-door",
+    "alias": "french_blue_door",
     "id": 949,
     "texture": {
       "pos_y": "door\\french blue_0_1.png",
@@ -1867,12 +1867,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "890",
+      "vertical_pair": "890",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-green-windows-door",
+    "alias": "french_green_windows_door",
     "id": 950,
     "texture": {
       "pos_y": "door\\french green windows_0_1.png",
@@ -1893,12 +1893,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "891",
+      "vertical_pair": "891",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-green-door",
+    "alias": "french_green_door",
     "id": 951,
     "texture": {
       "pos_y": "door\\french green_0_1.png",
@@ -1919,12 +1919,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "892",
+      "vertical_pair": "892",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-magenta-windows-door",
+    "alias": "french_magenta_windows_door",
     "id": 952,
     "texture": {
       "pos_y": "door\\french magenta windows_0_1.png",
@@ -1945,12 +1945,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "893",
+      "vertical_pair": "893",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-magenta-door",
+    "alias": "french_magenta_door",
     "id": 953,
     "texture": {
       "pos_y": "door\\french magenta_0_1.png",
@@ -1971,12 +1971,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "894",
+      "vertical_pair": "894",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-windows-door",
+    "alias": "french_windows_door",
     "id": 954,
     "texture": {
       "pos_y": "door\\french windows_0_1.png",
@@ -1997,12 +1997,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "895",
+      "vertical_pair": "895",
       "placement": "bottom"
     }
   },
   {
-    "alias": "french-door",
+    "alias": "french_door",
     "id": 955,
     "texture": {
       "pos_y": "door\\french_0_1.png",
@@ -2023,12 +2023,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "896",
+      "vertical_pair": "896",
       "placement": "bottom"
     }
   },
   {
-    "alias": "glass-door",
+    "alias": "glass_door",
     "id": 956,
     "texture": {
       "pos_y": "door\\glass_0_1.png",
@@ -2049,12 +2049,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "897",
+      "vertical_pair": "897",
       "placement": "bottom"
     }
   },
   {
-    "alias": "gray-space-door",
+    "alias": "gray_space_door",
     "id": 957,
     "texture": {
       "pos_y": "door\\gray 1_0_1.png",
@@ -2075,12 +2075,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "898",
+      "vertical_pair": "898",
       "placement": "bottom"
     }
   },
   {
-    "alias": "gray-space-control-panel-door",
+    "alias": "gray_space_control_panel_door",
     "id": 958,
     "texture": {
       "pos_y": "door\\gray 2 control-panel_0_1.png",
@@ -2101,12 +2101,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "899",
+      "vertical_pair": "899",
       "placement": "bottom"
     }
   },
   {
-    "alias": "gray-space-door-2",
+    "alias": "gray_space_door_2",
     "id": 959,
     "texture": {
       "pos_y": "door\\gray 2_0_1.png",
@@ -2127,12 +2127,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "900",
+      "vertical_pair": "900",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-bamboo-windows-door",
+    "alias": "italian_bamboo_windows_door",
     "id": 960,
     "texture": {
       "pos_y": "door\\italian bamboo windows_0_1.png",
@@ -2153,12 +2153,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "901",
+      "vertical_pair": "901",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-bamboo-door",
+    "alias": "italian_bamboo_door",
     "id": 961,
     "texture": {
       "pos_y": "door\\italian bamboo_0_1.png",
@@ -2179,12 +2179,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "902",
+      "vertical_pair": "902",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-blue-windows-door",
+    "alias": "italian_blue_windows_door",
     "id": 962,
     "texture": {
       "pos_y": "door\\italian blue windows_0_1.png",
@@ -2205,12 +2205,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "903",
+      "vertical_pair": "903",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-blue-door",
+    "alias": "italian_blue_door",
     "id": 963,
     "texture": {
       "pos_y": "door\\italian blue_0_1.png",
@@ -2231,12 +2231,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "904",
+      "vertical_pair": "904",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-green-windows-door",
+    "alias": "italian_green_windows_door",
     "id": 964,
     "texture": {
       "pos_y": "door\\italian green windows_0_1.png",
@@ -2257,12 +2257,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "905",
+      "vertical_pair": "905",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-green-door",
+    "alias": "italian_green_door",
     "id": 965,
     "texture": {
       "pos_y": "door\\italian green_0_1.png",
@@ -2283,12 +2283,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "906",
+      "vertical_pair": "906",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-magenta-windows-door",
+    "alias": "italian_magenta_windows_door",
     "id": 966,
     "texture": {
       "pos_y": "door\\italian magenta windows_0_1.png",
@@ -2309,12 +2309,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "907",
+      "vertical_pair": "907",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-magenta-door",
+    "alias": "italian_magenta_door",
     "id": 967,
     "texture": {
       "pos_y": "door\\italian magenta_0_1.png",
@@ -2335,12 +2335,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "908",
+      "vertical_pair": "908",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-windows-door",
+    "alias": "italian_windows_door",
     "id": 968,
     "texture": {
       "pos_y": "door\\italian windows_0_1.png",
@@ -2361,12 +2361,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "909",
+      "vertical_pair": "909",
       "placement": "bottom"
     }
   },
   {
-    "alias": "italian-door",
+    "alias": "italian_door",
     "id": 969,
     "texture": {
       "pos_y": "door\\italian_0_1.png",
@@ -2387,12 +2387,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "910",
+      "vertical_pair": "910",
       "placement": "bottom"
     }
   },
   {
-    "alias": "jungle-2-door",
+    "alias": "jungle_2_door",
     "id": 970,
     "texture": {
       "pos_y": "door\\jungle 2_0_1.png",
@@ -2413,12 +2413,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "911",
+      "vertical_pair": "911",
       "placement": "bottom"
     }
   },
   {
-    "alias": "jungle-door",
+    "alias": "jungle_door",
     "id": 971,
     "texture": {
       "pos_y": "door\\jungle_0_1.png",
@@ -2439,12 +2439,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "912",
+      "vertical_pair": "912",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oak-2-door",
+    "alias": "oak_2_door",
     "id": 972,
     "texture": {
       "pos_y": "door\\oak 2_0_1.png",
@@ -2465,12 +2465,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "913",
+      "vertical_pair": "913",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oak-renaissance-door",
+    "alias": "oak_renaissance_door",
     "id": 973,
     "texture": {
       "pos_y": "door\\oak renaissance_0_1.png",
@@ -2491,12 +2491,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "914",
+      "vertical_pair": "914",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oak-door",
+    "alias": "oak_door",
     "id": 974,
     "texture": {
       "pos_y": "door\\oak_0_1.png",
@@ -2517,12 +2517,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "915",
+      "vertical_pair": "915",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oval-bamboo-door",
+    "alias": "oval_bamboo_door",
     "id": 975,
     "texture": {
       "pos_y": "door\\oval bamboo_0_1.png",
@@ -2543,12 +2543,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "916",
+      "vertical_pair": "916",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oval-blue-door",
+    "alias": "oval_blue_door",
     "id": 976,
     "texture": {
       "pos_y": "door\\oval blue_0_1.png",
@@ -2569,12 +2569,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "917",
+      "vertical_pair": "917",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oval-green-door",
+    "alias": "oval_green_door",
     "id": 977,
     "texture": {
       "pos_y": "door\\oval green_0_1.png",
@@ -2595,12 +2595,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "918",
+      "vertical_pair": "918",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oval-magenta-door",
+    "alias": "oval_magenta_door",
     "id": 978,
     "texture": {
       "pos_y": "door\\oval magenta_0_1.png",
@@ -2621,12 +2621,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "919",
+      "vertical_pair": "919",
       "placement": "bottom"
     }
   },
   {
-    "alias": "oval-door",
+    "alias": "oval_door",
     "id": 979,
     "texture": {
       "pos_y": "door\\oval_0_1.png",
@@ -2647,12 +2647,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "920",
+      "vertical_pair": "920",
       "placement": "bottom"
     }
   },
   {
-    "alias": "party-blue-door",
+    "alias": "party_blue_door",
     "id": 980,
     "texture": {
       "pos_y": "door\\party blue_0_1.png",
@@ -2673,12 +2673,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "921",
+      "vertical_pair": "921",
       "placement": "bottom"
     }
   },
   {
-    "alias": "party-green-door",
+    "alias": "party_green_door",
     "id": 981,
     "texture": {
       "pos_y": "door\\party green_0_1.png",
@@ -2699,12 +2699,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "922",
+      "vertical_pair": "922",
       "placement": "bottom"
     }
   },
   {
-    "alias": "party-magenta-door",
+    "alias": "party_magenta_door",
     "id": 982,
     "texture": {
       "pos_y": "door\\party magenta_0_1.png",
@@ -2725,12 +2725,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "923",
+      "vertical_pair": "923",
       "placement": "bottom"
     }
   },
   {
-    "alias": "party-purple-door",
+    "alias": "party_purple_door",
     "id": 983,
     "texture": {
       "pos_y": "door\\party purple_0_1.png",
@@ -2751,12 +2751,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "924",
+      "vertical_pair": "924",
       "placement": "bottom"
     }
   },
   {
-    "alias": "party-red-door",
+    "alias": "party_red_door",
     "id": 984,
     "texture": {
       "pos_y": "door\\party red_0_1.png",
@@ -2777,12 +2777,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "925",
+      "vertical_pair": "925",
       "placement": "bottom"
     }
   },
   {
-    "alias": "party-yellow-door",
+    "alias": "party_yellow_door",
     "id": 985,
     "texture": {
       "pos_y": "door\\party yellow_0_1.png",
@@ -2803,12 +2803,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "926",
+      "vertical_pair": "926",
       "placement": "bottom"
     }
   },
   {
-    "alias": "red-door",
+    "alias": "red_door",
     "id": 986,
     "texture": {
       "pos_y": "door\\red_0_1.png",
@@ -2829,12 +2829,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "927",
+      "vertical_pair": "927",
       "placement": "bottom"
     }
   },
   {
-    "alias": "spruce-2-door",
+    "alias": "spruce_2_door",
     "id": 987,
     "texture": {
       "pos_y": "door\\spruce 2_0_1.png",
@@ -2855,12 +2855,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "928",
+      "vertical_pair": "928",
       "placement": "bottom"
     }
   },
   {
-    "alias": "spruce-door",
+    "alias": "spruce_door",
     "id": 988,
     "texture": {
       "pos_y": "door\\spruce_0_1.png",
@@ -2881,12 +2881,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "929",
+      "vertical_pair": "929",
       "placement": "bottom"
     }
   },
   {
-    "alias": "steel-door",
+    "alias": "steel_door",
     "id": 989,
     "texture": {
       "pos_y": "door\\steel_0_1.png",
@@ -2907,12 +2907,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "930",
+      "vertical_pair": "930",
       "placement": "bottom"
     }
   },
   {
-    "alias": "warped-door",
+    "alias": "warped_door",
     "id": 990,
     "texture": {
       "pos_y": "door\\warped_0_1.png",
@@ -2933,12 +2933,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "931",
+      "vertical_pair": "931",
       "placement": "bottom"
     }
   },
   {
-    "alias": "web-door",
+    "alias": "web_door",
     "id": 991,
     "texture": {
       "pos_y": "door\\web_0_1.png",
@@ -2959,12 +2959,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "932",
+      "vertical_pair": "932",
       "placement": "bottom"
     }
   },
   {
-    "alias": "white-space-door",
+    "alias": "white_space_door",
     "id": 992,
     "texture": {
       "pos_y": "door\\white 1_0_1.png",
@@ -2985,12 +2985,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "933",
+      "vertical_pair": "933",
       "placement": "bottom"
     }
   },
   {
-    "alias": "white-space-control-panel-door",
+    "alias": "white_space_control_panel_door",
     "id": 993,
     "texture": {
       "pos_y": "door\\white 2 control-panel_0_1.png",
@@ -3011,12 +3011,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "934",
+      "vertical_pair": "934",
       "placement": "bottom"
     }
   },
   {
-    "alias": "white-space-door-2",
+    "alias": "white_space_door_2",
     "id": 994,
     "texture": {
       "pos_y": "door\\white 2_0_1.png",
@@ -3037,12 +3037,12 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "935",
+      "vertical_pair": "935",
       "placement": "bottom"
     }
   },
   {
-    "alias": "white-door",
+    "alias": "white_door",
     "id": 995,
     "texture": {
       "pos_y": "door\\white_0_1.png",
@@ -3063,7 +3063,7 @@
       0.0
     ],
     "properties": {
-      "vertical-pair": "936",
+      "vertical_pair": "936",
       "placement": "bottom"
     }
   }

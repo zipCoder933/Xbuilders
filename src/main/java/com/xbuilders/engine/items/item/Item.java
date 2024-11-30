@@ -84,8 +84,8 @@ public class Item {
         this.id = id;
         if (id.isBlank()) throw new IllegalArgumentException("Item ID cannot be empty");
         else if (id.contains(" ")) throw new IllegalArgumentException("Item ID cannot contain spaces");
-        if (id.contains("_"))
-            System.err.println("It is not recommended to use underscores in item IDs, use hyphens instead");
+        if (id.contains("-"))
+            System.err.println("It is not recommended to use dashes in item IDs, use underscores instead");
 
         this.name = MiscUtils.capitalizeWords(name.trim()); //We can auto-format the name
         NKicon = NkImage.create();

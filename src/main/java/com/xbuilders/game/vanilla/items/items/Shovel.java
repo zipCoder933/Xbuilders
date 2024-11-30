@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Shovel extends Item {
 
     public Shovel(String id, int durability) {
-        super("xbuilders:"+ id+"-shovel", MiscUtils.capitalizeWords(id) + " Shovel");
+        super("xbuilders:"+ id+"_shovel", MiscUtils.capitalizeWords(id) + " Shovel");
         setIcon("pp\\"+id + "_shovel.png");
         maxStackSize = 1;
         tags.add("shovel");
