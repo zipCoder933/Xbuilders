@@ -123,7 +123,7 @@ public class CircleTool extends BlockTool {
 
     private void setBlock(Vector3i origin, int x, int y, int z, Block block, float radius) {
         if (!hollow || origin.distance(x, y, z) > radius - wallThickness.getValueAsNumber()) {
-            GameScene.player.setBlock(block.id, x, y, z);
+            GameScene.setBlock(block.id, x, y, z);
         }
     }
 

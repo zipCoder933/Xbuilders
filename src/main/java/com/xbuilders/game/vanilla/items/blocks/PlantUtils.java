@@ -32,11 +32,11 @@ public class PlantUtils {
                 Thread.sleep(growSpeed);
                 if (GameScene.world.getBlockID(x, y, z) == lastStage
                         && cropPlantable(x, y, z)) {
-                    GameScene.player.setBlock(stage, x, y, z);
+                    GameScene.setBlock(stage, x, y, z);
                     lastStage = stage;
                 } else {
                     if (i == 0) {
-                        GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
+                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
                     }
                     return;
                 }

@@ -8,7 +8,6 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -98,16 +97,12 @@ public abstract class Terrain {
     protected abstract void generateChunkInner(final Chunk p0, GenSession session);
 
     //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
-    public boolean spawnRulesApply(float PLAYER_HEIGHT, World world,
-                                   int playerFeetX, int playerFeetY, int playerFeetZ) {
-        WCCi wcc = new WCCi();
-        wcc.set(playerFeetX, playerFeetY - 3, playerFeetZ);
-        Chunk chunk = world.chunks.get(wcc.chunk);
-        if (chunk != null && chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z) < 5) {
-            return false;//We cant spawn in darkness
-        }
+    public boolean canSpawnHere(float PLAYER_HEIGHT,
+                                World world,
+                                int playerFeetX, int playerFeetY, int playerFeetZ) {
+
         Block footBlock = world.getBlock(playerFeetX, playerFeetY, playerFeetZ);
-        return footBlock.solid && footBlock.opaque
+        return footBlock.solid
                 && !world.getBlock(playerFeetX, playerFeetY - 1, playerFeetZ).solid
                 && !world.getBlock(playerFeetX, playerFeetY - 2, playerFeetZ).solid
                 && !world.getBlock(playerFeetX, playerFeetY - 3, playerFeetZ).solid;

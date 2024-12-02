@@ -31,7 +31,7 @@ public class SpruceTreeUtils {
     public static void player_plantTree(Random rand, int x, int y, int z) {
         int height = randomInt(rand, MIN_HEIGHT, MAX_HEIGHT);
         for (int k = 0; k < height; k++) {
-            GameScene.player.setBlock(Blocks.BLOCK_SPRUCE_LOG, x, y - k, z);
+            GameScene.setBlock(Blocks.BLOCK_SPRUCE_LOG, x, y - k, z);
         }
 
         int heightVal = 4;
@@ -70,7 +70,7 @@ public class SpruceTreeUtils {
             heightVal--;
             layerValue--;
         }
-        GameScene.player.setBlock(Blocks.BLOCK_SPRUCE_LEAVES, z, x, y - height + heightVal);
+        GameScene.setBlock(Blocks.BLOCK_SPRUCE_LEAVES, z, x, y - height + heightVal);
     }
 
     public static void terrain_plantTree(Terrain.GenSession terrain, Chunk source, int x, int y, int z) {

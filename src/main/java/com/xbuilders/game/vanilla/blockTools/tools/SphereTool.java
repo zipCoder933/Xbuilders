@@ -103,7 +103,7 @@ public class SphereTool extends BlockTool {
 
         Block prevBlock = GameScene.world.getBlock(x, y, z);
         if (prevBlock != newBlock && (!prevBlock.solid || newBlock.isAir())) {
-            GameScene.player.setBlock(newBlock.id, x, y, z);
+            GameScene.setBlock(newBlock.id, x, y, z);
         }
     }
 

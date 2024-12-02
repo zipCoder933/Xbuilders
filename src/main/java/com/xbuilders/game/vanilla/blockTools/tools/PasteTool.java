@@ -178,7 +178,7 @@ public class PasteTool extends BlockTool {
             for (int y = 0; y < clipboard.size.y; y++) {
                 for (int z = 0; z < clipboard.size.z; z++) {
                     if (clipboard.getBlock(x, y, z) != BlockRegistry.BLOCK_AIR.id || !additionMode) {
-                        GameScene.player.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
+                        GameScene.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
                     }
                 }
             }

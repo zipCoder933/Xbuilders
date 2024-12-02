@@ -36,9 +36,9 @@ public class BlockEventPipeline {
     UserControlledPlayer player;
     final Object eventClearLock = new Object();
 
-    public BlockEventPipeline(World world, UserControlledPlayer player) {
+    public BlockEventPipeline(World world) {
         this.world = world;
-        this.player = player;
+        this.player = GameScene.player;
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
@@ -82,7 +82,7 @@ public class BlockEventPipeline {
     public PriorityThreadPoolExecutor clickEventThread;
     WorldData worldInfo;
 
-    public void startGame(WorldData worldInfo) {
+    public void startGameEvent(WorldData worldInfo) {
         eventThread = new PriorityThreadPoolExecutor(
                 100, 1000,
                 0L, TimeUnit.MILLISECONDS,
@@ -101,7 +101,7 @@ public class BlockEventPipeline {
         this.worldInfo = worldInfo;
     }
 
-    public void endGame() {
+    public void stopGameEvent() {
         events.clear();
         eventThread.shutdown();
         bulkBlockThread.shutdown();

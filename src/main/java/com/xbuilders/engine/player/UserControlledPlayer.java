@@ -5,32 +5,21 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.GameSceneEvents;
 import com.xbuilders.engine.items.block.BlockRegistry;
-import com.xbuilders.engine.items.entity.EntityRegistry;
-import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
-import com.xbuilders.engine.items.entity.ItemDrop;
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.camera.Camera;
-import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
-import com.xbuilders.engine.player.pipeline.BlockHistory;
-import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.world.data.WorldData;
-import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.WCCf;
-import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -55,7 +44,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     boolean isClimbing = false;
     public PositionHandler positionHandler;
     boolean usePositionHandler = true;
-    public BlockEventPipeline eventPipeline;
+
     public PositionLock positionLock;
     boolean autoForward = false;
     boolean autoJump_unCollided = true;
@@ -185,17 +174,16 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         positionHandler.setGravityEnabled(true);
     }
 
-    public UserControlledPlayer(MainWindow window, World world,
-                                Matrix4f projection, Matrix4f view, Matrix4f centeredView) throws IOException {
+    public UserControlledPlayer(MainWindow window,
+                                Matrix4f projection, Matrix4f view,
+                                Matrix4f centeredView) throws IOException {
         super();
         this.window = window;
-        this.chunks = world;
         this.projection = projection;
         this.view = view;
         inventory = new StorageSpace(33);
         camera = new Camera(this, window, projection, view, centeredView);
-        positionHandler = new PositionHandler(window, world, aabb, aabb);
-        eventPipeline = new BlockEventPipeline(world, this);
+        positionHandler = new PositionHandler(window, GameScene.world, aabb, aabb);
         userInfo.loadFromDisk();
     }
 
@@ -208,11 +196,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void startGameEvent(WorldData world) {
-        eventPipeline.startGame(world);
         autoForward = false;
         isFlyingMode = true;
         loadFromWorld(world);
         event_gameModeChanged(GameScene.getGameMode());
+    }
+
+    public void stopGameEvent() {
+
     }
 
     public void event_gameModeChanged(GameMode gameMode) {
@@ -223,12 +214,6 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             camera.cursorRay.setRayDistance(128);
         } else camera.cursorRay.setRayDistance(6);
     }
-
-    public void stopGameEvent() {
-        eventPipeline.endGame();
-    }
-
-    World chunks;
 
     public Block getBlockAtPlayerHead() {
         return GameScene.world.getBlock(
@@ -294,7 +279,6 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             }
         }
 
-        eventPipeline.update();
 
         if (positionHandler.isGravityEnabled()) {
             disableFlying();
@@ -484,89 +468,12 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         Vector3f pos = new Vector3f().set(GameScene.player.worldPosition);
         Vector3f addition = new Vector3f().set(GameScene.player.camera.look.x, 0, GameScene.player.camera.look.z).mul(2f);
         pos.add(addition);
-        return GameScene.player.placeItemDrop(
+        return GameScene.placeItemDrop(
                 pos,
                 itemStack,
                 true);
     }
 
-    public Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try {
-            byteArrayOutputStream.write(droppedFromPlayer ? 1 : 0);
-            ItemDrop.objectMapper.writeValue(byteArrayOutputStream, item);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return setEntity(EntityRegistry.ENTITY_ITEM_DROP, position, bytes);
-    }
-
-    public Entity setEntity(EntitySupplier entity, Vector3f w, byte[] data) {
-        WCCf wcc = new WCCf();
-        wcc.set(w);
-        Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
-        if (chunk != null) {
-            chunk.markAsModified();
-            Entity e = chunk.entities.placeNew(w, entity, data);
-            e.sendMultiplayer = true;//Tells the chunkEntitySet to send the entity to the clients
-            return e;
-        }
-        return null;
-    }
-
-
-    //Set block method ===============================================================================
-//The master method
-    public void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
-        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
-        Chunk chunk = chunks.getChunk(wcc.chunk);
-        if (chunk != null) {
-            //Get the previous block
-            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-
-            //we need to set the block because some algorithms want to check to see if the block has changed immediately
-            chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
-
-            BlockHistory history = new BlockHistory(previousBlock, newBlock);
-            if (blockData != null) {
-                history.updateBlockData = true;
-                history.newBlockData = blockData;
-            }
-            eventPipeline.addEvent(wcc, history);
-        }
-    }
-
-    public void setBlock(short newBlock, WCCi wcc) {
-        setBlock(newBlock, null, wcc);
-    }
-
-    public void setBlock(short block, int worldX, int worldY, int worldZ) {
-        setBlock(block, null, new WCCi().set(worldX, worldY, worldZ));
-    }
-
-    public void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
-        setBlock(block, data, new WCCi().set(worldX, worldY, worldZ));
-    }
-//==============================================================================================
-
-    public void setNewSpawnPoint(Terrain terrain) {
-        System.out.println("Setting new spawn point...");
-        int radius = Chunk.HALF_WIDTH;
-        for (int x = -radius; x < radius; x++) {
-            for (int z = -radius; z < radius; z++) {
-                for (int y = terrain.MIN_SURFACE_HEIGHT - 10; y < terrain.MAX_SURFACE_HEIGHT + 10; y++) {
-                    if (terrain.spawnRulesApply(PLAYER_HEIGHT, chunks, x, y, z)) {
-                        System.out.println("Found new spawn point!");
-                        worldPosition.set(x, y - PLAYER_HEIGHT - 0.5f, z);
-                        return;
-                    }
-                }
-            }
-        }
-        worldPosition.set(0, terrain.MIN_SURFACE_HEIGHT - PLAYER_HEIGHT - 0.5f, 0);
-        System.out.println("Spawn point not found");
-    }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         return false;

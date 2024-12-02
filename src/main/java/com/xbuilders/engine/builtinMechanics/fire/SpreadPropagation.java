@@ -70,10 +70,10 @@ class SpreadPropagation extends LivePropagationTask {
             Block block = GameScene.world.getBlock(node.x, node.y+1, node.z);
             //If it is not solid, remove it
             if (!block.solid && isFlammable(block)) {
-                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
-                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y+1, node.z);
+                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y+1, node.z);
             }else if (!isFlammable(block)) {
-                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
             }
 
         }
@@ -89,7 +89,7 @@ class SpreadPropagation extends LivePropagationTask {
     private boolean lightBlock(int x, int y, int z) {
         if (isFlammable(GameScene.world.getBlock(x, y, z))
                 && GameScene.world.getBlock(x, y - 1, z).isAir()) {
-            GameScene.player.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+            GameScene.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             disintegrationNodes.add(new Vector3i(x, y, z));
             return true;
         }

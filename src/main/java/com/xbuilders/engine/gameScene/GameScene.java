@@ -7,13 +7,20 @@ package com.xbuilders.engine.gameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntityRegistry;
+import com.xbuilders.engine.items.entity.EntitySupplier;
+import com.xbuilders.engine.items.entity.ItemDrop;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.player.UserControlledPlayer;
+import com.xbuilders.engine.player.pipeline.BlockEventPipeline;
+import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
+import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.chunk.BlockData;
@@ -29,9 +36,11 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.opengl.GL11;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.xbuilders.engine.player.Player.PLAYER_HEIGHT;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengles.GLES20.GL_BLEND;
 
@@ -50,6 +59,7 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f centeredView = new Matrix4f();
     private static Game game;
     public static GameCommands commands;
+    public static BlockEventPipeline eventPipeline;
 
     //Game Mode =======================================================================================================
     private static GameMode gameMode = GameMode.ADVENTURE;
@@ -92,9 +102,69 @@ public class GameScene implements WindowEvents {
         game = myGame;
         this.window = window;
         specialMode = true;
-        player = new UserControlledPlayer(window, world, projection, view, centeredView);
+        player = new UserControlledPlayer(window, projection, view, centeredView);
         server = new GameServer(player);
         livePropagationHandler = new LivePropagationHandler();
+        eventPipeline = new BlockEventPipeline(world);
+    }
+
+    //Set block ===============================================================================
+    public static void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
+        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
+        Chunk chunk = world.getChunk(wcc.chunk);
+        if (chunk != null) {
+            //Get the previous block
+            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+
+            //we need to set the block because some algorithms want to check to see if the block has changed immediately
+            chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
+
+            BlockHistory history = new BlockHistory(previousBlock, newBlock);
+            if (blockData != null) {
+                history.updateBlockData = true;
+                history.newBlockData = blockData;
+            }
+            eventPipeline.addEvent(wcc, history);
+        }
+    }
+
+    public static void setBlock(short newBlock, WCCi wcc) {
+        setBlock(newBlock, null, wcc);
+    }
+
+    public static void setBlock(short block, int worldX, int worldY, int worldZ) {
+        setBlock(block, null, new WCCi().set(worldX, worldY, worldZ));
+    }
+
+    public static void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
+        setBlock(block, data, new WCCi().set(worldX, worldY, worldZ));
+    }
+
+
+    //Set entity =================================================================================
+    public static Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            byteArrayOutputStream.write(droppedFromPlayer ? 1 : 0);
+            ItemDrop.objectMapper.writeValue(byteArrayOutputStream, item);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return placeEntity(EntityRegistry.ENTITY_ITEM_DROP, position, bytes);
+    }
+
+    public static Entity placeEntity(EntitySupplier entity, Vector3f w, byte[] data) {
+        WCCf wcc = new WCCf();
+        wcc.set(w);
+        Chunk chunk = world.chunks.get(wcc.chunk);
+        if (chunk != null) {
+            chunk.markAsModified();
+            Entity e = chunk.entities.placeNew(w, entity, data);
+            e.sendMultiplayer = true;//Tells the chunkEntitySet to send the entity to the clients
+            return e;
+        }
+        return null;
     }
 
 
@@ -138,30 +208,32 @@ public class GameScene implements WindowEvents {
     }
 
 
-    public void gameClosedEvent() {
-        if (world.terrain != null) {
-            System.out.println("Closing " + world.data.getName() + "...");
-            player.stopGameEvent();
-            world.stopGame(player.worldPosition);
-        }
-        livePropagationHandler.endGame();
-        try {
-            server.closeGame();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     int completeChunks, framesWithCompleteChunkValue;
-    WorldData worldInfo;
+    private WorldData worldInfo;
     NetworkJoinRequest req;
     ProgressData prog;
 
-    public void startGame(WorldData world, NetworkJoinRequest req, ProgressData prog) {
-        this.worldInfo = world;//WorldInfo could be null here
+    public void startGameEvent(WorldData world, NetworkJoinRequest req, ProgressData prog) {
+        worldInfo = world;
         this.req = req;
         this.prog = prog;
-        livePropagationHandler.startGame(world);
+        livePropagationHandler.startGameEvent(world);
+        eventPipeline.startGameEvent(world);
+    }
+
+    public void stopGameEvent() {
+        if (world.terrain != null) {
+            System.out.println("Closing " + world.data.getName() + "...");
+            player.stopGameEvent();
+            world.stopGameEvent();
+            eventPipeline.stopGameEvent();
+        }
+        livePropagationHandler.stopGameEvent();
+        try {
+            server.stopGameEvent();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -237,7 +309,7 @@ public class GameScene implements WindowEvents {
             default -> {
                 if (worldInfo.getSpawnPoint() == null) {
                     //Find spawn point
-                    player.setNewSpawnPoint(world.terrain);
+                    player.worldPosition.set(getInitialSpawnPoint(world.terrain));
                 }
                 setTimeOfDay(worldInfo.data.timeOfDay);
                 game.startGame(worldInfo);
@@ -248,6 +320,26 @@ public class GameScene implements WindowEvents {
                 setProjection();
             }
         }
+    }
+
+    public Vector3f getInitialSpawnPoint(Terrain terrain) {
+        Vector3f worldPosition = new Vector3f();
+        System.out.println("Setting new spawn point...");
+        int radius = Chunk.WIDTH;
+        for (int x = -radius; x < radius; x++) {
+            for (int z = -radius; z < radius; z++) {
+                for (int y = terrain.MIN_SURFACE_HEIGHT - 10; y < terrain.MAX_SURFACE_HEIGHT + 10; y++) {
+                    if (terrain.canSpawnHere(PLAYER_HEIGHT, world, x, y, z)) {
+                        System.out.println("Found new spawn point!");
+                        worldPosition.set(x, y - PLAYER_HEIGHT - 0.5f, z);
+                        return worldPosition;
+                    }
+                }
+            }
+        }
+        System.out.println("Spawn point not found!");
+        worldPosition.set(0, terrain.MIN_SURFACE_HEIGHT - PLAYER_HEIGHT - 0.5f, 0);
+        return worldPosition;
     }
 
 
@@ -279,7 +371,9 @@ public class GameScene implements WindowEvents {
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
 
         MainWindow.frameTester.startProcess();
+        eventPipeline.update();
         player.update(holdMouse);
+
 
         //draw other players
         server.updatePlayers(projection, view);
@@ -426,7 +520,7 @@ public class GameScene implements WindowEvents {
         if (data == null) return "null";
         else if (data.size() > 20)
             return "l=" + data.size() + "   \"" + new String(data.toByteArray())
-                    .replaceAll("\n", "").replaceAll("\\s+", "")+"\"";
+                    .replaceAll("\n", "").replaceAll("\\s+", "") + "\"";
         else return data.toString();
     }
 

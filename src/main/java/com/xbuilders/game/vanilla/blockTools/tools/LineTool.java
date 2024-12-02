@@ -51,8 +51,8 @@ public class LineTool extends BlockTool {
 
         for (int i = 0; i <= Math.abs(length); i++) {
 
-            if (isCreationMode) GameScene.player.setBlock(item.id, pos.x, pos.y, pos.z);
-            else GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, pos.x, pos.y, pos.z);
+            if (isCreationMode) GameScene.setBlock(item.id, pos.x, pos.y, pos.z);
+            else GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, pos.x, pos.y, pos.z);
 
             if (length < 0) pos.sub(ray.getHitNormalAsInt());
             else {

@@ -81,7 +81,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
             ) {
                 Block below = GameScene.world.getBlock(v.x, v.y + 1, v.z);
                 if (below.solid) reduceFlow(newNodes, v.x, v.y, v.z);
-                else GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, v.x, v.y, v.z);
+                else GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, v.x, v.y, v.z);
                 continue;
             } else if (thisFlow < liquidBlock.liquidMaxFlow && //If we are flowing sideways
                     !(getFlow(GameScene.world.getBlockData(v.x - 1, v.y, v.z), 0) > thisFlow || //and there is no neighboring value higher than us
@@ -120,11 +120,11 @@ public class LiquidPropagationTask extends LivePropagationTask {
         Block existingBlock = GameScene.world.getBlock(x, y, z);
 
         if (existingBlock.id == Blocks.BLOCK_LAVA && liquidBlock.id == Blocks.BLOCK_WATER) { //If that is lava and we are water
-            GameScene.player.setBlock(Blocks.BLOCK_COBBLESTONE, x, y, z);
+            GameScene.setBlock(Blocks.BLOCK_COBBLESTONE, x, y, z);
         } else if (existingBlock.id == liquidBlock.id || isPenetrable(existingBlock)) {
             int existingFlow = getFlow(GameScene.world.getBlockData(x, y, z), 0);
             flow = Math.max(flow, existingFlow); //We dont want to set something lower than the existing flow
-            GameScene.player.setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
+            GameScene.setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
             return true;
         }
         return !existingBlock.solid;
@@ -140,7 +140,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
                 if (bd != null && bd.size() > 0) {   //set the flow down 1
                     bd.set(0, (byte) (flow - 1));
                 } else bd = new BlockData(new byte[]{(byte) (flow - 1)});
-                GameScene.player.setBlock(liquidBlock.id, bd, x, y, z);
+                GameScene.setBlock(liquidBlock.id, bd, x, y, z);
 
 /**
  *     the block event pipeline doesnt key local events for block data changes,so we need to add the nodes from
@@ -154,7 +154,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
 
                 return true;
             } else {
-                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
+                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
             }
         }
         return false;

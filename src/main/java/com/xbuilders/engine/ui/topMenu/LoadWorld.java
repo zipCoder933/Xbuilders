@@ -158,7 +158,7 @@ public class LoadWorld implements MenuPage {
         String title = "Loading World...";
         ProgressData prog = new ProgressData(title);
 
-        MainWindow.gameScene.startGame(world, req, prog);
+        MainWindow.gameScene.startGameEvent(world, req, prog);
         menu.progress.enable(prog,
                 () -> {//update
                     try {

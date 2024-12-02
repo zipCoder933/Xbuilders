@@ -52,11 +52,11 @@ public class GrassPropagation extends LivePropagationTask {
 
             if (System.currentTimeMillis() - setTime > UPDATE_INTERVAL / 2) { //If it's been 10 seconds since we last set the block
                 if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                    GameScene.player.setBlock(
+                    GameScene.setBlock(
                             getGrassBlockOfBiome(node.x, node.y, node.z),
                             node.x, node.y, node.z);
                 } else if (isGrass(thisBlock) && aboveBlock.solid) {
-                    GameScene.player.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
+                    GameScene.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
                 }
                 iterator.remove(); // remove the entry from the map
             }

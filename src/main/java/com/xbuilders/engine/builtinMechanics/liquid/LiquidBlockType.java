@@ -65,7 +65,7 @@ public class LiquidBlockType extends BlockType {
                                 neighboringWater++;
                                 if (neighboringWater > 3) {
                                     MainWindow.printlnDev("replacing liquid: " + x + " " + y + " " + z);
-                                    GameScene.player.setBlock(b.id, history.previousBlockData, x, y, z);
+                                    GameScene.setBlock(b.id, history.previousBlockData, x, y, z);
                                     return;
                                 }
                             }

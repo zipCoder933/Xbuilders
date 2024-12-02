@@ -1,9 +1,7 @@
 package com.xbuilders.game.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
-import com.xbuilders.engine.items.item.ItemType;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -61,7 +59,7 @@ public class BoundaryTool extends BlockTool {
         for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {
             for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
                 for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
-                    GameScene.player.setBlock(block.id, x, y, z);
+                    GameScene.setBlock(block.id, x, y, z);
                     foundChunks.add(wcc.set(x, y, z).getChunk(GameScene.world));
                 }
             }

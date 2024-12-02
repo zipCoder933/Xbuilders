@@ -42,8 +42,8 @@ class DisintegrationPropagation extends LivePropagationTask {
             Vector3i node = iterator.next();
             if (Math.random() > 0.5) {
                 if (GameScene.world.getBlock(node.x, node.y - 1, node.z).id == FIRE_BLOCK.id) {
-                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
-                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y - 1, node.z);
+                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y - 1, node.z);
                     iterator.remove();
                 }
             }

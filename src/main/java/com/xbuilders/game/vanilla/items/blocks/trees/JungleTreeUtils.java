@@ -79,7 +79,7 @@ public class JungleTreeUtils {
         VineBranchPair vb = setVinesAndBranches(rand, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-            GameScene.player.setBlock(Blocks.BLOCK_JUNGLE_LOG, x, y - k, z);
+            GameScene.setBlock(Blocks.BLOCK_JUNGLE_LOG, x, y - k, z);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {

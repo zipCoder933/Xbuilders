@@ -64,7 +64,7 @@ public class PaintTool extends BlockTool {
         while (!queue.isEmpty() && System.currentTimeMillis() - start < 5000) {
             Vector3i pos = queue.remove(0);
 
-            GameScene.player.setBlock(newBlock.id, pos.x, pos.y, pos.z);
+            GameScene.setBlock(newBlock.id, pos.x, pos.y, pos.z);
             //MainWindow.printlnDev("Painting: " + MiscUtils.printVector(pos));
 
             propagate(origin, pos.x + 1, pos.y, pos.z, newBlock, replaceBlock, queue);
@@ -88,7 +88,7 @@ public class PaintTool extends BlockTool {
 
         Block existingBlock = GameScene.world.getBlock(x, y, z);
         if (existingBlock.id == blockToReplace.id) {
-            GameScene.player.setBlock(newBlock.id, x, y, z);
+            GameScene.setBlock(newBlock.id, x, y, z);
 
             //Check again just in case
             existingBlock = GameScene.world.getBlock(x, y, z);

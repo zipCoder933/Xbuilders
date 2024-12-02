@@ -59,7 +59,7 @@ public class GravityBlockEntity extends Entity {
         for (int y = (int) (worldPosition.y + 1); y < World.WORLD_BOTTOM_Y; y++) {
             Block blockBelow = GameScene.world.getBlock((int) worldPosition.x, y, (int) worldPosition.z);
             if (blockBelow.solid) {
-                GameScene.player.setBlock(block.id, (int) worldPosition.x, y - 1, (int) worldPosition.z);
+                GameScene.setBlock(block.id, (int) worldPosition.x, y - 1, (int) worldPosition.z);
                 destroy();
             }
         }
@@ -86,7 +86,7 @@ public class GravityBlockEntity extends Entity {
 
         if (positionHandler.isFrozen() ||
                 positionHandler.collisionHandler.collisionData.block_penPerAxes.y < 0) {
-            GameScene.player.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+            GameScene.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             destroy();
         }
 

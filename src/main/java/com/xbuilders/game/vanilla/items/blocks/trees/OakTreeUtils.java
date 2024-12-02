@@ -29,7 +29,7 @@ public class OakTreeUtils {
     public static void player_plantTree(Random rand, int x, int y, int z) {
         int height = randomInt(rand, 5, 7);
         for (int k = 0; k < height; k++) {
-            GameScene.player.setBlock(Blocks.BLOCK_OAK_LOG, x, y - k, z);
+            GameScene.setBlock(Blocks.BLOCK_OAK_LOG, x, y - k, z);
         }
 
         TreeUtils.player_roundedSquareLeavesLayer(x, y - height + 2, z, 2, Blocks.BLOCK_OAK_LEAVES);

@@ -36,10 +36,10 @@ public class LivePropagationHandler extends Thread {
         }
     }
 
-    public void startGame(WorldData world) {
+    public void startGameEvent(WorldData world) {
     }
 
-    public void endGame() {
+    public void stopGameEvent() {
     }
 
 }

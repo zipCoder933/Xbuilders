@@ -85,7 +85,7 @@ public class MainWindow extends NKWindow {
 
     public static void goToMenuPage() {
         isGameMode = false;
-        gameScene.gameClosedEvent(); //Close the entire game
+        gameScene.stopGameEvent(); //Close the entire game
     }
 
     public static boolean isInGamePage() {

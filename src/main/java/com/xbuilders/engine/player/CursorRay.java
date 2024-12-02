@@ -114,7 +114,7 @@ public class CursorRay {
                 return cursorRay.entity.run_ClickEvent();
             } else { //Block click event
                 Block block = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
-                boolean consumed = block.run_ClickEvent(GameScene.player.eventPipeline.clickEventThread, getHitPos());
+                boolean consumed = block.run_ClickEvent(GameScene.eventPipeline.clickEventThread, getHitPos());
                 if (consumed) return true;
             }
         }
@@ -172,10 +172,10 @@ public class CursorRay {
                 if (breakAmt >= blockToughness) {
                     if (LootTableRegistry.blockLootTables.get(existingBlock.alias) != null) {
                         LootTableRegistry.blockLootTables.get(existingBlock.alias).randomItems((itemStack) -> {
-                            GameScene.player.placeItemDrop(new Vector3f(getHitPos()), itemStack, false);
+                            GameScene.placeItemDrop(new Vector3f(getHitPos()), itemStack, false);
                         });
                     }
-                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                     breakAmt = 0;
                 }
             }
@@ -184,7 +184,7 @@ public class CursorRay {
                 if (getEntity() != null) {
                     getEntity().destroy();
                 } else {
-                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                 }
             }
         }
@@ -229,11 +229,11 @@ public class CursorRay {
             Vector3i set = cursorRay.getHitPosPlusNormal();
             if (hitBlock.getRenderType().replaceOnSet) set = cursorRay.getHitPositionAsInt();
             if (GameScene.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
-            GameScene.player.setBlock(block.id, set.x, set.y, set.z);
+            GameScene.setBlock(block.id, set.x, set.y, set.z);
         } else if (entity != null) {
             Vector3f pos = new Vector3f(cursorRay.getHitPosPlusNormal());
             if (GameScene.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
-            GameScene.player.setEntity(entity, pos, null);
+            GameScene.placeEntity(entity, pos, null);
         }
     }
 

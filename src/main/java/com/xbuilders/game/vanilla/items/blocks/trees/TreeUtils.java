@@ -114,12 +114,12 @@ class TreeUtils {
 
     public static void player_setBlock(short id, int x, int y, int z) {
         if (!GameScene.world.getBlock(x, y, z).solid) {
-            GameScene.player.setBlock(id, x, y, z);
+            GameScene.setBlock(id, x, y, z);
         }
     }
 
     public static void player_setBlockAndOverride(short id, int x, int y, int z) {
-        GameScene.player.setBlock(id, x, y, z);
+        GameScene.setBlock(id, x, y, z);
     }
 
     //Terrain generators create terrains in world space,

@@ -74,51 +74,51 @@ public class BlockStraightTrack extends Block {
         if (!trackNeighbors.isEmpty()) {
             if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 3);
-                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 0);
-                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 2);
-                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } //=====================
             else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) || isTrackAtPos2(trackNeighbors, x + 1, y, z)) {
                 orientation.set(0, (byte) 2);
                 straightTrack = true;
-                GameScene.player.setBlock(this.id, orientation, x, y, z);
+                GameScene.setBlock(this.id, orientation, x, y, z);
             } else if (isTrackAtPos2(trackNeighbors, x, y, z - 1) || isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(this.id, orientation, x, y, z);
+                GameScene.setBlock(this.id, orientation, x, y, z);
                 straightTrack = true;
             }
         }
         if (!curvedTrack) {
             if (isTrackAtPos(trackNeighbors, x + 1, y - 1, z)) {
                 orientation.set(0, (byte) 2);
-                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x - 1, y - 1, z)) {
                 orientation.set(0, (byte) 0);
-                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z + 1)) {
                 orientation.set(0, (byte) 3);
-                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z - 1)) {
                 orientation.set(0, (byte) 1);
-                GameScene.player.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                GameScene.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             }
         }

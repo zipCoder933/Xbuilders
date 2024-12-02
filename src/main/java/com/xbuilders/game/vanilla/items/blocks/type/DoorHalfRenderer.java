@@ -18,7 +18,6 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.game.vanilla.items.blocks.RenderType;
 
 /**
  * @author zipCoder933
@@ -54,18 +53,18 @@ public class DoorHalfRenderer extends BlockType {
                 Block bottomBlock = b;
 
                 topBlock.setBlockEvent(false, (x, y, z) -> { //KEEP THIS!
-                    GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
+                    GameScene.setBlock(bottomBlock.id, x, y + 1, z);
                 });
 
                 topBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
-                        GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
+                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
                     }
                 });
 
                 bottomBlock.setBlockEvent(false, (x, y, z) -> {
                     BlockData data = GameScene.world.getBlockData(x, y, z);
-                    GameScene.player.setBlock(topBlock.id, x, y - 1, z);
+                    GameScene.setBlock(topBlock.id, x, y - 1, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                     //We cant change right/left here because that will get overridden when initial block data gets written
                     //A solution to this is when the initialBlockData is called, it returns the existing data if it is already set
@@ -74,7 +73,7 @@ public class DoorHalfRenderer extends BlockType {
 
                 bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
-                        GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
+                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
                     }
                 });
 

@@ -434,7 +434,7 @@ public class World {
         multiplayerPendingBlockChanges.save(data);
     }
 
-    public void stopGame(Vector3f playerPos) {
+    public void stopGameEvent() {
         save();
 
         // We may or may not actually need to shutdown the services, since chunks cancel
@@ -744,13 +744,13 @@ public class World {
     // <editor-fold defaultstate="collapsed" desc="block operations">
 
     /**
-     * Like player.setEntity but does NOT notify other players and does not guarantee save of the chunk
+     * does NOT notify other players and does not guarantee save of the chunk
      *
      * @param entity
      * @param w
      * @return the entity
      */
-    public Entity setEntity(EntitySupplier entity, Vector3i w, byte[] data) {
+    public Entity placeEntity(EntitySupplier entity, Vector3i w, byte[] data) {
         WCCi wcc = new WCCi();
         wcc.set(w);
         Chunk chunk = GameScene.world.chunks.get(wcc.chunk);

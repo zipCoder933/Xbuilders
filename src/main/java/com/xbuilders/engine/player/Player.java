@@ -39,8 +39,8 @@ public class Player {
     }
 
 
-    final static float PLAYER_HEIGHT = 1.5f;
-    final static float PLAYER_WIDTH = 0.7f;
+    public final static float PLAYER_HEIGHT = 1.5f;
+    public final static float PLAYER_WIDTH = 0.7f;
 
     private void initAABB() {
         aabb.size.set(PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_WIDTH);

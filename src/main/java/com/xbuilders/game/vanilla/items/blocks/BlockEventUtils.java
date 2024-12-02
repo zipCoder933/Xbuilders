@@ -27,20 +27,20 @@ public class BlockEventUtils {
         Block bottomBlock = Registrys.getBlock(id_bottom);
 
         topBlock.setBlockEvent(false, (x, y, z) -> {
-            GameScene.player.setBlock(bottomBlock.id, x, y + 1, z);
+            GameScene.setBlock(bottomBlock.id, x, y + 1, z);
         });
         topBlock.removeBlockEvent(false, (x, y, z, history) -> {
             if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
-                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
+                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
             }
         });
 
         bottomBlock.setBlockEvent(false, (x, y, z) -> {
-            GameScene.player.setBlock(topBlock.id, x, y - 1, z);
+            GameScene.setBlock(topBlock.id, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
             if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
-                GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
+                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
             }
         });
     }
@@ -48,11 +48,11 @@ public class BlockEventUtils {
 
     public static void setTNTEvents(Block thisBlock, final int EXPLOSTION_RADIUS, long fuseDelay) {
         thisBlock.clickEvent(true, (setX, setY, setZ) -> {
-            GameScene.player.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
+            GameScene.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
             try {
                 Thread.sleep(fuseDelay);
                 if (GameScene.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
-                    GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
+                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                     removeEverythingWithinRadius(thisBlock, EXPLOSTION_RADIUS, new Vector3i(setX, setY, setZ));
 
 
@@ -103,7 +103,7 @@ public class BlockEventUtils {
                 for (int z = 0 - size; z < size; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < size) {
                         chunks.add(new WCCi().set(setX + x, setY + z, setZ + y).chunk);
-                        GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
+                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
                     }
                 }
             }

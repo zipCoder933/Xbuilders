@@ -19,7 +19,7 @@ public class Hoe extends Item {
                     GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_DRY_GRASS ||
                     GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_JUNGLE_GRASS ||
                     GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_SNOW_GRASS) {
-                GameScene.player.setBlock(Blocks.BLOCK_FARMLAND, hit.x, hit.y, hit.z);
+                GameScene.setBlock(Blocks.BLOCK_FARMLAND, hit.x, hit.y, hit.z);
             }
             return true;
         };

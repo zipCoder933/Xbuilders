@@ -50,7 +50,7 @@ public class GravityBlock {
         Block blockBelow = GameScene.world.getBlock(thisPosition.x, thisPosition.y + 1, thisPosition.z);
         if (!blockBelow.solid
                 && GameScene.world.getBlockID(thisPosition.x, thisPosition.y, thisPosition.z) == block.id) {
-            GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
+            GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
 
             //Under certain conditions, we immediately move the block to the bottom
             if (thisPosition.distance(
@@ -62,13 +62,13 @@ public class GravityBlock {
                 for (int y = thisPosition.y + 1; y < World.WORLD_BOTTOM_Y; y++) {
                     blockBelow = GameScene.world.getBlock(thisPosition.x, y, thisPosition.z);
                     if (blockBelow.solid) {
-                        GameScene.player.setBlock(block.id, thisPosition.x, y - 1, thisPosition.z);
+                        GameScene.setBlock(block.id, thisPosition.x, y - 1, thisPosition.z);
                         break;
                     }
                 }
                 return;
             }
-            Entity e = GameScene.world.setEntity(entitySupplier, thisPosition, null);
+            Entity e = GameScene.world.placeEntity(entitySupplier, thisPosition, null);
             GravityBlockEntity gravityBlockEntity = (GravityBlockEntity) e;
             gravityBlockEntity.block = block;
         }

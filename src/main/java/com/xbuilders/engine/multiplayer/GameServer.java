@@ -120,7 +120,7 @@ public class GameServer extends Server<PlayerClient> {
         return worldInfo;
     }
 
-    public void closeGame() throws IOException {
+    public void stopGameEvent() throws IOException {
         sendAllChangesToClients();
         onLeaveEvent();
         super.close();
@@ -233,7 +233,7 @@ public class GameServer extends Server<PlayerClient> {
 
                 MultiplayerPendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
                     if (MultiplayerPendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {//If change is within reach
-                        GameScene.player.eventPipeline.addEvent(pos, blockHist);
+                        GameScene.eventPipeline.addEvent(pos, blockHist);
                         inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
                         GameScene.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
