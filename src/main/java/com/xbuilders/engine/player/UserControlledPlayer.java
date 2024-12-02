@@ -13,6 +13,7 @@ import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.ItemDrop;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.camera.Camera;
@@ -481,30 +482,23 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public Entity dropItem(ItemStack itemStack) {
         Vector3f pos = new Vector3f().set(GameScene.player.worldPosition);
-        Vector3f addition = new Vector3f().set(GameScene.player.camera.look.x, 0, GameScene.player.camera.look.z).mul(1.5f);
+        Vector3f addition = new Vector3f().set(GameScene.player.camera.look.x, 0, GameScene.player.camera.look.z).mul(2f);
         pos.add(addition);
         return GameScene.player.placeItemDrop(
                 pos,
-                itemStack.item,
-                itemStack.stackSize,
+                itemStack,
                 true);
     }
 
-    public Entity placeItemDrop(Vector3f position, Item item, int quantity, boolean droppedFromPlayer) {
-        byte[] bytes = new byte[item.id.length() + 5];
-
-        bytes[0] = (byte) (droppedFromPlayer ? 1 : 0); // droppedFromPlayer
-
-        byte[] quantityBytes = ByteUtils.intToBytes(quantity); // quantity
-        bytes[1] = quantityBytes[0];
-        bytes[2] = quantityBytes[1];
-        bytes[3] = quantityBytes[2];
-        bytes[4] = quantityBytes[3];
-
-        for (int i = 0; i < item.id.length(); i++) {
-            bytes[i + 5] = (byte) item.id.charAt(i);
+    public Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            byteArrayOutputStream.write(droppedFromPlayer ? 1 : 0);
+            ItemDrop.objectMapper.writeValue(byteArrayOutputStream, item);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
+        byte[] bytes = byteArrayOutputStream.toByteArray();
         return setEntity(EntityRegistry.ENTITY_ITEM_DROP, position, bytes);
     }
 

@@ -80,7 +80,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.codeium.enabled": "true",
     "com.intellij.ide.FileNotInSourceRootChecker.no.check": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "<unknown>",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Local Files/github/Xbuilders/src/main/java/com/xbuilders/game/vanilla",

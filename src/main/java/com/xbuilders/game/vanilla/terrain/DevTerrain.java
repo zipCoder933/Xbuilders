@@ -42,7 +42,7 @@ public class DevTerrain extends Terrain {
                 for (int cz = 0; cz < WIDTH; cz++) {
                     if (wy >= heightmap) {
                         if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_SAND);
+                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_SANDSTONE);
                         } else chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                     }
                 }

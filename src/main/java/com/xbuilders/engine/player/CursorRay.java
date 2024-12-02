@@ -172,7 +172,7 @@ public class CursorRay {
                 if (breakAmt >= blockToughness) {
                     if (LootTableRegistry.blockLootTables.get(existingBlock.alias) != null) {
                         LootTableRegistry.blockLootTables.get(existingBlock.alias).randomItems((itemStack) -> {
-                            GameScene.player.placeItemDrop(new Vector3f(getHitPos()), itemStack.item, 1, false);
+                            GameScene.player.placeItemDrop(new Vector3f(getHitPos()), itemStack, false);
                         });
                     }
                     GameScene.player.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
