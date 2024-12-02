@@ -466,7 +466,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public Entity dropItem(ItemStack itemStack) {
         Vector3f pos = new Vector3f().set(GameScene.player.worldPosition);
-        Vector3f addition = new Vector3f().set(GameScene.player.camera.look.x, 0, GameScene.player.camera.look.z).mul(2f);
+        Vector3f addition = new Vector3f().set(GameScene.player.camera.look.x, 0, GameScene.player.camera.look.z).mul(1.5f);
         pos.add(addition);
         return GameScene.placeItemDrop(
                 pos,

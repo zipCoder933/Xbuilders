@@ -45,10 +45,10 @@ public class DoorHalfRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
 
-            if (b.properties.containsKey("vertical-pair") && b.properties.containsKey("placement")
+            if (b.properties.containsKey("vertical_pair") && b.properties.containsKey("placement")
                     && b.properties.get("placement").equals("bottom")) { // If this is the bottom of a pair
                 // System.out.println("DOOR: "+b.properties);
-                short top = Short.parseShort(b.properties.get("vertical-pair"));
+                short top = Short.parseShort(b.properties.get("vertical_pair"));
                 Block topBlock = Registrys.getBlock(top);
                 Block bottomBlock = b;
 
@@ -148,7 +148,7 @@ public class DoorHalfRenderer extends BlockType {
                 renderSide);
     }
 
-    private boolean check_orientRightOrLeft(int x,int y,int z) {
+    private boolean check_orientRightOrLeft(int x, int y, int z) {
         Block block = GameScene.world.getBlock(x, y, z);
         return block.solid
                 && block.getRenderType().isCubeShape();

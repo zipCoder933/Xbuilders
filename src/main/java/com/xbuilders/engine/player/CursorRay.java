@@ -225,7 +225,7 @@ public class CursorRay {
 
         if (stack.stackSize <= 0) return;
         if (block != null) {
-            Block hitBlock = MainWindow.gameScene.world.getBlock(cursorRay.getHitPositionAsInt());
+            Block hitBlock = GameScene.world.getBlock(cursorRay.getHitPositionAsInt());
             Vector3i set = cursorRay.getHitPosPlusNormal();
             if (hitBlock.getRenderType().replaceOnSet) set = cursorRay.getHitPositionAsInt();
             if (GameScene.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
