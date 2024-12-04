@@ -1,0 +1,50 @@
+[
+  {
+    "alias": "xbuilders:diamond_ore",
+    "id": 105,
+    "texture": {
+      "neg_y": "pp/diamond_ore",
+      "pos_x": "pp/diamond_ore",
+      "pos_z": "pp/diamond_ore",
+      "neg_z": "pp/diamond_ore",
+      "neg_x": "pp/diamond_ore",
+      "pos_y": "pp/diamond_ore"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0,
+    "toughness": 2,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:coal_ore",
+    "id": 228,
+    "texture": {
+      "neg_y": "pp/coal_ore",
+      "pos_x": "pp/coal_ore",
+      "pos_z": "pp/coal_ore",
+      "neg_z": "pp/coal_ore",
+      "neg_x": "pp/coal_ore",
+      "pos_y": "pp/coal_ore"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0,
+    "toughness": 2,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  }
+]

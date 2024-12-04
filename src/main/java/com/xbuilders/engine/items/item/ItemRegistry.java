@@ -64,6 +64,8 @@ public class ItemRegistry {
                            BlockArrayTexture textures,
                            IntMap<Block> blockMap,
                            IntMap<EntitySupplier> entityMap,
+                           HashMap<String, Short> blockAliasToIDMap,
+                           HashMap<String, Short> entityAliasToIDMap,
                            List<Item> inputBlocks) {
         list = inputBlocks.toArray(new Item[0]);
         assignMapAndVerify(inputBlocks);
@@ -74,7 +76,7 @@ public class ItemRegistry {
                 if (item.initializationCallback != null) {
                     item.initializationCallback.accept(item);
                 }
-                item.init(blockMap, entityMap,
+                item.init(blockMap, entityMap, blockAliasToIDMap, entityAliasToIDMap,
                         textures,
                         ResourceUtils.BLOCK_ICON_DIR,
                         ResourceUtils.ICONS_DIR, defaultIcon);

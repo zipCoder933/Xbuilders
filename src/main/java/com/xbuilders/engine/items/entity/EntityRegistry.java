@@ -23,6 +23,7 @@ public class EntityRegistry {
     public static EntitySupplier ENTITY_ITEM_DROP;
 
     final IntMap<EntitySupplier> idMap = new IntMap<>(EntitySupplier.class);
+    public HashMap<String, Short> aliasToIDMap;
     private EntitySupplier[] list;
     public static final int NULL_ID = -1;
 

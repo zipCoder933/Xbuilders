@@ -9,6 +9,7 @@ package com.xbuilders.engine.utils.json;
  */
 
 import com.google.gson.*;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.item.Item;
 
 import java.lang.reflect.Type;
@@ -60,8 +61,23 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
         Item item = new Item(id, name);
 
         if (jsonObject.has("block")) {
-            short blockID = jsonObject.get("block").getAsShort();
-            item.setBlock(blockID);
+
+            JsonElement blockJson = jsonObject.get("block");
+            if (blockJson != null && !blockJson.isJsonNull()) {
+                if (blockJson.isJsonPrimitive()) {
+                    JsonPrimitive primitive = blockJson.getAsJsonPrimitive();
+                    if (primitive.isString()) {
+                        System.out.println("The value is a String: " + primitive.getAsString());
+                        item.setBlock(primitive.getAsString());
+                    } else if (primitive.isNumber()) {
+                        System.out.println("The value is a Number: " + primitive.getAsNumber());
+                        short blockID = primitive.getAsNumber().shortValue();
+                        item.setBlock(blockID);
+                    }
+
+                }
+            }
+
         }
         if (jsonObject.has("entity")) {
             short entityID = jsonObject.get("entity").getAsShort();

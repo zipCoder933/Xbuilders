@@ -65,7 +65,12 @@ public class Registrys {
         items.initialize(
                 Registrys.defaultIcon,
                 blocks.textures,
-                blocks.getIdToBlockMap(), entities.getIdMap(), toolList);
+
+                blocks.getIdToBlockMap(),
+                entities.getIdMap(),
+                blocks.aliasToIDMap,
+                entities.aliasToIDMap,
+                toolList);
     }
 
     public static Block getBlock(short blockID) {

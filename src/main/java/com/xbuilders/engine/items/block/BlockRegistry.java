@@ -154,7 +154,8 @@ public class BlockRegistry {
     // }
 
     public Block getBlock(String alias) {
-        return idToBlockMap.get(aliasToIDMap.get(alias));
+        short id = aliasToIDMap.get(alias);
+        return idToBlockMap.get(id);
     }
 
     public Block getBlock(short blockID) {
