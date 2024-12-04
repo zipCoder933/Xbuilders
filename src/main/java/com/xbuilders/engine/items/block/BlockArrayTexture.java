@@ -87,7 +87,7 @@ public class BlockArrayTexture {
          * The index tells us where in the array the texture is
          */
         //Add some default textures first
-        addBreakTextures(builtinBlockTexturesDir, imageFiles);
+        BuiltinTextures.addBuiltinTextures(builtinBlockTexturesDir, imageFiles, index, textureSize);
 
         addTexturesFromDir(blockTexturesDir, files, imageFiles);
         filePaths = new TextureFile[imageFiles.size()];
@@ -99,21 +99,6 @@ public class BlockArrayTexture {
         this.texture = TextureUtils.makeTextureArray(textureSize, textureSize, false, filePaths);
     }
 
-
-
-    private void addBreakTextures(File builtinBlockTexturesDir, List<TextureFile> imageFiles) throws IOException {
-        //Break textures compose the first 10 layers of the map
-        String breakTexture = builtinBlockTexturesDir.getAbsolutePath() + "/break.png";
-        //Get the image dimensions
-        BufferedImage image = ImageIO.read(new File(breakTexture));
-        int layers = image.getHeight() / image.getWidth();
-//        builtin_breakTextures = new int[layers];
-        for (int i = 0; i < layers; i++) {
-            imageFiles.add(new TextureFile(breakTexture, 0, i * image.getWidth(), textureSize, textureSize));
-//            builtin_breakTextures[i] = index.get();
-            index.incrementAndGet();
-        }
-    }
 
     public int createNewArrayTexture() throws IOException {
         return TextureUtils.makeTextureArray(textureSize, textureSize, false, filePaths).id;
