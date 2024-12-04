@@ -20,6 +20,7 @@ import com.xbuilders.engine.items.recipes.CraftingRecipe;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
+import com.xbuilders.engine.ui.gameScene.UI_Hotbar;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.game.vanilla.ui.*;
@@ -87,7 +88,7 @@ public class XbuildersGame extends Game {
     }
 
     public boolean clickEvent(final CursorRay ray, boolean isCreationMode) {
-        return blockTools.clickEvent(getSelectedItem(), ray, isCreationMode);
+        return blockTools.clickEvent(GameScene.player.getSelectedItem(), ray, isCreationMode);
     }
 
 
@@ -98,7 +99,7 @@ public class XbuildersGame extends Game {
 
     //Builtin menus
     public UI_Inventory inventory;
-    public UI_Hotbar hotbar;
+
     public BlockTools blockTools;
 
 
@@ -109,10 +110,7 @@ public class XbuildersGame extends Game {
 
     @Override
     public void uiInit(NkContext ctx, GameUI gameUI) {
-
-        //Menus
-        hotbar = new UI_Hotbar(ctx, window);
-        inventory = new UI_Inventory(ctx, Registrys.items.getList(), window, hotbar);
+        inventory = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
         blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         //Menus
@@ -122,32 +120,26 @@ public class XbuildersGame extends Game {
         gameMenus.menus.add(craftingUI);
     }
 
-    @Override
-    public ItemStack getSelectedItem() {
-        return hotbar.getSelectedItem();
-    }
-
 
     @Override
-    public void uiDraw(MemoryStack stack) {
+    public boolean uiDraw(MemoryStack stack) {
         if (inventory.isOpen()) {
             inventory.draw(stack);
+            return true;
         } else if (gameMenus.draw(stack)) {
+            return true;
         } else {
             blockTools.draw(stack);
-            hotbar.draw(stack);
         }
+        return false;
     }
 
 
     @Override
     public boolean uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (inventory.isOpen()) {
-            inventory.mouseScrollEvent(scroll, xoffset, yoffset);
-        } else {
-            if (!blockTools.mouseScrollEvent(scroll, xoffset, yoffset)) {
-                hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
-            }
+            return inventory.mouseScrollEvent(scroll, xoffset, yoffset);
+        } else if (blockTools.mouseScrollEvent(scroll, xoffset, yoffset)) {
         }
         return false;
     }
@@ -161,9 +153,6 @@ public class XbuildersGame extends Game {
             return true;
         } else if (blockTools.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(blockTools.getClass());
-            return true;
-        } else if (hotbar.keyEvent(key, scancode, action, mods)) {
-            printKeyConsumption(hotbar.getClass());
             return true;
         }
         return false;

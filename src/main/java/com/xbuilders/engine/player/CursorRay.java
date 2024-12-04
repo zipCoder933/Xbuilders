@@ -100,7 +100,7 @@ public class CursorRay {
     public boolean clickEvent(boolean creationMode) {
         breakAmt = 0;
         breakPercentage = 0;
-        ItemStack selectedItem = MainWindow.game.getSelectedItem();
+        ItemStack selectedItem = GameScene.player.getSelectedItem();
 
         if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event
             return true;
@@ -213,7 +213,7 @@ public class CursorRay {
 
             //Removal
             if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
-                ItemStack selectedItem = MainWindow.game.getSelectedItem();
+                ItemStack selectedItem = GameScene.player.getSelectedItem();
                 defaultRemoveEvent(true, selectedItem);
             } else breakPercentage = 0;
         }

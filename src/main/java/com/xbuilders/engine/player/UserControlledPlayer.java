@@ -14,8 +14,10 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.camera.Camera;
+import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.items.item.StorageSpace;
@@ -52,9 +54,28 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     //Saving/loading in world
     public final StorageSpace inventory;
+    private int selectedItemIndex;
     private final Gson pdGson = new GsonBuilder()
             .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackTypeAdapter())
             .create();
+
+    public void changeSelectedIndex(float increment) {
+        selectedItemIndex += increment;
+        selectedItemIndex = (MathUtils.clamp(selectedItemIndex, 0, inventory.size() - 1));
+    }
+
+    public void setSelectedIndex(int index) {
+        selectedItemIndex = MathUtils.clamp(index, 0, inventory.size() - 1);
+        selectedItemIndex = (MathUtils.clamp(selectedItemIndex, 0, inventory.size() - 1));
+    }
+
+    public int getSelectedItemIndex() {
+        return selectedItemIndex;
+    }
+
+    public ItemStack getSelectedItem() {
+        return inventory.get(selectedItemIndex);
+    }
 
     public final String PLAYER_DATA_FILE = "player.json";
 
@@ -417,7 +438,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             } else if (button == UserControlledPlayer.getDeleteMouseButton()) {
                 camera.cursorRay.clickEvent(false);
             } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-                MainWindow.game.hotbar.pickItem(camera.cursorRay, GameScene.getGameMode() == GameMode.FREEPLAY);
+                GameUI.hotbar.pickItem(camera.cursorRay, GameScene.getGameMode() == GameMode.FREEPLAY);
             }
         }
     }

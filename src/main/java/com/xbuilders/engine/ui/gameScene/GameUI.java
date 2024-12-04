@@ -36,12 +36,24 @@ import static org.lwjgl.system.MemoryStack.stackPush;
  */
 public class GameUI {
 
+    NkContext ctx;
+    MainWindow window;
+    Game game;
+    private RectOverlay overlay;
+    public FileDialog fileDialog;
+    Crosshair crosshair;
+    public static InfoText infoBox;
+    public static UI_Hotbar hotbar;
+    public static GameMenu baseMenu;
+    boolean drawUI = true;
+
     public GameUI(Game game, NkContext ctx, MainWindow window) throws IOException {
         this.ctx = ctx;
         this.window = window;
         this.game = game;
         crosshair = new Crosshair(window.getWidth(), window.getHeight());
         infoBox = new InfoText(ctx, window);
+        hotbar = new UI_Hotbar(ctx, window);
     }
 
     public void init() {
@@ -64,15 +76,6 @@ public class GameUI {
         return baseMenu.isOpen() || infoBox.isActive();
     }
 
-    NkContext ctx;
-    MainWindow window;
-    Game game;
-    private RectOverlay overlay;
-    public FileDialog fileDialog;
-    Crosshair crosshair;
-    public static InfoText infoBox;
-    public static GameMenu baseMenu;
-    boolean drawUI = true;
 
     public void windowResizeEvent(int width, int height) {
         crosshair.windowResizeEvent(width, height);
@@ -98,9 +101,10 @@ public class GameUI {
                     baseMenu.draw(stack);
                 } else if (fileDialog.isOpen()) {
                     fileDialog.draw(stack);
+                } else if (game.uiDraw(stack)) {
                 } else {
-                    game.uiDraw(stack);
                     infoBox.draw(stack);
+                    hotbar.draw(stack);
                 }
                 //Add myGame.uiDraw right here
             }
@@ -126,7 +130,11 @@ public class GameUI {
 
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (infoBox.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else game.uiMouseScrollEvent(scroll, xoffset, yoffset);
+        } else {
+            if (!game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
+                hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
+            }
+        }
     }
 
 
@@ -149,6 +157,9 @@ public class GameUI {
             return true;
         } else if (infoBox.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(infoBox.getClass());
+            return true;
+        } else if (hotbar.keyEvent(key, scancode, action, mods)) {
+            printKeyConsumption(hotbar.getClass());
             return true;
         } else if (baseMenusOpen()) {
             printKeyConsumption(baseMenu.getClass());

@@ -84,7 +84,7 @@ public abstract class Animal extends Entity {
 
 
     public boolean playerHasAnimalFeed() {
-        ItemStack heldItem = MainWindow.game.getSelectedItem();
+        ItemStack heldItem = GameScene.player.getSelectedItem();
         return heldItem != null && heldItem.item.equals(Items.TOOL_ANIMAL_FEED);
     }
 
@@ -145,10 +145,7 @@ public abstract class Animal extends Entity {
      * @return the angle in radians
      */
     public float getYDirectionToPlayer() {
-        return (float) (-MathUtils.calcRotationAngle(
-                worldPosition.x, worldPosition.z,
-                GameScene.player.worldPosition.x, GameScene.player.worldPosition.z)
-                + MathUtils.HALF_PI);
+        return (float) (-MathUtils.calcRotationAngle(worldPosition.x, worldPosition.z, GameScene.player.worldPosition.x, GameScene.player.worldPosition.z) + MathUtils.HALF_PI);
     }
 
 
@@ -168,8 +165,7 @@ public abstract class Animal extends Entity {
         Vector3f pen = pos.collisionHandler.collisionData.block_penPerAxes;
         if (jumpOverEntities) pen = pos.collisionHandler.collisionData.totalPenPerAxes;
 
-        if (Math.abs(pen.x) > 0.02
-                || Math.abs(pen.z) > 0.02) {
+        if (Math.abs(pen.x) > 0.02 || Math.abs(pen.z) > 0.02) {
             if (System.currentTimeMillis() - lastJumpTime > interval) {
                 lastJumpTime = System.currentTimeMillis();
                 pos.jump();

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.game.vanilla.ui;
+package com.xbuilders.engine.ui.gameScene;
 
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
@@ -12,13 +12,11 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
-import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -36,7 +34,7 @@ public class UI_Hotbar extends UI_GameMenu {
     int menuWidth = 650;
     int menuHeight = 65 + 20;
     final int ELEMENTS = 11;
-    private int selectedItemIndex;
+
     int pushValue;
     static final StorageSpace playerStorage = GameScene.player.inventory;
 
@@ -60,8 +58,8 @@ public class UI_Hotbar extends UI_GameMenu {
             playerStorage.deleteEmptyItems();
             // Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (playerStorage.get(getSelectedItemIndex()) != null) {
-                nk_text(ctx, playerStorage.get(getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
+            if (playerStorage.get(GameScene.player.getSelectedItemIndex()) != null) {
+                nk_text(ctx, playerStorage.get(GameScene.player.getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
             }
 
             nk_layout_row_dynamic(ctx, UI_ItemWindow.getItemSize(), ELEMENTS);
@@ -75,7 +73,7 @@ public class UI_Hotbar extends UI_GameMenu {
                 ItemStack item = playerStorage.get(i);
 
                 //if (buttonHeight.isCalibrated()) {
-                if (i == getSelectedItemIndex()) {
+                if (i == GameScene.player.getSelectedItemIndex()) {
                     ctx.style().button().border_color().set(Theme.white);
                 } else {
                     ctx.style().button().border_color().set(Theme.blue);
@@ -100,29 +98,24 @@ public class UI_Hotbar extends UI_GameMenu {
     }
 
     protected void changeSelectedIndex(float increment) {
-        selectedItemIndex += increment;
-        selectedItemIndex = (MathUtils.clamp(getSelectedItemIndex(), 0, playerStorage.size() - 1));
-
-        if (getSelectedItemIndex() >= ELEMENTS + pushValue) {
+        GameScene.player.changeSelectedIndex(increment);
+        if (GameScene.player.getSelectedItemIndex() >= ELEMENTS + pushValue) {
             pushValue++;
-        } else if (getSelectedItemIndex() < pushValue) {
+        } else if (GameScene.player.getSelectedItemIndex() < pushValue) {
             pushValue--;
         }
         pushValue = MathUtils.clamp(pushValue, 0, playerStorage.size() - ELEMENTS);
     }
 
     public void setSelectedIndex(int index) {
-        selectedItemIndex = MathUtils.clamp(index, 0, playerStorage.size() - 1);
-        pushValue = selectedItemIndex - ELEMENTS / 2;
+        GameScene.player.setSelectedIndex(index);
+        pushValue = GameScene.player.getSelectedItemIndex() - ELEMENTS / 2;
         pushValue = MathUtils.clamp(pushValue, 0, playerStorage.size() - ELEMENTS);
     }
 
-    public int getSelectedItemIndex() {
-        return selectedItemIndex;
-    }
-
-    public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         changeSelectedIndex(-scroll.y());
+        return true;
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
@@ -132,8 +125,8 @@ public class UI_Hotbar extends UI_GameMenu {
             } else if (key == GLFW.GLFW_KEY_PERIOD) {
                 changeSelectedIndex(1);
             } else if (key == GLFW.GLFW_KEY_Q) {
-                GameScene.player.dropItem(getSelectedItem());
-                playerStorage.set(getSelectedItemIndex(), null);
+                GameScene.player.dropItem(GameScene.player.getSelectedItem());
+                playerStorage.set(GameScene.player.getSelectedItemIndex(), null);
             }
         }
         return false;
@@ -151,6 +144,7 @@ public class UI_Hotbar extends UI_GameMenu {
                 stack = new ItemStack(Registrys.getItem(block), 1);
             }
         }
+        if(stack == null) return;
         for (int i = 0; i < storageSpace.size(); i++) {
             ItemStack item = storageSpace.get(i);
             if (item != null && item.item == stack.item) {
@@ -160,10 +154,4 @@ public class UI_Hotbar extends UI_GameMenu {
         }
         if (allowAcquire) setSelectedIndex(storageSpace.acquireItem(stack));
     }
-
-    public ItemStack getSelectedItem() {
-        return playerStorage.get(getSelectedItemIndex());
-    }
-
-
 }

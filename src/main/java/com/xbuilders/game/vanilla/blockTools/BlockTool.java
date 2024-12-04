@@ -1,6 +1,7 @@
 package com.xbuilders.game.vanilla.blockTools;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.item.ItemStack;
@@ -27,7 +28,7 @@ public abstract class BlockTool {
     }
 
     public Block getSelectedBlock() {
-        ItemStack selectedItem =  MainWindow.game.getSelectedItem();
+        ItemStack selectedItem =  GameScene.player.getSelectedItem();
         if(selectedItem == null || selectedItem.item == null) return null;
         if(selectedItem.item.getBlock() == null) return null;
         return selectedItem.item.getBlock();

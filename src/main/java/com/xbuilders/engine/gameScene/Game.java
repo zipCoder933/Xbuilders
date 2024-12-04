@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * @author zipCoder933
  */
-public abstract class Game implements GameSceneEvents{
+public abstract class Game implements GameSceneEvents {
 
     public final MainWindow window;
     public final ArrayList<Terrain> terrainsList = new ArrayList<>();
@@ -30,8 +30,6 @@ public abstract class Game implements GameSceneEvents{
     public boolean releaseMouse() {
         return false;
     }
-
-
 
 
     public Game(MainWindow window) {
@@ -55,12 +53,8 @@ public abstract class Game implements GameSceneEvents{
     public void uiInit(NkContext ctx, GameUI gameUI) {
     }
 
-    public void uiDraw(MemoryStack stack) {
-
-    }
-
-    public ItemStack getSelectedItem() {
-        return null;
+    public boolean uiDraw(MemoryStack stack) {
+        return false;
     }
 
 
