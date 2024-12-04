@@ -120,7 +120,7 @@ public class World {
     // chunk boundaries
     // These are the boundaries of the world. We can set int.min and int.max if we want them to be infinite
     public final static int TOP_Y_CHUNK = -2;
-    public final static int BOTTOM_Y_CHUNK = 6;
+    public final static int BOTTOM_Y_CHUNK = 7;
     public final static int WORLD_CHUNK_HEIGHT = BOTTOM_Y_CHUNK - TOP_Y_CHUNK;
 
     // voxel boundaries
