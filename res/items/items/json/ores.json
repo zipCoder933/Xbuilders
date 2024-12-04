@@ -3,5 +3,60 @@
     "id": "xbuilders:diamond_ore",
     "name": "Diamond Ore",
     "block": "xbuilders:diamond_ore"
+  },
+  {
+    "id": "xbuilders:raw_diamond",
+    "name": "Raw Diamond",
+    "icon": "ores\\diamond"
+  },
+  {
+    "id": "xbuilders:coal_ore",
+    "name": "Coal Ore",
+    "block": "xbuilders:coal_ore"
+  },
+  {
+    "id": "xbuilders:raw_coal",
+    "name": "Raw Coal",
+    "icon": "ores\\coal"
+  },
+  {
+    "id": "xbuilders:iron_ore",
+    "name": "Iron Ore",
+    "block": "xbuilders:iron_ore"
+  },
+  {
+    "id": "xbuilders:raw_iron",
+    "name": "Raw Iron",
+    "icon": "ores\\iron_nugget"
+  },
+  {
+    "id": "xbuilders:gold_ore",
+    "name": "Gold Ore",
+    "block": "xbuilders:gold_ore"
+  },
+  {
+    "id": "xbuilders:raw_gold",
+    "name": "Raw Gold",
+    "icon": "ores\\gold_nugget"
+  },
+  {
+    "id": "xbuilders:lapis_ore",
+    "name": "Lapis Lazuli Ore",
+    "block": "xbuilders:lapis_ore"
+  },
+  {
+    "id": "xbuilders:raw_lapis",
+    "name": "Raw Lapis Lazuli",
+    "icon": "ores\\lapis_lazuli"
+  },
+  {
+    "id": "xbuilders:emerald_ore",
+    "name": "Emerald Ore",
+    "block": "xbuilders:emerald_ore"
+  },
+  {
+    "id": "xbuilders:raw_emerald",
+    "name": "Raw Emerald",
+    "icon": "ores\\emerald"
   }
 ]

@@ -67,10 +67,10 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
                 if (blockJson.isJsonPrimitive()) {
                     JsonPrimitive primitive = blockJson.getAsJsonPrimitive();
                     if (primitive.isString()) {
-                        System.out.println("The value is a String: " + primitive.getAsString());
+                        //System.out.println("The value is a String: " + primitive.getAsString());
                         item.setBlock(primitive.getAsString());
                     } else if (primitive.isNumber()) {
-                        System.out.println("The value is a Number: " + primitive.getAsNumber());
+                        //System.out.println("The value is a Number: " + primitive.getAsNumber());
                         short blockID = primitive.getAsNumber().shortValue();
                         item.setBlock(blockID);
                     }

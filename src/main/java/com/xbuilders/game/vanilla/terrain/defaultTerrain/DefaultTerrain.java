@@ -16,10 +16,12 @@ import static com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain.*
 public class DefaultTerrain extends Terrain {
 
     short fern, deadBush;
-    final int WORLD_HEIGHT_OFFSET = 138;
-    final int OCEAN_LEVEL = 25; //Used to deepen lakes in heightmap generation
-    final int WATER_LEVEL = WORLD_HEIGHT_OFFSET + (OCEAN_LEVEL - 5); //5 blocks above ocean level
-    final float CAVE_FREQUENCY = 5.0f;
+    final static int WORLD_HEIGHT_OFFSET = 138;
+    final static int OCEAN_LEVEL = 25; //Used to deepen lakes in heightmap generation
+    final static int WATER_LEVEL = WORLD_HEIGHT_OFFSET + (OCEAN_LEVEL - 5); //5 blocks above ocean level
+    final static float CAVE_FREQUENCY = 5.0f;
+    final static float CAVE_THRESHOLD = 0.25f;
+
 
     boolean caves;
     boolean trees;
@@ -289,6 +291,7 @@ public class DefaultTerrain extends Terrain {
         int wx, wy, wz, heightmap; //IMPORTANT: We cant put this outside generateChunkInner() because multiple chunks are generated at the same time
         float valley, heat;
         int biome = BIOME_DEFAULT;
+        float caveFractal = 0;
 
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
@@ -321,9 +324,9 @@ public class DefaultTerrain extends Terrain {
                     } else if (wy > heightmap &&
                             (!caves || //If caves are disabled
                                     wy < heightmap + 10 || //Or we arent below the ground enough
-                                    getValueFractal(wx * CAVE_FREQUENCY, wy * 14.0f, wz * CAVE_FREQUENCY) <= 0.25)
+                                    (caveFractal = getValueFractal(wx * CAVE_FREQUENCY, wy * 14.0f, wz * CAVE_FREQUENCY)) <= CAVE_THRESHOLD)
                     ) {
-                        chunk.data.setBlock(x, y, z, Blocks.BLOCK_STONE);
+                        placeStoneAndOres(chunk, x, y, z, wx, wy, wz, caveFractal);
                         placeWater = false;
                     } else if (wy <= heightmap) {
                         if (wy == WATER_LEVEL && heat < -0.6f) {
@@ -335,5 +338,9 @@ public class DefaultTerrain extends Terrain {
                 }
             }
         }
+    }
+
+    private void placeStoneAndOres(Chunk chunk, int x, int y, int z, int wx, int wy, int wz, float alpha) {
+        chunk.data.setBlock(x, y, z, Blocks.BLOCK_STONE);
     }
 }

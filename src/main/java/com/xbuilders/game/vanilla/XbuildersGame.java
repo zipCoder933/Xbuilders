@@ -67,9 +67,6 @@ public class XbuildersGame extends Game {
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
         if (window.devMode) terrainsList.add(new DevTerrain());
-        if (window.settings.internal_experimentalFeatures) {
-            terrainsList.add(new ComplexTerrain());
-        }
     }
 
     public HashMap<String, String> getCommandHelp() {
