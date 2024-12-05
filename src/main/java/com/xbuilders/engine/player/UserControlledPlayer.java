@@ -52,6 +52,27 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     boolean autoJump_unCollided = true;
     float autoJump_ticksWhileColidingWithBlock = 0;
 
+    final static Vector3f playerBoxBottom = new Vector3f();
+    final static Vector3f playerBoxTop = new Vector3f();
+
+    public Vector3f getPlayerBoxBottom() {
+        playerBoxBottom.set(
+                (GameScene.player.aabb.box.min.x + GameScene.player.aabb.box.max.x) / 2,
+                GameScene.player.aabb.box.min.y,
+                (GameScene.player.aabb.box.min.z + GameScene.player.aabb.box.max.z) / 2);
+        return playerBoxBottom;
+    }
+
+    public Vector3f getPlayerBoxTop() {
+        playerBoxTop.set(
+                (GameScene.player.aabb.box.min.x + GameScene.player.aabb.box.max.x) / 2,
+                GameScene.player.aabb.box.max.y,
+                (GameScene.player.aabb.box.min.z + GameScene.player.aabb.box.max.z) / 2
+        );
+        return playerBoxTop;
+    }
+
+
     //Saving/loading in world
     public final StorageSpace inventory;
     private int selectedItemIndex;

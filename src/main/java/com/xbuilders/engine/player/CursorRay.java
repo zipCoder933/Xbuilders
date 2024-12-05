@@ -17,6 +17,7 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.world.World;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
 import org.joml.Vector2i;
@@ -25,6 +26,7 @@ import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 
 public class CursorRay {
@@ -219,6 +221,19 @@ public class CursorRay {
         }
     }
 
+    private boolean blockIntersectsPlayer(Block block, Vector3i set) {
+        AABB boxAABB = new AABB();
+        //If the block is too close to the player, don't place
+        AtomicBoolean intersects = new AtomicBoolean(false);
+        BlockData initialData = block.getRenderType().getInitialBlockData(null, block, GameScene.player);
+
+        block.getRenderType().getCollisionBoxes((aabb) -> {
+            if (aabb.intersects(GameScene.player.aabb.box)) intersects.set(true);
+        }, boxAABB, block, initialData, set.x, set.y, set.z);
+
+        return intersects.get();
+    }
+
     private void defaultSetEvent(ItemStack stack) {
         Block block = stack.item.getBlock();
         EntitySupplier entity = stack.item.getEntity();
@@ -226,8 +241,12 @@ public class CursorRay {
         if (stack.stackSize <= 0) return;
         if (block != null) {
             Block hitBlock = GameScene.world.getBlock(cursorRay.getHitPositionAsInt());
-            Vector3i set = cursorRay.getHitPosPlusNormal();
-            if (hitBlock.getRenderType().replaceOnSet) set = cursorRay.getHitPositionAsInt();
+            Vector3i set = cursorRay.getHitPositionAsInt();
+
+            if (!hitBlock.getRenderType().replaceOnSet) {
+                set = cursorRay.getHitPosPlusNormal();
+                if(blockIntersectsPlayer(block, set)) return;
+            }
             if (GameScene.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
             GameScene.setBlock(block.id, set.x, set.y, set.z);
         } else if (entity != null) {
