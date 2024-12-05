@@ -380,7 +380,7 @@ public class GameServer extends Server<PlayerClient> {
         return null;
     }
 
-    public void onClientDisconnect(PlayerClient client) {
+    public void clientDisconnectEvent(PlayerClient client) {
         if (client.player != null) {
             GameScene.consoleOut(client.getName() + " has left");
         } else {

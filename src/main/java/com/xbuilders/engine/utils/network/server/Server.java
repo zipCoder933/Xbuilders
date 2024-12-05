@@ -19,10 +19,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Supplier;
 
-public abstract class Server<ClientSocket extends NetworkSocket> { //We can define custom network sockets
+public abstract class Server<TClient extends NetworkSocket> { //We can define custom network sockets
 
     protected String ipAdress;
-    public final ArrayList<ClientSocket> clients = new ArrayList<>(); //A socket is a two way connection
+    public final ArrayList<TClient> clients = new ArrayList<>(); //A socket is a two way connection
 
     public static final byte[] pingMessage = new byte[]{0};
     public static final byte[] pongMessage = new byte[]{1};
@@ -31,19 +31,31 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
 
     Thread newClientThread;
     Timer pingThread = new Timer();
-    Supplier<ClientSocket> clientSocketSupplier;
+    Supplier<TClient> clientSocketSupplier;
     java.net.ServerSocket serverSocket;
     private int serverPort;
 
-
-    private ClientSocket acceptClient() throws IOException { //Server accept incoming connection
-        ClientSocket clientSocket = clientSocketSupplier.get();
+    /**
+     * Server accept incoming connection
+     *
+     * @return the new client
+     * @throws IOException
+     */
+    private TClient acceptClient() throws IOException {
+        TClient clientSocket = clientSocketSupplier.get();
         clientSocket.init(serverSocket.accept());
         return clientSocket;
     }
 
-    private ClientSocket addConnection(InetSocketAddress address) throws IOException { //Server adds new connection
-        ClientSocket clientSocket = clientSocketSupplier.get();
+    /**
+     * Adds a new connection
+     *
+     * @param address the address to the client
+     * @return the new client
+     * @throws IOException
+     */
+    private TClient addConnection(InetSocketAddress address) throws IOException {
+        TClient clientSocket = clientSocketSupplier.get();
         clientSocket.init(address);
         return clientSocket;
     }
@@ -53,7 +65,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
     }
 
 
-    public Server(Supplier<ClientSocket> clientSocketSupplier) {
+    public Server(Supplier<TClient> clientSocketSupplier) {
         super();
         this.clientSocketSupplier = clientSocketSupplier;
         init();
@@ -87,7 +99,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
             @Override
             public void run() {
                 try {
-                    for (ClientSocket client : clients) {
+                    for (TClient client : clients) {
                         if (!client.isClosed()) {
                             //System.out.println("Sending PING to " + client.toString());
                             client.sendData(pingMessage);
@@ -105,7 +117,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
             public void run() {
                 while (serverIsOpen()) {
                     try {
-                        ClientSocket newClient = (ClientSocket) acceptClient();
+                        TClient newClient = (TClient) acceptClient();
                         if (newClientEvent(newClient)) {
                             connectToServer(newClient);
                         } else {
@@ -136,12 +148,12 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
         return ipAdress;
     }
 
-    public void onClientDisconnect(ClientSocket client) {
+    public void clientDisconnectEvent(TClient client) {
         System.out.println("Disconnected: " + client.toString());
     }
 
     public boolean clientAlreadyJoined(String targetHost, String remoteHost) {
-        for (ClientSocket client : clients) {
+        for (TClient client : clients) {
             if (NetworkUtils.hasSameConnection(
                     client.getHostAddress(), client.getRemoteHostString(),
                     targetHost, remoteHost
@@ -153,7 +165,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
     }
 
     public void sendToAllClients(byte[] data) throws IOException {
-        for (ClientSocket client : clients) {
+        for (TClient client : clients) {
             client.sendData(data);
         }
     }
@@ -169,7 +181,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
         if (pingThread != null) pingThread.cancel();
         pingThread = null;
 
-        for (ClientSocket client : clients) {
+        for (TClient client : clients) {
             if (client != null) client.close();
         }
         clients.clear();
@@ -180,7 +192,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
     }
 
 
-    public boolean clientAlreadyJoined(ClientSocket newClient) {
+    public boolean clientAlreadyJoined(TClient newClient) {
         return clientAlreadyJoined(newClient.getHostAddress(), newClient.getRemoteHostString());
     }
 
@@ -191,29 +203,29 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
      * @param newClient the client
      * @return if the server should accept the client.
      */
-    public abstract boolean newClientEvent(ClientSocket newClient);
+    public abstract boolean newClientEvent(TClient newClient);
 
     /**
      * @param client       the client
      * @param receivedData incoming bytes from the client
      */
-    public abstract void dataFromClientEvent(ClientSocket client, byte[] receivedData);
+    public abstract void dataFromClientEvent(TClient client, byte[] receivedData);
 
 
-    protected void connectToServer(ClientSocket newClient) {
+    protected void connectToServer(TClient newClient) {
         Thread clientDataThread = new Thread(() -> getClientDataLoop(newClient));
         clientDataThread.setPriority(1);
         clientDataThread.start();
         clients.add(newClient);
     }
 
-    public ClientSocket connectToServer(InetSocketAddress address) throws IOException {
-        ClientSocket newClient = (ClientSocket) addConnection(address);
+    public TClient connectToServer(InetSocketAddress address) throws IOException {
+        TClient newClient = (TClient) addConnection(address);
         connectToServer(newClient);
         return newClient;
     }
 
-    protected void getClientDataLoop(ClientSocket client) {
+    protected void getClientDataLoop(TClient client) {
         try {
             while (!client.isClosed()) {
                 // Assuming you have a method like receiveData() to receiveData messages from the client
@@ -236,7 +248,31 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
             ex.printStackTrace();
         }
         clients.remove(client);
-        if (serverIsOpen()) onClientDisconnect(client);
+        if (serverIsOpen()) {
+            boolean reconnected = tryToReconnect(client);
+            if (!reconnected) clientDisconnectEvent(client);
+        }
+    }
+
+    private boolean tryToReconnect(TClient client) {
+        System.out.println("CLIENT DISCONNECTED: " + client.toString());
+        try {
+            for (int i = 0; i < 10; i++) {
+                System.out.println("Trying to reconnect to: " + client.toString());
+                TClient newClient = (TClient) addConnection(client.getRemoteSocketAddress());
+                if (!newClient.isClosed()) {
+                    System.out.println("Reconnected to: " + client.toString());
+                    connectToServer(newClient);
+                    return true;
+                }
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Failed to reconnect to: " + client.toString() + " " + e.getMessage());
+        }
+        return false;
     }
 
 }
