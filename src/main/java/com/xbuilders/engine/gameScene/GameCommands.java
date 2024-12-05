@@ -77,8 +77,7 @@ public class GameCommands {
                         String str = "" + gameScene.server.clients.size() + " players:\n";
                         for (PlayerClient client : gameScene.server.clients) {
                             str +=
-                                    client.getName() +
-                                    ";   ping: " + Math.floor((float) client.getTimeSinceLastPing_MS() / 1000) + "s ago\n";
+                                    client.getName() + ";   ping: " + client.getSecSinceLastPing() + "s ago\n";
                         }
                         return str;
                     }

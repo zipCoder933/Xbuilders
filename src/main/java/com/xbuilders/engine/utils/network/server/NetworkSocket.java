@@ -38,8 +38,12 @@ public class NetworkSocket {
     private Socket socket;
     protected long lastPing;
 
-    public long getTimeSinceLastPing_MS() {
+    public long getMsSinceLastPing() {
         return System.currentTimeMillis() - lastPing;
+    }
+
+    public int getSecSinceLastPing() {
+        return (int) ((double) System.currentTimeMillis() - (double) lastPing / 1000);
     }
 
     public Socket getSocket() {

@@ -391,7 +391,8 @@ public class GameServer extends Server<PlayerClient> {
             MainWindow.goToMenuPage();
             MainWindow.popupMessage.message(
                     "Host has left",
-                    "The host has left the game");
+                    "The host has left the game." +
+                            "\nLast ping from host " + client.getSecSinceLastPing() + "s ago");
         }
     }
 
