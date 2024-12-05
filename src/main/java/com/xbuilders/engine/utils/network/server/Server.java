@@ -14,6 +14,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Supplier;
 
 public abstract class Server<ClientSocket extends NetworkSocket> { //We can define custom network sockets
@@ -21,10 +24,14 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
     protected String ipAdress;
     public final ArrayList<ClientSocket> clients = new ArrayList<>(); //A socket is a two way connection
 
-    Thread clientThread;
+    public static final byte[] pingMessage = new byte[]{0};
+    public static final byte[] pongMessage = new byte[]{1};
+    public static final long PING_INTERVAL = 10000;
+
+
+    Thread newClientThread;
+    Timer pingThread = new Timer();
     Supplier<ClientSocket> clientSocketSupplier;
-
-
     java.net.ServerSocket serverSocket;
     private int serverPort;
 
@@ -65,7 +72,7 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
     public void start(int port) throws IOException {
 
         boolean available = NetworkUtils.available(port);
-        System.out.println("PORT AVAILABLE: "+available);
+        System.out.println("PORT AVAILABLE: " + available);
 
         if (port < 1024) {
             throw new IOException("Port number must be higher than 1024");
@@ -76,7 +83,24 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
         serverSocket = new java.net.ServerSocket(port);
 
 
-        clientThread = new Thread() {
+        pingThread.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    for (ClientSocket client : clients) {
+                        if (!client.isClosed()) {
+                            //System.out.println("Sending PING to " + client.toString());
+                            client.sendData(pingMessage);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 10000, PING_INTERVAL);
+
+
+        newClientThread = new Thread() {
             @Override
             public void run() {
                 while (serverIsOpen()) {
@@ -89,13 +113,16 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
                         }
                     } catch (SocketException | java.io.EOFException ex) {
                         //if there is a socket exception, it is most likely because the socket was disconnected
+                        //ex.printStackTrace();
+                        System.out.println("Socket closed: (" + ex.getMessage() + ")");
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 }
             }
         };
-        clientThread.start();
+
+        newClientThread.start();
     }
 
     /**
@@ -136,8 +163,11 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
         if (serverSocket != null) serverSocket.close();
         serverSocket = null;
 
-        if (clientThread != null) clientThread.interrupt();
-        clientThread = null;
+        if (newClientThread != null) newClientThread.interrupt();
+        newClientThread = null;
+
+        if (pingThread != null) pingThread.cancel();
+        pingThread = null;
 
         for (ClientSocket client : clients) {
             if (client != null) client.close();
@@ -171,9 +201,9 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
 
 
     protected void connectToServer(ClientSocket newClient) {
-        Thread clientThread = new Thread(() -> handleClient(newClient));
-        clientThread.setPriority(1);
-        clientThread.start();
+        Thread clientDataThread = new Thread(() -> getClientDataLoop(newClient));
+        clientDataThread.setPriority(1);
+        clientDataThread.start();
         clients.add(newClient);
     }
 
@@ -183,13 +213,22 @@ public abstract class Server<ClientSocket extends NetworkSocket> { //We can defi
         return newClient;
     }
 
-    protected void handleClient(ClientSocket client) {
+    protected void getClientDataLoop(ClientSocket client) {
         try {
             while (!client.isClosed()) {
                 // Assuming you have a method like receiveData() to receiveData messages from the client
                 byte[] receivedData = client.receiveData();
-                // Process the received data using the provided input handler
-                dataFromClientEvent(client, receivedData);
+
+                if (Arrays.equals(receivedData, pingMessage)) {
+                    //System.out.println("Received PING from " + client.toString());
+                    client.lastPing = System.currentTimeMillis();
+                    client.sendData(pongMessage);
+                } else if (Arrays.equals(receivedData, pongMessage)) {
+                    //System.out.println("Received PONG from " + client.toString());
+                } else {
+                    // Process the received data using the provided input handler
+                    dataFromClientEvent(client, receivedData);
+                }
             }
         } catch (SocketException | java.io.EOFException ex) {
             //if there is a socket exception, it is most likely because the socket was disconnected

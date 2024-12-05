@@ -17,6 +17,7 @@ import org.joml.Vector4i;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -157,4 +158,6 @@ public class MiscUtils {
         // Compare their actual content
         return str1.equals(str2);
     }
+
+
 }

@@ -4,8 +4,6 @@
  */
 package com.xbuilders.engine.utils.network.server;
 
-import com.xbuilders.engine.player.Player;
-
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -38,6 +36,11 @@ public class NetworkSocket {
     }
 
     private Socket socket;
+    protected long lastPing;
+
+    public long getTimeSinceLastPing_MS() {
+        return System.currentTimeMillis() - lastPing;
+    }
 
     public Socket getSocket() {
         return socket;

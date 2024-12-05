@@ -76,7 +76,9 @@ public class GameCommands {
                     case "players" -> {
                         String str = "" + gameScene.server.clients.size() + " players:\n";
                         for (PlayerClient client : gameScene.server.clients) {
-                            str += client.player.userInfo.name + "\n";
+                            str +=
+                                    client.getName() +
+                                    ";   ping: " + Math.floor((float) client.getTimeSinceLastPing_MS() / 1000) + "s ago\n";
                         }
                         return str;
                     }
