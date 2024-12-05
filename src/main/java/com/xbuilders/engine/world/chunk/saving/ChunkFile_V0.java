@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import static com.xbuilders.engine.utils.ByteUtils.*;
 
 public class ChunkFile_V0 {
@@ -21,31 +22,13 @@ public class ChunkFile_V0 {
     public static final byte ENTITY_BYTE = -126;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
-    public static final int METADATA_BYTES = 9;
+    public static final int METADATA_BYTES = 1;
 
-    public static long readMetadata(InputStream input) throws IOException {
-        //We only have METADATA_BYTES bytes of metadata
-        int remaining = METADATA_BYTES;
-
-        long lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES));
-        remaining -= Long.BYTES;
-
-        byte[] metadata = input.readNBytes(remaining);//Read the remaining bytes
-        return lastModifiedTime;
+    public static void readMetadata(byte[] input) {
     }
 
-    static void readChunk(final Chunk chunk, InputStream input) throws IOException {
-        AtomicInteger start = new AtomicInteger(0);
-        start.set(0);
+    static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
 
-        chunk.lastModifiedTime = readMetadata(input);
-
-        final byte[] bytes = input.readAllBytes();
-
-//                //Print bytes formatted
-//                String str = printBytesFormatted(bytes);
-//                Files.write(new File(f.getParent() + "/" + f.getName() + ".formatted").toPath(), str.getBytes());
-//                System.out.println("SAVED FORMATTED BYTES");
 
         //Load the entities
         boolean hasEntities = false;
@@ -76,6 +59,7 @@ public class ChunkFile_V0 {
                 }
             }
         }
+
     }
 
 

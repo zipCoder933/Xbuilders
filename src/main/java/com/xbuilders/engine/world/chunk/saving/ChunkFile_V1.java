@@ -20,26 +20,12 @@ public class ChunkFile_V1 {
     public static final byte START_READING_VOXELS = -128;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
-    public static final int METADATA_BYTES = 64;
+    public static final int METADATA_BYTES = 56;
 
-    public static long readMetadata(InputStream input) throws IOException {
-        //We only have METADATA_BYTES bytes of metadata
-        int remaining = METADATA_BYTES;
-
-        long lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES));
-        remaining -= Long.BYTES;
-
-        byte[] metadata = input.readNBytes(remaining);//Read the remaining bytes
-        return lastModifiedTime;
+    public static void readMetadata(byte[] input) {
     }
 
-    static void readChunk(final Chunk chunk, InputStream input) throws IOException {
-        AtomicInteger start = new AtomicInteger(0);
-        start.set(0);
-
-        chunk.lastModifiedTime = readMetadata(input);
-
-        final byte[] bytes = input.readAllBytes();
+    static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
 
         //Load the entities
         while (true) {
@@ -66,6 +52,7 @@ public class ChunkFile_V1 {
                 }
             }
         }
+
     }
 
 
