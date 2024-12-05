@@ -5,6 +5,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.items.loot.BlockLootTables;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
@@ -27,7 +28,7 @@ public abstract class BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
     }
 
-    public Block getSelectedBlock() {
+    public static  Block getSelectedBlock() {
         ItemStack selectedItem =  GameScene.player.getSelectedItem();
         if(selectedItem == null || selectedItem.item == null) return null;
         if(selectedItem.item.getBlock() == null) return null;

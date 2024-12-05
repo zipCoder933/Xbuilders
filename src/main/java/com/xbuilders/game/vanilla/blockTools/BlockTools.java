@@ -122,11 +122,9 @@ public class BlockTools extends UI_GameMenu {
         tools.get(selectedTool).activate();
     }
 
-    public boolean clickEvent(ItemStack item, CursorRay ray, boolean isCreationMode) {
-        if (GameScene.getGameMode() != GameMode.FREEPLAY) return false;
-
-        Block block = BlockRegistry.BLOCK_AIR;
-        if (item != null && item.item != null && item.item.getBlock() != null) block = item.item.getBlock();
+    public boolean clickEvent(CursorRay ray, boolean isCreationMode) {
+        Block block = BlockTool.getSelectedBlock();
+        if (GameScene.getGameMode() != GameMode.FREEPLAY || block == null) return false;
         return getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 

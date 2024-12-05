@@ -47,10 +47,11 @@ public class BoundaryTool extends BlockTool {
 
 
     private void blockBoundarySetEvent(AABB aabb, boolean created) {
+        if (getSelectedBlock() == null) return;
 
         Block block = BlockRegistry.BLOCK_AIR;
-        if (created){
-           block = getSelectedBlock();
+        if (created) {
+            block = getSelectedBlock();
         }
 
         HashSet<Chunk> foundChunks = new HashSet<Chunk>();
