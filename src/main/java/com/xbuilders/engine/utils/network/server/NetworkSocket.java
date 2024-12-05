@@ -39,6 +39,10 @@ public class NetworkSocket {
 
     private Socket socket;
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     /**
      * Here are a few reasons why using a BufferedOutputStream can be beneficial for performance:
      * <p>

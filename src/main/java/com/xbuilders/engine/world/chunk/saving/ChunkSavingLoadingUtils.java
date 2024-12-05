@@ -125,16 +125,6 @@ public class ChunkSavingLoadingUtils {
         return str;
     }
 
-//    private static void writeAndVerifyBuffer(final OutputStream out, final ByteBuffer buffer) throws IOException {
-//        for (int i = 0; i < buffer.capacity(); i++) {
-//            byte b = buffer.get(i);
-//            if (b == NEWLINE_BYTE) {
-//                throw new IllegalArgumentException("The byte [" + NEWLINE_BYTE + "] is forbidden for use.");
-//            }
-//            out.write(b);
-//        }
-//    }
-
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
 
     private static void writeChunkVoxelCoords(OutputStream out, Vector3f vec) throws IOException {

@@ -58,9 +58,8 @@ public class UI_Hotbar extends UI_GameMenu {
             playerStorage.deleteEmptyItems();
             // Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (playerStorage.get(GameScene.player.getSelectedItemIndex()) != null) {
-                nk_text(ctx, playerStorage.get(GameScene.player.getSelectedItemIndex()).item.name, NK_TEXT_ALIGN_CENTERED);
-            }
+            if (GameScene.player.getSelectedItem() != null && GameScene.player.getSelectedItem().item != null)
+                nk_text(ctx, GameScene.player.getSelectedItem().item.name, NK_TEXT_ALIGN_CENTERED);
 
             nk_layout_row_dynamic(ctx, UI_ItemWindow.getItemSize(), ELEMENTS);
             int i = 0;
@@ -144,7 +143,7 @@ public class UI_Hotbar extends UI_GameMenu {
                 stack = new ItemStack(Registrys.getItem(block), 1);
             }
         }
-        if(stack == null) return;
+        if (stack == null) return;
         for (int i = 0; i < storageSpace.size(); i++) {
             ItemStack item = storageSpace.get(i);
             if (item != null && item.item == stack.item) {
