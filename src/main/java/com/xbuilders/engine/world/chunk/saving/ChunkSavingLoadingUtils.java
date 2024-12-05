@@ -24,11 +24,7 @@ import com.xbuilders.engine.world.chunk.Chunk;
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
-/**
- * @author zipCoder933
- * <br>
- * <h2>all Information about the format of the chunk files are saved in the "Chunk saving and loading.md" file</h2>
- */
+
 public class ChunkSavingLoadingUtils {
 
 

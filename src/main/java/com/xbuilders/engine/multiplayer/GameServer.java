@@ -50,6 +50,7 @@ public class GameServer extends Server<PlayerClient> {
     public static final byte PLEASE_CONNECT_TO_CLIENT = -116;
     public static final byte CHANGE_GAME_MODE = -115;
     public static final byte CHANGE_PLAYER_PERMISSION = -114;
+    public static final byte WORLD_CHUNK_LAST_SAVED = -113;
 
     NetworkJoinRequest req;
     UserControlledPlayer userPlayer;
@@ -181,11 +182,6 @@ public class GameServer extends Server<PlayerClient> {
         }).start();
     }
 
-    public void pingAllPlayers() {
-        for (PlayerClient p : clients) {
-            p.ping();
-        }
-    }
 
     @Override
     public void dataFromClientEvent(PlayerClient client, byte[] receivedData) {
@@ -267,6 +263,13 @@ public class GameServer extends Server<PlayerClient> {
                 });
             } else if (receivedData[0] == READY_TO_START) { //New world
                 worldReady = true;
+            } else if (receivedData[0] == WORLD_CHUNK_LAST_SAVED) {
+                int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
+                int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
+                int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
+                File chunkFile = worldInfo.getChunkFile(new Vector3i(x, y, z));
+                long lastSaved = ChunkSavingLoadingUtils.getLastSaved(chunkFile);
+                client.sendData(ByteUtils.longToByteArray(lastSaved));
             } else if (receivedData[0] == WORLD_CHUNK) {
                 int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
                 int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
@@ -303,7 +306,8 @@ public class GameServer extends Server<PlayerClient> {
         }
     }
 
-    private void printEntityChange(int mode, EntitySupplier entity, long identifier, Vector3f currentPos, byte[] data) {
+    private void printEntityChange(int mode, EntitySupplier entity, long identifier, Vector3f currentPos,
+                                   byte[] data) {
         String modeStr;
         switch (mode) {
             case ENTITY_CREATED -> modeStr = "CREATED";
@@ -474,7 +478,7 @@ public class GameServer extends Server<PlayerClient> {
         try {
             sendToAllClients(b);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
