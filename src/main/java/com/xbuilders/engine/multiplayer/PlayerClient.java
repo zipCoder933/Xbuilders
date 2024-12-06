@@ -39,7 +39,6 @@ public class PlayerClient extends NetworkSocket {
         return "PlayerSocket " + getName();
     }
 
-    long pingSendTime;
     long allChangesSentTime;
 
     public void sendAllChanges() {
@@ -73,10 +72,5 @@ public class PlayerClient extends NetworkSocket {
             allChangesSentTime = System.currentTimeMillis();
             sendAllChanges();
         }
-    }
-
-
-    public void ping() {
-        pingSendTime = System.currentTimeMillis();
     }
 }

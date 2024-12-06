@@ -28,7 +28,7 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
 
     public static final byte[] pingMessage = new byte[]{0};
     public static final byte[] pongMessage = new byte[]{1};
-    public static final long PING_INTERVAL = 10000;
+    public static final long PING_INTERVAL = 30000;
 
 
     Thread newClientThread;
@@ -231,6 +231,9 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
 
     protected void getClientDataLoop(TClient client) {
         try {
+            //Enable keep alive
+            client.getSocket().setKeepAlive(true);
+
             while (!client.isClosed()) {
                 // Assuming you have a method like receiveData() to receiveData messages from the client
                 byte[] receivedData = client.receiveData();
