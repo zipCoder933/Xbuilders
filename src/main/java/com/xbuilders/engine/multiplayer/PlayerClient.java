@@ -9,7 +9,6 @@ import org.joml.Matrix4f;
 
 /**
  * the Player Client class is a model of the other player.
- *
  */
 public class PlayerClient extends NetworkSocket {
     public final Player player = new Player();
@@ -37,7 +36,7 @@ public class PlayerClient extends NetworkSocket {
 
     @Override
     public String toString() {
-        return "PlayerSocket(" + getName() + '}';
+        return "PlayerSocket " + getName();
     }
 
     long pingSendTime;

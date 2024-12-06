@@ -43,7 +43,7 @@ public class NetworkSocket {
     }
 
     public int getSecSinceLastPing() {
-        return (int) ((double) System.currentTimeMillis() - (double) lastPing / 1000);
+        return (int) ((double) getMsSinceLastPing() / 1000);
     }
 
     public Socket getSocket() {

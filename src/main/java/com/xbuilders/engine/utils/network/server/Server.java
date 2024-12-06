@@ -8,6 +8,8 @@ package com.xbuilders.engine.utils.network.server;
  * @author zipCoder933
  */
 
+import com.xbuilders.engine.MainWindow;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -30,7 +32,7 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
 
 
     Thread newClientThread;
-    Timer pingThread = new Timer();
+    private Timer pingThread;
     Supplier<TClient> clientSocketSupplier;
     java.net.ServerSocket serverSocket;
     private int serverPort;
@@ -95,6 +97,7 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
         serverSocket = new java.net.ServerSocket(port);
 
 
+        pingThread = new Timer();
         pingThread.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -172,6 +175,7 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
 
     public void close() throws IOException {
 
+        //We must set these to null because once they have been closed, they cant be opened again
         if (serverSocket != null) serverSocket.close();
         serverSocket = null;
 
@@ -232,11 +236,13 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
                 byte[] receivedData = client.receiveData();
 
                 if (Arrays.equals(receivedData, pingMessage)) {
-                    //System.out.println("Received PING from " + client.toString());
+//                    MainWindow.printlnDev("Received PING from " + client.toString());
                     client.lastPing = System.currentTimeMillis();
                     client.sendData(pongMessage);
+                    //System.out.println(client.toString() + " last ping: " + client.getSecSinceLastPing());
                 } else if (Arrays.equals(receivedData, pongMessage)) {
-                    //System.out.println("Received PONG from " + client.toString());
+                    client.lastPing = System.currentTimeMillis();
+//                    MainWindow.printlnDev("Received PONG from " + client.toString());
                 } else {
                     // Process the received data using the provided input handler
                     dataFromClientEvent(client, receivedData);

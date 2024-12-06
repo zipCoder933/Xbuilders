@@ -96,7 +96,7 @@ public class PopupMessage {
         visible = true;
     }
 
-    private final static String tag = "Popup_window";
+    private final static String WINDOW_ID = "Popup_window";
 
 
     private void closeWindow() {
@@ -109,16 +109,18 @@ public class PopupMessage {
     }
 
     public void draw() {
-        if (!visible) return;
+        if (!visible) {
+            return;
+        }
         float wrapWidth = boxWidth - 20;
-        boxHeight = (int) (NKUtils.calculateWrappedTextHeight(Theme.font_10, body, wrapWidth) + 72 + 50);
+        boxHeight = (int) (NKUtils.calculateWrappedTextHeight(Theme.font_10, body, wrapWidth) + 180);
         boxHeight = MathUtils.clamp(boxHeight, 160, 400);
 
 
         nk_style_set_font(ctx, Theme.font_12);
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2),
                 boxWidth, boxHeight, windowDims);
-        if (nk_begin_titled(ctx, tag, title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
+        if (nk_begin_titled(ctx, WINDOW_ID, title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
 
             //Detect if the window is in focus
             if (!nk_window_has_focus(ctx)) {
@@ -162,6 +164,11 @@ public class PopupMessage {
             }
         }
         nk_end(ctx);
+
+        if (System.currentTimeMillis() - shownTime < 1000) {
+            // Explicitly set the "Always On Top" window as the focused window
+            nk_window_set_focus(ctx, WINDOW_ID);
+        }
     }
 
 

@@ -18,6 +18,7 @@ import com.xbuilders.engine.player.pipeline.BlockHistory;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.world.Terrain;
@@ -232,7 +233,7 @@ public class GameScene implements WindowEvents {
         try {
             server.stopGameEvent();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ErrorHandler.report(e);
         }
     }
 

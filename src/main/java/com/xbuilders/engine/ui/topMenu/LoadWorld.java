@@ -9,6 +9,7 @@ package com.xbuilders.engine.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.engine.world.WorldsHandler;
@@ -174,6 +175,7 @@ public class LoadWorld implements MenuPage {
                 },
                 () -> {//canceled
                     System.out.println("Canceled");
+                    MainWindow.gameScene.stopGameEvent(); //Stop the game
                     menu.setPage(Page.HOME);
                 });
     }
