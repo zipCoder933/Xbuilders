@@ -8,6 +8,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.items.item.StorageSpace;
@@ -140,7 +141,8 @@ public class UI_Hotbar extends UI_GameMenu {
                 stack = new ItemStack(Registrys.getItem(entity), 1);
             } else {
                 Block block = GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
-                stack = new ItemStack(Registrys.getItem(block), 1);
+                Item item = Registrys.getItem(block);
+                if (item != null) stack = new ItemStack(item, 1);
             }
         }
         if (stack == null) return;
