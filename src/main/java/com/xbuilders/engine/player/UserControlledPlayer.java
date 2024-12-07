@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.gameScene.GameSceneEvents;
@@ -19,7 +18,6 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.world.World;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.world.data.WorldData;
 import org.joml.Matrix4f;
@@ -252,6 +250,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         if (gameMode != GameMode.FREEPLAY) {
             disableFlying();
         }
+        camera.cursorRay.angelPlacementMode = false;
         if (GameScene.getGameMode() == GameMode.FREEPLAY) {
             camera.cursorRay.setRayDistance(128);
         } else camera.cursorRay.setRayDistance(6);
@@ -479,14 +478,12 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 case KEY_FLY_UP -> enableFlying();
             }
         } else if (action == GLFW.GLFW_RELEASE) {
+            if (key == KEY_CHANGE_RAYCAST_MODE && GameScene.getGameMode() == GameMode.FREEPLAY) {
+                camera.cursorRay.angelPlacementMode = !camera.cursorRay.angelPlacementMode;
+            }
+
             switch (key) {
                 case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = false;
-                case KEY_CHANGE_RAYCAST_MODE -> {
-                    camera.cursorRay.cursorRayHitAllBlocks = !camera.cursorRay.cursorRayHitAllBlocks;
-                    if (camera.cursorRay.cursorRayHitAllBlocks) {
-                        camera.cursorRay.setRayDistance(7);
-                    }
-                }
                 case KEY_TOGGLE_VIEW -> camera.cycleToNextView(10);
                 case KEY_CREATE_MOUSE_BUTTON -> {
                     camera.cursorRay.clickEvent(true);

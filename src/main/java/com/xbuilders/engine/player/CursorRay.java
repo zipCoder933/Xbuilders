@@ -32,7 +32,7 @@ import java.util.function.BiConsumer;
 public class CursorRay {
 
     public boolean hitTarget() {
-        return cursorRayHitAllBlocks || cursorRay.hitTarget;
+        return angelPlacementMode || cursorRay.hitTarget;
     }
 
     public Vector3i getHitPos() {
@@ -72,7 +72,9 @@ public class CursorRay {
     public final Camera camera;
     public Box cursorBox;
     public final Ray cursorRay;
-    public boolean cursorRayHitAllBlocks = false;
+
+    public int angelPlacementReachDistance = 7;
+    public boolean angelPlacementMode = false;
     MainWindow window;
 
     // Boundary mode:
@@ -104,6 +106,8 @@ public class CursorRay {
         breakPercentage = 0;
         ItemStack selectedItem = GameScene.player.getSelectedItem();
 
+        if (!hitTarget()) return false;
+
         if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event
             return true;
         } else if (useBoundary) { //Boundary click event
@@ -134,7 +138,7 @@ public class CursorRay {
             }
         }
 
-        if (hitTarget() && !creationMode) { //By default, remove anything the cursor is pointing at
+        if (!creationMode) { //By default, remove anything the cursor is pointing at
             defaultRemoveEvent(false, selectedItem);
             return true;
         }
@@ -245,7 +249,7 @@ public class CursorRay {
 
             if (!hitBlock.getRenderType().replaceOnSet) {
                 set = cursorRay.getHitPosPlusNormal();
-                if(blockIntersectsPlayer(block, set)) return;
+                if (blockIntersectsPlayer(block, set)) return;
             }
             if (GameScene.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
             GameScene.setBlock(block.id, set.x, set.y, set.z);
@@ -377,7 +381,11 @@ public class CursorRay {
 
         Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
 
-        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, getRayDistance(),
+
+        int distance = getRayDistance();
+        if (angelPlacementMode) distance = Math.min(distance, angelPlacementReachDistance);
+
+        RayCasting.traceComplexRay(cursorRay, position, cursorRaycastLook, distance,
                 ((block, forbiddenBlock, rx, ry, rz) -> {
                     // block ray if we are locking boundary to plane
                     if (useBoundary && boundary_lockToPlane && boundary_isStartNodeSet) {
@@ -395,7 +403,7 @@ public class CursorRay {
                             }
                         }
                     }
-                    if (cursorRayHitAllBlocks) {
+                    if (angelPlacementMode) {
                         return block != forbiddenBlock;
                     } else
                         return block != BlockRegistry.BLOCK_AIR.id &&

@@ -326,10 +326,11 @@ public class ChunkSavingLoadingUtils {
                 return false;
             } catch (IOException ex) {
                 File backupFile = backupFile(f);
-                String errorMessage = "IO error occurred reading chunk" + chunk;
-                if (hasDetectedIfFileWasReadCorrectly)
+                String errorMessage = "IO error occurred reading chunk: " + chunk;
+                if (hasDetectedIfFileWasReadCorrectly) {
                     errorMessage += " \nEnd data: " + new String(ENDING_OF_CHUNK_FILE)
                             + " \nFile Read Correctly: " + fileReadCorrectly;
+                }
                 errorMessage += " \nBackup File Exists: " + backupFile.exists();
                 ErrorHandler.report(errorMessage, ex);
 

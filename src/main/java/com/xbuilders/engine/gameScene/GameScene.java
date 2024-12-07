@@ -474,7 +474,7 @@ public class GameScene implements WindowEvents {
                         "    Player velocity: " + MiscUtils.printVector(GameScene.player.positionHandler.getVelocity());
                 text += "\nPlayer camera: " + player.camera.toString();
 
-                if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.cursorRayHitAllBlocks) {
+                if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.angelPlacementMode) {
                     if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
                         rayWCC.set(player.camera.cursorRay.getHitPosPlusNormal());
                         text += "\nRay+normal (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";

@@ -119,9 +119,7 @@ public class LoadWorld implements MenuPage {
                 }
 
                 if (nk_button_label(ctx, "DELETE WORLD")) {
-                    MainWindow.popupMessage.confirmation("Delete World",
-                            "Are you sure you want to delete " + currentWorld.getName() + "?",
-                            () -> deleteCurrentWorld());
+                    deleteCurrentWorld();
                 }
             }
 
@@ -136,17 +134,23 @@ public class LoadWorld implements MenuPage {
     }
 
     private void deleteCurrentWorld() {
-        try {
-            WorldsHandler.deleteWorld(currentWorld);
-        } catch (IOException ex) {
-            MainWindow.popupMessage.message("Error Deleting World", ex.getMessage());
-        }
-        try {
-            WorldsHandler.listWorlds(worlds);
-        } catch (IOException ex) {
-            ErrorHandler.report(ex);
-        }
-        currentWorld = null;
+        MainWindow.popupMessage.confirmation("Delete World",
+                "Are you sure you want to delete " + currentWorld.getName() + "?",
+                () -> {
+
+                    try {
+                        WorldsHandler.deleteWorld(currentWorld);
+                    } catch (IOException ex) {
+                        MainWindow.popupMessage.message("Error Deleting World", ex.getMessage());
+                    }
+                    try {
+                        WorldsHandler.listWorlds(worlds);
+                    } catch (IOException ex) {
+                        ErrorHandler.report(ex);
+                    }
+                    currentWorld = null;
+
+                });
     }
 
     public void loadWorld(final WorldData world, NetworkJoinRequest req) {

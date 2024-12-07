@@ -249,6 +249,6 @@ public class Camera {
 
 
     public String toString() {
-        return "Camera: pan\\tilt:(" + MiscUtils.printVector(player.camera.simplifiedPanTilt) + "), thirdPersonDist:" + thirdPersonDist + " cursorHitAll:" + cursorRay.cursorRayHitAllBlocks;
+        return "Camera: pan\\tilt:(" + MiscUtils.printVector(player.camera.simplifiedPanTilt) + "), thirdPersonDist:" + thirdPersonDist + " cursorHitAll:" + cursorRay.angelPlacementMode;
     }
 }

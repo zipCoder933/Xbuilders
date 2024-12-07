@@ -4,12 +4,17 @@
 package com.xbuilders.engine.world;
 
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.FileUtils;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.data.WorldData;
 
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
 public class WorldsHandler {
@@ -31,14 +36,10 @@ public class WorldsHandler {
         return worldFile(name).exists();
     }
 
+
     public static void deleteWorld(WorldData info) throws IOException {
         if (info != null) {
-            System.out.println("Deleting " + info.getDirectory().toString());
-            for (final File file : info.getDirectory().listFiles()) {
-                System.out.println("\tDeleting " + file.toString());
-                file.delete();
-            }
-            Files.delete(info.getDirectory().toPath());
+            FileUtils.moveDirectoryToTrash(info.getDirectory());
         }
     }
 
