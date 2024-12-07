@@ -24,8 +24,7 @@ public class ChunkFile_V0 {
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
     public static final int METADATA_BYTES = 1;
 
-    public static void readMetadata(byte[] input) {
-    }
+
 
     static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
 

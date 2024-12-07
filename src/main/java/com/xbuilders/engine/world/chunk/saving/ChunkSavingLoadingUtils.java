@@ -33,7 +33,7 @@ public class ChunkSavingLoadingUtils {
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
 
     public static final int METADATA_BYTES = 64;
-    public static final int LATEST_FILE_VERSION = 1;
+    public static final int LATEST_FILE_VERSION = 2;
     public static final byte[] ENDING_OF_CHUNK_FILE = "END_OF_CHUNK_FILE".getBytes();
 
 
@@ -263,16 +263,23 @@ public class ChunkSavingLoadingUtils {
     public static boolean fileIsComplete(File f) {
         try (FileInputStream fis = new FileInputStream(f);
              GZIPInputStream input = new GZIPInputStream(fis)) {
+            int fileVersion = input.read();
             final byte[] bytes = input.readAllBytes();
 
-            byte[] endingBytes = new byte[ENDING_OF_CHUNK_FILE.length];
-            System.arraycopy(bytes,
-                    bytes.length - endingBytes.length, endingBytes,
-                    0, endingBytes.length);
-            return Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
+            //Any version less than 2 doesnt have an ending
+            return fileVersion < 2 || hasEnding(bytes);
+
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private static boolean hasEnding(byte[] allRemainingBytse) {
+        byte[] endingBytes = new byte[ENDING_OF_CHUNK_FILE.length];
+        System.arraycopy(allRemainingBytse,
+                allRemainingBytse.length - endingBytes.length, endingBytes,
+                0, endingBytes.length);
+        return Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
     }
 
     public static boolean readChunkFromFile(final Chunk chunk, final File f) {
@@ -287,8 +294,9 @@ public class ChunkSavingLoadingUtils {
                 chunk.lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES));
                 //Custom metadata for each version
                 switch (fileVersion) {
-                    case 0 -> ChunkFile_V0.readMetadata(input.readNBytes(ChunkFile_V0.METADATA_BYTES));
-                    case 1 -> ChunkFile_V1.readMetadata(input.readNBytes(ChunkFile_V1.METADATA_BYTES));
+                    case 0 -> input.readNBytes(ChunkFile_V0.METADATA_BYTES);
+                    //Last version
+                    default -> ChunkFile_V1.readMetadata(input.readNBytes(ChunkFile_V1.METADATA_BYTES));
                 }
 
                 //read all bytes
@@ -296,21 +304,19 @@ public class ChunkSavingLoadingUtils {
                 final byte[] bytes = input.readAllBytes();
 
                 //Read all ending bytes to see if the file was read correctly
-                byte[] endingBytes = new byte[ENDING_OF_CHUNK_FILE.length];
-                System.arraycopy(bytes,
-                        bytes.length - endingBytes.length, endingBytes,
-                        0, endingBytes.length);
-                fileReadCorrectly = Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
+                fileReadCorrectly = fileVersion < 2 || hasEnding(bytes);
                 hasDetectedIfFileWasReadCorrectly = true;
+
                 try {
                     switch (fileVersion) {
                         case 0 -> ChunkFile_V0.readChunk(chunk, start, bytes);
                         case 1 -> ChunkFile_V1.readChunk(chunk, start, bytes);
+                        //Last version
+                        default -> ChunkFile_V1.readChunk(chunk, start, bytes);
                     }
                 } catch (Exception ex) {
                     File backupFile = backupFile(f);
                     ErrorHandler.report("Error reading chunk " + chunk
-                                    + " \nEnd data: " + new String(endingBytes)
                                     + " \nFile Read Correctly: " + fileReadCorrectly
                                     + " \nBackup File Exists: " + backupFile.exists()
                             , ex);
@@ -339,12 +345,11 @@ public class ChunkSavingLoadingUtils {
                 return false;
             } catch (IOException ex) {
                 File backupFile = backupFile(f);
-                String errorMessage = "IO error occurred reading chunk: " + chunk;
+                String errorMessage = "IO error occurred reading chunk: " + chunk +
+                        " \nBackup File Exists: " + backupFile.exists();
                 if (hasDetectedIfFileWasReadCorrectly) {
-                    errorMessage += " \nEnd data: " + new String(ENDING_OF_CHUNK_FILE)
-                            + " \nFile Read Correctly: " + fileReadCorrectly;
+                    errorMessage += " \nFile Read Correctly: " + fileReadCorrectly;
                 }
-                errorMessage += " \nBackup File Exists: " + backupFile.exists();
                 ErrorHandler.report(errorMessage, ex);
 
                 //Load from backup

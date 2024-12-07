@@ -3,7 +3,7 @@ package com.xbuilders;
 import com.xbuilders.engine.MainWindow;
 
 public class Main {
-    public static final String GAME_VERSION = "1.0.3";
+    public static final String GAME_VERSION = "1.0.4";
 
     public static void main(String[] args) {
         new MainWindow(args);
