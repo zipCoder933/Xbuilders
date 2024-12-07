@@ -76,9 +76,7 @@ public class LoadWorld implements MenuPage {
         int boxWidth = (int) (BOX_DEFAULT_WIDTH * Theme.getScale());
         int boxHeight = (int) (BOX_DEFAULT_HEIGHT * Theme.getScale());
 
-        nk_rect((window.getWidth() / 2) - (boxWidth / 2),
-                titleYEnd.get(0),
-                boxWidth, boxHeight, windowDims);
+        nk_rect((window.getWidth() / 2) - (boxWidth / 2), titleYEnd.get(0), boxWidth, boxHeight, windowDims);
         nk_style_set_font(ctx, Theme.font_12);
 
         if (nk_begin(ctx, "Load World", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
@@ -134,23 +132,24 @@ public class LoadWorld implements MenuPage {
     }
 
     private void deleteCurrentWorld() {
-        MainWindow.popupMessage.confirmation("Delete World",
-                "Are you sure you want to delete " + currentWorld.getName() + "?",
-                () -> {
+        MainWindow.popupMessage.confirmation("Delete World", "Are you sure you want to delete " + currentWorld.getName() + "?", () -> {
 
-                    try {
-                        WorldsHandler.deleteWorld(currentWorld);
-                    } catch (IOException ex) {
-                        MainWindow.popupMessage.message("Error Deleting World", ex.getMessage());
-                    }
-                    try {
-                        WorldsHandler.listWorlds(worlds);
-                    } catch (IOException ex) {
-                        ErrorHandler.report(ex);
-                    }
-                    currentWorld = null;
+            try {
+                WorldsHandler.deleteWorld(currentWorld);
+            } catch (IOException ex) {
+                MainWindow.popupMessage.message("Error Deleting World", ex.getMessage());
+            }
+            if (currentWorld.getDirectory().exists()) {
+                MainWindow.popupMessage.message("Error Deleting World", "Failed to delete world");
+            }
+            try {
+                WorldsHandler.listWorlds(worlds);
+            } catch (IOException ex) {
+                ErrorHandler.report(ex);
+            }
+            currentWorld = null;
 
-                });
+        });
     }
 
     public void loadWorld(final WorldData world, NetworkJoinRequest req) {
@@ -164,24 +163,21 @@ public class LoadWorld implements MenuPage {
         ProgressData prog = new ProgressData(title);
 
         MainWindow.gameScene.startGameEvent(world, req, prog);
-        menu.progress.enable(prog,
-                () -> {//update
-                    try {
-                        MainWindow.gameScene.newGameUpdateEvent();
-                    } catch (Exception ex) {
-                        ErrorHandler.report(ex);
-                        prog.abort();
-                    }
-                },
-                () -> {//finished
-                    MainWindow.goToGamePage();
-                    menu.setPage(Page.HOME);
-                },
-                () -> {//canceled
-                    System.out.println("Canceled");
-                    MainWindow.gameScene.stopGameEvent(); //Stop the game
-                    menu.setPage(Page.HOME);
-                });
+        menu.progress.enable(prog, () -> {//update
+            try {
+                MainWindow.gameScene.newGameUpdateEvent();
+            } catch (Exception ex) {
+                ErrorHandler.report(ex);
+                prog.abort();
+            }
+        }, () -> {//finished
+            MainWindow.goToGamePage();
+            menu.setPage(Page.HOME);
+        }, () -> {//canceled
+            System.out.println("Canceled");
+            MainWindow.gameScene.stopGameEvent(); //Stop the game
+            menu.setPage(Page.HOME);
+        });
     }
 
 

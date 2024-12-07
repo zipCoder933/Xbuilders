@@ -134,7 +134,7 @@ public class ChunkSavingLoadingUtils {
     }
 
 
-    private static File backupFile(File f) {
+    public static File backupFile(File f) {
         return new File(f.getParentFile(), "backups\\" + f.getName());
     }
 
@@ -260,6 +260,21 @@ public class ChunkSavingLoadingUtils {
         }
     }
 
+    public static boolean fileIsComplete(File f) {
+        try (FileInputStream fis = new FileInputStream(f);
+             GZIPInputStream input = new GZIPInputStream(fis)) {
+            final byte[] bytes = input.readAllBytes();
+
+            byte[] endingBytes = new byte[ENDING_OF_CHUNK_FILE.length];
+            System.arraycopy(bytes,
+                    bytes.length - endingBytes.length, endingBytes,
+                    0, endingBytes.length);
+            return Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static boolean readChunkFromFile(final Chunk chunk, final File f) {
         boolean fileReadCorrectly = false;
         boolean hasDetectedIfFileWasReadCorrectly = false;
@@ -310,8 +325,6 @@ public class ChunkSavingLoadingUtils {
                     }
                     return false;
                 }
-
-
             } catch (FileNotFoundException ex) {
                 ErrorHandler.report("No Chunk file found! " + chunk, ex);
 

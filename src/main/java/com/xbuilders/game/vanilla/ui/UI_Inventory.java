@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.vanilla.ui;
 
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
@@ -87,8 +88,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     UI_ItemStackGrid playerInventory;
     int scrollValue = 0;
-    int itemListHeight = 285; //iten list window size
-    final int backpackMenuSize = menuDimensions.y; // Its ok since this is the last row
+    int Allitems_Height = 270; //total item list window size
+    final int playerInv_height = 350; //player inventory window size
     UI_Hotbar hotbar;
     final List<Item> allItems = new ArrayList<>();
     final List<Item> filteredItems = new ArrayList<>(); //filtered items>
@@ -96,17 +97,26 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     String hoveredItem;
 
 
+    public void onOpenEvent() {
+        if (drawAllInventory()) menuDimensions.y = Allitems_Height + playerInv_height;
+        else menuDimensions.y = playerInv_height;
+    }
+
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
         hoveredItem = null;
-        //Search box
-        nk_layout_row_dynamic(ctx, 20, 1);
-        nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
-        nk_layout_row_dynamic(ctx, 25, 1);
-        searchBox.render(ctx);
-        ctx.style().button().padding().set(0, 0);
-        inventoryGroup(stack, filteredItems);
-        nk_layout_row_dynamic(ctx, backpackMenuSize, 1);
+        if (drawAllInventory()) {
+            menuDimensions.y = Allitems_Height + playerInv_height;
+            //Search box
+            nk_layout_row_dynamic(ctx, 20, 1);
+            nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
+            nk_layout_row_dynamic(ctx, 25, 1);
+            searchBox.render(ctx);
+            ctx.style().button().padding().set(0, 0);
+            inventoryGroup(stack, filteredItems);
+        } else menuDimensions.y = playerInv_height;
+
+        nk_layout_row_dynamic(ctx, playerInv_height, 1);
         playerInventory.draw(stack, ctx, maxColumns);
 
         Theme.resetEntireButtonStyle(ctx);
@@ -114,11 +124,15 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
             Nuklear.nk_tooltip(ctx, " " + hoveredItem + ")"); //ending character is important
     }
 
+    private boolean drawAllInventory() {
+        return GameScene.getGameMode() == GameMode.FREEPLAY;
+    }
+
 
     private void inventoryGroup(MemoryStack stack, List<Item> items) {
-        nk_layout_row_dynamic(ctx, itemListHeight, 1);
+        nk_layout_row_dynamic(ctx, Allitems_Height, 1);
         if (nk_group_begin(ctx, title, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR)) {
-            int maxRows = (int) (Math.floor(itemListHeight / getItemSize()) - 1);
+            int maxRows = (int) (Math.floor(Allitems_Height / getItemSize()) - 1);
 
             scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (items.size() / maxColumns) - 1));
             int itemID = scrollValue * maxColumns;
@@ -127,7 +141,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
             rows:
             while (rows < maxRows) {
-              //  nk_layout_row_dynamic(ctx, getItemSize(), maxColumns);// row
+                //  nk_layout_row_dynamic(ctx, getItemSize(), maxColumns);// row
                 nk_layout_row_static(ctx, getItemSize(), getItemSize(), maxColumns);
                 rows++;
 

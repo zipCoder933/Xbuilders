@@ -162,6 +162,16 @@ public class GameServer extends Server<PlayerClient> {
                 for (File f : worldInfo.getDirectory().listFiles()) {
                     Vector3i coordinates = worldInfo.getPositionOfChunkFile(f);
                     if (coordinates != null) {
+                        if (!ChunkSavingLoadingUtils.fileIsComplete(f)) {//If the file is incomplete
+                            if (ChunkSavingLoadingUtils.backupFile(f).exists()) { //If a backup exists, load from that
+                                ErrorHandler.report("Loading from backup",
+                                        "chunk " + f.getAbsolutePath() + " is corrupt!");
+                                f = ChunkSavingLoadingUtils.backupFile(f); //Load from backup
+                            } else {
+                                ErrorHandler.report("Chunk is corrupt",
+                                        "chunk " + f.getAbsolutePath() + " is corrupt and had no backup!");
+                            }
+                        }
                         long lastSaved = ChunkSavingLoadingUtils.getLastSaved(f);
                         System.out.println("Chunk " + coordinates.x + ", " + coordinates.y + ", " + coordinates.z
                                 + " Last saved: " + formatTime(lastSaved));
