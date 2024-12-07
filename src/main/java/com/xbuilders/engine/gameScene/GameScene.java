@@ -446,11 +446,12 @@ public class GameScene implements WindowEvents {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        boolean letUIHandleScroll = true;
-        if (!ui.anyMenuOpen()) {
-            letUIHandleScroll = !player.mouseScrollEvent(scroll, xoffset, yoffset);
+        if (ui.anyMenuOpen() && ui.mouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else if (player.mouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else if (game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else {
+            ui.hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
         }
-        if (letUIHandleScroll) ui.mouseScrollEvent(scroll, xoffset, yoffset);
         return true;
     }
 

@@ -128,13 +128,11 @@ public class GameUI {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {//TODO: nuklear already has builtin scroll event, Learn to detect that and take advantage of it.
         if (infoBox.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else {
-            if (!game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
-                hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
-            }
+            return true;
         }
+        return false;
     }
 
 

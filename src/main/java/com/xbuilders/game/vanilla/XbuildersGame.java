@@ -137,6 +137,7 @@ public class XbuildersGame extends Game {
         if (inventory.isOpen()) {
             return inventory.mouseScrollEvent(scroll, xoffset, yoffset);
         } else if (blockTools.mouseScrollEvent(scroll, xoffset, yoffset)) {
+            return true;
         }
         return false;
     }
