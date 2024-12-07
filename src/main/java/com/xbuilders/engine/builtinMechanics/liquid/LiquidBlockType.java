@@ -29,6 +29,9 @@ public class LiquidBlockType extends BlockType {
     };
 
     public int getGreedyMesherPermissions() {
+        /**
+         * We can decide if we want to allow greedy meshering or not
+         */
 //        return MainWindow.settings.game_fixLiquidMesh ? DENY_GM : PERMIT_GM;
         return PERMIT_GM;
     }

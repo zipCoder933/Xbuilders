@@ -218,7 +218,6 @@ public class ChunkSavingLoadingUtils {
         if (backupFile.exists()) {
             try {
                 Files.delete(backupFile.toPath());
-                System.out.println("File deleted successfully.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
