@@ -13,7 +13,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import static com.xbuilders.engine.utils.ByteUtils.*;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
@@ -134,8 +134,15 @@ public class ChunkSavingLoadingUtils {
     }
 
 
+    private static File backupFile(File f) {
+        return new File(f.getParentFile(), "backups\\" + f.getName());
+    }
+
     public static boolean writeChunkToFile(final Chunk chunk, final File f) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
+
+            //Rename the existing file to a backup if it exists
+            if (f.exists()) renameToBackup(chunk, f);
 
             try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream out = new GZIPOutputStream(fos)) {
                 out.write(LATEST_FILE_VERSION);//Write the version of the file
@@ -197,6 +204,40 @@ public class ChunkSavingLoadingUtils {
         return true;
     }
 
+    /**
+     * In order to ensure safe saving, we need to:
+     * 1. rename the old file first
+     * 2. write the new file
+     * <p>
+     * Eventually we could delete the old file, but for now we will just rename it
+     */
+    private static boolean renameToBackup(Chunk chunk, File f) {
+        File backupFile = backupFile(f);
+
+        //Delete old backup if it exists
+        if (backupFile.exists()) {
+            try {
+                Files.delete(backupFile.toPath());
+                System.out.println("File deleted successfully.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Rename old file
+        //https://stackoverflow.com/questions/13826045/file-renameto-fails
+        try {
+            //make sure the directory exists
+            if (!backupFile.getParentFile().exists()) backupFile.getParentFile().mkdirs();
+            //Files.move is a more reliable way to do this
+            Files.move(f.toPath(), backupFile.toPath());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private static void writeMetadata(GZIPOutputStream out, Chunk chunk) throws IOException {
         //We only have METADATA_BYTES bytes of metadata to use
         int availableBytes = METADATA_BYTES;
@@ -246,41 +287,58 @@ public class ChunkSavingLoadingUtils {
                         0, endingBytes.length);
                 fileReadCorrectly = Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
                 hasDetectedIfFileWasReadCorrectly = true;
-
-//                if (!fileReadCorrectly) {
-//                    ErrorHandler.report("File read incorrectly! ",
-//                            "Chunk:  " + chunk
-//                                    + " \nEnd data: " + new String(endingBytes)
-//                                    + " \nFile Read Correctly: " + fileReadCorrectly);
-//                }
-
-
                 try {
                     switch (fileVersion) {
                         case 0 -> ChunkFile_V0.readChunk(chunk, start, bytes);
                         case 1 -> ChunkFile_V1.readChunk(chunk, start, bytes);
                     }
                 } catch (Exception ex) {
+                    File backupFile = backupFile(f);
                     ErrorHandler.report("Error reading chunk " + chunk
                                     + " \nEnd data: " + new String(endingBytes)
                                     + " \nFile Read Correctly: " + fileReadCorrectly
+                                    + " \nBackup File Exists: " + backupFile.exists()
                             , ex);
+
+                    if (!fileReadCorrectly) {
+                        //Load from backup
+                        if (backupFile.exists()) {
+                            System.out.println("Loading " + chunk + " from backup");
+                            chunk.data.reset();
+                            return readChunkFromFile(chunk, backupFile);
+                        }
+                    }
                     return false;
                 }
 
 
             } catch (FileNotFoundException ex) {
                 ErrorHandler.report("No Chunk file found! " + chunk, ex);
-                return false;
-            } catch (IOException ex) {
-                String errorMessage = "IO error occurred reading chunk " + chunk;
-                if (hasDetectedIfFileWasReadCorrectly) {
-                    errorMessage +=
-                            " \nEnd data: " + new String(ENDING_OF_CHUNK_FILE)
-                                    + " \nFile Read Correctly: " + fileReadCorrectly;
+
+                //Load from backup
+                File backupFile = backupFile(f);
+                if (backupFile.exists()) {
+                    System.out.println("Loading " + chunk + " from backup");
+                    chunk.data.reset();
+                    return readChunkFromFile(chunk, backupFile);
                 }
 
+                return false;
+            } catch (IOException ex) {
+                File backupFile = backupFile(f);
+                String errorMessage = "IO error occurred reading chunk" + chunk;
+                if (hasDetectedIfFileWasReadCorrectly)
+                    errorMessage += " \nEnd data: " + new String(ENDING_OF_CHUNK_FILE)
+                            + " \nFile Read Correctly: " + fileReadCorrectly;
+                errorMessage += " \nBackup File Exists: " + backupFile.exists();
                 ErrorHandler.report(errorMessage, ex);
+
+                //Load from backup
+                if (backupFile.exists()) {
+                    System.out.println("Loading " + chunk + " from backup");
+                    chunk.data.reset();
+                    return readChunkFromFile(chunk, backupFile);
+                }
                 return false;
             }
         }
