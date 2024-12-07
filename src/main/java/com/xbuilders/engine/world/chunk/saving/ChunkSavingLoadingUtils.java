@@ -220,6 +220,9 @@ public class ChunkSavingLoadingUtils {
     }
 
     public static boolean readChunkFromFile(final Chunk chunk, final File f) {
+        boolean fileReadCorrectly = false;
+        boolean hasDetectedIfFileWasReadCorrectly = false;
+
         try (MemoryStack stack = MemoryStack.stackPush()) {
             try (FileInputStream fis = new FileInputStream(f); GZIPInputStream input = new GZIPInputStream(fis)) {
                 //Read the file version
@@ -241,7 +244,8 @@ public class ChunkSavingLoadingUtils {
                 System.arraycopy(bytes,
                         bytes.length - endingBytes.length, endingBytes,
                         0, endingBytes.length);
-                boolean fileReadCorrectly = Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
+                fileReadCorrectly = Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
+                hasDetectedIfFileWasReadCorrectly = true;
 
 //                if (!fileReadCorrectly) {
 //                    ErrorHandler.report("File read incorrectly! ",
@@ -269,7 +273,14 @@ public class ChunkSavingLoadingUtils {
                 ErrorHandler.report("No Chunk file found! " + chunk, ex);
                 return false;
             } catch (IOException ex) {
-                ErrorHandler.report("IO error occurred reading chunk " + chunk, ex);
+                String errorMessage = "IO error occurred reading chunk " + chunk;
+                if (hasDetectedIfFileWasReadCorrectly) {
+                    errorMessage +=
+                            " \nEnd data: " + new String(ENDING_OF_CHUNK_FILE)
+                                    + " \nFile Read Correctly: " + fileReadCorrectly;
+                }
+
+                ErrorHandler.report(errorMessage, ex);
                 return false;
             }
         }
