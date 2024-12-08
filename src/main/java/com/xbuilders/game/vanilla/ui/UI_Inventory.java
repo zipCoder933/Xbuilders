@@ -98,12 +98,18 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
 
     public void onOpenEvent() {
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) setOpen(false);
+
         if (drawAllInventory()) menuDimensions.y = Allitems_Height + playerInv_height;
         else menuDimensions.y = playerInv_height;
     }
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) {
+            setOpen(false);
+        }
+
         hoveredItem = null;
         if (drawAllInventory()) {
             menuDimensions.y = Allitems_Height + playerInv_height;
@@ -185,6 +191,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+
         if (isOpen() && searchBox.isFocused()) {
             searchQueryEvent();
             return true;
@@ -197,6 +205,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+
         scrollValue -= yoffset;
         return true;
     }

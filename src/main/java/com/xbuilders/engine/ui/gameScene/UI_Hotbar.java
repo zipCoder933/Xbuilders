@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.ui.gameScene;
 
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
@@ -41,6 +42,7 @@ public class UI_Hotbar extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
+        if(GameScene.getGameMode() == GameMode.SPECTATOR) return;
         NkRect windowDims2 = NkRect.malloc(stack);
 
         ctx.style().window().fixed_background().data().color().set(Theme.transparent);
@@ -114,11 +116,15 @@ public class UI_Hotbar extends UI_GameMenu {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
+        if(GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+
         changeSelectedIndex(-scroll.y());
         return true;
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
+        if(GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
                 changeSelectedIndex(-1);

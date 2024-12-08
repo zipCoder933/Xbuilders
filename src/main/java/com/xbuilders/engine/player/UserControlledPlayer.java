@@ -247,12 +247,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void event_gameModeChanged(GameMode gameMode) {
-        if (gameMode != GameMode.FREEPLAY) {
+        if (gameMode == GameMode.SPECTATOR)
+            enableFlying();
+        else if (gameMode != GameMode.FREEPLAY) {
             disableFlying();
         }
         camera.cursorRay.angelPlacementMode = false;
         if (GameScene.getGameMode() == GameMode.FREEPLAY) {
-            camera.cursorRay.setRayDistance(128);
+            camera.cursorRay.setRayDistance(90);
         } else camera.cursorRay.setRayDistance(6);
     }
 
@@ -380,7 +382,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     if (keyInputAllowed() && window.isKeyPressed(KEY_FLY_UP)) {
                         worldPosition.sub(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
-                    } else if (keyInputAllowed() && window.isKeyPressed(KEY_FLY_DOWN)) {
+                    } else if (keyInputAllowed() && downKeyPressed()) {
                         worldPosition.add(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     }
@@ -435,10 +437,16 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
     }
 
+    private boolean downKeyPressed() {
+        if (GameScene.getGameMode() == GameMode.SPECTATOR)
+            return window.isKeyPressed(KEY_FLY_DOWN) || window.isKeyPressed(KEY_JUMP);
+        return window.isKeyPressed(KEY_FLY_DOWN);
+    }
+
     private boolean isFlyingMode = true;
 
     public void enableFlying() {
-        if (GameScene.getGameMode() == GameMode.FREEPLAY) {
+        if (GameScene.getGameMode() == GameMode.FREEPLAY || GameScene.getGameMode() == GameMode.SPECTATOR) {
             isFlyingMode = true;
             positionHandler.setGravityEnabled(false);
             positionHandler.collisionsEnabled = false;
@@ -470,10 +478,13 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             switch (key) {
                 case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = true;
                 case KEY_JUMP -> {
-                    dismount();
-                    if (positionHandler.isGravityEnabled()) {
-                        jump();
-                    } else disableFlying();
+                    if (GameScene.getGameMode() == GameMode.SPECTATOR) {
+                    } else {
+                        dismount();
+                        if (positionHandler.isGravityEnabled()) {
+                            jump();
+                        } else disableFlying();
+                    }
                 }
                 case KEY_FLY_UP -> enableFlying();
             }

@@ -102,6 +102,8 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
+        if(GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+
         breakAmt = 0;
         breakPercentage = 0;
         ItemStack selectedItem = GameScene.player.getSelectedItem();
@@ -201,6 +203,8 @@ public class CursorRay {
     final int AUTO_CLICK_INTERVAL = 250;
 
     public void update() {
+        if(GameScene.getGameMode() == GameMode.SPECTATOR) return;
+
         if (!GameScene.ui.anyMenuOpen()) {
             //Auto click
             if (window.isMouseButtonPressed(UserControlledPlayer.getCreateMouseButton())) {
@@ -336,6 +340,8 @@ public class CursorRay {
     }
 
     public void drawRay() {
+        if(GameScene.getGameMode() == GameMode.SPECTATOR) return;
+
         if (hitTarget() && useBoundary) {
             if (!boundary_isStartNodeSet) {
                 setBoundaryStartNode(boundary_startNode);
