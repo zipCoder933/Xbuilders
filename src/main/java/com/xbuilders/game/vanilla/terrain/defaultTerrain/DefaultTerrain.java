@@ -1,5 +1,6 @@
 package com.xbuilders.game.vanilla.terrain.defaultTerrain;
 
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
@@ -8,7 +9,9 @@ import com.xbuilders.game.vanilla.items.Blocks;
 import com.xbuilders.game.vanilla.items.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.game.vanilla.items.blocks.trees.JungleTreeUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.xbuilders.engine.world.World.WORLD_BOTTOM_Y;
 import static com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain.*;
@@ -19,9 +22,17 @@ public class DefaultTerrain extends Terrain {
     final static int WORLD_HEIGHT_OFFSET = 138;
     final static int OCEAN_LEVEL = 25; //Used to deepen lakes in heightmap generation
     final static int WATER_LEVEL = WORLD_HEIGHT_OFFSET + (OCEAN_LEVEL - 5); //5 blocks above ocean level
+    final static int LAVA_LEVEL = WORLD_HEIGHT_OFFSET + 110;
     final static float CAVE_FREQUENCY = 5.0f;
     final static float CAVE_THRESHOLD = 0.25f;
+    final static List<Ore> ORES = new ArrayList<Ore>();
 
+    public static final short COAL_ORE = 228;
+    public static final short IRON_ORE = 234;
+    public static final short GOLD_ORE = 237;
+    public static final short LAPIS_ORE = 544;
+    public static final short EMERALD_ORE = 551;
+    public static final short DIAMOND_ORE = 105;
 
     boolean caves;
     boolean trees;
@@ -37,6 +48,7 @@ public class DefaultTerrain extends Terrain {
         super("Default Terrain");
         fern = Blocks.BLOCK_FERN;
         deadBush = Blocks.BLOCK_DEAD_BUSH;
+        ORES.add(new Ore(100, 0.5f, COAL_ORE));
     }
 
     public void initOptions() {
@@ -321,26 +333,36 @@ public class DefaultTerrain extends Terrain {
                         if (chunk.data.getBlock(x, y, z) == BlockRegistry.BLOCK_AIR.id) {
                             chunk.data.setBlock(x, y, z, Blocks.BLOCK_DIRT);
                         }
-                    } else if (wy > heightmap &&
+                    } else if (wy > heightmap && //if we are below the ground
                             (!caves || //If caves are disabled
                                     wy < heightmap + 10 || //Or we arent below the ground enough
                                     (caveFractal = getValueFractal(wx * CAVE_FREQUENCY, wy * 14.0f, wz * CAVE_FREQUENCY)) <= CAVE_THRESHOLD)
                     ) {
-                        placeStoneAndOres(chunk, x, y, z, wx, wy, wz, caveFractal);
+
+                        placeStoneAndOres(chunk, x, y, z, wx, wy, wz, caveFractal,session);
+
                         placeWater = false;
                     } else if (wy <= heightmap) {
-                        if (wy == WATER_LEVEL && heat < -0.6f) {
+                        if (wy > WATER_LEVEL && heat < -0.6f) {
                             chunk.data.setBlock(x, y, z, Blocks.BLOCK_ICE);
                         } else if (wy > WATER_LEVEL && placeWater) {
                             chunk.data.setBlock(x, y, z, Blocks.BLOCK_WATER);
                         }
                     }
+//                    else if (wy > LAVA_LEVEL) {
+//                        chunk.data.setBlock(x, y, z, Blocks.BLOCK_LAVA);
+//                    }
                 }
             }
         }
     }
 
-    private void placeStoneAndOres(Chunk chunk, int x, int y, int z, int wx, int wy, int wz, float alpha) {
+    private void placeStoneAndOres(Chunk chunk, int x, int y, int z, int wx, int wy, int wz, float alpha,GenSession session) {
         chunk.data.setBlock(x, y, z, Blocks.BLOCK_STONE);
+        if (caves) {
+            for (int i = 0; i < ORES.size(); i++) {
+                ORES.get(i).placeOre(chunk, x, y, z, wx, wy, wz, alpha,session);
+            }
+        }
     }
 }
