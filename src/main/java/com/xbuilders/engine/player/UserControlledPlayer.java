@@ -117,7 +117,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public void loadFromWorld(WorldData worldData) {
         File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
-
+        inventory.clear();
         if (playerFile.exists()) {
             try {
                 String jsonData = new String(Files.readAllBytes(playerFile.toPath()));
