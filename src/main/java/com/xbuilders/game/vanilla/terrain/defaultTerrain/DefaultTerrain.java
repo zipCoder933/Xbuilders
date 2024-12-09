@@ -474,7 +474,9 @@ public class DefaultTerrain extends Terrain {
 
         ore = rareOres[2];
         if (rareCluster && ore != null) {
-            chunk.data.setBlock(x, y, z, ore.block);
+            if (!exposedToAir || session.randBoolWithProbability(ore.amtExposedToAir)) {
+                chunk.data.setBlock(x, y, z, ore.block);
+            }
         }
 
     }
