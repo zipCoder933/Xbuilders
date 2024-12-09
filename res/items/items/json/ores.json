@@ -5,8 +5,8 @@
     "block": "xbuilders:diamond_ore"
   },
   {
-    "id": "xbuilders:raw_diamond",
-    "name": "Raw Diamond",
+    "id": "xbuilders:diamond",
+    "name": "Diamond",
     "icon": "ores\\diamond"
   },
   {
@@ -15,9 +15,16 @@
     "block": "xbuilders:coal_ore"
   },
   {
-    "id": "xbuilders:raw_coal",
-    "name": "Raw Coal",
+    "id": "xbuilders:coal",
+    "name": "Coal",
+    "tags": ["flammable"],
     "icon": "ores\\coal"
+  },
+  {
+    "id": "xbuilders:charcoal",
+    "name": "Charcoal",
+    "tags": ["flammable"],
+    "icon": "charcoal"
   },
   {
     "id": "xbuilders:iron_ore",
@@ -30,9 +37,19 @@
     "icon": "ores\\iron_nugget"
   },
   {
+    "id": "xbuilders:iron_ingot",
+    "name": "Iron Ingot",
+    "icon": "ores\\iron_ingot"
+  },
+  {
     "id": "xbuilders:gold_ore",
     "name": "Gold Ore",
     "block": "xbuilders:gold_ore"
+  },
+  {
+    "id": "xbuilders:gold_ingot",
+    "name": "Gold Ingot",
+    "icon": "ores\\gold_ingot"
   },
   {
     "id": "xbuilders:raw_gold",
@@ -45,8 +62,8 @@
     "block": "xbuilders:lapis_ore"
   },
   {
-    "id": "xbuilders:raw_lapis",
-    "name": "Raw Lapis Lazuli",
+    "id": "xbuilders:lapis_lazuli",
+    "name": "Lapis Lazuli",
     "icon": "ores\\lapis_lazuli"
   },
   {
@@ -55,8 +72,8 @@
     "block": "xbuilders:emerald_ore"
   },
   {
-    "id": "xbuilders:raw_emerald",
-    "name": "Raw Emerald",
+    "id": "xbuilders:emerald",
+    "name": "Emerald",
     "icon": "ores\\emerald"
   }
 ]

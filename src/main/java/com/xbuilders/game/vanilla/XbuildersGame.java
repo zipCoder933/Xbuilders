@@ -40,9 +40,11 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
@@ -103,6 +105,7 @@ public class XbuildersGame extends Game {
     //Custom menus
     public BarrelUI barrelUI;
     public CraftingUI craftingUI;
+    public SmeltingUI smeltingUI;
     public GameMenus gameMenus = new GameMenus();
 
     @Override
@@ -113,8 +116,10 @@ public class XbuildersGame extends Game {
         //Menus
         barrelUI = new BarrelUI(ctx, window);
         craftingUI = new CraftingUI(ctx, window);
+        smeltingUI = new SmeltingUI(ctx, window);
         gameMenus.menus.add(barrelUI);
         gameMenus.menus.add(craftingUI);
+        gameMenus.menus.add(smeltingUI);
     }
 
 
@@ -214,12 +219,14 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        LootTableRegistry.blockLootTables.loadFromFile(ResourceUtils.resource("items/loot/block.json"));
-
+        for(File jsonFile: Objects.requireNonNull(ResourceUtils.resource("items/loot").listFiles())) {
+            LootTableRegistry.blockLootTables.loadFromFile(jsonFile);
+        }
 
         //Load recipes
-        RecipeRegistry.craftingRecipes.loadFromFile(ResourceUtils.resource("items/recipes/crafting/variants.json"));
-        RecipeRegistry.craftingRecipes.loadFromFile(ResourceUtils.resource("items/recipes/crafting/tools.json"));
+        for(File jsonFile: Objects.requireNonNull(ResourceUtils.resource("items/recipes/crafting").listFiles())) {
+            RecipeRegistry.craftingRecipes.loadFromFile(jsonFile);
+        }
 
 //        synthesizeLootAndRecipes(itemList, blockList);
 

@@ -3,10 +3,12 @@ package com.xbuilders.engine.items.loot;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.loot.output.Loot;
 import com.xbuilders.engine.items.loot.output.LootList;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootSerializer;
+
 import java.util.HashMap;
 
 public class LootTableRegistry {
@@ -21,7 +23,7 @@ public class LootTableRegistry {
         // Create a module to register custom serializer and deserializer
         SimpleModule module = new SimpleModule();
         module.addSerializer(Loot.class, new LootSerializer()); // Register the custom serializer
-        module.addDeserializer(Loot.class, new LootDeserializer()); // Register the custom deserializer
+        module.addDeserializer(Loot.class, new LootDeserializer(Registrys.items.idMap)); // Register the custom deserializer
         // Register the module with the ObjectMapper
         lootMapper.registerModule(module);
     }

@@ -26,7 +26,7 @@ public class Furnace extends Block {
             }
             WCCi wcc = new WCCi().set(x, y, z);
             Chunk chunk = GameScene.world.getChunk(wcc.chunk);
-            MainWindow.game.craftingUI.setOpen(true);
+            MainWindow.game.smeltingUI.setOpen(true);
         });
     }
 }
