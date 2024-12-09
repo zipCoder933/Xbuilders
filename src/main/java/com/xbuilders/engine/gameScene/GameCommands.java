@@ -1,5 +1,8 @@
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.multiplayer.PlayerClient;
 
@@ -24,6 +27,7 @@ public class GameCommands {
         commandHelp.put("mode", "Usage (to get the current mode): mode\n" +
                 "Usage (to change mode): mode <mode>");
         commandHelp.put("op", "Usage: op <true/false> <player>");
+        commandHelp.put("get", "Usage: get <item> <quantity (optional)>");
         commandHelp.put("help", "Usage: help <command>");
         commandHelp.put("time", "Usage: time <day/evening/night>");
         commandHelp.put("players", "Lists all connected players");
@@ -118,11 +122,7 @@ public class GameCommands {
                                 return "Player not found";
                             }
                         } else if (parts.length > 3) {
-                            if (!gameScene.server.isPlayingMultiplayer() || gameScene.server.isHosting()) {
-                                gameScene.player.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
-                            } else {
-                                return "You cannot teleport";
-                            }
+                            gameScene.player.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
                         } else return commandHelp.get("teleport");
                     }
                     case "mode" -> {
@@ -141,6 +141,21 @@ public class GameCommands {
                                 return "Unknown game mode: " + mode;
                             }
                         } else return commandHelp.get("mode");
+                    }
+                    case "get" -> {
+                        if (!GameScene.isOperator()) return null;
+                        if (parts.length <= 3) {
+                            try {
+                                String itemID = parts[1].toLowerCase().trim().replace(" ", "_");
+                                int quantity = parts.length > 2 ? Integer.parseInt(parts[2].trim()) : 1;
+                                Item item = Registrys.getItem(itemID);
+                                if (item == null) return "Unknown item: " + itemID;
+                                else GameScene.player.inventory.acquireItem(new ItemStack(item, quantity));
+                                return "Given " + quantity + " " + item.name;
+                            } catch (Exception e) {
+                                return "Invalid";
+                            }
+                        } else return commandHelp.get("get");
                     }
                     case "op" -> {
                         if (!GameScene.ownsGame() || !GameScene.isOperator())

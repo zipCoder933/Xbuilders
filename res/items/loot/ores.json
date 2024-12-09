@@ -37,8 +37,8 @@
   "xbuilders:lapis_ore": [
     {
       "item": "xbuilders:lapis_lazuli",
-      "chance": 0.6,
-      "maxItems": 4
+      "chance": 1,
+      "maxItems": 3
     }
   ]
 }
