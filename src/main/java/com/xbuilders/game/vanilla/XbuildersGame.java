@@ -14,13 +14,12 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.loot.LootTableRegistry;
-import com.xbuilders.engine.items.recipes.CraftingRecipe;
+import com.xbuilders.engine.items.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.items.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
-import com.xbuilders.engine.ui.gameScene.UI_Hotbar;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.world.data.WorldData;
 import com.xbuilders.game.vanilla.ui.*;
@@ -34,7 +33,6 @@ import com.xbuilders.game.vanilla.propagation.*;
 import com.xbuilders.game.vanilla.skins.FoxSkin;
 import com.xbuilders.game.vanilla.terrain.DevTerrain;
 import com.xbuilders.game.vanilla.terrain.FlatTerrain;
-import com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain;
 import com.xbuilders.game.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
@@ -226,6 +224,9 @@ public class XbuildersGame extends Game {
         //Load recipes
         for(File jsonFile: Objects.requireNonNull(ResourceUtils.resource("items/recipes/crafting").listFiles())) {
             RecipeRegistry.craftingRecipes.loadFromFile(jsonFile);
+        }
+        for(File jsonFile: Objects.requireNonNull(ResourceUtils.resource("items/recipes/smelting").listFiles())) {
+            RecipeRegistry.smeltingRecipes.loadFromFile(jsonFile);
         }
 
 //        synthesizeLootAndRecipes(itemList, blockList);

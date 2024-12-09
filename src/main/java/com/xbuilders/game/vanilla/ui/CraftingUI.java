@@ -3,7 +3,7 @@ package com.xbuilders.game.vanilla.ui;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
-import com.xbuilders.engine.items.recipes.CraftingRecipe;
+import com.xbuilders.engine.items.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;

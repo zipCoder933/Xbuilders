@@ -95,11 +95,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xbuilders.engine.items.recipes" />
       <recent name="com.xbuilders.game.vanilla.terrain.defaultTerrain" />
       <recent name="com.xbuilders.engine.items.loot" />
       <recent name="com.xbuilders.game.items.entities.animal.mobile" />
       <recent name="com.xbuilders.engine.multiplayer" />
-      <recent name="com.xbuilders.engine.rendering.block" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\game\vanilla" />

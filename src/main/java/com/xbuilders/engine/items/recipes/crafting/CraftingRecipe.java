@@ -1,4 +1,4 @@
-package com.xbuilders.engine.items.recipes;
+package com.xbuilders.engine.items.recipes.crafting;
 
 import java.util.Arrays;
 import java.util.Objects;

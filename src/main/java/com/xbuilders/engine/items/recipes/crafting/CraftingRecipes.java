@@ -1,4 +1,4 @@
-package com.xbuilders.engine.items.recipes;
+package com.xbuilders.engine.items.recipes.crafting;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,23 +16,23 @@ import java.util.Objects;
 
 public class CraftingRecipes {
     //It has to be in this format to make sense when it is in JSON
-    private final List<CraftingRecipe> craftingRecipes = new ArrayList<>();
+    private final List<CraftingRecipe> recipeList = new ArrayList<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void add(CraftingRecipe recipe) {
-        craftingRecipes.add(recipe);
+        recipeList.add(recipe);
     }
 
     public void remove(CraftingRecipe recipe) {
-        craftingRecipes.remove(recipe);
+        recipeList.remove(recipe);
     }
 
     public void clear() {
-        craftingRecipes.clear();
+        recipeList.clear();
     }
 
     public CraftingRecipe getFromInput(String[] input) {
-        for (CraftingRecipe recipe : craftingRecipes) {
+        for (CraftingRecipe recipe : recipeList) {
             if (inputMatches(recipe.input, input)) {
                 return recipe;
             }
@@ -68,7 +68,7 @@ public class CraftingRecipes {
 
 
     public CraftingRecipe getFromOutput(String outputID) {//TODO: Add tag recipes to this too
-        for (CraftingRecipe recipe : craftingRecipes) {
+        for (CraftingRecipe recipe : recipeList) {
             if (recipe.output.equals(outputID)) {
                 return recipe;
             }
@@ -80,13 +80,15 @@ public class CraftingRecipes {
     };
 
     public void writeToFile(File file) throws IOException {
-        String json = objectMapper.writeValueAsString(craftingRecipes);
+        String json = objectMapper.writeValueAsString(recipeList);
         Files.writeString(file.toPath(), json);
     }
 
     public void loadFromFile(File file) throws IOException {
         String json = Files.readString(file.toPath());
-        craftingRecipes.addAll(objectMapper.readValue(json, type_craftingRecipes));
+        List<CraftingRecipe> recipeList = objectMapper.readValue(json, type_craftingRecipes);
+        System.out.println("Loaded " + recipeList.size() + " crafting recipes from " + file);
+        this.recipeList.addAll(recipeList);
     }
 
 
