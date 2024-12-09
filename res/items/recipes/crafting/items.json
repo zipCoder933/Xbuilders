@@ -1,0 +1,17 @@
+[
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "#wood",
+      null,
+      null,
+      "#wood",
+      null
+    ],
+    "output": "xbuilders:stick",
+    "amount": 4
+  }
+]

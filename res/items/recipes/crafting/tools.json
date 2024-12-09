@@ -1,2 +1,242 @@
 [
+  {
+    "input": [
+      "#wood",
+      "#wood",
+      "#wood",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:wood_pickaxe",
+    "amount": 1
+  },
+  {
+    "input": [
+      "#wood",
+      "#wood",
+      null,
+      "#wood",
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:wood_axe",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "#wood",
+      null,
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:wood_shovel",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:iron_pickaxe",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      null,
+      "xbuilders:iron_ingot",
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:iron_axe",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:iron_ingot",
+      null,
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:iron_shovel",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:golden_pickaxe",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      null,
+      "xbuilders:gold_ingot",
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:golden_axe",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:gold_ingot",
+      null,
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:golden_shovel",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:diamond_pickaxe",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      null,
+      "xbuilders:diamond",
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:diamond_axe",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:diamond",
+      null,
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:diamond_shovel",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:stone_pickaxe",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:cobblestone",
+      "xbuilders:cobblestone",
+      null,
+      "xbuilders:cobblestone",
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:stone_axe",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:cobblestone",
+      null,
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:stone_shovel",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      null,
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:hoe",
+    "amount": 1
+  }
 ]

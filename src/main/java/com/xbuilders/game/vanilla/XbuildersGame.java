@@ -217,44 +217,17 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        for(File jsonFile: Objects.requireNonNull(ResourceUtils.resource("items/loot").listFiles())) {
+        for (File jsonFile : Objects.requireNonNull(ResourceUtils.resource("items/loot").listFiles())) {
             LootTableRegistry.blockLootTables.loadFromFile(jsonFile);
         }
 
         //Load recipes
-        for(File jsonFile: Objects.requireNonNull(ResourceUtils.resource("items/recipes/crafting").listFiles())) {
+        for (File jsonFile : Objects.requireNonNull(ResourceUtils.resource("items/recipes/crafting").listFiles())) {
             RecipeRegistry.craftingRecipes.loadFromFile(jsonFile);
         }
-        for(File jsonFile: Objects.requireNonNull(ResourceUtils.resource("items/recipes/smelting").listFiles())) {
+        for (File jsonFile : Objects.requireNonNull(ResourceUtils.resource("items/recipes/smelting").listFiles())) {
             RecipeRegistry.smeltingRecipes.loadFromFile(jsonFile);
         }
-
-//        synthesizeLootAndRecipes(itemList, blockList);
-
-
-        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                "#wood", "#wood", "#wood",
-                null, "xbuilders:stick", null,
-                null, "xbuilders:stick", null,
-                "xbuilders:wooden_pickaxe", 1));
-
-        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                null, "#wood", null,
-                null, "xbuilders:stick", null,
-                null, "xbuilders:stick", null,
-                "xbuilders:wooden_shovel", 1));
-
-        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                "#wood", "#wood", null,
-                "#wood", "xbuilders:stick", null,
-                null, "xbuilders:stick", null,
-                "xbuilders:wooden_axe", 1));
-
-        RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                "#wood", "#wood", null,
-                null, "xbuilders:stick", null,
-                null, "xbuilders:stick", null,
-                "xbuilders:hoe", 1));
 
         Blocks.editBlocks(window);
 

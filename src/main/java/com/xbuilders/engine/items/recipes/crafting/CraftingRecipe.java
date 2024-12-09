@@ -38,6 +38,12 @@ public class CraftingRecipe {
         this.amount = amount;
     }
 
+    public CraftingRecipe(String[] input, String output, int amount) {
+        this.input = input;
+        this.output = output;
+        this.amount = amount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

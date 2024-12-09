@@ -33,7 +33,7 @@ public class CraftingUI extends UI_ItemWindow {
             }
             //Print every entry in the recipeMap
             CraftingRecipe recipe = RecipeRegistry.craftingRecipes.getFromInput(recipeMap);
-            if (recipe != null) {
+            if (recipe != null && recipe.output != null) {
                 outputGrid.storageSpace.set(0, new ItemStack(recipe.output, recipe.amount));
             } else outputGrid.storageSpace.set(0, null);
         };

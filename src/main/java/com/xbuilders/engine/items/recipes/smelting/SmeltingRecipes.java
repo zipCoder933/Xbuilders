@@ -2,6 +2,8 @@ package com.xbuilders.engine.items.recipes.smelting;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.item.Item;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +31,10 @@ public class SmeltingRecipes {
     public SmeltingRecipe getFromInput(String input) {
         for (SmeltingRecipe recipe : recipeList) {
             if (recipe.input.equals(input)) return recipe;
+            else if (recipe.input.startsWith("#")) {
+                Item item = Registrys.items.getItemFromTag(recipe.input.substring(1));
+                if (item != null) return recipe;
+            }
         }
         return null;
     }
