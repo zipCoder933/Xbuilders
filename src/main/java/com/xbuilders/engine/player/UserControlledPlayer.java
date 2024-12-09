@@ -247,15 +247,18 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void event_gameModeChanged(GameMode gameMode) {
-        if (gameMode == GameMode.SPECTATOR)
+        if (gameMode == GameMode.SPECTATOR) {
             enableFlying();
-        else if (gameMode != GameMode.FREEPLAY) {
+            setFlashlight(100);
+        } else if (gameMode == GameMode.FREEPLAY) {
+            setFlashlight(0);
+            camera.cursorRay.setRayDistance(90);
+        } else if (gameMode == GameMode.ADVENTURE) {
             disableFlying();
+            setFlashlight(0);
+            camera.cursorRay.setRayDistance(6);
         }
         camera.cursorRay.angelPlacementMode = false;
-        if (GameScene.getGameMode() == GameMode.FREEPLAY) {
-            camera.cursorRay.setRayDistance(90);
-        } else camera.cursorRay.setRayDistance(6);
     }
 
     public Block getBlockAtPlayerHead() {

@@ -1,6 +1,6 @@
 package com.xbuilders.game.vanilla.terrain.defaultTerrain;
 
-import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
@@ -9,9 +9,7 @@ import com.xbuilders.game.vanilla.items.Blocks;
 import com.xbuilders.game.vanilla.items.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.game.vanilla.items.blocks.trees.JungleTreeUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static com.xbuilders.engine.world.World.WORLD_BOTTOM_Y;
 import static com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain.*;
@@ -25,7 +23,11 @@ public class DefaultTerrain extends Terrain {
     final static int LAVA_LEVEL = WORLD_HEIGHT_OFFSET + 110;
     final static float CAVE_FREQUENCY = 5.0f;
     final static float CAVE_THRESHOLD = 0.25f;
+    final static float ORE_FREQUENCY = 10.0f;
+    // Threshold for common vs rare ores
+    final static float COMMON_THRESHOLD = 0.5f;
     final static List<Ore> ORES = new ArrayList<Ore>();
+
 
     public static final short COAL_ORE = 228;
     public static final short IRON_ORE = 234;
@@ -48,7 +50,20 @@ public class DefaultTerrain extends Terrain {
         super("Default Terrain");
         fern = Blocks.BLOCK_FERN;
         deadBush = Blocks.BLOCK_DEAD_BUSH;
-        ORES.add(new Ore(100, 0.5f, COAL_ORE));
+        ORES.add(new Ore("coal", 0.9f, COAL_ORE));
+        ORES.add(new Ore("iron", 0.9f, IRON_ORE));
+        ORES.add(new Ore("gold", 0.5f, GOLD_ORE));
+        ORES.add(new Ore("lapis", 0.7f, LAPIS_ORE));
+
+        Ore emerald = new Ore("emerald", 0.2f, EMERALD_ORE);
+        emerald.amtExposedToAir = 0.05f;
+        emerald.minYLevel = 100;
+        ORES.add(emerald);
+
+        Ore diamond = new Ore("diamond", 0.2f, DIAMOND_ORE);
+        diamond.minYLevel = 150;
+        diamond.amtExposedToAir = 0.05f;
+        ORES.add(diamond);
     }
 
     public void initOptions() {
@@ -304,6 +319,43 @@ public class DefaultTerrain extends Terrain {
         float valley, heat;
         int biome = BIOME_DEFAULT;
         float caveFractal = 0;
+        float oreFractal = 0;
+        int chunkTop = chunk.position.y * Chunk.WIDTH;
+        int chunkButton = chunkTop + Chunk.WIDTH - 1;
+
+
+        Ore[] commonOres = new Ore[2];
+        Ore[] rareOres = new Ore[3];
+        int commonCount = 0;
+        int rareCount = 0;
+
+        //Add all ores that are within range of this chunk
+        ArrayList<Ore> oreList = new ArrayList<Ore>();
+        for (int i = 0; i < ORES.size(); i++) {
+            Ore ore = ORES.get(i);
+            if (ore.minYLevel <= chunkTop && ore.maxYLevel >= chunkButton) {
+                oreList.add(ore);
+            }
+        }
+
+        while ((commonCount < commonOres.length || rareCount < rareOres.length) && !oreList.isEmpty()) {
+            int index = session.random.nextInt(oreList.size()); // Randomly pick an ore
+            Ore ore = oreList.get(index);
+            boolean isCommon = ore.common > COMMON_THRESHOLD; //Decide if it is common
+
+            if (isCommon && commonCount < commonOres.length) {
+                commonOres[commonCount] = ore;
+                commonCount++;
+            } else if (!isCommon && rareCount < rareOres.length) {
+                rareOres[rareCount] = ore;
+                rareCount++;
+            }
+            // Remove the selected ore to avoid picking it again
+            oreList.remove(index);
+        }
+//        System.out.println("\nCommon ores: " + Arrays.toString(commonOres));
+//        System.out.println("Rare ores: " + Arrays.toString(rareOres));
+
 
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int z = 0; z < Chunk.WIDTH; z++) {
@@ -317,13 +369,14 @@ public class DefaultTerrain extends Terrain {
                 for (int y = 0; y < Chunk.WIDTH; y++) {
                     wy = y + (chunk.position.y * Chunk.WIDTH);
 
-                    if (wy > WORLD_BOTTOM_Y - 2) {
+                    if (
+                            wy > WORLD_BOTTOM_Y - 2
+                                    || (wy > WORLD_BOTTOM_Y - 3 && session.random.nextBoolean())
+                    ) {
                         chunk.data.setBlock(x, y, z, Blocks.BLOCK_BEDROCK);
-                    } /*
-                     * else if (wy >= heightmap) {
-                     * chunk.data.setBlock(x, y, z, MyGame.BLOCK_STONE);
-                     * }
-                     */ else if (wy == heightmap && wy > 1) {// Place sod
+                    } else if (wy > WORLD_BOTTOM_Y - 3 && session.randBoolWithProbability(0.01f)) {
+                        chunk.data.setBlock(x, y, z, Blocks.BLOCK_OBSIDIAN);
+                    } else if (wy == heightmap && wy > 1) {// Place sod
                         biome = getBiomeOfVoxelV2(valley, heat, heightmap, wx, wy, wz);
 
                         //Alpha is a high frequency noise value, from -1 to 1
@@ -338,8 +391,8 @@ public class DefaultTerrain extends Terrain {
                                     wy < heightmap + 10 || //Or we arent below the ground enough
                                     (caveFractal = getValueFractal(wx * CAVE_FREQUENCY, wy * 14.0f, wz * CAVE_FREQUENCY)) <= CAVE_THRESHOLD)
                     ) {
-
-                        placeStoneAndOres(chunk, x, y, z, wx, wy, wz, caveFractal,session);
+                        oreFractal = getValueFractal(wx * ORE_FREQUENCY, wy * ORE_FREQUENCY, wz * ORE_FREQUENCY);
+                        placeStoneAndOres(chunk, session, x, y, z, wx, wy, wz, oreFractal, caveFractal, commonOres, rareOres);
 
                         placeWater = false;
                     } else if (wy <= heightmap) {
@@ -357,12 +410,72 @@ public class DefaultTerrain extends Terrain {
         }
     }
 
-    private void placeStoneAndOres(Chunk chunk, int x, int y, int z, int wx, int wy, int wz, float alpha,GenSession session) {
-        chunk.data.setBlock(x, y, z, Blocks.BLOCK_STONE);
-        if (caves) {
-            for (int i = 0; i < ORES.size(); i++) {
-                ORES.get(i).placeOre(chunk, x, y, z, wx, wy, wz, alpha,session);
+    private final short RED_BLOCK = Blocks.BLOCK_WOOL_RED;
+    private final short BLUE_BLOCK = Blocks.BLOCK_WOOL_SKY_BLUE;
+    private final short GREEN_BLOCK = Blocks.BLOCK_WOOL_GREEN;
+    private final short YELLOW_BLOCK = Blocks.BLOCK_WOOL_YELLOW;
+
+    private void placeStoneAndOres(Chunk chunk,
+                                   GenSession session,
+                                   int x, int y, int z,
+                                   int wx, int wy, int wz,
+                                   float alpha, float caveFractal,
+                                   Ore[] commonOres, Ore[] rareOres) {
+
+        boolean orbA = alpha > 0.36 && alpha < 0.4;
+        boolean orbRareA = alpha > 0.7;
+        boolean orbB = alpha < -0.36 && alpha > -0.4;
+        boolean orbRareB = alpha < -0.7;
+        boolean rareCluster = alpha < 0.001 && alpha > -0.001;
+        short impureBlock = Blocks.BLOCK_DIORITE;
+
+        boolean exposedToAir = caves && caveFractal > CAVE_THRESHOLD - 1;
+
+        //Select rock
+        if (alpha < 0.4 && alpha > -0.4) chunk.data.setBlock(x, y, z, Blocks.BLOCK_STONE);
+        else if (alpha > 0) chunk.data.setBlock(x, y, z, Blocks.BLOCK_ANDESITE);
+        else chunk.data.setBlock(x, y, z, Blocks.BLOCK_GRAVEL);
+
+//        if (exposedToAir) {
+//            chunk.data.setBlock(x, y, z, Blocks.BLOCK_GLASS);
+//        }
+
+        Ore ore = commonOres[0];
+        if (orbA && ore != null) {
+            if (session.randBoolWithProbability(ore.clusterPurity)) { //if we are pure
+                if (!exposedToAir || session.randBoolWithProbability(ore.amtExposedToAir)) {
+                    chunk.data.setBlock(x, y, z, ore.block);
+                }
+            } else chunk.data.setBlock(x, y, z, impureBlock);
+        }
+
+        ore = commonOres[1];
+        if (orbB && ore != null) {
+            if (session.randBoolWithProbability(ore.clusterPurity)) {//if we are pure
+                if (!exposedToAir || session.randBoolWithProbability(ore.amtExposedToAir)) {
+                    chunk.data.setBlock(x, y, z, ore.block);
+                }
+            } else chunk.data.setBlock(x, y, z, impureBlock);
+        }
+
+        ore = rareOres[0];
+        if (orbRareA && ore != null) {
+            if (!exposedToAir || session.randBoolWithProbability(ore.amtExposedToAir)) {
+                chunk.data.setBlock(x, y, z, ore.block);
             }
         }
+
+        ore = rareOres[1];
+        if (orbRareB && ore != null) {
+            if (!exposedToAir || session.randBoolWithProbability(ore.amtExposedToAir)) {
+                chunk.data.setBlock(x, y, z, ore.block);
+            }
+        }
+
+        ore = rareOres[2];
+        if (rareCluster && ore != null) {
+            chunk.data.setBlock(x, y, z, ore.block);
+        }
+
     }
 }

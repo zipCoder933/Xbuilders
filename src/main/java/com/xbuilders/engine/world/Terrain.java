@@ -35,7 +35,7 @@ public abstract class Terrain {
         noise.SetSeed(seed);
         perlinNoise.setSeed(((double) seed / Integer.MAX_VALUE) * 255);
         this.seed = seed;
-        if(terrainOptions == null) terrainOptions = new HashMap<>();
+        if (terrainOptions == null) terrainOptions = new HashMap<>();
         this.options = terrainOptions;
         this.version = terrainVersion;
         loadWorld(options, version);
@@ -49,7 +49,7 @@ public abstract class Terrain {
 
     public boolean isBelowMinHeight(Vector3i position, int offset) {
         //If the bottom of the chunk is below the minimum height, we need to generate the terrain
-        return (position.y * Chunk.HEIGHT)+Chunk.HEIGHT >= TERRAIN_MIN_GEN_HEIGHT +offset;
+        return (position.y * Chunk.HEIGHT) + Chunk.HEIGHT >= TERRAIN_MIN_GEN_HEIGHT + offset;
     }
 
     public void initOptions() {
@@ -58,7 +58,7 @@ public abstract class Terrain {
 
     public class GenSession {
 
-//        public final HashSet<Chunk> modifiedMeshedChunks = new HashSet<>();
+        //        public final HashSet<Chunk> modifiedMeshedChunks = new HashSet<>();
         public final Random random = new Random();
         public final Chunk homeChunk;
         public boolean generatedOutsideOfChunk = false;
@@ -73,6 +73,16 @@ public abstract class Terrain {
 
         public double randomDouble(double lowerBound, double upperBound) {
             return (random.nextDouble() * upperBound - lowerBound) + lowerBound;
+        }
+
+        /**
+         * Generates a random boolean with the specified probability.
+         *
+         * @param probability The probability of returning true (0.0 to 1.0).
+         * @return true with the given probability, false otherwise.
+         */
+        public boolean randBoolWithProbability(float probability) {
+            return random.nextFloat() < probability;
         }
 
         public GenSession(Chunk chunk) {

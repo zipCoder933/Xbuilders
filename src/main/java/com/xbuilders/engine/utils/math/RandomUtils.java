@@ -25,4 +25,13 @@ public class RandomUtils {
     public static float randFloat(Random random, float lowerBound, float upperBound) {
         return (random.nextFloat() * upperBound - lowerBound) + lowerBound;
     }
+
+    /**
+     * Generates a random boolean with the specified probability.
+     * @param probability The probability of returning true (0.0 to 1.0).
+     * @return true with the given probability, false otherwise.
+     */
+    public static boolean randBoolWithProbability(Random random, float probability) {
+        return random.nextFloat() < probability;
+    }
 }
