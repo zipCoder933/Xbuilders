@@ -130,7 +130,7 @@ public class TopMenu {
             }
 
             //Draw the XBUILDERS title
-            window.ctx.style().window().fixed_background().data().color().set(Theme.transparent);
+            window.ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
             nk_rect(0, titleYEnd.get(0), window.getWidth(), titleHeight, windowDims);
             titleYEnd.put(0, titleYEnd.get(0) + titleHeight);
             if (nk_begin(window.ctx, "title", windowDims, NK_WINDOW_NO_INPUT | NK_WINDOW_NO_SCROLLBAR)) {

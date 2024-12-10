@@ -50,6 +50,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     boolean autoJump_unCollided = true;
     float autoJump_ticksWhileColidingWithBlock = 0;
 
+    public float status_health = 1;
+
     final static Vector3f playerBoxBottom = new Vector3f();
     final static Vector3f playerBoxTop = new Vector3f();
 
@@ -224,6 +226,13 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         inventory = new StorageSpace(33);
         camera = new Camera(this, window, projection, view, centeredView);
         positionHandler = new PositionHandler(window, GameScene.world, aabb, aabb);
+        positionHandler.callback_onGround = (fallDistance) -> {
+            if (fallDistance > 10) {
+                float damage = MathUtils.map(fallDistance, 10, 20, 0, 0.5f);
+                status_health -= damage;
+            }
+            System.out.println("onGround: " + fallDistance);
+        };
         userInfo.loadFromDisk();
     }
 
@@ -247,6 +256,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void event_gameModeChanged(GameMode gameMode) {
+        status_health = 1;
         if (gameMode == GameMode.SPECTATOR) {
             enableFlying();
             setFlashlight(100);

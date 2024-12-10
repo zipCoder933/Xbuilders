@@ -96,9 +96,9 @@ public class FileDialog extends UI_GameMenu implements WindowEvents {
 
 
                 if (!canGoUpOneDir()) {
-                    Nuklear.nk_style_push_color(ctx, ctx.style().button().active().data().color(), Theme.gray);
-                    Nuklear.nk_style_push_color(ctx, ctx.style().button().hover().data().color(), Theme.gray);
-                    Nuklear.nk_style_push_color(ctx, ctx.style().button().border_color(), Theme.lightGray);
+                    Nuklear.nk_style_push_color(ctx, ctx.style().button().active().data().color(), Theme.color_gray);
+                    Nuklear.nk_style_push_color(ctx, ctx.style().button().hover().data().color(), Theme.color_gray);
+                    Nuklear.nk_style_push_color(ctx, ctx.style().button().border_color(), Theme.color_lightGray);
                 }
                 if (Nuklear.nk_button_label(ctx, "^- Up Directory")) {
                     if (canGoUpOneDir()) {
@@ -112,8 +112,8 @@ public class FileDialog extends UI_GameMenu implements WindowEvents {
                 }
 
 
-                Nuklear.nk_style_push_color(ctx, ctx.style().window().background(), Theme.gray);
-                Nuklear.nk_style_push_color(ctx, ctx.style().button().hover().data().color(), Theme.blue);
+                Nuklear.nk_style_push_color(ctx, ctx.style().window().background(), Theme.color_gray);
+                Nuklear.nk_style_push_color(ctx, ctx.style().button().hover().data().color(), Theme.color_blue);
                 float border = ctx.style().button().border(); //Get border size
                 ctx.style().button().border(0);
                 filesGroup();
@@ -198,7 +198,7 @@ public class FileDialog extends UI_GameMenu implements WindowEvents {
                     boolean selected = selectedFile != null && selectedFile.equals(f);
 
                     if (selected) {
-                        Nuklear.nk_style_push_color(ctx, ctx.style().button().normal().data().color(), Theme.blue);
+                        Nuklear.nk_style_push_color(ctx, ctx.style().button().normal().data().color(), Theme.color_blue);
                     }
                     if (Nuklear.nk_button_label(ctx, f.getName() + (f.isDirectory() ? "\\" : ""))) {
                         if (f.isDirectory() && selected) {

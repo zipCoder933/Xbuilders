@@ -71,7 +71,7 @@ public class CollisionHandler {
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             stepBox.set(myBox.box);
-            stepBox.setY(stepBox.max.y + driver.stepHeight);
+            stepBox.setY(stepBox.max.y + driver.STEP_HEIGHT);
             setFrozen = false;
             exploredChunks.clear();
 
@@ -154,8 +154,13 @@ public class CollisionHandler {
                 collisionData.penPerAxes.mul(0.8f);
             }
 
+            if (collisionData.collisionNormal.y == -1) {
+                driver.hitGround();
+            }
+
             if (driver.velocity.y >= driver.maxFallSpeed * 0.99f) {
-//                System.out.println("HARD COLLISION!: " + collisionData.penPerAxes);
+                System.out.println("HARD COLLISION!: " + collisionData.penPerAxes);
+                driver.hitGround();
                 if (collisionData.collisionNormal.y == -1) { //If we are hitting the ground hard, we still want to collide with it
                     handleFloorCollision(box, block);
                 }
@@ -169,13 +174,13 @@ public class CollisionHandler {
             }
 
             if (collisionData.collisionNormal.x != 0) {
-                if (myBox.box.max.y - box.min.y < driver.stepHeight) {
+                if (myBox.box.max.y - box.min.y < driver.STEP_HEIGHT) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.x));
                 } else {
                     myBox.box.setX(myBox.box.min.x + (collisionData.penPerAxes.x));
                 }
             } else if (collisionData.collisionNormal.z != 0) {
-                if (myBox.box.max.y - box.min.y < driver.stepHeight) {
+                if (myBox.box.max.y - box.min.y < driver.STEP_HEIGHT) {
                     myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.z));
                 } else {
                     myBox.box.setZ(myBox.box.min.z + (collisionData.penPerAxes.z));

@@ -42,24 +42,36 @@ public class UI_Hotbar extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
-        if(GameScene.getGameMode() == GameMode.SPECTATOR) return;
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return;
         NkRect windowDims2 = NkRect.malloc(stack);
 
-        ctx.style().window().fixed_background().data().color().set(Theme.transparent);
-        ctx.style().button().normal().data().color().set(Theme.transparent);
-        ctx.style().window().border_color().set(Theme.transparent);
+        ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
+        ctx.style().button().normal().data().color().set(Theme.color_transparent);
+        ctx.style().window().border_color().set(Theme.color_transparent);
         ctx.style().button().padding().set(0, 0);
         nk_style_set_font(ctx, Theme.font_10);
 
-        nk_rect(
-                window.getWidth() / 2 - (menuWidth / 2),
-                window.getHeight() - menuHeight - 20,
-                menuWidth, menuHeight + 2, windowDims2);
-        ctx.style().window().fixed_background().data().color().set(Theme.backgroundColor);
+        int x = window.getWidth() / 2 - (menuWidth / 2);
+        int y = window.getHeight() - menuHeight - 20;
+
+        //Draw healthbars
+        nk_rect(x, y - 60, menuWidth, menuHeight + 2, windowDims2);
+        if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
+            nk_layout_row_dynamic(ctx, 10, 1);
+            nk_text(ctx, "Health", NK_TEXT_ALIGN_LEFT);
+            nk_layout_row_dynamic(ctx, 20, 1);
+//            ctx.style().progress().normal().data().color().set(Theme.color_red);
+            nk_prog(ctx, (long) (GameScene.player.status_health * 100), 100, false);
+//            Theme.resetProgressBar(ctx);
+        }
+        nk_end(ctx);
+
+        //Draw hotbar
+        nk_rect(x, y, menuWidth, menuHeight + 2, windowDims2);
+        ctx.style().window().fixed_background().data().color().set(Theme.color_backgroundColor);
         ctx.style().window().padding().set(4, 4);
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
             playerStorage.deleteEmptyItems();
-            // Draw the name of the item
             nk_layout_row_dynamic(ctx, 20, 1);
             if (GameScene.player.getSelectedItem() != null && GameScene.player.getSelectedItem().item != null)
                 nk_text(ctx, GameScene.player.getSelectedItem().item.name, NK_TEXT_ALIGN_CENTERED);
@@ -76,9 +88,9 @@ public class UI_Hotbar extends UI_GameMenu {
 
                 //if (buttonHeight.isCalibrated()) {
                 if (i == GameScene.player.getSelectedItemIndex()) {
-                    ctx.style().button().border_color().set(Theme.white);
+                    ctx.style().button().border_color().set(Theme.color_white);
                 } else {
-                    ctx.style().button().border_color().set(Theme.blue);
+                    ctx.style().button().border_color().set(Theme.color_blue);
                 }
                 //}
                 if (item != null) {
@@ -116,14 +128,14 @@ public class UI_Hotbar extends UI_GameMenu {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if(GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
 
         changeSelectedIndex(-scroll.y());
         return true;
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if(GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
 
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {

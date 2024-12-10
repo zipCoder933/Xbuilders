@@ -13,6 +13,8 @@ import com.xbuilders.window.GLFWWindow;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import java.util.function.Consumer;
+
 /**
  * @author zipCoder933
  */
@@ -63,6 +65,7 @@ public class PositionHandler {
     public static final float MAX_TERMINAL_VELOCITY = 60f;
     public static final float MIN_JUMP_GRAVITY = DEFAULT_GRAVITY / 2;
     public static final float DEFAULT_COAST = 0.6f;
+    public static final float STEP_HEIGHT = 0.6f;
 
     //Variables
     public float maxFallSpeed;
@@ -71,20 +74,21 @@ public class PositionHandler {
     private boolean gravityEnabled;
     public boolean onGround;
     public final GLFWWindow window;
-
-
     public float surfaceCoasting = 0.75f;
     public float surfaceFriction = 0f;
-
-
-    public float gravity = DEFAULT_GRAVITY;
-    public float terminalVelocity = MAX_TERMINAL_VELOCITY;
+    private float gravity = DEFAULT_GRAVITY;
+    private float terminalVelocity = MAX_TERMINAL_VELOCITY;
     public boolean collisionsEnabled = true;
-    protected Box renderedBox;
     public final EntityAABB aabb;
     public final CollisionHandler collisionHandler;
-    public float stepHeight = 0.6f;
-    float frameDeltaSec;
+    public boolean isFalling;
+
+    protected Box renderedBox;
+    private float frameDeltaSec;
+    private float fallDistance;
+    private boolean hitGround = false;
+
+    public Consumer<Float> callback_onGround;
 
     public PositionHandler(GLFWWindow window, World world,
                            EntityAABB thisAABB,
@@ -160,9 +164,19 @@ public class PositionHandler {
 //                if (velocity.y > maxFallSpeed) {
 //                    System.out.println("FALLING FAST!: " + velocity.y);
 //                }
+
+                float movementY = (Math.min(velocity.y, maxFallSpeed) * timestepMultiplier);
+                isFalling = movementY > 0.01f;
+                if (isFalling) {
+                    hitGround = false;
+                    fallDistance += movementY;
+                } else {
+                    hitGround();
+                }
+
                 //Calculate new AABB
                 aabb.box.setX(aabb.box.min.x + (velocity.x * timestepMultiplier));
-                aabb.box.setY(aabb.box.min.y + (Math.min(velocity.y, maxFallSpeed) * timestepMultiplier));
+                aabb.box.setY(aabb.box.min.y + movementY);
                 aabb.box.setZ(aabb.box.min.z + (velocity.z * timestepMultiplier));
 
                 //Apply coasting
@@ -181,6 +195,14 @@ public class PositionHandler {
         } catch (Exception e) {
             e.printStackTrace(); //Safely handle any exceptions
         }
+    }
+
+    protected void hitGround() {
+        if (!hitGround && callback_onGround != null) {//Hit ground event
+            callback_onGround.accept(fallDistance);
+        }
+        hitGround = true;
+        fallDistance = 0;
     }
 
 

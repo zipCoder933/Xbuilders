@@ -34,9 +34,10 @@ public class Theme {
     //</editor-fold>
 
 
-    public static NkColor transparent, darkTransparent,
-            backgroundColor, buttonColor, buttonHover,
-            gray, lightGray, blue, darkBlue, white, black;
+    public static NkColor color_transparent, color_darkTransparent,
+            color_backgroundColor, color_buttonColor, color_buttonHover,
+            color_gray, color_lightGray, color_blue, color_darkBlue,
+            color_white, color_black, color_red, color_green;
 
     public static NkUserFont font_24, font_22, font_20, font_18, font_16, font_14, font_12, font_10, font_9, font_8;
 
@@ -47,54 +48,58 @@ public class Theme {
         nk_style_set_font(context, font_10);
 
         try (MemoryStack stack = stackPush()) {
-            transparent = createColor(0, 0, 0, 0);
-            darkTransparent = createColor(0, 0, 0, 70);
-            backgroundColor = createColor(40, 40, 40, 255);
+            color_transparent = createColor(0, 0, 0, 0);
+            color_darkTransparent = createColor(0, 0, 0, 70);
+            color_backgroundColor = createColor(40, 40, 40, 255);
 
-            buttonColor = createColor(20, 20, 20, 255);
-            buttonHover = createColor(50, 50, 50, 255);
+            color_buttonColor = createColor(20, 20, 20, 255);
+            color_buttonHover = createColor(50, 50, 50, 255);
 
-            gray = createColor(20, 20, 20, 255);
-            lightGray = createColor(120, 120, 120, 255);
-            blue = createColor(80, 80, 255, 255);
-            darkBlue = createColor(40, 40, 230, 255);
-            white = createColor(255, 255, 255, 255);
-            black = createColor(0, 0, 0, 255);
+            color_gray = createColor(20, 20, 20, 255);
+            color_lightGray = createColor(120, 120, 120, 255);
+            color_blue = createColor(80, 80, 255, 255);
+            color_darkBlue = createColor(40, 40, 230, 255);
+            color_white = createColor(255, 255, 255, 255);
+            color_black = createColor(0, 0, 0, 255);
+
+            color_red = createColor(255, 0, 0, 255);
+            color_green = createColor(0, 255, 0, 255);
 
             // This buffer acts like an array of NkColor structs
             int size = NkColor.SIZEOF * NK_COLOR_COUNT; // How much memory we need to store all the color data
             ByteBuffer buffer = stack.calloc(size);
             NkColor.Buffer colors = new NkColor.Buffer(buffer);
-            colors.put(NK_COLOR_TEXT, white);
-            colors.put(NK_COLOR_WINDOW, backgroundColor);
-            colors.put(NK_COLOR_HEADER, black);
-            colors.put(NK_COLOR_BORDER, backgroundColor);
+            colors.put(NK_COLOR_TEXT, color_white);
+            colors.put(NK_COLOR_WINDOW, color_backgroundColor);
+            colors.put(NK_COLOR_HEADER, color_black);
+            colors.put(NK_COLOR_BORDER, color_backgroundColor);
 
-            colors.put(NK_COLOR_BUTTON, buttonColor);
-            colors.put(NK_COLOR_BUTTON_HOVER, buttonHover);
-            colors.put(NK_COLOR_BUTTON_ACTIVE, blue);
+            colors.put(NK_COLOR_BUTTON, color_buttonColor);
+            colors.put(NK_COLOR_BUTTON_HOVER, color_buttonHover);
+            colors.put(NK_COLOR_BUTTON_ACTIVE, color_blue);
 
-            colors.put(NK_COLOR_TOGGLE, white);
-            colors.put(NK_COLOR_TOGGLE_HOVER, blue);
-            colors.put(NK_COLOR_TOGGLE_CURSOR, gray);
-            colors.put(NK_COLOR_SELECT, gray);
-            colors.put(NK_COLOR_SELECT_ACTIVE, white);
-            colors.put(NK_COLOR_SLIDER, gray);
-            colors.put(NK_COLOR_SLIDER_CURSOR, blue);
-            colors.put(NK_COLOR_SLIDER_CURSOR_HOVER, blue);
-            colors.put(NK_COLOR_SLIDER_CURSOR_ACTIVE, blue);
-            colors.put(NK_COLOR_PROPERTY, gray);
-            colors.put(NK_COLOR_EDIT, gray);
-            colors.put(NK_COLOR_EDIT_CURSOR, black);
-            colors.put(NK_COLOR_COMBO, gray);
-            colors.put(NK_COLOR_CHART, gray);
-            colors.put(NK_COLOR_CHART_COLOR, gray);
-            colors.put(NK_COLOR_CHART_COLOR_HIGHLIGHT, blue);
-            colors.put(NK_COLOR_SCROLLBAR, gray);
-            colors.put(NK_COLOR_SCROLLBAR_CURSOR, gray);
-            colors.put(NK_COLOR_SCROLLBAR_CURSOR_HOVER, gray);
-            colors.put(NK_COLOR_SCROLLBAR_CURSOR_ACTIVE, gray);
-            colors.put(NK_COLOR_TAB_HEADER, gray);
+            colors.put(NK_COLOR_TOGGLE, color_white);
+            colors.put(NK_COLOR_TOGGLE_HOVER, color_blue);
+            colors.put(NK_COLOR_TOGGLE_CURSOR, color_gray);
+            colors.put(NK_COLOR_SELECT, color_gray);
+            colors.put(NK_COLOR_SELECT_ACTIVE, color_white);
+            colors.put(NK_COLOR_SLIDER, color_gray);
+            colors.put(NK_COLOR_SLIDER_CURSOR, color_blue);
+            colors.put(NK_COLOR_SLIDER_CURSOR_HOVER, color_blue);
+            colors.put(NK_COLOR_SLIDER_CURSOR_ACTIVE, color_blue);
+            colors.put(NK_COLOR_PROPERTY, color_gray);
+            colors.put(NK_COLOR_EDIT, color_gray);
+            colors.put(NK_COLOR_EDIT_CURSOR, color_black);
+            colors.put(NK_COLOR_COMBO, color_gray);
+            colors.put(NK_COLOR_CHART, color_gray);
+            colors.put(NK_COLOR_CHART_COLOR, color_gray);
+            colors.put(NK_COLOR_CHART_COLOR_HIGHLIGHT, color_blue);
+            colors.put(NK_COLOR_SCROLLBAR, color_gray);
+            colors.put(NK_COLOR_SCROLLBAR_CURSOR, color_gray);
+            colors.put(NK_COLOR_SCROLLBAR_CURSOR_HOVER, color_gray);
+            colors.put(NK_COLOR_SCROLLBAR_CURSOR_ACTIVE, color_gray);
+            colors.put(NK_COLOR_TAB_HEADER, color_gray);
+
             nk_style_from_table(context, colors);
 
             //Set general styles
@@ -127,20 +132,25 @@ public class Theme {
         context.style().window().fixed_background().data().color().set(backgroundColor);
         context.style().window().border_color().set(borderColor);
     }
+
+    public static void resetProgressBar(NkContext context) {
+        context.style().progress().normal().data().color().set(Theme.color_gray);
+    }
+
     public static void resetWindowColor(NkContext context) {
-        context.style().window().fixed_background().data().color().set(Theme.backgroundColor);
-        context.style().window().border_color().set(Theme.blue);
+        context.style().window().fixed_background().data().color().set(Theme.color_backgroundColor);
+        context.style().window().border_color().set(Theme.color_blue);
     }
 
     public static void resetTextColor(NkContext context) {
-        context.style().text().color().set(Theme.white);
+        context.style().text().color().set(Theme.color_white);
     }
 
     public static void resetEntireButtonStyle(NkContext context) {
         context.style().button().padding().set(4, 4);
         context.style().button().border(2);
-        context.style().button().normal().data().color().set(buttonColor);
-        context.style().button().border_color().set(blue);
+        context.style().button().normal().data().color().set(color_buttonColor);
+        context.style().button().border_color().set(color_blue);
         context.style().button().text_alignment(Nuklear.NK_TEXT_ALIGN_CENTERED | Nuklear.NK_TEXT_ALIGN_MIDDLE);
     }
 

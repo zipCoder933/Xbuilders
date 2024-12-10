@@ -65,7 +65,7 @@ public class InfoText extends UI_GameMenu {
             commandRect.x(sidePadding);
             commandRect.w(window.getWidth() - (sidePadding * 2));
             commandRect.h(Math.min(commandBoxHeight, window.getHeight() - 150));
-            ctx.style().window().fixed_background().data().color().set(Theme.darkTransparent);
+            ctx.style().window().fixed_background().data().color().set(Theme.color_darkTransparent);
             if (nk_begin(ctx, commandPanelText, commandRect, 0)) {
                 Nuklear.nk_layout_row_dynamic(ctx, 30, 1);
                 nk_text(ctx, "Enter command:", NK_LEFT);
@@ -81,7 +81,7 @@ public class InfoText extends UI_GameMenu {
             nk_style_set_font(ctx, Theme.font_8);
             infoTextRect.w(window.getWidth());
             infoTextRect.h(300);
-            ctx.style().window().fixed_background().data().color().set(Theme.transparent);
+            ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
             if (nk_begin(ctx, infoPanelText, infoTextRect, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_NO_INPUT)) {
                 if (text != null) {
                     Nuklear.nk_layout_row_dynamic(ctx, 10, 1);

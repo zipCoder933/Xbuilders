@@ -6,7 +6,6 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.window.NKWindow;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkInput;
 import org.lwjgl.nuklear.NkRect;
@@ -28,7 +27,7 @@ public class UI_ItemStackGrid {
     int rowCount = 0;
     final int flags;
     public boolean showButtons = true;
-    boolean allowClicks = false;
+
     long lastTimeShown = 0;
 
 
@@ -44,12 +43,6 @@ public class UI_ItemStackGrid {
 
     public void draw(MemoryStack stack, NkContext ctx, int maxColumns) {
         if (nk_group_begin(ctx, title, flags)) {
-            if (System.currentTimeMillis() - lastTimeShown > 300) {
-                allowClicks = false;
-            } else if (!window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT) &&
-                    !window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
-                allowClicks = true;
-            }
             lastTimeShown = System.currentTimeMillis();
 
             NkRect buttonBounds = NkRect.calloc(stack);
@@ -91,7 +84,7 @@ public class UI_ItemStackGrid {
                         break rows;
                     }
                     ItemStack item = storageSpace.get(index);
-                    ctx.style().button().border_color().set(Theme.blue);
+                    ctx.style().button().border_color().set(Theme.color_blue);
 
 
                     if (item != null) {
@@ -99,16 +92,16 @@ public class UI_ItemStackGrid {
                             hoveredItem = itemTooltip(item);
                         }
                         if (UI_ItemWindow.drawItemStackButton(stack, ctx, item, buttonBounds)) {//Left click
-                            if (allowClicks) itemClickEvent(item, index, false);
+                           itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                            if (allowClicks) itemClickEvent(item, index, true);
+                           itemClickEvent(item, index, true);
                         }
                     } else {
                         Nuklear.nk_widget_bounds(ctx, buttonBounds);
                         if (nk_button_text(ctx, "")) {//Left click
-                            if (allowClicks) itemClickEvent(item, index, false);
+                          itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                            if (allowClicks) itemClickEvent(item, index, true);
+                          itemClickEvent(item, index, true);
                         }
                     }
                     index++;

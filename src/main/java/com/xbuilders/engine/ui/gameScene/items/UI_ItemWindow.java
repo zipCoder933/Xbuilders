@@ -9,7 +9,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector2d;
 import org.joml.Vector2i;
-import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
@@ -185,7 +184,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         Vector2d cursor = window.getCursorVector();
         rect.set((float) cursor.x - (getItemSize() / 2), (float) cursor.y - (getItemSize() / 2), getItemSize(), getItemSize());
 
-        Theme.setWindowStyle(ctx, Theme.transparent, Theme.transparent);
+        Theme.setWindowStyle(ctx, Theme.color_transparent, Theme.color_transparent);
         if (nk_begin(ctx, "cursor_stack", rect, NK_WINDOW_NO_INPUT | NK_WINDOW_BACKGROUND | NK_WINDOW_NO_SCROLLBAR)) {
             nk_layout_row_dynamic(ctx, getItemSize(), 1);
             drawItemStack(stack, ctx, itemStack, rect);

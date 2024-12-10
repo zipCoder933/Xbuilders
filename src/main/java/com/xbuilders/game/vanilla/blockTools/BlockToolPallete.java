@@ -100,9 +100,9 @@ public class BlockToolPallete {
                         BlockTool tool = toolsList.get(itemID);
 
                         if (itemID == tools.selectedTool) {
-                            ctx.style().button().border_color().set(Theme.white);
+                            ctx.style().button().border_color().set(Theme.color_white);
                         } else {
-                            ctx.style().button().border_color().set(Theme.blue);
+                            ctx.style().button().border_color().set(Theme.color_blue);
                         }
 
                         if (tool != null && tool.getNKIcon() != null) {
