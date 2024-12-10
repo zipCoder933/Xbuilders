@@ -1,5 +1,16 @@
 package com.xbuilders.engine.items.item;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
+import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +21,40 @@ public class StorageSpace {
 
     private final static Object changeEventLock = new Object();
     private static boolean isChangeEventRunning = false; //To prevent infinite recursion if we use set method within changeEvent
+    public final static ObjectMapper binaryJsonMapper;
+    public final static TypeReference<ItemStack[]> itemStackRef = new TypeReference<ItemStack[]>() {
+    };
+
+    static {
+        SmileFactory smileFactory = new SmileFactory();
+        //set flags
+        smileFactory.enable(SmileGenerator.Feature.ENCODE_BINARY_AS_7BIT);
+        smileFactory.enable(SmileGenerator.Feature.CHECK_SHARED_STRING_VALUES);
+
+        //create new object mapper based on factory
+        binaryJsonMapper = new ObjectMapper(smileFactory);
+        // Create a module to register custom serializer and deserializer
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
+        module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
+        binaryJsonMapper.registerModule(module);
+    }
+
+    public void loadFromJson(byte[] json) throws IOException {
+        ItemStack[] deserializedObject = StorageSpace.binaryJsonMapper.readValue(json, StorageSpace.itemStackRef);
+        clear();
+        for (int i = 0; i < deserializedObject.length; i++) {
+            set(i, deserializedObject[i]);
+        }
+    }
+
+    //TODO: Add write/read json methods but with JsonObject to parse it with other things in a json file
+
+    public byte[] writeToJson() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        StorageSpace.binaryJsonMapper.writeValue(baos, getList());
+        return baos.toByteArray();
+    }
 
     public ItemStack[] getList() {
         return list;

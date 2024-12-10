@@ -1,18 +1,9 @@
 package com.xbuilders.game.vanilla.ui;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
-import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.item.StorageSpace;
-import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.NKWindow;
@@ -20,7 +11,6 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
@@ -28,8 +18,9 @@ import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 public class BarrelUI extends UI_ItemWindow {
     UI_ItemStackGrid barrelGrid, playerGrid;
     final StorageSpace barrelStorage;
-    BlockData barrelData;
-    final ObjectMapper objectMapper;
+    BlockData barrelBlockData;
+
+
     Chunk chunk;
 
     public BarrelUI(NkContext ctx, NKWindow window) {
@@ -38,19 +29,6 @@ public class BarrelUI extends UI_ItemWindow {
         menuDimensions.y = 550;
         barrelGrid = new UI_ItemStackGrid(window, "Barrel", barrelStorage, this, true);
         playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.player.inventory, this, true);
-
-        SmileFactory smileFactory = new SmileFactory();
-        //set flags
-        smileFactory.enable(SmileGenerator.Feature.ENCODE_BINARY_AS_7BIT);
-        smileFactory.enable(SmileGenerator.Feature.CHECK_SHARED_STRING_VALUES);
-
-        //create new object mapper based on factory
-        objectMapper = new ObjectMapper(smileFactory);
-        // Create a module to register custom serializer and deserializer
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
-        module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
-        objectMapper.registerModule(module);
     }
 
     @Override
@@ -62,21 +40,13 @@ public class BarrelUI extends UI_ItemWindow {
         playerGrid.draw(stack, ctx, maxColumns);
     }
 
-    public void openUI(BlockData data, Chunk chunk) {
-        barrelData = data;
+    public void openUI(BlockData blockData, Chunk chunk) {
+        barrelBlockData = blockData;
         barrelStorage.clear();
         this.chunk = chunk;
-        if (data != null) {
+        if (blockData != null) {
             try {
-                // Deserialize the JSON string back into the object
-//                System.out.println("Deserializing " + printSmileData(data.toByteArray()));
-                ItemStack[] deserializedObject = objectMapper.readValue(data.toByteArray(),
-                        new TypeReference<ItemStack[]>() {
-                        });
-
-                for (int i = 0; i < deserializedObject.length; i++) {
-                    barrelStorage.set(i, deserializedObject[i]);
-                }
+                barrelStorage.loadFromJson(blockData.toByteArray());
             } catch (IOException e) {
                 System.out.println("Error deserializing JSON, Making storage empty: " + e.getMessage());
             }
@@ -85,10 +55,8 @@ public class BarrelUI extends UI_ItemWindow {
     }
 
     public void onCloseEvent() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            objectMapper.writeValue(baos, barrelStorage.getList());
-            barrelData.setByteArray(baos.toByteArray());
+            barrelBlockData.setByteArray(barrelStorage.writeToJson());
             chunk.markAsModified();
         } catch (IOException e) {
             throw new RuntimeException(e);

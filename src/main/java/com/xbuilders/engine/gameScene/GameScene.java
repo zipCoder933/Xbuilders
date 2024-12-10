@@ -110,6 +110,22 @@ public class GameScene implements WindowEvents {
     }
 
     //Set block ===============================================================================
+    public static void setBlock(short newBlock, WCCi wcc) {
+        setBlock(newBlock, null, wcc);
+    }
+
+    public static void setBlock(short block, int worldX, int worldY, int worldZ) {
+        setBlock(block, null, new WCCi().set(worldX, worldY, worldZ));
+    }
+
+    public static void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
+        setBlock(block, data, new WCCi().set(worldX, worldY, worldZ));
+    }
+
+    public static void setBlockData(BlockData data, int worldX, int worldY, int worldZ) {
+        setBlockData(data, new WCCi().set(worldX, worldY, worldZ));
+    }
+
     public static void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
         if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = world.getChunk(wcc.chunk);
@@ -129,18 +145,21 @@ public class GameScene implements WindowEvents {
         }
     }
 
-    public static void setBlock(short newBlock, WCCi wcc) {
-        setBlock(newBlock, null, wcc);
-    }
+    public static void setBlockData(BlockData blockData, WCCi wcc) {
+        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
+        Chunk chunk = world.getChunk(wcc.chunk);
+        if (chunk != null) {
+            //Get the previous block
+            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            BlockHistory history = new BlockHistory(previousBlock, previousBlock);
 
-    public static void setBlock(short block, int worldX, int worldY, int worldZ) {
-        setBlock(block, null, new WCCi().set(worldX, worldY, worldZ));
+            if (blockData != null) {
+                history.updateBlockData = true;
+                history.newBlockData = blockData;
+            }
+            eventPipeline.addEvent(wcc, history);
+        }
     }
-
-    public static void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
-        setBlock(block, data, new WCCi().set(worldX, worldY, worldZ));
-    }
-
 
     //Set entity =================================================================================
     public static Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
@@ -310,7 +329,9 @@ public class GameScene implements WindowEvents {
             default -> {
                 if (worldInfo.getSpawnPoint() == null) {
                     //Find spawn point
-                    player.worldPosition.set(getInitialSpawnPoint(world.terrain));
+                    player.status_spawnPosition.set(getInitialSpawnPoint(world.terrain));
+                    player.worldPosition.set(player.status_spawnPosition);
+                    player.newWorldEvent(worldInfo);
                 }
                 setTimeOfDay(worldInfo.data.timeOfDay);
                 game.startGame(worldInfo);

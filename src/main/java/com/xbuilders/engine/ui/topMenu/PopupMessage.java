@@ -44,6 +44,10 @@ public class PopupMessage {
     String title, body;
     long shownTime;
 
+    public boolean isShown() {
+        return visible;
+    }
+
 //    private String maxCharsPerLine(String text, int maxCharactersPerLine) {
 //        String[] words = text.split("[\\s&&[^\\n]]+");
 //        String newText = "";

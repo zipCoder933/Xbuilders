@@ -5,12 +5,7 @@ import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.vanilla.items.blocks.Furnace;
-import com.xbuilders.game.vanilla.items.blocks.BlockBarrel;
-import com.xbuilders.game.vanilla.items.blocks.BlockEventUtils;
-import com.xbuilders.game.vanilla.items.blocks.PlantUtils;
-import com.xbuilders.game.vanilla.items.blocks.BlockStraightTrack;
-import com.xbuilders.game.vanilla.items.blocks.CraftingTable;
+import com.xbuilders.game.vanilla.items.blocks.*;
 import com.xbuilders.game.vanilla.items.blocks.trees.*;
 
 import java.util.ArrayList;
@@ -35,6 +30,8 @@ public class Blocks {
         blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
         blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
         blockList.add(new BlockStraightTrack(Blocks.BLOCK_TRACK));
+        blockList.add(new BlockSpawn());
+        blockList.add(new BlockFlag());
 
         return blockList;
     }

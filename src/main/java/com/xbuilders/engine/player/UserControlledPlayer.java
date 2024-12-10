@@ -51,25 +51,21 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     float autoJump_ticksWhileColidingWithBlock = 0;
 
     public float status_health = 1;
+    public Vector3f status_spawnPosition = new Vector3f();
 
-    final static Vector3f playerBoxBottom = new Vector3f();
-    final static Vector3f playerBoxTop = new Vector3f();
-
-    public Vector3f getPlayerBoxBottom() {
+    public void getPlayerBoxBottom(Vector3f playerBoxBottom) {
         playerBoxBottom.set(
                 (GameScene.player.aabb.box.min.x + GameScene.player.aabb.box.max.x) / 2,
                 GameScene.player.aabb.box.min.y,
                 (GameScene.player.aabb.box.min.z + GameScene.player.aabb.box.max.z) / 2);
-        return playerBoxBottom;
     }
 
-    public Vector3f getPlayerBoxTop() {
+    public void getPlayerBoxTop(Vector3f playerBoxTop) {
         playerBoxTop.set(
                 (GameScene.player.aabb.box.min.x + GameScene.player.aabb.box.max.x) / 2,
                 GameScene.player.aabb.box.max.y,
                 (GameScene.player.aabb.box.min.z + GameScene.player.aabb.box.max.z) / 2
         );
-        return playerBoxTop;
     }
 
 
@@ -110,6 +106,12 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         jsonObject.addProperty("y", (float) worldPosition.y);
         jsonObject.addProperty("z", (float) worldPosition.z);
 
+        jsonObject.addProperty("spawnX", (float) status_spawnPosition.x);
+        jsonObject.addProperty("spawnY", (float) status_spawnPosition.y);
+        jsonObject.addProperty("spawnZ", (float) status_spawnPosition.z);
+
+        jsonObject.addProperty("health", status_health);
+
         try {
             Files.write(playerFile.toPath(), pdGson.toJson(jsonObject).getBytes());
         } catch (IOException e) {
@@ -134,17 +136,35 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                         i.addAndGet(1);
                     });
                 }
-
-                // Deserialize worldPosition
                 if (jsonObject.has("x") && jsonObject.has("y") && jsonObject.has("z")) {
                     worldPosition.x = jsonObject.get("x").getAsInt();
                     worldPosition.y = jsonObject.get("y").getAsInt();
                     worldPosition.z = jsonObject.get("z").getAsInt();
                 }
+                if (jsonObject.has("spawnX") && jsonObject.has("spawnY") && jsonObject.has("spawnZ")) {
+                    status_spawnPosition.x = jsonObject.get("spawnX").getAsInt();
+                    status_spawnPosition.y = jsonObject.get("spawnY").getAsInt();
+                    status_spawnPosition.z = jsonObject.get("spawnZ").getAsInt();
+                }
+                if (jsonObject.has("health")) status_health = jsonObject.get("health").getAsFloat();
+
+                selectedItemIndex = 0;
             } catch (Exception e) {
                 ErrorHandler.report(e);
             }
         }
+    }
+
+    public void die() {
+        MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
+            System.out.println("Teleporting to spawnpoint...");
+            worldPosition.set(status_spawnPosition);
+            resetHealthStats();
+        });
+    }
+
+    private void resetHealthStats() {
+        status_health = 1;
     }
 
     // Keys
@@ -228,7 +248,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         positionHandler = new PositionHandler(window, GameScene.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 10) {
-                float damage = MathUtils.map(fallDistance, 10, 20, 0, 0.5f);
+                float damage = MathUtils.map(fallDistance, 10, 30, 0, 0.5f);
                 status_health -= damage;
             }
             System.out.println("onGround: " + fallDistance);
@@ -242,6 +262,15 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public void setFlashlight(float distance) {
         GameScene.world.chunkShader.setFlashlightDistance(distance);
+    }
+
+    /**
+     * Called at the beginning of a new world
+     *
+     * @param worldInfo
+     */
+    public void newWorldEvent(WorldData worldInfo) {
+        resetHealthStats();
     }
 
     public void startGameEvent(WorldData world) {
@@ -299,6 +328,16 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public void update(boolean holdMouse) {
         camera.cursorRay.update();
+
+//        if (GameScene.getGameMode() == GameMode.ADVENTURE) {
+            if (status_health <= 0) {
+                die();
+            }
+            if (status_health < 1) {
+                status_health += 0.0001f;
+            }
+//        }
+
 
         if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode())) {
             //Dismount if riding entity is destroyed
@@ -541,5 +580,6 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         return false;
     }
+
 
 }

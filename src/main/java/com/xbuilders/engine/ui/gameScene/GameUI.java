@@ -178,10 +178,9 @@ public class GameUI {
 
     public boolean releaseMouse() {
         if (anyMenuOpen()) return true;
+        else if (MainWindow.popupMessage.isShown()) return true;
         else if (infoBox.releaseMouse()) return true;
         else if (fileDialog.isOpen() && fileDialog.releaseMouse) return false;
-        else if (game.releaseMouse()) return true;
-
-        return false;
+        else return game.releaseMouse();
     }
 }
