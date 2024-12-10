@@ -90,16 +90,31 @@ public class Block {
         clickEvent_isMultithreaded = multithreaded;
     }
 
+    /**
+     * Called AFTER the block has been set
+     * @param multithreaded
+     * @param setBlockEvent
+     */
     public void setBlockEvent(boolean multithreaded, SetBlockEvent setBlockEvent) {
         this.setBlockEvent = setBlockEvent;
         setBlockEvent_isMultithreaded = multithreaded;
     }
 
+    /**
+     * Called AFTER the block has been removed
+     * @param multithreaded
+     * @param removeBlockEvent
+     */
     public void removeBlockEvent(boolean multithreaded, RemoveBlockEvent removeBlockEvent) {
         this.removeBlockEvent = removeBlockEvent;
         removeBlockEvent_isMultithreaded = multithreaded;
     }
 
+    /**
+     * Called AFTER a local change has occured
+     * @param multithreaded
+     * @param onLocalChange
+     */
     public void localChangeEvent(boolean multithreaded, OnLocalChange onLocalChange) {
         this.localChangeEvent = onLocalChange;
         localChangeEvent_isMultithreaded = multithreaded;

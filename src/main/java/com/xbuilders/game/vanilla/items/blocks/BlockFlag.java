@@ -14,8 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class BlockFlag extends Block {
-    public BlockFlag() {
-        super(231, "xbuilders:flag_block",
+    public BlockFlag(short id) {
+        super(id, "xbuilders:flag_block",
                 new BlockTexture(
                         "symbols/flag top",
                         "symbols/flag top",
@@ -28,10 +28,9 @@ public class BlockFlag extends Block {
             try {
                 byte[] bytes = GameScene.player.inventory.writeToJson();
                 BlockData data = new BlockData(bytes);
-                System.out.println("Flag placed "+new String(bytes));
+                System.out.println("Flag placed " + new String(bytes));
                 GameScene.setBlockData(data, x, y, z);
-
-//                BlockData data = GameScene.world.getBlockData(x, y, z);
+                GameScene.player.inventory.clear();
             } catch (IOException e) {
                 ErrorHandler.report(e);
             }
@@ -39,10 +38,10 @@ public class BlockFlag extends Block {
 
         removeBlockEvent(false, (x, y, z, hist) -> {
             try {
-                BlockData data = GameScene.world.getBlockData(x, y, z);
+                BlockData data = hist.previousBlockData;
                 System.out.println("Flag removed data is null");
                 if (data == null) return;
-                System.out.println("Flag removed "+new String(data.toByteArray()));
+                System.out.println("Flag removed " + new String(data.toByteArray()));
                 GameScene.player.inventory.loadFromJson(data.toByteArray());
             } catch (IOException e) {
                 ErrorHandler.report(e);

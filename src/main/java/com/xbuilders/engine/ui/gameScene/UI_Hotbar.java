@@ -55,16 +55,18 @@ public class UI_Hotbar extends UI_GameMenu {
         int y = window.getHeight() - menuHeight - 20;
 
         //Draw healthbars
-        nk_rect(x, y - 60, menuWidth, menuHeight + 2, windowDims2);
-        if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
-            nk_layout_row_dynamic(ctx, 10, 1);
-            nk_text(ctx, "Health: " + (int) (GameScene.player.status_health * 100), NK_TEXT_ALIGN_LEFT);
-            nk_layout_row_dynamic(ctx, 20, 1);
+        if (GameScene.getGameMode() == GameMode.ADVENTURE) {
+            nk_rect(x, y - 60, menuWidth, menuHeight + 2, windowDims2);
+            if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
+                nk_layout_row_dynamic(ctx, 10, 1);
+                nk_text(ctx, "Health: " + (int) (GameScene.player.status_health * 100), NK_TEXT_ALIGN_LEFT);
+                nk_layout_row_dynamic(ctx, 20, 1);
 //            ctx.style().progress().normal().data().color().set(Theme.color_red);
-            nk_prog(ctx, (long) (GameScene.player.status_health * 100), 100, false);
+                nk_prog(ctx, (long) (GameScene.player.status_health * 100), 100, false);
 //            Theme.resetProgressBar(ctx);
+            }
+            nk_end(ctx);
         }
-        nk_end(ctx);
 
         //Draw hotbar
         nk_rect(x, y, menuWidth, menuHeight + 2, windowDims2);

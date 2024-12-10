@@ -10,19 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/res/items/blocks/json/vanilla.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/items/items/json/vanilla.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockFlag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockSpawn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/gameScene/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/StorageSpace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/StorageSpace.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/Block.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/GameUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/UI_Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/UI_Hotbar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/PopupMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/topMenu/PopupMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Blocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/BarrelUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/BarrelUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockFlag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockFlag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockSpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockSpawn.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

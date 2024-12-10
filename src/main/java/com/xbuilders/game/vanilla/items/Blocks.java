@@ -30,8 +30,8 @@ public class Blocks {
         blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
         blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
         blockList.add(new BlockStraightTrack(Blocks.BLOCK_TRACK));
-        blockList.add(new BlockSpawn());
-        blockList.add(new BlockFlag());
+        blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN));
+        blockList.add(new BlockFlag(Blocks.BLOCK_FLAG));
 
         return blockList;
     }
@@ -66,11 +66,7 @@ public class Blocks {
 
             //Add flammable tag to various blocks
             String lowercaseName = b.alias.toLowerCase();
-            if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank")
-                    || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") ||
-                    lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") ||
-                    lowercaseName.contains("dark_oak") || lowercaseName.contains("crimson") || lowercaseName.contains("warped") ||
-                    lowercaseName.contains("dry")) {
+            if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank") || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") || lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") || lowercaseName.contains("dark_oak") || lowercaseName.contains("crimson") || lowercaseName.contains("warped") || lowercaseName.contains("dry")) {
                 b.properties.put("flammable", "true");
             }
         }
@@ -91,14 +87,15 @@ public class Blocks {
         //set toughness levels automatically
         for (Block b : Registrys.blocks.getList()) {
             if (b.toughness == 1 && !b.solid) b.toughness = 0.2f;
-            if (b.alias.toLowerCase().contains("sand")
-                    || b.alias.toLowerCase().contains("gravel")
-                    || b.alias.toLowerCase().contains("glass")) b.toughness = 0.5f;
+            if (b.alias.toLowerCase().contains("sand") || b.alias.toLowerCase().contains("gravel") || b.alias.toLowerCase().contains("glass"))
+                b.toughness = 0.5f;
         }
     }
 
-
+    public static short BLOCK_AIR = 0;
     //List of all block IDs
+    public static short BLOCK_FLAG = 231;
+    public static short BLOCK_SPAWN = 552;
     public static short BLOCK_CRAFTING_TABLE = 50;
     public static short BLOCK_FURNACE = 99;
     public static short BLOCK_BARREL = 45;

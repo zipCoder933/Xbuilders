@@ -128,7 +128,6 @@ public class PopupMessage {
 
             //Detect if the window is in focus
             if (!nk_window_has_focus(ctx)) {
-//                nk_window_set_focus(ctx, tag);
                 if (canClose()) {
                     closeWindow();
                 }
@@ -146,6 +145,7 @@ public class PopupMessage {
             if (confirmationCallback != null) {
                 nk_layout_row_dynamic(ctx, 40, 2);
                 if (nk_button_label(ctx, "OK")) {
+                    System.out.println("Closing popup...");
                     if (canClose()) {
                         confirmationCallback.run();
                         confirmationCallback = null;
@@ -154,6 +154,7 @@ public class PopupMessage {
                     }
                 }
                 if (nk_button_label(ctx, "Cancel")) {
+                    System.out.println("Closing popup...");
                     if (canClose()) {
                         closeWindow();
                     }
@@ -161,6 +162,7 @@ public class PopupMessage {
             } else {
                 nk_layout_row_dynamic(ctx, 40, 1);
                 if (nk_button_label(ctx, "OK")) {
+                    System.out.println("Closing popup...");
                     if (canClose()) {
                         closeWindow();
                     }
@@ -177,6 +179,7 @@ public class PopupMessage {
 
 
     private boolean canClose() {
-        return System.currentTimeMillis() - shownTime > 500;
+        return true;
+//        return nk_window_has_focus(ctx);
     }
 }

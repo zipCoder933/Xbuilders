@@ -20,6 +20,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.world.data.WorldData;
+import com.xbuilders.game.vanilla.items.Blocks;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -158,6 +159,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public void die() {
         MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             System.out.println("Teleporting to spawnpoint...");
+            GameScene.setBlock(Blocks.BLOCK_FLAG, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             worldPosition.set(status_spawnPosition);
             resetHealthStats();
         });
@@ -329,14 +331,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public void update(boolean holdMouse) {
         camera.cursorRay.update();
 
-//        if (GameScene.getGameMode() == GameMode.ADVENTURE) {
+        if (GameScene.getGameMode() == GameMode.ADVENTURE) {
             if (status_health <= 0) {
                 die();
             }
             if (status_health < 1) {
                 status_health += 0.0001f;
             }
-//        }
+        }
 
 
         if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode())) {

@@ -6,8 +6,8 @@ import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.player.UserControlledPlayer;
 
 public class BlockSpawn extends Block {
-    public BlockSpawn() {
-        super(552, "xbuilders:spawn_block",
+    public BlockSpawn(short id) {
+        super(id, "xbuilders:spawn_block",
                 new BlockTexture(
                         "symbols/destination top",
                         "symbols/destination top",

@@ -110,12 +110,8 @@ public class GameScene implements WindowEvents {
     }
 
     //Set block ===============================================================================
-    public static void setBlock(short newBlock, WCCi wcc) {
-        setBlock(newBlock, null, wcc);
-    }
-
     public static void setBlock(short block, int worldX, int worldY, int worldZ) {
-        setBlock(block, null, new WCCi().set(worldX, worldY, worldZ));
+        setBlock(block, new WCCi().set(worldX, worldY, worldZ));
     }
 
     public static void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
@@ -135,12 +131,26 @@ public class GameScene implements WindowEvents {
 
             //we need to set the block because some algorithms want to check to see if the block has changed immediately
             chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
+            chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData); //Important
 
             BlockHistory history = new BlockHistory(previousBlock, newBlock);
-            if (blockData != null) {
-                history.updateBlockData = true;
-                history.newBlockData = blockData;
-            }
+            history.updateBlockData = true;
+            history.newBlockData = blockData;
+            eventPipeline.addEvent(wcc, history);
+        }
+    }
+
+    public static void setBlock(short newBlock, WCCi wcc) {
+        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
+        Chunk chunk = world.getChunk(wcc.chunk);
+        if (chunk != null) {
+            //Get the previous block
+            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+
+            //we need to set the block because some algorithms want to check to see if the block has changed immediately
+            chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
+
+            BlockHistory history = new BlockHistory(previousBlock, newBlock);
             eventPipeline.addEvent(wcc, history);
         }
     }
@@ -151,12 +161,13 @@ public class GameScene implements WindowEvents {
         if (chunk != null) {
             //Get the previous block
             short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-            BlockHistory history = new BlockHistory(previousBlock, previousBlock);
 
-            if (blockData != null) {
-                history.updateBlockData = true;
-                history.newBlockData = blockData;
-            }
+            //we need to set the block because some algorithms want to check to see if the block has changed immediately
+            chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData); //Important
+
+            BlockHistory history = new BlockHistory(previousBlock, previousBlock);
+            history.updateBlockData = true;
+            history.newBlockData = blockData;
             eventPipeline.addEvent(wcc, history);
         }
     }
