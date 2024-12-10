@@ -72,7 +72,7 @@ public class PositionHandler {
     protected final Vector3f velocity = new Vector3f();
     private boolean frozen = false;
     private boolean gravityEnabled;
-    public boolean onGround;
+
     public final GLFWWindow window;
     public float surfaceCoasting = 0.75f;
     public float surfaceFriction = 0f;
@@ -87,6 +87,8 @@ public class PositionHandler {
     private float frameDeltaSec;
     private float fallDistance;
     private boolean hitGround = false;
+    private float movementY;
+    public boolean onGround;
 
     public Consumer<Float> callback_onGround;
 
@@ -127,7 +129,7 @@ public class PositionHandler {
             if (!isFrozen()) {
 
                 //Set the coast and friction
-                if (!onGround || !gravityEnabled || !collisionsEnabled ||
+                if (!gravityEnabled || !collisionsEnabled ||
                         collisionHandler.floorBlock == null ||
                         collisionHandler.floorBlock == BlockRegistry.BLOCK_AIR) {
                     surfaceCoasting = DEFAULT_COAST;
@@ -154,18 +156,13 @@ public class PositionHandler {
                 }
 
 
-                if (velocity.y > -0.00001f && collisionHandler.floorBlock != null && collisionHandler.floorBlock != BlockRegistry.BLOCK_AIR) {
-                    onGround = true;
-                }
-
-
                 //We dont want to modify the actual velocity because we need to compute fall damage
                 maxFallSpeed = terminalVelocity * frameDeltaSec;
 //                if (velocity.y > maxFallSpeed) {
 //                    System.out.println("FALLING FAST!: " + velocity.y);
 //                }
 
-                float movementY = (Math.min(velocity.y, maxFallSpeed) * timestepMultiplier);
+                movementY = (Math.min(velocity.y, maxFallSpeed) * timestepMultiplier);
                 isFalling = movementY > 0.01f;
                 if (isFalling) {
                     hitGround = false;
@@ -183,9 +180,13 @@ public class PositionHandler {
                 velocity.x *= surfaceCoasting;
                 velocity.z *= surfaceCoasting;
             }
+
+            onGround = false;
             if (collisionsEnabled) {
                 collisionHandler.resolveCollisions(GameScene.projection, GameScene.view);
             }
+
+            if (onGround) hitGround();
 
             //calculate new world position
             aabb.worldPosition.x = aabb.box.min.x - aabb.offset.x;
@@ -207,10 +208,9 @@ public class PositionHandler {
 
 
     public final void jump() {
-        if (onGround && isGravityEnabled()) {
+        if (isGravityEnabled() && onGround) {
             double jumpHeight = (Math.max(MIN_JUMP_GRAVITY, gravity) * 18 * frameDeltaSec);
             this.velocity.y -= jumpHeight;
-            onGround = false;
         }
     }
 

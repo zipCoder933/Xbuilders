@@ -66,6 +66,7 @@ public class CollisionHandler {
     }
 
     public synchronized void resolveCollisions(Matrix4f projection, Matrix4f view) {
+        driver.onGround = false;
         collisionData.reset();
         floorBlock = BlockRegistry.BLOCK_AIR;
 
@@ -154,13 +155,8 @@ public class CollisionHandler {
                 collisionData.penPerAxes.mul(0.8f);
             }
 
-            if (collisionData.collisionNormal.y == -1) {
-                driver.hitGround();
-            }
-
-            if (driver.velocity.y >= driver.maxFallSpeed * 0.99f) {
-                System.out.println("HARD COLLISION!: " + collisionData.penPerAxes);
-                driver.hitGround();
+            if (driver.velocity.y >= driver.maxFallSpeed * 0.99f) {//Hard collision
+//                System.out.println("HARD COLLISION!: " + collisionData.penPerAxes);
                 if (collisionData.collisionNormal.y == -1) { //If we are hitting the ground hard, we still want to collide with it
                     handleFloorCollision(box, block);
                 }
@@ -168,7 +164,6 @@ public class CollisionHandler {
                     Math.abs(collisionData.penPerAxes.z) > 0.6f ||
                     Math.abs(collisionData.penPerAxes.y) > 0.6f) {
                 driver.velocity.y = 0;
-                driver.onGround = true;
                 setFrozen = true;
                 return;
             }
