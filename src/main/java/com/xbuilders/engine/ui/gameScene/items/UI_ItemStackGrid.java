@@ -178,7 +178,9 @@ public class UI_ItemStackGrid {
                 ItemStack originalDraggingItem = box.draggingItem;
                 storageSpace.set(index, box.draggingItem);
                 box.draggingItem = replaceStack;
+
                 if (dragToEvent != null) dragToEvent.onDrag(originalDraggingItem, index, rightClick);
+                if (dragFromEvent != null && replaceStack != null) dragFromEvent.onDrag(replaceStack, index, rightClick);
             }
         } else if (clickedItem != null) {
             box.draggingItem = clickedItem;
