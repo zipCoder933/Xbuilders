@@ -2204,13 +2204,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:birch_leaves": [
-    {
-      "item": "xbuilders:birch_leaves",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:bubble_coral": [
     {
       "item": "xbuilders:bubble_coral",
@@ -3611,9 +3605,9 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:oak_ladder": [
+  "xbuilders:ladder": [
     {
-      "item": "xbuilders:oak_ladder",
+      "item": "xbuilders:ladder",
       "chance": 1.0,
       "maxItems": 1
     }
@@ -3744,13 +3738,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:acacia_leaves": [
-    {
-      "item": "xbuilders:acacia_leaves",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:quartz_pillar_block": [
     {
       "item": "xbuilders:quartz_pillar_block",
@@ -4465,13 +4453,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:spruce_leaves": [
-    {
-      "item": "xbuilders:spruce_leaves",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:orange_chiseled_marble_tile_slab": [
     {
       "item": "xbuilders:orange_chiseled_marble_tile_slab",
@@ -5340,13 +5322,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:jungle_leaves": [
-    {
-      "item": "xbuilders:jungle_leaves",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:gray_stained_glass_stairs": [
     {
       "item": "xbuilders:gray_stained_glass_stairs",
@@ -5851,13 +5827,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:oak_leaves": [
-    {
-      "item": "xbuilders:oak_leaves",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:hay_bail": [
     {
       "item": "xbuilders:hay_bail",

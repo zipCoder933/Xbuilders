@@ -18,6 +18,7 @@ public class BlockLootTables extends HashMap<String, LootList> {
 
     public void loadFromFile(File json) throws IOException {
         String jsonString = Files.readString(json.toPath());
+        if (jsonString.isBlank()) return;
         putAll(lootMapper.readValue(jsonString, type_stringIDTable));
         System.out.println("Loaded " + size() + " loot tables from " + json.getAbsolutePath());
     }

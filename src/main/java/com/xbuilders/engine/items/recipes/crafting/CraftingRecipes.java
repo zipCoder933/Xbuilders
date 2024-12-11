@@ -98,6 +98,7 @@ public class CraftingRecipes {
 
     public void loadFromFile(File file) throws IOException {
         String json = Files.readString(file.toPath());
+        if(json.isBlank()) return;
         List<CraftingRecipe> recipeList = objectMapper.readValue(json, type_craftingRecipes);
         System.out.println("Loaded " + recipeList.size() + " crafting recipes from " + file);
         this.recipeList.addAll(recipeList);

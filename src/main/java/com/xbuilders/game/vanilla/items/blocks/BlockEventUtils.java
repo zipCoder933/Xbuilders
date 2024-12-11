@@ -1,6 +1,7 @@
 package com.xbuilders.game.vanilla.items.blocks;
 
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.Entity;
@@ -46,15 +47,19 @@ public class BlockEventUtils {
     }
 
 
-    public static void setTNTEvents(Block thisBlock, final int EXPLOSTION_RADIUS, long fuseDelay) {
+    public static void setTNTEvents(Block thisBlock, final int radius, long fuseDelay) {
         thisBlock.clickEvent(true, (setX, setY, setZ) -> {
             GameScene.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
             try {
                 Thread.sleep(fuseDelay);
                 if (GameScene.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
                     GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
-                    removeEverythingWithinRadius(thisBlock, EXPLOSTION_RADIUS, new Vector3i(setX, setY, setZ));
-
+                    removeEverythingWithinRadius(thisBlock, radius, new Vector3i(setX, setY, setZ));
+                    float dist = GameScene.player.worldPosition.distance(setX, setY, setZ);
+                    if (dist < radius) {
+                        GameScene.player.addHealth(
+                                MathUtils.mapAndClamp(dist, radius, 0, 0, -10));
+                    }
 
 
                     //Move the player away

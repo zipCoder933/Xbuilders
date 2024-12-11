@@ -13,5 +13,140 @@
     ],
     "output": "xbuilders:stick",
     "amount": 4
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:coal",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:torch",
+    "amount": 4
+  },
+  {
+    "input": [
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:torch",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot"
+    ],
+    "output": "xbuilders:flashlight",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:stick",
+      null,
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      null,
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:ladder",
+    "amount": 16
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:acacia_log",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "xbuilders:acacia_wood",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:birch_log",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "xbuilders:birch_wood",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:jungle_log",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "xbuilders:jungle_wood",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:oak_log",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "xbuilders:oak_wood",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:spruce_log",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "xbuilders:spruce_wood",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:dark_oak_log",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "xbuilders:dark_oak_wood",
+    "amount": 1
   }
 ]

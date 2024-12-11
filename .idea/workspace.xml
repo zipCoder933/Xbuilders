@@ -10,29 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/items/FoodUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/items/loot/trees.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/items/recipes/crafting/gameplay.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/apple.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bread.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cake.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_apple.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/wheat.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/res/items/items/json/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/items/json/items.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/json/vanilla.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/items/json/vanilla.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/builtinMechanics/liquid/LiquidBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/builtinMechanics/liquid/LiquidBlockType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/block/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/StorageSpace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/StorageSpace.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/CursorRay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/CursorRay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/player/UserControlledPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/UI_Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ui/gameScene/UI_Hotbar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/XbuildersGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/XbuildersGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Blocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Items.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/items/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/items/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/items/Flashlight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/items/Flashlight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/items/Hoe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/items/Hoe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/loot/block.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/loot/block.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/recipes/crafting/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/recipes/crafting/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/loot/BlockLootTables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/loot/BlockLootTables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/recipes/crafting/CraftingRecipes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/recipes/crafting/CraftingRecipes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockEventUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/BlockEventUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/UI_Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/UI_Inventory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -4,6 +4,7 @@
  */
 package com.xbuilders.game.vanilla.ui;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
@@ -131,7 +132,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     private boolean drawAllInventory() {
-        return GameScene.getGameMode() == GameMode.FREEPLAY;
+        return GameScene.getGameMode() == GameMode.FREEPLAY || MainWindow.devMode;
     }
 
 
