@@ -17,8 +17,7 @@ public class CraftingUI_Base {
     public UI_ItemStackGrid inputGrid, outputGrid;
     public StorageSpace playerStorage;
     private int output_quantity = 0;
-    private boolean output_recipeMatched = false;
-
+    private CraftingRecipe recipe;
     UI_ItemWindow itemWindow;
     NkContext ctx;
 
@@ -47,7 +46,7 @@ public class CraftingUI_Base {
                 recipeMap[i] = inputGrid.storageSpace.get(i) == null ? null : inputGrid.storageSpace.get(i).item.id;
             }
             //Print every entry in the recipeMap
-            CraftingRecipe recipe = RecipeRegistry.craftingRecipes.getFromInput(recipeMap);
+            recipe = RecipeRegistry.craftingRecipes.getFromInput(recipeMap);
             if (recipe != null && recipe.output != null) {
 
                 //Calculate how many of the output we can craft
@@ -59,21 +58,23 @@ public class CraftingUI_Base {
                 }
                 if (multiplier == Integer.MAX_VALUE || multiplier == 0) multiplier = 1;
                 output_quantity = multiplier;
-                output_recipeMatched = true;
+
 //                System.out.println("multiplier: " + multiplier);
                 outputGrid.storageSpace.set(0, new ItemStack(recipe.output, recipe.amount * multiplier));
             } else outputGrid.storageSpace.set(0, null);
         };
 
-        outputGrid.storageSpace.changeEvent = () -> {
-            if (outputGrid.storageSpace.get(0) == null && itemWindow.draggingItem != null && output_recipeMatched) {
-                output_recipeMatched = false;
-//                System.out.println("Removing items " + output_quantity);
-                for (int i = 0; i < inputGrid.storageSpace.size(); i++) {
-                    if (inputGrid.storageSpace.get(i) != null) {
-//                        System.out.println("\tstack size: " + (inputGrid.storageSpace.get(i).stackSize));
-                        inputGrid.storageSpace.get(i).stackSize -= output_quantity;
-                    }
+        outputGrid.dragFromEvent = (stack, index, rightClick) -> {
+            int take;
+            if (!rightClick && outputGrid.storageSpace.get(0) == null) {
+                outputGrid.storageSpace.set(index, new ItemStack(stack.item, stack.stackSize - recipe.amount));
+                stack.stackSize = recipe.amount;
+                take = 1;
+            } else take = output_quantity;
+
+            for (int i = 0; i < inputGrid.storageSpace.size(); i++) {
+                if (inputGrid.storageSpace.get(i) != null) {
+                    inputGrid.storageSpace.get(i).stackSize -= take;
                 }
             }
         };
