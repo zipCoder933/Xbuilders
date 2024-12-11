@@ -8,5 +8,20 @@
     "id": "xbuilders:spawn_block",
     "name": "Spawn Block",
     "block": "xbuilders:spawn_block"
+  },
+  {
+    "id": "xbuilders:bread",
+    "name": "Bread",
+    "icon": "food/bread.png"
+  },
+  {
+    "id": "xbuilders:apple",
+    "name": "Apple",
+    "icon": "food/apple.png"
+  },
+  {
+    "id": "xbuilders:wheat",
+    "name": "Wheat",
+    "icon": "food/wheat.png"
   }
 ]

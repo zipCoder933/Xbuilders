@@ -102,7 +102,7 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
-        if(GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
 
         breakAmt = 0;
         breakPercentage = 0;
@@ -128,20 +128,24 @@ public class CursorRay {
         }
 
         if (selectedItem != null) { //Item click event
+            if (selectedItem.item.isFood()) {
+                eatFood(selectedItem);
+                return true;
+            }
             if (creationMode) {
                 if (selectedItem.item.createClickEvent != null) {
-                    return selectedItem.item.createClickEvent.run(this);
+                    return selectedItem.item.createClickEvent.run(this, selectedItem);
                 } else if (selectedItem.item.getBlock() != null || selectedItem.item.getEntity() != null)
                     defaultSetEvent(selectedItem);
             } else {
                 if (selectedItem.item.destroyClickEvent != null) {
-                    return selectedItem.item.destroyClickEvent.run(this);
+                    return selectedItem.item.destroyClickEvent.run(this, selectedItem);
                 }
             }
         }
 
         if (!creationMode) { //By default, remove anything the cursor is pointing at
-            defaultRemoveEvent(false, selectedItem);
+            breakBlock(false, selectedItem);
             return true;
         }
         return false;
@@ -158,10 +162,16 @@ public class CursorRay {
         return miningSpeed;
     }
 
-    private void defaultRemoveEvent(boolean isHeld, ItemStack selectedItem) {
+
+    private void eatFood(ItemStack selectedItem) {
+        GameScene.player.addHunger(selectedItem.item.hungerSaturation);
+        selectedItem.stackSize--;
+    }
+
+    private void breakBlock(boolean isHeld, ItemStack selectedItem) {
         if (!GameScene.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
 
-        if (isHeld) { //Hold
+        if (isHeld) {
             if (GameScene.getGameMode() != GameMode.FREEPLAY) {
                 if (!getHitPos().equals(lastBreakPos)) {
                     breakAmt = 0;
@@ -203,7 +213,7 @@ public class CursorRay {
     final int AUTO_CLICK_INTERVAL = 250;
 
     public void update() {
-        if(GameScene.getGameMode() == GameMode.SPECTATOR) return;
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return;
 
         if (!GameScene.ui.anyMenuOpen()) {
             //Auto click
@@ -224,7 +234,9 @@ public class CursorRay {
             //Removal
             if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
                 ItemStack selectedItem = GameScene.player.getSelectedItem();
-                defaultRemoveEvent(true, selectedItem);
+                if (selectedItem == null || !selectedItem.item.isFood()) {
+                    breakBlock(true, selectedItem);
+                }
             } else breakPercentage = 0;
         }
     }
@@ -243,6 +255,7 @@ public class CursorRay {
     }
 
     private void defaultSetEvent(ItemStack stack) {
+
         Block block = stack.item.getBlock();
         EntitySupplier entity = stack.item.getEntity();
 
@@ -340,7 +353,7 @@ public class CursorRay {
     }
 
     public void drawRay() {
-        if(GameScene.getGameMode() == GameMode.SPECTATOR) return;
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) return;
 
         if (hitTarget() && useBoundary) {
             if (!boundary_isStartNodeSet) {

@@ -147,6 +147,7 @@ public class XbuildersGame extends Game {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
+
         if (inventory.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(inventory.getClass());
             return true;
@@ -230,6 +231,7 @@ public class XbuildersGame extends Game {
         }
 
         Blocks.editBlocks(window);
+        Items.editItems(window);
 
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());

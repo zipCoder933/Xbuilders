@@ -51,7 +51,91 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     boolean autoJump_unCollided = true;
     float autoJump_ticksWhileColidingWithBlock = 0;
 
-    public float status_health = 1;
+    //Health
+    private boolean dieMode;
+    public final float MAX_HEALTH = 10f;
+    public final float MAX_HUNGER = 10f;
+    public final float MAX_OXYGEN = 10f;
+
+    private float status_health;
+    private float status_hunger;
+    private float status_oxygen;
+
+    public boolean isDieMode() {
+        return dieMode;
+    }
+
+    public boolean canMove() {
+        return !isDieMode();
+    }
+
+    public float getOxygenLevel() {
+        return MathUtils.clamp(status_oxygen, 0, MAX_OXYGEN);
+    }
+
+    public float getHungerLevel() {
+        return MathUtils.clamp(status_hunger, 0, MAX_HUNGER);
+    }
+
+    public float getHealth() {
+        return MathUtils.clamp(status_health, 0, MAX_HEALTH);
+    }
+
+    public void addHealth(float damage) {
+        status_health += damage;
+    }
+
+    public void addHunger(float hungerPoints) {
+        status_hunger += hungerPoints;
+    }
+
+    private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
+        if (GameScene.getGameMode() == GameMode.ADVENTURE) {
+            if (status_health <= 0) {
+                die();
+            }
+
+            if (status_hunger > 0) {
+                status_hunger -= 0.00001f;
+            }
+
+            float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
+            if (enterDamage > 0) {
+                status_health -= enterDamage;
+            } else if (status_oxygen <= 0 || status_hunger <= 0) {
+                status_health -= 0.1f;
+            } else if (status_health < MAX_HEALTH && status_hunger > 3) {//Regenerate
+                status_health += 0.001f;
+            }
+            if (playerHead.solid) {
+                status_oxygen -= 0.1f;
+            } else if (playerHead.isLiquid()) {
+                status_oxygen -= 0.01f;
+            } else status_oxygen += 0.01f;
+        }
+    }
+
+    private void resetHealthStats() {
+        dieMode = false;
+        status_health = MAX_HEALTH;
+        status_hunger = MAX_HUNGER;
+        status_oxygen = MAX_OXYGEN;
+    }
+
+    public void die() {
+        dieMode = true;
+        MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
+            System.out.println("Teleporting to spawnpoint...");
+            if (!inventory.isEmpty()) {
+                GameScene.setBlock(Blocks.BLOCK_FLAG, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+            }
+            worldPosition.set(status_spawnPosition);
+            resetHealthStats();
+            dieMode = false;
+        });
+    }
+
+
     public Vector3f status_spawnPosition = new Vector3f();
 
     public void getPlayerBoxBottom(Vector3f playerBoxBottom) {
@@ -112,6 +196,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         jsonObject.addProperty("spawnZ", (float) status_spawnPosition.z);
 
         jsonObject.addProperty("health", status_health);
+        jsonObject.addProperty("hunger", status_hunger);
+        jsonObject.addProperty("oxygen", status_oxygen);
 
         try {
             Files.write(playerFile.toPath(), pdGson.toJson(jsonObject).getBytes());
@@ -148,6 +234,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     status_spawnPosition.z = jsonObject.get("spawnZ").getAsInt();
                 }
                 if (jsonObject.has("health")) status_health = jsonObject.get("health").getAsFloat();
+                if (jsonObject.has("hunger")) status_hunger = jsonObject.get("hunger").getAsFloat();
+                if (jsonObject.has("oxygen")) status_oxygen = jsonObject.get("oxygen").getAsFloat();
 
                 selectedItemIndex = 0;
             } catch (Exception e) {
@@ -156,18 +244,6 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
     }
 
-    public void die() {
-        MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
-            System.out.println("Teleporting to spawnpoint...");
-            GameScene.setBlock(Blocks.BLOCK_FLAG, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
-            worldPosition.set(status_spawnPosition);
-            resetHealthStats();
-        });
-    }
-
-    private void resetHealthStats() {
-        status_health = 1;
-    }
 
     // Keys
     public static final int KEY_CHANGE_RAYCAST_MODE = GLFW.GLFW_KEY_TAB;
@@ -200,7 +276,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     private boolean keyInputAllowed() {
-        return !GameScene.ui.anyMenuOpen();
+        return !GameScene.ui.anyMenuOpen() && canMove();
     }
 
     public boolean leftKeyPressed() {
@@ -250,7 +326,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         positionHandler = new PositionHandler(window, GameScene.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 10) {
-                float damage = MathUtils.map(fallDistance, 10, 30, 0, 0.5f);
+                float damage = MathUtils.map(fallDistance, 10, 30, 0, 5f);
                 status_health -= damage;
             }
             System.out.println("onGround: " + fallDistance);
@@ -287,7 +363,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void event_gameModeChanged(GameMode gameMode) {
-        status_health = 1;
+        resetHealthStats();
         if (gameMode == GameMode.SPECTATOR) {
             enableFlying();
             setFlashlight(100);
@@ -306,6 +382,20 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         return GameScene.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
+                (int) Math.floor(worldPosition.z));
+    }
+
+    public Block getBlockAtPlayerFeet() {
+        return GameScene.world.getBlock(
+                (int) Math.floor(worldPosition.x),
+                (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
+                (int) Math.floor(worldPosition.z));
+    }
+
+    public Block getBlockAtPlayerWaist() {
+        return GameScene.world.getBlock(
+                (int) Math.floor(worldPosition.x),
+                (int) Math.floor(worldPosition.y + aabb.box.getYLength()) - 1,
                 (int) Math.floor(worldPosition.z));
     }
 
@@ -329,16 +419,11 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     Block cameraBlock, playerBlock;
 
     public void update(boolean holdMouse) {
-        camera.cursorRay.update();
-
-        if (GameScene.getGameMode() == GameMode.ADVENTURE) {
-            if (status_health <= 0) {
-                die();
-            }
-            if (status_health < 1) {
-                status_health += 0.0001f;
-            }
-        }
+        if (canMove()) camera.cursorRay.update();
+        Block blockAtHead = getBlockAtPlayerHead();
+        Block blockAtWaist = getBlockAtPlayerWaist();
+        Block blockAtFeet = getBlockAtPlayerFeet();
+        updateHealthbars(blockAtHead, blockAtFeet, blockAtWaist);
 
 
         if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode())) {
@@ -364,9 +449,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             }
         }
 
-        Block newPlayerBlock = getBlockAtPlayerHead();
-        if (playerBlock == null || newPlayerBlock.id != playerBlock.id) {
-            playerBlock = newPlayerBlock;
+
+        if (playerBlock == null || blockAtHead.id != playerBlock.id) {
+            playerBlock = blockAtHead;
             if (newCameraBlock.renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.setVelocity(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 8,
@@ -386,14 +471,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             if (runningMode) speed = FLY_RUN_SPEED;
             else speed = FLY_WALK_SPEED;
         } else {
-            if (runningMode) speed = RUN_SPEED;
+            if (runningMode && canRun()) speed = RUN_SPEED;
             else speed = WALK_SPEED;
         }
 
         if (positionLock != null) {
             worldPosition.set(positionLock.getPosition());
             usePositionHandler = false;
-        } else {
+        } else if (canMove()) {
             usePositionHandler = true;
             if (forwardKeyPressed()) {
                 positionHandler.setVelocity(
@@ -454,20 +539,21 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             aabb.update();
         }
 
-        if (MainWindow.settings.game_autoJump &&
-                (Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.x) > 0.02 ||
-                        Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.z) > 0.02)
-        ) {
-
-            autoJump_ticksWhileColidingWithBlock += window.getMsPerFrame();
-            if (autoJump_ticksWhileColidingWithBlock > 150 && autoJump_unCollided) {
-                positionHandler.jump();
+        if (canMove()) {
+            if (MainWindow.settings.game_autoJump &&
+                    (Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.x) > 0.02 ||
+                            Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.z) > 0.02)
+            ) {
+                autoJump_ticksWhileColidingWithBlock += window.getMsPerFrame();
+                if (autoJump_ticksWhileColidingWithBlock > 150 && autoJump_unCollided) {
+                    positionHandler.jump();
+                    autoJump_ticksWhileColidingWithBlock = 0;
+                    autoJump_unCollided = false;
+                }
+            } else {
                 autoJump_ticksWhileColidingWithBlock = 0;
-                autoJump_unCollided = false;
+                autoJump_unCollided = true;
             }
-        } else {
-            autoJump_ticksWhileColidingWithBlock = 0;
-            autoJump_unCollided = true;
         }
 
         // The key to preventing shaking during collision is to update the camera AFTER
@@ -491,6 +577,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
     }
 
+    private boolean canRun() {
+        return
+                GameScene.getGameMode() == GameMode.FREEPLAY
+                        || GameScene.getGameMode() == GameMode.SPECTATOR
+                        || status_hunger > 5;
+    }
+
+
     private boolean downKeyPressed() {
         if (GameScene.getGameMode() == GameMode.SPECTATOR)
             return window.isKeyPressed(KEY_FLY_DOWN) || window.isKeyPressed(KEY_JUMP);
@@ -513,16 +607,22 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         positionHandler.collisionsEnabled = true;
     }
 
-    public void mouseButtonEvent(int button, int action, int mods) {
+    public boolean mouseButtonEvent(int button, int action, int mods) {
+        if (isDieMode()) return false;
+
         if (action == GLFW.GLFW_PRESS) {
             if (button == UserControlledPlayer.getCreateMouseButton()) {
                 camera.cursorRay.clickEvent(true);
+                return true;
             } else if (button == UserControlledPlayer.getDeleteMouseButton()) {
                 camera.cursorRay.clickEvent(false);
+                return true;
             } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
                 GameUI.hotbar.pickItem(camera.cursorRay, GameScene.getGameMode() == GameMode.FREEPLAY);
+                return true;
             }
         }
+        return false;
     }
 
     public void keyEvent(int key, int scancode, int action, int mods) {
@@ -582,6 +682,5 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         return false;
     }
-
 
 }

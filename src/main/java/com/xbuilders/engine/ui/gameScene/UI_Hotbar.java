@@ -58,11 +58,15 @@ public class UI_Hotbar extends UI_GameMenu {
         if (GameScene.getGameMode() == GameMode.ADVENTURE) {
             nk_rect(x, y - 60, menuWidth, menuHeight + 2, windowDims2);
             if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
-                nk_layout_row_dynamic(ctx, 10, 1);
-                nk_text(ctx, "Health: " + (int) (GameScene.player.status_health * 100), NK_TEXT_ALIGN_LEFT);
-                nk_layout_row_dynamic(ctx, 20, 1);
+                nk_layout_row_dynamic(ctx, 10, 3);
+                nk_text(ctx, "Health: " + (int) (GameScene.player.getHealth()), NK_TEXT_ALIGN_LEFT);
+                nk_text(ctx, "Hunger: " + (int) (GameScene.player.getHungerLevel()), NK_TEXT_ALIGN_LEFT);
+                nk_text(ctx, "Air: " + (int) (GameScene.player.getOxygenLevel()), NK_TEXT_ALIGN_LEFT);
+                nk_layout_row_dynamic(ctx, 20, 3);
 //            ctx.style().progress().normal().data().color().set(Theme.color_red);
-                nk_prog(ctx, (long) (GameScene.player.status_health * 100), 100, false);
+                nk_prog(ctx, (long) (GameScene.player.getHealth() * 10), 100, false);
+                nk_prog(ctx, (long) (GameScene.player.getHungerLevel() * 10), 100, false);
+                nk_prog(ctx, (long) (GameScene.player.getOxygenLevel() * 10), 100, false);
 //            Theme.resetProgressBar(ctx);
             }
             nk_end(ctx);

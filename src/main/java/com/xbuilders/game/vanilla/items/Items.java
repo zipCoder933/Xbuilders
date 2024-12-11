@@ -1,5 +1,6 @@
 package com.xbuilders.game.vanilla.items;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.ItemUtils;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
@@ -69,5 +70,17 @@ public class Items {
         ItemUtils.getAllJsonItems(ResourceUtils.resource("items\\items\\json")).forEach(itemList::add);
 
         return itemList;
+    }
+
+
+    public static void editItems(MainWindow window) {
+        Item item = Registrys.getItem("xbuilders:bread");
+        if (item != null) {
+            item.hungerSaturation = 1;
+        }
+        item = Registrys.getItem("xbuilders:apple");
+        if (item != null) {
+            item.hungerSaturation = 0.5f;
+        }
     }
 }

@@ -181,5 +181,10 @@ public class StorageSpace {
         }
     }
 
-
+    public boolean isEmpty() {
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null) return false;
+        }
+        return true;
+    }
 }

@@ -35,6 +35,7 @@ public class Block {
     public float surfaceFriction = 0; //The "Friction" of the block
     public float bounciness = 0; //The "Bounciness" of the block
     public float toughness = 1; //The difficulty of breaking the block
+    public float enterDamage = 0; //The damage dealt when entering the block
 
     public BlockType getRenderType() {
         return Registrys.blocks.getBlockType(renderType);
@@ -92,6 +93,7 @@ public class Block {
 
     /**
      * Called AFTER the block has been set
+     *
      * @param multithreaded
      * @param setBlockEvent
      */
@@ -102,6 +104,7 @@ public class Block {
 
     /**
      * Called AFTER the block has been removed
+     *
      * @param multithreaded
      * @param removeBlockEvent
      */
@@ -112,6 +115,7 @@ public class Block {
 
     /**
      * Called AFTER a local change has occured
+     *
      * @param multithreaded
      * @param onLocalChange
      */

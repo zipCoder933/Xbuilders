@@ -8,7 +8,7 @@ public class Camera extends Item {
     public Camera() {
         super("xbuilders:camera", "Camera");
         setIcon("camera.png");
-        this.createClickEvent = (ray) -> {
+        this.createClickEvent = (ray,stack) -> {
             MainWindow.takeScreenshot();
             return true;
         };

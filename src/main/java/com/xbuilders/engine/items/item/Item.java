@@ -73,7 +73,17 @@ public class Item {
         return entity;
     }
 
+
+    public boolean isFood() {
+        return hungerSaturation > 0;
+    }
+
     public int maxDurability = 0;
+
+    //If this is a food (>0 means it is)
+    public float hungerSaturation = 0;
+
+    //If this is a tool
     public float miningSpeedMultiplier = 1.0f;
     public int maxStackSize = ItemStack.MAX_STACK_SIZE;
 
@@ -82,7 +92,7 @@ public class Item {
     //A functional interface for onLocalChange
     @FunctionalInterface
     public interface OnClickEvent {
-        public boolean run(CursorRay ray);
+        public boolean run(CursorRay ray, ItemStack stack);
     }
 
     public OnClickEvent createClickEvent, destroyClickEvent;
@@ -154,8 +164,8 @@ public class Item {
                            int defaultIcon) throws IOException {
 
         //If we have the aliases, get the IDs
-        if(blockName != null) blockID = blockAliasToIDMap.get(blockName);
-        if(entityName != null) entityID = entityAliasToIDMap.get(entityName);
+        if (blockName != null) blockID = blockAliasToIDMap.get(blockName);
+        if (entityName != null) entityID = entityAliasToIDMap.get(entityName);
 
         if (blockID != -1) block = blockMap.get(blockID);
         if (entityID != -1) entity = entityMap.get(entityID);

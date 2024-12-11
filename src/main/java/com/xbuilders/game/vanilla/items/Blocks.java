@@ -56,6 +56,7 @@ public class Blocks {
 
         Block lava = Registrys.getBlock(Blocks.BLOCK_LAVA);
         lava.liquidMaxFlow = 6;
+        lava.enterDamage = 0.5f;
 
 
         for (Block b : Registrys.blocks.getList()) {
@@ -90,6 +91,7 @@ public class Blocks {
             if (b.alias.toLowerCase().contains("sand") || b.alias.toLowerCase().contains("gravel") || b.alias.toLowerCase().contains("glass"))
                 b.toughness = 0.5f;
         }
+
     }
 
     public static short BLOCK_AIR = 0;

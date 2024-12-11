@@ -95,24 +95,26 @@ public class CollisionHandler {
                                     wcc.chunkVoxel.x,
                                     wcc.chunkVoxel.y,
                                     wcc.chunkVoxel.z));
-                            if (b != null && b.solid) {
-                                // if (Main.specialMode2) {
-                                // TODO: chunk.getBlockData() is collision-handler memory culprit!!!
-                                // Its ALL in the hashmap...
-                                d = chunk.data.getBlockData(
-                                        wcc.chunkVoxel.x,
-                                        wcc.chunkVoxel.y,
-                                        wcc.chunkVoxel.z);
-                                // }
-                                BlockType type = Registrys.blocks.getBlockType(b.renderType);
-                                try {
-                                    if (type != null) {
-                                        type.getCollisionBoxes((aabb) -> {
-                                            processBox(aabb, b, false);
-                                        }, collisionBox, b, d, x, y, z);
+                            if (b != null) {
+                                if (b.solid) {
+                                    // if (Main.specialMode2) {
+                                    // TODO: chunk.getBlockData() is collision-handler memory culprit!!!
+                                    // Its ALL in the hashmap...
+                                    d = chunk.data.getBlockData(
+                                            wcc.chunkVoxel.x,
+                                            wcc.chunkVoxel.y,
+                                            wcc.chunkVoxel.z);
+                                    // }
+                                    BlockType type = Registrys.blocks.getBlockType(b.renderType);
+                                    try {
+                                        if (type != null) {
+                                            type.getCollisionBoxes((aabb) -> {
+                                                processBox(aabb, b, false);
+                                            }, collisionBox, b, d, x, y, z);
+                                        }
+                                    } catch (Exception e) {
+                                        ErrorHandler.log(e);
                                     }
-                                } catch (Exception e) {
-                                    ErrorHandler.log(e);
                                 }
                             }
                             // }
@@ -149,6 +151,7 @@ public class CollisionHandler {
         // }
 
         if (box.intersects(myBox.box)) {
+
             collisionData.calculateCollision(box, myBox.box, isEntity);
 
             if (isEntity) {
