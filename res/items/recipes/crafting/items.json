@@ -15,16 +15,10 @@
     "amount": 4
   },
   {
+    "shapeless": true,
     "input": [
-      null,
-      null,
-      null,
-      null,
       "xbuilders:coal",
-      null,
-      null,
-      "xbuilders:stick",
-      null
+      "xbuilders:stick"
     ],
     "output": "xbuilders:torch",
     "amount": 4
@@ -60,91 +54,49 @@
     "amount": 16
   },
   {
+    "shapeless": true,
     "input": [
-      null,
-      null,
-      null,
-      null,
-      "xbuilders:acacia_log",
-      null,
-      null,
-      null,
-      null
+      "xbuilders:acacia_log"
     ],
     "output": "xbuilders:acacia_wood",
     "amount": 1
   },
   {
+    "shapeless": true,
     "input": [
-      null,
-      null,
-      null,
-      null,
-      "xbuilders:birch_log",
-      null,
-      null,
-      null,
-      null
+      "xbuilders:birch_log"
     ],
     "output": "xbuilders:birch_wood",
     "amount": 1
   },
   {
+    "shapeless": true,
     "input": [
-      null,
-      null,
-      null,
-      null,
-      "xbuilders:jungle_log",
-      null,
-      null,
-      null,
-      null
+      "xbuilders:jungle_log"
     ],
     "output": "xbuilders:jungle_wood",
     "amount": 1
   },
   {
+    "shapeless": true,
     "input": [
-      null,
-      null,
-      null,
-      null,
-      "xbuilders:oak_log",
-      null,
-      null,
-      null,
-      null
+      "xbuilders:oak_log"
     ],
     "output": "xbuilders:oak_wood",
     "amount": 1
   },
   {
+    "shapeless": true,
     "input": [
-      null,
-      null,
-      null,
-      null,
-      "xbuilders:spruce_log",
-      null,
-      null,
-      null,
-      null
+      "xbuilders:spruce_log"
     ],
     "output": "xbuilders:spruce_wood",
     "amount": 1
   },
   {
+    "shapeless": true,
     "input": [
-      null,
-      null,
-      null,
-      null,
-      "xbuilders:dark_oak_log",
-      null,
-      null,
-      null,
-      null
+      "xbuilders:dark_oak_log"
     ],
     "output": "xbuilders:dark_oak_wood",
     "amount": 1

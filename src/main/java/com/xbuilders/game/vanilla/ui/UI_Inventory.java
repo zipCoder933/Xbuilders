@@ -40,6 +40,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         searchBox.setOnSelectEvent(() -> clearSearch());
         searchBox.setOnChangeEvent(() -> searchQueryEvent());
 
+        craftingGrid = new CraftingUI_Base(ctx, window, this, GameScene.player.inventory, 4);
         playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.player.inventory, this, true);
         // We have to create the window initially
         nk_begin(ctx, title, NkRect.create(), windowFlags);
@@ -87,9 +88,11 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         }
     };
 
+    CraftingUI_Base craftingGrid;
     UI_ItemStackGrid playerInventory;
     int scrollValue = 0;
     int Allitems_Height = 270; //total item list window size
+    int craftingGrid_Height = 180; //total item list window size
     final int playerInv_height = 350; //player inventory window size
     UI_Hotbar hotbar;
     final List<Item> allItems = new ArrayList<>();
@@ -100,9 +103,12 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     public void onOpenEvent() {
         if (GameScene.getGameMode() == GameMode.SPECTATOR) setOpen(false);
-
         if (drawAllInventory()) menuDimensions.y = Allitems_Height + playerInv_height;
         else menuDimensions.y = playerInv_height;
+    }
+
+    public void onCloseEvent() {
+        craftingGrid.onCloseEvent();
     }
 
     @Override
@@ -110,6 +116,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         if (GameScene.getGameMode() == GameMode.SPECTATOR) {
             setOpen(false);
         }
+
 
         hoveredItem = null;
         if (drawAllInventory()) {
@@ -121,7 +128,10 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
             searchBox.render(ctx);
             ctx.style().button().padding().set(0, 0);
             inventoryGroup(stack, filteredItems);
-        } else menuDimensions.y = playerInv_height;
+        } else {
+            menuDimensions.y = craftingGrid_Height + playerInv_height;
+            craftingGrid.draw(stack, craftingGrid.inputGrid.storageSpace.size());
+        }
 
         nk_layout_row_dynamic(ctx, playerInv_height, 1);
         playerInventory.draw(stack, ctx, maxColumns);
@@ -132,7 +142,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     private boolean drawAllInventory() {
-        return GameScene.getGameMode() == GameMode.FREEPLAY || MainWindow.devMode;
+        return GameScene.getGameMode() == GameMode.FREEPLAY;
     }
 
 

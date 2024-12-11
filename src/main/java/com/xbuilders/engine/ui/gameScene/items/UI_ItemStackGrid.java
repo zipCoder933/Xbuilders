@@ -92,16 +92,16 @@ public class UI_ItemStackGrid {
                             hoveredItem = itemTooltip(item);
                         }
                         if (UI_ItemWindow.drawItemStackButton(stack, ctx, item, buttonBounds)) {//Left click
-                           itemClickEvent(item, index, false);
+                            itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                           itemClickEvent(item, index, true);
+                            itemClickEvent(item, index, true);
                         }
                     } else {
                         Nuklear.nk_widget_bounds(ctx, buttonBounds);
                         if (nk_button_text(ctx, "")) {//Left click
-                          itemClickEvent(item, index, false);
+                            itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                          itemClickEvent(item, index, true);
+                            itemClickEvent(item, index, true);
                         }
                     }
                     index++;
@@ -126,6 +126,12 @@ public class UI_ItemStackGrid {
         return str;
     }
 
+    @FunctionalInterface
+    public interface DragEvent {
+        void onDrag(ItemStack item, int index, boolean rightClick);
+    }
+
+    public DragEvent dragFromEvent, dragToEvent;
 
     /**
      * When the box is clicked
@@ -134,18 +140,26 @@ public class UI_ItemStackGrid {
      * @param index
      */
     private void itemClickEvent(ItemStack clickedItem, int index, boolean rightClick) {
+
         if (box.draggingItem != null && (itemFilter == null || itemFilter.test(box.draggingItem))) {
             if (rightClick) {
                 if (box.draggingItem.stackSize > 0) {
                     if (clickedItem == null) {
                         box.draggingItem.stackSize--;
-                        storageSpace.set(index, new ItemStack(box.draggingItem.item, 1));
+                        ItemStack to = new ItemStack(box.draggingItem.item, 1);
+                        storageSpace.set(index, to);
+                        if (dragToEvent != null) dragToEvent.onDrag(to, index, rightClick);
                     } else if (clickedItem.item.equals(box.draggingItem.item) && clickedItem.stackSize < clickedItem.item.maxStackSize) {
                         box.draggingItem.stackSize--;
                         clickedItem.stackSize++;
+                        if (dragToEvent != null) dragToEvent.onDrag(clickedItem, index, rightClick);
                     }
                 }
-                if (box.draggingItem.stackSize <= 0) box.draggingItem = null;
+                if (box.draggingItem.stackSize <= 0) {
+                    ItemStack item = box.draggingItem;
+                    box.draggingItem = null;
+                    if (dragToEvent != null) dragToEvent.onDrag(item, index, rightClick);
+                }
             } else if (clickedItem != null && box.draggingItem.item.equals(clickedItem.item)
                     && clickedItem.item.maxStackSize > 1 && box.draggingItem.stackSize < clickedItem.item.maxStackSize) {
                 ItemStack thisStack = storageSpace.get(index);
@@ -157,15 +171,20 @@ public class UI_ItemStackGrid {
                 } else {
                     thisStack.stackSize += box.draggingItem.stackSize;
                     box.draggingItem = null;
+                    if (dragToEvent != null) dragToEvent.onDrag(thisStack, index, rightClick);
                 }
             } else {
                 ItemStack replaceStack = storageSpace.get(index);
+                ItemStack originalDraggingItem = box.draggingItem;
                 storageSpace.set(index, box.draggingItem);
                 box.draggingItem = replaceStack;
+                if (dragToEvent != null) dragToEvent.onDrag(originalDraggingItem, index, rightClick);
             }
         } else if (clickedItem != null) {
             box.draggingItem = clickedItem;
             storageSpace.set(index, null);
+            if (dragFromEvent != null) dragFromEvent.onDrag(box.draggingItem, index, rightClick);
         }
+        storageSpace.changeEvent();
     }
 }

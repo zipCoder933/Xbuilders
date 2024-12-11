@@ -19,7 +19,6 @@ public class ItemStack {
     }
 
 
-
     public ItemStack(String item, int stackSize) {
         this.item = Registrys.getItem(item);
         if (this.item == null) throw new NullPointerException("Item in ItemStack cannot be null");
@@ -50,10 +49,10 @@ public class ItemStack {
     @Override
     public String toString() {
         return "ItemStack{" +
-                "item=" + item +
+                "item=" + item.id +
                 ", stackSize=" + stackSize +
                 ", durability=" + durability +
-                (nbtData == null ? "" : ", nbtData=" + Arrays.toString(nbtData)) +
+                (nbtData != null ? ", nbtData=\"" + new String(nbtData) + "\"" : "") +
                 '}';
     }
 }

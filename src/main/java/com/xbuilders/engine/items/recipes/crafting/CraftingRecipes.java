@@ -3,12 +3,7 @@ package com.xbuilders.engine.items.recipes.crafting;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.recipes.crafting.json.CraftingRecipeDeserializer;
-import com.xbuilders.engine.items.recipes.crafting.json.CraftingRecipeSerializer;
-import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.items.recipes.RecipeRegistry;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,34 +42,40 @@ public class CraftingRecipes {
 
     public CraftingRecipe getFromInput(String[] input) {
         for (CraftingRecipe recipe : recipeList) {
-            if (inputMatches(recipe.input, input)) {
-                return recipe;
+            if (recipe.shapeless) {
+                if (inputMatchesShapeless(recipe.input, input)) return recipe;
+            } else {
+                if (inputMatchesShaped(recipe.input, input)) return recipe;
             }
         }
         return null;
     }
 
+    private boolean inputMatchesShapeless(String[] recipe, String[] itemIDs) {
+        for (int i = 0; i < recipe.length; i++) {
+            String rItem = recipe[i];
+            boolean foundPair = false;
+            for (int j = 0; j < itemIDs.length; j++) {
+                String item = itemIDs[j];
+                if (RecipeRegistry.elementMatches(rItem, item)) {
+                    foundPair = true;
+                    break;
+                }
+            }
+            if (!foundPair) return false;
+        }
+        return true;
+    }
 
-    public static boolean inputMatches(String[] recipe, String[] itemIDs) {
+
+    public static boolean inputMatchesShaped(String[] recipe, String[] itemIDs) {
         if (Objects.deepEquals(itemIDs, recipe)) { //If the inputs are the same
             return true;
         } else {
             for (int i = 0; i < recipe.length; i++) {
                 String rItem = recipe[i];
                 String item = itemIDs[i];
-
-                if (rItem != null && rItem.startsWith("#")) {
-                    String A_tag = rItem.substring(1);
-                    Item B_item = Registrys.items.getItem(item);
-                    if (B_item == null) return false;
-//                    System.out.println("\tTag match: " + A_tag + " vs  item: " + B_item.id + " tags: " + B_item.tags.toString());
-
-                    if (!B_item.getTags().contains(A_tag)) {
-                        return false;
-                    }
-                } else if (!MiscUtils.equalOrNull(rItem, item)) { //if any input doesn't match
-                    return false;
-                }
+                if (!RecipeRegistry.elementMatches(rItem, item)) return false;
             }
             return true;
         }
@@ -98,7 +99,7 @@ public class CraftingRecipes {
 
     public void loadFromFile(File file) throws IOException {
         String json = Files.readString(file.toPath());
-        if(json.isBlank()) return;
+        if (json.isBlank()) return;
         List<CraftingRecipe> recipeList = objectMapper.readValue(json, type_craftingRecipes);
         System.out.println("Loaded " + recipeList.size() + " crafting recipes from " + file);
         this.recipeList.addAll(recipeList);

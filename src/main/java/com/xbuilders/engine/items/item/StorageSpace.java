@@ -62,7 +62,7 @@ public class StorageSpace {
 
     public Runnable changeEvent;
 
-    private void changeEvent() {
+    public void changeEvent() {
         synchronized (changeEventLock) {
             isChangeEventRunning = true;
             deleteEmptyItems();
@@ -158,7 +158,9 @@ public class StorageSpace {
 
             if (currentItem != null) {
                 // Remove empty or marked-for-destruction items
-                if (currentItem.stackSize <= 0 || currentItem.destroy) {
+                if (currentItem.stackSize <= 0
+                        || currentItem.destroy
+                        || currentItem.durability < currentItem.item.maxDurability) {
                     list[i] = null;
                     continue;
                 }

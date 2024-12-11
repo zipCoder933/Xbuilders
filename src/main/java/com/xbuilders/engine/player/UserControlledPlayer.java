@@ -329,7 +329,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 float damage = MathUtils.map(fallDistance, 10, 30, 0, 5f);
                 status_health -= damage;
             }
-            System.out.println("onGround: " + fallDistance);
+            //System.out.println("onGround: " + fallDistance);
         };
         userInfo.loadFromDisk();
     }

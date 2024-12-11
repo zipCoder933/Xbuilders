@@ -29,7 +29,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     }
 
     public ItemStack draggingItem = null;
-    public Vector2i menuDimensions = new Vector2i(645, 645);
+    public Vector2i menuDimensions = new Vector2i(642, 645);
     public final int maxColumns = 11;
     private boolean isOpen = false;
     public final int windowFlags = NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_CLOSABLE;

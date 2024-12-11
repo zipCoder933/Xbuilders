@@ -7,12 +7,13 @@ public class CraftingRecipe {
 
     /**
      * There are a few ways to define a crafting recipe input:
-     *
+     * <p>
      * #tag             Specific to a tag
      * xbuilders:item   Specific to an item
      */
 
-    public String[] input = new String[9];
+    public boolean shapeless = false;
+    public String[] input;
     public String output;
     public int amount = 1;
 
@@ -24,6 +25,7 @@ public class CraftingRecipe {
                           String d, String e, String f,
                           String g, String h, String i,
                           String output, int amount) {
+        shapeless = false;
         this.input[0] = a;
         this.input[1] = b;
         this.input[2] = c;
@@ -38,7 +40,8 @@ public class CraftingRecipe {
         this.amount = amount;
     }
 
-    public CraftingRecipe(String[] input, String output, int amount) {
+    public CraftingRecipe(boolean shapeless, String[] input, String output, int amount) {
+        this.shapeless = shapeless;
         this.input = input;
         this.output = output;
         this.amount = amount;
