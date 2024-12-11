@@ -107,11 +107,13 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             } else if (status_health < MAX_HEALTH && status_hunger > 3) {//Regenerate
                 status_health += 0.001f;
             }
+            System.out.println("Player Head: " + playerHead.enterDamage);
             if (playerHead.solid) {
                 status_oxygen -= 0.1f;
             } else if (playerHead.isLiquid()) {
-                status_oxygen -= 0.01f;
-            } else status_oxygen += 0.01f;
+                status_oxygen -= 0.05f;
+                System.out.println("Oxygen: " + status_oxygen);
+            } else status_oxygen += 0.05f;
         }
     }
 

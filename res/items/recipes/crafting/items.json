@@ -56,10 +56,21 @@
   {
     "shapeless": true,
     "input": [
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood"
+    ],
+    "output": "xbuilders:crafting_table",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
       "xbuilders:acacia_log"
     ],
     "output": "xbuilders:acacia_wood",
-    "amount": 1
+    "amount": 4
   },
   {
     "shapeless": true,
@@ -67,7 +78,7 @@
       "xbuilders:birch_log"
     ],
     "output": "xbuilders:birch_wood",
-    "amount": 1
+    "amount": 4
   },
   {
     "shapeless": true,
@@ -75,7 +86,7 @@
       "xbuilders:jungle_log"
     ],
     "output": "xbuilders:jungle_wood",
-    "amount": 1
+    "amount": 4
   },
   {
     "shapeless": true,
@@ -83,7 +94,7 @@
       "xbuilders:oak_log"
     ],
     "output": "xbuilders:oak_wood",
-    "amount": 1
+    "amount": 4
   },
   {
     "shapeless": true,
@@ -91,7 +102,7 @@
       "xbuilders:spruce_log"
     ],
     "output": "xbuilders:spruce_wood",
-    "amount": 1
+    "amount": 4
   },
   {
     "shapeless": true,
@@ -99,6 +110,6 @@
       "xbuilders:dark_oak_log"
     ],
     "output": "xbuilders:dark_oak_wood",
-    "amount": 1
+    "amount": 4
   }
 ]
