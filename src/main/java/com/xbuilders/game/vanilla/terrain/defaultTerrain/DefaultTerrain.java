@@ -52,16 +52,20 @@ public class DefaultTerrain extends Terrain {
         deadBush = Blocks.BLOCK_DEAD_BUSH;
         ORES.add(new Ore("coal", 0.9f, COAL_ORE));
         ORES.add(new Ore("iron", 0.9f, IRON_ORE));
-        ORES.add(new Ore("gold", 0.5f, GOLD_ORE));
+
+        Ore gold = new Ore("gold", 0.5f, GOLD_ORE);
+        gold.minYLevel = 100;
+        ORES.add(gold);
+
         ORES.add(new Ore("lapis", 0.7f, LAPIS_ORE));
 
         Ore emerald = new Ore("emerald", 0.2f, EMERALD_ORE);
         emerald.amtExposedToAir = 0.05f;
-        emerald.minYLevel = 100;
+        emerald.minYLevel = 200;
         ORES.add(emerald);
 
         Ore diamond = new Ore("diamond", 0.2f, DIAMOND_ORE);
-        diamond.minYLevel = 150;
+        diamond.minYLevel = 200;
         diamond.amtExposedToAir = 0.05f;
         ORES.add(diamond);
     }

@@ -7,7 +7,7 @@ public class Ore {
     public final String name;
     public float common; //0-1
     public short block;
-    public float clusterPurity = 0.75f; //0-1
+    public float clusterPurity = 0.45f; //0-1
     public float amtExposedToAir = 1;  //0-1
 
     public Ore(String name, float common, short block) {

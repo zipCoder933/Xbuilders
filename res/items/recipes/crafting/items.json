@@ -54,6 +54,30 @@
     "amount": 16
   },
   {
+    "input": [
+      "xbuilders:iron_ingot",
+      null,
+      "xbuilders:iron_ingot",
+      null,
+      "xbuilders:iron_ingot",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "xbuilders:bucket",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:obsidian",
+      "xbuilders:water"
+    ],
+    "output": "xbuilders:lava",
+    "amount": 1
+  },
+  {
     "shapeless": true,
     "input": [
       "#wood",

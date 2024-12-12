@@ -23,5 +23,10 @@
     "id": "xbuilders:wheat",
     "name": "Wheat",
     "icon": "food/wheat.png"
+  },
+  {
+    "id": "xbuilders:bucket",
+    "name": "Bucket",
+    "icon": "pp/bucket.png"
   }
 ]
