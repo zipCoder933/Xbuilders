@@ -53,9 +53,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     //Health
     private boolean dieMode;
-    public final float MAX_HEALTH = 10f;
-    public final float MAX_HUNGER = 10f;
-    public final float MAX_OXYGEN = 10f;
+    public final float MAX_HEALTH = 20f;
+    public final float MAX_HUNGER = 20f;
+    public final float MAX_OXYGEN = 20f;
 
     private float status_health;
     private float status_hunger;
@@ -70,15 +70,15 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public float getOxygenLevel() {
-        return MathUtils.clamp(status_oxygen, 0, MAX_OXYGEN);
+        return status_oxygen;
     }
 
     public float getHungerLevel() {
-        return MathUtils.clamp(status_hunger, 0, MAX_HUNGER);
+        return status_hunger;
     }
 
     public float getHealth() {
-        return MathUtils.clamp(status_health, 0, MAX_HEALTH);
+        return status_health;
     }
 
     public void addHealth(float damage) {
@@ -96,24 +96,26 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             }
 
             if (status_hunger > 0) {
-                status_hunger -= 0.00001f;
+                status_hunger -= 0.00002f;
             }
 
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
             if (enterDamage > 0) {
                 status_health -= enterDamage;
             } else if (status_oxygen <= 0 || status_hunger <= 0) {
-                status_health -= 0.1f;
+                status_health -= 0.2f;
             } else if (status_health < MAX_HEALTH && status_hunger > 3) {//Regenerate
-                status_health += 0.001f;
+                status_health += 0.002f;
             }
-            System.out.println("Player Head: " + playerHead.enterDamage);
             if (playerHead.solid) {
-                status_oxygen -= 0.1f;
+                status_oxygen -= 0.2f;
             } else if (playerHead.isLiquid()) {
-                status_oxygen -= 0.05f;
-                System.out.println("Oxygen: " + status_oxygen);
-            } else status_oxygen += 0.05f;
+                status_oxygen -= 0.005f;
+            } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.005f;
+
+//            status_hunger = MathUtils.clamp(status_hunger,0,MAX_HUNGER);
+//            status_oxygen
+
         }
     }
 
@@ -328,7 +330,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         positionHandler = new PositionHandler(window, GameScene.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 10) {
-                float damage = MathUtils.map(fallDistance, 10, 30, 0, 5f);
+                float damage = MathUtils.map(fallDistance, 10, 50, 0, MAX_HEALTH);
                 status_health -= damage;
             }
             //System.out.println("onGround: " + fallDistance);

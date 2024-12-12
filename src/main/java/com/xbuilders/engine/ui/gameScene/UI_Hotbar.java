@@ -13,6 +13,7 @@ import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.items.item.StorageSpace;
+import com.xbuilders.engine.player.UserControlledPlayer;
 import com.xbuilders.engine.ui.Theme;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -64,9 +65,17 @@ public class UI_Hotbar extends UI_GameMenu {
                 nk_text(ctx, "Air: " + (int) (GameScene.player.getOxygenLevel()), NK_TEXT_ALIGN_LEFT);
                 nk_layout_row_dynamic(ctx, 20, 3);
 //            ctx.style().progress().normal().data().color().set(Theme.color_red);
-                nk_prog(ctx, (long) (GameScene.player.getHealth() * 10), 100, false);
-                nk_prog(ctx, (long) (GameScene.player.getHungerLevel() * 10), 100, false);
-                nk_prog(ctx, (long) (GameScene.player.getOxygenLevel() * 10), 100, false);
+                nk_prog(ctx,
+                        (long) (GameScene.player.getHealth() * 10),
+                        (int) GameScene.player.MAX_HEALTH * 10, false);
+
+                nk_prog(ctx,
+                        (long) (GameScene.player.getHungerLevel() * 10),
+                        (int) GameScene.player.MAX_HUNGER * 10, false);
+
+                nk_prog(ctx,
+                        (long) (GameScene.player.getOxygenLevel() * 10),
+                        (int) GameScene.player.MAX_OXYGEN * 10, false);
 //            Theme.resetProgressBar(ctx);
             }
             nk_end(ctx);
