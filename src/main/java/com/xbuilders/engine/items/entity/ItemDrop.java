@@ -13,6 +13,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -35,6 +36,7 @@ public class ItemDrop extends Entity {
     private final Vector3f animatedPos = new Vector3f();
     private final Vector3f playerHeadPos = new Vector3f();
     private ItemStack stack;
+    boolean canGet;
 
 
     static {
@@ -64,6 +66,7 @@ public class ItemDrop extends Entity {
             box.setSize(.2f, .2f, .2f);
         }
 
+        canGet = false;
         if (bytes == null || bytes.length == 0) {
             destroy();
             return;
@@ -76,9 +79,9 @@ public class ItemDrop extends Entity {
                 bytes2[i] = bytes[i + BYTES_BEGINNING_DATA_SIZE];
             }
             stack = objectMapper.readValue(bytes2, ItemStack.class);
-            System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
+            //System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ErrorHandler.log(e);
         }
 
         lifetime = DROP_LIVE_TIME;
@@ -98,12 +101,9 @@ public class ItemDrop extends Entity {
     @Override
     public void draw() {
         if (box == null) return;
-
-        //TODO: Make a simplified way to pinpoint player head and feet
         playerHeadPos.set(GameScene.player.aabb.worldPosition).add(GameScene.player.aabb.offset).add(0, 0.5f, 0);
-        boolean canGet = (timeSinceDropped > 100 || !droppedFromPlayer);
-
-        if (MainWindow.frameCount % 10 != 0) {
+        if (MainWindow.frameCount % 20 != 0) { //Update every 20 frames
+            canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.player.inventory.hasRoomForItem(stack);
             timeSinceDropped++;
             if (lifetime-- <= 0) {
                 destroy();

@@ -7,10 +7,11 @@ import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
+import org.joml.Vector3i;
 
 public class Furnace extends Block {
     public Furnace(short id) {
-        super(id, "furnace",new BlockTexture(
+        super(id, "furnace", new BlockTexture(
                 "furnace_top.png",
                 "furnace_top.png",
                 "furnace_side.png",
@@ -26,7 +27,7 @@ public class Furnace extends Block {
             }
             WCCi wcc = new WCCi().set(x, y, z);
             Chunk chunk = GameScene.world.getChunk(wcc.chunk);
-            MainWindow.game.smeltingUI.setOpen(true);
+            MainWindow.game.smeltingUI.openUI(data, new Vector3i(x, y, z));
         });
     }
 }

@@ -75,6 +75,21 @@ public class StorageSpace {
         list = new ItemStack[size];
     }
 
+    public boolean hasRoomForItem(ItemStack stack) {
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] != null && list[i].item.equals(stack.item)
+                    && list[i].stackSize + stack.stackSize <= list[i].item.maxStackSize) {
+                return true;
+            }
+        }
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int acquireItem(ItemStack stack) {
         for (int i = 0; i < list.length; i++) {
             if (list[i] != null && list[i].item.equals(stack.item)
@@ -184,9 +199,8 @@ public class StorageSpace {
     }
 
     public boolean isEmpty() {
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] != null) return false;
-        }
-        return true;
+        return false;
     }
+
+
 }

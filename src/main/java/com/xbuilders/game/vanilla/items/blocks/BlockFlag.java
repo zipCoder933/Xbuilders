@@ -1,13 +1,16 @@
 package com.xbuilders.game.vanilla.items.blocks;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameCommands;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.construction.BlockTexture;
+import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
+import org.joml.Vector3f;
 import org.lwjgl.openal.SOFTGainClampEx;
 
 import java.io.ByteArrayOutputStream;
@@ -39,10 +42,22 @@ public class BlockFlag extends Block {
         removeBlockEvent(false, (x, y, z, hist) -> {
             try {
                 BlockData data = hist.previousBlockData;
-                System.out.println("Flag removed data is null");
                 if (data == null) return;
                 System.out.println("Flag removed " + new String(data.toByteArray()));
-                GameScene.player.inventory.loadFromJson(data.toByteArray());
+                StorageSpace storage = new StorageSpace(GameScene.player.inventory.size());
+                storage.loadFromJson(data.toByteArray());
+
+
+                //Add items to inventory.
+                for (int i = 0; i < storage.size(); i++) {
+                    if (storage.get(i) != null) {
+                        if (GameScene.player.inventory.acquireItem(storage.get(i)) == -1) {
+                            System.out.println("\tDropped " + storage.get(i));
+                            //Drop item if inventory is full.
+                            GameScene.placeItemDrop(new Vector3f(x, y, z), storage.get(i), false);
+                        }
+                    }
+                }
             } catch (IOException e) {
                 ErrorHandler.report(e);
             }

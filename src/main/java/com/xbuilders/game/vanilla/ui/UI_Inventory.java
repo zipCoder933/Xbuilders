@@ -102,6 +102,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
 
     public void onOpenEvent() {
+        craftingGrid.onCloseEvent();
+
         if (GameScene.getGameMode() == GameMode.SPECTATOR) setOpen(false);
         if (drawAllInventory()) menuDimensions.y = Allitems_Height + playerInv_height;
         else menuDimensions.y = playerInv_height;
@@ -194,6 +196,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         }
         return item.name.toLowerCase().contains(searchCriteria);
     }
+
+
 
 
     @Override

@@ -9,15 +9,15 @@ import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.items.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.NKWindow;
-import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
@@ -25,7 +25,7 @@ import static org.lwjgl.nuklear.Nuklear.nk_prog;
 
 public class SmeltingUI extends UI_ItemWindow {
     UI_ItemStackGrid inputGrid, fuelGrid, playerGrid, outputGrid;
-    long timeSinceLastConsumption = 0;
+    FurnaceData furnaceData;
 
     public SmeltingUI(NkContext ctx, NKWindow window) {
         super(ctx, window, "Smelting");
@@ -41,30 +41,31 @@ public class SmeltingUI extends UI_ItemWindow {
         fuelGrid.itemFilter = (stack) -> stack.item.tags.contains("flammable");
 
         fuelGrid.storageSpace.changeEvent = () -> {
-            consumeFuel();
+            smeltWhenReady();
         };
         inputGrid.storageSpace.changeEvent = () -> {
-            consumeFuel();
+            smeltWhenReady();
         };
         outputGrid.storageSpace.changeEvent = () -> {
-            consumeFuel();
+            smeltWhenReady();
         };
 
 
         playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.player.inventory, this, true);
     }
 
-    private void consumeFuel() {
-        if (timeSinceLastConsumption == 0) {
-            timeSinceLastConsumption = System.currentTimeMillis();
-        } else if (System.currentTimeMillis() - timeSinceLastConsumption > SMELT_TIME_MS) {
-            if (smeltItem()) {///If we smelted something successfully
-                timeSinceLastConsumption = System.currentTimeMillis();
-            } else timeSinceLastConsumption = 0; //Otherwise we reset the timer
+    private void smeltWhenReady() {
+        if (furnaceData.lastSmeltTime == 0) {
+            furnaceData.lastSmeltTime = System.currentTimeMillis();
+        } else if (System.currentTimeMillis() - furnaceData.lastSmeltTime > SMELT_TIME_MS) {
+            if (smelt()) {///If we smelted something successfully
+                furnaceData.lastSmeltTime = System.currentTimeMillis();
+            } else furnaceData.lastSmeltTime = 0; //Otherwise we reset the timer
         }
     }
 
-    private boolean smeltItem() {
+
+    private boolean smelt() {
         ItemStack input = inputGrid.storageSpace.get(0);
         ItemStack fuel = fuelGrid.storageSpace.get(0);
 
@@ -111,9 +112,9 @@ public class SmeltingUI extends UI_ItemWindow {
         outputGrid.draw(stack, ctx, 1);
 
         nk_layout_row_dynamic(ctx, 20, 1);
-        if (timeSinceLastConsumption > 0) {
-            nk_prog(ctx, System.currentTimeMillis() - timeSinceLastConsumption, SMELT_TIME_MS, false);
-            consumeFuel();
+        if (furnaceData.lastSmeltTime > 0) {
+            nk_prog(ctx, System.currentTimeMillis() - furnaceData.lastSmeltTime, SMELT_TIME_MS, false);
+            smeltWhenReady();
         } else nk_prog(ctx, 0, SMELT_TIME_MS, false);
 
         nk_layout_row_dynamic(ctx, 250, 1);
@@ -123,31 +124,61 @@ public class SmeltingUI extends UI_ItemWindow {
     Vector3i targetPos = new Vector3i();
 
     public void openUI(BlockData blockData, Vector3i targetPos) {
-//        this.targetPos = targetPos;
-//
-//        if (blockData != null) {
-//            try {
-//                ItemStack[]
-//                .loadFromJson(blockData.toByteArray());
-//            } catch (IOException e) {
-//                System.out.println("Error deserializing JSON, Making storage empty: " + e.getMessage());
-//            }
-//        }
-//        setOpen(true);
+        this.targetPos = targetPos;
+
+        //Load furnace data
+        if (blockData != null) {
+            try {
+                byte[] json = blockData.toByteArray();
+                System.out.println("Deserializing JSON: " + new String(json));
+                furnaceData = StorageSpace.binaryJsonMapper.readValue(json, FurnaceData.class);
+                System.out.println("\tLoaded furnace data: " + furnaceData);
+
+            } catch (IOException e) {
+                ErrorHandler.log(e);
+            }
+        }
+        setOpen(true);
     }
 
-    public void onCloseEvent() {//TODO: Save contents of furnace
+    public void onCloseEvent() {
+        //Furnace data is separate from the storage spaces so we have to save them separately
+        furnaceData.inputGrid = inputGrid.storageSpace.get(0);
+        furnaceData.fuelGrid = fuelGrid.storageSpace.get(0);
+        furnaceData.outputGrid = outputGrid.storageSpace.get(0);
+
+
+        //Save furnace data
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            StorageSpace.binaryJsonMapper.writeValue(baos, furnaceData);
+            BlockData bd = new BlockData(baos.toByteArray());
+            System.out.println("Serializing JSON: " + new String(bd.toByteArray()));
+            System.out.println("\tfurnace data: " + furnaceData);
+            GameScene.setBlockData(bd, targetPos.x, targetPos.y, targetPos.z);
+        } catch (IOException e) {
+            ErrorHandler.log(e);
+        }
     }
 
     public void onOpenEvent() {
-        if (timeSinceLastConsumption == 0) return;
-        int coalAmt = fuelGrid.storageSpace.get(0) == null ? 0 : fuelGrid.storageSpace.get(0).stackSize;
-        int coalToBurn = (int) ((System.currentTimeMillis() - timeSinceLastConsumption) / SMELT_TIME_MS);
-        coalToBurn = Math.min(coalAmt, coalToBurn);
+        if (furnaceData == null) {
+            System.err.println("Furnace data is null");
+            furnaceData = new FurnaceData();
+        }
 
-        System.out.println("Time since left: " + timeSinceLastConsumption + " Coal to burn: " + coalToBurn);
+        //Set the storage spaces
+        inputGrid.storageSpace.set(0, furnaceData.inputGrid);
+        fuelGrid.storageSpace.set(0, furnaceData.fuelGrid);
+        outputGrid.storageSpace.set(0, furnaceData.outputGrid);
+
+
+        if (furnaceData.lastSmeltTime == 0) return;
+        int coalAmt = fuelGrid.storageSpace.get(0) == null ? 0 : fuelGrid.storageSpace.get(0).stackSize;
+        int coalToBurn = (int) ((System.currentTimeMillis() - furnaceData.lastSmeltTime) / SMELT_TIME_MS);
+        coalToBurn = Math.min(coalAmt, coalToBurn);
         for (int i = 0; i < coalToBurn; i++) {
-            smeltItem();
+            smelt();
         }
     }
 }

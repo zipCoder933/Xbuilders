@@ -146,7 +146,7 @@ public class GameCommands {
                         if (!GameScene.isOperator()) return null;
                         if (parts.length <= 3) {
                             try {
-                                String itemID = parts[1].toLowerCase().trim().replace(" ", "_");
+                                String itemID = formatGetItemID(parts[1]);
                                 int quantity = parts.length > 2 ? Integer.parseInt(parts[2].trim()) : 1;
                                 Item item = Registrys.getItem(itemID);
                                 if (item == null) return "Unknown item: " + itemID;
@@ -183,6 +183,12 @@ public class GameCommands {
             }
         }
         return "Unknown command. Type 'help' for a list of commands";
+    }
+
+    private String formatGetItemID(String part) {
+        part = part.toLowerCase().trim().replace(" ", "_");
+        if (!part.startsWith("xbuilders:")) part = "xbuilders:" + part;
+        return part;
     }
 
 }
