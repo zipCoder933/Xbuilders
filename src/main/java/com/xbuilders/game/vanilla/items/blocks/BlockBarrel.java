@@ -7,6 +7,7 @@ import com.xbuilders.engine.items.block.construction.BlockTexture;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.engine.world.wcc.WCCi;
+import org.joml.Vector3f;
 
 public class BlockBarrel extends Block {
     public BlockBarrel(int id, String name) {
@@ -20,6 +21,10 @@ public class BlockBarrel extends Block {
             WCCi wcc = new WCCi().set(x, y, z);
             Chunk chunk = GameScene.world.getChunk(wcc.chunk);
             MainWindow.game.barrelUI.openUI(data, chunk);
+        });
+
+        removeBlockEvent(false, (x, y, z, history) -> {
+            MainWindow.game.barrelUI.dropAllStorage(history.previousBlockData, new Vector3f(x, y, z));
         });
     }
 

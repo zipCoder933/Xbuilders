@@ -108,7 +108,7 @@ public class UI_ItemStackGrid {
 //                    buttonSize.measure(ctx, stack);
                 }
             }
-            if (hoveredItem != null) Nuklear.nk_tooltip(ctx, " " + hoveredItem + ")");
+            if (hoveredItem != null) Nuklear.nk_tooltip(ctx, " " + hoveredItem + "");
 //            if (Nuklear.nk_tooltip_begin(ctx, 300)) {
 //                UI_Inventory.drawItemStack(stack, ctx, new ItemStack(Items.TOOL_ANIMAL_FEED,4));
 //            }   Nuklear.nk_tooltip_end(ctx);
@@ -120,7 +120,7 @@ public class UI_ItemStackGrid {
 
     private String itemTooltip(ItemStack item) {
         String str = item.item.name;
-        if (item.item.maxDurability > 0 && item.durability < item.item.maxDurability) {
+        if (item.item.maxDurability > 0) {
             str += "\n " + ((int) item.durability) + " / " + item.item.maxDurability;
         }
         return str;
@@ -180,7 +180,8 @@ public class UI_ItemStackGrid {
                 box.draggingItem = replaceStack;
 
                 if (dragToEvent != null) dragToEvent.onDrag(originalDraggingItem, index, rightClick);
-                if (dragFromEvent != null && replaceStack != null) dragFromEvent.onDrag(replaceStack, index, rightClick);
+                if (dragFromEvent != null && replaceStack != null)
+                    dragFromEvent.onDrag(replaceStack, index, rightClick);
             }
         } else if (clickedItem != null) {
             box.draggingItem = clickedItem;

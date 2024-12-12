@@ -65,6 +65,30 @@
     "amount": 1
   },
   {
+    "shapeless": false,
+    "input": [
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood",
+      null,
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood"
+    ],
+    "output": "xbuilders:barrel",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:dead_bush"
+    ],
+    "output": "xbuilders:stick",
+    "amount": 1
+  },
+  {
     "shapeless": true,
     "input": [
       "xbuilders:acacia_log"

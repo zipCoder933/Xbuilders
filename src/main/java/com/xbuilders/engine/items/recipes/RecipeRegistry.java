@@ -12,6 +12,7 @@ public class RecipeRegistry {
 
 
     public static boolean elementMatches(String recipe, String item) {
+        //if any input doesn't match
         if (recipe != null && recipe.startsWith("#")) {
             String A_tag = recipe.substring(1);
             Item B_item = Registrys.items.getItem(item);
@@ -19,9 +20,7 @@ public class RecipeRegistry {
             if (!B_item.getTags().contains(A_tag)) {
                 return false;
             }
-        } else if (!MiscUtils.equalOrNull(recipe, item)) { //if any input doesn't match
-            return false;
-        }
+        } else return MiscUtils.equalOrNull(recipe, item);
         return true;
     }
 

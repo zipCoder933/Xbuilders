@@ -18,16 +18,6 @@ public class ItemStack {
         this.destroy = true;
     }
 
-
-    public ItemStack(String item, int stackSize) {
-        this.item = Registrys.getItem(item);
-        if (this.item == null) throw new NullPointerException("Item in ItemStack cannot be null");
-
-        this.durability = this.item.maxDurability; //We set the durability to the max durability
-        this.stackSize = Math.min(this.item.maxStackSize, stackSize);
-
-    }
-
     public ItemStack(Item item) {
         this.item = item; //We must be able to guarantee that the item is not null
         if (this.item == null) throw new NullPointerException("Item in ItemStack cannot be null");

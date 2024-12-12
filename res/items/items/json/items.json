@@ -136,7 +136,9 @@
     "id": "xbuilders:jungle_wood",
     "name": "Jungle Wood",
     "block": 30,
-    "tags": ["wood"]
+    "tags": [
+      "wood"
+    ]
   },
   {
     "id": "xbuilders:jungle_wood_slab",
@@ -286,6 +288,9 @@
   {
     "id": "xbuilders:acacia_wood",
     "name": "Acacia Wood",
+    "tags": [
+      "wood"
+    ],
     "block": 63
   },
   {

@@ -27,7 +27,7 @@ import java.util.function.Consumer;
  *
  * @author zipCoder933
  */
-public class Item {
+public class Item implements Comparable<Item> {
     public final ArrayList<String> tags = new ArrayList<>();
     public Consumer<Item> initializationCallback;
 
@@ -86,6 +86,11 @@ public class Item {
     //If this is a tool
     public float miningSpeedMultiplier = 1.0f;
     public int maxStackSize = ItemStack.MAX_STACK_SIZE;
+
+    @Override
+    public int compareTo(Item o) {
+        return id.compareTo(o.id);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="tool events">
     //Create a functional interface for setBlockEvent

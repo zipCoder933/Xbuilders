@@ -11,7 +11,7 @@
       "xbuilders:stick",
       null
     ],
-    "output": "xbuilders:wood_pickaxe",
+    "output": "xbuilders:wooden_pickaxe",
     "amount": 1
   },
   {
@@ -26,7 +26,7 @@
       "xbuilders:stick",
       null
     ],
-    "output": "xbuilders:wood_axe",
+    "output": "xbuilders:wooden_axe",
     "amount": 1
   },
   {
@@ -41,7 +41,7 @@
       "xbuilders:stick",
       null
     ],
-    "output": "xbuilders:wood_shovel",
+    "output": "xbuilders:wooden_shovel",
     "amount": 1
   },
   {

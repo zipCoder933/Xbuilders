@@ -1,6 +1,8 @@
 package com.xbuilders.game.vanilla.ui;
 
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
@@ -59,8 +61,12 @@ public class CraftingUI_Base {
                 if (multiplier == Integer.MAX_VALUE || multiplier == 0) multiplier = 1;
                 output_quantity = multiplier;
 
-//                System.out.println("multiplier: " + multiplier);
-                outputGrid.storageSpace.set(0, new ItemStack(recipe.output, recipe.amount * multiplier));
+                Item item = Registrys.getItem(recipe.output);
+                if (item == null) {
+                    System.err.println("Recipe output not found: " + recipe.output);
+                    return;
+                }
+                outputGrid.storageSpace.set(0, new ItemStack(item, recipe.amount * multiplier));
             } else outputGrid.storageSpace.set(0, null);
         };
 

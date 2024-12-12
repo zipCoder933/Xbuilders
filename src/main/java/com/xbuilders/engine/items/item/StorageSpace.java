@@ -76,6 +76,7 @@ public class StorageSpace {
     }
 
     public boolean hasRoomForItem(ItemStack stack) {
+        if (stack == null) return false;
         for (int i = 0; i < list.length; i++) {
             if (list[i] != null && list[i].item.equals(stack.item)
                     && list[i].stackSize + stack.stackSize <= list[i].item.maxStackSize) {
@@ -154,7 +155,7 @@ public class StorageSpace {
             if (item1 == null && item2 == null) return 0;
             if (item1 == null) return 1;
             if (item2 == null) return -1;
-            return item1.item.equals(item2.item) ? 0 : (item1.item.hashCode() - item2.item.hashCode());
+            return item1.item.compareTo(item2.item);
         });
     }
 
@@ -175,7 +176,8 @@ public class StorageSpace {
                 // Remove empty or marked-for-destruction items
                 if (currentItem.stackSize <= 0
                         || currentItem.destroy
-                        || currentItem.durability < currentItem.item.maxDurability) {
+                        || (currentItem.durability == 0 && currentItem.item.maxDurability > 0)) {
+                    System.out.println("Removing empty item at index " + i + " Durability: " + currentItem.durability + " Max Durability: " + currentItem.item.maxDurability);
                     list[i] = null;
                     continue;
                 }
