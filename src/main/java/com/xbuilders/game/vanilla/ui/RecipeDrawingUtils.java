@@ -18,9 +18,9 @@ public class RecipeDrawingUtils {
         viewOutputGrid = new UI_ItemGrid("Grid", false);
     }
 
-    public static void drawRecipe(NkContext ctx, CraftingRecipe recipe) {
+    public static void drawRecipe(NkContext ctx, CraftingRecipe recipe, int height) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            nk_layout_row_dynamic(ctx, 200, 2);
+            nk_layout_row_dynamic(ctx, height, 2);
 
             Item item = Registrys.getItem(recipe.output);
             viewInputGrid.items.clear();
@@ -30,25 +30,24 @@ public class RecipeDrawingUtils {
                 viewInputGrid.items.add(Registrys.getItem(recipe.input[i]));
             }
             viewOutputGrid.items.add(item);
-            viewOutputGrid.items.add(null);
 
             viewInputGrid.draw(stack, ctx, 3);
             viewOutputGrid.draw(stack, ctx, 1);
         }
     }
 
-    public static void drawRecipe(NkContext ctx, SmeltingRecipe recipe) {
-//        try (MemoryStack stack = MemoryStack.stackPush()) {
-//            nk_layout_row_dynamic(ctx, 100, 2);
-//
-//            viewInputGrid.items.clear();
-//            viewInputGrid.items.add(Registrys.getItem(recipe.input));
-//            viewInputGrid.draw(stack, ctx, 1);
-//
-//            viewInputGrid.items.clear();
-//            viewInputGrid.items.add(Registrys.getItem(recipe.output));
-//            viewInputGrid.draw(stack, ctx, 1);
-//        }
+    public static void drawRecipe(NkContext ctx, SmeltingRecipe recipe, int height) {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            nk_layout_row_dynamic(ctx, height, 2);
+
+            viewInputGrid.items.clear();
+            viewInputGrid.items.add(Registrys.getItem(recipe.input));
+            viewInputGrid.draw(stack, ctx, 1);
+
+            viewInputGrid.items.clear();
+            viewInputGrid.items.add(Registrys.getItem(recipe.output));
+            viewInputGrid.draw(stack, ctx, 1);
+        }
     }
 
 }

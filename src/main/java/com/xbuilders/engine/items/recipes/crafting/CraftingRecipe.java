@@ -68,7 +68,7 @@ public class CraftingRecipe extends Recipe {
     }
 
     @Override
-    public void drawRecipe(NkContext ctx) {
-        RecipeDrawingUtils.drawRecipe(ctx, this);
+    public void drawRecipe(NkContext ctx, int groupHeight) {
+        RecipeDrawingUtils.drawRecipe(ctx, this,groupHeight);
     }
 }

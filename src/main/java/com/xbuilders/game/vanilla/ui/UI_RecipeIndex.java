@@ -19,12 +19,10 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -89,7 +87,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
                 }
                 availableRecipes.forEach((list, recipes) -> {
                     for (Recipe recipe : recipes) {
-                        recipe.drawRecipe(ctx);
+                        recipe.drawRecipe(ctx, recipeView_Height - 50);
                     }
                 });
             }

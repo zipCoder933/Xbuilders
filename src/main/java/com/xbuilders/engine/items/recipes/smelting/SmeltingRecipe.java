@@ -1,6 +1,7 @@
 package com.xbuilders.engine.items.recipes.smelting;
 
 import com.xbuilders.engine.items.recipes.Recipe;
+import com.xbuilders.game.vanilla.ui.RecipeDrawingUtils;
 import org.lwjgl.nuklear.NkContext;
 
 import java.util.Objects;
@@ -36,7 +37,7 @@ public class SmeltingRecipe extends Recipe {
     }
 
     @Override
-    public void drawRecipe(NkContext ctx) {
-
+    public void drawRecipe(NkContext ctx, int groupHeight) {
+        RecipeDrawingUtils.drawRecipe(ctx, this,groupHeight);
     }
 }
