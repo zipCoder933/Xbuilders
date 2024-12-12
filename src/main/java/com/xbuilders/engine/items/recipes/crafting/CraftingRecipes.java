@@ -1,26 +1,32 @@
 package com.xbuilders.engine.items.recipes.crafting;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.recipes.RecipeList;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.ui.gameScene.items.UI_ItemGrid;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
-public class CraftingRecipes {
-    //It has to be in this format to make sense when it is in JSON
-    private final List<CraftingRecipe> recipeList = new ArrayList<>();
+import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
+
+public class CraftingRecipes extends RecipeList<CraftingRecipe> {
+
+    public CraftingRecipes() {
+        super("Crafting");
 
 
-    private static final TypeReference<List<CraftingRecipe>> type_craftingRecipes = new TypeReference<List<CraftingRecipe>>() {
-    };
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    }
+
+
+
 
     static {
 //        SimpleModule module = new SimpleModule();
@@ -29,16 +35,14 @@ public class CraftingRecipes {
 //        objectMapper.registerModule(module);
     }
 
-    public void add(CraftingRecipe recipe) {
-        recipeList.add(recipe);
-    }
-
-    public void remove(CraftingRecipe recipe) {
-        recipeList.remove(recipe);
-    }
-
-    public void clear() {
-        recipeList.clear();
+    public ArrayList<CraftingRecipe> getFromOutput(Item outputID) {
+        ArrayList<CraftingRecipe> recipes = new ArrayList<>();
+        for (CraftingRecipe recipe : recipeList) {
+            if (recipe.output.equals(outputID.id)) {
+                recipes.add(recipe); //Add the recipe to the recipes
+            }
+        }
+        return recipes;
     }
 
     public CraftingRecipe getFromInput(String[] input) {
@@ -93,29 +97,12 @@ public class CraftingRecipes {
         }
     }
 
-
-    public CraftingRecipe getFromOutput(String outputID) {//TODO: Add tag recipes to this too
-        for (CraftingRecipe recipe : recipeList) {
-            if (recipe.output.equals(outputID)) {
-                return recipe;
-            }
-        }
-        return null;
-    }
-
-
-    public void writeToFile(File file) throws IOException {
-        String json = objectMapper.writeValueAsString(recipeList);
-        Files.writeString(file.toPath(), json);
-    }
-
     public void loadFromFile(File file) throws IOException {
         String json = Files.readString(file.toPath());
-        if (json.isBlank()) return;
-        List<CraftingRecipe> recipeList = objectMapper.readValue(json, type_craftingRecipes);
-        System.out.println("Loaded " + recipeList.size() + " crafting recipes from " + file);
+        List<CraftingRecipe> recipeList = objectMapper.readValue(json, new TypeReference<List<CraftingRecipe>>() {
+        });
+        System.out.println("Loaded " + recipeList.size() + " " + name + " recipes from " + file);
         this.recipeList.addAll(recipeList);
     }
-
 
 }

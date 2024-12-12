@@ -20,6 +20,7 @@ import static org.lwjgl.nuklear.Nuklear.nk_group_end;
 public class UI_ItemStackGrid {
     final String title;
     public Predicate<ItemStack> itemFilter;
+    private boolean readOnly = false;
     String hoveredItem;
     public final StorageSpace storageSpace;
     UI_ItemWindow box;
@@ -92,16 +93,16 @@ public class UI_ItemStackGrid {
                             hoveredItem = itemTooltip(item);
                         }
                         if (UI_ItemWindow.drawItemStackButton(stack, ctx, item, buttonBounds)) {//Left click
-                            itemClickEvent(item, index, false);
+                            if (!readOnly) itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                            itemClickEvent(item, index, true);
+                            if (!readOnly) itemClickEvent(item, index, true);
                         }
                     } else {
                         Nuklear.nk_widget_bounds(ctx, buttonBounds);
                         if (nk_button_text(ctx, "")) {//Left click
-                            itemClickEvent(item, index, false);
+                            if (!readOnly) itemClickEvent(item, index, false);
                         } else if (Nuklear.nk_input_is_mouse_click_in_rect(input, NK_BUTTON_RIGHT, buttonBounds)) {//Right click
-                            itemClickEvent(item, index, true);
+                            if (!readOnly) itemClickEvent(item, index, true);
                         }
                     }
                     index++;

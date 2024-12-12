@@ -1,8 +1,11 @@
 package com.xbuilders.engine.items.recipes.smelting;
 
+import com.xbuilders.engine.items.recipes.Recipe;
+import org.lwjgl.nuklear.NkContext;
+
 import java.util.Objects;
 
-public class SmeltingRecipe {
+public class SmeltingRecipe extends Recipe {
     public String input;
     public String output;
     public int amount = 1;
@@ -30,5 +33,10 @@ public class SmeltingRecipe {
 
     public String toString() {
         return input + " -> " + output;
+    }
+
+    @Override
+    public void drawRecipe(NkContext ctx) {
+
     }
 }

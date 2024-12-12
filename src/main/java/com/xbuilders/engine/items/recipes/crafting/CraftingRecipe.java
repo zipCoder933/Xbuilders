@@ -1,9 +1,13 @@
 package com.xbuilders.engine.items.recipes.crafting;
 
+import com.xbuilders.engine.items.recipes.Recipe;
+import com.xbuilders.game.vanilla.ui.RecipeDrawingUtils;
+import org.lwjgl.nuklear.NkContext;
+
 import java.util.Arrays;
 import java.util.Objects;
 
-public class CraftingRecipe {
+public class CraftingRecipe extends Recipe {
 
     /**
      * There are a few ways to define a crafting recipe input:
@@ -61,5 +65,10 @@ public class CraftingRecipe {
 
     public String toString() {
         return Arrays.toString(input) + " -> " + output;
+    }
+
+    @Override
+    public void drawRecipe(NkContext ctx) {
+        RecipeDrawingUtils.drawRecipe(ctx, this);
     }
 }

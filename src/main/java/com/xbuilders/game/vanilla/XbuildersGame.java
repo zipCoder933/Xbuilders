@@ -15,6 +15,7 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.loot.LootTableRegistry;
+import com.xbuilders.engine.items.recipes.Recipe;
 import com.xbuilders.engine.items.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.player.CursorRay;
@@ -50,6 +51,8 @@ import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
  * @author zipCoder933
  */
 public class XbuildersGame extends Game {
+
+
 
 
     public XbuildersGame(MainWindow window) {
@@ -151,20 +154,21 @@ public class XbuildersGame extends Game {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        //Wake keys
-        if (action == GLFW.GLFW_RELEASE && key == UI_RecipeIndex.KEY_OPEN_RECIPE_INDEX) {
-            recipeIndexUI.setOpen(!recipeIndexUI.isOpen());
-            return true;
-        } else if (action == GLFW.GLFW_RELEASE && key == UI_Inventory.KEY_OPEN_INVENTORY) {
-            inventoryUI.setOpen(!inventoryUI.isOpen());
-            return true;
-        }
         //Menus
-        else if (gameMenus.keyEvent(key, scancode, action, mods)) {
+        if (gameMenus.keyEvent(key, scancode, action, mods)) {
             return true;
         } else if (blockTools.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(blockTools.getClass());
             return true;
+        } else {
+            //Wake keys
+            if (action == GLFW.GLFW_RELEASE && key == UI_RecipeIndex.KEY_OPEN_RECIPE_INDEX) {
+                recipeIndexUI.setOpen(!recipeIndexUI.isOpen());
+                return true;
+            } else if (action == GLFW.GLFW_RELEASE && key == UI_Inventory.KEY_OPEN_INVENTORY) {
+                inventoryUI.setOpen(!inventoryUI.isOpen());
+                return true;
+            }
         }
         return false;
     }

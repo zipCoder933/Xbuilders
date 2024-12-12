@@ -16,7 +16,7 @@ import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class CraftingUI extends UI_ItemWindow {
     UI_ItemStackGrid playerGrid;
-    CraftingUI_Base craftingGrid;
+    public CraftingUI_Base craftingGrid;
 
 
     public CraftingUI(NkContext ctx, NKWindow window) {

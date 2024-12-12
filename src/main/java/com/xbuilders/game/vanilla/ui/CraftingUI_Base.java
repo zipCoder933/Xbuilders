@@ -7,16 +7,20 @@ import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.items.recipes.crafting.CraftingRecipe;
+import com.xbuilders.engine.ui.gameScene.items.UI_ItemGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.system.MemoryStack;
 
+import java.util.ArrayList;
+
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class CraftingUI_Base {
     public UI_ItemStackGrid inputGrid, outputGrid;
+
     public StorageSpace playerStorage;
     private int output_quantity = 0;
     private CraftingRecipe recipe;
@@ -27,6 +31,7 @@ public class CraftingUI_Base {
         this.ctx = ctx;
         this.itemWindow = itemWindow;
         this.playerStorage = playerStorage;
+
 
         inputGrid = new UI_ItemStackGrid(window, "Grid", new StorageSpace(inputSize), itemWindow, true);
         outputGrid = new UI_ItemStackGrid(window, "Output", new StorageSpace(1), itemWindow, true);
@@ -92,6 +97,7 @@ public class CraftingUI_Base {
         inputGrid.draw(stack, ctx, inputColumns);
         outputGrid.draw(stack, ctx, 1);
     }
+
 
     public void onCloseEvent() {
         //Give the items back to the player

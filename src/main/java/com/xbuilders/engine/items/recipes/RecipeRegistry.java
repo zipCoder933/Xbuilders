@@ -10,6 +10,13 @@ public class RecipeRegistry {
     public static final CraftingRecipes craftingRecipes = new CraftingRecipes();
     public static final SmeltingRecipes smeltingRecipes = new SmeltingRecipes();
 
+    public static final RecipeList[] allRecipes = new RecipeList[]{
+            craftingRecipes, smeltingRecipes};
+
+//    public static void init() {
+//        craftingRecipes.init();
+//        smeltingRecipes.init();
+//    }
 
     public static boolean elementMatches(String recipe, String item) {
         //if any input doesn't match
