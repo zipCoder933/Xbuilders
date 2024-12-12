@@ -89,7 +89,7 @@ public class Blocks {
         for (Block b : Registrys.blocks.getList()) {
             if (b.toughness == 1 && !b.solid) b.toughness = 0.2f;
             if (b.alias.toLowerCase().contains("sand") || b.alias.toLowerCase().contains("gravel") || b.alias.toLowerCase().contains("glass"))
-                b.toughness = 0.5f;
+                b.toughness = 0.4f;
         }
 
     }

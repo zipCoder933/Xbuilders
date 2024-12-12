@@ -110,8 +110,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             if (playerHead.solid) {
                 status_oxygen -= 0.2f;
             } else if (playerHead.isLiquid()) {
-                status_oxygen -= 0.005f;
-            } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.005f;
+                status_oxygen -= 0.01f;
+            } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.01f;
 
 //            status_hunger = MathUtils.clamp(status_hunger,0,MAX_HUNGER);
 //            status_oxygen

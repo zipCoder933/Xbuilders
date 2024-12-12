@@ -184,7 +184,7 @@ public class CursorRay {
                 breakAmt += miningSpeed;
 
                 if (selectedItem != null && selectedItem.item.maxDurability > 0) {
-                    selectedItem.durability -= 0.1f;
+                    selectedItem.durability -= 0.005f;
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
                 if (breakAmt >= blockToughness) {
