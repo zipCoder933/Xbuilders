@@ -8,6 +8,7 @@ import com.xbuilders.window.NKWindow;
 import org.joml.Vector2d;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
 /**
@@ -40,4 +41,8 @@ public abstract class UI_GameMenu {
     public abstract void draw(MemoryStack stack);
 
     public abstract boolean isOpen();
+
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset){
+        return false;
+    }
 }

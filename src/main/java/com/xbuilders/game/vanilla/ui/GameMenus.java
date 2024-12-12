@@ -43,12 +43,12 @@ public class GameMenus {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-//        for (int i = 0; i < menus.size(); i++) {
-//            UI_GameMenu menu = menus.get(i);
-//            if (menu.isOpen()) {
-//                return menu.mouseScrollEvent(scroll, xoffset, yoffset);
-//            }
-//        }
+        for (int i = 0; i < menus.size(); i++) {
+            UI_GameMenu menu = menus.get(i);
+            if (menu.isOpen()) {
+                return menu.mouseScrollEvent(scroll, xoffset, yoffset);
+            }
+        }
         return false;
     }
 

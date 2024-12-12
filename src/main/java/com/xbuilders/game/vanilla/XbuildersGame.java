@@ -17,7 +17,6 @@ import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.loot.LootTableRegistry;
 import com.xbuilders.engine.items.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
-import com.xbuilders.engine.items.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -34,6 +33,7 @@ import com.xbuilders.game.vanilla.skins.FoxSkin;
 import com.xbuilders.game.vanilla.terrain.DevTerrain;
 import com.xbuilders.game.vanilla.terrain.FlatTerrain;
 import com.xbuilders.game.vanilla.terrain.defaultTerrain.DefaultTerrain;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
@@ -95,7 +95,6 @@ public class XbuildersGame extends Game {
 
 
     //Builtin menus
-    public UI_Inventory inventory;
 
     public BlockTools blockTools;
 
@@ -104,29 +103,34 @@ public class XbuildersGame extends Game {
     public BarrelUI barrelUI;
     public CraftingUI craftingUI;
     public SmeltingUI smeltingUI;
+    public UI_Inventory inventoryUI;
+    public UI_RecipeIndex recipeIndexUI;
+
     public GameMenus gameMenus = new GameMenus();
 
     @Override
     public void uiInit(NkContext ctx, GameUI gameUI) {
-        inventory = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
+
         blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
 
         //Menus
         barrelUI = new BarrelUI(ctx, window);
         craftingUI = new CraftingUI(ctx, window);
         smeltingUI = new SmeltingUI(ctx, window);
+        recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
+        inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
+
         gameMenus.menus.add(barrelUI);
         gameMenus.menus.add(craftingUI);
         gameMenus.menus.add(smeltingUI);
+        gameMenus.menus.add(recipeIndexUI);
+        gameMenus.menus.add(inventoryUI);
     }
 
 
     @Override
     public boolean uiDraw(MemoryStack stack) {
-        if (inventory.isOpen()) {
-            inventory.draw(stack);
-            return true;
-        } else if (gameMenus.draw(stack)) {
+        if (gameMenus.draw(stack)) {
             return true;
         } else {
             blockTools.draw(stack);
@@ -137,8 +141,8 @@ public class XbuildersGame extends Game {
 
     @Override
     public boolean uiMouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (inventory.isOpen()) {
-            return inventory.mouseScrollEvent(scroll, xoffset, yoffset);
+        if (gameMenus.mouseScrollEvent(scroll, xoffset, yoffset)) {
+            return true;
         } else if (blockTools.mouseScrollEvent(scroll, xoffset, yoffset)) {
             return true;
         }
@@ -147,11 +151,16 @@ public class XbuildersGame extends Game {
 
     @Override
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-
-        if (inventory.keyEvent(key, scancode, action, mods)) {
-            printKeyConsumption(inventory.getClass());
+        //Wake keys
+        if (action == GLFW.GLFW_RELEASE && key == UI_RecipeIndex.KEY_OPEN_RECIPE_INDEX) {
+            recipeIndexUI.setOpen(!recipeIndexUI.isOpen());
             return true;
-        } else if (gameMenus.keyEvent(key, scancode, action, mods)) {
+        } else if (action == GLFW.GLFW_RELEASE && key == UI_Inventory.KEY_OPEN_INVENTORY) {
+            inventoryUI.setOpen(!inventoryUI.isOpen());
+            return true;
+        }
+        //Menus
+        else if (gameMenus.keyEvent(key, scancode, action, mods)) {
             return true;
         } else if (blockTools.keyEvent(key, scancode, action, mods)) {
             printKeyConsumption(blockTools.getClass());
@@ -167,9 +176,7 @@ public class XbuildersGame extends Game {
 
     @Override
     public boolean uiMouseButtonEvent(int button, int action, int mods) {
-        if (inventory.isOpen() && inventory.mouseButtonEvent(button, action, mods)) {
-            return true;
-        } else if (gameMenus.mouseButtonEvent(button, action, mods)) {
+        if (gameMenus.mouseButtonEvent(button, action, mods)) {
             return true;
         } else if (blockTools.UIMouseButtonEvent(button, action, mods)) {
             return true;
@@ -180,7 +187,7 @@ public class XbuildersGame extends Game {
 
     @Override
     public boolean menusAreOpen() {
-        return inventory.isOpen() || blockTools.isOpen() || gameMenus.isOpen();
+        return blockTools.isOpen() || gameMenus.isOpen();
     }
 
     WorldData currentWorld;
