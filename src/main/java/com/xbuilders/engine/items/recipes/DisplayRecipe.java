@@ -8,7 +8,7 @@ import org.lwjgl.nuklear.Nuklear;
 import java.util.ArrayList;
 
 /**
- * Used to render a recipe, showing a range of possible recipes that comprise the whole recipe
+ * Used to render a recipe to render recipes with tags
  * Some recipes have multiple possible recipes that can be displayed, for example items with a #wood tag accept any wood item
  */
 public class DisplayRecipe extends ArrayList<Recipe> {
