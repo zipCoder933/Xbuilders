@@ -21,12 +21,7 @@ public class CraftingRecipes extends RecipeList<CraftingRecipe> {
 
     public CraftingRecipes() {
         super("Crafting");
-
-
     }
-
-
-
 
     static {
 //        SimpleModule module = new SimpleModule();

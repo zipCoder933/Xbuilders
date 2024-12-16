@@ -3,7 +3,6 @@ package com.xbuilders.engine.items.recipes;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.recipes.smelting.SmeltingRecipe;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +34,15 @@ public abstract class RecipeList<T extends Recipe> {
 
 
     public abstract ArrayList<T> getFromOutput(Item output);
+
+    public ArrayList<DisplayRecipe> getFormattedFromOutput(Item output) {
+        ArrayList<T> recipes = getFromOutput(output);
+        ArrayList<DisplayRecipe> formattedRecipes = new ArrayList<>();
+        for (T recipe : recipes) {
+            formattedRecipes.add(recipe.getDisplayRecipe());
+        }
+        return formattedRecipes;
+    }
 
     public boolean hasRecipeWithOutput(Item output) {
         return getFromOutput(output) != null;

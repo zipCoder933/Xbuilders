@@ -7,7 +7,7 @@ package com.xbuilders.game.vanilla.ui;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.recipes.Recipe;
+import com.xbuilders.engine.items.recipes.DisplayRecipe;
 import com.xbuilders.engine.items.recipes.RecipeList;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.ui.Theme;
@@ -34,7 +34,9 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     public static final int KEY_OPEN_RECIPE_INDEX = GLFW.GLFW_KEY_R;
 
     Item selectedItem;
-    HashMap<RecipeList, ArrayList<Recipe>> availableRecipes = new HashMap<>();
+    HashMap<RecipeList, ArrayList<DisplayRecipe>> availableRecipes = new HashMap<>();
+
+
 
     public UI_RecipeIndex(NkContext ctx, Item[] itemList, NKWindow window) {
         super(ctx, window, "Recipe List");
@@ -45,10 +47,10 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
             System.out.println("\nSelected item: " + item.name);
             availableRecipes.clear();
             selectedItem = item;
-            for (RecipeList r : RecipeRegistry.allRecipes) {
-                ArrayList<Recipe> recipes = r.getFromOutput(item);
+            for (RecipeList registry : RecipeRegistry.allRecipeLists) {
+                ArrayList<DisplayRecipe> recipes = registry.getFormattedFromOutput(item);
                 if (recipes.isEmpty()) continue;
-                availableRecipes.put(r, recipes);
+                availableRecipes.put(registry, recipes);
             }
             System.out.println("Available recipes: " + availableRecipes);
         };
@@ -61,7 +63,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     }
 
     final int Allitems_Height = 200; //total item list window size
-    final int recipeView_Height = 220; //player inventory window size
+    final int recipeView_Height = 240; //player inventory window size
     UI_ItemIndex allItems;
 
 
@@ -86,7 +88,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
                     nk_button_text(ctx, list.name);
                 }
                 availableRecipes.forEach((list, recipes) -> {
-                    for (Recipe recipe : recipes) {
+                    for (DisplayRecipe recipe : recipes) {
                         recipe.drawRecipe(ctx, recipeView_Height - 50);
                     }
                 });

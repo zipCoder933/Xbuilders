@@ -1,11 +1,14 @@
 package com.xbuilders.engine.items.recipes.crafting;
 
+import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.recipes.DisplayRecipe;
 import com.xbuilders.engine.items.recipes.Recipe;
+import com.xbuilders.engine.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.items.recipes.TagPossibilities;
 import com.xbuilders.game.vanilla.ui.RecipeDrawingUtils;
 import org.lwjgl.nuklear.NkContext;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 public class CraftingRecipe extends Recipe {
 
@@ -23,6 +26,14 @@ public class CraftingRecipe extends Recipe {
 
 
     public CraftingRecipe() {
+    }
+
+    public CraftingRecipe(CraftingRecipe recipe) {
+        this.input = new String[recipe.input.length];
+        this.output = recipe.output;
+        this.amount = recipe.amount;
+        this.shapeless = recipe.shapeless;
+        System.arraycopy(recipe.input, 0, this.input, 0, recipe.input.length);
     }
 
     public CraftingRecipe(String a, String b, String c,
@@ -69,6 +80,49 @@ public class CraftingRecipe extends Recipe {
 
     @Override
     public void drawRecipe(NkContext ctx, int groupHeight) {
-        RecipeDrawingUtils.drawRecipe(ctx, this,groupHeight);
+        RecipeDrawingUtils.drawRecipe(ctx, this, groupHeight);
+    }
+
+
+    @Override
+    public DisplayRecipe getDisplayRecipe() {
+        //Make the tag possibilities from ALL inputs
+        TagPossibilities tagPossibilities = new TagPossibilities(input);
+        HashSet<String> exploredTags = new HashSet<>();
+
+        //Make the formatted recipe
+        DisplayRecipe formattedRecipe = new DisplayRecipe();
+
+        if (tagPossibilities.isEmpty()) {
+            System.out.println("No tags in formatted recipe");
+            formattedRecipe.add(new CraftingRecipe(this));
+            return formattedRecipe;
+        }
+
+        //If the input does have tags
+        //20 possible combinations at the most!
+        for (int x = 0; x < 30; x++) {
+            System.out.println("recipe " + x);
+            CraftingRecipe recipe = new CraftingRecipe(this); //Make a copy of Our crafting recipe
+            exploredTags.clear();
+
+            //Fill ALL the inputs that have tags with the first possible input
+            for (int i = 0; i < recipe.input.length; i++) {
+                if (RecipeRegistry.isTag(recipe.input[i])) {  //If the input is a tag
+                    String tag = recipe.input[i];
+                    List<Item> possibleInputs = tagPossibilities.get(tag); //Set the element to the first possible input
+                    exploredTags.add(tag); //Add the tag to the explored list so we can remove the first element
+
+                    if (possibleInputs.isEmpty()) { //If we can't find any possible inputs, return what we have so far
+                        System.out.println("Could not find any more possible inputs for tag: " + recipe.input[i]);
+                        return formattedRecipe;
+                    }
+                    recipe.input[i] = possibleInputs.get(0).id; //Get the first element
+                }
+            }
+            formattedRecipe.add(recipe); //Add the recipe to the formatted recipe list
+            tagPossibilities.removeElementOfTags(exploredTags, 0);  //Remove the first element from all explored tags so we dont use them again
+        }
+        return formattedRecipe;
     }
 }
