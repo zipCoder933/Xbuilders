@@ -1,5 +1,6 @@
 package com.xbuilders.engine.items.recipes.crafting;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.recipes.DisplayRecipe;
 import com.xbuilders.engine.items.recipes.Recipe;
@@ -41,6 +42,7 @@ public class CraftingRecipe extends Recipe {
                           String g, String h, String i,
                           String output, int amount) {
         shapeless = false;
+        this.input = new String[9];
         this.input[0] = a;
         this.input[1] = b;
         this.input[2] = c;

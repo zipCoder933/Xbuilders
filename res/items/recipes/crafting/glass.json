@@ -1,0 +1,11 @@
+[
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:glass",
+      "xbuilders:iron_ingot"
+    ],
+    "output": "xbuilders:iron_block",
+    "amount": 1
+  }
+]

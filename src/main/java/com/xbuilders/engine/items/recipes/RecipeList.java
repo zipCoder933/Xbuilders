@@ -1,5 +1,6 @@
 package com.xbuilders.engine.items.recipes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xbuilders.engine.items.item.Item;
@@ -35,7 +36,8 @@ public abstract class RecipeList<T extends Recipe> {
 
     public abstract ArrayList<T> getFromOutput(Item output);
 
-    public ArrayList<DisplayRecipe> getFormattedFromOutput(Item output) {
+    @JsonIgnore
+    public ArrayList<DisplayRecipe> getDisplayRecipesFromOutput(Item output) {
         ArrayList<T> recipes = getFromOutput(output);
         ArrayList<DisplayRecipe> formattedRecipes = new ArrayList<>();
         for (T recipe : recipes) {
@@ -51,7 +53,9 @@ public abstract class RecipeList<T extends Recipe> {
     public final ObjectMapper objectMapper = new ObjectMapper();
 
     public void writeToFile(File file) throws IOException {
+        System.out.println("Writing " + recipeList.size() + " " + name + " recipes to " + file);
         String json = objectMapper.writeValueAsString(recipeList);
+
         Files.writeString(file.toPath(), json);
     }
 

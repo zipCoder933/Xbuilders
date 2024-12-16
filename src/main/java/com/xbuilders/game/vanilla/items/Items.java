@@ -9,12 +9,15 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.vanilla.items.items.*;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Items {
 
     public static final Item TOOL_ANIMAL_FEED = new AnimalFeed();
 
-    public static Item getBlockVariant(Item original, int... validVariantTypes) {
+    public static Item getBlockWithSharedTexture(
+            Predicate<Block> customPredicate, Item original, int... validVariantTypes) {
         Block originalBlock = original.getBlock();
         if (originalBlock == null) return null;
         //Get the block variant
@@ -22,13 +25,58 @@ public class Items {
             if (i.getBlock() != null
                     && i.getBlock().texture.equals(originalBlock.texture)) {
                 for (int rt : validVariantTypes) {
-                    if (i.getBlock().renderType == rt) {
+                    if (i.getBlock().renderType == rt && customPredicate.test(i.getBlock())) {
                         return i;
                     }
                 }
             }
         }
         return null;
+    }
+
+    public static Item getBlockWithSharedName(
+            Predicate<Block> customPredicate,
+            Item originalItem, String[] invalidIdMatches, int... validBlockTypes) {
+        //Get the block variant
+        for (Item i : Registrys.items.getList()) {
+
+            if (i.getBlock() == null) continue;
+            String thisId = originalItem.id;
+            String blockId = i.getBlock().alias;
+
+            String commonWorld = getCommonWord(thisId, blockId, "_");
+            if (commonWorld.isEmpty()) continue;
+            boolean foundInvalidMatch = false;
+            for (String invalidMatch : invalidIdMatches) {
+                if (commonWorld.equalsIgnoreCase(invalidMatch)) {
+                    foundInvalidMatch = true;
+                    break;
+                }
+            }
+            if (foundInvalidMatch) continue;
+
+//            System.out.println("this: " + thisId + " \t other: " + blockId + " \t common: " + commonWorld);
+            for (int rt : validBlockTypes) {
+                if (i.getBlock().renderType == rt && customPredicate.test(i.getBlock())) {
+                    return i;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public static String getCommonWord(String s1, String s2, String delimiter) {
+        String[] words1 = s1.split(delimiter);
+        String[] words2 = s2.split(delimiter);
+        for (String word1 : words1) {
+            for (String word2 : words2) {
+                if (word1.equals(word2)) {
+                    return word1;
+                }
+            }
+        }
+        return "";
     }
 
     public static ArrayList<Item> startup_getItems() {

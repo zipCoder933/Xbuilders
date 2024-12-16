@@ -3,5 +3,25 @@
     "input": "#wood",
     "output": "xbuilders:charcoal",
     "amount": 1
+  },
+  {
+    "input": "xbuilders:diorite",
+    "output": "xbuilders:polished_diorite",
+    "amount": 1
+  },
+  {
+    "input": "xbuilders:andesite",
+    "output": "xbuilders:polished_andesite",
+    "amount": 1
+  },
+  {
+    "input": "xbuilders:sand",
+    "output": "xbuilders:glass",
+    "amount": 1
+  },
+  {
+    "input": "xbuilders:red_sand",
+    "output": "xbuilders:glass",
+    "amount": 1
   }
 ]

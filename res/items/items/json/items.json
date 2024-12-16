@@ -82,7 +82,10 @@
   {
     "id": "xbuilders:andesite",
     "name": "Andesite",
-    "block": 18
+    "block": 18,
+    "tags": [
+      "stone"
+    ]
   },
   {
     "id": "xbuilders:stone_brick",
@@ -243,7 +246,10 @@
   {
     "id": "xbuilders:diorite",
     "name": "Diorite",
-    "block": 53
+    "block": 53,
+    "tags": [
+      "stone"
+    ]
   },
   {
     "id": "xbuilders:polished_diorite",
@@ -476,7 +482,10 @@
   {
     "id": "xbuilders:cobblestone",
     "name": "Cobblestone",
-    "block": 101
+    "block": 101,
+    "tags": [
+      "stone"
+    ]
   },
   {
     "id": "xbuilders:wool_turquoise",
@@ -688,8 +697,8 @@
     "block": 144
   },
   {
-    "id": "xbuilders:steel_block",
-    "name": "Steel Block",
+    "id": "xbuilders:iron_block",
+    "name": "Iron Block",
     "block": 145
   },
   {
@@ -753,8 +762,8 @@
     "block": 158
   },
   {
-    "id": "xbuilders:cement",
-    "name": "Cement",
+    "id": "xbuilders:concrete",
+    "name": "Concrete",
     "block": 159
   },
   {
@@ -1010,7 +1019,8 @@
   {
     "id": "xbuilders:granite",
     "name": "Granite",
-    "block": 219
+    "block": 219,
+    "tags": ["stone"]
   },
   {
     "id": "xbuilders:blue_candle",
@@ -1900,7 +1910,10 @@
   {
     "id": "xbuilders:stone",
     "name": "Stone",
-    "block": 405
+    "block": 405,
+    "tags": [
+      "stone"
+    ]
   },
   {
     "id": "xbuilders:bamboo_wood_fence",
@@ -1944,18 +1957,18 @@
     "block": 413
   },
   {
-    "id": "xbuilders:cement_stairs",
-    "name": "Cement Stairs",
+    "id": "xbuilders:concrete_stairs",
+    "name": "concrete Stairs",
     "block": 414
   },
   {
-    "id": "xbuilders:cement_fence",
-    "name": "Cement Fence",
+    "id": "xbuilders:concrete_fence",
+    "name": "concrete Fence",
     "block": 415
   },
   {
-    "id": "xbuilders:cement_slab",
-    "name": "Cement Slab",
+    "id": "xbuilders:concrete_slab",
+    "name": "concrete Slab",
     "block": 416
   },
   {
@@ -1984,18 +1997,18 @@
     "block": 421
   },
   {
-    "id": "xbuilders:steel_stairs",
-    "name": "Steel Stairs",
+    "id": "xbuilders:iron_stairs",
+    "name": "Iron Stairs",
     "block": 422
   },
   {
-    "id": "xbuilders:steel_block_slab",
-    "name": "Steel Block Slab",
+    "id": "xbuilders:iron_block_slab",
+    "name": "Iron Slab",
     "block": 423
   },
   {
-    "id": "xbuilders:steel_fence",
-    "name": "Steel Fence",
+    "id": "xbuilders:iron_fence",
+    "name": "Iron Fence",
     "block": 424
   },
   {
@@ -4171,8 +4184,8 @@
     "block": 988
   },
   {
-    "id": "xbuilders:steel_door",
-    "name": "Steel Door",
+    "id": "xbuilders:iron_door",
+    "name": "iron Door",
     "icon": "door\\icon_7_0.png",
     "block": 989
   },
@@ -4373,8 +4386,8 @@
     "block": 831
   },
   {
-    "id": "xbuilders:cement_fence_gate",
-    "name": "Cement Fence Gate",
+    "id": "xbuilders:concrete_fence_gate",
+    "name": "concrete Fence Gate",
     "block": 832
   },
   {
@@ -4388,8 +4401,8 @@
     "block": 834
   },
   {
-    "id": "xbuilders:steel_fence_gate",
-    "name": "Steel Fence Gate",
+    "id": "xbuilders:iron_fence_gate",
+    "name": "iron Fence Gate",
     "block": 835
   },
   {
@@ -4598,8 +4611,8 @@
     "block": 873
   },
   {
-    "id": "xbuilders:steel_trapdoor",
-    "name": "Steel Trapdoor",
+    "id": "xbuilders:iron_trapdoor",
+    "name": "iron Trapdoor",
     "block": 874
   },
   {

@@ -1,10 +1,7 @@
 package com.xbuilders.engine.items.recipes.smelting;
 
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.recipes.DisplayRecipe;
-import com.xbuilders.engine.items.recipes.Recipe;
-import com.xbuilders.engine.items.recipes.RecipeRegistry;
-import com.xbuilders.engine.items.recipes.TagPossibilities;
+import com.xbuilders.engine.items.recipes.*;
 import com.xbuilders.game.vanilla.ui.RecipeDrawingUtils;
 import org.lwjgl.nuklear.NkContext;
 

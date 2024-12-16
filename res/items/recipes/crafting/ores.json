@@ -1,0 +1,62 @@
+[
+  {
+    "input": [
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot"
+    ],
+    "output": "xbuilders:gold_block",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      "xbuilders:diamond"
+    ],
+    "output": "xbuilders:diamond_block",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:emerald",
+      "xbuilders:emerald",
+      "xbuilders:emerald",
+      "xbuilders:emerald",
+      "xbuilders:emerald",
+      "xbuilders:emerald",
+      "xbuilders:emerald",
+      "xbuilders:emerald",
+      "xbuilders:emerald"
+    ],
+    "output": "xbuilders:emerald_block",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot"
+    ],
+    "output": "xbuilders:iron_block",
+    "amount": 1
+  }
+]

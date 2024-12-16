@@ -1,5 +1,6 @@
 package com.xbuilders.engine.ui.gameScene.items;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemStack;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -25,7 +26,7 @@ public class UI_ItemIndex {
     public int scrollValue = 0;
     int maxColumns = 11;
     NKWindow window;
-    String hoveredItem;
+    Item hoveredItem;
 
     private boolean matchesSearch(Item item, String searchCriteria) {
         if (searchCriteria == null || searchCriteria.isBlank() || item.name == null) return true;
@@ -90,24 +91,34 @@ public class UI_ItemIndex {
 
     public void draw(NkContext ctx, MemoryStack stack, int Allitems_Height) {
         hoveredItem = null;
+        isOver = false;
 
         //Search box
         nk_layout_row_dynamic(ctx, 20, 1);
         nk_label(ctx, "Search Item List", NK_TEXT_LEFT);
         nk_layout_row_dynamic(ctx, 25, 1);
+
         searchBox.render(ctx);
+
         ctx.style().button().padding().set(0, 0);
         inventoryGroup(ctx, stack, Allitems_Height);
 
-        if (hoveredItem != null)
-            Nuklear.nk_tooltip(ctx, " " + hoveredItem + ""); //ending character is important
+        if (hoveredItem != null) {
+            String tooltip = " " + hoveredItem.name;
+            if (MainWindow.devMode) tooltip = " " + hoveredItem.id;
+            Nuklear.nk_tooltip(ctx, tooltip);
+        }
     }
+
+    boolean isOver;
 
     private void inventoryGroup(NkContext ctx, MemoryStack stack, int Allitems_Height) {
         nk_layout_row_dynamic(ctx, Allitems_Height, 1);
+        if (nk_widget_is_hovered(ctx)) { //Widget is hovered counts for groups as well
+            isOver = true;
+        }
         if (nk_group_begin(ctx, title, NK_WINDOW_NO_SCROLLBAR)) {
             int maxRows = (int) (Math.floor(Allitems_Height / itemWindow.getItemSize()));
-
             scrollValue = MathUtils.clamp(scrollValue, 0, Math.max(0, (items.size() / maxColumns) - 1));
             int itemID = scrollValue * maxColumns;
             int rows = 0;
@@ -125,11 +136,20 @@ public class UI_ItemIndex {
                     }
 
                     Item item = items.get(itemID);
-                    if (nk_widget_is_hovered(ctx)) {
-                        hoveredItem = item.name;
-                    }
-                    if (nk_button_image(ctx, item.getNKIcon())) {
-                        if (itemClickEvent != null) itemClickEvent.accept(item);
+                    if (item == null) {
+                        if (nk_widget_is_hovered(ctx)) {
+                            hoveredItem = null;
+                            isOver = true;
+                        }
+                        nk_button_label(ctx, "");
+                    } else {
+                        if (nk_widget_is_hovered(ctx)) {
+                            hoveredItem = item;
+                            isOver = true;
+                        }
+                        if (nk_button_image(ctx, item.getNKIcon())) {
+                            if (itemClickEvent != null) itemClickEvent.accept(item);
+                        }
                     }
                     column++;
                     itemID++;
@@ -137,6 +157,7 @@ public class UI_ItemIndex {
             }
         }
         nk_group_end(ctx);
+
     }
 
     public Consumer<Item> itemClickEvent;
@@ -150,7 +171,7 @@ public class UI_ItemIndex {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        scrollValue -= yoffset;
+        if (isOver) scrollValue -= yoffset;
         return true;
     }
 

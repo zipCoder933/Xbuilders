@@ -15,9 +15,9 @@ import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.loot.LootTableRegistry;
-import com.xbuilders.engine.items.recipes.Recipe;
 import com.xbuilders.engine.items.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.items.recipes.crafting.CraftingRecipes;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
@@ -51,8 +52,6 @@ import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
  * @author zipCoder933
  */
 public class XbuildersGame extends Game {
-
-
 
 
     public XbuildersGame(MainWindow window) {
@@ -233,6 +232,8 @@ public class XbuildersGame extends Game {
             LootTableRegistry.blockLootTables.loadFromFile(jsonFile);
         }
 
+        //synthesizeBlockDyedRecipes(itemList);
+
         //Load recipes
         for (File jsonFile : Objects.requireNonNull(ResourceUtils.resource("items/recipes/crafting").listFiles())) {
             RecipeRegistry.craftingRecipes.loadFromFile(jsonFile);
@@ -251,60 +252,186 @@ public class XbuildersGame extends Game {
     }
 
 
-    /**
-     * For temporary purposes
-     *
-     * @param itemList
-     */
-    private void synthesizeBlockVariantRecipes(ArrayList<Item> itemList) throws IOException {
+    private void synthesizeBlockDyedRecipes(ArrayList<Item> itemList) throws IOException {
         System.out.println("Synthesizing block variants...");
-        //Write recipes
-        for (Item item : itemList) {
-            Block block = item.getBlock();
-            if (block == null) continue;
-//            if (RecipeRegistry.craftingRecipes.getFromOutput(item.id) != null) continue;//If there is already a recipe, skip it
-            Item blockVariant = Items.getBlockVariant(item, BlockRegistry.DEFAULT_BLOCK_TYPE_ID, RenderType.ORIENTABLE_BLOCK);
-            if (blockVariant == null) continue;
 
-            if (block.renderType == RenderType.SLAB) {
-                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                        null, null, null,
-                        null, null, null,
-                        blockVariant.id, blockVariant.id, blockVariant.id,
-                        item.id, 6));
-            } else if (block.renderType == RenderType.STAIRS) {
-                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                        null, null, blockVariant.id,
-                        null, blockVariant.id, blockVariant.id,
-                        blockVariant.id, blockVariant.id, blockVariant.id,
-                        item.id, 6));
-            } else if (block.renderType == RenderType.FENCE) {
-                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                        null, null, null,
-                        blockVariant.id, "xbuilders:stick", blockVariant.id,
-                        blockVariant.id, "xbuilders:stick", blockVariant.id,
-                        item.id, 10));
-            } else if (block.renderType == RenderType.FENCE_GATE) {
-                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                        null, null, null,
-                        "xbuilders:stick", blockVariant.id, "xbuilders:stick",
-                        "xbuilders:stick", blockVariant.id, "xbuilders:stick",
-                        item.id, 4));
-            } else if (block.renderType == RenderType.PILLAR) {
-                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                        null, blockVariant.id, null,
-                        null, blockVariant.id, null,
-                        null, blockVariant.id, null,
-                        item.id, 4));
-            } else if (block.renderType == RenderType.PANE) {
-                RecipeRegistry.craftingRecipes.add(new CraftingRecipe(
-                        blockVariant.id, null, blockVariant.id,
-                        blockVariant.id, null, blockVariant.id,
-                        blockVariant.id, null, blockVariant.id,
-                        item.id, 12));
+
+        CraftingRecipes dyed = new CraftingRecipes();
+        CraftingRecipes doorsTrapdoors = new CraftingRecipes();
+
+
+        String[] colors = new String[]{
+                "red",
+                "orange",
+                "yellow",
+                "green",
+                "lime",
+                "cyan",
+                "blue",
+                "magenta",
+                "purple",
+                "gray",
+                "light_gray",
+                "brown",
+                "black",
+                "white",};
+
+        for (Item item : itemList) {
+            //If the item id has a color
+            colorLoop:
+            for (String color : colors) {
+                if (item.id.contains(color)) {
+                    String nonColorName = item.id
+                            .replace(color, "")
+                            .replace("xbuilders:", "").replace("_", " ").trim();
+                    String dye = "xbuilders:" + color + "_dye";
+                    Block block = item.getBlock();
+                    if (block == null) continue;
+
+                    //System.out.println("Synthesizing " + nonColorName + " " + color);
+
+                    if (block.renderType == RenderType.BLOCK && block.alias.contains("glass")) {
+                        String base = "xbuilders:glass";
+                        dyed.add(new CraftingRecipe(
+                                base, base, dye,
+                                base, base, null,
+                                null, null, null,
+                                item.id, 4));
+                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("concrete")) {
+                        String base = "xbuilders:concrete";
+                        dyed.add(new CraftingRecipe(
+                                base, base, dye,
+                                base, base, null,
+                                null, null, null,
+                                item.id, 4));
+                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("wool")) {
+                        String base = "xbuilders:wool";
+                        dyed.add(new CraftingRecipe(
+                                base, base, dye,
+                                base, base, null,
+                                null, null, null,
+                                item.id, 4));
+                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("stained_wood")) {
+                        String base = "#wood";
+                        dyed.add(new CraftingRecipe(
+                                base, base, dye,
+                                base, base, null,
+                                null, null, null,
+                                item.id, 4));
+                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("siding")) {
+                        String base = "xbuilders:tan_siding";
+                        dyed.add(new CraftingRecipe(
+                                base, base, dye,
+                                base, base, null,
+                                null, null, null,
+                                item.id, 4));
+                    }
+
+                    break colorLoop;
+                }
             }
         }
-        RecipeRegistry.craftingRecipes.writeToFile(ResourceUtils.resource("items/recipes/variants.json"));
+        dyed.writeToFile(ResourceUtils.resource("items/recipes/crafting/dyed.json"));
+        System.out.println("Done synthesizing");
+    }
+
+    private void synthesizeBlockVariantRecipes(ArrayList<Item> itemList) throws IOException {
+        System.out.println("Synthesizing block variants...");
+
+
+        CraftingRecipes variants = new CraftingRecipes();
+        CraftingRecipes doorsTrapdoors = new CraftingRecipes();
+
+        Predicate<Block> matchPredicate = (b) -> !b.alias.contains("log") && !b.alias.contains("leaves");
+
+        for (Item item : itemList) {
+
+            if (item.getBlock() != null) {
+                Block block = item.getBlock();
+                //MatchTexture
+                Item baseBlock = Items.getBlockWithSharedTexture(
+                        matchPredicate,
+                        item, //item
+                        BlockRegistry.DEFAULT_BLOCK_TYPE_ID, RenderType.ORIENTABLE_BLOCK);
+                //Match name
+                if (baseBlock == null) baseBlock = Items.getBlockWithSharedName(
+                        matchPredicate,
+                        item, //item
+                        new String[]{"door", "trapdoor"}, //invalid matches
+                        BlockRegistry.DEFAULT_BLOCK_TYPE_ID, RenderType.ORIENTABLE_BLOCK);
+
+                if (baseBlock == null) continue;
+
+                if (block.renderType == RenderType.SLAB) {
+                    variants.add(new CraftingRecipe(
+                            null, null, null,
+                            null, null, null,
+                            baseBlock.id, baseBlock.id, baseBlock.id,
+                            item.id, 6));
+                } else if (block.renderType == RenderType.STAIRS) {
+                    variants.add(new CraftingRecipe(
+                            null, null, baseBlock.id,
+                            null, baseBlock.id, baseBlock.id,
+                            baseBlock.id, baseBlock.id, baseBlock.id,
+                            item.id, 6));
+                } else if (block.renderType == RenderType.FENCE) {
+                    variants.add(new CraftingRecipe(
+                            null, null, null,
+                            baseBlock.id, "xbuilders:stick", baseBlock.id,
+                            baseBlock.id, "xbuilders:stick", baseBlock.id,
+                            item.id, 10));
+                } else if (block.renderType == RenderType.FENCE_GATE) {
+                    variants.add(new CraftingRecipe(
+                            null, null, null,
+                            "xbuilders:stick", baseBlock.id, "xbuilders:stick",
+                            "xbuilders:stick", baseBlock.id, "xbuilders:stick",
+                            item.id, 4));
+                } else if (block.renderType == RenderType.PILLAR) {
+                    variants.add(new CraftingRecipe(
+                            null, baseBlock.id, null,
+                            null, baseBlock.id, null,
+                            null, baseBlock.id, null,
+                            item.id, 4));
+                } else if (block.renderType == RenderType.DOOR_HALF) {
+                    doorsTrapdoors.add(new CraftingRecipe(
+                            baseBlock.id, baseBlock.id, null,
+                            baseBlock.id, baseBlock.id, null,
+                            baseBlock.id, baseBlock.id, null,
+                            item.id, 3));
+                } else if (block.renderType == RenderType.TRAPDOOR) {
+                    doorsTrapdoors.add(new CraftingRecipe(
+                            null, null, null,
+                            baseBlock.id, baseBlock.id, baseBlock.id,
+                            baseBlock.id, baseBlock.id, baseBlock.id,
+                            item.id, 6));
+                } else if (block.renderType == RenderType.PANE) {
+                    variants.add(new CraftingRecipe(
+                            baseBlock.id, null, baseBlock.id,
+                            baseBlock.id, null, baseBlock.id,
+                            baseBlock.id, null, baseBlock.id,
+                            item.id, 12));
+                }
+            } else {
+                Item baseBlock = Items.getBlockWithSharedName(
+                        matchPredicate,
+                        item,
+                        new String[]{"door", "trapdoor"},
+                        BlockRegistry.DEFAULT_BLOCK_TYPE_ID, RenderType.ORIENTABLE_BLOCK);
+                if (baseBlock == null) continue;
+                if (item.id.contains("boat")) {
+                    System.out.println(item.id);
+                    variants.add(new CraftingRecipe(
+                            null, null, null,
+                            baseBlock.id, null, baseBlock.id,
+                            baseBlock.id, baseBlock.id, baseBlock.id,
+                            item.id, 1));
+                }
+            }
+        }
+        System.out.println("Writing recipes...");
+        variants.writeToFile(ResourceUtils.resource("items/recipes/crafting/variants.json"));
+        doorsTrapdoors.writeToFile(ResourceUtils.resource("items/recipes/crafting/doorsTrapdoors.json"));
+        System.out.println("Done synthesizing");
     }
 
 

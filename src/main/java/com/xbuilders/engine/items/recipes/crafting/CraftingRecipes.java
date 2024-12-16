@@ -93,10 +93,10 @@ public class CraftingRecipes extends RecipeList<CraftingRecipe> {
     }
 
     public void loadFromFile(File file) throws IOException {
+        System.out.println("Loading " + name + " recipes from " + file);
         String json = Files.readString(file.toPath());
         List<CraftingRecipe> recipeList = objectMapper.readValue(json, new TypeReference<List<CraftingRecipe>>() {
         });
-        System.out.println("Loaded " + recipeList.size() + " " + name + " recipes from " + file);
         this.recipeList.addAll(recipeList);
     }
 

@@ -26,4 +26,5 @@ public class RenderType {
     public static final int TRAPDOOR = 16;
     public static final int FENCE_GATE = 17;
     public static final int DOOR_HALF = 18;
+    public static final int BLOCK = 0;
 }

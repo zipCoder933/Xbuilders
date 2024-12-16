@@ -36,30 +36,30 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     Item selectedItem;
     HashMap<RecipeList, ArrayList<DisplayRecipe>> availableRecipes = new HashMap<>();
 
-
-
     public UI_RecipeIndex(NkContext ctx, Item[] itemList, NKWindow window) {
         super(ctx, window, "Recipe List");
 
         allItems = new UI_ItemIndex(this);
         allItems.setItemList(itemList);
-        allItems.itemClickEvent = (item) -> {
-            System.out.println("\nSelected item: " + item.name);
-            availableRecipes.clear();
-            selectedItem = item;
-            for (RecipeList registry : RecipeRegistry.allRecipeLists) {
-                ArrayList<DisplayRecipe> recipes = registry.getFormattedFromOutput(item);
-                if (recipes.isEmpty()) continue;
-                availableRecipes.put(registry, recipes);
-            }
-            System.out.println("Available recipes: " + availableRecipes);
-        };
+        allItems.itemClickEvent = this::selectItem;
 
         menuDimensions.y = Allitems_Height + recipeView_Height + 100;
 
         nk_begin(ctx, title, NkRect.create(), windowFlags);
         nk_end(ctx);
         setOpen(false);
+    }
+
+    private void selectItem(Item item) {
+        System.out.println("\nSelected item: " + item.name);
+        availableRecipes.clear();
+        selectedItem = item;
+        for (RecipeList registry : RecipeRegistry.allRecipeLists) {
+            ArrayList<DisplayRecipe> recipes = registry.getDisplayRecipesFromOutput(item);
+            if (recipes.isEmpty()) continue;
+            availableRecipes.put(registry, recipes);
+        }
+        System.out.println("Available recipes: " + availableRecipes);
     }
 
     final int Allitems_Height = 200; //total item list window size
@@ -81,7 +81,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
         }
 
         nk_layout_row_dynamic(ctx, recipeView_Height, 1);
-        if (nk_group_begin(ctx, "Recipe view", NK_WINDOW_NO_SCROLLBAR)) {
+        if (nk_group_begin(ctx, "Recipe view", 0)) {
             if (selectedItem != null && !availableRecipes.isEmpty()) {
                 nk_layout_row_dynamic(ctx, 20, availableRecipes.size());
                 for (RecipeList list : availableRecipes.keySet()) {
