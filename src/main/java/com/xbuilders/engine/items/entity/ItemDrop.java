@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.BlockRegistry;
@@ -149,6 +150,7 @@ public class ItemDrop extends Entity {
                 (float) MathUtils.curve(animatedPos.z, worldPosition.z, animationSpeed));
 
         if (animatedPos.distance(playerHeadPos) < 0.1 && canGet) {
+            System.out.println("CONSUMED BY: " + GameScene.player.userInfo.name);
             GameScene.player.inventory.acquireItem(stack);
             destroy();
         }

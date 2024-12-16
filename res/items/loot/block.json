@@ -872,6 +872,26 @@
       "item": "xbuilders:tall_dry_grass",
       "chance": 1.0,
       "maxItems": 1
+    },
+    {
+      "item": "xbuilders:wheat_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:carrot_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:potato_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:beetroot_seeds",
+      "chance": 0.1,
+      "maxItems": 1
     }
   ],
   "xbuilders:red_stained_glass": [
@@ -2132,6 +2152,26 @@
       "item": "xbuilders:tall_grass",
       "chance": 1.0,
       "maxItems": 1
+    },
+    {
+      "item": "xbuilders:wheat_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:carrot_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:potato_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:beetroot_seeds",
+      "chance": 0.1,
+      "maxItems": 1
     }
   ],
   "xbuilders:light_blue_concrete_slab": [
@@ -3300,6 +3340,26 @@
     {
       "item": "xbuilders:jungle_grass_plant",
       "chance": 1.0,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:wheat_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:carrot_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:potato_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:beetroot_seeds",
+      "chance": 0.1,
       "maxItems": 1
     }
   ],
@@ -5505,6 +5565,26 @@
     {
       "item": "xbuilders:fern",
       "chance": 1.0,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:wheat_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:carrot_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:potato_seeds",
+      "chance": 0.1,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:beetroot_seeds",
+      "chance": 0.1,
       "maxItems": 1
     }
   ],

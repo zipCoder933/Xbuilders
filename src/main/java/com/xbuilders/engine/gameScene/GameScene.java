@@ -71,10 +71,6 @@ public class GameScene implements WindowEvents {
 
     public static void setGameMode(GameMode gameMode) {
         GameScene.gameMode = gameMode;
-        //Handle events
-        game.event_gameModeChanged(getGameMode());
-        player.event_gameModeChanged(getGameMode());
-        GameScene.alert("Game mode changed to: " + gameMode);
     }
 
 
@@ -338,6 +334,7 @@ public class GameScene implements WindowEvents {
                 } else prog.stage++;
             }
             default -> {
+                lastGameMode = gameMode;
                 if (worldInfo.getSpawnPoint() == null) {
                     //Find spawn point
                     player.status_spawnPosition.set(getInitialSpawnPoint(world.terrain));
@@ -386,10 +383,11 @@ public class GameScene implements WindowEvents {
     }
 
 
-    boolean holdMouse;
+    private boolean holdMouse;
     public static boolean specialMode;
     public static GameUI ui;
     public static SkyBackground background;
+    private GameMode lastGameMode;
 
     public void render() throws IOException {
         MainWindow.frameTester.startProcess();
@@ -402,6 +400,13 @@ public class GameScene implements WindowEvents {
 
         glEnable(GL_DEPTH_TEST);   // Enable depth test
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
+
+        if (lastGameMode == null || lastGameMode != gameMode) {
+            lastGameMode = gameMode; //Gane mode changed
+            game.event_gameModeChanged(getGameMode());
+            player.event_gameModeChanged(getGameMode());
+            GameScene.alert("Game mode changed to: " + gameMode);
+        }
 
         MainWindow.frameTester.startProcess();
         eventPipeline.update();
