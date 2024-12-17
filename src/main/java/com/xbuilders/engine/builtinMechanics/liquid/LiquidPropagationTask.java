@@ -41,7 +41,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
     }
 
     public boolean isPenetrable(Block block) {
-        return block.isAir() || (!block.solid && block.renderType == RenderType.SPRITE);
+        return block.isAir() || (!block.solid && block.renderType == RenderType.SPRITE && block.toughness < 0.5f);
     }
 
     public static int getFlow(BlockData thisBD, int nullFlow) {
@@ -60,7 +60,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
         }
         HashSet<Vector3i> newNodes = new HashSet<>();
         MainWindow.printlnDev(liquidBlock.alias + " prop nodes: " + nodes.size());
-        final int SOURCE_FLOW = liquidBlock.liquidMaxFlow + 1;
+        final int SOURCE_FLOW = liquidBlock.liquidMaxFlow + 1; //The source block is block max flow + 1
 
         for (Vector3i v : nodes) {
             //Get the flow from this node

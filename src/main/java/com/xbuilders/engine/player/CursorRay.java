@@ -178,6 +178,7 @@ public class CursorRay {
                     lastBreakPos.set(getHitPos());
                 }
                 Block existingBlock = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
+                if(existingBlock.isLiquid()) return;
                 float miningSpeed = getMiningSpeed(selectedItem);
                 float blockToughness = existingBlock.toughness;
                 breakPercentage = breakAmt / blockToughness;

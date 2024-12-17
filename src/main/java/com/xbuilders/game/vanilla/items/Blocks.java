@@ -83,13 +83,14 @@ public class Blocks {
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_RED_SAND));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_GRAVEL));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_SNOW_BLOCK));
-        gravity.convert(Registrys.getBlock(Blocks.BLOCK_CACTUS));
+//        gravity.convert(Registrys.getBlock(Blocks.BLOCK_CACTUS));
 
         //set toughness levels automatically
         for (Block b : Registrys.blocks.getList()) {
-            if (b.toughness == 1 && !b.solid) b.toughness = 0.2f;
-            if (b.alias.toLowerCase().contains("sand") || b.alias.toLowerCase().contains("gravel") || b.alias.toLowerCase().contains("glass"))
-                b.toughness = 0.4f;
+            if (b.toughness == 1 && !b.solid) {
+                if (b.renderType == RenderType.SPRITE) b.toughness = 0f;
+                else b.toughness = 0.1f;
+            }
         }
 
     }

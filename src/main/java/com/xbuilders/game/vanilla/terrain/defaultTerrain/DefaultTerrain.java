@@ -1,9 +1,11 @@
 package com.xbuilders.game.vanilla.terrain.defaultTerrain;
 
+import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.world.Terrain;
+import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.vanilla.items.Blocks;
 import com.xbuilders.game.vanilla.items.blocks.trees.AcaciaTreeUtils;
@@ -16,7 +18,7 @@ import static com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain.*
 
 public class DefaultTerrain extends Terrain {
 
-    short fern, deadBush;
+
     final static int WORLD_HEIGHT_OFFSET = 138;
     final static int OCEAN_LEVEL = 25; //Used to deepen lakes in heightmap generation
     final static int WATER_LEVEL = WORLD_HEIGHT_OFFSET + (OCEAN_LEVEL - 5); //5 blocks above ocean level
@@ -29,12 +31,14 @@ public class DefaultTerrain extends Terrain {
     final static List<Ore> ORES = new ArrayList<Ore>();
 
 
-    public static final short COAL_ORE = 228;
-    public static final short IRON_ORE = 234;
-    public static final short GOLD_ORE = 237;
-    public static final short LAPIS_ORE = 544;
-    public static final short EMERALD_ORE = 551;
-    public static final short DIAMOND_ORE = 105;
+    final Block water, lava;
+    final short fern, deadBush;
+    static final short COAL_ORE = 228;
+    static final short IRON_ORE = 234;
+    static final short GOLD_ORE = 237;
+    static final short LAPIS_ORE = 544;
+    static final short EMERALD_ORE = 551;
+    static final short DIAMOND_ORE = 105;
 
     boolean caves;
     boolean trees;
@@ -47,9 +51,14 @@ public class DefaultTerrain extends Terrain {
     }
 
     public DefaultTerrain() {
+        //Therrain loading happens after blocks are loaded
         super("Default Terrain");
+
         fern = Blocks.BLOCK_FERN;
         deadBush = Blocks.BLOCK_DEAD_BUSH;
+        water = Registrys.getBlock(Blocks.BLOCK_WATER);
+        lava = Registrys.getBlock(Blocks.BLOCK_LAVA);
+
         ORES.add(new Ore("coal", 0.9f, COAL_ORE));
         ORES.add(new Ore("iron", 0.9f, IRON_ORE));
 
@@ -400,10 +409,12 @@ public class DefaultTerrain extends Terrain {
 
                         placeWater = false;
                     } else if (wy <= heightmap) {
-                        if (wy > WATER_LEVEL && heat < -0.6f) {
+                        if (wy > WATER_LEVEL && heat < -0.4f) {
                             chunk.data.setBlock(x, y, z, Blocks.BLOCK_ICE);
                         } else if (wy > WATER_LEVEL && placeWater) {
-                            chunk.data.setBlock(x, y, z, Blocks.BLOCK_WATER);
+                            //Whenever we set a source block, we MUST set the max flow of the water
+                            chunk.data.setBlock(x, y, z, water.id);
+                            chunk.data.setBlockData(x, y, z, new BlockData(new byte[]{(byte) (water.liquidMaxFlow + 1)}));  //set the max flow of the water
                         }
                     }
 //                    else if (wy > LAVA_LEVEL) {

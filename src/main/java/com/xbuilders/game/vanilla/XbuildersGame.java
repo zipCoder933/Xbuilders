@@ -64,11 +64,6 @@ public class XbuildersGame extends Game {
         availableSkins.put(3, (p) -> new FoxSkin(p, "green"));
         availableSkins.put(4, (p) -> new FoxSkin(p, "magenta"));
 
-
-        //Add terrains;
-        terrainsList.add(new DefaultTerrain());
-        terrainsList.add(new FlatTerrain());
-        if (window.devMode) terrainsList.add(new DevTerrain());
     }
 
     public HashMap<String, String> getCommandHelp() {
@@ -245,10 +240,17 @@ public class XbuildersGame extends Game {
         Blocks.editBlocks(window);
         Items.editItems(window);
 
+        //propagations
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());
         gameScene.livePropagationHandler.addTask(new GrassPropagation());
         new FirePropagation(gameScene.livePropagationHandler);
+
+
+        //Add terrains;
+        terrainsList.add(new DefaultTerrain());
+        terrainsList.add(new FlatTerrain());
+        if (window.devMode) terrainsList.add(new DevTerrain());
     }
 
 

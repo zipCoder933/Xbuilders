@@ -128,7 +128,7 @@
     },
     "solid": true,
     "opaque": true,
-    "toughness": 0.4,
+    "toughness": 0.2,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -199,7 +199,7 @@
     "solid": true,
     "opaque": true,
     "torch": 0,
-    "toughness": 0.4,
+    "toughness": 0.2,
     "type": 0,
     "colorInPlayerHead": [
       0.0,
@@ -337,6 +337,7 @@
       "neg_x": "sand",
       "pos_y": "sand"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": true,
     "torch": 0,
@@ -524,7 +525,7 @@
     },
     "solid": true,
     "opaque": true,
-    "toughness": 0.4,
+    "toughness": 0.2,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -937,6 +938,7 @@
       "neg_x": "red flower",
       "pos_y": "red flower"
     },
+    "toughness": 0.01,
     "solid": false,
     "opaque": false,
     "torch": 0,
@@ -2183,6 +2185,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -2296,6 +2299,7 @@
       "neg_x": "red sand",
       "pos_y": "red sand"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": true,
     "torch": 0,
@@ -2461,6 +2465,7 @@
     "opaque": true,
     "torch": 0,
     "type": 0,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -2530,6 +2535,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -2576,6 +2582,7 @@
     "opaque": true,
     "torch": 0,
     "type": 0,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -2622,6 +2629,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -2995,6 +3003,7 @@
     "opaque": true,
     "torch": 0,
     "type": 0,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -3018,6 +3027,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -3041,6 +3051,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -3184,6 +3195,7 @@
     "opaque": true,
     "torch": 0,
     "type": 0,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -3347,6 +3359,7 @@
     "opaque": true,
     "torch": 0,
     "type": 0,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -3370,6 +3383,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -3393,6 +3407,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -3414,6 +3429,7 @@
     },
     "solid": true,
     "opaque": true,
+    "toughness": 0.2,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -4723,7 +4739,7 @@
       "neg_x": "dry grass front",
       "pos_y": "dirt"
     },
-    "toughness": 0.4,
+    "toughness": 0.2,
     "solid": true,
     "opaque": true,
     "torch": 0,
@@ -5073,6 +5089,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -5142,6 +5159,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -5188,6 +5206,7 @@
     "opaque": false,
     "torch": 0,
     "type": 3,
+    "toughness": 2,
     "colorInPlayerHead": [
       0.0,
       0.0,
@@ -10132,7 +10151,7 @@
     },
     "solid": true,
     "opaque": true,
-    "toughness": 0.2,
+    "toughness": 0.15,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
