@@ -319,7 +319,7 @@ public class GameServer extends Server<PlayerClient> {
     private void printEntityChange(PlayerClient client, int mode, EntitySupplier entity,
                                    long identifier, Vector3f currentPos,
                                    byte[] data) {
-
+        if (!MainWindow.devMode) return;
         String modeStr;
         switch (mode) {
             case ENTITY_CREATED -> modeStr = "ENTITY CREATED";
@@ -333,7 +333,7 @@ public class GameServer extends Server<PlayerClient> {
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data);
         MainWindow.printlnDev(str);
-        GameScene.alert(str);
+        if (MainWindow.devMode) GameScene.alert(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {

@@ -10,6 +10,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 /**
  * @author zipCoder933
@@ -114,12 +115,36 @@ public class NetworkSocket {
         socket.close();
     }
 
+//    public byte[] receiveData() throws IOException {
+//        int length = inputStream.readInt();
+//        byte[] data = new byte[length];
+//        inputStream.readFully(data);
+//        return data;
+//    }
+
+    /**
+     * Read data from the socket and return it as a byte array.
+     * Blocks until data is available.
+     * @return
+     * @throws IOException
+     */
     public byte[] receiveData() throws IOException {
-        int length = inputStream.readInt();
-        byte[] data = new byte[length];
-        inputStream.readFully(data);
-        return data;
+        int originalTimeout = socket.getSoTimeout(); // Save the current timeout
+        try {
+            int length = inputStream.readInt(); // Read the length of data
+            byte[] data = new byte[length];
+
+            socket.setSoTimeout(10000); // Set timeout for readFully()
+            inputStream.readFully(data); // This will throw SocketTimeoutException if it takes too long
+            return data;
+        } catch (SocketTimeoutException e) {
+            System.out.println("Timeout: readFully took too long");
+            return new byte[]{0};
+        } finally {
+            socket.setSoTimeout(originalTimeout); // Restore the original timeout
+        }
     }
+
 
     public void sendData(byte[] data) throws IOException {
         /**
