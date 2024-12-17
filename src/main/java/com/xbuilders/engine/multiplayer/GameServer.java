@@ -252,7 +252,7 @@ public class GameServer extends Server<PlayerClient> {
             } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
                 MultiplayerPendingEntityChanges.readEntityChange(receivedData, (
                         mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
-                    //printEntityChange(mode, entity, identifier, currentPos, data);
+                    printEntityChange(client, mode, entity, identifier, currentPos, data);
                     if (MultiplayerPendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
                         if (mode == ENTITY_CREATED) {
                             setEntity(entity, identifier, currentPos, data);
@@ -316,19 +316,24 @@ public class GameServer extends Server<PlayerClient> {
         }
     }
 
-    private void printEntityChange(int mode, EntitySupplier entity, long identifier, Vector3f currentPos,
+    private void printEntityChange(PlayerClient client, int mode, EntitySupplier entity,
+                                   long identifier, Vector3f currentPos,
                                    byte[] data) {
+
         String modeStr;
         switch (mode) {
-            case ENTITY_CREATED -> modeStr = "CREATED";
-            case ENTITY_DELETED -> modeStr = "DELETED";
-            case ENTITY_UPDATED -> modeStr = "UPDATED";
-            default -> modeStr = "UNKNOWN";
+            case ENTITY_CREATED -> modeStr = "ENTITY CREATED";
+            case ENTITY_DELETED -> modeStr = "ENTITY DELETED";
+            case ENTITY_UPDATED -> modeStr = "ENTITY UPDATED";
+            default -> modeStr = " UNKNOWN ENTITY COMMAND";
         }
-        MainWindow.printlnDev("RECEIVED (" + modeStr + ") " + entity +
+        String str = client.getName() + ": (" + modeStr + ")" +
+                ", entity= " + entity.toString() +
                 ", id=" + Long.toHexString(identifier) +
                 ", pos=" + MiscUtils.printVector(currentPos) +
-                ", data=" + Arrays.toString(data));
+                ", data=" + Arrays.toString(data);
+        MainWindow.printlnDev(str);
+        GameScene.alert(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {

@@ -16,9 +16,19 @@ import java.net.Socket;
  */
 public class NetworkSocket {
 
+    public Thread messageThread;
+
+    public String getStatus() {
+        return "ping: " + getSecSinceLastPing() + "s ago"
+                + ";  connected: " + getSocket().isConnected()
+                + ";  closed: " + isClosed()
+                + ";  output shutdown: " + socket.isOutputShutdown()
+                + ";  input shutdown: " + socket.isInputShutdown()
+                + ";  message thread alive: " + messageThread.isAlive();
+    }
+
     public NetworkSocket init(Socket socket) throws IOException {
         this.socket = socket;
-        this.fakeHostAddress = null;
         outputStream = new DataOutputStream(socket.getOutputStream());
         inputStream = new DataInputStream(socket.getInputStream());
         buffOutputStream = new BufferedOutputStream(outputStream);
@@ -28,7 +38,6 @@ public class NetworkSocket {
     public NetworkSocket init(InetSocketAddress addr) throws IOException {
         this.socket = new Socket();
         socket.connect(addr);
-        this.fakeHostAddress = null;
         outputStream = new DataOutputStream(socket.getOutputStream());
         inputStream = new DataInputStream(socket.getInputStream());
         buffOutputStream = new BufferedOutputStream(outputStream);
@@ -61,17 +70,11 @@ public class NetworkSocket {
     public BufferedOutputStream buffOutputStream;
     public DataOutputStream outputStream;
     public DataInputStream inputStream;
-    private String fakeHostAddress;
     private InetSocketAddress fakeRemoteAdress;
 
-    public void setFakeHostAndRemoteAddress(String fakeHostAddress, String fakeRemoteAddress) {
-        this.fakeHostAddress = fakeHostAddress;
-        InetSocketAddress addr2 = (InetSocketAddress) socket.getRemoteSocketAddress();
-        fakeRemoteAdress = new InetSocketAddress(fakeRemoteAddress, addr2.getPort());
-    }
 
     public String getHostAddress() {
-        return fakeHostAddress != null ? fakeHostAddress : socket.getInetAddress().getHostAddress();
+        return socket.getInetAddress().getHostAddress();
     }
 
     public String getRemoteHostString() {
@@ -135,6 +138,7 @@ public class NetworkSocket {
     public void sendData(byte data) throws IOException {
         outputStream.writeInt(1);
         outputStream.write(data);
+        //Since this is not a buffered output stream we do NOT need to flush
     }
 
     public void sendString(String str) throws IOException {
@@ -145,10 +149,7 @@ public class NetworkSocket {
 
     @Override
     public String toString() {
-        return "NetworkSocket{"
-                + (fakeRemoteAdress != null ? "fakeHost=" + fakeHostAddress : "")
-                + (fakeRemoteAdress != null ? ", fakeRemoteAddr=" + fakeRemoteAdress.getHostString() : "")
-                + ", socket=" + socket + '}';
+        return "NetworkSocket{" + socket + '}';
     }
 
 }

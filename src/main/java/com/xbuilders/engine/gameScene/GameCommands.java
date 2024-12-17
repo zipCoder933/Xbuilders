@@ -80,12 +80,9 @@ public class GameCommands {
                     case "players" -> {
                         String str = "" + gameScene.server.clients.size() + " players:\n";
                         for (PlayerClient client : gameScene.server.clients) {
-                            str +=
-                                    client.getName()
-                                            + ";   ping: " + client.getSecSinceLastPing() + "s ago"
-                                            + ";   closed: " + client.isClosed()
-                                            + "\n";
+                            str += client.getName() + ";   " + client.getStatus() + "\n";
                         }
+                        System.out.println("\nPLAYERS:\n" + str);
                         return str;
                     }
                     case "msg" -> {

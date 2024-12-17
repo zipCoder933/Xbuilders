@@ -69,6 +69,7 @@ public class ItemDrop extends Entity {
 
         canGet = false;
         if (bytes == null || bytes.length == 0) {
+            System.out.println("EMPTY ITEM DROP");
             destroy();
             return;
         }
@@ -92,10 +93,7 @@ public class ItemDrop extends Entity {
 
 
     private boolean blockIsClear(Block camBlock, int x, int y, int z) {
-        Block block = GameScene.world.getBlock(
-                x,
-                y,
-                z);
+        Block block = GameScene.world.getBlock(x, y, z);
         return block.id == BlockRegistry.BLOCK_AIR.id || block == camBlock;
     }
 
@@ -107,6 +105,7 @@ public class ItemDrop extends Entity {
             canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.player.inventory.hasRoomForItem(stack);
             timeSinceDropped++;
             if (lifetime-- <= 0) {
+                System.out.println("DELETING ITEM DROP");
                 destroy();
             }
             if (distToPlayer < 2 && canGet) {
@@ -152,6 +151,7 @@ public class ItemDrop extends Entity {
         if (animatedPos.distance(playerHeadPos) < 0.1 && canGet) {
             System.out.println("CONSUMED BY: " + GameScene.player.userInfo.name);
             GameScene.player.inventory.acquireItem(stack);
+            System.out.println("DELETING ITEM DROP");
             destroy();
         }
 

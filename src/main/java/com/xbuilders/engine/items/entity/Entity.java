@@ -148,22 +148,38 @@ public abstract class Entity {
 
         //We have to send the entity after it has been initialized
         if (sendMultiplayer) GameScene.server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
-        loadBytes = null; //Do this last
     }
 
     //We will only bring this back if the entity is taking too long to load things that dont need the GLFW context.
     public abstract void initializeOnDraw(byte[] bytes);
 
 
+    /**
+     * Used to serialize the entity to a byte array
+     *
+     * @return
+     * @throws IOException
+     */
     public byte[] toBytes() throws IOException {
-        return null;
+        return loadBytes;//Sometimes an entity doesnt have a toBytes method, so we can use this
+        //We must NEVER set loadBytes to null unless we are ABSOLUTELY SURE that it will never be needed again
     }
 
 
+    /**
+     * Used for multiplayer, live entity state
+     *
+     * @return
+     */
     public byte[] entityState_toBytes() {
         return null;
     }
 
+    /**
+     * Used for multiplayer, live entity state
+     *
+     * @param state
+     */
     public void entityState_load(byte[] state) {
     }
 

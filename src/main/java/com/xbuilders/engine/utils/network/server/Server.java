@@ -9,6 +9,7 @@ package com.xbuilders.engine.utils.network.server;
  */
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -220,6 +221,7 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
         Thread clientDataThread = new Thread(() -> getClientDataLoop(newClient));
         clientDataThread.setPriority(1);
         clientDataThread.start();
+        newClient.messageThread = clientDataThread;
         clients.add(newClient);
     }
 
@@ -231,8 +233,8 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
 
     protected void getClientDataLoop(TClient client) {
         try {
-            //Enable keep alive
-            client.getSocket().setKeepAlive(true);
+            client.getSocket().setKeepAlive(true); //Enable keep alive
+            //client.getSocket().setSoTimeout(10000); // if no data arrives within 10s, a SocketTimeoutException will be thrown.
 
             while (!client.isClosed()) {
                 // Assuming you have a method like receiveData() to receiveData messages from the client
@@ -253,35 +255,42 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
             }
         } catch (SocketException | java.io.EOFException ex) {
             //if there is a socket exception, it is most likely because the socket was disconnected
+            System.out.println("Socket closed: (" + ex.getMessage() + ")");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ErrorHandler.log(ex);
         }
         clients.remove(client);
+        System.out.println("CLIENT DISCONNECTED: " + client.toString());
         if (serverIsOpen()) {
             boolean reconnected = tryToReconnect(client);
-            if (!reconnected) clientDisconnectEvent(client);
+            if (!reconnected) {
+                //client.close();
+                clientDisconnectEvent(client);
+            }
         }
     }
 
     private boolean tryToReconnect(TClient client) {
-        System.out.println("CLIENT DISCONNECTED: " + client.toString());
-        try {
-            for (int i = 0; i < 10; i++) {
-                System.out.println("Trying to reconnect to: " + client.toString());
-                TClient newClient = (TClient) addConnection(client.getRemoteSocketAddress());
-                if (!newClient.isClosed()) {
-                    System.out.println("Reconnected to: " + client.toString());
-                    connectToServer(newClient);
-                    return true;
-                }
-                Thread.sleep(1000);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("Failed to reconnect to: " + client.toString() + " " + e.getMessage());
-        }
-        return false;
+        System.out.println("Not attempting reconnects");
+        return false;//For now, we won't try to reconnect
+
+//        try {
+//            for (int i = 0; i < 10; i++) {
+//                System.out.println("Trying to reconnect to: " + client.toString());
+//                TClient newClient = (TClient) addConnection(client.getRemoteSocketAddress());
+//                if (!newClient.isClosed()) {
+//                    System.out.println("Reconnected to: " + client.toString());
+//                    connectToServer(newClient);
+//                    return true;
+//                }
+//                Thread.sleep(1000);
+//            }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            System.out.println("Failed to reconnect to: " + client.toString() + " " + e.getMessage());
+//        }
+//        return false;
     }
 
 }
