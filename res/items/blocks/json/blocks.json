@@ -44,7 +44,9 @@
       0.0,
       0.0
     ],
-    "properties": {}
+    "properties": {
+      "flammable": true
+    }
   },
   {
     "alias": "xbuilders:birch_leaves",
@@ -254,7 +256,9 @@
       0.0,
       0.0
     ],
-    "properties": {}
+    "properties": {
+      "flammable": true
+    }
   },
   {
     "alias": "xbuilders:oak_leaves",
@@ -1087,7 +1091,9 @@
       0.0,
       0.0
     ],
-    "properties": {}
+    "properties": {
+      "flammable": true
+    }
   },
   {
     "alias": "xbuilders:tall_grass_top",
@@ -2661,7 +2667,6 @@
     ],
     "properties": {}
   },
-
   {
     "alias": "xbuilders:mini_cactus",
     "id": 123,
@@ -3207,7 +3212,6 @@
     ],
     "properties": {}
   },
-
   {
     "alias": "xbuilders:honeycomb_block_stairs",
     "id": 147,
@@ -3534,7 +3538,6 @@
     ],
     "properties": {}
   },
-
   {
     "alias": "xbuilders:metal_grate",
     "id": 164,
@@ -3558,7 +3561,6 @@
     ],
     "properties": {}
   },
-
   {
     "alias": "xbuilders:red_palisade_sandstone",
     "id": 175,
@@ -4754,7 +4756,9 @@
       0.0,
       0.0
     ],
-    "properties": {}
+    "properties": {
+      "flammable": true
+    }
   },
   {
     "alias": "xbuilders:fire_coral_fan",
@@ -5127,7 +5131,6 @@
     ],
     "properties": {}
   },
-
   {
     "alias": "xbuilders:bamboo_ladder",
     "id": 248,
@@ -16168,7 +16171,9 @@
       0.0,
       0.0
     ],
-    "properties": {}
+    "properties": {
+      "flammable": true
+    }
   },
   {
     "alias": "xbuilders:spruce_leaves",

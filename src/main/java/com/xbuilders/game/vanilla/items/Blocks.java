@@ -7,6 +7,7 @@ import com.xbuilders.engine.items.ItemUtils;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.vanilla.items.blocks.*;
 import com.xbuilders.game.vanilla.items.blocks.trees.*;
 import com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain;
@@ -52,7 +53,6 @@ public class Blocks {
     public static void editBlocks(MainWindow window) {
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
-
 
 
         BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_GRASS_TOP, Blocks.BLOCK_TALL_GRASS);
@@ -139,10 +139,57 @@ public class Blocks {
 
         Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).randomTickEvent = OakTreeUtils.randomTickEvent;
         Registrys.getBlock(Blocks.BLOCK_SPRUCE_SAPLING).randomTickEvent = SpruceTreeUtils.randomTickEvent;
-        Registrys.getBlock(Blocks.BLOCK_BIRCH_SAPLING).randomTickEvent =  BirchTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_BIRCH_SAPLING).randomTickEvent = BirchTreeUtils.randomTickEvent;
         Registrys.getBlock(Blocks.BLOCK_JUNGLE_SAPLING).randomTickEvent = JungleTreeUtils.randomTickEvent;
         Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
 
+        Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
+            if (!GameScene.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+                //Decay other blocks
+                if (!GameScene.world.getBlock(x, y + 1, z).solid ||
+                        GameScene.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                    GameScene.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
+                }
+                //Decay this block
+                GameScene.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                return true;
+            } else {
+                boolean foundFlammable = false;
+                if (spreadIfFlammable(x + 1, y, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x - 1, y, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y, z + 1)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x + 1, y - 1, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x - 1, y - 1, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y - 1, z + 1)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y - 1, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x + 1, y + 1, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x - 1, y + 1, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y + 1, z + 1)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y + 1, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x + 1, y + 2, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x - 1, y + 2, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y + 2, z + 1)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y + 2, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x, y - 1, z)) foundFlammable = true;
+                else if (spreadIfFlammable(x, y + 2, z)) foundFlammable = true;
+
+                return foundFlammable;
+            }
+        };
+
+    }
+
+    private static boolean spreadIfFlammable(int x, int y, int z) {
+        if (GameScene.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+            GameScene.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+            return true;
+        }
+        return false;
     }
 
     private static void changeMaterialCoasting() {
