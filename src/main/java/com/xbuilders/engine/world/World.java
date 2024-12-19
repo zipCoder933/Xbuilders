@@ -144,8 +144,8 @@ public class World {
 
     private SortByDistanceToPlayer sortByDistance;
 
+    public final Map<Vector3i, Chunk> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
     private final List<Chunk> unusedChunks = new ArrayList<>();
-    public final Map<Vector3i, Chunk> chunks = new HashMap<>();
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;

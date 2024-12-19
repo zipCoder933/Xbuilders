@@ -393,7 +393,7 @@ public class Chunk {
     }
 
     private static Random randomTick_random = new Random();
-    private static final float RANDOM_TICK_LIKELYHOOD = 1;
+    private static final float RANDOM_TICK_LIKELYHOOD = 0.01f;
 
     public boolean tick() {
         boolean updatedAnything = false;
