@@ -25,7 +25,7 @@ public class ChunkVoxels {
 
     final int dataSize;
     private final byte[] light;
-    private final short[] blocks;
+    protected final short[] blocks;
     private final HashMap<Integer, BlockData> blockData;
     public final Vector3i size;
     public boolean blocksAreEmpty = true;

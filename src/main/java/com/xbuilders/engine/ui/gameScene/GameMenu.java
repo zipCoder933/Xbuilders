@@ -37,13 +37,25 @@ public class GameMenu extends UI_GameMenu {
     public GameMenu(NkContext ctx, MainWindow window) {
         super(ctx, window);
         chunkDist = new NumberBox(8, 0);
-        chunkDist.setMinValue(World.VIEW_DIST_MIN);
-        chunkDist.setMaxValue(World.VIEW_DIST_MAX);
+        chunkDist.setMinValue(MainWindow.settings.internal_viewDistance.min);
+        chunkDist.setMaxValue(MainWindow.settings.internal_viewDistance.max);
         chunkDist.setValueAsNumber(GameScene.world.getViewDistance());
+        simDist = new NumberBox(8, 0);
+
+        simDist.setMinValue(MainWindow.settings.internal_simulationDistance.min);
+        simDist.setMaxValue(MainWindow.settings.internal_simulationDistance.max);
+        simDist.setValueAsNumber(MainWindow.settings.internal_simulationDistance.value);
 
         chunkDist.setOnChangeEvent(() -> {
             GameScene.world.setViewDistance(window.settings, (int) chunkDist.getValueAsNumber());
+            chunkDist.setValueAsNumber(GameScene.world.getViewDistance());
         });
+        simDist.setOnChangeEvent(() -> {
+            MainWindow.settings.internal_simulationDistance.value = (int) simDist.getValueAsNumber();
+            MainWindow.settings.save();
+            simDist.setValueAsNumber(MainWindow.settings.internal_simulationDistance.value);
+        });
+
         allSettings = new SettingsPage(ctx, window, () -> {
             page = GameMenuPage.SETTINGS;
         });
@@ -56,7 +68,7 @@ public class GameMenu extends UI_GameMenu {
     }
 
     GameMenuPage page = GameMenuPage.HOME;
-    NumberBox chunkDist;
+    NumberBox chunkDist,simDist;
     SettingsPage allSettings;
 
     @Override
@@ -173,14 +185,21 @@ public class GameMenu extends UI_GameMenu {
                 menuWidth, menuHeight, windowDims);
         if (nk_begin(ctx, "Menu", windowDims, NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {//| NK_WINDOW_MINIMIZABLE
             nk_layout_row_static(ctx, 10, 1, 1);
-            nk_layout_row_dynamic(ctx, 20, 1);
 
+            nk_layout_row_dynamic(ctx, 15, 1);
             Nuklear.nk_text(ctx, "Chunk Distance", NK_LEFT);
+
             nk_layout_row_dynamic(ctx, 30, 1);
             chunkDist.render(ctx);
 
+            nk_layout_row_dynamic(ctx, 15, 1);
+            Nuklear.nk_text(ctx, "Simulation Distance", NK_LEFT);
+
+            nk_layout_row_dynamic(ctx, 30, 1);
+            simDist.render(ctx);
+
             nk_layout_row_static(ctx, 10, 1, 1);
-            nk_layout_row_dynamic(ctx, 40, 1);
+            nk_layout_row_dynamic(ctx, 35, 1);
             if (nk_button_label(ctx, "All Settings")) {
                 page = GameMenuPage.ALL_SETTINGS;
             }

@@ -2,6 +2,9 @@ package com.xbuilders.engine.world.chunk;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.Registrys;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -18,6 +21,7 @@ import org.joml.Vector3i;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -386,5 +390,36 @@ public class Chunk {
     @Override
     public String toString() {
         return "Chunk{" + position.x + "," + position.y + "," + position.z + '}';
+    }
+
+    private static Random randomTick_random = new Random();
+    private static final float RANDOM_TICK_LIKELYHOOD = 1;
+
+    public boolean tick() {
+        boolean updatedAnything = false;
+        int wx = position.x * WIDTH;
+        int wy = position.y * HEIGHT;
+        int wz = position.z * WIDTH;
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                for (int z = 0; z < WIDTH; z++) {
+
+                    if (randomTick_random.nextFloat() <= RANDOM_TICK_LIKELYHOOD) {
+                        short blockID = data.getBlock(x, y, z);
+                        if (blockID != BlockRegistry.BLOCK_AIR.id) {
+                            Block block = Registrys.getBlock(blockID);
+                            if (block.randomTickEvent != null) {
+                                if (block.randomTickEvent.run(wx + x, wy + y, wz + z)) updatedAnything = true;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+        return true;
+
     }
 }

@@ -53,13 +53,16 @@ public class Block {
     //Create a functional interface for setBlockEvent
     @FunctionalInterface
     public interface SetBlockEvent {
-
         public void run(int x, int y, int z);
     }
 
     @FunctionalInterface
-    public interface RemoveBlockEvent {
+    public interface RandomTickEvent {
+        public boolean run(int x, int y, int z);
+    }
 
+    @FunctionalInterface
+    public interface RemoveBlockEvent {
         public void run(int x, int y, int z, BlockHistory history);
     }
 
@@ -67,19 +70,21 @@ public class Block {
     //A functional interface for onLocalChange
     @FunctionalInterface
     public interface OnLocalChange {
-
         public void run(BlockHistory history, Vector3i changedPosition, Vector3i thisPosition);
     }
 
+    private boolean setBlockEvent_isMultithreaded = false;
+    private boolean removeBlockEvent_isMultithreaded = false;
+    private boolean clickEvent_isMultithreaded = false;
+    private boolean localChangeEvent_isMultithreaded = false;
 
-    SetBlockEvent setBlockEvent = null;
-    OnLocalChange localChangeEvent = null;
-    RemoveBlockEvent removeBlockEvent = null;
-    public SetBlockEvent clickEvent = null;
-    boolean setBlockEvent_isMultithreaded = false;
-    boolean removeBlockEvent_isMultithreaded = false;
-    boolean clickEvent_isMultithreaded = false;
-    boolean localChangeEvent_isMultithreaded = false;
+    private SetBlockEvent setBlockEvent = null;
+    private OnLocalChange localChangeEvent = null;
+    private RemoveBlockEvent removeBlockEvent = null;
+    private SetBlockEvent clickEvent = null;
+
+    public RandomTickEvent randomTickEvent = null;
+
 
 
     public boolean allowExistence(int worldX, int worldY, int worldZ) {

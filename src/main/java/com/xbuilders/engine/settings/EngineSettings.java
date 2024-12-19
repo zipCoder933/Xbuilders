@@ -26,12 +26,14 @@ public class EngineSettings {
     //If there are settings we dont want acesssable in UI, we can prepend them with "internal"
     public boolean internal_smallWindow = false;
     public final BoundedInt internal_viewDistance = new BoundedInt(Chunk.WIDTH * 5);
+    public final BoundedInt internal_simulationDistance = new BoundedInt(Chunk.WIDTH * 3);
     public boolean internal_experimentalFeatures = false;
     public long internal_blockBoundaryAreaLimit = 1000000;
 
 
     public EngineSettings initVariables() {
         internal_viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
+        internal_simulationDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
         video_fullscreenSize.setBounds(0.5f, 1.0f);
         video_fullscreenSize.clamp();
         return this;

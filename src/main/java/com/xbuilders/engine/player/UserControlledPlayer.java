@@ -355,14 +355,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         autoForward = false;
         isFlyingMode = true;
         loadFromWorld(world);
-        event_gameModeChanged(GameScene.getGameMode());
+        gameModeChangedEvent(GameScene.getGameMode());
     }
 
     public void stopGameEvent() {
 
     }
 
-    public void event_gameModeChanged(GameMode gameMode) {
+    public void gameModeChangedEvent(GameMode gameMode) {
         resetHealthStats();
         if (gameMode == GameMode.SPECTATOR) {
             enableFlying();

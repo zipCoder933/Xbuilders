@@ -167,7 +167,7 @@ public class XbuildersGame extends Game {
         return false;
     }
 
-    public void event_gameModeChanged(GameMode gameMode) {
+    public void gameModeChangedEvent(GameMode gameMode) {
         GameScene.player.camera.cursorRay.disableBoundaryMode();
         blockTools.reset();
     }
@@ -191,8 +191,12 @@ public class XbuildersGame extends Game {
     WorldData currentWorld;
 
     @Override
-    public void startGame(WorldData worldInfo) {
+    public void startGameEvent(WorldData worldInfo) {
         this.currentWorld = worldInfo;
+    }
+
+    @Override
+    public void stopGameEvent() {
     }
 
     @Override
@@ -241,10 +245,10 @@ public class XbuildersGame extends Game {
         Items.editItems(window);
 
         //propagations
-        gameScene.livePropagationHandler.addTask(new WaterPropagation());
-        gameScene.livePropagationHandler.addTask(new LavaPropagation());
-        gameScene.livePropagationHandler.addTask(new GrassPropagation());
-        new FirePropagation(gameScene.livePropagationHandler);
+//        gameScene.livePropagationHandler.addTask(new WaterPropagation());
+//        gameScene.livePropagationHandler.addTask(new LavaPropagation());
+//        gameScene.livePropagationHandler.addTask(new GrassPropagation());
+//        new FirePropagation(gameScene.livePropagationHandler);
 
 
         //Add terrains;

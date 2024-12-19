@@ -2,11 +2,13 @@ package com.xbuilders.game.vanilla.items;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.vanilla.items.blocks.*;
 import com.xbuilders.game.vanilla.items.blocks.trees.*;
+import com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,31 @@ public class Blocks {
         return blockList;
     }
 
+    public static boolean isGrass(short thisBlock) {
+        return thisBlock == Blocks.BLOCK_GRASS ||
+                thisBlock == Blocks.BLOCK_SNOW_GRASS ||
+                thisBlock == Blocks.BLOCK_JUNGLE_GRASS ||
+                thisBlock == Blocks.BLOCK_DRY_GRASS;
+    }
+
+    private static short getGrassBlockOfBiome(int wx, int wy, int wz) {
+        int biome = GameScene.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        switch (biome) {
+            case ComplexTerrain.BIOME_SNOWY -> {
+                return Blocks.BLOCK_SNOW_GRASS;
+            }
+            case ComplexTerrain.BIOME_JUNGLE -> {
+                return Blocks.BLOCK_JUNGLE_GRASS;
+            }
+            case ComplexTerrain.BIOME_SAVANNAH, ComplexTerrain.BIOME_DESERT -> {
+                return Blocks.BLOCK_DRY_GRASS;
+            }
+            default -> {
+                return Blocks.BLOCK_GRASS;
+            }
+        }
+    }
+
     public static void editBlocks(MainWindow window) {
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
@@ -57,6 +84,30 @@ public class Blocks {
         Block lava = Registrys.getBlock(Blocks.BLOCK_LAVA);
         lava.liquidMaxFlow = 6;
         lava.enterDamage = 0.5f;
+
+
+        Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
+            short thisBlock = GameScene.world.getBlockID(x, y, z);
+            Block aboveBlock = GameScene.world.getBlock(x, y - 1, z);
+
+            if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
+                GameScene.setBlock(getGrassBlockOfBiome(x, y, z), x, y, z);
+                return true;
+            } else if (isGrass(thisBlock) && aboveBlock.solid) {
+                GameScene.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+                return true;
+            }
+            return false;
+        };
+
+        Block dirt = Registrys.getBlock(Blocks.BLOCK_DIRT);
+        dirt.randomTickEvent = dirtGrassTickEvent;
+        Block grass = Registrys.getBlock(Blocks.BLOCK_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
 
 
         for (Block b : Registrys.blocks.getList()) {

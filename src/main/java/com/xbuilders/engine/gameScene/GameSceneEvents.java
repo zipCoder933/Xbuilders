@@ -1,6 +1,12 @@
 package com.xbuilders.engine.gameScene;
 
+import com.xbuilders.engine.world.data.WorldData;
+
 public interface GameSceneEvents {
 
-    public void event_gameModeChanged(GameMode gameMode);
+    public void gameModeChangedEvent(GameMode gameMode);
+
+    public void startGameEvent(WorldData world);
+
+    public void stopGameEvent();
 }

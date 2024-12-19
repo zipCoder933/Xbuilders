@@ -557,6 +557,15 @@ public class World {
         int removalViewDistance = getDeletionViewDistance();
 
         chunks.forEach((coords, chunk) -> {
+            //This is used for 1) chunk task prioritization and 2) chunk ticking distance
+            chunk.distToPlayer = MathUtils.dist(
+                    coords.x * Chunk.WIDTH,
+                    coords.y * Chunk.HEIGHT,
+                    coords.z * Chunk.WIDTH,
+                    playerPosition.x,
+                    playerPosition.y,
+                    playerPosition.z);
+
             if (!chunkIsWithinRange_XZ(playerPosition, coords, removalViewDistance)) {
                 chunksToUnload.add(chunk);
                 sortedChunksToRender.remove(chunk);
@@ -569,9 +578,6 @@ public class World {
                     }
                 }
                 chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
-                chunk.distToPlayer = MathUtils.dist(
-                        coords.x, coords.y, coords.z,
-                        lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
                 // frameTester.endProcess("UCTRL: sorting and frustum check");
                 chunk.prepare(terrain, MainWindow.frameCount, false);
             }

@@ -42,6 +42,12 @@ public abstract class UI_GameMenu {
 
     public abstract boolean isOpen();
 
+    public void onOpenEvent() {
+    }
+
+    public void onCloseEvent() {
+    }
+
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset){
         return false;
     }

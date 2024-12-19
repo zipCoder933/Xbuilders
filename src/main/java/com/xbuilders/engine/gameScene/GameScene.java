@@ -61,6 +61,7 @@ public class GameScene implements WindowEvents {
     private static Game game;
     public static GameCommands commands;
     public static BlockEventPipeline eventPipeline;
+    public static LogicThread tickThread;
 
     //Game Mode =======================================================================================================
     private static GameMode gameMode = GameMode.ADVENTURE;
@@ -103,6 +104,7 @@ public class GameScene implements WindowEvents {
         server = new GameServer(player);
         livePropagationHandler = new LivePropagationHandler();
         eventPipeline = new BlockEventPipeline(world);
+        tickThread = new LogicThread();
     }
 
     //Set block ===============================================================================
@@ -246,15 +248,15 @@ public class GameScene implements WindowEvents {
         this.prog = prog;
         livePropagationHandler.startGameEvent(world);
         eventPipeline.startGameEvent(world);
+        tickThread.startGameEvent();
     }
 
     public void stopGameEvent() {
-        if (world.terrain != null) {
-            System.out.println("Closing " + world.data.getName() + "...");
-            player.stopGameEvent();
-            world.stopGameEvent();
-            eventPipeline.stopGameEvent();
-        }
+        System.out.println("Closing " + world.data.getName() + "...");
+        player.stopGameEvent();
+        world.stopGameEvent();
+        tickThread.stopGameEvent();
+        eventPipeline.stopGameEvent();
         livePropagationHandler.stopGameEvent();
         try {
             server.stopGameEvent();
@@ -337,12 +339,13 @@ public class GameScene implements WindowEvents {
                 lastGameMode = gameMode;
                 if (worldInfo.getSpawnPoint() == null) {
                     //Find spawn point
+                    //new World Event runs for the first time in a new world
                     player.status_spawnPosition.set(getInitialSpawnPoint(world.terrain));
                     player.worldPosition.set(player.status_spawnPosition);
                     player.newWorldEvent(worldInfo);
                 }
                 setTimeOfDay(worldInfo.data.timeOfDay);
-                game.startGame(worldInfo);
+                game.startGameEvent(worldInfo);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);
                 player.startGameEvent(worldInfo);
@@ -389,6 +392,7 @@ public class GameScene implements WindowEvents {
     public static SkyBackground background;
     private GameMode lastGameMode;
 
+ 
     public void render() throws IOException {
         MainWindow.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
@@ -403,12 +407,12 @@ public class GameScene implements WindowEvents {
 
         if (lastGameMode == null || lastGameMode != gameMode) {
             lastGameMode = gameMode; //Gane mode changed
-            game.event_gameModeChanged(getGameMode());
-            player.event_gameModeChanged(getGameMode());
+            game.gameModeChangedEvent(getGameMode());
+            player.gameModeChangedEvent(getGameMode());
             GameScene.alert("Game mode changed to: " + gameMode);
         }
 
-        MainWindow.frameTester.startProcess();
+        //TODO: move player logic into tick thread
         eventPipeline.update();
         player.update(holdMouse);
 
@@ -416,7 +420,6 @@ public class GameScene implements WindowEvents {
         //draw other players
         server.updatePlayers(projection, view);
 
-        MainWindow.frameTester.endProcess("Updating player");
         enableBackfaceCulling();
         MainWindow.frameTester.startProcess();
 
