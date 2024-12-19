@@ -410,7 +410,7 @@ public class DefaultTerrain extends Terrain {
                         placeWater = false;
                     } else if (wy <= heightmap) {
                         if (wy > WATER_LEVEL && heat < -0.4f) {
-                            chunk.data.setBlock(x, y, z, Blocks.BLOCK_ICE);
+                            chunk.data.setBlock(x, y, z, Blocks.BLOCK_ICE_BLOCK);
                         } else if (wy > WATER_LEVEL && placeWater) {
                             //Whenever we set a source block, we MUST set the max flow of the water
                             chunk.data.setBlock(x, y, z, water.id);

@@ -1,0 +1,389 @@
+[
+  {
+    "alias": "xbuilders:wheat_seeds",
+    "id": 162,
+    "texture": {
+      "neg_y": "wheat seeds",
+      "pos_x": "wheat seeds",
+      "pos_z": "wheat seeds",
+      "neg_z": "wheat seeds",
+      "neg_x": "wheat seeds",
+      "pos_y": "wheat seeds"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:carrot_seeds",
+    "id": 163,
+    "texture": {
+      "neg_y": "carrot seeds",
+      "pos_x": "carrot seeds",
+      "pos_z": "carrot seeds",
+      "neg_z": "carrot seeds",
+      "neg_x": "carrot seeds",
+      "pos_y": "carrot seeds"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:potato_seeds",
+    "id": 165,
+    "texture": {
+      "neg_y": "carrot seeds",
+      "pos_x": "carrot seeds",
+      "pos_z": "carrot seeds",
+      "neg_z": "carrot seeds",
+      "neg_x": "carrot seeds",
+      "pos_y": "carrot seeds"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:potato_growth_1",
+    "id": 166,
+    "texture": {
+      "neg_y": "a1",
+      "pos_x": "a1",
+      "pos_z": "a1",
+      "neg_z": "a1",
+      "neg_x": "a1",
+      "pos_y": "a1"
+    },
+    "type": 3,
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:potato_growth_2",
+    "id": 167,
+    "texture": {
+      "neg_y": "a2",
+      "pos_x": "a2",
+      "pos_z": "a2",
+      "neg_z": "a2",
+      "neg_x": "a2",
+      "pos_y": "a2"
+    },
+    "type": 3,
+    "properties": {}
+  },
+
+  {
+    "alias": "xbuilders:carrot_growth_1",
+    "id": 549,
+    "texture": {
+      "neg_y": "a1",
+      "pos_x": "a1",
+      "pos_z": "a1",
+      "neg_z": "a1",
+      "neg_x": "a1",
+      "pos_y": "a1"
+    },
+    "type": 3,
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:carrot_growth_2",
+    "id": 735,
+    "texture": {
+      "neg_y": "a2",
+      "pos_x": "a2",
+      "pos_z": "a2",
+      "neg_z": "a2",
+      "neg_x": "a2",
+      "pos_y": "a2"
+    },
+    "type": 3,
+    "properties": {}
+  },
+
+
+  {
+    "alias": "xbuilders:beetroot_growth_1",
+    "id": 738,
+    "texture": {
+      "neg_y": "a1",
+      "pos_x": "a1",
+      "pos_z": "a1",
+      "neg_z": "a1",
+      "neg_x": "a1",
+      "pos_y": "a1"
+    },
+    "type": 3,
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:beetroot_growth_2",
+    "id": 739,
+    "texture": {
+      "neg_y": "a2",
+      "pos_x": "a2",
+      "pos_z": "a2",
+      "neg_z": "a2",
+      "neg_x": "a2",
+      "pos_y": "a2"
+    },
+    "type": 3,
+    "properties": {}
+  },
+
+  {
+    "alias": "xbuilders:wheat_growth_1",
+    "id": 168,
+    "texture": {
+      "neg_y": "b1",
+      "pos_x": "b1",
+      "pos_z": "b1",
+      "neg_z": "b1",
+      "neg_x": "b1",
+      "pos_y": "b1"
+    },
+    "solid": false,
+    "opaque": false,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:wheat_growth_2",
+    "id": 169,
+    "texture": {
+      "neg_y": "b2",
+      "pos_x": "b2",
+      "pos_z": "b2",
+      "neg_z": "b2",
+      "neg_x": "b2",
+      "pos_y": "b2"
+    },
+    "solid": false,
+    "opaque": false,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:wheat_growth_3",
+    "id": 170,
+    "texture": {
+      "neg_y": "b3",
+      "pos_x": "b3",
+      "pos_z": "b3",
+      "neg_z": "b3",
+      "neg_x": "b3",
+      "pos_y": "b3"
+    },
+    "solid": false,
+    "opaque": false,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:wheat_growth_4",
+    "id": 171,
+    "texture": {
+      "neg_y": "b4",
+      "pos_x": "b4",
+      "pos_z": "b4",
+      "neg_z": "b4",
+      "neg_x": "b4",
+      "pos_y": "b4"
+    },
+    "solid": false,
+    "opaque": false,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:wheat_growth_5",
+    "id": 172,
+    "texture": {
+      "neg_y": "b5",
+      "pos_x": "b5",
+      "pos_z": "b5",
+      "neg_z": "b5",
+      "neg_x": "b5",
+      "pos_y": "b5"
+    },
+    "solid": false,
+    "opaque": false,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:wheat_growth_6",
+    "id": 173,
+    "texture": {
+      "neg_y": "b6",
+      "pos_x": "b6",
+      "pos_z": "b6",
+      "neg_z": "b6",
+      "neg_x": "b6",
+      "pos_y": "b6"
+    },
+    "solid": false,
+    "opaque": false,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:wheat",
+    "id": 121,
+    "texture": {
+      "neg_y": "wheat",
+      "pos_x": "wheat",
+      "pos_z": "wheat",
+      "neg_z": "wheat",
+      "neg_x": "wheat",
+      "pos_y": "wheat"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:carrots",
+    "id": 122,
+    "texture": {
+      "neg_y": "carrots  plant",
+      "pos_x": "carrots  plant",
+      "pos_z": "carrots  plant",
+      "neg_z": "carrots  plant",
+      "neg_x": "carrots  plant",
+      "pos_y": "carrots  plant"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:potatoes",
+    "id": 146,
+    "texture": {
+      "neg_y": "potatoes plant",
+      "pos_x": "potatoes plant",
+      "pos_z": "potatoes plant",
+      "neg_z": "potatoes plant",
+      "neg_x": "potatoes plant",
+      "pos_y": "potatoes plant"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:beetroot_seeds",
+    "id": 247,
+    "texture": {
+      "neg_y": "carrot seeds",
+      "pos_x": "carrot seeds",
+      "pos_z": "carrot seeds",
+      "neg_z": "carrot seeds",
+      "neg_x": "carrot seeds",
+      "pos_y": "carrot seeds"
+    },
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  }
+]

@@ -1,49 +1,24 @@
 package com.xbuilders.game.vanilla.items.blocks;
 
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.game.vanilla.items.Blocks;
+import com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain;
 
 public class PlantUtils {
 
-    public static void makePlant(Block block, short... stages) {
-        block.solid = false;
-        block.opaque = false;
-        block.renderType = RenderType.SPRITE;
 
-        if (stages.length > 0) {
-            block.setBlockEvent(true,(x, y, z) -> {
+    public static void addPlantGrowthEvents(final Block... stages) {
+        for (int i = 0; i < stages.length - 1; i++) {
+            Block b = stages[i];
+            final int finalI = i;
+            b.randomTickEvent = (x, y, z) -> {
                 if (cropPlantable(x, y, z)) {
-                    growPlant(15000, x, y, z, block.id, stages);
+                    GameScene.setBlock(stages[finalI + 1].id, x, y, z);
+                    return true;
                 }
-            });
-        }
-    }
-
-    public static void growPlant(long growSpeed, final int x, final int y, final int z,
-                                 final short initialSeed, final short... stages) {
-
-        short lastStage = initialSeed;
-
-        int i = 0;
-        try {
-            for (short stage : stages) {
-                Thread.sleep(growSpeed);
-                if (GameScene.world.getBlockID(x, y, z) == lastStage
-                        && cropPlantable(x, y, z)) {
-                    GameScene.setBlock(stage, x, y, z);
-                    lastStage = stage;
-                } else {
-                    if (i == 0) {
-                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
-                    }
-                    return;
-                }
-                i++;
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+                return false;
+            };
         }
     }
 
@@ -61,13 +36,35 @@ public class PlantUtils {
         return blockIsGrassSnowOrDirt(GameScene.world.getBlock(x, y + 1, z));
     }
 
+    public static boolean isGrass(short thisBlock) {
+        return thisBlock == Blocks.BLOCK_GRASS ||
+                thisBlock == Blocks.BLOCK_SNOW_GRASS ||
+                thisBlock == Blocks.BLOCK_JUNGLE_GRASS ||
+                thisBlock == Blocks.BLOCK_DRY_GRASS;
+    }
+
     public static boolean blockIsGrassSnowOrDirt(Block block) {
         return block.id == Blocks.BLOCK_FARMLAND
                 || block.id == Blocks.BLOCK_DIRT
-                || block.id == Blocks.BLOCK_GRASS
-                || block.id == Blocks.BLOCK_SNOW_GRASS
-                || block.id == Blocks.BLOCK_JUNGLE_GRASS
-                || block.id == Blocks.BLOCK_DRY_GRASS;
+                || isGrass(block.id);
+    }
+
+    public static short getGrassBlockOfBiome(int wx, int wy, int wz) {
+        int biome = GameScene.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        switch (biome) {
+            case ComplexTerrain.BIOME_SNOWY -> {
+                return Blocks.BLOCK_SNOW_GRASS;
+            }
+            case ComplexTerrain.BIOME_JUNGLE -> {
+                return Blocks.BLOCK_JUNGLE_GRASS;
+            }
+            case ComplexTerrain.BIOME_SAVANNAH, ComplexTerrain.BIOME_DESERT -> {
+                return Blocks.BLOCK_DRY_GRASS;
+            }
+            default -> {
+                return Blocks.BLOCK_GRASS;
+            }
+        }
     }
 
 

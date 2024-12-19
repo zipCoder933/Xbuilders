@@ -15,7 +15,9 @@ public class LogicThread {
      * random tick amont (how fast plants grow, etc) is controlled by how many blocks are updated per tick.
      */
     final int TICK_RATE_MS = 100;
+    final int CHUNK_RANDOM_TICK_RATE = 10;
     private long lastTickTime = 0;
+    private int ticks = 0;
 
 
     /**
@@ -40,19 +42,21 @@ public class LogicThread {
 //        }
 //    }
 
-    AtomicInteger chunksUpdated = new AtomicInteger(0);
 
     public void tickEvent() {
-        chunksUpdated.set(0);
-        Iterator<Chunk> iterator = GameScene.world.chunks.values().iterator();
-        while (iterator.hasNext()) {
-            Chunk chunk = iterator.next();
-            //System.out.println("Chunk " + chunk.position + " distToPlayer " + chunk.distToPlayer+" simulation distance "+MainWindow.settings.internal_simulationDistance.value);
-            if (chunk.distToPlayer < MainWindow.settings.internal_simulationDistance.value + Chunk.WIDTH) {
-                chunksUpdated.addAndGet(chunk.tick() ? 1 : 0);
+        ticks++;
+        if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
+            int chunksUpdated = 0;
+            Iterator<Chunk> iterator = GameScene.world.chunks.values().iterator();
+            while (iterator.hasNext()) {
+                Chunk chunk = iterator.next();
+                //System.out.println("Chunk " + chunk.position + " distToPlayer " + chunk.distToPlayer+" simulation distance "+MainWindow.settings.internal_simulationDistance.value);
+                if (chunk.distToPlayer < MainWindow.settings.internal_simulationDistance.value + Chunk.WIDTH) {
+                    chunksUpdated += (chunk.tick() ? 1 : 0);
+                }
             }
+            System.out.println("Tick " + chunksUpdated + " chunks");
         }
-        System.out.println("Tick " + chunksUpdated.get() + " chunks");
     }
 
     public void stopGameEvent() {

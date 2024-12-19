@@ -1,6 +1,6 @@
 [
   {
-    "alias": "xbuilders:acacia2_door_(top,_hidden)",
+    "alias": "xbuilders:acacia2_door_top",
     "id": 878,
     "texture": {
       "pos_y": "door\\acacia2_0_0.png",
@@ -26,7 +26,7 @@
     }
   },
   {
-    "alias": "xbuilders:acacia_door_(top,_hidden)",
+    "alias": "xbuilders:acacia_door_top",
     "id": 879,
     "texture": {
       "pos_y": "door\\acacia_0_0.png",
@@ -52,7 +52,7 @@
     }
   },
   {
-    "alias": "xbuilders:bamboo_2_door_(top,_hidden)",
+    "alias": "xbuilders:bamboo_2_door_top",
     "id": 880,
     "texture": {
       "pos_y": "door\\bamboo 2_0_0.png",
@@ -78,7 +78,7 @@
     }
   },
   {
-    "alias": "xbuilders:bamboo_door_(top,_hidden)",
+    "alias": "xbuilders:bamboo_door_top",
     "id": 881,
     "texture": {
       "pos_y": "door\\bamboo_0_0.png",
@@ -104,7 +104,7 @@
     }
   },
   {
-    "alias": "xbuilders:birch_door_(top,_hidden)",
+    "alias": "xbuilders:birch_door_top",
     "id": 882,
     "texture": {
       "pos_y": "door\\birch_0_0.png",
@@ -130,7 +130,7 @@
     }
   },
   {
-    "alias": "xbuilders:cladded_blue_door_(top,_hidden)",
+    "alias": "xbuilders:cladded_blue_door_top",
     "id": 883,
     "texture": {
       "pos_y": "door\\cladded blue_0_0.png",
@@ -156,7 +156,7 @@
     }
   },
   {
-    "alias": "xbuilders:cladded_green_door_(top,_hidden)",
+    "alias": "xbuilders:cladded_green_door_top",
     "id": 884,
     "texture": {
       "pos_y": "door\\cladded green_0_0.png",
@@ -182,7 +182,7 @@
     }
   },
   {
-    "alias": "xbuilders:cladded_magenta_door_(top,_hidden)",
+    "alias": "xbuilders:cladded_magenta_door_top",
     "id": 885,
     "texture": {
       "pos_y": "door\\cladded magenta_0_0.png",
@@ -208,7 +208,7 @@
     }
   },
   {
-    "alias": "xbuilders:cladded_door_(top,_hidden)",
+    "alias": "xbuilders:cladded_door_top",
     "id": 886,
     "texture": {
       "pos_y": "door\\cladded_0_0.png",
@@ -234,7 +234,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_bamboo_windows_door_(top,_hidden)",
+    "alias": "xbuilders:french_bamboo_windows_door_top",
     "id": 887,
     "texture": {
       "pos_y": "door\\french bamboo windows_0_0.png",
@@ -260,7 +260,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_bamboo_door_(top,_hidden)",
+    "alias": "xbuilders:french_bamboo_door_top",
     "id": 888,
     "texture": {
       "pos_y": "door\\french bamboo_0_0.png",
@@ -286,7 +286,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_blue_windows_door_(top,_hidden)",
+    "alias": "xbuilders:french_blue_windows_door_top",
     "id": 889,
     "texture": {
       "pos_y": "door\\french blue windows_0_0.png",
@@ -312,7 +312,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_blue_door_(top,_hidden)",
+    "alias": "xbuilders:french_blue_door_top",
     "id": 890,
     "texture": {
       "pos_y": "door\\french blue_0_0.png",
@@ -338,7 +338,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_green_windows_door_(top,_hidden)",
+    "alias": "xbuilders:french_green_windows_door_top",
     "id": 891,
     "texture": {
       "pos_y": "door\\french green windows_0_0.png",
@@ -364,7 +364,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_green_door_(top,_hidden)",
+    "alias": "xbuilders:french_green_door_top",
     "id": 892,
     "texture": {
       "pos_y": "door\\french green_0_0.png",
@@ -390,7 +390,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_magenta_windows_door_(top,_hidden)",
+    "alias": "xbuilders:french_magenta_windows_door_top",
     "id": 893,
     "texture": {
       "pos_y": "door\\french magenta windows_0_0.png",
@@ -416,7 +416,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_magenta_door_(top,_hidden)",
+    "alias": "xbuilders:french_magenta_door_top",
     "id": 894,
     "texture": {
       "pos_y": "door\\french magenta_0_0.png",
@@ -442,7 +442,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_windows_door_(top,_hidden)",
+    "alias": "xbuilders:french_windows_door_top",
     "id": 895,
     "texture": {
       "pos_y": "door\\french windows_0_0.png",
@@ -468,7 +468,7 @@
     }
   },
   {
-    "alias": "xbuilders:french_door_(top,_hidden)",
+    "alias": "xbuilders:french_door_top",
     "id": 896,
     "texture": {
       "pos_y": "door\\french_0_0.png",
@@ -494,7 +494,7 @@
     }
   },
   {
-    "alias": "xbuilders:glass_door_(top,_hidden)",
+    "alias": "xbuilders:glass_door_top",
     "id": 897,
     "texture": {
       "pos_y": "door\\glass_0_0.png",
@@ -520,7 +520,7 @@
     }
   },
   {
-    "alias": "xbuilders:gray_space_door_(top,_hidden)",
+    "alias": "xbuilders:gray_space_door_top",
     "id": 898,
     "texture": {
       "pos_y": "door\\gray 1_0_0.png",
@@ -546,7 +546,7 @@
     }
   },
   {
-    "alias": "xbuilders:gray_space_control_panel_door_(top,_hidden)",
+    "alias": "xbuilders:gray_space_control_panel_door_top",
     "id": 899,
     "texture": {
       "pos_y": "door\\gray 2 control-panel_0_0.png",
@@ -572,7 +572,7 @@
     }
   },
   {
-    "alias": "xbuilders:gray_2_door_(top,_hidden)",
+    "alias": "xbuilders:gray_2_door_top",
     "id": 900,
     "texture": {
       "pos_y": "door\\gray 2_0_0.png",
@@ -598,7 +598,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_bamboo_windows_door_(top,_hidden)",
+    "alias": "xbuilders:italian_bamboo_windows_door_top",
     "id": 901,
     "texture": {
       "pos_y": "door\\italian bamboo windows_0_0.png",
@@ -624,7 +624,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_bamboo_door_(top,_hidden)",
+    "alias": "xbuilders:italian_bamboo_door_top",
     "id": 902,
     "texture": {
       "pos_y": "door\\italian bamboo_0_0.png",
@@ -650,7 +650,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_blue_windows_door_(top,_hidden)",
+    "alias": "xbuilders:italian_blue_windows_door_top",
     "id": 903,
     "texture": {
       "pos_y": "door\\italian blue windows_0_0.png",
@@ -676,7 +676,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_blue_door_(top,_hidden)",
+    "alias": "xbuilders:italian_blue_door_top",
     "id": 904,
     "texture": {
       "pos_y": "door\\italian blue_0_0.png",
@@ -702,7 +702,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_green_windows_door_(top,_hidden)",
+    "alias": "xbuilders:italian_green_windows_door_top",
     "id": 905,
     "texture": {
       "pos_y": "door\\italian green windows_0_0.png",
@@ -728,7 +728,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_green_door_(top,_hidden)",
+    "alias": "xbuilders:italian_green_door_top",
     "id": 906,
     "texture": {
       "pos_y": "door\\italian green_0_0.png",
@@ -754,7 +754,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_magenta_windows_door_(top,_hidden)",
+    "alias": "xbuilders:italian_magenta_windows_door_top",
     "id": 907,
     "texture": {
       "pos_y": "door\\italian magenta windows_0_0.png",
@@ -780,7 +780,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_magenta_door_(top,_hidden)",
+    "alias": "xbuilders:italian_magenta_door_top",
     "id": 908,
     "texture": {
       "pos_y": "door\\italian magenta_0_0.png",
@@ -806,7 +806,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_windows_door_(top,_hidden)",
+    "alias": "xbuilders:italian_windows_door_top",
     "id": 909,
     "texture": {
       "pos_y": "door\\italian windows_0_0.png",
@@ -832,7 +832,7 @@
     }
   },
   {
-    "alias": "xbuilders:italian_door_(top,_hidden)",
+    "alias": "xbuilders:italian_door_top",
     "id": 910,
     "texture": {
       "pos_y": "door\\italian_0_0.png",
@@ -858,7 +858,7 @@
     }
   },
   {
-    "alias": "xbuilders:jungle_2_door_(top,_hidden)",
+    "alias": "xbuilders:jungle_2_door_top",
     "id": 911,
     "texture": {
       "pos_y": "door\\jungle 2_0_0.png",
@@ -884,7 +884,7 @@
     }
   },
   {
-    "alias": "xbuilders:jungle_door_(top,_hidden)",
+    "alias": "xbuilders:jungle_door_top",
     "id": 912,
     "texture": {
       "pos_y": "door\\jungle_0_0.png",
@@ -910,7 +910,7 @@
     }
   },
   {
-    "alias": "xbuilders:oak_2_door_(top,_hidden)",
+    "alias": "xbuilders:oak_2_door_top",
     "id": 913,
     "texture": {
       "pos_y": "door\\oak 2_0_0.png",
@@ -936,7 +936,7 @@
     }
   },
   {
-    "alias": "xbuilders:oak_renaissance_door_(top,_hidden)",
+    "alias": "xbuilders:oak_renaissance_door_top",
     "id": 914,
     "texture": {
       "pos_y": "door\\oak renaissance_0_0.png",
@@ -962,7 +962,7 @@
     }
   },
   {
-    "alias": "xbuilders:oak_door_(top,_hidden)",
+    "alias": "xbuilders:oak_door_top",
     "id": 915,
     "texture": {
       "pos_y": "door\\oak_0_0.png",
@@ -988,7 +988,7 @@
     }
   },
   {
-    "alias": "xbuilders:oval_bamboo_door_(top,_hidden)",
+    "alias": "xbuilders:oval_bamboo_door_top",
     "id": 916,
     "texture": {
       "pos_y": "door\\oval bamboo_0_0.png",
@@ -1014,7 +1014,7 @@
     }
   },
   {
-    "alias": "xbuilders:oval_blue_door_(top,_hidden)",
+    "alias": "xbuilders:oval_blue_door_top",
     "id": 917,
     "texture": {
       "pos_y": "door\\oval blue_0_0.png",
@@ -1040,7 +1040,7 @@
     }
   },
   {
-    "alias": "xbuilders:oval_green_door_(top,_hidden)",
+    "alias": "xbuilders:oval_green_door_top",
     "id": 918,
     "texture": {
       "pos_y": "door\\oval green_0_0.png",
@@ -1066,7 +1066,7 @@
     }
   },
   {
-    "alias": "xbuilders:oval_magenta_door_(top,_hidden)",
+    "alias": "xbuilders:oval_magenta_door_top",
     "id": 919,
     "texture": {
       "pos_y": "door\\oval magenta_0_0.png",
@@ -1092,7 +1092,7 @@
     }
   },
   {
-    "alias": "xbuilders:oval_door_(top,_hidden)",
+    "alias": "xbuilders:oval_door_top",
     "id": 920,
     "texture": {
       "pos_y": "door\\oval_0_0.png",
@@ -1118,7 +1118,7 @@
     }
   },
   {
-    "alias": "xbuilders:party_blue_door_(top,_hidden)",
+    "alias": "xbuilders:party_blue_door_top",
     "id": 921,
     "texture": {
       "pos_y": "door\\party blue_0_0.png",
@@ -1144,7 +1144,7 @@
     }
   },
   {
-    "alias": "xbuilders:party_green_door_(top,_hidden)",
+    "alias": "xbuilders:party_green_door_top",
     "id": 922,
     "texture": {
       "pos_y": "door\\party green_0_0.png",
@@ -1170,7 +1170,7 @@
     }
   },
   {
-    "alias": "xbuilders:party_magenta_door_(top,_hidden)",
+    "alias": "xbuilders:party_magenta_door_top",
     "id": 923,
     "texture": {
       "pos_y": "door\\party magenta_0_0.png",
@@ -1196,7 +1196,7 @@
     }
   },
   {
-    "alias": "xbuilders:party_purple_door_(top,_hidden)",
+    "alias": "xbuilders:party_purple_door_top",
     "id": 924,
     "texture": {
       "pos_y": "door\\party purple_0_0.png",
@@ -1222,7 +1222,7 @@
     }
   },
   {
-    "alias": "xbuilders:party_red_door_(top,_hidden)",
+    "alias": "xbuilders:party_red_door_top",
     "id": 925,
     "texture": {
       "pos_y": "door\\party red_0_0.png",
@@ -1248,7 +1248,7 @@
     }
   },
   {
-    "alias": "xbuilders:party_yellow_door_(top,_hidden)",
+    "alias": "xbuilders:party_yellow_door_top",
     "id": 926,
     "texture": {
       "pos_y": "door\\party yellow_0_0.png",
@@ -1274,7 +1274,7 @@
     }
   },
   {
-    "alias": "xbuilders:red_door_(top,_hidden)",
+    "alias": "xbuilders:red_door_top",
     "id": 927,
     "texture": {
       "pos_y": "door\\red_0_0.png",
@@ -1300,7 +1300,7 @@
     }
   },
   {
-    "alias": "xbuilders:spruce_2_door_(top,_hidden)",
+    "alias": "xbuilders:spruce_2_door_top",
     "id": 928,
     "texture": {
       "pos_y": "door\\spruce 2_0_0.png",
@@ -1326,7 +1326,7 @@
     }
   },
   {
-    "alias": "xbuilders:spruce_door_(top,_hidden)",
+    "alias": "xbuilders:spruce_door_top",
     "id": 929,
     "texture": {
       "pos_y": "door\\spruce_0_0.png",
@@ -1352,7 +1352,7 @@
     }
   },
   {
-    "alias": "xbuilders:steel_door_(top,_hidden)",
+    "alias": "xbuilders:steel_door_top",
     "id": 930,
     "texture": {
       "pos_y": "door\\steel_0_0.png",
@@ -1378,7 +1378,7 @@
     }
   },
   {
-    "alias": "xbuilders:warped_door_(top,_hidden)",
+    "alias": "xbuilders:warped_door_top",
     "id": 931,
     "texture": {
       "pos_y": "door\\warped_0_0.png",
@@ -1404,7 +1404,7 @@
     }
   },
   {
-    "alias": "xbuilders:web_door_(top,_hidden)",
+    "alias": "xbuilders:web_door_top",
     "id": 932,
     "texture": {
       "pos_y": "door\\web_0_0.png",
@@ -1430,7 +1430,7 @@
     }
   },
   {
-    "alias": "xbuilders:white_1_door_(top,_hidden)",
+    "alias": "xbuilders:white_1_door_top",
     "id": 933,
     "texture": {
       "pos_y": "door\\white 1_0_0.png",
@@ -1456,7 +1456,7 @@
     }
   },
   {
-    "alias": "xbuilders:white_2_control_panel_door_(top,_hidden)",
+    "alias": "xbuilders:white_2_control_panel_door_top",
     "id": 934,
     "texture": {
       "pos_y": "door\\white 2 control-panel_0_0.png",
@@ -1482,7 +1482,7 @@
     }
   },
   {
-    "alias": "xbuilders:white_2_door_(top,_hidden)",
+    "alias": "xbuilders:white_2_door_top",
     "id": 935,
     "texture": {
       "pos_y": "door\\white 2_0_0.png",
@@ -1508,7 +1508,7 @@
     }
   },
   {
-    "alias": "xbuilders:white_door_(top,_hidden)",
+    "alias": "xbuilders:white_door_top",
     "id": 936,
     "texture": {
       "pos_y": "door\\white_0_0.png",

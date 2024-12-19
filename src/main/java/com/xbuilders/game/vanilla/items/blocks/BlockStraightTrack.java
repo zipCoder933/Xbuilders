@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class BlockStraightTrack extends Block {
 
     public BlockStraightTrack(int id) {
-        super(id, "straight track", new BlockTexture("track.png", "track.png", "track.png"));
+        super(id, "straight_track", new BlockTexture("track.png", "track.png", "track.png"));
         solid = false;
         opaque = false;
         renderType = RenderType.FLOOR;
@@ -36,7 +36,7 @@ public class BlockStraightTrack extends Block {
     }
 
     public static boolean isTrack(Block block) {
-        return block.id == Blocks.BLOCK_TRACK
+        return block.id == Blocks.BLOCK_STRAIGHT_TRACK
                 || block.id == Blocks.BLOCK_RAISED_TRACK
                 || block.id == Blocks.BLOCK_CROSSTRACK
                 || block.id == Blocks.BLOCK_CURVED_TRACK

@@ -3,6 +3,7 @@ package com.xbuilders.game.vanilla.items;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.ItemUtils;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -10,6 +11,7 @@ import com.xbuilders.game.vanilla.items.blocks.*;
 import com.xbuilders.game.vanilla.items.blocks.trees.*;
 import com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.xbuilders.engine.items.ItemUtils.getAllJsonBlocks;
@@ -31,52 +33,27 @@ public class Blocks {
         blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
         blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
         blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
-        blockList.add(new BlockStraightTrack(Blocks.BLOCK_TRACK));
-        blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN));
-        blockList.add(new BlockFlag(Blocks.BLOCK_FLAG));
+        blockList.add(new BlockStraightTrack(Blocks.BLOCK_STRAIGHT_TRACK));
+        blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN_BLOCK));
+        blockList.add(new BlockFlag(Blocks.BLOCK_FLAG_BLOCK));
+
+        if (MainWindow.devMode) {//Make ids for dev mode
+            try {
+                ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.resource("\\items\\blocks\\java"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         return blockList;
     }
 
-    public static boolean isGrass(short thisBlock) {
-        return thisBlock == Blocks.BLOCK_GRASS ||
-                thisBlock == Blocks.BLOCK_SNOW_GRASS ||
-                thisBlock == Blocks.BLOCK_JUNGLE_GRASS ||
-                thisBlock == Blocks.BLOCK_DRY_GRASS;
-    }
-
-    private static short getGrassBlockOfBiome(int wx, int wy, int wz) {
-        int biome = GameScene.world.terrain.getBiomeOfVoxel(wx, wy, wz);
-        switch (biome) {
-            case ComplexTerrain.BIOME_SNOWY -> {
-                return Blocks.BLOCK_SNOW_GRASS;
-            }
-            case ComplexTerrain.BIOME_JUNGLE -> {
-                return Blocks.BLOCK_JUNGLE_GRASS;
-            }
-            case ComplexTerrain.BIOME_SAVANNAH, ComplexTerrain.BIOME_DESERT -> {
-                return Blocks.BLOCK_DRY_GRASS;
-            }
-            default -> {
-                return Blocks.BLOCK_GRASS;
-            }
-        }
-    }
 
     public static void editBlocks(MainWindow window) {
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
 
-        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_BEETROOT_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_BEETS);
-        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_CARROT_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_CARROTS_PLANT);
-        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_POTATO_SEEDS), Blocks.BLOCK_A1, Blocks.BLOCK_A2, Blocks.BLOCK_POTATOES_PLANT);
-        PlantUtils.makePlant(Registrys.getBlock(Blocks.BLOCK_WHEAT_SEEDS), Blocks.BLOCK_B1, Blocks.BLOCK_B2, Blocks.BLOCK_B3, Blocks.BLOCK_B5, Blocks.BLOCK_B6, Blocks.BLOCK_WHEAT);
 
-        Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).setBlockEvent(true, OakTreeUtils.setBlockEvent);
-        Registrys.getBlock(Blocks.BLOCK_SPRUCE_SAPLING).setBlockEvent(true, SpruceTreeUtils.setBlockEvent);
-        Registrys.getBlock(Blocks.BLOCK_BIRCH_SAPLING).setBlockEvent(true, BirchTreeUtils.setBlockEvent);
-        Registrys.getBlock(Blocks.BLOCK_JUNGLE_SAPLING).setBlockEvent(true, JungleTreeUtils.setBlockEvent);
-        Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).setBlockEvent(true, AcaciaTreeUtils.setBlockEvent);
 
         BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_GRASS_TOP, Blocks.BLOCK_TALL_GRASS);
         BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_DRY_GRASS_TOP, Blocks.BLOCK_TALL_DRY_GRASS);
@@ -86,48 +63,9 @@ public class Blocks {
         lava.enterDamage = 0.5f;
 
 
-        Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
-            short thisBlock = GameScene.world.getBlockID(x, y, z);
-            Block aboveBlock = GameScene.world.getBlock(x, y - 1, z);
+        randomTickEvents();
 
-            if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                GameScene.setBlock(getGrassBlockOfBiome(x, y, z), x, y, z);
-                return true;
-            } else if (isGrass(thisBlock) && aboveBlock.solid) {
-                GameScene.setBlock(Blocks.BLOCK_DIRT, x, y, z);
-                return true;
-            }
-            return false;
-        };
-
-        Block dirt = Registrys.getBlock(Blocks.BLOCK_DIRT);
-        dirt.randomTickEvent = dirtGrassTickEvent;
-        Block grass = Registrys.getBlock(Blocks.BLOCK_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
-        grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
-        grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
-
-
-        for (Block b : Registrys.blocks.getList()) {
-            //Add coasting to all glass
-            if (b.alias.toLowerCase().contains("glass")) {
-                b.surfaceCoast = 0.95f;
-            }
-
-            //Add flammable tag to various blocks
-            String lowercaseName = b.alias.toLowerCase();
-            if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank") || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") || lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") || lowercaseName.contains("dark_oak") || lowercaseName.contains("crimson") || lowercaseName.contains("warped") || lowercaseName.contains("dry")) {
-                b.properties.put("flammable", "true");
-            }
-        }
-
-        Registrys.getBlock(Blocks.BLOCK_ICE).surfaceCoast = 0.995f;
-        Registrys.getBlock(Blocks.BLOCK_CACTUS).surfaceFriction = 0.5f;
-        Registrys.getBlock(Blocks.BLOCK_OAK_LOG).properties.put("flammable", "true");
-        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
-        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
+        changeMaterialCoasting();
 
         GravityBlock gravity = new GravityBlock(window);
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_SAND));
@@ -146,13 +84,90 @@ public class Blocks {
 
     }
 
+    private static void randomTickEvents() {
+        Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
+            short thisBlock = GameScene.world.getBlockID(x, y, z);
+            Block aboveBlock = GameScene.world.getBlock(x, y - 1, z);
+
+            if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
+                GameScene.setBlock(PlantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
+                return true;
+            } else if (PlantUtils.isGrass(thisBlock) && aboveBlock.solid) {
+                GameScene.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+                return true;
+            }
+            return false;
+        };
+
+        Block dirt = Registrys.getBlock(Blocks.BLOCK_DIRT);
+        dirt.randomTickEvent = dirtGrassTickEvent;
+        Block grass = Registrys.getBlock(Blocks.BLOCK_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+
+        PlantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_BEETROOT_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_BEETROOT_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_BEETROOT_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_BEETS));
+
+        PlantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_CARROT_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_CARROT_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_CARROT_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_CARROTS));
+
+        PlantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_POTATO_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_POTATO_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_POTATO_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_POTATOES));
+
+        PlantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_3),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_4),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_5),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_6),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT));
+
+
+        Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).randomTickEvent = OakTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_SPRUCE_SAPLING).randomTickEvent = SpruceTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_BIRCH_SAPLING).randomTickEvent =  BirchTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_JUNGLE_SAPLING).randomTickEvent = JungleTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
+
+    }
+
+    private static void changeMaterialCoasting() {
+        for (Block b : Registrys.blocks.getList()) {
+            //Add coasting to all glass
+            if (b.alias.toLowerCase().contains("glass")) {
+                b.surfaceCoast = 0.95f;
+            }
+
+            //Add flammable tag to various blocks
+            String lowercaseName = b.alias.toLowerCase();
+            if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank") || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") || lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") || lowercaseName.contains("dark_oak") || lowercaseName.contains("crimson") || lowercaseName.contains("warped") || lowercaseName.contains("dry")) {
+                b.properties.put("flammable", "true");
+            }
+        }
+
+        Registrys.getBlock(Blocks.BLOCK_ICE_BLOCK).surfaceCoast = 0.995f;
+        Registrys.getBlock(Blocks.BLOCK_CACTUS).surfaceFriction = 0.5f;
+        Registrys.getBlock(Blocks.BLOCK_OAK_LOG).properties.put("flammable", "true");
+        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
+        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
+    }
+
     public static short BLOCK_AIR = 0;
     //List of all block IDs
-    public static short BLOCK_FLAG = 231;
-    public static short BLOCK_SPAWN = 552;
-    public static short BLOCK_CRAFTING_TABLE = 50;
-    public static short BLOCK_FURNACE = 99;
-    public static short BLOCK_BARREL = 45;
     public static short BLOCK_BEDROCK = 1;
     public static short BLOCK_BIRCH_LOG = 2;
     public static short BLOCK_BIRCH_LEAVES = 3;
@@ -173,17 +188,17 @@ public class Blocks {
     public static short BLOCK_STONE_BRICK = 19;
     public static short BLOCK_TORCH = 20;
     public static short BLOCK_WATER = 21;
+    public static short BLOCK_LAVA = 25;
     public static short BLOCK_WOOL = 22;
     public static short BLOCK_SNOW_GRASS = 23;
     public static short BLOCK_BOOKSHELF = 24;
-    public static short BLOCK_LAVA = 25;
     public static short BLOCK_TALL_DRY_GRASS_TOP = 26;
     public static short BLOCK_CRACKED_STONE = 27;
     public static short BLOCK_STONE_WITH_VINES = 28;
     public static short BLOCK_TNT_ACTIVE = 29;
-    public static short BLOCK_JUNGLE_PLANKS = 30;
-    public static short BLOCK_JUNGLE_PLANKS_SLAB = 31;
-    public static short BLOCK_JUNGLE_PLANKS_STAIRS = 32;
+    public static short BLOCK_JUNGLE_WOOD = 30;
+    public static short BLOCK_JUNGLE_WOOD_SLAB = 31;
+    public static short BLOCK_JUNGLE_WOOD_STAIRS = 32;
     public static short BLOCK_HONEYCOMB_BLOCK = 33;
     public static short BLOCK_MOSAIC_BAMBOO_WOOD = 34;
     public static short BLOCK_MUSIC_BOX = 35;
@@ -191,6 +206,7 @@ public class Blocks {
     public static short BLOCK_JUNGLE_SAPLING = 37;
     public static short BLOCK_OBSIDIAN = 38;
     public static short BLOCK_BURGUNDY_BRICK = 39;
+    public static short BLOCK_SEA_GRASS = 253;
     public static short BLOCK_JUNGLE_FENCE = 40;
     public static short BLOCK_RED_FLOWER = 41;
     public static short BLOCK_TALL_DRY_GRASS = 42;
@@ -204,15 +220,14 @@ public class Blocks {
     public static short BLOCK_BEEHIVE = 52;
     public static short BLOCK_DIORITE = 53;
     public static short BLOCK_POLISHED_DIORITE = 54;
-    public static short BLOCK_EDISON_LIGHT = 55;
     public static short BLOCK_POLISHED_ANDESITE = 56;
-    public static short BLOCK_SPRUCE_PLANKS = 57;
+    public static short BLOCK_SPRUCE_WOOD = 57;
     public static short BLOCK_AZURE_BLUET = 58;
     public static short BLOCK_DANDELION = 59;
     public static short BLOCK_BLUE_ORCHID = 60;
     public static short BLOCK_FERN = 61;
     public static short BLOCK_GRANITE_BRICK = 62;
-    public static short BLOCK_ACACIA_PLANKS = 63;
+    public static short BLOCK_ACACIA_WOOD = 63;
     public static short BLOCK_AMETHYST_CRYSTAL = 64;
     public static short BLOCK_CLAY = 65;
     public static short BLOCK_YELLOW_CONCRETE = 66;
@@ -268,16 +283,14 @@ public class Blocks {
     public static short BLOCK_GOLD_BLOCK = 118;
     public static short BLOCK_HORN_CORAL_FAN = 119;
     public static short BLOCK_TNT = 120;
-    public static short BLOCK_WHEAT = 121;
-    public static short BLOCK_CARROTS_PLANT = 122;
     public static short BLOCK_MINI_CACTUS = 123;
     public static short BLOCK_MUSHROOM = 124;
     public static short BLOCK_MUSHROOM_2 = 125;
     public static short BLOCK_ROSES = 126;
     public static short BLOCK_WOOL_PURPLE = 127;
-    public static short BLOCK_BIRCH_PLANKS = 128;
+    public static short BLOCK_BIRCH_WOOD = 128;
     public static short BLOCK_RED_STAINED_WOOD = 129;
-    public static short BLOCK_OAK_PLANKS = 130;
+    public static short BLOCK_OAK_WOOD = 130;
     public static short BLOCK_WOOL_RED = 131;
     public static short BLOCK_WOOL_PINK = 132;
     public static short BLOCK_WOOL_YELLOW = 133;
@@ -293,7 +306,6 @@ public class Blocks {
     public static short BLOCK_BRAIN_CORAL_BLOCK = 143;
     public static short BLOCK_DIAMOND_BLOCK = 144;
     public static short BLOCK_STEEL_BLOCK = 145;
-    public static short BLOCK_POTATOES_PLANT = 146;
     public static short BLOCK_HONEYCOMB_BLOCK_STAIRS = 147;
     public static short BLOCK_OAK_FENCE = 148;
     public static short BLOCK_BIRCH_FENCE = 149;
@@ -302,58 +314,46 @@ public class Blocks {
     public static short BLOCK_BUBBLE_CORAL_FAN = 152;
     public static short BLOCK_JUNGLE_GRASS = 153;
     public static short BLOCK_LILY_PAD = 154;
-    public static short BLOCK_TRACK = 155;
     public static short BLOCK_WOOL_MAGENTA = 156;
     public static short BLOCK_WOOL_BLACK = 157;
     public static short BLOCK_GRANITE_BRICK_STAIRS = 158;
     public static short BLOCK_CEMENT = 159;
     public static short BLOCK_OAK_SAPLING = 160;
     public static short BLOCK_BIRCH_SAPLING = 161;
-    public static short BLOCK_WHEAT_SEEDS = 162;
-    public static short BLOCK_CARROT_SEEDS = 163;
     public static short BLOCK_METAL_GRATE = 164;
-    public static short BLOCK_POTATO_SEEDS = 165;
-    public static short BLOCK_A1 = 166;
-    public static short BLOCK_A2 = 167;
-    public static short BLOCK_B1 = 168;
-    public static short BLOCK_B2 = 169;
-    public static short BLOCK_B3 = 170;
-    public static short BLOCK_B4 = 171;
-    public static short BLOCK_B5 = 172;
-    public static short BLOCK_B6 = 173;
     public static short BLOCK_RED_PALISADE_SANDSTONE = 175;
     public static short BLOCK_PHANTOM_SANDSTONE = 176;
     public static short BLOCK_PALISADE_SANDSTONE = 177;
     public static short BLOCK_GLOW_ROCK = 178;
-    public static short BLOCK_BLACKSTAINED_GLASS = 179;
-    public static short BLOCK_BLUESTAINED_GLASS = 180;
-    public static short BLOCK_BROWNSTAINED_GLASS = 181;
-    public static short BLOCK_CYANSTAINED_GLASS = 182;
-    public static short BLOCK_GRAYSTAINED_GLASS = 183;
-    public static short BLOCK_GREENSTAINED_GLASS = 184;
-    public static short BLOCK_LIGHT_BLUESTAINED_GLASS = 185;
-    public static short BLOCK_LIGHT_GRAYSTAINED_GLASS = 186;
-    public static short BLOCK_LIMESTAINED_GLASS = 187;
-    public static short BLOCK_MAGENTASTAINED_GLASS = 188;
-    public static short BLOCK_ORANGESTAINED_GLASS = 189;
-    public static short BLOCK_PINKSTAINED_GLASS = 190;
-    public static short BLOCK_PURPLESTAINED_GLASS = 191;
-    public static short BLOCK_REDSTAINED_GLASS = 192;
-    public static short BLOCK_WHITESTAINED_GLASS = 193;
-    public static short BLOCK_YELLOWSTAINED_GLASS = 194;
+    public static short BLOCK_BLACK_STAINED_GLASS = 179;
+    public static short BLOCK_BLUE_STAINED_GLASS = 180;
+    public static short BLOCK_BROWN_STAINED_GLASS = 181;
+    public static short BLOCK_CYAN_STAINED_GLASS = 182;
+    public static short BLOCK_GRAY_STAINED_GLASS = 183;
+    public static short BLOCK_GREEN_STAINED_GLASS = 184;
+    public static short BLOCK_LIGHT_BLUE_STAINED_GLASS = 185;
+    public static short BLOCK_LIGHT_GRAY_STAINED_GLASS = 186;
+    public static short BLOCK_LIME_STAINED_GLASS = 187;
+    public static short BLOCK_MAGENTA_STAINED_GLASS = 188;
+    public static short BLOCK_ORANGE_STAINED_GLASS = 189;
+    public static short BLOCK_PINK_STAINED_GLASS = 190;
+    public static short BLOCK_PURPLE_STAINED_GLASS = 191;
+    public static short BLOCK_RED_STAINED_GLASS = 192;
+    public static short BLOCK_WHITE_STAINED_GLASS = 193;
+    public static short BLOCK_YELLOW_STAINED_GLASS = 194;
     public static short BLOCK_DARK_OAK_FENCE = 195;
-    public static short BLOCK_BIRCH_PLANKS_STAIRS = 196;
-    public static short BLOCK_OAK_PLANKS_STAIRS = 197;
-    public static short BLOCK_DARK_OAK_PLANKS_STAIRS = 198;
+    public static short BLOCK_BIRCH_WOOD_STAIRS = 196;
+    public static short BLOCK_OAK_WOOD_STAIRS = 197;
+    public static short BLOCK_DARK_OAK_WOOD_STAIRS = 198;
     public static short BLOCK_HONEYCOMB_BLOCK_SLAB = 199;
     public static short BLOCK_JUNGLE_GRASS_PLANT = 200;
     public static short BLOCK_PRISMARINE_BRICK_STAIRS = 201;
     public static short BLOCK_SANDSTONE_STAIRS = 202;
     public static short BLOCK_CAVE_VINES_FLAT = 203;
     public static short BLOCK_POLISHED_DIORITE_STAIRS = 204;
-    public static short BLOCK_BIRCH_PLANKS_SLAB = 205;
-    public static short BLOCK_OAK_PLANKS_SLAB = 206;
-    public static short BLOCK_DARK_OAK_PLANKS_SLAB = 207;
+    public static short BLOCK_BIRCH_WOOD_SLAB = 205;
+    public static short BLOCK_OAK_WOOD_SLAB = 206;
+    public static short BLOCK_DARK_OAK_WOOD_SLAB = 207;
     public static short BLOCK_BAMBOO_WOOD_STAIRS = 208;
     public static short BLOCK_STONE_BRICK_SLAB = 209;
     public static short BLOCK_RED_SANDSTONE_SLAB = 210;
@@ -381,7 +381,7 @@ public class Blocks {
     public static short BLOCK_HORN_CORAL = 235;
     public static short BLOCK_RED_ROSE = 236;
     public static short BLOCK_EMERALD_BLOCK = 238;
-    public static short BLOCK_BLACKEYE_SUSAN = 239;
+    public static short BLOCK_BLACK_EYE_SUSAN = 239;
     public static short BLOCK_ORANGE_TULIP = 240;
     public static short BLOCK_DEAD_BUSH = 241;
     public static short BLOCK_HAY_BAIL = 242;
@@ -389,11 +389,10 @@ public class Blocks {
     public static short BLOCK_POLISHED_DIORITE_SLAB = 244;
     public static short BLOCK_CURVED_TRACK = 245;
     public static short BLOCK_BEETS = 246;
-    public static short BLOCK_BEETROOT_SEEDS = 247;
     public static short BLOCK_BAMBOO_LADDER = 248;
     public static short BLOCK_ACACIA_FENCE = 249;
-    public static short BLOCK_ACACIA_PLANKS_STAIRS = 250;
-    public static short BLOCK_ACACIA_PLANKS_SLAB = 251;
+    public static short BLOCK_ACACIA_WOOD_STAIRS = 250;
+    public static short BLOCK_ACACIA_WOOD_SLAB = 251;
     public static short BLOCK_RAISED_TRACK = 252;
     public static short BLOCK_BLUE_STAINED_WOOD = 254;
     public static short BLOCK_RUBY_CRYSTAL = 255;
@@ -614,38 +613,38 @@ public class Blocks {
     public static short BLOCK_GRAY_MARBLE_TILE = 470;
     public static short BLOCK_ORANGE_MARBLE_TILE_STAIRS = 471;
     public static short BLOCK_GREEN_MARBLE_TILE_SLAB = 472;
-    public static short BLOCK_YELLOWSTAINED_GLASS_STAIRS = 473;
-    public static short BLOCK_YELLOWSTAINED_GLASS_SLAB = 474;
-    public static short BLOCK_BLACKSTAINED_GLASS_STAIRS = 475;
-    public static short BLOCK_BLACKSTAINED_GLASS_SLAB = 476;
-    public static short BLOCK_BLUESTAINED_GLASS_STAIRS = 477;
-    public static short BLOCK_BLUESTAINED_GLASS_SLAB = 478;
-    public static short BLOCK_BROWNSTAINED_GLASS_STAIRS = 479;
-    public static short BLOCK_BROWNSTAINED_GLASS_SLAB = 480;
-    public static short BLOCK_CYANSTAINED_GLASS_STAIRS = 481;
-    public static short BLOCK_CYANSTAINED_GLASS_SLAB = 482;
-    public static short BLOCK_GRAYSTAINED_GLASS_STAIRS = 483;
-    public static short BLOCK_GRAYSTAINED_GLASS_SLAB = 484;
-    public static short BLOCK_GREENSTAINED_GLASS_STAIRS = 485;
-    public static short BLOCK_GREENSTAINED_GLASS_SLAB = 486;
-    public static short BLOCK_LIGHT_BLUESTAINED_GLASS_STAIRS = 487;
-    public static short BLOCK_LIGHT_BLUESTAINED_GLASS_SLAB = 488;
-    public static short BLOCK_LIGHT_GRAYSTAINED_GLASS_STAIRS = 489;
-    public static short BLOCK_LIGHT_GRAYSTAINED_GLASS_SLAB = 490;
-    public static short BLOCK_LIMESTAINED_GLASS_STAIRS = 491;
-    public static short BLOCK_LIMESTAINED_GLASS_SLAB = 492;
-    public static short BLOCK_MAGENTASTAINED_GLASS_STAIRS = 493;
-    public static short BLOCK_MAGENTASTAINED_GLASS_SLAB = 494;
-    public static short BLOCK_ORANGESTAINED_GLASS_STAIRS = 495;
-    public static short BLOCK_ORANGESTAINED_GLASS_SLAB = 496;
-    public static short BLOCK_PINKSTAINED_GLASS_STAIRS = 497;
-    public static short BLOCK_PINKSTAINED_GLASS_SLAB = 498;
-    public static short BLOCK_PURPLESTAINED_GLASS_STAIRS = 499;
-    public static short BLOCK_PURPLESTAINED_GLASS_SLAB = 500;
-    public static short BLOCK_REDSTAINED_GLASS_STAIRS = 501;
-    public static short BLOCK_REDSTAINED_GLASS_SLAB = 502;
-    public static short BLOCK_WHITESTAINED_GLASS_STAIRS = 503;
-    public static short BLOCK_WHITESTAINED_GLASS_SLAB = 504;
+    public static short BLOCK_YELLOW_STAINED_GLASS_STAIRS = 473;
+    public static short BLOCK_YELLOW_STAINED_GLASS_SLAB = 474;
+    public static short BLOCK_BLACK_STAINED_GLASS_STAIRS = 475;
+    public static short BLOCK_BLACK_STAINED_GLASS_SLAB = 476;
+    public static short BLOCK_BLUE_STAINED_GLASS_STAIRS = 477;
+    public static short BLOCK_BLUE_STAINED_GLASS_SLAB = 478;
+    public static short BLOCK_BROWN_STAINED_GLASS_STAIRS = 479;
+    public static short BLOCK_BROWN_STAINED_GLASS_SLAB = 480;
+    public static short BLOCK_CYAN_STAINED_GLASS_STAIRS = 481;
+    public static short BLOCK_CYAN_STAINED_GLASS_SLAB = 482;
+    public static short BLOCK_GRAY_STAINED_GLASS_STAIRS = 483;
+    public static short BLOCK_GRAY_STAINED_GLASS_SLAB = 484;
+    public static short BLOCK_GREEN_STAINED_GLASS_STAIRS = 485;
+    public static short BLOCK_GREEN_STAINED_GLASS_SLAB = 486;
+    public static short BLOCK_LIGHT_BLUE_STAINED_GLASS_STAIRS = 487;
+    public static short BLOCK_LIGHT_BLUE_STAINED_GLASS_SLAB = 488;
+    public static short BLOCK_LIGHT_GRAY_STAINED_GLASS_STAIRS = 489;
+    public static short BLOCK_LIGHT_GRAY_STAINED_GLASS_SLAB = 490;
+    public static short BLOCK_LIME_STAINED_GLASS_STAIRS = 491;
+    public static short BLOCK_LIME_STAINED_GLASS_SLAB = 492;
+    public static short BLOCK_MAGENTA_STAINED_GLASS_STAIRS = 493;
+    public static short BLOCK_MAGENTA_STAINED_GLASS_SLAB = 494;
+    public static short BLOCK_ORANGE_STAINED_GLASS_STAIRS = 495;
+    public static short BLOCK_ORANGE_STAINED_GLASS_SLAB = 496;
+    public static short BLOCK_PINK_STAINED_GLASS_STAIRS = 497;
+    public static short BLOCK_PINK_STAINED_GLASS_SLAB = 498;
+    public static short BLOCK_PURPLE_STAINED_GLASS_STAIRS = 499;
+    public static short BLOCK_PURPLE_STAINED_GLASS_SLAB = 500;
+    public static short BLOCK_RED_STAINED_GLASS_STAIRS = 501;
+    public static short BLOCK_RED_STAINED_GLASS_SLAB = 502;
+    public static short BLOCK_WHITE_STAINED_GLASS_STAIRS = 503;
+    public static short BLOCK_WHITE_STAINED_GLASS_SLAB = 504;
     public static short BLOCK_CHECKERBOARD_CHISELED_MARBLE_STAIRS = 505;
     public static short BLOCK_CHECKERBOARD_CHISELED_MARBLE_SLAB = 506;
     public static short BLOCK_CHISELED_MARBLE_STAIRS = 507;
@@ -668,28 +667,27 @@ public class Blocks {
     public static short BLOCK_LAMP = 524;
     public static short BLOCK_BLUE_LAMP = 525;
     public static short BLOCK_GLASS_PANE = 526;
-    public static short BLOCK_YELLOWSTAINED_GLASS_PANE = 527;
-    public static short BLOCK_BLACKSTAINED_GLASS_PANE = 528;
-    public static short BLOCK_BLUESTAINED_GLASS_PANE = 529;
-    public static short BLOCK_BROWNSTAINED_GLASS_PANE = 530;
-    public static short BLOCK_CYANSTAINED_GLASS_PANE = 531;
-    public static short BLOCK_GRAYSTAINED_GLASS_PANE = 532;
-    public static short BLOCK_GREENSTAINED_GLASS_PANE = 533;
-    public static short BLOCK_LIGHT_BLUESTAINED_GLASS_PANE = 534;
-    public static short BLOCK_LIGHT_GRAYSTAINED_GLASS_PANE = 535;
-    public static short BLOCK_LIMESTAINED_GLASS_PANE = 536;
-    public static short BLOCK_MAGENTASTAINED_GLASS_PANE = 537;
-    public static short BLOCK_ORANGESTAINED_GLASS_PANE = 538;
-    public static short BLOCK_PINKSTAINED_GLASS_PANE = 539;
-    public static short BLOCK_PURPLESTAINED_GLASS_PANE = 540;
-    public static short BLOCK_REDSTAINED_GLASS_PANE = 541;
-    public static short BLOCK_WHITESTAINED_GLASS_PANE = 542;
+    public static short BLOCK_YELLOW_STAINED_GLASS_PANE = 527;
+    public static short BLOCK_BLACK_STAINED_GLASS_PANE = 528;
+    public static short BLOCK_BLUE_STAINED_GLASS_PANE = 529;
+    public static short BLOCK_BROWN_STAINED_GLASS_PANE = 530;
+    public static short BLOCK_CYAN_STAINED_GLASS_PANE = 531;
+    public static short BLOCK_GRAY_STAINED_GLASS_PANE = 532;
+    public static short BLOCK_GREEN_STAINED_GLASS_PANE = 533;
+    public static short BLOCK_LIGHT_BLUE_STAINED_GLASS_PANE = 534;
+    public static short BLOCK_LIGHT_GRAY_STAINED_GLASS_PANE = 535;
+    public static short BLOCK_LIME_STAINED_GLASS_PANE = 536;
+    public static short BLOCK_MAGENTA_STAINED_GLASS_PANE = 537;
+    public static short BLOCK_ORANGE_STAINED_GLASS_PANE = 538;
+    public static short BLOCK_PINK_STAINED_GLASS_PANE = 539;
+    public static short BLOCK_PURPLE_STAINED_GLASS_PANE = 540;
+    public static short BLOCK_RED_STAINED_GLASS_PANE = 541;
+    public static short BLOCK_WHITE_STAINED_GLASS_PANE = 542;
     public static short BLOCK_START_BOUNDARY = 543;
     public static short BLOCK_YELLOW_CHISELED_MARBLE_TILE = 545;
     public static short BLOCK_SUNFLOWER = 546;
     public static short BLOCK_SUNFLOWER_STALK = 547;
     public static short BLOCK_MEGA_TNT = 548;
-    public static short BLOCK_SUNFLOWER_SEEDS = 549;
     public static short BLOCK_CROSSTRACK = 550;
     public static short BLOCK_BLACK_CHISELED_MARBLE_TILE = 553;
     public static short BLOCK_BLUE_CHISELED_MARBLE_TILE = 554;
@@ -697,30 +695,30 @@ public class Blocks {
     public static short BLOCK_CYAN_CHISELED_MARBLE_TILE = 556;
     public static short BLOCK_GRAY_CHISELED_MARBLE_TILE = 557;
     public static short BLOCK_GREEN_CHISELED_MARBLE_TILE = 558;
-    public static short BLOCK_PASTELBLUE_CHISELED_MARBLE_TILE = 559;
-    public static short BLOCK_PASTELGREEN_CHISELED_MARBLE_TILE = 560;
+    public static short BLOCK_PASTEL_BLUE_CHISELED_MARBLE_TILE = 559;
+    public static short BLOCK_PASTEL_GREEN_CHISELED_MARBLE_TILE = 560;
     public static short BLOCK_MAGENTA_CHISELED_MARBLE_TILE = 561;
     public static short BLOCK_ORANGE_CHISELED_MARBLE_TILE = 562;
     public static short BLOCK_PINK_CHISELED_MARBLE_TILE = 563;
     public static short BLOCK_PURPLE_CHISELED_MARBLE_TILE = 564;
     public static short BLOCK_BURGUNDY_CHISELED_MARBLE_TILE = 565;
     public static short BLOCK_BAMBOO_BLOCK = 566;
-    public static short BLOCK_PASTELRED_CHISELED_MARBLE_TILE = 567;
+    public static short BLOCK_PASTEL_RED_CHISELED_MARBLE_TILE = 567;
     public static short BLOCK_YELLOW_MARBLE_TILE = 568;
     public static short BLOCK_BLACK_MARBLE_TILE = 569;
-    public static short BLOCK_ICE = 570;
+    public static short BLOCK_ICE_BLOCK = 570;
     public static short BLOCK_BROWN_MARBLE_TILE = 571;
     public static short BLOCK_CYAN_MARBLE_TILE = 572;
     public static short BLOCK_BAMBOO_WOOD = 573;
     public static short BLOCK_BOTTLE = 574;
-    public static short BLOCK_PASTELBLUE_MARBLE_TILE = 575;
-    public static short BLOCK_PASTELGREEN_MARBLE_TILE = 576;
+    public static short BLOCK_PASTEL_BLUE_MARBLE_TILE = 575;
+    public static short BLOCK_PASTEL_GREEN_MARBLE_TILE = 576;
     public static short BLOCK_MAGENTA_MARBLE_TILE = 577;
     public static short BLOCK_CUP = 578;
     public static short BLOCK_PINK_MARBLE_TILE = 579;
     public static short BLOCK_PURPLE_MARBLE_TILE = 580;
     public static short BLOCK_BURGUNDY_MARBLE_TILE = 581;
-    public static short BLOCK_PASTELRED_MARBLE_TILE = 582;
+    public static short BLOCK_PASTEL_RED_MARBLE_TILE = 582;
     public static short BLOCK_WINE_GLASS = 583;
     public static short BLOCK_YELLOW_STAINED_WOOD = 584;
     public static short BLOCK_BLACK_STAINED_WOOD = 585;
@@ -745,18 +743,18 @@ public class Blocks {
     public static short BLOCK_BURGUNDY_CHISELED_MARBLE_TILE_STAIRS = 604;
     public static short BLOCK_BURGUNDY_CHISELED_MARBLE_TILE_SLAB = 605;
     public static short BLOCK_BURGUNDY_CHISELED_MARBLE_TILE_PILLAR = 606;
-    public static short BLOCK_PASTELBLUE_MARBLE_TILE_STAIRS = 607;
-    public static short BLOCK_PASTELBLUE_MARBLE_TILE_SLAB = 608;
-    public static short BLOCK_PASTELBLUE_MARBLE_TILE_PILLAR = 609;
-    public static short BLOCK_PASTELGREEN_MARBLE_TILE_STAIRS = 610;
-    public static short BLOCK_PASTELGREEN_MARBLE_TILE_SLAB = 611;
-    public static short BLOCK_PASTELGREEN_MARBLE_TILE_PILLAR = 612;
+    public static short BLOCK_PASTEL_BLUE_MARBLE_TILE_STAIRS = 607;
+    public static short BLOCK_PASTEL_BLUE_MARBLE_TILE_SLAB = 608;
+    public static short BLOCK_PASTEL_BLUE_MARBLE_TILE_PILLAR = 609;
+    public static short BLOCK_PASTEL_GREEN_MARBLE_TILE_STAIRS = 610;
+    public static short BLOCK_PASTEL_GREEN_MARBLE_TILE_SLAB = 611;
+    public static short BLOCK_PASTEL_GREEN_MARBLE_TILE_PILLAR = 612;
     public static short BLOCK_MAGENTA_MARBLE_TILE_STAIRS = 613;
     public static short BLOCK_MAGENTA_MARBLE_TILE_SLAB = 614;
     public static short BLOCK_MAGENTA_MARBLE_TILE_PILLAR = 615;
-    public static short BLOCK_PASTELRED_CHISELED_MARBLE_TILE_STAIRS = 616;
-    public static short BLOCK_PASTELRED_CHISELED_MARBLE_TILE_SLAB = 617;
-    public static short BLOCK_PASTELRED_CHISELED_MARBLE_TILE_PILLAR = 618;
+    public static short BLOCK_PASTEL_RED_CHISELED_MARBLE_TILE_STAIRS = 616;
+    public static short BLOCK_PASTEL_RED_CHISELED_MARBLE_TILE_SLAB = 617;
+    public static short BLOCK_PASTEL_RED_CHISELED_MARBLE_TILE_PILLAR = 618;
     public static short BLOCK_PINK_MARBLE_TILE_STAIRS = 619;
     public static short BLOCK_PINK_MARBLE_TILE_SLAB = 620;
     public static short BLOCK_PINK_MARBLE_TILE_PILLAR = 621;
@@ -766,9 +764,9 @@ public class Blocks {
     public static short BLOCK_BURGUNDY_MARBLE_TILE_STAIRS = 625;
     public static short BLOCK_BURGUNDY_MARBLE_TILE_SLAB = 626;
     public static short BLOCK_BURGUNDY_MARBLE_TILE_PILLAR = 627;
-    public static short BLOCK_PASTELRED_MARBLE_TILE_STAIRS = 628;
-    public static short BLOCK_PASTELRED_MARBLE_TILE_SLAB = 629;
-    public static short BLOCK_PASTELRED_MARBLE_TILE_PILLAR = 630;
+    public static short BLOCK_PASTEL_RED_MARBLE_TILE_STAIRS = 628;
+    public static short BLOCK_PASTEL_RED_MARBLE_TILE_SLAB = 629;
+    public static short BLOCK_PASTEL_RED_MARBLE_TILE_PILLAR = 630;
     public static short BLOCK_YELLOW_CHISELED_MARBLE_TILE_STAIRS = 631;
     public static short BLOCK_YELLOW_CHISELED_MARBLE_TILE_SLAB = 632;
     public static short BLOCK_YELLOW_CHISELED_MARBLE_TILE_PILLAR = 633;
@@ -790,12 +788,12 @@ public class Blocks {
     public static short BLOCK_GREEN_CHISELED_MARBLE_TILE_STAIRS = 649;
     public static short BLOCK_GREEN_CHISELED_MARBLE_TILE_SLAB = 650;
     public static short BLOCK_GREEN_CHISELED_MARBLE_TILE_PILLAR = 651;
-    public static short BLOCK_PASTELBLUE_CHISELED_MARBLE_TILE_STAIRS = 652;
-    public static short BLOCK_PASTELBLUE_CHISELED_MARBLE_TILE_SLAB = 653;
-    public static short BLOCK_PASTELBLUE_CHISELED_MARBLE_TILE_PILLAR = 654;
-    public static short BLOCK_PASTELGREEN_CHISELED_MARBLE_TILE_STAIRS = 655;
-    public static short BLOCK_PASTELGREEN_CHISELED_MARBLE_TILE_SLAB = 656;
-    public static short BLOCK_PASTELGREEN_CHISELED_MARBLE_TILE_PILLAR = 657;
+    public static short BLOCK_PASTEL_BLUE_CHISELED_MARBLE_TILE_STAIRS = 652;
+    public static short BLOCK_PASTEL_BLUE_CHISELED_MARBLE_TILE_SLAB = 653;
+    public static short BLOCK_PASTEL_BLUE_CHISELED_MARBLE_TILE_PILLAR = 654;
+    public static short BLOCK_PASTEL_GREEN_CHISELED_MARBLE_TILE_STAIRS = 655;
+    public static short BLOCK_PASTEL_GREEN_CHISELED_MARBLE_TILE_SLAB = 656;
+    public static short BLOCK_PASTEL_GREEN_CHISELED_MARBLE_TILE_PILLAR = 657;
     public static short BLOCK_MAGENTA_CHISELED_MARBLE_TILE_STAIRS = 658;
     public static short BLOCK_MAGENTA_CHISELED_MARBLE_TILE_SLAB = 659;
     public static short BLOCK_MAGENTA_CHISELED_MARBLE_TILE_PILLAR = 660;
@@ -874,7 +872,6 @@ public class Blocks {
     public static short BLOCK_SPRUCE_LEAVES = 733;
     public static short BLOCK_SPRUCE_SAPLING = 734;
     public static short BLOCK_MERGE_TRACK = 736;
-    public static short BLOCK_WIRE = 737;
     public static short BLOCK_20_HP_ENGINE = 741;
     public static short BLOCK_70_HP_ENGINE = 744;
     public static short BLOCK_SILVER_BRICK = 747;
@@ -928,4 +925,242 @@ public class Blocks {
     public static short BLOCK_WHITE_SIDING = 797;
     public static short BLOCK_YELLOW_SEAT = 798;
     public static short BLOCK_YELLOW_SIDING = 799;
+    public static short BLOCK_WIRE = 737;
+    public static short BLOCK_TEST_BLOCK = -1;
+    public static short BLOCK_TEST_ORIENTABLE = -2;
+    public static short BLOCK_TEST_SLAB = -3;
+    public static short BLOCK_TEST_TRAPDOOR = -4;
+    public static short BLOCK_TEST_FENCE_GATE = -5;
+    public static short BLOCK_TEST_DOOR_HALF = -6;
+    public static short BLOCK_ACACIA2_DOOR_TOP = 878;
+    public static short BLOCK_ACACIA_DOOR_TOP = 879;
+    public static short BLOCK_BAMBOO_2_DOOR_TOP = 880;
+    public static short BLOCK_BAMBOO_DOOR_TOP = 881;
+    public static short BLOCK_BIRCH_DOOR_TOP = 882;
+    public static short BLOCK_CLADDED_BLUE_DOOR_TOP = 883;
+    public static short BLOCK_CLADDED_GREEN_DOOR_TOP = 884;
+    public static short BLOCK_CLADDED_MAGENTA_DOOR_TOP = 885;
+    public static short BLOCK_CLADDED_DOOR_TOP = 886;
+    public static short BLOCK_FRENCH_BAMBOO_WINDOWS_DOOR_TOP = 887;
+    public static short BLOCK_FRENCH_BAMBOO_DOOR_TOP = 888;
+    public static short BLOCK_FRENCH_BLUE_WINDOWS_DOOR_TOP = 889;
+    public static short BLOCK_FRENCH_BLUE_DOOR_TOP = 890;
+    public static short BLOCK_FRENCH_GREEN_WINDOWS_DOOR_TOP = 891;
+    public static short BLOCK_FRENCH_GREEN_DOOR_TOP = 892;
+    public static short BLOCK_FRENCH_MAGENTA_WINDOWS_DOOR_TOP = 893;
+    public static short BLOCK_FRENCH_MAGENTA_DOOR_TOP = 894;
+    public static short BLOCK_FRENCH_WINDOWS_DOOR_TOP = 895;
+    public static short BLOCK_FRENCH_DOOR_TOP = 896;
+    public static short BLOCK_GLASS_DOOR_TOP = 897;
+    public static short BLOCK_GRAY_SPACE_DOOR_TOP = 898;
+    public static short BLOCK_GRAY_SPACE_CONTROL_PANEL_DOOR_TOP = 899;
+    public static short BLOCK_GRAY_2_DOOR_TOP = 900;
+    public static short BLOCK_ITALIAN_BAMBOO_WINDOWS_DOOR_TOP = 901;
+    public static short BLOCK_ITALIAN_BAMBOO_DOOR_TOP = 902;
+    public static short BLOCK_ITALIAN_BLUE_WINDOWS_DOOR_TOP = 903;
+    public static short BLOCK_ITALIAN_BLUE_DOOR_TOP = 904;
+    public static short BLOCK_ITALIAN_GREEN_WINDOWS_DOOR_TOP = 905;
+    public static short BLOCK_ITALIAN_GREEN_DOOR_TOP = 906;
+    public static short BLOCK_ITALIAN_MAGENTA_WINDOWS_DOOR_TOP = 907;
+    public static short BLOCK_ITALIAN_MAGENTA_DOOR_TOP = 908;
+    public static short BLOCK_ITALIAN_WINDOWS_DOOR_TOP = 909;
+    public static short BLOCK_ITALIAN_DOOR_TOP = 910;
+    public static short BLOCK_JUNGLE_2_DOOR_TOP = 911;
+    public static short BLOCK_JUNGLE_DOOR_TOP = 912;
+    public static short BLOCK_OAK_2_DOOR_TOP = 913;
+    public static short BLOCK_OAK_RENAISSANCE_DOOR_TOP = 914;
+    public static short BLOCK_OAK_DOOR_TOP = 915;
+    public static short BLOCK_OVAL_BAMBOO_DOOR_TOP = 916;
+    public static short BLOCK_OVAL_BLUE_DOOR_TOP = 917;
+    public static short BLOCK_OVAL_GREEN_DOOR_TOP = 918;
+    public static short BLOCK_OVAL_MAGENTA_DOOR_TOP = 919;
+    public static short BLOCK_OVAL_DOOR_TOP = 920;
+    public static short BLOCK_PARTY_BLUE_DOOR_TOP = 921;
+    public static short BLOCK_PARTY_GREEN_DOOR_TOP = 922;
+    public static short BLOCK_PARTY_MAGENTA_DOOR_TOP = 923;
+    public static short BLOCK_PARTY_PURPLE_DOOR_TOP = 924;
+    public static short BLOCK_PARTY_RED_DOOR_TOP = 925;
+    public static short BLOCK_PARTY_YELLOW_DOOR_TOP = 926;
+    public static short BLOCK_RED_DOOR_TOP = 927;
+    public static short BLOCK_SPRUCE_2_DOOR_TOP = 928;
+    public static short BLOCK_SPRUCE_DOOR_TOP = 929;
+    public static short BLOCK_STEEL_DOOR_TOP = 930;
+    public static short BLOCK_WARPED_DOOR_TOP = 931;
+    public static short BLOCK_WEB_DOOR_TOP = 932;
+    public static short BLOCK_WHITE_1_DOOR_TOP = 933;
+    public static short BLOCK_WHITE_2_CONTROL_PANEL_DOOR_TOP = 934;
+    public static short BLOCK_WHITE_2_DOOR_TOP = 935;
+    public static short BLOCK_WHITE_DOOR_TOP = 936;
+    public static short BLOCK_ACACIA_DOOR_2 = 937;
+    public static short BLOCK_ACACIA_DOOR = 938;
+    public static short BLOCK_BAMBOO_2_DOOR = 939;
+    public static short BLOCK_BAMBOO_DOOR = 940;
+    public static short BLOCK_BIRCH_DOOR = 941;
+    public static short BLOCK_CLADDED_BLUE_DOOR = 942;
+    public static short BLOCK_CLADDED_GREEN_DOOR = 943;
+    public static short BLOCK_CLADDED_MAGENTA_DOOR = 944;
+    public static short BLOCK_CLADDED_DOOR = 945;
+    public static short BLOCK_FRENCH_BAMBOO_WINDOWS_DOOR = 946;
+    public static short BLOCK_FRENCH_BAMBOO_DOOR = 947;
+    public static short BLOCK_FRENCH_BLUE_WINDOWS_DOOR = 948;
+    public static short BLOCK_FRENCH_BLUE_DOOR = 949;
+    public static short BLOCK_FRENCH_GREEN_WINDOWS_DOOR = 950;
+    public static short BLOCK_FRENCH_GREEN_DOOR = 951;
+    public static short BLOCK_FRENCH_MAGENTA_WINDOWS_DOOR = 952;
+    public static short BLOCK_FRENCH_MAGENTA_DOOR = 953;
+    public static short BLOCK_FRENCH_WINDOWS_DOOR = 954;
+    public static short BLOCK_FRENCH_DOOR = 955;
+    public static short BLOCK_GLASS_DOOR = 956;
+    public static short BLOCK_GRAY_SPACE_DOOR = 957;
+    public static short BLOCK_GRAY_SPACE_CONTROL_PANEL_DOOR = 958;
+    public static short BLOCK_GRAY_SPACE_DOOR_2 = 959;
+    public static short BLOCK_ITALIAN_BAMBOO_WINDOWS_DOOR = 960;
+    public static short BLOCK_ITALIAN_BAMBOO_DOOR = 961;
+    public static short BLOCK_ITALIAN_BLUE_WINDOWS_DOOR = 962;
+    public static short BLOCK_ITALIAN_BLUE_DOOR = 963;
+    public static short BLOCK_ITALIAN_GREEN_WINDOWS_DOOR = 964;
+    public static short BLOCK_ITALIAN_GREEN_DOOR = 965;
+    public static short BLOCK_ITALIAN_MAGENTA_WINDOWS_DOOR = 966;
+    public static short BLOCK_ITALIAN_MAGENTA_DOOR = 967;
+    public static short BLOCK_ITALIAN_WINDOWS_DOOR = 968;
+    public static short BLOCK_ITALIAN_DOOR = 969;
+    public static short BLOCK_JUNGLE_2_DOOR = 970;
+    public static short BLOCK_JUNGLE_DOOR = 971;
+    public static short BLOCK_OAK_2_DOOR = 972;
+    public static short BLOCK_OAK_RENAISSANCE_DOOR = 973;
+    public static short BLOCK_OAK_DOOR = 974;
+    public static short BLOCK_OVAL_BAMBOO_DOOR = 975;
+    public static short BLOCK_OVAL_BLUE_DOOR = 976;
+    public static short BLOCK_OVAL_GREEN_DOOR = 977;
+    public static short BLOCK_OVAL_MAGENTA_DOOR = 978;
+    public static short BLOCK_OVAL_DOOR = 979;
+    public static short BLOCK_PARTY_BLUE_DOOR = 980;
+    public static short BLOCK_PARTY_GREEN_DOOR = 981;
+    public static short BLOCK_PARTY_MAGENTA_DOOR = 982;
+    public static short BLOCK_PARTY_PURPLE_DOOR = 983;
+    public static short BLOCK_PARTY_RED_DOOR = 984;
+    public static short BLOCK_PARTY_YELLOW_DOOR = 985;
+    public static short BLOCK_RED_DOOR = 986;
+    public static short BLOCK_SPRUCE_2_DOOR = 987;
+    public static short BLOCK_SPRUCE_DOOR = 988;
+    public static short BLOCK_STEEL_DOOR = 989;
+    public static short BLOCK_WARPED_DOOR = 990;
+    public static short BLOCK_WEB_DOOR = 991;
+    public static short BLOCK_WHITE_SPACE_DOOR = 992;
+    public static short BLOCK_WHITE_SPACE_CONTROL_PANEL_DOOR = 993;
+    public static short BLOCK_WHITE_SPACE_DOOR_2 = 994;
+    public static short BLOCK_WHITE_DOOR = 995;
+    public static short BLOCK_JUNGLE_FENCE_GATE = 800;
+    public static short BLOCK_OAK_FENCE_GATE = 801;
+    public static short BLOCK_BIRCH_FENCE_GATE = 802;
+    public static short BLOCK_DARK_OAK_FENCE_GATE = 803;
+    public static short BLOCK_ACACIA_FENCE_GATE = 804;
+    public static short BLOCK_STONE_BRICK_FENCE_GATE = 805;
+    public static short BLOCK_PALISADE_STONE_FENCE_GATE = 806;
+    public static short BLOCK_PALISADE_STONE_2_FENCE_GATE = 807;
+    public static short BLOCK_POLISHED_DIORITE_FENCE_GATE = 808;
+    public static short BLOCK_POLISHED_ANDESITE_FENCE_GATE = 809;
+    public static short BLOCK_CRACKED_STONE_FENCE_GATE = 810;
+    public static short BLOCK_STONE_WITH_VINES_FENCE_GATE = 811;
+    public static short BLOCK_BURGUNDY_BRICK_FENCE_GATE = 812;
+    public static short BLOCK_RED_PALISADE_SANDSTONE_FENCE_GATE = 813;
+    public static short BLOCK_PALISADE_SANDSTONE_FENCE_GATE = 814;
+    public static short BLOCK_YELLOW_CONCRETE_FENCE_GATE = 815;
+    public static short BLOCK_BLACK_CONCRETE_FENCE_GATE = 816;
+    public static short BLOCK_BLUE_CONCRETE_FENCE_GATE = 817;
+    public static short BLOCK_BROWN_CONCRETE_FENCE_GATE = 818;
+    public static short BLOCK_CYAN_CONCRETE_FENCE_GATE = 819;
+    public static short BLOCK_GRAY_CONCRETE_FENCE_GATE = 820;
+    public static short BLOCK_GREEN_CONCRETE_FENCE_GATE = 821;
+    public static short BLOCK_LIGHT_BLUE_CONCRETE_FENCE_GATE = 822;
+    public static short BLOCK_LIGHT_GRAY_CONCRETE_FENCE_GATE = 823;
+    public static short BLOCK_LIME_CONCRETE_FENCE_GATE = 824;
+    public static short BLOCK_MAGENTA_CONCRETE_FENCE_GATE = 825;
+    public static short BLOCK_ORANGE_CONCRETE_FENCE_GATE = 826;
+    public static short BLOCK_PINK_CONCRETE_FENCE_GATE = 827;
+    public static short BLOCK_PURPLE_CONCRETE_FENCE_GATE = 828;
+    public static short BLOCK_RED_CONCRETE_FENCE_GATE = 829;
+    public static short BLOCK_WHITE_CONCRETE_FENCE_GATE = 830;
+    public static short BLOCK_BAMBOO_WOOD_FENCE_GATE = 831;
+    public static short BLOCK_CEMENT_FENCE_GATE = 832;
+    public static short BLOCK_OBSIDIAN_FENCE_GATE = 833;
+    public static short BLOCK_LAPIS_LAZUL_FENCE_GATE = 834;
+    public static short BLOCK_STEEL_FENCE_GATE = 835;
+    public static short BLOCK_GOLD_FENCE_GATE = 836;
+    public static short BLOCK_EMERALD_FENCE_GATE = 837;
+    public static short BLOCK_DIAMOND_FENCE_GATE = 838;
+    public static short BLOCK_PRISMARINE_BRICK_FENCE_GATE = 839;
+    public static short BLOCK_GRANITE_BRICK_FENCE_GATE = 840;
+    public static short BLOCK_DARK_PRISMARINE_BRICK_FENCE_GATE = 841;
+    public static short BLOCK_MOSAIC_BAMBOO_WOOD_FENCE_GATE = 842;
+    public static short BLOCK_YELLOW_STAINED_WOOD_FENCE_GATE = 843;
+    public static short BLOCK_BLACK_STAINED_WOOD_FENCE_GATE = 844;
+    public static short BLOCK_BLUE_STAINED_WOOD_FENCE_GATE = 845;
+    public static short BLOCK_CYAN_STAINED_WOOD_FENCE_GATE = 846;
+    public static short BLOCK_GRAY_STAINED_WOOD_FENCE_GATE = 847;
+    public static short BLOCK_GREEN_STAINED_WOOD_FENCE_GATE = 848;
+    public static short BLOCK_LIGHT_BLUE_STAINED_WOOD_FENCE_GATE = 849;
+    public static short BLOCK_LIME_STAINED_WOOD_FENCE_GATE = 850;
+    public static short BLOCK_MAGENTA_STAINED_WOOD_FENCE_GATE = 851;
+    public static short BLOCK_ORANGE_STAINED_WOOD_FENCE_GATE = 852;
+    public static short BLOCK_PINK_STAINED_WOOD_FENCE_GATE = 853;
+    public static short BLOCK_PURPLE_STAINED_WOOD_FENCE_GATE = 854;
+    public static short BLOCK_RED_STAINED_WOOD_FENCE_GATE = 855;
+    public static short BLOCK_WHITE_STAINED_WOOD_FENCE_GATE = 856;
+    public static short BLOCK_EDISON_LIGHT = 55;
+    public static short BLOCK_ELECTRIC_LIGHT = 174;
+    public static short BLOCK_SEA_LIGHT = 13;
+    public static short BLOCK_DIAMOND_ORE = 105;
+    public static short BLOCK_COAL_ORE = 228;
+    public static short BLOCK_IRON_ORE = 234;
+    public static short BLOCK_GOLD_ORE = 237;
+    public static short BLOCK_LAPIS_ORE = 544;
+    public static short BLOCK_EMERALD_ORE = 551;
+    public static short BLOCK_WHEAT_SEEDS = 162;
+    public static short BLOCK_CARROT_SEEDS = 163;
+    public static short BLOCK_POTATO_SEEDS = 165;
+    public static short BLOCK_POTATO_GROWTH_1 = 166;
+    public static short BLOCK_POTATO_GROWTH_2 = 167;
+    public static short BLOCK_CARROT_GROWTH_1 = 549;
+    public static short BLOCK_CARROT_GROWTH_2 = 735;
+    public static short BLOCK_BEETROOT_GROWTH_1 = 738;
+    public static short BLOCK_BEETROOT_GROWTH_2 = 739;
+    public static short BLOCK_WHEAT_GROWTH_1 = 168;
+    public static short BLOCK_WHEAT_GROWTH_2 = 169;
+    public static short BLOCK_WHEAT_GROWTH_3 = 170;
+    public static short BLOCK_WHEAT_GROWTH_4 = 171;
+    public static short BLOCK_WHEAT_GROWTH_5 = 172;
+    public static short BLOCK_WHEAT_GROWTH_6 = 173;
+    public static short BLOCK_WHEAT = 121;
+    public static short BLOCK_CARROTS = 122;
+    public static short BLOCK_POTATOES = 146;
+    public static short BLOCK_BEETROOT_SEEDS = 247;
+    public static short BLOCK_ACACIA_TRAPDOOR = 857;
+    public static short BLOCK_ACACIA2_TRAPDOOR = 858;
+    public static short BLOCK_BAMBOO_2_TRAPDOOR = 859;
+    public static short BLOCK_BAMBOO_TRAPDOOR = 860;
+    public static short BLOCK_BIRCH_TRAPDOOR = 861;
+    public static short BLOCK_CLADDED_BIRCH_TRAPDOOR = 862;
+    public static short BLOCK_CLADDED_REDWOOD_TRAPDOOR = 863;
+    public static short BLOCK_CLADDED_WHITE_TRAPDOOR = 864;
+    public static short BLOCK_GLASS_TRAPDOOR = 865;
+    public static short BLOCK_GRAY_SPACE_TRAPDOOR_TRAPDOOR = 866;
+    public static short BLOCK_JUNGLE_2_TRAPDOOR = 867;
+    public static short BLOCK_JUNGLE_TRAPDOOR = 868;
+    public static short BLOCK_OAK_2_TRAPDOOR = 869;
+    public static short BLOCK_OAK_TRAPDOOR = 870;
+    public static short BLOCK_RED_TRAPDOOR = 871;
+    public static short BLOCK_RENAISSANCE_TRAPDOOR = 872;
+    public static short BLOCK_SPRUCE_TRAPDOOR = 873;
+    public static short BLOCK_STEEL_TRAPDOOR = 874;
+    public static short BLOCK_WARPED_TRAPDOOR = 875;
+    public static short BLOCK_WHITE_SPACE_TRAPDOOR_TRAPDOOR = 876;
+    public static short BLOCK_WHITE_TRAPDOOR = 877;
+    public static short BLOCK_BARREL = 45;
+    public static short BLOCK_CRAFTING_TABLE = 50;
+    public static short BLOCK_FURNACE = 99;
+    public static short BLOCK_STRAIGHT_TRACK = 155;
+    public static short BLOCK_SPAWN_BLOCK = 552;
+    public static short BLOCK_FLAG_BLOCK = 231;
+
 }

@@ -127,7 +127,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             System.out.println("Teleporting to spawnpoint...");
             if (!inventory.isEmpty()) {
-                GameScene.setBlock(Blocks.BLOCK_FLAG, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+                GameScene.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             }
             worldPosition.set(status_spawnPosition);
             resetHealthStats();

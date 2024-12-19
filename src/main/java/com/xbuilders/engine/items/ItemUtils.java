@@ -80,6 +80,15 @@ public class ItemUtils {
         return new ArrayList<>();
     }
 
+    private static String nameToJavaName(String prefix, String name) {
+        name = name.replaceFirst("xbuilders:", "").trim().toUpperCase();
+        if (!name.startsWith(prefix.toUpperCase())) name = prefix + "_" + name;
+        return name.toUpperCase()
+                .replaceAll("hidden", "")
+                .replaceAll("[^A-Z0-9_]", "")
+                .replaceAll("\\s+", "_");
+    }
+
     public static void block_makeClassJavaFiles(ArrayList<Block> blocks, File directory) throws IOException {
         StringBuilder blockClasses = new StringBuilder();
         StringBuilder blockIDs = new StringBuilder();
@@ -90,10 +99,10 @@ public class ItemUtils {
             }
 
 
-            blockClasses.append("public static Block BLOCK_" +
+            blockClasses.append("public static Block " +
                             nameToJavaName("block", block.alias) + " = ItemList.getBlock((short)")
                     .append(block.id).append(");").append("\n");
-            blockIDs.append("public static short BLOCK_" +
+            blockIDs.append("public static short " +
                     nameToJavaName("block", block.alias) + " = ").append(block.id).append(";").append("\n");
         }
         Files.writeString(new File(directory, "BlockClasses.java").toPath(), blockClasses.toString());
@@ -127,14 +136,6 @@ public class ItemUtils {
 //        Files.writeString(outputFile.toPath(), json);
 //    }
 
-    private static String nameToJavaName(String prefix, String name) {
-        return prefix.toUpperCase().replaceAll("_", "") +
-                "_" +
-                name.toUpperCase()
-                        .replaceAll("hidden", "")
-                        .replaceAll("[^A-Z0-9_]", "")
-                        .replaceAll("\\s+", "_");
-    }
 
     public static void exportBlocksToJson(List<Block> list, File out) {
         //Save list as json

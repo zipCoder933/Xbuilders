@@ -533,7 +533,7 @@ public class Minecart extends Vehicle {
     }
 
     public static boolean isTrack(short block) {
-        return block == Blocks.BLOCK_TRACK
+        return block == Blocks.BLOCK_STRAIGHT_TRACK
                 || block == Blocks.BLOCK_RAISED_TRACK
                 || block == Blocks.BLOCK_CROSSTRACK
                 || block == Blocks.BLOCK_CURVED_TRACK

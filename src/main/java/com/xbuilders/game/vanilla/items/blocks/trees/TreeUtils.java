@@ -24,21 +24,7 @@ import static com.xbuilders.game.vanilla.propagation.GrassPropagation.isGrass;
  */
 class TreeUtils {
 
-    public static boolean readyToGrow(int x, int y, int z) {
-        try {
-            Thread.sleep(MainWindow.devMode ? 200 : 60000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //Check if the block below is dirt
-        short b = GameScene.world.getBlockID(x, y + 1, z);
-        if (isGrass(b) ||
-                b == Blocks.BLOCK_DIRT ||
-                b == Blocks.BLOCK_FARMLAND) {
-            return true;
-        }
-        return false;
-    }
+
 
     public static int randomInt(Random rand, int min, int max) {
         return rand.nextInt((max - min) + 1) + min;

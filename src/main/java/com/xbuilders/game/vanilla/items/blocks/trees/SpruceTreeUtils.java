@@ -9,6 +9,7 @@ import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.world.Terrain;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.game.vanilla.items.Blocks;
+import com.xbuilders.game.vanilla.items.blocks.PlantUtils;
 
 import java.util.Random;
 
@@ -18,13 +19,16 @@ import static com.xbuilders.game.vanilla.items.blocks.trees.TreeUtils.*;
  * @author zipCoder933
  */
 public class SpruceTreeUtils {
-    public static final Block.SetBlockEvent setBlockEvent = new Block.SetBlockEvent() {
+    public static final Block.RandomTickEvent randomTickEvent = new Block.RandomTickEvent() {
         @Override
-        public void run(int x, int y, int z) {
-            if (TreeUtils.readyToGrow(x, y, z)) player_plantTree(new Random(), x, y, z);
+        public boolean run(int x, int y, int z) {
+            if (PlantUtils.plantable(x, y, z)) {
+                player_plantTree(new Random(), x, y, z);
+                return true;
+            }
+            return false;
         }
     };
-
     static final int MIN_HEIGHT = 7;
     static final int MAX_HEIGHT = 14;
 

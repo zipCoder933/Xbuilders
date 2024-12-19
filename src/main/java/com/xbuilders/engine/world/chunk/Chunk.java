@@ -1,6 +1,5 @@
 package com.xbuilders.engine.world.chunk;
 
-import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
@@ -181,8 +180,8 @@ public class Chunk {
     }
 
     public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
-        if (updateAllNeighbors) MainWindow.printlnDev("Regenerating all neighbors");
-        else MainWindow.printlnDev("Regenerating mesh at " + x + ", " + y + ", " + z);
+//        if (updateAllNeighbors) MainWindow.printlnDev("Regenerating all neighbors");
+//        else MainWindow.printlnDev("Regenerating mesh at " + x + ", " + y + ", " + z);
 
 
         if (!neghbors.allFacingNeghborsLoaded) {
@@ -393,7 +392,7 @@ public class Chunk {
     }
 
     private static Random randomTick_random = new Random();
-    private static final float RANDOM_TICK_LIKELYHOOD = 0.01f;
+    private static final float RANDOM_TICK_LIKELIHOOD = 0.3f;//0.01f;
 
     public boolean tick() {
         boolean updatedAnything = false;
@@ -404,7 +403,7 @@ public class Chunk {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int z = 0; z < WIDTH; z++) {
 
-                    if (randomTick_random.nextFloat() <= RANDOM_TICK_LIKELYHOOD) {
+                    if (randomTick_random.nextFloat() <= RANDOM_TICK_LIKELIHOOD) {
                         short blockID = data.getBlock(x, y, z);
                         if (blockID != BlockRegistry.BLOCK_AIR.id) {
                             Block block = Registrys.getBlock(blockID);
@@ -417,9 +416,6 @@ public class Chunk {
                 }
             }
         }
-
-
-        return true;
-
+        return updatedAnything;
     }
 }
