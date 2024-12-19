@@ -1,8 +1,7 @@
 package com.xbuilders.engine.items.recipes.crafting;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.recipes.DisplayRecipe;
+import com.xbuilders.engine.items.recipes.RecipeDisplay;
 import com.xbuilders.engine.items.recipes.Recipe;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.items.recipes.TagPossibilities;
@@ -87,13 +86,13 @@ public class CraftingRecipe extends Recipe {
 
 
     @Override
-    public DisplayRecipe getDisplayRecipe() {
+    public RecipeDisplay getDisplayRecipe() {
         //Make the tag possibilities from ALL inputs
         TagPossibilities tagPossibilities = new TagPossibilities(input);
         HashSet<String> exploredTags = new HashSet<>();
 
         //Make the formatted recipe
-        DisplayRecipe formattedRecipe = new DisplayRecipe();
+        RecipeDisplay formattedRecipe = new RecipeDisplay();
 
         if (tagPossibilities.isEmpty()) {
             System.out.println("No tags in formatted recipe");

@@ -7,7 +7,7 @@ package com.xbuilders.game.vanilla.ui;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.recipes.DisplayRecipe;
+import com.xbuilders.engine.items.recipes.RecipeDisplay;
 import com.xbuilders.engine.items.recipes.RecipeList;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.ui.Theme;
@@ -34,7 +34,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     public static final int KEY_OPEN_RECIPE_INDEX = GLFW.GLFW_KEY_R;
 
     Item selectedItem;
-    HashMap<RecipeList, ArrayList<DisplayRecipe>> availableRecipes = new HashMap<>();
+    HashMap<RecipeList, ArrayList<RecipeDisplay>> availableRecipes = new HashMap<>();
 
     public UI_RecipeIndex(NkContext ctx, Item[] itemList, NKWindow window) {
         super(ctx, window, "Recipe List");
@@ -55,7 +55,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
         availableRecipes.clear();
         selectedItem = item;
         for (RecipeList registry : RecipeRegistry.allRecipeLists) {
-            ArrayList<DisplayRecipe> recipes = registry.getDisplayRecipesFromOutput(item);
+            ArrayList<RecipeDisplay> recipes = registry.getDisplayRecipesFromOutput(item);
             if (recipes.isEmpty()) continue;
             availableRecipes.put(registry, recipes);
         }
@@ -88,7 +88,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
                     nk_button_text(ctx, list.name);
                 }
                 availableRecipes.forEach((list, recipes) -> {
-                    for (DisplayRecipe recipe : recipes) {
+                    for (RecipeDisplay recipe : recipes) {
                         recipe.drawRecipe(ctx, recipeView_Height - 50);
                     }
                 });

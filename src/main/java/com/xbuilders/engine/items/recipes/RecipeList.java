@@ -37,9 +37,9 @@ public abstract class RecipeList<T extends Recipe> {
     public abstract ArrayList<T> getFromOutput(Item output);
 
     @JsonIgnore
-    public ArrayList<DisplayRecipe> getDisplayRecipesFromOutput(Item output) {
+    public ArrayList<RecipeDisplay> getDisplayRecipesFromOutput(Item output) {
         ArrayList<T> recipes = getFromOutput(output);
-        ArrayList<DisplayRecipe> formattedRecipes = new ArrayList<>();
+        ArrayList<RecipeDisplay> formattedRecipes = new ArrayList<>();
         for (T recipe : recipes) {
             formattedRecipes.add(recipe.getDisplayRecipe());
         }

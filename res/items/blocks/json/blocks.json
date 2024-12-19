@@ -2662,7 +2662,7 @@
     "properties": {}
   },
   {
-    "alias": "xbuilders:wheat_hidden",
+    "alias": "xbuilders:wheat",
     "id": 121,
     "texture": {
       "neg_y": "wheat",
@@ -2685,7 +2685,7 @@
     "properties": {}
   },
   {
-    "alias": "xbuilders:carrots_hidden_\u003cplant\u003e",
+    "alias": "xbuilders:carrots",
     "id": 122,
     "texture": {
       "neg_y": "carrots  plant",
@@ -3253,7 +3253,7 @@
     "properties": {}
   },
   {
-    "alias": "xbuilders:potatoes_hidden\u003cplant\u003e",
+    "alias": "xbuilders:potatoes",
     "id": 146,
     "texture": {
       "neg_y": "potatoes plant",
@@ -5423,7 +5423,7 @@
     "properties": {}
   },
   {
-    "alias": "xbuilders:beets_hidden",
+    "alias": "xbuilders:beets",
     "id": 246,
     "texture": {
       "neg_y": "beets",

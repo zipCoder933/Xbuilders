@@ -8,5 +8,5 @@ public abstract class Recipe {
 
     //since this method starts with "get", @JsonIgnore is used to prevent it from being serialized
     @JsonIgnore
-    public abstract DisplayRecipe getDisplayRecipe();
+    public abstract RecipeDisplay getDisplayRecipe();
 }

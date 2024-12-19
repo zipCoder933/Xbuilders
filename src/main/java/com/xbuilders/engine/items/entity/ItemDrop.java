@@ -30,9 +30,8 @@ public class ItemDrop extends Entity {
     private final static SmileFactory smileFactory = new SmileFactory();
     public final static ObjectMapper objectMapper = new ObjectMapper(smileFactory);
 
-    private float seed;
+    private byte seed;
     private boolean droppedFromPlayer;
-    private int lifetime;
     private int timeSinceDropped;
     private final Vector3f animatedPos = new Vector3f();
     private final Vector3f playerHeadPos = new Vector3f();
@@ -59,7 +58,7 @@ public class ItemDrop extends Entity {
 
     @Override
     public void initializeOnDraw(byte[] bytes) {
-        seed = (float) Math.random();
+        seed = (byte) (Math.random() * 255);
         if (box == null) {
             box = new Box();
             box.setLineWidth(3);
@@ -81,12 +80,10 @@ public class ItemDrop extends Entity {
                 bytes2[i] = bytes[i + BYTES_BEGINNING_DATA_SIZE];
             }
             stack = objectMapper.readValue(bytes2, ItemStack.class);
-            //System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
+            System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
         } catch (IOException e) {
             ErrorHandler.log(e);
         }
-
-        lifetime = DROP_LIVE_TIME;
         timeSinceDropped = 0;
         animatedPos.set(worldPosition.x, worldPosition.y + 0.5f, worldPosition.z);
     }
@@ -102,12 +99,18 @@ public class ItemDrop extends Entity {
         if (box == null) return;
         playerHeadPos.set(GameScene.player.aabb.worldPosition).add(GameScene.player.aabb.offset).add(0, 0.5f, 0);
         if (MainWindow.frameCount % 20 != 0) { //Update every 20 frames
-            canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.player.inventory.hasRoomForItem(stack);
             timeSinceDropped++;
-            if (lifetime-- <= 0) {
-                System.out.println("DELETING ITEM DROP");
+            if (timeSinceDropped > DROP_LIVE_TIME) {
+                System.out.println("TIMEOUT, DELETING ITEM DROP");
+                destroy();
+            } else if (stack == null) {
+                System.out.println("STACK IS NULL, DELETING ITEM DROP");
                 destroy();
             }
+            canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.player.inventory.hasRoomForItem(stack);
+//            if (distToPlayer < 5) {
+//                System.out.println("item: " + stack + " DIST TO PLAYER: " + distToPlayer + " CAN GET: " + canGet + " TIME SINCE DROPPED: " + timeSinceDropped + " hasRoomForItem: " + GameScene.player.inventory.hasRoomForItem(stack));
+//            }
             if (distToPlayer < 2 && canGet) {
                 worldPosition.set(playerHeadPos);
             } else {
@@ -135,7 +138,7 @@ public class ItemDrop extends Entity {
                 }
             }
         }
-        double sin = Math.sin((MainWindow.frameCount * 0.1) + seed);
+        double sin = Math.sin((MainWindow.frameCount * 0.1) + ((double) seed / 255));
         float bob = (float) (sin - 0.5) * 0.1f;
 
         float animationSpeed = 0.1f;

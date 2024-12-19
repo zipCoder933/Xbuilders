@@ -52,13 +52,13 @@ public class SmeltingRecipe extends Recipe {
 
 
     @Override
-    public DisplayRecipe getDisplayRecipe() {
+    public RecipeDisplay getDisplayRecipe() {
         //Make the tag possibilities from ALL inputs
         TagPossibilities tagPossibilities = new TagPossibilities(input);
         HashSet<String> exploredTags = new HashSet<>();
 
         //Make the formatted recipe
-        DisplayRecipe formattedRecipe = new DisplayRecipe();
+        RecipeDisplay formattedRecipe = new RecipeDisplay();
 
         if (tagPossibilities.isEmpty()) {
             System.out.println("No tags in formatted recipe");
