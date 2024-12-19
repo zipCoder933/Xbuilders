@@ -1790,11 +1790,11 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:bamboo": [
+  "xbuilders:plant_bamboo": [
     {
       "item": "xbuilders:bamboo",
       "chance": 1.0,
-      "maxItems": 1
+      "maxItems": 3
     }
   ],
   "xbuilders:yellow_chiseled_marble_tile_pillar": [
@@ -5230,6 +5230,54 @@
       "item": "xbuilders:wheat_seeds",
       "chance": 1.0,
       "maxItems": 1
+    }
+  ],
+  "xbuilders:wheat": [
+    {
+      "item": "xbuilders:wheat",
+      "chance": 1.0,
+      "maxItems": 2
+    },
+    {
+      "item": "xbuilders:wheat_seeds",
+      "chance": 0.1,
+      "maxItems": 2
+    }
+  ],
+  "xbuilders:beets": [
+    {
+      "item": "xbuilders:beet",
+      "chance": 1.0,
+      "maxItems": 2
+    },
+    {
+      "item": "xbuilders:beetroot_seeds",
+      "chance": 0.1,
+      "maxItems": 2
+    }
+  ],
+  "xbuilders:potatoes": [
+    {
+      "item": "xbuilders:potato",
+      "chance": 1.0,
+      "maxItems": 2
+    },
+    {
+      "item": "xbuilders:potato_seeds",
+      "chance": 0.1,
+      "maxItems": 2
+    }
+  ],
+  "xbuilders:carrots": [
+    {
+      "item": "xbuilders:carrot",
+      "chance": 1.0,
+      "maxItems": 2
+    },
+    {
+      "item": "xbuilders:carrot_seeds",
+      "chance": 0.1,
+      "maxItems": 2
     }
   ],
   "xbuilders:burgundy_chiseled_marble_tile_pillar": [

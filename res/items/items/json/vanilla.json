@@ -10,6 +10,26 @@
     "block": "xbuilders:spawn_block"
   },
   {
+    "id": "xbuilders:carrot",
+    "name": "Carrot",
+    "icon": "food/carrot.png"
+  },
+  {
+    "id": "xbuilders:beet",
+    "name": "Beet",
+    "icon": "food/beetroot.png"
+  },
+  {
+    "id": "xbuilders:potato",
+    "name": "Potato",
+    "icon": "food/potato.png"
+  },
+  {
+    "id": "xbuilders:bamboo",
+    "name": "Bamboo",
+    "icon": "bamboo.png"
+  },
+  {
     "id": "xbuilders:bread",
     "name": "Bread",
     "icon": "food/bread.png"
