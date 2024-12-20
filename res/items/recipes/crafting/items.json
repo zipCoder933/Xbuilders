@@ -153,6 +153,36 @@
   },
   {
     "input": [
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:gold_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:gold_ingot",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:switch_junction",
+    "amount": 4
+  },
+  {
+    "input": [
+      "xbuilders:stick",
+      null,
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:gold_ingot",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      null,
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:track_stop",
+    "amount": 4
+  },
+  {
+    "input": [
       null,
       null,
       null,

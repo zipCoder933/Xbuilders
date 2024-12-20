@@ -101,12 +101,14 @@
   {
     "id": "xbuilders:water",
     "name": "Water",
+    "maxStackSize": 1,
     "icon": "water_bucket.png",
     "block": 21
   },
   {
     "id": "xbuilders:lava",
     "name": "Lava",
+    "maxStackSize": 1,
     "icon": "lava_bucket.png",
     "block": 25
   },

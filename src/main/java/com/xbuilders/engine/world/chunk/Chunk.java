@@ -1,5 +1,6 @@
 package com.xbuilders.engine.world.chunk;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
@@ -102,8 +103,7 @@ public class Chunk {
         this.terrain = terrain;
     }
 
-    public void init(Vector3i position, FutureChunk futureChunk,
-                     float distToPlayer, boolean isTopChunk) {
+    public void init(Vector3i position, FutureChunk futureChunk, float distToPlayer, boolean isTopChunk) {
         entities.clear();
         data.reset();
         generationStatus = 0;//The only time we can reset the generation status
@@ -112,12 +112,8 @@ public class Chunk {
         pillarInformation = null;
         this.isTopChunk = isTopChunk;
         this.position.set(position);
-        modelMatrix.identity().setTranslation(
-                position.x * WIDTH,
-                position.y * HEIGHT,
-                position.z * WIDTH);
-        aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH,
-                WIDTH, HEIGHT, WIDTH);
+        modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
+        aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
         meshes.init(aabb);
         neghbors.init(position);
 
@@ -262,10 +258,7 @@ public class Chunk {
     public void prepare(Terrain terrain, long frame, boolean isSettingUpWorld) {
         if (loadFuture != null && loadFuture.isDone()) {
 
-            if (isTopChunk
-                    && pillarInformation != null
-                    && !pillarInformation.pillarLightLoaded
-                    && pillarInformation.isPillarLoaded()) {
+            if (isTopChunk && pillarInformation != null && !pillarInformation.pillarLightLoaded && pillarInformation.isPillarLoaded()) {
                 pillarInformation.initLighting(null, terrain, distToPlayer);
                 pillarInformation.pillarLightLoaded = true;
             }
@@ -276,8 +269,7 @@ public class Chunk {
                     World.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
 
-                        if (GameScene.world.data == null)
-                            return null; // Quick fix. TODO: remove this line
+                        if (GameScene.world.data == null) return null; // Quick fix. TODO: remove this line
 
                         meshes.compute();
                         setGenerationStatus(GEN_COMPLETE);
@@ -317,16 +309,14 @@ public class Chunk {
             mesherFuture = null;
         }
 
-        if (isPlayerUpdate)
-            mesherFuture = playerUpdating_meshService.submit(() -> {
-                meshes.compute();
-                return meshes;
-            });
-        else
-            mesherFuture = meshService.submit(() -> {
-                meshes.compute();
-                return meshes;
-            });
+        if (isPlayerUpdate) mesherFuture = playerUpdating_meshService.submit(() -> {
+            meshes.compute();
+            return meshes;
+        });
+        else mesherFuture = meshService.submit(() -> {
+            meshes.compute();
+            return meshes;
+        });
     }
 
     /**
@@ -392,18 +382,21 @@ public class Chunk {
     }
 
     private static Random randomTick_random = new Random();
-    private static final float RANDOM_TICK_LIKELIHOOD = 0.3f;//0.01f;
+    private static final float DEV_RANDOM_TICK_LIKELIHOOD = 0.3f;
+    private static final float RANDOM_TICK_LIKELIHOOD = 0.008f;
 
     public boolean tick() {
         boolean updatedAnything = false;
+        float tickLikelyhood = (MainWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
         int wx = position.x * WIDTH;
         int wy = position.y * HEIGHT;
         int wz = position.z * WIDTH;
+
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int z = 0; z < WIDTH; z++) {
 
-                    if (randomTick_random.nextFloat() <= RANDOM_TICK_LIKELIHOOD) {
+                    if (randomTick_random.nextFloat() <= tickLikelyhood) {
                         short blockID = data.getBlock(x, y, z);
                         if (blockID != BlockRegistry.BLOCK_AIR.id) {
                             Block block = Registrys.getBlock(blockID);

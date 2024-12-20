@@ -5,6 +5,8 @@ import com.xbuilders.engine.items.ItemUtils;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.item.Item;
+import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.vanilla.items.items.*;
 
@@ -130,5 +132,21 @@ public class Items {
         if (item != null) {
             item.hungerSaturation = 0.5f;
         }
+        item = Registrys.getItem("xbuilders:bucket");
+        if (item != null) {
+            item.createClickEvent = (ray, stack) -> {
+                //fillOrEmptyBucket(ray, stack);
+                return true;
+            };
+            item.destroyClickEvent = (ray, stack) -> {
+                //fillOrEmptyBucket(ray, stack);
+                return true;
+            };
+        }
     }
+
+
+    private static void fillOrEmptyBucket(CursorRay ray, ItemStack stack) {
+    }
+
 }
