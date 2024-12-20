@@ -12,6 +12,7 @@ import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
+import org.joml.Vector3f;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
@@ -161,7 +162,9 @@ public class FurnaceUI extends ContainerUI {
 
     @Override
     public void dropAllStorage(int x, int y, int z) {
-
+        GameScene.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
+        GameScene.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
+        GameScene.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
     }
 
     @Override
