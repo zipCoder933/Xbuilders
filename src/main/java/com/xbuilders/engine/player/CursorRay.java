@@ -286,7 +286,9 @@ public class CursorRay {
         BlockData initialData = block.getRenderType().getInitialBlockData(null, block, GameScene.player);
 
         block.getRenderType().getCollisionBoxes((aabb) -> {
-            if (aabb.intersects(GameScene.player.aabb.box)) intersects.set(true);
+            if (aabb.intersects(GameScene.player.aabb.box) &&
+                    GameScene.player.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
+                intersects.set(true);
         }, boxAABB, block, initialData, set.x, set.y, set.z);
 
         return intersects.get();

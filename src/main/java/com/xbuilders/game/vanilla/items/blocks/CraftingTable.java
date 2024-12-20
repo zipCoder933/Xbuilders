@@ -10,13 +10,14 @@ import com.xbuilders.engine.world.wcc.WCCi;
 
 public class CraftingTable extends Block {
     public CraftingTable(short id) {
-        super(id, "crafting_table",new BlockTexture(
+        super(id, "xbuilders:crafting_table",new BlockTexture(
                 "crafting_table_top.png",
                 "crafting_table_top.png",
                 "crafting_table_side.png",
                 "crafting_table_side.png",
                 "crafting_table_side.png",
                 "crafting_table_front.png"));
+        easierMiningTool_tag = "axe";
 
         clickEvent(false, (x, y, z) -> {
             BlockData data = GameScene.world.getBlockData(x, y, z);

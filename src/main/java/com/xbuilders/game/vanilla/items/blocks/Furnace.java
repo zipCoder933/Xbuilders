@@ -11,7 +11,7 @@ import org.joml.Vector3i;
 
 public class Furnace extends Block {
     public Furnace(short id) {
-        super(id, "furnace", new BlockTexture(
+        super(id, "xbuilders:furnace", new BlockTexture(
                 "furnace_top.png",
                 "furnace_top.png",
                 "furnace_side.png",

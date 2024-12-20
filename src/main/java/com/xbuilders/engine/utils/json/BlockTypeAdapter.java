@@ -36,6 +36,16 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             JsonElement colorElement = context.serialize(src.colorInPlayerHead);
             jsonObject.add("colorInPlayerHead", colorElement);
         }
+        if (src.toolsThatCanMine_tags != null) {
+            JsonArray toolsThatCanMine_tags = new JsonArray();
+            for (String tag : src.toolsThatCanMine_tags) {
+                toolsThatCanMine_tags.add(new JsonPrimitive(tag));
+            }
+            jsonObject.add("toolsThatCanMine", toolsThatCanMine_tags);
+        }
+        if (src.easierMiningTool_tag != null) {
+            jsonObject.addProperty("easierMiningTool", src.easierMiningTool_tag);
+        }
 
         // Export properties (hashmap)
         JsonElement propertiesElement = context.serialize(src.properties);
@@ -71,6 +81,18 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             } else { // Otherwise it's a string
                 block.renderType = Registrys.blocks.getBlockType(typeStr);
             }
+        }
+
+        // Import tools that can mine
+        if (jsonObject.has("toolsThatCanMine")) {
+            JsonArray toolsThatCanMine_tags = jsonObject.get("toolsThatCanMine").getAsJsonArray();
+            block.toolsThatCanMine_tags = new String[toolsThatCanMine_tags.size()];
+            for (int i = 0; i < toolsThatCanMine_tags.size(); i++) {
+                block.toolsThatCanMine_tags[i] = toolsThatCanMine_tags.get(i).getAsString();
+            }
+        }
+        if (jsonObject.has("easierMiningTool")) {
+            block.easierMiningTool_tag = jsonObject.get("easierMiningTool").getAsString();
         }
 
         if (jsonObject.has("colorInPlayerHead")) {

@@ -23,8 +23,9 @@ public class SmeltingRecipes extends RecipeList<SmeltingRecipe> {
         for (SmeltingRecipe recipe : recipeList) {
             if (recipe.input.equals(input)) return recipe;
             else if (recipe.input.startsWith("#")) {
-                Item item = Registrys.items.getItemFromTag(recipe.input.substring(1));
-                if (item != null) return recipe;
+                String tag = recipe.input.substring(1);
+                Item item = Registrys.items.getItem(input);
+                if (item != null && item.tags.contains(tag)) return recipe;
             }
         }
         return null;

@@ -6,6 +6,7 @@ import com.xbuilders.engine.items.item.StorageSpace;
 public class FurnaceData {
     public ItemStack inputGrid, fuelGrid, outputGrid;
     public long lastSmeltTime = 0;
+    public float fuel = 0;
 
 
     public FurnaceData() {

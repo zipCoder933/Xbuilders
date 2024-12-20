@@ -20,8 +20,7 @@ import org.lwjgl.system.MemoryStack;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
-import static org.lwjgl.nuklear.Nuklear.nk_prog;
+import static org.lwjgl.nuklear.Nuklear.*;
 
 public class SmeltingUI extends UI_ItemWindow {
     UI_ItemStackGrid inputGrid, fuelGrid, playerGrid, outputGrid;
@@ -71,7 +70,7 @@ public class SmeltingUI extends UI_ItemWindow {
             ItemStack fuel = fuelGrid.storageSpace.get(0);
 
             if (input == null || input.stackSize == 0) return false; //Nothing to smelt
-            if (fuel == null || fuel.stackSize == 0) return false; //No fuel
+
 
             SmeltingRecipe recipe = RecipeRegistry.smeltingRecipes.getFromInput(input.item.id);
             if (recipe == null) return false; //No recipe
@@ -82,17 +81,17 @@ public class SmeltingUI extends UI_ItemWindow {
 
 
             //Reduce fuel first
-            if (fuelGrid.storageSpace.get(0) == null) return false;
-            //Using durability we can customize how much fuel is used
-            fuelGrid.storageSpace.get(0).durability -= 0.55f;
-            if (fuelGrid.storageSpace.get(0).durability <= 0) {
-                fuelGrid.storageSpace.get(0).stackSize--;
-                fuelGrid.storageSpace.get(0).durability = fuelGrid.storageSpace.get(0).item.maxDurability;
-
-                if (fuelGrid.storageSpace.get(0).stackSize <= 0) {
-                    fuelGrid.storageSpace.set(0, null);
+            furnaceData.fuel -= 0.33f;
+            if (furnaceData.fuel <= 0 && fuel != null) {
+                if (fuelGrid.storageSpace.get(0).stackSize > 0) {
+                    furnaceData.fuel = 1;
+                    fuelGrid.storageSpace.get(0).stackSize--;
                 }
             }
+
+            //no fuel
+            if (furnaceData.fuel <= 0) return false;
+
 
             ItemStack outputStack = outputGrid.storageSpace.get(0);
             if (outputStack == null) {
@@ -117,7 +116,7 @@ public class SmeltingUI extends UI_ItemWindow {
         }
     }
 
-    long SMELT_TIME_MS = 5000;
+    long SMELT_TIME_MS = 10000;
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
@@ -125,6 +124,10 @@ public class SmeltingUI extends UI_ItemWindow {
         inputGrid.draw(stack, ctx, 1);
         fuelGrid.draw(stack, ctx, 1);
         outputGrid.draw(stack, ctx, 1);
+
+
+        nk_layout_row_dynamic(ctx, 15, 1);
+        nk_label(ctx, "Fuel: " + (furnaceData.fuel * 100) + "%", NK_TEXT_ALIGN_LEFT);
 
         nk_layout_row_dynamic(ctx, 20, 1);
         if (furnaceData.lastSmeltTime > 0) {

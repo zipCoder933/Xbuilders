@@ -220,11 +220,15 @@ public class GameScene implements WindowEvents {
     }
 
 
-    public static void setTimeOfDay(double v) throws IOException {
-        System.out.println("Setting time of day to " + v);
-        background.setTimeOfDay(v);
-        byte[] timeFloat = ByteUtils.floatToBytes((float) v);
-        server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
+    public static void setTimeOfDay(double v) {
+        try {
+            byte[] timeFloat = ByteUtils.floatToBytes((float) v);
+            server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
+            System.out.println("Setting time of day to " + v);
+            background.setTimeOfDay(v);
+        } catch (IOException e) {
+            ErrorHandler.report(e);
+        }
     }
 
     public static void pauseGame() {

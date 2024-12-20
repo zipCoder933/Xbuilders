@@ -6391,5 +6391,12 @@
       "chance": 1.0,
       "maxItems": 1
     }
+  ],
+  "xbuilders:spawn_block": [
+    {
+      "item": "xbuilders:spawn_block",
+      "chance": 1.0,
+      "maxItems": 1
+    }
   ]
 }

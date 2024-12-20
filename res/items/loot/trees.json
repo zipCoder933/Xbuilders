@@ -80,7 +80,7 @@
     },
     {
       "item": "xbuilders:apple",
-      "chance": 0.5,
+      "chance": 0.1,
       "maxItems": 2
     },
     {

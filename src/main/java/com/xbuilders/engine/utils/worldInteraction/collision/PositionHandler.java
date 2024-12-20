@@ -163,7 +163,7 @@ public class PositionHandler {
 //                }
 
                 movementY = (Math.min(velocity.y, maxFallSpeed) * timestepMultiplier);
-                isFalling = movementY > 0.01f;
+                isFalling = movementY > 0.05f;
                 if (isFalling) {
                     hitGround = false;
                     fallDistance += movementY;

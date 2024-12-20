@@ -17,14 +17,12 @@
   {
     "id": "xbuilders:coal",
     "name": "Coal",
-    "maxDurability": 3,
     "tags": ["flammable"],
     "icon": "ores\\coal"
   },
   {
     "id": "xbuilders:charcoal",
     "name": "Charcoal",
-    "maxDurability": 2,
     "tags": ["flammable"],
     "icon": "charcoal"
   },
