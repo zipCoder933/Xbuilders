@@ -42,17 +42,10 @@ public class BarrelUI extends ContainerUI {
         playerGrid.draw(stack, ctx, maxColumns);
     }
 
-    public void dropAllStorage(BlockData blockData, Vector3f targetPos) {
-        if (blockData != null) {
-            try {
-                barrelStorage.loadFromJson(blockData.toByteArray());
-                for (int i = 0; i < barrelStorage.size(); i++) {
-                    if (barrelStorage.get(i) == null) continue;
-                    GameScene.placeItemDrop(targetPos, barrelStorage.get(i), false);
-                }
-            } catch (IOException e) {
-                System.out.println("Error deserializing JSON, Making storage empty: " + e.getMessage());
-            }
+    public void dropAllStorage(int x, int y, int z) {
+        for (int i = 0; i < barrelStorage.size(); i++) {
+            if (barrelStorage.get(i) == null) continue;
+            GameScene.placeItemDrop(new Vector3f(x, y, z), barrelStorage.get(i), false);
         }
     }
 

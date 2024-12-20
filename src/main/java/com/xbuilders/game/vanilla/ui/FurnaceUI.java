@@ -1,5 +1,6 @@
 package com.xbuilders.game.vanilla.ui;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.item.Item;
@@ -8,11 +9,9 @@ import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.items.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
-import org.joml.Vector3i;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
@@ -22,11 +21,11 @@ import java.io.IOException;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
-public class SmeltingUI extends UI_ItemWindow {
+public class FurnaceUI extends ContainerUI {
     UI_ItemStackGrid inputGrid, fuelGrid, playerGrid, outputGrid;
     FurnaceData furnaceData;
 
-    public SmeltingUI(NkContext ctx, NKWindow window) {
+    public FurnaceUI(NkContext ctx, NKWindow window) {
         super(ctx, window, "Smelting");
         menuDimensions.y = 500;
         inputGrid = new UI_ItemStackGrid(window, "Input", new StorageSpace(1), this, true);
@@ -39,14 +38,26 @@ public class SmeltingUI extends UI_ItemWindow {
         outputGrid.itemFilter = (stack) -> false;
         fuelGrid.itemFilter = (stack) -> stack.item.tags.contains("flammable");
 
-        fuelGrid.storageSpace.changeEvent = () -> {
-            smeltWhenReady();
+        //Change events when items are dragged
+        inputGrid.dragFromEvent = (item, indx, rightClick) -> {
+            writeDataToWorld();
         };
-        inputGrid.storageSpace.changeEvent = () -> {
+        inputGrid.dragToEvent = (item, indx, rightClick) -> {
             smeltWhenReady();
+            writeDataToWorld();
         };
-        outputGrid.storageSpace.changeEvent = () -> {
+
+        fuelGrid.dragFromEvent = (item, indx, rightClick) -> {
+            writeDataToWorld();
+        };
+
+        fuelGrid.dragToEvent = (item, indx, rightClick) -> {
             smeltWhenReady();
+            writeDataToWorld();
+        };
+
+        outputGrid.dragFromEvent = (item, indx, rightClick) -> {
+            writeDataToWorld();
         };
 
 
@@ -56,10 +67,8 @@ public class SmeltingUI extends UI_ItemWindow {
     private void smeltWhenReady() {
         if (furnaceData.lastSmeltTime == 0) {
             furnaceData.lastSmeltTime = System.currentTimeMillis();
-        } else if (System.currentTimeMillis() - furnaceData.lastSmeltTime > SMELT_TIME_MS) {
-            if (smelt()) {///If we smelted something successfully
-                furnaceData.lastSmeltTime = System.currentTimeMillis();
-            } else furnaceData.lastSmeltTime = 0; //Otherwise we reset the timer
+        } else if (System.currentTimeMillis() - furnaceData.lastSmeltTime > getSmeltTime()) {
+            if (!smelt()) furnaceData.lastSmeltTime = 0;
         }
     }
 
@@ -77,11 +86,11 @@ public class SmeltingUI extends UI_ItemWindow {
             Item outputItem = Registrys.getItem(recipe.output);
             if (outputItem == null) return false; //No recipe
 
-            System.out.println("Smelting: " + input.item.name + " -> " + outputItem.name);
+            //System.out.println("Smelting: " + input.item.name + " -> " + outputItem.name);
 
 
             //Reduce fuel first
-            furnaceData.fuel -= 0.33f;
+            furnaceData.fuel -= FUEL_CONSUMPTION;
             if (furnaceData.fuel <= 0 && fuel != null) {
                 if (fuelGrid.storageSpace.get(0).stackSize > 0) {
                     furnaceData.fuel = 1;
@@ -108,7 +117,7 @@ public class SmeltingUI extends UI_ItemWindow {
             if (input.stackSize <= 0) {
                 inputGrid.storageSpace.set(0, null);
             }
-
+            furnaceData.lastSmeltTime = System.currentTimeMillis();
             return true;
         } catch (Exception e) {
             ErrorHandler.log(e);
@@ -116,10 +125,21 @@ public class SmeltingUI extends UI_ItemWindow {
         }
     }
 
-    long SMELT_TIME_MS = 10000;
+    private long getSmeltTime() {
+        if (MainWindow.devMode) {
+            return DEV_SMELT_TIME_MS;
+        } else {
+            return SMELT_TIME_MS;
+        }
+    }
+
+    final float FUEL_CONSUMPTION = 0.33f;
+    final long DEV_SMELT_TIME_MS = 1000;
+    final long SMELT_TIME_MS = 10000;
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
+        super.drawWindow(stack, windowDims2);
         nk_layout_row_dynamic(ctx, 100, 3);
         inputGrid.draw(stack, ctx, 1);
         fuelGrid.draw(stack, ctx, 1);
@@ -131,71 +151,75 @@ public class SmeltingUI extends UI_ItemWindow {
 
         nk_layout_row_dynamic(ctx, 20, 1);
         if (furnaceData.lastSmeltTime > 0) {
-            nk_prog(ctx, System.currentTimeMillis() - furnaceData.lastSmeltTime, SMELT_TIME_MS, false);
+            nk_prog(ctx, System.currentTimeMillis() - furnaceData.lastSmeltTime, getSmeltTime(), false);
             smeltWhenReady();
-        } else nk_prog(ctx, 0, SMELT_TIME_MS, false);
+        } else nk_prog(ctx, 0, getSmeltTime(), false);
 
         nk_layout_row_dynamic(ctx, 250, 1);
         playerGrid.draw(stack, ctx, maxColumns);
     }
 
-    Vector3i targetPos = new Vector3i();
+    @Override
+    public void dropAllStorage(int x, int y, int z) {
 
-    public void openUI(BlockData blockData, Vector3i targetPos) {
-        this.targetPos = targetPos;
+    }
 
-        //Load furnace data
-        if (blockData != null) {
+    @Override
+    public void readContainerData(byte[] bytes) {
+        inputGrid.storageSpace.clear();
+        fuelGrid.storageSpace.clear();
+        outputGrid.storageSpace.clear();
+
+        if (bytes != null) {
             try {
-                byte[] json = blockData.toByteArray();
-                System.out.println("Deserializing JSON: " + new String(json));
-                furnaceData = StorageSpace.binaryJsonMapper.readValue(json, FurnaceData.class);
-                System.out.println("\tLoaded furnace data: " + furnaceData);
+                furnaceData = StorageSpace.binaryJsonMapper.readValue(bytes, FurnaceData.class);
+                System.out.println("Loaded furnace data: " + furnaceData);
+
+                //Set the storage spaces
+                inputGrid.storageSpace.set(0, furnaceData.inputGrid);
+                fuelGrid.storageSpace.set(0, furnaceData.fuelGrid);
+                outputGrid.storageSpace.set(0, furnaceData.outputGrid);
 
             } catch (IOException e) {
                 ErrorHandler.log(e);
             }
+        } else {
+            furnaceData = new FurnaceData();
         }
-        setOpen(true);
     }
 
-    public void onCloseEvent() {
-        //Furnace data is separate from the storage spaces so we have to save them separately
-        furnaceData.inputGrid = inputGrid.storageSpace.get(0);
-        furnaceData.fuelGrid = fuelGrid.storageSpace.get(0);
-        furnaceData.outputGrid = outputGrid.storageSpace.get(0);
-
-
-        //Save furnace data
+    @Override
+    public byte[] writeContainerData() {
         try {
+            furnaceData.inputGrid = inputGrid.storageSpace.get(0);
+            furnaceData.fuelGrid = fuelGrid.storageSpace.get(0);
+            furnaceData.outputGrid = outputGrid.storageSpace.get(0);
+            System.out.println("Serializing furnace data: " + furnaceData);
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             StorageSpace.binaryJsonMapper.writeValue(baos, furnaceData);
-            BlockData bd = new BlockData(baos.toByteArray());
-            System.out.println("Serializing JSON: " + new String(bd.toByteArray()));
-            System.out.println("\tfurnace data: " + furnaceData);
-            GameScene.setBlockData(bd, targetPos.x, targetPos.y, targetPos.z);
+
+            return baos.toByteArray();
         } catch (IOException e) {
-            ErrorHandler.log(e);
+            ErrorHandler.report(e);
+            return new byte[0];
         }
     }
 
     public void onOpenEvent() {
-        if (furnaceData == null) {
-            System.err.println("Furnace data is null");
-            furnaceData = new FurnaceData();
-        }
+        if (furnaceData == null) furnaceData = new FurnaceData();
+        furnaceData.fuel = MathUtils.clamp(furnaceData.fuel, 0, 1);
 
-        //Set the storage spaces
-        inputGrid.storageSpace.set(0, furnaceData.inputGrid);
-        fuelGrid.storageSpace.set(0, furnaceData.fuelGrid);
-        outputGrid.storageSpace.set(0, furnaceData.outputGrid);
-
-
+        //Smelt items that should have been smelted while the UI was closed
         if (furnaceData.lastSmeltTime == 0) return;
-        int coalAmt = fuelGrid.storageSpace.get(0) == null ? 0 : fuelGrid.storageSpace.get(0).stackSize;
-        int coalToBurn = (int) ((System.currentTimeMillis() - furnaceData.lastSmeltTime) / SMELT_TIME_MS);
-        coalToBurn = Math.min(coalAmt, coalToBurn);
-        for (int i = 0; i < coalToBurn; i++) {
+        long msSinceClosed = (System.currentTimeMillis() - furnaceData.lastSmeltTime);
+        int rounds = (int) ((float) msSinceClosed / getSmeltTime());
+
+        int availableFuel = fuelGrid.storageSpace.get(0) == null ? 0 : fuelGrid.storageSpace.get(0).stackSize;
+        rounds = (int) Math.min(rounds, availableFuel * FUEL_CONSUMPTION);
+
+        System.out.println("Smelting " + rounds + " times; ms since closed: " + msSinceClosed);
+        for (int i = 0; i < rounds; i++) {
             smelt();
         }
     }

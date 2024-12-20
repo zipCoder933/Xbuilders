@@ -22,13 +22,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
 
     public void assignToBlock(Block block) {
         block.clickEvent(false, (x, y, z) -> {
-
             BlockData data = GameScene.world.getBlockData(x, y, z);
-            if (data == null) {
-                data = new BlockData(0);
-                GameScene.world.setBlockData(data, x, y, z);
-            }
-
             this.data = data;
             target.set(x, y, z);
             readContainerData(data.toByteArray());
@@ -36,7 +30,9 @@ public abstract class ContainerUI extends UI_ItemWindow {
         });
 
         block.removeBlockEvent(false, (x, y, z, history) -> {
-            dropAllStorage(history.previousBlockData, new Vector3f(x, y, z));
+            if (history.previousBlockData == null) return;
+            readContainerData(history.previousBlockData.toByteArray());
+            dropAllStorage(x, y, z);
         });
     }
 
@@ -50,15 +46,15 @@ public abstract class ContainerUI extends UI_ItemWindow {
         }
     }
 
-    public abstract void dropAllStorage(BlockData blockData, Vector3f targetPos);
+    public abstract void dropAllStorage(int x, int y, int z);
 
     public abstract void readContainerData(byte[] data);
 
     public abstract byte[] writeContainerData();
 
     public void writeDataToWorld() {
-        System.out.println("Writing data to world " + System.currentTimeMillis());
-        data.setByteArray(writeContainerData());
+//        System.out.println("Writing data to world " + System.currentTimeMillis());
+        data = new BlockData(writeContainerData());
         //using gameScene to set block data ensures it is set in the world and the client
         GameScene.setBlockData(data, target.x, target.y, target.z);
     }

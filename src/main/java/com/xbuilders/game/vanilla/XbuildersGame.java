@@ -5,19 +5,14 @@
 package com.xbuilders.game.vanilla;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.builtinMechanics.fire.FirePropagation;
 import com.xbuilders.engine.gameScene.GameMode;
 import com.xbuilders.engine.gameScene.Game;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.*;
 import com.xbuilders.engine.items.block.Block;
-import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.loot.LootTableRegistry;
-import com.xbuilders.engine.items.recipes.crafting.CraftingRecipe;
-import com.xbuilders.engine.items.recipes.RecipeRegistry;
-import com.xbuilders.engine.items.recipes.crafting.CraftingRecipes;
 import com.xbuilders.engine.player.CursorRay;
 import com.xbuilders.engine.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -41,11 +36,9 @@ import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 import static com.xbuilders.engine.ui.gameScene.GameUI.printKeyConsumption;
 
@@ -100,7 +93,7 @@ public class XbuildersGame extends Game {
     //Custom menus
     public BarrelUI barrelUI;
     public CraftingUI craftingUI;
-    public SmeltingUI smeltingUI;
+    public FurnaceUI smeltingUI;
     public UI_Inventory inventoryUI;
     public UI_RecipeIndex recipeIndexUI;
 
@@ -237,7 +230,7 @@ public class XbuildersGame extends Game {
         System.out.println("Initializing menus...");
         barrelUI = new BarrelUI(ctx, window);
         craftingUI = new CraftingUI(ctx, window);
-        smeltingUI = new SmeltingUI(ctx, window);
+        smeltingUI = new FurnaceUI(ctx, window);
         recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
         inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
         blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);

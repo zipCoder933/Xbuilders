@@ -18,16 +18,5 @@ public class Furnace extends Block {
                 "furnace_side.png",
                 "furnace_side.png",
                 "furnace_front.png"));
-
-        clickEvent(false, (x, y, z) -> {
-            BlockData data = GameScene.world.getBlockData(x, y, z);
-            if (data == null) {
-                data = new BlockData(0);
-                GameScene.world.setBlockData(data, x, y, z);
-            }
-            WCCi wcc = new WCCi().set(x, y, z);
-            Chunk chunk = GameScene.world.getChunk(wcc.chunk);
-            MainWindow.game.smeltingUI.openUI(data, new Vector3i(x, y, z));
-        });
     }
 }

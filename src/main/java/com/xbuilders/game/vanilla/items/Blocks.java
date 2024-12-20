@@ -51,6 +51,7 @@ public class Blocks {
     public static void editBlocks(MainWindow window) {
         //Block UIs
         MainWindow.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
+        MainWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
 
 
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
