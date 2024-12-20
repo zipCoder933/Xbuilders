@@ -7,10 +7,8 @@ import com.xbuilders.engine.items.ItemUtils;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.vanilla.items.blocks.*;
 import com.xbuilders.game.vanilla.items.blocks.trees.*;
-import com.xbuilders.game.vanilla.terrain.complexTerrain.ComplexTerrain;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,7 +70,15 @@ public class Blocks {
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_RED_SAND));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_GRAVEL));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_SNOW_BLOCK));
-//        gravity.convert(Registrys.getBlock(Blocks.BLOCK_CACTUS));
+
+        //Some blocks can only be mined with certain tools
+        Block hard = Registrys.getBlock(Blocks.BLOCK_OBSIDIAN);
+        hard.toolsThatCanMine_tags = new String[]{"diamond"}; //tags
+        hard.easierMiningTool_tag = "pickaxe";
+
+        hard = Registrys.getBlock(Blocks.BLOCK_DIAMOND_BLOCK);
+        hard.toolsThatCanMine_tags = new String[]{"diamond"};
+        hard.easierMiningTool_tag = "pickaxe";
 
         //set toughness levels automatically
         for (Block b : Registrys.blocks.getList()) {
@@ -81,13 +87,22 @@ public class Blocks {
                 else b.toughness = 0.1f;
             }
             //Add flammable tag to various blocks
-            if (b.alias.contains("wood") || b.alias.contains("planks")
-                    || b.alias.contains("birch") || b.alias.contains("oak") || b.alias.contains("spruce")
-                    || b.alias.contains("acaica")) {
+            if (isWood(b) || b.alias.contains("dead") || b.alias.contains("dry") || b.alias.contains("grass")) {
                 b.properties.put("flammable", "true");
+            }
+            if (isWood(b)) {
+                b.easierMiningTool_tag = "axe";
+            } else if (PlantUtils.blockIsGrassSnowOrDirt(b) || b.alias.contains("sand") || b.alias.contains("gravel")) {
+                b.easierMiningTool_tag = "shovel";
             }
         }
 
+    }
+
+    private static boolean isWood(Block b) {
+        return b.alias.contains("wood") || b.alias.contains("planks")
+                || b.alias.contains("birch") || b.alias.contains("oak") || b.alias.contains("spruce")
+                || b.alias.contains("acaica");
     }
 
     private static void randomTickEvents() {

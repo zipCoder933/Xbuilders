@@ -181,6 +181,21 @@
   },
   {
     "input": [
+      "xbuilders:stone",
+      "xbuilders:andesite",
+      "xbuilders:stone",
+      "xbuilders:andesite",
+      "xbuilders:torch",
+      "xbuilders:andesite",
+      "xbuilders:stone",
+      "xbuilders:andesite",
+      "xbuilders:stone"
+    ],
+    "output": "xbuilders:spawn_block",
+    "amount": 1
+  },
+  {
+    "input": [
       "#stone",
       "#stone",
       "#stone",
@@ -266,10 +281,11 @@
   {
     "shapeless": true,
     "input": [
-      "xbuilders:plant_grass"
+      "xbuilders:blue_dye",
+      "xbuilders:yellow_dye"
     ],
     "output": "xbuilders:green_dye",
-    "amount": 4
+    "amount": 2
   },
   {
     "shapeless": true,
@@ -294,6 +310,14 @@
     ],
     "output": "xbuilders:red_dye",
     "amount": 4
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:roses"
+    ],
+    "output": "xbuilders:red_dye",
+    "amount": 2
   },
   {
     "shapeless": true,

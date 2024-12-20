@@ -2328,13 +2328,6 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:lava": [
-    {
-      "item": "xbuilders:lava",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
   "xbuilders:acacia_door_2": [
     {
       "item": "xbuilders:acacia_door_2",
@@ -2891,13 +2884,6 @@
   "xbuilders:red_palisade_sandstone_fence_gate": [
     {
       "item": "xbuilders:red_palisade_sandstone_fence_gate",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
-  "xbuilders:water": [
-    {
-      "item": "xbuilders:water",
       "chance": 1.0,
       "maxItems": 1
     }
@@ -6388,6 +6374,20 @@
   "xbuilders:purple_marble_tile_pillar": [
     {
       "item": "xbuilders:purple_marble_tile_pillar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "xbuilders:crafting_table": [
+    {
+      "item": "xbuilders:crafting_table",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "xbuilders:furnace": [
+    {
+      "item": "xbuilders:furnace",
       "chance": 1.0,
       "maxItems": 1
     }

@@ -81,25 +81,25 @@ public class Items {
 
     public static ArrayList<Item> startup_getItems() {
         ArrayList<Item> itemList = new ArrayList<>();
-        itemList.add(new Shovel("wooden", 100));
-        itemList.add(new Pickaxe("wooden", 100, 1.5f));
-        itemList.add(new Axe("wooden", 100));
+        itemList.add(new Shovel("wooden", 25));
+        itemList.add(new Pickaxe("wooden", 25, 1.5f));
+        itemList.add(new Axe("wooden", 25));
 
-        itemList.add(new Shovel("stone", 200));
-        itemList.add(new Pickaxe("stone", 200, 2));
-        itemList.add(new Axe("stone", 200));
+        itemList.add(new Shovel("stone", 100));
+        itemList.add(new Pickaxe("stone", 100, 2));
+        itemList.add(new Axe("stone", 100));
 
-        itemList.add(new Shovel("iron", 300));
-        itemList.add(new Pickaxe("iron", 300, 3));
-        itemList.add(new Axe("iron", 300));
+        itemList.add(new Shovel("iron", 200));
+        itemList.add(new Pickaxe("iron", 200, 3));
+        itemList.add(new Axe("iron", 200));
 
         itemList.add(new Shovel("golden", 400));
-        itemList.add(new Pickaxe("golden", 400, 4));
+        itemList.add(new Pickaxe("golden", 400, 7));
         itemList.add(new Axe("golden", 400));
 
-        itemList.add(new Shovel("diamond", 500));
-        itemList.add(new Pickaxe("diamond", 500, 5));
-        itemList.add(new Axe("diamond", 500));
+        itemList.add(new Shovel("diamond", 4000));
+        itemList.add(new Pickaxe("diamond", 4000, 6));
+        itemList.add(new Axe("diamond", 4000));
 //        itemList.add(new Sword("wooden"));
 //        itemList.add(new Sword("stone"));
 //        itemList.add(new Sword("iron"));

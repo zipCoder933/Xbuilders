@@ -8,12 +8,13 @@ import java.util.HashMap;
 
 public class Shovel extends Item {
 
-    public Shovel(String id, int durability) {
-        super("xbuilders:"+ id+"_shovel", MiscUtils.capitalizeWords(id) + " Shovel");
-        setIcon("pp\\"+id + "_shovel.png");
+    public Shovel(String material, int durability) {
+        super("xbuilders:" + material + "_shovel", MiscUtils.capitalizeWords(material) + " Shovel");
+        setIcon("pp\\" + material + "_shovel.png");
         maxStackSize = 1;
         tags.add("shovel");
         tags.add("tool");
+        tags.add(material);
         maxDurability = durability;
     }
 }

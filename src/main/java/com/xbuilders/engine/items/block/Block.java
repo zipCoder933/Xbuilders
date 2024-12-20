@@ -35,6 +35,11 @@ public class Block {
     public float surfaceFriction = 0; //The "Friction" of the block
     public float bounciness = 0; //The "Bounciness" of the block
     public float toughness = 1; //The difficulty of breaking the block
+
+
+    //TODO: implement these
+    public String easierMiningTool_tag = null; //The blocks that are easier to mine this block with (specify by item tags)
+    public String[] toolsThatCanMine_tags = null; //The tools that can mine this block (If the tool cant mine it, it wont drop loot) (specify by item tags)
     public float enterDamage = 0; //The damage dealt when entering the block
 
     public BlockType getRenderType() {
@@ -84,7 +89,6 @@ public class Block {
     private SetBlockEvent clickEvent = null;
 
     public RandomTickEvent randomTickEvent = null;
-
 
 
     public boolean allowExistence(int worldX, int worldY, int worldZ) {

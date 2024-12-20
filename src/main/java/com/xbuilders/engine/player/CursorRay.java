@@ -26,6 +26,7 @@ import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 
@@ -168,6 +169,30 @@ public class CursorRay {
         selectedItem.stackSize--;
     }
 
+    private boolean toolIsEasierToMineWith(Block block, ItemStack tool) {
+        if (tool != null) {
+            //if the item has a tag that makes mining easier, double the mining speed
+            if (block.easierMiningTool_tag != null
+                    && tool.item.tags.contains(block.easierMiningTool_tag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasToolThatCanMine(Block block, ItemStack tool) {
+        if (block.toolsThatCanMine_tags != null) {
+            if (tool != null) {
+                for (String toolTag : block.toolsThatCanMine_tags) {
+                    if (tool.item.tags.contains(toolTag)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } else return true;
+    }
+
     private void breakBlock(boolean isHeld, ItemStack selectedItem) {
         if (!GameScene.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
 
@@ -178,8 +203,24 @@ public class CursorRay {
                     lastBreakPos.set(getHitPos());
                 }
                 Block existingBlock = GameScene.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
-                if(existingBlock.isLiquid()) return;
+                if (existingBlock.isLiquid()) return;
                 float miningSpeed = getMiningSpeed(selectedItem);
+
+                //If the block should have a tool that can mine it, and the player is using the right tool, mine faster
+                if (toolIsEasierToMineWith(existingBlock, selectedItem)) {
+                    miningSpeed *= 2.3f;
+                }
+                //Otherwise if the block should have a tool that can mine it, but the player is using the wrong tool, don't mine as fast
+                else if (existingBlock.easierMiningTool_tag != null) {
+                    miningSpeed *= 0.5f;
+                }
+
+                //If the block requires a tool to mine it, and the player doesn't have the right tool, don't mine at all
+                if (!hasToolThatCanMine(existingBlock, selectedItem)) {
+                    breakAmt = 0;
+                }
+
+
                 float blockToughness = existingBlock.toughness;
                 breakPercentage = breakAmt / blockToughness;
                 breakAmt += miningSpeed;

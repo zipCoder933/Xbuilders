@@ -249,6 +249,7 @@ public class GameScene implements WindowEvents {
         livePropagationHandler.startGameEvent(world);
         eventPipeline.startGameEvent(world);
         tickThread.startGameEvent();
+        if (MainWindow.devMode) writeDebugText = true;
     }
 
     public void stopGameEvent() {
@@ -392,7 +393,7 @@ public class GameScene implements WindowEvents {
     public static SkyBackground background;
     private GameMode lastGameMode;
 
- 
+
     public void render() throws IOException {
         MainWindow.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
@@ -468,7 +469,7 @@ public class GameScene implements WindowEvents {
         }
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_F3 -> debugText = !debugText;
+                case GLFW.GLFW_KEY_F3 -> writeDebugText = !writeDebugText;
                 case GLFW.GLFW_KEY_F5 -> specialMode = !specialMode;
                 case GLFW.GLFW_KEY_F6 -> drawWireframe = !drawWireframe;
                 case GLFW.GLFW_KEY_F7 -> drawBoundingBoxes = !drawBoundingBoxes;
@@ -496,11 +497,11 @@ public class GameScene implements WindowEvents {
     }
 
 
-    boolean debugText = false;
+    boolean writeDebugText = false;
     public static WCCi rayWCC = new WCCi();
 
     private void setInfoText() {
-        if (MainWindow.devMode || debugText) {
+        if (writeDebugText) {
             String text = "";
             try {
                 WCCf wcc2 = new WCCf();

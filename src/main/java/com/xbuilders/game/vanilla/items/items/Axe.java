@@ -5,12 +5,13 @@ import com.xbuilders.engine.utils.MiscUtils;
 
 public class Axe extends Item {
 
-    public Axe(String id, int durability) {
-        super("xbuilders:"+ id+"_axe", MiscUtils.capitalizeWords(id) + " Axe");
-        setIcon("pp\\"+id + "_axe.png");
+    public Axe(String material, int durability) {
+        super("xbuilders:"+ material+"_axe", MiscUtils.capitalizeWords(material) + " Axe");
+        setIcon("pp\\"+material + "_axe.png");
         maxStackSize = 1;
         tags.add("tool");
         tags.add("axe");
+        tags.add(material);
         maxDurability = durability;
     }
 }

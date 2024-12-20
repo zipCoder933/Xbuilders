@@ -96,7 +96,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             }
 
             if (status_hunger > 0) {
-                status_hunger -= 0.00002f;
+                status_hunger -= 0.00008f;
+            } else if (status_hunger > MAX_HUNGER) {
+                status_hunger = MAX_HUNGER;
             }
 
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);

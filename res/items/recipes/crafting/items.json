@@ -91,6 +91,22 @@
   {
     "shapeless": false,
     "input": [
+      "xbuilders:stone",
+      "xbuilders:stone",
+      "xbuilders:stone",
+      "xbuilders:stone",
+      "xbuilders:coal",
+      "xbuilders:stone",
+      "xbuilders:raw_iron",
+      "xbuilders:raw_iron",
+      "xbuilders:raw_iron"
+    ],
+    "output": "xbuilders:furnace",
+    "amount": 1
+  },
+  {
+    "shapeless": false,
+    "input": [
       "#wood",
       "#wood",
       "#wood",
@@ -102,6 +118,52 @@
       "#wood"
     ],
     "output": "xbuilders:barrel",
+    "amount": 1
+  },
+  {
+    "shapeless": false,
+    "input": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wheat",
+      "xbuilders:wheat",
+      "xbuilders:wheat"
+    ],
+    "output": "xbuilders:bread",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:stick",
+      null,
+      "xbuilders:stick",
+      "xbuilders:stick",
+      "xbuilders:iron_ingot",
+      "xbuilders:stick",
+      "xbuilders:stick",
+      null,
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:track",
+    "amount": 16
+  },
+  {
+    "input": [
+      null,
+      null,
+      null,
+      "xbuilders:iron_ingot",
+      null,
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot"
+    ],
+    "output": "xbuilders:iron_minecart",
     "amount": 1
   },
   {
