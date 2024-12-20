@@ -87,7 +87,7 @@ public class Blocks {
 
         //set toughness levels automatically
         for (Block b : Registrys.blocks.getList()) {
-            if (b.toughness == 1 && !b.solid) {
+            if (b.toughness <= 1 && !b.solid) {
                 if (b.renderType == RenderType.SPRITE) b.toughness = 0f;
                 else b.toughness = 0.1f;
             }

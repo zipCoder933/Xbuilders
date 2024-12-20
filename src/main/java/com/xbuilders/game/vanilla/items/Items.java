@@ -1,6 +1,9 @@
 package com.xbuilders.game.vanilla.items;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.builtinMechanics.liquid.LiquidBlockType;
+import com.xbuilders.engine.builtinMechanics.liquid.LiquidPropagationTask;
+import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.ItemUtils;
 import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
@@ -11,7 +14,7 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.game.vanilla.items.items.*;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class Items {
@@ -135,18 +138,72 @@ public class Items {
         item = Registrys.getItem("xbuilders:bucket");
         if (item != null) {
             item.createClickEvent = (ray, stack) -> {
-                //fillOrEmptyBucket(ray, stack);
+                fillBucket(ray, stack);
                 return true;
             };
             item.destroyClickEvent = (ray, stack) -> {
-                //fillOrEmptyBucket(ray, stack);
+                fillBucket(ray, stack);
+                return true;
+            };
+        }
+        item = Registrys.getItem("xbuilders:water_bucket");
+        if (item != null) {
+            item.createClickEvent = (ray, stack) -> {
+                emptyBucket(ray, stack);
+                return true;
+            };
+            item.destroyClickEvent = (ray, stack) -> {
+                emptyBucket(ray, stack);
+                return true;
+            };
+        }
+        item = Registrys.getItem("xbuilders:lava_bucket");
+        if (item != null) {
+            item.createClickEvent = (ray, stack) -> {
+                emptyBucket(ray, stack);
+                return true;
+            };
+            item.destroyClickEvent = (ray, stack) -> {
+                emptyBucket(ray, stack);
                 return true;
             };
         }
     }
 
 
-    private static void fillOrEmptyBucket(CursorRay ray, ItemStack stack) {
+    private static void fillBucket(CursorRay ray, ItemStack stack) {
+        int x = ray.getHitPos().x;
+        int y = ray.getHitPos().y;
+        int z = ray.getHitPos().z;
+
+        Block hitPos = GameScene.world.getBlock(x, y, z);
+        System.out.println("Hit: " + hitPos);
+        if (hitPos.isLiquid()) {
+            int flow = LiquidPropagationTask.getFlow(GameScene.world.getBlockData(x, y, z), 0);
+            if (flow >= hitPos.liquidMaxFlow + 1) {
+                GameScene.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
+
+                if (hitPos.id == Blocks.BLOCK_WATER) {
+                    stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:water_bucket"));
+                } else if (hitPos.id == Blocks.BLOCK_LAVA) {
+                    stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:lava_bucket"));
+                }
+            }
+        }
+    }
+
+    private static void emptyBucket(CursorRay ray, ItemStack stack) {
+        int x = ray.getHitPos().x;
+        int y = ray.getHitPos().y;
+        int z = ray.getHitPos().z;
+        if (!GameScene.world.getBlock(x, y, z).getRenderType().replaceOnSet) {
+            x = ray.getHitPosPlusNormal().x;
+            y = ray.getHitPosPlusNormal().y;
+            z = ray.getHitPosPlusNormal().z;
+        }
+
+        GameScene.setBlock(stack.item.getBlock().id, x, y, z);
+        stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:bucket"));
     }
 
 }

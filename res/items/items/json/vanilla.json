@@ -47,7 +47,8 @@
   {
     "id": "xbuilders:bucket",
     "name": "Bucket",
-    "icon": "pp/bucket.png"
+    "maxStackSize": 1,
+    "icon": "bucket.png"
   },
   {
     "id": "xbuilders:red_dye",

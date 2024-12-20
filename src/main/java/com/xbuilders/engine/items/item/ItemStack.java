@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class ItemStack {
     public static final byte MAX_STACK_SIZE = 64;
 
-    public final Item item;
+    public Item item;
     public int stackSize;
     public float durability;//The amount of damage the item has left
     public byte[] nbtData;//The NBT data of the item

@@ -99,15 +99,15 @@
     "block": 20
   },
   {
-    "id": "xbuilders:water",
-    "name": "Water",
+    "id": "xbuilders:water_bucket",
+    "name": "Water Bucket",
     "maxStackSize": 1,
     "icon": "water_bucket.png",
     "block": 21
   },
   {
-    "id": "xbuilders:lava",
-    "name": "Lava",
+    "id": "xbuilders:lava_bucket",
+    "name": "Lava Bucket",
     "maxStackSize": 1,
     "icon": "lava_bucket.png",
     "block": 25

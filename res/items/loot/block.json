@@ -869,11 +869,6 @@
   ],
   "xbuilders:tall_dry_grass": [
     {
-      "item": "xbuilders:tall_dry_grass",
-      "chance": 1.0,
-      "maxItems": 1
-    },
-    {
       "item": "xbuilders:wheat_seeds",
       "chance": 0.1,
       "maxItems": 1
@@ -2149,11 +2144,6 @@
   ],
   "xbuilders:tall_grass": [
     {
-      "item": "xbuilders:tall_grass",
-      "chance": 1.0,
-      "maxItems": 1
-    },
-    {
       "item": "xbuilders:wheat_seeds",
       "chance": 0.1,
       "maxItems": 1
@@ -3323,11 +3313,6 @@
     }
   ],
   "xbuilders:jungle_grass_plant": [
-    {
-      "item": "xbuilders:jungle_grass_plant",
-      "chance": 1.0,
-      "maxItems": 1
-    },
     {
       "item": "xbuilders:wheat_seeds",
       "chance": 0.1,

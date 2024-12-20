@@ -33,6 +33,7 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
         }
         jsonObject.addProperty("icon", src.iconFilename);
         jsonObject.addProperty("maxDurability", src.maxDurability);
+        jsonObject.addProperty("maxStackSize", src.maxStackSize);
 
         //Add tags as a property
         JsonArray tags = new JsonArray();
@@ -83,7 +84,9 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
         if(jsonObject.has("maxDurability")) {
             item.maxDurability = jsonObject.get("maxDurability").getAsInt();
         }
-
+        if(jsonObject.has("maxStackSize")) {
+            item.maxStackSize = jsonObject.get("maxStackSize").getAsByte();
+        }
         if (jsonObject.has("entity")) {
             short entityID = jsonObject.get("entity").getAsShort();
             item.setEntity(entityID);

@@ -11,12 +11,25 @@
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/XbuildersGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/XbuildersGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/lava_bucket.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/items/icons/lava_bucket.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cod_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/lava_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/lava_bucket_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/milk_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/pufferfish_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/salmon_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/tropical_fish_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/water_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/water_bucket.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/items/icons/water_bucket.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/json/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/items/json/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/json/vanilla.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/items/json/vanilla.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/loot/block.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/loot/block.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/loot/trees.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/loot/trees.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/ItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/items/item/ItemStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/json/ItemTypeAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/json/ItemTypeAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Blocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/Furnace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/blocks/Furnace.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/BarrelUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/BarrelUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/ContainerUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/ContainerUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/SmeltingUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/ui/FurnaceUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/game/vanilla/items/Items.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
