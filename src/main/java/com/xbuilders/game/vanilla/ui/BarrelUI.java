@@ -3,7 +3,7 @@ package com.xbuilders.game.vanilla.ui;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.item.StorageSpace;
 import com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.world.chunk.BlockData;
 import com.xbuilders.engine.world.chunk.Chunk;
 import com.xbuilders.window.NKWindow;
@@ -16,16 +16,13 @@ import java.io.IOException;
 
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
-public class BarrelUI extends UI_ItemWindow {
+public class BarrelUI extends ContainerUI {
     UI_ItemStackGrid barrelGrid, playerGrid;
     final StorageSpace barrelStorage;
-    BlockData barrelBlockData;
-
-
-    Chunk chunk;
+    BlockData blockData;
 
     public BarrelUI(NkContext ctx, NKWindow window) {
-        super(ctx, window, "Barrel Grid");
+        super(ctx, window, "Barrel");
         barrelStorage = new StorageSpace(33);
         menuDimensions.y = 550;
         barrelGrid = new UI_ItemStackGrid(window, "Barrel", barrelStorage, this, true);
@@ -41,26 +38,12 @@ public class BarrelUI extends UI_ItemWindow {
         playerGrid.draw(stack, ctx, maxColumns);
     }
 
-    public void openUI(BlockData blockData, Chunk chunk) {
-        barrelBlockData = blockData;
-        barrelStorage.clear();
-        this.chunk = chunk;
-        if (blockData != null) {
-            try {
-                barrelStorage.loadFromJson(blockData.toByteArray());
-            } catch (IOException e) {
-                System.out.println("Error deserializing JSON, Making storage empty: " + e.getMessage());
-            }
-        }
-        setOpen(true);
-    }
-
     public void dropAllStorage(BlockData blockData, Vector3f targetPos) {
         if (blockData != null) {
             try {
                 barrelStorage.loadFromJson(blockData.toByteArray());
                 for (int i = 0; i < barrelStorage.size(); i++) {
-                    if(barrelStorage.get(i) == null) continue;
+                    if (barrelStorage.get(i) == null) continue;
                     GameScene.placeItemDrop(targetPos, barrelStorage.get(i), false);
                 }
             } catch (IOException e) {
@@ -69,13 +52,24 @@ public class BarrelUI extends UI_ItemWindow {
         }
     }
 
-    public void onCloseEvent() {
-        try {
-            barrelBlockData.setByteArray(barrelStorage.writeToJson());
-            chunk.markAsModified();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void readContainerData(byte[] bytes) {
         barrelStorage.clear();
+        if (bytes != null) {
+            try {
+                barrelStorage.loadFromJson(bytes);
+            } catch (IOException e) {
+                System.out.println("Error deserializing JSON, Making storage empty: " + e.getMessage());
+            }
+        }
     }
+
+    public byte[] writeContainerData() {
+        try {
+            return (barrelStorage.writeToJson());
+        } catch (IOException e) {
+            ErrorHandler.report(e);
+            return new byte[0];
+        }
+    }
+
 }

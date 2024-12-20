@@ -198,16 +198,22 @@ public class GameScene implements WindowEvents {
 
 
     public void initialize(MainWindow window) throws Exception {
+        //Tasks that dont depend on the world, player or blocks
+        setProjection();
+        commands = new GameCommands(this, game);
         background = new SkyBackground(window);
         livePropagationHandler.tasks.clear();
-        game.setup(this);
-        setProjection();
-        ui = new GameUI(game, window.ctx, window);
+
+        //Setup blocks
+        game.setup(this, window.ctx, ui);
+        //init player
         player.init();
+        //init world
         world.init(player, Registrys.blocks.textures);
+
+        //Init UI
+        ui = new GameUI(game, window.ctx, window);
         ui.init();
-        game.uiInit(window.ctx, ui);
-        commands = new GameCommands(this, game);
     }
 
 

@@ -14,7 +14,7 @@ public class GameMenus {
     public boolean draw(MemoryStack stack) {
         for (int i = 0; i < menus.size(); i++) {
             UI_GameMenu menu = menus.get(i);
-            if (menu.isOpen()) {
+            if (menu != null && menu.isOpen()) {
                 menu.draw(stack);
                 return true;
             }
@@ -25,7 +25,7 @@ public class GameMenus {
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         for (int i = 0; i < menus.size(); i++) {
             UI_GameMenu menu = menus.get(i);
-            if (menu.isOpen()) {
+            if (menu != null && menu.isOpen()) {
                 return menu.keyEvent(key, scancode, action, mods);
             }
         }
@@ -35,7 +35,7 @@ public class GameMenus {
     public boolean mouseButtonEvent(int button, int action, int mods) {
         for (int i = 0; i < menus.size(); i++) {
             UI_GameMenu menu = menus.get(i);
-            if (menu.isOpen()) {
+            if (menu != null && menu.isOpen()) {
                 return menu.mouseButtonEvent(button, action, mods);
             }
         }
@@ -45,7 +45,7 @@ public class GameMenus {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         for (int i = 0; i < menus.size(); i++) {
             UI_GameMenu menu = menus.get(i);
-            if (menu.isOpen()) {
+            if (menu != null && menu.isOpen()) {
                 return menu.mouseScrollEvent(scroll, xoffset, yoffset);
             }
         }
@@ -55,7 +55,7 @@ public class GameMenus {
     public boolean isOpen() {
         for (int i = 0; i < menus.size(); i++) {
             UI_GameMenu menu = menus.get(i);
-            if (menu.isOpen()) {
+            if (menu != null && menu.isOpen()) {
                 return true;
             }
         }

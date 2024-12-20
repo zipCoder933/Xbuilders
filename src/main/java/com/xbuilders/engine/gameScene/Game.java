@@ -36,7 +36,7 @@ public abstract class Game implements GameSceneEvents {
         this.window = window;
     }
 
-    public abstract void setup(GameScene gameScene) throws Exception;
+    public abstract void setup(GameScene gameScene, NkContext ctx, GameUI gameUI) throws Exception;
 
     public final Terrain getTerrainFromInfo(WorldData info) {
         for (Terrain terrain : terrainsList) {

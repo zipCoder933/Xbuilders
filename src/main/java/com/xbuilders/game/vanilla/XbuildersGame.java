@@ -106,24 +106,7 @@ public class XbuildersGame extends Game {
 
     public GameMenus gameMenus = new GameMenus();
 
-    @Override
-    public void uiInit(NkContext ctx, GameUI gameUI) {
 
-        blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
-
-        //Menus
-        barrelUI = new BarrelUI(ctx, window);
-        craftingUI = new CraftingUI(ctx, window);
-        smeltingUI = new SmeltingUI(ctx, window);
-        recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
-        inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
-
-        gameMenus.menus.add(barrelUI);
-        gameMenus.menus.add(craftingUI);
-        gameMenus.menus.add(smeltingUI);
-        gameMenus.menus.add(recipeIndexUI);
-        gameMenus.menus.add(inventoryUI);
-    }
 
 
     @Override
@@ -200,8 +183,10 @@ public class XbuildersGame extends Game {
     public void stopGameEvent() {
     }
 
+
+
     @Override
-    public void setup(GameScene gameScene) throws Exception {
+    public void setup(GameScene gameScene,NkContext ctx, GameUI gameUI) throws Exception {
         //Add block types FIRST. We need them to be able to setup blocks properly
         Registrys.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
         Registrys.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
@@ -235,20 +220,37 @@ public class XbuildersGame extends Game {
         //Load Recipes
         Recipes.loadRecipes();
 
-        Blocks.editBlocks(window);
-        Items.editItems(window);
+
 
         //propagations
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());
-//        gameScene.livePropagationHandler.addTask(new GrassPropagation());
-//        new FirePropagation(gameScene.livePropagationHandler);
 
 
         //Add terrains;
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
         if (window.devMode) terrainsList.add(new DevTerrain());
+
+
+        //Menus
+        System.out.println("Initializing menus...");
+        barrelUI = new BarrelUI(ctx, window);
+        craftingUI = new CraftingUI(ctx, window);
+        smeltingUI = new SmeltingUI(ctx, window);
+        recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
+        inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
+        blockTools = new BlockTools(ctx, window, GameScene.player.camera.cursorRay);
+        gameMenus.menus.add(barrelUI);
+        gameMenus.menus.add(craftingUI);
+        gameMenus.menus.add(smeltingUI);
+        gameMenus.menus.add(recipeIndexUI);
+        gameMenus.menus.add(inventoryUI);
+
+
+        //blocks after everything else is done
+        Blocks.editBlocks(window);
+        Items.editItems(window);
     }
 
 

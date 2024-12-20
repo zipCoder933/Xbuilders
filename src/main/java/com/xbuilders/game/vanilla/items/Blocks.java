@@ -49,6 +49,10 @@ public class Blocks {
 
 
     public static void editBlocks(MainWindow window) {
+        //Block UIs
+        MainWindow.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
+
+
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
 

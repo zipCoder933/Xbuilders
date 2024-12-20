@@ -20,7 +20,7 @@ import java.nio.file.Files;
 public class UserInfo {
     private Skin skin;
     private int skinID = 0;
-    public String name;
+    public String name;//Every name MUST be unique
     Player player;
 
     public UserInfo(Player player) {

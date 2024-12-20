@@ -1,0 +1,62 @@
+package com.xbuilders.game.vanilla.ui;
+
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.world.chunk.BlockData;
+import com.xbuilders.window.NKWindow;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.system.MemoryStack;
+
+public abstract class ContainerUI extends UI_ItemWindow {
+
+    BlockData data;
+    final Vector3i target = new Vector3i();
+    String playerLock;
+
+
+    public ContainerUI(NkContext ctx, NKWindow window, String title) {
+        super(ctx, window, title);
+    }
+
+    public void assignToBlock(Block block) {
+        block.clickEvent(false, (x, y, z) -> {
+            BlockData data = GameScene.world.getBlockData(x, y, z);
+            if (data == null) {
+                data = new BlockData(0);
+                GameScene.world.setBlockData(data, x, y, z);
+            }
+            this.data = data;
+            target.set(x, y, z);
+            readContainerData(data.toByteArray());
+            setOpen(true);
+        });
+
+        block.removeBlockEvent(false, (x, y, z, history) -> {
+            dropAllStorage(history.previousBlockData, new Vector3f(x, y, z));
+        });
+    }
+
+    @Override
+    public abstract void drawWindow(MemoryStack stack, NkRect windowDims2);
+
+    public abstract void dropAllStorage(BlockData blockData, Vector3f targetPos);
+
+    public abstract void readContainerData(byte[] data);
+
+    public abstract byte[] writeContainerData();
+
+    private void writeDataToWorld() {
+        System.out.println("Writing data to world");
+        data.setByteArray(writeContainerData());
+        //using gameScene to set block data ensures it is set in the world and the client
+        GameScene.setBlockData(data, target.x, target.y, target.z);
+    }
+
+    public void onCloseEvent() {
+        writeDataToWorld();
+    }
+}
