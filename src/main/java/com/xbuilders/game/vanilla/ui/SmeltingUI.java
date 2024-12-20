@@ -78,6 +78,22 @@ public class SmeltingUI extends UI_ItemWindow {
             Item outputItem = Registrys.getItem(recipe.output);
             if (outputItem == null) return false; //No recipe
 
+            System.out.println("Smelting: " + input.item.name + " -> " + outputItem.name);
+
+
+            //Reduce fuel first
+            if (fuelGrid.storageSpace.get(0) == null) return false;
+            //Using durability we can customize how much fuel is used
+            fuelGrid.storageSpace.get(0).durability -= 0.55f;
+            if (fuelGrid.storageSpace.get(0).durability <= 0) {
+                fuelGrid.storageSpace.get(0).stackSize--;
+                fuelGrid.storageSpace.get(0).durability = fuelGrid.storageSpace.get(0).item.maxDurability;
+
+                if (fuelGrid.storageSpace.get(0).stackSize <= 0) {
+                    fuelGrid.storageSpace.set(0, null);
+                }
+            }
+
             ItemStack outputStack = outputGrid.storageSpace.get(0);
             if (outputStack == null) {
                 ItemStack output = new ItemStack(outputItem, recipe.amount);
@@ -87,14 +103,6 @@ public class SmeltingUI extends UI_ItemWindow {
             } else { //Wrong item
                 return false;
             } //We already have an item in the output grid and its not the one we want
-
-            //Reduce fuel
-            if (fuelGrid.storageSpace.get(0) == null) return false;
-
-            fuelGrid.storageSpace.get(0).stackSize--;
-            if (fuelGrid.storageSpace.get(0).stackSize == 0) {
-                fuelGrid.storageSpace.set(0, null);
-            }
 
             //Reduce input
             input.stackSize--;

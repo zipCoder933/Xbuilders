@@ -92,7 +92,8 @@ public class Blocks {
             }
             if (isWood(b)) {
                 b.easierMiningTool_tag = "axe";
-            } else if (PlantUtils.blockIsGrassSnowOrDirt(b) || b.alias.contains("sand") || b.alias.contains("gravel")) {
+            } else if (PlantUtils.blockIsGrassSnowOrDirt(b)
+                    || b.alias.contains("sand") || b.alias.contains("gravel") || b.alias.contains("clay") || b.alias.contains("leaves")) {
                 b.easierMiningTool_tag = "shovel";
             }
         }
@@ -100,9 +101,10 @@ public class Blocks {
     }
 
     private static boolean isWood(Block b) {
-        return b.alias.contains("wood") || b.alias.contains("planks")
-                || b.alias.contains("birch") || b.alias.contains("oak") || b.alias.contains("spruce")
-                || b.alias.contains("acaica");
+        return (b.alias.contains("wood") || b.alias.contains("log") || b.alias.contains("planks")
+                || b.alias.contains("birch") || b.alias.contains("jungle") || b.alias.contains("oak")
+                || b.alias.contains("spruce") || b.alias.contains("acacia"))
+                && b.solid;
     }
 
     private static void randomTickEvents() {

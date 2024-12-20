@@ -208,11 +208,7 @@ public class CursorRay {
 
                 //If the block should have a tool that can mine it, and the player is using the right tool, mine faster
                 if (toolIsEasierToMineWith(existingBlock, selectedItem)) {
-                    miningSpeed *= 2.3f;
-                }
-                //Otherwise if the block should have a tool that can mine it, but the player is using the wrong tool, don't mine as fast
-                else if (existingBlock.easierMiningTool_tag != null) {
-                    miningSpeed *= 0.5f;
+                    miningSpeed *= 2.5f;
                 }
 
                 //If the block requires a tool to mine it, and the player doesn't have the right tool, don't mine at all
