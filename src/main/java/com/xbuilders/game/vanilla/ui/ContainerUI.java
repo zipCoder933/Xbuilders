@@ -15,8 +15,6 @@ public abstract class ContainerUI extends UI_ItemWindow {
 
     BlockData data;
     final Vector3i target = new Vector3i();
-    String playerLock;
-
 
     public ContainerUI(NkContext ctx, NKWindow window, String title) {
         super(ctx, window, title);
@@ -24,11 +22,13 @@ public abstract class ContainerUI extends UI_ItemWindow {
 
     public void assignToBlock(Block block) {
         block.clickEvent(false, (x, y, z) -> {
+
             BlockData data = GameScene.world.getBlockData(x, y, z);
             if (data == null) {
                 data = new BlockData(0);
                 GameScene.world.setBlockData(data, x, y, z);
             }
+
             this.data = data;
             target.set(x, y, z);
             readContainerData(data.toByteArray());
@@ -41,7 +41,14 @@ public abstract class ContainerUI extends UI_ItemWindow {
     }
 
     @Override
-    public abstract void drawWindow(MemoryStack stack, NkRect windowDims2);
+    public void drawWindow(MemoryStack stack, NkRect windowDims2) {
+        //We constantly check if the block data has changed
+        BlockData data = GameScene.world.getBlockData(target.x, target.y, target.z);
+        if (data != null && !data.equals(this.data)) {
+            //Update data
+            readContainerData(data.toByteArray());
+        }
+    }
 
     public abstract void dropAllStorage(BlockData blockData, Vector3f targetPos);
 
@@ -49,8 +56,8 @@ public abstract class ContainerUI extends UI_ItemWindow {
 
     public abstract byte[] writeContainerData();
 
-    private void writeDataToWorld() {
-        System.out.println("Writing data to world");
+    public void writeDataToWorld() {
+        System.out.println("Writing data to world " + System.currentTimeMillis());
         data.setByteArray(writeContainerData());
         //using gameScene to set block data ensures it is set in the world and the client
         GameScene.setBlockData(data, target.x, target.y, target.z);

@@ -19,7 +19,6 @@ import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 public class BarrelUI extends ContainerUI {
     UI_ItemStackGrid barrelGrid, playerGrid;
     final StorageSpace barrelStorage;
-    BlockData blockData;
 
     public BarrelUI(NkContext ctx, NKWindow window) {
         super(ctx, window, "Barrel");
@@ -27,10 +26,15 @@ public class BarrelUI extends ContainerUI {
         menuDimensions.y = 550;
         barrelGrid = new UI_ItemStackGrid(window, "Barrel", barrelStorage, this, true);
         playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.player.inventory, this, true);
+
+        barrelStorage.changeEvent = () -> {
+            writeDataToWorld();
+        };
     }
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
+        super.drawWindow(stack, windowDims2);
         nk_layout_row_dynamic(ctx, 250, 1);
         barrelGrid.draw(stack, ctx, maxColumns);
 
