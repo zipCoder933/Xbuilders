@@ -66,40 +66,47 @@ public class SmeltingUI extends UI_ItemWindow {
 
 
     private boolean smelt() {
-        ItemStack input = inputGrid.storageSpace.get(0);
-        ItemStack fuel = fuelGrid.storageSpace.get(0);
+        try {
+            ItemStack input = inputGrid.storageSpace.get(0);
+            ItemStack fuel = fuelGrid.storageSpace.get(0);
 
-        if (input == null || input.stackSize == 0) return false; //Nothing to smelt
-        if (fuel == null || fuel.stackSize == 0) return false; //No fuel
+            if (input == null || input.stackSize == 0) return false; //Nothing to smelt
+            if (fuel == null || fuel.stackSize == 0) return false; //No fuel
 
-        SmeltingRecipe recipe = RecipeRegistry.smeltingRecipes.getFromInput(input.item.id);
-        if (recipe == null) return false; //No recipe
-        Item outputItem = Registrys.getItem(recipe.output);
-        if (outputItem == null) return false; //No recipe
+            SmeltingRecipe recipe = RecipeRegistry.smeltingRecipes.getFromInput(input.item.id);
+            if (recipe == null) return false; //No recipe
+            Item outputItem = Registrys.getItem(recipe.output);
+            if (outputItem == null) return false; //No recipe
 
-        ItemStack outputStack = outputGrid.storageSpace.get(0);
-        if (outputStack == null) {
-            ItemStack output = new ItemStack(outputItem, recipe.amount);
-            outputGrid.storageSpace.set(0, output);
-        } else if (outputStack.item.id.equals(outputItem.id)) {
-            outputGrid.storageSpace.get(0).stackSize += recipe.amount;
-        } else { //Wrong item
+            ItemStack outputStack = outputGrid.storageSpace.get(0);
+            if (outputStack == null) {
+                ItemStack output = new ItemStack(outputItem, recipe.amount);
+                outputGrid.storageSpace.set(0, output);
+            } else if (outputStack.item.id.equals(outputItem.id)) {
+                outputGrid.storageSpace.get(0).stackSize += recipe.amount;
+            } else { //Wrong item
+                return false;
+            } //We already have an item in the output grid and its not the one we want
+
+            //Reduce fuel
+            if (fuelGrid.storageSpace.get(0) == null) return false;
+
+            fuelGrid.storageSpace.get(0).stackSize--;
+            if (fuelGrid.storageSpace.get(0).stackSize == 0) {
+                fuelGrid.storageSpace.set(0, null);
+            }
+
+            //Reduce input
+            input.stackSize--;
+            if (input.stackSize <= 0) {
+                inputGrid.storageSpace.set(0, null);
+            }
+
+            return true;
+        } catch (Exception e) {
+            ErrorHandler.log(e);
             return false;
-        } //We already have an item in the output grid and its not the one we want
-
-        //Reduce fuel
-        fuelGrid.storageSpace.get(0).stackSize--;
-        if (fuelGrid.storageSpace.get(0).stackSize == 0) {
-            fuelGrid.storageSpace.set(0, null);
         }
-
-        //Reduce input
-        input.stackSize--;
-        if (input.stackSize <= 0) {
-            inputGrid.storageSpace.set(0, null);
-        }
-
-        return true;
     }
 
     long SMELT_TIME_MS = 5000;

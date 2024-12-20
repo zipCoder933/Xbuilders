@@ -94,10 +94,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             if (status_health <= 0) {
                 die();
             }
-
             if (status_hunger > 0) {
-                status_hunger -= 0.00008f;
-            } else if (status_hunger > MAX_HUNGER) {
+                status_hunger -= 0.00015f;
+            }
+            if (status_hunger > MAX_HUNGER) {
                 status_hunger = MAX_HUNGER;
             }
 
@@ -328,7 +328,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         positionHandler = new PositionHandler(window, GameScene.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 4) {
-                float damage = MathUtils.map(fallDistance, 4, 25, 0, MAX_HEALTH);
+                float damage = MathUtils.map(fallDistance, 4, 10, 0, MAX_HEALTH);
                 status_health -= damage;
             }
             //System.out.println("onGround: " + fallDistance);

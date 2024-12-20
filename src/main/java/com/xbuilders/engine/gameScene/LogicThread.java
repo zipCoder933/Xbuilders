@@ -55,7 +55,7 @@ public class LogicThread {
                     chunksUpdated += (chunk.tick() ? 1 : 0);
                 }
             }
-            System.out.println("Tick " + chunksUpdated + " chunks");
+            //System.out.println("Tick " + chunksUpdated + " chunks");
         }
     }
 
