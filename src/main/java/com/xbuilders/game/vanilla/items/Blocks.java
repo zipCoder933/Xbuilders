@@ -80,6 +80,12 @@ public class Blocks {
                 if (b.renderType == RenderType.SPRITE) b.toughness = 0f;
                 else b.toughness = 0.1f;
             }
+            //Add flammable tag to various blocks
+            if (b.alias.contains("wood") || b.alias.contains("planks")
+                    || b.alias.contains("birch") || b.alias.contains("oak") || b.alias.contains("spruce")
+                    || b.alias.contains("acaica")) {
+                b.properties.put("flammable", "true");
+            }
         }
 
     }
@@ -156,27 +162,27 @@ public class Blocks {
             } else {
                 boolean foundFlammable = false;
                 if (spreadIfFlammable(x + 1, y, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x - 1, y, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y, z + 1)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y, z - 1)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y, z - 1)) foundFlammable = true;
 
                 if (spreadIfFlammable(x + 1, y - 1, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x - 1, y - 1, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y - 1, z + 1)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y - 1, z - 1)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y - 1, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y - 1, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y - 1, z - 1)) foundFlammable = true;
 
                 if (spreadIfFlammable(x + 1, y + 1, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x - 1, y + 1, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y + 1, z + 1)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y + 1, z - 1)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y + 1, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 1, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 1, z - 1)) foundFlammable = true;
 
                 if (spreadIfFlammable(x + 1, y + 2, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x - 1, y + 2, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y + 2, z + 1)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y + 2, z - 1)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y + 2, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 2, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 2, z - 1)) foundFlammable = true;
 
                 if (spreadIfFlammable(x, y - 1, z)) foundFlammable = true;
-                else if (spreadIfFlammable(x, y + 2, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 2, z)) foundFlammable = true;
 
                 return foundFlammable;
             }
