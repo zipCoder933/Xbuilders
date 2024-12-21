@@ -1,14 +1,14 @@
-package com.xbuilders.engine.game.model.player.camera;
+package com.xbuilders.engine.client.player.camera;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.block.BlockRegistry;
 import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.player.CursorRay;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
-import com.xbuilders.engine.game.model.player.raycasting.Ray;
-import com.xbuilders.engine.game.model.player.raycasting.RayCasting;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.raycasting.Ray;
+import com.xbuilders.engine.client.player.raycasting.RayCasting;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.MathUtils;

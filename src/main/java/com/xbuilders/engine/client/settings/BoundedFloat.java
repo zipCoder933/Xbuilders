@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.settings;
+package com.xbuilders.engine.client.settings;
 
 public class BoundedFloat {
 

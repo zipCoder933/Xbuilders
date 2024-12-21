@@ -3,7 +3,7 @@ package com.xbuilders.engine.game.multiplayer;
 import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
-import com.xbuilders.engine.game.model.player.Player;
+import com.xbuilders.engine.game.model.players.Player;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import com.xbuilders.engine.game.model.world.chunk.saving.ChunkSavingLoadingUtils;

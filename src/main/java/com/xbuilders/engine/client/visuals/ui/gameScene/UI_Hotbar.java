@@ -11,7 +11,7 @@ import com.xbuilders.engine.game.model.items.block.Block;
 import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.item.Item;
 import com.xbuilders.engine.game.model.items.item.ItemStack;
-import com.xbuilders.engine.game.model.player.CursorRay;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.game.model.items.item.StorageSpace;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;

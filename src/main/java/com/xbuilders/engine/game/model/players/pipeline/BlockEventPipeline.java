@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.model.player.pipeline;
+package com.xbuilders.engine.game.model.players.pipeline;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.model.GameScene;
@@ -7,7 +7,7 @@ import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.block.Block;
 import com.xbuilders.engine.game.model.items.block.construction.BlockType;
 import com.xbuilders.engine.game.multiplayer.MultiplayerPendingBlockChanges;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import com.xbuilders.engine.game.model.world.World;

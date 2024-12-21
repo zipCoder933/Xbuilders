@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.settings;
+package com.xbuilders.engine.client.settings;
 
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -9,9 +9,9 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 
-import static com.xbuilders.engine.game.settings.EngineSettingsUtils.gson;
+import static com.xbuilders.engine.client.settings.EngineSettingsUtils.gson;
 
-public class EngineSettings {
+public class ClientSettings {
 
     /**
      * NEVER declare a primitive type as static. It will cause issues when reading the values.
@@ -32,7 +32,7 @@ public class EngineSettings {
     public BoundedInt video_entityDistance = new BoundedInt(100);
 
 
-    public EngineSettings initVariables() {
+    public ClientSettings initVariables() {
         internal_viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
         internal_simulationDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
         video_entityDistance.setBounds(20, 100);
@@ -41,17 +41,17 @@ public class EngineSettings {
         return this;
     }
 
-    public static EngineSettings load() {
+    public static ClientSettings load() {
         try {
             File settingsFile = ResourceUtils.appDataResource("settings.json");
             if (settingsFile.exists()) {
                 String jsonString = Files.readString(settingsFile.toPath());
-                return gson.fromJson(jsonString, EngineSettings.class).initVariables();
+                return gson.fromJson(jsonString, ClientSettings.class).initVariables();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new EngineSettings().initVariables();
+        return new ClientSettings().initVariables();
     }
 
     public void save() {
@@ -73,7 +73,7 @@ public class EngineSettings {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Field field : EngineSettings.class.getDeclaredFields()) {
+        for (Field field : ClientSettings.class.getDeclaredFields()) {
             try {
                 sb.append(field.getName()).append(": ").append(field.get(this)).append("\n");
             } catch (IllegalAccessException e) {

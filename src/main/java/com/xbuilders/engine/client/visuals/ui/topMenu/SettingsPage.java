@@ -10,7 +10,7 @@ package com.xbuilders.engine.client.visuals.ui.topMenu;
  */
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.settings.EngineSettings;
+import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.ui.Page;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.window.nuklear.NKUtils;
@@ -36,7 +36,7 @@ public class SettingsPage implements MenuPage {
         this.window = window;
 
         fields.clear();
-        for (Field field : EngineSettings.class.getDeclaredFields()) {
+        for (Field field : ClientSettings.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (!MainWindow.devMode && field.getName().startsWith("internal_")) continue;
             try {

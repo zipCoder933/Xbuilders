@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.model.player.pipeline;
+package com.xbuilders.engine.game.model.players.pipeline;
 
 import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.block.Block;

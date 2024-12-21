@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.visuals.ui.topMenu;
 
-import com.xbuilders.engine.game.settings.BoundedFloat;
-import com.xbuilders.engine.game.settings.BoundedInt;
+import com.xbuilders.engine.client.settings.BoundedFloat;
+import com.xbuilders.engine.client.settings.BoundedInt;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;

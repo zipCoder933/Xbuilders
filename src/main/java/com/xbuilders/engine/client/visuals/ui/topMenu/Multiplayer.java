@@ -11,7 +11,7 @@ package com.xbuilders.engine.client.visuals.ui.topMenu;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.multiplayer.NetworkJoinRequest;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.engine.client.visuals.ui.Page;
 import com.xbuilders.window.nuklear.NKUtils;

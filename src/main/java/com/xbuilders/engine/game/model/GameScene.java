@@ -12,9 +12,9 @@ import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.game.model.items.entity.ItemDrop;
 import com.xbuilders.engine.game.model.items.item.ItemStack;
 import com.xbuilders.engine.game.multiplayer.GameServer;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
-import com.xbuilders.engine.game.model.player.pipeline.BlockEventPipeline;
-import com.xbuilders.engine.game.model.player.pipeline.BlockHistory;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.game.model.players.pipeline.BlockEventPipeline;
+import com.xbuilders.engine.game.model.players.pipeline.BlockHistory;
 import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
 import com.xbuilders.engine.game.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.utils.ByteUtils;
@@ -41,7 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.game.model.player.Player.PLAYER_HEIGHT;
+import static com.xbuilders.engine.game.model.players.Player.PLAYER_HEIGHT;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengles.GLES20.GL_BLEND;
 

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.settings;
+package com.xbuilders.engine.client.settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

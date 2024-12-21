@@ -13,7 +13,7 @@ import com.xbuilders.engine.game.model.items.block.Block;
 import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.game.model.items.item.Item;
 import com.xbuilders.engine.game.model.items.loot.LootTableRegistry;
-import com.xbuilders.engine.game.model.player.CursorRay;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.game.model.world.data.WorldData;

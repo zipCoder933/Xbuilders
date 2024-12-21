@@ -1,6 +1,7 @@
-package com.xbuilders.engine.game.model.player;
+package com.xbuilders.engine.client.player.raycasting;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.game.model.GameMode;
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.block.Block;
@@ -9,9 +10,7 @@ import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.game.model.items.item.ItemStack;
 import com.xbuilders.engine.game.model.items.loot.LootTableRegistry;
-import com.xbuilders.engine.game.model.player.camera.Camera;
-import com.xbuilders.engine.game.model.player.raycasting.Ray;
-import com.xbuilders.engine.game.model.player.raycasting.RayCasting;
+import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;

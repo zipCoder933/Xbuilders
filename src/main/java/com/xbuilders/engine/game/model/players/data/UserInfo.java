@@ -1,9 +1,9 @@
-package com.xbuilders.engine.game.model.player.data;
+package com.xbuilders.engine.game.model.players.data;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.multiplayer.GameServer;
-import com.xbuilders.engine.game.model.player.Player;
-import com.xbuilders.engine.game.model.player.Skin;
+import com.xbuilders.engine.game.model.players.Player;
+import com.xbuilders.engine.client.player.Skin;
 import com.xbuilders.engine.utils.ResourceUtils;
 
 import java.io.IOException;

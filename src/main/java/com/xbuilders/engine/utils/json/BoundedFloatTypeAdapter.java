@@ -3,7 +3,7 @@ package com.xbuilders.engine.utils.json;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.xbuilders.engine.game.settings.BoundedFloat;
+import com.xbuilders.engine.client.settings.BoundedFloat;
 
 import java.io.IOException;
 

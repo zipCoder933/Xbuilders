@@ -4,7 +4,7 @@ import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.game.model.items.block.construction.BlockType;
-import com.xbuilders.engine.game.model.player.pipeline.BlockHistory;
+import com.xbuilders.engine.game.model.players.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.game.model.world.chunk.Chunk;

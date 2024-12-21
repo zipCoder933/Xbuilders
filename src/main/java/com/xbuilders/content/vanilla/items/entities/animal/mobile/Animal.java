@@ -7,7 +7,7 @@ package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.item.ItemStack;
-import com.xbuilders.engine.game.model.player.Player;
+import com.xbuilders.engine.game.model.players.Player;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;

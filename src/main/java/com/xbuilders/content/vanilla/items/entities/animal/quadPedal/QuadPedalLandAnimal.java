@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.player.PositionLock;
+import com.xbuilders.engine.game.model.players.PositionLock;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;

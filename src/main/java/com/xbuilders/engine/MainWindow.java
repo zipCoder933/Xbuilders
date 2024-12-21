@@ -7,7 +7,7 @@ package com.xbuilders.engine;
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.item.blockIconRendering.BlockIconRenderer;
-import com.xbuilders.engine.game.settings.EngineSettings;
+import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.engine.client.visuals.ui.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.ui.topMenu.TopMenu;
@@ -92,7 +92,7 @@ public class MainWindow extends NKWindow {
         return isGameMode;
     }
 
-    public static EngineSettings settings;
+    public static ClientSettings settings;
 
     public void saveAndApplySettings() {
         settings.save();
@@ -192,7 +192,7 @@ public class MainWindow extends NKWindow {
 
     private void init() throws Exception {
         GLFWWindow.initGLFW();
-        settings = EngineSettings.load();
+        settings = ClientSettings.load();
 
         game = new XbuildersGame(this);
         popupMessage = new PopupMessage(ctx, this);
@@ -271,7 +271,7 @@ public class MainWindow extends NKWindow {
 
         iconRenderer.saveAllIcons();//Generate all icons
 
-        new EngineSettings().save();
+        new ClientSettings().save();
 
         createPopupWindow("Finished",
                 "XBuilders has finished setting up. Please restart the game to play.");

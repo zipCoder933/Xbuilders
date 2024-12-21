@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.model.player;
+package com.xbuilders.engine.client.player;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,7 +12,9 @@ import com.xbuilders.engine.game.model.items.block.BlockRegistry;
 import com.xbuilders.engine.game.model.items.block.Block;
 import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.item.ItemStack;
-import com.xbuilders.engine.game.model.player.camera.Camera;
+import com.xbuilders.engine.game.model.players.Player;
+import com.xbuilders.engine.game.model.players.PositionLock;
+import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;

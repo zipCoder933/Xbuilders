@@ -11,8 +11,8 @@ package com.xbuilders.engine.client.visuals.ui.topMenu;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.player.Skin;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.Skin;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.ui.Page;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.window.nuklear.components.TextBox;

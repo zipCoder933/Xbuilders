@@ -7,7 +7,7 @@ package com.xbuilders.engine.game.model.items.item;
 import com.xbuilders.engine.game.model.items.block.Block;
 import com.xbuilders.engine.game.model.items.block.BlockArrayTexture;
 import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
-import com.xbuilders.engine.game.model.player.CursorRay;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.IntMap;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.window.utils.texture.Texture;

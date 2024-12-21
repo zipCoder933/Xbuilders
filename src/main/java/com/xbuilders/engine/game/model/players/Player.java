@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.game.model.player;
+package com.xbuilders.engine.game.model.players;
 
 import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.player.data.UserInfo;
+import com.xbuilders.engine.game.model.players.data.UserInfo;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

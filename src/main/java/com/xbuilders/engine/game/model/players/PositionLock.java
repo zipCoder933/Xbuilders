@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.model.player;
+package com.xbuilders.engine.game.model.players;
 
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.entity.Entity;

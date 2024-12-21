@@ -7,7 +7,7 @@ package com.xbuilders.content.vanilla.items.entities.vehicle;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.entity.Entity;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;

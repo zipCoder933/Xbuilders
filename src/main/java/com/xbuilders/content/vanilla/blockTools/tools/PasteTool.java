@@ -5,7 +5,7 @@ import com.xbuilders.engine.game.model.items.block.BlockRegistry;
 import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.player.CursorRay;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.rendering.entity.block.BlockMeshBundle;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.client.visuals.rendering.wireframeBox.Box;

@@ -2486,13 +2486,13 @@ Event: 15.147 Thread 0x0000028cfcb5fdb0 5133   !   3       com.xbuilders.engine.
 Event: 15.147 Thread 0x0000028cfcb5fdb0 nmethod 5133 0x0000028ce62f7f90 code [0x0000028ce62f82e0, 0x0000028ce62f9518]
 Event: 15.147 Thread 0x0000028cfcb5fdb0 5134       3       com.xbuilders.engine.client.visuals.ui.gameScene.GameUI::releaseMouse (61 bytes)
 Event: 15.148 Thread 0x0000028cfcb5fdb0 nmethod 5134 0x0000028ce6331810 code [0x0000028ce6331a20, 0x0000028ce6331f88]
-Event: 15.148 Thread 0x0000028cfcb5fdb0 5135       3       com.xbuilders.engine.game.model.player.pipeline.BlockEventPipeline::update (231 bytes)
+Event: 15.148 Thread 0x0000028cfcb5fdb0 5135       3       com.xbuilders.engine.game.model.players.pipeline.BlockEventPipeline::update (231 bytes)
 Event: 15.148 Thread 0x0000028cfcb5fdb0 nmethod 5135 0x0000028ce62f5f90 code [0x0000028ce62f62e0, 0x0000028ce62f7938]
-Event: 15.148 Thread 0x0000028cfcb5fdb0 5136       3       com.xbuilders.engine.game.model.player.UserControlledPlayer::update (1245 bytes)
+Event: 15.148 Thread 0x0000028cfcb5fdb0 5136       3       com.xbuilders.engine.client.player.UserControlledPlayer::update (1245 bytes)
 Event: 15.151 Thread 0x0000028cfcb5fdb0 nmethod 5136 0x0000028ce62ee290 code [0x0000028ce62eec20, 0x0000028ce62f43c8]
 Event: 15.151 Thread 0x0000028cfcb5fdb0 5137       3       com.xbuilders.engine.game.multiplayer.GameServer::updatePlayers (40 bytes)
 Event: 15.152 Thread 0x0000028cfcb5fdb0 nmethod 5137 0x0000028ce62ed690 code [0x0000028ce62ed880, 0x0000028ce62edfd8]
-Event: 15.257 Thread 0x0000028cfcb5fdb0 5139       3       com.xbuilders.engine.game.model.player.raycasting.RayCasting::getRayNormalFromAABB (299 bytes)
+Event: 15.257 Thread 0x0000028cfcb5fdb0 5139       3       com.xbuilders.engine.client.player.raycasting.RayCasting::getRayNormalFromAABB (299 bytes)
 Event: 15.257 Thread 0x0000028cfcb5fdb0 nmethod 5139 0x0000028ce62ec390 code [0x0000028ce62ec660, 0x0000028ce62ed268]
 Event: 15.357 Thread 0x0000028cfcb5df40 5140       4       org.joml.Math::invsqrt (9 bytes)
 Event: 15.359 Thread 0x0000028cfcb5fdb0 5141       3       java.io.BufferedWriter::ensureOpen (18 bytes)

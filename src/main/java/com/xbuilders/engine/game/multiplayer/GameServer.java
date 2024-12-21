@@ -6,7 +6,8 @@ import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.model.items.block.Block;
 import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.game.model.players.PlayerClient;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -74,7 +75,8 @@ public class GameServer extends Server<PlayerClient> {
 
     public void updatePlayers(Matrix4f projection, Matrix4f view) {
         for (int i = 0; i < clients.size(); i++) {
-            clients.get(i).update(userPlayer, projection, view);
+            clients.get(i).update(userPlayer);
+            clients.get(i).drawPlayer(projection, view);
         }
     }
 
@@ -252,7 +254,7 @@ public class GameServer extends Server<PlayerClient> {
             } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
                 MultiplayerPendingEntityChanges.readEntityChange(receivedData, (
                         mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
-                    printEntityChange(client, mode, entity, identifier, currentPos, data);
+                    //printEntityChange(client, mode, entity, identifier, currentPos, data);
                     if (MultiplayerPendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
                         if (mode == ENTITY_CREATED) {
                             setEntity(entity, identifier, currentPos, data);
@@ -417,7 +419,7 @@ public class GameServer extends Server<PlayerClient> {
 
     private void onLeaveEvent() {
         for (PlayerClient client : clients) {//Send all changes before we leave
-            client.blockChangesForPlayer.sendAllChanges();
+            client.model_blockChanges_ToBeSentToPlayer.sendAllChanges();
         }
     }
 
@@ -461,19 +463,19 @@ public class GameServer extends Server<PlayerClient> {
     public void sendNearBlockChanges() {
         for (PlayerClient client : clients) {
             if (client.player == null) continue;
-            client.blockChangesForPlayer.sendNearBlockChanges();
+            client.model_blockChanges_ToBeSentToPlayer.sendNearBlockChanges();
         }
     }
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
         for (PlayerClient client : clients) {
-            client.blockChangesForPlayer.addBlockChange(worldPos, block, data);
+            client.model_blockChanges_ToBeSentToPlayer.addBlockChange(worldPos, block, data);
         }
     }
 
     public void addEntityChange(Entity entity, byte mode, boolean sendImmediately) {
         for (PlayerClient client : clients) {
-            client.entityChangesForPlayer.addEntityChange(entity, mode, sendImmediately);
+            client.model_entityChanges_ToBeSentToPlayer.addEntityChange(entity, mode, sendImmediately);
         }
     }
 

@@ -2433,13 +2433,13 @@ CodeHeap 'non-nmethods': size=5760Kb used=2033Kb max_used=2130Kb free=3726Kb
  full_count=0
 
 Compilation events (20 events):
-Event: 16.032 Thread 0x000002075b891220 5039       3       com.xbuilders.engine.game.model.player.UserControlledPlayer::getBlockAtPlayerWaist (56 bytes)
+Event: 16.032 Thread 0x000002075b891220 5039       3       com.xbuilders.engine.client.player.UserControlledPlayer::getBlockAtPlayerWaist (56 bytes)
 Event: 16.032 Thread 0x000002075b891220 nmethod 5039 0x00000207458cc910 code [0x00000207458ccb00, 0x00000207458ccf18]
-Event: 16.032 Thread 0x000002075b891220 5040       3       com.xbuilders.engine.game.model.player.UserControlledPlayer::getBlockAtPlayerFeet (54 bytes)
+Event: 16.032 Thread 0x000002075b891220 5040       3       com.xbuilders.engine.client.player.UserControlledPlayer::getBlockAtPlayerFeet (54 bytes)
 Event: 16.032 Thread 0x000002075b891220 nmethod 5040 0x00000207458cc010 code [0x00000207458cc200, 0x00000207458cc618]
-Event: 16.032 Thread 0x000002075b891220 5041       3       com.xbuilders.engine.game.model.player.UserControlledPlayer::updateHealthbars (210 bytes)
+Event: 16.032 Thread 0x000002075b891220 5041       3       com.xbuilders.engine.client.player.UserControlledPlayer::updateHealthbars (210 bytes)
 Event: 16.033 Thread 0x000002075b891220 nmethod 5041 0x00000207458cb190 code [0x00000207458cb440, 0x00000207458cbd78]
-Event: 16.033 Thread 0x000002075b891220 5042       3       com.xbuilders.engine.game.model.player.UserControlledPlayer::getBlockAtCameraPos (52 bytes)
+Event: 16.033 Thread 0x000002075b891220 5042       3       com.xbuilders.engine.client.player.UserControlledPlayer::getBlockAtCameraPos (52 bytes)
 Event: 16.033 Thread 0x000002075b891220 nmethod 5042 0x00000207458ca910 code [0x00000207458cab00, 0x00000207458cae98]
 Event: 16.165 Thread 0x000002075b88f760 5043       4       com.xbuilders.window.GLFWWindow::printDebugsEnabled (5 bytes)
 Event: 16.165 Thread 0x000002075b891220 5044       3       com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemIndex::draw (79 bytes)
@@ -2451,7 +2451,7 @@ Event: 16.171 Thread 0x000002075b891220 5046   !   3       org.lwjgl.nuklear.Nuk
 Event: 16.172 Thread 0x000002075b891220 nmethod 5046 0x0000020745c5e510 code [0x0000020745c5e740, 0x0000020745c5f2b8]
 Event: 16.285 Thread 0x000002075b88f760 5047   !   4       jdk.internal.ref.PhantomCleanable::remove (60 bytes)
 Event: 16.288 Thread 0x000002075b88f760 nmethod 5047 0x000002074d2e2a90 code [0x000002074d2e2c20, 0x000002074d2e3178]
-Event: 16.445 Thread 0x000002075b88f760 5048   !   4       com.xbuilders.engine.game.model.player.raycasting.RayCasting::traceComplexRay (1305 bytes)
+Event: 16.445 Thread 0x000002075b88f760 5048   !   4       com.xbuilders.engine.client.player.raycasting.RayCasting::traceComplexRay (1305 bytes)
 Event: 16.539 Thread 0x000002075b88f760 nmethod 5048 0x000002074d2e3290 code [0x000002074d2e4240, 0x000002074d2ea7f0]
 
 GC Heap History (20 events):

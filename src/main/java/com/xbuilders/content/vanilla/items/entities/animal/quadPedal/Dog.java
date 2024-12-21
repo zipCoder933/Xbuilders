@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.player.Player;
+import com.xbuilders.engine.game.model.players.Player;
 
 import java.io.IOException;
 

@@ -7,12 +7,12 @@ import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.game.multiplayer.Local_MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.game.multiplayer.Local_MultiplayerPendingEntityChanges;
-import com.xbuilders.engine.game.model.player.UserControlledPlayer;
-import com.xbuilders.engine.game.model.player.camera.Camera;
-import com.xbuilders.engine.game.model.player.pipeline.BlockHistory;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.camera.Camera;
+import com.xbuilders.engine.game.model.players.pipeline.BlockHistory;
 import com.xbuilders.engine.client.visuals.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.client.visuals.rendering.chunk.mesh.CompactOcclusionMesh;
-import com.xbuilders.engine.game.settings.EngineSettings;
+import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -92,7 +92,7 @@ public class World {
     public ChunkShader chunkShader;
 
 
-    public void setViewDistance(EngineSettings settings, int viewDistance2) {
+    public void setViewDistance(ClientSettings settings, int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
         settings.internal_viewDistance.value = viewDistance.get();

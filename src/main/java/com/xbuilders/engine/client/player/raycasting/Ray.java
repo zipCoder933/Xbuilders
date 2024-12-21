@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.model.player.raycasting;
+package com.xbuilders.engine.client.player.raycasting;
 
 import com.xbuilders.engine.game.model.items.entity.Entity;
 import com.xbuilders.engine.utils.MiscUtils;

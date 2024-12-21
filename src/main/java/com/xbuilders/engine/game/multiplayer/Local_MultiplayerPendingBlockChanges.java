@@ -1,8 +1,8 @@
 package com.xbuilders.engine.game.multiplayer;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.player.Player;
-import com.xbuilders.engine.game.model.player.pipeline.BlockHistory;
+import com.xbuilders.engine.game.model.players.Player;
+import com.xbuilders.engine.game.model.players.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.game.model.world.data.WorldData;
 import org.joml.Vector3i;

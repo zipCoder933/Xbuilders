@@ -7,7 +7,7 @@ package com.xbuilders.engine.game.model.items.entity;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.game.multiplayer.GameServer;
-import com.xbuilders.engine.game.model.player.camera.FrustumCullingTester;
+import com.xbuilders.engine.client.player.camera.FrustumCullingTester;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.game.model.world.chunk.Chunk;

@@ -1,7 +1,8 @@
-package com.xbuilders.engine.game.model.player;
+package com.xbuilders.engine.client.player;
 
 import com.xbuilders.engine.game.model.GameScene;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
+import com.xbuilders.engine.game.model.players.Player;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.game.model.world.chunk.Chunk;
 import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
@@ -68,7 +69,7 @@ public abstract class Skin {
         torchValue = (float) ChunkVoxels.getTorch(light) / 15;
     }
 
-    protected final void super_render(Matrix4f projection, Matrix4f view) {
+    public final void super_render(Matrix4f projection, Matrix4f view) {
         if (!initialized) { //Initialize
             init();
             initialized = true;

@@ -5,7 +5,7 @@
 package com.xbuilders.engine.game.model;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.player.SkinSupplier;
+import com.xbuilders.engine.game.model.players.SkinSupplier;
 import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
 import com.xbuilders.engine.game.model.world.Terrain;
 import com.xbuilders.engine.game.model.world.data.WorldData;

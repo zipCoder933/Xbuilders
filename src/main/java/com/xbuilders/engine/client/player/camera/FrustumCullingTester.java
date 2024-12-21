@@ -1,4 +1,4 @@
-package com.xbuilders.engine.game.model.player.camera;
+package com.xbuilders.engine.client.player.camera;
 
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.game.model.world.chunk.Chunk;

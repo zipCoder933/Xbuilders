@@ -4,7 +4,7 @@ import com.xbuilders.engine.game.model.items.Registrys;
 import com.xbuilders.engine.game.model.items.item.Item;
 import com.xbuilders.engine.game.model.items.item.ItemStack;
 import com.xbuilders.engine.game.multiplayer.GameServer;
-import com.xbuilders.engine.game.multiplayer.PlayerClient;
+import com.xbuilders.engine.game.model.players.PlayerClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
