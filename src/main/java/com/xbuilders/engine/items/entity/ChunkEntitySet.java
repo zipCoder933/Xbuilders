@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.items.entity;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.multiplayer.GameServer;
 import com.xbuilders.engine.player.camera.FrustumCullingTester;
@@ -22,7 +23,6 @@ import org.joml.Vector3i;
  */
 public class ChunkEntitySet {
 
-    public static final int MAX_ENTITY_DIST = 100;
 
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
@@ -83,7 +83,7 @@ public class ChunkEntitySet {
         for (int i = list.size() - 1; i >= 0; i--) {
             Entity e = list.get(i);
             if (e == null || e.isDestroyMode()) {
-                System.out.println("Removing entity; " + (e == null ? "null" : "not null")+" destroyed: "+e.isDestroyMode());
+                System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
                 GameScene.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
                 GameScene.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
@@ -91,11 +91,12 @@ public class ChunkEntitySet {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_entityInitialize();
                 }
-                e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);//Sphere boundary checks are faster than AABB
                 e.distToPlayer = e.worldPosition.distance(playerPos);
 
-
-                if (e.distToPlayer < MAX_ENTITY_DIST) e.hidden_drawEntity();
+                if (e.distToPlayer < MainWindow.settings.video_entityDistance.value) {
+                    e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);//Sphere boundary checks are faster than AABB
+                    e.hidden_drawEntity();
+                }
 
                 if (chunkUpdatedMesh) {
                     e.hidden_entityOnChunkMeshChanged();

@@ -9,7 +9,6 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.world.World;
 import org.joml.Vector3i;
 
-import static com.xbuilders.engine.items.entity.ChunkEntitySet.MAX_ENTITY_DIST;
 
 public class GravityBlock {
 
@@ -56,7 +55,7 @@ public class GravityBlock {
             if (thisPosition.distance(
                     (int) GameScene.player.worldPosition.x,
                     (int) GameScene.player.worldPosition.y,
-                    (int) GameScene.player.worldPosition.z) >= Math.min(50, MAX_ENTITY_DIST)) {
+                    (int) GameScene.player.worldPosition.z) >= Math.min(50, MainWindow.settings.video_entityDistance.value)) {
 
                 //Set the block at the bottom
                 for (int y = thisPosition.y + 1; y < World.WORLD_BOTTOM_Y; y++) {

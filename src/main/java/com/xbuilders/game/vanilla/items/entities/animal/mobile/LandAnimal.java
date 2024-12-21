@@ -1,7 +1,11 @@
 package com.xbuilders.game.vanilla.items.entities.animal.mobile;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class LandAnimal extends Animal {
 
     public LandAnimal(int id, long uniqueIdentifier, MainWindow window) {
-        super(id,uniqueIdentifier, window);
+        super(id, uniqueIdentifier, window);
     }
 
     public AnimalAction currentAction = null;
@@ -17,6 +21,16 @@ public abstract class LandAnimal extends Animal {
     private float maxSpeed = 0.17f;
     public boolean jumpOverBlocks = true;
 
+    @Override
+    public void initSupplier(EntitySupplier entitySupplier) {
+        super.initSupplier(entitySupplier);
+        entitySupplier.spawnCondition = (x, y, z) -> {
+            Block floor = GameScene.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
+            if (floor.solid) return true;
+            return false;
+        };
+        entitySupplier.isAutonomous = true;
+    }
 
     //TODO: The animals diverges because we are not sharing the full state
     //We need to be sharing the current action and the exact state of the random generator

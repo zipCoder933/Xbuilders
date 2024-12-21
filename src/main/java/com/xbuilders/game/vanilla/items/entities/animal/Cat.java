@@ -1,6 +1,9 @@
 package com.xbuilders.game.vanilla.items.entities.animal;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 
 import java.io.IOException;
 
@@ -15,6 +18,8 @@ public class Cat extends StaticLandAnimal {
         super.initializeOnDraw(state);
         setActivity(0.9f);
     }
+
+
 
     static StaticLandAnimal_StaticData ead;
 

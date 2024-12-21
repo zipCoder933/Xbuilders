@@ -5,20 +5,29 @@
 package com.xbuilders.engine.items.entity;
 
 
+import com.xbuilders.engine.utils.WorldCoord;
+
+import java.util.Objects;
+
 /**
  * @author zipCoder933
  */
 public class EntitySupplier {
     public final short id;
     private final Supplier2 supplier;
+    public WorldCoord spawnCondition;
+    public boolean isAutonomous;
 
     public EntitySupplier(int id, Supplier2 supplier) {
         this.id = (short) id;
-        this.supplier = supplier;
+        this.supplier = Objects.requireNonNull(supplier);
+        //Init the supplier
+        supplier.get(0).initSupplier(this);
     }
 
     public Entity get(long uniqueIdentifier) {
-        return supplier.get(uniqueIdentifier);
+        Entity e = supplier.get(uniqueIdentifier);
+        return e;
     }
 
     @FunctionalInterface

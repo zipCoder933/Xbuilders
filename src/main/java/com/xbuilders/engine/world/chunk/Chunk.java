@@ -6,6 +6,8 @@ import com.xbuilders.engine.items.Registrys;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.block.BlockRegistry;
 import com.xbuilders.engine.items.entity.ChunkEntitySet;
+import com.xbuilders.engine.items.entity.Entity;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
@@ -17,6 +19,7 @@ import com.xbuilders.engine.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.File;
@@ -385,12 +388,21 @@ public class Chunk {
     private static final float DEV_RANDOM_TICK_LIKELIHOOD = 0.3f;
     private static final float RANDOM_TICK_LIKELIHOOD = 0.008f;
 
-    public boolean tick() {
+    private static final float DEV_RANDOM_SPAWN_LIKELIHOOD = 0.00005f;
+    private static final float RANDOM_SPAWN_LIKELIHOOD = 0.00005f;
+
+    public boolean tick(boolean spawnEntities) {
         boolean updatedAnything = false;
         float tickLikelyhood = (MainWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
+        float spawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_SPAWN_LIKELIHOOD : RANDOM_SPAWN_LIKELIHOOD);
         int wx = position.x * WIDTH;
         int wy = position.y * HEIGHT;
         int wz = position.z * WIDTH;
+
+        EntitySupplier entityToSpawn = null;
+        if (spawnEntities && Registrys.entities.autonomousList.size() > 0)
+            entityToSpawn = Registrys.entities.autonomousList.get(randomTick_random.nextInt(Registrys.entities.autonomousList.size()));
+
 
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -404,6 +416,13 @@ public class Chunk {
                                 if (block.randomTickEvent.run(wx + x, wy + y, wz + z)) updatedAnything = true;
                             }
                         }
+                    }
+
+                    if (spawnEntities && entityToSpawn != null
+                            && randomTick_random.nextFloat() <= spawnLikelyhood &&
+                            entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
+                        Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
+                        GameScene.placeEntity(entityToSpawn, pos, null);
                     }
 
                 }

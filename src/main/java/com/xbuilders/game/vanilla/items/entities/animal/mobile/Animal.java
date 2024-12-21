@@ -24,7 +24,6 @@ import java.util.function.Consumer;
 
 public abstract class Animal extends Entity {
 
-    private static final float ONE_SIXTEENTH = (float) 1 / 16;
     public Limb[] limbs;
     public final PositionHandler pos;
     public final MainWindow window;

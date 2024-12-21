@@ -60,13 +60,13 @@ public class ItemRegistry {
         }
     }
 
-    public void initialize(int defaultIcon,
-                           BlockArrayTexture textures,
-                           IntMap<Block> blockMap,
-                           IntMap<EntitySupplier> entityMap,
-                           HashMap<String, Short> blockAliasToIDMap,
-                           HashMap<String, Short> entityAliasToIDMap,
-                           List<Item> inputBlocks) {
+    public void setup(int defaultIcon,
+                      BlockArrayTexture textures,
+                      IntMap<Block> blockMap,
+                      IntMap<EntitySupplier> entityMap,
+                      HashMap<String, Short> blockAliasToIDMap,
+                      HashMap<String, Short> entityAliasToIDMap,
+                      List<Item> inputBlocks) {
         list = inputBlocks.toArray(new Item[0]);
         assignMapAndVerify(inputBlocks);
 

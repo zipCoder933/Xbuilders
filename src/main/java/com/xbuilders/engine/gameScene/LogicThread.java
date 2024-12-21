@@ -30,7 +30,11 @@ public class LogicThread {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                tickEvent();
+                try {
+                    tickEvent();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }, 1000, TICK_RATE_MS);
     }
@@ -50,12 +54,17 @@ public class LogicThread {
             Iterator<Chunk> iterator = GameScene.world.chunks.values().iterator();
             while (iterator.hasNext()) {
                 Chunk chunk = iterator.next();
-                //System.out.println("Chunk " + chunk.position + " distToPlayer " + chunk.distToPlayer+" simulation distance "+MainWindow.settings.internal_simulationDistance.value);
-                if (chunk.distToPlayer < MainWindow.settings.internal_simulationDistance.value + Chunk.WIDTH) {
-                    chunksUpdated += (chunk.tick() ? 1 : 0);
+                int simDistance = MainWindow.settings.internal_simulationDistance.value;
+
+                int spawnDistance = (int) Math.min(Chunk.WIDTH * 2, MainWindow.settings.internal_simulationDistance.value * 0.6f);
+                spawnDistance = Math.min(MainWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which entities are spawned
+                //System.out.println("Chunk " + chunk.distToPlayer + " " + simDistance + " " + spawnDistance);
+
+                if (chunk.distToPlayer < simDistance) {
+                    chunksUpdated += (chunk.tick(chunk.distToPlayer < spawnDistance) ? 1 : 0);
                 }
             }
-            //System.out.println("Tick " + chunksUpdated + " chunks");
+            System.out.println("Tick " + chunksUpdated + " chunks");
         }
     }
 

@@ -11,12 +11,10 @@ import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.items.entity.EntityRegistry;
 import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.items.item.ItemRegistry;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -60,9 +58,9 @@ public class Registrys {
 
         Registrys.defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false).id;
 
-        blocks.initialize(blockList);
-        entities.initialize(entityList);
-        items.initialize(
+        blocks.setup(blockList);
+        entities.setup(entityList);
+        items.setup(
                 Registrys.defaultIcon,
                 blocks.textures,
 

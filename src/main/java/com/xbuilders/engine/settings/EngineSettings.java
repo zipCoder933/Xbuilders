@@ -29,11 +29,13 @@ public class EngineSettings {
     public final BoundedInt internal_simulationDistance = new BoundedInt(Chunk.WIDTH * 3);
     public boolean internal_experimentalFeatures = false;
     public long internal_blockBoundaryAreaLimit = 1000000;
+    public BoundedInt video_entityDistance = new BoundedInt(100);
 
 
     public EngineSettings initVariables() {
         internal_viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
         internal_simulationDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
+        video_entityDistance.setBounds(20, 100);
         video_fullscreenSize.setBounds(0.5f, 1.0f);
         video_fullscreenSize.clamp();
         return this;

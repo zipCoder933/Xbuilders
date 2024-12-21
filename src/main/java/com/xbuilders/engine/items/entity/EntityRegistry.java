@@ -4,7 +4,6 @@
  */
 package com.xbuilders.engine.items.entity;
 
-import com.xbuilders.engine.items.item.Item;
 import com.xbuilders.engine.utils.IntMap;
 
 import java.util.HashMap;
@@ -25,6 +24,7 @@ public class EntityRegistry {
     final IntMap<EntitySupplier> idMap = new IntMap<>(EntitySupplier.class);
     public HashMap<String, Short> aliasToIDMap;
     private EntitySupplier[] list;
+    public List<EntitySupplier> autonomousList;
     public static final int NULL_ID = -1;
 
     public EntityRegistry() {
@@ -41,6 +41,22 @@ public class EntityRegistry {
 
     public IntMap<EntitySupplier> getIdMap() {
         return idMap;
+    }
+
+    public void setup(List<EntitySupplier> inputEntities) {
+        HashSet<String> uniqueAliases = new HashSet<>();
+        ENTITY_ITEM_DROP = new EntitySupplier(NULL_ID, (uniqueID2) -> new ItemDrop(NULL_ID, uniqueID2));
+        inputEntities.add(ENTITY_ITEM_DROP);
+
+        verifyEntityIds(inputEntities);
+        list = inputEntities.toArray(new EntitySupplier[0]);
+        //Now make a list of autonomous entities
+        autonomousList = new java.util.ArrayList<>();
+        for (EntitySupplier entity : list) {
+            if (entity.isAutonomous) {
+                autonomousList.add(entity);
+            }
+        }
     }
 
     private int verifyEntityIds(List<EntitySupplier> inputItems) {
@@ -76,12 +92,5 @@ public class EntityRegistry {
         return highestId;
     }
 
-    public void initialize(List<EntitySupplier> inputBlocks) {
-        HashSet<String> uniqueAliases = new HashSet<>();
-        ENTITY_ITEM_DROP = new EntitySupplier(NULL_ID, (uniqueID2) -> new ItemDrop(NULL_ID, uniqueID2));
-        inputBlocks.add(ENTITY_ITEM_DROP);
 
-        verifyEntityIds(inputBlocks);
-        list = inputBlocks.toArray(new EntitySupplier[0]);
-    }
 }

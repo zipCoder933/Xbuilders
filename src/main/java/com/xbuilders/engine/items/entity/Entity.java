@@ -226,6 +226,15 @@ public abstract class Entity {
     }
 
     /**
+     * Used as a convenience method to initialize the entity supplier
+     * Only called once
+     *
+     * @param entitySupplier
+     */
+    public void initSupplier(EntitySupplier entitySupplier) {
+    }
+
+    /**
      * @return if we want to permit the click event to continue
      */
     public boolean run_ClickEvent() {

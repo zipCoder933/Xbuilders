@@ -5,7 +5,10 @@
 package com.xbuilders.game.vanilla.items.entities.animal.landAndWater;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.gameScene.GameScene;
+import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.game.vanilla.items.Blocks;
 import com.xbuilders.game.vanilla.items.entities.animal.mobile.Animal;
 import com.xbuilders.game.vanilla.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.game.vanilla.items.entities.animal.mobile.AnimalUtils;
@@ -30,6 +33,15 @@ public abstract class LandAndWaterAnimal extends Animal {
         super(id, uniqueIdentifier, window);
     }
 
+    @Override
+    public void initSupplier(EntitySupplier entitySupplier) {
+        super.initSupplier(entitySupplier);
+        entitySupplier.spawnCondition = (x, y, z) -> {
+            if (GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            return false;
+        };
+        entitySupplier.isAutonomous = true;
+    }
 
     /**
      * @return the walkAmt
