@@ -34,12 +34,12 @@ C  [lwjgl_nuklear.dll+0x1cbad]
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.lwjgl.nuklear.Nuklear.nnk_group_end(J)V+0
 j  org.lwjgl.nuklear.Nuklear.nk_group_end(Lorg/lwjgl/nuklear/NkContext;)V+4
-j  com.xbuilders.game.vanilla.ui.UI_RecipeIndex.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V+72
-j  com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V+142
-j  com.xbuilders.game.vanilla.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z+34
-j  com.xbuilders.game.vanilla.XbuildersGame.uiDraw(Lorg/lwjgl/system/MemoryStack;)Z+5
-j  com.xbuilders.engine.ui.gameScene.GameUI.draw()V+95
-j  com.xbuilders.engine.gameScene.GameScene.render()V+183
+j  com.xbuilders.content.vanilla.ui.UI_RecipeIndex.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V+72
+j  com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V+142
+j  com.xbuilders.content.vanilla.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z+34
+j  com.xbuilders.content.vanilla.XbuildersGame.uiDraw(Lorg/lwjgl/system/MemoryStack;)Z+5
+j  com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.draw()V+95
+j  com.xbuilders.engine.game.model.GameScene.render()V+183
 j  com.xbuilders.engine.MainWindow.render()V+9
 j  com.xbuilders.engine.MainWindow.<init>([Ljava/lang/String;)V+316
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+5
@@ -482,11 +482,11 @@ CodeHeap 'non-nmethods': size=5760Kb used=2034Kb max_used=2106Kb free=3726Kb
  full_count=0
 
 Compilation events (20 events):
-Event: 8.636 Thread 0x000001d6e8c2b4e0 4871       4       com.xbuilders.engine.world.World::hasChunk (11 bytes)
+Event: 8.636 Thread 0x000001d6e8c2b4e0 4871       4       com.xbuilders.engine.game.model.world.World::hasChunk (11 bytes)
 Event: 8.641 Thread 0x000001d6e8c2b4e0 nmethod 4871 0x000001d6da78dd10 code [0x000001d6da78dec0, 0x000001d6da78e288]
-Event: 8.653 Thread 0x000001d6e8c2b4e0 4872       4       com.xbuilders.engine.items.block.construction.BlockType::getCollisionBoxes (23 bytes)
+Event: 8.653 Thread 0x000001d6e8c2b4e0 4872       4       com.xbuilders.engine.game.model.items.block.construction.BlockType::getCollisionBoxes (23 bytes)
 Event: 8.655 Thread 0x000001d6e8c2b4e0 nmethod 4872 0x000001d6da78e610 code [0x000001d6da78e7c0, 0x000001d6da78e988]
-Event: 8.656 Thread 0x000001d6e8c2b4e0 4873       4       com.xbuilders.engine.player.CursorRay$$Lambda$397/0x000001d68134efa0::shouldHitBlock (19 bytes)
+Event: 8.656 Thread 0x000001d6e8c2b4e0 4873       4       com.xbuilders.engine.game.model.player.CursorRay$$Lambda$397/0x000001d68134efa0::shouldHitBlock (19 bytes)
 Event: 8.657 Thread 0x000001d6e8c2b4e0 nmethod 4873 0x000001d6da78eb90 code [0x000001d6da78ed00, 0x000001d6da78ee38]
 Event: 8.670 Thread 0x000001d6e8c2c730 4874       3       com.xbuilders.engine.utils.math.AABB::setY (22 bytes)
 Event: 8.670 Thread 0x000001d6e8c2c730 nmethod 4874 0x000001d6d2cdf190 code [0x000001d6d2cdf320, 0x000001d6d2cdf4b8]

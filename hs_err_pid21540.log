@@ -34,13 +34,13 @@ C  [lwjgl_nuklear.dll+0x1cbad]
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.lwjgl.nuklear.Nuklear.nnk_group_end(J)V+0
 j  org.lwjgl.nuklear.Nuklear.nk_group_end(Lorg/lwjgl/nuklear/NkContext;)V+4
-j  com.xbuilders.engine.ui.gameScene.items.UI_ItemStackGrid.draw(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkContext;I)V+333
-j  com.xbuilders.game.ui.CraftingUI.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V+44
-j  com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V+160
-j  com.xbuilders.game.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z+34
-j  com.xbuilders.game.XbuildersGame.uiDraw(Lorg/lwjgl/system/MemoryStack;)V+26
-j  com.xbuilders.engine.ui.gameScene.GameUI.draw()V+95
-j  com.xbuilders.engine.gameScene.GameScene.render()V+177
+j  com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid.draw(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkContext;I)V+333
+j  com.xbuilders.content.ui.CraftingUI.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V+44
+j  com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V+160
+j  com.xbuilders.content.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z+34
+j  com.xbuilders.content.XbuildersGame.uiDraw(Lorg/lwjgl/system/MemoryStack;)V+26
+j  com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.draw()V+95
+j  com.xbuilders.engine.game.model.GameScene.render()V+177
 j  com.xbuilders.engine.MainWindow.render()V+9
 j  com.xbuilders.engine.MainWindow.<init>([Ljava/lang/String;)V+316
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+5
@@ -512,7 +512,7 @@ Event: 9.183 Thread 0x00000184431ef4e0 nmethod 4949 0x000001842f982610 code [0x0
 Event: 9.199 Thread 0x00000184431ef4e0 4953       4       java.util.ArrayDeque::inc (12 bytes)
 Event: 9.199 Thread 0x00000184431ef4e0 nmethod 4953 0x000001842f982310 code [0x000001842f982480, 0x000001842f9824f8]
 Event: 9.204 Thread 0x00000184431ef4e0 4954       4       org.joml.Matrix4f::mulAffineR (738 bytes)
-Event: 9.205 Thread 0x00000184938be6b0 4955       4       com.xbuilders.engine.items.entity.ChunkEntitySet::draw (412 bytes)
+Event: 9.205 Thread 0x00000184938be6b0 4955       4       com.xbuilders.engine.game.model.items.entity.ChunkEntitySet::draw (412 bytes)
 Event: 9.205 Thread 0x000001844381d210 4956       3       org.lwjgl.nuklear.NkStyleButton::border_color (8 bytes)
 Event: 9.205 Thread 0x00000184938bec00 4957       3       org.lwjgl.nuklear.NkStyleButton::nborder_color (10 bytes)
 Event: 9.205 Thread 0x0000018443710850 4958       3       com.xbuilders.window.nuklear.WidgetSizeMeasurement::measure (49 bytes)
@@ -522,7 +522,7 @@ Event: 9.206 Thread 0x00000184938bec00 nmethod 4957 0x0000018427c91690 code [0x0
 Event: 9.206 Thread 0x0000018443710850 nmethod 4958 0x0000018427c9e390 code [0x0000018427c9e5a0, 0x0000018427c9ede8]
 Event: 9.206 Thread 0x00000184431f8a20 nmethod 4959 0x0000018427d28490 code [0x0000018427d286c0, 0x0000018427d29278]
 Event: 9.210 Thread 0x00000184431ef4e0 nmethod 4954 0x000001842f981690 code [0x000001842f981820, 0x000001842f981bb8]
-Event: 9.210 Thread 0x00000184431ef4e0 4961   !   4       com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher::compute (799 bytes)
+Event: 9.210 Thread 0x00000184431ef4e0 4961   !   4       com.xbuilders.engine.client.visuals.rendering.chunk.meshers.Chunk_NaiveMesher::compute (799 bytes)
 Event: 9.213 Thread 0x0000018443710850 4962       3       java.lang.Integer::toString (55 bytes)
 Event: 9.213 Thread 0x00000184431f8a20 4963       3       java.lang.Integer::toString (8 bytes)
 
@@ -701,11 +701,11 @@ Event: 9.050 Thread 0x0000018420158e80 DEOPT UNPACKING pc=0x000001842f117143 sp=
 Event: 9.099 Thread 0x0000018420158e80 DEOPT PACKING pc=0x0000018428129072 sp=0x00000064128ff2f0
 Event: 9.099 Thread 0x0000018420158e80 DEOPT UNPACKING pc=0x000001842f117143 sp=0x00000064128fe7c8 mode 0
 Event: 9.205 Thread 0x00000184aa68c810 Uncommon trap: trap_request=0xffffffc6 fr.pc=0x000001842f8f1318 relative=0x0000000000001678
-Event: 9.205 Thread 0x00000184aa68c810 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001842f8f1318 method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
+Event: 9.205 Thread 0x00000184aa68c810 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001842f8f1318 method=com.xbuilders.engine.client.visuals.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
 Event: 9.205 Thread 0x00000184aa68c810 DEOPT PACKING pc=0x000001842f8f1318 sp=0x00000064170ff260
 Event: 9.205 Thread 0x00000184aa68c810 DEOPT UNPACKING pc=0x000001842f1169a3 sp=0x00000064170ff1e8 mode 2
 Event: 9.206 Thread 0x00000184aa68c810 Uncommon trap: trap_request=0xffffffc6 fr.pc=0x000001842f8f8ab0 relative=0x00000000000010d0
-Event: 9.206 Thread 0x00000184aa68c810 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001842f8f8ab0 method=com.xbuilders.engine.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
+Event: 9.206 Thread 0x00000184aa68c810 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001842f8f8ab0 method=com.xbuilders.engine.client.visuals.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
 Event: 9.206 Thread 0x00000184aa68c810 DEOPT PACKING pc=0x000001842f8f8ab0 sp=0x00000064170ff240
 Event: 9.206 Thread 0x00000184aa68c810 DEOPT UNPACKING pc=0x000001842f1169a3 sp=0x00000064170ff1e8 mode 2
 

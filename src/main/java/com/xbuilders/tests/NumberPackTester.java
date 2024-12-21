@@ -1,7 +1,7 @@
 package com.xbuilders.tests;
 
 
-import com.xbuilders.engine.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
 
 public class NumberPackTester {
 

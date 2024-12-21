@@ -9,9 +9,9 @@ package com.xbuilders.engine.utils.json;
  */
 
 import com.google.gson.*;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemStack;
+import com.xbuilders.engine.game.model.items.Registrys;
+import com.xbuilders.engine.game.model.items.item.Item;
+import com.xbuilders.engine.game.model.items.item.ItemStack;
 
 import java.lang.reflect.Type;
 import java.util.Map;

@@ -4,16 +4,16 @@
  */
 package com.xbuilders.engine;
 
-import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.item.blockIconRendering.BlockIconRenderer;
-import com.xbuilders.engine.settings.EngineSettings;
-import com.xbuilders.engine.ui.Theme;
-import com.xbuilders.engine.ui.topMenu.PopupMessage;
-import com.xbuilders.engine.ui.topMenu.TopMenu;
+import com.xbuilders.engine.game.model.GameScene;
+import com.xbuilders.engine.game.model.items.Registrys;
+import com.xbuilders.engine.game.model.items.item.blockIconRendering.BlockIconRenderer;
+import com.xbuilders.engine.game.settings.EngineSettings;
+import com.xbuilders.engine.client.visuals.ui.Theme;
+import com.xbuilders.engine.client.visuals.ui.topMenu.PopupMessage;
+import com.xbuilders.engine.client.visuals.ui.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.game.vanilla.XbuildersGame;
+import com.xbuilders.content.vanilla.XbuildersGame;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.FrameTester;

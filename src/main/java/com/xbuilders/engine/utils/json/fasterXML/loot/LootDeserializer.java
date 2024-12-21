@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.item.Item;
-import com.xbuilders.engine.items.item.ItemStack;
-import com.xbuilders.engine.items.loot.output.Loot;
+import com.xbuilders.engine.game.model.items.Registrys;
+import com.xbuilders.engine.game.model.items.item.Item;
+import com.xbuilders.engine.game.model.items.item.ItemStack;
+import com.xbuilders.engine.game.model.items.loot.output.Loot;
 
 import java.io.IOException;
 import java.util.HashMap;

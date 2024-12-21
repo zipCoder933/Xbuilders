@@ -4,19 +4,19 @@
 // */
 //package com.xbuilders.tests;
 //
-//import com.xbuilders.engine.items.BlockList;
-//import com.xbuilders.engine.items.block.Block;
-//import com.xbuilders.engine.items.block.BlockArrayTexture;
-//import com.xbuilders.engine.rendering.chunk.meshers.bufferSet.BufferSet;
-//import com.xbuilders.engine.rendering.chunk.meshers.GreedyMesher;
-//import com.xbuilders.engine.rendering.chunk.withBakedLight.GreedyMesherWithLight;
-//import com.xbuilders.engine.rendering.old.GreedyMesherNublada;
+//import com.xbuilders.engine.game.model.items.BlockList;
+//import com.xbuilders.engine.game.model.items.block.Block;
+//import com.xbuilders.engine.game.model.items.block.BlockArrayTexture;
+//import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.BufferSet;
+//import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.GreedyMesher;
+//import com.xbuilders.engine.client.visuals.rendering.chunk.withBakedLight.GreedyMesherWithLight;
+//import com.xbuilders.engine.client.visuals.rendering.old.GreedyMesherNublada;
 //import com.xbuilders.engine.utils.MiscUtils;
 //import com.xbuilders.engine.utils.ResourceUtils;
 //import com.xbuilders.engine.utils.math.PerlinNoise;
 //import com.xbuilders.window.development.MemoryProfiler;
 //import com.xbuilders.window.utils.preformance.Stopwatch;
-//import com.xbuilders.engine.world.chunk.ChunkVoxels;
+//import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
 //import com.xbuilders.game.MyGame;
 //import java.io.IOException;
 //

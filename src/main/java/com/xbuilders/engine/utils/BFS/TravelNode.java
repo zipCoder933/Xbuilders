@@ -1,8 +1,8 @@
 package com.xbuilders.engine.utils.BFS;
 
-import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.engine.game.model.world.World;
+import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.game.model.world.wcc.WCCi;
 
 import java.util.Objects;
 

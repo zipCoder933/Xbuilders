@@ -4,10 +4,10 @@
 // */
 //package com.xbuilders.tests;
 //
-//import com.xbuilders.engine.gameScene.Game;
-//import com.xbuilders.engine.items.ItemList;
-//import com.xbuilders.engine.items.item.blockIconRendering.BlockIconRenderer;
-//import com.xbuilders.engine.ui.gameScene.GameUI;
+//import com.xbuilders.engine.game.model.Game;
+//import com.xbuilders.engine.game.model.items.ItemList;
+//import com.xbuilders.engine.game.model.items.item.blockIconRendering.BlockIconRenderer;
+//import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
 //import com.xbuilders.engine.utils.ResourceUtils;
 //import com.xbuilders.game.MyGame;
 //import com.xbuilders.window.GLFWWindow;

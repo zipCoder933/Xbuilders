@@ -33,11 +33,11 @@ C  [lwjgl_nuklear.dll+0x1cbad]
 
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 J 4871  org.lwjgl.nuklear.Nuklear.nnk_group_end(J)V (0 bytes) @ 0x0000028ceddb8c69 [0x0000028ceddb8c20+0x0000000000000049]
-J 5044 c1 com.xbuilders.game.vanilla.ui.UI_RecipeIndex.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V (163 bytes) @ 0x0000028ce64c1bac [0x0000028ce64c0b60+0x000000000000104c]
-J 5043 c1 com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V (231 bytes) @ 0x0000028ce65130e4 [0x0000028ce6512020+0x00000000000010c4]
-J 5030 c1 com.xbuilders.game.vanilla.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z (47 bytes) @ 0x0000028ce67788c4 [0x0000028ce6778220+0x00000000000006a4]
-J 5133 c1 com.xbuilders.engine.ui.gameScene.GameUI.draw()V (161 bytes) @ 0x0000028ce62f8acc [0x0000028ce62f82e0+0x00000000000007ec]
-J 5061 c1 com.xbuilders.engine.gameScene.GameScene.render()V (187 bytes) @ 0x0000028ce650e464 [0x0000028ce650d940+0x0000000000000b24]
+J 5044 c1 com.xbuilders.content.vanilla.ui.UI_RecipeIndex.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V (163 bytes) @ 0x0000028ce64c1bac [0x0000028ce64c0b60+0x000000000000104c]
+J 5043 c1 com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V (231 bytes) @ 0x0000028ce65130e4 [0x0000028ce6512020+0x00000000000010c4]
+J 5030 c1 com.xbuilders.content.vanilla.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z (47 bytes) @ 0x0000028ce67788c4 [0x0000028ce6778220+0x00000000000006a4]
+J 5133 c1 com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.draw()V (161 bytes) @ 0x0000028ce62f8acc [0x0000028ce62f82e0+0x00000000000007ec]
+J 5061 c1 com.xbuilders.engine.game.model.GameScene.render()V (187 bytes) @ 0x0000028ce650e464 [0x0000028ce650d940+0x0000000000000b24]
 J 4978 c1 com.xbuilders.engine.MainWindow.render()V (36 bytes) @ 0x0000028ce61a0f3c [0x0000028ce61a0e60+0x00000000000000dc]
 j  com.xbuilders.engine.MainWindow.<init>([Ljava/lang/String;)V+316
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+5
@@ -242,7 +242,7 @@ Compiled method (n/a)   15582 4871     n 0       org.lwjgl.nuklear.Nuklear::nnk_
 [/MachCode]
 
 
-Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow (163 bytes)
+Compiled method (c1)   15596 5044       3       com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow (163 bytes)
  total in heap  [0x0000028ce64c0810,0x0000028ce64c25b0] = 7584
  relocation     [0x0000028ce64c0968,0x0000028ce64c0b30] = 456
  constants      [0x0000028ce64c0b40,0x0000028ce64c0b60] = 32
@@ -316,7 +316,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c0cf8: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokevirtual setOpen {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@11 (line 80)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@11 (line 80)
   0x0000028ce64c0cf8: 8406 0c07 | 488b 9424 | 8000 0000 | 448b 4210 
 
   0x0000028ce64c0d08: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -345,7 +345,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c0e08: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokestatic nnk_layout_row_dynamic {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_layout_row_dynamic@6 (line 2311)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@21 (line 83)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@21 (line 83)
   0x0000028ce64c0e08: 34e9 7207 | 488b 9424 | 8000 0000 | 448b 4210 
 
   0x0000028ce64c0e18: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -359,7 +359,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c0e40: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokestatic nk_group_begin {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@32 (line 84)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@32 (line 84)
   0x0000028ce64c0e40: fce2 f1ff 
 
   0x0000028ce64c0e44: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -425,7 +425,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c11a8: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokestatic nnk_layout_row_dynamic {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_layout_row_dynamic@6 (line 2311)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@68 (line 86)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@68 (line 86)
   0x0000028ce64c11a8: 94e5 7207 | 488b 9424 | 8000 0000 | 8b72 3c48 | 3b06 488b 
 
   0x0000028ce64c11bc: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -441,7 +441,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1268: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokevirtual keySet {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@75 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@75 (line 87)
   0x0000028ce64c1268: b43e 7407 
 
   0x0000028ce64c126c: ; implicit exception: dispatches to 0x0000028ce64c1cf3
@@ -460,7 +460,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1318: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokeinterface iterator {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@78 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@78 (line 87)
   0x0000028ce64c1318: 0442 7407 | 4889 8424 | 9000 0000 | e930 0200 | 000f 1f80 | 0000 0000 | 488b 8424 | 9000 0000 
   0x0000028ce64c1338: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
   0x0000028ce64c1338: 48be b0d0 | cac2 8c02 | 0000 8b40 | 0849 ba00 | 0000 808c | 0200 0049 | 03c2 483b | 8650 0300 
@@ -475,7 +475,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c13e8: ; ImmutableOopMap {[136]=Oop [144]=Oop [128]=Oop }
                       ;*invokeinterface next {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@94 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@94 (line 87)
   0x0000028ce64c13e8: 34d7 7d07 | 4883 f800 
 
   0x0000028ce64c13f0: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -504,7 +504,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1508: ; ImmutableOopMap {[136]=Oop [144]=Oop [128]=Oop }
                       ;*invokestatic nk_button_text {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@113 (line 88)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@113 (line 88)
   0x0000028ce64c1508: b469 d7ff 
 
   0x0000028ce64c150c: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -513,7 +513,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c153c: ; ImmutableOopMap {[136]=Oop [144]=Oop [128]=Oop }
                       ;*goto {reexecute=1 rethrow=0 return_oop=0}
-                      ; - (reexecute) com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@117 (line 89)
+                      ; - (reexecute) com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@117 (line 89)
                       ;   {poll}
   0x0000028ce64c153c: 0041 8502 
 
@@ -533,7 +533,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1608: ; ImmutableOopMap {[136]=Oop [144]=Oop [128]=Oop }
                       ;*invokeinterface hasNext {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@85 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@85 (line 87)
   0x0000028ce64c1608: f44d 7207 
 
   0x0000028ce64c160c: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -598,7 +598,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
                       ; - java.lang.invoke.DirectMethodHandle::allocateInstance@12 (line 520)
                       ; - java.lang.invoke.DirectMethodHandle$Holder::newInvokeSpecial@1
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@5
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
   0x0000028ce64c17e8: d44e 6607 
 
   0x0000028ce64c17ec: ;   {metadata(method data for {method} {0x0000028c800dc9c0} 'newInvokeSpecial' '(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;' in 'java/lang/invoke/DirectMethodHandle$Holder')}
@@ -661,7 +661,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1aa8: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokevirtual forEach {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@130 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@130 (line 90)
   0x0000028ce64c1aa8: 7491 8f07 | 488b 9424 | 8000 0000 
 
   0x0000028ce64c1ab4: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -687,7 +687,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1ba8: ; ImmutableOopMap {[136]=Oop [128]=Oop }
                       ;*invokestatic nnk_group_end {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_group_end@4 (line 2709)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@137 (line 97)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@137 (line 97)
   0x0000028ce64c1ba8: 9470 8f07 | 488b 9424 | 8000 0000 | 8b72 4044 | 8b42 1048 | 3b06 4c8b 
 
   0x0000028ce64c1bc0: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -702,7 +702,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1bf8: ; ImmutableOopMap {[128]=Oop }
                       ;*invokevirtual draw {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@152 (line 99)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@152 (line 99)
   0x0000028ce64c1bf8: 04bb e7ff | 488b 9424 | 8000 0000 
 
   0x0000028ce64c1c04: ;   {metadata(method data for {method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
@@ -713,7 +713,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1c20: ; ImmutableOopMap {}
                       ;*invokestatic resetEntireButtonStyle {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@159 (line 101)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@159 (line 101)
   0x0000028ce64c1c20: fc31 fcff | 4881 c4b0 | 0000 005d 
 
   0x0000028ce64c1c2c: ;   {poll_return}
@@ -727,7 +727,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1c54: ; ImmutableOopMap {rdx=Oop [128]=Oop r8=Oop [136]=Oop r9=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@-1 (line 79)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@-1 (line 79)
   0x0000028ce64c1c54: 1607 e96c 
 
   0x0000028ce64c1c58: ;   {metadata({method} {0x0000028cc1ae28e8} 'getGameMode' '()Lcom/xbuilders/engine/gameScene/GameMode;' in 'com/xbuilders/engine/gameScene/GameScene')}
@@ -738,8 +738,8 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1c74: ; ImmutableOopMap {rdx=Oop [128]=Oop r8=Oop [136]=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.engine.gameScene.GameScene::getGameMode@-1 (line 69)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@0 (line 79)
+                      ; - com.xbuilders.engine.game.model.GameScene::getGameMode@-1 (line 69)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@0 (line 79)
   0x0000028ce64c1c74: 7b16 07e9 | 85ef ffff 
 
   0x0000028ce64c1c7c: ;   {metadata({method} {0x0000028cc2065828} 'nk_layout_row_dynamic' '(Lorg/lwjgl/nuklear/NkContext;FI)V' in 'org/lwjgl/nuklear/Nuklear')}
@@ -751,7 +751,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1c94: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop r8=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.Nuklear::nk_layout_row_dynamic@-1 (line 2311)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@21 (line 83)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@21 (line 83)
   0x0000028ce64c1c94: e87a 1607 | e9a5 f0ff 
 
   0x0000028ce64c1c9c: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -760,13 +760,13 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1ca0: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop r8=Oop }
                       ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_layout_row_dynamic@1 (line 2311)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@21 (line 83)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@21 (line 83)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce64c1ca0: 1607 e8f9 
 
   0x0000028ce64c1ca4: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop r8=Oop }
                       ;*invokevirtual isEmpty {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@49 (line 85)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@49 (line 85)
                       ;   {metadata({method} {0x0000028c800b68a0} 'isEmpty' '()Z' in 'java/util/HashMap')}
   0x0000028ce64c1ca4: 1a16 0749 | ba98 680b | 808c 0200 | 004c 8954 | 2408 48c7 | 0424 ffff 
 
@@ -776,7 +776,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1cc0: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop r8=Oop }
                       ;*synchronization entry
                       ; - java.util.HashMap::isEmpty@-1 (line 534)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@49 (line 85)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@49 (line 85)
   0x0000028ce64c1cc0: 7a16 07e9 | b7f2 ffff 
 
   0x0000028ce64c1cc8: ;   {metadata({method} {0x0000028cc2065828} 'nk_layout_row_dynamic' '(Lorg/lwjgl/nuklear/NkContext;FI)V' in 'org/lwjgl/nuklear/Nuklear')}
@@ -788,7 +788,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1ce0: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop rdi=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.Nuklear::nk_layout_row_dynamic@-1 (line 2311)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@68 (line 86)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@68 (line 86)
   0x0000028ce64c1ce0: 9c7a 1607 | e9f8 f3ff 
 
   0x0000028ce64c1ce8: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -797,19 +797,19 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1cec: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop rdi=Oop }
                       ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_layout_row_dynamic@1 (line 2311)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@68 (line 86)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@68 (line 86)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce64c1cec: 1607 e8ad 
 
   0x0000028ce64c1cf0: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop rsi=Oop }
                       ;*invokevirtual keySet {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@75 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@75 (line 87)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce64c1cf0: 1a16 07e8 
 
   0x0000028ce64c1cf4: ; ImmutableOopMap {[136]=Oop [128]=Oop rax=Oop }
                       ;*invokeinterface iterator {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@78 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@78 (line 87)
   0x0000028ce64c1cf4: a81a 1607 | 4889 0424 
 
   0x0000028ce64c1cfc: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
@@ -817,13 +817,13 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1d00: ; ImmutableOopMap {[136]=Oop [144]=Oop [128]=Oop }
                       ;*checkcast {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@99 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@99 (line 87)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce64c1d00: 07e8 9a1a 
 
   0x0000028ce64c1d04: ; ImmutableOopMap {[136]=Oop [144]=Oop rsi=Oop [128]=Oop r8=Oop }
                       ;*getfield name {reexecute=1 rethrow=0 return_oop=0}
-                      ; - (reexecute) com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@110 (line 88)
+                      ; - (reexecute) com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@110 (line 88)
                       ;   {metadata({method} {0x0000028cc265ea20} 'drawWindow' '(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex')}
   0x0000028ce64c1d04: 1607 49ba | 18ea 65c2 | 8c02 0000 | 4c89 5424 | 0848 c704 | 2475 0000 
 
@@ -832,7 +832,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1d20: ; ImmutableOopMap {[136]=Oop [144]=Oop [128]=Oop }
                       ;*goto {reexecute=1 rethrow=0 return_oop=0}
-                      ; - (reexecute) com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@117 (line 89)
+                      ; - (reexecute) com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@117 (line 89)
   0x0000028ce64c1d20: 1607 e90f 
 
   0x0000028ce64c1d24: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -840,7 +840,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1d28: ; ImmutableOopMap {[136]=Oop rax=Oop [144]=Oop [128]=Oop }
                       ;*invokeinterface hasNext {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@85 (line 87)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@85 (line 87)
   0x0000028ce64c1d28: 741a 1607 
 
   0x0000028ce64c1d2c: ;   {metadata({method} {0x0000028c800dd010} 'linkToTargetMethod' '(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;' in 'java/lang/invoke/Invokers$Holder')}
@@ -852,7 +852,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1d44: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop rsi=Oop rdi=Oop }
                       ;*synchronization entry
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@-1
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
   0x0000028ce64c1d44: 387a 1607 | e995 f9ff 
 
   0x0000028ce64c1d4c: ;   {metadata({method} {0x0000028c800dc9c0} 'newInvokeSpecial' '(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;' in 'java/lang/invoke/DirectMethodHandle$Holder')}
@@ -865,7 +865,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
                       ;*synchronization entry
                       ; - java.lang.invoke.DirectMethodHandle$Holder::newInvokeSpecial@-1
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@5
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
   0x0000028ce64c1d68: 07e9 d4f9 
 
   0x0000028ce64c1d6c: ;   {metadata({method} {0x0000028c803a0760} 'allocateInstance' '(Ljava/lang/Object;)Ljava/lang/Object;' in 'java/lang/invoke/DirectMethodHandle')}
@@ -879,7 +879,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
                       ; - java.lang.invoke.DirectMethodHandle::allocateInstance@-1 (line 519)
                       ; - java.lang.invoke.DirectMethodHandle$Holder::newInvokeSpecial@1
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@5
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
   0x0000028ce64c1d88: 1607 e915 
 
   0x0000028ce64c1d8c: ;   {metadata({method} {0x0000028c803a1208} 'constructorMethod' '(Ljava/lang/Object;)Ljava/lang/Object;' in 'java/lang/invoke/DirectMethodHandle')}
@@ -893,7 +893,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
                       ; - java.lang.invoke.DirectMethodHandle::constructorMethod@-1 (line 513)
                       ; - java.lang.invoke.DirectMethodHandle$Holder::newInvokeSpecial@6
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@5
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
   0x0000028ce64c1da8: 7916 07e9 | cafa ffff 
 
   0x0000028ce64c1db0: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -903,7 +903,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
                       ;*invokestatic linkToSpecial {reexecute=0 rethrow=0 return_oop=0}
                       ; - java.lang.invoke.DirectMethodHandle$Holder::newInvokeSpecial@16
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@5
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
                       ;   {metadata({method} {0x0000028cc2c940d0} '<init>' '(Lcom/xbuilders/game/vanilla/ui/UI_RecipeIndex;)V' in 'com/xbuilders/game/vanilla/ui/UI_RecipeIndex$$Lambda$407+0x0000028c813132d8')}
   0x0000028ce64c1db4: 0749 bac8 | 40c9 c28c | 0200 004c | 8954 2408 | 48c7 0424 | ffff ffff 
 
@@ -912,10 +912,10 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1dd0: ; ImmutableOopMap {[136]=Oop [128]=Oop [160]=Oop rax=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex$$Lambda$407/0x0000028c813132d8::<init>@-1
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex$$Lambda$407/0x0000028c813132d8::<init>@-1
                       ; - java.lang.invoke.DirectMethodHandle$Holder::newInvokeSpecial@16
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@5
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
   0x0000028ce64c1dd0: 07e9 14fb 
 
   0x0000028ce64c1dd4: ;   {metadata({method} {0x0000028c80441450} '<init>' '()V' in 'java/lang/Object')}
@@ -927,10 +927,10 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1df0: ; ImmutableOopMap {[136]=Oop [128]=Oop [160]=Oop rax=Oop }
                       ;*synchronization entry
                       ; - java.lang.Object::<init>@-1 (line 44)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex$$Lambda$407/0x0000028c813132d8::<init>@1
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex$$Lambda$407/0x0000028c813132d8::<init>@1
                       ; - java.lang.invoke.DirectMethodHandle$Holder::newInvokeSpecial@16
                       ; - java.lang.invoke.Invokers$Holder::linkToTargetMethod@5
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@125 (line 90)
   0x0000028ce64c1df0: 1607 e932 | fbff ff44 | 8b40 0c49 | 83f8 000f | 8433 fbff | ff4c 8904 
 
   0x0000028ce64c1e08: ;   {runtime_call g1_pre_barrier_slow}
@@ -944,7 +944,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 
   0x0000028ce64c1e2c: ; ImmutableOopMap {[136]=Oop rax=Oop rdx=Oop [128]=Oop rsi=Oop }
                       ;*invokevirtual forEach {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@130 (line 90)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@130 (line 90)
   0x0000028ce64c1e2c: 7019 1607 
 
   0x0000028ce64c1e30: ;   {metadata({method} {0x0000028cc2079468} 'nk_group_end' '(Lorg/lwjgl/nuklear/NkContext;)V' in 'org/lwjgl/nuklear/Nuklear')}
@@ -956,7 +956,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1e48: ; ImmutableOopMap {rdx=Oop [128]=Oop [136]=Oop rsi=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.Nuklear::nk_group_end@-1 (line 2709)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@137 (line 97)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@137 (line 97)
   0x0000028ce64c1e48: 3479 1607 | e9a0 fcff 
 
   0x0000028ce64c1e50: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -965,13 +965,13 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
   0x0000028ce64c1e54: ; ImmutableOopMap {rdx=Oop [128]=Oop [136]=Oop rsi=Oop }
                       ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_group_end@1 (line 2709)
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@137 (line 97)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@137 (line 97)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce64c1e54: 1607 e845 
 
   0x0000028ce64c1e58: ; ImmutableOopMap {[136]=Oop rdx=Oop [128]=Oop rsi=Oop r8=Oop }
                       ;*invokevirtual draw {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.game.vanilla.ui.UI_RecipeIndex::drawWindow@152 (line 99)
+                      ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@152 (line 99)
                       ;   {internal_word}
   0x0000028ce64c1e58: 1916 0749 | ba2c 1c4c | e68c 0200 | 004d 8997 | 6803 0000 
 
@@ -1086,7 +1086,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.game.vanilla.ui.UI
 [/MachCode]
 
 
-Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw (231 bytes)
+Compiled method (c1)   15722 5043       3       com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw (231 bytes)
  total in heap  [0x0000028ce6511c90,0x0000028ce6514060] = 9168
  relocation     [0x0000028ce6511de8,0x0000028ce6511ff0] = 520
  constants      [0x0000028ce6512000,0x0000028ce6512020] = 32
@@ -1148,7 +1148,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6512188: ; ImmutableOopMap {[176]=Oop [184]=Oop }
                       ;*invokestatic glfwSetInputMode {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@18 (line 64)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@18 (line 64)
   0x0000028ce6512188: 34ef 0b00 | 488b 9424 | b000 0000 
 
   0x0000028ce6512194: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1159,7 +1159,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce65121b0: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokestatic resetEntireButtonStyle {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@25 (line 66)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@25 (line 66)
   0x0000028ce65121b0: 6c2c f7ff | 488b 9424 | b000 0000 
 
   0x0000028ce65121bc: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1170,7 +1170,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce65121d8: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokestatic resetWindowColor {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@32 (line 67)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@32 (line 67)
   0x0000028ce65121d8: a43e e1ff | 488b 9424 | b000 0000 | 448b 4210 
 
   0x0000028ce65121e8: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1222,8 +1222,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkStyle::create@3 (line 390)
                       ; - org.lwjgl.nuklear.NkContext::nstyle@6 (line 235)
                       ; - org.lwjgl.nuklear.NkContext::style@4 (line 152)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@1 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@1 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce65123a8: 7480 5c07 | 4883 f800 
 
   0x0000028ce65123b0: ;   {metadata(method data for {method} {0x0000028cc1937848} 'create' '(J)Lorg/lwjgl/nuklear/NkStyle;' in 'org/lwjgl/nuklear/NkStyle')}
@@ -1286,8 +1286,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkStyleWindow::create@3 (line 463)
                       ; - org.lwjgl.nuklear.NkStyle::nwindow@6 (line 549)
                       ; - org.lwjgl.nuklear.NkStyle::window@4 (line 222)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@4 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@4 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6512620: fc7d 5c07 | 4883 f800 
 
   0x0000028ce6512628: ;   {metadata(method data for {method} {0x0000028cc19ad708} 'create' '(J)Lorg/lwjgl/nuklear/NkStyleWindow;' in 'org/lwjgl/nuklear/NkStyleWindow')}
@@ -1350,8 +1350,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkVec2::create@3 (line 120)
                       ; - org.lwjgl.nuklear.NkStyleWindow::npadding@6 (line 622)
                       ; - org.lwjgl.nuklear.NkStyleWindow::padding@4 (line 241)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@7 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@7 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6512898: 847b 5c07 | 4883 f800 
 
   0x0000028ce65128a0: ;   {metadata(method data for {method} {0x0000028cc19305f0} 'create' '(J)Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkVec2')}
@@ -1404,8 +1404,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ;*invokestatic nx {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.NkVec2::x@5 (line 73)
                       ; - org.lwjgl.nuklear.NkVec2::set@2 (line 82)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@14 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@14 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6512ad0: 2c54 6907 | 488b b424 | c000 0000 
 
   0x0000028ce6512adc: ;   {metadata(method data for {method} {0x0000028cc19302d8} 'set' '(FF)Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkVec2')}
@@ -1436,8 +1436,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ;*invokestatic ny {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.NkVec2::y@5 (line 75)
                       ; - org.lwjgl.nuklear.NkVec2::set@8 (line 83)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@14 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@14 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6512be0: 1c4e 6907 | 488b 9424 | b000 0000 | 448b 4210 
 
   0x0000028ce6512bf0: ;   {oop(a 'java/lang/Class'{0x00000000844249f0} = 'com/xbuilders/engine/ui/Theme')}
@@ -1472,7 +1472,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce6512d98: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokestatic nnk_style_set_font {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_style_set_font@8 (line 6817)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
   0x0000028ce6512d98: a456 6707 | 488b 9424 | b000 0000 | 8b72 1448 | 3b06 488b 
 
   0x0000028ce6512dac: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1507,7 +1507,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6512fb0: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokestatic nk_rect {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@112 (line 71)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@112 (line 71)
   0x0000028ce6512fb0: 0cb1 b7ff | 488b 9424 | b000 0000 | 448b 4210 | 448b 4a28 
 
   0x0000028ce6512fc4: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1517,7 +1517,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6512fe8: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokestatic nk_begin {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@130 (line 75)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@130 (line 75)
   0x0000028ce6512fe8: 7422 1c00 
 
   0x0000028ce6512fec: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1536,7 +1536,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce65130e0: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokevirtual drawWindow {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@142 (line 77)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@142 (line 77)
   0x0000028ce65130e0: 7cda faff | 488b 9424 | b000 0000 | 8b72 2048 
 
   0x0000028ce65130f0: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1556,7 +1556,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce65131d8: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokevirtual drawItemAtCursor {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@166 (line 78)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@166 (line 78)
   0x0000028ce65131d8: a4e1 0607 | 488b 9424 | b000 0000 
 
   0x0000028ce65131e4: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1582,7 +1582,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce65132d8: ; ImmutableOopMap {[184]=Oop [176]=Oop }
                       ;*invokestatic nnk_end {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_end@4 (line 1459)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@173 (line 80)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@173 (line 80)
   0x0000028ce65132d8: e409 6807 | 488b 9424 | b000 0000 | 8b72 2048 
 
   0x0000028ce65132e8: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1601,7 +1601,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce65133d0: ; ImmutableOopMap {[176]=Oop }
                       ;*invokevirtual drawOutOfBoundsStackAtCursor {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@197 (line 83)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@197 (line 83)
   0x0000028ce65133d0: acdf 0607 | 488b 9424 | b000 0000 | 448b 4210 
 
   0x0000028ce65133e0: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1612,7 +1612,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6513400: ; ImmutableOopMap {[176]=Oop }
                       ;*invokestatic nk_window_is_hidden {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@208 (line 86)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@208 (line 86)
   0x0000028ce6513400: bcc4 faff 
 
   0x0000028ce6513404: ;   {metadata(method data for {method} {0x0000028cc264e890} 'draw' '(Lorg/lwjgl/system/MemoryStack;)V' in 'com/xbuilders/engine/ui/gameScene/items/UI_ItemWindow')}
@@ -1635,7 +1635,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6513520: ; ImmutableOopMap {[176]=Oop }
                       ;*invokevirtual onCloseEvent {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@222 (line 87)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@222 (line 87)
   0x0000028ce6513520: 5ce1 0607 | 488b 9424 | b000 0000 | c642 0d00 | 4881 c4d0 | 0000 005d 
 
   0x0000028ce6513538: ;   {poll_return}
@@ -1649,7 +1649,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6513560: ; ImmutableOopMap {rdx=Oop [176]=Oop r8=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@-1 (line 63)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@-1 (line 63)
   0x0000028ce6513560: 1107 e91a 
 
   0x0000028ce6513564: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -1657,7 +1657,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6513568: ; ImmutableOopMap {rdx=Oop [176]=Oop [184]=Oop r9=Oop }
                       ;*invokevirtual getWindow {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@11 (line 64)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@11 (line 64)
   0x0000028ce6513568: 3402 1107 
 
   0x0000028ce651356c: ;   {metadata({method} {0x0000028cc20dd120} 'resetWindowPadding' '(Lorg/lwjgl/nuklear/NkContext;)V' in 'com/xbuilders/engine/ui/Theme')}
@@ -1668,8 +1668,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6513584: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop r8=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@-1 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@-1 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6513584: f861 1107 | e995 ecff 
 
   0x0000028ce651358c: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -1677,8 +1677,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6513590: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop r8=Oop }
                       ;*invokevirtual style {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@1 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@1 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
                       ;   {metadata({method} {0x0000028cc1924298} 'style' '()Lorg/lwjgl/nuklear/NkStyle;' in 'org/lwjgl/nuklear/NkContext')}
   0x0000028ce6513590: 1107 49ba | 9042 92c1 | 8c02 0000 | 4c89 5424 | 0848 c704 | 24ff ffff 
 
@@ -1688,8 +1688,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce65135ac: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop r8=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkContext::style@-1 (line 152)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@1 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@1 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce65135ac: 1107 e9af 
 
   0x0000028ce65135b0: ;   {metadata({method} {0x0000028cc1925020} 'nstyle' '(J)Lorg/lwjgl/nuklear/NkStyle;' in 'org/lwjgl/nuklear/NkContext')}
@@ -1702,8 +1702,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkContext::nstyle@-1 (line 235)
                       ; - org.lwjgl.nuklear.NkContext::style@4 (line 152)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@1 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@1 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce65135cc: 6111 07e9 | 67ed ffff 
 
   0x0000028ce65135d4: ;   {metadata({method} {0x0000028cc1937848} 'create' '(J)Lorg/lwjgl/nuklear/NkStyle;' in 'org/lwjgl/nuklear/NkStyle')}
@@ -1717,8 +1717,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkStyle::create@-1 (line 390)
                       ; - org.lwjgl.nuklear.NkContext::nstyle@6 (line 235)
                       ; - org.lwjgl.nuklear.NkContext::style@4 (line 152)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@1 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@1 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce65135ec: 9061 1107 | e98c edff | ff48 8904 
 
   0x0000028ce65135f8: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
@@ -1729,15 +1729,15 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkStyle::create@6 (line 390)
                       ; - org.lwjgl.nuklear.NkContext::nstyle@6 (line 235)
                       ; - org.lwjgl.nuklear.NkContext::style@4 (line 152)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@1 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@1 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce65135fc: 1107 e89d 
 
   0x0000028ce6513600: ; ImmutableOopMap {[184]=Oop [176]=Oop rdx=Oop }
                       ;*invokevirtual window {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@4 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@4 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
                       ;   {metadata({method} {0x0000028cc1935198} 'window' '()Lorg/lwjgl/nuklear/NkStyleWindow;' in 'org/lwjgl/nuklear/NkStyle')}
   0x0000028ce6513600: 0111 0749 | ba90 5193 | c18c 0200 | 004c 8954 | 2408 48c7 | 0424 ffff 
 
@@ -1747,8 +1747,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce651361c: ; ImmutableOopMap {[184]=Oop [176]=Oop rdx=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkStyle::window@-1 (line 222)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@4 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@4 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce651361c: 6111 07e9 | bcee ffff 
 
   0x0000028ce6513624: ;   {metadata({method} {0x0000028cc1939538} 'nwindow' '(J)Lorg/lwjgl/nuklear/NkStyleWindow;' in 'org/lwjgl/nuklear/NkStyle')}
@@ -1761,8 +1761,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkStyle::nwindow@-1 (line 549)
                       ; - org.lwjgl.nuklear.NkStyle::window@4 (line 222)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@4 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@4 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce651363c: 4061 1107 | e973 efff 
 
   0x0000028ce6513644: ;   {metadata({method} {0x0000028cc19ad708} 'create' '(J)Lorg/lwjgl/nuklear/NkStyleWindow;' in 'org/lwjgl/nuklear/NkStyleWindow')}
@@ -1776,8 +1776,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkStyleWindow::create@-1 (line 463)
                       ; - org.lwjgl.nuklear.NkStyle::nwindow@6 (line 549)
                       ; - org.lwjgl.nuklear.NkStyle::window@4 (line 222)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@4 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@4 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6513660: 07e9 96ef | ffff 4889 
 
   0x0000028ce6513668: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
@@ -1788,15 +1788,15 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkStyleWindow::create@6 (line 463)
                       ; - org.lwjgl.nuklear.NkStyle::nwindow@6 (line 549)
                       ; - org.lwjgl.nuklear.NkStyle::window@4 (line 222)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@4 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@4 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce651366c: 3111 07e8 
 
   0x0000028ce6513670: ; ImmutableOopMap {[184]=Oop [176]=Oop rdx=Oop }
                       ;*invokevirtual padding {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@7 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@7 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6513670: 2c01 1107 
 
   0x0000028ce6513674: ;   {metadata({method} {0x0000028cc19aa740} 'padding' '()Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkStyleWindow')}
@@ -1808,8 +1808,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce651368c: ; ImmutableOopMap {[184]=Oop [176]=Oop rdx=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkStyleWindow::padding@-1 (line 241)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@7 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@7 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce651368c: f060 1107 | e9c3 f0ff 
 
   0x0000028ce6513694: ;   {metadata({method} {0x0000028cc19af468} 'npadding' '(J)Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkStyleWindow')}
@@ -1822,8 +1822,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkStyleWindow::npadding@-1 (line 622)
                       ; - org.lwjgl.nuklear.NkStyleWindow::padding@4 (line 241)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@7 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@7 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce65136b0: 07e9 7af1 
 
   0x0000028ce65136b4: ;   {metadata({method} {0x0000028cc19305f0} 'create' '(J)Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkVec2')}
@@ -1837,8 +1837,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkVec2::create@-1 (line 120)
                       ; - org.lwjgl.nuklear.NkStyleWindow::npadding@6 (line 622)
                       ; - org.lwjgl.nuklear.NkStyleWindow::padding@4 (line 241)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@7 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@7 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce65136d0: 1107 e99d | f1ff ff48 
 
   0x0000028ce65136d8: ;   {runtime_call throw_class_cast_exception Runtime1 stub}
@@ -1849,8 +1849,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ; - org.lwjgl.nuklear.NkVec2::create@6 (line 120)
                       ; - org.lwjgl.nuklear.NkStyleWindow::npadding@6 (line 622)
                       ; - org.lwjgl.nuklear.NkStyleWindow::padding@4 (line 241)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@7 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@7 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce65136dc: c030 1107 
 
   0x0000028ce65136e0: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -1858,8 +1858,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce65136e4: ; ImmutableOopMap {[184]=Oop [176]=Oop rsi=Oop [192]=Oop }
                       ;*invokevirtual set {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@14 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@14 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
                       ;   {metadata({method} {0x0000028cc19302d8} 'set' '(FF)Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkVec2')}
   0x0000028ce65136e4: 0749 bad0 | 0293 c18c | 0200 004c | 8954 2408 | 48c7 0424 | ffff ffff 
 
@@ -1869,8 +1869,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce6513700: ; ImmutableOopMap {[184]=Oop [176]=Oop rsi=Oop [192]=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkVec2::set@-1 (line 82)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@14 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@14 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6513700: 07e9 cff2 
 
   0x0000028ce6513704: ;   {metadata({method} {0x0000028cc1930160} 'x' '(F)Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkVec2')}
@@ -1883,8 +1883,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkVec2::x@-1 (line 73)
                       ; - org.lwjgl.nuklear.NkVec2::set@2 (line 82)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@14 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@14 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6513720: 1107 e9eb 
 
   0x0000028ce6513724: ;   {metadata({method} {0x0000028cc1930210} 'y' '(F)Lorg/lwjgl/nuklear/NkVec2;' in 'org/lwjgl/nuklear/NkVec2')}
@@ -1897,8 +1897,8 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.NkVec2::y@-1 (line 75)
                       ; - org.lwjgl.nuklear.NkVec2::set@8 (line 83)
-                      ; - com.xbuilders.engine.ui.Theme::resetWindowPadding@14 (line 128)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
+                      ; - com.xbuilders.engine.client.visuals.ui.Theme::resetWindowPadding@14 (line 128)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@39 (line 68)
   0x0000028ce6513740: 6011 07e9 | cef3 ffff 
 
   0x0000028ce6513748: ;   {metadata({method} {0x0000028cc2097838} 'nk_style_set_font' '(Lorg/lwjgl/nuklear/NkContext;Lorg/lwjgl/nuklear/NkUserFont;)V' in 'org/lwjgl/nuklear/Nuklear')}
@@ -1910,7 +1910,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce6513760: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop r8=Oop rsi=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.Nuklear::nk_style_set_font@-1 (line 6817)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
   0x0000028ce6513760: 1c60 1107 | e9d1 f4ff 
 
   0x0000028ce6513768: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -1919,20 +1919,20 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce651376c: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop r8=Oop rsi=Oop }
                       ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_style_set_font@1 (line 6817)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce651376c: 1107 e82d 
 
   0x0000028ce6513770: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop rsi=Oop }
                       ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_style_set_font@5 (line 6817)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@49 (line 69)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce6513770: 0011 07e8 
 
   0x0000028ce6513774: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop rsi=Oop }
                       ;*invokevirtual getWidth {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@56 (line 71)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@56 (line 71)
   0x0000028ce6513774: 2800 1107 
 
   0x0000028ce6513778: ;   {runtime_call throw_div0_exception Runtime1 stub}
@@ -1940,25 +1940,25 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce651377c: ; ImmutableOopMap {[184]=Oop rsi=Oop rbx=Oop [176]=Oop }
                       ;*idiv {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@60 (line 71)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@60 (line 71)
                       ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
   0x0000028ce651377c: 07e8 1e00 
 
   0x0000028ce6513780: ; ImmutableOopMap {[184]=Oop rsi=Oop rbx=Oop [176]=Oop rcx=Oop }
                       ;*getfield x {reexecute=1 rethrow=0 return_oop=0}
-                      ; - (reexecute) com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@65 (line 71)
+                      ; - (reexecute) com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@65 (line 71)
                       ;   {runtime_call throw_div0_exception Runtime1 stub}
   0x0000028ce6513780: 1107 e819 
 
   0x0000028ce6513784: ; ImmutableOopMap {[184]=Oop rsi=Oop rbx=Oop [176]=Oop rcx=Oop }
                       ;*idiv {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@69 (line 71)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@69 (line 71)
                       ;   {runtime_call throw_div0_exception Runtime1 stub}
   0x0000028ce6513784: fd10 07e8 
 
   0x0000028ce6513788: ; ImmutableOopMap {[184]=Oop rbx=Oop [176]=Oop rcx=Oop }
                       ;*idiv {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@80 (line 72)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@80 (line 72)
   0x0000028ce6513788: 14fd 1007 
 
   0x0000028ce651378c: ;   {runtime_call throw_div0_exception Runtime1 stub}
@@ -1966,7 +1966,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
 
   0x0000028ce6513790: ; ImmutableOopMap {[184]=Oop rbx=Oop [176]=Oop }
                       ;*idiv {reexecute=0 rethrow=0 return_oop=0}
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@89 (line 72)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@89 (line 72)
                       ;   {metadata({method} {0x0000028cc2073950} 'nk_end' '(Lorg/lwjgl/nuklear/NkContext;)V' in 'org/lwjgl/nuklear/Nuklear')}
   0x0000028ce6513790: 0749 ba48 | 3907 c28c | 0200 004c | 8954 2408 | 48c7 0424 | ffff ffff 
 
@@ -1976,7 +1976,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce65137ac: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop rsi=Oop }
                       ;*synchronization entry
                       ; - org.lwjgl.nuklear.Nuklear::nk_end@-1 (line 1459)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@173 (line 80)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@173 (line 80)
   0x0000028ce65137ac: 07e9 6ffa 
 
   0x0000028ce65137b0: ;   {runtime_call throw_null_pointer_exception Runtime1 stub}
@@ -1985,7 +1985,7 @@ Compiled method (c1)   15722 5043       3       com.xbuilders.engine.ui.gameScen
   0x0000028ce65137b4: ; ImmutableOopMap {[184]=Oop rdx=Oop [176]=Oop rsi=Oop }
                       ;*invokevirtual address {reexecute=0 rethrow=0 return_oop=0}
                       ; - org.lwjgl.nuklear.Nuklear::nk_end@1 (line 1459)
-                      ; - com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow::draw@173 (line 80)
+                      ; - com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow::draw@173 (line 80)
                       ;   {internal_word}
   0x0000028ce65137b4: ff10 0749 | ba38 3551 | e68c 0200 | 004d 8997 | 6803 0000 
 
@@ -2478,21 +2478,21 @@ CodeHeap 'non-nmethods': size=5760Kb used=2033Kb max_used=2108Kb free=3726Kb
  full_count=0
 
 Compilation events (20 events):
-Event: 15.144 Thread 0x0000028cfcb5fdb0 5132       3       com.xbuilders.engine.gameScene.LivePropagationHandler::update (76 bytes)
+Event: 15.144 Thread 0x0000028cfcb5fdb0 5132       3       com.xbuilders.engine.game.model.LivePropagationHandler::update (76 bytes)
 Event: 15.144 Thread 0x0000028cfcb5fdb0 nmethod 5132 0x0000028ce633a990 code [0x0000028ce633aba0, 0x0000028ce633b338]
-Event: 15.144 Thread 0x0000028cfcb5fdb0 5138       3       com.xbuilders.engine.world.World::drawChunks (613 bytes)
+Event: 15.144 Thread 0x0000028cfcb5fdb0 5138       3       com.xbuilders.engine.game.model.world.World::drawChunks (613 bytes)
 Event: 15.147 Thread 0x0000028cfcb5fdb0 nmethod 5138 0x0000028ce6332210 code [0x0000028ce6332bc0, 0x0000028ce63388a8]
-Event: 15.147 Thread 0x0000028cfcb5fdb0 5133   !   3       com.xbuilders.engine.ui.gameScene.GameUI::draw (161 bytes)
+Event: 15.147 Thread 0x0000028cfcb5fdb0 5133   !   3       com.xbuilders.engine.client.visuals.ui.gameScene.GameUI::draw (161 bytes)
 Event: 15.147 Thread 0x0000028cfcb5fdb0 nmethod 5133 0x0000028ce62f7f90 code [0x0000028ce62f82e0, 0x0000028ce62f9518]
-Event: 15.147 Thread 0x0000028cfcb5fdb0 5134       3       com.xbuilders.engine.ui.gameScene.GameUI::releaseMouse (61 bytes)
+Event: 15.147 Thread 0x0000028cfcb5fdb0 5134       3       com.xbuilders.engine.client.visuals.ui.gameScene.GameUI::releaseMouse (61 bytes)
 Event: 15.148 Thread 0x0000028cfcb5fdb0 nmethod 5134 0x0000028ce6331810 code [0x0000028ce6331a20, 0x0000028ce6331f88]
-Event: 15.148 Thread 0x0000028cfcb5fdb0 5135       3       com.xbuilders.engine.player.pipeline.BlockEventPipeline::update (231 bytes)
+Event: 15.148 Thread 0x0000028cfcb5fdb0 5135       3       com.xbuilders.engine.game.model.player.pipeline.BlockEventPipeline::update (231 bytes)
 Event: 15.148 Thread 0x0000028cfcb5fdb0 nmethod 5135 0x0000028ce62f5f90 code [0x0000028ce62f62e0, 0x0000028ce62f7938]
-Event: 15.148 Thread 0x0000028cfcb5fdb0 5136       3       com.xbuilders.engine.player.UserControlledPlayer::update (1245 bytes)
+Event: 15.148 Thread 0x0000028cfcb5fdb0 5136       3       com.xbuilders.engine.game.model.player.UserControlledPlayer::update (1245 bytes)
 Event: 15.151 Thread 0x0000028cfcb5fdb0 nmethod 5136 0x0000028ce62ee290 code [0x0000028ce62eec20, 0x0000028ce62f43c8]
-Event: 15.151 Thread 0x0000028cfcb5fdb0 5137       3       com.xbuilders.engine.multiplayer.GameServer::updatePlayers (40 bytes)
+Event: 15.151 Thread 0x0000028cfcb5fdb0 5137       3       com.xbuilders.engine.game.multiplayer.GameServer::updatePlayers (40 bytes)
 Event: 15.152 Thread 0x0000028cfcb5fdb0 nmethod 5137 0x0000028ce62ed690 code [0x0000028ce62ed880, 0x0000028ce62edfd8]
-Event: 15.257 Thread 0x0000028cfcb5fdb0 5139       3       com.xbuilders.engine.player.raycasting.RayCasting::getRayNormalFromAABB (299 bytes)
+Event: 15.257 Thread 0x0000028cfcb5fdb0 5139       3       com.xbuilders.engine.game.model.player.raycasting.RayCasting::getRayNormalFromAABB (299 bytes)
 Event: 15.257 Thread 0x0000028cfcb5fdb0 nmethod 5139 0x0000028ce62ec390 code [0x0000028ce62ec660, 0x0000028ce62ed268]
 Event: 15.357 Thread 0x0000028cfcb5df40 5140       4       org.joml.Math::invsqrt (9 bytes)
 Event: 15.359 Thread 0x0000028cfcb5fdb0 5141       3       java.io.BufferedWriter::ensureOpen (18 bytes)
@@ -2662,11 +2662,11 @@ Event: 3.509 Loaded shared library C:\Users\Patron\.jdks\corretto-17.0.13\bin\su
 
 Deoptimization events (20 events):
 Event: 8.185 Thread 0x0000028cde4b5600 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000028cedd8e510 relative=0x0000000000000b30
-Event: 8.185 Thread 0x0000028cde4b5600 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000028cedd8e510 method=com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh.drawVisible(Z)V @ 26 c2
+Event: 8.185 Thread 0x0000028cde4b5600 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000028cedd8e510 method=com.xbuilders.engine.client.visuals.rendering.chunk.mesh.CompactOcclusionMesh.drawVisible(Z)V @ 26 c2
 Event: 8.185 Thread 0x0000028cde4b5600 DEOPT PACKING pc=0x0000028cedd8e510 sp=0x000000eadaeff000
 Event: 8.185 Thread 0x0000028cde4b5600 DEOPT UNPACKING pc=0x0000028ced5869a3 sp=0x000000eadaefeee0 mode 2
 Event: 8.185 Thread 0x0000028cde4b5600 Uncommon trap: trap_request=0xffffff45 fr.pc=0x0000028cedd90364 relative=0x0000000000000b24
-Event: 8.185 Thread 0x0000028cde4b5600 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000028cedd90364 method=com.xbuilders.engine.rendering.chunk.mesh.CompactOcclusionMesh.drawVisible(Z)V @ 26 c2
+Event: 8.185 Thread 0x0000028cde4b5600 Uncommon trap: reason=unstable_if action=reinterpret pc=0x0000028cedd90364 method=com.xbuilders.engine.client.visuals.rendering.chunk.mesh.CompactOcclusionMesh.drawVisible(Z)V @ 26 c2
 Event: 8.185 Thread 0x0000028cde4b5600 DEOPT PACKING pc=0x0000028cedd90364 sp=0x000000eadaefef60
 Event: 8.185 Thread 0x0000028cde4b5600 DEOPT UNPACKING pc=0x0000028ced5869a3 sp=0x000000eadaefeed0 mode 2
 Event: 8.567 Thread 0x0000028cde4b5600 DEOPT PACKING pc=0x0000028ce60b22ca sp=0x000000eadaeff070

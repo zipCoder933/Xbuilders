@@ -1,15 +1,15 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
-import com.xbuilders.engine.items.block.BlockRegistry;
-import com.xbuilders.engine.items.Registrys;
-import com.xbuilders.engine.items.block.construction.BlockType;
-import com.xbuilders.engine.world.chunk.BlockData;
-import com.xbuilders.engine.world.chunk.Chunk;
-import com.xbuilders.engine.items.block.Block;
+import com.xbuilders.engine.game.model.items.block.BlockRegistry;
+import com.xbuilders.engine.game.model.items.Registrys;
+import com.xbuilders.engine.game.model.items.block.construction.BlockType;
+import com.xbuilders.engine.game.model.world.chunk.BlockData;
+import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.game.model.items.block.Block;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.world.World;
-import com.xbuilders.engine.world.wcc.WCCi;
+import com.xbuilders.engine.game.model.world.World;
+import com.xbuilders.engine.game.model.world.wcc.WCCi;
 
 import java.util.HashSet;
 
