@@ -142,7 +142,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
-        if (currentAction.type == AnimalAction.ActionType.IDLE
+        if (currentAction != null && currentAction.type == AnimalAction.ActionType.IDLE
                 && sittingBody != null
                 && currentAction.duration > 1000) {
             drawSitting();

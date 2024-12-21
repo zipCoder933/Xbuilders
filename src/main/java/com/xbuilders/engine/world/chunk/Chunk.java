@@ -389,7 +389,7 @@ public class Chunk {
     private static final float RANDOM_TICK_LIKELIHOOD = 0.008f;
 
     private static final float DEV_RANDOM_SPAWN_LIKELIHOOD = 0.00005f;
-    private static final float RANDOM_SPAWN_LIKELIHOOD = 0.00005f;
+    private static final float RANDOM_SPAWN_LIKELIHOOD = 0.00001f;
 
     public boolean tick(boolean spawnEntities) {
         boolean updatedAnything = false;

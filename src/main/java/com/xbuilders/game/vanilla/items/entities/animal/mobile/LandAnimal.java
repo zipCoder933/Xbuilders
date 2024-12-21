@@ -5,6 +5,7 @@ import com.xbuilders.engine.gameScene.GameScene;
 import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.game.vanilla.items.Blocks;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,24 +27,22 @@ public abstract class LandAnimal extends Animal {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
             Block floor = GameScene.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
-            if (floor.solid) return true;
+            if (floor.solid && GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
             return false;
         };
         entitySupplier.isAutonomous = true;
     }
 
-    //TODO: The animals diverges because we are not sharing the full state
-    //We need to be sharing the current action and the exact state of the random generator
-    //The current action should only be sent when we want to change it. But i dont think it would be a bad idea to just send it whenever we come across it
-    //The random numbers are not synced, even though the random generator uses the same key, the time at which the random numbers were generated is different
     public void animal_writeState(ByteArrayOutputStream baos) throws IOException {
         if (currentAction != null) currentAction.toBytes(baos);
+        baos.write(tamed ? 1 : 0);
     }
 
     public void animal_readState(byte[] state, AtomicInteger start) {
         if (start.get() < state.length - 1) {
             currentAction = new AnimalAction().fromBytes(state, start);
         }
+        tamed = state[start.getAndIncrement()] == 1;
     }
 
     public void setActivity(float activity) {

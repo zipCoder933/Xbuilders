@@ -2,7 +2,6 @@ package com.xbuilders.game.vanilla.items.entities.animal.fish;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.gameScene.GameScene;
-import com.xbuilders.engine.items.block.Block;
 import com.xbuilders.engine.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.game.vanilla.items.Blocks;
@@ -93,7 +92,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
                 worldPosition.y = (float) MathUtils.curve(worldPosition.y, playerPos, 0.05f);
                 facePlayer();
                 if (distToPlayer < 3) {
-                    tameAnimal();
+                    tamed = true;
                     eatAnimalFeed();
                 }
             } else {

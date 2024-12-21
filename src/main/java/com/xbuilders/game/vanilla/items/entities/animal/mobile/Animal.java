@@ -30,6 +30,7 @@ public abstract class Animal extends Entity {
     public final Player player;
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
+    public boolean tamed = false;
 
     public boolean allowVoluntaryMovement() {
         return !multiplayerProps.controlledByAnotherPlayer;
@@ -43,16 +44,8 @@ public abstract class Animal extends Entity {
         return false;
     }
 
-    public void tameAnimal() {
-
-    }
-
     public void facePlayer() {
         setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
-    }
-
-    public boolean isTamed() {
-        return false;
     }
 
     public final byte[] entityState_toBytes() {
@@ -143,8 +136,12 @@ public abstract class Animal extends Entity {
     /**
      * @return the angle in radians
      */
+    public float getYDirectionToPlayer(Player player) {
+        return (float) (-MathUtils.calcRotationAngle(worldPosition.x, worldPosition.z, player.worldPosition.x, player.worldPosition.z) + MathUtils.HALF_PI);
+    }
+
     public float getYDirectionToPlayer() {
-        return (float) (-MathUtils.calcRotationAngle(worldPosition.x, worldPosition.z, GameScene.player.worldPosition.x, GameScene.player.worldPosition.z) + MathUtils.HALF_PI);
+        return getYDirectionToPlayer(GameScene.player);
     }
 
 

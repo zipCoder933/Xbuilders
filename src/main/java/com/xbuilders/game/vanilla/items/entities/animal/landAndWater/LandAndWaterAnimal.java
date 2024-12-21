@@ -131,7 +131,7 @@ public abstract class LandAndWaterAnimal extends Animal {
 
         if (distToPlayer < 5 && playerHasAnimalFeed()) {
             actionType = FOLLOW;
-            tameAnimal();
+            tamed = true;
             actionDuration = random.nextLong(4000, 25000);
             actionVelocity = getMaxSpeed() / 2;
         } else if (actionType == TURN) {
