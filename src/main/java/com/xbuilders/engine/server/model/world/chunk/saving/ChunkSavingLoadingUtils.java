@@ -277,8 +277,12 @@ public class ChunkSavingLoadingUtils {
 
     private static boolean hasEnding(byte[] allRemainingBytse) {
         byte[] endingBytes = new byte[ENDING_OF_CHUNK_FILE.length];
+
+        if(endingBytes.length > allRemainingBytse.length) return false;
+
         System.arraycopy(allRemainingBytse,
-                allRemainingBytse.length - endingBytes.length, endingBytes,
+                allRemainingBytse.length - endingBytes.length,
+                endingBytes,
                 0, endingBytes.length);
         return Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
     }
