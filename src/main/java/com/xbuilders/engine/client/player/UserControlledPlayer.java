@@ -189,6 +189,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         return inventory.get(selectedItemIndex);
     }
 
+    public void acquireItem(ItemStack itemStack) {
+        inventory.acquireItem(itemStack, selectedItemIndex);
+    }
+
     public final String PLAYER_DATA_FILE = "player.json";
 
     public void saveToWorld(WorldData worldData) {

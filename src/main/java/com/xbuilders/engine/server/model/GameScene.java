@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.server.model;
 
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.Entity;
@@ -186,14 +187,26 @@ public class GameScene implements WindowEvents {
     //Set entity =================================================================================
     public static Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Output output = new Output(byteArrayOutputStream);
         try {
-            byteArrayOutputStream.write(droppedFromPlayer ? 1 : 0);
-            ItemDrop.smileJsonMapper.writeValue(byteArrayOutputStream, item);
+            //Write boolean
+            Entity.kyro.writeObject(output, droppedFromPlayer);
+
+            //Write item stack
+            ByteArrayOutputStream jsonItemStack = new ByteArrayOutputStream();
+            ItemDrop.smileJsonMapper.writeValue(jsonItemStack, item);
+            jsonItemStack.close();
+            Entity.kyro.writeObject(output, jsonItemStack.toByteArray());
+            output.flush();
+
+            //Create the entity
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            return placeEntity(EntityRegistry.ENTITY_ITEM_DROP, position, bytes);
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ErrorHandler.report(e);
         }
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return placeEntity(EntityRegistry.ENTITY_ITEM_DROP, position, bytes);
+        return null;
     }
 
     public static Entity placeEntity(EntitySupplier entity, Vector3f w, byte[] data) {

@@ -92,20 +92,33 @@ public class StorageSpace {
     }
 
     public int acquireItem(ItemStack stack) {
-        for (int i = 0; i < list.length; i++) {
+        return acquireItem(stack, 0);
+    }
+
+    public int acquireItem(ItemStack stack, int start) {
+        if (start >= list.length) start = 0;
+
+        int index = attemptToAdd(stack, start);
+        if (index == -1 && start > 0) attemptToAdd(stack, 0);
+
+        changeEvent();
+        return -1;
+    }
+
+    private int attemptToAdd(ItemStack stack, int start) {
+        for (int i = start; i < list.length; i++) {
             if (list[i] != null && list[i].item.equals(stack.item)
                     && list[i].stackSize + stack.stackSize <= list[i].item.maxStackSize) {
                 list[i].stackSize += stack.stackSize;
                 return i;
             }
         }
-        for (int i = 0; i < list.length; i++) {
+        for (int i = start; i < list.length; i++) {
             if (list[i] == null) {
                 list[i] = stack;
                 return i;
             }
         }
-        changeEvent();
         return -1;
     }
 

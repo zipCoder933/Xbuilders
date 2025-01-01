@@ -143,6 +143,10 @@ public abstract class Entity {
 
     public final static Kryo kyro = new Kryo();
 
+    static {
+        Entity.kyro.register(byte[].class);
+    }
+
     /**
      * Used as another layer of abstraction to write definition data of entity.
      * If the entity has no data, we return the loaded bytes

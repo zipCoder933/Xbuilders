@@ -71,7 +71,7 @@ public class ItemDrop extends Entity {
             return;
         }
         try {
-            droppedFromPlayer = kyro.readObject(input, byte.class) == 1;
+            droppedFromPlayer = kyro.readObject(input, boolean.class);
             byte itemStack[] = kyro.readObject(input, byte[].class);
             stack = smileJsonMapper.readValue(itemStack, ItemStack.class);
             System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
@@ -147,7 +147,7 @@ public class ItemDrop extends Entity {
 
         if (animatedPos.distance(playerHeadPos) < 0.1 && canGet) {
             System.out.println("CONSUMED BY: " + GameScene.player.userInfo.name);
-            GameScene.player.inventory.acquireItem(stack);
+            GameScene.player.acquireItem(stack);
             System.out.println("DELETING ITEM DROP");
             destroy();
         }
