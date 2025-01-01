@@ -4,6 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
@@ -12,8 +15,8 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -35,13 +38,17 @@ public class Banner extends Entity {
 
 
     @Override
-    public void serialize(ByteArrayOutputStream baos) {
-        baos.writeBytes(new byte[]{(byte) xzOrientation, (byte) (againstFencepost ? 1 : 0)});
+    public void serialize(Output output, Kryo kyro) throws IOException {
+        super.serialize(output, kyro);//Always call super!
+        kyro.writeObject(output, (byte) xzOrientation);
+        kyro.writeObject(output, againstFencepost);
+        System.out.println("\t (pre) Entity bytes: " + Arrays.toString(output.toBytes()));
     }
 
     @Override
-    public void load(byte[] bytes, AtomicInteger start) {
-//            super.initializeOnDraw(bytes);
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);//Always call super!
+
         if (body == null) {
             try {
                 body = new EntityMesh();
@@ -54,9 +61,10 @@ public class Banner extends Entity {
             }
         }
 
-        if (bytes != null && bytes.length == 2) {
-            xzOrientation = bytes[0];
-            againstFencepost = (bytes[1] == 1);
+
+        if (input.available() > 0) {
+            xzOrientation = kyro.readObject(input, byte.class);
+            againstFencepost = kyro.readObject(input, boolean.class);
         } else {
             xzOrientation = GameScene.player.camera.simplifiedPanTilt.x;
             int wx = (int) worldPosition.x;

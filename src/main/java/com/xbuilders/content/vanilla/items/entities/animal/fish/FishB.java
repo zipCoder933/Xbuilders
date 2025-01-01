@@ -4,6 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -33,8 +35,9 @@ public class FishB extends FishAnimal {
 
     int textureIndex;
 
-    public void load(byte[] serializedBytes, AtomicInteger start) {
-        super.load(serializedBytes, start);//Always call super!
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);//Always call super!
+
         if (body == null) {
             body = new EntityMesh();
 
@@ -51,8 +54,9 @@ public class FishB extends FishAnimal {
             }
         }
 
-        if (serializedBytes.length > 0) {
-            textureIndex = MathUtils.clamp(serializedBytes[0], 0, textures.length - 1);
+        if (input.available() > 0) {
+            textureIndex = kyro.readObject(input, Integer.class);
+            textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }
 

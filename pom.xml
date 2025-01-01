@@ -110,6 +110,13 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Kyro -->
+        <!-- https://github.com/EsotericSoftware/kryo -->
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <version>5.6.2</version>
+        </dependency>
 
         <!-- Netty -->
         <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
@@ -120,11 +127,13 @@
         </dependency>
 
         <!-- Faster XML -->
+        <!-- SMILE data format -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-smile</artifactId>
             <version>2.18.1</version>
         </dependency>
+        <!-- core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

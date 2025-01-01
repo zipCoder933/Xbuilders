@@ -22,7 +22,7 @@ public class CraftingRecipes extends RecipeList<CraftingRecipe> {
 //        SimpleModule module = new SimpleModule();
 //        module.addDeserializer(CraftingRecipe.class, new CraftingRecipeDeserializer());
 //        module.addSerializer(CraftingRecipe.class, new CraftingRecipeSerializer());
-//        objectMapper.registerModule(module);
+//        smileJsonMapper.registerModule(module);
     }
 
     public ArrayList<CraftingRecipe> getFromOutput(Item outputID) {

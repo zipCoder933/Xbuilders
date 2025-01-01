@@ -4,6 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
@@ -14,6 +16,7 @@ import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Vector2f;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Vehicle extends Entity {
@@ -130,7 +133,7 @@ public abstract class Vehicle extends Entity {
     }
 
     @Override
-    public void load(byte[] bytes, AtomicInteger start) {
+    public void load(Input input, Kryo kyro) throws IOException {
         posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
     }
 

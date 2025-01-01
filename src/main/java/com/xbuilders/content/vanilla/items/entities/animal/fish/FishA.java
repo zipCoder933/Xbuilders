@@ -4,6 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -12,7 +15,6 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -33,13 +35,14 @@ public class FishA extends FishAnimal {
     int textureIndex;
 
     @Override
-    public void serialize(ByteArrayOutputStream baos) {
-        super.serialize(baos);
-        baos.write((byte) textureIndex);
+    public void serialize(Output output, Kryo kyro) throws IOException {
+        super.serialize(output, kyro);
+        kyro.writeObject(output, textureIndex);
     }
 
-    public void load(byte[] serializedBytes, AtomicInteger start) {
-        super.load(serializedBytes, start);//Always call super!
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);//Always call super!
+
         if (body == null) {
             body = new EntityMesh();
 
@@ -57,8 +60,9 @@ public class FishA extends FishAnimal {
             }
         }
 
-        if (serializedBytes.length > 0) {
-            textureIndex = MathUtils.clamp(serializedBytes[0], 0, textures.length - 1);
+        if (input.available() > 0) {
+            textureIndex = kyro.readObject(input, Integer.class);
+            textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }
 

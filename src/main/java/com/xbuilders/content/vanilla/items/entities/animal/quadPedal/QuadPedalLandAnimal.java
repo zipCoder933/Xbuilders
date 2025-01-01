@@ -1,5 +1,8 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.players.PositionLock;
@@ -14,7 +17,6 @@ import com.xbuilders.content.vanilla.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -78,14 +80,16 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     }
 
     @Override
-    public void serialize(ByteArrayOutputStream baos) {
-        super.serialize(baos);
-        baos.write((byte) textureIndex);
+    public void serialize(Output output, Kryo kyro) throws IOException {
+        super.serialize(output, kyro);
+        kyro.writeObject(output, textureIndex);
     }
 
 
     @Override
-    public void load(byte[] serializedBytes, AtomicInteger start) {
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);
+
         goForwardCallback = amount -> {
             legMovement += amount;
         };
@@ -102,8 +106,9 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             ErrorHandler.report(e);
         }
 
-        if (serializedBytes.length > 0) {
-            textureIndex = MathUtils.clamp(serializedBytes[0], 0, this.textures.length - 1);
+        if (input.available() > 0) {
+            textureIndex = kyro.readObject(input, int.class);
+            textureIndex = MathUtils.clamp(textureIndex, 0, this.textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(this.textures.length);
 
     }

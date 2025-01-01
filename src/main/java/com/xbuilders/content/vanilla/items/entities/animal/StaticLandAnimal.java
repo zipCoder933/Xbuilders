@@ -1,5 +1,8 @@
 package com.xbuilders.content.vanilla.items.entities.animal;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -9,7 +12,6 @@ import com.xbuilders.engine.utils.math.RandomUtils;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -27,11 +29,6 @@ public abstract class StaticLandAnimal extends LandAnimal {
         frustumSphereRadius = 2;
     }
 
-    @Override
-    public void serialize(ByteArrayOutputStream baos) {
-        super.serialize(baos);
-        baos.write((byte) textureIndex);
-    }
 
     public static class StaticLandAnimal_StaticData {
         public final EntityMesh body;
@@ -51,8 +48,15 @@ public abstract class StaticLandAnimal extends LandAnimal {
         }
     }
 
-    public void load(byte[] serializedBytes, AtomicInteger start) {
-        super.load(serializedBytes, start);
+    @Override
+    public void serialize(Output output, Kryo kyro) throws IOException {
+        super.serialize(output, kyro);
+        kyro.writeObject(output, textureIndex);
+    }
+
+
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);
 
         try {
             StaticLandAnimal_StaticData ead = getStaticData();
@@ -62,8 +66,9 @@ public abstract class StaticLandAnimal extends LandAnimal {
             ErrorHandler.report(e);
         }
 
-        if (serializedBytes.length > 0) {
-            textureIndex = MathUtils.clamp(serializedBytes[0], 0, textures.length - 1);
+        if (input.available() > 0) {
+            textureIndex = kyro.readObject(input, int.class);
+            textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }
 

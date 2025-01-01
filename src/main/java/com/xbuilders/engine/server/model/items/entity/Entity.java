@@ -4,6 +4,9 @@
  */
 package com.xbuilders.engine.server.model.items.entity;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.multiplayer.GameServer;
@@ -22,6 +25,7 @@ import org.joml.Vector3f;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -137,11 +141,44 @@ public abstract class Entity {
         draw();
     }
 
-    protected void hidden_entityInitialize() {
+    public final static Kryo kyro = new Kryo();
+
+    /**
+     * Used when the entity doesnt have a implemented serialize() method
+     *
+     * @return
+     */
+    public byte[] getLoadedBytes() {
+        return loadBytes;
+    }
+
+    /**
+     * Used as another layer of abstraction, if the entity has no data, we return the loaded bytes
+     *
+     * @param e
+     * @return
+     * @throws IOException
+     */
+    public final static byte[] serializeEntityDefinitionData(Entity e) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Output output = new Output(baos);
+        e.serialize(output, Entity.kyro);
+        output.close();
+        byte[] entityBytes = baos.toByteArray();
+        System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
+
+        //If the entity has no data, we return the loaded bytes
+        if (entityBytes.length == 0 && e.getLoadedBytes() != null) {
+            return e.getLoadedBytes();
+        } else return entityBytes;
+    }
+
+    protected final void hidden_initializeEntity() {
         try {
             getLightForPosition();
             if (loadBytes == null) loadBytes = new byte[0];
-            load(loadBytes, new AtomicInteger(0));
+            Input input = new Input(loadBytes);
+            load(input, kyro);
         } catch (Exception e) {
             ErrorHandler.log(e);
             destroy();
@@ -155,21 +192,15 @@ public abstract class Entity {
     }
 
     /**
-     * Used to load an entity from a byte array
-     * This method is called when the entity is created
-     *
-     * @param bytes The byte array to load from (Is never null)
-     * @param start The start index to read the byte array from
+     * Initializes and optionally deserializes the entity
      */
-    public abstract void load(byte[] bytes, AtomicInteger start);
+    public void load(Input input, Kryo kyro) throws IOException {
+    }
 
     /**
-     * Used to serialize the entity to a byte array
+     * serializes the entity
      */
-    public void serialize(ByteArrayOutputStream baos) throws IOException {
-        baos.writeBytes(loadBytes);
-        //Sometimes an entity doesnt have a toBytes method, so we can use this
-        //We must NEVER set loadBytes to null unless we are ABSOLUTELY SURE that it will never be needed again
+    public void serialize(Output output, Kryo kyro) throws IOException {
     }
 
 

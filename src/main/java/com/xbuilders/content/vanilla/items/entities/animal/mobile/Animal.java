@@ -4,6 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
@@ -133,12 +136,14 @@ public abstract class Animal extends Entity {
     }
 
 
-    public void load(byte[] serializedBytes, AtomicInteger start) {
-        if (serializedBytes.length > 0) tamed = serializedBytes[start.getAndIncrement()] == 1;
+    public void load(Input input, Kryo kyro) throws IOException {
+        if (input.available() > 0) {
+            tamed = kyro.readObject(input, boolean.class);
+        }
     }
 
-    public void serialize(ByteArrayOutputStream baos) {
-        baos.write((byte) (tamed ? 1 : 0));
+    public void serialize(Output output, Kryo kyro) throws IOException {
+        kyro.writeObject(output, tamed);
     }
 
 

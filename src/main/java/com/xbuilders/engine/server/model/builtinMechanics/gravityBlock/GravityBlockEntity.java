@@ -1,5 +1,7 @@
 package com.xbuilders.engine.server.model.builtinMechanics.gravityBlock;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.Registrys;
@@ -36,7 +38,7 @@ public class GravityBlockEntity extends Entity {
     }
 
     @Override
-    public void load(byte[] bytes, AtomicInteger start) {
+    public void load(Input input, Kryo kyro) {
         box = new Box();
         box.setColor(1, 0, 0, 1);
         box.setLineWidth(4);

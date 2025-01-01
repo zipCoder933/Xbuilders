@@ -4,6 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -157,8 +159,8 @@ public class Minecart extends Vehicle {
 
 
     @Override
-    public void load(byte[] bytes, AtomicInteger start) {
-        super.load(bytes, start);
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);//Always call super!
 
 
         if (model == null) {

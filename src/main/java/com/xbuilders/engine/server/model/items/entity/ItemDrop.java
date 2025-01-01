@@ -1,5 +1,7 @@
 package com.xbuilders.engine.server.model.items.entity;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
@@ -18,13 +20,12 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Vector3f;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ItemDrop extends Entity {
     public final static int DROP_LIVE_TIME = 10000;
     private static Box box;
     private final static SmileFactory smileFactory = new SmileFactory();
-    public final static ObjectMapper objectMapper = new ObjectMapper(smileFactory);
+    public final static ObjectMapper smileJsonMapper = new ObjectMapper(smileFactory);
 
     private byte seed;
     private boolean droppedFromPlayer;
@@ -41,7 +42,7 @@ public class ItemDrop extends Entity {
         SimpleModule module = new SimpleModule();
         module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
         module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
-        objectMapper.registerModule(module);
+        smileJsonMapper.registerModule(module);
     }
 
 
@@ -50,10 +51,11 @@ public class ItemDrop extends Entity {
         aabb.isSolid = false;
     }
 
-    final int BYTES_BEGINNING_DATA_SIZE = 1;
 
     @Override
-    public void load(byte[] bytes, AtomicInteger start) {
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);//Always call super!
+
         seed = (byte) (Math.random() * 255);
         if (box == null) {
             box = new Box();
@@ -63,19 +65,15 @@ public class ItemDrop extends Entity {
         }
 
         canGet = false;
-        if (bytes == null || bytes.length == 0) {
+        if (input.available() <= 0) {
             System.out.println("EMPTY ITEM DROP");
             destroy();
             return;
         }
         try {
-            droppedFromPlayer = bytes[0] == 1;
-            //Make a new list without the beginnning data
-            byte[] bytes2 = new byte[bytes.length - BYTES_BEGINNING_DATA_SIZE];
-            for (int i = 0; i < bytes2.length; i++) {
-                bytes2[i] = bytes[i + BYTES_BEGINNING_DATA_SIZE];
-            }
-            stack = objectMapper.readValue(bytes2, ItemStack.class);
+            droppedFromPlayer = kyro.readObject(input, byte.class) == 1;
+            byte itemStack[] = kyro.readObject(input, byte[].class);
+            stack = smileJsonMapper.readValue(itemStack, ItemStack.class);
             System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
         } catch (IOException e) {
             ErrorHandler.log(e);

@@ -1,5 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
@@ -12,8 +14,8 @@ public class Cat extends StaticLandAnimal {
     }
 
     @Override
-    public void load(byte[] serializedBytes, AtomicInteger start) {
-        super.load(serializedBytes, start);
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);//Always call super!
         setActivity(0.9f);
     }
 

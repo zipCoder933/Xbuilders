@@ -1,5 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
@@ -28,8 +30,8 @@ public class Horse extends QuadPedalLandAnimal {
 
 
     @Override
-    public void load(byte[] serializedBytes, AtomicInteger start) {
-        super.load(serializedBytes, start);
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);
         lock.setOffset(-1);
     }
 }

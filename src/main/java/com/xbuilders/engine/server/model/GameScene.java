@@ -188,7 +188,7 @@ public class GameScene implements WindowEvents {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             byteArrayOutputStream.write(droppedFromPlayer ? 1 : 0);
-            ItemDrop.objectMapper.writeValue(byteArrayOutputStream, item);
+            ItemDrop.smileJsonMapper.writeValue(byteArrayOutputStream, item);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

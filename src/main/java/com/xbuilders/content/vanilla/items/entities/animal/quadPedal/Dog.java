@@ -1,5 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
@@ -79,8 +81,9 @@ public class Dog extends QuadPedalLandAnimal {
     }
 
     @Override
-    public void load(byte[] serializedBytes, AtomicInteger start) {
-        super.load(serializedBytes, start);
+    public void load(Input input, Kryo kyro) throws IOException {
+        super.load(input, kyro);
+
         setActivity(0.7f);
         //Z is the direciton of the animal
         legXSpacing = 0.30f * SCALE;

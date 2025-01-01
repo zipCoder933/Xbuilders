@@ -89,7 +89,7 @@ public class ChunkEntitySet {
                 GameScene.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
-                    e.hidden_entityInitialize();
+                    e.hidden_initializeEntity();
                 }
                 e.distToPlayer = e.worldPosition.distance(playerPos);
 
