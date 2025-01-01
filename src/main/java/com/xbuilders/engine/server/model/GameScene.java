@@ -107,6 +107,19 @@ public class GameScene implements WindowEvents {
         tickThread = new LogicThread();
     }
 
+    // Getters
+    public static int getLightLevel(int worldX, int worldY, int worldZ) {
+        WCCi wcc = new WCCi().set(worldX, worldY, worldZ);
+        Chunk chunk = world.getChunk(wcc.chunk);
+        if (chunk != null) {
+            int sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            int torch = chunk.data.getTorch(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            sun = (int) Math.min(sun, background.getLightness() * 15);
+            return Math.max(sun, torch);
+        }
+        return 0;
+    }
+
     //Set block ===============================================================================
     public static void setBlock(short block, int worldX, int worldY, int worldZ) {
         setBlock(block, new WCCi().set(worldX, worldY, worldZ));
@@ -409,6 +422,7 @@ public class GameScene implements WindowEvents {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
 //        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         background.draw(projection, centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
+        background.update();
 
         holdMouse = !ui.releaseMouse() && window.windowIsFocused();
         MainWindow.frameTester.endProcess("Clearing buffer");

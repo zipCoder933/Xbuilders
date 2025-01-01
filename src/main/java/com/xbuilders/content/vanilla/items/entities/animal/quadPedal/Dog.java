@@ -1,7 +1,10 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
+import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.model.players.Player;
 
 import java.io.IOException;
@@ -23,16 +26,17 @@ public class Dog extends QuadPedalLandAnimal {
         return staticData;
     }
 
-//    @Override
-//    public void initSupplier(EntitySupplier entitySupplier) {
-//        super.initSupplier(entitySupplier);
-//        entitySupplier.spawnCondition = (x, y, z) -> {
-//            Block floor = GameScene.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
-//            if (floor.solid && GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
-//            return false;
-//        };
-//        entitySupplier.isAutonomous = true;
-//    }
+    @Override
+    public void initSupplier(EntitySupplier entitySupplier) {
+        super.initSupplier(entitySupplier);
+        entitySupplier.spawnCondition = (x, y, z) -> {
+            if (GameScene.getLightLevel(x, y, z) > 5) return false;//If it's too bright, don't spawn
+            Block floor = GameScene.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
+            if (floor.solid && GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
+            return false;
+        };
+        entitySupplier.isAutonomous = true;
+    }
 
     Player playerWithLowestDist;
     long lastPlayerCheckTime;

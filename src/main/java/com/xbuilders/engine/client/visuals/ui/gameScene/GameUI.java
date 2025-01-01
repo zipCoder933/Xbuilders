@@ -144,7 +144,7 @@ public class GameUI {
                     infoBox.escKey();
                     return true;
                 }
-                case GLFW.GLFW_KEY_F4 -> {
+                case GLFW.GLFW_KEY_F1 -> {
                     drawUI = !drawUI;
                     return true;
                 }

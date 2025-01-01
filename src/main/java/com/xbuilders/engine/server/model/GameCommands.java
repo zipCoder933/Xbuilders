@@ -27,7 +27,7 @@ public class GameCommands {
         commandHelp.put("mode", "Usage (to get the current mode): mode\n" +
                 "Usage (to change mode): mode <mode>");
         commandHelp.put("op", "Usage: op <true/false> <player>");
-        commandHelp.put("get", "Usage: get <item> <quantity (optional)>");
+        commandHelp.put("give", "Usage: give <item> <quantity (optional)>");
         commandHelp.put("help", "Usage: help <command>");
         commandHelp.put("time", "Usage: time <day/evening/night>");
         commandHelp.put("players", "Lists all connected players");
@@ -139,7 +139,7 @@ public class GameCommands {
                             }
                         } else return commandHelp.get("mode");
                     }
-                    case "get" -> {
+                    case "give" -> {
                         if (!GameScene.isOperator()) return null;
                         if (parts.length <= 3) {
                             try {
@@ -152,7 +152,7 @@ public class GameCommands {
                             } catch (Exception e) {
                                 return "Invalid";
                             }
-                        } else return commandHelp.get("get");
+                        } else return commandHelp.get("give");
                     }
                     case "op" -> {
                         if (!GameScene.ownsGame() || !GameScene.isOperator())
