@@ -1,15 +1,15 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.Registrys;
-import com.xbuilders.engine.game.model.items.block.Block;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.game.model.world.World;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
-import com.xbuilders.engine.game.model.world.light.SunlightUtils;
-import com.xbuilders.engine.game.model.world.wcc.WCCi;
+import com.xbuilders.engine.server.model.world.World;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.light.SunlightUtils;
+import com.xbuilders.engine.server.model.world.wcc.WCCi;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import org.joml.Matrix4f;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static com.xbuilders.engine.game.model.world.chunk.Chunk.WIDTH;
+import static com.xbuilders.engine.server.model.world.chunk.Chunk.WIDTH;
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class LightFixTool extends BlockTool {

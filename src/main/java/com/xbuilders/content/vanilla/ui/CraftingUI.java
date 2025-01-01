@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.game.model.GameScene;
+import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.window.NKWindow;

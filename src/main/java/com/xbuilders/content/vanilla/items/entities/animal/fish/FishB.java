@@ -15,6 +15,7 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -32,8 +33,8 @@ public class FishB extends FishAnimal {
 
     int textureIndex;
 
-    public void initializeOnDraw(byte[] loadBytes) {
-        super.initializeOnDraw(loadBytes);//Always call super!
+    public void load(byte[] loadBytes, AtomicInteger start) {
+        super.load(loadBytes, start);//Always call super!
         if (body == null) {
             body = new EntityMesh();
 
@@ -50,7 +51,7 @@ public class FishB extends FishAnimal {
             }
         }
 
-        if (loadBytes != null) {
+        if (loadBytes.length > 0) {
             textureIndex = MathUtils.clamp(loadBytes[0], 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }

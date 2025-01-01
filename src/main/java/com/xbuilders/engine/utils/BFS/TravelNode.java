@@ -1,11 +1,5 @@
 package com.xbuilders.engine.utils.BFS;
 
-import com.xbuilders.engine.game.model.world.World;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
-import com.xbuilders.engine.game.model.world.wcc.WCCi;
-
-import java.util.Objects;
-
 public class TravelNode {
 
     public int x, y, z;

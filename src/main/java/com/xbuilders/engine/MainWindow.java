@@ -4,9 +4,9 @@
  */
 package com.xbuilders.engine;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.Registrys;
-import com.xbuilders.engine.game.model.items.item.blockIconRendering.BlockIconRenderer;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.engine.client.visuals.ui.topMenu.PopupMessage;

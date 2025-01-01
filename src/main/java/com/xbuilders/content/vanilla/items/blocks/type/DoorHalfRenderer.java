@@ -4,20 +4,20 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.BlockRegistry;
-import com.xbuilders.engine.game.model.items.Registrys;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.block.construction.BlockType;
-import com.xbuilders.engine.game.model.items.block.construction.BlockTypeModel.BlockModel;
-import com.xbuilders.engine.game.model.items.block.construction.BlockTypeModel.BlockModelLoader;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.block.construction.BlockType;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.game.model.world.chunk.BlockData;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.chunk.BlockData;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
 
 /**
  * @author zipCoder933

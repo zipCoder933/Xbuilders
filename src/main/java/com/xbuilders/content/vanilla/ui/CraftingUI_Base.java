@@ -1,11 +1,11 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.game.model.items.Registrys;
-import com.xbuilders.engine.game.model.items.item.Item;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
-import com.xbuilders.engine.game.model.items.item.StorageSpace;
-import com.xbuilders.engine.game.model.items.recipes.RecipeRegistry;
-import com.xbuilders.engine.game.model.items.recipes.crafting.CraftingRecipe;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.item.Item;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.items.item.StorageSpace;
+import com.xbuilders.engine.server.model.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.model.items.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;
 import com.xbuilders.window.NKWindow;

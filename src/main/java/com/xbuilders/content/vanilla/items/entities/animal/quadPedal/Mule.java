@@ -3,6 +3,7 @@ package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Mule extends QuadPedalLandAnimal {
@@ -27,8 +28,8 @@ public class Mule extends QuadPedalLandAnimal {
 
 
     @Override
-    public void initializeOnDraw(byte[] state) {
-        super.initializeOnDraw(state);
+    public void load(byte[] state, AtomicInteger start) {
+        super.load(state, start);
         legXSpacing = 0.35f * SCALE;
         legZSpacing = 0.8f * SCALE;
         legYSpacing = -1f * SCALE;

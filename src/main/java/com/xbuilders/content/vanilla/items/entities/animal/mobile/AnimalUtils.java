@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.utils.math.MatrixUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

@@ -37,7 +37,7 @@ J 5044 c1 com.xbuilders.content.vanilla.ui.UI_RecipeIndex.drawWindow(Lorg/lwjgl/
 J 5043 c1 com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V (231 bytes) @ 0x0000028ce65130e4 [0x0000028ce6512020+0x00000000000010c4]
 J 5030 c1 com.xbuilders.content.vanilla.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z (47 bytes) @ 0x0000028ce67788c4 [0x0000028ce6778220+0x00000000000006a4]
 J 5133 c1 com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.draw()V (161 bytes) @ 0x0000028ce62f8acc [0x0000028ce62f82e0+0x00000000000007ec]
-J 5061 c1 com.xbuilders.engine.game.model.GameScene.render()V (187 bytes) @ 0x0000028ce650e464 [0x0000028ce650d940+0x0000000000000b24]
+J 5061 c1 com.xbuilders.engine.server.model.GameScene.render()V (187 bytes) @ 0x0000028ce650e464 [0x0000028ce650d940+0x0000000000000b24]
 J 4978 c1 com.xbuilders.engine.MainWindow.render()V (36 bytes) @ 0x0000028ce61a0f3c [0x0000028ce61a0e60+0x00000000000000dc]
 j  com.xbuilders.engine.MainWindow.<init>([Ljava/lang/String;)V+316
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+5
@@ -738,7 +738,7 @@ Compiled method (c1)   15596 5044       3       com.xbuilders.content.vanilla.ui
 
   0x0000028ce64c1c74: ; ImmutableOopMap {rdx=Oop [128]=Oop r8=Oop [136]=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.engine.game.model.GameScene::getGameMode@-1 (line 69)
+                      ; - com.xbuilders.engine.server.model.GameScene::getGameMode@-1 (line 69)
                       ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@0 (line 79)
   0x0000028ce64c1c74: 7b16 07e9 | 85ef ffff 
 
@@ -2478,19 +2478,19 @@ CodeHeap 'non-nmethods': size=5760Kb used=2033Kb max_used=2108Kb free=3726Kb
  full_count=0
 
 Compilation events (20 events):
-Event: 15.144 Thread 0x0000028cfcb5fdb0 5132       3       com.xbuilders.engine.game.model.LivePropagationHandler::update (76 bytes)
+Event: 15.144 Thread 0x0000028cfcb5fdb0 5132       3       com.xbuilders.engine.server.model.LivePropagationHandler::update (76 bytes)
 Event: 15.144 Thread 0x0000028cfcb5fdb0 nmethod 5132 0x0000028ce633a990 code [0x0000028ce633aba0, 0x0000028ce633b338]
-Event: 15.144 Thread 0x0000028cfcb5fdb0 5138       3       com.xbuilders.engine.game.model.world.World::drawChunks (613 bytes)
+Event: 15.144 Thread 0x0000028cfcb5fdb0 5138       3       com.xbuilders.engine.server.model.world.World::drawChunks (613 bytes)
 Event: 15.147 Thread 0x0000028cfcb5fdb0 nmethod 5138 0x0000028ce6332210 code [0x0000028ce6332bc0, 0x0000028ce63388a8]
 Event: 15.147 Thread 0x0000028cfcb5fdb0 5133   !   3       com.xbuilders.engine.client.visuals.ui.gameScene.GameUI::draw (161 bytes)
 Event: 15.147 Thread 0x0000028cfcb5fdb0 nmethod 5133 0x0000028ce62f7f90 code [0x0000028ce62f82e0, 0x0000028ce62f9518]
 Event: 15.147 Thread 0x0000028cfcb5fdb0 5134       3       com.xbuilders.engine.client.visuals.ui.gameScene.GameUI::releaseMouse (61 bytes)
 Event: 15.148 Thread 0x0000028cfcb5fdb0 nmethod 5134 0x0000028ce6331810 code [0x0000028ce6331a20, 0x0000028ce6331f88]
-Event: 15.148 Thread 0x0000028cfcb5fdb0 5135       3       com.xbuilders.engine.game.model.players.pipeline.BlockEventPipeline::update (231 bytes)
+Event: 15.148 Thread 0x0000028cfcb5fdb0 5135       3       com.xbuilders.engine.server.model.players.pipeline.BlockEventPipeline::update (231 bytes)
 Event: 15.148 Thread 0x0000028cfcb5fdb0 nmethod 5135 0x0000028ce62f5f90 code [0x0000028ce62f62e0, 0x0000028ce62f7938]
 Event: 15.148 Thread 0x0000028cfcb5fdb0 5136       3       com.xbuilders.engine.client.player.UserControlledPlayer::update (1245 bytes)
 Event: 15.151 Thread 0x0000028cfcb5fdb0 nmethod 5136 0x0000028ce62ee290 code [0x0000028ce62eec20, 0x0000028ce62f43c8]
-Event: 15.151 Thread 0x0000028cfcb5fdb0 5137       3       com.xbuilders.engine.game.multiplayer.GameServer::updatePlayers (40 bytes)
+Event: 15.151 Thread 0x0000028cfcb5fdb0 5137       3       com.xbuilders.engine.server.multiplayer.GameServer::updatePlayers (40 bytes)
 Event: 15.152 Thread 0x0000028cfcb5fdb0 nmethod 5137 0x0000028ce62ed690 code [0x0000028ce62ed880, 0x0000028ce62edfd8]
 Event: 15.257 Thread 0x0000028cfcb5fdb0 5139       3       com.xbuilders.engine.client.player.raycasting.RayCasting::getRayNormalFromAABB (299 bytes)
 Event: 15.257 Thread 0x0000028cfcb5fdb0 nmethod 5139 0x0000028ce62ec390 code [0x0000028ce62ec660, 0x0000028ce62ed268]

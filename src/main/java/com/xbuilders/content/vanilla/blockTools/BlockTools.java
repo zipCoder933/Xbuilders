@@ -1,9 +1,9 @@
 package com.xbuilders.content.vanilla.blockTools;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameMode;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.Block;
+import com.xbuilders.engine.server.model.GameMode;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.engine.client.visuals.ui.gameScene.UI_GameMenu;

@@ -7,9 +7,9 @@ package com.xbuilders.engine.utils.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.xbuilders.engine.game.model.items.item.Item;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.model.items.item.Item;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 
 /**
  * @author zipCoder933

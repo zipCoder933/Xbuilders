@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.visuals.rendering.entity.block.meshers;
 
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
-import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 

@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.rendering.entity;
 
-import com.xbuilders.engine.game.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 

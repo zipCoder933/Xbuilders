@@ -9,9 +9,9 @@ package com.xbuilders.engine.client.visuals.ui.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.engine.game.multiplayer.NetworkJoinRequest;
-import com.xbuilders.engine.game.model.world.data.WorldData;
-import com.xbuilders.engine.game.model.world.WorldsHandler;
+import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
+import com.xbuilders.engine.server.model.world.data.WorldData;
+import com.xbuilders.engine.server.model.world.WorldsHandler;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.ui.Page;
 import com.xbuilders.engine.client.visuals.ui.Theme;

@@ -1,13 +1,13 @@
 package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.builtinMechanics.liquid.LiquidPropagationTask;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.ItemUtils;
-import com.xbuilders.engine.game.model.items.Registrys;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.item.Item;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.builtinMechanics.liquid.LiquidPropagationTask;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.ItemUtils;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.item.Item;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.items.*;

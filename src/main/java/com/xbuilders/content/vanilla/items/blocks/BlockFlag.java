@@ -1,11 +1,11 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
-import com.xbuilders.engine.game.model.items.item.StorageSpace;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.model.items.item.StorageSpace;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.game.model.world.chunk.BlockData;
+import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import org.joml.Vector3f;
 
 import java.io.IOException;

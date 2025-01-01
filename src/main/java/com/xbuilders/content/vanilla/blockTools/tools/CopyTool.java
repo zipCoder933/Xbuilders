@@ -1,11 +1,11 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.game.model.GameScene;
+import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import com.xbuilders.content.vanilla.blockTools.PrefabUtils;

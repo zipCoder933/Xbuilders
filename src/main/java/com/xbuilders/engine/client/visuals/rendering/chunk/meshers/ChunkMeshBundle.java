@@ -10,8 +10,8 @@ import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.ver
 import com.xbuilders.engine.client.visuals.rendering.chunk.occlusionCulling.BoundingBoxMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.game.model.world.Terrain;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.Terrain;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
 
 import java.util.ArrayList;
 import java.util.List;

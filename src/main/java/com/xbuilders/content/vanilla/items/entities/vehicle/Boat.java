@@ -5,15 +5,16 @@
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.players.PositionLock;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.players.PositionLock;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.game.model.world.chunk.XBFilterOutputStream;
+import com.xbuilders.engine.server.model.world.chunk.XBFilterOutputStream;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -122,8 +123,8 @@ public class Boat extends Vehicle {
 
 
     @Override
-    public void initializeOnDraw(byte[] bytes) {
-        super.initializeOnDraw(bytes);
+    public void load(byte[] bytes, AtomicInteger start) {
+        super.load(bytes, start);
 
         posHandler.setGravityEnabled(isInWater() ? false : true);
 

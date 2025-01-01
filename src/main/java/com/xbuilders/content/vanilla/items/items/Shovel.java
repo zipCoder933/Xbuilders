@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.items;
 
-import com.xbuilders.engine.game.model.items.item.Item;
+import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.utils.MiscUtils;
 
 public class Shovel extends Item {

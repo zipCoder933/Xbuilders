@@ -1,12 +1,10 @@
 package com.xbuilders.engine.client.visuals.ui.gameScene.items;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.items.item.Item;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.TextBox;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.nuklear.Nuklear;

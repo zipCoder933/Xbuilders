@@ -1,10 +1,11 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.players.Player;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.players.Player;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Dog extends QuadPedalLandAnimal {
@@ -74,8 +75,8 @@ public class Dog extends QuadPedalLandAnimal {
     }
 
     @Override
-    public void initializeOnDraw(byte[] state) {
-        super.initializeOnDraw(state);
+    public void load(byte[] state, AtomicInteger start) {
+        super.load(state, start);
         setActivity(0.7f);
         //Z is the direciton of the animal
         legXSpacing = 0.30f * SCALE;

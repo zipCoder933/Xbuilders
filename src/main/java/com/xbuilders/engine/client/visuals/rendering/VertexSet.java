@@ -4,9 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.rendering;
 
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
-import org.joml.Vector3f;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 
 /**
  * @author zipCoder933

@@ -1,14 +1,14 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.BlockRegistry;
-import com.xbuilders.engine.game.model.items.entity.Entity;
-import com.xbuilders.engine.game.model.items.Registrys;
-import com.xbuilders.engine.game.model.items.block.Block;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
-import com.xbuilders.engine.game.model.world.wcc.WCCi;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.wcc.WCCi;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

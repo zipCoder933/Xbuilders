@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.content.vanilla.items.entities.Banner;
 import com.xbuilders.content.vanilla.items.entities.animal.Cat;
 import com.xbuilders.content.vanilla.items.entities.animal.Fox;

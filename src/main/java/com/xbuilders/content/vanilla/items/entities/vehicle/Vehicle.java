@@ -5,14 +5,16 @@
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Vector2f;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Vehicle extends Entity {
 
@@ -128,7 +130,7 @@ public abstract class Vehicle extends Entity {
     }
 
     @Override
-    public void initializeOnDraw(byte[] bytes) {
+    public void load(byte[] bytes, AtomicInteger start) {
         posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
     }
 
@@ -136,11 +138,11 @@ public abstract class Vehicle extends Entity {
 
     public abstract void onDestructionCancel();
 
-    public byte[] entityState_toBytes() {
+    public byte[] entityState_write() {
         return ByteUtils.floatToBytes(getRotationYDeg());
     }
 
-    public void entityState_load(byte[] state) {
+    public void entityState_read(byte[] state, AtomicInteger start) {
         if (state.length != 4) return;
         rotationYDeg = (ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]));
     }

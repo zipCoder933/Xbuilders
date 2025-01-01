@@ -1,8 +1,7 @@
 package com.xbuilders.engine.client.visuals.ui.gameScene.items;
 
-import com.xbuilders.engine.game.model.items.item.Item;
+import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.client.visuals.ui.Theme;
-import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;

@@ -4,12 +4,12 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
-import com.xbuilders.engine.game.model.items.block.construction.BlockType;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
-import com.xbuilders.engine.game.model.world.chunk.BlockData;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.chunk.BlockData;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
 
 /**
  *

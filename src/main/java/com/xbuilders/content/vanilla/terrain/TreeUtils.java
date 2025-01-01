@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.terrain;
 
-import com.xbuilders.engine.game.model.world.Terrain;
+import com.xbuilders.engine.server.model.world.Terrain;
 import com.xbuilders.content.vanilla.items.Blocks;
 
 import java.util.Random;

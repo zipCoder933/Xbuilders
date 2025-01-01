@@ -5,14 +5,14 @@
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.players.PositionLock;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.players.PositionLock;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.game.model.world.chunk.BlockData;
+import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
@@ -20,6 +20,7 @@ import org.joml.Vector3i;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -156,8 +157,8 @@ public class Minecart extends Vehicle {
 
 
     @Override
-    public void initializeOnDraw(byte[] bytes) {
-        super.initializeOnDraw(bytes);
+    public void load(byte[] bytes, AtomicInteger start) {
+        super.load(bytes, start);
 
 
         if (model == null) {

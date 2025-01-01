@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.blockTools;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;

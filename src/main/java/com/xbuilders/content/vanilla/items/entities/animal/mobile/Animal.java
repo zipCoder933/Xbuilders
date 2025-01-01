@@ -4,10 +4,10 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.entity.Entity;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
-import com.xbuilders.engine.game.model.players.Player;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
@@ -48,7 +48,16 @@ public abstract class Animal extends Entity {
         setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
     }
 
-    public final byte[] entityState_toBytes() {
+
+    //Multiplayer state
+    public void animal_writeState(ByteArrayOutputStream baos) throws IOException {
+    }
+
+    public void animal_readState(byte[] state, AtomicInteger start) {
+    }
+
+    //Entity saving
+    public final byte[] entityState_write() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             baos.write(ByteUtils.floatToBytes(getRotationYDeg()));
@@ -57,18 +66,12 @@ public abstract class Animal extends Entity {
             baos.close();//releases the baos to prevent memory leaks and promote efficiency
             return baos.toByteArray();  //toByteArray() already calls flush()
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public void animal_writeState(ByteArrayOutputStream baos) throws IOException {
-    }
-
-    public void animal_readState(byte[] state, AtomicInteger start) {
-    }
-
-    public void entityState_load(byte[] state) {
-        AtomicInteger start = new AtomicInteger(0);
+    public void entityState_read(byte[] state, AtomicInteger start) {
         rotationYDeg = (ByteUtils.bytesToFloat(state, start));
         random.readState(state, start);
         animal_readState(state, start);
@@ -129,7 +132,15 @@ public abstract class Animal extends Entity {
         this.rotationYDeg = rotationYDeg;
     }
 
-    public void initializeOnDraw(byte[] state) {
+
+    public void load(byte[] state, AtomicInteger start) {
+        if (state.length > 0) tamed = state[start.getAndIncrement()] == 1;
+    }
+
+    public byte[] save() {
+        return new byte[]{
+                (byte) (tamed ? 1 : 0)
+        };
     }
 
 
@@ -167,5 +178,9 @@ public abstract class Animal extends Entity {
                 pos.jump();
             }
         }
+    }
+
+    public String toString() {
+        return "Animal: " + (tamed ? "Tamed" : "Wild") + " uid: " + getUniqueIdentifier();
     }
 }

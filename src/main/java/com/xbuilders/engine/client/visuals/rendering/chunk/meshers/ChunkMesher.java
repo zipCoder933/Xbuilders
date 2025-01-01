@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.visuals.rendering.chunk.meshers;
 
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
-import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 
 public abstract class ChunkMesher<T extends VertexSet> {

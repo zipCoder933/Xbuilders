@@ -2,23 +2,23 @@ package com.xbuilders.engine.client.player.raycasting;
 
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.game.model.GameMode;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.block.BlockRegistry;
-import com.xbuilders.engine.game.model.items.entity.Entity;
-import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
-import com.xbuilders.engine.game.model.items.loot.LootTableRegistry;
+import com.xbuilders.engine.server.model.GameMode;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.items.loot.LootTableRegistry;
 import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.client.visuals.rendering.wireframeBox.Box;
-import com.xbuilders.engine.game.model.world.World;
-import com.xbuilders.engine.game.model.world.chunk.BlockData;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
-import com.xbuilders.engine.game.model.world.wcc.WCCi;
+import com.xbuilders.engine.server.model.world.World;
+import com.xbuilders.engine.server.model.world.chunk.BlockData;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.wcc.WCCi;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -102,11 +102,9 @@ public class CursorRay {
      */
     public boolean clickEvent(boolean creationMode) {
         if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
-
         breakAmt = 0;
         breakPercentage = 0;
         ItemStack selectedItem = GameScene.player.getSelectedItem();
-
         if (!hitTarget()) return false;
 
         if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event

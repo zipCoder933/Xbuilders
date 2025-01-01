@@ -37,7 +37,7 @@ J 4993 c1 com.xbuilders.content.vanilla.ui.UI_RecipeIndex.drawWindow(Lorg/lwjgl/
 J 4992 c1 com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V (231 bytes) @ 0x000002074581ffe4 [0x000002074581ef20+0x00000000000010c4]
 J 4973 c1 com.xbuilders.content.vanilla.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z (47 bytes) @ 0x00000207455780c4 [0x0000020745577a20+0x00000000000006a4]
 J 4987 c1 com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.draw()V (161 bytes) @ 0x0000020745575bcc [0x00000207455753e0+0x00000000000007ec]
-J 4918 c1 com.xbuilders.engine.game.model.GameScene.render()V (187 bytes) @ 0x000002074572fa54 [0x000002074572ee40+0x0000000000000c14]
+J 4918 c1 com.xbuilders.engine.server.model.GameScene.render()V (187 bytes) @ 0x000002074572fa54 [0x000002074572ee40+0x0000000000000c14]
 J 4958 c1 com.xbuilders.engine.MainWindow.render()V (36 bytes) @ 0x0000020745a2822c [0x0000020745a28160+0x00000000000000cc]
 j  com.xbuilders.engine.MainWindow.<init>([Ljava/lang/String;)V+316
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+5
@@ -738,7 +738,7 @@ Compiled method (c1)   16999 4993       3       com.xbuilders.content.vanilla.ui
 
   0x0000020745c6e3f4: ; ImmutableOopMap {rdx=Oop [128]=Oop r8=Oop [136]=Oop }
                       ;*synchronization entry
-                      ; - com.xbuilders.engine.game.model.GameScene::getGameMode@-1 (line 69)
+                      ; - com.xbuilders.engine.server.model.GameScene::getGameMode@-1 (line 69)
                       ; - com.xbuilders.content.vanilla.ui.UI_RecipeIndex::drawWindow@0 (line 79)
   0x0000020745c6e3f4: b9ea 06e9 | 85ef ffff 
 
@@ -2619,7 +2619,7 @@ Deoptimization events (20 events):
 Event: 9.343 Thread 0x000002073d9e5600 DEOPT PACKING pc=0x000002074d078c34 sp=0x000000e63e3fe910
 Event: 9.343 Thread 0x000002073d9e5600 DEOPT UNPACKING pc=0x000002074ca769a3 sp=0x000000e63e3fe880 mode 2
 Event: 9.379 Thread 0x000002073d9e5600 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000002074d2a72c8 relative=0x0000000000000148
-Event: 9.379 Thread 0x000002073d9e5600 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000002074d2a72c8 method=com.xbuilders.engine.game.model.world.World.lambda$drawChunks$14(Lorg/joml/Vector3f;Lcom/xbuilders/engine/world/chunk/Chunk;)V @ 33 c2
+Event: 9.379 Thread 0x000002073d9e5600 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000002074d2a72c8 method=com.xbuilders.engine.server.model.world.World.lambda$drawChunks$14(Lorg/joml/Vector3f;Lcom/xbuilders/engine/world/chunk/Chunk;)V @ 33 c2
 Event: 9.379 Thread 0x000002073d9e5600 DEOPT PACKING pc=0x000002074d2a72c8 sp=0x000000e63e3ff530
 Event: 9.379 Thread 0x000002073d9e5600 DEOPT UNPACKING pc=0x000002074ca769a3 sp=0x000000e63e3ff470 mode 2
 Event: 10.522 Thread 0x000002073d9e5600 Uncommon trap: trap_request=0xffffff76 fr.pc=0x000002074d09aaa0 relative=0x00000000000002e0

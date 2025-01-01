@@ -4,8 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -13,6 +13,7 @@ import com.xbuilders.content.vanilla.items.blocks.RenderType;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -33,12 +34,12 @@ public class Banner extends Entity {
 
 
     @Override
-    public byte[] toBytes() {
+    public byte[] save() {
         return new byte[]{(byte) xzOrientation, (byte) (againstFencepost ? 1 : 0)};
     }
 
     @Override
-    public void initializeOnDraw(byte[] bytes) {
+    public void load(byte[] bytes, AtomicInteger start) {
 //            super.initializeOnDraw(bytes);
 
         if (body == null) {

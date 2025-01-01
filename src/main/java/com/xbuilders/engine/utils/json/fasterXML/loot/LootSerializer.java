@@ -3,7 +3,7 @@ package com.xbuilders.engine.utils.json.fasterXML.loot;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.xbuilders.engine.game.model.items.loot.output.Loot;
+import com.xbuilders.engine.server.model.items.loot.output.Loot;
 
 import java.io.IOException;
 

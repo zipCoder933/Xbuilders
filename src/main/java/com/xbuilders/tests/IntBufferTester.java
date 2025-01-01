@@ -1,6 +1,6 @@
 package com.xbuilders.tests;
 
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
 
 public class IntBufferTester {
 

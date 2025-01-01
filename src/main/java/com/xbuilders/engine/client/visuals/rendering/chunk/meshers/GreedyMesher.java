@@ -4,16 +4,16 @@
  */
 package com.xbuilders.engine.client.visuals.rendering.chunk.meshers;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.BlockRegistry;
-import com.xbuilders.engine.game.model.items.Registrys;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.client.visuals.rendering.entity.block.meshers.BlockMesher;
 import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

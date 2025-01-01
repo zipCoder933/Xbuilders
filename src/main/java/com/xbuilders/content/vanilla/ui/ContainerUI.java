@@ -1,9 +1,9 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.Block;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;
-import com.xbuilders.engine.game.model.world.chunk.BlockData;
+import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3i;
 import org.lwjgl.nuklear.NkContext;

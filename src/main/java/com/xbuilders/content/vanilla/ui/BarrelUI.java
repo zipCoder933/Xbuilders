@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.item.StorageSpace;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.item.StorageSpace;
 import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.window.NKWindow;

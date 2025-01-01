@@ -3,17 +3,17 @@
 //
 package com.xbuilders.content.vanilla.terrain.complexTerrain;
 
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.game.model.world.Terrain;
-import com.xbuilders.engine.game.model.world.World;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.Terrain;
+import com.xbuilders.engine.server.model.world.World;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.Blocks;
 
 import java.util.HashMap;
 
-import static com.xbuilders.engine.game.model.world.chunk.Chunk.WIDTH;
+import static com.xbuilders.engine.server.model.world.chunk.Chunk.WIDTH;
 
 public class ComplexTerrain extends Terrain {
 

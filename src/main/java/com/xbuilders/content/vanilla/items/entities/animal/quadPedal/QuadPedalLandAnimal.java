@@ -1,9 +1,10 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.players.PositionLock;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.players.PositionLock;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
@@ -13,9 +14,11 @@ import com.xbuilders.content.vanilla.items.entities.animal.mobile.LandAnimal;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class QuadPedalLandAnimal extends LandAnimal {
 
@@ -75,13 +78,16 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     }
 
     @Override
-    public byte[] toBytes() throws IOException {
-        return new byte[]{(byte) textureIndex};
+    public byte[] save() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.writeBytes(super.save());
+        baos.write((byte) textureIndex);
+        return baos.toByteArray();
     }
 
 
     @Override
-    public void initializeOnDraw(byte[] state) {
+    public void load(byte[] state, AtomicInteger start) {
         goForwardCallback = amount -> {
             legMovement += amount;
         };
@@ -95,10 +101,10 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             this.saddle = ead.saddle;
             this.textures = ead.textures;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ErrorHandler.report(e);
         }
 
-        if (state != null) {
+        if (state.length > 0) {
             textureIndex = MathUtils.clamp(state[0], 0, this.textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(this.textures.length);
 

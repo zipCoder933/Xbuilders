@@ -39,7 +39,7 @@ j  com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow.draw(Lor
 j  com.xbuilders.content.vanilla.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z+34
 j  com.xbuilders.content.vanilla.XbuildersGame.uiDraw(Lorg/lwjgl/system/MemoryStack;)Z+5
 j  com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.draw()V+95
-j  com.xbuilders.engine.game.model.GameScene.render()V+183
+j  com.xbuilders.engine.server.model.GameScene.render()V+183
 j  com.xbuilders.engine.MainWindow.render()V+9
 j  com.xbuilders.engine.MainWindow.<init>([Ljava/lang/String;)V+316
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+5

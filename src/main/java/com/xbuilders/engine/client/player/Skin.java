@@ -1,13 +1,13 @@
 package com.xbuilders.engine.client.player;
 
-import com.xbuilders.engine.game.model.GameScene;
+import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
-import com.xbuilders.engine.game.model.players.Player;
+import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
-import com.xbuilders.engine.game.model.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.game.model.world.wcc.WCCf;
-import com.xbuilders.engine.game.model.world.wcc.WCCi;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.server.model.world.wcc.WCCf;
+import com.xbuilders.engine.server.model.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

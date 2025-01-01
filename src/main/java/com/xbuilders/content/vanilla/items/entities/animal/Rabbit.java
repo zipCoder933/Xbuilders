@@ -3,6 +3,7 @@ package com.xbuilders.content.vanilla.items.entities.animal;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Rabbit extends StaticLandAnimal {
     long lastJumpTime = 0;
@@ -13,8 +14,8 @@ public class Rabbit extends StaticLandAnimal {
     }
 
     @Override
-    public void initializeOnDraw(byte[] state) {
-        super.initializeOnDraw(state);
+    public void load(byte[] state, AtomicInteger start) {
+        super.load(state, start);
         goForwardCallback = (amount) -> {
             if (amount > 0.01) {
                 if (System.currentTimeMillis() - lastJumpTime > 500) {

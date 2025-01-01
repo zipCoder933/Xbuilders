@@ -1,8 +1,8 @@
 package com.xbuilders.engine.client.visuals.ui.gameScene.items;
 
-import com.xbuilders.engine.game.model.GameMode;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.GameMode;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.engine.client.visuals.ui.gameScene.UI_GameMenu;
 import com.xbuilders.engine.utils.math.MathUtils;

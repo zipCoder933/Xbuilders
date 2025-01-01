@@ -4,10 +4,10 @@
  */
 package com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.vertexSet;
 
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
 import com.xbuilders.engine.client.visuals.rendering.chunk.mesh.CompactMesh;
-import com.xbuilders.engine.game.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.model.world.chunk.Chunk;
 import org.joml.Vector3f;
 
 /**

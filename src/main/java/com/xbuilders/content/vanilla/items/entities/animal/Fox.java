@@ -3,6 +3,7 @@ package com.xbuilders.content.vanilla.items.entities.animal;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Fox extends StaticLandAnimal {
@@ -11,8 +12,8 @@ public class Fox extends StaticLandAnimal {
     }
 
     @Override
-    public void initializeOnDraw(byte[] state) {
-        super.initializeOnDraw(state);
+    public void load(byte[] state, AtomicInteger start) {
+        super.load(state, start);
         aabb.setOffsetAndSize(0.6f, 0.8f, 0.6f, true);
     }
 

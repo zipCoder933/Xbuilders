@@ -5,23 +5,23 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameMode;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.GameSceneEvents;
-import com.xbuilders.engine.game.model.items.block.BlockRegistry;
-import com.xbuilders.engine.game.model.items.block.Block;
-import com.xbuilders.engine.game.model.items.entity.Entity;
-import com.xbuilders.engine.game.model.items.item.ItemStack;
-import com.xbuilders.engine.game.model.players.Player;
-import com.xbuilders.engine.game.model.players.PositionLock;
+import com.xbuilders.engine.server.model.GameMode;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.GameSceneEvents;
+import com.xbuilders.engine.server.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.players.Player;
+import com.xbuilders.engine.server.model.players.PositionLock;
 import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.game.model.items.item.StorageSpace;
-import com.xbuilders.engine.game.model.world.data.WorldData;
+import com.xbuilders.engine.server.model.items.item.StorageSpace;
+import com.xbuilders.engine.server.model.world.data.WorldData;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -93,15 +93,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
         if (GameScene.getGameMode() == GameMode.ADVENTURE) {
-            if (status_health <= 0) {
-                die();
-            }
+
             if (status_hunger > 0) {
                 if (runningMode) status_hunger -= 0.001f;
                 else status_hunger -= 0.0002f;
-            }
-            if (status_hunger > MAX_HUNGER) {
-                status_hunger = MAX_HUNGER;
             }
 
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
@@ -117,6 +112,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             } else if (playerHead.isLiquid()) {
                 status_oxygen -= 0.02f;
             } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.02f;
+
+
+            if (status_health <= 0) {
+                die();
+            }
+            status_hunger = MathUtils.clamp(status_hunger, 0, MAX_HUNGER);
+            status_health = MathUtils.clamp(status_health, 0, MAX_HEALTH);
+            status_oxygen = MathUtils.clamp(status_oxygen, 0, MAX_OXYGEN);
         }
     }
 
@@ -128,12 +131,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void die() {
+        dismount();
         dieMode = true;
         MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             System.out.println("Teleporting to spawnpoint...");
             if (!inventory.isEmpty()) {
                 GameScene.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             }
+
             worldPosition.set(status_spawnPosition);
             resetHealthStats();
             dieMode = false;
@@ -431,7 +436,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         updateHealthbars(blockAtHead, blockAtFeet, blockAtWaist);
 
 
-        if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode())) {
+        if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode() || dieMode)) {
             //Dismount if riding entity is destroyed
             dismount();
         }

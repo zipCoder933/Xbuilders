@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.vertexSet;
 
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.client.visuals.rendering.chunk.mesh.CompactMesh;
 import org.lwjgl.system.MemoryUtil;
 

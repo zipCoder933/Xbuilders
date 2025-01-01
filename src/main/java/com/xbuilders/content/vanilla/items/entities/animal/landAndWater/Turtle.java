@@ -13,9 +13,11 @@ import com.xbuilders.engine.utils.math.RandomUtils;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -39,12 +41,15 @@ public class Turtle extends LandAndWaterAnimal {
 
 
     @Override
-    public byte[] toBytes() throws IOException {
-        return new byte[]{(byte) textureIndex};
+    public byte[] save() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.writeBytes(super.save());
+        baos.write((byte) textureIndex);
+        return baos.toByteArray();
     }
 
     @Override
-    public void initializeOnDraw(byte[] loadBytes) {
+    public void load(byte[] loadBytes, AtomicInteger start) {
         if (body == null) {
             body = new EntityMesh();
             left_fin = new EntityMesh();
@@ -70,7 +75,7 @@ public class Turtle extends LandAndWaterAnimal {
             }
         }
 
-        if (loadBytes != null) {
+        if (loadBytes.length > 0) {
             textureIndex = MathUtils.clamp(loadBytes[0], 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }

@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
 import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.game.model.GameScene;
-import com.xbuilders.engine.game.model.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;

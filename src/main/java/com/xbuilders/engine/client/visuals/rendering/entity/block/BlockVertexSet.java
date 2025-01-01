@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.rendering.entity.block;
 
-import com.xbuilders.engine.game.model.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh_ArrayTexture;
 import org.joml.Vector3f;
