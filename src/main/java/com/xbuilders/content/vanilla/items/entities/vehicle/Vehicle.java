@@ -26,7 +26,7 @@ public abstract class Vehicle extends Entity {
     }
 
     /**
-     * @return the distToPlayer
+     * @return the client_distToPlayer
      */
     public float get3DDistToPlayer() {
         return distToPlayer;

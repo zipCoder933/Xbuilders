@@ -57,10 +57,10 @@ public class LogicThread {
 
                 int spawnDistance = (int) Math.min(Chunk.WIDTH * 2, MainWindow.settings.internal_simulationDistance.value * 0.6f);
                 spawnDistance = Math.min(MainWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which entities are spawned
-                //System.out.println("Chunk " + chunk.distToPlayer + " " + simDistance + " " + spawnDistance);
+                //System.out.println("Chunk " + chunk.client_distToPlayer + " " + simDistance + " " + spawnDistance);
 
-                if (chunk.distToPlayer < simDistance) {
-                    chunksUpdated += (chunk.tick(chunk.distToPlayer < spawnDistance) ? 1 : 0);
+                if (chunk.client_distToPlayer < simDistance) {
+                    chunksUpdated += (chunk.tick(chunk.client_distToPlayer < spawnDistance) ? 1 : 0);
                 }
             }
             //System.out.println("Tick " + chunksUpdated + " chunks");

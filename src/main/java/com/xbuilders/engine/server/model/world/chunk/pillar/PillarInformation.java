@@ -79,7 +79,7 @@ public class PillarInformation {
     }
 
     public void loadChunks(Terrain terrain, WorldData info) {
-        generationService.submit(chunks[0].distToPlayer, () -> {
+        generationService.submit(chunks[0].client_distToPlayer, () -> {
             for (Chunk c : chunks) {
                 c.loadChunk(info, terrain, null);
             }

@@ -104,8 +104,8 @@ public class ItemDrop extends Entity {
                 destroy();
             }
             canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.player.inventory.hasRoomForItem(stack);
-//            if (distToPlayer < 5) {
-//                System.out.println("item: " + stack + " DIST TO PLAYER: " + distToPlayer + " CAN GET: " + canGet + " TIME SINCE DROPPED: " + timeSinceDropped + " hasRoomForItem: " + GameScene.player.inventory.hasRoomForItem(stack));
+//            if (client_distToPlayer < 5) {
+//                System.out.println("item: " + stack + " DIST TO PLAYER: " + client_distToPlayer + " CAN GET: " + canGet + " TIME SINCE DROPPED: " + timeSinceDropped + " hasRoomForItem: " + GameScene.player.inventory.hasRoomForItem(stack));
 //            }
             if (distToPlayer < 2 && canGet) {
                 worldPosition.set(playerHeadPos);

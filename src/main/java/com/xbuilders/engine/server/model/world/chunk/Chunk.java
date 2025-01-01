@@ -6,6 +6,7 @@ import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.entity.ChunkEntitySet;
+import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -82,7 +83,7 @@ public class Chunk {
     public final Matrix4f modelMatrix;
     public final MVP mvp;
     public boolean inFrustum;
-    public float distToPlayer;
+    public float client_distToPlayer;
     public final ChunkMeshBundle meshes;
     public final AABB aabb;
     public final NeighborInformation neghbors;
@@ -120,7 +121,7 @@ public class Chunk {
         neghbors.init(position);
 
 
-        this.distToPlayer = distToPlayer;   // Load the chunk
+        this.client_distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
 
         World.frameTester.startProcess();
@@ -129,7 +130,7 @@ public class Chunk {
     }
 
     public void load() {
-        loadFuture = generationService.submit(distToPlayer, () -> {
+        loadFuture = generationService.submit(client_distToPlayer, () -> {
             try {
                 loadChunk(info, terrain, futureChunk);
                 return false;
@@ -261,7 +262,7 @@ public class Chunk {
         if (loadFuture != null && loadFuture.isDone()) {
 
             if (isTopChunk && pillarInformation != null && !pillarInformation.pillarLightLoaded && pillarInformation.isPillarLoaded()) {
-                pillarInformation.initLighting(null, terrain, distToPlayer);
+                pillarInformation.initLighting(null, terrain, client_distToPlayer);
                 pillarInformation.pillarLightLoaded = true;
             }
 
@@ -387,13 +388,23 @@ public class Chunk {
     private static final float DEV_RANDOM_TICK_LIKELIHOOD = 0.3f;
     private static final float RANDOM_TICK_LIKELIHOOD = 0.008f;
 
-    private static final float DEV_RANDOM_SPAWN_LIKELIHOOD = 0.00005f;
+    private static final float DEV_RANDOM_SPAWN_LIKELIHOOD = 0.0001f;
     private static final float RANDOM_SPAWN_LIKELIHOOD = 0.00001f;
 
+    private static final float DEV_RANDOM_DESPAWN_LIKELIHOOD = 0.01f;
+    private static final float RANDOM_DESPAWN_LIKELIHOOD = 0.001f;
+
+    /**
+     * Ticks the chunk
+     *
+     * @param spawnEntities
+     * @return if the chunk mesh was updated
+     */
     public boolean tick(boolean spawnEntities) {
-        boolean updatedAnything = false;
+        boolean updatedChunkMesh = false;
         float tickLikelyhood = (MainWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
         float spawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_SPAWN_LIKELIHOOD : RANDOM_SPAWN_LIKELIHOOD);
+        float despawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_DESPAWN_LIKELIHOOD : RANDOM_DESPAWN_LIKELIHOOD);
         int wx = position.x * WIDTH;
         int wy = position.y * HEIGHT;
         int wz = position.z * WIDTH;
@@ -401,6 +412,16 @@ public class Chunk {
         EntitySupplier entityToSpawn = null;
         if (spawnEntities && Registrys.entities.autonomousList.size() > 0)
             entityToSpawn = Registrys.entities.autonomousList.get(randomTick_random.nextInt(Registrys.entities.autonomousList.size()));
+
+        //Despawn entities
+        for (Entity e : entities.list) {
+            if (e.spawnedNaturally//If the entitiy was spawned in this tick method
+                    && randomTick_random.nextFloat() <= despawnLikelyhood
+                    && e.link.despawnCondition.despawn(e)) {
+                System.out.println("Despawning entity");
+                e.destroy();
+            }
+        }
 
 
         for (int x = 0; x < WIDTH; x++) {
@@ -412,7 +433,7 @@ public class Chunk {
                         if (blockID != BlockRegistry.BLOCK_AIR.id) {
                             Block block = Registrys.getBlock(blockID);
                             if (block.randomTickEvent != null) {
-                                if (block.randomTickEvent.run(wx + x, wy + y, wz + z)) updatedAnything = true;
+                                if (block.randomTickEvent.run(wx + x, wy + y, wz + z)) updatedChunkMesh = true;
                             }
                         }
                     }
@@ -421,12 +442,13 @@ public class Chunk {
                             && randomTick_random.nextFloat() <= spawnLikelyhood &&
                             entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
                         Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
-                        GameScene.placeEntity(entityToSpawn, pos, null);
+                        Entity e = GameScene.placeEntity(entityToSpawn, pos, null);
+                        e.spawnedNaturally = true;
                     }
 
                 }
             }
         }
-        return updatedAnything;
+        return updatedChunkMesh;
     }
 }

@@ -558,7 +558,7 @@ public class World {
 
         chunks.forEach((coords, chunk) -> {
             //This is used for 1) chunk task prioritization and 2) chunk ticking distance
-            chunk.distToPlayer = MathUtils.dist(
+            chunk.client_distToPlayer = MathUtils.dist(
                     coords.x * Chunk.WIDTH,
                     coords.y * Chunk.HEIGHT,
                     coords.z * Chunk.WIDTH,
