@@ -133,7 +133,7 @@ public abstract class Vehicle extends Entity {
     }
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
         posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
     }
 
@@ -141,11 +141,11 @@ public abstract class Vehicle extends Entity {
 
     public abstract void onDestructionCancel();
 
-    public byte[] entityState_write() {
+    public byte[] serializeStateData() {
         return ByteUtils.floatToBytes(getRotationYDeg());
     }
 
-    public void entityState_read(byte[] state, AtomicInteger start) {
+    public void loadStateData(byte[] state, AtomicInteger start) {
         if (state.length != 4) return;
         rotationYDeg = (ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]));
     }

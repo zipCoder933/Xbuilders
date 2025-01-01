@@ -60,7 +60,7 @@ public abstract class Animal extends Entity {
     }
 
     //Entity saving
-    public final byte[] entityState_write() {
+    public final byte[] serializeStateData() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             baos.write(ByteUtils.floatToBytes(getRotationYDeg()));
@@ -74,7 +74,7 @@ public abstract class Animal extends Entity {
         return null;
     }
 
-    public void entityState_read(byte[] state, AtomicInteger start) {
+    public void loadStateData(byte[] state, AtomicInteger start) {
         rotationYDeg = (ByteUtils.bytesToFloat(state, start));
         random.readState(state, start);
         animal_readState(state, start);
@@ -136,13 +136,13 @@ public abstract class Animal extends Entity {
     }
 
 
-    public void load(Input input, Kryo kyro) throws IOException {
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
         if (input.available() > 0) {
             tamed = kyro.readObject(input, boolean.class);
         }
     }
 
-    public void serialize(Output output, Kryo kyro) throws IOException {
+    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
         kyro.writeObject(output, tamed);
     }
 

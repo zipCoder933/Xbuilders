@@ -1,6 +1,5 @@
 package com.xbuilders.engine.server.multiplayer;
 
-import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
@@ -143,9 +142,9 @@ public class MultiplayerPendingEntityChanges {
         //Send entity byte data (state or entity initialisation)
         byte[] data = null;
         if (entityOperation == GameServer.ENTITY_UPDATED) {
-            data = entity.entityState_write();
+            data = entity.serializeStateData();
         } else if (entityOperation == GameServer.ENTITY_CREATED) {
-            data = Entity.serializeEntityDefinitionData(entity);
+            data = entity.top_serializeDefinitionData();
         }
         ChunkSavingLoadingUtils.writeEntityData(data, baos);
     }

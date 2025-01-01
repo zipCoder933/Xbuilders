@@ -53,8 +53,8 @@ public class ItemDrop extends Entity {
 
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
 
         seed = (byte) (Math.random() * 255);
         if (box == null) {

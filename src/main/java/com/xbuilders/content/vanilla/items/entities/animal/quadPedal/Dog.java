@@ -10,7 +10,6 @@ import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.model.players.Player;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Dog extends QuadPedalLandAnimal {
@@ -81,8 +80,8 @@ public class Dog extends QuadPedalLandAnimal {
     }
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);
 
         setActivity(0.7f);
         //Z is the direciton of the animal

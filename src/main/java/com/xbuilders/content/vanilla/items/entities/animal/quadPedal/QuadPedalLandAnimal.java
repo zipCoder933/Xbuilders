@@ -20,7 +20,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class QuadPedalLandAnimal extends LandAnimal {
 
@@ -80,15 +79,15 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     }
 
     @Override
-    public void serialize(Output output, Kryo kyro) throws IOException {
-        super.serialize(output, kyro);
+    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
+        super.serializeDefinitionData(output, kyro);
         kyro.writeObject(output, textureIndex);
     }
 
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);
 
         goForwardCallback = amount -> {
             legMovement += amount;

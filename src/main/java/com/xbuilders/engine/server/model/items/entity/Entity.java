@@ -144,32 +144,20 @@ public abstract class Entity {
     public final static Kryo kyro = new Kryo();
 
     /**
-     * Used when the entity doesnt have a implemented serialize() method
-     *
-     * @return
+     * Used as another layer of abstraction to write definition data of entity.
+     * If the entity has no data, we return the loaded bytes
      */
-    public byte[] getLoadedBytes() {
-        return loadBytes;
-    }
-
-    /**
-     * Used as another layer of abstraction, if the entity has no data, we return the loaded bytes
-     *
-     * @param e
-     * @return
-     * @throws IOException
-     */
-    public final static byte[] serializeEntityDefinitionData(Entity e) throws IOException {
+    public final byte[] top_serializeDefinitionData() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
-        e.serialize(output, Entity.kyro);
+        serializeDefinitionData(output, Entity.kyro);
         output.close();
         byte[] entityBytes = baos.toByteArray();
         System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
 
         //If the entity has no data, we return the loaded bytes
-        if (entityBytes.length == 0 && e.getLoadedBytes() != null) {
-            return e.getLoadedBytes();
+        if (entityBytes.length == 0 && loadBytes != null) {
+            return loadBytes;
         } else return entityBytes;
     }
 
@@ -178,7 +166,7 @@ public abstract class Entity {
             getLightForPosition();
             if (loadBytes == null) loadBytes = new byte[0];
             Input input = new Input(loadBytes);
-            load(input, kyro);
+            loadDefinitionData(input, kyro);
         } catch (Exception e) {
             ErrorHandler.log(e);
             destroy();
@@ -192,37 +180,52 @@ public abstract class Entity {
     }
 
     /**
-     * Initializes and optionally deserializes the entity
+     * Load the definition data of the entity and initialize it
+     * Definition data includes persistent, largely static attributes:
+     * •	Species (e.g., Zombie, Skeleton).
+     * •	UUID (unique identifier for the entity).
+     * •	Name/Custom Name Tags.
      */
-    public void load(Input input, Kryo kyro) throws IOException {
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
     }
 
     /**
-     * serializes the entity
+     * Write the definition data of the entity
+     * Definition data includes persistent, largely static attributes:
+     * •	Species (e.g., Zombie, Skeleton).
+     * •	UUID (unique identifier for the entity).
+     * •	Name/Custom Name Tags.
      */
-    public void serialize(Output output, Kryo kyro) throws IOException {
+    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
     }
 
+    /**
+     * Load the state data of the entity
+     * State data reflects dynamic, real-time changes, such as:
+     * •	Position/Velocity/Rotation (where it is and how it’s moving).
+     * •	Health.
+     * •	Action states (e.g., attacking, sneaking, or swimming).
+     * •	Equipment changes.
+     */
+    public void loadStateData(byte[] state, AtomicInteger start) {
+    }
 
     /**
-     * Used for multiplayer / model, live entity state
-     *
-     * @return
+     * Write the state data of the entity
+     * State data reflects dynamic, real-time changes, such as:
+     * •	Position/Velocity/Rotation (where it is and how it’s moving).
+     * •	Health.
+     * •	Action states (e.g., attacking, sneaking, or swimming).
+     * •	Equipment changes.
      */
-    public byte[] entityState_write() {
+    public byte[] serializeStateData() {
         return null;
     }
 
-    /**
-     * Used for multiplayer / model, live entity state
-     *
-     * @param state
-     * @param start
-     */
-    public void entityState_read(byte[] state, AtomicInteger start) {
-    }
 
-    //This method will be called when a chunk is saved (or removed)
+    /**
+     * This method will be called when a chunk is saved (or removed)
+     */
     public final boolean updatePosition() {
         aabb.update(true);//IF the entity goes outside of a chunk, it will not be reassigned to another chunk and it will dissapear when moved too far
         chunkPosition.set(worldPosition);

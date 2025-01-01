@@ -18,7 +18,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -35,13 +34,13 @@ public class FishA extends FishAnimal {
     int textureIndex;
 
     @Override
-    public void serialize(Output output, Kryo kyro) throws IOException {
-        super.serialize(output, kyro);
+    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
+        super.serializeDefinitionData(output, kyro);
         kyro.writeObject(output, textureIndex);
     }
 
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
 
         if (body == null) {
             body = new EntityMesh();

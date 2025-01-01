@@ -19,7 +19,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -42,14 +41,14 @@ public class Turtle extends LandAndWaterAnimal {
     }
 
     @Override
-    public void serialize(Output output, Kryo kyro) throws IOException {
-        super.serialize(output, kyro);//Always call super!
+    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
+        super.serializeDefinitionData(output, kyro);//Always call super!
         kyro.writeObject(output, (byte) textureIndex);
     }
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
 
         if (body == null) {
             body = new EntityMesh();

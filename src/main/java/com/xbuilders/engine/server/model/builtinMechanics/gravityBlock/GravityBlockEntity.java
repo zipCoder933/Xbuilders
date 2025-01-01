@@ -38,7 +38,7 @@ public class GravityBlockEntity extends Entity {
     }
 
     @Override
-    public void load(Input input, Kryo kyro) {
+    public void loadDefinitionData(Input input, Kryo kyro) {
         box = new Box();
         box.setColor(1, 0, 0, 1);
         box.setLineWidth(4);

@@ -5,7 +5,6 @@ import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Horse extends QuadPedalLandAnimal {
@@ -30,8 +29,8 @@ public class Horse extends QuadPedalLandAnimal {
 
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);
         lock.setOffset(-1);
     }
 }

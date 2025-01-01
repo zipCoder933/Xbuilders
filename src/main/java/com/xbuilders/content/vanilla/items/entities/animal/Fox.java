@@ -5,7 +5,6 @@ import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Fox extends StaticLandAnimal {
@@ -14,8 +13,8 @@ public class Fox extends StaticLandAnimal {
     }
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
         aabb.setOffsetAndSize(0.6f, 0.8f, 0.6f, true);
     }
 

@@ -22,7 +22,6 @@ import org.joml.Vector3i;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -159,8 +158,8 @@ public class Minecart extends Vehicle {
 
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
 
 
         if (model == null) {

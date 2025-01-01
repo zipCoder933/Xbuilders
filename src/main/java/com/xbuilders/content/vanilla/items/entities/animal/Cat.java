@@ -5,7 +5,6 @@ import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Cat extends StaticLandAnimal {
@@ -14,8 +13,8 @@ public class Cat extends StaticLandAnimal {
     }
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
         setActivity(0.9f);
     }
 

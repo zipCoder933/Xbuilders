@@ -17,7 +17,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -38,16 +37,16 @@ public class Banner extends Entity {
 
 
     @Override
-    public void serialize(Output output, Kryo kyro) throws IOException {
-        super.serialize(output, kyro);//Always call super!
+    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
+        super.serializeDefinitionData(output, kyro);//Always call super!
         kyro.writeObject(output, (byte) xzOrientation);
         kyro.writeObject(output, againstFencepost);
         System.out.println("\t (pre) Entity bytes: " + Arrays.toString(output.toBytes()));
     }
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
 
         if (body == null) {
             try {

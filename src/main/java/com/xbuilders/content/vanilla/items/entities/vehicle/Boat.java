@@ -12,11 +12,9 @@ import com.xbuilders.engine.server.model.players.PositionLock;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.server.model.world.chunk.XBFilterOutputStream;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -125,8 +123,8 @@ public class Boat extends Vehicle {
 
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
 
         posHandler.setGravityEnabled(isInWater() ? false : true);
 

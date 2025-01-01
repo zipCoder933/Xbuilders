@@ -17,7 +17,6 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -35,8 +34,8 @@ public class FishB extends FishAnimal {
 
     int textureIndex;
 
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
 
         if (body == null) {
             body = new EntityMesh();

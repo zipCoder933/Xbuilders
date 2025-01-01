@@ -17,7 +17,6 @@ import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -39,8 +38,8 @@ public class Beaver extends LandAndWaterAnimal {
     final static Vector3f LIMB_LEGS_OFFSET = new Vector3f(0, 0, 0);
 
     @Override
-    public void load(Input input, Kryo kyro) throws IOException {
-        super.load(input, kyro);//Always call super!
+    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+        super.loadDefinitionData(input, kyro);//Always call super!
         if (body == null) {
             body = new EntityMesh();
             head = new EntityMesh();
