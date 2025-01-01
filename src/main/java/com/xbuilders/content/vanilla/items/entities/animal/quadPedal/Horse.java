@@ -28,8 +28,8 @@ public class Horse extends QuadPedalLandAnimal {
 
 
     @Override
-    public void load(byte[] state, AtomicInteger start) {
-        super.load(state, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
         lock.setOffset(-1);
     }
 }

@@ -14,8 +14,8 @@ public class Rabbit extends StaticLandAnimal {
     }
 
     @Override
-    public void load(byte[] state, AtomicInteger start) {
-        super.load(state, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
         goForwardCallback = (amount) -> {
             if (amount > 0.01) {
                 if (System.currentTimeMillis() - lastJumpTime > 500) {

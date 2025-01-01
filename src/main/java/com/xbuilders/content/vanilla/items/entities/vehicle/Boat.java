@@ -159,8 +159,6 @@ public class Boat extends Vehicle {
     }
 
 
-    public void toBytes(XBFilterOutputStream fout) throws IOException {
-    }
 
 }
 

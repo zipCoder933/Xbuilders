@@ -78,16 +78,14 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     }
 
     @Override
-    public byte[] save() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.writeBytes(super.save());
+    public void serialize(ByteArrayOutputStream baos) {
+        super.serialize(baos);
         baos.write((byte) textureIndex);
-        return baos.toByteArray();
     }
 
 
     @Override
-    public void load(byte[] state, AtomicInteger start) {
+    public void load(byte[] serializedBytes, AtomicInteger start) {
         goForwardCallback = amount -> {
             legMovement += amount;
         };
@@ -104,8 +102,8 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             ErrorHandler.report(e);
         }
 
-        if (state.length > 0) {
-            textureIndex = MathUtils.clamp(state[0], 0, this.textures.length - 1);
+        if (serializedBytes.length > 0) {
+            textureIndex = MathUtils.clamp(serializedBytes[0], 0, this.textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(this.textures.length);
 
     }

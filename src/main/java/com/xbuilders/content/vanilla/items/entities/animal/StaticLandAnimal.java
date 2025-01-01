@@ -28,13 +28,10 @@ public abstract class StaticLandAnimal extends LandAnimal {
     }
 
     @Override
-    public byte[] save() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.writeBytes(super.save());
+    public void serialize(ByteArrayOutputStream baos) {
+        super.serialize(baos);
         baos.write((byte) textureIndex);
-        return baos.toByteArray();
     }
-
 
     public static class StaticLandAnimal_StaticData {
         public final EntityMesh body;
@@ -54,8 +51,8 @@ public abstract class StaticLandAnimal extends LandAnimal {
         }
     }
 
-    public void load(byte[] state, AtomicInteger start) {
-        super.load(state, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
 
         try {
             StaticLandAnimal_StaticData ead = getStaticData();
@@ -65,8 +62,8 @@ public abstract class StaticLandAnimal extends LandAnimal {
             ErrorHandler.report(e);
         }
 
-        if (state.length > 0) {
-            textureIndex = MathUtils.clamp(state[0], 0, textures.length - 1);
+        if (serializedBytes.length > 0) {
+            textureIndex = MathUtils.clamp(serializedBytes[0], 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }
 

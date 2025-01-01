@@ -39,17 +39,14 @@ public class Turtle extends LandAndWaterAnimal {
         setActivity(0.5f);
     }
 
-
     @Override
-    public byte[] save() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.writeBytes(super.save());
+    public void serialize(ByteArrayOutputStream baos) {
+        super.serialize(baos);
         baos.write((byte) textureIndex);
-        return baos.toByteArray();
     }
 
     @Override
-    public void load(byte[] loadBytes, AtomicInteger start) {
+    public void load(byte[] serializedBytes, AtomicInteger start) {
         if (body == null) {
             body = new EntityMesh();
             left_fin = new EntityMesh();
@@ -75,8 +72,8 @@ public class Turtle extends LandAndWaterAnimal {
             }
         }
 
-        if (loadBytes.length > 0) {
-            textureIndex = MathUtils.clamp(loadBytes[0], 0, textures.length - 1);
+        if (serializedBytes.length > 0) {
+            textureIndex = MathUtils.clamp(serializedBytes[0], 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }
 

@@ -19,6 +19,7 @@ import com.xbuilders.engine.server.model.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3f;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -165,8 +166,9 @@ public abstract class Entity {
     /**
      * Used to serialize the entity to a byte array
      */
-    public byte[] save() throws IOException {
-        return loadBytes;//Sometimes an entity doesnt have a toBytes method, so we can use this
+    public void serialize(ByteArrayOutputStream baos) throws IOException {
+        baos.writeBytes(loadBytes);
+        //Sometimes an entity doesnt have a toBytes method, so we can use this
         //We must NEVER set loadBytes to null unless we are ABSOLUTELY SURE that it will never be needed again
     }
 

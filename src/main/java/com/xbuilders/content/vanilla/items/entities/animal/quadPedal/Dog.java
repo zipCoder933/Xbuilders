@@ -79,8 +79,8 @@ public class Dog extends QuadPedalLandAnimal {
     }
 
     @Override
-    public void load(byte[] state, AtomicInteger start) {
-        super.load(state, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
         setActivity(0.7f);
         //Z is the direciton of the animal
         legXSpacing = 0.30f * SCALE;

@@ -33,15 +33,13 @@ public class FishA extends FishAnimal {
     int textureIndex;
 
     @Override
-    public byte[] save() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.writeBytes(super.save());
+    public void serialize(ByteArrayOutputStream baos) {
+        super.serialize(baos);
         baos.write((byte) textureIndex);
-        return baos.toByteArray();
     }
 
-    public void load(byte[] loadBytes, AtomicInteger start) {
-        super.load(loadBytes, start);//Always call super!
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);//Always call super!
         if (body == null) {
             body = new EntityMesh();
 
@@ -59,8 +57,8 @@ public class FishA extends FishAnimal {
             }
         }
 
-        if (loadBytes.length > 0) {
-            textureIndex = MathUtils.clamp(loadBytes[0], 0, textures.length - 1);
+        if (serializedBytes.length > 0) {
+            textureIndex = MathUtils.clamp(serializedBytes[0], 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }
 

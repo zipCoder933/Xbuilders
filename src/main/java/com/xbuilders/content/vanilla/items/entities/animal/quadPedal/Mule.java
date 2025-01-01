@@ -28,8 +28,8 @@ public class Mule extends QuadPedalLandAnimal {
 
 
     @Override
-    public void load(byte[] state, AtomicInteger start) {
-        super.load(state, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
         legXSpacing = 0.35f * SCALE;
         legZSpacing = 0.8f * SCALE;
         legYSpacing = -1f * SCALE;

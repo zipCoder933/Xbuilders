@@ -12,8 +12,8 @@ public class Cat extends StaticLandAnimal {
     }
 
     @Override
-    public void load(byte[] state, AtomicInteger start) {
-        super.load(state, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
         setActivity(0.9f);
     }
 

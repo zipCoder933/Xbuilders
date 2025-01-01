@@ -144,7 +144,9 @@ public class MultiplayerPendingEntityChanges {
         if (entityOperation == GameServer.ENTITY_UPDATED) {
             data = entity.entityState_write();
         } else if (entityOperation == GameServer.ENTITY_CREATED) {
-            data = entity.save();
+            ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+            entity.serialize(baos2);
+            data = baos2.toByteArray();
         }
         ChunkSavingLoadingUtils.writeEntityData(data, baos);
     }

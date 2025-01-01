@@ -37,8 +37,8 @@ public class Beaver extends LandAndWaterAnimal {
     final static Vector3f LIMB_LEGS_OFFSET = new Vector3f(0, 0, 0);
 
     @Override
-    public void load(byte[] loadBytes, AtomicInteger start) {
-        super.load(loadBytes, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
         if (body == null) {
             body = new EntityMesh();
             head = new EntityMesh();

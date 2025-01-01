@@ -160,7 +160,9 @@ public class ChunkSavingLoadingUtils {
                     entity.updatePosition();  //Write position
                     writeChunkVoxelCoords(out, entity.chunkPosition.chunkVoxel);
 
-                    byte[] entityBytes = entity.save(); //Write entity data
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream(); //Write entity data
+                    entity.serialize(baos);
+                    byte[] entityBytes = baos.toByteArray();
                     writeEntityData(entityBytes, out);
 
                 }

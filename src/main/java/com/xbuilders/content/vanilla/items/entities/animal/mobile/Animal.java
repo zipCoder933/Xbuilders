@@ -133,14 +133,12 @@ public abstract class Animal extends Entity {
     }
 
 
-    public void load(byte[] state, AtomicInteger start) {
-        if (state.length > 0) tamed = state[start.getAndIncrement()] == 1;
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        if (serializedBytes.length > 0) tamed = serializedBytes[start.getAndIncrement()] == 1;
     }
 
-    public byte[] save() {
-        return new byte[]{
-                (byte) (tamed ? 1 : 0)
-        };
+    public void serialize(ByteArrayOutputStream baos) {
+        baos.write((byte) (tamed ? 1 : 0));
     }
 
 

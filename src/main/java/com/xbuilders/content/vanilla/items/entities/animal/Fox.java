@@ -12,8 +12,8 @@ public class Fox extends StaticLandAnimal {
     }
 
     @Override
-    public void load(byte[] state, AtomicInteger start) {
-        super.load(state, start);
+    public void load(byte[] serializedBytes, AtomicInteger start) {
+        super.load(serializedBytes, start);
         aabb.setOffsetAndSize(0.6f, 0.8f, 0.6f, true);
     }
 
