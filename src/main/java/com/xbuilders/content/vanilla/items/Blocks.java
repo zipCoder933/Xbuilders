@@ -92,8 +92,10 @@ public class Blocks {
                 else b.toughness = 0.1f;
             }
             //Add flammable tag to various blocks
-            if (isWood(b) || b.alias.contains("dead") || b.alias.contains("dry") || b.alias.contains("grass")) {
+            if (isWood(b) || b.alias.contains("dead") || b.alias.contains("dry")) {
                 b.properties.put("flammable", "true");
+            }else if(!b.solid && b.renderType == RenderType.SPRITE){
+//                b.properties.pr
             }
             if (isWood(b)) {
                 b.easierMiningTool_tag = "axe";

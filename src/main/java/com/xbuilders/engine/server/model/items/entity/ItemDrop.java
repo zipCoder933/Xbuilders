@@ -85,7 +85,7 @@ public class ItemDrop extends Entity {
 
     private boolean blockIsClear(Block camBlock, int x, int y, int z) {
         Block block = GameScene.world.getBlock(x, y, z);
-        return block.id == BlockRegistry.BLOCK_AIR.id || block == camBlock;
+        return block.id == BlockRegistry.BLOCK_AIR.id || !block.solid || block == camBlock;
     }
 
     @Override
@@ -114,6 +114,10 @@ public class ItemDrop extends Entity {
                 int x = (int) Math.floor(worldPosition.x);
                 int y = (int) Math.floor(worldPosition.y);
                 int z = (int) Math.floor(worldPosition.z);
+
+                if (GameScene.world.getBlock(x, y, z).enterDamage > 0.2) {
+                    destroy();
+                }
 
                 if (!blockIsClear(camBlock, x, y, z)) {
                     if (blockIsClear(camBlock, x, y - 1, z)) {

@@ -119,5 +119,10 @@
     "id": "xbuilders:white_dye",
     "name": "White Dye",
     "icon": "pp/white_dye.png"
+  },
+  {
+    "id": "xbuilders:flint_and_steel",
+    "name": "Flint and Steel",
+    "icon": "flint_and_steel.png"
   }
 ]
