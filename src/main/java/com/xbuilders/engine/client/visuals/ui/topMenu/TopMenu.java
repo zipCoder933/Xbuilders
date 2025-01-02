@@ -97,9 +97,9 @@ public class TopMenu {
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
         progress = new ProgressMenu(window.ctx, window, this);
-        hostMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.player, true, ipAdress, loadWorld);
-        joinMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.player, false, ipAdress, loadWorld);
-        customizePlayer = new CustomizePlayer(window.ctx, window, this, MainWindow.gameScene.player);
+        hostMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.userPlayer, true, ipAdress, loadWorld);
+        joinMultiplayer = new Multiplayer(window.ctx, window, this, MainWindow.gameScene.userPlayer, false, ipAdress, loadWorld);
+        customizePlayer = new CustomizePlayer(window.ctx, window, this, MainWindow.gameScene.userPlayer);
         settings = new SettingsPage(window.ctx, window, () -> {
             goBack();
         });

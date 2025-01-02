@@ -5,6 +5,7 @@ import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.server.multiplayer.Local_MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.server.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
@@ -28,7 +29,7 @@ import java.io.IOException;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
 import com.xbuilders.engine.server.model.GameScene;
 
-import static com.xbuilders.engine.server.model.GameScene.player;
+import static com.xbuilders.engine.server.model.GameScene.userPlayer;
 import static com.xbuilders.engine.server.model.GameScene.world;
 
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
@@ -55,8 +56,12 @@ import com.xbuilders.engine.server.model.world.wcc.WCCi;
 import com.xbuilders.window.developmentTools.FrameTester;
 import org.joml.*;
 
+/**
+ * The world is the main class that manages the chunks and entities in the game.
+ * It represents the entire game world, and acts as a model for the game.
+ */
 public class World {
-    public static FrameTester frameTester = MainWindow.frameTester;
+
 
     /*
      * CHUNK GENERATION PERFORMANCE
@@ -113,8 +118,7 @@ public class World {
         return viewDistance.get() + (Chunk.WIDTH * 6);
     }
 
-    private final AtomicBoolean needsSorting; // Atomic variables are thread update
-    private final Vector3f lastPlayerPosition = new Vector3f();
+
 
     // World boundaries
     // chunk boundaries
@@ -142,15 +146,23 @@ public class World {
                 && inYBounds(iy);
     }
 
-    private SortByDistanceToPlayer sortByDistance;
-
+    //Model properties
     public final Map<Vector3i, Chunk> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
+    public final WorldEntityMap entities = new WorldEntityMap(); // <chunkPos, entity>
+    public final List<Player> players = new ArrayList<>();
+    public WorldData data;
+    public Terrain terrain;
+
+    //Client properties
+    private final AtomicBoolean needsSorting; // Atomic variables are thread update
+    private final Vector3f lastPlayerPosition = new Vector3f();
+    private SortByDistanceToPlayer sortByDistance;
     private final List<Chunk> unusedChunks = new ArrayList<>();
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
-
-    public final WorldEntityMap entities = new WorldEntityMap(); // <chunkPos, entity>
+    //For testing
+    public static FrameTester frameTester = MainWindow.frameTester;
 
     /**
      * This is a record of all the pending changes that need to be applied.
@@ -159,8 +171,7 @@ public class World {
     public Local_MultiplayerPendingBlockChanges multiplayerPendingBlockChanges;
     public Local_MultiplayerPendingEntityChanges multiplayerPendingEntityChanges;
 
-    public WorldData data;
-    public Terrain terrain;
+
 
     /**
      * = new ScheduledThreadPoolExecutor(1, r -> { ... });: This line creates an
@@ -235,7 +246,7 @@ public class World {
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
         setViewDistance(MainWindow.settings, MainWindow.settings.internal_viewDistance.value);
-        sortByDistance = new SortByDistanceToPlayer(GameScene.player.worldPosition);
+        sortByDistance = new SortByDistanceToPlayer(GameScene.userPlayer.worldPosition);
         entities.clear();
     }
 
@@ -277,14 +288,23 @@ public class World {
     }
     // </editor-fold>
 
+    public void startGameEvent(WorldData info){
+        players.clear();
+        players.add(GameScene.userPlayer);
+    }
+
     public boolean startGame(ProgressData prog, WorldData info, Vector3f playerPosition) {
         System.out.println("\n\nStarting new game: " + info.getName());
         prog.setTask("Starting new game");
+
         this.chunks.clear();
         this.unusedChunks.clear();
         this.futureChunks.clear(); // Important!
+
         newGameTasks.set(0);
+
         this.data = info;
+
         entities.clear();
         //Get the terrain from worldInfo
         this.terrain = MainWindow.game.getTerrainFromInfo(info);
@@ -671,11 +691,11 @@ public class World {
          */
 
 
-        if (player.camera.cursorRay.hitTarget()) {
-            chunkShader_cursorMin.set(player.camera.cursorRay.getHitPos());
+        if (userPlayer.camera.cursorRay.hitTarget()) {
+            chunkShader_cursorMin.set(userPlayer.camera.cursorRay.getHitPos());
             chunkShader_cursorMax.set(chunkShader_cursorMin).add(1, 1, 1);
 
-            List<AABB> cursorBoxes = player.camera.cursorRay.cursorRay.cursorBoxes;
+            List<AABB> cursorBoxes = userPlayer.camera.cursorRay.cursorRay.cursorBoxes;
             if (cursorBoxes != null && !cursorBoxes.isEmpty()) {
                 chunkShader_cursorMin.set(cursorBoxes.get(0).min);
                 chunkShader_cursorMax.set(cursorBoxes.get(0).max);
@@ -685,7 +705,7 @@ public class World {
                 }
             }
             chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMax);
-            chunkShader.setBlockBreakPercentage(player.camera.cursorRay.breakPercentage);
+            chunkShader.setBlockBreakPercentage(userPlayer.camera.cursorRay.breakPercentage);
         } else {
             chunkShader.setBlockBreakPercentage(0);
             chunkShader_cursorMin.set(0, 0, 0);
@@ -883,7 +903,7 @@ public class World {
     }
 
     public void save() {
-        Vector3f playerPos = player.worldPosition;
+        Vector3f playerPos = userPlayer.worldPosition;
         MainWindow.printlnDev("Saving world...");
         // Save all modified chunks
         Iterator<Chunk> iterator = chunks.values().iterator();
@@ -901,7 +921,7 @@ public class World {
         }
 
         //Save player info
-        player.saveToWorld(data);
+        userPlayer.saveToWorld(data);
 
         //Save multiplayer pending block changes
         multiplayerPendingBlockChanges.save(data);

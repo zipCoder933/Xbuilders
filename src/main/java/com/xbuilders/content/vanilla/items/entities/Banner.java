@@ -59,7 +59,7 @@ public class Banner extends Entity {
             if (node.has("XZ")) xzOrientation = node.get("XZ").asInt();
             if (node.has("fencepost")) againstFencepost = node.get("fencepost").asBoolean();
         } else {
-            xzOrientation = GameScene.player.camera.simplifiedPanTilt.x;
+            xzOrientation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
             int wx = (int) worldPosition.x;
             int wy = (int) worldPosition.y;
             int wz = (int) worldPosition.z;

@@ -67,9 +67,9 @@ public class Minecart extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        UserControlledPlayer userControlledPlayer = GameScene.player;
+        UserControlledPlayer userControlledPlayer = GameScene.userPlayer;
         if (userControlledPlayer.positionLock == null) {
-            GameScene.player.positionLock = positionLock;
+            GameScene.userPlayer.positionLock = positionLock;
             forwardBackDir = 0;
             resetKeyEvent();
             onTrack = alignToNearestTrack();
@@ -278,13 +278,13 @@ public class Minecart extends Vehicle {
 
         if (forwardBackDir == 0) {//If we are stopped
             if (b.id == Blocks.BLOCK_SWITCH_JUNCTION) {
-                if (GameScene.player.leftKeyPressed()) {
+                if (GameScene.userPlayer.leftKeyPressed()) {
                     if (switchJunctionKeyEvent) {
                         float rotationY1 = getRotationYDeg() + 90;
                         this.setRotationYDeg(rotationY1);
                         switchJunctionKeyEvent = false;
                     }
-                } else if (GameScene.player.rightKeyPressed()) {
+                } else if (GameScene.userPlayer.rightKeyPressed()) {
                     if (switchJunctionKeyEvent) {
                         float rotationY1 = getRotationYDeg() - 90;
                         this.setRotationYDeg(rotationY1);
@@ -454,7 +454,7 @@ public class Minecart extends Vehicle {
 
 
     public static int assignForwardOrBackward(int direction) {
-        if (GameScene.player.forwardKeyPressed()) {
+        if (GameScene.userPlayer.forwardKeyPressed()) {
             if (keyEvent) {
                 if (direction == 0) {
                     direction = 1;
@@ -463,7 +463,7 @@ public class Minecart extends Vehicle {
                 }
                 keyEvent = false;
             }
-        } else if (GameScene.player.backwardKeyPressed()) {
+        } else if (GameScene.userPlayer.backwardKeyPressed()) {
             if (keyEvent) {
                 if (direction == 0) {
                     direction = -1;

@@ -37,7 +37,7 @@ public class BlockEventPipeline {
 
     public BlockEventPipeline(World world) {
         this.world = world;
-        this.player = GameScene.player;
+        this.player = GameScene.userPlayer;
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {

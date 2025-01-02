@@ -62,7 +62,7 @@ public class FurnaceUI extends ContainerUI {
         };
 
 
-        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.player.inventory, this, true);
+        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.userPlayer.inventory, this, true);
     }
 
     private void smeltWhenReady() {

@@ -75,7 +75,7 @@ public class ItemDrop extends Entity {
     @Override
     public void draw() {
         if (box == null) return;
-        playerHeadPos.set(GameScene.player.aabb.worldPosition).add(GameScene.player.aabb.offset).add(0, 0.5f, 0);
+        playerHeadPos.set(GameScene.userPlayer.aabb.worldPosition).add(GameScene.userPlayer.aabb.offset).add(0, 0.5f, 0);
         if (MainWindow.frameCount % 20 != 0) { //Update every 20 frames
             timeSinceDropped++;
             if (timeSinceDropped > DROP_LIVE_TIME) {
@@ -85,7 +85,7 @@ public class ItemDrop extends Entity {
                 System.out.println("STACK IS NULL, DELETING ITEM DROP");
                 destroy();
             }
-            canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.player.inventory.hasRoomForItem(stack);
+            canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.userPlayer.inventory.hasRoomForItem(stack);
 //            if (client_distToPlayer < 5) {
 //                System.out.println("item: " + stack + " DIST TO PLAYER: " + client_distToPlayer + " CAN GET: " + canGet + " TIME SINCE DROPPED: " + timeSinceDropped + " hasRoomForItem: " + GameScene.player.inventory.hasRoomForItem(stack));
 //            }
@@ -93,7 +93,7 @@ public class ItemDrop extends Entity {
                 worldPosition.set(playerHeadPos);
             } else {
                 //Get the block at this position
-                Block camBlock = GameScene.player.getBlockAtCameraPos();
+                Block camBlock = GameScene.userPlayer.getBlockAtCameraPos();
 
                 int x = (int) Math.floor(worldPosition.x);
                 int y = (int) Math.floor(worldPosition.y);
@@ -134,8 +134,8 @@ public class ItemDrop extends Entity {
                 (float) MathUtils.curve(animatedPos.z, worldPosition.z, animationSpeed));
 
         if (animatedPos.distance(playerHeadPos) < 0.1 && canGet) {
-            System.out.println("CONSUMED BY: " + GameScene.player.userInfo.name);
-            GameScene.player.acquireItem(stack);
+            System.out.println("CONSUMED BY: " + GameScene.userPlayer.userInfo.name);
+            GameScene.userPlayer.acquireItem(stack);
             System.out.println("DELETING ITEM DROP");
             destroy();
         }

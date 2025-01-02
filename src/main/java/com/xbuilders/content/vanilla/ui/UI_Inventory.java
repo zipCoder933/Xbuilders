@@ -42,8 +42,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         };
 
 
-        craftingGrid = new CraftingUI_Base(ctx, window, this, GameScene.player.inventory, 4);
-        playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.player.inventory, this, true);
+        craftingGrid = new CraftingUI_Base(ctx, window, this, GameScene.userPlayer.inventory, 4);
+        playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.userPlayer.inventory, this, true);
         // We have to create the window initially
         nk_begin(ctx, title, NkRect.create(), windowFlags);
         nk_end(ctx);

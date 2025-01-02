@@ -93,7 +93,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         if (action == GLFW.GLFW_RELEASE) {
             if (!inBounds(windowDims) && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
                 if (draggingItem != null) {
-                    GameScene.player.dropItem(draggingItem);
+                    GameScene.userPlayer.dropItem(draggingItem);
                     draggingItem = null;
                 } else setOpen(false);
                 return true;

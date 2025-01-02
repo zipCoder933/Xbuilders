@@ -7,7 +7,7 @@ import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.server.model.players.PlayerClient;
+import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
-public class GameServer extends Server<PlayerClient> {
+public class GameServer extends Server<Player> {
 
     //All server message headers
     public static final byte PLAYER_INFO = -128;
@@ -53,19 +53,21 @@ public class GameServer extends Server<PlayerClient> {
     public static final byte CHANGE_PLAYER_PERMISSION = -114;
     public static final byte WORLD_CHUNK_LAST_SAVED = -113;
 
+    GameScene scene;
     NetworkJoinRequest req;
-    UserControlledPlayer userPlayer;
+    UserControlledPlayer client_userPlayer;
     private WorldData worldInfo;
     public int loadedChunks = 0;
     boolean worldReady = false;
-    PlayerClient hostClient;
+    Player hostClient;
 
-    public GameServer(UserControlledPlayer player) {
-        super(PlayerClient::new);
-        this.userPlayer = player;
+    public GameServer(GameScene scene, UserControlledPlayer player) {
+        super(Player::new);
+        this.client_userPlayer = player;
+        this.scene = scene;
     }
 
-    public boolean isHosting() {
+    private boolean isHosting() {
         return req != null && req.hosting;
     }
 
@@ -75,7 +77,7 @@ public class GameServer extends Server<PlayerClient> {
 
     public void updatePlayers(Matrix4f projection, Matrix4f view) {
         for (int i = 0; i < clients.size(); i++) {
-            clients.get(i).update(userPlayer);
+            clients.get(i).update(client_userPlayer);
             clients.get(i).drawPlayer(projection, view);
         }
     }
@@ -89,6 +91,7 @@ public class GameServer extends Server<PlayerClient> {
 
     public void initNewGame(WorldData worldInfo, NetworkJoinRequest req) {
         this.req = req;
+        scene.userPlayer.isHost = req.hosting;
         loadedChunks = 0;
         this.worldInfo = worldInfo;
         worldReady = false;
@@ -106,7 +109,7 @@ public class GameServer extends Server<PlayerClient> {
             hostClient = connectToServer(new InetSocketAddress(req.hostIpAdress, req.toPortVal));
             hostClient.isHost = true;
             Thread.sleep(1000);
-            hostClient.sendData(userPlayer.userInfo.toBytes());
+            hostClient.sendData(client_userPlayer.userInfo.toBytes());
         }
     }
 
@@ -132,13 +135,13 @@ public class GameServer extends Server<PlayerClient> {
     }
 
     @Override
-    public boolean newClientEvent(PlayerClient client) {
+    public boolean newClientEvent(Player client) {
         try {
             if (clientAlreadyJoined(client)) {
                 System.out.println(client.getRemoteSocketAddress().toString() + " has already joined");
                 return false;
             } else {
-                client.sendData(userPlayer.userInfo.toBytes());
+                client.sendData(client_userPlayer.userInfo.toBytes());
                 if (req.hosting) {
                     sendWorldToClient(client);
                 }
@@ -149,7 +152,7 @@ public class GameServer extends Server<PlayerClient> {
         }
     }
 
-    private void sendWorldToClient(PlayerClient client) throws IOException {
+    private void sendWorldToClient(Player client) throws IOException {
         //Save the world first to ensure that all changes are on the disk
         GameScene.world.save();
 
@@ -194,29 +197,31 @@ public class GameServer extends Server<PlayerClient> {
         }).start();
     }
 
+    public void clientDisconnectEvent(Player client) {
+        scene.playerLeaveEvent(client);
+    }
 
     @Override
-    public void dataFromClientEvent(PlayerClient client, byte[] receivedData) {
+    public void dataFromClientEvent(Player client, byte[] receivedData) {
         try {
             if (receivedData.length == 0) return;
 
             if (receivedData[0] == PLAYER_INFO) { //Given when the player updates his info
                 //Update player information first
-                client.player.userInfo.fromBytes(receivedData);
+                client.userInfo.fromBytes(receivedData);
                 //If the player has not joined yet, add him
-                if (!client.player.isKnown) {
-                    client.player.isKnown = true;
+                if (!client.isKnown) {
+                    client.isKnown = true;
                     if (isHosting()) { //If we are the host, ask other players to connect too
-                        sendChatMessage(client, "Welcome \"" + client.player.userInfo.name + "\"!");
-
+                        sendChatMessage(client, "Welcome \"" + client.userInfo.name + "\"!");
                         byte[] joinMessage = NetworkUtils.formatMessage(PLEASE_CONNECT_TO_CLIENT,
                                 client.getRemoteSocketAddress().getHostName()
                                         + ":" + client.getRemoteSocketAddress().getPort());
-                        for (PlayerClient otherClient : clients) {
+                        for (Player otherClient : clients) {
                             if (!otherClient.equals(client)) otherClient.sendData(joinMessage);
                         }
                     }
-                    playerJoinEvent(client);
+                    scene.playerJoinEvent(client);
                 }
             } else if (receivedData[0] == PLEASE_CONNECT_TO_CLIENT) {
                 String[] adress = new String(receivedData).substring(1).split(":");
@@ -226,21 +231,21 @@ public class GameServer extends Server<PlayerClient> {
 
             } else if (receivedData[0] == PLAYER_CHAT) {
                 String message = new String(NetworkUtils.getMessage(receivedData));
-                String playerName = client.player.userInfo.name;
+                String playerName = client.userInfo.name;
                 GameScene.consoleOut(playerName + ":  \"" + message + "\"");
             } else if (receivedData[0] == PLAYER_POSITION) {
                 float x = ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
                 float y = ByteUtils.bytesToFloat(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
                 float z = ByteUtils.bytesToFloat(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
                 float pan = ByteUtils.bytesToFloat(receivedData[13], receivedData[14], receivedData[15], receivedData[16]);
-                client.player.worldPosition.set(x, y, z);
-                client.player.pan = (pan);
+                client.worldPosition.set(x, y, z);
+                client.pan = (pan);
             } else if (receivedData[0] == VOXELS_UPDATED) {
                 final AtomicInteger inReachChanges = new AtomicInteger(0);
                 final AtomicInteger outOfReachChanges = new AtomicInteger(0);
 
                 MultiplayerPendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
-                    if (MultiplayerPendingBlockChanges.changeCanBeLoaded(userPlayer, pos)) {//If change is within reach
+                    if (MultiplayerPendingBlockChanges.changeCanBeLoaded(client_userPlayer, pos)) {//If change is within reach
                         GameScene.eventPipeline.addEvent(pos, blockHist);
                         inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
@@ -255,7 +260,7 @@ public class GameServer extends Server<PlayerClient> {
                 MultiplayerPendingEntityChanges.readEntityChange(receivedData, (
                         mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
                     //printEntityChange(client, mode, entity, identifier, currentPos, data);
-                    if (MultiplayerPendingEntityChanges.changeWithinReach(userPlayer, currentPos)) {
+                    if (MultiplayerPendingEntityChanges.changeWithinReach(client_userPlayer, currentPos)) {
                         if (mode == ENTITY_CREATED) {
                             setEntity(entity, identifier, currentPos, data);
                         } else if (mode == ENTITY_DELETED) {
@@ -318,7 +323,7 @@ public class GameServer extends Server<PlayerClient> {
         }
     }
 
-    private void printEntityChange(PlayerClient client, int mode, EntitySupplier entity,
+    private void printEntityChange(Player client, int mode, EntitySupplier entity,
                                    long identifier, Vector3f currentPos,
                                    byte[] data) {
         if (!MainWindow.devMode) return;
@@ -390,44 +395,24 @@ public class GameServer extends Server<PlayerClient> {
         return false;
     }
 
-    public PlayerClient getPlayerByName(String name) {
-        for (PlayerClient client : clients) {
-            if (client.player != null) {
-                if (client.player.userInfo.name.equalsIgnoreCase(name)) {
-                    return client;
-                }
+    public Player getPlayerByName(String name) {
+        for (Player client : clients) {
+            if (client.userInfo.name.equalsIgnoreCase(name)) {
+                return client;
             }
         }
         return null;
     }
 
-    public void clientDisconnectEvent(PlayerClient client) {
-        if (client.player != null) {
-            GameScene.consoleOut(client.getName() + " has left");
-        } else {
-            GameScene.consoleOut("Unknown player has left");
-        }
-        if (client.isHost) {
-            onLeaveEvent();
-            MainWindow.goToMenuPage();
-            MainWindow.popupMessage.message(
-                    "Host has left",
-                    "The host has left the game." +
-                            "\nLast ping from host " + client.getSecSinceLastPing() + "s ago");
-        }
-    }
 
     private void onLeaveEvent() {
-        for (PlayerClient client : clients) {//Send all changes before we leave
+        for (Player client : clients) {//Send all changes before we leave
             client.model_blockChanges_ToBeSentToPlayer.sendAllChanges();
         }
     }
 
-    private void playerJoinEvent(PlayerClient client) {
-        GameScene.alert("A new player has joined: " + client.player);
-    }
 
-    public String sendChatMessage(PlayerClient player, String message) {
+    public String sendChatMessage(Player player, String message) {
         try {
             byte[] data = new byte[message.length() + 1];
             data[0] = PLAYER_CHAT;
@@ -441,7 +426,7 @@ public class GameServer extends Server<PlayerClient> {
 
     public String sendChatMessage(String playerName, String message) {
         try {
-            PlayerClient player = getPlayerByName(playerName);
+            Player player = getPlayerByName(playerName);
             byte[] data = new byte[message.length() + 1];
             data[0] = PLAYER_CHAT;
             System.arraycopy(message.getBytes(), 0, data, 1, message.length());
@@ -461,20 +446,19 @@ public class GameServer extends Server<PlayerClient> {
 
 
     public void sendNearBlockChanges() {
-        for (PlayerClient client : clients) {
-            if (client.player == null) continue;
+        for (Player client : clients) {
             client.model_blockChanges_ToBeSentToPlayer.sendNearBlockChanges();
         }
     }
 
     public void addBlockChange(Vector3i worldPos, Block block, BlockData data) {
-        for (PlayerClient client : clients) {
+        for (Player client : clients) {
             client.model_blockChanges_ToBeSentToPlayer.addBlockChange(worldPos, block, data);
         }
     }
 
     public void addEntityChange(Entity entity, byte mode, boolean sendImmediately) {
-        for (PlayerClient client : clients) {
+        for (Player client : clients) {
             client.model_entityChanges_ToBeSentToPlayer.addEntityChange(entity, mode, sendImmediately);
         }
     }

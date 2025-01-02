@@ -19,13 +19,17 @@ public class NetworkSocket {
 
     public Thread messageThread;
 
-    public String getStatus() {
-        return "ping: " + getSecSinceLastPing() + "s ago"
-                + ";  connected: " + getSocket().isConnected()
-                + ";  closed: " + isClosed()
-                + ";  output shutdown: " + socket.isOutputShutdown()
-                + ";  input shutdown: " + socket.isInputShutdown()
-                + ";  message thread alive: " + messageThread.isAlive();
+    public String getConnectionStatus() {
+        if (socket != null) {
+            String stats = "ping: " + getSecSinceLastPing() + "s ago"
+                    + ";  connected: " + getSocket().isConnected()
+                    + ";  closed: " + isClosed();
+            stats += ";  output shutdown: " + socket.isOutputShutdown() +
+                    ";  input shutdown: " + socket.isInputShutdown();
+            stats += ";  message thread alive: " + messageThread.isAlive();
+            return stats;
+        }
+        return "(no socket)";
     }
 
     public NetworkSocket init(Socket socket) throws IOException {
@@ -75,6 +79,7 @@ public class NetworkSocket {
 
 
     public String getHostAddress() {
+        if (socket == null) return null;
         return socket.getInetAddress().getHostAddress();
     }
 
@@ -125,6 +130,7 @@ public class NetworkSocket {
     /**
      * Read data from the socket and return it as a byte array.
      * Blocks until data is available.
+     *
      * @return
      * @throws IOException
      */

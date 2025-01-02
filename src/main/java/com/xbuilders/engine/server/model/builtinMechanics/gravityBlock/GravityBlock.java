@@ -53,9 +53,9 @@ public class GravityBlock {
 
             //Under certain conditions, we immediately move the block to the bottom
             if (thisPosition.distance(
-                    (int) GameScene.player.worldPosition.x,
-                    (int) GameScene.player.worldPosition.y,
-                    (int) GameScene.player.worldPosition.z) >= Math.min(50, MainWindow.settings.video_entityDistance.value)) {
+                    (int) GameScene.userPlayer.worldPosition.x,
+                    (int) GameScene.userPlayer.worldPosition.y,
+                    (int) GameScene.userPlayer.worldPosition.z) >= Math.min(50, MainWindow.settings.video_entityDistance.value)) {
 
                 //Set the block at the bottom
                 for (int y = thisPosition.y + 1; y < World.WORLD_BOTTOM_Y; y++) {

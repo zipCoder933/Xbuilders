@@ -34,10 +34,10 @@ public class PlaneTool extends BlockTool {
 
     @Override
     public void activate() {
-        GameScene.player.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
+        GameScene.userPlayer.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
             blockBoundarySetEvent(aabb, created);
         });
-        GameScene.player.camera.cursorRay.boundary_lockToPlane = true;
+        GameScene.userPlayer.camera.cursorRay.boundary_lockToPlane = true;
     }
 
 

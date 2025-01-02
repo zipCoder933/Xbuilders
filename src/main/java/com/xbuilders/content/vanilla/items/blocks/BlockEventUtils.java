@@ -54,24 +54,24 @@ public class BlockEventUtils {
                 if (GameScene.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
                     GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                     removeEverythingWithinRadius(thisBlock, radius, new Vector3i(setX, setY, setZ));
-                    float dist = GameScene.player.worldPosition.distance(setX, setY, setZ);
+                    float dist = GameScene.userPlayer.worldPosition.distance(setX, setY, setZ);
                     if (dist < radius) {
-                        GameScene.player.addHealth(
+                        GameScene.userPlayer.addHealth(
                                 MathUtils.mapAndClamp(dist, radius, 0, 0, -10));
                     }
 
 
                     //Move the player away
                     Vector3f direction = new Vector3f(
-                            GameScene.player.worldPosition.x - setX,
-                            GameScene.player.worldPosition.y - setY,
-                            GameScene.player.worldPosition.z - setZ).normalize();
+                            GameScene.userPlayer.worldPosition.x - setX,
+                            GameScene.userPlayer.worldPosition.y - setY,
+                            GameScene.userPlayer.worldPosition.z - setZ).normalize();
                     direction = direction.mul(1f / MathUtils.dist(
-                            GameScene.player.worldPosition.x,
-                            GameScene.player.worldPosition.y,
-                            GameScene.player.worldPosition.z, setX, setY, setZ));
+                            GameScene.userPlayer.worldPosition.x,
+                            GameScene.userPlayer.worldPosition.y,
+                            GameScene.userPlayer.worldPosition.z, setX, setY, setZ));
                     direction.mul(50);
-                    GameScene.player.positionHandler.addVelocity(direction.x, direction.y, direction.z);
+                    GameScene.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();

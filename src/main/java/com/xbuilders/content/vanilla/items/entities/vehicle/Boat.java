@@ -147,7 +147,7 @@ public class Boat extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        GameScene.player.positionLock = new PositionLock(this, 0);
+        GameScene.userPlayer.positionLock = new PositionLock(this, 0);
         return true;
     }
 

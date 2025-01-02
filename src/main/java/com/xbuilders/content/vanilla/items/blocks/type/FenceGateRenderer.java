@@ -9,7 +9,6 @@ import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -36,7 +35,7 @@ public class FenceGateRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.initialBlockData = (existingData, player) -> {
                 BlockData bd = new BlockData(2);
-                int rotation = GameScene.player.camera.simplifiedPanTilt.x;
+                int rotation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
                 bd.set(0, (byte) rotation);
                 bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
                 return bd;

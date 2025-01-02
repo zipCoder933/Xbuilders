@@ -18,8 +18,8 @@ public class CraftingUI extends UI_ItemWindow {
     public CraftingUI(NkContext ctx, NKWindow window) {
         super(ctx, window, "Crafting");
         menuDimensions.y = 500;
-        craftingGrid = new CraftingUI_Base(ctx, window, this, GameScene.player.inventory, 9);
-        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.player.inventory, this, true);
+        craftingGrid = new CraftingUI_Base(ctx, window, this, GameScene.userPlayer.inventory, 9);
+        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.userPlayer.inventory, this, true);
     }
 
     @Override

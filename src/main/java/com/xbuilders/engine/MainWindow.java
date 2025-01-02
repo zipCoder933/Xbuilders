@@ -332,7 +332,7 @@ public class MainWindow extends NKWindow {
 
         String playerName = "";
         try {
-            playerName = " (" + GameScene.player.userInfo.name + ") ";
+            playerName = " (" + GameScene.userPlayer.userInfo.name + ") ";
         } finally {
         }
         setTitle(title + playerName + (MainWindow.devMode ? "   " + mfpAndMemory : ""));

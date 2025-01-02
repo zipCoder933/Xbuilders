@@ -11,6 +11,7 @@ import com.xbuilders.engine.server.model.items.entity.EntityRegistry;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.model.items.entity.ItemDrop;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
+import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.model.players.pipeline.BlockEventPipeline;
@@ -51,7 +52,7 @@ public class GameScene implements WindowEvents {
     public static final World world = new World();
     public static boolean drawWireframe;
     public static boolean drawBoundingBoxes;
-    public static UserControlledPlayer player;
+    public static UserControlledPlayer userPlayer;
     public static GameServer server;
     static MainWindow window;
     public final static Matrix4f projection = new Matrix4f();
@@ -91,7 +92,7 @@ public class GameScene implements WindowEvents {
     }
 
     public static boolean ownsGame() {
-        return (server.isPlayingMultiplayer() && server.isHosting()) || !server.isPlayingMultiplayer();
+        return (server.isPlayingMultiplayer() && userPlayer.isHost) || !server.isPlayingMultiplayer();
     }
 
 
@@ -99,8 +100,8 @@ public class GameScene implements WindowEvents {
         game = myGame;
         this.window = window;
         specialMode = true;
-        player = new UserControlledPlayer(window, projection, view, centeredView);
-        server = new GameServer(player);
+        userPlayer = new UserControlledPlayer(window, projection, view, centeredView);
+        server = new GameServer(this, userPlayer);
         livePropagationHandler = new LivePropagationHandler();
         eventPipeline = new BlockEventPipeline(world);
         tickThread = new LogicThread();
@@ -216,9 +217,9 @@ public class GameScene implements WindowEvents {
         //Setup blocks
         game.setup(this, window.ctx, ui);
         //init player
-        player.init();
+        userPlayer.init();
         //init world
-        world.init(player, Registrys.blocks.textures);
+        world.init(userPlayer, Registrys.blocks.textures);
 
         //Init UI
         ui = new GameUI(game, window.ctx, window);
@@ -260,19 +261,40 @@ public class GameScene implements WindowEvents {
     NetworkJoinRequest req;
     ProgressData prog;
 
+    public void playerJoinEvent(Player client) {
+        GameScene.alert("A new player has joined: " + client);
+        System.out.println("JOIN EVENT: " + client.getName());
+        System.out.println("Players: " + world.players);
+        world.players.add(client);
+        System.out.println("Players: " + world.players);
+    }
+
+    public void playerLeaveEvent(Player client) {
+        GameScene.alert(client.getName() + " has left");
+        world.players.remove(client);
+
+        if (client.isHost) {
+            MainWindow.goToMenuPage();
+            MainWindow.popupMessage.message(
+                    "Host has left the game",
+                    "Last ping from host " + client.getSecSinceLastPing() + "s ago");
+        }
+    }
+
     public void startGameEvent(WorldData worldData, NetworkJoinRequest req, ProgressData prog) {
         world.data = worldData;
         this.req = req;
         this.prog = prog;
         livePropagationHandler.startGameEvent(worldData);
         eventPipeline.startGameEvent(worldData);
+        world.startGameEvent(worldData);
         tickThread.startGameEvent();
         if (MainWindow.devMode) writeDebugText = true;
     }
 
     public void stopGameEvent() {
         System.out.println("Closing " + world.data.getName() + "...");
-        player.stopGameEvent();
+        userPlayer.stopGameEvent();
         world.stopGameEvent();
         tickThread.stopGameEvent();
         eventPipeline.stopGameEvent();
@@ -310,15 +332,15 @@ public class GameScene implements WindowEvents {
                 prog.setTask("Starting game...");
                 gameMode = (GameMode.values()[world.data.data.gameMode]);
                 if (world.data.getSpawnPoint() == null) { //Create spawn point
-                    player.worldPosition.set(0, 0, 0);
+                    userPlayer.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, world.data, new Vector3f(0, 0, 0));
                     if (!ok) {
                         prog.abort();
                         MainWindow.goToMenuPage();
                     }
                 } else {//Load spawn point
-                    player.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
-                    world.startGame(prog, world.data, player.worldPosition);
+                    userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
+                    world.startGame(prog, world.data, userPlayer.worldPosition);
                 }
                 prog.stage++;
             }
@@ -330,7 +352,6 @@ public class GameScene implements WindowEvents {
                 server.startHostingWorld();
                 prog.stage++;
             }
-
             case 5 -> { //Prepare chunks
                 if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING) {
                     prog.setTask("Preparing chunks");
@@ -359,15 +380,15 @@ public class GameScene implements WindowEvents {
                 if (world.data.getSpawnPoint() == null) {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
-                    player.status_spawnPosition.set(getInitialSpawnPoint(world.terrain));
-                    player.worldPosition.set(player.status_spawnPosition);
-                    player.newWorldEvent(world.data);
+                    userPlayer.status_spawnPosition.set(getInitialSpawnPoint(world.terrain));
+                    userPlayer.worldPosition.set(userPlayer.status_spawnPosition);
+                    userPlayer.newWorldEvent(world.data);
                 }
                 setTimeOfDay(world.data.data.timeOfDay);
                 game.startGameEvent(world.data);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);
-                player.startGameEvent(world.data);
+                userPlayer.startGameEvent(world.data);
                 prog.finish();
                 setProjection();
             }
@@ -428,13 +449,13 @@ public class GameScene implements WindowEvents {
         if (lastGameMode == null || lastGameMode != gameMode) {
             lastGameMode = gameMode; //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
-            player.gameModeChangedEvent(getGameMode());
+            userPlayer.gameModeChangedEvent(getGameMode());
             GameScene.alert("Game mode changed to: " + gameMode);
         }
 
         //TODO: move player logic into tick thread
         eventPipeline.update();
-        player.update(holdMouse);
+        userPlayer.update(holdMouse);
 
 
         //draw other players
@@ -446,7 +467,7 @@ public class GameScene implements WindowEvents {
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        world.drawChunks(projection, view, player.worldPosition);
+        world.drawChunks(projection, view, userPlayer.worldPosition);
         MainWindow.frameTester.endProcess("Drawing chunks");
         setInfoText();
         livePropagationHandler.update();
@@ -484,7 +505,7 @@ public class GameScene implements WindowEvents {
         if (ui.keyEvent(key, scancode, action, mods)) {
         } else if (game.keyEvent(key, scancode, action, mods)) {
         } else {
-            player.keyEvent(key, scancode, action, mods);
+            userPlayer.keyEvent(key, scancode, action, mods);
         }
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
@@ -500,14 +521,14 @@ public class GameScene implements WindowEvents {
     public boolean mouseButtonEvent(int button, int action, int mods) {
         ui.mouseButtonEvent(button, action, mods);
         if (!ui.anyMenuOpen()) {
-            player.mouseButtonEvent(button, action, mods);
+            userPlayer.mouseButtonEvent(button, action, mods);
         }
         return true;
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (ui.anyMenuOpen() && ui.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else if (player.mouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else if (userPlayer.mouseScrollEvent(scroll, xoffset, yoffset)) {
         } else if (game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
         } else {
             ui.hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
@@ -524,27 +545,27 @@ public class GameScene implements WindowEvents {
             String text = "";
             try {
                 WCCf wcc2 = new WCCf();
-                wcc2.set(player.worldPosition);
+                wcc2.set(userPlayer.worldPosition);
                 text += MainWindow.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
                 text += "Saved " + world.getTimeSinceLastSave() + "ms ago\n";
                 text += "PLAYER pos: " +
-                        ((int) player.worldPosition.x) + ", " +
-                        ((int) player.worldPosition.y) + ", " +
-                        ((int) player.worldPosition.z) +
-                        "    velocity: " + MiscUtils.printVector(GameScene.player.positionHandler.getVelocity());
-                text += "\n\tcamera: " + player.camera.toString();
+                        ((int) userPlayer.worldPosition.x) + ", " +
+                        ((int) userPlayer.worldPosition.y) + ", " +
+                        ((int) userPlayer.worldPosition.z) +
+                        "    velocity: " + MiscUtils.printVector(GameScene.userPlayer.positionHandler.getVelocity());
+                text += "\n\tcamera: " + userPlayer.camera.toString();
 
-                if (player.camera.cursorRay.hitTarget() || player.camera.cursorRay.angelPlacementMode) {
+                if (userPlayer.camera.cursorRay.hitTarget() || userPlayer.camera.cursorRay.angelPlacementMode) {
                     if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-                        rayWCC.set(player.camera.cursorRay.getHitPosPlusNormal());
-                        text += "\nRAY (+normal) (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                        rayWCC.set(userPlayer.camera.cursorRay.getHitPosPlusNormal());
+                        text += "\nRAY (+normal) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     } else {
-                        rayWCC.set(player.camera.cursorRay.getHitPos());
-                        text += "\nRAY (hit) (Q): \n\t" + player.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                        rayWCC.set(userPlayer.camera.cursorRay.getHitPos());
+                        text += "\nRAY (hit) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     }
 
-                    if (player.camera.cursorRay.getEntity() != null) {
-                        Entity e = player.camera.cursorRay.getEntity();
+                    if (userPlayer.camera.cursorRay.getEntity() != null) {
+                        Entity e = userPlayer.camera.cursorRay.getEntity();
                         text += "\nENTITY: " + e.toString() + "\n" +
                                 "\tcontrolledByAnotherPlayer: " + e.multiplayerProps.controlledByAnotherPlayer;
                     }

@@ -15,7 +15,6 @@ import java.io.IOException;
 
 public class SkyBackground {
 
-
     SkyBoxMesh skyBoxMesh;
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
@@ -33,7 +32,7 @@ public class SkyBackground {
     }
 
     private static final double UPDATE_SPEED = 0.0000005f;
-    //    private static final double UPDATE_SPEED = 0.0001f;
+
     double offset;
     double textureXPan;
     double lightness;

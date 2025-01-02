@@ -130,15 +130,15 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     public void animal_move() {
         if (playerIsRidingThis()) {
             float rotSpeed = 0.5f;
-            if (GameScene.player.forwardKeyPressed()) {
+            if (GameScene.userPlayer.forwardKeyPressed()) {
                 goForward(0.2f, true);
                 rotSpeed = 3;
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
             } else if (allowVoluntaryMovement()) super.animal_move();
 
-            if (GameScene.player.leftKeyPressed()) {
+            if (GameScene.userPlayer.leftKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() - rotSpeed);
-            } else if (GameScene.player.rightKeyPressed()) {
+            } else if (GameScene.userPlayer.rightKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() + rotSpeed);
             }
         } else if (allowVoluntaryMovement() && inFrustum) super.animal_move();
@@ -174,7 +174,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     @Override
     public boolean run_ClickEvent() {
         if (rideable) {
-            GameScene.player.positionLock = lock;
+            GameScene.userPlayer.positionLock = lock;
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);

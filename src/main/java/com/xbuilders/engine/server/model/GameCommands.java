@@ -4,7 +4,7 @@ import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.GameServer;
-import com.xbuilders.engine.server.model.players.PlayerClient;
+import com.xbuilders.engine.server.model.players.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,9 +78,9 @@ public class GameCommands {
                         return out;
                     }
                     case "players" -> {
-                        String str = "" + gameScene.server.clients.size() + " players:\n";
-                        for (PlayerClient client : gameScene.server.clients) {
-                            str += client.getName() + ";   " + client.getStatus() + "\n";
+                        String str = "" + gameScene.world.players.size() + " players:\n";
+                        for (Player client : gameScene.world.players) {
+                            str += client.getName() + ";   " + client.getConnectionStatus() + "\n";
                         }
                         System.out.println("\nPLAYERS:\n" + str);
                         return str;
@@ -111,15 +111,15 @@ public class GameCommands {
                         if (!GameScene.isOperator()) return null;
 
                         if (parts.length == 2) {
-                            PlayerClient target = gameScene.server.getPlayerByName(parts[1]);
+                            Player target = gameScene.server.getPlayerByName(parts[1]);
                             if (target != null) {
-                                gameScene.player.worldPosition.set(target.player.worldPosition);
+                                gameScene.userPlayer.worldPosition.set(target.worldPosition);
                                 return null;
                             } else {
                                 return "Player not found";
                             }
                         } else if (parts.length > 3) {
-                            gameScene.player.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                            gameScene.userPlayer.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
                         } else return commandHelp.get("teleport");
                     }
                     case "mode" -> {
@@ -147,7 +147,7 @@ public class GameCommands {
                                 int quantity = parts.length > 2 ? Integer.parseInt(parts[2].trim()) : 1;
                                 Item item = Registrys.getItem(itemID);
                                 if (item == null) return "Unknown item: " + itemID;
-                                else GameScene.player.inventory.acquireItem(new ItemStack(item, quantity));
+                                else GameScene.userPlayer.inventory.acquireItem(new ItemStack(item, quantity));
                                 return "Given " + quantity + " " + item.name;
                             } catch (Exception e) {
                                 return "Invalid";
@@ -159,10 +159,10 @@ public class GameCommands {
                             return null; //We cant change permissions if we arent the host
                         if (parts.length == 3) {
                             boolean operator = Boolean.parseBoolean(parts[1]);
-                            PlayerClient target = gameScene.server.getPlayerByName(parts[2]);
+                            Player target = gameScene.server.getPlayerByName(parts[2]);
                             if (target != null) {
                                 target.sendData(new byte[]{GameServer.CHANGE_PLAYER_PERMISSION, (byte) (operator ? 1 : 0)});
-                                return "Player " + target.player.userInfo.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
+                                return "Player " + target.userInfo.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
                             } else {
                                 return "Player not found";
                             }
@@ -176,6 +176,7 @@ public class GameCommands {
                     }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 return "Error handling command \"" + parts[0].toLowerCase() + "\": " + e.getMessage();
             }
         }

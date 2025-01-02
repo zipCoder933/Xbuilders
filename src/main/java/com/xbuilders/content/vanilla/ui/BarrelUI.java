@@ -23,7 +23,7 @@ public class BarrelUI extends ContainerUI {
         barrelStorage = new StorageSpace(33);
         menuDimensions.y = 550;
         barrelGrid = new UI_ItemStackGrid(window, "Barrel", barrelStorage, this, true);
-        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.player.inventory, this, true);
+        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.userPlayer.inventory, this, true);
 
         barrelStorage.changeEvent = () -> {
             writeDataToWorld();

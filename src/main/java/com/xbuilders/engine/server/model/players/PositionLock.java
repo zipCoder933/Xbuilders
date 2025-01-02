@@ -16,14 +16,14 @@ public class PositionLock {
     public void setOffset(float yOffset) {
         playerDisplacement.identity().translate(
                 0,
-                yOffset - GameScene.player.aabb.size.y,
+                yOffset - GameScene.userPlayer.aabb.size.y,
                 0);
     }
 
     public void setOffset(float xOffset, float yOffset, float zOffset) {
         playerDisplacement.identity().translate(
                 xOffset,
-                yOffset - GameScene.player.aabb.size.y,
+                yOffset - GameScene.userPlayer.aabb.size.y,
                 zOffset);
     }
 

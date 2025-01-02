@@ -14,7 +14,6 @@ import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.model.players.Player;
-import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.MainWindow;
@@ -23,9 +22,7 @@ import com.xbuilders.content.vanilla.items.Items;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public abstract class Animal extends Entity {
@@ -59,18 +56,18 @@ public abstract class Animal extends Entity {
 
 
     public void serializeStateData(Output output, Kryo kryo) {
-        kryo.writeObject(output, getRotationYDeg());
+        kryo.writeObject(output, rotationYDeg);
         random.writeState(output, kryo);
     }
 
     public void loadStateData(Input input, Kryo kryo) {
-        rotationYDeg = kryo.readObject(input, Float.class);
+        rotationYDeg = kryo.readObject(input, float.class);
         random.readState(input, kryo);
     }
 
 
     public boolean playerHasAnimalFeed() {
-        ItemStack heldItem = GameScene.player.getSelectedItem();
+        ItemStack heldItem = GameScene.userPlayer.getSelectedItem();
         return heldItem != null && heldItem.item.equals(Items.TOOL_ANIMAL_FEED);
     }
 
@@ -81,7 +78,7 @@ public abstract class Animal extends Entity {
         super(id, uniqueId);
         this.window = window;
         random = new AnimalRandom();
-        this.player = GameScene.player;
+        this.player = GameScene.userPlayer;
         this.pos = new PositionHandler(window, GameScene.world, aabb, player.aabb);
         pos.setGravityEnabled(true);
         random.setSeed((int) getUniqueIdentifier());
@@ -143,7 +140,7 @@ public abstract class Animal extends Entity {
     }
 
     public float getYDirectionToPlayer() {
-        return getYDirectionToPlayer(GameScene.player);
+        return getYDirectionToPlayer(GameScene.userPlayer);
     }
 
 

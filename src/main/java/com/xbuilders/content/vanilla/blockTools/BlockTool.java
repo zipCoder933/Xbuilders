@@ -26,7 +26,7 @@ public abstract class BlockTool {
     }
 
     public static  Block getSelectedBlock() {
-        ItemStack selectedItem =  GameScene.player.getSelectedItem();
+        ItemStack selectedItem =  GameScene.userPlayer.getSelectedItem();
         if(selectedItem == null || selectedItem.item == null) return null;
         if(selectedItem.item.getBlock() == null) return null;
         return selectedItem.item.getBlock();

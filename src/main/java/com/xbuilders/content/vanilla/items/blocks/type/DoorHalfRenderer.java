@@ -11,7 +11,6 @@ import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -50,7 +49,7 @@ public class DoorHalfRenderer extends BlockType {
                 if (existingData != null && existingData.size() == 3) return existingData;
 
                 BlockData bd = new BlockData(3);
-                byte rotation = (byte) GameScene.player.camera.simplifiedPanTilt.x;
+                byte rotation = (byte) GameScene.userPlayer.camera.simplifiedPanTilt.x;
                 rotation = (byte) MathUtils.positiveMod((rotation - 1), 4);
                 bd.set(0, rotation);// rotation
                 bd.set(1, (byte) 1); // (0 = open, 1 = closed),

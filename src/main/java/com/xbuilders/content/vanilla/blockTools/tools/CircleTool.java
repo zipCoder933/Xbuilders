@@ -78,7 +78,7 @@ public class CircleTool extends BlockTool {
 
     @Override
     public void activate() {
-        GameScene.player.camera.cursorRay.disableBoundaryMode();
+        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
     }
 
 

@@ -116,7 +116,7 @@ public class BlockTools extends UI_GameMenu {
     public void selectTool(int i) {
         tools.get(selectedTool).deactivate();
         selectedTool = i;
-        GameScene.player.camera.cursorRay.disableBoundaryMode();
+        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
         tools.get(selectedTool).activate();
     }
 

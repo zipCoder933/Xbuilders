@@ -36,7 +36,6 @@ import org.joml.Vector3f;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 
 /**
  * @author zipCoder933
@@ -53,7 +52,7 @@ public abstract class Entity {
     public boolean sendMultiplayer;
 
     public boolean playerIsRidingThis() {
-        return GameScene.player.positionLock != null && GameScene.player.positionLock.entity == this;
+        return GameScene.userPlayer.positionLock != null && GameScene.userPlayer.positionLock.entity == this;
     }
 
     private void getLightForPosition() {
@@ -181,7 +180,7 @@ public abstract class Entity {
         byte[] entityBytes = baos.toByteArray();
 
 
-        System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
+        //System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
         //If the entity has no data, we return the loaded bytes
         if (entityBytes.length == 0) {
             return loadBytes;

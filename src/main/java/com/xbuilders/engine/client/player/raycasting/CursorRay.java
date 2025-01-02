@@ -104,7 +104,7 @@ public class CursorRay {
         if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
         breakAmt = 0;
         breakPercentage = 0;
-        ItemStack selectedItem = GameScene.player.getSelectedItem();
+        ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
         if (!hitTarget()) return false;
 
         if (MainWindow.game.clickEvent(this, creationMode)) { //Game click event
@@ -163,7 +163,7 @@ public class CursorRay {
 
 
     private void eatFood(ItemStack selectedItem) {
-        GameScene.player.addHunger(selectedItem.item.hungerSaturation);
+        GameScene.userPlayer.addHunger(selectedItem.item.hungerSaturation);
         selectedItem.stackSize--;
     }
 
@@ -269,7 +269,7 @@ public class CursorRay {
 
             //Removal
             if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
-                ItemStack selectedItem = GameScene.player.getSelectedItem();
+                ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
                 if (selectedItem == null || !selectedItem.item.isFood()) {
                     breakBlock(true, selectedItem);
                 }
@@ -281,11 +281,11 @@ public class CursorRay {
         AABB boxAABB = new AABB();
         //If the block is too close to the player, don't place
         AtomicBoolean intersects = new AtomicBoolean(false);
-        BlockData initialData = block.getInitialBlockData(null, GameScene.player);
+        BlockData initialData = block.getInitialBlockData(null, GameScene.userPlayer);
 
         block.getRenderType().getCollisionBoxes((aabb) -> {
-            if (aabb.intersects(GameScene.player.aabb.box) &&
-                    GameScene.player.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
+            if (aabb.intersects(GameScene.userPlayer.aabb.box) &&
+                    GameScene.userPlayer.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
                 intersects.set(true);
         }, boxAABB, block, initialData, set.x, set.y, set.z);
 
@@ -436,7 +436,7 @@ public class CursorRay {
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
 
-        Vector2i simplifiedPanTilt = GameScene.player.camera.simplifiedPanTilt;
+        Vector2i simplifiedPanTilt = GameScene.userPlayer.camera.simplifiedPanTilt;
 
 
         int distance = getRayDistance();

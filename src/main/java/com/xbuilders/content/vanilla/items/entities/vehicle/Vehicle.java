@@ -13,14 +13,12 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Vector2f;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Vehicle extends Entity {
 
@@ -61,7 +59,7 @@ public abstract class Vehicle extends Entity {
     public Vehicle(int id, MainWindow window, long uniqueIdentifier) {
         super(id, uniqueIdentifier);
         this.window = window;
-        this.player = GameScene.player;
+        this.player = GameScene.userPlayer;
     }
 
     /**
@@ -79,7 +77,7 @@ public abstract class Vehicle extends Entity {
     }
 
     public float getAngleToPlayer() {
-        UserControlledPlayer userControlledPlayer = GameScene.player;
+        UserControlledPlayer userControlledPlayer = GameScene.userPlayer;
         return MathUtils.getAngleOfPoints(worldPosition.x, worldPosition.z,
                 userControlledPlayer.worldPosition.x,
                 userControlledPlayer.worldPosition.z);
@@ -125,7 +123,7 @@ public abstract class Vehicle extends Entity {
     public abstract void vehicle_entityMoveEvent();
 
     public UserControlledPlayer getPlayer() {
-        return GameScene.player;
+        return GameScene.userPlayer;
     }
 
 
