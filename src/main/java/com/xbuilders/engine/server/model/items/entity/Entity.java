@@ -8,14 +8,20 @@ import com.esotericsoftware.kryo.Kryo;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.items.Registrys;
+import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
+import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
@@ -146,11 +152,18 @@ public abstract class Entity {
 
     public final static Kryo kyro = new Kryo();
     public final static SmileFactory smileFactory = new SmileFactory();
+    public final static ObjectMapper smileObjectMapper = new ObjectMapper(smileFactory);
 
     static {
         Entity.kyro.register(byte[].class);
         smileFactory.enable(SmileGenerator.Feature.ENCODE_BINARY_AS_7BIT);
         smileFactory.enable(SmileGenerator.Feature.CHECK_SHARED_STRING_VALUES);
+
+        //Item stack serializer
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
+        module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
+        smileObjectMapper.registerModule(module);
     }
 
     /**

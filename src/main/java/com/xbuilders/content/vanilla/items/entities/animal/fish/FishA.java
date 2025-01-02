@@ -31,36 +31,21 @@ public class FishA extends FishAnimal {
     static EntityMesh body;
     static int[] textures;
 
-    int textureIndex;
-
-    @Override
-    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
-        super.serializeDefinitionData(generator);
-        kyro.writeObject(output, textureIndex);
-    }
 
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
-
         if (body == null) {
             body = new EntityMesh();
-
-            try {
-                body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\fish\\fish_A.obj"));
-                File[] textureFiles = ResourceUtils.resource("items\\entity\\animal\\fish\\textures\\fish_A").listFiles();
-                textures = new int[textureFiles.length];
-                for (int i = 0; i < textureFiles.length; i++) {
-                    textures[i] = Objects.requireNonNull(
-                            TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
-                }
-
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
+            body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\fish\\fish_A.obj"));
+            File[] textureFiles = ResourceUtils.resource("items\\entity\\animal\\fish\\textures\\fish_A").listFiles();
+            textures = new int[textureFiles.length];
+            for (int i = 0; i < textureFiles.length; i++) {
+                textures[i] = Objects.requireNonNull(
+                        TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
             }
         }
-
-        if (parser.available() > 0) {
-            textureIndex = node.readObject(parser, Integer.class);
+        if (hasData) {
+            textureIndex = node.get(JSON_SPECIES).asInt();
             textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }

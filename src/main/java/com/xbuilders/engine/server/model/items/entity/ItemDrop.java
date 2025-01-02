@@ -1,21 +1,15 @@
 package com.xbuilders.engine.server.model.items.entity;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
-import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.client.visuals.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Vector3f;
 
@@ -24,27 +18,17 @@ import java.io.IOException;
 public class ItemDrop extends Entity {
     public final static int DROP_LIVE_TIME = 10000;
     private static Box box;
-    private final static SmileFactory smileFactory = new SmileFactory();
-    public final static ObjectMapper smileJsonMapper = new ObjectMapper(smileFactory);
-
     private byte seed;
-    private boolean droppedFromPlayer;
     private int timeSinceDropped;
     private final Vector3f animatedPos = new Vector3f();
     private final Vector3f playerHeadPos = new Vector3f();
-    private ItemStack stack;
     boolean canGet;
+    public static final String JSON_DROPPED_FROM_PLAYER = "d_p";
+    public static final String JSON_ITEM_STACK = "d_s";
 
-
-    static {
-        smileFactory.enable(SmileGenerator.Feature.ENCODE_BINARY_AS_7BIT);
-        smileFactory.enable(SmileGenerator.Feature.CHECK_SHARED_STRING_VALUES);
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
-        module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
-        smileJsonMapper.registerModule(module);
-    }
-
+    //definition data
+    public ItemStack stack;
+    public boolean droppedFromPlayer;
 
     public ItemDrop(int id, long uniqueId) {
         super(id, uniqueId);
@@ -56,7 +40,11 @@ public class ItemDrop extends Entity {
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
 
+        canGet = false;
         seed = (byte) (Math.random() * 255);
+        timeSinceDropped = 0;
+        animatedPos.set(worldPosition.x, worldPosition.y + 0.5f, worldPosition.z);
+
         if (box == null) {
             box = new Box();
             box.setLineWidth(3);
@@ -64,22 +52,18 @@ public class ItemDrop extends Entity {
             box.setSize(.2f, .2f, .2f);
         }
 
-        canGet = false;
-        if (parser.available() <= 0) {
-            System.out.println("EMPTY ITEM DROP");
-            destroy();
-            return;
+        if (hasData) {
+            droppedFromPlayer = node.get(JSON_DROPPED_FROM_PLAYER).asBoolean();
+            smileObjectMapper.readValue(node.get(JSON_ITEM_STACK).traverse(), ItemStack.class);
+            System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
         }
-        try {
-            droppedFromPlayer = node.readObject(parser, boolean.class);
-            byte itemStack[] = node.readObject(parser, byte[].class);
-            stack = smileJsonMapper.readValue(itemStack, ItemStack.class);
-//            System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
-        } catch (IOException e) {
-            ErrorHandler.log(e);
-        }
-        timeSinceDropped = 0;
-        animatedPos.set(worldPosition.x, worldPosition.y + 0.5f, worldPosition.z);
+    }
+
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+        generator.writeBooleanField(JSON_DROPPED_FROM_PLAYER, droppedFromPlayer);
+
+        generator.writeFieldName(JSON_ITEM_STACK);
+        smileObjectMapper.writeValue((SmileGenerator) generator, stack);
     }
 
 

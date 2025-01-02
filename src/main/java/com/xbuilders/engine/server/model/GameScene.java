@@ -186,27 +186,12 @@ public class GameScene implements WindowEvents {
 
     //Set entity =================================================================================
     public static Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        Output output = new Output(byteArrayOutputStream);
-        try {
-            //Write boolean
-            Entity.kyro.writeObject(output, droppedFromPlayer);
+        Entity e = placeEntity(EntityRegistry.ENTITY_ITEM_DROP, position, null);
 
-            //Write item stack
-            ByteArrayOutputStream jsonItemStack = new ByteArrayOutputStream();
-            ItemDrop.smileJsonMapper.writeValue(jsonItemStack, item);
-            jsonItemStack.close();
-            Entity.kyro.writeObject(output, jsonItemStack.toByteArray());
-            output.flush();
-
-            //Create the entity
-            byte[] bytes = byteArrayOutputStream.toByteArray();
-            return placeEntity(EntityRegistry.ENTITY_ITEM_DROP, position, bytes);
-
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
-        return null;
+        ItemDrop drop = (ItemDrop) e;
+        drop.stack = item;
+        drop.droppedFromPlayer = droppedFromPlayer;
+        return e;
     }
 
     public static Entity placeEntity(EntitySupplier entity, Vector3f w, byte[] data) {

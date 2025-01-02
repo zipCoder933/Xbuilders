@@ -43,7 +43,7 @@ public class Turtle extends LandAndWaterAnimal {
     @Override
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
         super.serializeDefinitionData(generator);//Always call super!
-        kyro.writeObject(output, (byte) textureIndex);
+        generator.writeNumberField(JSON_SPECIES, textureIndex);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Turtle extends LandAndWaterAnimal {
         }
 
         if (hasData) {
-            textureIndex = node.readObject(parser, int.class);
+            textureIndex = node.get(JSON_SPECIES).asInt();
             textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }

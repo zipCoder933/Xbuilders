@@ -80,8 +80,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
 
     @Override
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
-        super.serializeDefinitionData(generator);
-        kyro.writeObject(output, textureIndex);
+        generator.writeNumberField(JSON_SPECIES, textureIndex);
     }
 
 
@@ -105,8 +104,8 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             ErrorHandler.report(e);
         }
 
-        if (parser.available() > 0) {
-            textureIndex = node.readObject(parser, int.class);
+        if (hasData) {
+            textureIndex = node.get(JSON_SPECIES).asInt();
             textureIndex = MathUtils.clamp(textureIndex, 0, this.textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(this.textures.length);
 

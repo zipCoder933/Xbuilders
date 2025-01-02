@@ -1,12 +1,20 @@
 package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.content.vanilla.items.entities.animal.StaticLandAnimal;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
+import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;
+import com.xbuilders.engine.utils.math.RandomUtils;
 import org.joml.Vector2f;
+
+import java.io.IOException;
 
 /**
  * @author zipCoder933
@@ -18,7 +26,14 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
         pos.aabb.setOffsetAndSize(.5f, .5f, .5f, false);
         lastInWater = System.currentTimeMillis();
         inWater = inWater();
+    }
 
+    public int textureIndex;
+
+    @Override
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+        super.serializeDefinitionData(generator);
+        generator.writeNumberField(JSON_SPECIES, textureIndex);
     }
 
     @Override

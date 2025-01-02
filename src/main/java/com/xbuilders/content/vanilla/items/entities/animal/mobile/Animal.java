@@ -140,13 +140,13 @@ public abstract class Animal extends Entity {
 
 
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
-        if (parser.available() > 0) {
-            tamed = node.readObject(parser, boolean.class);
+        if (hasData) {
+            tamed = node.get(JSON_TAMED).asBoolean();
         }
     }
 
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
-        kyro.writeObject(output, tamed);
+        generator.writeBooleanField(JSON_TAMED, tamed);
     }
 
 

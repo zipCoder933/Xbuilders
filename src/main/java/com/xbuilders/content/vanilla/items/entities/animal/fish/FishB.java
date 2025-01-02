@@ -53,8 +53,8 @@ public class FishB extends FishAnimal {
             }
         }
 
-        if (parser.available() > 0) {
-            textureIndex = node.readObject(parser, Integer.class);
+        if (hasData) {
+            textureIndex = node.get(JSON_SPECIES).asInt();
             textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }
