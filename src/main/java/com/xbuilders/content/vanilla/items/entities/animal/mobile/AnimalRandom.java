@@ -74,14 +74,15 @@ public class AnimalRandom {
     int noiseIndex;
     //random.getTrueSeed();
 
-    public void writeState(Output output, Kryo kryo){
-        kryo.writeObject(output, random.getTrueSeed().get());
-        kryo.writeObject(output,noiseIndex);
+    public void writeState(Output output, Kryo kryo) {
+        kryo.writeObject(output, (long) random.getTrueSeed().get());
+        kryo.writeObject(output, noiseIndex);
     }
 
-    public void readState(Input input,Kryo kryo) {
-        random.getTrueSeed().set(kryo.readObject(input, Long.class));
-        noiseIndex = kryo.readObject(input, Integer.class);
+    public void readState(Input input, Kryo kryo) {
+        long seed = kryo.readObject(input, long.class);
+        random.getTrueSeed().set(seed);
+        noiseIndex = kryo.readObject(input, int.class);
     }
 
     public float noise(float frequency) {
