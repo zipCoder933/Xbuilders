@@ -151,13 +151,13 @@ public abstract class Entity {
      * Used as another layer of abstraction to write definition data of entity.
      * If the entity has no data, we return the loaded bytes
      */
-    public final byte[] top_serializeDefinitionData() throws IOException {
+    public final byte[] serializeDefinitionData() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
         serializeDefinitionData(output, Entity.kyro);
         output.close();
         byte[] entityBytes = baos.toByteArray();
-        System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
+        //System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
 
         //If the entity has no data, we return the loaded bytes
         if (entityBytes.length == 0 && loadBytes != null) {

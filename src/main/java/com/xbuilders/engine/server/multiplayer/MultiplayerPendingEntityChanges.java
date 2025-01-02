@@ -144,7 +144,7 @@ public class MultiplayerPendingEntityChanges {
         if (entityOperation == GameServer.ENTITY_UPDATED) {
             data = entity.serializeStateData();
         } else if (entityOperation == GameServer.ENTITY_CREATED) {
-            data = entity.top_serializeDefinitionData();
+            data = entity.serializeDefinitionData();
         }
         ChunkSavingLoadingUtils.writeEntityData(data, baos);
     }

@@ -74,7 +74,7 @@ public class ItemDrop extends Entity {
             droppedFromPlayer = kyro.readObject(input, boolean.class);
             byte itemStack[] = kyro.readObject(input, byte[].class);
             stack = smileJsonMapper.readValue(itemStack, ItemStack.class);
-            System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
+//            System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
         } catch (IOException e) {
             ErrorHandler.log(e);
         }
