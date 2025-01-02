@@ -2474,7 +2474,7 @@
   ],
   "xbuilders:jungle_grass": [
     {
-      "item": "xbuilders:jungle_grass",
+      "item": "xbuilders:dirt",
       "chance": 1.0,
       "maxItems": 1
     }
@@ -3300,7 +3300,14 @@
   ],
   "xbuilders:grass": [
     {
-      "item": "xbuilders:grass",
+      "item": "xbuilders:dirt",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "xbuilders:farmland": [
+    {
+      "item": "xbuilders:dirt",
       "chance": 1.0,
       "maxItems": 1
     }
@@ -5896,7 +5903,7 @@
   ],
   "xbuilders:dry_grass": [
     {
-      "item": "xbuilders:dry_grass",
+      "item": "xbuilders:dirt",
       "chance": 1.0,
       "maxItems": 1
     }

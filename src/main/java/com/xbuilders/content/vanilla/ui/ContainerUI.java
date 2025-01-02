@@ -20,8 +20,12 @@ public abstract class ContainerUI extends UI_ItemWindow {
     }
 
     public void assignToBlock(Block block) {
+        block.initialBlockData = (data, player) -> {
+            return new BlockData(1);
+        };
         block.clickEvent(false, (x, y, z) -> {
             BlockData data = GameScene.world.getBlockData(x, y, z);
+            if (data == null) data = new BlockData(new byte[0]);
             this.data = data;
             target.set(x, y, z);
             readContainerData(data.toByteArray());

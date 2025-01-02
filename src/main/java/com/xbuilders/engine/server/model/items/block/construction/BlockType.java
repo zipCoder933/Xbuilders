@@ -132,9 +132,7 @@ public abstract class BlockType {
         consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1));
     }
 
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        return null;
-    }
+
 
     public void rotateBlockData(BlockData data, boolean clockwise) {
         if (data != null && data.size() == 2) {

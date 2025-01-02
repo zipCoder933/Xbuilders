@@ -30,7 +30,6 @@ public class BlockEventPipeline {
     private final Map<Vector3i, BlockHistory> events = new HashMap<>(); //ALL events must be submitted to this
 
 
-
     WCCi wcc = new WCCi();
     World world;
     UserControlledPlayer player;
@@ -191,9 +190,8 @@ public class BlockEventPipeline {
             if (blockHist.updateBlockData) {
                 newBlockData = blockHist.newBlockData;
             } else {
-                newBlockData = type.getInitialBlockData(
-                        chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z),
-                        blockHist.newBlock, player);
+                newBlockData = blockHist.newBlock.getInitialBlockData(
+                        chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z), player);
             }
             blockHist.newBlockData = newBlockData; //Store the new block data so that we can use it later
 

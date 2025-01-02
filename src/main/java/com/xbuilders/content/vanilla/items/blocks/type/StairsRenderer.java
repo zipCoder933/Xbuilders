@@ -26,6 +26,18 @@ public class StairsRenderer extends BlockType {
 
     public StairsRenderer() {
         initializationCallback = (b) -> {
+
+            b.initialBlockData = (existingData, player) -> {
+                BlockData data = new BlockData(2);
+                player.camera.simplifiedPanTiltAsBlockData(data);
+                if (data.get(1) == (byte) 0
+                        && (Math.abs(player.camera.cursorRay.getHitNormalAsInt().x) != 0
+                        || Math.abs(player.camera.cursorRay.getHitNormalAsInt().z) != 0)) {
+                    data.set(1, (byte) 3);
+                }
+                return data;
+            };
+
             b.opaque = false;
             b.solid = true;
         };
@@ -58,17 +70,6 @@ public class StairsRenderer extends BlockType {
       super.rotateBlockData(data, clockwise);
     }
 
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        BlockData data = new BlockData(2);
-        player.camera.simplifiedPanTiltAsBlockData(data);
-        if (data.get(1) == (byte) 0
-                && (Math.abs(player.camera.cursorRay.getHitNormalAsInt().x) != 0
-                || Math.abs(player.camera.cursorRay.getHitNormalAsInt().z) != 0)) {
-            data.set(1, (byte) 3);
-        }
-        return data;
-    }
 
     @Override
     public boolean constructBlock(VertexSet buffers, Block block, BlockData data,

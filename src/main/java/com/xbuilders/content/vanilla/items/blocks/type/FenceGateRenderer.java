@@ -31,7 +31,17 @@ public class FenceGateRenderer extends BlockType {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\fence gate\\closed.obj"));
 
+
+
         initializationCallback = (b) -> {
+            b.initialBlockData = (existingData, player) -> {
+                BlockData bd = new BlockData(2);
+                int rotation = GameScene.player.camera.simplifiedPanTilt.x;
+                bd.set(0, (byte) rotation);
+                bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
+                return bd;
+            };
+
             b.opaque = false;
             b.solid = true;
             b.setBlockEvent(false, (x, y, z) -> {
@@ -75,14 +85,7 @@ public class FenceGateRenderer extends BlockType {
                 renderSide);
     }
 
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        BlockData bd = new BlockData(2);
-        int rotation = GameScene.player.camera.simplifiedPanTilt.x;
-        bd.set(0, (byte) rotation);
-        bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
-        return bd;
-    }
+
 
     final float ONE_SIXTEENTH = 1 / 16f;
 

@@ -280,7 +280,7 @@ public class CursorRay {
         AABB boxAABB = new AABB();
         //If the block is too close to the player, don't place
         AtomicBoolean intersects = new AtomicBoolean(false);
-        BlockData initialData = block.getRenderType().getInitialBlockData(null, block, GameScene.player);
+        BlockData initialData = block.getInitialBlockData(null, GameScene.player);
 
         block.getRenderType().getCollisionBoxes((aabb) -> {
             if (aabb.intersects(GameScene.player.aabb.box) &&

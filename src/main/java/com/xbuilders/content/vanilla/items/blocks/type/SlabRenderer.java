@@ -49,25 +49,15 @@ public class SlabRenderer extends BlockType {
         side2 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab2.blockType"), renderSide);
         side3 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab3.blockType"), renderSide);
         initializationCallback = (b) -> {
+
+            b.initialBlockData = (existingData, player) -> {
+                BlockData data = player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
+                return data;
+            };
+
             b.opaque = false;
             b.solid = true;
         };
-    }
-
-
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        BlockData data = player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
-//        if (player.blockModes.getMode() == BlockMode.Mode.LINE) {
-//            if (Math.abs(ray.getHitNormalAsInt().x) == 0
-//                    && Math.abs(ray.getHitNormalAsInt().z) == 0) {
-//                data.setY((byte) 0);
-//            } else if (data.get(1) == 0) {
-//                data.setY((byte) 1);
-//            }
-//        } else {
-//        }
-        return data;
     }
 
 

@@ -45,6 +45,19 @@ public class DoorHalfRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
 
+            b.initialBlockData = (existingData, player) -> {
+                //If we already set the block data for this block, skip making new stuff
+                if (existingData != null && existingData.size() == 3) return existingData;
+
+                BlockData bd = new BlockData(3);
+                byte rotation = (byte) GameScene.player.camera.simplifiedPanTilt.x;
+                rotation = (byte) MathUtils.positiveMod((rotation - 1), 4);
+                bd.set(0, rotation);// rotation
+                bd.set(1, (byte) 1); // (0 = open, 1 = closed),
+                bd.set(2, (byte) 1);// (0=left, 1=right)
+                return bd;
+            };
+
             if (b.properties.containsKey("vertical_pair") && b.properties.containsKey("placement")
                     && b.properties.get("placement").equals("bottom")) { // If this is the bottom of a pair
                 // System.out.println("DOOR: "+b.properties);
@@ -179,19 +192,6 @@ public class DoorHalfRenderer extends BlockType {
         return right;
     }
 
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        //If we already set the block data for this block, skip making new stuff
-        if (existingData != null && existingData.size() == 3) return existingData;
-
-        BlockData bd = new BlockData(3);
-        byte rotation = (byte) GameScene.player.camera.simplifiedPanTilt.x;
-        rotation = (byte) MathUtils.positiveMod((rotation - 1), 4);
-        bd.set(0, rotation);// rotation
-        bd.set(1, (byte) 1); // (0 = open, 1 = closed),
-        bd.set(2, (byte) 1);// (0=left, 1=right)
-        return bd;
-    }
 
     final float ONE_SIXTEENTH = 1 / 16f;
 

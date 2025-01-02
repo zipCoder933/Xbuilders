@@ -1,10 +1,12 @@
 package com.xbuilders.engine.server.model.items.block;
 
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.players.pipeline.BlockHistory;
+import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
@@ -54,6 +56,8 @@ public class Block {
         return renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID;
     }
 
+
+
     // <editor-fold defaultstate="collapsed" desc="block events">
     //Create a functional interface for setBlockEvent
     @FunctionalInterface
@@ -87,6 +91,17 @@ public class Block {
     private OnLocalChange localChangeEvent = null;
     private RemoveBlockEvent removeBlockEvent = null;
     private SetBlockEvent clickEvent = null;
+    public InitialBlockData initialBlockData = null;
+
+    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
+        if (initialBlockData != null) return initialBlockData.get(existingData, player);
+        return null;
+    }
+
+    @FunctionalInterface
+    public interface InitialBlockData {
+        BlockData get(BlockData existingData, UserControlledPlayer player);
+    }
 
     public RandomTickEvent randomTickEvent = null;
 

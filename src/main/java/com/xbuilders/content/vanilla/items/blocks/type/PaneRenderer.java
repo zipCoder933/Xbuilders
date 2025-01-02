@@ -27,6 +27,11 @@ public class PaneRenderer extends BlockType {
         vertical0 = BlockModelLoader.load(ResourceUtils.resource("block types\\pane\\vertical0.blockType"), renderSide_subBlock);
         vertical1 = BlockModelLoader.load(ResourceUtils.resource("block types\\pane\\vertical1.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
+            b.initialBlockData = (existingData, player) -> {
+                BlockData data = player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
+                return data;
+            };
+
             b.opaque = false;
             b.solid = true;
         };
@@ -58,11 +63,6 @@ public class PaneRenderer extends BlockType {
         getCollisionBoxes(consumer, box, block, data, x, y, z);
     }
 
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        BlockData data = player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
-        return data;
-    }
 
     final float ONE_SIXTEENTH = 1 / 16f;
 

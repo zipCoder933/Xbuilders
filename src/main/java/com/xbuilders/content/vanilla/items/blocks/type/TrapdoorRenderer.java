@@ -31,6 +31,14 @@ public class TrapdoorRenderer extends BlockType {
         //         ResourceUtils.resource("block types\\trapdoor\\closed.obj"));
         generate3DIcon = false;
         initializationCallback = (b) -> {
+
+            b.initialBlockData = (existingData, player) -> {
+                BlockData bd = new BlockData(2);
+                player.camera.simplifiedPanTiltAsBlockData(bd);
+                bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
+                return bd;
+            };
+
             b.opaque = false;
             b.solid = true;
             b.clickEvent(false, (x, y, z) -> {
@@ -54,14 +62,6 @@ public class TrapdoorRenderer extends BlockType {
         closed1 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\closed1.blockType"), renderSide);
         closed2 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\closed2.blockType"), renderSide);
         closed3 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\closed3.blockType"), renderSide);
-    }
-
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        BlockData bd = new BlockData(2);
-        player.camera.simplifiedPanTiltAsBlockData(bd);
-        bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
-        return bd;
     }
 
     final float ONE_SIXTEENTH = 1 / 16f;

@@ -24,6 +24,11 @@ public class WallItemRenderer extends BlockType {
 
     public WallItemRenderer() {
         initializationCallback = (b) -> {
+
+            b.initialBlockData = (existingData, player) -> {
+                return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
+            };
+
             b.opaque = false;
             b.solid = false;
             b.climbable = true;
@@ -57,11 +62,6 @@ public class WallItemRenderer extends BlockType {
 //        return testBlock.type != BlockList.LIQUID_BLOCK_TYPE_ID
 //                && !testBlock.isAir() &&
 //                (testBlock.solid || itemType.isCubeShape());
-    }
-
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
     }
 
 

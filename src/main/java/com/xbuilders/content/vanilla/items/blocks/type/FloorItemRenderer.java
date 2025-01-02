@@ -37,15 +37,14 @@ public class FloorItemRenderer extends BlockType {
         floor2 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor2.blockType"), renderSide_subBlock);
         floor3 = BlockModelLoader.load(ResourceUtils.resource("block types\\floor\\floor3.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
+            b.initialBlockData = (existingData, player) -> {
+                return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
+            };
+
             b.opaque = false;
             b.solid = true;
             b.toughness = 0.1f;
         };
-    }
-
-    @Override
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
     }
 
     @Override
