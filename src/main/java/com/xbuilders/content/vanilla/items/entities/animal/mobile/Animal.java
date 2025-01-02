@@ -4,6 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -55,32 +58,14 @@ public abstract class Animal extends Entity {
     }
 
 
-    //Multiplayer state
-    public void animal_writeState(ByteArrayOutputStream baos) throws IOException {
+    public void serializeStateData(Output output, Kryo kryo) {
+        kryo.writeObject(output, getRotationYDeg());
+        random.writeState(output, kryo);
     }
 
-    public void animal_readState(byte[] state, AtomicInteger start) {
-    }
-
-    //Entity saving
-    public final byte[] serializeStateData() {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            baos.write(ByteUtils.floatToBytes(getRotationYDeg()));
-            random.writeState(baos);
-            animal_writeState(baos);
-            baos.close();//releases the baos to prevent memory leaks and promote efficiency
-            return baos.toByteArray();  //toByteArray() already calls flush()
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void loadStateData(byte[] state, AtomicInteger start) {
-        rotationYDeg = (ByteUtils.bytesToFloat(state, start));
-        random.readState(state, start);
-        animal_readState(state, start);
+    public void loadStateData(Input input, Kryo kryo) {
+        rotationYDeg = kryo.readObject(input, Float.class);
+        random.readState(input, kryo);
     }
 
 
@@ -141,7 +126,7 @@ public abstract class Animal extends Entity {
 
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         if (hasData) {
-            tamed = node.get(JSON_TAMED).asBoolean();
+            if (node.has(JSON_TAMED)) tamed = node.get(JSON_TAMED).asBoolean();
         }
     }
 

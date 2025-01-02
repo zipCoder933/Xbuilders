@@ -4,7 +4,6 @@
  */
 package com.xbuilders.engine.server.model;
 
-import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.Entity;
@@ -38,7 +37,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.opengl.GL11;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -259,16 +257,15 @@ public class GameScene implements WindowEvents {
 
 
     int completeChunks, framesWithCompleteChunkValue;
-    private WorldData worldInfo;
     NetworkJoinRequest req;
     ProgressData prog;
 
-    public void startGameEvent(WorldData world, NetworkJoinRequest req, ProgressData prog) {
-        worldInfo = world;
+    public void startGameEvent(WorldData worldData, NetworkJoinRequest req, ProgressData prog) {
+        world.data = worldData;
         this.req = req;
         this.prog = prog;
-        livePropagationHandler.startGameEvent(world);
-        eventPipeline.startGameEvent(world);
+        livePropagationHandler.startGameEvent(worldData);
+        eventPipeline.startGameEvent(worldData);
         tickThread.startGameEvent();
         if (MainWindow.devMode) writeDebugText = true;
     }
@@ -290,11 +287,11 @@ public class GameScene implements WindowEvents {
     /**
      * The event that starts the new game
      */
-    public void newGameUpdateEvent(WorldData worldInfo) throws Exception {
+    public void startGameUpdateEvent() throws Exception {
         switch (prog.stage) {
             case 0 -> {
                 if (req != null) {
-                    server.initNewGame(worldInfo, req);
+                    server.initNewGame(world.data, req);
                     prog.setTask("Joining game...");
                     server.startJoiningWorld();
                 }
@@ -304,24 +301,24 @@ public class GameScene implements WindowEvents {
                 if (req != null && !req.hosting) { //If we are not hosting, we need to get the world
                     prog.setTask("Received " + server.loadedChunks + " chunks");
                     if (server.getWorldInfo() != null) {
-                        worldInfo = server.getWorldInfo();//Reassign the world info to the one we got from the host
+                        world.data = server.getWorldInfo();//Reassign the world info to the one we got from the host
                         prog.stage++;
                     }
                 } else prog.stage++;
             }
             case 2 -> {
                 prog.setTask("Starting game...");
-                gameMode = (GameMode.values()[worldInfo.data.gameMode]);
-                if (worldInfo.getSpawnPoint() == null) { //Create spawn point
+                gameMode = (GameMode.values()[world.data.data.gameMode]);
+                if (world.data.getSpawnPoint() == null) { //Create spawn point
                     player.worldPosition.set(0, 0, 0);
-                    boolean ok = world.startGame(prog, worldInfo, new Vector3f(0, 0, 0));
+                    boolean ok = world.startGame(prog, world.data, new Vector3f(0, 0, 0));
                     if (!ok) {
                         prog.abort();
                         MainWindow.goToMenuPage();
                     }
                 } else {//Load spawn point
-                    player.worldPosition.set(worldInfo.getSpawnPoint().x, worldInfo.getSpawnPoint().y, worldInfo.getSpawnPoint().z);
-                    world.startGame(prog, worldInfo, player.worldPosition);
+                    player.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
+                    world.startGame(prog, world.data, player.worldPosition);
                 }
                 prog.stage++;
             }
@@ -359,18 +356,18 @@ public class GameScene implements WindowEvents {
             }
             default -> {
                 lastGameMode = gameMode;
-                if (worldInfo.getSpawnPoint() == null) {
+                if (world.data.getSpawnPoint() == null) {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
                     player.status_spawnPosition.set(getInitialSpawnPoint(world.terrain));
                     player.worldPosition.set(player.status_spawnPosition);
-                    player.newWorldEvent(worldInfo);
+                    player.newWorldEvent(world.data);
                 }
-                setTimeOfDay(worldInfo.data.timeOfDay);
-                game.startGameEvent(worldInfo);
+                setTimeOfDay(world.data.data.timeOfDay);
+                game.startGameEvent(world.data);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);
-                player.startGameEvent(worldInfo);
+                player.startGameEvent(world.data);
                 prog.finish();
                 setProjection();
             }

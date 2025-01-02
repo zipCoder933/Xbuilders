@@ -4,6 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -71,14 +74,14 @@ public class AnimalRandom {
     int noiseIndex;
     //random.getTrueSeed();
 
-    public void writeState(ByteArrayOutputStream baos) throws IOException {
-        ByteUtils.writeLong(baos, random.getTrueSeed().get());
-        ByteUtils.writeInt(baos, noiseIndex);
+    public void writeState(Output output, Kryo kryo){
+        kryo.writeObject(output, random.getTrueSeed().get());
+        kryo.writeObject(output,noiseIndex);
     }
 
-    public void readState(byte[] state, AtomicInteger start) {
-        random.getTrueSeed().set(ByteUtils.bytesToLong(state, start));
-        noiseIndex = ByteUtils.bytesToInt(state, start);
+    public void readState(Input input,Kryo kryo) {
+        random.getTrueSeed().set(kryo.readObject(input, Long.class));
+        noiseIndex = kryo.readObject(input, Integer.class);
     }
 
     public float noise(float frequency) {

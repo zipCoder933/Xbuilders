@@ -5,6 +5,8 @@
 package com.xbuilders.engine.server.model.items.entity;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -35,7 +37,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author zipCoder933
@@ -150,12 +151,12 @@ public abstract class Entity {
         draw();
     }
 
-    public final static Kryo kyro = new Kryo();
+    public final static Kryo kryo = new Kryo();
     public final static SmileFactory smileFactory = new SmileFactory();
     public final static ObjectMapper smileObjectMapper = new ObjectMapper(smileFactory);
 
     static {
-        Entity.kyro.register(byte[].class);
+        Entity.kryo.register(byte[].class);
         smileFactory.enable(SmileGenerator.Feature.ENCODE_BINARY_AS_7BIT);
         smileFactory.enable(SmileGenerator.Feature.CHECK_SHARED_STRING_VALUES);
 
@@ -179,12 +180,24 @@ public abstract class Entity {
         generator.close();
         byte[] entityBytes = baos.toByteArray();
 
-        System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
 
+        System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
         //If the entity has no data, we return the loaded bytes
         if (entityBytes.length == 0) {
             return loadBytes;
         } else return entityBytes;
+    }
+
+    /**
+     * Used as another layer of abstraction to write definition data of entity.
+     * @return
+     */
+    public final byte[] serializeStateData() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Output output = new Output(baos);
+        serializeStateData(output, kryo);
+        output.close();
+        return baos.toByteArray();
     }
 
     protected final void hidden_initializeEntity() {
@@ -231,7 +244,6 @@ public abstract class Entity {
      * •	Name/Custom Name Tags.
      */
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
-
     }
 
     /**
@@ -242,7 +254,7 @@ public abstract class Entity {
      * •	Action states (e.g., attacking, sneaking, or swimming).
      * •	Equipment changes.
      */
-    public void loadStateData(byte[] state, AtomicInteger start) {
+    public void loadStateData(Input input, Kryo kryo) {
     }
 
     /**
@@ -253,8 +265,7 @@ public abstract class Entity {
      * •	Action states (e.g., attacking, sneaking, or swimming).
      * •	Equipment changes.
      */
-    public byte[] serializeStateData() {
-        return null;
+    public void serializeStateData(Output output, Kryo kryo) {
     }
 
 
@@ -321,5 +332,6 @@ public abstract class Entity {
     public long getUniqueIdentifier() {
         return uniqueIdentifier;
     }
+
 
 }

@@ -4,6 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
@@ -137,17 +140,13 @@ public abstract class Vehicle extends Entity {
         posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
     }
 
-    public abstract void onDestructionInitiated();
 
-    public abstract void onDestructionCancel();
-
-    public byte[] serializeStateData() {
-        return ByteUtils.floatToBytes(getRotationYDeg());
+    public void serializeStateData(Output output, Kryo kryo) {
+        kryo.writeObject(output, getRotationYDeg());
     }
 
-    public void loadStateData(byte[] state, AtomicInteger start) {
-        if (state.length != 4) return;
-        rotationYDeg = (ByteUtils.bytesToFloat(state[0], state[1], state[2], state[3]));
+    public void loadStateData(Input input, Kryo kryo) {
+        rotationYDeg = kryo.readObject(input, Float.class);
     }
 
     public float getRotationYDeg() {

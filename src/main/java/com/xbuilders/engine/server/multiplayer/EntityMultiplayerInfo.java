@@ -1,10 +1,9 @@
 package com.xbuilders.engine.server.multiplayer;
 
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import org.joml.Vector3f;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class EntityMultiplayerInfo {
 
@@ -88,7 +87,9 @@ public class EntityMultiplayerInfo {
 
         if (controlledByUs()) return;
 
-        e.loadStateData(state, new AtomicInteger(0));
+        Input input = new Input(state);
+        e.loadStateData(input,Entity.kryo);
+
         e.worldPosition.set(newPosition);
     }
 }

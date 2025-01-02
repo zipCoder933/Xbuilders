@@ -82,14 +82,6 @@ public class Minecart extends Vehicle {
         return true; //If it was consumed
     }
 
-    @Override
-    public void onDestructionInitiated() {
-    }
-
-    @Override
-    public void onDestructionCancel() {
-    }
-
     float rotationYCurve;
 
     @Override

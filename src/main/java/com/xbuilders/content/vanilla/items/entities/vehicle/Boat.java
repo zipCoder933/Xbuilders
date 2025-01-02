@@ -144,13 +144,6 @@ public class Boat extends Vehicle {
 
     float speedCurve;
 
-    @Override
-    public void onDestructionInitiated() {
-    }
-
-    @Override
-    public void onDestructionCancel() {
-    }
 
     @Override
     public boolean run_ClickEvent() {
