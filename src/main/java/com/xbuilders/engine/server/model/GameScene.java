@@ -380,8 +380,10 @@ public class GameScene implements WindowEvents {
                 if (world.data.getSpawnPoint() == null) {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
-                    userPlayer.status_spawnPosition.set(getInitialSpawnPoint(world.terrain));
-                    userPlayer.worldPosition.set(userPlayer.status_spawnPosition);
+                    Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
+                    userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+                    userPlayer.worldPosition.set(spawnPoint);
+
                     userPlayer.newWorldEvent(world.data);
                 }
                 setTimeOfDay(world.data.data.timeOfDay);

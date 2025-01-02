@@ -179,8 +179,9 @@ public class Chunk {
     }
 
     public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
-//        if (updateAllNeighbors) MainWindow.printlnDev("Regenerating all neighbors");
-//        else MainWindow.printlnDev("Regenerating mesh at " + x + ", " + y + ", " + z);
+        //TODO: There is a bug where the chunk is not updating the mesh
+        if (updateAllNeighbors) MainWindow.printlnDev("Reg mesh (all neighbors)");
+        else MainWindow.printlnDev("Reg mesh (" + x + ", " + y + ", " + z+")");
 
 
         if (!neghbors.allFacingNeghborsLoaded) {
@@ -403,7 +404,7 @@ public class Chunk {
         float tickLikelyhood = (MainWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
 
         float spawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_SPAWN_LIKELIHOOD : RANDOM_SPAWN_LIKELIHOOD);
-        float despawnLikelyhood = spawnLikelyhood * 2f;
+        float despawnLikelyhood = spawnLikelyhood * 4f;
 
         int wx = position.x * WIDTH;
         int wy = position.y * HEIGHT;

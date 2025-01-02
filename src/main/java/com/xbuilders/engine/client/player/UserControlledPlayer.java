@@ -95,8 +95,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         if (GameScene.getGameMode() == GameMode.ADVENTURE) {
 
             if (status_hunger > 0) {
-                if (runningMode) status_hunger -= 0.001f;
-                else status_hunger -= 0.0003f;
+                if (runningMode) status_hunger -= 0.0015f;
+                else status_hunger -= 0.0004f;
             }
 
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
@@ -134,20 +134,24 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         dismount();
         dieMode = true;
         MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
-
-            System.out.println("Teleporting to spawnpoint...");
             if (!inventory.isEmpty()) {
                 GameScene.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             }
-
+            System.out.println("Teleporting to spawnpoint... ("
+                    + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
             worldPosition.set(status_spawnPosition);
             resetHealthStats();
             dieMode = false;
         });
     }
 
+    //Other processes could mess with this if we dont have the proper way to set the spawnpoint
+    private Vector3f status_spawnPosition = new Vector3f();
 
-    public Vector3f status_spawnPosition = new Vector3f();
+    public void setSpawnPoint(float x, float y, float z) {
+        GameScene.alert("Spawn set to " + x + ", " + y + ", " + z);
+        status_spawnPosition.set(x, y, z);
+    }
 
     public void getPlayerBoxBottom(Vector3f playerBoxBottom) {
         playerBoxBottom.set(
@@ -239,14 +243,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     });
                 }
                 if (jsonObject.has("x") && jsonObject.has("y") && jsonObject.has("z")) {
-                    worldPosition.x = jsonObject.get("x").getAsInt();
-                    worldPosition.y = jsonObject.get("y").getAsInt();
-                    worldPosition.z = jsonObject.get("z").getAsInt();
+                    worldPosition.x = jsonObject.get("x").getAsFloat();
+                    worldPosition.y = jsonObject.get("y").getAsFloat();
+                    worldPosition.z = jsonObject.get("z").getAsFloat();
                 }
                 if (jsonObject.has("spawnX") && jsonObject.has("spawnY") && jsonObject.has("spawnZ")) {
-                    status_spawnPosition.x = jsonObject.get("spawnX").getAsInt();
-                    status_spawnPosition.y = jsonObject.get("spawnY").getAsInt();
-                    status_spawnPosition.z = jsonObject.get("spawnZ").getAsInt();
+                    status_spawnPosition.x = jsonObject.get("spawnX").getAsFloat();
+                    status_spawnPosition.y = jsonObject.get("spawnY").getAsFloat();
+                    status_spawnPosition.z = jsonObject.get("spawnZ").getAsFloat();
                 }
                 if (jsonObject.has("health")) status_health = jsonObject.get("health").getAsFloat();
                 if (jsonObject.has("hunger")) status_hunger = jsonObject.get("hunger").getAsFloat();

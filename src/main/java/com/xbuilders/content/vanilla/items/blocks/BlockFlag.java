@@ -21,7 +21,6 @@ public class BlockFlag extends Block {
                         "symbols/flag",
                         "symbols/flag"));
         setBlockEvent(false, (x, y, z) -> {
-            GameScene.userPlayer.status_spawnPosition.set(x, y, z);
             try {
                 byte[] bytes = GameScene.userPlayer.inventory.writeToJson();
                 BlockData data = new BlockData(bytes);

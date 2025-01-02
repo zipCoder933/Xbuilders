@@ -16,12 +16,11 @@ public class BlockSpawn extends Block {
                         "symbols/destination"));
 
         clickEvent(false, (x, y, z) -> {
-            if (GameScene.userPlayer.status_spawnPosition.distance(x, y, z) < 1) {
+//            if (GameScene.userPlayer.status_spawnPosition.distance(x, y, z) < 1) {
 //                GameScene.alert("Time set to day");
 //                GameScene.setTimeOfDay(0);
-            }
-            GameScene.alert("Spawn set to " + x + ", " + y + ", " + z);
-            GameScene.userPlayer.status_spawnPosition.set(x, y, z);
+//            }
+            GameScene.userPlayer.setSpawnPoint(x, y, z);
         });
 
         torchlightStartingValue = 15;
