@@ -13,6 +13,7 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.ui.Theme;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.nuklear.NKUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 
@@ -29,7 +30,7 @@ public class PopupMessage {
         windowDims = NkRect.create();
         this.window = window;
         windowDims.set(0, 0, boxWidth, boxHeight);
-//        show("Title", "Body");
+        //message("Title", "Body");
     }
 
     NkContext ctx;
@@ -43,6 +44,9 @@ public class PopupMessage {
     NkRect windowDims;
     String title, body;
     long shownTime;
+    boolean buttonsHovered = false;
+    boolean buttonCanClose = false;
+    boolean unfocusCanClose = false;
 
     public boolean isShown() {
         return visible;
@@ -112,7 +116,9 @@ public class PopupMessage {
         visible = false;
     }
 
+
     public void draw() {
+        buttonsHovered = false;
         if (!visible) {
             return;
         }
@@ -122,15 +128,14 @@ public class PopupMessage {
 
 
         nk_style_set_font(ctx, Theme.font_12);
-        nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2),
-                boxWidth, boxHeight, windowDims);
+        nk_rect((window.getWidth() / 2) - (boxWidth / 2), (window.getHeight() / 2) - (boxHeight / 2), boxWidth, boxHeight, windowDims);
         if (nk_begin_titled(ctx, WINDOW_ID, title, windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
 
             //Detect if the window is in focus
             if (!nk_window_has_focus(ctx)) {
-                if (canClose()) {
+                if (unfocusCanClose) {
                     closeWindow();
-                }
+                } else nk_window_set_focus(ctx, WINDOW_ID);
             }
 
 
@@ -144,26 +149,42 @@ public class PopupMessage {
 
             if (confirmationCallback != null) {
                 nk_layout_row_dynamic(ctx, 40, 2);
+
+                if (nk_widget_is_hovered(ctx)) {
+                    buttonsHovered = true;
+                    //nk_tooltip(ctx, "This is a tooltip");
+                }
+
                 if (nk_button_label(ctx, "OK")) {
                     System.out.println("Closing popup...");
-                    if (canClose()) {
+                    if (buttonCanClose) {
                         confirmationCallback.run();
                         confirmationCallback = null;
                         closeCallback = null;
                         visible = false;
                     }
                 }
+
+                if (nk_widget_is_hovered(ctx)) {
+                    buttonsHovered = true;
+                    //nk_tooltip(ctx, "This is a tooltip");
+                }
                 if (nk_button_label(ctx, "Cancel")) {
                     System.out.println("Closing popup...");
-                    if (canClose()) {
+                    if (buttonCanClose) {
                         closeWindow();
                     }
                 }
             } else {
                 nk_layout_row_dynamic(ctx, 40, 1);
+
+                if (nk_widget_is_hovered(ctx)) {
+                    buttonsHovered = true;
+                    //nk_tooltip(ctx, "This is a tooltip");
+                }
                 if (nk_button_label(ctx, "OK")) {
                     System.out.println("Closing popup...");
-                    if (canClose()) {
+                    if (buttonCanClose) {
                         closeWindow();
                     }
                 }
@@ -171,15 +192,18 @@ public class PopupMessage {
         }
         nk_end(ctx);
 
-        if (System.currentTimeMillis() - shownTime < 1000) {
-            // Explicitly set the "Always On Top" window as the focused window
-            nk_window_set_focus(ctx, WINDOW_ID);
+        if (buttonsHovered) {
+            //System.out.println("Hovered");
         }
+        //Sometimes if the window is unfocused, it doesnt register the button press
+        if (buttonCanClose && buttonsHovered && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+            closeWindow();
+        }
+
+        int timeSinceShown = (int) (System.currentTimeMillis() - shownTime);
+        buttonCanClose = timeSinceShown > 500;
+        unfocusCanClose = timeSinceShown > 1000;
     }
 
 
-    private boolean canClose() {
-        return true;
-//        return nk_window_has_focus(ctx);
-    }
 }
