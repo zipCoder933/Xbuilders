@@ -114,7 +114,19 @@ public class CursorRay {
             return true;
         }
 
-        //Click events
+        //TODO: Add crouching to user so that they can flip the priority of block and entity click events
+        if (blockEntityClickEvent(creationMode)) return true;
+        if (itemClickEvent(selectedItem, creationMode)) return true;
+
+
+        if (!creationMode) { //By default, remove anything the cursor is pointing at
+            breakBlock(false, selectedItem);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean blockEntityClickEvent(boolean creationMode) {
         if (creationMode) {
             if (cursorRay.entity != null) { //Entity click event
                 return cursorRay.entity.run_ClickEvent();
@@ -124,8 +136,11 @@ public class CursorRay {
                 if (consumed) return true;
             }
         }
+        return false;
+    }
 
-        //Item click event
+
+    private boolean itemClickEvent(ItemStack selectedItem, boolean creationMode) {
         if (selectedItem != null) {
             if (selectedItem.item.isFood()) {
                 eatFood(selectedItem);
@@ -135,17 +150,12 @@ public class CursorRay {
                 if (selectedItem.item.createClickEvent != null) {
                     return selectedItem.item.createClickEvent.run(this, selectedItem);
                 } else if (selectedItem.item.getBlock() != null || selectedItem.item.getEntity() != null)
-                     defaultSetEvent(selectedItem);
+                    return defaultSetEvent(selectedItem);
             } else {
                 if (selectedItem.item.destroyClickEvent != null) {
                     return selectedItem.item.destroyClickEvent.run(this, selectedItem);
                 }
             }
-        }
-
-        if (!creationMode) { //By default, remove anything the cursor is pointing at
-            breakBlock(false, selectedItem);
-            return true;
         }
         return false;
     }
@@ -292,27 +302,29 @@ public class CursorRay {
         return intersects.get();
     }
 
-    private void defaultSetEvent(ItemStack stack) {
-
+    private boolean defaultSetEvent(ItemStack stack) {
         Block block = stack.item.getBlock();
         EntitySupplier entity = stack.item.getEntity();
 
-        if (stack.stackSize <= 0) return;
+        if (stack.stackSize <= 0) return false;
         if (block != null) {
             Block hitBlock = GameScene.world.getBlock(cursorRay.getHitPositionAsInt());
             Vector3i set = cursorRay.getHitPositionAsInt();
 
             if (!hitBlock.getRenderType().replaceOnSet) {
                 set = cursorRay.getHitPosPlusNormal();
-                if (blockIntersectsPlayer(block, set)) return;
+                if (blockIntersectsPlayer(block, set)) return false;
             }
             if (GameScene.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
             GameScene.setBlock(block.id, set.x, set.y, set.z);
+            return true;
         } else if (entity != null) {
             Vector3f pos = new Vector3f(cursorRay.getHitPosPlusNormal());
             if (GameScene.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
             GameScene.placeEntity(entity, pos, null);
+            return true;
         }
+        return false;
     }
 
     private void boundaryClickEvent(boolean create) {
