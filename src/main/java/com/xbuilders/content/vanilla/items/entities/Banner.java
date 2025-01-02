@@ -4,9 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
@@ -16,7 +16,6 @@ import com.xbuilders.content.vanilla.items.blocks.RenderType;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author zipCoder933
@@ -37,33 +36,28 @@ public class Banner extends Entity {
 
 
     @Override
-    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
-        super.serializeDefinitionData(output, kyro);//Always call super!
-        kyro.writeObject(output, (byte) xzOrientation);
-        kyro.writeObject(output, againstFencepost);
-        System.out.println("\t (pre) Entity bytes: " + Arrays.toString(output.toBytes()));
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+        super.serializeDefinitionData(generator);//Always call super!
+        generator.writeNumberField("XZ", xzOrientation);
+        generator.writeBooleanField("fencepost", againstFencepost);
     }
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);//Always call super!
-
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);//Always call super!
         if (body == null) {
             try {
                 body = new EntityMesh();
                 body.loadFromOBJ(ResourceUtils.resource("items\\entity\\banner\\banner.obj"));
                 texture = TextureUtils.loadTexture(
                         ResourceUtils.resource("items\\entity\\banner\\blue.png").getAbsolutePath(), false).id;
-
             } catch (IOException ex) {
                 ErrorHandler.report(ex);
             }
         }
-
-
-        if (input.available() > 0) {
-            xzOrientation = kyro.readObject(input, byte.class);
-            againstFencepost = kyro.readObject(input, boolean.class);
+        if (hasData) {
+            if (node.has("XZ")) xzOrientation = node.get("XZ").asInt();
+            if (node.has("fencepost")) againstFencepost = node.get("fencepost").asBoolean();
         } else {
             xzOrientation = GameScene.player.camera.simplifiedPanTilt.x;
             int wx = (int) worldPosition.x;

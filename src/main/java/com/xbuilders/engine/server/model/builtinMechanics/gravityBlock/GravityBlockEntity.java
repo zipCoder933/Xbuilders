@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.builtinMechanics.gravityBlock;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.Registrys;
@@ -16,8 +16,6 @@ import com.xbuilders.engine.server.model.world.World;
 import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class GravityBlockEntity extends Entity {
     private final BlockVertexSet buffer = new BlockVertexSet();
@@ -38,7 +36,7 @@ public class GravityBlockEntity extends Entity {
     }
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) {
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) {
         box = new Box();
         box.setColor(1, 0, 0, 1);
         box.setLineWidth(4);

@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
@@ -29,8 +29,8 @@ public class Mule extends QuadPedalLandAnimal {
 
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);
         legXSpacing = 0.35f * SCALE;
         legZSpacing = 0.8f * SCALE;
         legYSpacing = -1f * SCALE;

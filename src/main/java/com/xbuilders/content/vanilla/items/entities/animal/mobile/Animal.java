@@ -4,9 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
@@ -34,6 +34,9 @@ public abstract class Animal extends Entity {
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
     public boolean tamed = false;
+
+    public static final String JSON_SPECIES = "a_s";
+    public static final String JSON_TAMED = "a_t";
 
     public boolean allowVoluntaryMovement() {
         return !multiplayerProps.controlledByAnotherPlayer;
@@ -136,13 +139,13 @@ public abstract class Animal extends Entity {
     }
 
 
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        if (input.available() > 0) {
-            tamed = kyro.readObject(input, boolean.class);
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        if (parser.available() > 0) {
+            tamed = node.readObject(parser, boolean.class);
         }
     }
 
-    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
         kyro.writeObject(output, tamed);
     }
 

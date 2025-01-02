@@ -4,9 +4,9 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -34,13 +34,13 @@ public class FishA extends FishAnimal {
     int textureIndex;
 
     @Override
-    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
-        super.serializeDefinitionData(output, kyro);
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+        super.serializeDefinitionData(generator);
         kyro.writeObject(output, textureIndex);
     }
 
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);//Always call super!
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);//Always call super!
 
         if (body == null) {
             body = new EntityMesh();
@@ -59,8 +59,8 @@ public class FishA extends FishAnimal {
             }
         }
 
-        if (input.available() > 0) {
-            textureIndex = kyro.readObject(input, Integer.class);
+        if (parser.available() > 0) {
+            textureIndex = node.readObject(parser, Integer.class);
             textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }

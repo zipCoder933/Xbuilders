@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.items.entity;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
@@ -53,8 +53,8 @@ public class ItemDrop extends Entity {
 
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);//Always call super!
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);//Always call super!
 
         seed = (byte) (Math.random() * 255);
         if (box == null) {
@@ -65,14 +65,14 @@ public class ItemDrop extends Entity {
         }
 
         canGet = false;
-        if (input.available() <= 0) {
+        if (parser.available() <= 0) {
             System.out.println("EMPTY ITEM DROP");
             destroy();
             return;
         }
         try {
-            droppedFromPlayer = kyro.readObject(input, boolean.class);
-            byte itemStack[] = kyro.readObject(input, byte[].class);
+            droppedFromPlayer = node.readObject(parser, boolean.class);
+            byte itemStack[] = node.readObject(parser, byte[].class);
             stack = smileJsonMapper.readValue(itemStack, ItemStack.class);
 //            System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
         } catch (IOException e) {

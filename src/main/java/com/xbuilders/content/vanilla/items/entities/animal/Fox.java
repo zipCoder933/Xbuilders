@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 
 import java.io.IOException;
@@ -13,8 +13,8 @@ public class Fox extends StaticLandAnimal {
     }
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);//Always call super!
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);//Always call super!
         aabb.setOffsetAndSize(0.6f, 0.8f, 0.6f, true);
     }
 

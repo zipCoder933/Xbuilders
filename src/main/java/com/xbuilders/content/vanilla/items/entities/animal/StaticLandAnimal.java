@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.items.entities.animal;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -48,14 +48,14 @@ public abstract class StaticLandAnimal extends LandAnimal {
     }
 
     @Override
-    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
-        super.serializeDefinitionData(output, kyro);
-        kyro.writeObject(output, textureIndex);
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+        super.serializeDefinitionData(generator);
+        generator.writeNumberField(JSON_SPECIES, textureIndex);
     }
 
 
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);
 
         try {
             StaticLandAnimal_StaticData ead = getStaticData();
@@ -65,8 +65,8 @@ public abstract class StaticLandAnimal extends LandAnimal {
             ErrorHandler.report(e);
         }
 
-        if (input.available() > 0) {
-            textureIndex = kyro.readObject(input, int.class);
+        if (hasData) {
+            textureIndex = node.get(JSON_SPECIES).asInt();
             textureIndex = MathUtils.clamp(textureIndex, 0, textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(textures.length);
     }

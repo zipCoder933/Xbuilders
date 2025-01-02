@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.players.PositionLock;
@@ -79,15 +79,15 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     }
 
     @Override
-    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
-        super.serializeDefinitionData(output, kyro);
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+        super.serializeDefinitionData(generator);
         kyro.writeObject(output, textureIndex);
     }
 
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);
 
         goForwardCallback = amount -> {
             legMovement += amount;
@@ -105,8 +105,8 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             ErrorHandler.report(e);
         }
 
-        if (input.available() > 0) {
-            textureIndex = kyro.readObject(input, int.class);
+        if (parser.available() > 0) {
+            textureIndex = node.readObject(parser, int.class);
             textureIndex = MathUtils.clamp(textureIndex, 0, this.textures.length - 1);
         } else textureIndex = RandomUtils.random.nextInt(this.textures.length);
 

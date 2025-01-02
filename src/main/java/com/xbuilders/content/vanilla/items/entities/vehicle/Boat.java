@@ -4,8 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.players.PositionLock;
@@ -123,8 +123,8 @@ public class Boat extends Vehicle {
 
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);//Always call super!
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);//Always call super!
 
         posHandler.setGravityEnabled(isInWater() ? false : true);
 

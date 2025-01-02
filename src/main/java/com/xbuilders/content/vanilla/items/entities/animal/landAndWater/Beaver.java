@@ -4,8 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.landAndWater;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -38,8 +38,8 @@ public class Beaver extends LandAndWaterAnimal {
     final static Vector3f LIMB_LEGS_OFFSET = new Vector3f(0, 0, 0);
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);//Always call super!
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);//Always call super!
         if (body == null) {
             body = new EntityMesh();
             head = new EntityMesh();

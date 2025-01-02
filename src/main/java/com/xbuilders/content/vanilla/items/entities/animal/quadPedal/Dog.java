@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
@@ -80,8 +80,8 @@ public class Dog extends QuadPedalLandAnimal {
     }
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
-        super.loadDefinitionData(input, kyro);
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        super.loadDefinitionData(hasData, parser, node);
 
         setActivity(0.7f);
         //Z is the direciton of the animal

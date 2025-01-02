@@ -4,8 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities.vehicle;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
@@ -133,7 +133,7 @@ public abstract class Vehicle extends Entity {
     }
 
     @Override
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
     }
 

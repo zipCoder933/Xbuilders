@@ -5,8 +5,11 @@
 package com.xbuilders.engine.server.model.items.entity;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.multiplayer.GameServer;
@@ -142,9 +145,12 @@ public abstract class Entity {
     }
 
     public final static Kryo kyro = new Kryo();
+    public final static SmileFactory smileFactory = new SmileFactory();
 
     static {
         Entity.kyro.register(byte[].class);
+        smileFactory.enable(SmileGenerator.Feature.ENCODE_BINARY_AS_7BIT);
+        smileFactory.enable(SmileGenerator.Feature.CHECK_SHARED_STRING_VALUES);
     }
 
     /**
@@ -153,14 +159,17 @@ public abstract class Entity {
      */
     public final byte[] serializeDefinitionData() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Output output = new Output(baos);
-        serializeDefinitionData(output, Entity.kyro);
-        output.close();
+        JsonGenerator generator = smileFactory.createGenerator(baos);
+        generator.writeStartObject(); // Start root object
+        serializeDefinitionData(generator);
+        generator.writeEndObject(); // End root object
+        generator.close();
         byte[] entityBytes = baos.toByteArray();
-        //System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
+
+        System.out.println("Entity bytes: " + Arrays.toString(entityBytes));
 
         //If the entity has no data, we return the loaded bytes
-        if (entityBytes.length == 0 && loadBytes != null) {
+        if (entityBytes.length == 0) {
             return loadBytes;
         } else return entityBytes;
     }
@@ -168,9 +177,17 @@ public abstract class Entity {
     protected final void hidden_initializeEntity() {
         try {
             getLightForPosition();
-            if (loadBytes == null) loadBytes = new byte[0];
-            Input input = new Input(loadBytes);
-            loadDefinitionData(input, kyro);
+
+            JsonParser parser = null;
+            JsonNode node = null;
+            //If there is no load bytes, parser and node are null
+            if (loadBytes != null && loadBytes.length > 0) {
+                parser = smileFactory.createParser(loadBytes);
+                node = parser.getCodec().readTree(parser);
+            }
+            loadDefinitionData(parser != null, parser, node);
+            if (parser != null) parser.close();
+
         } catch (Exception e) {
             ErrorHandler.log(e);
             destroy();
@@ -190,7 +207,7 @@ public abstract class Entity {
      * •	UUID (unique identifier for the entity).
      * •	Name/Custom Name Tags.
      */
-    public void loadDefinitionData(Input input, Kryo kyro) throws IOException {
+    public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
     }
 
     /**
@@ -200,7 +217,8 @@ public abstract class Entity {
      * •	UUID (unique identifier for the entity).
      * •	Name/Custom Name Tags.
      */
-    public void serializeDefinitionData(Output output, Kryo kyro) throws IOException {
+    public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+
     }
 
     /**
