@@ -114,23 +114,7 @@ public class CursorRay {
             return true;
         }
 
-        if (selectedItem != null) { //Item click event
-            if (selectedItem.item.isFood()) {
-                eatFood(selectedItem);
-                return true;
-            }
-            if (creationMode) {
-                if (selectedItem.item.createClickEvent != null) {
-                    return selectedItem.item.createClickEvent.run(this, selectedItem);
-                } else if (selectedItem.item.getBlock() != null || selectedItem.item.getEntity() != null)
-                    defaultSetEvent(selectedItem);
-            } else {
-                if (selectedItem.item.destroyClickEvent != null) {
-                    return selectedItem.item.destroyClickEvent.run(this, selectedItem);
-                }
-            }
-        }
-
+        //Click events
         if (creationMode) {
             if (cursorRay.entity != null) { //Entity click event
                 return cursorRay.entity.run_ClickEvent();
@@ -141,6 +125,23 @@ public class CursorRay {
             }
         }
 
+        //Item click event
+        if (selectedItem != null) {
+            if (selectedItem.item.isFood()) {
+                eatFood(selectedItem);
+                return true;
+            }
+            if (creationMode) {
+                if (selectedItem.item.createClickEvent != null) {
+                    return selectedItem.item.createClickEvent.run(this, selectedItem);
+                } else if (selectedItem.item.getBlock() != null || selectedItem.item.getEntity() != null)
+                     defaultSetEvent(selectedItem);
+            } else {
+                if (selectedItem.item.destroyClickEvent != null) {
+                    return selectedItem.item.destroyClickEvent.run(this, selectedItem);
+                }
+            }
+        }
 
         if (!creationMode) { //By default, remove anything the cursor is pointing at
             breakBlock(false, selectedItem);
