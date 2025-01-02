@@ -93,7 +93,7 @@ public abstract class Animal extends Entity {
         entitySupplier.isAutonomous = true;
     }
 
-    public Animal(int id, long uniqueId,MainWindow window) {
+    public Animal(int id, long uniqueId, MainWindow window) {
         super(id, uniqueId);
         this.window = window;
         random = new AnimalRandom();
@@ -143,6 +143,8 @@ public abstract class Animal extends Entity {
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         if (hasData) {
             if (node.has(JSON_TAMED)) tamed = node.get(JSON_TAMED).asBoolean();
+        } else {
+            tamed = !spawnedNaturally;
         }
     }
 

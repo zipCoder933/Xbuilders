@@ -43,8 +43,7 @@ public class PopupMessage {
 
     NkRect windowDims;
     String title, body;
-    long shownTime;
-    boolean buttonsHovered = false;
+    private long shownTime;
     boolean buttonCanClose = false;
     boolean unfocusCanClose = false;
 
@@ -71,7 +70,7 @@ public class PopupMessage {
     public void message(String title, String body) {
         this.title = title;
         this.body = body;
-        shownTime = System.currentTimeMillis();
+        resetShownTime();
         this.confirmationCallback = null;
         this.closeCallback = null;
         visible = true;
@@ -80,7 +79,7 @@ public class PopupMessage {
     public void message(String title, String body, Runnable closeCallback) {
         this.title = title;
         this.body = body;
-        shownTime = System.currentTimeMillis();
+        resetShownTime();
         this.confirmationCallback = null;
         this.closeCallback = closeCallback;
         visible = true;
@@ -89,7 +88,7 @@ public class PopupMessage {
     public void confirmation(String title, String body, Runnable confirmationCallback) {
         this.title = title;
         this.body = body;
-        shownTime = System.currentTimeMillis();
+        resetShownTime();
         this.confirmationCallback = confirmationCallback;
         this.closeCallback = null;
         visible = true;
@@ -98,17 +97,28 @@ public class PopupMessage {
     public void confirmation(String title, String body, Runnable confirmationCallback, Runnable closeCallback) {
         this.title = title;
         this.body = body;
-        shownTime = System.currentTimeMillis();
+        resetShownTime();
         this.confirmationCallback = confirmationCallback;
         this.closeCallback = closeCallback;
         visible = true;
     }
 
+    private void resetShownTime() {
+        if (!visible) {
+            shownTime = System.currentTimeMillis();
+        }
+    }
+
     private final static String WINDOW_ID = "Popup_window";
 
 
-    private void closeWindow() {
-        if (closeCallback != null) {
+    private void closeWindow(boolean confirmation) {
+        System.out.println("Closing popup, confirmation: " + confirmation);
+        if (confirmation) {
+            if (confirmationCallback != null) {
+                confirmationCallback.run();
+            }
+        } else if (closeCallback != null) {
             closeCallback.run();
         }
         closeCallback = null;
@@ -118,10 +128,15 @@ public class PopupMessage {
 
 
     public void draw() {
-        buttonsHovered = false;
         if (!visible) {
             return;
         }
+
+
+        int timeSinceShown = (int) (System.currentTimeMillis() - shownTime);
+        buttonCanClose = timeSinceShown > 500;
+        unfocusCanClose = timeSinceShown > 1000;
+
         float wrapWidth = boxWidth - 20;
         boxHeight = (int) (NKUtils.calculateWrappedTextHeight(Theme.font_10, body, wrapWidth) + 180);
         boxHeight = MathUtils.clamp(boxHeight, 160, 400);
@@ -134,8 +149,11 @@ public class PopupMessage {
             //Detect if the window is in focus
             if (!nk_window_has_focus(ctx)) {
                 if (unfocusCanClose) {
-                    closeWindow();
-                } else nk_window_set_focus(ctx, WINDOW_ID);
+                    closeWindow(false);
+                } else {
+                    System.out.println("Refocusing popup\t\t can close: " + unfocusCanClose + " Button can close: " + buttonCanClose + " Time since shown: " + timeSinceShown);
+                    nk_window_set_focus(ctx, WINDOW_ID);
+                }
             }
 
 
@@ -151,58 +169,46 @@ public class PopupMessage {
                 nk_layout_row_dynamic(ctx, 40, 2);
 
                 if (nk_widget_is_hovered(ctx)) {
-                    buttonsHovered = true;
-                    //nk_tooltip(ctx, "This is a tooltip");
+                    //System.out.println("Hovered click " + window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT));
+                    if (buttonCanClose && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+                        closeWindow(true);
+                    }
                 }
-
                 if (nk_button_label(ctx, "OK")) {
-                    System.out.println("Closing popup...");
                     if (buttonCanClose) {
-                        confirmationCallback.run();
-                        confirmationCallback = null;
-                        closeCallback = null;
-                        visible = false;
+                        closeWindow(true);
                     }
                 }
 
                 if (nk_widget_is_hovered(ctx)) {
-                    buttonsHovered = true;
-                    //nk_tooltip(ctx, "This is a tooltip");
+                    //System.out.println("Hovered click " + window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT));
+                    if (buttonCanClose && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+                        closeWindow(false);
+                    }
                 }
                 if (nk_button_label(ctx, "Cancel")) {
-                    System.out.println("Closing popup...");
                     if (buttonCanClose) {
-                        closeWindow();
+                        closeWindow(false);
                     }
                 }
             } else {
                 nk_layout_row_dynamic(ctx, 40, 1);
 
                 if (nk_widget_is_hovered(ctx)) {
-                    buttonsHovered = true;
-                    //nk_tooltip(ctx, "This is a tooltip");
+                    //System.out.println("Hovered click " + window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT));
+                    if (buttonCanClose && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+                        closeWindow(false);
+                    }
                 }
                 if (nk_button_label(ctx, "OK")) {
-                    System.out.println("Closing popup...");
                     if (buttonCanClose) {
-                        closeWindow();
+                        closeWindow(false);
                     }
                 }
             }
         }
         nk_end(ctx);
 
-        if (buttonsHovered) {
-            //System.out.println("Hovered");
-        }
-        //Sometimes if the window is unfocused, it doesnt register the button press
-        if (buttonCanClose && buttonsHovered && window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-            closeWindow();
-        }
-
-        int timeSinceShown = (int) (System.currentTimeMillis() - shownTime);
-        buttonCanClose = timeSinceShown > 500;
-        unfocusCanClose = timeSinceShown > 1000;
     }
 
 

@@ -21,6 +21,7 @@ import java.io.IOException;
  * @author zipCoder933
  */
 public class Banner extends Entity {
+
     static EntityMesh body;
     static int texture;
 
@@ -107,7 +108,10 @@ public class Banner extends Entity {
         }
         modelMatrix.translate(1f - (ONE_SIXTEENTH * 2), 0, 0.5f);
 
-        modelMatrix.rotateZ((float) (Math.sin((frameCount * 0.05) + seed) * 0.1) + 0.1f);
+        float flow = (float) ((Math.sin((frameCount * 0.05) + seed) * 0.1) + 0.1f);
+        //flow *= (float) sunValue / 15;
+
+        modelMatrix.rotateZ(flow);
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
         body.draw(false, texture);

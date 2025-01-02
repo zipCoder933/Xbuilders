@@ -293,15 +293,15 @@ public class GameScene implements WindowEvents {
     }
 
     public void stopGameEvent() {
-        System.out.println("Closing " + world.data.getName() + "...");
-        userPlayer.stopGameEvent();
-        world.stopGameEvent();
-        tickThread.stopGameEvent();
-        eventPipeline.stopGameEvent();
-        livePropagationHandler.stopGameEvent();
         try {
+            System.out.println("Closing World...");
+            userPlayer.stopGameEvent();
+            world.stopGameEvent();
+            tickThread.stopGameEvent();
+            eventPipeline.stopGameEvent();
+            livePropagationHandler.stopGameEvent();
             server.stopGameEvent();
-        } catch (IOException e) {
+        } catch (Exception e) {
             ErrorHandler.report(e);
         }
     }

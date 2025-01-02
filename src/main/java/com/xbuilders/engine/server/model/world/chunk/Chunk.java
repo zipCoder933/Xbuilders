@@ -403,7 +403,7 @@ public class Chunk {
         float tickLikelyhood = (MainWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
 
         float spawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_SPAWN_LIKELIHOOD : RANDOM_SPAWN_LIKELIHOOD);
-        float despawnLikelyhood = spawnLikelyhood * 1.1f;
+        float despawnLikelyhood = spawnLikelyhood * 2f;
 
         int wx = position.x * WIDTH;
         int wy = position.y * HEIGHT;
@@ -417,7 +417,9 @@ public class Chunk {
         for (Entity e : entities.list) {
             if (e.spawnedNaturally //If the entitiy was spawned in this tick method
                     && randomTick_random.nextFloat() <= despawnLikelyhood
-                    && e.link.despawnCondition.despawn(e)) {
+                    && e.link.despawnCondition.despawn(e)
+                    && e.distToPlayer > 10 //TODO: For now, this distToPlayer Condition is ok, but it should be changed when we update multiplayer
+            ) {
                 //System.out.println("Despawning entity");
                 e.destroy();
             }

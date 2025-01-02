@@ -96,7 +96,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
             if (status_hunger > 0) {
                 if (runningMode) status_hunger -= 0.001f;
-                else status_hunger -= 0.0002f;
+                else status_hunger -= 0.0003f;
             }
 
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
@@ -134,6 +134,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         dismount();
         dieMode = true;
         MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
+
             System.out.println("Teleporting to spawnpoint...");
             if (!inventory.isEmpty()) {
                 GameScene.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
