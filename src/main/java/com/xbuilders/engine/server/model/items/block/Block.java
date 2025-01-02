@@ -30,6 +30,11 @@ public class Block {
     public boolean opaque = true;
     public byte torchlightStartingValue = 0;
     public Consumer<Block> initializationCallback = null;
+
+    public int getLiquidSourceValue() {
+        return liquidMaxFlow + 1;
+    }
+
     public int liquidMaxFlow;
     public final float[] colorInPlayerHead = {0, 0, 0, 0};//If set to null, we default to drawing block texture in player head
 
@@ -55,7 +60,6 @@ public class Block {
     public final boolean isLiquid() {
         return renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID;
     }
-
 
 
     // <editor-fold defaultstate="collapsed" desc="block events">

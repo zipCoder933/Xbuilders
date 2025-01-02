@@ -65,6 +65,8 @@ public class Blocks {
         lava.liquidMaxFlow = 6;
         lava.enterDamage = 0.5f;
 
+        Block fire = Registrys.getBlock(Blocks.BLOCK_FIRE);
+        fire.enterDamage = 0.2f;
 
         randomTickEvents();
 
@@ -92,11 +94,14 @@ public class Blocks {
                 else b.toughness = 0.1f;
             }
             //Add flammable tag to various blocks
-            if (isWood(b) || b.alias.contains("dead") || b.alias.contains("dry")) {
+            if (isWood(b)) {
                 b.properties.put("flammable", "true");
-            }else if(!b.solid && b.renderType == RenderType.SPRITE){
-//                b.properties.pr
+            } else if (!b.solid && b.renderType == RenderType.SPRITE
+                    && (b.alias.contains("dead") || b.alias.contains("dry") || b.alias.contains("grass"))) {
+                b.properties.put("flammable", "true");
             }
+
+
             if (isWood(b)) {
                 b.easierMiningTool_tag = "axe";
             } else if (PlantUtils.blockIsGrassSnowOrDirt(b)

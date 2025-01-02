@@ -152,19 +152,13 @@ public class LoadWorld implements MenuPage {
     }
 
     public void loadWorld(final WorldData world, NetworkJoinRequest req) {
-
-//        if (world.infoFile.isJoinedMultiplayerWorld) {
-//            menu.popupMessage.message("Denied", "Cannot this world unless it has been joined as a multiplayer world");
-//            return;
-//        }
-
         String title = "Loading World...";
         ProgressData prog = new ProgressData(title);
 
         MainWindow.gameScene.startGameEvent(world, req, prog);
         menu.progress.enable(prog, () -> {//update
             try {
-                MainWindow.gameScene.newGameUpdateEvent();
+                MainWindow.gameScene.newGameUpdateEvent(world);
             } catch (Exception ex) {
                 ErrorHandler.report(ex);
                 prog.abort();

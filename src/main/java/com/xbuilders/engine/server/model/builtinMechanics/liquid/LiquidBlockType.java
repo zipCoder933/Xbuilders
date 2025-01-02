@@ -36,20 +36,22 @@ public class LiquidBlockType extends BlockType {
         return PERMIT_GM;
     }
 
-    public BlockData getInitialBlockData(BlockData existingData, Block block, UserControlledPlayer player) {
-        BlockData bd = new BlockData(1);
-        //The source block is block max flow + 1
-        bd.set(0, (byte) (block.liquidMaxFlow + 1));
-        return bd;
-    }
 
     public LiquidBlockType() {
         super();
         replaceOnSet = true;
         initializationCallback = (b) -> {
+
             b.opaque = false;
             b.solid = false;
             b.liquidMaxFlow = 7;
+
+            b.initialBlockData = (existingData, player) -> {
+                BlockData bd = new BlockData(1);
+                //The source block is block max flow + 1
+                bd.set(0, (byte) b.getLiquidSourceValue());
+                return bd;
+            };
             //TODO: The user should not be allowed to delete water, just replace blocks over it
             b.removeBlockEvent(false, ((x, y, z, history) -> {
                 //If we are a source block, put us back if we are surrounded by water

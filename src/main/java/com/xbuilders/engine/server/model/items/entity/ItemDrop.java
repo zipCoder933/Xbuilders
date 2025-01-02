@@ -115,7 +115,7 @@ public class ItemDrop extends Entity {
                 int y = (int) Math.floor(worldPosition.y);
                 int z = (int) Math.floor(worldPosition.z);
 
-                if (GameScene.world.getBlock(x, y, z).enterDamage > 0.2) {
+                if (GameScene.world.getBlock(x, y, z).enterDamage > 0.05) {
                     destroy();
                 }
 

@@ -305,7 +305,7 @@ public class GameScene implements WindowEvents {
     /**
      * The event that starts the new game
      */
-    public void newGameUpdateEvent() throws Exception {
+    public void newGameUpdateEvent(WorldData worldInfo) throws Exception {
         switch (prog.stage) {
             case 0 -> {
                 if (req != null) {
