@@ -10,8 +10,10 @@ import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -74,7 +76,24 @@ public abstract class Animal extends Entity {
     public void eatAnimalFeed() {
     }
 
-    public Animal(int id, long uniqueId, MainWindow window) {
+    @Override
+    public void initSupplier(EntitySupplier entitySupplier) {
+        super.initSupplier(entitySupplier);
+        entitySupplier.spawnCondition = (x, y, z) -> {
+            if (GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            return false;
+        };
+        entitySupplier.despawnCondition = (e) -> {
+            if (e instanceof Animal) {
+                Animal a = (Animal) e;
+                if (a.tamed) return false;
+            }
+            return true;
+        };
+        entitySupplier.isAutonomous = true;
+    }
+
+    public Animal(int id, long uniqueId,MainWindow window) {
         super(id, uniqueId);
         this.window = window;
         random = new AnimalRandom();

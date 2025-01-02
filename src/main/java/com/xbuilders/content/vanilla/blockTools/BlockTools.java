@@ -42,6 +42,7 @@ public class BlockTools extends UI_GameMenu {
         tools.add(tool);
     }
 
+
     int menuWidth = 400;
     int menuHeight = 30;
 
@@ -84,6 +85,7 @@ public class BlockTools extends UI_GameMenu {
         if (allowToolParameters) {
             return tools.get(selectedTool).mouseScrollEvent(scroll, xoffset, yoffset);
         }
+        autoRevert();
         return false;
     }
 
@@ -107,20 +109,37 @@ public class BlockTools extends UI_GameMenu {
                     }
                 }
             }
-
+            autoRevert();
             return tools.get(selectedTool).keyEvent(key, scancode, action, mods);
         }
         return false;
     }
+
+    public final int DEFAULT_TOOL_INDEX = 0;
 
     public void selectTool(int i) {
         tools.get(selectedTool).deactivate();
         selectedTool = i;
         GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
         tools.get(selectedTool).activate();
+        autoRevert();
+    }
+
+    public void selectDefaultTool() {
+        tools.get(selectedTool).deactivate();
+        selectedTool = DEFAULT_TOOL_INDEX;
+        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        tools.get(selectedTool).activate();
+    }
+
+    public void autoRevert() {
+        if (selectedTool != DEFAULT_TOOL_INDEX && !BlockTool.hasBlock()) {
+            selectDefaultTool();
+        }
     }
 
     public boolean clickEvent(CursorRay ray, boolean isCreationMode) {
+        autoRevert();
         Block block = BlockTool.getSelectedBlock();
         if (GameScene.getGameMode() != GameMode.FREEPLAY || block == null) return false;
         return getSelectedTool().setBlock(block, ray, isCreationMode);
@@ -140,7 +159,4 @@ public class BlockTools extends UI_GameMenu {
         return pallete.isOpen();
     }
 
-    public void reset() {
-        selectTool(0);
-    }
 }

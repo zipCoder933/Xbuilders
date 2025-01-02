@@ -37,6 +37,7 @@ public class EntitySupplier {
 
     public Entity get(long uniqueIdentifier) {
         Entity e = supplier.get(uniqueIdentifier);
+        e.supplier = this;
         return e;
     }
 

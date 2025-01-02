@@ -146,7 +146,7 @@ public class XbuildersGame extends Game {
 
     public void gameModeChangedEvent(GameMode gameMode) {
         GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
-        blockTools.reset();
+        blockTools.selectDefaultTool();
     }
 
     @Override

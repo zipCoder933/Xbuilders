@@ -94,6 +94,8 @@ public abstract class Entity {
     public EntitySupplier link;
     protected final long uniqueIdentifier;
 
+    public final static String JSON_SPAWNED_NATURALLY = "spawnedNaturally";
+
 
     //Position
     public EntityAABB aabb;
@@ -114,6 +116,7 @@ public abstract class Entity {
     public final short id;
     public final String alias;
     private static final SecureRandom entityIdentifierGenerator = new SecureRandom();
+    public EntitySupplier supplier;
 
     public Entity(int id, long uniqueIdentifier) {
         this.id = (short) id;
@@ -189,6 +192,7 @@ public abstract class Entity {
 
     /**
      * Used as another layer of abstraction to write definition data of entity.
+     *
      * @return
      */
     public final byte[] serializeStateData() {
@@ -233,6 +237,11 @@ public abstract class Entity {
      * •	Name/Custom Name Tags.
      */
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
+        if (supplier.isAutonomous && hasData) {
+            if (node.has(JSON_SPAWNED_NATURALLY)) {
+                spawnedNaturally = node.get(JSON_SPAWNED_NATURALLY).asBoolean();
+            }
+        }
     }
 
     /**
@@ -243,6 +252,9 @@ public abstract class Entity {
      * •	Name/Custom Name Tags.
      */
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
+        if (supplier.isAutonomous) {
+            generator.writeBooleanField(JSON_SPAWNED_NATURALLY, spawnedNaturally);
+        }
     }
 
     /**

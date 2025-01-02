@@ -391,8 +391,6 @@ public class Chunk {
     private static final float DEV_RANDOM_SPAWN_LIKELIHOOD = 0.0001f;
     private static final float RANDOM_SPAWN_LIKELIHOOD = 0.00001f;
 
-    private static final float DEV_RANDOM_DESPAWN_LIKELIHOOD = 0.01f;
-    private static final float RANDOM_DESPAWN_LIKELIHOOD = 0.001f;
 
     /**
      * Ticks the chunk
@@ -403,8 +401,10 @@ public class Chunk {
     public boolean tick(boolean spawnEntities) {
         boolean updatedChunkMesh = false;
         float tickLikelyhood = (MainWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
+
         float spawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_SPAWN_LIKELIHOOD : RANDOM_SPAWN_LIKELIHOOD);
-        float despawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_DESPAWN_LIKELIHOOD : RANDOM_DESPAWN_LIKELIHOOD);
+        float despawnLikelyhood = spawnLikelyhood * 1.1f;
+
         int wx = position.x * WIDTH;
         int wy = position.y * HEIGHT;
         int wz = position.z * WIDTH;
@@ -415,10 +415,10 @@ public class Chunk {
 
         //Despawn entities
         for (Entity e : entities.list) {
-            if (e.spawnedNaturally//If the entitiy was spawned in this tick method
+            if (e.spawnedNaturally //If the entitiy was spawned in this tick method
                     && randomTick_random.nextFloat() <= despawnLikelyhood
                     && e.link.despawnCondition.despawn(e)) {
-                System.out.println("Despawning entity");
+                //System.out.println("Despawning entity");
                 e.destroy();
             }
         }

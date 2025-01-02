@@ -60,7 +60,7 @@ public class LogicThread {
                 //System.out.println("Chunk " + chunk.client_distToPlayer + " " + simDistance + " " + spawnDistance);
 
                 if (chunk.client_distToPlayer < simDistance) {
-                    boolean spawnEntities = false;//chunk.client_distToPlayer < spawnDistance
+                    boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
                     chunksUpdated += (chunk.tick(spawnEntities) ? 1 : 0);
                 }
             }

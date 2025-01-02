@@ -2,6 +2,7 @@ package com.xbuilders.content.vanilla.blockTools;
 
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -25,11 +26,21 @@ public abstract class BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
     }
 
-    public static  Block getSelectedBlock() {
-        ItemStack selectedItem =  GameScene.userPlayer.getSelectedItem();
-        if(selectedItem == null || selectedItem.item == null) return null;
-        if(selectedItem.item.getBlock() == null) return null;
-        return selectedItem.item.getBlock();
+    public static Block getSelectedBlock() {
+        ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
+        if (selectedItem == null || selectedItem.item == null) return BlockRegistry.BLOCK_AIR;
+        if (selectedItem.item.getBlock() == null) return BlockRegistry.BLOCK_AIR;
+        Block b = selectedItem.item.getBlock();
+        if (b == null) return BlockRegistry.BLOCK_AIR;
+        return b;
+    }
+
+    public static boolean hasBlock() {
+        ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
+        if (selectedItem == null || selectedItem.item == null) return false;
+        if (selectedItem.item.getBlock() == null) return false;
+        Block b = selectedItem.item.getBlock();
+        return b != null;
     }
 
     public BlockTool(String name, BlockTools blockTools, CursorRay cursorRay) {
