@@ -279,6 +279,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private static final int KEY_FLY_UP = GLFW.GLFW_KEY_F;
     public static final int KEY_FLY_DOWN = GLFW.GLFW_KEY_LEFT_CONTROL;
     private static final int KEY_JUMP = GLFW.GLFW_KEY_SPACE;
+    private static final int KEY_SPRINT = GLFW.GLFW_KEY_LEFT_SHIFT;
 
     final static float WALK_SPEED = 6.5f;
     final static float RUN_SPEED = 14f;
@@ -326,12 +327,20 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     private void jump() {
-        if (usePositionHandler)
-            positionHandler.jump();
-        usePositionHandler = true;
-        positionHandler.collisionsEnabled = true;
-        positionHandler.setGravityEnabled(true);
+        if (GameScene.getGameMode() == GameMode.SPECTATOR) {
+        } else {
+            dismount();
+            if (positionHandler.isGravityEnabled()) {
+                if (usePositionHandler)
+                    positionHandler.jump();
+                usePositionHandler = true;
+                positionHandler.collisionsEnabled = true;
+                positionHandler.setGravityEnabled(true);
+            } else disableFlying();
+        }
     }
+
+    private boolean jumpKeyPressed = false;
 
     public UserControlledPlayer(MainWindow window,
                                 Matrix4f projection, Matrix4f view,
@@ -520,6 +529,19 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                         camera.right.x * speed * window.smoothFrameDeltaSec,
                         camera.right.z * speed * window.smoothFrameDeltaSec);
             }
+            runningMode = window.isKeyPressed(KEY_SPRINT);
+//            /**
+//             * We have to handle some keys in a separate way, due to some keyboards having key rollover
+//             * https://en.wikipedia.org/wiki/Rollover_(key)
+//             */
+//            if (window.isKeyPressed(KEY_JUMP)) {
+//                System.out.println("JUMP");
+//                if (!jumpKeyPressed) {
+//                    jumpKeyPressed = true;
+//                    jump();
+//                }
+//            } else jumpKeyPressed = false;
+
 
             if (isInsideOfLadder()) {
                 if (keyInputAllowed() && window.isKeyPressed(KEY_JUMP)) {
@@ -649,15 +671,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             printKeyConsumption(camera.cursorRay.getClass());
         } else if (action == GLFW.GLFW_PRESS) {
             switch (key) {
-                case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = true;
                 case KEY_JUMP -> {
-                    if (GameScene.getGameMode() == GameMode.SPECTATOR) {
-                    } else {
-                        dismount();
-                        if (positionHandler.isGravityEnabled()) {
-                            jump();
-                        } else disableFlying();
-                    }
+                    jump();
                 }
                 case KEY_FLY_UP -> enableFlying();
             }
@@ -665,9 +680,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             if (key == KEY_CHANGE_RAYCAST_MODE && GameScene.getGameMode() == GameMode.FREEPLAY) {
                 camera.cursorRay.angelPlacementMode = !camera.cursorRay.angelPlacementMode;
             }
-
             switch (key) {
-                case GLFW.GLFW_KEY_LEFT_SHIFT -> runningMode = false;
                 case KEY_TOGGLE_VIEW -> camera.cycleToNextView(10);
                 case KEY_CREATE_MOUSE_BUTTON -> {
                     camera.cursorRay.clickEvent(true);
