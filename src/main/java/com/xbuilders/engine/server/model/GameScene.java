@@ -34,6 +34,7 @@ import com.xbuilders.engine.MainWindow;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.opengl.GL11;
@@ -540,14 +541,15 @@ public class GameScene implements WindowEvents {
 
 
     boolean writeDebugText = false;
-    public static WCCi rayWCC = new WCCi();
+    private WCCi rayWCC = new WCCi();
+    private Vector3i rayWorldPos = new Vector3i();
 
     private void setInfoText() {
         if (writeDebugText) {
             String text = "";
             try {
-                WCCf wcc2 = new WCCf();
-                wcc2.set(userPlayer.worldPosition);
+                WCCf playerWCC = new WCCf();
+                playerWCC.set(userPlayer.worldPosition);
                 text += MainWindow.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
                 text += "Saved " + world.getTimeSinceLastSave() + "ms ago\n";
                 text += "PLAYER pos: " +
@@ -560,9 +562,11 @@ public class GameScene implements WindowEvents {
                 if (userPlayer.camera.cursorRay.hitTarget() || userPlayer.camera.cursorRay.angelPlacementMode) {
                     if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
                         rayWCC.set(userPlayer.camera.cursorRay.getHitPosPlusNormal());
+                        rayWorldPos.set(userPlayer.camera.cursorRay.getHitPosPlusNormal());
                         text += "\nRAY (+normal) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     } else {
                         rayWCC.set(userPlayer.camera.cursorRay.getHitPos());
+                        rayWorldPos.set(userPlayer.camera.cursorRay.getHitPos());
                         text += "\nRAY (hit) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     }
 
@@ -585,7 +589,9 @@ public class GameScene implements WindowEvents {
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                         text += "\n" + block + " data: " + printBlockData(data) + " type: " + Registrys.blocks.getBlockType(block.renderType);
-                        text += "\nsun: " + (sun) + ", torch: " + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+                        text += "\nlight=" + getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
+                                + "  sun=" + (sun)
+                                + "  torch=" + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }
 
                 }

@@ -173,12 +173,14 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
 
     @Override
     public boolean run_ClickEvent() {
+        if (!tamed) return false;
+
         if (rideable) {
             GameScene.userPlayer.positionLock = lock;
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);
-            } else {
+            } else {//Make the animal sit
                 if (distToPlayer < 5) {
                     setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()));
                 }

@@ -419,7 +419,7 @@ public class Chunk {
             if (e.spawnedNaturally //If the entitiy was spawned in this tick method
                     && randomTick_random.nextFloat() <= despawnLikelyhood
                     && e.link.despawnCondition.despawn(e)
-                    && e.distToPlayer > 10 //TODO: For now, this distToPlayer Condition is ok, but it should be changed when we update multiplayer
+                    && client_distToPlayer > 10 //TODO: For now, this distToPlayer Condition is ok, but it should be changed when we update multiplayer
             ) {
                 //System.out.println("Despawning entity");
                 e.destroy();
@@ -442,6 +442,7 @@ public class Chunk {
                     }
 
                     if (spawnEntities && entityToSpawn != null
+                            && client_distToPlayer > 10
                             && randomTick_random.nextFloat() <= spawnLikelyhood &&
                             entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
                         Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);

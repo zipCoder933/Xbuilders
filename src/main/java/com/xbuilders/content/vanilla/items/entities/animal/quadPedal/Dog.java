@@ -37,10 +37,15 @@ public class Dog extends QuadPedalLandAnimal {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (GameScene.getLightLevel(x, y, z) > 5) return false;//If it's too bright, don't spawn
+            if (GameScene.getLightLevel(x, y, z) > 5) return false; //If it's too bright, don't spawn
+
             Block floor = GameScene.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
             if (floor.solid && GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
             return false;
+        };
+        //TODO: There is no way to club dogs, so we have to tame them, however when they are tamed they dont despawn, so we have to despawn ALL dogs
+        entitySupplier.despawnCondition = (e) -> {
+            return true;
         };
         entitySupplier.isAutonomous = true;
     }
