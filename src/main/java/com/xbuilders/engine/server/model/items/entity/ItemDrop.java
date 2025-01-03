@@ -54,7 +54,8 @@ public class ItemDrop extends Entity {
 
         if (hasData) {
             droppedFromPlayer = node.get(JSON_DROPPED_FROM_PLAYER).asBoolean();
-            smileObjectMapper.readValue(node.get(JSON_ITEM_STACK).traverse(), ItemStack.class);
+            JsonParser stackData = node.get(JSON_ITEM_STACK).traverse();
+            if (stackData != null) smileObjectMapper.readValue(stackData, ItemStack.class);
             System.out.println("READING STACK: " + stack.toString() + " Dropped From Player: " + droppedFromPlayer);
         }
     }
