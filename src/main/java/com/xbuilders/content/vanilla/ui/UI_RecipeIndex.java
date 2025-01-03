@@ -23,6 +23,7 @@ import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -34,6 +35,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     public static final int KEY_OPEN_RECIPE_INDEX = GLFW.GLFW_KEY_R;
 
     Item selectedItem;
+    RecipeList selectedRecipeClass;
     HashMap<RecipeList, ArrayList<RecipeDisplay>> availableRecipes = new HashMap<>();
 
     public UI_RecipeIndex(NkContext ctx, Item[] itemList, NKWindow window) {
@@ -58,6 +60,11 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
             ArrayList<RecipeDisplay> recipes = registry.getDisplayRecipesFromOutput(item);
             if (recipes.isEmpty()) continue;
             availableRecipes.put(registry, recipes);
+        }
+        if (!availableRecipes.isEmpty()) {
+            //Get the first key and assign it to the recipe
+            Map.Entry<RecipeList, ArrayList<RecipeDisplay>> entry = availableRecipes.entrySet().iterator().next();
+            selectRecipeClass(entry.getKey());
         }
         System.out.println("Available recipes: " + availableRecipes);
     }
@@ -84,14 +91,30 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
         if (nk_group_begin(ctx, "Recipe view", 0)) {
             if (selectedItem != null && !availableRecipes.isEmpty()) {
                 nk_layout_row_dynamic(ctx, 20, availableRecipes.size());
+
+                /**
+                 * Draw recipe classes (Crafting, smelting)
+                 */
                 for (RecipeList list : availableRecipes.keySet()) {
-                    nk_button_text(ctx, list.name);
-                }
-                availableRecipes.forEach((list, recipes) -> {
-                    for (RecipeDisplay recipe : recipes) {
-                        recipe.drawRecipe(ctx, recipeView_Height - 50);
+                    if (selectedRecipeClass != null && list == selectedRecipeClass) {
+                        ctx.style().button().normal().data().color().set(Theme.color_lightGray);
+                        ctx.style().button().border_color().set(Theme.color_white);
+                    } else Theme.resetEntireButtonStyle(ctx);
+
+                    if (nk_button_text(ctx, list.name)) {
+                        selectRecipeClass(list);
                     }
-                });
+                }
+                Theme.resetEntireButtonStyle(ctx);
+
+                /**
+                 * Draw visible recipes
+                 */
+                if (selectedRecipeClass != null) {
+                    availableRecipes.get(selectedRecipeClass).forEach((recipe) -> {
+                        recipe.drawRecipe(ctx, recipeView_Height - 50);
+                    });
+                }
             }
         }
         nk_group_end(ctx);
@@ -99,6 +122,11 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
         allItems.draw(ctx, stack, Allitems_Height);
 
         Theme.resetEntireButtonStyle(ctx);
+    }
+
+    private void selectRecipeClass(RecipeList list) {
+        selectedRecipeClass = list;
+        System.out.println("Switching to " + list.name);
     }
 
 

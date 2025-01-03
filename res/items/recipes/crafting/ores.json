@@ -58,5 +58,37 @@
     ],
     "output": "xbuilders:iron_block",
     "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:gold_block"
+    ],
+    "output": "xbuilders:gold_ingot",
+    "amount": 9
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:diamond_block"
+    ],
+    "output": "xbuilders:diamond",
+    "amount": 9
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:emerald_block"
+    ],
+    "output": "xbuilders:emerald",
+    "amount": 9
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:iron_block"
+    ],
+    "output": "xbuilders:iron_ingot",
+    "amount": 9
   }
 ]

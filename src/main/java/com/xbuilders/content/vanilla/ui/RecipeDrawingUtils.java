@@ -33,10 +33,14 @@ public class RecipeDrawingUtils {
             viewOutputGrid.items.add(item);
 
             viewInputGrid.draw(stack, ctx, 3);
-            viewOutputGrid.draw(stack, ctx, 1);
 
-            nk_layout_row_dynamic(ctx, 10, 1);
-            Nuklear.nk_label(ctx, "X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
+            if(nk_group_begin(ctx,"output1234", 0)){
+                nk_layout_row_dynamic(ctx, 60, 1);
+                viewOutputGrid.draw(stack, ctx, 1);
+                Nuklear.nk_label(ctx, "X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
+            }
+            nk_group_end(ctx);
+
         }
     }
 
@@ -53,7 +57,7 @@ public class RecipeDrawingUtils {
             viewInputGrid.draw(stack, ctx, 1);
 
             nk_layout_row_dynamic(ctx, 10, 1);
-            Nuklear.nk_label(ctx, "X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
+            Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
         }
     }
 

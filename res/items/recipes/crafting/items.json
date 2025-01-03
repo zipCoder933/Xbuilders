@@ -41,15 +41,9 @@
   },
   {
     "input": [
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:torch",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot"
+      "xbuilders:gold_ingot",      "xbuilders:gold_block",      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",      "xbuilders:torch",      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",      "xbuilders:gold_block",      "xbuilders:gold_ingot"
     ],
     "output": "xbuilders:flashlight",
     "amount": 1
