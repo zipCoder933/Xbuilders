@@ -95,7 +95,7 @@ public class CollisionHandler {
         driver.onGround = false;
         collisionData.reset();
         floorBlock = BlockRegistry.BLOCK_AIR;
-        drawTestBox(myBox.box, 0);
+       // drawTestBox(myBox.box, 0);
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             stepBox.set(myBox.box);
@@ -215,7 +215,7 @@ public class CollisionHandler {
 //            box.max.z -= spread;
 //            box.min.z -= spread;
 //        }
-        drawTestBox(box, 1);
+        //drawTestBox(box, 1);
 
         if (box.intersects(myBox.box)) {
             if (calculateCollisionData(box, block, isEntity)) {
