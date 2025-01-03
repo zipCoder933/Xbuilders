@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.server.model.GameMode;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
@@ -49,7 +50,7 @@ public class Dog extends QuadPedalLandAnimal {
 
 
     public void animal_move() {
-        if (tamed) super.animal_move();
+        if (tamed || GameScene.getGameMode() != GameMode.ADVENTURE) super.animal_move();
         else {
 //            if (GameScene.server.isPlayingMultiplayer()) {
 //                if (playerWithLowestDist == null || System.currentTimeMillis() - lastPlayerCheckTime > 1000) {

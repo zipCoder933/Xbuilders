@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.model;
 
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.visuals.ui.topMenu.TerrainSelector;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
 
 import java.util.Iterator;
@@ -61,6 +62,9 @@ public class LogicThread {
 
                 if (chunk.client_distToPlayer < simDistance) {
                     boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
+
+                    if (MainWindow.devMode &&
+                            GameScene.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
                     chunksUpdated += (chunk.tick(spawnEntities) ? 1 : 0);
                 }
             }
