@@ -199,6 +199,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void getPlayerBoxTop(Vector3f playerBoxBottom) {
+        aabb.updateBox();
         playerBoxBottom.set(
                 (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
                 GameScene.userPlayer.aabb.box.min.y,
@@ -206,6 +207,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void getPlayerBoxBottom(Vector3f playerBoxTop) {
+        aabb.updateBox();
         playerBoxTop.set(
                 (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
                 GameScene.userPlayer.aabb.box.max.y,
