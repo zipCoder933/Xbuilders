@@ -139,10 +139,55 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
-            worldPosition.set(status_spawnPosition);
+            teleportSafely(status_spawnPosition);
             resetHealthStats();
             dieMode = false;
         });
+    }
+
+    private void teleportSafely(Vector3f target) {
+        aabb.updateBox();
+        System.out.println("Teleporting safely to " + target.x + ", " + target.y + ", " + target.z);
+        worldPosition.set(target);
+        Vector3f pos = new Vector3f();
+        while (GameScene.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
+            aabb.updateBox();
+            System.out.println("Checking for ground: " + worldPosition.y);
+            getPlayerBoxBottom(pos);
+            if (GameScene.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z).solid ||
+                    GameScene.world.getBlock((int) pos.x, (int) pos.y + 1, (int) pos.z).solid) {
+                System.out.println("Found ground at " + worldPosition.y);
+                break;
+            } else {
+                worldPosition.y++;
+            }
+        }
+        aabb.updateBox();
+
+        System.out.println("The players head is " + getBlockAtPlayerHead());
+        if (!isSafeHeadPos(getBlockAtPlayerHead())) {
+            System.out.println("Moving up");
+            while (GameScene.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
+                aabb.updateBox();
+                System.out.println("Checking for air: " + worldPosition.y);
+                pos.set(
+                        (int) Math.floor(worldPosition.x),
+                        (int) Math.floor(worldPosition.y),
+                        (int) Math.floor(worldPosition.z));
+                if (isSafeHeadPos(GameScene.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z))) {
+                    System.out.println("Found air at " + worldPosition.y);
+                    break;
+                } else {
+                    worldPosition.y--;
+                    aabb.updateBox();
+                }
+            }
+        }
+    }
+
+    private boolean isSafeHeadPos(Block block) {
+        return block == BlockRegistry.BLOCK_AIR;
+        //return //!block.solid && block.enterDamage <= 0;
     }
 
     //Other processes could mess with this if we dont have the proper way to set the spawnpoint
@@ -153,21 +198,20 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         status_spawnPosition.set(x, y, z);
     }
 
-    public void getPlayerBoxBottom(Vector3f playerBoxBottom) {
+    public void getPlayerBoxTop(Vector3f playerBoxBottom) {
         playerBoxBottom.set(
                 (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
                 GameScene.userPlayer.aabb.box.min.y,
                 (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2);
     }
 
-    public void getPlayerBoxTop(Vector3f playerBoxTop) {
+    public void getPlayerBoxBottom(Vector3f playerBoxTop) {
         playerBoxTop.set(
                 (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
                 GameScene.userPlayer.aabb.box.max.y,
                 (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2
         );
     }
-
 
     //Saving/loading in world
     public final StorageSpace inventory;
