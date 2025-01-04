@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
@@ -95,7 +96,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
     public void initNewGame(WorldData worldInfo, NetworkJoinRequest req) {
         this.req = req;
-        scene.userPlayer.isHost = req.hosting;
+        GameScene.userPlayer.isHost = req.hosting;
         loadedChunks = 0;
         this.worldInfo = worldInfo;
         worldReady = false;
@@ -303,7 +304,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
             } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
                 getWorldInformationFromHost(receivedData);
             } else if (receivedData[0] == SET_TIME) {
-                Server.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
+                GameScene.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
             } else if (receivedData[0] == CHANGE_GAME_MODE) {
                 try {
                     int mode = receivedData[1];

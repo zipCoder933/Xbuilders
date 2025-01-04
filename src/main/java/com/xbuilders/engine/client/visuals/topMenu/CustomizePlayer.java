@@ -10,7 +10,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.player.Skin;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Page;
@@ -70,7 +70,7 @@ public class CustomizePlayer implements MenuPage {
 
             TopMenu.row(ctx, "Player Type:", 2);
 
-            Skin playerSkin = Server.userPlayer.userInfo.getSkin();
+            Skin playerSkin = GameScene.userPlayer.userInfo.getSkin();
             if (nk_button_label(ctx,
                     playerSkin == null ? "none" : playerSkin.name)) {
                 goToNextSkin();
@@ -90,8 +90,8 @@ public class CustomizePlayer implements MenuPage {
     private void goToNextSkin() {
         chosenSkin++;
         //Go to the next skin
-        Server.userPlayer.userInfo.setSkin(chosenSkin % ClientWindow.game.availableSkins.size());
-        Server.userPlayer.userInfo.saveToDisk();
+        GameScene.userPlayer.userInfo.setSkin(chosenSkin % ClientWindow.game.availableSkins.size());
+        GameScene.userPlayer.userInfo.saveToDisk();
     }
 
     @Override

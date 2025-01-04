@@ -2,6 +2,7 @@ package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -97,7 +98,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
             if (isPendingDestruction()) {
                 setRotationYDeg(getRotationYDeg() + rotationVelocity / 3);
             } else if (distToPlayer < 10 && playerHasAnimalFeed()) {
-                float playerY = Server.userPlayer.worldPosition.y;
+                float playerY = GameScene.userPlayer.worldPosition.y;
                 float playerPos = playerY + random.noise(1, -2, 2);
                 worldPosition.y = (float) MathUtils.curve(worldPosition.y, playerPos, 0.05f);
                 facePlayer();
@@ -147,7 +148,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
 
 
     public boolean playerIsInSameMediumAsFish() {
-        return inWater == Server.userPlayer.getBlockAtCameraPos().isLiquid();
+        return inWater == GameScene.userPlayer.getBlockAtCameraPos().isLiquid();
     }
 
     @Override

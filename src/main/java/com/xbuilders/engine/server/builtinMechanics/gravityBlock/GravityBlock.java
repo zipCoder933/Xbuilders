@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.builtinMechanics.gravityBlock;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.block.Block;
@@ -53,9 +54,9 @@ public class GravityBlock {
 
             //Under certain conditions, we immediately move the block to the bottom
             if (thisPosition.distance(
-                    (int) Server.userPlayer.worldPosition.x,
-                    (int) Server.userPlayer.worldPosition.y,
-                    (int) Server.userPlayer.worldPosition.z) >= Math.min(50, ClientWindow.settings.video_entityDistance.value)) {
+                    (int) GameScene.userPlayer.worldPosition.x,
+                    (int) GameScene.userPlayer.worldPosition.y,
+                    (int) GameScene.userPlayer.worldPosition.z) >= Math.min(50, ClientWindow.settings.video_entityDistance.value)) {
 
                 //Set the block at the bottom
                 for (int y = thisPosition.y + 1; y < World.WORLD_BOTTOM_Y; y++) {

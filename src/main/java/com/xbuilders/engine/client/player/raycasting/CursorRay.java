@@ -2,6 +2,7 @@ package com.xbuilders.engine.client.player.raycasting;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
@@ -104,7 +105,7 @@ public class CursorRay {
         if (Server.getGameMode() == GameMode.SPECTATOR) return false;
         breakAmt = 0;
         breakPercentage = 0;
-        ItemStack selectedItem = Server.userPlayer.getSelectedItem();
+        ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
         if (!hitTarget()) return false;
 
         if (ClientWindow.game.clickEvent(this, creationMode)) { //Game click event
@@ -173,7 +174,7 @@ public class CursorRay {
 
 
     private void eatFood(ItemStack selectedItem) {
-        Server.userPlayer.addHunger(selectedItem.item.hungerSaturation);
+        GameScene.userPlayer.addHunger(selectedItem.item.hungerSaturation);
         selectedItem.stackSize--;
     }
 
@@ -279,7 +280,7 @@ public class CursorRay {
 
             //Removal
             if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
-                ItemStack selectedItem = Server.userPlayer.getSelectedItem();
+                ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
                 if (selectedItem == null || !selectedItem.item.isFood()) {
                     breakBlock(true, selectedItem);
                 }
@@ -291,11 +292,11 @@ public class CursorRay {
         AABB boxAABB = new AABB();
         //If the block is too close to the player, don't place
         AtomicBoolean intersects = new AtomicBoolean(false);
-        BlockData initialData = block.getInitialBlockData(null, Server.userPlayer);
+        BlockData initialData = block.getInitialBlockData(null, GameScene.userPlayer);
 
         block.getRenderType().getCollisionBoxes((aabb) -> {
-            if (aabb.intersects(Server.userPlayer.aabb.box) &&
-                    Server.userPlayer.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
+            if (aabb.intersects(GameScene.userPlayer.aabb.box) &&
+                    GameScene.userPlayer.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
                 intersects.set(true);
         }, boxAABB, block, initialData, set.x, set.y, set.z);
 
@@ -448,7 +449,7 @@ public class CursorRay {
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
 
-        Vector2i simplifiedPanTilt = Server.userPlayer.camera.simplifiedPanTilt;
+        Vector2i simplifiedPanTilt = GameScene.userPlayer.camera.simplifiedPanTilt;
 
 
         int distance = getRayDistance();

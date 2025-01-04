@@ -337,7 +337,7 @@ public class ClientWindow extends NKWindow {
 
         String playerName = "";
         try {
-            playerName = " (" + Server.userPlayer.userInfo.name + ") ";
+            playerName = " (" + GameScene.userPlayer.userInfo.name + ") ";
         } finally {
         }
         setTitle(title + playerName + (ClientWindow.devMode ? "   " + mfpAndMemory : ""));

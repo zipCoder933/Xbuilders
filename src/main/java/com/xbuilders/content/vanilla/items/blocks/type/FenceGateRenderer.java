@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.block.construction.BlockType;
@@ -35,7 +36,7 @@ public class FenceGateRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.initialBlockData = (existingData, player) -> {
                 BlockData bd = new BlockData(2);
-                int rotation = Server.userPlayer.camera.simplifiedPanTilt.x;
+                int rotation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
                 bd.set(0, (byte) rotation);
                 bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
                 return bd;

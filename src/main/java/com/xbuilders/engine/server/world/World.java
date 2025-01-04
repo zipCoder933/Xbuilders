@@ -30,7 +30,7 @@ import java.io.IOException;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.Server;
 
-import static com.xbuilders.engine.server.Server.userPlayer;
+import static com.xbuilders.engine.client.visuals.gameScene.GameScene.userPlayer;
 import static com.xbuilders.engine.server.Server.world;
 
 import com.xbuilders.engine.server.items.block.BlockRegistry;
@@ -59,7 +59,7 @@ import org.joml.*;
 
 /**
  * The world is the main class that manages the chunks and entities in the game.
- * It represents the entire game world, and acts as a model for the game.
+ * It is the model for the game world and everything in it.
  */
 public class World {
 
@@ -247,7 +247,7 @@ public class World {
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
         setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
-        sortByDistance = new SortByDistanceToPlayer(Server.userPlayer.worldPosition);
+        sortByDistance = new SortByDistanceToPlayer(GameScene.userPlayer.worldPosition);
         entities.clear();
     }
 
@@ -291,7 +291,7 @@ public class World {
 
     public void startGameEvent(WorldData info){
         players.clear();
-        players.add(Server.userPlayer);
+        players.add(GameScene.userPlayer);
     }
 
     public boolean startGame(ProgressData prog, WorldData info, Vector3f playerPosition) {

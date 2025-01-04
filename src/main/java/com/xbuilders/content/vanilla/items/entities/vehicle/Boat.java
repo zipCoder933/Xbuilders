@@ -7,6 +7,7 @@ package com.xbuilders.content.vanilla.items.entities.vehicle;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -143,7 +144,7 @@ public class Boat extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        Server.userPlayer.positionLock = new PositionLock(this, 0);
+        GameScene.userPlayer.positionLock = new PositionLock(this, 0);
         return true;
     }
 

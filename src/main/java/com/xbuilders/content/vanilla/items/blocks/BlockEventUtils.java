@@ -1,6 +1,7 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.entity.Entity;
@@ -54,24 +55,24 @@ public class BlockEventUtils {
                 if (Server.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
                     Server.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                     removeEverythingWithinRadius(thisBlock, radius, new Vector3i(setX, setY, setZ));
-                    float dist = Server.userPlayer.worldPosition.distance(setX, setY, setZ);
+                    float dist = GameScene.userPlayer.worldPosition.distance(setX, setY, setZ);
                     if (dist < radius) {
-                        Server.userPlayer.addHealth(
+                        GameScene.userPlayer.addHealth(
                                 MathUtils.mapAndClamp(dist, radius, 0, 0, -10));
                     }
 
 
                     //Move the player away
                     Vector3f direction = new Vector3f(
-                            Server.userPlayer.worldPosition.x - setX,
-                            Server.userPlayer.worldPosition.y - setY,
-                            Server.userPlayer.worldPosition.z - setZ).normalize();
+                            GameScene.userPlayer.worldPosition.x - setX,
+                            GameScene.userPlayer.worldPosition.y - setY,
+                            GameScene.userPlayer.worldPosition.z - setZ).normalize();
                     direction = direction.mul(1f / MathUtils.dist(
-                            Server.userPlayer.worldPosition.x,
-                            Server.userPlayer.worldPosition.y,
-                            Server.userPlayer.worldPosition.z, setX, setY, setZ));
+                            GameScene.userPlayer.worldPosition.x,
+                            GameScene.userPlayer.worldPosition.y,
+                            GameScene.userPlayer.worldPosition.z, setX, setY, setZ));
                     direction.mul(50);
-                    Server.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
+                    GameScene.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();

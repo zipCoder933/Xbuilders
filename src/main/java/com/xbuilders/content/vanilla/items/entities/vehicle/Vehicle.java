@@ -10,6 +10,7 @@ import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.entity.Entity;
@@ -87,7 +88,7 @@ public abstract class Vehicle extends Entity {
     public Vehicle(int id, ClientWindow window, long uniqueIdentifier) {
         super(id, uniqueIdentifier);
         this.window = window;
-        this.player = Server.userPlayer;
+        this.player = GameScene.userPlayer;
     }
 
     /**
@@ -105,7 +106,7 @@ public abstract class Vehicle extends Entity {
     }
 
     public float getAngleToPlayer() {
-        UserControlledPlayer userControlledPlayer = Server.userPlayer;
+        UserControlledPlayer userControlledPlayer = GameScene.userPlayer;
         return MathUtils.getAngleOfPoints(worldPosition.x, worldPosition.z,
                 userControlledPlayer.worldPosition.x,
                 userControlledPlayer.worldPosition.z);
@@ -151,7 +152,7 @@ public abstract class Vehicle extends Entity {
     public abstract void vehicle_entityMoveEvent();
 
     public UserControlledPlayer getPlayer() {
-        return Server.userPlayer;
+        return GameScene.userPlayer;
     }
 
 

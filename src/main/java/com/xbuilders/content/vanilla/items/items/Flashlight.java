@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.items;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.items.item.Item;
 
 public class Flashlight extends Item {
@@ -12,7 +12,7 @@ public class Flashlight extends Item {
         super("xbuilders:flashlight", "Flashlight");
         setIcon("flashlight");
         this.createClickEvent = (ray, stack) -> {
-            Server.userPlayer.setFlashlight(on ? 0 : distance);
+            GameScene.userPlayer.setFlashlight(on ? 0 : distance);
             on = !on;
             return true;
         };

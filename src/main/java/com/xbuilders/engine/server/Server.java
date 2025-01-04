@@ -44,7 +44,6 @@ public class Server {
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
-    public static UserControlledPlayer userPlayer;
     public static GameServer server;
     static ClientWindow window;
     private static Game game;
@@ -79,15 +78,15 @@ public class Server {
     }
 
     public static boolean ownsGame() {
-        return (server.isPlayingMultiplayer() && userPlayer.isHost) || !server.isPlayingMultiplayer();
+        return (server.isPlayingMultiplayer() && GameScene.userPlayer.isHost) || !server.isPlayingMultiplayer();
     }
 
 
     public Server(ClientWindow window, Game myGame) throws Exception {
         game = myGame;
         this.window = window;
-        userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
-        server = new GameServer(this, userPlayer);
+        GameScene.userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
+        server = new GameServer(this, GameScene.userPlayer);
         livePropagationHandler = new LivePropagationHandler();
         eventPipeline = new BlockEventPipeline(world);
         tickThread = new LogicThread();
@@ -100,7 +99,7 @@ public class Server {
         if (chunk != null) {
             int sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             int torch = chunk.data.getTorch(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-            sun = (int) Math.min(sun, background.getLightness() * 15);
+            sun = (int) Math.min(sun, GameScene.background.getLightness() * 15);
             return Math.max(sun, torch);
         }
         return 0;
@@ -217,15 +216,15 @@ public class Server {
 
     public void initialize(ClientWindow window) throws Exception {
         commands = new GameCommands(this, game);
-        background = new SkyBackground(window);
+        GameScene.background = new SkyBackground(window);
         livePropagationHandler.tasks.clear();
 
         //Setup blocks
         game.setup(this, window.ctx, ClientWindow.gameScene.ui);
         //init player
-        userPlayer.init();
+        GameScene.userPlayer.init();
         //init world
-        world.init(userPlayer, Registrys.blocks.textures);
+        world.init(GameScene.userPlayer, Registrys.blocks.textures);
     }
 
 
@@ -240,10 +239,10 @@ public class Server {
 
     public static void setTimeOfDay(double v) {
         try {
+            System.out.println("Setting time of day to " + v);
+            GameScene.background.setTimeOfDay(v);
             byte[] timeFloat = ByteUtils.floatToBytes((float) v);
             server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
-            System.out.println("Setting time of day to " + v);
-            background.setTimeOfDay(v);
         } catch (IOException e) {
             ErrorHandler.report(e);
         }
@@ -292,7 +291,7 @@ public class Server {
     public void stopGameEvent() {
         try {
             System.out.println("Closing World...");
-            userPlayer.stopGameEvent();
+            GameScene.userPlayer.stopGameEvent();
             world.stopGameEvent();
             tickThread.stopGameEvent();
             eventPipeline.stopGameEvent();
@@ -329,15 +328,15 @@ public class Server {
                 prog.setTask("Starting game...");
                 gameMode = (GameMode.values()[world.data.data.gameMode]);
                 if (world.data.getSpawnPoint() == null) { //Create spawn point
-                    userPlayer.worldPosition.set(0, 0, 0);
+                    GameScene.userPlayer.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, world.data, new Vector3f(0, 0, 0));
                     if (!ok) {
                         prog.abort();
                         ClientWindow.goToMenuPage();
                     }
                 } else {//Load spawn point
-                    userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
-                    world.startGame(prog, world.data, userPlayer.worldPosition);
+                    GameScene.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
+                    world.startGame(prog, world.data, GameScene.userPlayer.worldPosition);
                 }
                 prog.stage++;
             }
@@ -378,16 +377,16 @@ public class Server {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
                     Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
-                    userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
-                    userPlayer.worldPosition.set(spawnPoint);
+                    GameScene.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+                    GameScene.userPlayer.worldPosition.set(spawnPoint);
 
-                    userPlayer.newWorldEvent(world.data);
+                    GameScene.userPlayer.newWorldEvent(world.data);
                 }
                 setTimeOfDay(world.data.data.timeOfDay);
                 game.startGameEvent(world.data);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);
-                userPlayer.startGameEvent(world.data);
+                GameScene.userPlayer.startGameEvent(world.data);
                 prog.finish();
                 ClientWindow.gameScene.setProjection();
             }
@@ -425,7 +424,6 @@ public class Server {
     }
 
 
-    public static SkyBackground background;
     private GameMode lastGameMode;
 
 
@@ -433,7 +431,7 @@ public class Server {
         if (lastGameMode == null || lastGameMode != gameMode) {
             lastGameMode = gameMode; //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
-            userPlayer.gameModeChangedEvent(getGameMode());
+            GameScene.userPlayer.gameModeChangedEvent(getGameMode());
             Server.alert("Game mode changed to: " + gameMode);
         }
         //draw other players
@@ -441,6 +439,5 @@ public class Server {
         livePropagationHandler.update();
         //TODO: move player logic into tick thread
         eventPipeline.update();
-        background.update();
     }
 }

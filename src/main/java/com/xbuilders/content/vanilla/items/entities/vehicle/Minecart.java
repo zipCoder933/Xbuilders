@@ -7,6 +7,7 @@ package com.xbuilders.content.vanilla.items.entities.vehicle;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.players.PositionLock;
@@ -66,9 +67,9 @@ public class Minecart extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        UserControlledPlayer userControlledPlayer = Server.userPlayer;
+        UserControlledPlayer userControlledPlayer = GameScene.userPlayer;
         if (userControlledPlayer.positionLock == null) {
-            Server.userPlayer.positionLock = positionLock;
+            GameScene.userPlayer.positionLock = positionLock;
             forwardBackDir = 0;
             resetKeyEvent();
             onTrack = alignToNearestTrack();
@@ -271,13 +272,13 @@ public class Minecart extends Vehicle {
 
         if (forwardBackDir == 0) {//If we are stopped
             if (b.id == Blocks.BLOCK_SWITCH_JUNCTION) {
-                if (Server.userPlayer.leftKeyPressed()) {
+                if (GameScene.userPlayer.leftKeyPressed()) {
                     if (switchJunctionKeyEvent) {
                         float rotationY1 = getRotationYDeg() + 90;
                         this.setRotationYDeg(rotationY1);
                         switchJunctionKeyEvent = false;
                     }
-                } else if (Server.userPlayer.rightKeyPressed()) {
+                } else if (GameScene.userPlayer.rightKeyPressed()) {
                     if (switchJunctionKeyEvent) {
                         float rotationY1 = getRotationYDeg() - 90;
                         this.setRotationYDeg(rotationY1);
@@ -447,7 +448,7 @@ public class Minecart extends Vehicle {
 
 
     public static int assignForwardOrBackward(int direction) {
-        if (Server.userPlayer.forwardKeyPressed()) {
+        if (GameScene.userPlayer.forwardKeyPressed()) {
             if (keyEvent) {
                 if (direction == 0) {
                     direction = 1;
@@ -456,7 +457,7 @@ public class Minecart extends Vehicle {
                 }
                 keyEvent = false;
             }
-        } else if (Server.userPlayer.backwardKeyPressed()) {
+        } else if (GameScene.userPlayer.backwardKeyPressed()) {
             if (keyEvent) {
                 if (direction == 0) {
                     direction = -1;

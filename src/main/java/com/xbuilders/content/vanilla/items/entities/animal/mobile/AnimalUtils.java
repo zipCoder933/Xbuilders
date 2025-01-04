@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.utils.math.MatrixUtils;
@@ -18,7 +19,7 @@ public class AnimalUtils {
 
     public static void rotateToFacePlayer(Matrix4f matrix) {
         Vector3f entityHeadPos = MatrixUtils.getPositionFromMatrix(matrix);
-        Vector3f playerHeadPos = Server.userPlayer.camera.position;
+        Vector3f playerHeadPos = GameScene.userPlayer.camera.position;
 
         //If the head twists more than 1.7 radians, then don't rotate
         //if (Math.abs(calculateYaw(playerHeadPos, entityHeadPos)) < 1.7f) {

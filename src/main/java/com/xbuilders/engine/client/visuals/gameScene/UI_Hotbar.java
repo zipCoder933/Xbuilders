@@ -38,7 +38,7 @@ public class UI_Hotbar extends UI_GameMenu {
     final int ELEMENTS = 11;
 
     int pushValue;
-    static final StorageSpace playerStorage = Server.userPlayer.inventory;
+    static final StorageSpace playerStorage = GameScene.userPlayer.inventory;
 
     @Override
     public void draw(MemoryStack stack) {
@@ -59,22 +59,22 @@ public class UI_Hotbar extends UI_GameMenu {
             nk_rect(x, y - 60, menuWidth, menuHeight + 2, windowDims2);
             if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
                 nk_layout_row_dynamic(ctx, 10, 3);
-                nk_text(ctx, "Health: " + (int) (Server.userPlayer.getHealth()), NK_TEXT_ALIGN_LEFT);
-                nk_text(ctx, "Hunger: " + (int) (Server.userPlayer.getHungerLevel()), NK_TEXT_ALIGN_LEFT);
-                nk_text(ctx, "Air: " + (int) (Server.userPlayer.getOxygenLevel()), NK_TEXT_ALIGN_LEFT);
+                nk_text(ctx, "Health: " + (int) (GameScene.userPlayer.getHealth()), NK_TEXT_ALIGN_LEFT);
+                nk_text(ctx, "Hunger: " + (int) (GameScene.userPlayer.getHungerLevel()), NK_TEXT_ALIGN_LEFT);
+                nk_text(ctx, "Air: " + (int) (GameScene.userPlayer.getOxygenLevel()), NK_TEXT_ALIGN_LEFT);
                 nk_layout_row_dynamic(ctx, 20, 3);
 //            ctx.style().progress().normal().data().color().set(Theme.color_red);
                 nk_prog(ctx,
-                        (long) (Server.userPlayer.getHealth() * 10),
-                        (int) Server.userPlayer.MAX_HEALTH * 10, false);
+                        (long) (GameScene.userPlayer.getHealth() * 10),
+                        (int) GameScene.userPlayer.MAX_HEALTH * 10, false);
 
                 nk_prog(ctx,
-                        (long) (Server.userPlayer.getHungerLevel() * 10),
-                        (int) Server.userPlayer.MAX_HUNGER * 10, false);
+                        (long) (GameScene.userPlayer.getHungerLevel() * 10),
+                        (int) GameScene.userPlayer.MAX_HUNGER * 10, false);
 
                 nk_prog(ctx,
-                        (long) (Server.userPlayer.getOxygenLevel() * 10),
-                        (int) Server.userPlayer.MAX_OXYGEN * 10, false);
+                        (long) (GameScene.userPlayer.getOxygenLevel() * 10),
+                        (int) GameScene.userPlayer.MAX_OXYGEN * 10, false);
 //            Theme.resetProgressBar(ctx);
             }
             nk_end(ctx);
@@ -87,8 +87,8 @@ public class UI_Hotbar extends UI_GameMenu {
         if (nk_begin(ctx, "HotbarB", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
             playerStorage.deleteEmptyItems();
             nk_layout_row_dynamic(ctx, 20, 1);
-            if (Server.userPlayer.getSelectedItem() != null && Server.userPlayer.getSelectedItem().item != null)
-                nk_text(ctx, Server.userPlayer.getSelectedItem().item.name, NK_TEXT_ALIGN_CENTERED);
+            if (GameScene.userPlayer.getSelectedItem() != null && GameScene.userPlayer.getSelectedItem().item != null)
+                nk_text(ctx, GameScene.userPlayer.getSelectedItem().item.name, NK_TEXT_ALIGN_CENTERED);
 
             nk_layout_row_dynamic(ctx, UI_ItemWindow.getItemSize(), ELEMENTS);
             int i = 0;
@@ -101,7 +101,7 @@ public class UI_Hotbar extends UI_GameMenu {
                 ItemStack item = playerStorage.get(i);
 
                 //if (buttonHeight.isCalibrated()) {
-                if (i == Server.userPlayer.getSelectedItemIndex()) {
+                if (i == GameScene.userPlayer.getSelectedItemIndex()) {
                     ctx.style().button().border_color().set(Theme.color_white);
                 } else {
                     ctx.style().button().border_color().set(Theme.color_blue);
@@ -126,18 +126,18 @@ public class UI_Hotbar extends UI_GameMenu {
     }
 
     protected void changeSelectedIndex(float increment) {
-        Server.userPlayer.changeSelectedIndex(increment);
-        if (Server.userPlayer.getSelectedItemIndex() >= ELEMENTS + pushValue) {
+        GameScene.userPlayer.changeSelectedIndex(increment);
+        if (GameScene.userPlayer.getSelectedItemIndex() >= ELEMENTS + pushValue) {
             pushValue++;
-        } else if (Server.userPlayer.getSelectedItemIndex() < pushValue) {
+        } else if (GameScene.userPlayer.getSelectedItemIndex() < pushValue) {
             pushValue--;
         }
         pushValue = MathUtils.clamp(pushValue, 0, playerStorage.size() - ELEMENTS);
     }
 
     public void setSelectedIndex(int index) {
-        Server.userPlayer.setSelectedIndex(index);
-        pushValue = Server.userPlayer.getSelectedItemIndex() - ELEMENTS / 2;
+        GameScene.userPlayer.setSelectedIndex(index);
+        pushValue = GameScene.userPlayer.getSelectedItemIndex() - ELEMENTS / 2;
         pushValue = MathUtils.clamp(pushValue, 0, playerStorage.size() - ELEMENTS);
     }
 
@@ -157,8 +157,8 @@ public class UI_Hotbar extends UI_GameMenu {
             } else if (key == GLFW.GLFW_KEY_PERIOD) {
                 changeSelectedIndex(1);
             } else if (key == GLFW.GLFW_KEY_Q) {
-                Server.userPlayer.dropItem(Server.userPlayer.getSelectedItem());
-                playerStorage.set(Server.userPlayer.getSelectedItemIndex(), null);
+                GameScene.userPlayer.dropItem(GameScene.userPlayer.getSelectedItem());
+                playerStorage.set(GameScene.userPlayer.getSelectedItemIndex(), null);
             }
         }
         return false;

@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server;
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.item.Item;
 import com.xbuilders.engine.server.items.item.ItemStack;
@@ -113,13 +114,13 @@ public class GameCommands {
                         if (parts.length == 2) {
                             Player target = gameScene.server.getPlayerByName(parts[1]);
                             if (target != null) {
-                                gameScene.userPlayer.worldPosition.set(target.worldPosition);
+                                GameScene.userPlayer.worldPosition.set(target.worldPosition);
                                 return null;
                             } else {
                                 return "Player not found";
                             }
                         } else if (parts.length > 3) {
-                            gameScene.userPlayer.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
+                            GameScene.userPlayer.worldPosition.set(Float.parseFloat(parts[1]), Float.parseFloat(parts[2]), Float.parseFloat(parts[3]));
                         } else return commandHelp.get("teleport");
                     }
                     case "mode" -> {
@@ -147,7 +148,7 @@ public class GameCommands {
                                 int quantity = parts.length > 2 ? Integer.parseInt(parts[2].trim()) : 1;
                                 Item item = Registrys.getItem(itemID);
                                 if (item == null) return "Unknown item: " + itemID;
-                                else Server.userPlayer.inventory.acquireItem(new ItemStack(item, quantity));
+                                else GameScene.userPlayer.inventory.acquireItem(new ItemStack(item, quantity));
                                 return "Given " + quantity + " " + item.name;
                             } catch (Exception e) {
                                 return "Invalid";

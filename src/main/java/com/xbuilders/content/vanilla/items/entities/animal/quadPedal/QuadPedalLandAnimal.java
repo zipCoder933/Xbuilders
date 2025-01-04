@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -130,15 +130,15 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     public void animal_move() {
         if (playerIsRidingThis()) {
             float rotSpeed = 0.5f;
-            if (Server.userPlayer.forwardKeyPressed()) {
+            if (GameScene.userPlayer.forwardKeyPressed()) {
                 goForward(0.2f, true);
                 rotSpeed = 3;
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
             } else if (allowVoluntaryMovement()) super.animal_move();
 
-            if (Server.userPlayer.leftKeyPressed()) {
+            if (GameScene.userPlayer.leftKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() - rotSpeed);
-            } else if (Server.userPlayer.rightKeyPressed()) {
+            } else if (GameScene.userPlayer.rightKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() + rotSpeed);
             }
         } else if (allowVoluntaryMovement() && inFrustum) super.animal_move();
@@ -176,7 +176,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
         if (!tamed) return false;
 
         if (rideable) {
-            Server.userPlayer.positionLock = lock;
+            GameScene.userPlayer.positionLock = lock;
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);

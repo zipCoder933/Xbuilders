@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.item.ItemStack;
@@ -54,7 +55,7 @@ public abstract class Entity {
     public boolean sendMultiplayer;
 
     public boolean playerIsRidingThis() {
-        return Server.userPlayer.positionLock != null && Server.userPlayer.positionLock.entity == this;
+        return GameScene.userPlayer.positionLock != null && GameScene.userPlayer.positionLock.entity == this;
     }
 
     private void getLightForPosition() {

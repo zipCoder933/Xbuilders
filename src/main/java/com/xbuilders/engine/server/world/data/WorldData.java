@@ -3,8 +3,8 @@
 // 
 package com.xbuilders.engine.server.world.data;
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.WorldsHandler;
@@ -137,7 +137,7 @@ public class WorldData {
         if (!getDirectory().exists()) {
             getDirectory().mkdirs();
         }
-        data.timeOfDay = Server.background.getTimeOfDay();
+        data.timeOfDay = GameScene.background.getTimeOfDay();
         data.lastSaved = System.currentTimeMillis();
         String json = gson.toJson(data);
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);

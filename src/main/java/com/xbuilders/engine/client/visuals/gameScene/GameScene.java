@@ -11,6 +11,7 @@ import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
+import com.xbuilders.engine.server.world.skybox.SkyBackground;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -31,6 +32,8 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f centeredView = new Matrix4f();
     public static boolean drawWireframe;
     public static boolean drawBoundingBoxes;
+    public static UserControlledPlayer userPlayer;
+    public static SkyBackground background;
     static ClientWindow window;
     public boolean holdMouse;
     public static boolean specialMode;
@@ -80,10 +83,12 @@ public class GameScene implements WindowEvents {
         ClientWindow.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
 //        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
-        ClientWindow.server.background.draw(GameScene.projection, GameScene.centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
+        background.draw(GameScene.projection, GameScene.centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
 
+        boolean progressDay = !ClientWindow.devMode;
+        GameScene.background.update(progressDay);
 
-        holdMouse = !ClientWindow.gameScene.ui.releaseMouse() && window.windowIsFocused();
+        holdMouse = !ui.releaseMouse() && window.windowIsFocused();
         ClientWindow.frameTester.endProcess("Clearing buffer");
 
         glEnable(GL_DEPTH_TEST);   // Enable depth test
@@ -91,7 +96,8 @@ public class GameScene implements WindowEvents {
 
         //The user player is one thing that the client has full control over
         //The client will check into the server occasionally to see if the server has any updates for the player
-        ClientWindow.server.userPlayer.update(ClientWindow.gameScene.holdMouse);
+        userPlayer.updateAndRender(ClientWindow.gameScene.holdMouse);
+        userPlayer.render(ClientWindow.gameScene.holdMouse);
         ClientWindow.server.server.drawPlayers(GameScene.projection, GameScene.view);
 
         ClientWindow.gameScene.enableBackfaceCulling();
@@ -100,7 +106,7 @@ public class GameScene implements WindowEvents {
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        ClientWindow.server.world.drawChunks(GameScene.projection, GameScene.view, ClientWindow.server.userPlayer.worldPosition);
+        ClientWindow.server.world.drawChunks(GameScene.projection, GameScene.view, userPlayer.worldPosition);
         ClientWindow.frameTester.endProcess("Drawing chunks");
 
 
@@ -126,7 +132,7 @@ public class GameScene implements WindowEvents {
         if (ui.keyEvent(key, scancode, action, mods)) {
         } else if (ClientWindow.game.keyEvent(key, scancode, action, mods)) {
         } else {
-            ClientWindow.server.userPlayer.keyEvent(key, scancode, action, mods);
+            userPlayer.keyEvent(key, scancode, action, mods);
         }
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
@@ -143,14 +149,14 @@ public class GameScene implements WindowEvents {
     public boolean mouseButtonEvent(int button, int action, int mods) {
         ui.mouseButtonEvent(button, action, mods);
         if (!ui.anyMenuOpen()) {
-            ClientWindow.server.userPlayer.mouseButtonEvent(button, action, mods);
+            userPlayer.mouseButtonEvent(button, action, mods);
         }
         return true;
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (ui.anyMenuOpen() && ui.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else if (ClientWindow.server.userPlayer.mouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else if (userPlayer.mouseScrollEvent(scroll, xoffset, yoffset)) {
         } else if (ClientWindow.game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
         } else {
             ui.hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
@@ -177,7 +183,6 @@ public class GameScene implements WindowEvents {
     private Vector3i rayWorldPos = new Vector3i();
 
     private void setInfoText() {
-        UserControlledPlayer userPlayer = Server.userPlayer;
         World world = Server.world;
         if (writeDebugText) {
             String text = "";
@@ -190,7 +195,7 @@ public class GameScene implements WindowEvents {
                         ((int) userPlayer.worldPosition.x) + ", " +
                         ((int) userPlayer.worldPosition.y) + ", " +
                         ((int) userPlayer.worldPosition.z) +
-                        "    velocity: " + MiscUtils.printVector(Server.userPlayer.positionHandler.getVelocity());
+                        "    velocity: " + MiscUtils.printVector(userPlayer.positionHandler.getVelocity());
                 text += "\n\tcamera: " + userPlayer.camera.toString();
 
                 if (userPlayer.camera.cursorRay.hitTarget() || userPlayer.camera.cursorRay.angelPlacementMode) {

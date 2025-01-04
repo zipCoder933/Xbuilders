@@ -146,7 +146,7 @@ public class XbuildersGame extends Game {
     }
 
     public void gameModeChangedEvent(GameMode gameMode) {
-        Server.userPlayer.camera.cursorRay.disableBoundaryMode();
+        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
         blockTools.selectDefaultTool();
     }
 
@@ -234,7 +234,7 @@ public class XbuildersGame extends Game {
         smeltingUI = new FurnaceUI(ctx, window);
         recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
         inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
-        blockTools = new BlockTools(ctx, window, Server.userPlayer.camera.cursorRay);
+        blockTools = new BlockTools(ctx, window, GameScene.userPlayer.camera.cursorRay);
         gameMenus.menus.add(barrelUI);
         gameMenus.menus.add(craftingUI);
         gameMenus.menus.add(smeltingUI);

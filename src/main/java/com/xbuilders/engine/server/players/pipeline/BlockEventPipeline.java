@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.players.pipeline;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.Registrys;
@@ -37,7 +38,7 @@ public class BlockEventPipeline {
 
     public BlockEventPipeline(World world) {
         this.world = world;
-        this.player = Server.userPlayer;
+        this.player = GameScene.userPlayer;
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {

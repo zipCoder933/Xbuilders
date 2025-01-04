@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
@@ -74,11 +75,11 @@ public class Dog extends QuadPedalLandAnimal {
 //                    }
 //                }
 //            } else
-            playerWithLowestDist = Server.userPlayer;
+            playerWithLowestDist = GameScene.userPlayer;
 
             //If the player is too close, the dog will start to attack
             if (distToPlayer < 2) {
-                Server.userPlayer.addHealth(-0.1f);
+                GameScene.userPlayer.addHealth(-0.1f);
             }
 
             if (playerWithLowestDist != null) {

@@ -49,9 +49,18 @@ public class SkyBackground {
         return lightness;
     }
 
-    public void update() {
+    public void update(boolean progressDay) {
         if (ClientWindow.frameCount % 10 == 0) {
+
+            //Move the sky texture
+            if (progressDay) {
+                updateTexturePan();
+            }
+
+            //Calculate the light level
             calculateLightLevel(textureXPan);
+
+            //Calculate the sky color
             int skyColor = skyImage.getRGB((int) (skyImage.getWidth() * textureXPan), skyImage.getHeight() - 2);
             int red = (skyColor >> 16) & 0xFF;
             int green = (skyColor >> 8) & 0xFF;
@@ -72,16 +81,17 @@ public class SkyBackground {
         }
     }
 
-    private void calculateTime() {
+    private void updateTexturePan() {
         double time = System.currentTimeMillis() * UPDATE_SPEED;
         textureXPan = (time + offset) % 1.0;
-        if (ClientWindow.devMode) textureXPan = 0;
     }
+
 
     public void setTimeOfDay(double start) {
         double time = System.currentTimeMillis() * UPDATE_SPEED;
         //Take the normalized time plus start minus current time
         offset = Math.floor(time) + start - time;
+        updateTexturePan();
     }
 
     public double getTimeOfDay() {
@@ -92,9 +102,6 @@ public class SkyBackground {
         GL30.glDisable(GL30.GL_DEPTH_TEST);
         skyBoxShader.bind();
         skyBoxShader.updateMatrix(projection, view);
-
-        calculateTime();
-
         skyBoxShader.loadFloat(skyBoxShader.uniform_cycle_value, (float) textureXPan);
         skyBoxMesh.draw();
         GL30.glEnable(GL30.GL_DEPTH_TEST);

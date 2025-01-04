@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.Registrys;
@@ -49,7 +50,7 @@ public class DoorHalfRenderer extends BlockType {
                 if (existingData != null && existingData.size() == 3) return existingData;
 
                 BlockData bd = new BlockData(3);
-                byte rotation = (byte) Server.userPlayer.camera.simplifiedPanTilt.x;
+                byte rotation = (byte) GameScene.userPlayer.camera.simplifiedPanTilt.x;
                 rotation = (byte) MathUtils.positiveMod((rotation - 1), 4);
                 bd.set(0, rotation);// rotation
                 bd.set(1, (byte) 1); // (0 = open, 1 = closed),

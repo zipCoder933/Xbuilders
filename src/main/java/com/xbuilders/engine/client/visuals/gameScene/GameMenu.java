@@ -151,25 +151,25 @@ public class GameMenu extends UI_GameMenu {
                 save, "wp", (file) -> {
                     if (file != null) {
                         if (save) {
-                            String waypoint = Server.userPlayer.worldPosition.x
-                                    + "," + Server.userPlayer.worldPosition.y
-                                    + "," + Server.userPlayer.worldPosition.z;
+                            String waypoint = GameScene.userPlayer.worldPosition.x
+                                    + "," + GameScene.userPlayer.worldPosition.y
+                                    + "," + GameScene.userPlayer.worldPosition.z;
                             try {
                                 Files.write(file.toPath(), waypoint.getBytes());
                             } catch (IOException e) {
                                 ClientWindow.popupMessage.message("Error saving waypoint: ", e.getMessage());
                             }
                         } else {
-                            Vector3f originalPosition = Server.userPlayer.worldPosition;
+                            Vector3f originalPosition = GameScene.userPlayer.worldPosition;
                             try {
                                 String waypoint = new String(Files.readAllBytes(file.toPath()));
                                 String[] split = waypoint.split(",");
-                                Server.userPlayer.worldPosition.x = Float.parseFloat(split[0]);
-                                Server.userPlayer.worldPosition.y = Float.parseFloat(split[1]);
-                                Server.userPlayer.worldPosition.z = Float.parseFloat(split[2]);
+                                GameScene.userPlayer.worldPosition.x = Float.parseFloat(split[0]);
+                                GameScene.userPlayer.worldPosition.y = Float.parseFloat(split[1]);
+                                GameScene.userPlayer.worldPosition.z = Float.parseFloat(split[2]);
                             } catch (IOException e) {
                                 ClientWindow.popupMessage.message("Error loading waypoint: ", e.getMessage());
-                                Server.userPlayer.worldPosition.set(originalPosition);
+                                GameScene.userPlayer.worldPosition.set(originalPosition);
                             }
                         }
                     }

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
@@ -69,7 +70,7 @@ public abstract class Animal extends Entity {
 
 
     public boolean playerHasAnimalFeed() {
-        ItemStack heldItem = Server.userPlayer.getSelectedItem();
+        ItemStack heldItem = GameScene.userPlayer.getSelectedItem();
         return heldItem != null && heldItem.item.equals(Items.TOOL_ANIMAL_FEED);
     }
 
@@ -97,7 +98,7 @@ public abstract class Animal extends Entity {
         super(id, uniqueId);
         this.window = window;
         random = new AnimalRandom();
-        this.player = Server.userPlayer;
+        this.player = GameScene.userPlayer;
         this.pos = new PositionHandler(window, Server.world, aabb, player.aabb);
         pos.setGravityEnabled(true);
         random.setSeed((int) getUniqueIdentifier());
@@ -161,7 +162,7 @@ public abstract class Animal extends Entity {
     }
 
     public float getYDirectionToPlayer() {
-        return getYDirectionToPlayer(Server.userPlayer);
+        return getYDirectionToPlayer(GameScene.userPlayer);
     }
 
 

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.GameSceneEvents;
@@ -201,17 +202,17 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public void getPlayerBoxTop(Vector3f playerBoxBottom) {
         aabb.updateBox();
         playerBoxBottom.set(
-                (Server.userPlayer.aabb.box.min.x + Server.userPlayer.aabb.box.max.x) / 2,
-                Server.userPlayer.aabb.box.min.y,
-                (Server.userPlayer.aabb.box.min.z + Server.userPlayer.aabb.box.max.z) / 2);
+                (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
+                GameScene.userPlayer.aabb.box.min.y,
+                (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2);
     }
 
     public void getPlayerBoxBottom(Vector3f playerBoxTop) {
         aabb.updateBox();
         playerBoxTop.set(
-                (Server.userPlayer.aabb.box.min.x + Server.userPlayer.aabb.box.max.x) / 2,
-                Server.userPlayer.aabb.box.max.y,
-                (Server.userPlayer.aabb.box.min.z + Server.userPlayer.aabb.box.max.z) / 2
+                (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
+                GameScene.userPlayer.aabb.box.max.y,
+                (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2
         );
     }
 
@@ -491,8 +492,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     Block cameraBlock, playerBlock;
+    public void render(boolean holdMouse) {
+    }
 
-    public void update(boolean holdMouse) {
+    public void updateAndRender(boolean holdMouse) {
         if (canMove()) camera.cursorRay.update();
         Block blockAtHead = getBlockAtPlayerHead();
         Block blockAtWaist = getBlockAtPlayerWaist();
@@ -747,8 +750,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public Entity dropItem(ItemStack itemStack) {
-        Vector3f pos = new Vector3f().set(Server.userPlayer.worldPosition);
-        Vector3f addition = new Vector3f().set(Server.userPlayer.camera.look.x, 0, Server.userPlayer.camera.look.z).mul(1.5f);
+        Vector3f pos = new Vector3f().set(GameScene.userPlayer.worldPosition);
+        Vector3f addition = new Vector3f().set(GameScene.userPlayer.camera.look.x, 0, GameScene.userPlayer.camera.look.z).mul(1.5f);
         pos.add(addition);
         return Server.placeItemDrop(
                 pos,
@@ -760,5 +763,6 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         return false;
     }
+
 
 }

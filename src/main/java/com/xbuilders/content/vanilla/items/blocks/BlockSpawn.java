@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.block.construction.BlockTexture;
 
@@ -20,7 +20,7 @@ public class BlockSpawn extends Block {
 //                GameScene.alert("Time set to day");
 //                GameScene.setTimeOfDay(0);
 //            }
-            Server.userPlayer.setSpawnPoint(x, y, z);
+            GameScene.userPlayer.setSpawnPoint(x, y, z);
         });
 
         torchlightStartingValue = 15;

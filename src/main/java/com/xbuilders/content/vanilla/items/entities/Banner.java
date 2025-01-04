@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.entities.vehicle.Vehicle;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
@@ -56,7 +57,7 @@ public class Banner extends Entity {
             if (node.has("XZ")) xzOrientation = node.get("XZ").asInt();
             if (node.has("fencepost")) againstFencepost = node.get("fencepost").asBoolean();
         } else {
-            xzOrientation = Server.userPlayer.camera.simplifiedPanTilt.x;
+            xzOrientation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
             int wx = (int) worldPosition.x;
             int wy = (int) worldPosition.y;
             int wz = (int) worldPosition.z;

@@ -6,6 +6,7 @@ package com.xbuilders.engine.server.players;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.players.data.UserInfo;
 import com.xbuilders.engine.server.multiplayer.MultiplayerPendingBlockChanges;
@@ -79,7 +80,7 @@ public class Player extends NetworkSocket {
         } else if (getSocket() != null) name = getHostAddress();
 
         if (isHost) name += " (Host)";
-        if (this == Server.userPlayer) name += " (Me)";
+        if (this == GameScene.userPlayer) name += " (Me)";
         return name;
     }
 
