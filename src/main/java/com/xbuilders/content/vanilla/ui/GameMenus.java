@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.ui;
 
 
-import com.xbuilders.engine.client.visuals.ui.gameScene.UI_GameMenu;
+import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 

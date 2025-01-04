@@ -7,7 +7,7 @@ package com.xbuilders.engine.server.model.items.block.construction;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import com.xbuilders.engine.utils.math.AABB;

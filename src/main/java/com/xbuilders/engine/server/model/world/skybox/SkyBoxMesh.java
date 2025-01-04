@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.server.model.world.skybox;
 
-import com.xbuilders.engine.client.visuals.rendering.Mesh;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.Mesh;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;

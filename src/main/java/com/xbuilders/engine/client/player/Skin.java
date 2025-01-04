@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.player;
 
-import com.xbuilders.engine.server.model.GameScene;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
+import com.xbuilders.engine.server.model.Server;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
@@ -38,7 +38,7 @@ public abstract class Skin {
 
 
     private void getLightForPosition() {
-        Chunk chunk = GameScene.world.getChunk(chunkPosition.chunk);
+        Chunk chunk = Server.world.getChunk(chunkPosition.chunk);
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
@@ -53,7 +53,7 @@ public abstract class Skin {
                     wcc.set((int) Math.floor(position.worldPosition.x),
                             (int) Math.floor(position.worldPosition.y - i),
                             (int) Math.floor(position.worldPosition.z));
-                    chunk = GameScene.world.getChunk(wcc.chunk);
+                    chunk = Server.world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         light = chunk.data.getPackedLight(
                                 wcc.chunkVoxel.x,

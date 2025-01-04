@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.content.vanilla.items.entities.Banner;
 import com.xbuilders.content.vanilla.items.entities.animal.Cat;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 public class Entities {
 
-    public static ArrayList<EntitySupplier> startup_getEntities(MainWindow window) {
+    public static ArrayList<EntitySupplier> startup_getEntities(ClientWindow window) {
 
         EntitySupplier[] entityArray = new EntitySupplier[]{
                 //Banners

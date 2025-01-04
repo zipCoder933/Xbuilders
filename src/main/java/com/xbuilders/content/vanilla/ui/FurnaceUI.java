@@ -1,14 +1,14 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.model.items.item.StorageSpace;
 import com.xbuilders.engine.server.model.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.server.model.items.recipes.smelting.SmeltingRecipe;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
@@ -62,7 +62,7 @@ public class FurnaceUI extends ContainerUI {
         };
 
 
-        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.userPlayer.inventory, this, true);
+        playerGrid = new UI_ItemStackGrid(window, "Player", Server.userPlayer.inventory, this, true);
     }
 
     private void smeltWhenReady() {
@@ -127,7 +127,7 @@ public class FurnaceUI extends ContainerUI {
     }
 
     private long getSmeltTime() {
-        if (MainWindow.devMode) {
+        if (ClientWindow.devMode) {
             return DEV_SMELT_TIME_MS;
         } else {
             return SMELT_TIME_MS;
@@ -162,9 +162,9 @@ public class FurnaceUI extends ContainerUI {
 
     @Override
     public void dropAllStorage(int x, int y, int z) {
-        GameScene.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
-        GameScene.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
-        GameScene.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
+        Server.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
+        Server.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
+        Server.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
     }
 
     @Override

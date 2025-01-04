@@ -6,8 +6,8 @@ package com.xbuilders.content.vanilla.items.entities.animal.landAndWater;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalUtils;
@@ -80,7 +80,7 @@ public class Beaver extends LandAndWaterAnimal {
         }
     }
 
-    public Beaver(int id, long uniqueIdentifier, MainWindow window) {
+    public Beaver(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window);
         aabb.setOffsetAndSize(.8f, 1f, .8f, true);
         frustumSphereRadius = 2;

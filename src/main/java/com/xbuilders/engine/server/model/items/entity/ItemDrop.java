@@ -4,12 +4,12 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
-import com.xbuilders.engine.client.visuals.rendering.wireframeBox.Box;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Vector3f;
 
@@ -69,15 +69,15 @@ public class ItemDrop extends Entity {
 
 
     private boolean blockIsClear(Block camBlock, int x, int y, int z) {
-        Block block = GameScene.world.getBlock(x, y, z);
+        Block block = Server.world.getBlock(x, y, z);
         return block.id == BlockRegistry.BLOCK_AIR.id || !block.solid || block == camBlock;
     }
 
     @Override
     public void draw() {
         if (box == null) return;
-        playerHeadPos.set(GameScene.userPlayer.aabb.worldPosition).add(GameScene.userPlayer.aabb.offset).add(0, 0.5f, 0);
-        if (MainWindow.frameCount % 20 != 0) { //Update every 20 frames
+        playerHeadPos.set(Server.userPlayer.aabb.worldPosition).add(Server.userPlayer.aabb.offset).add(0, 0.5f, 0);
+        if (ClientWindow.frameCount % 20 != 0) { //Update every 20 frames
             timeSinceDropped++;
             if (timeSinceDropped > DROP_LIVE_TIME) {
                 System.out.println("TIMEOUT, DELETING ITEM DROP");
@@ -86,7 +86,7 @@ public class ItemDrop extends Entity {
                 System.out.println("STACK IS NULL, DELETING ITEM DROP");
                 destroy();
             }
-            canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && GameScene.userPlayer.inventory.hasRoomForItem(stack);
+            canGet = (timeSinceDropped > 100 || !droppedFromPlayer) && Server.userPlayer.inventory.hasRoomForItem(stack);
 //            if (client_distToPlayer < 5) {
 //                System.out.println("item: " + stack + " DIST TO PLAYER: " + client_distToPlayer + " CAN GET: " + canGet + " TIME SINCE DROPPED: " + timeSinceDropped + " hasRoomForItem: " + GameScene.player.inventory.hasRoomForItem(stack));
 //            }
@@ -94,13 +94,13 @@ public class ItemDrop extends Entity {
                 worldPosition.set(playerHeadPos);
             } else {
                 //Get the block at this position
-                Block camBlock = GameScene.userPlayer.getBlockAtCameraPos();
+                Block camBlock = Server.userPlayer.getBlockAtCameraPos();
 
                 int x = (int) Math.floor(worldPosition.x);
                 int y = (int) Math.floor(worldPosition.y);
                 int z = (int) Math.floor(worldPosition.z);
 
-                if (GameScene.world.getBlock(x, y, z).enterDamage > 0.1) {
+                if (Server.world.getBlock(x, y, z).enterDamage > 0.1) {
                     System.out.println("DROPPED ONTO DAMAGING SUBSTANCE, DELETING ITEM DROP");
                     destroy();
                 }
@@ -122,7 +122,7 @@ public class ItemDrop extends Entity {
                 }
             }
         }
-        double sin = Math.sin((MainWindow.frameCount * 0.1) + ((double) seed / 255));
+        double sin = Math.sin((ClientWindow.frameCount * 0.1) + ((double) seed / 255));
         float bob = (float) (sin - 0.5) * 0.1f;
 
         float animationSpeed = 0.1f;
@@ -136,8 +136,8 @@ public class ItemDrop extends Entity {
                 (float) MathUtils.curve(animatedPos.z, worldPosition.z, animationSpeed));
 
         if (animatedPos.distance(playerHeadPos) < 0.1 && canGet) {
-            System.out.println("CONSUMED BY: " + GameScene.userPlayer.userInfo.name);
-            GameScene.userPlayer.acquireItem(stack);
+            System.out.println("CONSUMED BY: " + Server.userPlayer.userInfo.name);
+            Server.userPlayer.acquireItem(stack);
             System.out.println("DELETING ITEM DROP");
             destroy();
         }
@@ -146,8 +146,8 @@ public class ItemDrop extends Entity {
                 animatedPos.x + 0.5f - (box.getSize().x / 2),
                 animatedPos.y + 0.5f - (box.getSize().y / 2) + bob,
                 animatedPos.z + 0.5f - (box.getSize().z / 2));
-        box.getModelMatrix().rotateY((MainWindow.frameCount * 0.01f) + seed);
-        box.draw(GameScene.projection, GameScene.view);
+        box.getModelMatrix().rotateY((ClientWindow.frameCount * 0.01f) + seed);
+        box.draw(Server.projection, Server.view);
     }
 }
 

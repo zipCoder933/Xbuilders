@@ -5,14 +5,14 @@
 package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.server.model.items.recipes.RecipeDisplay;
 import com.xbuilders.engine.server.model.items.recipes.RecipeList;
 import com.xbuilders.engine.server.model.items.recipes.RecipeRegistry;
-import com.xbuilders.engine.client.visuals.ui.Theme;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemIndex;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemIndex;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import org.lwjgl.glfw.GLFW;
@@ -75,7 +75,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
 
 
     public void onOpenEvent() {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) setOpen(false);
+        if (Server.getGameMode() == GameMode.SPECTATOR) setOpen(false);
     }
 
     public void onCloseEvent() {
@@ -83,7 +83,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) {
+        if (Server.getGameMode() == GameMode.SPECTATOR) {
             setOpen(false);
         }
 
@@ -136,7 +136,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
 
         if (allItems.keyEvent(key, scancode, action, mods)) return true;
         if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_RECIPE_INDEX) {
@@ -148,7 +148,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
         allItems.mouseScrollEvent(scroll, xoffset, yoffset);
         return true;
     }

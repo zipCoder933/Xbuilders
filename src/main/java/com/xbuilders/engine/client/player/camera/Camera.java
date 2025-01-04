@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.player.camera;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -44,7 +44,7 @@ public class Camera {
     private final IntBuffer windowX, windowY;
     private Robot robot;
     private final UserControlledPlayer player;
-    private final MainWindow window;
+    private final ClientWindow window;
 
     public final Matrix4f view, centeredView, projection;
 
@@ -105,7 +105,7 @@ public class Camera {
 
 
     public Camera(UserControlledPlayer player,
-                  MainWindow window,
+                  ClientWindow window,
                   Matrix4f projection, Matrix4f view, Matrix4f centeredView) {
         cursorRay = new CursorRay(this,window);
         this.view = view;
@@ -222,7 +222,7 @@ public class Camera {
                                 block != forbiddenBlock
                                 && (block2.solid || block2.opaque);
                     })
-                    , GameScene.world);
+                    , Server.world);
             look.mul(MathUtils.clamp(cameraViewRay.distanceTraveled, 2, thirdPersonDist2) - 1.5f);
 
 
@@ -235,7 +235,7 @@ public class Camera {
             }
 
         }
-        cursorRay.cast(position, cursorRaycastLook, GameScene.world);
+        cursorRay.cast(position, cursorRaycastLook, Server.world);
         view.identity().lookAt(position, target, up);
 
         if (getThirdPersonDist() > 0) {

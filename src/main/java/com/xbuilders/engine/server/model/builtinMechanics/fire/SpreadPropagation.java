@@ -1,12 +1,12 @@
 package com.xbuilders.engine.server.model.builtinMechanics.fire;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.LivePropagationTask;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.players.pipeline.BlockHistory;
-import com.xbuilders.engine.MainWindow;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Vector3i;
 
@@ -38,7 +38,7 @@ class SpreadPropagation extends LivePropagationTask {
     @Override
     public void update() {
         if (fireNodes.isEmpty()) return;
-        MainWindow.printlnDev("fire prop nodes: " + fireNodes.size());
+        ClientWindow.printlnDev("fire prop nodes: " + fireNodes.size());
         Iterator<Vector3i> iterator = fireNodes.iterator();
         while (iterator.hasNext()) {
             Vector3i node = iterator.next();
@@ -67,13 +67,13 @@ class SpreadPropagation extends LivePropagationTask {
             }
 
             //Get the block at this node
-            Block block = GameScene.world.getBlock(node.x, node.y+1, node.z);
+            Block block = Server.world.getBlock(node.x, node.y+1, node.z);
             //If it is not solid, remove it
             if (!block.solid && isFlammable(block)) {
-                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
-                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y+1, node.z);
+                Server.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                Server.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y+1, node.z);
             }else if (!isFlammable(block)) {
-                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                Server.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
             }
 
         }
@@ -87,9 +87,9 @@ class SpreadPropagation extends LivePropagationTask {
     }
 
     private boolean lightBlock(int x, int y, int z) {
-        if (isFlammable(GameScene.world.getBlock(x, y, z))
-                && GameScene.world.getBlock(x, y - 1, z).isAir()) {
-            GameScene.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+        if (isFlammable(Server.world.getBlock(x, y, z))
+                && Server.world.getBlock(x, y - 1, z).isAir()) {
+            Server.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             disintegrationNodes.add(new Vector3i(x, y, z));
             return true;
         }

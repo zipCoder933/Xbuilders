@@ -1,8 +1,8 @@
 package com.xbuilders.engine.server.multiplayer;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
@@ -12,7 +12,6 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
-import com.xbuilders.engine.utils.network.server.Server;
 import com.xbuilders.engine.server.model.world.data.WorldData;
 import com.xbuilders.engine.server.model.world.WorldsHandler;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
@@ -34,7 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
-public class GameServer extends Server<Player> {
+public class GameServer extends com.xbuilders.engine.utils.network.server.Server<Player> {
 
     //All server message headers
     public static final byte PLAYER_INFO = -128;
@@ -53,7 +52,7 @@ public class GameServer extends Server<Player> {
     public static final byte CHANGE_PLAYER_PERMISSION = -114;
     public static final byte WORLD_CHUNK_LAST_SAVED = -113;
 
-    GameScene scene;
+    Server scene;
     NetworkJoinRequest req;
     UserControlledPlayer client_userPlayer;
     private WorldData worldInfo;
@@ -61,7 +60,7 @@ public class GameServer extends Server<Player> {
     boolean worldReady = false;
     Player hostClient;
 
-    public GameServer(GameScene scene, UserControlledPlayer player) {
+    public GameServer(Server scene, UserControlledPlayer player) {
         super(Player::new);
         this.client_userPlayer = player;
         this.scene = scene;
@@ -154,12 +153,12 @@ public class GameServer extends Server<Player> {
 
     private void sendWorldToClient(Player client) throws IOException {
         //Save the world first to ensure that all changes are on the disk
-        GameScene.world.save();
+        Server.world.save();
 
         //Send the world info to the client
-        System.out.println("Sending world to client: " + GameScene.world.data.getName() + "\n" + GameScene.world.data.toJson());
+        System.out.println("Sending world to client: " + Server.world.data.getName() + "\n" + Server.world.data.toJson());
         client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
-                GameScene.world.data.getName() + "\n" + GameScene.world.data.toJson()));
+                Server.world.data.getName() + "\n" + Server.world.data.toJson()));
 
         new Thread(() -> {  //Load every file of the chunk
             try {
@@ -232,7 +231,7 @@ public class GameServer extends Server<Player> {
             } else if (receivedData[0] == PLAYER_CHAT) {
                 String message = new String(NetworkUtils.getMessage(receivedData));
                 String playerName = client.userInfo.name;
-                GameScene.consoleOut(playerName + ":  \"" + message + "\"");
+                Server.consoleOut(playerName + ":  \"" + message + "\"");
             } else if (receivedData[0] == PLAYER_POSITION) {
                 float x = ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
                 float y = ByteUtils.bytesToFloat(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
@@ -246,10 +245,10 @@ public class GameServer extends Server<Player> {
 
                 MultiplayerPendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
                     if (MultiplayerPendingBlockChanges.changeCanBeLoaded(client_userPlayer, pos)) {//If change is within reach
-                        GameScene.eventPipeline.addEvent(pos, blockHist);
+                        Server.eventPipeline.addEvent(pos, blockHist);
                         inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
-                        GameScene.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
+                        Server.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
                         outOfReachChanges.incrementAndGet();
                     }
                 });
@@ -264,18 +263,18 @@ public class GameServer extends Server<Player> {
                         if (mode == ENTITY_CREATED) {
                             setEntity(entity, identifier, currentPos, data);
                         } else if (mode == ENTITY_DELETED) {
-                            Entity e = GameScene.world.entities.get(identifier);
+                            Entity e = Server.world.entities.get(identifier);
                             if (e != null) {
                                 e.destroy();
                             }
                         } else if (mode == ENTITY_UPDATED) {
-                            Entity e = GameScene.world.entities.get(identifier);
+                            Entity e = Server.world.entities.get(identifier);
                             if (e != null) {
                                 e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
                             }
                         }
                     } else {//Cache changes if they are out of bounds
-                        GameScene.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
+                        Server.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
                     }
                 });
             } else if (receivedData[0] == READY_TO_START) { //New world
@@ -299,21 +298,21 @@ public class GameServer extends Server<Player> {
             } else if (receivedData[0] == WORLD_INFO) {//Make/load the world info
                 getWorldInformationFromHost(receivedData);
             } else if (receivedData[0] == SET_TIME) {
-                GameScene.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
+                Server.background.setTimeOfDay(ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]));
             } else if (receivedData[0] == CHANGE_GAME_MODE) {
                 try {
                     int mode = receivedData[1];
                     GameMode gameMode = GameMode.values()[mode];
-                    GameScene.setGameMode(gameMode);
+                    Server.setGameMode(gameMode);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    GameScene.alert("Unable to change game mode");
+                    Server.alert("Unable to change game mode");
                 }
             } else if (receivedData[0] == CHANGE_PLAYER_PERMISSION) {
                 try {
                     boolean permission = receivedData[1] == 1;
-                    GameScene.setOperator(permission);
+                    Server.setOperator(permission);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    GameScene.alert("Unable to change player permission");
+                    Server.alert("Unable to change player permission");
                 }
             }
 
@@ -326,7 +325,7 @@ public class GameServer extends Server<Player> {
     private void printEntityChange(Player client, int mode, EntitySupplier entity,
                                    long identifier, Vector3f currentPos,
                                    byte[] data) {
-        if (!MainWindow.devMode) return;
+        if (!ClientWindow.devMode) return;
         String modeStr;
         switch (mode) {
             case ENTITY_CREATED -> modeStr = "ENTITY CREATED";
@@ -339,14 +338,14 @@ public class GameServer extends Server<Player> {
                 ", id=" + Long.toHexString(identifier) +
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data);
-        MainWindow.printlnDev(str);
-        if (MainWindow.devMode) GameScene.alert(str);
+        ClientWindow.printlnDev(str);
+        if (ClientWindow.devMode) Server.alert(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(worldPosition);
-        Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
+        Chunk chunk = Server.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModified();
             return chunk.entities.placeNew(worldPosition, identifier, entity, data);

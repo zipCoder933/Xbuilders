@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.items;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Vector3i;
@@ -15,12 +15,12 @@ public class Hoe extends Item {
 
         this.createClickEvent = (ray, stack) -> {
             Vector3i hit = ray.getHitPos();
-            if (GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_DIRT ||
-                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_GRASS ||
-                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_DRY_GRASS ||
-                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_JUNGLE_GRASS ||
-                    GameScene.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_SNOW_GRASS) {
-                GameScene.setBlock(Blocks.BLOCK_FARMLAND, hit.x, hit.y, hit.z);
+            if (Server.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_DIRT ||
+                    Server.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_GRASS ||
+                    Server.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_DRY_GRASS ||
+                    Server.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_JUNGLE_GRASS ||
+                    Server.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_SNOW_GRASS) {
+                Server.setBlock(Blocks.BLOCK_FARMLAND, hit.x, hit.y, hit.z);
                 stack.durability--;
             }
             return true;

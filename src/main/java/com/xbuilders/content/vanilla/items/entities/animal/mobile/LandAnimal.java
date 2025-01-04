@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class LandAnimal extends Animal {
 
-    public LandAnimal(int id, long uniqueIdentifier, MainWindow window) {
+    public LandAnimal(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window);
     }
 
@@ -26,8 +26,8 @@ public abstract class LandAnimal extends Animal {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            Block floor = GameScene.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
-            if (floor.solid && GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
+            Block floor = Server.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
+            if (floor.solid && Server.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
             return false;
         };
         entitySupplier.isAutonomous = true;

@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.multiplayer;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.players.Player;
@@ -55,7 +55,7 @@ public class MultiplayerPendingBlockChanges {
         if (player.isWithinReach(worldPos.x, worldPos.y, worldPos.z)) {
             Vector3i chunkPos = new Vector3i();
             WCCi.getChunkAtWorldPos(chunkPos, worldPos.x, worldPos.y, worldPos.z);
-            Chunk chunk = GameScene.world.getChunk(chunkPos);
+            Chunk chunk = Server.world.getChunk(chunkPos);
             return chunk != null && chunk.gen_Complete();
         }
         return false;

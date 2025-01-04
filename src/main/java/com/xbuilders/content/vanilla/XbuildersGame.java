@@ -4,17 +4,17 @@
  */
 package com.xbuilders.content.vanilla;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.GameMode;
 import com.xbuilders.engine.server.model.Game;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.*;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.server.model.items.loot.LootTableRegistry;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
+import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.model.world.data.WorldData;
 import com.xbuilders.content.vanilla.items.Recipes;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.printKeyConsumption;
+import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 
 /**
  * @author zipCoder933
@@ -48,7 +48,7 @@ import static com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.printKeyCo
 public class XbuildersGame extends Game {
 
 
-    public XbuildersGame(MainWindow window) {
+    public XbuildersGame(ClientWindow window) {
         super(window);
 
         //add skins
@@ -71,8 +71,8 @@ public class XbuildersGame extends Game {
     }
 
     public boolean drawCursor(CursorRay cursorRay) {
-        if (GameScene.getGameMode() != GameMode.FREEPLAY) return false;
-        return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
+        if (Server.getGameMode() != GameMode.FREEPLAY) return false;
+        return blockTools.getSelectedTool().drawCursor(cursorRay, Server.projection, Server.view);
     }
 
     public boolean clickEvent(final CursorRay ray, boolean isCreationMode) {
@@ -145,7 +145,7 @@ public class XbuildersGame extends Game {
     }
 
     public void gameModeChangedEvent(GameMode gameMode) {
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Server.userPlayer.camera.cursorRay.disableBoundaryMode();
         blockTools.selectDefaultTool();
     }
 
@@ -179,7 +179,7 @@ public class XbuildersGame extends Game {
 
 
     @Override
-    public void setup(GameScene gameScene,NkContext ctx, GameUI gameUI) throws Exception {
+    public void setup(Server gameScene, NkContext ctx, GameUI gameUI) throws Exception {
         //Add block types FIRST. We need them to be able to setup blocks properly
         Registrys.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
         Registrys.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
@@ -233,7 +233,7 @@ public class XbuildersGame extends Game {
         smeltingUI = new FurnaceUI(ctx, window);
         recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
         inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
-        blockTools = new BlockTools(ctx, window, GameScene.userPlayer.camera.cursorRay);
+        blockTools = new BlockTools(ctx, window, Server.userPlayer.camera.cursorRay);
         gameMenus.menus.add(barrelUI);
         gameMenus.menus.add(craftingUI);
         gameMenus.menus.add(smeltingUI);

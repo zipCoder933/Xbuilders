@@ -8,13 +8,9 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.entities.vehicle.Vehicle;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.entity.Entity;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
-import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
 
@@ -60,22 +56,22 @@ public class Banner extends Entity {
             if (node.has("XZ")) xzOrientation = node.get("XZ").asInt();
             if (node.has("fencepost")) againstFencepost = node.get("fencepost").asBoolean();
         } else {
-            xzOrientation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
+            xzOrientation = Server.userPlayer.camera.simplifiedPanTilt.x;
             int wx = (int) worldPosition.x;
             int wy = (int) worldPosition.y;
             int wz = (int) worldPosition.z;
 
             if (xzOrientation == 0) {
-                againstFencepost = GameScene.world.getBlock(wx, wy, wz - 1)
+                againstFencepost = Server.world.getBlock(wx, wy, wz - 1)
                         .renderType == RenderType.FENCE;
             } else if (xzOrientation == 1) {
-                againstFencepost = GameScene.world.getBlock(wx + 1, wy, wz)
+                againstFencepost = Server.world.getBlock(wx + 1, wy, wz)
                         .renderType == RenderType.FENCE;
             } else if (xzOrientation == 2) {
-                againstFencepost = GameScene.world.getBlock(wx, wy, wz + 1)
+                againstFencepost = Server.world.getBlock(wx, wy, wz + 1)
                         .renderType == RenderType.FENCE;
             } else {
-                againstFencepost = GameScene.world.getBlock(wx - 1, wy, wz)
+                againstFencepost = Server.world.getBlock(wx - 1, wy, wz)
                         .renderType == RenderType.FENCE;
             }
         }

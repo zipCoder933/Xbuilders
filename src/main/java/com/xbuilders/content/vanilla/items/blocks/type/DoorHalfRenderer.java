@@ -4,14 +4,14 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -49,7 +49,7 @@ public class DoorHalfRenderer extends BlockType {
                 if (existingData != null && existingData.size() == 3) return existingData;
 
                 BlockData bd = new BlockData(3);
-                byte rotation = (byte) GameScene.userPlayer.camera.simplifiedPanTilt.x;
+                byte rotation = (byte) Server.userPlayer.camera.simplifiedPanTilt.x;
                 rotation = (byte) MathUtils.positiveMod((rotation - 1), 4);
                 bd.set(0, rotation);// rotation
                 bd.set(1, (byte) 1); // (0 = open, 1 = closed),
@@ -65,52 +65,52 @@ public class DoorHalfRenderer extends BlockType {
                 Block bottomBlock = b;
 
                 topBlock.setBlockEvent(false, (x, y, z) -> { //KEEP THIS!
-                    GameScene.setBlock(bottomBlock.id, x, y + 1, z);
+                    Server.setBlock(bottomBlock.id, x, y + 1, z);
                 });
 
                 topBlock.removeBlockEvent(false, (x, y, z, history) -> {
-                    if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
-                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
+                    if (Server.world.getBlock(x, y + 1, z) == bottomBlock) {
+                        Server.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
                     }
                 });
 
                 bottomBlock.setBlockEvent(false, (x, y, z) -> {
-                    BlockData data = GameScene.world.getBlockData(x, y, z);
-                    GameScene.setBlock(topBlock.id, x, y - 1, z);
+                    BlockData data = Server.world.getBlockData(x, y, z);
+                    Server.setBlock(topBlock.id, x, y - 1, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                     //We cant change right/left here because that will get overridden when initial block data gets written
                     //A solution to this is when the initialBlockData is called, it returns the existing data if it is already set
-                    GameScene.world.setBlockData(data, x, y - 1, z);
+                    Server.world.setBlockData(data, x, y - 1, z);
                 });
 
                 bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
-                    if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
-                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
+                    if (Server.world.getBlock(x, y - 1, z) == topBlock) {
+                        Server.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
                     }
                 });
 
                 topBlock.clickEvent(false, (x, y, z) -> {
-                    BlockData bd = GameScene.world.getBlockData(x, y, z);
+                    BlockData bd = Server.world.getBlockData(x, y, z);
                     bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
                     // Transfer block data to bottom block
-                    GameScene.world.setBlockData(bd, x, y + 1, z);
+                    Server.world.setBlockData(bd, x, y + 1, z);
                 });
                 bottomBlock.clickEvent(false, (x, y, z) -> {
-                    BlockData bd = GameScene.world.getBlockData(x, y, z);
+                    BlockData bd = Server.world.getBlockData(x, y, z);
                     bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
                     // Transfer block data to top block
-                    GameScene.world.setBlockData(bd, x, y - 1, z);
+                    Server.world.setBlockData(bd, x, y - 1, z);
                 });
 
             } else {// If this is a single door
                 b.setBlockEvent(false, (x, y, z) -> {
-                    BlockData data = GameScene.world.getBlockData(x, y, z);
+                    BlockData data = Server.world.getBlockData(x, y, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                 });
                 b.clickEvent(false, (x, y, z) -> {
-                    BlockData bd = GameScene.world.getBlockData(x, y, z);
+                    BlockData bd = Server.world.getBlockData(x, y, z);
                     bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
-                    GameScene.world.setBlockData(bd, x, y - 1, z);
+                    Server.world.setBlockData(bd, x, y - 1, z);
                 });
             }
         };
@@ -161,7 +161,7 @@ public class DoorHalfRenderer extends BlockType {
     }
 
     private boolean check_orientRightOrLeft(int x, int y, int z) {
-        Block block = GameScene.world.getBlock(x, y, z);
+        Block block = Server.world.getBlock(x, y, z);
         return block.solid
                 && block.getRenderType().isCubeShape();
     }

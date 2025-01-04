@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -41,7 +41,7 @@ public class PaintTool extends BlockTool {
 
     @Override
     public void activate() {
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Server.userPlayer.camera.cursorRay.disableBoundaryMode();
     }
 
 
@@ -50,7 +50,7 @@ public class PaintTool extends BlockTool {
         setAABB(settingAABB, ray);
 
         //Get block at cursor hit position
-        Block replaceBlock = GameScene.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
+        Block replaceBlock = Server.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
         Block newBlock = isCreationMode ? getSelectedBlock() : BlockRegistry.BLOCK_AIR;
         if (newBlock == null || newBlock == replaceBlock) return false;
 
@@ -64,7 +64,7 @@ public class PaintTool extends BlockTool {
         while (!queue.isEmpty() && System.currentTimeMillis() - start < 5000) {
             Vector3i pos = queue.remove(0);
 
-            GameScene.setBlock(newBlock.id, pos.x, pos.y, pos.z);
+            Server.setBlock(newBlock.id, pos.x, pos.y, pos.z);
             //MainWindow.printlnDev("Painting: " + MiscUtils.printVector(pos));
 
             propagate(origin, pos.x + 1, pos.y, pos.z, newBlock, replaceBlock, queue);
@@ -86,12 +86,12 @@ public class PaintTool extends BlockTool {
         float radius = settingAABB.getXLength() / 2;
         if (origin.distance(x, y, z) > radius) return;
 
-        Block existingBlock = GameScene.world.getBlock(x, y, z);
+        Block existingBlock = Server.world.getBlock(x, y, z);
         if (existingBlock.id == blockToReplace.id) {
-            GameScene.setBlock(newBlock.id, x, y, z);
+            Server.setBlock(newBlock.id, x, y, z);
 
             //Check again just in case
-            existingBlock = GameScene.world.getBlock(x, y, z);
+            existingBlock = Server.world.getBlock(x, y, z);
             if (existingBlock.id == newBlock.id) {
                 queue.add(new Vector3i(x, y, z));
             }

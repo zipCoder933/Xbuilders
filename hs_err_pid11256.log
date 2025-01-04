@@ -34,15 +34,15 @@ C  [lwjgl_nuklear.dll+0x1cbad]
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.lwjgl.nuklear.Nuklear.nnk_group_end(J)V+0
 j  org.lwjgl.nuklear.Nuklear.nk_group_end(Lorg/lwjgl/nuklear/NkContext;)V+4
-j  com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid.draw(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkContext;I)V+367
+j  com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid.draw(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkContext;I)V+367
 j  com.xbuilders.content.ui.CraftingUI.drawWindow(Lorg/lwjgl/system/MemoryStack;Lorg/lwjgl/nuklear/NkRect;)V+44
-j  com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V+160
+j  com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow.draw(Lorg/lwjgl/system/MemoryStack;)V+160
 j  com.xbuilders.content.ui.GameMenus.draw(Lorg/lwjgl/system/MemoryStack;)Z+34
 j  com.xbuilders.content.XbuildersGame.uiDraw(Lorg/lwjgl/system/MemoryStack;)V+26
-j  com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.draw()V+95
-j  com.xbuilders.engine.server.model.GameScene.render()V+177
-j  com.xbuilders.engine.MainWindow.render()V+9
-j  com.xbuilders.engine.MainWindow.<init>([Ljava/lang/String;)V+316
+j  com.xbuilders.engine.client.visuals.gameScene.GameUI.draw()V+95
+j  com.xbuilders.engine.server.model.Server.render()V+177
+j  com.xbuilders.engine.client.ClientWindow.render()V+9
+j  com.xbuilders.engine.client.ClientWindow.<init>([Ljava/lang/String;)V+316
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+5
 v  ~StubRoutines::call_stub
 
@@ -535,7 +535,7 @@ Event: 9.708 Thread 0x00000155a71d38c0 nmethod 4999 0x0000015536271810 code [0x0
 Event: 9.709 Thread 0x00000155a71d6340 nmethod 5001 0x0000015536022490 code [0x0000015536022640, 0x0000015536022a38]
 Event: 9.709 Thread 0x00000155a71d6890 nmethod 5002 0x000001553dba1690 code [0x000001553dba1800, 0x000001553dba1898]
 Event: 9.709 Thread 0x00000155a71d5350 nmethod 4998 0x000001553dba1310 code [0x000001553dba1480, 0x000001553dba1538]
-Event: 9.728 Thread 0x0000015551bb8810 5003   !   4       com.xbuilders.engine.client.visuals.rendering.chunk.meshers.Chunk_NaiveMesher::compute (799 bytes)
+Event: 9.728 Thread 0x0000015551bb8810 5003   !   4       com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.Chunk_NaiveMesher::compute (799 bytes)
 
 GC Heap History (20 events):
 Event: 5.607 GC heap before
@@ -712,11 +712,11 @@ Event: 9.638 Thread 0x000001552ca40f00 Uncommon trap: reason=unstable_if action=
 Event: 9.638 Thread 0x000001552ca40f00 DEOPT PACKING pc=0x000001553da03e58 sp=0x0000004b520fe950
 Event: 9.638 Thread 0x000001552ca40f00 DEOPT UNPACKING pc=0x000001553d2e69a3 sp=0x0000004b520fe7b8 mode 2
 Event: 9.728 Thread 0x00000155c479ae30 Uncommon trap: trap_request=0xffffffc6 fr.pc=0x000001553da9c1b4 relative=0x0000000000001714
-Event: 9.728 Thread 0x00000155c479ae30 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001553da9c1b4 method=com.xbuilders.engine.client.visuals.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
+Event: 9.728 Thread 0x00000155c479ae30 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001553da9c1b4 method=com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
 Event: 9.728 Thread 0x00000155c479ae30 DEOPT PACKING pc=0x000001553da9c1b4 sp=0x0000004b568ff0b0
 Event: 9.728 Thread 0x00000155c479ae30 DEOPT UNPACKING pc=0x000001553d2e69a3 sp=0x0000004b568ff038 mode 2
 Event: 9.728 Thread 0x00000155c479ae30 Uncommon trap: trap_request=0xffffffc6 fr.pc=0x000001553da57fe8 relative=0x0000000000001108
-Event: 9.728 Thread 0x00000155c479ae30 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001553da57fe8 method=com.xbuilders.engine.client.visuals.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
+Event: 9.728 Thread 0x00000155c479ae30 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001553da57fe8 method=com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.Chunk_NaiveMesher.compute(Lcom/xbuilders/engine/rendering/VertexSet;Lcom/xbuilders/engine/rendering/Ve
 Event: 9.728 Thread 0x00000155c479ae30 DEOPT PACKING pc=0x000001553da57fe8 sp=0x0000004b568ff090
 Event: 9.728 Thread 0x00000155c479ae30 DEOPT UNPACKING pc=0x000001553d2e69a3 sp=0x0000004b568ff038 mode 2
 

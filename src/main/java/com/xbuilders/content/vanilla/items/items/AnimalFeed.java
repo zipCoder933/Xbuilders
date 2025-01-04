@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.items;
 
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.item.Item;
 
 public class AnimalFeed extends Item {
@@ -13,7 +13,7 @@ public class AnimalFeed extends Item {
             if (ray.getEntity() != null && ray.getEntity() instanceof Animal animal) {
                 itemStack.stackSize--;
                 animal.tamed = true;
-                GameScene.alert("You have tamed an animal!");
+                Server.alert("You have tamed an animal!");
                 animal.markAsModifiedByUser();
             }
             return true;
@@ -23,7 +23,7 @@ public class AnimalFeed extends Item {
             if (ray.getEntity() != null && ray.getEntity() instanceof Animal animal) {
                 itemStack.stackSize--;
                 animal.tamed = true;
-                GameScene.alert("You have tamed an animal!");
+                Server.alert("You have tamed an animal!");
                 animal.markAsModifiedByUser();
             }
             return true;

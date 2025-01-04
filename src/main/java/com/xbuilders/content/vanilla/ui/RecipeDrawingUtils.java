@@ -4,7 +4,7 @@ import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.server.model.items.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.server.model.items.recipes.smelting.SmeltingRecipe;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemGrid;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemGrid;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;

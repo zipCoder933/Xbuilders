@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.model.players;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -16,14 +16,14 @@ public class PositionLock {
     public void setOffset(float yOffset) {
         playerDisplacement.identity().translate(
                 0,
-                yOffset - GameScene.userPlayer.aabb.size.y,
+                yOffset - Server.userPlayer.aabb.size.y,
                 0);
     }
 
     public void setOffset(float xOffset, float yOffset, float zOffset) {
         playerDisplacement.identity().translate(
                 xOffset,
-                yOffset - GameScene.userPlayer.aabb.size.y,
+                yOffset - Server.userPlayer.aabb.size.y,
                 zOffset);
     }
 

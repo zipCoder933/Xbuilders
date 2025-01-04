@@ -4,9 +4,9 @@
  */
 package com.xbuilders.engine.server.model.players;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.players.data.UserInfo;
 import com.xbuilders.engine.server.multiplayer.MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.server.multiplayer.MultiplayerPendingEntityChanges;
@@ -38,11 +38,11 @@ public class Player extends NetworkSocket {
     }
 
     public boolean isWithinReach(float worldX, float worldY, float worldZ) {
-        return worldPosition.distance(worldX, worldY, worldZ) < GameScene.world.getViewDistance();
+        return worldPosition.distance(worldX, worldY, worldZ) < Server.world.getViewDistance();
     }
 
     public boolean isWithinReach(Player otherPlayer) {
-        return worldPosition.distance(otherPlayer.worldPosition) < GameScene.world.getViewDistance();
+        return worldPosition.distance(otherPlayer.worldPosition) < Server.world.getViewDistance();
     }
 
 
@@ -79,7 +79,7 @@ public class Player extends NetworkSocket {
         } else if (getSocket() != null) name = getHostAddress();
 
         if (isHost) name += " (Host)";
-        if (this == GameScene.userPlayer) name += " (Me)";
+        if (this == Server.userPlayer) name += " (Me)";
         return name;
     }
 
@@ -92,7 +92,7 @@ public class Player extends NetworkSocket {
 
     public void sendAllChanges() {
         int c = model_blockChanges_ToBeSentToPlayer.sendAllChanges();
-        MainWindow.printlnDev("Sent all block changes (" + c + ")");
+        ClientWindow.printlnDev("Sent all block changes (" + c + ")");
     }
 
     /**
@@ -102,18 +102,18 @@ public class Player extends NetworkSocket {
         //Check if the player is in range
         inRangeOfUser = isWithinReach(user);
         if (inRangeOfUser != wasWithinReach) {
-            MainWindow.printlnDev("Player " + getName() + " " + (inRangeOfUser ? "in" : "out") + " reach");
+            ClientWindow.printlnDev("Player " + getName() + " " + (inRangeOfUser ? "in" : "out") + " reach");
             wasWithinReach = inRangeOfUser;
         }
 
         if (model_blockChanges_ToBeSentToPlayer.periodicRangeSendCheck(2000)) { //Periodically send near changes
             int b = model_blockChanges_ToBeSentToPlayer.sendNearBlockChanges();
-            MainWindow.printlnDev("Sent " + b + " near block changes");
+            ClientWindow.printlnDev("Sent " + b + " near block changes");
             return;
         }
         if (model_entityChanges_ToBeSentToPlayer.periodicRangeSendCheck(3000)) { //Periodically send near changes
             int e = model_entityChanges_ToBeSentToPlayer.sendNearEntityChanges();
-            MainWindow.printlnDev("Sent " + e + " near entity changes");
+            ClientWindow.printlnDev("Sent " + e + " near entity changes");
             return;
         }
         //Periodically send All changes

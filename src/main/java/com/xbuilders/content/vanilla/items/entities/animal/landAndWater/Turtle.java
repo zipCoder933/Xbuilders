@@ -7,8 +7,8 @@ package com.xbuilders.content.vanilla.items.entities.animal.landAndWater;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -32,7 +32,7 @@ public class Turtle extends LandAndWaterAnimal {
 
     int textureIndex;
 
-    public Turtle(int id, long uniqueIdentifier, MainWindow window) {
+    public Turtle(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window);
         aabb.setOffsetAndSize(1f, 1f, 1f, true);
         frustumSphereRadius = 3;
@@ -115,7 +115,7 @@ public class Turtle extends LandAndWaterAnimal {
 
         finModelMatrix.set(modelMatrix).translate(x, y, z);
         if (animationSpeed != 0) {
-            float rot = (float) Math.sin((MainWindow.frameCount * animationSpeed) + animationAdd) * multiplier;
+            float rot = (float) Math.sin((ClientWindow.frameCount * animationSpeed) + animationAdd) * multiplier;
             finModelMatrix.rotateY(rot);
         }
         finModelMatrix.update();

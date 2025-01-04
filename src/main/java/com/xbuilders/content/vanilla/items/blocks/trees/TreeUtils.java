@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.trees;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.server.model.world.Terrain;
@@ -47,7 +47,7 @@ class TreeUtils {
 
         for (int x2 = lowerBoundX; x2 <= upperBoundX; x2++) {
             for (int z2 = lowerBoundZ; z2 <= upperBoundZ; z2++) {
-                if (!GameScene.world.getBlock(x2, y, z2).solid) {
+                if (!Server.world.getBlock(x2, y, z2).solid) {
                     terrain.setBlockWorld(leaves, x2, y, z2);
                 }
             }
@@ -86,7 +86,7 @@ class TreeUtils {
                         || (x2 == upperBoundX && z2 == upperBoundZ)
                         || (x2 == lowerBoundX && z2 == upperBoundZ)
                         || (x2 == upperBoundX && z2 == lowerBoundZ))) {
-                    if (!GameScene.world.getBlock(x2, y, z2).solid) {
+                    if (!Server.world.getBlock(x2, y, z2).solid) {
                         terrain.setBlockWorld(leaves, x2, y, z2);
                     }
                 }
@@ -95,13 +95,13 @@ class TreeUtils {
     }
 
     public static void player_setBlock(short id, int x, int y, int z) {
-        if (!GameScene.world.getBlock(x, y, z).solid) {
-            GameScene.setBlock(id, x, y, z);
+        if (!Server.world.getBlock(x, y, z).solid) {
+            Server.setBlock(id, x, y, z);
         }
     }
 
     public static void player_setBlockAndOverride(short id, int x, int y, int z) {
-        GameScene.setBlock(id, x, y, z);
+        Server.setBlock(id, x, y, z);
     }
 
     //Terrain generators create terrains in world space,
@@ -131,7 +131,7 @@ class TreeUtils {
 
         while (!queue.isEmpty()) {
             TravelNode node = queue.remove(0);
-            Block block = GameScene.world.getBlock(node.x, node.y, node.z);
+            Block block = Server.world.getBlock(node.x, node.y, node.z);
 
             if (!block.equals(leaves) && node.travel < travelDist) {
                 if (!block.solid) {
@@ -160,7 +160,7 @@ class TreeUtils {
             x += xDir;
             z += zDir;
             y--;
-            if (!GameScene.world.getBlock(x, y, z).solid) {
+            if (!Server.world.getBlock(x, y, z).solid) {
                 terrain.setBlockWorld(logType, x, y, z);
             }
         }

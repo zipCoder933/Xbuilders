@@ -4,9 +4,9 @@
  */
 package com.xbuilders.engine.server.model;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.players.SkinSupplier;
-import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
+import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.model.world.Terrain;
 import com.xbuilders.engine.server.model.world.data.WorldData;
 import org.lwjgl.nuklear.NkContext;
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public abstract class Game implements GameSceneEvents {
 
-    public final MainWindow window;
+    public final ClientWindow window;
     public final ArrayList<Terrain> terrainsList = new ArrayList<>();
     public final HashMap<Integer, SkinSupplier> availableSkins = new HashMap<>();
 
@@ -31,11 +31,11 @@ public abstract class Game implements GameSceneEvents {
     }
 
 
-    public Game(MainWindow window) {
+    public Game(ClientWindow window) {
         this.window = window;
     }
 
-    public abstract void setup(GameScene gameScene, NkContext ctx, GameUI gameUI) throws Exception;
+    public abstract void setup(Server gameScene, NkContext ctx, GameUI gameUI) throws Exception;
 
     public final Terrain getTerrainFromInfo(WorldData info) {
         for (Terrain terrain : terrainsList) {

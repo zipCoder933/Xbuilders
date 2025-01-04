@@ -15,10 +15,10 @@ import java.util.regex.Pattern;
 
 public class GameCommands {
     public final HashMap<String, String> commandHelp;
-    GameScene gameScene;
+    Server gameScene;
     Game game;
 
-    public GameCommands(GameScene gameScene, Game game) {
+    public GameCommands(Server gameScene, Game game) {
         this.gameScene = gameScene;
         this.game = game;
 
@@ -91,24 +91,24 @@ public class GameCommands {
                         } else return commandHelp.get("msg");
                     }
                     case "time" -> {
-                        if (!GameScene.isOperator()) return null;
+                        if (!Server.isOperator()) return null;
                         if (parts.length == 2) {
                             //It doesnt matter if we had 2 players with different time
 //                            if(!server.isHosting() && server.isPlayingMultiplayer()) return "You cannot change time";
                             if (parts[1].equalsIgnoreCase("day") || parts[1].equalsIgnoreCase("morning")) {
-                                GameScene.setTimeOfDay(0.0f);
+                                Server.setTimeOfDay(0.0f);
                                 return null;
                             } else if (parts[1].equalsIgnoreCase("evening")) {
-                                GameScene.setTimeOfDay(0.25f);
+                                Server.setTimeOfDay(0.25f);
                                 return null;
                             } else if (parts[1].equalsIgnoreCase("night")) {
-                                GameScene.setTimeOfDay(0.5f);
+                                Server.setTimeOfDay(0.5f);
                                 return null;
                             } else return commandHelp.get("time");
                         } else return commandHelp.get("time");
                     }
                     case "teleport" -> {
-                        if (!GameScene.isOperator()) return null;
+                        if (!Server.isOperator()) return null;
 
                         if (parts.length == 2) {
                             Player target = gameScene.server.getPlayerByName(parts[1]);
@@ -123,31 +123,31 @@ public class GameCommands {
                         } else return commandHelp.get("teleport");
                     }
                     case "mode" -> {
-                        if (!GameScene.isOperator()) return null;
+                        if (!Server.isOperator()) return null;
 
                         if (parts.length == 1) {
-                            return "Game mode: " + GameScene.getGameMode();
+                            return "Game mode: " + Server.getGameMode();
                         } else if (parts.length == 2) {
                             String mode = parts[1].toUpperCase().trim().replace(" ", "_");
                             try {
-                                GameScene.setGameMode(GameMode.valueOf(mode.toUpperCase()));
+                                Server.setGameMode(GameMode.valueOf(mode.toUpperCase()));
                                 if (gameScene.server.isPlayingMultiplayer())
-                                    gameScene.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) GameScene.getGameMode().ordinal()});
-                                return "Game mode changed to: " + GameScene.getGameMode();
+                                    gameScene.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) Server.getGameMode().ordinal()});
+                                return "Game mode changed to: " + Server.getGameMode();
                             } catch (IllegalArgumentException e) {
                                 return "Unknown game mode: " + mode;
                             }
                         } else return commandHelp.get("mode");
                     }
                     case "give" -> {
-                        if (!GameScene.isOperator()) return null;
+                        if (!Server.isOperator()) return null;
                         if (parts.length <= 3) {
                             try {
                                 String itemID = formatGetItemID(parts[1]);
                                 int quantity = parts.length > 2 ? Integer.parseInt(parts[2].trim()) : 1;
                                 Item item = Registrys.getItem(itemID);
                                 if (item == null) return "Unknown item: " + itemID;
-                                else GameScene.userPlayer.inventory.acquireItem(new ItemStack(item, quantity));
+                                else Server.userPlayer.inventory.acquireItem(new ItemStack(item, quantity));
                                 return "Given " + quantity + " " + item.name;
                             } catch (Exception e) {
                                 return "Invalid";
@@ -155,7 +155,7 @@ public class GameCommands {
                         } else return commandHelp.get("give");
                     }
                     case "op" -> {
-                        if (!GameScene.ownsGame() || !GameScene.isOperator())
+                        if (!Server.ownsGame() || !Server.isOperator())
                             return null; //We cant change permissions if we arent the host
                         if (parts.length == 3) {
                             boolean operator = Boolean.parseBoolean(parts[1]);

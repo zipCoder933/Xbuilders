@@ -5,14 +5,14 @@
 package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
-import com.xbuilders.engine.client.visuals.ui.Theme;
-import com.xbuilders.engine.client.visuals.ui.gameScene.UI_Hotbar;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemIndex;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.client.visuals.gameScene.UI_Hotbar;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemIndex;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import org.lwjgl.glfw.GLFW;
@@ -42,8 +42,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         };
 
 
-        craftingGrid = new CraftingUI_Base(ctx, window, this, GameScene.userPlayer.inventory, 4);
-        playerInventory = new UI_ItemStackGrid(window, "Inventory", GameScene.userPlayer.inventory, this, true);
+        craftingGrid = new CraftingUI_Base(ctx, window, this, Server.userPlayer.inventory, 4);
+        playerInventory = new UI_ItemStackGrid(window, "Inventory", Server.userPlayer.inventory, this, true);
         // We have to create the window initially
         nk_begin(ctx, title, NkRect.create(), windowFlags);
         nk_end(ctx);
@@ -64,7 +64,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     public void onOpenEvent() {
         craftingGrid.onCloseEvent();
 
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) setOpen(false);
+        if (Server.getGameMode() == GameMode.SPECTATOR) setOpen(false);
         if (drawAllInventory()) menuDimensions.y = Allitems_Height + playerInv_height;
         else menuDimensions.y = playerInv_height;
     }
@@ -75,7 +75,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) {
+        if (Server.getGameMode() == GameMode.SPECTATOR) {
             setOpen(false);
         }
 
@@ -94,7 +94,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     private boolean drawAllInventory() {
-        return GameScene.getGameMode() == GameMode.FREEPLAY;
+        return Server.getGameMode() == GameMode.FREEPLAY;
     }
 
 
@@ -104,7 +104,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
 
         if (allItems.keyEvent(key, scancode, action, mods)) return true;
         if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
@@ -116,7 +116,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
         allItems.mouseScrollEvent(scroll, xoffset, yoffset);
         return true;
     }

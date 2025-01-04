@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.trees;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.world.Terrain;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
@@ -34,7 +34,7 @@ public class OakTreeUtils {
     public static void player_plantTree(Random rand, int x, int y, int z) {
         int height = randomInt(rand, 5, 7);
         for (int k = 0; k < height; k++) {
-            GameScene.setBlock(Blocks.BLOCK_OAK_LOG, x, y - k, z);
+            Server.setBlock(Blocks.BLOCK_OAK_LOG, x, y - k, z);
         }
 
         TreeUtils.player_roundedSquareLeavesLayer(x, y - height + 2, z, 2, Blocks.BLOCK_OAK_LEAVES);

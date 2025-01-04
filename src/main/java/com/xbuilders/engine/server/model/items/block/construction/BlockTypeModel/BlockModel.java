@@ -2,7 +2,7 @@ package com.xbuilders.engine.server.model.items.block.construction.BlockTypeMode
 
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 
 public class BlockModel {
 

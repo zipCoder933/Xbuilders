@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.server.model.GameScene;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.server.model.Server;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
@@ -18,8 +18,8 @@ public class CraftingUI extends UI_ItemWindow {
     public CraftingUI(NkContext ctx, NKWindow window) {
         super(ctx, window, "Crafting");
         menuDimensions.y = 500;
-        craftingGrid = new CraftingUI_Base(ctx, window, this, GameScene.userPlayer.inventory, 9);
-        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.userPlayer.inventory, this, true);
+        craftingGrid = new CraftingUI_Base(ctx, window, this, Server.userPlayer.inventory, 9);
+        playerGrid = new UI_ItemStackGrid(window, "Player", Server.userPlayer.inventory, this, true);
     }
 
     @Override

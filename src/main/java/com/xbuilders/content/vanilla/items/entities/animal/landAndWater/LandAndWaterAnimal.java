@@ -4,8 +4,8 @@
  */
 package com.xbuilders.content.vanilla.items.entities.animal.landAndWater;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
@@ -29,7 +29,7 @@ public abstract class LandAndWaterAnimal extends Animal {
     private float walkAmt = 0;
     float yVelocity, rotationVelocity, forwardVelocity;
 
-    public LandAndWaterAnimal(int id, long uniqueIdentifier, MainWindow window) {
+    public LandAndWaterAnimal(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window);
     }
 
@@ -37,7 +37,7 @@ public abstract class LandAndWaterAnimal extends Animal {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            if (Server.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
             return false;
         };
         entitySupplier.isAutonomous = true;
@@ -186,7 +186,7 @@ public abstract class LandAndWaterAnimal extends Animal {
 
     public void animal_move() {
         if (inFrustum) { //In Frustum movement
-            if (MainWindow.frameCount % 10 == 0) inWater = AnimalUtils.inWater(this);
+            if (ClientWindow.frameCount % 10 == 0) inWater = AnimalUtils.inWater(this);
 
 
             if (inWater) {
@@ -195,7 +195,7 @@ public abstract class LandAndWaterAnimal extends Animal {
                 moveOnLand();
             }
         } else { //Out of Frustum movement
-            if (MainWindow.frameCount % 10 != 0) return;
+            if (ClientWindow.frameCount % 10 != 0) return;
             else if (getAction() != null && getAction().type == FOLLOW) {
                 return;
             } else {

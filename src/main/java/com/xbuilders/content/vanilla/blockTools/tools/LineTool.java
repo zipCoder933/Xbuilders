@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -51,13 +51,13 @@ public class LineTool extends BlockTool {
 
         for (int i = 0; i <= Math.abs(length); i++) {
 
-            if (isCreationMode) GameScene.setBlock(item.id, pos.x, pos.y, pos.z);
-            else GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, pos.x, pos.y, pos.z);
+            if (isCreationMode) Server.setBlock(item.id, pos.x, pos.y, pos.z);
+            else Server.setBlock(BlockRegistry.BLOCK_AIR.id, pos.x, pos.y, pos.z);
 
             if (length < 0) pos.sub(ray.getHitNormalAsInt());
             else {
                 pos.add(ray.getHitNormalAsInt());
-                if (isCreationMode && GameScene.world.getBlock(pos.x, pos.y, pos.z).solid) break;
+                if (isCreationMode && Server.world.getBlock(pos.x, pos.y, pos.z).solid) break;
             }
         }
         return true;

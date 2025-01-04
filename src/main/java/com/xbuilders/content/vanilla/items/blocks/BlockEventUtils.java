@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.Registrys;
@@ -27,20 +27,20 @@ public class BlockEventUtils {
         Block bottomBlock = Registrys.getBlock(id_bottom);
 
         topBlock.setBlockEvent(false, (x, y, z) -> {
-            GameScene.setBlock(bottomBlock.id, x, y + 1, z);
+            Server.setBlock(bottomBlock.id, x, y + 1, z);
         });
         topBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (GameScene.world.getBlock(x, y + 1, z) == bottomBlock) {
-                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
+            if (Server.world.getBlock(x, y + 1, z) == bottomBlock) {
+                Server.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
             }
         });
 
         bottomBlock.setBlockEvent(false, (x, y, z) -> {
-            GameScene.setBlock(topBlock.id, x, y - 1, z);
+            Server.setBlock(topBlock.id, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (GameScene.world.getBlock(x, y - 1, z) == topBlock) {
-                GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
+            if (Server.world.getBlock(x, y - 1, z) == topBlock) {
+                Server.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
             }
         });
     }
@@ -48,30 +48,30 @@ public class BlockEventUtils {
 
     public static void setTNTEvents(Block thisBlock, final int radius, long fuseDelay) {
         thisBlock.clickEvent(true, (setX, setY, setZ) -> {
-            GameScene.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
+            Server.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
             try {
                 Thread.sleep(fuseDelay);
-                if (GameScene.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
-                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
+                if (Server.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
+                    Server.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                     removeEverythingWithinRadius(thisBlock, radius, new Vector3i(setX, setY, setZ));
-                    float dist = GameScene.userPlayer.worldPosition.distance(setX, setY, setZ);
+                    float dist = Server.userPlayer.worldPosition.distance(setX, setY, setZ);
                     if (dist < radius) {
-                        GameScene.userPlayer.addHealth(
+                        Server.userPlayer.addHealth(
                                 MathUtils.mapAndClamp(dist, radius, 0, 0, -10));
                     }
 
 
                     //Move the player away
                     Vector3f direction = new Vector3f(
-                            GameScene.userPlayer.worldPosition.x - setX,
-                            GameScene.userPlayer.worldPosition.y - setY,
-                            GameScene.userPlayer.worldPosition.z - setZ).normalize();
+                            Server.userPlayer.worldPosition.x - setX,
+                            Server.userPlayer.worldPosition.y - setY,
+                            Server.userPlayer.worldPosition.z - setZ).normalize();
                     direction = direction.mul(1f / MathUtils.dist(
-                            GameScene.userPlayer.worldPosition.x,
-                            GameScene.userPlayer.worldPosition.y,
-                            GameScene.userPlayer.worldPosition.z, setX, setY, setZ));
+                            Server.userPlayer.worldPosition.x,
+                            Server.userPlayer.worldPosition.y,
+                            Server.userPlayer.worldPosition.z, setX, setY, setZ));
                     direction.mul(50);
-                    GameScene.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
+                    Server.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
                 }
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
@@ -87,7 +87,7 @@ public class BlockEventUtils {
             for (int y = 0 - radius; y < radius; y++) {
                 for (int z = 0 - radius; z < radius; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < radius) {
-                        Block highlightedBlock = GameScene.world.getBlock(setX + x, setY + z, setZ + y);
+                        Block highlightedBlock = Server.world.getBlock(setX + x, setY + z, setZ + y);
                         cons.accept(new Vector3i(setX + x, setY + z, setZ + y), highlightedBlock);
                     }
                 }
@@ -107,7 +107,7 @@ public class BlockEventUtils {
                 for (int z = 0 - size; z < size; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < size) {
                         chunks.add(new WCCi().set(setX + x, setY + z, setZ + y).chunk);
-                        GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
+                        Server.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
                     }
                 }
             }
@@ -115,7 +115,7 @@ public class BlockEventUtils {
 
         ArrayList<Entity> entitiesToDelete = new ArrayList<>();
         for (Vector3i cc : chunks) {
-            Chunk chunk = GameScene.world.chunks.get(cc);
+            Chunk chunk = Server.world.chunks.get(cc);
             if (chunk != null) {
                 for (Entity e : chunk.entities.list) {
                     if (MathUtils.dist(setX, setY, setZ, e.worldPosition.x, e.worldPosition.y, e.worldPosition.z) < size

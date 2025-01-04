@@ -1,14 +1,14 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.client.visuals.rendering.entity.block.BlockMeshBundle;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader_ArrayTexture;
-import com.xbuilders.engine.client.visuals.rendering.wireframeBox.Box;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockMeshBundle;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
@@ -47,7 +47,7 @@ public class PasteTool extends BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
         if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
-            GameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            Server.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
                     false, "xbprefab", (file) -> {
                         System.out.println("LOADING " + file.getAbsolutePath());
                         try {
@@ -178,7 +178,7 @@ public class PasteTool extends BlockTool {
             for (int y = 0; y < clipboard.size.y; y++) {
                 for (int z = 0; z < clipboard.size.z; z++) {
                     if (clipboard.getBlock(x, y, z) != BlockRegistry.BLOCK_AIR.id || !additionMode) {
-                        GameScene.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
+                        Server.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
                     }
                 }
             }

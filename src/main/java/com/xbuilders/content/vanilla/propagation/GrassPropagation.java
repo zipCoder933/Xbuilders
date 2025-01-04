@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.propagation;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.LivePropagationTask;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.players.pipeline.BlockHistory;
@@ -38,7 +38,7 @@ public class GrassPropagation extends LivePropagationTask {
         if (nodes.isEmpty()) {
             return;
         }
-        MainWindow.printlnDev("grass prop nodes: " + nodes.size());
+        ClientWindow.printlnDev("grass prop nodes: " + nodes.size());
 
         //Iterator is better than entrySet. Entryset creates a copy
         Iterator<Map.Entry<Vector3i, Long>> iterator = nodes.entrySet().iterator();
@@ -47,16 +47,16 @@ public class GrassPropagation extends LivePropagationTask {
             Vector3i node = entry.getKey();
             long setTime = entry.getValue();
 
-            short thisBlock = GameScene.world.getBlockID(node.x, node.y, node.z);
-            Block aboveBlock = GameScene.world.getBlock(node.x, node.y - 1, node.z);
+            short thisBlock = Server.world.getBlockID(node.x, node.y, node.z);
+            Block aboveBlock = Server.world.getBlock(node.x, node.y - 1, node.z);
 
             if (System.currentTimeMillis() - setTime > UPDATE_INTERVAL / 2) { //If it's been 10 seconds since we last set the block
                 if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                    GameScene.setBlock(
+                    Server.setBlock(
                             getGrassBlockOfBiome(node.x, node.y, node.z),
                             node.x, node.y, node.z);
                 } else if (isGrass(thisBlock) && aboveBlock.solid) {
-                    GameScene.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
+                    Server.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
                 }
                 iterator.remove(); // remove the entry from the map
             }
@@ -64,7 +64,7 @@ public class GrassPropagation extends LivePropagationTask {
     }
 
     private short getGrassBlockOfBiome(int wx, int wy, int wz) {
-        int biome = GameScene.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        int biome = Server.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case ComplexTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;

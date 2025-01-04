@@ -1,12 +1,12 @@
 package com.xbuilders.content.vanilla.blockTools;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.client.visuals.ui.Theme;
-import com.xbuilders.engine.client.visuals.ui.gameScene.UI_GameMenu;
+import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;
 import com.xbuilders.content.vanilla.blockTools.tools.*;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.*;
@@ -19,7 +19,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public class BlockTools extends UI_GameMenu {
 
-    public BlockTools(NkContext ctx, MainWindow window, CursorRay cursorRay) {
+    public BlockTools(NkContext ctx, ClientWindow window, CursorRay cursorRay) {
         super(ctx, window);
         tools.add(new DefaultTool(this, cursorRay));
         tools.add(new PlaneTool(this, cursorRay));
@@ -48,7 +48,7 @@ public class BlockTools extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
-        if (GameScene.getGameMode() == GameMode.FREEPLAY) {
+        if (Server.getGameMode() == GameMode.FREEPLAY) {
             NkRect windowDims = NkRect.malloc(stack);
 
             Theme.resetEntireButtonStyle(ctx);
@@ -97,7 +97,7 @@ public class BlockTools extends UI_GameMenu {
      * @return true if the event was consumed
      */
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (GameScene.getGameMode() == GameMode.FREEPLAY) {
+        if (Server.getGameMode() == GameMode.FREEPLAY) {
             if (pallete.keyEvent(key, scancode, action, mods)) {
             } else {
                 if (action == GLFW.GLFW_RELEASE || action == GLFW.GLFW_PRESS) {
@@ -120,7 +120,7 @@ public class BlockTools extends UI_GameMenu {
     public void selectTool(int i) {
         tools.get(selectedTool).deactivate();
         selectedTool = i;
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Server.userPlayer.camera.cursorRay.disableBoundaryMode();
         tools.get(selectedTool).activate();
         autoRevert();
     }
@@ -128,7 +128,7 @@ public class BlockTools extends UI_GameMenu {
     public void selectDefaultTool() {
         tools.get(selectedTool).deactivate();
         selectedTool = DEFAULT_TOOL_INDEX;
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Server.userPlayer.camera.cursorRay.disableBoundaryMode();
         tools.get(selectedTool).activate();
     }
 
@@ -141,12 +141,12 @@ public class BlockTools extends UI_GameMenu {
     public boolean clickEvent(CursorRay ray, boolean isCreationMode) {
         autoRevert();
         Block block = BlockTool.getSelectedBlock();
-        if (GameScene.getGameMode() != GameMode.FREEPLAY || block == null) return false;
+        if (Server.getGameMode() != GameMode.FREEPLAY || block == null) return false;
         return getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 
     public boolean UIMouseButtonEvent(int button, int action, int mods) {
-        if (GameScene.getGameMode() != GameMode.FREEPLAY) return false;
+        if (Server.getGameMode() != GameMode.FREEPLAY) return false;
         return tools.get(selectedTool).mouseButtonEvent(button, action, mods);
     }
 

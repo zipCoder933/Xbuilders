@@ -6,8 +6,8 @@ package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class FishB extends FishAnimal {
 
-    public FishB(int id, long uniqueIdentifier, MainWindow window) {
+    public FishB(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window);
     }
 

@@ -9,9 +9,9 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -68,8 +68,8 @@ public abstract class Vehicle extends Entity {
         int x = Math.round(worldPosition.x);
         int y = Math.round(worldPosition.y);
         int z = Math.round(worldPosition.z);
-        short b1 = GameScene.world.getBlockID(x, y, z);
-        short b2 = GameScene.world.getBlockID(x, y + 1, z);
+        short b1 = Server.world.getBlockID(x, y, z);
+        short b2 = Server.world.getBlockID(x, y + 1, z);
 
         return b1 == (Blocks.BLOCK_MINECART_ROAD_BLOCK) || b1 == (Blocks.BLOCK_MINECART_ROAD_SLAB)
                 || b2 == (Blocks.BLOCK_MINECART_ROAD_BLOCK) || b2 == (Blocks.BLOCK_MINECART_ROAD_SLAB);
@@ -80,14 +80,14 @@ public abstract class Vehicle extends Entity {
 
     public boolean jumpWithSideCollision = false;
     public PositionHandler posHandler;
-    MainWindow window;
+    ClientWindow window;
     UserControlledPlayer player;
 
 
-    public Vehicle(int id, MainWindow window, long uniqueIdentifier) {
+    public Vehicle(int id, ClientWindow window, long uniqueIdentifier) {
         super(id, uniqueIdentifier);
         this.window = window;
-        this.player = GameScene.userPlayer;
+        this.player = Server.userPlayer;
     }
 
     /**
@@ -105,7 +105,7 @@ public abstract class Vehicle extends Entity {
     }
 
     public float getAngleToPlayer() {
-        UserControlledPlayer userControlledPlayer = GameScene.userPlayer;
+        UserControlledPlayer userControlledPlayer = Server.userPlayer;
         return MathUtils.getAngleOfPoints(worldPosition.x, worldPosition.z,
                 userControlledPlayer.worldPosition.x,
                 userControlledPlayer.worldPosition.z);
@@ -151,7 +151,7 @@ public abstract class Vehicle extends Entity {
     public abstract void vehicle_entityMoveEvent();
 
     public UserControlledPlayer getPlayer() {
-        return GameScene.userPlayer;
+        return Server.userPlayer;
     }
 
 
@@ -163,7 +163,7 @@ public abstract class Vehicle extends Entity {
 
     @Override
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
-        posHandler = new PositionHandler(window, GameScene.world, aabb, player.aabb);
+        posHandler = new PositionHandler(window, Server.world, aabb, player.aabb);
     }
 
 

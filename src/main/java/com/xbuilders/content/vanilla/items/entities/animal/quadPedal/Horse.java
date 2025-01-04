@@ -2,13 +2,13 @@ package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 
 import java.io.IOException;
 
 
 public class Horse extends QuadPedalLandAnimal {
-    public Horse(int id, long uniqueIdentifier, MainWindow window) {
+    public Horse(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window, true);
     }
 

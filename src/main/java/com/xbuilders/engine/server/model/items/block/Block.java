@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.items.block;
 
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
@@ -165,7 +165,7 @@ public class Block {
                                   Vector3i worldPos) {
         if (clickEvent != null) {
             WCCi wcc = new WCCi().set(worldPos);
-            Chunk chunk = wcc.getChunk(GameScene.world);
+            Chunk chunk = wcc.getChunk(Server.world);
 
             if (chunk == null || clickEvent == null) return false;
 

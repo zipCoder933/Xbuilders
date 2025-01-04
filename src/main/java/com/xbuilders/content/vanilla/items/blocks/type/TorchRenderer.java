@@ -4,11 +4,11 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
@@ -27,11 +27,11 @@ public class TorchRenderer extends BlockType {
 
     @Override
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return sideIsSolid(GameScene.world.getBlock(worldX, worldY + 1, worldZ)) ||
-                sideIsSolid(GameScene.world.getBlock(worldX + 1, worldY, worldZ)) ||
-                sideIsSolid(GameScene.world.getBlock(worldX - 1, worldY, worldZ)) ||
-                sideIsSolid(GameScene.world.getBlock(worldX, worldY, worldZ + 1)) ||
-                sideIsSolid(GameScene.world.getBlock(worldX, worldY, worldZ - 1));
+        return sideIsSolid(Server.world.getBlock(worldX, worldY + 1, worldZ)) ||
+                sideIsSolid(Server.world.getBlock(worldX + 1, worldY, worldZ)) ||
+                sideIsSolid(Server.world.getBlock(worldX - 1, worldY, worldZ)) ||
+                sideIsSolid(Server.world.getBlock(worldX, worldY, worldZ + 1)) ||
+                sideIsSolid(Server.world.getBlock(worldX, worldY, worldZ - 1));
     }
 
 

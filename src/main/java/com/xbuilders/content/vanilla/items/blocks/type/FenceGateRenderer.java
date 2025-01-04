@@ -4,12 +4,12 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
@@ -35,7 +35,7 @@ public class FenceGateRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.initialBlockData = (existingData, player) -> {
                 BlockData bd = new BlockData(2);
-                int rotation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
+                int rotation = Server.userPlayer.camera.simplifiedPanTilt.x;
                 bd.set(0, (byte) rotation);
                 bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
                 return bd;
@@ -44,12 +44,12 @@ public class FenceGateRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
             b.setBlockEvent(false, (x, y, z) -> {
-                BlockData bd = GameScene.world.getBlockData(x, y, z);
+                BlockData bd = Server.world.getBlockData(x, y, z);
                 // Get blocks at neighboring block locaitons
-                Block block = GameScene.world.getBlock(x - 1, y, z);
-                Block block2 = GameScene.world.getBlock(x + 1, y, z);
-                Block block3 = GameScene.world.getBlock(x, y, z - 1);
-                Block block4 = GameScene.world.getBlock(x, y, z + 1);
+                Block block = Server.world.getBlock(x - 1, y, z);
+                Block block2 = Server.world.getBlock(x + 1, y, z);
+                Block block3 = Server.world.getBlock(x, y, z - 1);
+                Block block4 = Server.world.getBlock(x, y, z + 1);
                 if (block.renderType == RenderType.FENCE && block2.renderType == RenderType.FENCE) {
                     bd.set(0, (byte) 0);
                 } else if (block3.renderType == RenderType.FENCE && block4.renderType == RenderType.FENCE) {
@@ -57,7 +57,7 @@ public class FenceGateRenderer extends BlockType {
                 }
             });
             b.clickEvent(false, (x, y, z) -> {
-                BlockData bd = GameScene.world.getBlockData(x, y, z);
+                BlockData bd = Server.world.getBlockData(x, y, z);
                 bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
             });
         };

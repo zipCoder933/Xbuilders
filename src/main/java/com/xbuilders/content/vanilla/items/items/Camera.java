@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.items;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.items.item.Item;
 
 public class Camera extends Item {
@@ -9,7 +9,7 @@ public class Camera extends Item {
         super("xbuilders:camera", "Camera");
         setIcon("camera.png");
         this.createClickEvent = (ray,stack) -> {
-            MainWindow.takeScreenshot();
+            ClientWindow.takeScreenshot();
             return true;
         };
     }

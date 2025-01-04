@@ -4,7 +4,7 @@
 //
 //package com.xbuilders.tests.rectangle;
 //
-//import com.xbuilders.engine.client.visuals.ui.RectOverlay;
+//import com.xbuilders.engine.client.visuals.RectOverlay;
 //import com.xbuilders.window.Window;
 //import com.xbuilders.window.utils.texture.TextureUtils;
 //import org.lwjgl.opengl.GL11;

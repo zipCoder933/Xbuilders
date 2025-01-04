@@ -4,7 +4,7 @@ import com.xbuilders.engine.server.model.items.block.BlockArrayTexture;
 
 import java.util.Objects;
 
-import static com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet.MAX_BLOCK_ANIMATION_LENGTH;
+import static com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet.MAX_BLOCK_ANIMATION_LENGTH;
 
 public class BlockTexture {
 

@@ -4,11 +4,11 @@
  */
 package com.xbuilders.engine.server.model.items.entity;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.client.player.camera.FrustumCullingTester;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
 
@@ -49,7 +49,7 @@ public class ChunkEntitySet {
             entity.loadBytes = bytes;
 
             //Add to world
-            GameScene.world.entities.put(entity.getUniqueIdentifier(), entity);
+            Server.world.entities.put(entity.getUniqueIdentifier(), entity);
             list.add(entity);
             return entity;
         }
@@ -85,16 +85,16 @@ public class ChunkEntitySet {
             Entity e = list.get(i);
             if (e == null || e.isDestroyMode()) {
                 System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
-                GameScene.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
+                Server.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
-                GameScene.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
+                Server.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_initializeEntity();
                 }
                 e.distToPlayer = e.worldPosition.distance(playerPos);
 
-                if (e.distToPlayer < MainWindow.settings.video_entityDistance.value) {
+                if (e.distToPlayer < ClientWindow.settings.video_entityDistance.value) {
                     e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);//Sphere boundary checks are faster than AABB
                     e.hidden_drawEntity();
                 }
@@ -105,7 +105,7 @@ public class ChunkEntitySet {
                 boolean hasMoved = e.updatePosition();
                 e.multiplayerProps.checkAndSendState();
                 if (!e.chunkPosition.chunk.equals(e.chunk.position)) { //Switch chunks
-                    Chunk toChunk = GameScene.world.chunks.get(e.chunkPosition.chunk);
+                    Chunk toChunk = Server.world.chunks.get(e.chunkPosition.chunk);
                     if (toChunk != null && toChunk.gen_Complete()) {
                         //If the chunk exists, AND it's generated, add the entity to the new chunk
 //                        System.out.println("SWITCHING FROM " + MiscUtils.printVector(e.chunkPosition.chunk) + " TO " + toChunk);

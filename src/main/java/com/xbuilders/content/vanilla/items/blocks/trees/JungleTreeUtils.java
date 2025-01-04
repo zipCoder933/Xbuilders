@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.trees;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.world.Terrain;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
@@ -84,7 +84,7 @@ public class JungleTreeUtils {
         VineBranchPair vb = setVinesAndBranches(rand, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-            GameScene.setBlock(Blocks.BLOCK_JUNGLE_LOG, x, y - k, z);
+            Server.setBlock(Blocks.BLOCK_JUNGLE_LOG, x, y - k, z);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {

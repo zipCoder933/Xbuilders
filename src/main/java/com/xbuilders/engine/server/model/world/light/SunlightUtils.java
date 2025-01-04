@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.world.light;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -94,7 +94,7 @@ public class SunlightUtils {
                                                                        AtomicInteger brightestSunlight) {
 
 //        System.out.println("\tChecking: " + coords.getChunk(GameScene.world) + " " + coords.toString());
-        Chunk coordsChunk = coords.getChunk(GameScene.world);
+        Chunk coordsChunk = coords.getChunk(Server.world);
         if (coordsChunk != null) {
             int lightVal = coordsChunk.data.getSun(coords.chunkVoxel.x, coords.chunkVoxel.y, coords.chunkVoxel.z);
 //            System.out.println("\t\tNeighboring: " + MiscUtils.printVector(coordsChunk.position) + "): " + lightVal + " brightest: " + brightestSunlight.get());
@@ -108,7 +108,7 @@ public class SunlightUtils {
     }
 
     public static void println(String s) {
-        MainWindow.printlnDev(s);
+        ClientWindow.printlnDev(s);
     }
 
     public static long updateFromQueue(
@@ -190,7 +190,7 @@ public class SunlightUtils {
         for (int wx = (int) queueBox.min.x - 1; wx <= queueBox.max.x + 1; wx++) {
             for (int wz = (int) queueBox.min.z - 1; wz <= queueBox.max.z + 1; wz++) {
                 WCCi wcc = new WCCi().set(wx, (int) (queueBox.min.y - 1), wz);
-                Chunk chunk = wcc.getChunk(GameScene.world);
+                Chunk chunk = wcc.getChunk(Server.world);
                 if (chunk == null) continue;
                 byte sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 if (sun > 1) {
@@ -207,7 +207,7 @@ public class SunlightUtils {
             for (int wx = (int) queueBox.min.x - 1; wx <= queueBox.max.x + 1; wx++) {
                 for (int wz = (int) queueBox.min.z - 1; wz <= queueBox.max.z + 1; wz++) {
                     WCCi wcc = new WCCi().set(wx, wy, wz);
-                    Chunk chunk = wcc.getChunk(GameScene.world);
+                    Chunk chunk = wcc.getChunk(Server.world);
                     if (chunk == null) continue;
                     affectedChunks.add(chunk);
 
@@ -281,7 +281,7 @@ public class SunlightUtils {
             thisLevel = chunk.data.getSun(x, y, z);
         } else {
             WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = GameScene.world.getChunk(newCoords.chunk);
+            chunk = Server.world.getChunk(newCoords.chunk);
             x = newCoords.chunkVoxel.x;
             y = newCoords.chunkVoxel.y;
             z = newCoords.chunkVoxel.z;
@@ -340,7 +340,7 @@ public class SunlightUtils {
             final Vector3i neighboringChunk = new Vector3i();
             WCCi.getNeighboringChunk(neighboringChunk, chunk.position, x, y, z);
 
-            chunk = GameScene.world.getChunk(neighboringChunk);
+            chunk = Server.world.getChunk(neighboringChunk);
             if (chunk != null) {
                 x = MathUtils.positiveMod(x, Chunk.WIDTH);
                 y = MathUtils.positiveMod(y, Chunk.WIDTH);

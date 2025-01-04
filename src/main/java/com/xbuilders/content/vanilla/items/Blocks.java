@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.items;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.builtinMechanics.gravityBlock.GravityBlock;
-import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.ItemUtils;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -36,7 +36,7 @@ public class Blocks {
         blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN_BLOCK));
         blockList.add(new BlockFlag(Blocks.BLOCK_FLAG_BLOCK));
 
-        if (MainWindow.devMode) {//Make ids for dev mode
+        if (ClientWindow.devMode) {//Make ids for dev mode
             try {
                 ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.resource("\\items\\blocks\\java"));
             } catch (IOException e) {
@@ -48,10 +48,10 @@ public class Blocks {
     }
 
 
-    public static void editBlocks(MainWindow window) {
+    public static void editBlocks(ClientWindow window) {
         //Block UIs
-        MainWindow.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
-        MainWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
+        ClientWindow.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
+        ClientWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
 
 
         BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
@@ -121,14 +121,14 @@ public class Blocks {
 
     private static void randomTickEvents() {
         Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
-            short thisBlock = GameScene.world.getBlockID(x, y, z);
-            Block aboveBlock = GameScene.world.getBlock(x, y - 1, z);
+            short thisBlock = Server.world.getBlockID(x, y, z);
+            Block aboveBlock = Server.world.getBlock(x, y - 1, z);
 
             if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                GameScene.setBlock(PlantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
+                Server.setBlock(PlantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
             } else if (PlantUtils.isGrass(thisBlock) && aboveBlock.solid) {
-                GameScene.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+                Server.setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
             }
             return false;
@@ -179,14 +179,14 @@ public class Blocks {
         Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
 
         Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
-            if (!GameScene.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+            if (!Server.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
                 //Decay other blocks
-                if (!GameScene.world.getBlock(x, y + 1, z).solid ||
-                        GameScene.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
-                    GameScene.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
+                if (!Server.world.getBlock(x, y + 1, z).solid ||
+                        Server.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                    Server.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
                 }
                 //Decay this block
-                GameScene.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                Server.setBlock(Blocks.BLOCK_AIR, x, y, z);
                 return true;
             } else {
                 boolean foundFlammable = false;
@@ -220,8 +220,8 @@ public class Blocks {
     }
 
     private static boolean spreadIfFlammable(int x, int y, int z) {
-        if (GameScene.world.getBlock(x, y, z).properties.containsKey("flammable")) {
-            GameScene.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+        if (Server.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+            Server.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             return true;
         }
         return false;

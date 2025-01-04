@@ -3,10 +3,10 @@ package com.xbuilders.content.vanilla.items.entities.animal.quadPedal;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.players.PositionLock;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -28,7 +28,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     int textureIndex;
 
 
-    public QuadPedalLandAnimal(int id, long uniqueIdentifier, MainWindow window, boolean rideable) {
+    public QuadPedalLandAnimal(int id, long uniqueIdentifier, ClientWindow window, boolean rideable) {
         super(id, uniqueIdentifier, window);
         aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
         this.rideable = rideable;
@@ -130,15 +130,15 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     public void animal_move() {
         if (playerIsRidingThis()) {
             float rotSpeed = 0.5f;
-            if (GameScene.userPlayer.forwardKeyPressed()) {
+            if (Server.userPlayer.forwardKeyPressed()) {
                 goForward(0.2f, true);
                 rotSpeed = 3;
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
             } else if (allowVoluntaryMovement()) super.animal_move();
 
-            if (GameScene.userPlayer.leftKeyPressed()) {
+            if (Server.userPlayer.leftKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() - rotSpeed);
-            } else if (GameScene.userPlayer.rightKeyPressed()) {
+            } else if (Server.userPlayer.rightKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() + rotSpeed);
             }
         } else if (allowVoluntaryMovement() && inFrustum) super.animal_move();
@@ -176,7 +176,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
         if (!tamed) return false;
 
         if (rideable) {
-            GameScene.userPlayer.positionLock = lock;
+            Server.userPlayer.positionLock = lock;
         } else {
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);

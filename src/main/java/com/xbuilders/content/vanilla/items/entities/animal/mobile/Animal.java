@@ -11,14 +11,14 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.Blocks;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.MainWindow;
 
 import com.xbuilders.content.vanilla.items.Items;
 import org.joml.Vector2f;
@@ -31,7 +31,7 @@ public abstract class Animal extends Entity {
 
     public Limb[] limbs;
     public final PositionHandler pos;
-    public final MainWindow window;
+    public final ClientWindow window;
     public final Player player;
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
@@ -69,7 +69,7 @@ public abstract class Animal extends Entity {
 
 
     public boolean playerHasAnimalFeed() {
-        ItemStack heldItem = GameScene.userPlayer.getSelectedItem();
+        ItemStack heldItem = Server.userPlayer.getSelectedItem();
         return heldItem != null && heldItem.item.equals(Items.TOOL_ANIMAL_FEED);
     }
 
@@ -80,7 +80,7 @@ public abstract class Animal extends Entity {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            if (Server.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
             return false;
         };
         entitySupplier.despawnCondition = (e) -> {
@@ -93,12 +93,12 @@ public abstract class Animal extends Entity {
         entitySupplier.isAutonomous = true;
     }
 
-    public Animal(int id, long uniqueId, MainWindow window) {
+    public Animal(int id, long uniqueId, ClientWindow window) {
         super(id, uniqueId);
         this.window = window;
         random = new AnimalRandom();
-        this.player = GameScene.userPlayer;
-        this.pos = new PositionHandler(window, GameScene.world, aabb, player.aabb);
+        this.player = Server.userPlayer;
+        this.pos = new PositionHandler(window, Server.world, aabb, player.aabb);
         pos.setGravityEnabled(true);
         random.setSeed((int) getUniqueIdentifier());
     }
@@ -161,7 +161,7 @@ public abstract class Animal extends Entity {
     }
 
     public float getYDirectionToPlayer() {
-        return getYDirectionToPlayer(GameScene.userPlayer);
+        return getYDirectionToPlayer(Server.userPlayer);
     }
 
 

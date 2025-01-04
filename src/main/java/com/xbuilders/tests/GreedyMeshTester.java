@@ -7,10 +7,10 @@
 //import com.xbuilders.engine.game.model.items.BlockList;
 //import com.xbuilders.engine.game.model.items.block.Block;
 //import com.xbuilders.engine.game.model.items.block.BlockArrayTexture;
-//import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.BufferSet;
-//import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.GreedyMesher;
-//import com.xbuilders.engine.client.visuals.rendering.chunk.withBakedLight.GreedyMesherWithLight;
-//import com.xbuilders.engine.client.visuals.rendering.old.GreedyMesherNublada;
+//import com.xbuilders.engine.client.visuals.server.rendering.chunk.meshers.bufferSet.BufferSet;
+//import com.xbuilders.engine.client.visuals.server.rendering.chunk.meshers.GreedyMesher;
+//import com.xbuilders.engine.client.visuals.server.rendering.chunk.withBakedLight.GreedyMesherWithLight;
+//import com.xbuilders.engine.client.visuals.server.rendering.old.GreedyMesherNublada;
 //import com.xbuilders.engine.utils.MiscUtils;
 //import com.xbuilders.engine.utils.ResourceUtils;
 //import com.xbuilders.engine.utils.math.PerlinNoise;

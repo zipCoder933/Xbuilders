@@ -4,7 +4,7 @@
 package com.xbuilders.engine.server.model.world.data;
 
 import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.server.model.world.Terrain;
 import com.xbuilders.engine.server.model.world.WorldsHandler;
@@ -137,7 +137,7 @@ public class WorldData {
         if (!getDirectory().exists()) {
             getDirectory().mkdirs();
         }
-        data.timeOfDay = GameScene.background.getTimeOfDay();
+        data.timeOfDay = Server.background.getTimeOfDay();
         data.lastSaved = System.currentTimeMillis();
         String json = gson.toJson(data);
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);

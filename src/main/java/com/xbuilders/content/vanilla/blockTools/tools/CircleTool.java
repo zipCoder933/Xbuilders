@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -78,7 +78,7 @@ public class CircleTool extends BlockTool {
 
     @Override
     public void activate() {
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Server.userPlayer.camera.cursorRay.disableBoundaryMode();
     }
 
 
@@ -123,7 +123,7 @@ public class CircleTool extends BlockTool {
 
     private void setBlock(Vector3i origin, int x, int y, int z, Block block, float radius) {
         if (!hollow || origin.distance(x, y, z) > radius - wallThickness.getValueAsNumber()) {
-            GameScene.setBlock(block.id, x, y, z);
+            Server.setBlock(block.id, x, y, z);
         }
     }
 
@@ -131,7 +131,7 @@ public class CircleTool extends BlockTool {
     private void propagate(Vector3i origin, int x, int y, int z, Block block,
                            ArrayList<Vector3i> queue, float radius, HashSet<Vector3i> visited) {
         if (origin.distance(x, y, z) > radius) return;
-        Block b = GameScene.world.getBlock(x, y, z);
+        Block b = Server.world.getBlock(x, y, z);
         if ((placeOnHit || !b.solid)
                 && !visited.contains(new Vector3i(x, y, z))) {
             visited.add(new Vector3i(x, y, z));

@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.client.visuals.ui.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3i;
@@ -24,7 +24,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
             return new BlockData(1);
         };
         block.clickEvent(false, (x, y, z) -> {
-            BlockData data = GameScene.world.getBlockData(x, y, z);
+            BlockData data = Server.world.getBlockData(x, y, z);
             if (data == null) data = new BlockData(new byte[0]);
             this.data = data;
             target.set(x, y, z);
@@ -42,7 +42,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
         //We constantly check if the block data has changed
-        BlockData data = GameScene.world.getBlockData(target.x, target.y, target.z);
+        BlockData data = Server.world.getBlockData(target.x, target.y, target.z);
         if (data != null && !data.equals(this.data)) {
             //Update data
             readContainerData(data.toByteArray());
@@ -58,8 +58,8 @@ public abstract class ContainerUI extends UI_ItemWindow {
     public void writeDataToWorld() {
 //        System.out.println("Writing data to world " + System.currentTimeMillis());
         data = new BlockData(writeContainerData());
-        //using gameScene to set block data ensures it is set in the world and the client
-        GameScene.setBlockData(data, target.x, target.y, target.z);
+        //using server to set block data ensures it is set in the world and the client
+        Server.setBlockData(data, target.x, target.y, target.z);
     }
 
     public void onCloseEvent() {

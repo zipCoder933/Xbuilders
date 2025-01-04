@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.items;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.builtinMechanics.liquid.LiquidPropagationTask;
-import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.ItemUtils;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -125,7 +125,7 @@ public class Items {
     }
 
 
-    public static void editItems(MainWindow window) {
+    public static void editItems(ClientWindow window) {
         Item item = Registrys.getItem("xbuilders:bread");
         if (item != null) {
             item.hungerSaturation = 1;
@@ -175,12 +175,12 @@ public class Items {
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
 
-        Block hitPos = GameScene.world.getBlock(x, y, z);
+        Block hitPos = Server.world.getBlock(x, y, z);
         System.out.println("Hit: " + hitPos);
         if (hitPos.isLiquid()) {
-            int flow = LiquidPropagationTask.getFlow(GameScene.world.getBlockData(x, y, z), 0);
+            int flow = LiquidPropagationTask.getFlow(Server.world.getBlockData(x, y, z), 0);
             if (flow >= hitPos.liquidMaxFlow + 1) {
-                GameScene.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
+                Server.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
 
                 if (hitPos.id == Blocks.BLOCK_WATER) {
                     stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:water_bucket"));
@@ -195,13 +195,13 @@ public class Items {
         int x = ray.getHitPos().x;
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
-        if (!GameScene.world.getBlock(x, y, z).getRenderType().replaceOnSet) {
+        if (!Server.world.getBlock(x, y, z).getRenderType().replaceOnSet) {
             x = ray.getHitPosPlusNormal().x;
             y = ray.getHitPosPlusNormal().y;
             z = ray.getHitPosPlusNormal().z;
         }
 
-        GameScene.setBlock(stack.item.getBlock().id, x, y, z);
+        Server.setBlock(stack.item.getBlock().id, x, y, z);
         stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:bucket"));
     }
 

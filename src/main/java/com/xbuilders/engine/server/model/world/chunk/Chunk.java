@@ -1,14 +1,14 @@
 package com.xbuilders.engine.server.model.world.chunk;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
-import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.ChunkMeshBundle;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.model.world.Terrain;
@@ -157,7 +157,7 @@ public class Chunk {
             }
 
             //Load all entities to the world
-            GameScene.world.entities.addAllEntitiesFromChunk(this);
+            Server.world.entities.addAllEntitiesFromChunk(this);
 
             // Loading a chunk includes loading sunlight
             setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED); //TODO: The world updates sunlight in pillars, therefore setting light to sun_loaded makes no difference because the pillar doesnt know how if a chunk doesnt have sunlight
@@ -180,8 +180,8 @@ public class Chunk {
 
     public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
         //TODO: There is a bug where the chunk is not updating the mesh
-        if (updateAllNeighbors) MainWindow.printlnDev("Reg mesh (all neighbors)");
-        else MainWindow.printlnDev("Reg mesh (" + x + ", " + y + ", " + z+")");
+        if (updateAllNeighbors) ClientWindow.printlnDev("Reg mesh (all neighbors)");
+        else ClientWindow.printlnDev("Reg mesh (" + x + ", " + y + ", " + z+")");
 
 
         if (!neghbors.allFacingNeghborsLoaded) {
@@ -273,7 +273,7 @@ public class Chunk {
                     World.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
 
-                        if (GameScene.world.data == null) return null; // Quick fix. TODO: remove this line
+                        if (Server.world.data == null) return null; // Quick fix. TODO: remove this line
 
                         meshes.compute();
                         setGenerationStatus(GEN_COMPLETE);
@@ -401,9 +401,9 @@ public class Chunk {
      */
     public boolean tick(boolean spawnEntities) {
         boolean updatedChunkMesh = false;
-        float tickLikelyhood = (MainWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
+        float tickLikelyhood = (ClientWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
 
-        float spawnLikelyhood = (MainWindow.devMode ? DEV_RANDOM_SPAWN_LIKELIHOOD : RANDOM_SPAWN_LIKELIHOOD);
+        float spawnLikelyhood = (ClientWindow.devMode ? DEV_RANDOM_SPAWN_LIKELIHOOD : RANDOM_SPAWN_LIKELIHOOD);
         float despawnLikelyhood = spawnLikelyhood * 4f;
 
         int wx = position.x * WIDTH;
@@ -446,7 +446,7 @@ public class Chunk {
                             && randomTick_random.nextFloat() <= spawnLikelyhood &&
                             entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
                         Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
-                        Entity e = GameScene.placeEntity(entityToSpawn, pos, null);
+                        Entity e = Server.placeEntity(entityToSpawn, pos, null);
                         e.spawnedNaturally = true;
                     }
 

@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.model.items;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -22,7 +22,7 @@ public class ItemUtils {
             for (File file : jsonDirectory.listFiles()) {
 
                 if (!file.getName().endsWith(".json")) continue;
-                if (!MainWindow.devMode && file.getName().contains("devmode")) continue;
+                if (!ClientWindow.devMode && file.getName().contains("devmode")) continue;
 
                 String jsonString = Files.readString(file.toPath());
                 Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
@@ -61,7 +61,7 @@ public class ItemUtils {
         try {
             for (File file : jsonDirectory.listFiles()) {
                 if (!file.getName().endsWith(".json")) continue;
-                if (!MainWindow.devMode && file.getName().contains("devmode")) continue;
+                if (!ClientWindow.devMode && file.getName().contains("devmode")) continue;
                 System.out.println("\t" + file.getName());
                 String jsonString = Files.readString(file.toPath());
                 Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);

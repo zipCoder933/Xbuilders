@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.items.entities.animal.fish;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public abstract class FishAnimal<ActionEnum> extends Animal {
 
-    public FishAnimal(int id, long uniqueIdentifier, MainWindow window) {
+    public FishAnimal(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window);
         pos.aabb.setOffsetAndSize(.5f, .5f, .5f, false);
         lastInWater = System.currentTimeMillis();
@@ -35,7 +35,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (GameScene.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            if (Server.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
             return false;
         };
         entitySupplier.isAutonomous = true;
@@ -70,7 +70,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
     long actionDuration;
 
     public boolean inWater() {
-        inWater = GameScene.world.getBlock(
+        inWater = Server.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z)).isLiquid();
@@ -80,7 +80,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
 
     @Override
     public void animal_move() {
-        if (MainWindow.frameCount % 5 == 0) {
+        if (ClientWindow.frameCount % 5 == 0) {
             inWater = inWater();
         }
 
@@ -97,7 +97,7 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
             if (isPendingDestruction()) {
                 setRotationYDeg(getRotationYDeg() + rotationVelocity / 3);
             } else if (distToPlayer < 10 && playerHasAnimalFeed()) {
-                float playerY = GameScene.userPlayer.worldPosition.y;
+                float playerY = Server.userPlayer.worldPosition.y;
                 float playerPos = playerY + random.noise(1, -2, 2);
                 worldPosition.y = (float) MathUtils.curve(worldPosition.y, playerPos, 0.05f);
                 facePlayer();
@@ -147,14 +147,14 @@ public abstract class FishAnimal<ActionEnum> extends Animal {
 
 
     public boolean playerIsInSameMediumAsFish() {
-        return inWater == GameScene.userPlayer.getBlockAtCameraPos().isLiquid();
+        return inWater == Server.userPlayer.getBlockAtCameraPos().isLiquid();
     }
 
     @Override
     public final void animal_drawBody() {
         if (inFrustum) {
             if (inWater) { //Wiggle if we are in water
-                float waggle = (float) (Math.sin(MainWindow.frameCount / 2) * MathUtils.mapAndClamp(forwardVelocity, 0, maxSpeed, 0, 0.25f));
+                float waggle = (float) (Math.sin(ClientWindow.frameCount / 2) * MathUtils.mapAndClamp(forwardVelocity, 0, maxSpeed, 0, 0.25f));
                 modelMatrix.rotateY(waggle).translate(waggle * -0.1f, 0, 0);
             }
             modelMatrix.updateAndSendToShader(shader.getID(), shader.uniform_modelMatrix);

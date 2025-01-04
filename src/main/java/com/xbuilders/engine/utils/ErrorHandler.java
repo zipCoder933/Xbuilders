@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.utils;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,14 +51,14 @@ public class ErrorHandler {
 
     public static void report(String title, String details) {
         if (title == null || title.isBlank()) title = "Error";
-        MainWindow.popupMessage.message(title, details);
+        ClientWindow.popupMessage.message(title, details);
     }
 
     public static void report(String userMsg, Throwable ex) {
         String errMessage = (ex.getMessage() != null ? " \n(" + ex.getMessage() + ")" : "");
         if (userMsg == null || userMsg.isBlank()) userMsg = "Runtime Error!";
 
-        MainWindow.popupMessage.message(userMsg, errMessage + "\n(Content saved to clipboard)");
+        ClientWindow.popupMessage.message(userMsg, errMessage + "\n(Content saved to clipboard)");
         log(ex, userMsg);
     }
 

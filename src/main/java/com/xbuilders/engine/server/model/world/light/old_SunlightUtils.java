@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.model.world.light;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -80,7 +80,7 @@ public class old_SunlightUtils {
                                                                        AtomicInteger brightestSunlight) {
 
 //        System.out.println("\tChecking: " + coords.getChunk(GameScene.world) + " " + coords.toString());
-        Chunk coordsChunk = coords.getChunk(GameScene.world);
+        Chunk coordsChunk = coords.getChunk(Server.world);
         if (coordsChunk != null) {
             int lightVal = coordsChunk.data.getSun(coords.chunkVoxel.x, coords.chunkVoxel.y, coords.chunkVoxel.z);
 //            System.out.println("\t\tNeighboring: " + MiscUtils.printVector(coordsChunk.position) + "): " + lightVal + " brightest: " + brightestSunlight.get());
@@ -140,7 +140,7 @@ public class old_SunlightUtils {
                 block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
             } else {
                 WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
-                chunk = GameScene.world.getChunk(newCoords.chunk);
+                chunk = Server.world.getChunk(newCoords.chunk);
                 x = newCoords.chunkVoxel.x;
                 y = newCoords.chunkVoxel.y;
                 z = newCoords.chunkVoxel.z;
@@ -203,7 +203,7 @@ public class old_SunlightUtils {
             thisLevel = chunk.data.getSun(x, y, z);
         } else {
             WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = GameScene.world.getChunk(newCoords.chunk);
+            chunk = Server.world.getChunk(newCoords.chunk);
             x = newCoords.chunkVoxel.x;
             y = newCoords.chunkVoxel.y;
             z = newCoords.chunkVoxel.z;
@@ -248,7 +248,7 @@ public class old_SunlightUtils {
             final Vector3i neighboringChunk = new Vector3i();
             WCCi.getNeighboringChunk(neighboringChunk, chunk.position, x, y, z);
 
-            chunk = GameScene.world.getChunk(neighboringChunk);
+            chunk = Server.world.getChunk(neighboringChunk);
             if (chunk != null) {
                 x = MathUtils.positiveMod(x, Chunk.WIDTH);
                 y = MathUtils.positiveMod(y, Chunk.WIDTH);

@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.model.world;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.model.items.entity.Entity;
@@ -11,8 +11,8 @@ import com.xbuilders.engine.server.multiplayer.Local_MultiplayerPendingEntityCha
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.server.model.players.pipeline.BlockHistory;
-import com.xbuilders.engine.client.visuals.rendering.chunk.ChunkShader;
-import com.xbuilders.engine.client.visuals.rendering.chunk.mesh.CompactOcclusionMesh;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.AABB;
@@ -27,10 +27,10 @@ import com.xbuilders.engine.server.model.world.chunk.FutureChunk;
 import java.io.IOException;
 
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 
-import static com.xbuilders.engine.server.model.GameScene.userPlayer;
-import static com.xbuilders.engine.server.model.GameScene.world;
+import static com.xbuilders.engine.server.model.Server.userPlayer;
+import static com.xbuilders.engine.server.model.Server.world;
 
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -162,7 +162,7 @@ public class World {
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
     //For testing
-    public static FrameTester frameTester = MainWindow.frameTester;
+    public static FrameTester frameTester = ClientWindow.frameTester;
 
     /**
      * This is a record of all the pending changes that need to be applied.
@@ -245,8 +245,8 @@ public class World {
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
-        setViewDistance(MainWindow.settings, MainWindow.settings.internal_viewDistance.value);
-        sortByDistance = new SortByDistanceToPlayer(GameScene.userPlayer.worldPosition);
+        setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
+        sortByDistance = new SortByDistanceToPlayer(Server.userPlayer.worldPosition);
         entities.clear();
     }
 
@@ -290,7 +290,7 @@ public class World {
 
     public void startGameEvent(WorldData info){
         players.clear();
-        players.add(GameScene.userPlayer);
+        players.add(Server.userPlayer);
     }
 
     public boolean startGame(ProgressData prog, WorldData info, Vector3f playerPosition) {
@@ -307,7 +307,7 @@ public class World {
 
         entities.clear();
         //Get the terrain from worldInfo
-        this.terrain = MainWindow.game.getTerrainFromInfo(info);
+        this.terrain = ClientWindow.game.getTerrainFromInfo(info);
         if (terrain == null) {
             ErrorHandler.report("Error", "Terrain " + info.getTerrain() + " not found");
             return false;
@@ -372,7 +372,7 @@ public class World {
                 Vector3i worldPos = entry2.getKey();
                 BlockHistory blockHist = entry2.getValue();
                 if (blockHist.previousBlock == null) { //Get the previous block if it doesn't exist
-                    blockHist.previousBlock = GameScene.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                    blockHist.previousBlock = Server.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
                 }
                 int blockX = positiveMod(worldPos.x, Chunk.WIDTH);
                 int blockY = positiveMod(worldPos.y, Chunk.WIDTH);
@@ -599,7 +599,7 @@ public class World {
                 }
                 chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
                 // frameTester.endProcess("UCTRL: sorting and frustum check");
-                chunk.prepare(terrain, MainWindow.frameCount, false);
+                chunk.prepare(terrain, ClientWindow.frameCount, false);
             }
         });
         chunksToUnload.forEach(chunk -> {
@@ -622,7 +622,7 @@ public class World {
             lastPlayerPosition.set(playerPosition);
         }
 
-        if (MainWindow.frameCount % 10 == 0) {
+        if (ClientWindow.frameCount % 10 == 0) {
             frameTester.startProcess();
             world.fillChunksAroundPlayer(playerPosition, false);
             frameTester.endProcess("Fill chunks around player");
@@ -720,9 +720,9 @@ public class World {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 initShaderUniforms(chunk);
                 chunk.meshes.opaqueMesh.getQueryResult();
-                chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
+                chunk.meshes.opaqueMesh.drawVisible(Server.drawWireframe);
 
-                if (GameScene.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
+                if (Server.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
 
             }
         });
@@ -750,7 +750,7 @@ public class World {
             if (!chunk.meshes.transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
                 if (chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty()) {
                     initShaderUniforms(chunk);
-                    chunk.meshes.transMesh.draw(GameScene.drawWireframe);
+                    chunk.meshes.transMesh.draw(Server.drawWireframe);
                 }
             }
         });
@@ -779,7 +779,7 @@ public class World {
     public Entity placeEntity(EntitySupplier entity, Vector3i w, byte[] data) {
         WCCi wcc = new WCCi();
         wcc.set(w);
-        Chunk chunk = GameScene.world.chunks.get(wcc.chunk);
+        Chunk chunk = Server.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             Entity e = chunk.entities.placeNew(w, entity, data);
             e.sendMultiplayer = false;
@@ -904,7 +904,7 @@ public class World {
 
     public void save() {
         Vector3f playerPos = userPlayer.worldPosition;
-        MainWindow.printlnDev("Saving world...");
+        ClientWindow.printlnDev("Saving world...");
         // Save all modified chunks
         Iterator<Chunk> iterator = chunks.values().iterator();
         while (iterator.hasNext()) {

@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.GameSceneEvents;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -15,7 +15,7 @@ import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.server.model.players.PositionLock;
 import com.xbuilders.engine.client.player.camera.Camera;
-import com.xbuilders.engine.client.visuals.ui.gameScene.GameUI;
+import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -33,13 +33,13 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.client.visuals.ui.gameScene.GameUI.printKeyConsumption;
+import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 
 public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     public Camera camera;
-    private final MainWindow window;
+    private final ClientWindow window;
     final Vector4f lastOrientation = new Vector4f();
     public boolean runningMode;
     Matrix4f projection;
@@ -92,7 +92,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
-        if (GameScene.getGameMode() == GameMode.ADVENTURE) {
+        if (Server.getGameMode() == GameMode.ADVENTURE) {
 
             if (status_hunger > 0) {
                 if (runningMode) status_hunger -= 0.0015f;
@@ -133,9 +133,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public void die() {
         dismount();
         dieMode = true;
-        MainWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
+        ClientWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             if (!inventory.isEmpty()) {
-                GameScene.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+                Server.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
@@ -150,12 +150,12 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         System.out.println("Teleporting safely to " + target.x + ", " + target.y + ", " + target.z);
         worldPosition.set(target);
         Vector3f pos = new Vector3f();
-        while (GameScene.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
+        while (Server.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
             aabb.updateBox();
             System.out.println("Checking for ground: " + worldPosition.y);
             getPlayerBoxBottom(pos);
-            if (GameScene.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z).solid ||
-                    GameScene.world.getBlock((int) pos.x, (int) pos.y + 1, (int) pos.z).solid) {
+            if (Server.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z).solid ||
+                    Server.world.getBlock((int) pos.x, (int) pos.y + 1, (int) pos.z).solid) {
                 System.out.println("Found ground at " + worldPosition.y);
                 break;
             } else {
@@ -167,14 +167,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         System.out.println("The players head is " + getBlockAtPlayerHead());
         if (!isSafeHeadPos(getBlockAtPlayerHead())) {
             System.out.println("Moving up");
-            while (GameScene.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
+            while (Server.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
                 aabb.updateBox();
                 System.out.println("Checking for air: " + worldPosition.y);
                 pos.set(
                         (int) Math.floor(worldPosition.x),
                         (int) Math.floor(worldPosition.y),
                         (int) Math.floor(worldPosition.z));
-                if (isSafeHeadPos(GameScene.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z))) {
+                if (isSafeHeadPos(Server.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z))) {
                     System.out.println("Found air at " + worldPosition.y);
                     break;
                 } else {
@@ -194,24 +194,24 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private Vector3f status_spawnPosition = new Vector3f();
 
     public void setSpawnPoint(float x, float y, float z) {
-        GameScene.alert("Spawn set to " + x + ", " + y + ", " + z);
+        Server.alert("Spawn set to " + x + ", " + y + ", " + z);
         status_spawnPosition.set(x, y, z);
     }
 
     public void getPlayerBoxTop(Vector3f playerBoxBottom) {
         aabb.updateBox();
         playerBoxBottom.set(
-                (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
-                GameScene.userPlayer.aabb.box.min.y,
-                (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2);
+                (Server.userPlayer.aabb.box.min.x + Server.userPlayer.aabb.box.max.x) / 2,
+                Server.userPlayer.aabb.box.min.y,
+                (Server.userPlayer.aabb.box.min.z + Server.userPlayer.aabb.box.max.z) / 2);
     }
 
     public void getPlayerBoxBottom(Vector3f playerBoxTop) {
         aabb.updateBox();
         playerBoxTop.set(
-                (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
-                GameScene.userPlayer.aabb.box.max.y,
-                (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2
+                (Server.userPlayer.aabb.box.min.x + Server.userPlayer.aabb.box.max.x) / 2,
+                Server.userPlayer.aabb.box.max.y,
+                (Server.userPlayer.aabb.box.min.z + Server.userPlayer.aabb.box.max.z) / 2
         );
     }
 
@@ -334,15 +334,15 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     final static float FLY_RUN_SPEED = 30f;//XB2 runSpeed = 12f * 2.5f
 
     public static int getCreateMouseButton() {
-        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+        return (ClientWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_LEFT : GLFW.GLFW_MOUSE_BUTTON_RIGHT);
     }
 
     public static int getDeleteMouseButton() {
-        return (MainWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
+        return (ClientWindow.settings.game_switchMouseButtons ? GLFW.GLFW_MOUSE_BUTTON_RIGHT : GLFW.GLFW_MOUSE_BUTTON_LEFT);
     }
 
     private boolean keyInputAllowed() {
-        return !GameScene.ui.anyMenuOpen() && canMove();
+        return !Server.ui.anyMenuOpen() && canMove();
     }
 
     public boolean leftKeyPressed() {
@@ -373,7 +373,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     private void jump() {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR) {
+        if (Server.getGameMode() == GameMode.SPECTATOR) {
         } else {
             dismount();
             if (positionHandler.isGravityEnabled()) {
@@ -388,7 +388,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private boolean jumpKeyPressed = false;
 
-    public UserControlledPlayer(MainWindow window,
+    public UserControlledPlayer(ClientWindow window,
                                 Matrix4f projection, Matrix4f view,
                                 Matrix4f centeredView) throws IOException {
         super();
@@ -397,7 +397,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         this.view = view;
         inventory = new StorageSpace(33);
         camera = new Camera(this, window, projection, view, centeredView);
-        positionHandler = new PositionHandler(window, GameScene.world, aabb, aabb);
+        positionHandler = new PositionHandler(window, Server.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 3) {
                 float damage = MathUtils.map(fallDistance, 3, 15, 0, MAX_HEALTH);
@@ -413,7 +413,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void setFlashlight(float distance) {
-        GameScene.world.chunkShader.setFlashlightDistance(distance);
+        Server.world.chunkShader.setFlashlightDistance(distance);
     }
 
     /**
@@ -429,7 +429,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         autoForward = false;
         isFlyingMode = true;
         loadFromWorld(world);
-        gameModeChangedEvent(GameScene.getGameMode());
+        gameModeChangedEvent(Server.getGameMode());
     }
 
     public void stopGameEvent() {
@@ -453,28 +453,28 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public Block getBlockAtPlayerHead() {
-        return GameScene.world.getBlock(
+        return Server.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerFeet() {
-        return GameScene.world.getBlock(
+        return Server.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerWaist() {
-        return GameScene.world.getBlock(
+        return Server.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()) - 1,
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtCameraPos() {
-        return GameScene.world.getBlock(
+        return Server.world.getBlock(
                 (int) Math.floor(camera.position.x),
                 (int) Math.floor(camera.position.y),
                 (int) Math.floor(camera.position.z));
@@ -483,7 +483,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public boolean isInsideOfLadder() {
         return getBlockAtPlayerHead().climbable
                 ||
-                GameScene.world.getBlock(
+                Server.world.getBlock(
                         (int) Math.floor(worldPosition.x),
                         (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                         (int) Math.floor(worldPosition.z)).climbable;
@@ -509,13 +509,13 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         if (newCameraBlock != cameraBlock) {
             cameraBlock = newCameraBlock;
             if (newCameraBlock.isAir()) {//Air is always transparent
-                GameScene.ui.setOverlayColor(0, 0, 0, 0);
+                Server.ui.setOverlayColor(0, 0, 0, 0);
             } else if (newCameraBlock.opaque && newCameraBlock.colorInPlayerHead[3] == 0
                     && positionHandler.collisionsEnabled && positionLock == null
                     && camera.getThirdPersonDist() == 0) { //If we are opaque, don't have a color and we are not in passthrough mode
-                GameScene.ui.setOverlayColor(0, 0, 0, 1);
+                Server.ui.setOverlayColor(0, 0, 0, 1);
             } else {
-                GameScene.ui.setOverlayColor(
+                Server.ui.setOverlayColor(
                         newCameraBlock.colorInPlayerHead[0],
                         newCameraBlock.colorInPlayerHead[1],
                         newCameraBlock.colorInPlayerHead[2],
@@ -627,7 +627,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
 
         if (canMove()) {
-            if (MainWindow.settings.game_autoJump &&
+            if (ClientWindow.settings.game_autoJump &&
                     (Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.x) > 0.02 ||
                             Math.abs(positionHandler.collisionHandler.collisionData.totalPenPerAxes.z) > 0.02)
             ) {
@@ -660,20 +660,20 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 || lastOrientation.z != worldPosition.z
                 || lastOrientation.w != pan) {
             lastOrientation.set(worldPosition.x, worldPosition.y, worldPosition.z, pan);
-            GameScene.server.sendPlayerPosition(lastOrientation);
+            Server.server.sendPlayerPosition(lastOrientation);
         }
     }
 
     private boolean canRun() {
         return
-                GameScene.getGameMode() == GameMode.FREEPLAY
-                        || GameScene.getGameMode() == GameMode.SPECTATOR
+                Server.getGameMode() == GameMode.FREEPLAY
+                        || Server.getGameMode() == GameMode.SPECTATOR
                         || status_hunger > 5;
     }
 
 
     private boolean downKeyPressed() {
-        if (GameScene.getGameMode() == GameMode.SPECTATOR)
+        if (Server.getGameMode() == GameMode.SPECTATOR)
             return window.isKeyPressed(KEY_FLY_DOWN) || window.isKeyPressed(KEY_JUMP);
         return window.isKeyPressed(KEY_FLY_DOWN);
     }
@@ -681,7 +681,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private boolean isFlyingMode = true;
 
     public void enableFlying() {
-        if (GameScene.getGameMode() == GameMode.FREEPLAY || GameScene.getGameMode() == GameMode.SPECTATOR) {
+        if (Server.getGameMode() == GameMode.FREEPLAY || Server.getGameMode() == GameMode.SPECTATOR) {
             isFlyingMode = true;
             positionHandler.setGravityEnabled(false);
             positionHandler.collisionsEnabled = false;
@@ -705,7 +705,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 camera.cursorRay.clickEvent(false);
                 return true;
             } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-                GameUI.hotbar.pickItem(camera.cursorRay, GameScene.getGameMode() == GameMode.FREEPLAY);
+                GameUI.hotbar.pickItem(camera.cursorRay, Server.getGameMode() == GameMode.FREEPLAY);
                 return true;
             }
         }
@@ -723,7 +723,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 case KEY_FLY_UP -> enableFlying();
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (key == KEY_CHANGE_RAYCAST_MODE && GameScene.getGameMode() == GameMode.FREEPLAY) {
+            if (key == KEY_CHANGE_RAYCAST_MODE && Server.getGameMode() == GameMode.FREEPLAY) {
                 camera.cursorRay.angelPlacementMode = !camera.cursorRay.angelPlacementMode;
             }
             switch (key) {
@@ -747,10 +747,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public Entity dropItem(ItemStack itemStack) {
-        Vector3f pos = new Vector3f().set(GameScene.userPlayer.worldPosition);
-        Vector3f addition = new Vector3f().set(GameScene.userPlayer.camera.look.x, 0, GameScene.userPlayer.camera.look.z).mul(1.5f);
+        Vector3f pos = new Vector3f().set(Server.userPlayer.worldPosition);
+        Vector3f addition = new Vector3f().set(Server.userPlayer.camera.look.x, 0, Server.userPlayer.camera.look.z).mul(1.5f);
         pos.add(addition);
-        return GameScene.placeItemDrop(
+        return Server.placeItemDrop(
                 pos,
                 itemStack,
                 true);

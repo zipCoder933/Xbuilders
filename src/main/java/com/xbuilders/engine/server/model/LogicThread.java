@@ -1,7 +1,6 @@
 package com.xbuilders.engine.server.model;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.ui.topMenu.TerrainSelector;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
 
 import java.util.Iterator;
@@ -51,20 +50,20 @@ public class LogicThread {
         ticks++;
         if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
             int chunksUpdated = 0;
-            Iterator<Chunk> iterator = GameScene.world.chunks.values().iterator();
+            Iterator<Chunk> iterator = Server.world.chunks.values().iterator();
             while (iterator.hasNext()) {
                 Chunk chunk = iterator.next();
-                int simDistance = MainWindow.settings.internal_simulationDistance.value;
+                int simDistance = ClientWindow.settings.internal_simulationDistance.value;
 
-                int spawnDistance = (int) Math.min(Chunk.WIDTH * 2, MainWindow.settings.internal_simulationDistance.value * 0.6f);
-                spawnDistance = Math.min(MainWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which entities are spawned
+                int spawnDistance = (int) Math.min(Chunk.WIDTH * 2, ClientWindow.settings.internal_simulationDistance.value * 0.6f);
+                spawnDistance = Math.min(ClientWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which entities are spawned
                 //System.out.println("Chunk " + chunk.client_distToPlayer + " " + simDistance + " " + spawnDistance);
 
                 if (chunk.client_distToPlayer < simDistance) {
                     boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
 
-                    if (MainWindow.devMode &&
-                            GameScene.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
+                    if (ClientWindow.devMode &&
+                            Server.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
                     chunksUpdated += (chunk.tick(spawnEntities) ? 1 : 0);
                 }
             }

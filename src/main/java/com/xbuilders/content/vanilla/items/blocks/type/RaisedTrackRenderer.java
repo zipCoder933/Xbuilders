@@ -4,13 +4,12 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import com.xbuilders.engine.server.model.world.chunk.Chunk;
@@ -22,8 +21,8 @@ public class RaisedTrackRenderer extends BlockType {
     BlockModel floor0, floor1, floor2, floor3;
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isLiquid()
-                && !GameScene.world.getBlock(worldX, worldY + 1, worldZ).isAir();
+        return !Server.world.getBlock(worldX, worldY + 1, worldZ).isLiquid()
+                && !Server.world.getBlock(worldX, worldY + 1, worldZ).isAir();
     }
 
     public RaisedTrackRenderer() {

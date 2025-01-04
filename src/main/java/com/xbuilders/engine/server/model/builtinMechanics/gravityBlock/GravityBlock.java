@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.builtinMechanics.gravityBlock;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.Entity;
@@ -14,7 +14,7 @@ public class GravityBlock {
 
     EntitySupplier entitySupplier;
 
-    public GravityBlock(MainWindow window) {
+    public GravityBlock(ClientWindow window) {
         entitySupplier = new EntitySupplier(0, (uniqueIdentifier) -> new GravityBlockEntity(uniqueIdentifier, window));
     }
 
@@ -46,28 +46,28 @@ public class GravityBlock {
          */
 
         //Get the block below this block
-        Block blockBelow = GameScene.world.getBlock(thisPosition.x, thisPosition.y + 1, thisPosition.z);
+        Block blockBelow = Server.world.getBlock(thisPosition.x, thisPosition.y + 1, thisPosition.z);
         if (!blockBelow.solid
-                && GameScene.world.getBlockID(thisPosition.x, thisPosition.y, thisPosition.z) == block.id) {
-            GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
+                && Server.world.getBlockID(thisPosition.x, thisPosition.y, thisPosition.z) == block.id) {
+            Server.setBlock(BlockRegistry.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
 
             //Under certain conditions, we immediately move the block to the bottom
             if (thisPosition.distance(
-                    (int) GameScene.userPlayer.worldPosition.x,
-                    (int) GameScene.userPlayer.worldPosition.y,
-                    (int) GameScene.userPlayer.worldPosition.z) >= Math.min(50, MainWindow.settings.video_entityDistance.value)) {
+                    (int) Server.userPlayer.worldPosition.x,
+                    (int) Server.userPlayer.worldPosition.y,
+                    (int) Server.userPlayer.worldPosition.z) >= Math.min(50, ClientWindow.settings.video_entityDistance.value)) {
 
                 //Set the block at the bottom
                 for (int y = thisPosition.y + 1; y < World.WORLD_BOTTOM_Y; y++) {
-                    blockBelow = GameScene.world.getBlock(thisPosition.x, y, thisPosition.z);
+                    blockBelow = Server.world.getBlock(thisPosition.x, y, thisPosition.z);
                     if (blockBelow.solid) {
-                        GameScene.setBlock(block.id, thisPosition.x, y - 1, thisPosition.z);
+                        Server.setBlock(block.id, thisPosition.x, y - 1, thisPosition.z);
                         break;
                     }
                 }
                 return;
             }
-            Entity e = GameScene.world.placeEntity(entitySupplier, thisPosition, null);
+            Entity e = Server.world.placeEntity(entitySupplier, thisPosition, null);
             GravityBlockEntity gravityBlockEntity = (GravityBlockEntity) e;
             gravityBlockEntity.block = block;
         }

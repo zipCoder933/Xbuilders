@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.model.players.data;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.model.players.Player;
 import com.xbuilders.engine.client.player.Skin;
@@ -37,7 +37,7 @@ public class UserInfo {
     }
 
     public void setSkin(int id) {
-        this.skin = MainWindow.game.availableSkins.get(id).get(player);
+        this.skin = ClientWindow.game.availableSkins.get(id).get(player);
         this.skinID = id;
     }
 

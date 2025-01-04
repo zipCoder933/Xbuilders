@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.world.skybox;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.utils.ResourceUtils;
 import org.joml.Matrix4f;
@@ -18,9 +18,9 @@ public class SkyBackground {
     SkyBoxMesh skyBoxMesh;
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
-    MainWindow mainWindow;
+    ClientWindow mainWindow;
 
-    public SkyBackground(MainWindow mainWindow) throws IOException {
+    public SkyBackground(ClientWindow mainWindow) throws IOException {
         skyBoxMesh = new SkyBoxMesh();
         this.mainWindow = mainWindow;
         skyBoxMesh.loadFromOBJ(ResourceUtils.resource("weather\\skybox.obj"));
@@ -50,7 +50,7 @@ public class SkyBackground {
     }
 
     public void update() {
-        if (MainWindow.frameCount % 10 == 0) {
+        if (ClientWindow.frameCount % 10 == 0) {
             calculateLightLevel(textureXPan);
             int skyColor = skyImage.getRGB((int) (skyImage.getWidth() * textureXPan), skyImage.getHeight() - 2);
             int red = (skyColor >> 16) & 0xFF;
@@ -62,7 +62,7 @@ public class SkyBackground {
                 float redDifference = (defaultSkyColor.x - defaultSkyColor.z) * 0.3f; //Choose how much % should be tinted red
                 defaultTint.set(lightness + redDifference, lightness, lightness);
             } else defaultTint.set(lightness, lightness, lightness);
-            GameScene.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
+            Server.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
             if (Entity.shader != null) {
                 Entity.shader.setTint(defaultTint);
             }
@@ -75,7 +75,7 @@ public class SkyBackground {
     private void calculateTime() {
         double time = System.currentTimeMillis() * UPDATE_SPEED;
         textureXPan = (time + offset) % 1.0;
-        if (MainWindow.devMode) textureXPan = 0;
+        if (ClientWindow.devMode) textureXPan = 0;
     }
 
     public void setTimeOfDay(double start) {

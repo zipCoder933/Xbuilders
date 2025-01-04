@@ -1,8 +1,8 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.rendering.wireframeBox.Box;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
@@ -16,7 +16,6 @@ import com.xbuilders.engine.server.model.world.wcc.WCCi;
 
 import java.util.HashSet;
 
-import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
@@ -48,7 +47,7 @@ public class CollisionHandler {
     static Box renderingBox;
 
     private static void drawTestBox(AABB aabb, int color) {
-        if (MainWindow.devMode) {
+        if (ClientWindow.devMode) {
             if (renderingBox == null) {
                 renderingBox = new Box();
                 renderingBox.setLineWidth(3);
@@ -60,7 +59,7 @@ public class CollisionHandler {
                 default -> renderingBox.setColor(255, 255, 255, 255);
             }
             renderingBox.set(aabb);
-            renderingBox.draw(GameScene.projection, GameScene.view);
+            renderingBox.draw(Server.projection, Server.view);
         }
     }
 

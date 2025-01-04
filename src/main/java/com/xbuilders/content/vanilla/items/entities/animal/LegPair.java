@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.entities.animal;
 
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 

@@ -3,9 +3,8 @@ package com.xbuilders.content.vanilla.items.entities.animal;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
-import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
@@ -19,7 +18,7 @@ import java.util.Objects;
 public abstract class StaticLandAnimal extends LandAnimal {
 
 
-    public StaticLandAnimal(int id, long uniqueIdentifier, MainWindow window) {
+    public StaticLandAnimal(int id, long uniqueIdentifier, ClientWindow window) {
         super(id, uniqueIdentifier, window);
         aabb.setOffsetAndSize(0.8f, 0.9f, 0.8f, true);
         jumpOverBlocks = true;

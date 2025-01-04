@@ -4,15 +4,15 @@
  */
 package com.xbuilders.engine.server.model.items.item.blockIconRendering;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.BlockArrayTexture;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
-import com.xbuilders.engine.client.visuals.rendering.chunk.IconGenShader;
-import com.xbuilders.engine.client.visuals.rendering.chunk.mesh.CompactMesh;
-import com.xbuilders.engine.client.visuals.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.IconGenShader;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactMesh;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.render.MVP;
@@ -173,7 +173,7 @@ public class BlockIconRenderer {
     private void generateAndSaveIcon(Block block, File baseFile, int renderedTexture) throws IOException {
         if (block.texture != null && shouldMakeIcon(block)) {
             if (makeBlockMesh(block)) {
-                MainWindow.printlnDev("\tblock: " + block.id + " (" + block.alias + ")");
+                ClientWindow.printlnDev("\tblock: " + block.id + " (" + block.alias + ")");
                 shader.bind();
                 mesh.draw(false);
                 File outFile = new File(baseFile, block.id + ".png");

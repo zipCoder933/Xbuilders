@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.builtinMechanics.fire;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.LivePropagationTask;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
 import com.xbuilders.engine.server.model.items.Registrys;
@@ -36,14 +36,14 @@ class DisintegrationPropagation extends LivePropagationTask {
     @Override
     public void update() {
         if (disintegrationNodes.isEmpty()) return;
-        MainWindow.printlnDev("fire dis nodes: " + disintegrationNodes.size());
+        ClientWindow.printlnDev("fire dis nodes: " + disintegrationNodes.size());
         Iterator<Vector3i> iterator = disintegrationNodes.iterator();
         while (iterator.hasNext()) {
             Vector3i node = iterator.next();
             if (Math.random() > 0.5) {
-                if (GameScene.world.getBlock(node.x, node.y - 1, node.z).id == FIRE_BLOCK.id) {
-                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
-                    GameScene.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y - 1, node.z);
+                if (Server.world.getBlock(node.x, node.y - 1, node.z).id == FIRE_BLOCK.id) {
+                    Server.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y, node.z);
+                    Server.setBlock(BlockRegistry.BLOCK_AIR.id, node.x, node.y - 1, node.z);
                     iterator.remove();
                 }
             }

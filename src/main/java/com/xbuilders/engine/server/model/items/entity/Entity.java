@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.multiplayer.GameServer;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityShader_ArrayTexture;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
@@ -54,11 +54,11 @@ public abstract class Entity {
     public boolean sendMultiplayer;
 
     public boolean playerIsRidingThis() {
-        return GameScene.userPlayer.positionLock != null && GameScene.userPlayer.positionLock.entity == this;
+        return Server.userPlayer.positionLock != null && Server.userPlayer.positionLock.entity == this;
     }
 
     private void getLightForPosition() {
-        Chunk chunk = GameScene.world.getChunk(chunkPosition.chunk);
+        Chunk chunk = Server.world.getChunk(chunkPosition.chunk);
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
@@ -73,7 +73,7 @@ public abstract class Entity {
                     wcc.set((int) Math.floor(worldPosition.x),
                             (int) Math.floor(worldPosition.y - i),
                             (int) Math.floor(worldPosition.z));
-                    chunk = GameScene.world.getChunk(wcc.chunk);
+                    chunk = Server.world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         light = chunk.data.getPackedLight(
                                 wcc.chunkVoxel.x,
@@ -231,7 +231,7 @@ public abstract class Entity {
         updatePosition();
 
         //We have to send the entity after it has been initialized
-        if (sendMultiplayer) GameScene.server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
+        if (sendMultiplayer) Server.server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
     }
 
     /**

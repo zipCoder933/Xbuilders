@@ -1,10 +1,10 @@
 package com.xbuilders;
 
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 
 public class Main {
     public static final String GAME_VERSION = "1.3.0";
     public static void main(String[] args) {
-        new MainWindow(args);
+        new ClientWindow(args);
     }
 }

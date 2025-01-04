@@ -4,13 +4,12 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
@@ -42,7 +41,7 @@ public class TrapdoorRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
             b.clickEvent(false, (x, y, z) -> {
-                BlockData bd = GameScene.world.getBlockData(x, y, z);
+                BlockData bd = Server.world.getBlockData(x, y, z);
                 bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
             });
         };

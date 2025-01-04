@@ -8,7 +8,6 @@ package com.xbuilders.engine.utils.network.server;
  * @author zipCoder933
  */
 
-import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.IOException;

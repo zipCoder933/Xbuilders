@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
@@ -34,7 +34,7 @@ public class CopyTool extends BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
         if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
-            GameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            Server.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
                     false, "xbprefab", (file) -> {
                         System.out.println("LOADING " + file.getAbsolutePath());
                         try {
@@ -47,7 +47,7 @@ public class CopyTool extends BlockTool {
                     });
         }
         if (Nuklear.nk_button_label(ctx, "Save Prefab")) {
-            GameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            Server.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
                     true, "xbprefab", (file) -> {
                         System.out.println("SAVING " + file.getAbsolutePath());
                         try {
@@ -88,14 +88,14 @@ public class CopyTool extends BlockTool {
                             (int) (x - aabb.min.x),
                             (int) (y - aabb.min.y),
                             (int) (z - aabb.min.z),
-                            GameScene.world.getBlockID(x, y, z));
+                            Server.world.getBlockID(x, y, z));
                     //Set block data
-                    if (GameScene.world.getBlockData(x, y, z) != null) {
+                    if (Server.world.getBlockData(x, y, z) != null) {
                         PasteTool.clipboard.setBlockData(
                                 (int) (x - aabb.min.x),
                                 (int) (y - aabb.min.y),
                                 (int) (z - aabb.min.z),
-                                GameScene.world.getBlockData(x, y, z));
+                                Server.world.getBlockData(x, y, z));
                     }
                 }
             }

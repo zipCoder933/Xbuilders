@@ -4,12 +4,12 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
@@ -74,19 +74,19 @@ public class FenceRenderer extends BlockType {
         box.setPosAndSize(x + (sixtheenth * 6), y - fenceHeight, z + (sixtheenth * 6), (sixtheenth * 4), 1 + fenceHeight, (sixtheenth * 4));
         consumer.accept(box);
 
-        if (isSolid(GameScene.world.getBlock(x + 1, y, z))) {
+        if (isSolid(Server.world.getBlock(x + 1, y, z))) {
             box.setPosAndSize(x + (sixtheenth * 10), y - fenceHeight, z + (sixtheenth * 6), (sixtheenth * 6), 1 + fenceHeight, (sixtheenth * 4));
             consumer.accept(box);
         }
-        if (isSolid(GameScene.world.getBlock(x - 1, y, z))) {
+        if (isSolid(Server.world.getBlock(x - 1, y, z))) {
             box.setPosAndSize(x, y - fenceHeight, z + (sixtheenth * 6), (sixtheenth * 6), 1 + fenceHeight, (sixtheenth * 4));
             consumer.accept(box);
         }
-        if (isSolid(GameScene.world.getBlock(x, y, z + 1))) {
+        if (isSolid(Server.world.getBlock(x, y, z + 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y - fenceHeight, z + (sixtheenth * 10), (sixtheenth * 4), 1 + fenceHeight, (sixtheenth * 6));
             consumer.accept(box);
         }
-        if (isSolid(GameScene.world.getBlock(x, y, z - 1))) {
+        if (isSolid(Server.world.getBlock(x, y, z - 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y - fenceHeight, z, (sixtheenth * 4), 1 + fenceHeight, (sixtheenth * 6));
             consumer.accept(box);
         }
@@ -97,19 +97,19 @@ public class FenceRenderer extends BlockType {
         box.setPosAndSize(x + (sixtheenth * 6), y, z + (sixtheenth * 6), (sixtheenth * 4), 1f, (sixtheenth * 4));
         consumer.accept(box);
 
-        if (isSolid(GameScene.world.getBlock(x + 1, y, z))) {
+        if (isSolid(Server.world.getBlock(x + 1, y, z))) {
             box.setPosAndSize(x + (sixtheenth * 10), y, z + (sixtheenth * 6), (sixtheenth * 6), 1f, (sixtheenth * 4));
             consumer.accept(box);
         }
-        if (isSolid(GameScene.world.getBlock(x - 1, y, z))) {
+        if (isSolid(Server.world.getBlock(x - 1, y, z))) {
             box.setPosAndSize(x, y, z + (sixtheenth * 6), (sixtheenth * 6), 1f, (sixtheenth * 4));
             consumer.accept(box);
         }
-        if (isSolid(GameScene.world.getBlock(x, y, z + 1))) {
+        if (isSolid(Server.world.getBlock(x, y, z + 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y, z + (sixtheenth * 10), (sixtheenth * 4), 1f, (sixtheenth * 6));
             consumer.accept(box);
         }
-        if (isSolid(GameScene.world.getBlock(x, y, z - 1))) {
+        if (isSolid(Server.world.getBlock(x, y, z - 1))) {
             box.setPosAndSize(x + (sixtheenth * 6), y, z, (sixtheenth * 4), 1f, (sixtheenth * 6));
             consumer.accept(box);
         }

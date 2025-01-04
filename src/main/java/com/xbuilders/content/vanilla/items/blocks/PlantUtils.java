@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
@@ -14,7 +14,7 @@ public class PlantUtils {
             final int finalI = i;
             b.randomTickEvent = (x, y, z) -> {
                 if (cropPlantable(x, y, z)) {
-                    GameScene.setBlock(stages[finalI + 1].id, x, y, z);
+                    Server.setBlock(stages[finalI + 1].id, x, y, z);
                     return true;
                 }
                 return false;
@@ -23,17 +23,17 @@ public class PlantUtils {
     }
 
     public static boolean deepPlantable(final int x, final int y, final int z) {
-        boolean val = blockIsGrassSnowOrDirt(GameScene.world.getBlock(x, y + 1, z))
-                && blockIsGrassSnowOrDirt(GameScene.world.getBlock(x, y + 2, z));
+        boolean val = blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z))
+                && blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 2, z));
         return val;
     }
 
     public static boolean cropPlantable(final int x, final int y, final int z) {
-        return GameScene.world.getBlockID(x, y + 1, z) == Blocks.BLOCK_FARMLAND;
+        return Server.world.getBlockID(x, y + 1, z) == Blocks.BLOCK_FARMLAND;
     }
 
     public static boolean plantable(final int x, final int y, final int z) {
-        return blockIsGrassSnowOrDirt(GameScene.world.getBlock(x, y + 1, z));
+        return blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z));
     }
 
     public static boolean isGrass(short thisBlock) {
@@ -50,7 +50,7 @@ public class PlantUtils {
     }
 
     public static short getGrassBlockOfBiome(int wx, int wy, int wz) {
-        int biome = GameScene.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        int biome = Server.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case ComplexTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;

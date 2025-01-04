@@ -4,11 +4,11 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.type;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
 import com.xbuilders.engine.server.model.items.block.construction.BlockType;
 import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.client.visuals.rendering.VertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.model.world.chunk.BlockData;
 
@@ -52,7 +52,7 @@ public class SpriteRenderer extends BlockType {
 
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        Block belowBlock = GameScene.world.getBlock(worldX, worldY + 1, worldZ);
+        Block belowBlock = Server.world.getBlock(worldX, worldY + 1, worldZ);
         return !belowBlock.isAir() && !belowBlock.isLiquid();
     }
 

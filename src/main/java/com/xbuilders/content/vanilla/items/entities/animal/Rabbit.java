@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla.items.entities.animal;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.ClientWindow;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ public class Rabbit extends StaticLandAnimal {
     long lastJumpTime = 0;
 
 
-    public Rabbit(int id, MainWindow window, long uniqueIdentifier) {
+    public Rabbit(int id, ClientWindow window, long uniqueIdentifier) {
         super(id, uniqueIdentifier, window);
     }
 

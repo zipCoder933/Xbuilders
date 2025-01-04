@@ -6,13 +6,10 @@ package com.xbuilders.content.vanilla.items.entities.vehicle;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.players.PositionLock;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
 
@@ -25,7 +22,7 @@ public class Boat extends Vehicle {
     private final String textureFile;
     public int textureID;
 
-    public Boat(int id, MainWindow window, long uniqueIdentifier, String textureFile) {
+    public Boat(int id, ClientWindow window, long uniqueIdentifier, String textureFile) {
         super(id, window, uniqueIdentifier);
         this.textureFile = textureFile;
         frustumSphereRadius = (1.5f);
@@ -36,11 +33,11 @@ public class Boat extends Vehicle {
         int wx = (int) worldPosition.x;
         int wy = (int) worldPosition.y;
         int wz = (int) worldPosition.z;
-        boolean belowBLockLiquid = GameScene.world.getBlock(wx, wy + 1, wz).isLiquid()
+        boolean belowBLockLiquid = Server.world.getBlock(wx, wy + 1, wz).isLiquid()
                 && worldPosition.y > wy + 0.85f;//We dont have to stand by strict block coordinates
 
-        isInWater = GameScene.world.getBlock(wx, wy, wz).isLiquid()
-                || GameScene.world.getBlock(wx, wy - 1, wz).isLiquid()
+        isInWater = Server.world.getBlock(wx, wy, wz).isLiquid()
+                || Server.world.getBlock(wx, wy - 1, wz).isLiquid()
                 || belowBLockLiquid;
 
         return isInWater;
@@ -67,7 +64,7 @@ public class Boat extends Vehicle {
 
         if (playerIsRidingThis()) {
             if (isInWater) {
-                if (GameScene.world.getBlock(wx, wy - 1, wz).isLiquid()) {
+                if (Server.world.getBlock(wx, wy - 1, wz).isLiquid()) {
                     rise = true;
                 }
             } else {
@@ -146,7 +143,7 @@ public class Boat extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        GameScene.userPlayer.positionLock = new PositionLock(this, 0);
+        Server.userPlayer.positionLock = new PositionLock(this, 0);
         return true;
     }
 

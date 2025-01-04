@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.items.recipes;
 
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.client.visuals.ui.Theme;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.Theme;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 
@@ -25,7 +25,7 @@ public class RecipeDisplay extends ArrayList<Recipe> {
             Nuklear.nk_text(ctx, "(" + size() + "x)", Nuklear.NK_TEXT_ALIGN_LEFT);
         }
         get(renderIndex).drawRecipe(ctx, height);
-        if (MainWindow.frameCount % 50 == 0) {
+        if (ClientWindow.frameCount % 50 == 0) {
             renderIndex = (renderIndex + 1) % size();
         }
     }

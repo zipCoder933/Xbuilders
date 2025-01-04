@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -93,14 +93,14 @@ public class LightFixTool extends BlockTool {
     public boolean setBlock(Block item, final CursorRay ray, boolean isCreationMode) {
         HashSet<Chunk> affectedChunks = new HashSet<>();
         WCCi wcc = new WCCi().set(ray.getHitPosPlusNormal());
-        Chunk startChunk = GameScene.world.getChunk(wcc.chunk);
+        Chunk startChunk = Server.world.getChunk(wcc.chunk);
 
         if (startChunk == null) return true;
 
         if (resetChunksMode) {
             for (int x = -1; x <= 1; x++) {
                 for (int z = -1; z <= 1; z++) {
-                    Chunk chunk = GameScene.world.getChunk(new Vector3i(
+                    Chunk chunk = Server.world.getChunk(new Vector3i(
                             startChunk.position.x + x,
                             startChunk.position.y,
                             startChunk.position.z + z));
@@ -117,7 +117,7 @@ public class LightFixTool extends BlockTool {
                     filledPropagator.add(new ChunkNode(new WCCi().set(
                             ray.getHitPosPlusNormal().x + x,
                             World.WORLD_TOP_Y + 1,
-                            ray.getHitPosPlusNormal().z + z), GameScene.world));
+                            ray.getHitPosPlusNormal().z + z), Server.world));
                 }
             }
 

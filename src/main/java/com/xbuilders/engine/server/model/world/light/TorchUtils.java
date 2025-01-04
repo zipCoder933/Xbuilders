@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.model.world.light;
 
 
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -61,7 +61,7 @@ public class TorchUtils {
     private static void findNeg2(Chunk chunk, int x, int y, int z, final List<TorchNode> queue) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = wcc.getChunk(GameScene.world);
+            chunk = wcc.getChunk(Server.world);
             if (chunk == null) {
                 return;
             }
@@ -99,7 +99,7 @@ public class TorchUtils {
                                           final List<TorchNode> queue, HashSet<Chunk> affectedChunks) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = wcc.getChunk(GameScene.world);
+            chunk = wcc.getChunk(Server.world);
             if (chunk == null) {
                 return;
             }
@@ -141,7 +141,7 @@ public class TorchUtils {
                                            final List<TorchNode> queue, final HashSet<TorchNode> repropagation) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = wcc.getChunk(GameScene.world);
+            chunk = wcc.getChunk(Server.world);
             if (chunk == null) {
                 return;
             }

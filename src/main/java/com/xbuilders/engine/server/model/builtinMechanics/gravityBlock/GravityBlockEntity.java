@@ -2,15 +2,15 @@ package com.xbuilders.engine.server.model.builtinMechanics.gravityBlock;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.engine.MainWindow;
-import com.xbuilders.engine.server.model.GameScene;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.model.Server;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.Entity;
-import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh_ArrayTexture;
-import com.xbuilders.engine.client.visuals.rendering.entity.block.BlockVertexSet;
-import com.xbuilders.engine.client.visuals.rendering.entity.block.meshers.Block_NaiveMesher;
-import com.xbuilders.engine.client.visuals.rendering.wireframeBox.Box;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh_ArrayTexture;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockVertexSet;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.Block_NaiveMesher;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.server.model.world.World;
 import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
@@ -28,9 +28,9 @@ public class GravityBlockEntity extends Entity {
     Block block;
     long startTime;
 
-    public GravityBlockEntity(long uniqueIdentifier, MainWindow window) {
+    public GravityBlockEntity(long uniqueIdentifier, ClientWindow window) {
         super(-1, uniqueIdentifier);
-        positionHandler = new PositionHandler(window, GameScene.world, aabb, null);
+        positionHandler = new PositionHandler(window, Server.world, aabb, null);
         aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         frustumSphereRadius = 1;
     }
@@ -59,9 +59,9 @@ public class GravityBlockEntity extends Entity {
     private void instaPlant() {
         //Set the block at the bottom
         for (int y = (int) (worldPosition.y + 1); y < World.WORLD_BOTTOM_Y; y++) {
-            Block blockBelow = GameScene.world.getBlock((int) worldPosition.x, y, (int) worldPosition.z);
+            Block blockBelow = Server.world.getBlock((int) worldPosition.x, y, (int) worldPosition.z);
             if (blockBelow.solid) {
-                GameScene.setBlock(block.id, (int) worldPosition.x, y - 1, (int) worldPosition.z);
+                Server.setBlock(block.id, (int) worldPosition.x, y - 1, (int) worldPosition.z);
                 destroy();
             }
         }
@@ -73,7 +73,7 @@ public class GravityBlockEntity extends Entity {
             //There is actually something in the buffer
             arrayTextureShader.bind();//TODO: Allow better integration with an arrayTextureShader in Entity class
             arrayTextureShader.setSunAndTorch(sunValue, torchValue);
-            arrayTextureShader.updateProjectionViewMatrix(GameScene.projection, GameScene.view);
+            arrayTextureShader.updateProjectionViewMatrix(Server.projection, Server.view);
             modelMatrix.update();
             modelMatrix.sendToShader(arrayTextureShader.getID(), arrayTextureShader.uniform_modelMatrix);
             mesh.draw(false, Registrys.blocks.textures.getTexture().id);
@@ -88,7 +88,7 @@ public class GravityBlockEntity extends Entity {
 
         if (positionHandler.isFrozen() ||
                 positionHandler.collisionHandler.collisionData.block_penPerAxes.y < 0) {
-            GameScene.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+            Server.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             destroy();
         }
 
