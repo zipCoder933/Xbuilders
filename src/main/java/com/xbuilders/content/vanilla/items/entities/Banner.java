@@ -7,6 +7,7 @@ package com.xbuilders.content.vanilla.items.entities;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.content.vanilla.items.entities.vehicle.Vehicle;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
@@ -21,13 +22,14 @@ import java.io.IOException;
  * @author zipCoder933
  */
 public class Banner extends Entity {
+    final String textureFile;
+    int texture;
+    static Vehicle.Vehicle_staticData staticData;
 
-    static EntityMesh body;
-    static int texture;
-
-    public Banner(int id, long uniqueIdentifier) {
+    public Banner(int id, long uniqueIdentifier, String textureFile) {
         super(id, uniqueIdentifier);
         frustumSphereRadius = 2f;
+        this.textureFile = textureFile;
         aabb.isSolid = false;
     }
 
@@ -46,15 +48,13 @@ public class Banner extends Entity {
     @Override
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
-        if (body == null) {
-            try {
-                body = new EntityMesh();
-                body.loadFromOBJ(ResourceUtils.resource("items\\entity\\banner\\banner.obj"));
-                texture = TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\banner\\blue.png").getAbsolutePath(), false).id;
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
-            }
+        if (staticData == null) {
+            staticData = new Vehicle.Vehicle_staticData(
+                    "items\\entity\\banner\\banner.obj",
+                    "items\\entity\\banner\\textures");
+        }
+        if (textureFile != null) {
+            texture = staticData.textures.get(textureFile);
         }
         if (hasData) {
             if (node.has("XZ")) xzOrientation = node.get("XZ").asInt();
@@ -114,7 +114,7 @@ public class Banner extends Entity {
         modelMatrix.rotateZ(flow);
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-        body.draw(false, texture);
+        staticData.body.draw(false, texture);
         frameCount++;
     }
 

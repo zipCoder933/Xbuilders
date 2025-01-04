@@ -21,7 +21,6 @@ import java.io.IOException;
  */
 public class Boat extends Vehicle {
 
-    public static EntityMesh model;
     static Vehicle_staticData staticData;
     private final String textureFile;
     public int textureID;
@@ -54,8 +53,7 @@ public class Boat extends Vehicle {
         modelMatrix.rotateY((float) (getRotationYDeg() * (Math.PI / 180)));
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-
-        model.draw(false, textureID);
+        staticData.body.draw(false, textureID);
     }
 
     boolean rise;
@@ -128,12 +126,15 @@ public class Boat extends Vehicle {
     @Override
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
-        posHandler.setGravityEnabled(isInWater() ? false : true);
+
         if (staticData == null) {//Only called once
             staticData = new Vehicle_staticData(
                     "items\\entity\\boat\\boat.obj",
                     "items\\entity\\boat\\textures");
         }
+
+        posHandler.setGravityEnabled(isInWater() ? false : true);
+
         if (textureFile != null) {
             textureID = staticData.textures.get(textureFile);
         }

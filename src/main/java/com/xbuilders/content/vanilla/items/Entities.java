@@ -25,19 +25,19 @@ public class Entities {
 
         EntitySupplier[] entityArray = new EntitySupplier[]{
                 //Banners
-                new EntitySupplier(82, (uniqueIdentifier) -> new Banner(82, uniqueIdentifier)),
-                new EntitySupplier(81, (uniqueIdentifier) -> new Banner(81, uniqueIdentifier)),
-                new EntitySupplier(72, (uniqueIdentifier) -> new Banner(72, uniqueIdentifier)),
-                new EntitySupplier(75, (uniqueIdentifier) -> new Banner(75, uniqueIdentifier)),
-                new EntitySupplier(78, (uniqueIdentifier) -> new Banner(78, uniqueIdentifier)),
-                new EntitySupplier(73, (uniqueIdentifier) -> new Banner(73, uniqueIdentifier)),
-                new EntitySupplier(77, (uniqueIdentifier) -> new Banner(77, uniqueIdentifier)),
-                new EntitySupplier(76, (uniqueIdentifier) -> new Banner(76, uniqueIdentifier)),
-                new EntitySupplier(84, (uniqueIdentifier) -> new Banner(84, uniqueIdentifier)),
-                new EntitySupplier(74, (uniqueIdentifier) -> new Banner(74, uniqueIdentifier)),
-                new EntitySupplier(83, (uniqueIdentifier) -> new Banner(83, uniqueIdentifier)),
-                new EntitySupplier(80, (uniqueIdentifier) -> new Banner(80, uniqueIdentifier)),
-                new EntitySupplier(79, (uniqueIdentifier) -> new Banner(79, uniqueIdentifier)),
+                new EntitySupplier(82, (uniqueIdentifier) -> new Banner(82, uniqueIdentifier,"red")),
+                new EntitySupplier(81, (uniqueIdentifier) -> new Banner(81, uniqueIdentifier,"orange")),
+                new EntitySupplier(72, (uniqueIdentifier) -> new Banner(72, uniqueIdentifier,"yellow")),
+                new EntitySupplier(75, (uniqueIdentifier) -> new Banner(75, uniqueIdentifier,"lime")),
+                new EntitySupplier(78, (uniqueIdentifier) -> new Banner(78, uniqueIdentifier,"green")),
+                new EntitySupplier(73, (uniqueIdentifier) -> new Banner(73, uniqueIdentifier,"blue")),
+                new EntitySupplier(77, (uniqueIdentifier) -> new Banner(77, uniqueIdentifier,"gray")),
+                new EntitySupplier(76, (uniqueIdentifier) -> new Banner(76, uniqueIdentifier,"pink")),
+                new EntitySupplier(84, (uniqueIdentifier) -> new Banner(84, uniqueIdentifier,"purple")),
+                new EntitySupplier(74, (uniqueIdentifier) -> new Banner(74, uniqueIdentifier,"white")),
+                new EntitySupplier(83, (uniqueIdentifier) -> new Banner(83, uniqueIdentifier,"blue_logo")),
+                new EntitySupplier(80, (uniqueIdentifier) -> new Banner(80, uniqueIdentifier,"regal")),
+                new EntitySupplier(79, (uniqueIdentifier) -> new Banner(79, uniqueIdentifier,"royal")),
 
 
                 //Boats
