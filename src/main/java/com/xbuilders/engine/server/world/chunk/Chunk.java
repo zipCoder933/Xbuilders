@@ -387,8 +387,8 @@ public class Chunk {
 
     private static Random randomTick_random = new Random();
 
-    private static final float RANDOM_TICK_LIKELIHOOD = 0.0007f;
-    private static final float DEV_RANDOM_TICK_LIKELIHOOD = 0.0007f;
+    private static final float RANDOM_TICK_LIKELIHOOD = 0.001f;
+    private static final float DEV_RANDOM_TICK_LIKELIHOOD = 0.5f;
 
     private static final float RANDOM_SPAWN_LIKELIHOOD = 0.00001f;
     private static final float DEV_RANDOM_SPAWN_LIKELIHOOD = 0.00001f;

@@ -6,14 +6,17 @@ import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.items.ItemUtils;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.blocks.*;
 import com.xbuilders.content.vanilla.items.blocks.trees.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.xbuilders.engine.server.items.ItemUtils.getAllJsonBlocks;
+import static com.xbuilders.engine.utils.math.RandomUtils.random;
 
 public class Blocks {
 
@@ -119,6 +122,58 @@ public class Blocks {
                 && b.solid;
     }
 
+    private static short setGrassPlant(short thisBlock, Block aboveBlock) {
+        if (thisBlock == Blocks.BLOCK_GRASS || thisBlock == Blocks.BLOCK_SNOW_GRASS) {
+            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
+                if (random.nextFloat() < 0.6) {//Grass and dry reed
+                    switch (random.nextInt(3)) {
+                        case 0 -> {
+                            return Blocks.BLOCK_PLANT_GRASS;
+                        }
+                        case 1 -> {
+                            return Blocks.BLOCK_FERN;
+                        }
+                        case 2 -> {
+                            return Blocks.BLOCK_DEAD_BUSH;
+                        }
+                    }
+                } else {//Flowers
+                    switch (random.nextInt(5)) {
+                        case 0 -> {
+                            return Blocks.BLOCK_PANSIES;
+                        }
+                        case 1 -> {
+                            return Blocks.BLOCK_ROSES;
+                        }
+                        case 2 -> {
+                            return Blocks.BLOCK_DANDELION;
+                        }
+                        case 3 -> {
+                            return Blocks.BLOCK_AZURE_BLUET;
+                        }
+                        case 4 -> {
+                            return Blocks.BLOCK_ORANGE_TULIP;
+                        }
+                    }
+                }
+            }
+        } else if (thisBlock == Blocks.BLOCK_DRY_GRASS) {
+            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
+                return Blocks.BLOCK_DRY_GRASS_PLANT;
+            } else if (aboveBlock.id == Blocks.BLOCK_DRY_GRASS_PLANT) {
+                return Blocks.BLOCK_TALL_DRY_GRASS;
+            }
+        } else if (thisBlock == Blocks.BLOCK_JUNGLE_GRASS) {
+            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
+                return Blocks.BLOCK_JUNGLE_GRASS_PLANT;
+            } else if (aboveBlock.id == Blocks.BLOCK_JUNGLE_GRASS_PLANT) {
+                return Blocks.BLOCK_TALL_GRASS;
+            }
+        }
+
+        return -1;
+    }
+
     private static void randomTickEvents() {
         Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
             short thisBlock = Server.world.getBlockID(x, y, z);
@@ -131,6 +186,13 @@ public class Blocks {
                 Server.setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
             }
+
+            short grassToPlant = setGrassPlant(thisBlock, aboveBlock);
+            if (grassToPlant != -1) {
+                Server.setBlock(grassToPlant, x, y - 1, z);
+                return true;
+            }
+
             return false;
         };
 
@@ -141,6 +203,8 @@ public class Blocks {
         grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
         grass.randomTickEvent = dirtGrassTickEvent;
         grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_SNOW_GRASS);
         grass.randomTickEvent = dirtGrassTickEvent;
 
         PlantUtils.addPlantGrowthEvents(
