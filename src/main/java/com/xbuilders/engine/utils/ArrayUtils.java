@@ -32,4 +32,18 @@ public class ArrayUtils {
 
         return combinedArray;
     }
+
+    public static boolean startsWith(byte[] array, byte[] prefix) {
+        if (prefix.length > array.length) {
+            return false;
+        }
+
+        for (int i = 0; i < prefix.length; i++) {
+            if (array[i] != prefix[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

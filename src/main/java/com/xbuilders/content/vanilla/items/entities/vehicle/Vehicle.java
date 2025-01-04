@@ -22,6 +22,8 @@ import java.io.IOException;
 
 public abstract class Vehicle extends Entity {
 
+    public static final String JSON_TEXTURE = "v_t";
+
     /**
      * Resets the range of the degree back to 0-360
      */

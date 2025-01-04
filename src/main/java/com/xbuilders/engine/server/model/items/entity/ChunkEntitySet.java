@@ -56,6 +56,10 @@ public class ChunkEntitySet {
         return null;
     }
 
+    public Entity placeNew(Vector3i worldPos, EntitySupplier entity, byte[] data) {
+        return placeNew(entity, 0, worldPos.x, worldPos.y, worldPos.z, data);
+    }
+
     public Entity placeNew(Vector3f worldPos, EntitySupplier entity, byte[] data) {
         return placeNew(entity, 0, worldPos.x, worldPos.y, worldPos.z, data);
     }
@@ -65,9 +69,6 @@ public class ChunkEntitySet {
 
     }
 
-    public Entity placeNew(Vector3i worldPos, EntitySupplier entity, byte[] data) {
-        return placeNew(entity, 0, worldPos.x, worldPos.y, worldPos.z, data);
-    }
 
     public static void startDraw(Matrix4f projection, Matrix4f view) {
         if (Entity.shader == null) {//Unless another entity uses a different shader, we only need to bind once

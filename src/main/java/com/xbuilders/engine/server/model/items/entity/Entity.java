@@ -156,6 +156,7 @@ public abstract class Entity {
     public final static Kryo kryo = new Kryo();
     public final static SmileFactory smileFactory = new SmileFactory();
     public final static ObjectMapper smileObjectMapper = new ObjectMapper(smileFactory);
+    public final static String smileHeader = ":)\n";
 
     static {
         Entity.kryo.register(byte[].class);
@@ -210,7 +211,9 @@ public abstract class Entity {
             JsonParser parser = null;
             JsonNode node = null;
             //If there is no load bytes, parser and node are null
-            if (loadBytes != null && loadBytes.length > 0) {
+            if (loadBytes != null
+                    && loadBytes.length > 0
+                    && new String(loadBytes).startsWith(smileHeader)) {
                 parser = smileFactory.createParser(loadBytes);
                 node = parser.getCodec().readTree(parser);
             }

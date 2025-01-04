@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public abstract class StaticLandAnimal extends LandAnimal {
-    EntityMesh body;
-    int[] textures;
-    int textureIndex;
+
 
     public StaticLandAnimal(int id, long uniqueIdentifier, MainWindow window) {
         super(id, uniqueIdentifier, window);
@@ -53,17 +51,18 @@ public abstract class StaticLandAnimal extends LandAnimal {
         generator.writeNumberField(JSON_SPECIES, textureIndex);
     }
 
+    /**
+     * These are just references to the static data, so they arent taking up space in the instance.
+     */
+    EntityMesh body;
+    int[] textures;
+    int textureIndex;
 
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);
-
-        try {
-            StaticLandAnimal_StaticData ead = getStaticData();
-            this.body = ead.body;
-            this.textures = ead.textures;
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
+        StaticLandAnimal_StaticData ead = getStaticData();
+        this.body = ead.body;
+        this.textures = ead.textures;
 
         if (hasData) {
             textureIndex = node.get(JSON_SPECIES).asInt();

@@ -106,7 +106,7 @@
   ],
   "xbuilders:gold_block_slab": [
     {
-      "item": "xbuilders:gold_block_slab",
+      "item": "xbuilders:gold_slab",
       "chance": 1.0,
       "maxItems": 1
     }

@@ -6,6 +6,7 @@ package com.xbuilders.content.vanilla.items.entities.vehicle;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.content.vanilla.items.entities.animal.StaticLandAnimal;
 import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.block.Block;
@@ -20,6 +21,7 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -31,8 +33,8 @@ public class Minecart extends Vehicle {
     public static final float FORWARD_SPEED = 0.19f;
     public static final float UP_DOWN_SPEED = (FORWARD_SPEED / 2) - 0.005f;
 
-    public static EntityMesh model;
-    public static int texture;
+    static StaticLandAnimal.StaticLandAnimal_StaticData staticData;
+    public int textureIndex;
 
     final PositionLock positionLock;
     public Vector3f renderOffset = new Vector3f();
@@ -106,7 +108,7 @@ public class Minecart extends Vehicle {
 
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-        model.draw(false, texture);
+        staticData.body.draw(false, staticData.textures[textureIndex]);
     }
 
 
@@ -152,19 +154,17 @@ public class Minecart extends Vehicle {
     @Override
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
-
-
-        if (model == null) {
-            model = new EntityMesh();
-            try {
-                model.loadFromOBJ(ResourceUtils.resource("items\\entity\\minecart\\minecart.obj"));
-                texture = TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\minecart\\red.png").getAbsolutePath(), false).id;
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        if (staticData == null) {//Only called once
+            staticData = new StaticLandAnimal.StaticLandAnimal_StaticData(
+                    "items\\entity\\minecart\\minecart.obj",
+                    "items\\entity\\minecart\\textures");
         }
+        if (hasData) {
+            if (node.has("texture")) {
+                textureIndex = node.get(JSON_TEXTURE).asInt();
+                textureIndex = MathUtils.clamp(textureIndex, 0, staticData.textures.length - 1);
+            }
+        } else textureIndex = 0;
 
         alignToNearestTrack();
     }
