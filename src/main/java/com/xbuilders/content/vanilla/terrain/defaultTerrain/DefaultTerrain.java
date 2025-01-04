@@ -1,19 +1,19 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
-import com.xbuilders.engine.server.model.items.Registrys;
-import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.server.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.server.model.world.Terrain;
-import com.xbuilders.engine.server.model.world.chunk.BlockData;
-import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.Terrain;
+import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.items.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.content.vanilla.items.blocks.trees.JungleTreeUtils;
 
 import java.util.*;
 
-import static com.xbuilders.engine.server.model.world.World.WORLD_BOTTOM_Y;
+import static com.xbuilders.engine.server.world.World.WORLD_BOTTOM_Y;
 import static com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain.*;
 
 public class DefaultTerrain extends Terrain {

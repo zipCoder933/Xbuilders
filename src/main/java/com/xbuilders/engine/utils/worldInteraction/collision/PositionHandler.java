@@ -4,10 +4,10 @@
  */
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.block.BlockRegistry;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.server.model.world.World;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.window.GLFWWindow;
 
 import org.joml.Vector3f;

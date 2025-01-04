@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.items;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.items.item.Item;
+import com.xbuilders.engine.server.items.item.Item;
 
 public class Camera extends Item {
 

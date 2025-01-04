@@ -4,14 +4,14 @@
  */
 package com.xbuilders.content.vanilla.terrain;
 
-import com.xbuilders.engine.server.model.world.Terrain;
-import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.Terrain;
+import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
 
 import java.util.HashMap;
 
-import static com.xbuilders.engine.server.model.world.chunk.Chunk.WIDTH;
+import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 
 /**
  * @author zipCoder933

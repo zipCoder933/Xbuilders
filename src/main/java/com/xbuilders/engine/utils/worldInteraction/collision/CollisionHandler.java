@@ -2,17 +2,17 @@ package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.block.BlockRegistry;
-import com.xbuilders.engine.server.model.items.Registrys;
-import com.xbuilders.engine.server.model.items.block.construction.BlockType;
-import com.xbuilders.engine.server.model.world.chunk.BlockData;
-import com.xbuilders.engine.server.model.world.chunk.Chunk;
-import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.items.block.construction.BlockType;
+import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.server.model.world.World;
-import com.xbuilders.engine.server.model.world.wcc.WCCi;
+import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.server.world.wcc.WCCi;
 
 import java.util.HashSet;
 

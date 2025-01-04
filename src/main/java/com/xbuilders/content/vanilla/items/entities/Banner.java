@@ -8,8 +8,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.entities.vehicle.Vehicle;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 
 import java.io.IOException;

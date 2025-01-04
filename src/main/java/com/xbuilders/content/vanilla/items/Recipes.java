@@ -1,11 +1,11 @@
 package com.xbuilders.content.vanilla.items;
 
-import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.server.model.items.block.BlockRegistry;
-import com.xbuilders.engine.server.model.items.item.Item;
-import com.xbuilders.engine.server.model.items.recipes.RecipeRegistry;
-import com.xbuilders.engine.server.model.items.recipes.crafting.CraftingRecipe;
-import com.xbuilders.engine.server.model.items.recipes.crafting.CraftingRecipes;
+import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.items.recipes.crafting.CraftingRecipe;
+import com.xbuilders.engine.server.items.recipes.crafting.CraftingRecipes;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 

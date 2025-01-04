@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.topMenu;
 
-import com.xbuilders.engine.server.model.world.Terrain;
+import com.xbuilders.engine.server.world.Terrain;
 
 import java.util.ArrayList;
 

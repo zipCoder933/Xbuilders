@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 
-import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 

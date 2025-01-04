@@ -7,8 +7,8 @@ package com.xbuilders.content.vanilla.items.entities.vehicle;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.players.PositionLock;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.utils.math.MathUtils;
 
 import java.io.IOException;

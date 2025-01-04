@@ -9,7 +9,7 @@ package com.xbuilders.engine.utils.json;
  */
 
 import com.google.gson.*;
-import com.xbuilders.engine.server.model.items.item.Item;
+import com.xbuilders.engine.server.items.item.Item;
 
 import java.lang.reflect.Type;
 

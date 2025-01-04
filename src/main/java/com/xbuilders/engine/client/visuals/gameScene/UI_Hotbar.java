@@ -4,15 +4,15 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.Registrys;
-import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.server.model.items.entity.Entity;
-import com.xbuilders.engine.server.model.items.item.Item;
-import com.xbuilders.engine.server.model.items.item.ItemStack;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.items.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.server.model.items.item.StorageSpace;
+import com.xbuilders.engine.server.items.item.StorageSpace;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;

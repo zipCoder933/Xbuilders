@@ -1,13 +1,13 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.block.BlockRegistry;
-import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.server.model.world.chunk.Chunk;
-import com.xbuilders.engine.server.model.world.wcc.WCCi;
+import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;

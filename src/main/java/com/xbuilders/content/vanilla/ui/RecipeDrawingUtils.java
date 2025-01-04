@@ -1,9 +1,9 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.server.model.items.Registrys;
-import com.xbuilders.engine.server.model.items.item.Item;
-import com.xbuilders.engine.server.model.items.recipes.crafting.CraftingRecipe;
-import com.xbuilders.engine.server.model.items.recipes.smelting.SmeltingRecipe;
+import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.items.recipes.crafting.CraftingRecipe;
+import com.xbuilders.engine.server.items.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemGrid;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;

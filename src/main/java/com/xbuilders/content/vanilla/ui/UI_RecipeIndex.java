@@ -4,12 +4,12 @@
  */
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.item.Item;
-import com.xbuilders.engine.server.model.items.recipes.RecipeDisplay;
-import com.xbuilders.engine.server.model.items.recipes.RecipeList;
-import com.xbuilders.engine.server.model.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.items.recipes.RecipeDisplay;
+import com.xbuilders.engine.server.items.recipes.RecipeList;
+import com.xbuilders.engine.server.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemIndex;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;

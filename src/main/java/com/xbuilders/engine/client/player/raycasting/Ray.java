@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.player.raycasting;
 
-import com.xbuilders.engine.server.model.items.entity.Entity;
+import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
 

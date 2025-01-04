@@ -1,11 +1,11 @@
 package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.builtinMechanics.gravityBlock.GravityBlock;
-import com.xbuilders.engine.server.model.items.ItemUtils;
-import com.xbuilders.engine.server.model.items.Registrys;
-import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
+import com.xbuilders.engine.server.items.ItemUtils;
+import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.blocks.*;
 import com.xbuilders.content.vanilla.items.blocks.trees.*;
@@ -13,7 +13,7 @@ import com.xbuilders.content.vanilla.items.blocks.trees.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.xbuilders.engine.server.model.items.ItemUtils.getAllJsonBlocks;
+import static com.xbuilders.engine.server.items.ItemUtils.getAllJsonBlocks;
 
 public class Blocks {
 

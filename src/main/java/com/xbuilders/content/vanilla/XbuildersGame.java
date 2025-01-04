@@ -5,18 +5,18 @@
 package com.xbuilders.content.vanilla;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.Game;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.*;
-import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
-import com.xbuilders.engine.server.model.items.item.Item;
-import com.xbuilders.engine.server.model.items.loot.LootTableRegistry;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.Game;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.*;
+import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.items.loot.LootTableRegistry;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.server.model.world.data.WorldData;
+import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.content.vanilla.items.Recipes;
 import com.xbuilders.content.vanilla.ui.*;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;

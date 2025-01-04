@@ -2,8 +2,8 @@ package com.xbuilders.engine.client.settings;
 
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.server.model.world.World;
-import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import java.io.File;
 import java.lang.reflect.Field;

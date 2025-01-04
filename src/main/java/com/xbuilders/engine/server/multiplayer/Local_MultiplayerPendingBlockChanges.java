@@ -1,10 +1,10 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.players.Player;
-import com.xbuilders.engine.server.model.players.pipeline.BlockHistory;
+import com.xbuilders.engine.server.players.Player;
+import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.server.model.world.data.WorldData;
+import com.xbuilders.engine.server.world.data.WorldData;
 import org.joml.Vector3i;
 
 import java.io.*;

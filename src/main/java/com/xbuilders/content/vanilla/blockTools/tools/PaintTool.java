@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.block.BlockRegistry;
-import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;

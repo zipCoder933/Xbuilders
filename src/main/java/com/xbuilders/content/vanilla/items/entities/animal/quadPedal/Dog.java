@@ -4,11 +4,11 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.GameMode;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.server.model.items.entity.EntitySupplier;
-import com.xbuilders.engine.server.model.players.Player;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.players.Player;
 
 import java.io.IOException;
 

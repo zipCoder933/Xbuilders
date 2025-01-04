@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.items;
 
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.item.Item;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.item.Item;
 
 public class Flashlight extends Item {
 

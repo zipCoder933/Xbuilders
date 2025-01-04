@@ -4,9 +4,9 @@ import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.FileDialog;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.engine.server.model.world.chunk.BlockData;
-import com.xbuilders.engine.server.model.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.server.model.world.chunk.saving.ChunkSavingLoadingUtils;
+import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.server.world.chunk.saving.ChunkSavingLoadingUtils;
 import org.joml.Vector3i;
 
 import java.io.*;

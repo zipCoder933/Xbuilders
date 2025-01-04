@@ -10,11 +10,11 @@ package com.xbuilders.engine.client.visuals.topMenu;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.GameMode;
+import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.server.model.world.Terrain;
-import com.xbuilders.engine.server.model.world.data.WorldData;
-import com.xbuilders.engine.server.model.world.WorldsHandler;
+import com.xbuilders.engine.server.world.Terrain;
+import com.xbuilders.engine.server.world.data.WorldData;
+import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.window.nuklear.components.TextBox;
 

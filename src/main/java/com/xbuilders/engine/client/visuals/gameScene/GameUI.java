@@ -10,7 +10,7 @@ package com.xbuilders.engine.client.visuals.gameScene;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.Game;
+import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.client.visuals.FileDialog;
 import com.xbuilders.engine.client.visuals.RectOverlay;
 import org.lwjgl.glfw.GLFW;

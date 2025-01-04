@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.block.Block;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
 

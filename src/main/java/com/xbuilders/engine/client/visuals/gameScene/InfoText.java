@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.engine.server.model.Server;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;

@@ -10,7 +10,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.Server;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.client.player.Skin;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Page;

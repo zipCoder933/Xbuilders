@@ -1,10 +1,10 @@
 package com.xbuilders.content.vanilla.propagation;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.LivePropagationTask;
-import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.server.model.players.pipeline.BlockHistory;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LivePropagationTask;
+import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
 import org.joml.Vector3i;

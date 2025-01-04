@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.player.camera;
 
 import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.chunk.Chunk;
 import org.joml.FrustumIntersection;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

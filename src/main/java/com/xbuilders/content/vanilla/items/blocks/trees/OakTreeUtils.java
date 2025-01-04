@@ -4,10 +4,10 @@
  */
 package com.xbuilders.content.vanilla.items.blocks.trees;
 
-import com.xbuilders.engine.server.model.Server;
-import com.xbuilders.engine.server.model.items.block.Block;
-import com.xbuilders.engine.server.model.world.Terrain;
-import com.xbuilders.engine.server.model.world.chunk.Chunk;
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.world.Terrain;
+import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.items.blocks.PlantUtils;
 
