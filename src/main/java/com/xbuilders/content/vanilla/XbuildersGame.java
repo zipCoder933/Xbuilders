@@ -5,6 +5,7 @@
 package com.xbuilders.content.vanilla;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Server;
@@ -72,7 +73,7 @@ public class XbuildersGame extends Game {
 
     public boolean drawCursor(CursorRay cursorRay) {
         if (Server.getGameMode() != GameMode.FREEPLAY) return false;
-        return blockTools.getSelectedTool().drawCursor(cursorRay, Server.projection, Server.view);
+        return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
     }
 
     public boolean clickEvent(final CursorRay ray, boolean isCreationMode) {

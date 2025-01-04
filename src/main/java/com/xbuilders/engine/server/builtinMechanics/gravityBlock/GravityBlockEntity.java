@@ -3,6 +3,7 @@ package com.xbuilders.engine.server.builtinMechanics.gravityBlock;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.Block;
@@ -73,7 +74,7 @@ public class GravityBlockEntity extends Entity {
             //There is actually something in the buffer
             arrayTextureShader.bind();//TODO: Allow better integration with an arrayTextureShader in Entity class
             arrayTextureShader.setSunAndTorch(sunValue, torchValue);
-            arrayTextureShader.updateProjectionViewMatrix(Server.projection, Server.view);
+            arrayTextureShader.updateProjectionViewMatrix(GameScene.projection, GameScene.view);
             modelMatrix.update();
             modelMatrix.sendToShader(arrayTextureShader.getID(), arrayTextureShader.uniform_modelMatrix);
             mesh.draw(false, Registrys.blocks.textures.getTexture().id);

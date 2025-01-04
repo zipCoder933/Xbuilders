@@ -146,7 +146,7 @@ public class GameMenu extends UI_GameMenu {
         }
         //Close game menu
         setOpen(false);
-        Server.ui.fileDialog.show(
+        ClientWindow.gameScene.ui.fileDialog.show(
                 waypointDir,
                 save, "wp", (file) -> {
                     if (file != null) {

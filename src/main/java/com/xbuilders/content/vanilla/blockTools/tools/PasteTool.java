@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.Registrys;
@@ -47,7 +48,7 @@ public class PasteTool extends BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
         if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
-            Server.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            ClientWindow.gameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
                     false, "xbprefab", (file) -> {
                         System.out.println("LOADING " + file.getAbsolutePath());
                         try {

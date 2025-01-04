@@ -1,8 +1,8 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.construction.BlockType;
@@ -59,7 +59,7 @@ public class CollisionHandler {
                 default -> renderingBox.setColor(255, 255, 255, 255);
             }
             renderingBox.set(aabb);
-            renderingBox.draw(Server.projection, Server.view);
+            renderingBox.draw(GameScene.projection, GameScene.view);
         }
     }
 

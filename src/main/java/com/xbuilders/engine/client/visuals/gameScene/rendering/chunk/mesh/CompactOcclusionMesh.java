@@ -1,5 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh;
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling.BoundingBoxMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling.EmptyShader;
@@ -98,7 +99,7 @@ The basic layout for query occlusion culling is:
 
     public void drawBoundingBoxWithWireframe() {
         boundaryShader.bind();
-        boundaryMVP.update(Server.projection, Server.view);
+        boundaryMVP.update(GameScene.projection, GameScene.view);
         boundaryMVP.sendToShader(boundaryShader.getID(), boundaryShader.mvpUniform);
         boundingBox.renderWireframe();
         boundaryShader.unbind();
@@ -107,7 +108,7 @@ The basic layout for query occlusion culling is:
 
     public static void startInvisible() {
         boundaryShader.bind();
-        boundaryMVP.update(Server.projection, Server.view);
+        boundaryMVP.update(GameScene.projection, GameScene.view);
         boundaryMVP.sendToShader(boundaryShader.getID(), boundaryShader.mvpUniform);
         //Disable depth mask and color mask
         GL30.glDepthMask(false);
@@ -121,7 +122,7 @@ The basic layout for query occlusion culling is:
 //        GL30.glEnable(GL30.GL_DEPTH_TEST);  //Enable depth test
         GL30.glDepthMask(true);
         GL30.glColorMask(true, true, true, true);
-        Server.enableBackfaceCulling(); //Enable backface culling
+        GameScene.enableBackfaceCulling(); //Enable backface culling
     }
 
     public void drawInvisible() {

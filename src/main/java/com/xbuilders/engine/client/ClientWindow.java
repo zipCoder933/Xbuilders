@@ -201,6 +201,7 @@ public class ClientWindow extends NKWindow {
         popupMessage = new PopupMessage(ctx, this);
         topMenu = new TopMenu(this);
         server = new Server(this, game);
+        gameScene = new GameScene(this);
 
         setMpfUpdateInterval(1000);
         MemoryProfiler.setIntervalMS(500);
@@ -236,8 +237,8 @@ public class ClientWindow extends NKWindow {
 
         Theme.initialize(ctx);
         server.initialize(this);
-
-        topMenu.init(Server.server.getIpAdress());
+        gameScene.initialize(this);
+        topMenu.initialize(Server.server.getIpAdress());
 
         if (generateIcons || !blockIconsDirectory.exists()) {
             firstTimeSetup();
@@ -284,7 +285,8 @@ public class ClientWindow extends NKWindow {
 
     private void render() throws IOException {
         if (isGameMode) {
-            server.render();
+            server.update();
+            gameScene.render();
         } else {
             topMenu.render();
         }
@@ -343,13 +345,13 @@ public class ClientWindow extends NKWindow {
 
     @Override
     public void framebufferResizeEvent(int width, int height) {
-        server.windowResizeEvent(width, height);
+        gameScene.windowResizeEvent(width, height);
     }
 
     public void minimizeWindow() {
         long windowHandle = GLFW.glfwGetCurrentContext();
         if (isGameMode) {
-            server.windowUnfocusEvent();
+            gameScene.windowUnfocusEvent();
         }
         if (isFullscreen()) {
             GLFW.glfwIconifyWindow(windowHandle);
@@ -364,7 +366,7 @@ public class ClientWindow extends NKWindow {
     private void windowUnfocusEvent() {
         long windowHandle = GLFW.glfwGetCurrentContext();
         if (isGameMode) {
-            server.windowUnfocusEvent();
+            gameScene.windowUnfocusEvent();
         }
         if (isFullscreen()) {
             GLFW.glfwIconifyWindow(windowHandle);
@@ -399,7 +401,7 @@ public class ClientWindow extends NKWindow {
             }
         }
         if (isGameMode) {
-            server.keyEvent(key, scancode, action, mods);
+            gameScene.keyEvent(key, scancode, action, mods);
         } else {
             topMenu.keyEvent();
         }
@@ -408,14 +410,14 @@ public class ClientWindow extends NKWindow {
     @Override
     public void mouseButtonEvent(int button, int action, int mods) {
         if (isGameMode) {
-            server.mouseButtonEvent(button, action, mods);
+            gameScene.mouseButtonEvent(button, action, mods);
         }
     }
 
     @Override
     public void mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (isGameMode) {
-            server.mouseScrollEvent(scroll, xoffset, yoffset);
+            gameScene.mouseScrollEvent(scroll, xoffset, yoffset);
         }
     }
 }

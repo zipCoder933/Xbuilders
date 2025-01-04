@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.server.world.World;
@@ -123,7 +123,7 @@ public class PositionHandler {
                 renderedBox.setLineWidth(2);
                 renderedBox.setColor(new Vector4f(1, 0, 0, 1));
                 renderedBox.set(aabb.box);
-                renderedBox.draw(Server.projection, Server.view);
+                renderedBox.draw(GameScene.projection, GameScene.view);
             }
 
             if (!isFrozen()) {
@@ -183,7 +183,7 @@ public class PositionHandler {
 
             onGround = false;
             if (collisionsEnabled) {
-                collisionHandler.resolveCollisions(Server.projection, Server.view);
+                collisionHandler.resolveCollisions(GameScene.projection, GameScene.view);
             }
 
             if (onGround) hitGround();

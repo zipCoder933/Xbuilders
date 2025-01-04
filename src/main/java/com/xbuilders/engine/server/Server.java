@@ -6,62 +6,47 @@ package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.items.entity.EntityRegistry;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.items.entity.ItemDrop;
 import com.xbuilders.engine.server.items.item.ItemStack;
-import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.multiplayer.GameServer;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
+import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.engine.client.visuals.gameScene.GameUI;
-import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
-import com.xbuilders.engine.utils.ByteUtils;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.json.JsonManager;
-import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.skybox.SkyBackground;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.window.WindowEvents;
-import org.joml.Matrix4f;
+import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.json.JsonManager;
+import com.xbuilders.engine.utils.progress.ProgressData;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.opengl.GL11;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengles.GLES20.GL_BLEND;
 
-public class Server implements WindowEvents {
+public class Server {
 
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
-    public static boolean drawWireframe;
-    public static boolean drawBoundingBoxes;
     public static UserControlledPlayer userPlayer;
     public static GameServer server;
     static ClientWindow window;
-    public final static Matrix4f projection = new Matrix4f();
-    public final static Matrix4f view = new Matrix4f();
-    public final static Matrix4f centeredView = new Matrix4f();
     private static Game game;
     public static GameCommands commands;
     public static BlockEventPipeline eventPipeline;
@@ -69,11 +54,9 @@ public class Server implements WindowEvents {
 
     //Game Mode =======================================================================================================
     private static GameMode gameMode = GameMode.ADVENTURE;
-
     public static GameMode getGameMode() {
         return gameMode;
     }
-
     public static void setGameMode(GameMode gameMode) {
         Server.gameMode = gameMode;
     }
@@ -103,8 +86,7 @@ public class Server implements WindowEvents {
     public Server(ClientWindow window, Game myGame) throws Exception {
         game = myGame;
         this.window = window;
-        specialMode = true;
-        userPlayer = new UserControlledPlayer(window, projection, view, centeredView);
+        userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
         server = new GameServer(this, userPlayer);
         livePropagationHandler = new LivePropagationHandler();
         eventPipeline = new BlockEventPipeline(world);
@@ -234,31 +216,25 @@ public class Server implements WindowEvents {
 
 
     public void initialize(ClientWindow window) throws Exception {
-        //Tasks that dont depend on the world, player or blocks
-        setProjection();
         commands = new GameCommands(this, game);
         background = new SkyBackground(window);
         livePropagationHandler.tasks.clear();
 
         //Setup blocks
-        game.setup(this, window.ctx, ui);
+        game.setup(this, window.ctx, ClientWindow.gameScene.ui);
         //init player
         userPlayer.init();
         //init world
         world.init(userPlayer, Registrys.blocks.textures);
-
-        //Init UI
-        ui = new GameUI(game, window.ctx, window);
-        ui.init();
     }
 
 
     public static void alert(String s) {
-        ui.infoBox.addToHistory("GAME: " + s);
+        ClientWindow.gameScene.ui.infoBox.addToHistory("GAME: " + s);
     }
 
     public static void consoleOut(String s) {
-        ui.infoBox.addToHistory(s);
+        ClientWindow.gameScene.ui.infoBox.addToHistory(s);
     }
 
 
@@ -275,11 +251,7 @@ public class Server implements WindowEvents {
 
     public static void pauseGame() {
         if (window.isFullscreen()) window.minimizeWindow();
-        ui.baseMenu.setOpen(true);
-    }
-
-    public static void unpauseGame() {
-        if (window.isFullscreen()) ClientWindow.restoreWindow();
+        ClientWindow.gameScene.ui.baseMenu.setOpen(true);
     }
 
 
@@ -315,7 +287,6 @@ public class Server implements WindowEvents {
         eventPipeline.startGameEvent(worldData);
         world.startGameEvent(worldData);
         tickThread.startGameEvent();
-        if (ClientWindow.devMode) writeDebugText = true;
     }
 
     public void stopGameEvent() {
@@ -418,7 +389,7 @@ public class Server implements WindowEvents {
                 System.out.println("Starting game... Operator: " + isOperator);
                 userPlayer.startGameEvent(world.data);
                 prog.finish();
-                setProjection();
+                ClientWindow.gameScene.setProjection();
             }
         }
     }
@@ -454,192 +425,22 @@ public class Server implements WindowEvents {
     }
 
 
-    private boolean holdMouse;
-    public static boolean specialMode;
-    public static GameUI ui;
     public static SkyBackground background;
     private GameMode lastGameMode;
 
 
-    public void render() throws IOException {
-        ClientWindow.frameTester.startProcess();
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
-//        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
-        background.draw(projection, centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
-        background.update();
-
-        holdMouse = !ui.releaseMouse() && window.windowIsFocused();
-        ClientWindow.frameTester.endProcess("Clearing buffer");
-
-        glEnable(GL_DEPTH_TEST);   // Enable depth test
-        glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
-
+    public void update() throws IOException {
         if (lastGameMode == null || lastGameMode != gameMode) {
             lastGameMode = gameMode; //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
             userPlayer.gameModeChangedEvent(getGameMode());
             Server.alert("Game mode changed to: " + gameMode);
         }
-
+        //draw other players
+        server.updatePlayers();
+        livePropagationHandler.update();
         //TODO: move player logic into tick thread
         eventPipeline.update();
-        userPlayer.update(holdMouse);
-
-
-        //draw other players
-        server.updatePlayers(projection, view);
-
-        enableBackfaceCulling();
-        ClientWindow.frameTester.startProcess();
-
-        glEnable(GL_BLEND); //Enable transparency
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        world.drawChunks(projection, view, userPlayer.worldPosition);
-        ClientWindow.frameTester.endProcess("Drawing chunks");
-        setInfoText();
-        livePropagationHandler.update();
-        ui.draw();
+        background.update();
     }
-
-    public void windowUnfocusEvent() {
-        if (window.isFullscreen()) ui.baseMenu.setOpen(true);
-        else if (!Server.ui.anyMenuOpen()) {
-            ui.baseMenu.setOpen(true);
-        }
-        holdMouse = false;
-    }
-
-    public void windowResizeEvent(int width, int height) {
-        setProjection();
-        ui.windowResizeEvent(width, height);
-    }
-
-
-    public static void enableBackfaceCulling() {
-        //If backface culling is not working, it means that another process has probably disabled it, after init3D.
-        glEnable(GL_CULL_FACE); // enable face culling
-        glFrontFace(GL_CCW);// specify the winding order of frontRay-facing triangles
-        glCullFace(GL_BACK);// specify which faces to cull
-    }
-
-    private void setProjection() {
-        projection.identity().perspective((float) Math.toRadians(70.0f), //Fov
-                (float) window.getWidth() / (float) window.getHeight(), //screen ratio
-                0.1f, 10000.0f); //display range (clipping planes)
-    }
-
-    public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (ui.keyEvent(key, scancode, action, mods)) {
-        } else if (game.keyEvent(key, scancode, action, mods)) {
-        } else {
-            userPlayer.keyEvent(key, scancode, action, mods);
-        }
-        if (action == GLFW.GLFW_RELEASE) {
-            switch (key) {
-                case GLFW.GLFW_KEY_F3 -> writeDebugText = !writeDebugText;
-                case GLFW.GLFW_KEY_F5 -> specialMode = !specialMode;
-                case GLFW.GLFW_KEY_F6 -> drawWireframe = !drawWireframe;
-                case GLFW.GLFW_KEY_F7 -> drawBoundingBoxes = !drawBoundingBoxes;
-            }
-        }
-        return true;
-    }
-
-    public boolean mouseButtonEvent(int button, int action, int mods) {
-        ui.mouseButtonEvent(button, action, mods);
-        if (!ui.anyMenuOpen()) {
-            userPlayer.mouseButtonEvent(button, action, mods);
-        }
-        return true;
-    }
-
-    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (ui.anyMenuOpen() && ui.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else if (userPlayer.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else if (game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else {
-            ui.hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
-        }
-        return true;
-    }
-
-
-    boolean writeDebugText = false;
-    private WCCi rayWCC = new WCCi();
-    private Vector3i rayWorldPos = new Vector3i();
-
-    private void setInfoText() {
-        if (writeDebugText) {
-            String text = "";
-            try {
-                WCCf playerWCC = new WCCf();
-                playerWCC.set(userPlayer.worldPosition);
-                text += ClientWindow.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
-                text += "Saved " + world.getTimeSinceLastSave() + "ms ago\n";
-                text += "PLAYER pos: " +
-                        ((int) userPlayer.worldPosition.x) + ", " +
-                        ((int) userPlayer.worldPosition.y) + ", " +
-                        ((int) userPlayer.worldPosition.z) +
-                        "    velocity: " + MiscUtils.printVector(Server.userPlayer.positionHandler.getVelocity());
-                text += "\n\tcamera: " + userPlayer.camera.toString();
-
-                if (userPlayer.camera.cursorRay.hitTarget() || userPlayer.camera.cursorRay.angelPlacementMode) {
-                    if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-                        rayWCC.set(userPlayer.camera.cursorRay.getHitPosPlusNormal());
-                        rayWorldPos.set(userPlayer.camera.cursorRay.getHitPosPlusNormal());
-                        text += "\nRAY (+normal) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
-                    } else {
-                        rayWCC.set(userPlayer.camera.cursorRay.getHitPos());
-                        rayWorldPos.set(userPlayer.camera.cursorRay.getHitPos());
-                        text += "\nRAY (hit) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
-                    }
-
-                    if (userPlayer.camera.cursorRay.getEntity() != null) {
-                        Entity e = userPlayer.camera.cursorRay.getEntity();
-                        text += "\nENTITY: " + e.toString() + "\n" +
-                                "\tcontrolledByAnotherPlayer: " + e.multiplayerProps.controlledByAnotherPlayer;
-                    }
-
-                    Chunk chunk = world.getChunk(rayWCC.chunk);
-                    if (chunk != null) {
-                        text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
-                        text += "\nchunk neighbors: " + chunk.neghbors.toString();
-                        text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
-                        text += "\nchunk mesh: " + chunk.meshes;
-                        text += "\nchunk last modified: " + MiscUtils.formatTime(chunk.lastModifiedTime);
-
-                        Block block = Registrys.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
-                        BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-
-                        byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-                        text += "\n" + block + " data: " + printBlockData(data) + " type: " + Registrys.blocks.getBlockType(block.renderType);
-                        text += "\nlight=" + getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
-                                + "  sun=" + (sun)
-                                + "  torch=" + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-                    }
-
-                }
-
-                text += "\nSpecial Mode: " + specialMode;
-                text += "\nAny Menu Open: " + Server.ui.anyMenuOpen();
-                text += "\nBase Menus Open: " + Server.ui.baseMenusOpen();
-
-            } catch (Exception ex) {
-                text = "Error: " + ex.getMessage();
-                ex.printStackTrace();
-            }
-            ui.setDevText(text);
-        } else ui.setDevText(null);
-    }
-
-    private String printBlockData(BlockData data) {
-        if (data == null) return "null";
-        else if (data.size() > 20)
-            return "l=" + data.size() + "   \"" + new String(data.toByteArray())
-                    .replaceAll("\n", "").replaceAll("\\s+", "") + "\"";
-        else return data.toString();
-    }
-
-
 }

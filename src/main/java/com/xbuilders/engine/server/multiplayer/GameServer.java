@@ -74,9 +74,14 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
         return !clients.isEmpty();
     }
 
-    public void updatePlayers(Matrix4f projection, Matrix4f view) {
+    public void updatePlayers() {
         for (int i = 0; i < clients.size(); i++) {
             clients.get(i).update(client_userPlayer);
+        }
+    }
+
+    public void drawPlayers(Matrix4f projection, Matrix4f view) {
+        for (int i = 0; i < clients.size(); i++) {
             clients.get(i).drawPlayer(projection, view);
         }
     }

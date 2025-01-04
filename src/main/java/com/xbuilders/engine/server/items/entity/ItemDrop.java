@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.block.Block;
@@ -147,7 +148,7 @@ public class ItemDrop extends Entity {
                 animatedPos.y + 0.5f - (box.getSize().y / 2) + bob,
                 animatedPos.z + 0.5f - (box.getSize().z / 2));
         box.getModelMatrix().rotateY((ClientWindow.frameCount * 0.01f) + seed);
-        box.draw(Server.projection, Server.view);
+        box.draw(GameScene.projection, GameScene.view);
     }
 }
 

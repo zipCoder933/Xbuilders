@@ -342,7 +342,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     private boolean keyInputAllowed() {
-        return !Server.ui.anyMenuOpen() && canMove();
+        return !ClientWindow.gameScene.ui.anyMenuOpen() && canMove();
     }
 
     public boolean leftKeyPressed() {
@@ -509,13 +509,13 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         if (newCameraBlock != cameraBlock) {
             cameraBlock = newCameraBlock;
             if (newCameraBlock.isAir()) {//Air is always transparent
-                Server.ui.setOverlayColor(0, 0, 0, 0);
+                ClientWindow.gameScene.ui.setOverlayColor(0, 0, 0, 0);
             } else if (newCameraBlock.opaque && newCameraBlock.colorInPlayerHead[3] == 0
                     && positionHandler.collisionsEnabled && positionLock == null
                     && camera.getThirdPersonDist() == 0) { //If we are opaque, don't have a color and we are not in passthrough mode
-                Server.ui.setOverlayColor(0, 0, 0, 1);
+                ClientWindow.gameScene.ui.setOverlayColor(0, 0, 0, 1);
             } else {
-                Server.ui.setOverlayColor(
+                ClientWindow.gameScene.ui.setOverlayColor(
                         newCameraBlock.colorInPlayerHead[0],
                         newCameraBlock.colorInPlayerHead[1],
                         newCameraBlock.colorInPlayerHead[2],

@@ -261,7 +261,7 @@ public class CursorRay {
     public void update() {
         if (Server.getGameMode() == GameMode.SPECTATOR) return;
 
-        if (!Server.ui.anyMenuOpen()) {
+        if (!ClientWindow.gameScene.ui.anyMenuOpen()) {
             //Auto click
             if (window.isMouseButtonPressed(UserControlledPlayer.getCreateMouseButton())) {
                 if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&

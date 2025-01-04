@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.world;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.items.entity.Entity;
@@ -720,9 +721,9 @@ public class World {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 initShaderUniforms(chunk);
                 chunk.meshes.opaqueMesh.getQueryResult();
-                chunk.meshes.opaqueMesh.drawVisible(Server.drawWireframe);
+                chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
 
-                if (Server.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
+                if (GameScene.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
 
             }
         });
@@ -750,7 +751,7 @@ public class World {
             if (!chunk.meshes.transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
                 if (chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty()) {
                     initShaderUniforms(chunk);
-                    chunk.meshes.transMesh.draw(Server.drawWireframe);
+                    chunk.meshes.transMesh.draw(GameScene.drawWireframe);
                 }
             }
         });

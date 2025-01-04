@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.player;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.server.players.Player;
 import org.joml.Vector3i;
@@ -29,6 +29,6 @@ public class BoxSkin extends Skin {
 
     @Override
     public void render() {
-        box.draw(Server.projection, Server.view);
+        box.draw(GameScene.projection, GameScene.view);
     }
 }

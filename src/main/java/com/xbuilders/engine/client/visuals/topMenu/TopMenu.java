@@ -92,7 +92,7 @@ public class TopMenu {
     }
 
 
-    public void init(String ipAdress) throws IOException {
+    public void initialize(String ipAdress) throws IOException {
         menuHome = new MenuHome(window.ctx, window, this);
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
