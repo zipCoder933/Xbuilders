@@ -10,19 +10,45 @@ import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.MainWindow;
+import com.xbuilders.engine.client.visuals.rendering.entity.EntityMesh;
 import com.xbuilders.engine.server.model.GameScene;
 import com.xbuilders.engine.server.model.items.entity.Entity;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.content.vanilla.items.Blocks;
+import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector2f;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Objects;
 
 public abstract class Vehicle extends Entity {
 
     public static final String JSON_TEXTURE = "v_t";
+
+    public static class Vehicle_staticData {
+        public final EntityMesh body;
+        public final HashMap<String, Integer> textures;
+
+        public Vehicle_staticData(String bodyMesh, String texturesDir) throws IOException {
+            body = new EntityMesh();
+            body.loadFromOBJ(ResourceUtils.resource(bodyMesh));
+
+            //Generate textures
+            File[] textureFiles = ResourceUtils.resource(texturesDir).listFiles();
+            textures = new HashMap<>();
+            for (int i = 0; i < textureFiles.length; i++) {
+                String textureKey = textureFiles[i].getName().replace(".png", "");
+                int textureID = Objects.requireNonNull(
+                        TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
+                textures.put(textureKey, textureID);
+            }
+        }
+    }
 
     /**
      * Resets the range of the degree back to 0-360

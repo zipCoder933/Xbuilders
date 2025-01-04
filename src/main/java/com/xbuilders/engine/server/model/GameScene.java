@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.server.model;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.entity.Entity;
@@ -21,6 +22,7 @@ import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.server.model.world.Terrain;
 import com.xbuilders.engine.server.model.world.World;
@@ -39,6 +41,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.opengl.GL11;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -193,14 +196,36 @@ public class GameScene implements WindowEvents {
         drop.droppedFromPlayer = droppedFromPlayer;
         return e;
     }
+    
+    /**
+     *
+     * @param entity the entity to place
+     * @param w the world position to place the entity
+     * @param simpleGen the JSON to inject into the entity
+     * @return the entity that was placed
+     */
+    public static Entity placeEntity(EntitySupplier entity, Vector3f w, JsonManager.SimpleJsonGenerator simpleGen) {
+        byte[] entityBytes = null;
+        if (simpleGen != null) {
+            //Write the entity input as binary data
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try (JsonGenerator generator = Entity.smileFactory.createGenerator(baos)) {
+                generator.writeStartObject(); // Start root object
+                simpleGen.write(generator);
+                generator.writeEndObject(); // End root object
+                generator.close();
+            } catch (IOException e) {
+                ErrorHandler.report(e);
+            }
+            entityBytes = baos.toByteArray();
+        }
 
-    public static Entity placeEntity(EntitySupplier entity, Vector3f w, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(w);
         Chunk chunk = world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModified();
-            Entity e = chunk.entities.placeNew(w, entity, data);
+            Entity e = chunk.entities.placeNew(w, entity, entityBytes);
             e.sendMultiplayer = true;//Tells the chunkEntitySet to send the entity to the clients
             return e;
         }

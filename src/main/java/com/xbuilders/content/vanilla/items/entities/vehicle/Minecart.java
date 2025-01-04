@@ -24,6 +24,8 @@ import org.joml.Vector3i;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * @author zipCoder933
@@ -33,11 +35,12 @@ public class Minecart extends Vehicle {
     public static final float FORWARD_SPEED = 0.19f;
     public static final float UP_DOWN_SPEED = (FORWARD_SPEED / 2) - 0.005f;
 
-    static StaticLandAnimal.StaticLandAnimal_StaticData staticData;
-    public int textureIndex;
-
+    static Vehicle_staticData staticData;
     final PositionLock positionLock;
     public Vector3f renderOffset = new Vector3f();
+
+    private int textureID;
+    final String texture;
 
     public Vector3i getFixedPosition() {
         //Keep fixed position untouched, we want this as close to real world position as possible
@@ -47,8 +50,9 @@ public class Minecart extends Vehicle {
         return fixedPosition;
     }
 
-    public Minecart(int id, MainWindow window, long uniqueIdentifier) {
+    public Minecart(int id, MainWindow window, long uniqueIdentifier, String texture) {
         super(id, window, uniqueIdentifier);
+        this.texture = texture;
         aabb.setOffsetAndSize(.9f, 1f, .9f, true);
         positionLock = new PositionLock(this, 0);
 
@@ -108,7 +112,7 @@ public class Minecart extends Vehicle {
 
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
-        staticData.body.draw(false, staticData.textures[textureIndex]);
+        staticData.body.draw(false, textureID);
     }
 
 
@@ -155,17 +159,13 @@ public class Minecart extends Vehicle {
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
         if (staticData == null) {//Only called once
-            staticData = new StaticLandAnimal.StaticLandAnimal_StaticData(
+            staticData = new Vehicle_staticData(
                     "items\\entity\\minecart\\minecart.obj",
                     "items\\entity\\minecart\\textures");
         }
-        if (hasData) {
-            if (node.has("texture")) {
-                textureIndex = node.get(JSON_TEXTURE).asInt();
-                textureIndex = MathUtils.clamp(textureIndex, 0, staticData.textures.length - 1);
-            }
-        } else textureIndex = 0;
-
+        if (texture != null) {
+            textureID = staticData.textures.get(texture);
+        }
         alignToNearestTrack();
     }
 

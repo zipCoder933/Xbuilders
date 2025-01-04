@@ -41,21 +41,21 @@ public class Entities {
 
 
                 //Boats
-                new EntitySupplier(92, (uniqueIdentifier) -> new Boat(92, window, uniqueIdentifier)),
-                new EntitySupplier(95, (uniqueIdentifier) -> new Boat(95, window, uniqueIdentifier)),
-                new EntitySupplier(96, (uniqueIdentifier) -> new Boat(96, window, uniqueIdentifier)),
-                new EntitySupplier(94, (uniqueIdentifier) -> new Boat(94, window, uniqueIdentifier)),
-                new EntitySupplier(93, (uniqueIdentifier) -> new Boat(93, window, uniqueIdentifier)),
-                new EntitySupplier(97, (uniqueIdentifier) -> new Boat(97, window, uniqueIdentifier)),
+                new EntitySupplier(92, (uniqueIdentifier) -> new Boat(92, window, uniqueIdentifier, "boat_oak")),
+                new EntitySupplier(95, (uniqueIdentifier) -> new Boat(95, window, uniqueIdentifier, "boat_darkoak")),
+                new EntitySupplier(96, (uniqueIdentifier) -> new Boat(96, window, uniqueIdentifier, "boat_spruce")),
+                new EntitySupplier(94, (uniqueIdentifier) -> new Boat(94, window, uniqueIdentifier, "boat_acacia")),
+                new EntitySupplier(93, (uniqueIdentifier) -> new Boat(93, window, uniqueIdentifier, "boat_jungle")),
+                new EntitySupplier(97, (uniqueIdentifier) -> new Boat(97, window, uniqueIdentifier, "boat_birch")),
 
                 //Minecarts
-                new EntitySupplier(103, (uniqueIdentifier) -> new Minecart(103, window, uniqueIdentifier)),
-                new EntitySupplier(99, (uniqueIdentifier) -> new Minecart(99, window, uniqueIdentifier)),
-                new EntitySupplier(104, (uniqueIdentifier) -> new Minecart(104, window, uniqueIdentifier)),
-                new EntitySupplier(101, (uniqueIdentifier) -> new Minecart(101, window, uniqueIdentifier)),
-                new EntitySupplier(98, (uniqueIdentifier) -> new Minecart(98, window, uniqueIdentifier)),
-                new EntitySupplier(100, (uniqueIdentifier) -> new Minecart(100, window, uniqueIdentifier)),
-                new EntitySupplier(102, (uniqueIdentifier) -> new Minecart(102, window, uniqueIdentifier)),
+                new EntitySupplier(103, (uniqueIdentifier) -> new Minecart(103, window, uniqueIdentifier, "blue")),
+                new EntitySupplier(99, (uniqueIdentifier) -> new Minecart(99, window, uniqueIdentifier, "charcoal")),
+                new EntitySupplier(104, (uniqueIdentifier) -> new Minecart(104, window, uniqueIdentifier, "cyan")),
+                new EntitySupplier(101, (uniqueIdentifier) -> new Minecart(101, window, uniqueIdentifier, "green")),
+                new EntitySupplier(98, (uniqueIdentifier) -> new Minecart(98, window, uniqueIdentifier, "iron")),
+                new EntitySupplier(100, (uniqueIdentifier) -> new Minecart(100, window, uniqueIdentifier, "red")),
+                new EntitySupplier(102, (uniqueIdentifier) -> new Minecart(102, window, uniqueIdentifier, "yellow")),
 
                 //Foxes
                 new EntitySupplier(56, (uniqueIdentifier) -> new Fox(56, uniqueIdentifier, window)),

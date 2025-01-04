@@ -5,6 +5,7 @@
 package com.xbuilders.engine.utils.json;
 
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xbuilders.engine.server.model.items.item.Item;
@@ -16,6 +17,12 @@ import com.xbuilders.engine.server.model.items.block.construction.BlockTexture;
  */
 public class JsonManager {
 
+    @FunctionalInterface
+    public interface SimpleJsonGenerator {
+        public void write(JsonGenerator generator);
+    }
+
+    public static final String SMILE_HEADER = ":)\n";
 
     public static BlockTextureTypeAdapter textureAdapter = new BlockTextureTypeAdapter();
     public static Gson gson_itemAdapter = new GsonBuilder()

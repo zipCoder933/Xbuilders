@@ -22,10 +22,13 @@ import java.io.IOException;
 public class Boat extends Vehicle {
 
     public static EntityMesh model;
-    public static int texture;
+    static Vehicle_staticData staticData;
+    private final String textureFile;
+    public int textureID;
 
-    public Boat(int id, MainWindow window, long uniqueIdentifier) {
-        super(id,window, uniqueIdentifier);
+    public Boat(int id, MainWindow window, long uniqueIdentifier, String textureFile) {
+        super(id, window, uniqueIdentifier);
+        this.textureFile = textureFile;
         frustumSphereRadius = (1.5f);
         aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);
     }
@@ -52,7 +55,7 @@ public class Boat extends Vehicle {
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
-        model.draw(false, texture);
+        model.draw(false, textureID);
     }
 
     boolean rise;
@@ -125,20 +128,15 @@ public class Boat extends Vehicle {
     @Override
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
-
         posHandler.setGravityEnabled(isInWater() ? false : true);
-
-        if (model == null) {
-            model = new EntityMesh();
-            try {
-                model.loadFromOBJ(ResourceUtils.resource("items\\entity\\boat\\boat.obj"));
-                texture = TextureUtils.loadTexture(ResourceUtils.resource("items\\entity\\boat\\textures\\boat_birch.png").getAbsolutePath(),
-                        false).id;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        if (staticData == null) {//Only called once
+            staticData = new Vehicle_staticData(
+                    "items\\entity\\boat\\boat.obj",
+                    "items\\entity\\boat\\textures");
         }
-
+        if (textureFile != null) {
+            textureID = staticData.textures.get(textureFile);
+        }
     }
 
 
@@ -150,7 +148,6 @@ public class Boat extends Vehicle {
         GameScene.userPlayer.positionLock = new PositionLock(this, 0);
         return true;
     }
-
 
 
 }
