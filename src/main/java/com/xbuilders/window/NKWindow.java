@@ -421,6 +421,9 @@ public abstract class NKWindow extends GLFWWindow {
                 nk_buffer_init_fixed(vbuf, vertices/*, max_vertex_buffer*/);
                 nk_buffer_init_fixed(ebuf, elements/*, max_element_buffer*/);
                 nk_convert(ctx, cmds, vbuf, ebuf, config);//TODO: This line is causing a lot of crashes
+            } catch (IllegalArgumentException e) {
+                //Handle any errors gracefully
+                e.printStackTrace();
             }
             /**
              * The vertex & element buffers are unrelated to the problem. Those are stored by the OpenGL driver, the
