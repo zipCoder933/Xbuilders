@@ -10,25 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/res/items/recipes/crafting/banner.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/blue.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/blue.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/blue_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/blue_logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/gray.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/gray.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/green.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/green.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/lightblue.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/lightblue.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/lime.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/lime.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/orange.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/orange.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/pattern.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/pattern.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/pink.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/pink.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/purple.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/purple.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/red.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/red.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/regal.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/regal.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/royal.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/royal.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/white.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/white.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/banner/yellow.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/banner/textures/yellow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/Entities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/Entities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/Banner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/Banner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/recipes/crafting/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/recipes/crafting/items.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

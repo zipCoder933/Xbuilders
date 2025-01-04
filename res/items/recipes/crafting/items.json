@@ -28,7 +28,7 @@
       null
     ],
     "output": "xbuilders:animal_feed",
-    "amount": 18
+    "amount": 8
   },
   {
     "shapeless": true,
@@ -220,6 +220,32 @@
     ],
     "output": "xbuilders:red_minecart",
     "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:tall_dry_grass",
+      "xbuilders:tall_dry_grass",
+      "xbuilders:tall_dry_grass",
+      "xbuilders:tall_dry_grass"
+    ],
+    "output": "xbuilders:string",
+    "amount": 16
+  },
+  {
+    "input": [
+      "xbuilders:string",
+      "xbuilders:string",
+      "xbuilders:string",
+      "xbuilders:string",
+      "xbuilders:string",
+      "xbuilders:string",
+      "xbuilders:string",
+      "xbuilders:string",
+      "xbuilders:string"
+    ],
+    "output": "xbuilders:wool",
+    "amount": 16
   },
   {
     "shapeless": true,
