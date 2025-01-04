@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
+import com.xbuilders.engine.MainWindow;
 import com.xbuilders.engine.server.model.items.Registrys;
 import com.xbuilders.engine.server.model.items.block.Block;
 import com.xbuilders.engine.server.model.items.block.BlockRegistry;
@@ -63,19 +64,20 @@ public class DefaultTerrain extends Terrain {
         ORES.add(new Ore("iron", 0.9f, IRON_ORE));
 
         Ore gold = new Ore("gold", 0.5f, GOLD_ORE);
-        gold.minYLevel = 100;
+        gold.minYLevel = 120;
         ORES.add(gold);
 
         ORES.add(new Ore("lapis", 0.7f, LAPIS_ORE));
 
         Ore emerald = new Ore("emerald", 0.2f, EMERALD_ORE);
-        emerald.amtExposedToAir = 0.05f;
-        emerald.minYLevel = 200;
+        emerald.amtExposedToAir = 0.2f;
+        emerald.minYLevel = 180;
         ORES.add(emerald);
 
+        //TODO: Figure out why diamond are only showing up as scattered ores
         Ore diamond = new Ore("diamond", 0.2f, DIAMOND_ORE);
-        diamond.minYLevel = 200;
-        diamond.amtExposedToAir = 0.05f;
+        diamond.minYLevel = 180;
+        diamond.amtExposedToAir = 0.2f;
         ORES.add(diamond);
     }
 
@@ -437,11 +439,14 @@ public class DefaultTerrain extends Terrain {
                                    float alpha, float caveFractal,
                                    Ore[] commonOres, Ore[] rareOres) {
 
-        boolean orbA = alpha > 0.36 && alpha < 0.4;
-        boolean orbRareA = alpha > 0.7;
-        boolean orbB = alpha < -0.36 && alpha > -0.4;
-        boolean orbRareB = alpha < -0.7;
-        boolean rareCluster = alpha < 0.001 && alpha > -0.001;
+        boolean orbA = alpha < 0.5 && alpha > 0.47;
+        boolean orbB = alpha < -0.47 && alpha > -0.5;
+
+        boolean orbRareA = alpha > 0.72;
+        boolean orbRareB = alpha < -0.72;
+
+        boolean rareScatter = alpha < 0.0014 && alpha > -0.0014;
+
         short impureBlock = Blocks.BLOCK_DIORITE;
 
         boolean exposedToAir = caves && caveFractal > CAVE_THRESHOLD - 1;
@@ -451,7 +456,7 @@ public class DefaultTerrain extends Terrain {
         else if (alpha > 0) chunk.data.setBlock(x, y, z, Blocks.BLOCK_ANDESITE);
         else chunk.data.setBlock(x, y, z, Blocks.BLOCK_GRAVEL);
 
-//        if (exposedToAir) {
+//        if (MainWindow.devMode && exposedToAir) {
 //            chunk.data.setBlock(x, y, z, Blocks.BLOCK_GLASS);
 //        }
 
@@ -488,7 +493,7 @@ public class DefaultTerrain extends Terrain {
         }
 
         ore = rareOres[2];
-        if (rareCluster && ore != null) {
+        if (rareScatter && ore != null) {
             if (!exposedToAir || session.randBoolWithProbability(ore.amtExposedToAir)) {
                 chunk.data.setBlock(x, y, z, ore.block);
             }

@@ -11,22 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/minecart/blue.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/minecart/textures/blue.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/minecart/charcoal.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/minecart/textures/charcoal.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/minecart/cyan.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/minecart/textures/cyan.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/minecart/green.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/minecart/textures/green.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/minecart/iron.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/minecart/textures/iron.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/minecart/red.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/minecart/textures/red.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/entity/minecart/yellow.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/entity/minecart/textures/yellow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/loot/block.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/loot/block.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/animal/StaticLandAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/animal/StaticLandAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/vehicle/Minecart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/vehicle/Minecart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/vehicle/Vehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/vehicle/Vehicle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/model/items/entity/ChunkEntitySet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/model/items/entity/ChunkEntitySet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/model/items/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/model/items/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/model/world/chunk/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/model/world/chunk/Chunk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ArrayUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ArrayUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
