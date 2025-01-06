@@ -5,7 +5,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.items.item.ItemRegistry;
 import com.xbuilders.engine.server.items.item.ItemStack;
 
 import java.io.IOException;
@@ -14,23 +16,23 @@ import java.util.HashMap;
 public class ItemStackDeserializer extends StdDeserializer<ItemStack> {
 
 
-    HashMap<String, Item> itemsRegistry = new HashMap<>();
-
-    public ItemStackDeserializer(HashMap<String, Item> itemRegistry) {
+    public ItemStackDeserializer() {
         this(ItemStack.class);
-        this.itemsRegistry = itemRegistry;
     }
 
     public ItemStackDeserializer(Class<?> vc) {
         super(vc);
     }
 
+    //https://github.com/FasterXML/jackson-databind/issues/4461
     @Override
-    public ItemStack deserialize(JsonParser parser, DeserializationContext ctx)
+    public ItemStack deserialize(JsonParser parser,
+                                 DeserializationContext ctx)
             throws IOException, JacksonException {
         JsonNode node = parser.getCodec().readTree(parser);
+//        final JsonNode node = ctx.readTree(parser);
         String itemID = node.get("item").asText();
-        Item item = itemsRegistry.get(itemID); //We get the item from the registry
+        Item item = Registrys.items.getItem(itemID); //We get the item from the registry
         ItemStack obj = new ItemStack(item); //We create the ItemStack
         obj.durability = (float) node.get("durability").asInt();
         obj.stackSize = node.get("stackSize").asInt();

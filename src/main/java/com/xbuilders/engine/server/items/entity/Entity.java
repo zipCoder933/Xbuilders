@@ -169,7 +169,7 @@ public abstract class Entity {
         //Item stack serializer
         SimpleModule module = new SimpleModule();
         module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
-        module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
+        module.addDeserializer(ItemStack.class, new ItemStackDeserializer()); // Register the custom deserializer
         smileObjectMapper.registerModule(module);
     }
 
@@ -219,6 +219,7 @@ public abstract class Entity {
                     && new String(loadBytes).startsWith(SMILE_HEADER)) {
                 parser = smileFactory.createParser(loadBytes);
                 node = parser.getCodec().readTree(parser);
+                System.out.println("Loading entity JSON: " + new String(loadBytes));
             }
             loadDefinitionData(parser != null, parser, node);
             if (parser != null) parser.close();

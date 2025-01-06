@@ -36,7 +36,7 @@ public class StorageSpace {
         // Create a module to register custom serializer and deserializer
         SimpleModule module = new SimpleModule();
         module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
-        module.addDeserializer(ItemStack.class, new ItemStackDeserializer(Registrys.items.idMap)); // Register the custom deserializer
+        module.addDeserializer(ItemStack.class, new ItemStackDeserializer()); // Register the custom deserializer
         binaryJsonMapper.registerModule(module);
     }
 

@@ -38,7 +38,7 @@ public class Main {
         itemMap.put("xbuilders:hat", item);
 
         module.addSerializer(ItemStack.class, new ItemStackSerializer()); // Register the custom serializer
-        module.addDeserializer(ItemStack.class, new ItemStackDeserializer(itemMap)); // Register the custom deserializer
+        module.addDeserializer(ItemStack.class, new ItemStackDeserializer()); // Register the custom deserializer
 
         // Register the module with the ObjectMapper
         objectMapper.registerModule(module);

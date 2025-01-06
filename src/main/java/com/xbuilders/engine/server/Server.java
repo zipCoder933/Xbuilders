@@ -173,8 +173,8 @@ public class Server {
         Entity e = placeEntity(EntityRegistry.ENTITY_ITEM_DROP, position, null);
 
         ItemDrop drop = (ItemDrop) e;
-        drop.stack = item;
-        drop.droppedFromPlayer = droppedFromPlayer;
+        drop.definitionData.stack = item;
+        drop.definitionData.droppedFromPlayer = droppedFromPlayer;
         return e;
     }
     
