@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.server.world.chunk.saving;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.utils.ByteUtils;
@@ -77,28 +79,7 @@ public class ChunkSavingLoadingUtils {
         }
     }
 
-    public static void writeEntityData(byte[] entityBytes, OutputStream out) throws IOException {
-        //We dont have to check if the entity is out of bounds because we would be going over the max size anyway
-        if (entityBytes == null) {
-            out.write(new byte[]{0, 0, 0, 0});//Just write 0 for the length
-            return;
-        }
-        //First write the length
-        out.write(intToBytes(entityBytes.length));
-        //Then write the bytes
-        out.write(entityBytes);
-    }
-
-    public static byte[] readEntityData(byte[] bytes, AtomicInteger start) {
-        int length = bytesToInt(bytes[start.get()], bytes[start.get() + 1], bytes[start.get() + 2], bytes[start.get() + 3]);
-        start.set(start.get() + 4);
-
-        byte[] data = new byte[length];
-        System.arraycopy(bytes, start.get(), data, 0, length);
-        start.set(start.get() + length);
-
-        return data;
-    }
+    final static Kryo kryo = new Kryo();
 
     protected static String printSubList(byte[] bytes, int target, int radius) {
         int start = MathUtils.clamp(target - radius, 0, bytes.length - 1);
@@ -144,9 +125,12 @@ public class ChunkSavingLoadingUtils {
             //Rename the existing file to a backup if it exists
             if (f.exists()) renameToBackup(chunk, f);
 
-            try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream out = new GZIPOutputStream(fos)) {
-                out.write(LATEST_FILE_VERSION);//Write the version of the file
-                writeMetadata(out, chunk);
+            try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream outStream = new GZIPOutputStream(fos)) {
+
+                outStream.write(LATEST_FILE_VERSION);//Write the version of the file
+                writeMetadata(outStream, chunk);
+
+                Output out = new Output(outStream);
 
                 boolean iterateOverVoxels = true;
 
@@ -154,22 +138,18 @@ public class ChunkSavingLoadingUtils {
                 for (int i = 0; i < chunk.entities.list.size(); i++) {
 
                     Entity entity = chunk.entities.list.get(i);
-                    String id = "e" + entity.getId(); //all block IDs should be guaranteed to be less than 128 bytes
-                    out.write(id.length()); //Write entity id
-                    out.write(id.getBytes());
-
-                    writeLong(out, entity.getUniqueIdentifier()); //Write entity uuid
-
+                    kryo.writeObject(out, entity.getId()); //Wrute entity id
+                    kryo.writeObject(out, entity.getUniqueIdentifier()); //Write entity uuid
                     entity.updatePosition();  //Write position
-                    writeChunkVoxelCoords(out, entity.chunkPosition.chunkVoxel);
+                    writeChunkVoxelCoords(outStream, entity.chunkPosition.chunkVoxel);
 
                     //Write entity data
                     byte[] entityBytes = entity.serializeDefinitionData();
-                    writeEntityData(entityBytes, out);
+                    writeEntityData(entityBytes, outStream);
 
                 }
 
-                out.write(START_READING_VOXELS);
+                outStream.write(START_READING_VOXELS);
 
                 //Write voxels
                 if (iterateOverVoxels) {
@@ -178,22 +158,22 @@ public class ChunkSavingLoadingUtils {
                             for (int z = 0; z < chunk.data.size.z; ++z) {
 
                                 short blockID = chunk.data.getBlock(x, y, z); //Write block id
-                                writeShort(out, blockID);
+                                writeShort(outStream, blockID);
 
-                                out.write(chunk.data.getPackedLight(x, y, z)); //Write light as a single byte
+                                outStream.write(chunk.data.getPackedLight(x, y, z)); //Write light as a single byte
 
                                 if (blockID != BlockRegistry.BLOCK_AIR.id) { //We dont have to write block data if the block is air
                                     final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
-                                    writeBlockData(blockData, out);
+                                    writeBlockData(blockData, outStream);
                                 }
 
                             }
                         }
                     }
                 } else {
-                    out.write(BYTE_SKIP_ALL_VOXELS);
+                    outStream.write(BYTE_SKIP_ALL_VOXELS);
                 }
-                out.write(ENDING_OF_CHUNK_FILE);
+                outStream.write(ENDING_OF_CHUNK_FILE);
             } catch (FileNotFoundException ex) {
                 ErrorHandler.report(ex);
                 return false;

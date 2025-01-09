@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
@@ -126,21 +127,21 @@ public class MultiplayerPendingEntityChanges {
 
     Kryo kryo = new Kryo();
 
-    public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
-        baos.write(new byte[]{entityOperation});
-        baos.write(new byte[]{(byte) (entity.multiplayerProps.controlledByUs() ? 1 : 0)});
+    public void entityChangeRecord(Output out, Kryo kryo, byte entityOperation, Entity entity) throws IOException {
+        kryo.writeObject(out, entityOperation);
+        kryo.writeObject(out, entity.multiplayerProps.controlledByUs());
         entity.multiplayerProps.controlMode = false;
 
         //Send identifier
-        ByteUtils.writeLong(baos, entity.getUniqueIdentifier());
+        kryo.writeObject(out, entity.getUniqueIdentifier());
 
         //Send current position
-        baos.write(ByteUtils.floatToBytes(entity.worldPosition.x));
-        baos.write(ByteUtils.floatToBytes(entity.worldPosition.y));
-        baos.write(ByteUtils.floatToBytes(entity.worldPosition.z));
+        kryo.writeObject(out, entity.worldPosition.x);
+        kryo.writeObject(out, entity.worldPosition.y);
+        kryo.writeObject(out, entity.worldPosition.z);
 
         //Send entity ID
-        baos.write(ByteUtils.shortToBytes(entity.getId()));
+        kryo.writeObject(out, entity.getId());
 
         //Send entity byte data (state or entity initialisation)
         byte[] data = null;
