@@ -23,8 +23,8 @@ public class Boat extends Vehicle {
     private final String textureFile;
     public int textureID;
 
-    public Boat(int id, ClientWindow window, long uniqueIdentifier, String textureFile) {
-        super(id, window, uniqueIdentifier);
+    public Boat(ClientWindow window, long uniqueIdentifier, String textureFile) {
+        super(window, uniqueIdentifier);
         this.textureFile = textureFile;
         frustumSphereRadius = (1.5f);
         aabb.setOffsetAndSize(1.5f, 1f, 1.5f, true);

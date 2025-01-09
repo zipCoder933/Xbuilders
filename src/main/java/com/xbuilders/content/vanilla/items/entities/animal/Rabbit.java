@@ -10,8 +10,8 @@ public class Rabbit extends StaticLandAnimal {
     long lastJumpTime = 0;
 
 
-    public Rabbit(int id, ClientWindow window, long uniqueIdentifier) {
-        super(id, uniqueIdentifier, window);
+    public Rabbit( ClientWindow window, long uniqueIdentifier) {
+        super(uniqueIdentifier, window);
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author zipCoder933
  */
 public class EntitySupplier {
-    public final short id;
+    public final String id;
     private final Supplier2 supplier;
 
 
@@ -26,8 +26,8 @@ public class EntitySupplier {
     public DespawnCallback despawnCondition;
     public boolean isAutonomous;
 
-    public EntitySupplier(int id, Supplier2 supplier) {
-        this.id = (short) id;
+    public EntitySupplier(String id, Supplier2 supplier) {
+        this.id = id;
         this.supplier = Objects.requireNonNull(supplier);
         //Init the supplier
         spawnCondition = (x, y, z) -> false;

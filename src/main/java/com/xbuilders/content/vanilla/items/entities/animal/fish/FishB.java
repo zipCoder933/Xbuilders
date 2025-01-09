@@ -25,8 +25,8 @@ import java.util.Objects;
 
 public class FishB extends FishAnimal {
 
-    public FishB(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window);
+    public FishB( long uniqueIdentifier, ClientWindow window) {
+        super( uniqueIdentifier, window);
     }
 
     static EntityMesh body;

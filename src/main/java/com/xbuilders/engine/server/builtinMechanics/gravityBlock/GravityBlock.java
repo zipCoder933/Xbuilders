@@ -16,7 +16,7 @@ public class GravityBlock {
     EntitySupplier entitySupplier;
 
     public GravityBlock(ClientWindow window) {
-        entitySupplier = new EntitySupplier(0, (uniqueIdentifier) -> new GravityBlockEntity(uniqueIdentifier, window));
+        entitySupplier = new EntitySupplier("xbuilders:gravity_block", (uniqueIdentifier) -> new GravityBlockEntity(uniqueIdentifier, window));
     }
 
     public void convert(Block block) {

@@ -17,8 +17,8 @@ import java.io.IOException;
  */
 public abstract class FishAnimal<ActionEnum> extends Animal {
 
-    public FishAnimal(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window);
+    public FishAnimal( long uniqueIdentifier, ClientWindow window) {
+        super( uniqueIdentifier, window);
         pos.aabb.setOffsetAndSize(.5f, .5f, .5f, false);
         lastInWater = System.currentTimeMillis();
         inWater = inWater();

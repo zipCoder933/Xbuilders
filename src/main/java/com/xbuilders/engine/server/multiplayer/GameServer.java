@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.network.server.NetworkUtils;
@@ -291,7 +291,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
                 File chunkFile = worldInfo.getChunkFile(new Vector3i(x, y, z));
                 long lastSaved = ChunkSavingLoadingUtils.getLastSaved(chunkFile);
-                client.sendData(ByteUtils.longToByteArray(lastSaved));
+                client.sendData(ByteUtils.longToBytes(lastSaved));
             } else if (receivedData[0] == WORLD_CHUNK) {
                 int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
                 int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);

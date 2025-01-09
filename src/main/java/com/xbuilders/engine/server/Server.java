@@ -27,7 +27,7 @@ import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.skybox.SkyBackground;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.utils.progress.ProgressData;

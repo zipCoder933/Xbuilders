@@ -8,8 +8,8 @@ import java.io.IOException;
 
 
 public class Cat extends StaticLandAnimal {
-    public Cat(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window);
+    public Cat(long uniqueIdentifier, ClientWindow window) {
+        super(uniqueIdentifier, window);
     }
 
     @Override
@@ -17,7 +17,6 @@ public class Cat extends StaticLandAnimal {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
         setActivity(0.9f);
     }
-
 
 
     static StaticLandAnimal_StaticData ead;

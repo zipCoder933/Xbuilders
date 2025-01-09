@@ -8,8 +8,8 @@ import java.io.IOException;
 
 
 public class Horse extends QuadPedalLandAnimal {
-    public Horse(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window, true);
+    public Horse( long uniqueIdentifier, ClientWindow window) {
+        super(uniqueIdentifier, window, true);
     }
 
     static QuadPedalLandAnimal_StaticData staticData;

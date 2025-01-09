@@ -8,8 +8,8 @@ import java.io.IOException;
 
 
 public class Fox extends StaticLandAnimal {
-    public Fox(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window);
+    public Fox( long uniqueIdentifier, ClientWindow window) {
+        super( uniqueIdentifier, window);
     }
 
     @Override

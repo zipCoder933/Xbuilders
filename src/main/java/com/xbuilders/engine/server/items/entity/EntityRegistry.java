@@ -21,7 +21,7 @@ public class EntityRegistry {
     //Predefined entities
     public static EntitySupplier ENTITY_ITEM_DROP;
 
-    final IntMap<EntitySupplier> idMap = new IntMap<>(EntitySupplier.class);
+    final HashMap<String, EntitySupplier> idMap = new HashMap<>();
     public HashMap<String, Short> aliasToIDMap;
     private EntitySupplier[] list;
     public List<EntitySupplier> autonomousList;
@@ -35,17 +35,17 @@ public class EntityRegistry {
         return list;
     }
 
-    public EntitySupplier getItem(short blockID) {
-        return idMap.get(blockID);
+    public EntitySupplier getItem(String id) {
+        return idMap.get(id);
     }
 
-    public IntMap<EntitySupplier> getIdMap() {
+    public HashMap<String, EntitySupplier> getIdMap() {
         return idMap;
     }
 
     public void setup(List<EntitySupplier> inputEntities) {
         HashSet<String> uniqueAliases = new HashSet<>();
-        ENTITY_ITEM_DROP = new EntitySupplier(NULL_ID, (uniqueID2) -> new ItemDrop(NULL_ID, uniqueID2));
+        ENTITY_ITEM_DROP = new EntitySupplier("xbuilders:item_drop", (uniqueID2) -> new ItemDrop(uniqueID2));
         inputEntities.add(ENTITY_ITEM_DROP);
 
         verifyEntityIds(inputEntities);
@@ -59,37 +59,20 @@ public class EntityRegistry {
         }
     }
 
-    private int verifyEntityIds(List<EntitySupplier> inputItems) {
+    private void verifyEntityIds(List<EntitySupplier> inputItems) {
         System.out.println("\nChecking entity IDs");
-        int highestId = 0;
-        HashMap<Integer, EntitySupplier> map = new HashMap<>();
-
+        idMap.clear();
         for (int i = 0; i < inputItems.size(); i++) {
             if (inputItems.get(i) == null) {
                 System.err.println("item at index " + i + " is null");
                 continue;
             }
-            int id = inputItems.get(i).get(1).id;
-            if (map.get(id) != null) {
+            String id = inputItems.get(i).get(1).getId();
+            if (idMap.get(id) != null) {
                 System.err.println("Entity " + inputItems.get(i) + " ID conflicts with an existing ID: " + id);
             }
-            map.put(id, inputItems.get(i));
-            if (id > highestId) {
-                highestId = id;
-            }
+            idMap.put(id, inputItems.get(i));
         }
-        System.out.println("\t(The highest item ID is: " + highestId + ")");
-        System.out.print("\tID Gaps: ");
-        //iterate over map
-        for (Map.Entry<Integer, EntitySupplier> entry : map.entrySet()) {
-            int id = entry.getKey();
-            if (idMap.get(id) == null) {
-                System.out.print(id + " ");
-            }
-        }
-        System.out.println("");
-        idMap.setList(map);
-        return highestId;
     }
 
 

@@ -1,8 +1,5 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.entity.Entity;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import org.joml.Vector3f;
@@ -11,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.utils.ByteUtils.*;
+import static com.xbuilders.engine.utils.bytes.ByteUtils.*;
 
 public class ChunkFile_V0 {
 
@@ -20,18 +17,17 @@ public class ChunkFile_V0 {
     public static final byte ENTITY_BYTE = -126;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
-    public static final int METADATA_BYTES = 1;
+    public static final int REMAINING_METADATA_BYTES = 1;
 
 
 
-    static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
-
+    static void readChunk(final Chunk chunk, byte[] bytes) throws IOException {
+        AtomicInteger start = new AtomicInteger(0);
 
         //Load the entities
         boolean hasEntities = false;
         while (bytes[start.get()] == ENTITY_BYTE) {
-            Entity entity = makeEntity(chunk, bytes, start);
-
+            makeEntity(chunk, bytes, start);
             hasEntities = true;
         }
         if (hasEntities) {
@@ -72,35 +68,35 @@ public class ChunkFile_V0 {
         return new Vector3f(x, y, z);
     }
 
-    protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
-//        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
-        final short entityID = (short) bytesToShort(bytes[start.get() + 1], bytes[start.get() + 2]);
-        EntitySupplier link = Registrys.getEntity(entityID);
-        start.set(start.get() + 3);
-
-        //Read position
-        Vector3f chunkVox = readChunkVoxelCoords(start, bytes);
-
-        //Read entity data
-        ByteArrayOutputStream entityBytes = new ByteArrayOutputStream();
-        while (true) {
-            final byte b = bytes[start.get()];
-            start.set(start.get() + 1);
-            if (b == NEWLINE_BYTE) {
-                break;
-            } else {
-                entityBytes.write(b);
-            }
-        }
-
-        if (bytes[start.get()] != ENTITY_BYTE) {
-            start.set(start.get() - 1);
-        }
-        return chunk.entities.placeNew(link, 0,
-                chunkVox.x + chunk.position.x * Chunk.WIDTH,
-                chunkVox.y + chunk.position.y * Chunk.WIDTH,
-                chunkVox.z + chunk.position.z * Chunk.WIDTH,
-                entityBytes.toByteArray());
+    protected static void makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
+////        System.out.println("\nStarting to read entity: " + printSubList(bytes, start.get(), 5));
+//        final short entityID = (short) bytesToShort(bytes[start.get() + 1], bytes[start.get() + 2]);
+//        EntitySupplier link = Registrys.getEntity(entityID);
+//        start.set(start.get() + 3);
+//
+//        //Read position
+//        Vector3f chunkVox = readChunkVoxelCoords(start, bytes);
+//
+//        //Read entity data
+//        ByteArrayOutputStream entityBytes = new ByteArrayOutputStream();
+//        while (true) {
+//            final byte b = bytes[start.get()];
+//            start.set(start.get() + 1);
+//            if (b == NEWLINE_BYTE) {
+//                break;
+//            } else {
+//                entityBytes.write(b);
+//            }
+//        }
+//
+//        if (bytes[start.get()] != ENTITY_BYTE) {
+//            start.set(start.get() - 1);
+//        }
+//        return chunk.entities.placeNew(link, 0,
+//                chunkVox.x + chunk.position.x * Chunk.WIDTH,
+//                chunkVox.y + chunk.position.y * Chunk.WIDTH,
+//                chunkVox.z + chunk.position.z * Chunk.WIDTH,
+//                entityBytes.toByteArray());
     }
 
     protected static void readVoxel(

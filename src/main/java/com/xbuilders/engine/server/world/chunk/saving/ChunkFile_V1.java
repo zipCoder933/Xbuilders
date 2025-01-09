@@ -1,31 +1,26 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.entity.Entity;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
-import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.utils.ErrorHandler;
 import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.utils.ByteUtils.bytesToShort;
+import static com.xbuilders.engine.utils.bytes.ByteUtils.bytesToShort;
 
 public class ChunkFile_V1 {
 
     public static final byte START_READING_VOXELS = -128;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
-    public static final int METADATA_BYTES = 56;
+    public static final int REMAINING_METADATA_BYTES = 128;
 
-    public static void readMetadata(byte[] input) {
-    }
 
-    static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
-
+    static void readChunk(final Chunk chunk, byte[] bytes) throws IOException {
+        AtomicInteger start = new AtomicInteger(0);
         //Load the entities
         while (true) {
             if (bytes[start.get()] == START_READING_VOXELS) { //This flags the end of the entities
@@ -66,21 +61,38 @@ public class ChunkFile_V1 {
         return new Vector3f(x, y, z);
     }
 
-    protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
-        final short entityID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]); //read entity id
-        EntitySupplier link = Registrys.getEntity(entityID);
+    protected static void makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
+//        final short entityID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]); //read entity id
+//        EntitySupplier link = Registrys.getEntity(entityID);
+//        start.set(start.get() + 2);
+//
+//        long identifier = ByteUtils.bytesToLong(bytes, start); //read entity identifier
+//
+//        Vector3f chunkVox = readChunkVoxelCoords(start, bytes);  //Read position
+//        byte[] entityData = ChunkSavingLoadingUtils.readEntityData(bytes, start);//Read entity data
+//
+//        return chunk.entities.placeNew(link, identifier,
+//                chunkVox.x + chunk.position.x * Chunk.WIDTH,
+//                chunkVox.y + chunk.position.y * Chunk.WIDTH,
+//                chunkVox.z + chunk.position.z * Chunk.WIDTH,
+//                entityData);
+    }
+
+    public static BlockData readBlockData(byte[] bytes, AtomicInteger start) {
+        //Get the length from unsigned short to int
+        int length = bytesToShort(bytes[start.get()], bytes[start.get() + 1]) & 0xffff;
         start.set(start.get() + 2);
 
-        long identifier = ByteUtils.bytesToLong(bytes, start); //read entity identifier
-
-        Vector3f chunkVox = readChunkVoxelCoords(start, bytes);  //Read position
-        byte[] entityData = ChunkSavingLoadingUtils.readEntityData(bytes, start);//Read entity data
-
-        return chunk.entities.placeNew(link, identifier,
-                chunkVox.x + chunk.position.x * Chunk.WIDTH,
-                chunkVox.y + chunk.position.y * Chunk.WIDTH,
-                chunkVox.z + chunk.position.z * Chunk.WIDTH,
-                entityData);
+        try {
+            //Read the bytes
+            byte[] data = new byte[length];
+            System.arraycopy(bytes, start.get(), data, 0, length);
+            start.set(start.get() + length);
+            return new BlockData(data);
+        } catch (IndexOutOfBoundsException e) {
+            ErrorHandler.log(e);
+            return null; //Catch the error just to be safe
+        }
     }
 
     protected static void readVoxel(
@@ -95,7 +107,7 @@ public class ChunkFile_V1 {
         start.set(start.get() + 3);
 
         if (blockID != BlockRegistry.BLOCK_AIR.id) { //We dont read block data if the block is air
-            BlockData blockData = ChunkSavingLoadingUtils.readBlockData(bytes, start); //Read block data
+            BlockData blockData = readBlockData(bytes, start); //Read block data
             if (blockData != null && blockData.size() > 0) {
                 chunk.data.setBlockData(x, y, z, blockData);
             }

@@ -16,6 +16,7 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * I have chosen to make ItemList fully static. There will only ever be one, and
@@ -75,7 +76,7 @@ public class Registrys {
         return blocks.getBlock(blockID);
     }
 
-    public static EntitySupplier getEntity(short blockID) {
+    public static EntitySupplier getEntity(String blockID) {
         return entities.getItem(blockID);
     }
 
@@ -92,7 +93,7 @@ public class Registrys {
 
     public static Item getItem(Entity entity) {
         for (Item item : items.getList()) {
-            if (item.getEntity() != null && item.getEntity().id == entity.id) return item;
+            if (item.getEntity() != null && Objects.equals(item.getEntity().id, entity.getId())) return item;
         }
         return null;
     }

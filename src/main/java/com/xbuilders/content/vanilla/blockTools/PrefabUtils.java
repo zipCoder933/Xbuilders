@@ -1,19 +1,59 @@
 package com.xbuilders.content.vanilla.blockTools;
 
-import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.FileDialog;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.server.world.chunk.saving.ChunkSavingLoadingUtils;
 import org.joml.Vector3i;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.xbuilders.engine.server.world.chunk.saving.ChunkSavingLoadingUtils.BLOCK_DATA_MAX_BYTES;
+import static com.xbuilders.engine.utils.bytes.ByteUtils.bytesToShort;
+import static com.xbuilders.engine.utils.bytes.ByteUtils.shortToBytes;
+
 public class PrefabUtils {
+
+
+    public static void writeBlockData(BlockData data, OutputStream out) throws IOException {
+        if (data == null) {
+            out.write(new byte[]{0, 0});//Just write 0 for the length
+            return;
+        }
+
+        if (data.size() > BLOCK_DATA_MAX_BYTES) {
+            ErrorHandler.report(new Throwable("Block data too large: " + data.size()));
+            out.write(new byte[]{0, 0});//Just write 0 for the length
+            return;
+        }
+        //First write the length of the block data as an unsigned short
+        out.write(shortToBytes(data.size() & 0xffff));
+
+        //Then write the bytes
+        byte[] bytes = data.toByteArray();
+        out.write(bytes);
+    }
+
+    public static BlockData readBlockData(byte[] bytes, AtomicInteger start) {
+        //Get the length from unsigned short to int
+        int length = bytesToShort(bytes[start.get()], bytes[start.get() + 1]) & 0xffff;
+        start.set(start.get() + 2);
+
+        try {
+            //Read the bytes
+            byte[] data = new byte[length];
+            System.arraycopy(bytes, start.get(), data, 0, length);
+            start.set(start.get() + length);
+            return new BlockData(data);
+        } catch (IndexOutOfBoundsException e) {
+            ErrorHandler.log(e);
+            return null; //Catch the error just to be safe
+        }
+    }
 
 
     public static void toBytes(ChunkVoxels blocks, OutputStream out) throws IOException {
@@ -27,7 +67,7 @@ public class PrefabUtils {
                 for (int z = 0; z < blocks.size.z; z++) {
                     short block = blocks.getBlock(x, y, z);
                     out.write(ByteUtils.shortToBytes(block));//Block
-                    ChunkSavingLoadingUtils.writeBlockData(blocks.getBlockData(x, y, z), out); //Block data
+                    writeBlockData(blocks.getBlockData(x, y, z), out); //Block data
                 }
             }
         }
@@ -55,7 +95,7 @@ public class PrefabUtils {
                     data.setBlock(x, y, z, block);
                     startIndex.set(startIndex.get() + 2);
 
-                    BlockData blockData = ChunkSavingLoadingUtils.readBlockData(bytes, startIndex);
+                    BlockData blockData = readBlockData(bytes, startIndex);
                     data.setBlockData(x, y, z, blockData);
                 }
             }
@@ -72,10 +112,10 @@ public class PrefabUtils {
     public static void savePrefabToFile(ChunkVoxels data, File file) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         toBytes(data, baos);
-        if(!file.getParentFile().exists()) {
+        if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.createNewFile();
         }
         Files.write(file.toPath(), baos.toByteArray());
