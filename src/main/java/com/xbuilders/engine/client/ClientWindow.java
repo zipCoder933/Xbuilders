@@ -396,6 +396,9 @@ public class ClientWindow extends NKWindow {
             } else if (devMode && key == GLFW.GLFW_KEY_F12) {
                 devkeyF12 = !devkeyF12;
                 System.out.println("Light repropagation: " + devkeyF12);
+            } else if (devMode && key == GLFW.GLFW_KEY_F10) {
+                System.out.println("Forced devmode crash! (F10) key pressed");
+                System.out.println(10 / 0);
             } else if (key == GLFW.GLFW_KEY_F11) {
                 takeScreenshot();
             }

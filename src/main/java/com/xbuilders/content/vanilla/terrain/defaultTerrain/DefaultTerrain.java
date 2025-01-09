@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
@@ -454,8 +455,8 @@ public class DefaultTerrain extends Terrain {
         if (alpha < 0.4 && alpha > -0.4) chunk.data.setBlock(x, y, z, Blocks.BLOCK_STONE);
         else if (alpha > 0) chunk.data.setBlock(x, y, z, Blocks.BLOCK_ANDESITE);
         else chunk.data.setBlock(x, y, z, Blocks.BLOCK_GRAVEL);
-
-//        if (MainWindow.devMode && exposedToAir) {
+//For testing
+//        if (ClientWindow.devMode && exposedToAir) {
 //            chunk.data.setBlock(x, y, z, Blocks.BLOCK_GLASS);
 //        }
 
