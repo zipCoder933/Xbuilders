@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -22,11 +23,10 @@ import java.io.IOException;
 import java.util.Objects;
 
 public abstract class QuadPedalLandAnimal extends LandAnimal {
-
-
     //This animal specific
     int textureIndex;
-
+    boolean isSaddled;
+    public static final String JSON_SADDLED = "saddled";
 
     public QuadPedalLandAnimal(int id, long uniqueIdentifier, ClientWindow window, boolean rideable) {
         super(id, uniqueIdentifier, window);
@@ -81,6 +81,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     @Override
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
         generator.writeNumberField(JSON_SPECIES, textureIndex);
+        generator.writeBooleanField(JSON_SADDLED, isSaddled);
     }
 
 
@@ -107,6 +108,9 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
         if (hasData) {
             textureIndex = node.get(JSON_SPECIES).asInt();
             textureIndex = MathUtils.clamp(textureIndex, 0, this.textures.length - 1);
+
+            if (node.has(JSON_SADDLED)) isSaddled = node.get(JSON_SADDLED).asBoolean();
+
         } else textureIndex = RandomUtils.random.nextInt(this.textures.length);
 
     }
@@ -146,7 +150,9 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
 
     @Override
     public void animal_drawBody() {
+
         shader.bind();
+        if (!isOld()) modelMatrix.scale(0.6f);
         modelMatrix.update();
         modelMatrix.sendToShader(shader.getID(), shader.uniform_modelMatrix);
 
@@ -164,20 +170,32 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
 
     protected void drawBody() {
         body.draw(false, textures[textureIndex]);
-        if (saddle != null) saddle.draw(false, textures[textureIndex]);
+        if (saddle != null && canRide()) saddle.draw(false, textures[textureIndex]);
     }
 
     protected void drawSitting() {
         sittingBody.draw(false, textures[textureIndex]);
     }
 
+    private boolean canRide() {
+        return tamed && rideable && isOld() && isSaddled;
+    }
+
+    private boolean canSit() {
+        return sittingBody != null;
+    }
+
     @Override
     public boolean run_ClickEvent() {
         if (!tamed) return false;
 
-        if (rideable) {
+        if (canRide()) {
             GameScene.userPlayer.positionLock = lock;
-        } else {
+        } else if (
+                ClientWindow.gameScene.userPlayer.holdingItem(Registrys.items.getItem("xbuilders:saddle"))) {
+            ClientWindow.gameScene.userPlayer.getSelectedItem().stackSize--;
+            isSaddled = true;
+        } else if (canSit()) {//Sit command
             if (currentAction.type == AnimalAction.ActionType.IDLE) {
                 currentAction = new AnimalAction(AnimalAction.ActionType.OTHER, 10);
             } else {//Make the animal sit

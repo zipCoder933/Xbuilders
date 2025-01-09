@@ -92,9 +92,7 @@ public class ItemDrop extends Entity {
         return block.id == BlockRegistry.BLOCK_AIR.id || !block.solid || block == camBlock;
     }
 
-    @Override
-    public void draw() {
-        if (box == null) return;
+    public void server_update(){
         playerHeadPos.set(GameScene.userPlayer.aabb.worldPosition).add(GameScene.userPlayer.aabb.offset).add(0, 0.5f, 0);
         if (ClientWindow.frameCount % 20 != 0) { //Update every 20 frames
             timeSinceDropped++;
@@ -141,6 +139,19 @@ public class ItemDrop extends Entity {
                 }
             }
         }
+
+        if (worldPosition.distance(playerHeadPos) < 0.1 && canGet) {
+            System.out.println("CONSUMED BY: " + GameScene.userPlayer.userInfo.name);
+            GameScene.userPlayer.acquireItem(definitionData.stack);
+            System.out.println("DELETING ITEM DROP");
+            destroy();
+        }
+    }
+
+    @Override
+    public void client_draw() {
+        if (box == null) return;
+
         double sin = Math.sin((ClientWindow.frameCount * 0.1) + ((double) seed / 255));
         float bob = (float) (sin - 0.5) * 0.1f;
 
@@ -153,13 +164,6 @@ public class ItemDrop extends Entity {
                 (float) MathUtils.curve(animatedPos.x, worldPosition.x, animationSpeed),
                 (float) MathUtils.curve(animatedPos.y, worldPosition.y, animationSpeed),
                 (float) MathUtils.curve(animatedPos.z, worldPosition.z, animationSpeed));
-
-        if (animatedPos.distance(playerHeadPos) < 0.1 && canGet) {
-            System.out.println("CONSUMED BY: " + GameScene.userPlayer.userInfo.name);
-            GameScene.userPlayer.acquireItem(definitionData.stack);
-            System.out.println("DELETING ITEM DROP");
-            destroy();
-        }
 
         box.setPosition(
                 animatedPos.x + 0.5f - (box.getSize().x / 2),

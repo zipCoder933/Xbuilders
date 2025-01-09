@@ -43,6 +43,11 @@ public class Banner extends Entity {
     }
 
     @Override
+    public void server_update() {
+
+    }
+
+    @Override
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
         if (staticData == null) {
@@ -86,7 +91,7 @@ public class Banner extends Entity {
     final float ONE_SIXTEENTH = 0.16666667f;
 
     @Override
-    public void draw() {
+    public void client_draw() {
         modelMatrix.identity().translate(worldPosition);
         if (xzOrientation == 0) {
             modelMatrix.translate(0, 0, 1);

@@ -12,6 +12,7 @@ import com.xbuilders.engine.server.GameSceneEvents;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.items.item.Item;
 import com.xbuilders.engine.server.items.item.ItemStack;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
@@ -239,6 +240,15 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public ItemStack getSelectedItem() {
         return inventory.get(selectedItemIndex);
+    }
+
+
+    public boolean holdingItem(Item item) {
+        ItemStack s = getSelectedItem();
+        if (s != null) {
+            return s.item == item;
+        }
+        return false;
     }
 
     public void acquireItem(ItemStack itemStack) {
@@ -492,6 +502,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     Block cameraBlock, playerBlock;
+
     public void render(boolean holdMouse) {
     }
 

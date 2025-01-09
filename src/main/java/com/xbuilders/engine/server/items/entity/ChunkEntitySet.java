@@ -97,6 +97,7 @@ public class ChunkEntitySet {
                 if (e.distToPlayer < ClientWindow.settings.video_entityDistance.value) {
                     e.inFrustum = frustum.isSphereInside(e.worldPosition, e.frustumSphereRadius);//Sphere boundary checks are faster than AABB
                     e.hidden_drawEntity();
+                    e.server_update();
                 }
 
                 if (chunkUpdatedMesh) {

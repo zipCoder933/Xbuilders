@@ -16,7 +16,6 @@ import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.multiplayer.GameServer;
@@ -153,7 +152,7 @@ public abstract class Entity {
             modelMatrix.identity().translate(worldPosition);//Model matrix is already in world position
             shader.setSunAndTorch(sunValue, torchValue);
         }
-        draw();
+        client_draw();
     }
 
     public final static Kryo kryo = new Kryo();
@@ -314,8 +313,9 @@ public abstract class Entity {
         getLightForPosition();
     }
 
+    public abstract void server_update();
 
-    public abstract void draw();
+    public abstract void client_draw();
 
 
     @Override

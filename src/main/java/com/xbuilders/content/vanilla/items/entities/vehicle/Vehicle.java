@@ -121,13 +121,11 @@ public abstract class Vehicle extends Entity {
 
     private long lastJumpMS = 0;
 
-    @Override
-    public final void draw() {
+    public void server_update() {
         aabb.update();
         if (vehicle_move()) {
             posHandler.update();
             if (
-
                     (Math.abs(posHandler.collisionHandler.collisionData.block_penPerAxes.x) > 0
                             || Math.abs(posHandler.collisionHandler.collisionData.block_penPerAxes.z) > 0)
 
@@ -138,7 +136,10 @@ public abstract class Vehicle extends Entity {
                 }
             }
         }
+    }
 
+    @Override
+    public final void client_draw() {
         if (inFrustum) {
             vehicle_draw();
         }

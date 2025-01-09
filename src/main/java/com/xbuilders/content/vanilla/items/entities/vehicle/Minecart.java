@@ -84,6 +84,8 @@ public class Minecart extends Vehicle {
 
     float rotationYCurve;
 
+
+
     @Override
     public void vehicle_draw() {
         rotationYCurve = (float) MathUtils.curve(rotationYCurve, getRotationYDeg(), 0.25f);

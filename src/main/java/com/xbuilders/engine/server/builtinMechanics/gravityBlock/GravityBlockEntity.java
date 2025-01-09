@@ -68,8 +68,10 @@ public class GravityBlockEntity extends Entity {
         }
     }
 
+    public void server_update(){}
+
     @Override
-    public void draw() {
+    public void client_draw() {
         if (inFrustum) {
             //There is actually something in the buffer
             arrayTextureShader.bind();//TODO: Allow better integration with an arrayTextureShader in Entity class

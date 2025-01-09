@@ -37,9 +37,16 @@ public abstract class Animal extends Entity {
     public Consumer<Float> goForwardCallback;
     public boolean freezeMode = false;
     public boolean tamed = false;
+    public int lifetime = 0;
+    public static final int OLD_LIFETIME = 100;
+
+    public boolean isOld() {
+        return lifetime >= OLD_LIFETIME;
+    }
 
     public static final String JSON_SPECIES = "a_s";
     public static final String JSON_TAMED = "a_t";
+    public static final String JSON_LIFETIME = "a_l";
 
     public boolean allowVoluntaryMovement() {
         return !multiplayerProps.controlledByAnotherPlayer;
@@ -108,9 +115,12 @@ public abstract class Animal extends Entity {
 
     public abstract void animal_drawBody();
 
-
-    public final void draw() {
+    public void server_update() {
         if (allowVoluntaryMovement() && !freezeMode) animal_move();
+        if (ClientWindow.frameCount % 10 == 0) lifetime++;
+    }
+
+    public final void client_draw() {
         if (inFrustum || playerIsRidingThis()) {
             //Model matrix is our parent (body) matrix
             modelMatrix.rotateY((float) Math.toRadians(getRotationYDeg()));
@@ -142,15 +152,16 @@ public abstract class Animal extends Entity {
 
 
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
-        if (hasData) {
-            if (node.has(JSON_TAMED)) tamed = node.get(JSON_TAMED).asBoolean();
-        } else {
-            tamed = !spawnedNaturally;
-        }
+        if (hasData && node.has(JSON_TAMED)) tamed = node.get(JSON_TAMED).asBoolean();
+        else tamed = !spawnedNaturally;
+
+        if (hasData && node.has(JSON_LIFETIME)) lifetime = node.get(JSON_LIFETIME).asInt();
+        else lifetime = random.nextBoolean() ? 0 : OLD_LIFETIME;
     }
 
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
         generator.writeBooleanField(JSON_TAMED, tamed);
+        generator.writeNumberField(JSON_LIFETIME, lifetime);
     }
 
 
