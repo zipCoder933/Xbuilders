@@ -21,8 +21,8 @@ public class ChunkFile_V0 {
 
 
 
-    static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
-
+    static void readChunk(final Chunk chunk, byte[] bytes) throws IOException {
+        AtomicInteger start = new AtomicInteger(0);
 
         //Load the entities
         boolean hasEntities = false;

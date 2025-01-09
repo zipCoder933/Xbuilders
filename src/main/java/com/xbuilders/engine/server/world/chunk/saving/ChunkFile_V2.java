@@ -19,11 +19,8 @@ public class ChunkFile_V2 {
     final static Object errorLock = new Object();
 
 
-    static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
-        Input input = new Input(bytes,
-                start.get(), //start
-                bytes.length - start.get() //length
-        );
+    static void readChunk(final Chunk chunk,  byte[] bytes) throws IOException {
+        Input input = new Input(bytes);
 //        System.out.println("Input position: " + input.position() + " Input limit: " + input.limit() + " input available: " + input.available());
 
         try {

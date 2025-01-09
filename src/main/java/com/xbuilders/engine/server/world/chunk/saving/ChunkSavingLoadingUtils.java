@@ -219,7 +219,6 @@ public class ChunkSavingLoadingUtils {
                 }
 
                 //read all bytes
-                AtomicInteger start = new AtomicInteger(0);
                 final byte[] bytes = input.readAllBytes();
 
                 //Read all ending bytes to see if the file was read correctly
@@ -229,10 +228,10 @@ public class ChunkSavingLoadingUtils {
                 try {
                     if (bytes.length > 0) {
                         switch (fileVersion) {
-                            case 0 -> ChunkFile_V0.readChunk(chunk, start, bytes);
-                            case 1 -> ChunkFile_V1.readChunk(chunk, start, bytes);
-                            case 2 -> ChunkFile_V1.readChunk(chunk, start, bytes);
-                            default -> ChunkFile_V2.readChunk(chunk, start, bytes);
+                            case 0 -> ChunkFile_V0.readChunk(chunk, bytes);
+                            case 1 -> ChunkFile_V1.readChunk(chunk, bytes);
+                            case 2 -> ChunkFile_V1.readChunk(chunk, bytes);
+                            default -> ChunkFile_V2.readChunk(chunk, bytes);
                         }
                     } else throw new IllegalStateException("File is empty past metadata!");
                 } catch (Exception ex) {

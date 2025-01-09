@@ -19,8 +19,8 @@ public class ChunkFile_V1 {
     public static final int REMAINING_METADATA_BYTES = 128;
 
 
-    static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
-
+    static void readChunk(final Chunk chunk, byte[] bytes) throws IOException {
+        AtomicInteger start = new AtomicInteger(0);
         //Load the entities
         while (true) {
             if (bytes[start.get()] == START_READING_VOXELS) { //This flags the end of the entities
