@@ -89,7 +89,7 @@ public class Server {
         server = new GameServer(this, GameScene.userPlayer);
         livePropagationHandler = new LivePropagationHandler();
         eventPipeline = new BlockEventPipeline(world);
-        tickThread = new LogicThread();
+        tickThread = new LogicThread(this);
     }
 
     // Getters
@@ -436,8 +436,7 @@ public class Server {
         }
         //draw other players
         server.updatePlayers();
-        livePropagationHandler.update();
-        //TODO: move player logic into tick thread
-        eventPipeline.update();
+        //TODO: move all this into tick thread
+        eventPipeline.update(); //Todo: change event pipeline to have client and server parts
     }
 }

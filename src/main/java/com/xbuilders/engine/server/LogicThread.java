@@ -13,10 +13,15 @@ public class LogicThread {
      * The tick rate is constant, we only shorten the time between ticks if the game is running slow.
      * random tick amont (how fast plants grow, etc) is controlled by how many blocks are updated per tick.
      */
-    final int TICK_RATE_MS = 100;
+    final int TICK_RATE_MS = 50;
     final int CHUNK_RANDOM_TICK_RATE = 10;
     private long lastTickTime = 0;
     private int ticks = 0;
+    Server server;
+
+    public LogicThread(Server server) {
+        this.server = server;
+    }
 
 
     /**
@@ -48,6 +53,12 @@ public class LogicThread {
 
     public void tickEvent() {
         ticks++;
+
+
+        server.livePropagationHandler.update();
+
+
+        //Update chunk every N ticks
         if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
             int chunksUpdated = 0;
             Iterator<Chunk> iterator = Server.world.chunks.values().iterator();
