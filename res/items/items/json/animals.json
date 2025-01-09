@@ -2,61 +2,61 @@
   {
     "id": "xbuilders:fox",
     "name": "Fox",
-    "entity": 56,
+    "entity": "xbuilders:fox",
     "icon": "egg.png"
   },
   {
     "id": "xbuilders:cat",
     "name": "Cat",
-    "entity": 3,
+    "entity": "xbuilders:cat",
     "icon": "egg.png"
   },
   {
     "id": "xbuilders:rabbit",
     "name": "Rabbit",
-    "entity": 15,
+    "entity": "xbuilders:rabbit",
     "icon": "egg.png"
   },
   {
     "id": "xbuilders:horse",
     "name": "Horse",
-    "entity": 23,
+    "entity": "xbuilders:horse",
     "icon": "egg.png"
   },
   {
     "id": "xbuilders:mule",
     "name": "Mule",
-    "entity": 30,
+    "entity": "xbuilders:mule",
     "icon": "egg.png"
   },
   {
     "id": "xbuilders:dog",
     "name": "Dog",
-    "entity": 32,
+    "entity": "xbuilders:dog",
     "icon": "egg.png"
   },
   {
     "id": "xbuilders:sea_turtle",
     "name": "Sea Turtle",
-    "entity": 105,
+    "entity": "xbuilders:sea_turtle",
     "icon": "egg.png"
   },
   {
     "id": "xbuilders:beaver",
     "name": "Beaver",
-    "entity": 200,
+    "entity": "xbuilders:beaver",
     "icon": "beaver egg.png"
   },
   {
     "id": "xbuilders:butterfly_fish",
     "name": "Butterfly Fish",
-    "entity": 41,
+    "entity": "xbuilders:butterfly_fish",
     "icon": "fish egg.png"
   },
   {
     "id": "xbuilders:angler_fish",
     "name": "Angler Fish",
-    "entity": 42,
+    "entity": "xbuilders:angler_fish",
     "icon": "fish egg.png"
   }
 ]

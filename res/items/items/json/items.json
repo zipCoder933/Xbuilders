@@ -1022,7 +1022,9 @@
     "id": "xbuilders:granite",
     "name": "Granite",
     "block": 219,
-    "tags": ["stone"]
+    "tags": [
+      "stone"
+    ]
   },
   {
     "id": "xbuilders:blue_candle",
@@ -4713,37 +4715,37 @@
   {
     "id": "xbuilders:oak_boat",
     "name": "Oak Boat",
-    "entity": 92,
+    "entity": "xbuilders:oak_boat",
     "icon": "boat\\oak.png"
   },
   {
     "id": "xbuilders:dark_oak_boat",
     "name": "Dark Oak Boat",
-    "entity": 95,
+    "entity": "xbuilders:dark_oak_boat",
     "icon": "boat\\dark_oak.png"
   },
   {
     "id": "xbuilders:spruce_boat",
     "name": "Spruce Boat",
-    "entity": 96,
+    "entity": "xbuilders:spruce_boat",
     "icon": "boat\\spruce.png"
   },
   {
     "id": "xbuilders:acacia_boat",
     "name": "Acacia Boat",
-    "entity": 94,
+    "entity": "xbuilders:acacia_boat",
     "icon": "boat\\acacia.png"
   },
   {
     "id": "xbuilders:jungle_boat",
     "name": "Jungle Boat",
-    "entity": 93,
+    "entity": "xbuilders:jungle_boat",
     "icon": "boat\\jungle.png"
   },
   {
     "id": "xbuilders:birch_boat",
     "name": "Birch Boat",
-    "entity": 97,
+    "entity": "xbuilders:birch_boat",
     "icon": "boat\\birch.png"
   },
   {

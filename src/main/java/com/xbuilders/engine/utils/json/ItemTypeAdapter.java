@@ -87,7 +87,7 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
             item.maxStackSize = jsonObject.get("maxStackSize").getAsByte();
         }
         if (jsonObject.has("entity")) {
-            short entityID = jsonObject.get("entity").getAsShort();
+            String entityID = jsonObject.get("entity").getAsString();
             item.setEntity(entityID);
         }
         if (jsonObject.has("icon"))

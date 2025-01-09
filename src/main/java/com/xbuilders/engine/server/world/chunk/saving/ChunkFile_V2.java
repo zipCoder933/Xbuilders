@@ -40,7 +40,12 @@ public class ChunkFile_V2 {
                 //Read an entity
                 String id = input.readString();//read entity id
                 long identifier = input.readLong(); //read entity identifier
-                Vector3f chunkVox = readChunkVoxelCoords(input);  //Read position
+
+                float cx = input.readShortUnsigned() / maxMult16bits;//Read position
+                float cy = input.readShortUnsigned() / maxMult16bits;
+                float cz = input.readShortUnsigned() / maxMult16bits;
+                Vector3f chunkVox = new Vector3f(cx, cy, cz);
+
                 byte[] entityData = kryo.readByteArray(input);//Read entity data
 
                 EntitySupplier link = Registrys.getEntity(id);
@@ -82,17 +87,6 @@ public class ChunkFile_V2 {
                 }
             }
         }
-    }
-
-
-    private static Vector3f readChunkVoxelCoords(Input input) {
-        float x = input.readFloat();
-        float y = input.readFloat();
-        float z = input.readFloat();
-        x = x / maxMult16bits;
-        y = y / maxMult16bits;
-        z = z / maxMult16bits;
-        return new Vector3f(x, y, z);
     }
 
 

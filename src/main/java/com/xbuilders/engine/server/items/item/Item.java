@@ -45,25 +45,21 @@ public class Item implements Comparable<Item> {
 
     //We have to have the IDs saved before we can load them as classes
     private short blockID = -1;
-    private String blockName = null;
-    private short entityID = -1;
-    private String entityName = null;
+    private String blockAlias = null;
+    private String entityID = null;
 
     public void setBlock(short blockID) {
         this.blockID = blockID;
     }
 
     public void setBlock(String blockName) {
-        this.blockName = blockName;
+        this.blockAlias = blockName;
     }
 
-    public void setEntity(short entityID) {
+    public void setEntity(String entityID) {
         this.entityID = entityID;
     }
 
-    public void setEntity(String entityName) {
-        this.entityName = entityName;
-    }
 
     public Block getBlock() {
         return block;
@@ -169,11 +165,10 @@ public class Item implements Comparable<Item> {
                            int defaultIcon) throws IOException {
 
         //If we have the aliases, get the IDs
-        if (blockName != null) blockID = blockAliasToIDMap.get(blockName);
-        if (entityName != null) entityID = entityAliasToIDMap.get(entityName);
+        if (blockAlias != null) blockID = blockAliasToIDMap.get(blockAlias);
 
         if (blockID != -1) block = blockMap.get(blockID);
-        if (entityID != -1) entity = entityMap.get(entityID);
+        if (entityID != null) entity = entityMap.get(entityID);
 
         if (iconFilename != null) { //If we have a custom icon
             File iconFile = new File(iconDirectory, iconFilename);
