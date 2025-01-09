@@ -4637,79 +4637,79 @@
   {
     "id": "xbuilders:red_banner",
     "name": "Red Banner",
-    "entity": 82,
+    "entity": "xbuilders:red_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:orange_banner",
     "name": "Orange Banner",
-    "entity": 81,
+    "entity": "xbuilders:orange_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:yellow_banner",
     "name": "Yellow Banner",
-    "entity": 72,
+    "entity": "xbuilders:yellow_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:lime_banner",
     "name": "Lime Banner",
-    "entity": 75,
+    "entity": "xbuilders:lime_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:green_banner",
     "name": "Green Banner",
-    "entity": 78,
+    "entity": "xbuilders:green_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:blue_banner",
     "name": "Blue Banner",
-    "entity": 73,
+    "entity": "xbuilders:blue_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:gray_banner",
     "name": "Gray Banner",
-    "entity": 77,
+    "entity": "xbuilders:gray_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:pink_banner",
     "name": "Pink Banner",
-    "entity": 76,
+    "entity": "xbuilders:pink_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:purple_banner",
     "name": "Purple Banner",
-    "entity": 84,
+    "entity": "xbuilders:purple_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:white_banner",
     "name": "White Banner",
-    "entity": 74,
+    "entity": "xbuilders:white_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:xbuilders_banner",
     "name": "Xbuilders Banner",
-    "entity": 83,
+    "entity": "xbuilders:xbuilders_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:regal_banner",
     "name": "Regal Banner",
-    "entity": 80,
+    "entity": "xbuilders:regal_banner",
     "icon": "banner.png"
   },
   {
     "id": "xbuilders:royal_banner",
     "name": "Royal Banner",
-    "entity": 79,
+    "entity": "xbuilders:royal_banner",
     "icon": "banner.png"
   },
   {
@@ -4751,43 +4751,43 @@
   {
     "id": "xbuilders:blue_minecart",
     "name": "Blue Minecart",
-    "entity": 103,
+    "entity": "xbuilders:blue_minecart",
     "icon": "minecart\\blue.png"
   },
   {
     "id": "xbuilders:charcoal_minecart",
     "name": "Charcoal Minecart",
-    "entity": 99,
+    "entity": "xbuilders:charcoal_minecart",
     "icon": "minecart\\black.png"
   },
   {
     "id": "xbuilders:cyan_minecart",
     "name": "Cyan Minecart",
-    "entity": 104,
+    "entity": "xbuilders:cyan_minecart",
     "icon": "minecart\\cyan.png"
   },
   {
     "id": "xbuilders:green_minecart",
     "name": "Green Minecart",
-    "entity": 101,
+    "entity": "xbuilders:green_minecart",
     "icon": "minecart\\green.png"
   },
   {
     "id": "xbuilders:iron_minecart",
     "name": "Iron Minecart",
-    "entity": 98,
+    "entity": "xbuilders:iron_minecart",
     "icon": "minecart\\white.png"
   },
   {
     "id": "xbuilders:red_minecart",
     "name": "Red Minecart",
-    "entity": 100,
+    "entity": "xbuilders:red_minecart",
     "icon": "minecart\\red.png"
   },
   {
     "id": "xbuilders:yellow_minecart",
     "name": "Yellow Minecart",
-    "entity": 102,
+    "entity": "xbuilders:yellow_minecart",
     "icon": "minecart\\yellow.png"
   },
   {

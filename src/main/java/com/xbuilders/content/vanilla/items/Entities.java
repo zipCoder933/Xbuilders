@@ -79,8 +79,8 @@ public class Entities {
                 new EntitySupplier("xbuilders:beaver", (uniqueIdentifier) -> new Beaver(uniqueIdentifier, window)),
 
                 //Fish
-                new EntitySupplier("xbuilders:fish", (uniqueIdentifier) -> new FishA(uniqueIdentifier, window)),
-                new EntitySupplier("xbuilders:fish", (uniqueIdentifier) -> new FishB(uniqueIdentifier, window))
+                new EntitySupplier("xbuilders:angler_fish", (uniqueIdentifier) -> new FishA(uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:butterfly_fish", (uniqueIdentifier) -> new FishB(uniqueIdentifier, window))
         };
 
 

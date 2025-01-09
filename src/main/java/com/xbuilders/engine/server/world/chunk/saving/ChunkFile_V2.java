@@ -2,7 +2,6 @@ package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -17,7 +16,7 @@ public class ChunkFile_V2 {
     public static final byte START_READING_VOXELS = -128;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
     public static final int REMAINING_METADATA_BYTES = 96;
-    final static Object lock = new Object();
+    final static Object errorLock = new Object();
 
 
     static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
@@ -25,8 +24,7 @@ public class ChunkFile_V2 {
                 start.get(), //start
                 bytes.length - start.get() //length
         );
-        System.out.println("bytes length: " + bytes.length + " start: " + start.get());
-        System.out.println("Input position: " + input.position() + " Input limit: " + input.limit() + " input available: " + input.available());
+//        System.out.println("Input position: " + input.position() + " Input limit: " + input.limit() + " input available: " + input.available());
 
         try {
 
@@ -77,7 +75,7 @@ public class ChunkFile_V2 {
                 }
             }
         } catch (Exception e) {
-            synchronized (lock) {
+            synchronized (errorLock) {
                 System.out.println("\n\n\nCHUNK V2 EXCEPTION:");
                 ChunkSavingLoadingUtils.printSubList(input.getBuffer(), input.position(), 10);
                 StackTraceElement[] stackTrace = e.getStackTrace();
@@ -85,6 +83,7 @@ public class ChunkFile_V2 {
                 for (StackTraceElement stackTraceElement : stackTrace) {
                     System.out.println(stackTraceElement);
                 }
+                throw e;
             }
         }
     }
