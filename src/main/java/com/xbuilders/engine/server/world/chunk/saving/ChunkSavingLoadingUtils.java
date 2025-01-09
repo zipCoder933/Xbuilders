@@ -5,15 +5,13 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.entity.Entity;
-import com.xbuilders.engine.utils.ByteUtils;
+import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.bytes.SimpleKyro;
 import com.xbuilders.engine.utils.math.MathUtils;
-
-import static com.xbuilders.engine.utils.ByteUtils.*;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -24,29 +22,22 @@ import java.util.zip.GZIPOutputStream;
 
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
 
 public class ChunkSavingLoadingUtils {
     //DONT IMPORT ANY of these variables into the chunk file reading class. We want the previous chunk file versions to work no matter what.
-    public static final byte START_READING_VOXELS = -128;
-    public static final byte BYTE_SKIP_ALL_VOXELS = -125;
-
-    public static final int METADATA_BYTES = 64;
-    public static final int LATEST_FILE_VERSION = 3;
-    public static final byte[] ENDING_OF_CHUNK_FILE = "END_OF_CHUNK_FILE".getBytes();
-
     public static final int ENTITY_DATA_MAX_BYTES = Integer.MAX_VALUE - 8; //this is the max size for a java array
     public static int BLOCK_DATA_MAX_BYTES = (int) (Math.pow(2, 16) - 1); //Unsigned short
+    public static final int REMAINING_METADATA_BYTES = 96;
+    public static final int LATEST_FILE_VERSION = 3;
 
-    final static Kryo kryo = new Kryo();
-
-    static {
-        kryo.register(byte[].class);
-    }
+    //Codes
+    public static final byte CODE_START_READING_VOXELS = -128;
+    public static final byte[] ENDING_OF_CHUNK_FILE = "END_OF_CHUNK_FILE".getBytes();
 
 
+    public static SimpleKyro kryo = new SimpleKyro();
 
 
     protected static void printSubList(byte[] bytes, int target, int radius) {
@@ -63,16 +54,6 @@ public class ChunkSavingLoadingUtils {
         System.out.println(str + ")");
     }
 
-    private static String printBytesFormatted(byte[] bytes) {
-        String str = "";
-        for (int i = 0; i < bytes.length; i++) {
-            if (bytes[i] == START_READING_VOXELS) str += "(-128\n)";
-            else if (bytes[i] == BYTE_SKIP_ALL_VOXELS) str += "SKIP ";
-            else str += bytes[i] + " ";
-        }
-        return str;
-    }
-
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
 
 
@@ -81,68 +62,65 @@ public class ChunkSavingLoadingUtils {
     }
 
     public static boolean writeChunkToFile(final Chunk chunk, final File f) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            //Rename the existing file to a backup if it exists
-            if (f.exists()) renameToBackup(chunk, f);
-            try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream outStream = new GZIPOutputStream(fos)) {
-                outStream.write(LATEST_FILE_VERSION);//Write the version of the file
-                writeMetadata(outStream, chunk);
+        //try (MemoryStack stack = MemoryStack.stackPush()) {
+        //Rename the existing file to a backup if it exists
+        if (f.exists()) renameToBackup(chunk, f);
+        try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream outStream = new GZIPOutputStream(fos)) {
 
-                //Start writing using kryo
-                Output out = new Output(outStream);
+            //Write metadata
+            outStream.write(LATEST_FILE_VERSION);//Write the version of the file
+            outStream.write(ByteUtils.longToBytes(chunk.lastModifiedTime));//Write Last modified time
+            outStream.write(new byte[REMAINING_METADATA_BYTES]); //Write remaining metadata as empty bytes
 
-                //Write entities
-//                for (int i = 0; i < chunk.entities.list.size(); i++) {
-//
-//                    Entity entity = chunk.entities.list.get(i);
-//                    kryo.writeObject(out, entity.getId()); //write entity id
-//                    kryo.writeObject(out, entity.getUniqueIdentifier()); //Write entity uuid
-//
-//                    entity.updatePosition();  //Write position (unsigned short)
-//                    kryo.writeObject(out, (short) (entity.chunkPosition.chunkVoxel.x * maxMult16bits) & 0xFFFF);
-//                    kryo.writeObject(out, (short) (entity.chunkPosition.chunkVoxel.y * maxMult16bits) & 0xFFFF);
-//                    kryo.writeObject(out, (short) (entity.chunkPosition.chunkVoxel.z * maxMult16bits) & 0xFFFF);
-//
-//                    //Write entity data
-//                    byte[] entityBytes = entity.serializeDefinitionData();
-//                    if (entityBytes == null) entityBytes = new byte[0];
-//                    kryo.writeObject(out, entityBytes);
-//                }
-//
-//                kryo.writeObject(out, START_READING_VOXELS);
+            //Start writing real stuff
+            Output out = new Output(outStream);
 
-                //Write voxels
-                for (int y = chunk.data.size.y - 1; y >= 0; y--) {
-                    for (int x = 0; x < chunk.data.size.x; ++x) {
-                        for (int z = 0; z < chunk.data.size.z; ++z) {
+            //Write entities
+            for (int i = 0; i < chunk.entities.list.size(); i++) {
 
-                            short blockID = chunk.data.getBlock(x, y, z); //Write block id
-                            kryo.writeObject(out, (short) blockID);
+                Entity entity = chunk.entities.list.get(i);
+                out.writeString(entity.getId()); //write entity id
+                out.writeLong(entity.getUniqueIdentifier()); //Write entity uuid
 
-                            byte light = chunk.data.getPackedLight(x, y, z); //Write light
-                            kryo.writeObject(out, (byte) light);
+                entity.updatePosition();  //Write position (unsigned short)
+                out.writeShort((short) (entity.chunkPosition.chunkVoxel.x * maxMult16bits) & 0xFFFF);
+                out.writeShort((short) (entity.chunkPosition.chunkVoxel.y * maxMult16bits) & 0xFFFF);
+                out.writeShort((short) (entity.chunkPosition.chunkVoxel.z * maxMult16bits) & 0xFFFF);
 
-                            final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
-                            if (blockData == null) kryo.writeObject(out, new byte[0]);
-                            else kryo.writeObject(out, blockData.toByteArray());
-                        }
+                //Write entity data
+                byte[] entityBytes = entity.serializeDefinitionData();
+                if (entityBytes == null) entityBytes = new byte[0];
+                kryo.writeByteArray(out, entityBytes);
+            }
+
+            //Write voxels
+            out.writeByte(CODE_START_READING_VOXELS);
+            for (int y = chunk.data.size.y - 1; y >= 0; y--) {
+                for (int x = 0; x < chunk.data.size.x; ++x) {
+                    for (int z = 0; z < chunk.data.size.z; ++z) {
+
+                        short blockID = chunk.data.getBlock(x, y, z); //Write block id
+                        out.writeShort(blockID);
+
+                        byte light = chunk.data.getPackedLight(x, y, z); //Write light
+                        out.writeByte(light);
+
+                        final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
+                        if (blockData == null) kryo.writeByteArrayShort(out, new byte[0]);
+                        else kryo.writeByteArrayShort(out, blockData.toByteArray());
                     }
                 }
-
-                kryo.writeObject(out, ENDING_OF_CHUNK_FILE);
-                out.close();
-
-            } catch (FileNotFoundException ex) {
-                ErrorHandler.report(ex);
-                return false;
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
-                return false;
-            } catch (Exception ex) {
-                ErrorHandler.report(ex);
-                return false;
             }
+
+            //Write ending flag
+            out.write(ENDING_OF_CHUNK_FILE);
+            out.close();
+
+        } catch (Exception ex) {
+            ErrorHandler.report(ex);
+            return false;
         }
+        // }
         return true;
     }
 
@@ -177,17 +155,6 @@ public class ChunkSavingLoadingUtils {
             e.printStackTrace();
             return false;
         }
-    }
-
-    private static void writeMetadata(GZIPOutputStream out, Chunk chunk) throws IOException {
-        //We only have METADATA_BYTES bytes of metadata to use
-        int availableBytes = METADATA_BYTES;
-
-        byte[] lastSaved = ByteUtils.longToByteArray(chunk.lastModifiedTime); //Last modified time
-        availableBytes -= lastSaved.length;
-        out.write(lastSaved);//8 bytes
-
-        out.write(new byte[availableBytes]); //Write the remaining bytes
     }
 
 
@@ -240,16 +207,15 @@ public class ChunkSavingLoadingUtils {
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             try (FileInputStream fis = new FileInputStream(f); GZIPInputStream input = new GZIPInputStream(fis)) {
-                //Read the file version
-                int fileVersion = input.read();
-                //Read the last modified time
-                chunk.lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES));
-                //Custom metadata for each version
+                //Read metadata
+                int fileVersion = input.read(); //Read the file version
+                chunk.lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES)); //Read the last modified time
+                //Read the remaining metadata (How many more bytes this version of the file has before we read the real stuff)
                 switch (fileVersion) {
-                    case 0 -> input.readNBytes(ChunkFile_V0.METADATA_BYTES);
-                    case 1 -> ChunkFile_V1.readMetadata(input.readNBytes(ChunkFile_V1.METADATA_BYTES));
-                    case 2 -> ChunkFile_V1.readMetadata(input.readNBytes(ChunkFile_V1.METADATA_BYTES));
-                    default -> ChunkFile_V2.readMetadata(input.readNBytes(ChunkFile_V2.METADATA_BYTES));
+                    case 0 -> input.readNBytes(ChunkFile_V0.REMAINING_METADATA_BYTES);
+                    case 1 -> input.readNBytes(ChunkFile_V1.REMAINING_METADATA_BYTES);
+                    case 2 -> input.readNBytes(ChunkFile_V1.REMAINING_METADATA_BYTES);
+                    default -> input.readNBytes(ChunkFile_V2.REMAINING_METADATA_BYTES);
                 }
 
                 //read all bytes

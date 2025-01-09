@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils;
+package com.xbuilders.engine.utils.bytes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class ByteUtils {
         out.write((byte) (x >> 56));
     }
 
-    public static byte[] longToByteArray(long lng) {
+    public static byte[] longToBytes(long lng) {
         byte[] b = new byte[]{
                 (byte) lng,
                 (byte) (lng >> 8),

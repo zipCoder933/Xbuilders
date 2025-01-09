@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zipCoder933
@@ -67,7 +68,8 @@ public class BlockData {
      */
 //    public void setSize(int size) {
 //        buff = Arrays.copyOf(buff, size);
-////        MemoryUtil.memRealloc(buff, size);
+
+    /// /        MemoryUtil.memRealloc(buff, size);
 //    }
     public byte get(int i) {
 //        return buff.get(i);
@@ -101,10 +103,10 @@ public class BlockData {
     }
 
     public byte[] toByteArray() {
-        return buff;
+        return Objects.requireNonNull(buff);
     }
 
     public void setByteArray(byte[] byteArray) {
-        buff = byteArray;
+        buff = Objects.requireNonNull(byteArray);
     }
 }

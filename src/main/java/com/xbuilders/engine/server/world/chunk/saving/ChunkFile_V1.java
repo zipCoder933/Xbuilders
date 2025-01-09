@@ -1,10 +1,6 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.entity.Entity;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
-import com.xbuilders.engine.utils.ByteUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -13,17 +9,15 @@ import org.joml.Vector3f;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.utils.ByteUtils.bytesToShort;
+import static com.xbuilders.engine.utils.bytes.ByteUtils.bytesToShort;
 
 public class ChunkFile_V1 {
 
     public static final byte START_READING_VOXELS = -128;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
-    public static final int METADATA_BYTES = 56;
+    public static final int REMAINING_METADATA_BYTES = 128;
 
-    public static void readMetadata(byte[] input) {
-    }
 
     static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
 
