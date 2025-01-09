@@ -18,8 +18,8 @@ import java.util.Objects;
 public abstract class StaticLandAnimal extends LandAnimal {
 
 
-    public StaticLandAnimal(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window);
+    public StaticLandAnimal( long uniqueIdentifier, ClientWindow window) {
+        super( uniqueIdentifier, window);
         aabb.setOffsetAndSize(0.8f, 0.9f, 0.8f, true);
         jumpOverBlocks = true;
         frustumSphereRadius = 2;

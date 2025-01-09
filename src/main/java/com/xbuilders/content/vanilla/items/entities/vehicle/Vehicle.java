@@ -85,8 +85,8 @@ public abstract class Vehicle extends Entity {
     UserControlledPlayer player;
 
 
-    public Vehicle(int id, ClientWindow window, long uniqueIdentifier) {
-        super(id, uniqueIdentifier);
+    public Vehicle(ClientWindow window, long uniqueIdentifier) {
+        super(uniqueIdentifier);
         this.window = window;
         this.player = GameScene.userPlayer;
     }

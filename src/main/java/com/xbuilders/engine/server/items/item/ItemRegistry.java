@@ -21,7 +21,7 @@ import java.util.List;
 public class ItemRegistry {
 
 
-   public final HashMap<String, Item> idMap = new HashMap<>();
+    public final HashMap<String, Item> idMap = new HashMap<>();
     private Item[] list;
 
     public Item[] getList() {
@@ -63,7 +63,7 @@ public class ItemRegistry {
     public void setup(int defaultIcon,
                       BlockArrayTexture textures,
                       IntMap<Block> blockMap,
-                      IntMap<EntitySupplier> entityMap,
+                      HashMap<String, EntitySupplier> entityMap,
                       HashMap<String, Short> blockAliasToIDMap,
                       HashMap<String, Short> entityAliasToIDMap,
                       List<Item> inputBlocks) {

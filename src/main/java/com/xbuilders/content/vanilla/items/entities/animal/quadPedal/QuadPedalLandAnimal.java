@@ -28,8 +28,8 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     boolean isSaddled;
     public static final String JSON_SADDLED = "saddled";
 
-    public QuadPedalLandAnimal(int id, long uniqueIdentifier, ClientWindow window, boolean rideable) {
-        super(id, uniqueIdentifier, window);
+    public QuadPedalLandAnimal(long uniqueIdentifier, ClientWindow window, boolean rideable) {
+        super(uniqueIdentifier, window);
         aabb.setOffsetAndSize(1f, 1.5f, 1f, true);
         this.rideable = rideable;
         frustumSphereRadius = 2;

@@ -33,7 +33,7 @@ public class ChunkSavingLoadingUtils {
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
 
     public static final int METADATA_BYTES = 64;
-    public static final int LATEST_FILE_VERSION = 2;
+    public static final int LATEST_FILE_VERSION = 3;
     public static final byte[] ENDING_OF_CHUNK_FILE = "END_OF_CHUNK_FILE".getBytes();
 
 
@@ -154,8 +154,11 @@ public class ChunkSavingLoadingUtils {
                 for (int i = 0; i < chunk.entities.list.size(); i++) {
 
                     Entity entity = chunk.entities.list.get(i);
-                    writeShort(out, entity.id); //Write entity id
-                    writeLong(out, entity.getUniqueIdentifier()); //Write entity identifier
+                    String id = "e" + entity.getId(); //all block IDs should be guaranteed to be less than 128 bytes
+                    out.write(id.length()); //Write entity id
+                    out.write(id.getBytes());
+
+                    writeLong(out, entity.getUniqueIdentifier()); //Write entity uuid
 
                     entity.updatePosition();  //Write position
                     writeChunkVoxelCoords(out, entity.chunkPosition.chunkVoxel);
@@ -277,13 +280,20 @@ public class ChunkSavingLoadingUtils {
     private static boolean hasEnding(byte[] allRemainingBytse) {
         byte[] endingBytes = new byte[ENDING_OF_CHUNK_FILE.length];
 
-        if(endingBytes.length > allRemainingBytse.length) return false;
+        if (endingBytes.length > allRemainingBytse.length) return false;
 
         System.arraycopy(allRemainingBytse,
                 allRemainingBytse.length - endingBytes.length,
                 endingBytes,
                 0, endingBytes.length);
         return Arrays.equals(endingBytes, ENDING_OF_CHUNK_FILE);
+    }
+
+    public static int getFileVersion(File f) throws IOException {
+        try (FileInputStream fis = new FileInputStream(f); GZIPInputStream input = new GZIPInputStream(fis)) {
+            //Read the file version
+            return input.read();
+        }
     }
 
     public static boolean readChunkFromFile(final Chunk chunk, final File f) {
@@ -299,8 +309,9 @@ public class ChunkSavingLoadingUtils {
                 //Custom metadata for each version
                 switch (fileVersion) {
                     case 0 -> input.readNBytes(ChunkFile_V0.METADATA_BYTES);
-                    //Last version
-                    default -> ChunkFile_V1.readMetadata(input.readNBytes(ChunkFile_V1.METADATA_BYTES));
+                    case 1 -> ChunkFile_V1.readMetadata(input.readNBytes(ChunkFile_V1.METADATA_BYTES));
+                    case 2 -> ChunkFile_V1.readMetadata(input.readNBytes(ChunkFile_V1.METADATA_BYTES));
+                    default -> ChunkFile_V2.readMetadata(input.readNBytes(ChunkFile_V2.METADATA_BYTES));
                 }
 
                 //read all bytes
@@ -315,8 +326,8 @@ public class ChunkSavingLoadingUtils {
                     switch (fileVersion) {
                         case 0 -> ChunkFile_V0.readChunk(chunk, start, bytes);
                         case 1 -> ChunkFile_V1.readChunk(chunk, start, bytes);
-                        //Last version
-                        default -> ChunkFile_V1.readChunk(chunk, start, bytes);
+                        case 2 -> ChunkFile_V1.readChunk(chunk, start, bytes);
+                        default -> ChunkFile_V2.readChunk(chunk, start, bytes);
                     }
                 } catch (Exception ex) {
                     File backupFile = backupFile(f);

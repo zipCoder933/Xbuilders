@@ -25,62 +25,62 @@ public class Entities {
 
         EntitySupplier[] entityArray = new EntitySupplier[]{
                 //Banners
-                new EntitySupplier(82, (uniqueIdentifier) -> new Banner(82, uniqueIdentifier,"red")),
-                new EntitySupplier(81, (uniqueIdentifier) -> new Banner(81, uniqueIdentifier,"orange")),
-                new EntitySupplier(72, (uniqueIdentifier) -> new Banner(72, uniqueIdentifier,"yellow")),
-                new EntitySupplier(75, (uniqueIdentifier) -> new Banner(75, uniqueIdentifier,"lime")),
-                new EntitySupplier(78, (uniqueIdentifier) -> new Banner(78, uniqueIdentifier,"green")),
-                new EntitySupplier(73, (uniqueIdentifier) -> new Banner(73, uniqueIdentifier,"blue")),
-                new EntitySupplier(77, (uniqueIdentifier) -> new Banner(77, uniqueIdentifier,"gray")),
-                new EntitySupplier(76, (uniqueIdentifier) -> new Banner(76, uniqueIdentifier,"pink")),
-                new EntitySupplier(84, (uniqueIdentifier) -> new Banner(84, uniqueIdentifier,"purple")),
-                new EntitySupplier(74, (uniqueIdentifier) -> new Banner(74, uniqueIdentifier,"white")),
-                new EntitySupplier(83, (uniqueIdentifier) -> new Banner(83, uniqueIdentifier,"blue_logo")),
-                new EntitySupplier(80, (uniqueIdentifier) -> new Banner(80, uniqueIdentifier,"regal")),
-                new EntitySupplier(79, (uniqueIdentifier) -> new Banner(79, uniqueIdentifier,"royal")),
+                new EntitySupplier("xbuilders:red_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "red")),
+                new EntitySupplier("xbuilders:orange_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "orange")),
+                new EntitySupplier("xbuilders:yellow_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "yellow")),
+                new EntitySupplier("xbuilders:lime_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "lime")),
+                new EntitySupplier("xbuilders:green_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "green")),
+                new EntitySupplier("xbuilders:blue_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "blue")),
+                new EntitySupplier("xbuilders:gray_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "gray")),
+                new EntitySupplier("xbuilders:pink_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "pink")),
+                new EntitySupplier("xbuilders:purple_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "purple")),
+                new EntitySupplier("xbuilders:white_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "white")),
+                new EntitySupplier("xbuilders:xbuilders_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "blue_logo")),
+                new EntitySupplier("xbuilders:regal_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "regal")),
+                new EntitySupplier("xbuilders:royal_banner", (uniqueIdentifier) -> new Banner(uniqueIdentifier, "royal")),
 
 
                 //Boats
-                new EntitySupplier(92, (uniqueIdentifier) -> new Boat(92, window, uniqueIdentifier, "boat_oak")),
-                new EntitySupplier(95, (uniqueIdentifier) -> new Boat(95, window, uniqueIdentifier, "boat_darkoak")),
-                new EntitySupplier(96, (uniqueIdentifier) -> new Boat(96, window, uniqueIdentifier, "boat_spruce")),
-                new EntitySupplier(94, (uniqueIdentifier) -> new Boat(94, window, uniqueIdentifier, "boat_acacia")),
-                new EntitySupplier(93, (uniqueIdentifier) -> new Boat(93, window, uniqueIdentifier, "boat_jungle")),
-                new EntitySupplier(97, (uniqueIdentifier) -> new Boat(97, window, uniqueIdentifier, "boat_birch")),
+                new EntitySupplier("xbuilders:oak_boat", (uniqueIdentifier) -> new Boat(window, uniqueIdentifier, "boat_oak")),
+                new EntitySupplier("xbuilders:dark_oak_boat", (uniqueIdentifier) -> new Boat(window, uniqueIdentifier, "boat_darkoak")),
+                new EntitySupplier("xbuilders:spruce_boat", (uniqueIdentifier) -> new Boat(window, uniqueIdentifier, "boat_spruce")),
+                new EntitySupplier("xbuilders:acacia_boat", (uniqueIdentifier) -> new Boat(window, uniqueIdentifier, "boat_acacia")),
+                new EntitySupplier("xbuilders:jungle_boat", (uniqueIdentifier) -> new Boat(window, uniqueIdentifier, "boat_jungle")),
+                new EntitySupplier("xbuilders:birch_boat", (uniqueIdentifier) -> new Boat(window, uniqueIdentifier, "boat_birch")),
 
                 //Minecarts
-                new EntitySupplier(103, (uniqueIdentifier) -> new Minecart(103, window, uniqueIdentifier, "blue")),
-                new EntitySupplier(99, (uniqueIdentifier) -> new Minecart(99, window, uniqueIdentifier, "charcoal")),
-                new EntitySupplier(104, (uniqueIdentifier) -> new Minecart(104, window, uniqueIdentifier, "cyan")),
-                new EntitySupplier(101, (uniqueIdentifier) -> new Minecart(101, window, uniqueIdentifier, "green")),
-                new EntitySupplier(98, (uniqueIdentifier) -> new Minecart(98, window, uniqueIdentifier, "iron")),
-                new EntitySupplier(100, (uniqueIdentifier) -> new Minecart(100, window, uniqueIdentifier, "red")),
-                new EntitySupplier(102, (uniqueIdentifier) -> new Minecart(102, window, uniqueIdentifier, "yellow")),
+                new EntitySupplier("xbuilders:blue_minecart", (uniqueIdentifier) -> new Minecart(window, uniqueIdentifier, "blue")),
+                new EntitySupplier("xbuilders:charcoal_minecart", (uniqueIdentifier) -> new Minecart(window, uniqueIdentifier, "charcoal")),
+                new EntitySupplier("xbuilders:cyan_minecart", (uniqueIdentifier) -> new Minecart(window, uniqueIdentifier, "cyan")),
+                new EntitySupplier("xbuilders:green_minecart", (uniqueIdentifier) -> new Minecart(window, uniqueIdentifier, "green")),
+                new EntitySupplier("xbuilders:iron_minecart", (uniqueIdentifier) -> new Minecart(window, uniqueIdentifier, "iron")),
+                new EntitySupplier("xbuilders:red_minecart", (uniqueIdentifier) -> new Minecart(window, uniqueIdentifier, "red")),
+                new EntitySupplier("xbuilders:yellow_minecart", (uniqueIdentifier) -> new Minecart(window, uniqueIdentifier, "yellow")),
 
                 //Foxes
-                new EntitySupplier(56, (uniqueIdentifier) -> new Fox(56, uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:fox", (uniqueIdentifier) -> new Fox(uniqueIdentifier, window)),
                 //Cats
-                new EntitySupplier(3, (uniqueIdentifier) -> new Cat(3, uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:cat", (uniqueIdentifier) -> new Cat(uniqueIdentifier, window)),
                 //Rabbits
-                new EntitySupplier(15, (uniqueIdentifier) -> new Rabbit(15, window, uniqueIdentifier)),
+                new EntitySupplier("xbuilders:rabbit", (uniqueIdentifier) -> new Rabbit(window, uniqueIdentifier)),
 
                 //Horses
-                new EntitySupplier(23, (uniqueIdentifier) -> new Horse(23, uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:horse", (uniqueIdentifier) -> new Horse(uniqueIdentifier, window)),
                 //Mules
-                new EntitySupplier(30, (uniqueIdentifier) -> new Mule(30, uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:mule", (uniqueIdentifier) -> new Mule(uniqueIdentifier, window)),
 
                 //Dogs
-                new EntitySupplier(32, (uniqueIdentifier) -> new Dog(32, uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:dog", (uniqueIdentifier) -> new Dog(uniqueIdentifier, window)),
 
                 //Turtles
-                new EntitySupplier(105, (uniqueIdentifier) -> new Turtle(105, uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:turtle", (uniqueIdentifier) -> new Turtle(uniqueIdentifier, window)),
 
                 //Beavers
-                new EntitySupplier(200, (uniqueIdentifier) -> new Beaver(200, uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:beaver", (uniqueIdentifier) -> new Beaver(uniqueIdentifier, window)),
 
                 //Fish
-                new EntitySupplier(41, (uniqueIdentifier) -> new FishA(41, uniqueIdentifier, window)),
-                new EntitySupplier(42, (uniqueIdentifier) -> new FishB(42, uniqueIdentifier, window))
+                new EntitySupplier("xbuilders:fish", (uniqueIdentifier) -> new FishA(uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:fish", (uniqueIdentifier) -> new FishB(uniqueIdentifier, window))
         };
 
 

@@ -62,23 +62,15 @@ public abstract class Entity {
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
-            light = chunk.data.getPackedLight(
-                    (int) Math.floor(chunkPosition.chunkVoxel.x),
-                    (int) Math.floor(chunkPosition.chunkVoxel.y),
-                    (int) Math.floor(chunkPosition.chunkVoxel.z));
+            light = chunk.data.getPackedLight((int) Math.floor(chunkPosition.chunkVoxel.x), (int) Math.floor(chunkPosition.chunkVoxel.y), (int) Math.floor(chunkPosition.chunkVoxel.z));
 
             for (int i = 1; i < 3; i++) { //Go up, if the block is in an opaque block
                 if (light == 0) {
                     WCCi wcc = new WCCi();
-                    wcc.set((int) Math.floor(worldPosition.x),
-                            (int) Math.floor(worldPosition.y - i),
-                            (int) Math.floor(worldPosition.z));
+                    wcc.set((int) Math.floor(worldPosition.x), (int) Math.floor(worldPosition.y - i), (int) Math.floor(worldPosition.z));
                     chunk = Server.world.getChunk(wcc.chunk);
                     if (chunk != null) {
-                        light = chunk.data.getPackedLight(
-                                wcc.chunkVoxel.x,
-                                wcc.chunkVoxel.y,
-                                wcc.chunkVoxel.z);
+                        light = chunk.data.getPackedLight(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
                 } else break;
             }
@@ -115,14 +107,14 @@ public abstract class Entity {
     protected boolean needsInitialization;
     public boolean inFrustum; //This value is automatically set by the frustum culling tester
     public float distToPlayer;
-    public final short id;
-    public final String alias;
     private static final SecureRandom entityIdentifierGenerator = new SecureRandom();
     public EntitySupplier supplier;
 
-    public Entity(int id, long uniqueIdentifier) {
-        this.id = (short) id;
-        this.alias = null;
+    public String getId() {
+        return supplier.id;
+    }
+
+    public Entity(long uniqueIdentifier) {
         sendMultiplayer = false;
         aabb = new EntityAABB();
         worldPosition = aabb.worldPosition;
@@ -133,8 +125,7 @@ public abstract class Entity {
 
         if (uniqueIdentifier == 0)
             this.uniqueIdentifier = entityIdentifierGenerator.nextLong(); //Auto generate the identifier
-        else
-            this.uniqueIdentifier = uniqueIdentifier;
+        else this.uniqueIdentifier = uniqueIdentifier;
     }
 
 
@@ -213,9 +204,7 @@ public abstract class Entity {
             JsonParser parser = null;
             JsonNode node = null;
             //If there is no load bytes, parser and node are null
-            if (loadBytes != null
-                    && loadBytes.length > 0
-                    && new String(loadBytes).startsWith(SMILE_HEADER)) {
+            if (loadBytes != null && loadBytes.length > 0 && new String(loadBytes).startsWith(SMILE_HEADER)) {
                 parser = smileFactory.createParser(loadBytes);
                 node = parser.getCodec().readTree(parser);
                 System.out.println("Loading entity JSON: " + new String(loadBytes));

@@ -42,8 +42,8 @@ public class ItemDrop extends Entity {
         public boolean droppedFromPlayer;
     }
 
-    public ItemDrop(int id, long uniqueId) {
-        super(id, uniqueId);
+    public ItemDrop(long uniqueId) {
+        super(uniqueId);
         aabb.isSolid = false;
     }
 

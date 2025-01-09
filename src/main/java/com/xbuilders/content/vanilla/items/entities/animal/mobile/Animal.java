@@ -101,8 +101,8 @@ public abstract class Animal extends Entity {
         entitySupplier.isAutonomous = true;
     }
 
-    public Animal(int id, long uniqueId, ClientWindow window) {
-        super(id, uniqueId);
+    public Animal(long uniqueId, ClientWindow window) {
+        super(uniqueId);
         this.window = window;
         random = new AnimalRandom();
         this.player = GameScene.userPlayer;

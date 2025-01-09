@@ -32,8 +32,8 @@ public class Turtle extends LandAndWaterAnimal {
 
     int textureIndex;
 
-    public Turtle(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window);
+    public Turtle( long uniqueIdentifier, ClientWindow window) {
+        super( uniqueIdentifier, window);
         aabb.setOffsetAndSize(1f, 1f, 1f, true);
         frustumSphereRadius = 3;
         setMaxSpeed(0.1f);

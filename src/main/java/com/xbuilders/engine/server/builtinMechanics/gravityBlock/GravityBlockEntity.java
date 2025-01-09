@@ -30,7 +30,7 @@ public class GravityBlockEntity extends Entity {
     long startTime;
 
     public GravityBlockEntity(long uniqueIdentifier, ClientWindow window) {
-        super(-1, uniqueIdentifier);
+        super(uniqueIdentifier);
         positionHandler = new PositionHandler(window, Server.world, aabb, null);
         aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         frustumSphereRadius = 1;
@@ -68,7 +68,8 @@ public class GravityBlockEntity extends Entity {
         }
     }
 
-    public void server_update(){}
+    public void server_update() {
+    }
 
     @Override
     public void client_draw() {

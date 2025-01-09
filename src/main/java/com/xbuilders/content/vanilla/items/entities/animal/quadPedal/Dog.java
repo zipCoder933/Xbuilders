@@ -15,8 +15,8 @@ import java.io.IOException;
 
 
 public class Dog extends QuadPedalLandAnimal {
-    public Dog(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window, false);
+    public Dog(long uniqueIdentifier, ClientWindow window) {
+        super( uniqueIdentifier, window, false);
     }
 
     static QuadPedalLandAnimal_StaticData staticData;

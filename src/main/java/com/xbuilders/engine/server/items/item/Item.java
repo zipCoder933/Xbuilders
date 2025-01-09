@@ -160,7 +160,7 @@ public class Item implements Comparable<Item> {
     }
 
     public final void init(IntMap<Block> blockMap,
-                           IntMap<EntitySupplier> entityMap,
+                           HashMap<String, EntitySupplier> entityMap,
                            HashMap<String, Short> blockAliasToIDMap,
                            HashMap<String, Short> entityAliasToIDMap,
                            BlockArrayTexture textures,

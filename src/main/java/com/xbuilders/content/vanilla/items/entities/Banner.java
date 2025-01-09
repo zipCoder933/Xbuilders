@@ -23,8 +23,8 @@ public class Banner extends Entity {
     int texture;
     static Vehicle.Vehicle_staticData staticData;
 
-    public Banner(int id, long uniqueIdentifier, String textureFile) {
-        super(id, uniqueIdentifier);
+    public Banner(long uniqueIdentifier, String textureFile) {
+        super(uniqueIdentifier);
         frustumSphereRadius = 2f;
         this.textureFile = textureFile;
         aabb.isSolid = false;

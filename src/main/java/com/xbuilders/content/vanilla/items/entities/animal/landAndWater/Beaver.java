@@ -80,8 +80,8 @@ public class Beaver extends LandAndWaterAnimal {
         }
     }
 
-    public Beaver(int id, long uniqueIdentifier, ClientWindow window) {
-        super(id, uniqueIdentifier, window);
+    public Beaver( long uniqueIdentifier, ClientWindow window) {
+        super( uniqueIdentifier, window);
         aabb.setOffsetAndSize(.8f, 1f, .8f, true);
         frustumSphereRadius = 2;
         setMaxSpeed(0.1f);

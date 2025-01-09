@@ -44,8 +44,8 @@ public class Minecart extends Vehicle {
         return fixedPosition;
     }
 
-    public Minecart(int id, ClientWindow window, long uniqueIdentifier, String texture) {
-        super(id, window, uniqueIdentifier);
+    public Minecart(ClientWindow window, long uniqueIdentifier, String texture) {
+        super(window, uniqueIdentifier);
         this.texture = texture;
         aabb.setOffsetAndSize(.9f, 1f, .9f, true);
         positionLock = new PositionLock(this, 0);
@@ -83,7 +83,6 @@ public class Minecart extends Vehicle {
     }
 
     float rotationYCurve;
-
 
 
     @Override

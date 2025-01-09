@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.multiplayer;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
@@ -123,6 +124,8 @@ public class MultiplayerPendingEntityChanges {
         return !entityCreation.isEmpty() || !entityDeletion.isEmpty() || !entityUpdate.isEmpty();
     }
 
+    Kryo kryo = new Kryo();
+
     public void entityChangeRecord(OutputStream baos, byte entityOperation, Entity entity) throws IOException {
         baos.write(new byte[]{entityOperation});
         baos.write(new byte[]{(byte) (entity.multiplayerProps.controlledByUs() ? 1 : 0)});
@@ -137,7 +140,7 @@ public class MultiplayerPendingEntityChanges {
         baos.write(ByteUtils.floatToBytes(entity.worldPosition.z));
 
         //Send entity ID
-        baos.write(ByteUtils.shortToBytes(entity.id));
+        baos.write(ByteUtils.shortToBytes(entity.getId()));
 
         //Send entity byte data (state or entity initialisation)
         byte[] data = null;
