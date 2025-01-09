@@ -207,7 +207,7 @@ public abstract class Entity {
             if (loadBytes != null && loadBytes.length > 0 && new String(loadBytes).startsWith(SMILE_HEADER)) {
                 parser = smileFactory.createParser(loadBytes);
                 node = parser.getCodec().readTree(parser);
-                System.out.println("Loading entity JSON: " + new String(loadBytes));
+//                System.out.println("Loading entity JSON: " + new String(loadBytes));
             }
             loadDefinitionData(parser != null, parser, node);
             if (parser != null) parser.close();
