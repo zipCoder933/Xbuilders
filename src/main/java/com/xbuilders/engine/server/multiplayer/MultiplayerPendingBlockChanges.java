@@ -20,6 +20,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
+import static com.xbuilders.engine.server.world.chunk.saving.ChunkSavingLoadingUtils.BLOCK_DATA_MAX_BYTES;
+import static com.xbuilders.engine.utils.ByteUtils.bytesToShort;
+import static com.xbuilders.engine.utils.ByteUtils.shortToBytes;
+
 public class MultiplayerPendingBlockChanges {
 
     public final ConcurrentHashMap<Vector3i, BlockHistory> blockChanges = new ConcurrentHashMap<>();
@@ -93,7 +97,7 @@ public class MultiplayerPendingBlockChanges {
         baos.write(ByteUtils.intToBytes(worldPos.y));
         baos.write(ByteUtils.intToBytes(worldPos.z));
         baos.write(ByteUtils.shortToBytes(change.newBlock.id));
-        ChunkSavingLoadingUtils.writeBlockData(change.newBlockData, baos);
+        writeBlockData(change.newBlockData, baos);
     }
 
     public int sendAllChanges() {
@@ -177,13 +181,50 @@ public class MultiplayerPendingBlockChanges {
                 start.set(start.get() + 15);
 
                 //Block data
-                blockHistory.newBlockData = ChunkSavingLoadingUtils.readBlockData(receivedData, start);
+                blockHistory.newBlockData = readBlockData(receivedData, start);
                 blockHistory.updateBlockData = true;
 
                 //Add the block to the list
                 Vector3i position = new Vector3i(x, y, z);
                 newEvent.accept(position, blockHistory);
             }
+        }
+    }
+
+
+    public static void writeBlockData(BlockData data, OutputStream out) throws IOException {
+        if (data == null) {
+            out.write(new byte[]{0, 0});//Just write 0 for the length
+            return;
+        }
+
+        if (data.size() > BLOCK_DATA_MAX_BYTES) {
+            ErrorHandler.report(new Throwable("Block data too large: " + data.size()));
+            out.write(new byte[]{0, 0});//Just write 0 for the length
+            return;
+        }
+        //First write the length of the block data as an unsigned short
+        out.write(shortToBytes(data.size() & 0xffff));
+
+        //Then write the bytes
+        byte[] bytes = data.toByteArray();
+        out.write(bytes);
+    }
+
+    public static BlockData readBlockData(byte[] bytes, AtomicInteger start) {
+        //Get the length from unsigned short to int
+        int length = bytesToShort(bytes[start.get()], bytes[start.get() + 1]) & 0xffff;
+        start.set(start.get() + 2);
+
+        try {
+            //Read the bytes
+            byte[] data = new byte[length];
+            System.arraycopy(bytes, start.get(), data, 0, length);
+            start.set(start.get() + length);
+            return new BlockData(data);
+        } catch (IndexOutOfBoundsException e) {
+            ErrorHandler.log(e);
+            return null; //Catch the error just to be safe
         }
     }
 

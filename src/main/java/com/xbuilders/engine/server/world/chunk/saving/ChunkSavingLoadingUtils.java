@@ -5,6 +5,7 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.entity.Entity;
@@ -28,8 +29,6 @@ import org.lwjgl.system.MemoryStack;
 
 
 public class ChunkSavingLoadingUtils {
-
-
     //DONT IMPORT ANY of these variables into the chunk file reading class. We want the previous chunk file versions to work no matter what.
     public static final byte START_READING_VOXELS = -128;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
@@ -38,50 +37,19 @@ public class ChunkSavingLoadingUtils {
     public static final int LATEST_FILE_VERSION = 3;
     public static final byte[] ENDING_OF_CHUNK_FILE = "END_OF_CHUNK_FILE".getBytes();
 
-
     public static final int ENTITY_DATA_MAX_BYTES = Integer.MAX_VALUE - 8; //this is the max size for a java array
     public static int BLOCK_DATA_MAX_BYTES = (int) (Math.pow(2, 16) - 1); //Unsigned short
 
-
-    public static void writeBlockData(BlockData data, OutputStream out) throws IOException {
-        if (data == null) {
-            out.write(new byte[]{0, 0});//Just write 0 for the length
-            return;
-        }
-
-        if (data.size() > BLOCK_DATA_MAX_BYTES) {
-            ErrorHandler.report(new Throwable("Block data too large: " + data.size()));
-            out.write(new byte[]{0, 0});//Just write 0 for the length
-            return;
-        }
-        //First write the length of the block data as an unsigned short
-        out.write(shortToBytes(data.size() & 0xffff));
-
-        //Then write the bytes
-        byte[] bytes = data.toByteArray();
-        out.write(bytes);
-    }
-
-    public static BlockData readBlockData(byte[] bytes, AtomicInteger start) {
-        //Get the length from unsigned short to int
-        int length = bytesToShort(bytes[start.get()], bytes[start.get() + 1]) & 0xffff;
-        start.set(start.get() + 2);
-
-        try {
-            //Read the bytes
-            byte[] data = new byte[length];
-            System.arraycopy(bytes, start.get(), data, 0, length);
-            start.set(start.get() + length);
-            return new BlockData(data);
-        } catch (IndexOutOfBoundsException e) {
-            ErrorHandler.log(e);
-            return null; //Catch the error just to be safe
-        }
-    }
-
     final static Kryo kryo = new Kryo();
 
-    protected static String printSubList(byte[] bytes, int target, int radius) {
+    static {
+        kryo.register(byte[].class);
+    }
+
+
+
+
+    protected static void printSubList(byte[] bytes, int target, int radius) {
         int start = MathUtils.clamp(target - radius, 0, bytes.length - 1);
         int end = MathUtils.clamp(target + radius, 0, bytes.length - 1);
         String str = "🎯=" + target + "(";
@@ -92,7 +60,7 @@ public class ChunkSavingLoadingUtils {
                 str += (bytes[i] + " ");
             }
         }
-        return str + ")";
+        System.out.println(str + ")");
     }
 
     private static String printBytesFormatted(byte[] bytes) {
@@ -107,13 +75,6 @@ public class ChunkSavingLoadingUtils {
 
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
 
-    private static void writeChunkVoxelCoords(OutputStream out, Vector3f vec) throws IOException {
-//        System.out.println("Writing as " + vec.x + ", " + vec.y + ", " + vec.z);
-        writeUnsignedShort(out, (int) (vec.x * maxMult16bits));
-        writeUnsignedShort(out, (int) (vec.y * maxMult16bits));
-        writeUnsignedShort(out, (int) (vec.z * maxMult16bits));
-    }
-
 
     public static File backupFile(File f) {
         return new File(f.getParentFile(), "backups\\" + f.getName());
@@ -121,59 +82,56 @@ public class ChunkSavingLoadingUtils {
 
     public static boolean writeChunkToFile(final Chunk chunk, final File f) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
-
             //Rename the existing file to a backup if it exists
             if (f.exists()) renameToBackup(chunk, f);
-
             try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream outStream = new GZIPOutputStream(fos)) {
-
                 outStream.write(LATEST_FILE_VERSION);//Write the version of the file
                 writeMetadata(outStream, chunk);
 
+                //Start writing using kryo
                 Output out = new Output(outStream);
 
-                boolean iterateOverVoxels = true;
-
                 //Write entities
-                for (int i = 0; i < chunk.entities.list.size(); i++) {
-
-                    Entity entity = chunk.entities.list.get(i);
-                    kryo.writeObject(out, entity.getId()); //Wrute entity id
-                    kryo.writeObject(out, entity.getUniqueIdentifier()); //Write entity uuid
-                    entity.updatePosition();  //Write position
-                    writeChunkVoxelCoords(outStream, entity.chunkPosition.chunkVoxel);
-
-                    //Write entity data
-                    byte[] entityBytes = entity.serializeDefinitionData();
-                    writeEntityData(entityBytes, outStream);
-
-                }
-
-                outStream.write(START_READING_VOXELS);
+//                for (int i = 0; i < chunk.entities.list.size(); i++) {
+//
+//                    Entity entity = chunk.entities.list.get(i);
+//                    kryo.writeObject(out, entity.getId()); //write entity id
+//                    kryo.writeObject(out, entity.getUniqueIdentifier()); //Write entity uuid
+//
+//                    entity.updatePosition();  //Write position (unsigned short)
+//                    kryo.writeObject(out, (short) (entity.chunkPosition.chunkVoxel.x * maxMult16bits) & 0xFFFF);
+//                    kryo.writeObject(out, (short) (entity.chunkPosition.chunkVoxel.y * maxMult16bits) & 0xFFFF);
+//                    kryo.writeObject(out, (short) (entity.chunkPosition.chunkVoxel.z * maxMult16bits) & 0xFFFF);
+//
+//                    //Write entity data
+//                    byte[] entityBytes = entity.serializeDefinitionData();
+//                    if (entityBytes == null) entityBytes = new byte[0];
+//                    kryo.writeObject(out, entityBytes);
+//                }
+//
+//                kryo.writeObject(out, START_READING_VOXELS);
 
                 //Write voxels
-                if (iterateOverVoxels) {
-                    for (int y = chunk.data.size.y - 1; y >= 0; y--) {
-                        for (int x = 0; x < chunk.data.size.x; ++x) {
-                            for (int z = 0; z < chunk.data.size.z; ++z) {
+                for (int y = chunk.data.size.y - 1; y >= 0; y--) {
+                    for (int x = 0; x < chunk.data.size.x; ++x) {
+                        for (int z = 0; z < chunk.data.size.z; ++z) {
 
-                                short blockID = chunk.data.getBlock(x, y, z); //Write block id
-                                writeShort(outStream, blockID);
+                            short blockID = chunk.data.getBlock(x, y, z); //Write block id
+                            kryo.writeObject(out, (short) blockID);
 
-                                outStream.write(chunk.data.getPackedLight(x, y, z)); //Write light as a single byte
+                            byte light = chunk.data.getPackedLight(x, y, z); //Write light
+                            kryo.writeObject(out, (byte) light);
 
-                                if (blockID != BlockRegistry.BLOCK_AIR.id) { //We dont have to write block data if the block is air
-                                    final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
-                                    writeBlockData(blockData, outStream);
-                                }
-
-                            }
+                            final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
+                            if (blockData == null) kryo.writeObject(out, new byte[0]);
+                            else kryo.writeObject(out, blockData.toByteArray());
                         }
                     }
-                } else {
-                    outStream.write(BYTE_SKIP_ALL_VOXELS);
                 }
-                outStream.write(ENDING_OF_CHUNK_FILE);
+
+                kryo.writeObject(out, ENDING_OF_CHUNK_FILE);
+                out.close();
+
             } catch (FileNotFoundException ex) {
                 ErrorHandler.report(ex);
                 return false;
@@ -303,12 +261,14 @@ public class ChunkSavingLoadingUtils {
                 hasDetectedIfFileWasReadCorrectly = true;
 
                 try {
-                    switch (fileVersion) {
-                        case 0 -> ChunkFile_V0.readChunk(chunk, start, bytes);
-                        case 1 -> ChunkFile_V1.readChunk(chunk, start, bytes);
-                        case 2 -> ChunkFile_V1.readChunk(chunk, start, bytes);
-                        default -> ChunkFile_V2.readChunk(chunk, start, bytes);
-                    }
+                    if (bytes.length > 0) {
+                        switch (fileVersion) {
+                            case 0 -> ChunkFile_V0.readChunk(chunk, start, bytes);
+                            case 1 -> ChunkFile_V1.readChunk(chunk, start, bytes);
+                            case 2 -> ChunkFile_V1.readChunk(chunk, start, bytes);
+                            default -> ChunkFile_V2.readChunk(chunk, start, bytes);
+                        }
+                    } else throw new IllegalStateException("File is empty past metadata!");
                 } catch (Exception ex) {
                     File backupFile = backupFile(f);
                     ErrorHandler.report("Error reading chunk " + chunk

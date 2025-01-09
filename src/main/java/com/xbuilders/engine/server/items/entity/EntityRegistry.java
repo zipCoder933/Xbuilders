@@ -35,8 +35,8 @@ public class EntityRegistry {
         return list;
     }
 
-    public EntitySupplier getItem(short blockID) {
-        return idMap.get(blockID);
+    public EntitySupplier getItem(String id) {
+        return idMap.get(id);
     }
 
     public HashMap<String, EntitySupplier> getIdMap() {

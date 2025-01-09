@@ -1,5 +1,7 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.entity.Entity;
@@ -10,73 +12,82 @@ import com.xbuilders.engine.utils.ByteUtils;
 import org.joml.Vector3f;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.utils.ByteUtils.bytesToShort;
 
 public class ChunkFile_V2 {
-
     public static final byte START_READING_VOXELS = -128;
-    public static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
     public static final int METADATA_BYTES = 56;
+
 
     public static void readMetadata(byte[] input) {
     }
 
     static void readChunk(final Chunk chunk, AtomicInteger start, byte[] bytes) throws IOException {
+        Kryo kryo = ChunkSavingLoadingUtils.kryo;
+        Input input = new Input(bytes,
+                start.get(), //start
+                bytes.length - start.get() //length
+        );
+        System.out.println("bytes length: " + bytes.length + " start: " + start.get());
+        System.out.println("Input position: " + input.position() + " Input limit: " + input.limit() + " input available: " + input.available());
 
-        //Load the entities
-        while (true) {
-            if (bytes[start.get()] == START_READING_VOXELS) { //This flags the end of the entities
-                start.set(start.get() + 1);
-                break;
-            }
-            makeEntity(chunk, bytes, start);
-        }
+        try {
+
+//            while (true) {  //Load the entities
+//                int currentPosition = input.position(); // Save the current position
+//                if (input.available() > 0 && input.readByte() == START_READING_VOXELS) { //This flags the end of the entities
+//                    System.out.println("End of entities");
+//                    break;
+//                } else input.setPosition(currentPosition); // Restore the position
+//
+//                System.out.println("Reading entity");
+//                makeEntity(chunk, input, kryo);
+//            }
 
 
-        //Load the voxels
-        chunkVoxels:
-        for (int y = chunk.data.size.y - 1; y >= 0; y--) {
-            for (int x = 0; x < chunk.data.size.x; ++x) {
-                for (int z = 0; z < chunk.data.size.z; ++z) {
-                    final byte startByte = bytes[start.get()];
-                    if (startByte == BYTE_SKIP_ALL_VOXELS) {
-                        start.set(start.get() + 1);
-                        continue chunkVoxels;
-                    } else { //Every non air voxel starts with pipe byte
-                        readVoxel(bytes, chunk, x, y, z, start);
+            for (int y = chunk.data.size.y - 1; y >= 0; y--) {   //Load the voxels
+                for (int x = 0; x < chunk.data.size.x; ++x) {
+                    for (int z = 0; z < chunk.data.size.z; ++z) {
+                        readVoxel(input, kryo, chunk, x, y, z);
                     }
                 }
             }
+        } catch (Exception e) {
+            synchronized (kryo) {
+                System.out.println("\n\n\nCHUNK V2 EXCEPTION:");
+                ChunkSavingLoadingUtils.printSubList(input.getBuffer(), input.position(), 10);
+                StackTraceElement[] stackTrace = e.getStackTrace();
+                System.out.println("Exception: " + e + ", stack trace length: " + stackTrace.length);
+                for (StackTraceElement stackTraceElement : stackTrace) {
+                    System.out.println(stackTraceElement);
+                }
+            }
         }
-
     }
 
 
-    private static Vector3f readChunkVoxelCoords(AtomicInteger start, byte[] bytes) {
-        float x = bytesToShort(bytes[start.get()], bytes[start.get() + 1]);
-        float y = bytesToShort(bytes[start.get() + 2], bytes[start.get() + 3]);
-        float z = bytesToShort(bytes[start.get() + 4], bytes[start.get() + 5]);
+    private static Vector3f readChunkVoxelCoords(Input input, Kryo kryo) {
+        float x = kryo.readObject(input, Float.class);
+        float y = kryo.readObject(input, Float.class);
+        float z = kryo.readObject(input, Float.class);
         x = x / maxMult16bits;
         y = y / maxMult16bits;
         z = z / maxMult16bits;
-        start.set(start.get() + 6);
         return new Vector3f(x, y, z);
     }
 
-    protected static Entity makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
-        byte idLength =  bytes[start.get()]; //read entity id
-        String entityID = new String(bytes, start.get() + 1, idLength);
-        start.set(start.get() + idLength + 1);
+    protected static Entity makeEntity(Chunk chunk, Input input, Kryo kryo) {
+        String id = kryo.readObject(input, String.class);
+        EntitySupplier link = Registrys.getEntity(id);
 
-        EntitySupplier link = Registrys.getEntity((short) 0);
+        long identifier = kryo.readObject(input, Long.class); //read entity identifier
 
-        long identifier = ByteUtils.bytesToLong(bytes, start); //read entity identifier
-
-        Vector3f chunkVox = readChunkVoxelCoords(start, bytes);  //Read position
-        byte[] entityData = ChunkSavingLoadingUtils.readEntityData(bytes, start);//Read entity data
+        Vector3f chunkVox = readChunkVoxelCoords(input, kryo);  //Read position
+        byte[] entityData = kryo.readObject(input, byte[].class);//Read entity data
 
         return chunk.entities.placeNew(link, identifier,
                 chunkVox.x + chunk.position.x * Chunk.WIDTH,
@@ -86,25 +97,22 @@ public class ChunkFile_V2 {
     }
 
     protected static void readVoxel(
-            final byte[] bytes,
-            final Chunk chunk, final int x, final int y, final int z,
-            AtomicInteger start) {
+            Input input, Kryo kryo,
+            final Chunk chunk,
+            final int x, final int y, final int z) {
 
-        final short blockID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]);     //Read block id
-        chunk.data.setBlock(x, y, z, blockID);
+        short id = kryo.readObject(input, short.class); //read id
+        chunk.data.setBlock(x, y, z, id);
 
-        chunk.data.setPackedLight(x, y, z, bytes[start.get() + 2]);   //Read light
-        start.set(start.get() + 3);
+        byte light = kryo.readObject(input, byte.class); //read light
+        chunk.data.setPackedLight(x, y, z, light);
 
-        if (blockID != BlockRegistry.BLOCK_AIR.id) { //We dont read block data if the block is air
-            BlockData blockData = ChunkSavingLoadingUtils.readBlockData(bytes, start); //Read block data
-            if (blockData != null && blockData.size() > 0) {
-                chunk.data.setBlockData(x, y, z, blockData);
-            }
+        byte[] bytes = kryo.readObject(input, byte[].class); //Read block data
+        if (bytes.length > 0) {
+            BlockData blockData = new BlockData(bytes);
+            chunk.data.setBlockData(x, y, z, blockData);
         }
 
-
     }
-
 
 }

@@ -127,68 +127,70 @@ public class MultiplayerPendingEntityChanges {
 
     Kryo kryo = new Kryo();
 
-    public void entityChangeRecord(Output out, Kryo kryo, byte entityOperation, Entity entity) throws IOException {
-        kryo.writeObject(out, entityOperation);
-        kryo.writeObject(out, entity.multiplayerProps.controlledByUs());
-        entity.multiplayerProps.controlMode = false;
-
-        //Send identifier
-        kryo.writeObject(out, entity.getUniqueIdentifier());
-
-        //Send current position
-        kryo.writeObject(out, entity.worldPosition.x);
-        kryo.writeObject(out, entity.worldPosition.y);
-        kryo.writeObject(out, entity.worldPosition.z);
-
-        //Send entity ID
-        kryo.writeObject(out, entity.getId());
-
-        //Send entity byte data (state or entity initialisation)
-        byte[] data = null;
-        if (entityOperation == GameServer.ENTITY_UPDATED) {
-            data = entity.serializeStateData();
-        } else if (entityOperation == GameServer.ENTITY_CREATED) {
-            data = entity.serializeDefinitionData();
-        }
-        ChunkSavingLoadingUtils.writeEntityData(data, baos);
+    public void entityChangeRecord(ByteArrayOutputStream baos, byte entityOperation, Entity entity) throws IOException {
+        //Output out, Kryo kryo,
+//        kryo.writeObject(out, entityOperation);
+//        kryo.writeObject(out, entity.multiplayerProps.controlledByUs());
+//        entity.multiplayerProps.controlMode = false;
+//
+//        //Send identifier
+//        kryo.writeObject(out, entity.getUniqueIdentifier());
+//
+//        //Send current position
+//        kryo.writeObject(out, entity.worldPosition.x);
+//        kryo.writeObject(out, entity.worldPosition.y);
+//        kryo.writeObject(out, entity.worldPosition.z);
+//
+//        //Send entity ID
+//        kryo.writeObject(out, entity.getId());
+//
+//        //Send entity byte data (state or entity initialisation)
+//        byte[] data = null;
+//        if (entityOperation == GameServer.ENTITY_UPDATED) {
+//            data = entity.serializeStateData();
+//        } else if (entityOperation == GameServer.ENTITY_CREATED) {
+//            data = entity.serializeDefinitionData();
+//        }
+//        if(data == null) data = new byte[0];
+//        kryo.writeObject(out,data);
     }
 
 
     public static void readEntityChange(byte[] receivedData, ReadConsumer newEvent) {
-        //Split the recievedData by the newline byte
-        AtomicInteger start = new AtomicInteger(0);
-        while (start.get() < receivedData.length) {
-            if (receivedData[start.get()] == GameServer.ENTITY_CREATED ||
-                    receivedData[start.get()] == GameServer.ENTITY_DELETED ||
-                    receivedData[start.get()] == GameServer.ENTITY_UPDATED) {
-
-                int mode = receivedData[start.get()];
-                boolean controlledByAnotherPlayer = receivedData[start.get() + 1] == 1;
-                start.set(start.get() + 2);
-
-
-                //last XYZ coordinates
-                long identifier = ByteUtils.bytesToLong(receivedData, start);
-
-                //Current XYZ coordinates
-                float x = ByteUtils.bytesToFloat(receivedData[start.get()], receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3]);
-                float y = ByteUtils.bytesToFloat(receivedData[start.get() + 4], receivedData[start.get() + 5], receivedData[start.get() + 6], receivedData[start.get() + 7]);
-                float z = ByteUtils.bytesToFloat(receivedData[start.get() + 8], receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11]);
-                Vector3f currentPos = new Vector3f(x, y, z);
-                start.set(start.get() + 12);
-
-                //Entity ID
-                int blockID = ByteUtils.bytesToShort(receivedData[start.get()], receivedData[start.get() + 1]);
-                EntitySupplier entity = Registrys.getEntity((short) blockID);
-                start.set(start.get() + 2);
-
-                //Block data
-                byte[] data = ChunkSavingLoadingUtils.readEntityData(receivedData, start);
-
-                //Add the block to the list
-                newEvent.accept(mode, entity, identifier, currentPos, data, controlledByAnotherPlayer);
-            }
-        }
+//        //Split the recievedData by the newline byte
+//        AtomicInteger start = new AtomicInteger(0);
+//        while (start.get() < receivedData.length) {
+//            if (receivedData[start.get()] == GameServer.ENTITY_CREATED ||
+//                    receivedData[start.get()] == GameServer.ENTITY_DELETED ||
+//                    receivedData[start.get()] == GameServer.ENTITY_UPDATED) {
+//
+//                int mode = receivedData[start.get()];
+//                boolean controlledByAnotherPlayer = receivedData[start.get() + 1] == 1;
+//                start.set(start.get() + 2);
+//
+//
+//                //last XYZ coordinates
+//                long identifier = ByteUtils.bytesToLong(receivedData, start);
+//
+//                //Current XYZ coordinates
+//                float x = ByteUtils.bytesToFloat(receivedData[start.get()], receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3]);
+//                float y = ByteUtils.bytesToFloat(receivedData[start.get() + 4], receivedData[start.get() + 5], receivedData[start.get() + 6], receivedData[start.get() + 7]);
+//                float z = ByteUtils.bytesToFloat(receivedData[start.get() + 8], receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11]);
+//                Vector3f currentPos = new Vector3f(x, y, z);
+//                start.set(start.get() + 12);
+//
+//                //Entity ID
+//                int blockID = ByteUtils.bytesToShort(receivedData[start.get()], receivedData[start.get() + 1]);
+//                EntitySupplier entity = Registrys.getEntity((short) blockID);
+//                start.set(start.get() + 2);
+//
+//                //Block data
+//                byte[] data = ChunkSavingLoadingUtils.readEntityData(receivedData, start);
+//
+//                //Add the block to the list
+//                newEvent.accept(mode, entity, identifier, currentPos, data, controlledByAnotherPlayer);
+//            }
+//        }
     }
 
     public void addEntityChange(Entity entity, byte operation, boolean sendImmediately) {
