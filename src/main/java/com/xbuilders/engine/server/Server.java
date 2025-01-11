@@ -53,9 +53,11 @@ public class Server {
 
     //Game Mode =======================================================================================================
     private static GameMode gameMode = GameMode.ADVENTURE;
+
     public static GameMode getGameMode() {
         return gameMode;
     }
+
     public static void setGameMode(GameMode gameMode) {
         Server.gameMode = gameMode;
     }
@@ -177,11 +179,10 @@ public class Server {
         drop.definitionData.droppedFromPlayer = droppedFromPlayer;
         return e;
     }
-    
+
     /**
-     *
-     * @param entity the entity to place
-     * @param w the world position to place the entity
+     * @param entity    the entity to place
+     * @param w         the world position to place the entity
      * @param simpleGen the JSON to inject into the entity
      * @return the entity that was placed
      */
@@ -254,10 +255,6 @@ public class Server {
     }
 
 
-    int completeChunks, framesWithCompleteChunkValue;
-    NetworkJoinRequest req;
-    ProgressData prog;
-
     public void playerJoinEvent(Player client) {
         Server.alert("A new player has joined: " + client);
         System.out.println("JOIN EVENT: " + client.getName());
@@ -278,15 +275,7 @@ public class Server {
         }
     }
 
-    public void startGameEvent(WorldData worldData, NetworkJoinRequest req, ProgressData prog) {
-        world.data = worldData;
-        this.req = req;
-        this.prog = prog;
-        livePropagationHandler.startGameEvent(worldData);
-        eventPipeline.startGameEvent(worldData);
-        world.startGameEvent(worldData);
-        tickThread.startGameEvent();
-    }
+
 
     public void stopGameEvent() {
         try {
@@ -305,9 +294,10 @@ public class Server {
     /**
      * The event that starts the new game
      */
-    public void startGameUpdateEvent() throws Exception {
+    public void startGameUpdateEvent(WorldData worldData, ProgressData prog, NetworkJoinRequest req) throws Exception {
         switch (prog.stage) {
             case 0 -> {
+                world.data = worldData;
                 if (req != null) {
                     server.initNewGame(world.data, req);
                     prog.setTask("Joining game...");
@@ -386,11 +376,26 @@ public class Server {
                 game.startGameEvent(world.data);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);
-                GameScene.userPlayer.startGameEvent(world.data);
+                startGameEvent(world.data, req);
+
                 prog.finish();
-                ClientWindow.gameScene.setProjection();
+
             }
         }
+    }
+
+    int completeChunks, framesWithCompleteChunkValue;
+    NetworkJoinRequest req;
+
+    public void startGameEvent(WorldData worldData, NetworkJoinRequest req) {
+        world.data = worldData;
+        this.req = req;
+        livePropagationHandler.startGameEvent(worldData);
+        eventPipeline.startGameEvent(worldData);
+        world.startGameEvent(worldData);
+        tickThread.startGameEvent();
+        GameScene.userPlayer.startGameEvent(world.data);
+        ClientWindow.gameScene.setProjection();
     }
 
     public Vector3f getInitialSpawnPoint(Terrain terrain) {

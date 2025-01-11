@@ -210,7 +210,7 @@ public class ChunkSavingLoadingUtils {
                 int fileVersion = input.read(); //Read the file version
                 chunk.lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES)); //Read the last modified time
                 //Read the remaining metadata (How many more bytes this version of the file has before we read the real stuff)
-
+                
                 switch (fileVersion) {
                     case 0 -> input.readNBytes(ChunkFile_V0.REMAINING_METADATA_BYTES);
                     case 1 -> input.readNBytes(ChunkFile_V1.REMAINING_METADATA_BYTES);

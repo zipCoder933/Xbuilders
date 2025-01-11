@@ -154,11 +154,9 @@ public class LoadWorld implements MenuPage {
     public void loadWorld(final WorldData world, NetworkJoinRequest req) {
         String title = "Loading World...";
         ProgressData prog = new ProgressData(title);
-
-        ClientWindow.server.startGameEvent(world, req, prog);
         menu.progress.enable(prog, () -> {//update
             try {
-                ClientWindow.server.startGameUpdateEvent();
+                ClientWindow.server.startGameUpdateEvent(world, prog, req);
             } catch (Exception ex) {
                 ErrorHandler.report(ex);
                 prog.abort();

@@ -1,14 +1,17 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.bytes.ByteUtils;
 import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.xbuilders.engine.utils.bytes.ByteUtils.bytesToInt;
 import static com.xbuilders.engine.utils.bytes.ByteUtils.bytesToShort;
 
 public class ChunkFile_V1 {
@@ -16,11 +19,12 @@ public class ChunkFile_V1 {
     public static final byte START_READING_VOXELS = -128;
     public static final byte BYTE_SKIP_ALL_VOXELS = -125;
     protected final static float maxMult16bits = (float) ((Math.pow(2, 10) / Chunk.WIDTH) - 1);
-    public static final int REMAINING_METADATA_BYTES = 128;
+    public static final int REMAINING_METADATA_BYTES = 56;
 
 
     static void readChunk(final Chunk chunk, byte[] bytes) throws IOException {
-        AtomicInteger start = new AtomicInteger(0);
+        final AtomicInteger start = new AtomicInteger(0);
+
         //Load the entities
         while (true) {
             if (bytes[start.get()] == START_READING_VOXELS) { //This flags the end of the entities
@@ -61,17 +65,29 @@ public class ChunkFile_V1 {
         return new Vector3f(x, y, z);
     }
 
+    public static byte[] readEntityData(byte[] bytes, AtomicInteger start) {
+        int length = bytesToInt(bytes[start.get()], bytes[start.get() + 1], bytes[start.get() + 2], bytes[start.get() + 3]);
+        start.set(start.get() + 4);
+
+        byte[] data = new byte[length];
+        System.arraycopy(bytes, start.get(), data, 0, length);
+        start.set(start.get() + length);
+
+        return data;
+    }
+
     protected static void makeEntity(Chunk chunk, final byte[] bytes, AtomicInteger start) {
-//        final short entityID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]); //read entity id
-//        EntitySupplier link = Registrys.getEntity(entityID);
-//        start.set(start.get() + 2);
-//
-//        long identifier = ByteUtils.bytesToLong(bytes, start); //read entity identifier
-//
-//        Vector3f chunkVox = readChunkVoxelCoords(start, bytes);  //Read position
-//        byte[] entityData = ChunkSavingLoadingUtils.readEntityData(bytes, start);//Read entity data
-//
-//        return chunk.entities.placeNew(link, identifier,
+        final short entityID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]); //read entity id
+
+        start.set(start.get() + 2);
+
+        long identifier = ByteUtils.bytesToLong(bytes, start); //read entity identifier
+
+        Vector3f chunkVox = readChunkVoxelCoords(start, bytes);  //Read position
+        byte[] entityData = readEntityData(bytes, start);//Read entity data
+
+        //        EntitySupplier link = Registrys.getEntity(entityID);
+//         chunk.entities.placeNew(link, identifier,
 //                chunkVox.x + chunk.position.x * Chunk.WIDTH,
 //                chunkVox.y + chunk.position.y * Chunk.WIDTH,
 //                chunkVox.z + chunk.position.z * Chunk.WIDTH,
