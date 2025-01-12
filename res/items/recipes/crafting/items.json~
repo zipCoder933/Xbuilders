@@ -17,15 +17,15 @@
   {
     "shapeless": false,
     "input": [
+      null,
       "xbuilders:carrot",
-      "xbuilders:carrot",
-      "xbuilders:carrot",
+      null,
       "xbuilders:carrot",
       "xbuilders:gold_ingot",
       "xbuilders:carrot",
+      null,
       "xbuilders:carrot",
-      "xbuilders:carrot",
-      "xbuilders:carrot"
+      null
     ],
     "output": "xbuilders:animal_feed",
     "amount": 32
