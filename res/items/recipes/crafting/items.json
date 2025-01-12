@@ -28,7 +28,7 @@
       null
     ],
     "output": "xbuilders:animal_feed",
-    "amount": 8
+    "amount": 32
   },
   {
     "shapeless": true,
