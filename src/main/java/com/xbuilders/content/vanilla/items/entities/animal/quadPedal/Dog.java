@@ -37,8 +37,6 @@ public class Dog extends QuadPedalLandAnimal {
     @Override
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
-        entitySupplier.spawnLikelyhood *= 2f;
-
         entitySupplier.spawnCondition = (x, y, z) -> {
             if (Server.getLightLevel(x, y, z) > 6) return false; //If it's too bright, don't spawn
 

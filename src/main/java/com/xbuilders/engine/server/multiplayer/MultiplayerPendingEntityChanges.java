@@ -1,9 +1,13 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.players.Player;
+import com.xbuilders.engine.utils.bytes.SimpleKyro;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;
 import org.joml.Vector3f;
 
@@ -49,6 +53,7 @@ public class MultiplayerPendingEntityChanges {
         if (entityCreation.isEmpty() && entityDeletion.isEmpty() && entityUpdate.isEmpty()) return 0;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Output output = new Output(baos);
             HashSet<Entity> deletionCopy = new HashSet<>(entityDeletion);
             HashSet<Entity> creationCopy = new HashSet<>(entityCreation);
             HashSet<Entity> updateCopy = new HashSet<>(entityUpdate);
@@ -63,7 +68,7 @@ public class MultiplayerPendingEntityChanges {
             while (iterator.hasNext()) {
                 Entity entity = iterator.next();
                 if (changeWithinReach(player, entity.worldPosition)) {
-                    entityChangeRecord(baos, GameServer.ENTITY_DELETED, entity);
+                    entityChangeRecord(output, GameServer.ENTITY_DELETED, entity);
                     createChanges++;
                     entityDeletion.remove(entity); //Remove it from the original list
                 }
@@ -74,7 +79,7 @@ public class MultiplayerPendingEntityChanges {
             while (iterator.hasNext()) {
                 Entity entity = iterator.next();
                 if (changeWithinReach(player, entity.worldPosition)) {
-                    entityChangeRecord(baos, GameServer.ENTITY_CREATED, entity);
+                    entityChangeRecord(output, GameServer.ENTITY_CREATED, entity);
                     deleteChanges++;
                     entityCreation.remove(entity);
                 }
@@ -85,17 +90,17 @@ public class MultiplayerPendingEntityChanges {
             while (iterator.hasNext()) {
                 Entity entity = iterator.next();
                 if (changeWithinReach(player, entity.worldPosition)) {
-                    entityChangeRecord(baos, GameServer.ENTITY_UPDATED, entity);
+                    entityChangeRecord(output, GameServer.ENTITY_UPDATED, entity);
                     updateChanges++;
                     iterator.remove();
                 }
             }
-
-            baos.close();
+            output.close();
 
             if (createChanges > 0 || deleteChanges > 0 || updateChanges > 0) {
                 rangeChangesUpdate = System.currentTimeMillis();
                 byte byteList[] = baos.toByteArray();
+                //System.out.println("Sending " + byteList.length + " bytes");
                 socket.sendData(byteList);
             }
             return createChanges + deleteChanges + updateChanges;
@@ -119,72 +124,68 @@ public class MultiplayerPendingEntityChanges {
         return !entityCreation.isEmpty() || !entityDeletion.isEmpty() || !entityUpdate.isEmpty();
     }
 
-    Kryo kryo = new Kryo();
+    static final SimpleKyro simpleKyro = new SimpleKyro();
 
-    public void entityChangeRecord(ByteArrayOutputStream baos, byte entityOperation, Entity entity) throws IOException {
+    public void entityChangeRecord(Output out, byte entityOperation, Entity entity) throws IOException {
         //Output out, Kryo kryo,
-//        kryo.writeObject(out, entityOperation);
-//        kryo.writeObject(out, entity.multiplayerProps.controlledByUs());
-//        entity.multiplayerProps.controlMode = false;
-//
-//        //Send identifier
-//        kryo.writeObject(out, entity.getUniqueIdentifier());
-//
-//        //Send current position
-//        kryo.writeObject(out, entity.worldPosition.x);
-//        kryo.writeObject(out, entity.worldPosition.y);
-//        kryo.writeObject(out, entity.worldPosition.z);
-//
-//        //Send entity ID
-//        kryo.writeObject(out, entity.getId());
-//
-//        //Send entity byte data (state or entity initialisation)
-//        byte[] data = null;
-//        if (entityOperation == GameServer.ENTITY_UPDATED) {
-//            data = entity.serializeStateData();
-//        } else if (entityOperation == GameServer.ENTITY_CREATED) {
-//            data = entity.serializeDefinitionData();
-//        }
-//        if(data == null) data = new byte[0];
-//        kryo.writeObject(out,data);
+        out.writeByte(entityOperation);
+        out.writeBoolean(entity.multiplayerProps.controlledByUs());
+        entity.multiplayerProps.controlMode = false;
+
+        //Send identifier
+        out.writeLong(entity.getUniqueIdentifier());
+
+        //Send current position
+        out.writeFloat(entity.worldPosition.x);
+        out.writeFloat(entity.worldPosition.y);
+        out.writeFloat(entity.worldPosition.z);
+
+        //Send entity ID
+        out.writeString(entity.getId());
+
+        //Send entity byte data (state or entity initialisation)
+        byte[] data = null;
+        if (entityOperation == GameServer.ENTITY_UPDATED) {
+            data = entity.serializeStateData();
+        } else if (entityOperation == GameServer.ENTITY_CREATED) {
+            data = entity.serializeDefinitionData();
+        }
+        if (data == null) data = new byte[0];
+        simpleKyro.writeByteArray(out, data);
     }
 
 
-    public static void readEntityChange(byte[] receivedData, ReadConsumer newEvent) {
-//        //Split the recievedData by the newline byte
-//        AtomicInteger start = new AtomicInteger(0);
-//        while (start.get() < receivedData.length) {
-//            if (receivedData[start.get()] == GameServer.ENTITY_CREATED ||
-//                    receivedData[start.get()] == GameServer.ENTITY_DELETED ||
-//                    receivedData[start.get()] == GameServer.ENTITY_UPDATED) {
-//
-//                int mode = receivedData[start.get()];
-//                boolean controlledByAnotherPlayer = receivedData[start.get() + 1] == 1;
-//                start.set(start.get() + 2);
-//
-//
-//                //last XYZ coordinates
-//                long identifier = ByteUtils.bytesToLong(receivedData, start);
-//
-//                //Current XYZ coordinates
-//                float x = ByteUtils.bytesToFloat(receivedData[start.get()], receivedData[start.get() + 1], receivedData[start.get() + 2], receivedData[start.get() + 3]);
-//                float y = ByteUtils.bytesToFloat(receivedData[start.get() + 4], receivedData[start.get() + 5], receivedData[start.get() + 6], receivedData[start.get() + 7]);
-//                float z = ByteUtils.bytesToFloat(receivedData[start.get() + 8], receivedData[start.get() + 9], receivedData[start.get() + 10], receivedData[start.get() + 11]);
-//                Vector3f currentPos = new Vector3f(x, y, z);
-//                start.set(start.get() + 12);
-//
-//                //Entity ID
-//                int blockID = ByteUtils.bytesToShort(receivedData[start.get()], receivedData[start.get() + 1]);
-//                EntitySupplier entity = Registrys.getEntity((short) blockID);
-//                start.set(start.get() + 2);
-//
-//                //Block data
-//                byte[] data = ChunkSavingLoadingUtils.readEntityData(receivedData, start);
-//
-//                //Add the block to the list
-//                newEvent.accept(mode, entity, identifier, currentPos, data, controlledByAnotherPlayer);
-//            }
-//        }
+    public static void readEntityChange(Input input, ReadConsumer newEvent) throws IOException {
+        //Split the recievedData by the newline byte
+
+        while (input.available() > 0) {
+            byte mode = input.readByte();
+            if (mode == GameServer.ENTITY_CREATED ||
+                    mode == GameServer.ENTITY_DELETED ||
+                    mode == GameServer.ENTITY_UPDATED) {
+
+                //Controlled by another player
+                boolean controlledByAnotherPlayer = input.readBoolean();
+                //last XYZ coordinates
+                long identifier = input.readLong();
+
+                //Current XYZ coordinates
+                float x = input.readFloat();
+                float y = input.readFloat();
+                float z = input.readFloat();
+                Vector3f currentPos = new Vector3f(x, y, z);
+
+                //Entity ID
+                String blockID = input.readString();
+                EntitySupplier entity = Registrys.getEntity(blockID);
+
+                //Block data
+                byte[] data = simpleKyro.readByteArray(input);
+
+                //Add the block to the list
+                newEvent.accept(mode, entity, identifier, currentPos, data, controlledByAnotherPlayer);
+            }
+        }
     }
 
     public void addEntityChange(Entity entity, byte operation, boolean sendImmediately) {
@@ -199,10 +200,13 @@ public class MultiplayerPendingEntityChanges {
     private boolean sendInstantChange(Entity entity, byte operation) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            entityChangeRecord(baos, operation, entity);
-            baos.close();
+            Output output = new Output(baos);
+            entityChangeRecord(output, operation, entity);
+            output.close();
             if (changeWithinReach(player, entity.worldPosition)) {
-                socket.sendData(baos.toByteArray());
+                byte[] data = baos.toByteArray();
+                //System.out.println("Sending " + data.length + " bytes");
+                socket.sendData(data);
                 return true;
             }
         } catch (IOException e) {

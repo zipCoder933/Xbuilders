@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.multiplayer;
 
+import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
@@ -262,7 +263,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 //                MainWindow.printlnDev("Voxels updated event triggered\t In reach: " + inReachChanges.get() + "\tOut of reach: " + outOfReachChanges.get());
 
             } else if (receivedData[0] == ENTITY_CREATED || receivedData[0] == ENTITY_DELETED || receivedData[0] == ENTITY_UPDATED) {
-                MultiplayerPendingEntityChanges.readEntityChange(receivedData, (
+                MultiplayerPendingEntityChanges.readEntityChange(new Input(receivedData), (
                         mode, entity, identifier, currentPos, data, isControlledByAnotherPlayer) -> {
                     //printEntityChange(client, mode, entity, identifier, currentPos, data);
                     if (MultiplayerPendingEntityChanges.changeWithinReach(client_userPlayer, currentPos)) {

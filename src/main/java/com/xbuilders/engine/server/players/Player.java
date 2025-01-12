@@ -109,12 +109,12 @@ public class Player extends NetworkSocket {
 
         if (model_blockChanges_ToBeSentToPlayer.periodicRangeSendCheck(2000)) { //Periodically send near changes
             int b = model_blockChanges_ToBeSentToPlayer.sendNearBlockChanges();
-            ClientWindow.printlnDev("Sent " + b + " near block changes");
+            //ClientWindow.printlnDev("Sent " + b + " near block changes");
             return;
         }
         if (model_entityChanges_ToBeSentToPlayer.periodicRangeSendCheck(3000)) { //Periodically send near changes
             int e = model_entityChanges_ToBeSentToPlayer.sendNearEntityChanges();
-            ClientWindow.printlnDev("Sent " + e + " near entity changes");
+            //ClientWindow.printlnDev("Sent " + e + " near entity changes");
             return;
         }
         //Periodically send All changes

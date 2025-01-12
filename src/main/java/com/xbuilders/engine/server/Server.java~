@@ -276,11 +276,12 @@ public class Server {
     }
 
 
+
     public void stopGameEvent() {
         try {
             System.out.println("Closing World...");
             GameScene.userPlayer.stopGameEvent();
-            if (world.data != null) world.stopGameEvent();
+            world.stopGameEvent();
             tickThread.stopGameEvent();
             eventPipeline.stopGameEvent();
             livePropagationHandler.stopGameEvent();
