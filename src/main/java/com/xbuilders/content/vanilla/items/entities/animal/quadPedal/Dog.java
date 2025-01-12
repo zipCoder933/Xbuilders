@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class Dog extends QuadPedalLandAnimal {
     public Dog(long uniqueIdentifier, ClientWindow window) {
-        super( uniqueIdentifier, window, false);
+        super(uniqueIdentifier, window, false);
     }
 
     static QuadPedalLandAnimal_StaticData staticData;
@@ -37,8 +37,10 @@ public class Dog extends QuadPedalLandAnimal {
     @Override
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
+        entitySupplier.spawnLikelyhood *= 2f;
+
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (Server.getLightLevel(x, y, z) > 5) return false; //If it's too bright, don't spawn
+            if (Server.getLightLevel(x, y, z) > 6) return false; //If it's too bright, don't spawn
 
             Block floor = Server.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
             if (floor.solid && Server.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;

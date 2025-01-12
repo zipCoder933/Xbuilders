@@ -414,8 +414,6 @@ public class Chunk {
             spawnLikelyhood = entityToSpawn.spawnLikelyhood;
             if (ClientWindow.devMode) spawnLikelyhood *= 10;
             despawnLikelyhood = spawnLikelyhood * 3f;
-
-            if (entityToSpawn == null) spawnEntities = false;
         }
 
         //Despawn entities

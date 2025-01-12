@@ -15,6 +15,7 @@ import java.util.Objects;
 public class EntitySupplier {
     public final String id;
     private final Supplier2 supplier;
+    public float spawnLikelyhood = 0.00001f;
 
 
     @FunctionalInterface

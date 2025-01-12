@@ -123,7 +123,6 @@ public class Blocks {
     }
 
     private static short setGrassPlant(short thisBlock, Block aboveBlock) {
-
         if (thisBlock == Blocks.BLOCK_GRASS || thisBlock == Blocks.BLOCK_SNOW_GRASS) {
             if (aboveBlock == BlockRegistry.BLOCK_AIR) {
                 if (random.nextFloat() < 0.6) {//Grass and dry reed
@@ -188,14 +187,12 @@ public class Blocks {
                 return true;
             }
 
-            //Grow grass
-            if (random.nextFloat() < 0.3) {
-                short grassToPlant = setGrassPlant(thisBlock, aboveBlock);
-                if (grassToPlant != -1) {
-                    Server.setBlock(grassToPlant, x, y - 1, z);
-                    return true;
-                }
+            short grassToPlant = setGrassPlant(thisBlock, aboveBlock);
+            if (grassToPlant != -1) {
+                Server.setBlock(grassToPlant, x, y - 1, z);
+                return true;
             }
+
             return false;
         };
 
