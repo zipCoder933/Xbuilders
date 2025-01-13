@@ -36,8 +36,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
     public final int windowFlags = NK_WINDOW_TITLE | NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_CLOSABLE;
     public final String title;
     private final NkRect windowDims = NkRect.create();
-    boolean disableInput = false;
-    int framesSinceMouseRelease = 0;
+    boolean allowInput = false;
 
     public boolean isOpen() {
         return isOpen;
@@ -53,7 +52,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         if (open) {
             nk_window_show(ctx, title, windowFlags);
             isOpen = true;
-            //disableInput = true;
+            allowInput = false;
             onOpenEvent();
         } else {
             isOpen = false;
@@ -61,9 +60,15 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         }
     }
 
+
+    public boolean allowInput() {
+        return allowInput;
+    }
+
     @Override
     public final void draw(MemoryStack stack) {
         if (isOpen) {
+
             GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
 
             Theme.resetEntireButtonStyle(ctx);
@@ -71,11 +76,11 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
             Theme.resetWindowPadding(ctx);
             nk_style_set_font(ctx, Theme.font_10);
 
-            nk_rect(window.getWidth() / 2 - (menuDimensions.x / 2),
-                    window.getHeight() / 2 - (menuDimensions.y / 2),
-                    menuDimensions.x, menuDimensions.y, windowDims);
+            nk_rect(window.getWidth() / 2 - (menuDimensions.x / 2), window.getHeight() / 2 - (menuDimensions.y / 2), menuDimensions.x, menuDimensions.y, windowDims);
 
-            if (nk_begin(ctx, title, windowDims, windowFlags)) {
+            if (nk_begin(
+                    ctx, title, windowDims, windowFlags | (allowInput() ? NK_WINDOW_NO_INPUT : 0)
+            )) {
 //              calibrate(stack, ctx);
                 drawWindow(stack, windowDims);
                 if (draggingItem != null) drawItemAtCursor(window, stack, ctx, draggingItem);
@@ -90,6 +95,12 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
             if (isOpen) onCloseEvent();
             isOpen = false;
         }
+        if (!window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_LEFT)
+                && !window.isMouseButtonPressed(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
+            allowInput = true;
+        }
+
+
     }
 
     public boolean mouseButtonEvent(int button, int action, int mods) {
@@ -104,18 +115,6 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         }
         return false;
     }
-
-
-//    private void calibrate(MemoryStack stack, NkContext ctx) {
-//     if (!itemWidth.isCalibrated()){
-//        System.out.println("Calibrating item width");
-//        nk_layout_row_dynamic(ctx, getItemSize(), maxColumns);// row
-//        for (int column = 0; column < maxColumns; column++) {
-//            nk_button_label(ctx, "");
-//            itemWidth.measure(ctx, stack);
-//        }
-//    }
-//    }
 
     public abstract void drawWindow(MemoryStack stack, NkRect windowDims2);
 

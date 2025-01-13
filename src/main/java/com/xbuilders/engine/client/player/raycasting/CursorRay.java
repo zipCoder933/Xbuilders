@@ -115,27 +115,23 @@ public class CursorRay {
             return true;
         }
 
-        //TODO: Add crouching to user so that they can flip the priority of block and entity click events
-        if (itemClickEvent(selectedItem, creationMode)) return true;
-        if (blockEntityClickEvent(creationMode)) return true;
+
+        if (creationMode &&
+                Server.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
+                        .run_ClickEvent(Server.eventPipeline.clickEventThread, getHitPos())) { //Block click event
+            return true;
+        }
+
+        if (itemClickEvent(selectedItem, creationMode)) return true; //Item click event
+
+        if (creationMode && cursorRay.entity != null && cursorRay.entity.run_ClickEvent()) { //Entity click event
+            return true;
+        }
 
 
         if (!creationMode) { //By default, remove anything the cursor is pointing at
             breakBlock(false, selectedItem);
             return true;
-        }
-        return false;
-    }
-
-    private boolean blockEntityClickEvent(boolean creationMode) {
-        if (creationMode) {
-            if (cursorRay.entity != null) { //Entity click event
-                return cursorRay.entity.run_ClickEvent();
-            } else { //Block click event
-                Block block = Server.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
-                boolean consumed = block.run_ClickEvent(Server.eventPipeline.clickEventThread, getHitPos());
-                if (consumed) return true;
-            }
         }
         return false;
     }

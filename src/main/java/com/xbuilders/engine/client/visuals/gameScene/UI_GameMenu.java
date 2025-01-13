@@ -48,7 +48,8 @@ public abstract class UI_GameMenu {
     public void onCloseEvent() {
     }
 
-    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset){
+
+    public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         return false;
     }
 }
