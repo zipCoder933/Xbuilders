@@ -4,6 +4,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.items.item.ItemStack;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
 
@@ -21,6 +22,18 @@ public abstract class LandAnimal extends Animal {
     private float activity = 0.5f;
     private float maxSpeed = 0.17f;
     public boolean jumpOverBlocks = true;
+
+    public boolean tryToConsume(ItemStack itemStack) {
+        if (super.tryToConsume(itemStack)) {
+            currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 3000);
+            currentAction.velocity = 0;
+            return true;
+        } else {
+            currentAction = new AnimalAction(AnimalAction.ActionType.WALK, 3000);
+            currentAction.velocity = maxSpeed;
+            return false;
+        }
+    }
 
     @Override
     public void initSupplier(EntitySupplier entitySupplier) {

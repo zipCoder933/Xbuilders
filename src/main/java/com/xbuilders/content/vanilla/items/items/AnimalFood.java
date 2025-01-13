@@ -6,32 +6,34 @@ import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.item.Item;
 import com.xbuilders.engine.server.items.item.ItemStack;
 import com.xbuilders.engine.server.items.loot.LootTableRegistry;
+import com.xbuilders.engine.server.items.loot.output.LootList;
 import org.joml.Vector3f;
 
 public class AnimalFood {
-    public static void makeAnimalFood(Item food) {
+    public static void makeAnimalFood(Item food, Item.OnClickEvent defaultEvent) {
         Item.OnClickEvent event = (ray, itemStack) -> {
             System.out.println("Animal food clicked");
             if (ray.getEntity() != null && ray.getEntity() instanceof Animal animal) {
-                if (animal.tamed) {
-                    itemStack.stackSize--;
+                itemStack.stackSize--;
+
+                if (!animal.tamed) {
+                    Server.alertClient("Animal is not tamed");
+                    return true;
+                } else if (animal.tryToConsume(itemStack)) {
                     animal.markAsModifiedByUser();
-
-                    Vector3f dropPos = new Vector3f(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
-
-                    LootTableRegistry.animalFeedLootTables.getLoot(animal.getId(), food.id).forEach((loot) -> {
-                        Item out = Registrys.getItem(loot.item);
-                        if (out != null) {
-                            ItemStack stack = new ItemStack(out);
-                            Server.placeItemDrop(dropPos, stack, false);
-                        }
+                    Server.alertClient("Food consumed");
+                    Vector3f dropPos = new Vector3f(animal.worldPosition.x, animal.worldPosition.y, animal.worldPosition.z);
+                    LootList lootList = LootTableRegistry.animalFeedLootTables.getLoot(animal.getId(), food.id);
+                    if (lootList.isEmpty()) System.out.println("No loot for " + animal);
+                    lootList.randomItems((stack) -> {
+                        Server.placeItemDrop(dropPos, stack, false);
                     });
-
                 }
-            }
-            return true;
+                return true;
+            } else if (defaultEvent != null) return defaultEvent.run(ray, itemStack);
+            else return false;
         };
         food.createClickEvent = event;
-        food.destroyClickEvent = event;
+        food.destroyClickEvent = defaultEvent;
     }
 }

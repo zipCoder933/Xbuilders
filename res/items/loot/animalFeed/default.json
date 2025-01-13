@@ -1,7 +1,7 @@
 [
   {
-    "animalID": "xbuilders:fox",
-    "foodID": "xbuilders:potato",
+    "animalID": "xbuilders:horse",
+    "foodID": "xbuilders:animal_apple",
     "output": [
       {
         "item": "xbuilders:wool",
@@ -11,13 +11,13 @@
     ]
   },
   {
-    "animalID": "xbuilders:fox",
-    "foodID": "xbuilders:potato",
+    "animalID": "xbuilders:dog",
+    "foodID": "xbuilders:animal_apple",
     "output": [
       {
-        "item": "xbuilders:wool",
-        "chance": 1.0,
-        "maxItems": 1
+        "item": "xbuilders:gold_ingot",
+        "chance": 0.5,
+        "maxItems": 2
       }
     ]
   }

@@ -23,5 +23,10 @@
     "input": "xbuilders:red_sand",
     "output": "xbuilders:glass",
     "amount": 1
+  },
+  {
+    "input": "xbuilders:apple",
+    "output": "xbuilders:animal_apple",
+    "amount": 2
   }
 ]

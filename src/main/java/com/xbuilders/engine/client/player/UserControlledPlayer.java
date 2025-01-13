@@ -196,7 +196,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private Vector3f status_spawnPosition = new Vector3f();
 
     public void setSpawnPoint(float x, float y, float z) {
-        Server.alert("Spawn set to " + x + ", " + y + ", " + z);
+        Server.alertClient("Spawn set to " + x + ", " + y + ", " + z);
         status_spawnPosition.set(x, y, z);
     }
 

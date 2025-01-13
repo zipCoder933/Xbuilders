@@ -312,14 +312,14 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                     GameMode gameMode = GameMode.values()[mode];
                     Server.setGameMode(gameMode);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    Server.alert("Unable to change game mode");
+                    Server.alertClient("Unable to change game mode");
                 }
             } else if (receivedData[0] == CHANGE_PLAYER_PERMISSION) {
                 try {
                     boolean permission = receivedData[1] == 1;
                     Server.setOperator(permission);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    Server.alert("Unable to change player permission");
+                    Server.alertClient("Unable to change player permission");
                 }
             }
 
@@ -346,7 +346,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data);
         ClientWindow.printlnDev(str);
-        if (ClientWindow.devMode) Server.alert(str);
+        if (ClientWindow.devMode) Server.alertClient(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {

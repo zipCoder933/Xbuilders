@@ -74,7 +74,7 @@ public class Server {
         if (ownsGame()) return false;
         else {
             isOperator = isOperator2;
-            alert("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
+            alertClient("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
         }
         return true;
     }
@@ -229,7 +229,7 @@ public class Server {
     }
 
 
-    public static void alert(String s) {
+    public static void alertClient(String s) {
         ClientWindow.gameScene.ui.infoBox.addToHistory("GAME: " + s);
     }
 
@@ -256,7 +256,7 @@ public class Server {
 
 
     public void playerJoinEvent(Player client) {
-        Server.alert("A new player has joined: " + client);
+        Server.alertClient("A new player has joined: " + client);
         System.out.println("JOIN EVENT: " + client.getName());
         System.out.println("Players: " + world.players);
         world.players.add(client);
@@ -264,7 +264,7 @@ public class Server {
     }
 
     public void playerLeaveEvent(Player client) {
-        Server.alert(client.getName() + " has left");
+        Server.alertClient(client.getName() + " has left");
         world.players.remove(client);
 
         if (client.isHost) {
@@ -436,7 +436,7 @@ public class Server {
             lastGameMode = gameMode; //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
             GameScene.userPlayer.gameModeChangedEvent(getGameMode());
-            Server.alert("Game mode changed to: " + gameMode);
+            Server.alertClient("Game mode changed to: " + gameMode);
         }
         //draw other players
         server.updatePlayers();

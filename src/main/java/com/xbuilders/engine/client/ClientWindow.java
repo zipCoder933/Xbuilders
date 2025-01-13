@@ -313,7 +313,7 @@ public class ClientWindow extends NKWindow {
         if (screenShotInitialized) {
             String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
             File saveFile = ResourceUtils.appDataResource("screenshots\\" + formattedDateTime + ".png");
-            Server.alert("Screenshot saved to: " + saveFile.getAbsolutePath());
+            Server.alertClient("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
                 saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);

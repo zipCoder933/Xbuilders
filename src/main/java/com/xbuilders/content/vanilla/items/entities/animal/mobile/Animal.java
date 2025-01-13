@@ -52,8 +52,10 @@ public abstract class Animal extends Entity {
         return !multiplayerProps.controlledByAnotherPlayer;
     }
 
+    public long lastTimeFed;
     private float rotationYDeg;
     public final AnimalRandom random;
+    public int animalEatCooldownMS = 60 * 1000; //1 per minute
 
 
     public boolean isPendingDestruction() {
@@ -203,5 +205,13 @@ public abstract class Animal extends Entity {
 
     public String toString() {
         return "Animal: " + (tamed ? "Tamed" : "Wild") + " uid: " + getUniqueIdentifier();
+    }
+
+    public boolean tryToConsume(ItemStack itemStack) {
+        if (System.currentTimeMillis() - lastTimeFed > animalEatCooldownMS) {
+            lastTimeFed = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 }

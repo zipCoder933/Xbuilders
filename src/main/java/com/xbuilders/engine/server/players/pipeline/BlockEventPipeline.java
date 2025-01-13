@@ -281,13 +281,13 @@ public class BlockEventPipeline {
                         updateAffectedChunks(affectedChunks);
                         firstChunkUpdate.set(false);
                     } else if (time > 3000 && !longSunlight.get()) {
-                        Server.alert("The lighting is being calculated. This may take a while.");
+                        Server.alertClient("The lighting is being calculated. This may take a while.");
                         longSunlight.set(true);
                     }
                 });
 
         if (longSunlight.get()) {
-            Server.alert("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
+            Server.alertClient("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
         }
 
         //Resolve affected chunks

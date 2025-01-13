@@ -116,8 +116,8 @@ public class CursorRay {
         }
 
         //TODO: Add crouching to user so that they can flip the priority of block and entity click events
-        if (blockEntityClickEvent(creationMode)) return true;
         if (itemClickEvent(selectedItem, creationMode)) return true;
+        if (blockEntityClickEvent(creationMode)) return true;
 
 
         if (!creationMode) { //By default, remove anything the cursor is pointing at
@@ -143,20 +143,34 @@ public class CursorRay {
 
     private boolean itemClickEvent(ItemStack selectedItem, boolean creationMode) {
         if (selectedItem != null) {
-            if (selectedItem.item.isFood()) {
-                eatFood(selectedItem);
-                return true;
-            }
+
+            boolean consumed = false;
+
+
             if (creationMode) {
+                boolean canEat = true;
                 if (selectedItem.item.createClickEvent != null) {
-                    return selectedItem.item.createClickEvent.run(this, selectedItem);
-                } else if (selectedItem.item.getBlock() != null || selectedItem.item.getEntity() != null)
-                    return defaultSetEvent(selectedItem);
-            } else {
-                if (selectedItem.item.destroyClickEvent != null) {
-                    return selectedItem.item.destroyClickEvent.run(this, selectedItem);
+                    if (selectedItem.item.createClickEvent.run(this, selectedItem)) {
+                        consumed = true;
+                        canEat = false;
+                    }
+                } else if (selectedItem.item.getBlock() != null || selectedItem.item.getEntity() != null) {
+                    if (defaultSetEvent(selectedItem)) {
+                        canEat = false;
+                        consumed = true;
+                    }
                 }
+                //If we are not interrupting the eating process, we can eat
+                if (canEat && selectedItem.item.isFood()) {
+                    System.out.println("Eating food");
+                    eatFood(selectedItem);
+                    return true;
+                }
+            } else if (selectedItem.item.destroyClickEvent != null) {
+                return selectedItem.item.destroyClickEvent.run(this, selectedItem);
             }
+
+            return consumed;
         }
         return false;
     }
@@ -338,7 +352,7 @@ public class CursorRay {
                     boundaryConsumer.accept(boundary_aabb, create);
                 makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
                 boundary_isStartNodeSet = false;
-            } else Server.alert("Boundary is too large");
+            } else Server.alertClient("Boundary is too large");
         }
     }
 

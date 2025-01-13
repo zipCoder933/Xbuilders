@@ -167,6 +167,11 @@ public class Items {
                 return true;
             };
         }
+        item = Registrys.getItem("xbuilders:animal_apple");
+        if (item != null) {
+            AnimalFood.makeAnimalFood(item, null);
+            item.hungerSaturation = 0.2f;
+        }
     }
 
 

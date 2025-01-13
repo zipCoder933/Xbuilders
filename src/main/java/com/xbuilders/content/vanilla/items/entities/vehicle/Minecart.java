@@ -74,9 +74,9 @@ public class Minecart extends Vehicle {
             resetKeyEvent();
             onTrack = alignToNearestTrack();
             if (onTrack) {
-                Server.alert("Press the forward and backward keys to toggle minecart direction.");
+                Server.alertClient("Press the forward and backward keys to toggle minecart direction.");
             } else {
-                Server.alert("Use WASD or arrow keys to navigate on minecart roads");
+                Server.alertClient("Use WASD or arrow keys to navigate on minecart roads");
             }
         }
         return true; //If it was consumed
