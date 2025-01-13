@@ -1414,9 +1414,9 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:snow": [
+  "xbuilders:snow_grass": [
     {
-      "item": "xbuilders:snow",
+      "item": "xbuilders:dirt",
       "chance": 1.0,
       "maxItems": 1
     }

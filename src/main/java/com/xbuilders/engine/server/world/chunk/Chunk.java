@@ -388,8 +388,6 @@ public class Chunk {
     private static Random randomTick_random = new Random();
 
     private static final float RANDOM_TICK_LIKELIHOOD = 0.001f;
-    private static final float DEV_RANDOM_TICK_LIKELIHOOD = 0.5f;
-
 
     /**
      * Ticks the chunk
@@ -399,9 +397,6 @@ public class Chunk {
      */
     public boolean tick(boolean spawnEntities) {
         boolean updatedChunkMesh = false;
-        float tickLikelyhood = (ClientWindow.devMode ? DEV_RANDOM_TICK_LIKELIHOOD : RANDOM_TICK_LIKELIHOOD);
-
-
         int wx = position.x * WIDTH;
         int wy = position.y * HEIGHT;
         int wz = position.z * WIDTH;
@@ -435,7 +430,7 @@ public class Chunk {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int z = 0; z < WIDTH; z++) {
 
-                    if (randomTick_random.nextFloat() <= tickLikelyhood) {
+                    if (randomTick_random.nextFloat() <= RANDOM_TICK_LIKELIHOOD) {
                         short blockID = data.getBlock(x, y, z);
                         if (blockID != BlockRegistry.BLOCK_AIR.id) {
                             Block block = Registrys.getBlock(blockID);

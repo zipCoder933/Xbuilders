@@ -1,0 +1,24 @@
+[
+  {
+    "animalID": "xbuilders:fox",
+    "foodID": "xbuilders:potato",
+    "output": [
+      {
+        "item": "xbuilders:wool",
+        "chance": 1.0,
+        "maxItems": 1
+      }
+    ]
+  },
+  {
+    "animalID": "xbuilders:fox",
+    "foodID": "xbuilders:potato",
+    "output": [
+      {
+        "item": "xbuilders:wool",
+        "chance": 1.0,
+        "maxItems": 1
+      }
+    ]
+  }
+]

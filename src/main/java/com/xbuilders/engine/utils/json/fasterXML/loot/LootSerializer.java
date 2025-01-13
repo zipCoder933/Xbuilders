@@ -18,7 +18,7 @@ public class LootSerializer extends StdSerializer<Loot> {
                           SerializerProvider serializers) throws IOException {
 
         gen.writeStartObject();
-        String itemId = src.itemSupplier.get().item.id;
+        String itemId = src.item;
 
         gen.writeStringField("item", itemId);
         gen.writeNumberField("chance", src.chance);

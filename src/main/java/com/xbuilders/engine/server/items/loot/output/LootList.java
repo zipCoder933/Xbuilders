@@ -1,5 +1,8 @@
 package com.xbuilders.engine.server.items.loot.output;
 
+import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.items.item.Item;
 import com.xbuilders.engine.server.items.item.ItemStack;
 
 import java.util.ArrayList;
@@ -27,7 +30,11 @@ public class LootList extends ArrayList<Loot> {
             int itemCount = random.nextInt(loot.maxItems) + 1; //random number between 1 and maxItems
             for (int i = 0; i < itemCount; i++) {
                 if (random.nextFloat() < loot.chance) {
-                    output.accept(loot.itemSupplier.get());
+                    Item out = Registrys.getItem(loot.item);
+                    if (out != null) {
+                        ItemStack stack = new ItemStack(out);
+                        output.accept(stack);
+                    }
                 }
             }
         }

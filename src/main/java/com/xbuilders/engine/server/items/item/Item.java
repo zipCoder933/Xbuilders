@@ -88,19 +88,13 @@ public class Item implements Comparable<Item> {
         return id.compareTo(o.id);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="tool events">
     //Create a functional interface for setBlockEvent
     //A functional interface for onLocalChange
     @FunctionalInterface
     public interface OnClickEvent {
         public boolean run(CursorRay ray, ItemStack stack);
     }
-
     public OnClickEvent createClickEvent, destroyClickEvent;
-
-
-    // </editor-fold>
-
 
     public Item(String id, String name) {
         this.id = id;

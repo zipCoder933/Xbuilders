@@ -13,9 +13,13 @@ import com.xbuilders.engine.server.items.*;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.entity.EntitySupplier;
 import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.items.loot.animalFeed.AnimalFeedLoot;
+import com.xbuilders.engine.server.items.loot.animalFeed.AnimalFeedLootTables;
 import com.xbuilders.engine.server.items.loot.LootTableRegistry;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
+import com.xbuilders.engine.server.items.loot.output.Loot;
+import com.xbuilders.engine.server.items.loot.output.LootList;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.content.vanilla.items.Recipes;
@@ -39,7 +43,6 @@ import org.lwjgl.system.MemoryStack;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 
@@ -99,8 +102,6 @@ public class XbuildersGame extends Game {
     public UI_RecipeIndex recipeIndexUI;
 
     public GameMenus gameMenus = new GameMenus();
-
-
 
 
     @Override
@@ -178,7 +179,6 @@ public class XbuildersGame extends Game {
     }
 
 
-
     @Override
     public void setup(Server gameScene, NkContext ctx, GameUI gameUI) throws Exception {
         //Add block types FIRST. We need them to be able to setup blocks properly
@@ -207,13 +207,15 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        for (File jsonFile : Objects.requireNonNull(ResourceUtils.resource("items/loot").listFiles())) {
+        for (File jsonFile : ResourceUtils.resource("items/loot/block").listFiles()) {
             LootTableRegistry.blockLootTables.loadFromFile(jsonFile);
+        }
+        for (File jsonFile : ResourceUtils.resource("items/loot/animalFeed").listFiles()) {
+            LootTableRegistry.animalFeedLootTables.loadFromFile(jsonFile);
         }
 
         //Load Recipes
         Recipes.loadRecipes();
-
 
 
         //propagations

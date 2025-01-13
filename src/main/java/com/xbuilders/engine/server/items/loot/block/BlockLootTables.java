@@ -1,16 +1,18 @@
-package com.xbuilders.engine.server.items.loot;
+package com.xbuilders.engine.server.items.loot.block;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.xbuilders.engine.server.items.loot.output.LootList;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
-
 import static com.xbuilders.engine.server.items.loot.LootTableRegistry.lootMapper;
-import static com.xbuilders.engine.server.items.loot.LootTableRegistry.type_stringIDTable;
 
 public class BlockLootTables extends HashMap<String, LootList> {
+
+    protected static final TypeReference<HashMap<String, LootList>> type_stringIDTable = new TypeReference<HashMap<String, LootList>>() {
+    };
 
     public BlockLootTables() {
         super();
