@@ -93,23 +93,20 @@ public class ResourceUtils {
         return used;
     }
 
-    public static byte[] getJarResource(String path) {
-        try (InputStream inputStream = ResourceUtils.class.getClassLoader().getResourceAsStream(path)) {
-            if (inputStream == null) {
-                throw new FileNotFoundException("Resource not found: " + path);
+    public static byte[] getJarResource(String path){
+        InputStream inputStream = ResourceUtils.getClass().getClassLoader().getResourceAsStream("myfile.txt");
+        if (inputStream != null) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
             }
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            byte[] data = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(data)) != -1) {
-                buffer.write(data, 0, bytesRead);
-            }
-            return buffer.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        } else {
+            System.out.println("Resource not found");
         }
     }
+
 
 
 
