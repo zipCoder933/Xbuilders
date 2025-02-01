@@ -28,5 +28,10 @@
     "input": "xbuilders:apple",
     "output": "xbuilders:animal_apple",
     "amount": 2
+  },
+  {
+    "input": "xbuilders:granite",
+    "output": "xbuilders:gunpowder",
+    "amount": 1
   }
 ]

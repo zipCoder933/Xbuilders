@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.items.recipes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import org.lwjgl.nuklear.NkContext;
 
 public abstract class Recipe {

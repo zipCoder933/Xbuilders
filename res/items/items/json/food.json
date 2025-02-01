@@ -1,0 +1,37 @@
+[
+  {
+    "id": "xbuilders:animal_apple",
+    "name": "Animal Apple",
+    "icon": "food/animal/apple.png"
+  },
+  {
+    "id": "xbuilders:bread",
+    "name": "Bread",
+    "icon": "food/bread.png"
+  },
+  {
+    "id": "xbuilders:apple",
+    "name": "Apple",
+    "icon": "food/apple.png"
+  },
+  {
+    "id": "xbuilders:wheat",
+    "name": "Wheat",
+    "icon": "food/wheat.png"
+  },
+  {
+    "id": "xbuilders:carrot",
+    "name": "Carrot",
+    "icon": "food/carrot.png"
+  },
+  {
+    "id": "xbuilders:beet",
+    "name": "Beet",
+    "icon": "food/beetroot.png"
+  },
+  {
+    "id": "xbuilders:potato",
+    "name": "Potato",
+    "icon": "food/potato.png"
+  }
+]

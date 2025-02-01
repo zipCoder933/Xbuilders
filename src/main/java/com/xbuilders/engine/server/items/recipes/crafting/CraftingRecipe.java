@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.items.recipes.crafting;
 
 import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.recipes.RecipeDisplay;
+import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.items.recipes.Recipe;
 import com.xbuilders.engine.server.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.server.items.recipes.TagPossibilities;

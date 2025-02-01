@@ -74,11 +74,7 @@
     "name": "Sand",
     "block": 16
   },
-  {
-    "id": "xbuilders:sandstone",
-    "name": "Sandstone",
-    "block": 17
-  },
+
   {
     "id": "xbuilders:andesite",
     "name": "Andesite",
@@ -529,11 +525,7 @@
     "name": "Palisade Stone",
     "block": 110
   },
-  {
-    "id": "xbuilders:red_sandstone",
-    "name": "Red Sandstone",
-    "block": 111
-  },
+
   {
     "id": "xbuilders:fire_coral_block",
     "name": "Fire Coral Block",
@@ -798,21 +790,7 @@
     "name": "Potato Seeds",
     "block": 165
   },
-  {
-    "id": "xbuilders:red_palisade_sandstone",
-    "name": "Red Palisade Sandstone",
-    "block": 175
-  },
-  {
-    "id": "xbuilders:phantom_sandstone",
-    "name": "Phantom Sandstone",
-    "block": 176
-  },
-  {
-    "id": "xbuilders:palisade_sandstone",
-    "name": "Palisade Sandstone",
-    "block": 177
-  },
+
   {
     "id": "xbuilders:glow_rock",
     "name": "Glow Rock",
@@ -933,11 +911,7 @@
     "name": "Prismarine Brick Stairs",
     "block": 201
   },
-  {
-    "id": "xbuilders:sandstone_stairs",
-    "name": "Sandstone Stairs",
-    "block": 202
-  },
+
   {
     "id": "xbuilders:cave_vines_flat",
     "name": "Cave Vines Flat",
@@ -972,16 +946,6 @@
     "id": "xbuilders:stone_brick_slab",
     "name": "Stone Brick Slab",
     "block": 209
-  },
-  {
-    "id": "xbuilders:red_sandstone_slab",
-    "name": "Red Sandstone Slab",
-    "block": 210
-  },
-  {
-    "id": "xbuilders:sandstone_slab",
-    "name": "Sandstone Slab",
-    "block": 211
   },
   {
     "id": "xbuilders:dry_grass",
@@ -1181,11 +1145,7 @@
     "name": "Bamboo Wood Slab",
     "block": 258
   },
-  {
-    "id": "xbuilders:red_sandstone_stairs",
-    "name": "Red Sandstone Stairs",
-    "block": 259
-  },
+
   {
     "id": "xbuilders:stone_brick_stairs",
     "name": "Stone Brick Stairs",
@@ -1321,36 +1281,7 @@
     "name": "Track Stop",
     "block": 286
   },
-  {
-    "id": "xbuilders:red_palisade_sandstone_stairs",
-    "name": "Red Palisade Sandstone Stairs",
-    "block": 287
-  },
-  {
-    "id": "xbuilders:red_palisade_sandstone_slab",
-    "name": "Red Palisade Sandstone Slab",
-    "block": 288
-  },
-  {
-    "id": "xbuilders:red_palisade_sandstone_fence",
-    "name": "Red Palisade Sandstone Fence",
-    "block": 289
-  },
-  {
-    "id": "xbuilders:palisade_sandstone_stairs",
-    "name": "Palisade Sandstone Stairs",
-    "block": 290
-  },
-  {
-    "id": "xbuilders:palisade_sandstone_slab",
-    "name": "Palisade Sandstone Slab",
-    "block": 291
-  },
-  {
-    "id": "xbuilders:palisade_sandstone_fence",
-    "name": "Palisade Sandstone Fence",
-    "block": 292
-  },
+
   {
     "id": "xbuilders:wool_stairs",
     "name": "Wool Stairs",
@@ -2085,21 +2016,13 @@
     "name": "Prismarine Brick Fence",
     "block": 438
   },
-  {
-    "id": "xbuilders:red_sandstone_pillar",
-    "name": "Red Sandstone Pillar",
-    "block": 439
-  },
+
   {
     "id": "xbuilders:stone_brick_pillar",
     "name": "Stone Brick Pillar",
     "block": 440
   },
-  {
-    "id": "xbuilders:palisade_sandstone_pillar",
-    "name": "Palisade Sandstone Pillar",
-    "block": 441
-  },
+
   {
     "id": "xbuilders:palisade_stone_pillar",
     "name": "Palisade Stone Pillar",
@@ -2130,11 +2053,7 @@
     "name": "Dragon Vines",
     "block": 447
   },
-  {
-    "id": "xbuilders:red_palisade_sandstone_pillar",
-    "name": "Red Palisade Sandstone Pillar",
-    "block": 448
-  },
+
   {
     "id": "xbuilders:marble_pillar_block",
     "name": "Marble Pillar Block",
@@ -2186,16 +2105,7 @@
     "name": "Dark Prismarine Brick Fence",
     "block": 459
   },
-  {
-    "id": "xbuilders:engraved_sandstone",
-    "name": "Engraved Sandstone",
-    "block": 460
-  },
-  {
-    "id": "xbuilders:engraved_red_sandstone",
-    "name": "Engraved Red Sandstone",
-    "block": 461
-  },
+
   {
     "id": "xbuilders:orange_marble_tile",
     "name": "Orange Marble Tile",
@@ -3275,16 +3185,7 @@
       "wood"
     ]
   },
-  {
-    "id": "xbuilders:engraved_sandstone_2",
-    "name": "Engraved Sandstone 2",
-    "block": 676
-  },
-  {
-    "id": "xbuilders:engraved_red_sandstone_2",
-    "name": "Engraved Red Sandstone 2",
-    "block": 677
-  },
+
   {
     "id": "xbuilders:peony_bush",
     "name": "Peony Bush",
@@ -4294,16 +4195,7 @@
     "name": "Burgundy Brick Fence Gate",
     "block": 812
   },
-  {
-    "id": "xbuilders:red_palisade_sandstone_fence_gate",
-    "name": "Red Palisade Sandstone Fence Gate",
-    "block": 813
-  },
-  {
-    "id": "xbuilders:palisade_sandstone_fence_gate",
-    "name": "Palisade Sandstone Fence Gate",
-    "block": 814
-  },
+
   {
     "id": "xbuilders:yellow_concrete_fence_gate",
     "name": "Yellow Concrete Fence Gate",

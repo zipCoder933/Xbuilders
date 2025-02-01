@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.items.recipes.smelting;
 
+import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.items.item.Item;
 import com.xbuilders.engine.server.items.recipes.*;
 import com.xbuilders.content.vanilla.ui.RecipeDrawingUtils;

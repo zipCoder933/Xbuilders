@@ -7,7 +7,7 @@ package com.xbuilders.content.vanilla.ui;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.recipes.RecipeDisplay;
+import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.items.recipes.RecipeList;
 import com.xbuilders.engine.server.items.recipes.RecipeRegistry;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -61,12 +61,24 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
             if (recipes.isEmpty()) continue;
             availableRecipes.put(registry, recipes);
         }
+
+
         if (!availableRecipes.isEmpty()) {
             //Get the first key and assign it to the recipe
             Map.Entry<RecipeList, ArrayList<RecipeDisplay>> entry = availableRecipes.entrySet().iterator().next();
             selectRecipeClass(entry.getKey());
         }
-        System.out.println("Available recipes: " + availableRecipes);
+
+        System.out.println("Available recipes: ");
+        availableRecipes.forEach((entry, value) ->
+                {
+                    System.out.println("\t" + entry.name + ":");
+                    for (RecipeDisplay recipeDisplay : value) {
+                        System.out.println("\t\t" + recipeDisplay.toString());
+                    }
+                    System.out.println();
+                }
+        );
     }
 
     final int Allitems_Height = 200; //total item list window size

@@ -17,15 +17,15 @@
   {
     "shapeless": false,
     "input": [
-      null,
       "xbuilders:carrot",
-      null,
+      "xbuilders:carrot",
+      "xbuilders:carrot",
       "xbuilders:carrot",
       "xbuilders:gold_ingot",
       "xbuilders:carrot",
-      null,
       "xbuilders:carrot",
-      null
+      "xbuilders:carrot",
+      "xbuilders:carrot"
     ],
     "output": "xbuilders:animal_feed",
     "amount": 32
@@ -38,21 +38,6 @@
     ],
     "output": "xbuilders:torch",
     "amount": 4
-  },
-  {
-    "input": [
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_block",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:torch",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_block",
-      "xbuilders:gold_ingot"
-    ],
-    "output": "xbuilders:flashlight",
-    "amount": 1
   },
   {
     "input": [
@@ -181,6 +166,36 @@
     ],
     "output": "xbuilders:switch_junction",
     "amount": 4
+  },
+  {
+    "input": [
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand"
+    ],
+    "output": "xbuilders:sandstone",
+    "amount": 8
+  },
+  {
+    "input": [
+      "xbuilders:red_sand",
+      "xbuilders:red_sand",
+      "xbuilders:red_sand",
+      "xbuilders:red_sand",
+      "xbuilders:red_sand",
+      "xbuilders:red_sand",
+      "xbuilders:red_sand",
+      "xbuilders:red_sand",
+      "xbuilders:red_sand"
+    ],
+    "output": "xbuilders:red_sandstone",
+    "amount": 8
   },
   {
     "input": [

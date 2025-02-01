@@ -9,6 +9,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.channels.Channel;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 /**
  * @author zipCoder933
@@ -25,7 +27,7 @@ public class ResourceUtils {
     public static File BLOCK_ICON_DIR, DEFAULT_ICON, BLOCK_TEXTURE_DIR, BLOCK_BUILTIN_TEXTURE_DIR, ICONS_DIR, PLAYER_GLOBAL_INFO;
 
 
-    static{
+    static {
         System.out.println("RESOURCES:");
         LOCAL_DIR = new File(System.getProperty("user.dir"));
         RESOURCE_DIR = new File(LOCAL_DIR, "res");
@@ -42,7 +44,7 @@ public class ResourceUtils {
     }
 
     public static void initialize(boolean gameDevResources, String appDataDir) {
-        APP_DATA_DIR = new File(System.getenv("LOCALAPPDATA"), appDataDir== null ? "xbuilders3" : appDataDir);
+        APP_DATA_DIR = new File(System.getenv("LOCALAPPDATA"), appDataDir == null ? "xbuilders3" : appDataDir);
         APP_DATA_DIR.mkdirs();
         System.out.println("\tApp Data path: " + APP_DATA_DIR);
 
@@ -93,6 +95,17 @@ public class ResourceUtils {
         return used;
     }
 
+    public static ArrayList<URL> listJarResources(String packagePath) throws IOException {
+        ArrayList<URL> listUrls = new ArrayList<>();
+        Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(packagePath);
+        while (urls.hasMoreElements()) {
+            URL url = urls.nextElement();
+            System.out.println("Resource URL: " + url);
+            listUrls.add(url);
+        }
+        return listUrls;
+    }
+
     public static byte[] getJarResource(String path) {
         try (InputStream inputStream = ResourceUtils.class.getClassLoader().getResourceAsStream(path)) {
             if (inputStream == null) {
@@ -110,7 +123,6 @@ public class ResourceUtils {
             return null;
         }
     }
-
 
 
     public static byte[] downloadFile(String fileUrl) throws IOException {

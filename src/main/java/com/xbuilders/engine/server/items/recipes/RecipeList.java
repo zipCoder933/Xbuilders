@@ -3,6 +3,7 @@ package com.xbuilders.engine.server.items.recipes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.items.item.Item;
 
 import java.io.File;
