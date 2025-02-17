@@ -4,7 +4,7 @@
 package com.xbuilders.content.vanilla.terrain.complexTerrain;
 
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.World;

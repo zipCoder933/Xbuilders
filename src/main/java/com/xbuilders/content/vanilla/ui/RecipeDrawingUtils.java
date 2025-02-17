@@ -1,9 +1,9 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.recipes.crafting.CraftingRecipe;
-import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipe;
+import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipeRegistry;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemGrid;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
@@ -44,7 +44,7 @@ public class RecipeDrawingUtils {
         }
     }
 
-    public static void drawRecipe(NkContext ctx, SmeltingRecipe recipe, int height) {
+    public static void drawRecipe(NkContext ctx, SmeltingRecipeRegistry recipe, int height) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             nk_layout_row_dynamic(ctx, 70, 2);
 

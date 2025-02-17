@@ -2,9 +2,9 @@ package com.xbuilders.engine.server.world.chunk;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;

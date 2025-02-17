@@ -3,7 +3,7 @@
 // 
 package com.xbuilders.engine.server.world.chunk;
 
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 
 import java.util.HashMap;
 

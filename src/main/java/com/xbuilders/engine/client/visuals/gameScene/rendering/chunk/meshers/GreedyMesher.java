@@ -5,10 +5,10 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.BlockMesher;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
 import com.xbuilders.engine.utils.math.MathUtils;

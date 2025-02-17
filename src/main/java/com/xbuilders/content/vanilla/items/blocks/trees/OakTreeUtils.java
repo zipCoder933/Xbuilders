@@ -5,7 +5,7 @@
 package com.xbuilders.content.vanilla.items.blocks.trees;
 
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.Blocks;

@@ -2,7 +2,7 @@ package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.players.Player;

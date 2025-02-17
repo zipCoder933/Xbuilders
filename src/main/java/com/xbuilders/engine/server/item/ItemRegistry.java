@@ -4,8 +4,8 @@
  */
 package com.xbuilders.engine.server.item;
 
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.BlockArrayTexture;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.IntMap;

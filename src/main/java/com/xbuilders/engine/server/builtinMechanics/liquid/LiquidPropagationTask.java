@@ -2,8 +2,8 @@ package com.xbuilders.engine.server.builtinMechanics.liquid;
 
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.LivePropagationTask;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.client.ClientWindow;

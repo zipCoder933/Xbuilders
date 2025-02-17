@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.ResourceUtils;

@@ -1,9 +1,8 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
-import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.BlockData;

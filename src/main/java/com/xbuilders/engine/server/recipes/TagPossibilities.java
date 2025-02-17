@@ -12,9 +12,9 @@ public class TagPossibilities extends HashMap<String, List<Item>> {
         //Make the tag possibilities
         for (String input_element : input) {
             if (input_element != null &&
-                    input_element.startsWith(RecipeRegistry.TAG_PREFIX) &&
+                    input_element.startsWith(AllRecipes.TAG_PREFIX) &&
                     !containsKey(input_element))
-                put(input_element, RecipeRegistry.getMatchingItems(input_element));
+                put(input_element, AllRecipes.getMatchingItems(input_element));
         }
     }
 

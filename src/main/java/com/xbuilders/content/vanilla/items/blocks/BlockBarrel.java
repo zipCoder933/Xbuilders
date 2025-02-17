@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.construction.BlockTexture;
 
 public class BlockBarrel extends Block {
     public BlockBarrel(int id, String name) {

@@ -9,8 +9,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.construction.BlockTexture;
 
 /**
  * @author zipCoder933

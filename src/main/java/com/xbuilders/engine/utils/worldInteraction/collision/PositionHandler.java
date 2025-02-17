@@ -5,7 +5,7 @@
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.window.GLFWWindow;

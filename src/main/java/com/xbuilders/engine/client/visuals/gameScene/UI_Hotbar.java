@@ -6,8 +6,8 @@ package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;

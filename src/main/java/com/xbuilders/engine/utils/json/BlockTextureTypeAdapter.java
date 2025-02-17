@@ -1,7 +1,7 @@
 package com.xbuilders.engine.utils.json;
 
 import com.google.gson.*;
-import com.xbuilders.engine.server.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.block.construction.BlockTexture;
 
 import java.lang.reflect.Type;
 

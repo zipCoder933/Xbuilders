@@ -1,9 +1,9 @@
 package com.xbuilders.engine.server.recipes.smelting;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.recipes.RecipeList;
+import com.xbuilders.engine.server.recipes.RecipeRegistry;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,15 +11,15 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmeltingRecipes extends RecipeList<SmeltingRecipe> {
+public class SmeltingRecipes extends RecipeRegistry<SmeltingRecipeRegistry> {
 
     public SmeltingRecipes() {
         super("Smelting");
 
     }
 
-    public SmeltingRecipe getFromInput(String input) {
-        for (SmeltingRecipe recipe : recipeList) {
+    public SmeltingRecipeRegistry getFromInput(String input) {
+        for (SmeltingRecipeRegistry recipe : recipeList) {
             if (recipe.input.equals(input)) return recipe;
             else if (recipe.input.startsWith("#")) {
                 String tag = recipe.input.substring(1);
@@ -30,9 +30,9 @@ public class SmeltingRecipes extends RecipeList<SmeltingRecipe> {
         return null;
     }
 
-    public ArrayList<SmeltingRecipe> getFromOutput(Item output) {
-        ArrayList<SmeltingRecipe> recipes = new ArrayList<>();
-        for (SmeltingRecipe recipe : recipeList) {
+    public ArrayList<SmeltingRecipeRegistry> getFromOutput(Item output) {
+        ArrayList<SmeltingRecipeRegistry> recipes = new ArrayList<>();
+        for (SmeltingRecipeRegistry recipe : recipeList) {
             if (recipe.output.equals(output.id)) recipes.add(recipe);
         }
         return recipes;
@@ -41,7 +41,7 @@ public class SmeltingRecipes extends RecipeList<SmeltingRecipe> {
     //TODO: For somre reason the super class loadFrom file doesnt work so well with abstract types
     public void loadFromFile(File file) throws IOException {
         String json = Files.readString(file.toPath());
-        List<SmeltingRecipe> recipeList = objectMapper.readValue(json, new TypeReference<List<SmeltingRecipe>>() {
+        List<SmeltingRecipeRegistry> recipeList = objectMapper.readValue(json, new TypeReference<List<SmeltingRecipeRegistry>>() {
         });
         System.out.println("Loaded " + recipeList.size() + " " + name + " recipes from " + file);
         this.recipeList.addAll(recipeList);

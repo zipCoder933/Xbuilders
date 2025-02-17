@@ -4,7 +4,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;

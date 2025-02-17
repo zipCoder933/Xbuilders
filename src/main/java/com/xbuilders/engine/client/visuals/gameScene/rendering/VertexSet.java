@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering;
 
-import com.xbuilders.engine.server.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.block.construction.BlockTexture;
 
 /**
  * @author zipCoder933

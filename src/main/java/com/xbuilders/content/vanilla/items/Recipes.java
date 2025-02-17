@@ -1,11 +1,11 @@
 package com.xbuilders.content.vanilla.items;
 
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.crafting.CraftingRecipe;
-import com.xbuilders.engine.server.recipes.crafting.CraftingRecipes;
+import com.xbuilders.engine.server.recipes.crafting.CraftingRecipeRegistry;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 
@@ -18,10 +18,10 @@ import java.util.function.Predicate;
 public class Recipes {
     public static void loadRecipes() throws IOException {
         for (File jsonFile : Objects.requireNonNull(ResourceUtils.resource("items/recipes/crafting").listFiles())) {
-            RecipeRegistry.craftingRecipes.loadFromFile(jsonFile);
+            AllRecipes.craftingRecipes.loadFromFile(jsonFile);
         }
         for (File jsonFile : Objects.requireNonNull(ResourceUtils.resource("items/recipes/smelting").listFiles())) {
-            RecipeRegistry.smeltingRecipes.loadFromFile(jsonFile);
+            AllRecipes.smeltingRecipes.loadFromFile(jsonFile);
         }
     }
 
@@ -29,8 +29,8 @@ public class Recipes {
         System.out.println("Synthesizing block variants...");
 
 
-        CraftingRecipes dyed = new CraftingRecipes();
-        CraftingRecipes doorsTrapdoors = new CraftingRecipes();
+        CraftingRecipeRegistry dyed = new CraftingRecipeRegistry();
+        CraftingRecipeRegistry doorsTrapdoors = new CraftingRecipeRegistry();
 
 
         String[] colors = new String[]{
@@ -112,8 +112,8 @@ public class Recipes {
         System.out.println("Synthesizing block variants...");
 
 
-        CraftingRecipes variants = new CraftingRecipes();
-        CraftingRecipes doorsTrapdoors = new CraftingRecipes();
+        CraftingRecipeRegistry variants = new CraftingRecipeRegistry();
+        CraftingRecipeRegistry doorsTrapdoors = new CraftingRecipeRegistry();
 
         Predicate<Block> matchPredicate = (b) -> !b.alias.contains("log") && !b.alias.contains("leaves");
 

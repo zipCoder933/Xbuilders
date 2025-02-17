@@ -2,7 +2,7 @@ package com.xbuilders.engine.server.world;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -33,9 +33,9 @@ import com.xbuilders.engine.server.Server;
 import static com.xbuilders.engine.client.visuals.gameScene.GameScene.userPlayer;
 import static com.xbuilders.engine.server.Server.world;
 
-import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.BlockArrayTexture;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
 
 import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;

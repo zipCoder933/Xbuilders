@@ -2,8 +2,8 @@ package com.xbuilders.engine.server.world.light;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;

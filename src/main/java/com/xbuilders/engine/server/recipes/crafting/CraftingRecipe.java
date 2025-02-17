@@ -3,7 +3,7 @@ package com.xbuilders.engine.server.recipes.crafting;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.recipes.Recipe;
-import com.xbuilders.engine.server.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.TagPossibilities;
 import com.xbuilders.content.vanilla.ui.RecipeDrawingUtils;
 import org.lwjgl.nuklear.NkContext;
@@ -109,7 +109,7 @@ public class CraftingRecipe extends Recipe {
 
             //Fill ALL the inputs that have tags with the first possible input
             for (int i = 0; i < recipe.input.length; i++) {
-                if (RecipeRegistry.isTag(recipe.input[i])) {  //If the input is a tag
+                if (AllRecipes.isTag(recipe.input[i])) {  //If the input is a tag
                     String tag = recipe.input[i];
                     List<Item> possibleInputs = tagPossibilities.get(tag); //Set the element to the first possible input
                     exploredTags.add(tag); //Add the tag to the explored list so we can remove the first element

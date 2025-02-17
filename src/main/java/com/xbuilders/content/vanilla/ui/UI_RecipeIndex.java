@@ -8,8 +8,8 @@ import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.client.visuals.RecipeDisplay;
-import com.xbuilders.engine.server.recipes.RecipeList;
 import com.xbuilders.engine.server.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemIndex;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
@@ -35,8 +35,8 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     public static final int KEY_OPEN_RECIPE_INDEX = GLFW.GLFW_KEY_R;
 
     Item selectedItem;
-    RecipeList selectedRecipeClass;
-    HashMap<RecipeList, ArrayList<RecipeDisplay>> availableRecipes = new HashMap<>();
+    RecipeRegistry selectedRecipeClass;
+    HashMap<RecipeRegistry, ArrayList<RecipeDisplay>> availableRecipes = new HashMap<>();
 
     public UI_RecipeIndex(NkContext ctx, Item[] itemList, NKWindow window) {
         super(ctx, window, "Recipe List");
@@ -56,7 +56,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
         System.out.println("\nSelected item: " + item.name);
         availableRecipes.clear();
         selectedItem = item;
-        for (RecipeList registry : RecipeRegistry.allRecipeLists) {
+        for (RecipeRegistry registry : AllRecipes.allRecipeLists) {
             ArrayList<RecipeDisplay> recipes = registry.getDisplayRecipesFromOutput(item);
             if (recipes.isEmpty()) continue;
             availableRecipes.put(registry, recipes);
@@ -65,7 +65,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
 
         if (!availableRecipes.isEmpty()) {
             //Get the first key and assign it to the recipe
-            Map.Entry<RecipeList, ArrayList<RecipeDisplay>> entry = availableRecipes.entrySet().iterator().next();
+            Map.Entry<RecipeRegistry, ArrayList<RecipeDisplay>> entry = availableRecipes.entrySet().iterator().next();
             selectRecipeClass(entry.getKey());
         }
 
@@ -107,7 +107,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
                 /**
                  * Draw recipe classes (Crafting, smelting)
                  */
-                for (RecipeList list : availableRecipes.keySet()) {
+                for (RecipeRegistry list : availableRecipes.keySet()) {
                     if (selectedRecipeClass != null && list == selectedRecipeClass) {
                         ctx.style().button().normal().data().color().set(Theme.color_lightGray);
                         ctx.style().button().border_color().set(Theme.color_white);
@@ -136,7 +136,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
         Theme.resetEntireButtonStyle(ctx);
     }
 
-    private void selectRecipeClass(RecipeList list) {
+    private void selectRecipeClass(RecipeRegistry list) {
         selectedRecipeClass = list;
         System.out.println("Switching to " + list.name);
     }

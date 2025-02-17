@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block;
 
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh_ArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;

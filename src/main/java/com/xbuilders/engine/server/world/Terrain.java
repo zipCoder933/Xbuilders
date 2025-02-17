@@ -4,7 +4,7 @@
 package com.xbuilders.engine.server.world;
 
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.server.world.chunk.Chunk;

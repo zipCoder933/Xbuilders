@@ -3,12 +3,12 @@ package com.xbuilders.content.vanilla.ui;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
-import com.xbuilders.engine.server.recipes.RecipeRegistry;
-import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipe;
+import com.xbuilders.engine.server.recipes.AllRecipes;
+import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipeRegistry;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -83,7 +83,7 @@ public class FurnaceUI extends ContainerUI {
             if (input == null || input.stackSize == 0) return false; //Nothing to smelt
 
 
-            SmeltingRecipe recipe = RecipeRegistry.smeltingRecipes.getFromInput(input.item.id);
+            SmeltingRecipeRegistry recipe = AllRecipes.smeltingRecipes.getFromInput(input.item.id);
             if (recipe == null) return false; //No recipe
             Item outputItem = Registrys.getItem(recipe.output);
             if (outputItem == null) return false; //No recipe

@@ -1,10 +1,10 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
-import com.xbuilders.engine.server.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
@@ -49,7 +49,7 @@ public class CraftingUI_Base {
                 recipeMap[i] = inputGrid.storageSpace.get(i) == null ? null : inputGrid.storageSpace.get(i).item.id;
             }
             //Print every entry in the recipeMap
-            recipe = RecipeRegistry.craftingRecipes.getFromInput(recipeMap);
+            recipe = AllRecipes.craftingRecipes.getFromInput(recipeMap);
             if (recipe != null && recipe.output != null) {
 
                 //Calculate how many of the output we can craft

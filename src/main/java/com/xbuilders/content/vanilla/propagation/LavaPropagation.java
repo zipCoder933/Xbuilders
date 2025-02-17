@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.propagation;
 
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask;
 import com.xbuilders.content.vanilla.items.Blocks;
 

@@ -5,11 +5,11 @@
 package com.xbuilders.engine.server.item.blockIconRendering;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.BlockArrayTexture;
-import com.xbuilders.engine.server.items.block.construction.BlockType;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockArrayTexture;
+import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.IconGenShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;

@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.items.blocks;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.construction.BlockTexture;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.construction.BlockTexture;
 
 public class BlockSpawn extends Block {
     public BlockSpawn(short id) {

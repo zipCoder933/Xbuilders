@@ -9,7 +9,7 @@ package com.xbuilders.engine.utils.json;
  */
 
 import com.google.gson.*;
-import com.xbuilders.engine.server.items.Registrys;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 

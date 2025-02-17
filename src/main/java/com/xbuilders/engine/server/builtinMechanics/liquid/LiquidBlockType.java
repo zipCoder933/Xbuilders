@@ -2,10 +2,10 @@ package com.xbuilders.engine.server.builtinMechanics.liquid;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.block.construction.BlockTexture;
-import com.xbuilders.engine.server.items.block.construction.BlockType;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.construction.BlockTexture;
+import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;

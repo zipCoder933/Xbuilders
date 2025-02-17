@@ -1,8 +1,8 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.block.Block;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.bytes.ByteUtils;
