@@ -4,7 +4,7 @@ import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.block.construction.BlockType;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.wcc.WCCi;

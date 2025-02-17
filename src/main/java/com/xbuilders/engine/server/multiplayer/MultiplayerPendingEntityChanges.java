@@ -1,11 +1,10 @@
 package com.xbuilders.engine.server.multiplayer;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.entity.Entity;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.Entity;
+import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.utils.bytes.SimpleKyro;
 import com.xbuilders.engine.utils.network.server.NetworkSocket;

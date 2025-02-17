@@ -4,7 +4,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockMeshBundle;

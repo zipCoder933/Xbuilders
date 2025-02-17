@@ -4,12 +4,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.item.ItemStack;
-import com.xbuilders.engine.server.items.loot.output.Loot;
+import com.xbuilders.engine.server.loot.output.Loot;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class LootDeserializer extends StdDeserializer<Loot> {
 

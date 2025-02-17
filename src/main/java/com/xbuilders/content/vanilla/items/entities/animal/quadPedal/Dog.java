@@ -8,7 +8,7 @@ import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.players.Player;
 
 import java.io.IOException;

@@ -6,10 +6,10 @@ package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.client.visuals.RecipeDisplay;
-import com.xbuilders.engine.server.items.recipes.RecipeList;
-import com.xbuilders.engine.server.items.recipes.RecipeRegistry;
+import com.xbuilders.engine.server.recipes.RecipeList;
+import com.xbuilders.engine.server.recipes.RecipeRegistry;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemIndex;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;

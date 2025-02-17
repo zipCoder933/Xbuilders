@@ -5,7 +5,7 @@ import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.BlockData;

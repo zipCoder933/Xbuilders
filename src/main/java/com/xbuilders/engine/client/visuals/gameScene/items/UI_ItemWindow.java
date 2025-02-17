@@ -3,7 +3,7 @@ package com.xbuilders.engine.client.visuals.gameScene.items;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.item.ItemStack;
+import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;
 import com.xbuilders.engine.utils.math.MathUtils;

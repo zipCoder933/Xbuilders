@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items.items;
 
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.content.vanilla.items.Blocks;
 import org.joml.Vector3i;
 

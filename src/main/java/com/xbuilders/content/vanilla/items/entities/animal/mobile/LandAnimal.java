@@ -3,8 +3,8 @@ package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
-import com.xbuilders.engine.server.items.item.ItemStack;
+import com.xbuilders.engine.server.entity.EntitySupplier;
+import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
 

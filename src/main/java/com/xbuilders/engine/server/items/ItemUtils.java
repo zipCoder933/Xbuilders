@@ -2,7 +2,7 @@ package com.xbuilders.engine.server.items;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.JsonManager;
 

@@ -2,7 +2,7 @@ package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import org.joml.Vector3f;
 
 public class EntityMultiplayerInfo {

@@ -6,11 +6,11 @@ package com.xbuilders.engine.server.items;
 
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.entity.Entity;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
-import com.xbuilders.engine.server.items.entity.EntityRegistry;
-import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.item.ItemRegistry;
+import com.xbuilders.engine.server.entity.Entity;
+import com.xbuilders.engine.server.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.EntityRegistry;
+import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.item.ItemRegistry;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 

@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.players;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

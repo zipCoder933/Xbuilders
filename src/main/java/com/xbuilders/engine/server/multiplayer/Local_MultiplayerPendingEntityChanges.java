@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.multiplayer;
 
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.world.data.WorldData;
 import org.joml.Vector3f;

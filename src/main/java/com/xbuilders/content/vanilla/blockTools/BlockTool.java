@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.blockTools;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.item.ItemStack;
+import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;

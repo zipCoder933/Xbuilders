@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.entities.vehicle.Vehicle;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 
 import java.io.IOException;

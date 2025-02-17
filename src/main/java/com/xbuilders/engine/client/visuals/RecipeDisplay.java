@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.visuals;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.items.recipes.Recipe;
+import com.xbuilders.engine.server.recipes.Recipe;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;
 

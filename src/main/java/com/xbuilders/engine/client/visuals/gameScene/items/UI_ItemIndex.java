@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.visuals.gameScene.items;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.TextBox;

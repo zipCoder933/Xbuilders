@@ -3942,7 +3942,7 @@ Event: 20.028 Loaded shared library C:\Users\sampw\.jdks\corretto-17.0.12\bin\su
 
 Deoptimization events (20 events):
 Event: 156.511 Thread 0x000001fb75d78560 Uncommon trap: trap_request=0xffffffc6 fr.pc=0x000001fb07db7338 relative=0x0000000000000478
-Event: 156.511 Thread 0x000001fb75d78560 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001fb07db7338 method=com.xbuilders.engine.server.items.entity.ChunkEntitySet.draw(Lcom/xbuilders/engine/client/player/camera/FrustumCullingTester;Lorg/joml/Vector3f;)V 
+Event: 156.511 Thread 0x000001fb75d78560 Uncommon trap: reason=bimorphic_or_optimized_type_check action=maybe_recompile pc=0x000001fb07db7338 method=com.xbuilders.engine.server.entity.ChunkEntitySet.draw(Lcom/xbuilders/engine/client/player/camera/FrustumCullingTester;Lorg/joml/Vector3f;)V
 Event: 156.511 Thread 0x000001fb75d78560 DEOPT PACKING pc=0x000001fb07db7338 sp=0x0000005e9a0ff3f0
 Event: 156.511 Thread 0x000001fb75d78560 DEOPT UNPACKING pc=0x000001fb074a69a3 sp=0x0000005e9a0ff398 mode 2
 Event: 157.360 Thread 0x000001fb75d78560 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000001fb07d15d08 relative=0x0000000000000368

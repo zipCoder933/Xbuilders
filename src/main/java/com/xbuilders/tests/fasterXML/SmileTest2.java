@@ -2,26 +2,14 @@ package com.xbuilders.tests.fasterXML;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
-import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.item.ItemStack;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
-import com.xbuilders.tests.fasterXML.smile.custom.RecordDeserializer;
-import com.xbuilders.tests.fasterXML.smile.custom.RecordSerializer;
-import com.xbuilders.tests.fasterXML.smile.smileObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.HashMap;
 
 public class SmileTest2 {
     public static void main(String[] args) throws IOException {

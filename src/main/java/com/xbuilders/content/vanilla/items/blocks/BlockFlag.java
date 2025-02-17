@@ -4,7 +4,7 @@ import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.Block;
 import com.xbuilders.engine.server.items.block.construction.BlockTexture;
-import com.xbuilders.engine.server.items.item.StorageSpace;
+import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import org.joml.Vector3f;

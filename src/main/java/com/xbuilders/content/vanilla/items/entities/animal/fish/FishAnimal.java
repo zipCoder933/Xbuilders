@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;

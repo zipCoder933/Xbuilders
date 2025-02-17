@@ -10,8 +10,8 @@ package com.xbuilders.engine.utils.json;
 
 import com.google.gson.*;
 import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.item.ItemStack;
+import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.item.ItemStack;
 
 import java.lang.reflect.Type;
 

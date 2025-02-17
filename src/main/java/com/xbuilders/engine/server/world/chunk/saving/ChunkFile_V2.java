@@ -2,13 +2,12 @@ package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import org.joml.Vector3f;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.server.world.chunk.saving.ChunkSavingLoadingUtils.kryo;
 

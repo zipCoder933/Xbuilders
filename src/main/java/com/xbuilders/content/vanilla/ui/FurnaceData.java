@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.server.items.item.ItemStack;
+import com.xbuilders.engine.server.item.ItemStack;
 
 public class FurnaceData {
     public ItemStack inputGrid, fuelGrid, outputGrid;

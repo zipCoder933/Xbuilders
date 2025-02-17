@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene.items;
 
-import com.xbuilders.engine.server.items.item.Item;
+import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.client.visuals.Theme;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.Nuklear;

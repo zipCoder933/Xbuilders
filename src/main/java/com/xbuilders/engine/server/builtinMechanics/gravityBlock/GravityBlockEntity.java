@@ -7,7 +7,7 @@ import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh_ArrayTexture;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockVertexSet;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.Block_NaiveMesher;

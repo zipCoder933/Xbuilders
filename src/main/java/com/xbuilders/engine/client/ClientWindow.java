@@ -7,7 +7,7 @@ package com.xbuilders.engine.client;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.item.blockIconRendering.BlockIconRenderer;
+import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;

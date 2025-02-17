@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.world;
 
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import java.util.HashMap;

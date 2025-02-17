@@ -6,8 +6,8 @@ import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask
 import com.xbuilders.engine.server.items.ItemUtils;
 import com.xbuilders.engine.server.items.Registrys;
 import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.item.ItemStack;
+import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.items.*;

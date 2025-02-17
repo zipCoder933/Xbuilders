@@ -5,8 +5,8 @@ import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.items.block.BlockRegistry;
 import com.xbuilders.engine.server.items.block.Block;
-import com.xbuilders.engine.server.items.entity.Entity;
-import com.xbuilders.engine.server.items.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.Entity;
+import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.world.World;
 import org.joml.Vector3i;
 

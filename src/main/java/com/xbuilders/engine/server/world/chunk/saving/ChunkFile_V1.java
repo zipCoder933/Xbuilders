@@ -1,7 +1,6 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.xbuilders.engine.server.items.block.BlockRegistry;
-import com.xbuilders.engine.server.items.entity.Entity;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.utils.ErrorHandler;

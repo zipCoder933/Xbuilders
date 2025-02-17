@@ -5,7 +5,7 @@
 package com.xbuilders.engine.server.world.chunk.saving;
 
 import com.esotericsoftware.kryo.io.Output;
-import com.xbuilders.engine.server.items.entity.Entity;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.bytes.SimpleKyro;

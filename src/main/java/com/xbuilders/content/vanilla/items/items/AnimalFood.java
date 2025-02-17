@@ -2,11 +2,9 @@ package com.xbuilders.content.vanilla.items.items;
 
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.items.Registrys;
-import com.xbuilders.engine.server.items.item.Item;
-import com.xbuilders.engine.server.items.item.ItemStack;
-import com.xbuilders.engine.server.items.loot.LootTableRegistry;
-import com.xbuilders.engine.server.items.loot.output.LootList;
+import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.loot.LootTableRegistry;
+import com.xbuilders.engine.server.loot.output.LootList;
 import org.joml.Vector3f;
 
 public class AnimalFood {
