@@ -5,9 +5,9 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.entity.EntitySupplier;
+import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
-import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;
 import org.joml.Vector2f;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * @author zipCoder933
  */
-public abstract class FishAnimal<ActionEnum> extends Animal {
+public abstract class FishAnimal<ActionEnum> extends LivingEntity {
 
     public FishAnimal( long uniqueIdentifier, ClientWindow window) {
         super( uniqueIdentifier, window);

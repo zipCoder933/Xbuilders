@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.items.Blocks;
-import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;
+import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalAction;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalUtils;
 import org.joml.Vector2f;
@@ -19,7 +19,7 @@ import static com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalA
 /**
  * @author zipCoder933
  */
-public abstract class LandAndWaterAnimal extends Animal {
+public abstract class LandAndWaterAnimal extends LivingEntity {
 
     private float maxSpeed = 0.10f;
     private float activity = 0.8f;

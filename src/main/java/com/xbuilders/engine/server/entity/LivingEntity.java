@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.content.vanilla.items.entities.animal.mobile;
+package com.xbuilders.engine.server.entity;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -11,11 +11,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.items.Blocks;
+import com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalRandom;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -28,7 +27,7 @@ import org.joml.Vector3f;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-public abstract class Animal extends Entity {
+public abstract class LivingEntity extends Entity {
 
     public Limb[] limbs;
     public final PositionHandler pos;
@@ -38,6 +37,7 @@ public abstract class Animal extends Entity {
     public boolean freezeMode = false;
     public boolean tamed = false;
     public int lifetime = 0;
+    public float despawnLikelihood = 0.01f;
     public static final int OLD_LIFETIME = 100;
 
     public boolean isOld() {
@@ -94,8 +94,8 @@ public abstract class Animal extends Entity {
             return false;
         };
         entitySupplier.despawnCondition = (e) -> {
-            if (e instanceof Animal) {
-                Animal a = (Animal) e;
+            if (e instanceof LivingEntity) {
+                LivingEntity a = (LivingEntity) e;
                 if (a.tamed) return false;
             }
             return true;
@@ -103,7 +103,7 @@ public abstract class Animal extends Entity {
         entitySupplier.isAutonomous = true;
     }
 
-    public Animal(long uniqueId, ClientWindow window) {
+    public LivingEntity(long uniqueId, ClientWindow window) {
         super(uniqueId);
         this.window = window;
         random = new AnimalRandom();
@@ -119,7 +119,17 @@ public abstract class Animal extends Entity {
 
     public void server_update() {
         if (allowVoluntaryMovement() && !freezeMode) animal_move();
-        if (ClientWindow.frameCount % 10 == 0) lifetime++;
+        if (ClientWindow.frameCount % 10 == 0) {
+            lifetime++;
+            if (
+                    distToPlayer > 10
+                            && !inFrustum
+                            && Math.random() < despawnLikelihood &&
+                            (supplier.despawnCondition == null || supplier.despawnCondition.despawn(this))
+            ) {
+                destroy();
+            }
+        }
     }
 
     public final void client_draw() {

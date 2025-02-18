@@ -4575,7 +4575,7 @@ Event: 41.134 Thread 0x000002728026aac0 5939       3       com.xbuilders.content
 Event: 41.134 Thread 0x000002728026aac0 nmethod 5939 0x00000272e501e790 code [0x00000272e501e940, 0x00000272e501ebf8]
 Event: 41.134 Thread 0x000002728026aac0 5940       3       com.xbuilders.content.vanilla.items.entities.animal.quadPedal.QuadPedalLandAnimal::lambda$loadDefinitionData$0 (14 bytes)
 Event: 41.134 Thread 0x000002728026aac0 nmethod 5940 0x00000272e501e410 code [0x00000272e501e5a0, 0x00000272e501e6d8]
-Event: 41.134 Thread 0x000002728026aac0 5941       3       com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal::jumpIfColliding (91 bytes)
+Event: 41.134 Thread 0x000002728026aac0 5941       3       com.xbuilders.engine.server.entity.LivingEntity::jumpIfColliding (91 bytes)
 Event: 41.135 Thread 0x000002728026aac0 nmethod 5941 0x00000272e501db90 code [0x00000272e501dd80, 0x00000272e501e268]
 Event: 41.315 Thread 0x000002728026aac0 5942       3       com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo::markStateChanged (6 bytes)
 Event: 41.315 Thread 0x000002728026aac0 nmethod 5942 0x00000272e501d810 code [0x00000272e501d9a0, 0x00000272e501dab8]

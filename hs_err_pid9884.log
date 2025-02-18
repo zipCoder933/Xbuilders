@@ -4572,7 +4572,7 @@ CodeHeap 'non-nmethods': size=7488Kb used=2045Kb max_used=3779Kb free=5442Kb
 Compilation events (20 events):
 Event: 66.609 Thread 0x00000237ff439fb0 6181   !   3       java.util.Formatter::format (283 bytes)
 Event: 66.610 Thread 0x00000237ff439fb0 nmethod 6181 0x00000237e4603090 code [0x00000237e46033a0, 0x00000237e4604808]
-Event: 66.846 Thread 0x00000237ff4385e0 6182       4       com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal::server_update (38 bytes)
+Event: 66.846 Thread 0x00000237ff4385e0 6182       4       com.xbuilders.engine.server.entity.LivingEntity::server_update (38 bytes)
 Event: 66.848 Thread 0x00000237ff4385e0 nmethod 6182 0x00000237ec518c90 code [0x00000237ec518e20, 0x00000237ec519078]
 Event: 68.934 Thread 0x00000237ff4385e0 6183       4       java.util.concurrent.Executors$RunnableAdapter::call (14 bytes)
 Event: 68.940 Thread 0x00000237ff4385e0 nmethod 6183 0x00000237ec279b10 code [0x00000237ec279cc0, 0x00000237ec279fe8]

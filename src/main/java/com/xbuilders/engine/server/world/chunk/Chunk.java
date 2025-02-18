@@ -401,30 +401,13 @@ public class Chunk {
         int wy = position.y * HEIGHT;
         int wz = position.z * WIDTH;
         float spawnLikelyhood = 0;
-        float despawnLikelyhood = 0;
 
         EntitySupplier entityToSpawn = null;
         if (spawnEntities && Registrys.entities.autonomousList.size() > 0) {
             entityToSpawn = Registrys.entities.autonomousList.get(randomTick_random.nextInt(Registrys.entities.autonomousList.size()));
             spawnLikelyhood = entityToSpawn.spawnLikelyhood;
-            despawnLikelyhood = spawnLikelyhood * 3f;
             if (entityToSpawn == null) spawnEntities = false;
         }
-
-        //Despawn entities
-        if (spawnEntities) {
-            for (Entity e : entities.list) {
-                if (e.spawnedNaturally //If the entitiy was spawned in this tick method
-                        && randomTick_random.nextFloat() <= despawnLikelyhood
-                        && e.link.despawnCondition.despawn(e)
-                        && client_distToPlayer > 10 //TODO: For now, this distToPlayer Condition is ok, but it should be changed when we update multiplayer
-                ) {
-                    //System.out.println("Despawning entity");
-                    e.destroy();
-                }
-            }
-        }
-
 
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {

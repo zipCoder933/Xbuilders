@@ -11,7 +11,7 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalUtils;
-import com.xbuilders.content.vanilla.items.entities.animal.mobile.Limb;
+import com.xbuilders.engine.server.entity.Limb;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector3f;
 

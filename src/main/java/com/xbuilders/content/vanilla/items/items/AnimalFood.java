@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items.items;
 
-import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;
+import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.loot.AllLootTables;
@@ -11,7 +11,7 @@ public class AnimalFood {
     public static void makeAnimalFood(Item food, Item.OnClickEvent defaultEvent) {
         Item.OnClickEvent event = (ray, itemStack) -> {
             System.out.println("Animal food clicked");
-            if (ray.getEntity() != null && ray.getEntity() instanceof Animal animal) {
+            if (ray.getEntity() != null && ray.getEntity() instanceof LivingEntity animal) {
                 itemStack.stackSize--;
 
                 if (!animal.tamed) {

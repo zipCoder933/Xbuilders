@@ -3,6 +3,7 @@ package com.xbuilders.content.vanilla.items.entities.animal.mobile;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -12,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class LandAnimal extends Animal {
+public abstract class LandAnimal extends LivingEntity {
 
     public LandAnimal(long uniqueIdentifier, ClientWindow window) {
         super(uniqueIdentifier, window);
