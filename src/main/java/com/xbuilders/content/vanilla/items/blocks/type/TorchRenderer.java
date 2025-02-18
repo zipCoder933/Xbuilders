@@ -49,14 +49,14 @@ public class TorchRenderer extends BlockType {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\torch\\side block.obj"));
 
-        torch = BlockModelLoader.load(ResourceUtils.resource("block types\\torch\\torch.blockType"),
+        torch = BlockModelLoader.load(ResourceUtils.file("block types\\torch\\torch.blockType"),
                 (t, n) -> shouldRenderFace_subBlock(t, n));
         fenceSide = new BlockModel[4];
         sideBlock = new BlockModel[4];
         for (int i = 0; i < 4; i++) {
-            fenceSide[i] = BlockModelLoader.load(ResourceUtils.resource("block types\\torch\\side" + i + ".blockType"),
+            fenceSide[i] = BlockModelLoader.load(ResourceUtils.file("block types\\torch\\side" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
-            sideBlock[i] = BlockModelLoader.load(ResourceUtils.resource("block types\\torch\\side block" + i + ".blockType"),
+            sideBlock[i] = BlockModelLoader.load(ResourceUtils.file("block types\\torch\\side block" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
         }
     }

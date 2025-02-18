@@ -119,7 +119,7 @@ public class Items {
         itemList.add(new Camera());
         itemList.add(TOOL_ANIMAL_FEED);
 
-        ItemUtils.getAllJsonItems(ResourceUtils.resource("items\\items\\json")).forEach(itemList::add);
+        ItemUtils.getAllJsonItems(ResourceUtils.file("items\\items\\json")).forEach(itemList::add);
 
         return itemList;
     }

@@ -97,7 +97,7 @@ public class GameMenu extends UI_GameMenu {
 
     private void openHelpPage() {
         Server.pauseGame();
-        File helpHtmlPage = ResourceUtils.resource("help-menu/help.html");
+        File helpHtmlPage = ResourceUtils.file("help-menu/help.html");
         if (helpHtmlPage.exists()) {
             try {
                 Desktop.getDesktop().open(helpHtmlPage);

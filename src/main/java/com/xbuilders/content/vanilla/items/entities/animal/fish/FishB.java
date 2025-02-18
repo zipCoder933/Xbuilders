@@ -41,8 +41,8 @@ public class FishB extends FishAnimal {
             body = new EntityMesh();
 
             try {
-                body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\fish\\fish_B.obj"));
-                File[] textureFiles = ResourceUtils.resource("items\\entity\\animal\\fish\\textures\\fish_B").listFiles();
+                body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\fish\\fish_B.obj"));
+                File[] textureFiles = ResourceUtils.file("items\\entity\\animal\\fish\\textures\\fish_B").listFiles();
                 textures = new int[textureFiles.length];
                 for (int i = 0; i < textureFiles.length; i++) {
                     textures[i] = Objects.requireNonNull(TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;

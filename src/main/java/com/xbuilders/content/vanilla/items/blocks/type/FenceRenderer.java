@@ -27,11 +27,11 @@ public class FenceRenderer extends BlockType {
 //        ObjToBlockModel.parseDirectory(null,
 //                false, 1.6f,
 //                ResourceUtils.resource("block types\\fence"));
-        post = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\post.blockType"), renderSide_subBlock);
-        boards0 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards.blockType"), renderSide_subBlock);
-        boards1 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards1.blockType"), renderSide_subBlock);
-        boards2 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards2.blockType"), renderSide_subBlock);
-        boards3 = BlockModelLoader.load(ResourceUtils.resource("block types\\fence\\boards3.blockType"), renderSide_subBlock);
+        post = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\post.blockType"), renderSide_subBlock);
+        boards0 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards.blockType"), renderSide_subBlock);
+        boards1 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards1.blockType"), renderSide_subBlock);
+        boards2 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards2.blockType"), renderSide_subBlock);
+        boards3 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards3.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;

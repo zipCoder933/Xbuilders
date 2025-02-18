@@ -17,7 +17,7 @@ public class PlaneTool extends BlockTool {
     public PlaneTool(BlockTools tools, CursorRay cursorRay) {
         super("Plane", tools, cursorRay);
         try {
-            setIcon(ResourceUtils.resource("blockTools\\plane.png"));
+            setIcon(ResourceUtils.file("blockTools\\plane.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

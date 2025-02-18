@@ -47,31 +47,31 @@ public class Beaver extends LandAndWaterAnimal {
             legs = new EntityMesh();
             try {
                 bodyTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\body.png").getAbsolutePath(),
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\body.png").getAbsolutePath(),
                         false)).id;
 
                 headTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\head.png").getAbsolutePath(),
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\head.png").getAbsolutePath(),
                         false)).id;
 
                 tailTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\tail.png").getAbsolutePath(),
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\tail.png").getAbsolutePath(),
                         false)).id;
 
                 legsTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.resource("items\\entity\\animal\\beaver\\back leg.png").getAbsolutePath(),
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\back leg.png").getAbsolutePath(),
                         false)).id;
 
-                body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\body.obj"));
+                body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\body.obj"));
 
 
-                head.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\head.obj"));
+                head.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\head.obj"));
 
 
-                tail.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\tail.obj"));
+                tail.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\tail.obj"));
 
 
-                legs.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\beaver\\legs.obj"));
+                legs.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\legs.obj"));
 
 
             } catch (IOException ex) {

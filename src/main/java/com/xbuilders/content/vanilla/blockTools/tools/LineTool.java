@@ -33,7 +33,7 @@ public class LineTool extends BlockTool {
     public LineTool(BlockTools tools, CursorRay cursorRay) {
         super("Line", tools, cursorRay);
         try {
-            setIcon(ResourceUtils.resource("blockTools\\line.png"));
+            setIcon(ResourceUtils.file("blockTools\\line.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

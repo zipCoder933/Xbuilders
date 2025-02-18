@@ -203,10 +203,10 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        for (File jsonFile : ResourceUtils.resource("items/loot/block").listFiles()) {
+        for (File jsonFile : ResourceUtils.file("items/loot/block").listFiles()) {
             LootTableRegistry.blockLootTables.loadFromFile(jsonFile);
         }
-        for (File jsonFile : ResourceUtils.resource("items/loot/animalFeed").listFiles()) {
+        for (File jsonFile : ResourceUtils.file("items/loot/animalFeed").listFiles()) {
             LootTableRegistry.animalFeedLootTables.loadFromFile(jsonFile);
         }
 

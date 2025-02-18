@@ -32,7 +32,7 @@ public class LightFixTool extends BlockTool {
         super("Light Fix Tool", tools, cursorRay);
         hasOptions = true;
         try {
-            setIcon(ResourceUtils.resource("blockTools\\lightbulb.png"));
+            setIcon(ResourceUtils.file("blockTools\\lightbulb.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

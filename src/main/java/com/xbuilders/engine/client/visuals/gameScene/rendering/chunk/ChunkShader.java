@@ -55,16 +55,16 @@ public class ChunkShader extends Shader {
             File fragShader = null;
             switch (fragmentShader) {
                 case FRAG_MODE_CHUNK:
-                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR + "/frag.glsl");
+                    fragShader = ResourceUtils.localFile(CHUNK_SHADER_DIR + "/frag.glsl");
                     break;
                 case FRAG_MODE_DIRECT:
-                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR + "/frag_direct.glsl");
+                    fragShader = ResourceUtils.localFile(CHUNK_SHADER_DIR + "/frag_direct.glsl");
                     break;
                 case FRAG_MODE_TEST:
-                    fragShader = ResourceUtils.localResource(CHUNK_SHADER_DIR + "/frag_test.glsl");
+                    fragShader = ResourceUtils.localFile(CHUNK_SHADER_DIR + "/frag_test.glsl");
                     break;
             }
-            init(ResourceUtils.localResource(CHUNK_SHADER_DIR + "/vertex.glsl"),
+            init(ResourceUtils.localFile(CHUNK_SHADER_DIR + "/vertex.glsl"),
                     fragShader);
         } catch (IOException e) {
             ErrorHandler.report(e);

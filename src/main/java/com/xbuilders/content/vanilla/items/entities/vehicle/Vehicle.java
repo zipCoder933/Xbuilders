@@ -37,10 +37,10 @@ public abstract class Vehicle extends Entity {
 
         public Vehicle_staticData(String bodyMesh, String texturesDir) throws IOException {
             body = new EntityMesh();
-            body.loadFromOBJ(ResourceUtils.resource(bodyMesh));
+            body.loadFromOBJ(ResourceUtils.file(bodyMesh));
 
             //Generate textures
-            File[] textureFiles = ResourceUtils.resource(texturesDir).listFiles();
+            File[] textureFiles = ResourceUtils.file(texturesDir).listFiles();
             textures = new HashMap<>();
             for (int i = 0; i < textureFiles.length; i++) {
                 String textureKey = textureFiles[i].getName().replace(".png", "");

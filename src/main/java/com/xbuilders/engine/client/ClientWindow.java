@@ -118,7 +118,7 @@ public class ClientWindow extends NKWindow {
     public static Server server;
     public static PopupMessage popupMessage;
 
-    File blockIconsDirectory = ResourceUtils.resource("items\\blocks\\icons");
+    File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
     static boolean generateIcons = false;
 
 
@@ -231,9 +231,9 @@ public class ClientWindow extends NKWindow {
         GLFW.glfwSetWindowFocusCallback(windowHandle, focusCallback);
 
 
-        setIcon(ResourceUtils.resource("icon16.png").getAbsolutePath(),
-                ResourceUtils.resource("icon32.png").getAbsolutePath(),
-                ResourceUtils.resource("icon256.png").getAbsolutePath());
+        setIcon(ResourceUtils.file("icon16.png").getAbsolutePath(),
+                ResourceUtils.file("icon32.png").getAbsolutePath(),
+                ResourceUtils.file("icon256.png").getAbsolutePath());
 
         Theme.initialize(ctx);
         server.initialize(this);
@@ -312,7 +312,7 @@ public class ClientWindow extends NKWindow {
     private void endScreenshot() {
         if (screenShotInitialized) {
             String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
-            File saveFile = ResourceUtils.appDataResource("screenshots\\" + formattedDateTime + ".png");
+            File saveFile = ResourceUtils.appDataFile("screenshots\\" + formattedDateTime + ".png");
             Server.alertClient("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
                 saveFile.getParentFile().mkdirs();

@@ -28,10 +28,10 @@ public class RaisedTrackRenderer extends BlockType {
     public RaisedTrackRenderer() {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f, ResourceUtils.resource("block types\\raisedTrack\\raisedTrack.obj"));
         generate3DIcon = false;
-        floor0 = BlockModelLoader.load(ResourceUtils.resource("block types\\raisedTrack\\raisedTrack0.blockType"), renderSide_subBlock);
-        floor1 = BlockModelLoader.load(ResourceUtils.resource("block types\\raisedTrack\\raisedTrack1.blockType"), renderSide_subBlock);
-        floor2 = BlockModelLoader.load(ResourceUtils.resource("block types\\raisedTrack\\raisedTrack2.blockType"), renderSide_subBlock);
-        floor3 = BlockModelLoader.load(ResourceUtils.resource("block types\\raisedTrack\\raisedTrack3.blockType"), renderSide_subBlock);
+        floor0 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack0.blockType"), renderSide_subBlock);
+        floor1 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack1.blockType"), renderSide_subBlock);
+        floor2 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack2.blockType"), renderSide_subBlock);
+        floor3 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack3.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
 
             b.initialBlockData = (existingData, player) -> {

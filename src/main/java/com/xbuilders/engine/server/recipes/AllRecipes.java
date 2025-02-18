@@ -3,7 +3,7 @@ package com.xbuilders.engine.server.recipes;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.recipes.crafting.CraftingRecipeRegistry;
-import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipes;
+import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipeRegistry;
 import com.xbuilders.engine.utils.MiscUtils;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class AllRecipes {
     public final static String TAG_PREFIX = "#";
 
     public static final CraftingRecipeRegistry craftingRecipes = new CraftingRecipeRegistry();
-    public static final SmeltingRecipes smeltingRecipes = new SmeltingRecipes();
+    public static final SmeltingRecipeRegistry smeltingRecipes = new SmeltingRecipeRegistry();
 
     public static final RecipeRegistry[] allRecipeLists = new RecipeRegistry[]{
             craftingRecipes, smeltingRecipes};

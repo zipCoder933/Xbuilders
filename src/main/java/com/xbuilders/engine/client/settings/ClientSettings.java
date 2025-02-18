@@ -43,7 +43,7 @@ public class ClientSettings {
 
     public static ClientSettings load() {
         try {
-            File settingsFile = ResourceUtils.appDataResource("settings.json");
+            File settingsFile = ResourceUtils.appDataFile("settings.json");
             if (settingsFile.exists()) {
                 String jsonString = Files.readString(settingsFile.toPath());
                 return gson.fromJson(jsonString, ClientSettings.class).initVariables();
@@ -56,7 +56,7 @@ public class ClientSettings {
 
     public void save() {
         this.initVariables();
-        File settingsFile = ResourceUtils.appDataResource("settings.json");
+        File settingsFile = ResourceUtils.appDataFile("settings.json");
         // Save to JSON
         try {
             if (!settingsFile.exists()) {

@@ -123,7 +123,7 @@ public class PrefabUtils {
 
     public static ChunkVoxels loadPrefabFromFileDialog() {
         File outFile = FileDialog.fileDialog((fd) -> {
-            File prefabFolder = ResourceUtils.appDataResource("prefabs");
+            File prefabFolder = ResourceUtils.appDataFile("prefabs");
             if (!prefabFolder.exists()) {
                 prefabFolder.mkdirs();
             }
@@ -152,7 +152,7 @@ public class PrefabUtils {
 
     public static void savePrefabToFileDialog(ChunkVoxels data) {
         FileDialog.fileDialog((fd) -> {
-            File prefabFolder = ResourceUtils.appDataResource("prefabs");
+            File prefabFolder = ResourceUtils.appDataFile("prefabs");
             if (!prefabFolder.exists()) {
                 prefabFolder.mkdirs();
             }

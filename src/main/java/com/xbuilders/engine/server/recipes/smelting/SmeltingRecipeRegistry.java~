@@ -11,15 +11,15 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmeltingRecipes extends RecipeRegistry<SmeltingRecipeRegistry> {
+public class SmeltingRecipeRegistry extends RecipeRegistry<SmeltingRecipe> {
 
-    public SmeltingRecipes() {
+    public SmeltingRecipeRegistry() {
         super("Smelting");
 
     }
 
-    public SmeltingRecipeRegistry getFromInput(String input) {
-        for (SmeltingRecipeRegistry recipe : recipeList) {
+    public SmeltingRecipe getFromInput(String input) {
+        for (SmeltingRecipe recipe : recipeList) {
             if (recipe.input.equals(input)) return recipe;
             else if (recipe.input.startsWith("#")) {
                 String tag = recipe.input.substring(1);
@@ -30,9 +30,9 @@ public class SmeltingRecipes extends RecipeRegistry<SmeltingRecipeRegistry> {
         return null;
     }
 
-    public ArrayList<SmeltingRecipeRegistry> getFromOutput(Item output) {
-        ArrayList<SmeltingRecipeRegistry> recipes = new ArrayList<>();
-        for (SmeltingRecipeRegistry recipe : recipeList) {
+    public ArrayList<SmeltingRecipe> getFromOutput(Item output) {
+        ArrayList<SmeltingRecipe> recipes = new ArrayList<>();
+        for (SmeltingRecipe recipe : recipeList) {
             if (recipe.output.equals(output.id)) recipes.add(recipe);
         }
         return recipes;
@@ -41,10 +41,12 @@ public class SmeltingRecipes extends RecipeRegistry<SmeltingRecipeRegistry> {
     //TODO: For somre reason the super class loadFrom file doesnt work so well with abstract types
     public void loadFromFile(File file) throws IOException {
         String json = Files.readString(file.toPath());
-        List<SmeltingRecipeRegistry> recipeList = objectMapper.readValue(json, new TypeReference<List<SmeltingRecipeRegistry>>() {
+        List<SmeltingRecipe> recipeList = objectMapper.readValue(json, new TypeReference<List<SmeltingRecipe>>() {
         });
         System.out.println("Loaded " + recipeList.size() + " " + name + " recipes from " + file);
         this.recipeList.addAll(recipeList);
     }
+
+
 
 }

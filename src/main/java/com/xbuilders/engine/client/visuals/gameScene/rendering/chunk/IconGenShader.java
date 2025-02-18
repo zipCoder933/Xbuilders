@@ -21,8 +21,8 @@ public class IconGenShader extends Shader {
 
     public IconGenShader(int textureLayers) throws IOException {
         init(
-                ResourceUtils.localResource(CHUNK_SHADER_DIR+"/vertex.glsl"),
-                ResourceUtils.localResource(CHUNK_SHADER_DIR+"/frag_icon.glsl"));
+                ResourceUtils.localFile(CHUNK_SHADER_DIR+"/vertex.glsl"),
+                ResourceUtils.localFile(CHUNK_SHADER_DIR+"/frag_icon.glsl"));
         mvpUniform = getUniformLocation("MVP");
         maxMult12bitsUniform = getUniformLocation("maxMult12bits");
         maxMult10bitsUniform = getUniformLocation("maxMult10bits");

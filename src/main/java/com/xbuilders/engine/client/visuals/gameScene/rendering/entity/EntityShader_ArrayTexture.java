@@ -21,8 +21,8 @@ public class EntityShader_ArrayTexture extends EntityShader {
     public void loadShader() {
         try {
             init(
-                    ResourceUtils.localResource("/res/shaders/entityShader/array texture.vs"),
-                    ResourceUtils.localResource("/res/shaders/entityShader/array texture.fs"));
+                    ResourceUtils.localFile("/res/shaders/entityShader/array texture.vs"),
+                    ResourceUtils.localFile("/res/shaders/entityShader/array texture.fs"));
         } catch (IOException e) {
             ErrorHandler.report(e);
         }

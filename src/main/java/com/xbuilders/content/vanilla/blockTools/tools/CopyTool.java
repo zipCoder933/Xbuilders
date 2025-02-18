@@ -25,7 +25,7 @@ public class CopyTool extends BlockTool {
         super("Copy", tools, cursorRay);
         hasOptions = true;
         try {
-            setIcon(ResourceUtils.resource("blockTools\\copy.png"));
+            setIcon(ResourceUtils.file("blockTools\\copy.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -35,7 +35,7 @@ public class CopyTool extends BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
         if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
-            ClientWindow.gameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            ClientWindow.gameScene.ui.fileDialog.show(ResourceUtils.appDataFile("prefabs"),
                     false, "xbprefab", (file) -> {
                         System.out.println("LOADING " + file.getAbsolutePath());
                         try {
@@ -48,7 +48,7 @@ public class CopyTool extends BlockTool {
                     });
         }
         if (Nuklear.nk_button_label(ctx, "Save Prefab")) {
-            ClientWindow.gameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            ClientWindow.gameScene.ui.fileDialog.show(ResourceUtils.appDataFile("prefabs"),
                     true, "xbprefab", (file) -> {
                         System.out.println("SAVING " + file.getAbsolutePath());
                         try {

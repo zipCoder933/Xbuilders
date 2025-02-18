@@ -96,14 +96,14 @@ public class LampRenderer extends BlockType {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\lamp\\side block.obj"));
 
-        lamp = BlockModelLoader.load(ResourceUtils.resource("block types\\lamp\\lamp.blockType"),
+        lamp = BlockModelLoader.load(ResourceUtils.file("block types\\lamp\\lamp.blockType"),
                 (t, n) -> shouldRenderFace_subBlock(t, n));
         fenceSide = new BlockModel[4];
         sideBlock = new BlockModel[4];
         for (int i = 0; i < 4; i++) {
-            fenceSide[i] = BlockModelLoader.load(ResourceUtils.resource("block types\\lamp\\side" + i + ".blockType"),
+            fenceSide[i] = BlockModelLoader.load(ResourceUtils.file("block types\\lamp\\side" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
-            sideBlock[i] = BlockModelLoader.load(ResourceUtils.resource("block types\\lamp\\side block" + i + ".blockType"),
+            sideBlock[i] = BlockModelLoader.load(ResourceUtils.file("block types\\lamp\\side block" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
         }
         initializationCallback = (b) -> {

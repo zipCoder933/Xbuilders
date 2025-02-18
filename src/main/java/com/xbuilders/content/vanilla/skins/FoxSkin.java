@@ -23,10 +23,10 @@ public class FoxSkin extends Skin {
     public void init() {
         mesh = new EntityMesh();
         try {
-            mesh.loadFromOBJ(ResourceUtils.resource("skins\\fox\\body.obj"));
+            mesh.loadFromOBJ(ResourceUtils.file("skins\\fox\\body.obj"));
             textureID =
                     TextureUtils.loadTexture(
-                            ResourceUtils.resource("skins\\fox\\" + texture + ".png").getAbsolutePath(),
+                            ResourceUtils.file("skins\\fox\\" + texture + ".png").getAbsolutePath(),
                     false).id;
         } catch (IOException e) {
             ErrorHandler.report(e);

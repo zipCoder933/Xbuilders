@@ -38,7 +38,7 @@ public class PasteTool extends BlockTool {
         super("Paste", tools, cursorRay);
         hasOptions = true;
         try {
-            setIcon(ResourceUtils.resource("blockTools\\paste.png"));
+            setIcon(ResourceUtils.file("blockTools\\paste.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +48,7 @@ public class PasteTool extends BlockTool {
     public void drawOptionsUI(MemoryStack stack, NkContext ctx, NkRect windowSize) {
         nk_layout_row_dynamic(ctx, 30, 2);
         if (Nuklear.nk_button_label(ctx, "Load Prefab")) {
-            ClientWindow.gameScene.ui.fileDialog.show(ResourceUtils.appDataResource("prefabs"),
+            ClientWindow.gameScene.ui.fileDialog.show(ResourceUtils.appDataFile("prefabs"),
                     false, "xbprefab", (file) -> {
                         System.out.println("LOADING " + file.getAbsolutePath());
                         try {

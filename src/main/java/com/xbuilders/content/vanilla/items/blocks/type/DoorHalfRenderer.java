@@ -124,40 +124,40 @@ public class DoorHalfRenderer extends BlockType {
             }
         };
 
-        left_open0 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left open0.blockType"),
+        left_open0 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left open0.blockType"),
                 renderSide);
-        left_open1 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left open1.blockType"),
+        left_open1 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left open1.blockType"),
                 renderSide);
-        left_open2 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left open2.blockType"),
+        left_open2 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left open2.blockType"),
                 renderSide);
-        left_open3 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left open3.blockType"),
-                renderSide);
-
-        left_closed0 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left closed0.blockType"),
-                renderSide);
-        left_closed1 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left closed1.blockType"),
-                renderSide);
-        left_closed2 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left closed2.blockType"),
-                renderSide);
-        left_closed3 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\left closed3.blockType"),
+        left_open3 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left open3.blockType"),
                 renderSide);
 
-        right_open0 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right open0.blockType"),
+        left_closed0 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left closed0.blockType"),
                 renderSide);
-        right_open1 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right open1.blockType"),
+        left_closed1 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left closed1.blockType"),
                 renderSide);
-        right_open2 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right open2.blockType"),
+        left_closed2 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left closed2.blockType"),
                 renderSide);
-        right_open3 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right open3.blockType"),
+        left_closed3 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\left closed3.blockType"),
                 renderSide);
 
-        right_closed0 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right closed0.blockType"),
+        right_open0 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right open0.blockType"),
                 renderSide);
-        right_closed1 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right closed1.blockType"),
+        right_open1 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right open1.blockType"),
                 renderSide);
-        right_closed2 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right closed2.blockType"),
+        right_open2 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right open2.blockType"),
                 renderSide);
-        right_closed3 = BlockModelLoader.load(ResourceUtils.resource("block types\\door\\right closed3.blockType"),
+        right_open3 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right open3.blockType"),
+                renderSide);
+
+        right_closed0 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right closed0.blockType"),
+                renderSide);
+        right_closed1 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right closed1.blockType"),
+                renderSide);
+        right_closed2 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right closed2.blockType"),
+                renderSide);
+        right_closed3 = BlockModelLoader.load(ResourceUtils.file("block types\\door\\right closed3.blockType"),
                 renderSide);
     }
 

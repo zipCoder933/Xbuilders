@@ -5,6 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.recipes.crafting.CraftingRecipe;
+import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +18,11 @@ import java.util.List;
 public abstract class RecipeRegistry<T extends Recipe> {
     public final String name;
     public final List<T> recipeList = new ArrayList<>();
-    private final TypeReference<List<T>> typeReference = new TypeReference<List<T>>() {
-    };
+    private final TypeReference<List<T>> typeReference;
 
-    public RecipeRegistry(String name) {
+    public RecipeRegistry(String name, TypeReference typeReference) {
         this.name = name;
+        this.typeReference = typeReference;
     }
 
     public void add(T recipe) {
@@ -51,7 +54,7 @@ public abstract class RecipeRegistry<T extends Recipe> {
         return getFromOutput(output) != null;
     }
 
-    public final ObjectMapper objectMapper = new ObjectMapper();
+
 
     public void writeToFile(File file) throws IOException {
         System.out.println("Writing " + recipeList.size() + " " + name + " recipes to " + file);
@@ -60,11 +63,21 @@ public abstract class RecipeRegistry<T extends Recipe> {
         Files.writeString(file.toPath(), json);
     }
 
-    public void loadFromFile(File file) throws IOException {
-        String json = Files.readString(file.toPath());
-        List<T> recipeList = objectMapper.readValue(json, typeReference);
-        System.out.println("Loaded " + recipeList.size() + " " + name + " recipes from " + file);
-        this.recipeList.addAll(recipeList);
+    public final ObjectMapper objectMapper = new ObjectMapper();
+   public static ResourceLoader resourceLoader = new ResourceLoader();
+
+    public final void register(String resourcePath) throws IOException {
+        System.out.println("Registering " + name + " recipes...");
+        for (String path : resourceLoader.getResourceFiles(resourcePath)) {
+            registerFromResource(path);
+        }
+    }
+
+    public void registerFromResource(String path) throws IOException {
+        String json = new String(resourceLoader.readResource(path));
+        System.out.println("Loading " + name + " recipes from " + path);
+        List<T> loadedRecipes = objectMapper.readValue(json, typeReference);
+        this.recipeList.addAll(loadedRecipes);
     }
 
     public String toString() {

@@ -32,10 +32,10 @@ public abstract class StaticLandAnimal extends LandAnimal {
 
         public StaticLandAnimal_StaticData(String bodyMesh, String texturesDir) throws IOException {
             body = new EntityMesh();
-            body.loadFromOBJ(ResourceUtils.resource(bodyMesh));
+            body.loadFromOBJ(ResourceUtils.file(bodyMesh));
 
             //Generate textures
-            File[] textureFiles = ResourceUtils.resource(texturesDir).listFiles();
+            File[] textureFiles = ResourceUtils.file(texturesDir).listFiles();
             textures = new int[textureFiles.length];
             for (int i = 0; i < textureFiles.length; i++) {
                 textures[i] = Objects.requireNonNull(

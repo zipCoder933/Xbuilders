@@ -53,14 +53,14 @@ public class TrapdoorRenderer extends BlockType {
             }
         };
 
-        open0 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\open0.blockType"), renderSide);
-        open1 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\open1.blockType"), renderSide);
-        open2 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\open2.blockType"), renderSide);
-        open3 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\open3.blockType"), renderSide);
-        closed0 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\closed0.blockType"), renderSide);
-        closed1 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\closed1.blockType"), renderSide);
-        closed2 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\closed2.blockType"), renderSide);
-        closed3 = BlockModelLoader.load(ResourceUtils.resource("block types\\trapdoor\\closed3.blockType"), renderSide);
+        open0 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open0.blockType"), renderSide);
+        open1 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open1.blockType"), renderSide);
+        open2 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open2.blockType"), renderSide);
+        open3 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open3.blockType"), renderSide);
+        closed0 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed0.blockType"), renderSide);
+        closed1 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed1.blockType"), renderSide);
+        closed2 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed2.blockType"), renderSide);
+        closed3 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed3.blockType"), renderSide);
     }
 
     final float ONE_SIXTEENTH = 1 / 16f;

@@ -41,7 +41,7 @@ public class ErrorHandler {
         parent.setSize(380, 240);
     }
 
-    private final static ImageIcon popupWindowIcon = new ImageIcon(ResourceUtils.resource("logo.png").getAbsolutePath());
+    private final static ImageIcon popupWindowIcon = new ImageIcon(ResourceUtils.file("logo.png").getAbsolutePath());
     private static final String localDir = new File("").getAbsolutePath();
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");
 
@@ -95,7 +95,7 @@ public class ErrorHandler {
 
     private static File saveLogToFile(String devMessage, String errorStr) throws IOException {
         String date = dateFormat.format(new Date()).replace(":", "_");
-        File logFile = ResourceUtils.localResource("error logs\\" + date + ".txt");
+        File logFile = ResourceUtils.localFile("error logs\\" + date + ".txt");
         if (!logFile.getParentFile().exists()) logFile.getParentFile().mkdirs();
 
         if (devMessage != null) errorStr = "Message: \t" + devMessage + "\n" + errorStr;

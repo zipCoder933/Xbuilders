@@ -28,7 +28,7 @@ public class Blocks {
     public static ArrayList<Block> starup_getBlocks() {
 
         //Load blocks from our json files
-        ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.resource("\\items\\blocks\\json"));
+        ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.file("\\items\\blocks\\json"));
 
         //Add blocks
         blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
@@ -40,7 +40,7 @@ public class Blocks {
 
         if (ClientWindow.devMode) {//Make ids for dev mode
             try {
-                ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.resource("\\items\\blocks\\java"));
+                ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.file("\\items\\blocks\\java"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

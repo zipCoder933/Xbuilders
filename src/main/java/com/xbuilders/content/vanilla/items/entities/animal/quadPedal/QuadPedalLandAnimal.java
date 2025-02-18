@@ -49,27 +49,27 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
                 String texturesDir) throws IOException {
             //Generate body
             body = new EntityMesh();
-            body.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(bodyOBJ)));
+            body.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(bodyOBJ)));
 
             //Generate sitting body
             if (sittingBodyOBJ != null) {
                 sittingBody = new EntityMesh();
-                sittingBody.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(sittingBodyOBJ)));
+                sittingBody.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(sittingBodyOBJ)));
             }
 
             //Generate legs
             EntityMesh legsModel = new EntityMesh();
-            legsModel.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(legOBJ)));
+            legsModel.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(legOBJ)));
             legs = new LegPair(legsModel);
 
             //Generate saddle
             if (saddleOBJ != null) {
                 saddle = new EntityMesh();
-                saddle.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.resource(saddleOBJ)));
+                saddle.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(saddleOBJ)));
             }
 
             //Generate textures
-            File[] textureFiles = ResourceUtils.resource(texturesDir).listFiles();
+            File[] textureFiles = ResourceUtils.file(texturesDir).listFiles();
             textures = new int[textureFiles.length];
             for (int i = 0; i < textureFiles.length; i++) {
                 textures[i] = Objects.requireNonNull(

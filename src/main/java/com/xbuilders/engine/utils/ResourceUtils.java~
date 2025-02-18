@@ -79,6 +79,36 @@ public class ResourceUtils {
 
 
 
+
+    public static ArrayList<URL> walkResources(String path) throws IOException {
+        System.out.println("Walking resource path: " + path);
+        ArrayList<URL> listUrls = new ArrayList<>();
+        Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(path);
+        while (urls.hasMoreElements()) {
+            URL url = urls.nextElement();
+            System.out.println("\tResource URL: " + url);
+            listUrls.add(url);
+        }
+        System.out.println("Found " + listUrls.size() + " resources.");
+        return listUrls;
+    }
+
+    public static byte[] readResource(String path) throws IOException {
+        try (InputStream inputStream = ResourceUtils.class.getClassLoader().getResourceAsStream(path)) {
+            if (inputStream == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] data = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(data)) != -1) {
+                buffer.write(data, 0, bytesRead);
+            }
+            return buffer.toByteArray();
+        }
+    }
+
+
     public static byte[] downloadFile(String fileUrl) throws IOException {
         URL url = new URL(fileUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

@@ -23,9 +23,9 @@ public class SkyBackground {
     public SkyBackground(ClientWindow mainWindow) throws IOException {
         skyBoxMesh = new SkyBoxMesh();
         this.mainWindow = mainWindow;
-        skyBoxMesh.loadFromOBJ(ResourceUtils.resource("weather\\skybox.obj"));
+        skyBoxMesh.loadFromOBJ(ResourceUtils.file("weather\\skybox.obj"));
 
-        File texture = ResourceUtils.resource("weather\\skybox.png");
+        File texture = ResourceUtils.file("weather\\skybox.png");
         skyBoxMesh.setTexture(texture);
         skyImage = ImageIO.read(texture);
         skyBoxShader = new SkyBoxShader();

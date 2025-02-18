@@ -27,8 +27,8 @@ import java.io.IOException;
     public SkyBoxShader() {
         try {
             init(
-                    ResourceUtils.localResource("/res/shaders/skybox/sky_shader.vs"),
-                    ResourceUtils.localResource("/res/shaders/skybox/sky_shader.fs"));
+                    ResourceUtils.localFile("/res/shaders/skybox/sky_shader.vs"),
+                    ResourceUtils.localFile("/res/shaders/skybox/sky_shader.fs"));
         } catch (IOException e) {
             ErrorHandler.report(e);
         }

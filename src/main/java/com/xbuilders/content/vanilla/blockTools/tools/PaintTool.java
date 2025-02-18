@@ -22,7 +22,7 @@ public class PaintTool extends BlockTool {
     public PaintTool(BlockTools tools, CursorRay cursorRay) {
         super("Repaint", tools, cursorRay);
         try {
-            setIcon(ResourceUtils.resource("blockTools\\paint.png"));
+            setIcon(ResourceUtils.file("blockTools\\paint.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -40,13 +40,13 @@ public class SlabRenderer extends BlockType {
             }
         };
 
-        ceiling = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\ceilingSlab.blockType"), renderSide);
-        floor = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\floorSlab.blockType"), renderSide);
+        ceiling = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\ceilingSlab.blockType"), renderSide);
+        floor = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\floorSlab.blockType"), renderSide);
 
-        side0 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab0.blockType"), renderSide);
-        side1 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab1.blockType"), renderSide);
-        side2 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab2.blockType"), renderSide);
-        side3 = BlockModelLoader.load(ResourceUtils.resource("block types\\slab\\sideSlab3.blockType"), renderSide);
+        side0 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab0.blockType"), renderSide);
+        side1 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab1.blockType"), renderSide);
+        side2 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab2.blockType"), renderSide);
+        side3 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab3.blockType"), renderSide);
         initializationCallback = (b) -> {
 
             b.initialBlockData = (existingData, player) -> {

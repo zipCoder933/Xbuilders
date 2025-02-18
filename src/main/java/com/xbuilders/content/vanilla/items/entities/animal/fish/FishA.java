@@ -34,8 +34,8 @@ public class FishA extends FishAnimal {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
         if (body == null) {
             body = new EntityMesh();
-            body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\fish\\fish_A.obj"));
-            File[] textureFiles = ResourceUtils.resource("items\\entity\\animal\\fish\\textures\\fish_A").listFiles();
+            body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\fish\\fish_A.obj"));
+            File[] textureFiles = ResourceUtils.file("items\\entity\\animal\\fish\\textures\\fish_A").listFiles();
             textures = new int[textureFiles.length];
             for (int i = 0; i < textureFiles.length; i++) {
                 textures[i] = Objects.requireNonNull(

@@ -43,8 +43,8 @@ public class EntityShader extends Shader {
     public void loadShader() {
         try {
             init(
-                    ResourceUtils.localResource("/res/shaders/entityShader/default.vs"),
-                    ResourceUtils.localResource("/res/shaders/entityShader/default.fs"));
+                    ResourceUtils.localFile("/res/shaders/entityShader/default.vs"),
+                    ResourceUtils.localFile("/res/shaders/entityShader/default.fs"));
         } catch (IOException e) {
             ErrorHandler.report(e);
         }

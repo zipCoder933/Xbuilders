@@ -1,96 +1,52 @@
 package com.xbuilders.engine.server.recipes.smelting;
 
-import com.xbuilders.engine.client.visuals.RecipeDisplay;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.recipes.*;
-import com.xbuilders.content.vanilla.ui.RecipeDrawingUtils;
-import org.lwjgl.nuklear.NkContext;
+import com.xbuilders.engine.server.recipes.RecipeRegistry;
 
-import java.util.HashSet;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class SmeltingRecipeRegistry extends Recipe {
-    public String input;
-    public String output;
-    public int amount = 1;
+public class SmeltingRecipeRegistry extends RecipeRegistry<SmeltingRecipe> {
 
     public SmeltingRecipeRegistry() {
+        super("Smelting", new TypeReference<List<SmeltingRecipe>>() {});
+
     }
 
-    public SmeltingRecipeRegistry(SmeltingRecipeRegistry recipe) {
-        this.input = recipe.input;
-        this.output = recipe.output;
-        this.amount = recipe.amount;
-    }
-
-    public SmeltingRecipeRegistry(String input, String output, int amount) {
-        this.input = input;
-        this.output = output;
-        this.amount = amount;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        SmeltingRecipeRegistry that = (SmeltingRecipeRegistry) o;
-        return amount == that.amount && Objects.equals(input, that.input) && Objects.equals(output, that.output);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(input, output, amount);
-    }
-
-    public String toString() {
-        return input + " -> " + output;
-    }
-
-    @Override
-    public void drawRecipe(NkContext ctx, int groupHeight) {
-        RecipeDrawingUtils.drawRecipe(ctx, this, groupHeight);
-    }
-
-
-    @Override
-    public RecipeDisplay getDisplayRecipe() {
-        //Make the tag possibilities from ALL inputs
-        TagPossibilities tagPossibilities = new TagPossibilities(input);
-        HashSet<String> exploredTags = new HashSet<>();
-
-        //Make the formatted recipe
-        RecipeDisplay formattedRecipe = new RecipeDisplay();
-
-        if (tagPossibilities.isEmpty()) {
-            System.out.println("No tags in formatted recipe");
-            formattedRecipe.add(new SmeltingRecipeRegistry(this));
-            return formattedRecipe;
-        }
-
-        //If the input does have tags
-        //20 possible combinations at the most!
-        for (int x = 0; x < 30; x++) {
-            System.out.println("recipe " + x);
-            SmeltingRecipeRegistry recipe = new SmeltingRecipeRegistry(this); //Make a copy of Our crafting recipe
-            exploredTags.clear();
-
-            //Fill ALL the inputs that have tags with the first possible input
-            if (AllRecipes.isTag(recipe.input)) {
-                String tag = recipe.input;
-                List<Item> possibleInputs = tagPossibilities.get(tag); //Set the element to the first possible input
-                exploredTags.add(tag); //Add the tag to the explored list so we can remove the first element
-
-                if (possibleInputs.isEmpty()) { //If we can't find any possible inputs, return what we have so far
-                    System.out.println("Could not find any more possible inputs for tag: " + recipe.input);
-                    return formattedRecipe;
-                }
-                recipe.input = possibleInputs.get(0).id; //Get the first element
+    public SmeltingRecipe getFromInput(String input) {
+        for (SmeltingRecipe recipe : recipeList) {
+            if (recipe.input.equals(input)) return recipe;
+            else if (recipe.input.startsWith("#")) {
+                String tag = recipe.input.substring(1);
+                Item item = Registrys.items.getItem(input);
+                if (item != null && item.tags.contains(tag)) return recipe;
             }
-
-            formattedRecipe.add(recipe); //Add the recipe to the formatted recipe list
-            tagPossibilities.removeElementOfTags(exploredTags, 0);  //Remove the first element from all explored tags so we dont use them again
         }
-        return formattedRecipe;
+        return null;
     }
+
+    public ArrayList<SmeltingRecipe> getFromOutput(Item output) {
+        ArrayList<SmeltingRecipe> recipes = new ArrayList<>();
+        for (SmeltingRecipe recipe : recipeList) {
+            if (recipe.output.equals(output.id)) recipes.add(recipe);
+        }
+        return recipes;
+    }
+
+    //TODO: For somre reason the super class loadFrom file doesnt work so well with abstract types
+    public void loadFromFile(File file) throws IOException {
+        String json = Files.readString(file.toPath());
+        List<SmeltingRecipe> recipeList = objectMapper.readValue(json, new TypeReference<List<SmeltingRecipe>>() {
+        });
+        System.out.println("Loaded " + recipeList.size() + " " + name + " recipes from " + file);
+        this.recipeList.addAll(recipeList);
+    }
+
+
 
 }

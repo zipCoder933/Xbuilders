@@ -57,19 +57,19 @@ public class Turtle extends LandAndWaterAnimal {
             left_back_fin = new EntityMesh();
             right_back_fin = new EntityMesh();
             try {
-                File[] textureFiles = ResourceUtils.resource("items\\entity\\animal\\turtle\\textures").listFiles();
+                File[] textureFiles = ResourceUtils.file("items\\entity\\animal\\turtle\\textures").listFiles();
                 textures = new int[textureFiles.length];
                 for (int i = 0; i < textureFiles.length; i++) {
                     textures[i] = Objects.requireNonNull(
                             TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
                 }
 
-                body.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\body.obj"));
-                left_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_fin.obj"));
-                right_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_fin.obj"));
+                body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\body.obj"));
+                left_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\left_fin.obj"));
+                right_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\right_fin.obj"));
 
-                left_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\left_back_fin.obj"));
-                right_back_fin.loadFromOBJ(ResourceUtils.resource("items\\entity\\animal\\turtle\\right_back_fin.obj"));
+                left_back_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\left_back_fin.obj"));
+                right_back_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\right_back_fin.obj"));
             } catch (IOException ex) {
                 ErrorHandler.report(ex);
             }

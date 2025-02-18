@@ -8,7 +8,7 @@ import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.recipes.AllRecipes;
-import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipeRegistry;
+import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -83,7 +83,7 @@ public class FurnaceUI extends ContainerUI {
             if (input == null || input.stackSize == 0) return false; //Nothing to smelt
 
 
-            SmeltingRecipeRegistry recipe = AllRecipes.smeltingRecipes.getFromInput(input.item.id);
+            SmeltingRecipe recipe = AllRecipes.smeltingRecipes.getFromInput(input.item.id);
             if (recipe == null) return false; //No recipe
             Item outputItem = Registrys.getItem(recipe.output);
             if (outputItem == null) return false; //No recipe
