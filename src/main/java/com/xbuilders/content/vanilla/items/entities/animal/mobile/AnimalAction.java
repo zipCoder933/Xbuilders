@@ -95,7 +95,7 @@ public class AnimalAction {
 
     @Override
     public String toString() {
-        return "AnimalAction{" + "type=" + type.ordinal() + ", duration=" + duration + ", velocity=" + velocity + " duration: " + duration + " created at: " + createdTimeMS + '}';
+        return "AnimalAction{" + "typeReference=" + type.ordinal() + ", duration=" + duration + ", velocity=" + velocity + " duration: " + duration + " created at: " + createdTimeMS + '}';
     }
 
 }

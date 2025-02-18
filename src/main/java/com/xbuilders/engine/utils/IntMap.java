@@ -36,7 +36,7 @@ public class IntMap<T> {
 
 //    public void put(int id, T item) {
 //        if (list == null) {
-//            list = (T[]) Array.newInstance(type, Math.abs(lowestId - highestId) + 1);
+//            list = (T[]) Array.newInstance(typeReference, Math.abs(lowestId - highestId) + 1);
 //        }
 //        int indx = id - lowestId;
 //        list[indx] = item;

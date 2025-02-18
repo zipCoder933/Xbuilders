@@ -53,12 +53,12 @@ public class WallItemRenderer extends BlockType {
 //            testBlock = GameScene.world.getBlock(worldX, worldY, worldZ + 1);
 //        }
 //
-//        BlockType itemType = ItemList.blocks.getBlockType(testBlock.type);
+//        BlockType itemType = ItemList.blocks.getBlockType(testBlock.typeReference);
 //        if (itemType == null) {
 //            return false;
 //        }
 //
-//        return testBlock.type != BlockList.LIQUID_BLOCK_TYPE_ID
+//        return testBlock.typeReference != BlockList.LIQUID_BLOCK_TYPE_ID
 //                && !testBlock.isAir() &&
 //                (testBlock.solid || itemType.isCubeShape());
     }

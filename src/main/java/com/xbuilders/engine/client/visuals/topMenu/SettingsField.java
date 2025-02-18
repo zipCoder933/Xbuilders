@@ -115,7 +115,7 @@ class SettingsField {
             });
         } else if (type.equals(boolean.class)) {
             value = (boolean) value;
-        } else throw new IllegalArgumentException("Unsupported type " + type);
+        } else throw new IllegalArgumentException("Unsupported typeReference " + type);
     }
 
     private String formatKey(String key) {

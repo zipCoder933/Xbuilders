@@ -10,7 +10,7 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.loot.LootTableRegistry;
+import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.utils.math.AABB;
@@ -245,8 +245,8 @@ public class CursorRay {
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
                 if (breakAmt >= blockToughness) {
-                    if (LootTableRegistry.blockLootTables.get(existingBlock.alias) != null) {
-                        LootTableRegistry.blockLootTables.get(existingBlock.alias).randomItems((itemStack) -> {
+                    if (AllLootTables.blockLootTables.getLoot(existingBlock.alias) != null) {
+                        AllLootTables.blockLootTables.getLoot(existingBlock.alias).randomItems((itemStack) -> {
                             Server.placeItemDrop(new Vector3f(getHitPos()), itemStack, false);
                         });
                     }

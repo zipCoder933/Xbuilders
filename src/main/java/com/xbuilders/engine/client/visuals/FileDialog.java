@@ -261,7 +261,7 @@ public class FileDialog extends UI_GameMenu implements WindowEvents {
     private void acceptFile(File file) {
         if (!hasFileExtension(file))
             prompt.message("Invalid File Type",
-                    "File type must be " + prefferedFileExtension);
+                    "File typeReference must be " + prefferedFileExtension);
 
         onSelectCallback.accept(file);
         hide();

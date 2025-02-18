@@ -38,7 +38,7 @@ public class TextBox {
 
     protected ByteBuffer buffer; // a buffer (list in memory) of bytes
     protected IntBuffer len; //a buffer (list in memory) of integers
-    public NkPluginFilterI filter = null; // Restrict what the user can type
+    public NkPluginFilterI filter = null; // Restrict what the user can typeReference
     private Runnable onSelectEvent, onChangeEvent = null;
     boolean focused = false;
 

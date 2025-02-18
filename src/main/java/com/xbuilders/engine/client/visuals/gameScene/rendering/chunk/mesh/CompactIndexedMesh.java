@@ -30,7 +30,7 @@ public class CompactIndexedMesh extends Mesh {
         GL20.glVertexAttribPointer(//Specifies how the data in the buffer is to be interpreted. In this case, it configures attribute 0 to expect 3 floats.
                 0, // attribute id
                 VALUES_PER_VERTEX, // size
-                GL11.GL_FLOAT, // type
+                GL11.GL_FLOAT, // typeReference
                 false, 0, 0
         );
         GL20.glEnableVertexAttribArray(0); //Enables the vertex attribute array at index 0.

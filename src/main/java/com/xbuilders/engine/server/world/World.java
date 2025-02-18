@@ -176,7 +176,7 @@ public class World {
 
     /**
      * = new ScheduledThreadPoolExecutor(1, r -> { ... });: This line creates an
-     * instance of ScheduledThreadPoolExecutor. It's a type of
+     * instance of ScheduledThreadPoolExecutor. It's a typeReference of
      * ScheduledExecutorService that uses a pool of threads to execute
      * tasks.<br>
      * <br>

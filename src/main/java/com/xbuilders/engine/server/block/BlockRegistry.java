@@ -148,7 +148,7 @@ public class BlockRegistry {
 
     // public HashMap<Integer,AABBIterator> getTypeCollision_AABBIterator(AABB box){
     // HashMap<Integer,AABBIterator> map = new HashMap<>();
-    // blockTypes.forEach((int val, BlockType type) -> {
+    // blockTypes.forEach((int val, BlockType typeReference) -> {
     // map.put(val, value).getCollisionBoxes(box);
     // });
     // }
@@ -177,7 +177,7 @@ public class BlockRegistry {
         if (stringBlockTypes.containsKey(type))
             return stringBlockTypes.get(type);
         else
-            throw new IllegalArgumentException("Block type \"" + type + "\" not recognized");
+            throw new IllegalArgumentException("Block typeReference \"" + type + "\" not recognized");
     }
 
     public float calculateTextureLayer(int textureLayer) {

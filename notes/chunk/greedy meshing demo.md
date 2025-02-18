@@ -58,7 +58,7 @@ public class GreedyMeshing extends UIFrame {
      * This is a 3D array of sample data - I'm using voxel faces here because I'm returning 
      * the same data for each face in this example - but calls to the getVoxelFace function below 
      * will return variations on voxel data per face in a real engine.  For example, in my system 
-     * each voxel has a type, temperature, humidity, etc - which are constant across all faces, and 
+     * each voxel has a typeReference, temperature, humidity, etc - which are constant across all faces, and 
      * then attributes like sunlight, artificial light which face per face or even per vertex.
      */
     private final VoxelFace[][][] voxels = new VoxelFace[CHUNK_WIDTH][CHUNK_HEIGHT][CHUNK_WIDTH];
@@ -198,7 +198,7 @@ public class GreedyMeshing extends UIFrame {
                             && k > CHUNK_HEIGHT / 2 && k < CHUNK_HEIGHT * 0.75) {
  
                         /*
-                         * We add a set of voxels of type 1 at the top-right of the chunk.
+                         * We add a set of voxels of typeReference 1 at the top-right of the chunk.
                          * 
                          */
                         face = new VoxelFace();
@@ -212,7 +212,7 @@ public class GreedyMeshing extends UIFrame {
                     } else if (i == 0) {
  
                         /*
-                         * We add a set of voxels of type 2 on the left of the chunk. 
+                         * We add a set of voxels of typeReference 2 on the left of the chunk. 
                          */
                         face = new VoxelFace();
                         face.type = 2;
@@ -220,7 +220,7 @@ public class GreedyMeshing extends UIFrame {
                     } else {
  
                         /*
-                         * And the rest are set to type 3.
+                         * And the rest are set to typeReference 3.
                          */
                         face = new VoxelFace();
                         face.type = 3;
@@ -508,18 +508,18 @@ public class GreedyMeshing extends UIFrame {
 //        for (int i = 0; i < colorArray.length; i += 4) {
 //
 //            /*
-//             * Here I set different colors for quads depending on the "type" attribute, just 
+//             * Here I set different colors for quads depending on the "typeReference" attribute, just 
 //             * so that the different groups of voxels can be clearly seen.
 //             * 
 //             */
-//            if (voxel.type == 1) {
+//            if (voxel.typeReference == 1) {
 //
 //                colorArray[i] = 1.0f;
 //                colorArray[i + 1] = 0.0f;
 //                colorArray[i + 2] = 0.0f;
 //                colorArray[i + 3] = 1.0f;
 //
-//            } else if (voxel.type == 2) {
+//            } else if (voxel.typeReference == 2) {
 //
 //                colorArray[i] = 0.0f;
 //                colorArray[i + 1] = 1.0f;

@@ -21,7 +21,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
 
     @Override
     public JsonElement serialize(Block src, Type typeOfSrc, JsonSerializationContext context) {
-        // System.out.println("Using custom type adapter");
+        // System.out.println("Using custom typeReference adapter");
         JsonObject jsonObject = new JsonObject();
 
         jsonObject.addProperty("id", src.id);
@@ -76,7 +76,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
 
         if (jsonObject.has("type")) {
             String typeStr = jsonObject.get("type").getAsString();
-            if (typeStr == null || isInteger(typeStr)) {// If the type is an integer
+            if (typeStr == null || isInteger(typeStr)) {// If the typeReference is an integer
                 block.renderType = jsonObject.get("type").getAsInt();
             } else { // Otherwise it's a string
                 block.renderType = Registrys.blocks.getBlockType(typeStr);

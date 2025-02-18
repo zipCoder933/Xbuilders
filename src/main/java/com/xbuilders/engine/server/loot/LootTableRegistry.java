@@ -1,38 +1,24 @@
 package com.xbuilders.engine.server.loot;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.xbuilders.engine.server.loot.animalFeed.AnimalFeedLootTables;
-import com.xbuilders.engine.server.loot.block.BlockLootTables;
-import com.xbuilders.engine.server.loot.output.Loot;
-import com.xbuilders.engine.utils.json.fasterXML.loot.LootDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.loot.LootSerializer;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.xbuilders.engine.server.loot.output.LootList;
+import com.xbuilders.engine.utils.ResourceLoader;
 
-public class LootTableRegistry {
-    public static BlockLootTables blockLootTables = new BlockLootTables();
-    public static AnimalFeedLootTables animalFeedLootTables = new AnimalFeedLootTables();
+import java.util.HashMap;
 
-    //JSON serializer and deserializer
-    public static final ObjectMapper lootMapper;
+public abstract class LootTableRegistry {
 
-    static {
-        lootMapper = new ObjectMapper();
+    public final String name;
 
-        //Custom serializers and deserializers
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Loot.class, new LootSerializer());
-        module.addDeserializer(Loot.class, new LootDeserializer());
-        lootMapper.registerModule(module);
-
-        //https://stackoverflow.com/questions/6371092/can-not-find-a-map-key-deserializer-for-type-simple-type-class
-        //https://stackoverflow.com/questions/11246748/deserializing-non-string-map-keys-with-jackson
-//        SimpleModule simpleModule = new SimpleModule();
-//        simpleModule.addKeyDeserializer(AnimalFeedLoot.class, new KeyDeserializer());
-//        lootMapper.registerModule(simpleModule);
-
-//        SimpleModule module1 = new SimpleModule();
-//        module1.addSerializer(AnimalFeedInput.class, new Serializer_AnimalFeedInput());
-//        module1.addDeserializer(AnimalFeedInput.class, new Deserializer_AnimalFeedInput());
-//        lootMapper.registerModule(module1);
+    public LootTableRegistry(String name) {
+        this.name = name;
     }
+
+    //    public void loadFromFile(File json) throws IOException {
+//        String jsonString = Files.readString(json.toPath());
+//        if (jsonString.isBlank()) return;
+//        putAll(lootMapper.readValue(jsonString, typeReference));
+//        System.out.println("Loaded " + size() + " loot tables from " + json.getAbsolutePath());
+//    }
+    public final ResourceLoader resourceLoader = new ResourceLoader();
 }

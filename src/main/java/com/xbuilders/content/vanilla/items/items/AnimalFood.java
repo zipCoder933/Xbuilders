@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.items.items;
 import com.xbuilders.content.vanilla.items.entities.animal.mobile.Animal;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.loot.LootTableRegistry;
+import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.loot.output.LootList;
 import org.joml.Vector3f;
 
@@ -21,7 +21,7 @@ public class AnimalFood {
                     animal.markAsModifiedByUser();
                     Server.alertClient("Food consumed");
                     Vector3f dropPos = new Vector3f(animal.worldPosition.x, animal.worldPosition.y, animal.worldPosition.z);
-                    LootList lootList = LootTableRegistry.animalFeedLootTables.getLoot(animal.getId(), food.id);
+                    LootList lootList = AllLootTables.animalFeedLootTables.getLoot(animal.getId(), food.id);
                     if (lootList.isEmpty()) System.out.println("No loot for " + animal);
                     lootList.randomItems((stack) -> {
                         Server.placeItemDrop(dropPos, stack, false);

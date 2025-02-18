@@ -124,7 +124,7 @@ public class FastNoise {
         m_interp = interp;
     }
 
-    // Sets noise return typeReference of GetNoise(...)
+    // Sets noise return type of GetNoise(...)
     // Default: Simplex
     public void SetNoiseType(NoiseType noiseType) {
         m_noiseType = noiseType;
@@ -158,7 +158,7 @@ public class FastNoise {
         m_fractalType = fractalType;
     }
 
-    // Sets return typeReference from cellular noise calculations
+    // Sets return type from cellular noise calculations
     // Note: NoiseLookup requires another FastNoise object be set with SetCellularNoiseLookup() to function
     // Default: CellValue
     public void SetCellularDistanceFunction(CellularDistanceFunction cellularDistanceFunction) {
@@ -171,7 +171,7 @@ public class FastNoise {
         m_cellularReturnType = cellularReturnType;
     }
 
-    // Noise used to calculate a cell value if cellular return typeReference is NoiseLookup
+    // Noise used to calculate a cell value if cellular return type is NoiseLookup
     // The lookup value is acquired through GetNoise() so ensure you SetNoiseType() on the noise lookup, value, gradient or simplex is recommended
     public void SetCellularNoiseLookup(FastNoise noise) {
         m_cellularNoiseLookup = noise;

@@ -1,16 +1,16 @@
-package com.xbuilders.engine.server.items.loot;
+package com.xbuilders.engine.server.loot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.xbuilders.engine.server.items.loot.animalFeed.AnimalFeedLootTables;
-import com.xbuilders.engine.server.items.loot.block.BlockLootTables;
-import com.xbuilders.engine.server.items.loot.output.Loot;
+import com.xbuilders.engine.server.loot.animalFeed.AnimalFeedLootRegistry;
+import com.xbuilders.engine.server.loot.block.BlockLootRegistry;
+import com.xbuilders.engine.server.loot.output.Loot;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.loot.LootSerializer;
 
-public class LootTableRegistry {
-    public static BlockLootTables blockLootTables = new BlockLootTables();
-    public static AnimalFeedLootTables animalFeedLootTables = new AnimalFeedLootTables();
+public class AllLootTables {
+    public static BlockLootRegistry blockLootTables = new BlockLootRegistry();
+    public static AnimalFeedLootRegistry animalFeedLootTables = new AnimalFeedLootRegistry();
 
     //JSON serializer and deserializer
     public static final ObjectMapper lootMapper;

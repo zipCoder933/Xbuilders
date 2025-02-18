@@ -154,7 +154,7 @@ public class RectOverlay {
         GL15.glDrawElements(
                 GL11.GL_TRIANGLES, // mode
                 vertLength, // count
-                GL11.GL_UNSIGNED_INT, // type
+                GL11.GL_UNSIGNED_INT, // typeReference
                 0L // element array buffer offset (long 0)
         );
         GL30.glBindVertexArray(0);

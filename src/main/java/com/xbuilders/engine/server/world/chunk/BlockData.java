@@ -48,7 +48,7 @@ public class BlockData {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true; //if they are the same reference
-        if (!(o instanceof BlockData blockData)) return false; //if they are not the same type
+        if (!(o instanceof BlockData blockData)) return false; //if they are not the same typeReference
         return Arrays.equals(buff, blockData.buff); //if they have the same data
     }
 

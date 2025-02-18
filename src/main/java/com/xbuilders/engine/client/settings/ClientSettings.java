@@ -14,7 +14,7 @@ import static com.xbuilders.engine.client.settings.EngineSettingsUtils.gson;
 public class ClientSettings {
 
     /**
-     * NEVER declare a primitive type as static. It will cause issues when reading the values.
+     * NEVER declare a primitive typeReference as static. It will cause issues when reading the values.
      */
     public boolean game_switchMouseButtons = false;
     public boolean game_autoJump = false;

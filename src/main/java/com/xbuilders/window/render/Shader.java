@@ -218,7 +218,7 @@ public class Shader {
     public void bindAttributes(){}
 
     private static int loadShaderString(String shaderSource, int type) throws IOException {
-        int ID = GL20.glCreateShader(type); //create shader and assign an ID to it. the type tells us what type of shader we want (vert,frag,etc)
+        int ID = GL20.glCreateShader(type); //create shader and assign an ID to it. the typeReference tells us what typeReference of shader we want (vert,frag,etc)
         GL20.glShaderSource(ID, shaderSource);
         GL20.glCompileShader(ID); //compile the shader, and create an id for it
 
@@ -241,7 +241,7 @@ public class Shader {
         } catch (IOException e) {
             throw new IOException("Can't read shader file \"" + file + "\"", e);
         }
-        int ID = GL20.glCreateShader(type); //create shader and assign an ID to it. the type tells us what type of shader we want (vert,frag,etc)
+        int ID = GL20.glCreateShader(type); //create shader and assign an ID to it. the typeReference tells us what typeReference of shader we want (vert,frag,etc)
         GL20.glShaderSource(ID, shaderSource);
         GL20.glCompileShader(ID); //compile the shader, and create an id for it
 

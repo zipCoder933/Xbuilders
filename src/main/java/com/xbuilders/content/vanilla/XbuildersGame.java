@@ -13,12 +13,13 @@ import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.loot.LootTableRegistry;
+import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
+import com.xbuilders.engine.server.recipes.AllRecipes;
+import com.xbuilders.engine.utils.ResourceLoader;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.content.vanilla.items.Recipes;
 import com.xbuilders.content.vanilla.ui.*;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import com.xbuilders.content.vanilla.items.Blocks;
@@ -39,6 +40,7 @@ import org.lwjgl.system.MemoryStack;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 
@@ -203,15 +205,17 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        for (File jsonFile : ResourceUtils.file("items/loot/block").listFiles()) {
-            LootTableRegistry.blockLootTables.loadFromFile(jsonFile);
+        ResourceLoader resourceLoader = new ResourceLoader();
+        for (String path : resourceLoader.getResourceFiles("assets/xbuilders/loot/block")) {
+            AllLootTables.blockLootTables.registerFromResource(path);
         }
-        for (File jsonFile : ResourceUtils.file("items/loot/animalFeed").listFiles()) {
-            LootTableRegistry.animalFeedLootTables.loadFromFile(jsonFile);
+        for (String path : resourceLoader.getResourceFiles("assets/xbuilders/loot/animalFeed")) {
+            AllLootTables.animalFeedLootTables.registerFromResource(path);
         }
 
         //Load Recipes
-        Recipes.loadRecipes();
+        AllRecipes.craftingRecipes.register("/assets/xbuilders/recipes/crafting");
+        AllRecipes.smeltingRecipes.register("/assets/xbuilders/recipes/smelting");
 
 
         //propagations

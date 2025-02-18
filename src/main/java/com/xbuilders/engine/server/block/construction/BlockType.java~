@@ -177,7 +177,7 @@ public abstract class BlockType {
     }
 
     /**
-     * @return If the block typeReference is completely in the shape of a cube
+     * @return If the block type is completely in the shape of a cube
      */
     public boolean isCubeShape() {
         return false;
