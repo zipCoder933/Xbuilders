@@ -1,0 +1,4 @@
+package com.xbuilders.content.vanilla.items;
+
+public class Grass {
+}

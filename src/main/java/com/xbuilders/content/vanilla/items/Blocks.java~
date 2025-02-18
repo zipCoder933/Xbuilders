@@ -125,7 +125,7 @@ public class Blocks {
 //Tall grass makes air
         if (aboveBlock.id == Blocks.BLOCK_TALL_GRASS
                 || aboveBlock.id == Blocks.BLOCK_TALL_DRY_GRASS
-                || (random.nextFloat() < 0.5 && !aboveBlock.solid && aboveBlock.renderType == RenderType.SPRITE)
+                || (random.nextFloat() < 0.3 && !aboveBlock.solid && aboveBlock.renderType == RenderType.SPRITE)
         ) {
             return Blocks.BLOCK_AIR;
         } else if (thisBlock == Blocks.BLOCK_GRASS || thisBlock == Blocks.BLOCK_SNOW_GRASS) {
