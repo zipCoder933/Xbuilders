@@ -165,12 +165,12 @@ public class Item implements Comparable<Item> {
         if (entityID != null) entity = entityMap.get(entityID);
 
         if (iconFilename != null) { //If we have a custom icon
-            File iconFile = new File(iconDirectory, iconFilename);
+            String iconFile = new File(iconDirectory, iconFilename);
             if (!iconFile.getAbsolutePath().endsWith(".png") && !iconFile.exists()) {
                 iconFile = new File(iconDirectory, iconFilename + ".png"); //Add .png if it doesn't exist
             }
             if (iconFile.exists()) {
-                Texture icon = TextureUtils.loadTexture(iconFile.getAbsolutePath(), false);
+                Texture icon = TextureUtils.loadTextureFromResource(iconFile, false);
                 setIcon(icon.id);
             } else {
                 System.err.println("Icon file not found: " + iconFile.getAbsolutePath());
@@ -183,9 +183,9 @@ public class Item implements Comparable<Item> {
                 Texture icon = TextureUtils.loadTexture(blockIcon.getAbsolutePath(), true);
                 setIcon(icon.id);
             } else {//If there is no generated block icon, default to the texture
-                File file = textures.getTextureFile(getBlock().texture.NEG_Y_NAME);
+                String file = textures.getTextureFile(getBlock().texture.NEG_Y_NAME);
                 if (file != null) {
-                    Texture tex = TextureUtils.loadTexture(file.getAbsolutePath(), false);
+                    Texture tex = TextureUtils.loadTexture(file, false);
                     setIcon(tex.id);
                 } else {
                     setIcon(defaultIcon);
