@@ -46,20 +46,20 @@ public class Beaver extends LandAndWaterAnimal {
             tail = new EntityMesh();
             legs = new EntityMesh();
             try {
-                bodyTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\body.png").getAbsolutePath(),
+                bodyTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\body.png"),
                         false)).id;
 
-                headTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\head.png").getAbsolutePath(),
+                headTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\head.png"),
                         false)).id;
 
-                tailTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\tail.png").getAbsolutePath(),
+                tailTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\tail.png"),
                         false)).id;
 
-                legsTexture = Objects.requireNonNull(TextureUtils.loadTexture(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\back leg.png").getAbsolutePath(),
+                legsTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
+                        ResourceUtils.file("items\\entity\\animal\\beaver\\back leg.png"),
                         false)).id;
 
                 body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\body.obj"));

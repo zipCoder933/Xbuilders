@@ -45,7 +45,7 @@ public class FishB extends FishAnimal {
                 File[] textureFiles = ResourceUtils.file("items\\entity\\animal\\fish\\textures\\fish_B").listFiles();
                 textures = new int[textureFiles.length];
                 for (int i = 0; i < textureFiles.length; i++) {
-                    textures[i] = Objects.requireNonNull(TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
+                    textures[i] = Objects.requireNonNull(TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
                 }
 
             } catch (IOException ex) {

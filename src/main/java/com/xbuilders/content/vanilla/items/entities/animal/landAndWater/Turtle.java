@@ -61,7 +61,7 @@ public class Turtle extends LandAndWaterAnimal {
                 textures = new int[textureFiles.length];
                 for (int i = 0; i < textureFiles.length; i++) {
                     textures[i] = Objects.requireNonNull(
-                            TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
+                            TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
                 }
 
                 body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\body.obj"));

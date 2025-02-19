@@ -57,7 +57,7 @@ public class Registrys {
     public static void initialize(
             List<Block> blockList, List<EntitySupplier> entityList, List<Item> toolList) throws IOException {
 
-        Registrys.defaultIcon = TextureUtils.loadTexture(ResourceUtils.DEFAULT_ICON.getAbsolutePath(), false).id;
+        Registrys.defaultIcon = TextureUtils.loadTextureFromFile(ResourceUtils.DEFAULT_ICON, false).id;
 
         blocks.setup(blockList);
         entities.setup(entityList);

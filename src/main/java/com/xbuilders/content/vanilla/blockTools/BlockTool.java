@@ -115,7 +115,7 @@ public abstract class BlockTool {
     private final NkImage NKicon;
 
     protected void setIcon(File file) throws IOException {
-        int textureID = TextureUtils.loadTexture(file.getAbsolutePath(), false).id;
+        int textureID = TextureUtils.loadTextureFromFile(file, false).id;
         NKicon.handle(it -> it.id(textureID));
     }
 

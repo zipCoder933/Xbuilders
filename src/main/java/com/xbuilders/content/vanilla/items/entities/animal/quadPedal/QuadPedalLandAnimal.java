@@ -73,7 +73,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             textures = new int[textureFiles.length];
             for (int i = 0; i < textureFiles.length; i++) {
                 textures[i] = Objects.requireNonNull(
-                        TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
+                        TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
             }
         }
     }

@@ -45,7 +45,7 @@ public abstract class Vehicle extends Entity {
             for (int i = 0; i < textureFiles.length; i++) {
                 String textureKey = textureFiles[i].getName().replace(".png", "");
                 int textureID = Objects.requireNonNull(
-                        TextureUtils.loadTexture(textureFiles[i].getAbsolutePath(), false)).id;
+                        TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
                 textures.put(textureKey, textureID);
             }
         }

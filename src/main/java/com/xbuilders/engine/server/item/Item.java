@@ -170,7 +170,7 @@ public class Item implements Comparable<Item> {
                 iconFile = new File(iconDirectory, iconFilename + ".png"); //Add .png if it doesn't exist
             }
             if (iconFile.exists()) {
-                Texture icon = TextureUtils.loadTexture(iconFile.getAbsolutePath(), false);
+                Texture icon = TextureUtils.loadTextureFromFile(iconFile, false);
                 setIcon(icon.id);
             } else {
                 System.err.println("Icon file not found: " + iconFile.getAbsolutePath());
@@ -180,12 +180,12 @@ public class Item implements Comparable<Item> {
             File blockIcon = new File(blockIconDirectory, getBlock().id + ".png");
 //            System.out.println("Block icon file: " + blockIcon.getAbsolutePath());
             if (blockIcon.exists()) {
-                Texture icon = TextureUtils.loadTexture(blockIcon.getAbsolutePath(), true);
+                Texture icon = TextureUtils.loadTextureFromFile(blockIcon, true);
                 setIcon(icon.id);
             } else {//If there is no generated block icon, default to the texture
                 File file = textures.getTextureFile(getBlock().texture.NEG_Y_NAME);
                 if (file != null) {
-                    Texture tex = TextureUtils.loadTexture(file.getAbsolutePath(), false);
+                    Texture tex = TextureUtils.loadTextureFromFile(file, false);
                     setIcon(tex.id);
                 } else {
                     setIcon(defaultIcon);
