@@ -9,6 +9,7 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.utils.ResourceLoader;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
@@ -29,6 +30,7 @@ public abstract class BlockType {
     public Consumer<Block> initializationCallback = null;
     public boolean generate3DIcon = true;
     public boolean replaceOnSet = false;
+    public final static ResourceLoader resourceLoader = new ResourceLoader();
 
     //This is the first step in allowing a block to be permitted in the greedy mesher
 
@@ -130,7 +132,6 @@ public abstract class BlockType {
     public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
         consumer.accept(box.setPosAndSize(x, y, z, 1, 1, 1));
     }
-
 
 
     public void rotateBlockData(BlockData data, boolean clockwise) {

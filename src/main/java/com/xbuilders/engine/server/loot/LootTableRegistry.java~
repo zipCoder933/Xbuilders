@@ -23,11 +23,9 @@ public abstract class LootTableRegistry {
 //    }
     public final ResourceLoader resourceLoader = new ResourceLoader();
 
-    public abstract void registerFromResource(String path) throws IOException;
-
     public final void register(String path) throws IOException {
         for (String file : resourceLoader.getResourceFiles(path)) {
-            registerFromResource(file);
+            AllLootTables.blockLootTables.registerFromResource(file);
         }
     }
 }

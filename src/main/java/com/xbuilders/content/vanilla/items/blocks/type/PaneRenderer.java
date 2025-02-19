@@ -10,21 +10,23 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 
 public class PaneRenderer extends BlockType {
 
     private final BlockModel horizontal, vertical0, vertical1;
 
-    public PaneRenderer() {
+    public PaneRenderer() throws IOException {
         super();
 
         // ObjToBlockModel.parseFileWithYRotations( false,
         //         1.6f, ResourceUtils.resource("block types\\pane\\vertical.obj"));
         // ObjToBlockModel.parseFile(null, false, 1.6f, ResourceUtils.resource("block types\\pane\\horizontal.obj"));
 
-        horizontal = BlockModelLoader.load(ResourceUtils.file("block types\\pane\\horizontal.blockType"), renderSide_subBlock);
-        vertical0 = BlockModelLoader.load(ResourceUtils.file("block types\\pane\\vertical0.blockType"), renderSide_subBlock);
-        vertical1 = BlockModelLoader.load(ResourceUtils.file("block types\\pane\\vertical1.blockType"), renderSide_subBlock);
+        horizontal = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/pane\\horizontal.blockType"), renderSide_subBlock);
+        vertical0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/pane\\vertical0.blockType"), renderSide_subBlock);
+        vertical1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/pane\\vertical1.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
             b.initialBlockData = (existingData, player) -> {
                 BlockData data = player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));

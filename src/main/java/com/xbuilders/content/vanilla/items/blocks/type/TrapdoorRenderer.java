@@ -15,6 +15,8 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -23,7 +25,7 @@ public class TrapdoorRenderer extends BlockType {
     BlockModel open0, open1, open2, open3;
     BlockModel closed0, closed1, closed2, closed3;
 
-    public TrapdoorRenderer() {
+    public TrapdoorRenderer() throws IOException {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\trapdoor\\open.obj"));
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
@@ -53,14 +55,14 @@ public class TrapdoorRenderer extends BlockType {
             }
         };
 
-        open0 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open0.blockType"), renderSide);
-        open1 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open1.blockType"), renderSide);
-        open2 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open2.blockType"), renderSide);
-        open3 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\open3.blockType"), renderSide);
-        closed0 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed0.blockType"), renderSide);
-        closed1 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed1.blockType"), renderSide);
-        closed2 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed2.blockType"), renderSide);
-        closed3 = BlockModelLoader.load(ResourceUtils.file("block types\\trapdoor\\closed3.blockType"), renderSide);
+        open0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\open0.blockType"), renderSide);
+        open1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\open1.blockType"), renderSide);
+        open2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\open2.blockType"), renderSide);
+        open3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\open3.blockType"), renderSide);
+        closed0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\closed0.blockType"), renderSide);
+        closed1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\closed1.blockType"), renderSide);
+        closed2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\closed2.blockType"), renderSide);
+        closed3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/trapdoor\\closed3.blockType"), renderSide);
     }
 
     final float ONE_SIXTEENTH = 1 / 16f;

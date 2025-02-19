@@ -16,6 +16,8 @@ import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -88,7 +90,7 @@ public class LampRenderer extends BlockType {
     }
 
 
-    public LampRenderer() {
+    public LampRenderer() throws IOException {
         // ObjToBlockModel.parseFile(null, false,
         //         1.6f, ResourceUtils.resource("block types\\lamp\\lamp.obj"));
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
@@ -96,14 +98,14 @@ public class LampRenderer extends BlockType {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\lamp\\side block.obj"));
 
-        lamp = BlockModelLoader.load(ResourceUtils.file("block types\\lamp\\lamp.blockType"),
+        lamp = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/lamp\\lamp.blockType"),
                 (t, n) -> shouldRenderFace_subBlock(t, n));
         fenceSide = new BlockModel[4];
         sideBlock = new BlockModel[4];
         for (int i = 0; i < 4; i++) {
-            fenceSide[i] = BlockModelLoader.load(ResourceUtils.file("block types\\lamp\\side" + i + ".blockType"),
+            fenceSide[i] = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/lamp\\side" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
-            sideBlock[i] = BlockModelLoader.load(ResourceUtils.file("block types\\lamp\\side block" + i + ".blockType"),
+            sideBlock[i] = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/lamp\\side block" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
         }
         initializationCallback = (b) -> {

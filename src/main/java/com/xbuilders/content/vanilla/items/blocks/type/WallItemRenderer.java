@@ -14,6 +14,8 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -21,7 +23,7 @@ public class WallItemRenderer extends BlockType {
 
     BlockModel wall0, wall1, wall2, wall3;
 
-    public WallItemRenderer() {
+    public WallItemRenderer() throws IOException {
         initializationCallback = (b) -> {
 
             b.initialBlockData = (existingData, player) -> {
@@ -34,10 +36,10 @@ public class WallItemRenderer extends BlockType {
             b.toughness = 0.1f;
         };
         generate3DIcon = false;
-        wall0 = BlockModelLoader.load(ResourceUtils.file("block types\\wall\\wall0.blockType"), renderSide_subBlock);
-        wall1 = BlockModelLoader.load(ResourceUtils.file("block types\\wall\\wall1.blockType"), renderSide_subBlock);
-        wall2 = BlockModelLoader.load(ResourceUtils.file("block types\\wall\\wall2.blockType"), renderSide_subBlock);
-        wall3 = BlockModelLoader.load(ResourceUtils.file("block types\\wall\\wall3.blockType"), renderSide_subBlock);
+        wall0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall\\wall0.blockType"), renderSide_subBlock);
+        wall1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall\\wall1.blockType"), renderSide_subBlock);
+        wall2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall\\wall2.blockType"), renderSide_subBlock);
+        wall3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall\\wall3.blockType"), renderSide_subBlock);
     }
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {

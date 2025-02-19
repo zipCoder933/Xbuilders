@@ -16,6 +16,8 @@ import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -23,15 +25,15 @@ public class FenceRenderer extends BlockType {
 
     BlockModel post, boards0, boards1, boards2, boards3;
 
-    public FenceRenderer() {
+    public FenceRenderer(String path) throws IOException {
 //        ObjToBlockModel.parseDirectory(null,
 //                false, 1.6f,
 //                ResourceUtils.resource("block types\\fence"));
-        post = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\post.blockType"), renderSide_subBlock);
-        boards0 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards.blockType"), renderSide_subBlock);
-        boards1 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards1.blockType"), renderSide_subBlock);
-        boards2 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards2.blockType"), renderSide_subBlock);
-        boards3 = BlockModelLoader.load(ResourceUtils.file("block types\\fence\\boards3.blockType"), renderSide_subBlock);
+        post = BlockModelLoader.load(resourceLoader.getResourceAsStream(path, "post.blockType"), renderSide_subBlock);
+        boards0 = BlockModelLoader.load(resourceLoader.getResourceAsStream(path, "boards.blockType"), renderSide_subBlock);
+        boards1 = BlockModelLoader.load(resourceLoader.getResourceAsStream(path, "boards1.blockType"), renderSide_subBlock);
+        boards2 = BlockModelLoader.load(resourceLoader.getResourceAsStream(path, "boards2.blockType"), renderSide_subBlock);
+        boards3 = BlockModelLoader.load(resourceLoader.getResourceAsStream(path, "boards3.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;

@@ -14,6 +14,8 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -23,7 +25,7 @@ public class StairsRenderer extends BlockType {
     BlockModel[] floor = new BlockModel[4];
     BlockModel[] ceiling = new BlockModel[4];
 
-    public StairsRenderer() {
+    public StairsRenderer() throws IOException {
         initializationCallback = (b) -> {
 
             b.initialBlockData = (existingData, player) -> {
@@ -56,13 +58,13 @@ public class StairsRenderer extends BlockType {
         };
 
         for (int i = 0; i < 4; i++)
-            side[i] = BlockModelLoader.load(ResourceUtils.file("block types\\stairs\\side" + i + ".blockType"), renderSide);
+            side[i] = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/stairs\\side" + i + ".blockType"), renderSide);
 
         for (int i = 0; i < 4; i++)
-            floor[i] = BlockModelLoader.load(ResourceUtils.file("block types\\stairs\\floor" + i + ".blockType"), renderSide);
+            floor[i] = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/stairs\\floor" + i + ".blockType"), renderSide);
 
         for (int i = 0; i < 4; i++)
-            ceiling[i] = BlockModelLoader.load(ResourceUtils.file("block types\\stairs\\ceiling" + i + ".blockType"), renderSide);
+            ceiling[i] = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/stairs\\ceiling" + i + ".blockType"), renderSide);
     }
 
     public void rotateBlockData(BlockData data, boolean clockwise) {

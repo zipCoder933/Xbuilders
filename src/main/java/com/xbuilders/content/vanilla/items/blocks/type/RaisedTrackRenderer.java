@@ -14,6 +14,8 @@ import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -25,13 +27,13 @@ public class RaisedTrackRenderer extends BlockType {
                 && !Server.world.getBlock(worldX, worldY + 1, worldZ).isAir();
     }
 
-    public RaisedTrackRenderer() {
+    public RaisedTrackRenderer() throws IOException {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f, ResourceUtils.resource("block types\\raisedTrack\\raisedTrack.obj"));
         generate3DIcon = false;
-        floor0 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack0.blockType"), renderSide_subBlock);
-        floor1 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack1.blockType"), renderSide_subBlock);
-        floor2 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack2.blockType"), renderSide_subBlock);
-        floor3 = BlockModelLoader.load(ResourceUtils.file("block types\\raisedTrack\\raisedTrack3.blockType"), renderSide_subBlock);
+        floor0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/raisedTrack\\raisedTrack0.blockType"), renderSide_subBlock);
+        floor1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/raisedTrack\\raisedTrack1.blockType"), renderSide_subBlock);
+        floor2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/raisedTrack\\raisedTrack2.blockType"), renderSide_subBlock);
+        floor3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/raisedTrack\\raisedTrack3.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
 
             b.initialBlockData = (existingData, player) -> {

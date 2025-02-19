@@ -185,7 +185,7 @@ public class XbuildersGame extends Game {
         Registrys.blocks.addBlockType("orientable", RenderType.ORIENTABLE_BLOCK, new OrientableBlockRenderer());
         Registrys.blocks.addBlockType("slab", RenderType.SLAB, new SlabRenderer());
         Registrys.blocks.addBlockType("stairs", RenderType.STAIRS, new StairsRenderer());
-        Registrys.blocks.addBlockType("fence", RenderType.FENCE, new FenceRenderer());
+        Registrys.blocks.addBlockType("fence", RenderType.FENCE, new FenceRenderer("/assets/xbuilders/models/block/fence"));
         Registrys.blocks.addBlockType("wall", RenderType.WALL_ITEM, new WallItemRenderer());
         Registrys.blocks.addBlockType("lamp", RenderType.LAMP, new LampRenderer());
         Registrys.blocks.addBlockType("pane", RenderType.PANE, new PaneRenderer());
@@ -205,13 +205,8 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        ResourceLoader resourceLoader = new ResourceLoader();
-        for (String path : resourceLoader.getResourceFiles("assets/xbuilders/loot/block")) {
-            AllLootTables.blockLootTables.registerFromResource(path);
-        }
-        for (String path : resourceLoader.getResourceFiles("assets/xbuilders/loot/animalFeed")) {
-            AllLootTables.animalFeedLootTables.registerFromResource(path);
-        }
+        AllLootTables.blockLootTables.register("/assets/xbuilders/loot/block");
+        AllLootTables.animalFeedLootTables.register("/assets/xbuilders/loot/animalFeed");
 
         //Load Recipes
         AllRecipes.craftingRecipes.register("/assets/xbuilders/recipes/crafting");

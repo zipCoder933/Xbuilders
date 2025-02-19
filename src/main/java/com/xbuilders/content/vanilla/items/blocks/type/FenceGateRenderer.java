@@ -17,6 +17,8 @@ import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -25,7 +27,7 @@ public class FenceGateRenderer extends BlockType {
     BlockModel open0, open1, open2, open3;
     BlockModel closed0, closed1, closed2, closed3;
 
-    public FenceGateRenderer() {
+    public FenceGateRenderer() throws IOException {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\fence gate\\open.obj"));
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
@@ -71,17 +73,17 @@ public class FenceGateRenderer extends BlockType {
             }
         };
 
-        open0 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\open0.blockType"), renderSide);
-        open1 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\open1.blockType"), renderSide);
-        open2 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\open2.blockType"), renderSide);
-        open3 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\open3.blockType"), renderSide);
-        closed0 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\closed0.blockType"),
+        open0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\open0.blockType"), renderSide);
+        open1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\open1.blockType"), renderSide);
+        open2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\open2.blockType"), renderSide);
+        open3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\open3.blockType"), renderSide);
+        closed0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\closed0.blockType"),
                 renderSide);
-        closed1 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\closed1.blockType"),
+        closed1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\closed1.blockType"),
                 renderSide);
-        closed2 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\closed2.blockType"),
+        closed2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\closed2.blockType"),
                 renderSide);
-        closed3 = BlockModelLoader.load(ResourceUtils.file("block types\\fence gate\\closed3.blockType"),
+        closed3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/fence gate\\closed3.blockType"),
                 renderSide);
     }
 

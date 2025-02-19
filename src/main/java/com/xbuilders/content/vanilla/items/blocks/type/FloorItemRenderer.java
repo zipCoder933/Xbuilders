@@ -15,6 +15,8 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -27,14 +29,14 @@ public class FloorItemRenderer extends BlockType {
                 && !Server.world.getBlock(worldX, worldY + 1, worldZ).isAir();
     }
 
-    public FloorItemRenderer() {
+    public FloorItemRenderer() throws IOException {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f, ResourceUtils.resource("block types\\floor\\floor.obj"));
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f, ResourceUtils.resource("block types\\wall\\wall.obj"));
         generate3DIcon = false;
-        floor0 = BlockModelLoader.load(ResourceUtils.file("block types\\floor\\floor0.blockType"), renderSide_subBlock);
-        floor1 = BlockModelLoader.load(ResourceUtils.file("block types\\floor\\floor1.blockType"), renderSide_subBlock);
-        floor2 = BlockModelLoader.load(ResourceUtils.file("block types\\floor\\floor2.blockType"), renderSide_subBlock);
-        floor3 = BlockModelLoader.load(ResourceUtils.file("block types\\floor\\floor3.blockType"), renderSide_subBlock);
+        floor0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/floor/floor0.blockType"), renderSide_subBlock);
+        floor1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/floor/floor1.blockType"), renderSide_subBlock);
+        floor2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/floor/floor2.blockType"), renderSide_subBlock);
+        floor3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/floor/floor3.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
             b.initialBlockData = (existingData, player) -> {
                 return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));

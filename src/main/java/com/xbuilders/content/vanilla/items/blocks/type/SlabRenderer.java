@@ -14,6 +14,8 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -21,7 +23,7 @@ public class SlabRenderer extends BlockType {
 
     BlockModel ceiling, floor, side0, side1, side2, side3;
 
-    public SlabRenderer() {
+    public SlabRenderer() throws IOException {
 //        ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
 //                ResourceUtils.resource("block types\\slab\\sideSlab.obj"));
 //
@@ -40,13 +42,12 @@ public class SlabRenderer extends BlockType {
             }
         };
 
-        ceiling = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\ceilingSlab.blockType"), renderSide);
-        floor = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\floorSlab.blockType"), renderSide);
-
-        side0 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab0.blockType"), renderSide);
-        side1 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab1.blockType"), renderSide);
-        side2 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab2.blockType"), renderSide);
-        side3 = BlockModelLoader.load(ResourceUtils.file("block types\\slab\\sideSlab3.blockType"), renderSide);
+        ceiling = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/slab\\ceilingSlab.blockType"), renderSide);
+        floor = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/slab\\floorSlab.blockType"), renderSide);
+        side0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/slab\\sideSlab0.blockType"), renderSide);
+        side1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/slab\\sideSlab1.blockType"), renderSide);
+        side2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/slab\\sideSlab2.blockType"), renderSide);
+        side3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/slab\\sideSlab3.blockType"), renderSide);
         initializationCallback = (b) -> {
 
             b.initialBlockData = (existingData, player) -> {

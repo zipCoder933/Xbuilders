@@ -1,19 +1,24 @@
 package com.xbuilders.engine.server.block.construction.BlockTypeModel;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class BlockModelLoader {
 
-    public static BlockModel load(File inputFile, BlockModel.ShouldRenderSide shouldRenderSide) {
+    public static BlockModel load(File inputFile, BlockModel.ShouldRenderSide shouldRenderSide) throws IOException {
+        return load(new FileReader(inputFile), shouldRenderSide);
+    }
+
+    public static BlockModel load(InputStream inputFile, BlockModel.ShouldRenderSide shouldRenderSide) throws IOException {
+        return load(new InputStreamReader(inputFile), shouldRenderSide);
+    }
+
+    public static BlockModel load(Reader inputFile, BlockModel.ShouldRenderSide shouldRenderSide) throws IOException {
         BlockModel model = new BlockModel(shouldRenderSide);
         ModelSide activeSide = null;
         int vertexIndex = 0;
         int activeSideIndex = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+        try (BufferedReader br = new BufferedReader(inputFile)) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.isEmpty()) continue;
@@ -38,8 +43,6 @@ public class BlockModelLoader {
                     vertexIndex++;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return model;
     }

@@ -17,6 +17,8 @@ import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.items.blocks.RenderType;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -35,7 +37,7 @@ public class TorchRenderer extends BlockType {
     }
 
 
-    public TorchRenderer() {
+    public TorchRenderer() throws IOException {
         generate3DIcon = false;
         initializationCallback = (b) -> {
             b.opaque = false;
@@ -49,14 +51,14 @@ public class TorchRenderer extends BlockType {
         // ObjToBlockModel.parseFileWithYRotations(false, 1.6f,
         //         ResourceUtils.resource("block types\\torch\\side block.obj"));
 
-        torch = BlockModelLoader.load(ResourceUtils.file("block types\\torch\\torch.blockType"),
+        torch = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/torch\\torch.blockType"),
                 (t, n) -> shouldRenderFace_subBlock(t, n));
         fenceSide = new BlockModel[4];
         sideBlock = new BlockModel[4];
         for (int i = 0; i < 4; i++) {
-            fenceSide[i] = BlockModelLoader.load(ResourceUtils.file("block types\\torch\\side" + i + ".blockType"),
+            fenceSide[i] = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/torch\\side" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
-            sideBlock[i] = BlockModelLoader.load(ResourceUtils.file("block types\\torch\\side block" + i + ".blockType"),
+            sideBlock[i] = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/torch\\side block" + i + ".blockType"),
                     (t, n) -> shouldRenderFace_subBlock(t, n));
         }
     }

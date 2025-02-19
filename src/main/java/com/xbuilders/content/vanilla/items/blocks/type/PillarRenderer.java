@@ -14,6 +14,8 @@ import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import java.io.IOException;
+
 /**
  * @author zipCoder933
  */
@@ -21,11 +23,11 @@ public class PillarRenderer extends BlockType {
 
     BlockModel pillar;
 
-    public PillarRenderer() {
+    public PillarRenderer() throws IOException {
         // ObjToBlockModel.parseFile(null, false, 1.6f,
         //         ResourceUtils.resource("block types\\pillar.obj"));
 
-        pillar = BlockModelLoader.load(ResourceUtils.file("block types\\pillar.blockType"), renderSide_subBlock);
+        pillar = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/pillar.blockType"), renderSide_subBlock);
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
