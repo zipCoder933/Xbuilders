@@ -171,7 +171,7 @@ public class TextureUtils {
                 if (file == null) {
                     throw new IOException("Image file [" + file + "] is null");
                 }
-stbi_load
+
                 fullImage = stbi_load(file.filepath, w, h, channels, 4);
                 if (fullImage == null) {
                     throw new IOException("Image file [" + file + "] not loaded: " + stbi_failure_reason());
