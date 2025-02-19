@@ -8,13 +8,17 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 
+import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.StreamUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -67,8 +71,6 @@ public class TextureUtils {
      * https://computergraphics.stackexchange.com/questions/4936/lwjgl-opengl-get-bufferedimage-from-texture-id
      *
      * @param textureID
-     * @param file
-     * @throws IOException
      */
     public static BufferedImage getTextureAsBufferedImage(int textureID) {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);    // Bind the texture you want to save
@@ -274,18 +276,89 @@ public class TextureUtils {
         }
     }
 
-    public static Texture loadTexture(String resourceName, boolean linearFiltering) throws IOException {
+    public static Texture loadTexture(File file, boolean linearFiltering) throws IOException {
         //<editor-fold defaultstate="collapsed" desc="load the bytes of the texture to memory">
         ByteBuffer buffer;
         try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
             IntBuffer channels = stack.mallocInt(1);
-            File file = new File(resourceName);
             String filePath = file.getAbsolutePath();
             buffer = STBImage.stbi_load(filePath, w, h, channels, 4);
             if (buffer == null) {
-                throw new IOException("Can't load image \"" + resourceName + "\":" + "\n" + STBImage.stbi_failure_reason());
+                throw new IOException("Can't load image \"" + file.getAbsolutePath() + "\":" + "\n" + STBImage.stbi_failure_reason());
+            }
+
+            int width = w.get();
+            int height = h.get();
+            //</editor-fold>
+            //<editor-fold defaultstate="collapsed" desc="load and configure the texture to opengl">
+            int id = GL11.glGenTextures(); //Generate the texture ID
+            Texture texture = new Texture(buffer, id, width, height);
+            addTexture(id);
+
+            /**
+             * GL11.glBindTexture() Binds the texture to the 2D texture
+             * target(gl_texture_2d). Now, any texture operations (referencing
+             * gl_texture_2d) will affect the bound texture (textureID)
+             */
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+
+            GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+
+//Give the image to opengl:
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+
+            if (linearFiltering) {
+// When MAGnifying the image (no bigger mipmap available), use LINEAR filtering
+                GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR); //linear or nearest
+// When MINifying the image, use a LINEAR blend of two mipmaps, each filtered LINEARLY too
+                GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR); //linear or nearest
+            } else {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            }
+
+// Generate mipmaps:
+            GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+
+            STBImage.stbi_image_free(buffer);
+
+            /**
+             * unbinds (unbinds) any texture currently bound to the 2D texture
+             * target. After this call, further texture operations for
+             * GL_TEXTURE_2D will have no effect until a new texture is bound.
+             */
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+//</editor-fold>
+
+            if (id == 0) {
+                return null;
+            }
+            return texture;
+        } catch (Exception e) {
+            throw new IOException("Unable to load texture: ", e);
+        }
+    }
+
+    static final ResourceLoader resourceLoader = new ResourceLoader();
+
+    public static Texture loadTextureFromResource(String path, boolean linearFiltering) throws IOException {
+        InputStream is = resourceLoader.getResourceAsStream(path);
+        ByteBuffer buffer = StreamUtils.toByteBuffer(is);
+        return loadTexture(buffer, linearFiltering);
+    }
+
+    public static Texture loadTexture(ByteBuffer input, boolean linearFiltering) throws IOException {
+        //<editor-fold defaultstate="collapsed" desc="load the bytes of the texture to memory">
+        ByteBuffer buffer;
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer w = stack.mallocInt(1);
+            IntBuffer h = stack.mallocInt(1);
+            IntBuffer channels = stack.mallocInt(1);
+            buffer = STBImage.stbi_load_from_memory(input, w, h, channels, 4);
+            if (buffer == null) {
+                throw new IOException("Can't load image from buffer:" + "\n" + STBImage.stbi_failure_reason());
             }
 
             int width = w.get();

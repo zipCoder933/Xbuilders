@@ -12,7 +12,7 @@ public class ResourceLoader {
      * If a path starts with a slash (leading slash) it is an absolute path, otherwise it is a relative path
      * All paths are separated by a forward slash
      */
-    private static final String FILE_SEPARATOR = "/";
+    public static final String FILE_SEPARATOR = "/";
 
     private String formatPath(String path) {
         if (!path.startsWith(FILE_SEPARATOR)) path = FILE_SEPARATOR + path;

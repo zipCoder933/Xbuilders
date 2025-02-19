@@ -7,8 +7,8 @@ public class TextureFile {
     int regionWidth;
     int regionHeight;
 
-    public TextureFile(String filepath, int regionX, int regionY, int regionWidth, int regionHeight) {
-        this.filepath = filepath;
+    public TextureFile(String path, int regionX, int regionY, int regionWidth, int regionHeight) {
+        this.filepath = path;
         this.regionX = regionX;
         this.regionY = regionY;
         this.regionWidth = regionWidth;
@@ -22,4 +22,6 @@ public class TextureFile {
         regionWidth = -1;
         regionHeight = -1;
     }
+
+
 }
