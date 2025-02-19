@@ -30,7 +30,8 @@ public class ResourceLoader {
             String resource;
 
             while ((resource = br.readLine()) != null) {
-                resource = path + FILE_SEPARATOR + resource;
+                if (resource.startsWith(FILE_SEPARATOR) || path.endsWith(FILE_SEPARATOR)) resource = path + resource;
+                else resource = path + FILE_SEPARATOR + resource;
                 filenames.add(resource);
                 System.out.println("\tResource: " + resource);
             }

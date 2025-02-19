@@ -111,7 +111,7 @@ public class BlockRegistry {
 
     public void setup(List<Block> blockArray) throws IOException {
         HashSet<String> uniqueAliases = new HashSet<>();
-        textures = new BlockArrayTexture("/assets/xbuilders/textures/blocks/");
+        textures = new BlockArrayTexture("/assets/xbuilders/textures/block/");
 
         blockArray.add(BLOCK_AIR);
 

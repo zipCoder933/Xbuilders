@@ -77,7 +77,7 @@ import org.lwjgl.opengl.GL33;
     public void setTexture(File texture) throws IOException {
         this.textureID =
                 Objects.requireNonNull(
-                        TextureUtils.loadTexture(texture.getAbsolutePath(),true)).id;
+                        TextureUtils.loadTextureFromFile(texture,true)).id;
     }
 
     public void delete() {

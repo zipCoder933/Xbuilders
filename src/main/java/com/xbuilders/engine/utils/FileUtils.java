@@ -1,15 +1,25 @@
 package com.xbuilders.engine.utils;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
+import java.nio.channels.FileChannel;
 
 
 public class FileUtils {
     public final static boolean canRecycleFiles = Desktop.getDesktop().isSupported(Desktop.Action.MOVE_TO_TRASH);
+
+    public static ByteBuffer fileToByteBuffer(String filePath) throws IOException {
+        try (FileInputStream fis = new FileInputStream(filePath);
+             FileChannel fileChannel = fis.getChannel()) {
+
+            ByteBuffer buffer = ByteBuffer.allocate((int) fileChannel.size());
+            fileChannel.read(buffer);
+            buffer.flip(); // Prepare for reading
+            return buffer;
+        }
+    }
 
     public static void moveDirectoryToTrash(File directory) throws IOException {
         if (directory.isDirectory() && directory.exists()) {

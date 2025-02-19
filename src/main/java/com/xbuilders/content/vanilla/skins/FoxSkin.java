@@ -25,8 +25,8 @@ public class FoxSkin extends Skin {
         try {
             mesh.loadFromOBJ(ResourceUtils.file("skins\\fox\\body.obj"));
             textureID =
-                    TextureUtils.loadTexture(
-                            ResourceUtils.file("skins\\fox\\" + texture + ".png").getAbsolutePath(),
+                    TextureUtils.loadTextureFromFile(
+                            ResourceUtils.file("skins\\fox\\" + texture + ".png"),
                     false).id;
         } catch (IOException e) {
             ErrorHandler.report(e);
