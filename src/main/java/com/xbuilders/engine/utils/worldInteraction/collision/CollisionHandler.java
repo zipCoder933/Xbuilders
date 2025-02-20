@@ -9,12 +9,12 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 
 import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
@@ -30,14 +30,14 @@ public class CollisionHandler {
     final private PositionHandler driver;
     final World chunks;
     final WCCi wcc = new WCCi();
-    final HashSet<Chunk> exploredChunks = new HashSet<>();
+
     final EntityAABB myBox;
     final EntityAABB userControlledPlayerAABB;
     final AABB stepBox;
     final AABB collisionBox;
     public final CollisionData collisionData;
     boolean setFrozen = false;
-    Block b;
+    Block block;
     BlockData d;
     public Block floorBlock = BlockRegistry.BLOCK_AIR;
     Chunk chunk;
@@ -90,20 +90,24 @@ public class CollisionHandler {
         return false;
     }
 
+    final HashSet<Chunk> exploredChunks = new HashSet<>();
+
     public synchronized void resolveCollisions(Matrix4f projection, Matrix4f view) {
         driver.onGround = false;
         collisionData.reset();
         floorBlock = BlockRegistry.BLOCK_AIR;
-       // drawTestBox(myBox.box, 0);
+        // drawTestBox(myBox.box, 0);
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             stepBox.set(myBox.box);
             stepBox.setY(stepBox.max.y + driver.STEP_HEIGHT);
             setFrozen = false;
+            //Process block collisions first
             exploredChunks.clear();
+            boolean foundCeiling = processBlockCollisions_OnlyCeiling(exploredChunks);
+            processBlockCollisions(exploredChunks, !foundCeiling);
 
-            processBlockCollisions();
-
+            //Process entity collisions
             for (Chunk chunk : exploredChunks) {
                 for (int i = 0; i < chunk.entities.list.size(); i++) {
                     compareEntityAABB(projection, view, chunk.entities.list.get(i).aabb);
@@ -117,9 +121,49 @@ public class CollisionHandler {
         }
     }
 
-    private void processBlockCollisions() {
-        //int ySpreadIndx = 0;
+    private boolean processBlockCollisions_OnlyCeiling(final HashSet<Chunk> exploredChunks) {
+        AtomicBoolean foundCeiling = new AtomicBoolean(false);
+        myBox.box.min.y -= CEILING_COLLISION_CHECK_AABB_OFFSET;
+        outerloop:
+        for (//Top to bottom
+                int y = (int) (myBox.box.min.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS);
+                y < (myBox.box.min.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS);
+                y++) {
+            for (int x = (int) (myBox.box.min.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.max.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
+                for (int z = (int) (myBox.box.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.max.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
+                    wcc.set(x, y, z);
+                    chunk = chunks.getChunk(wcc.chunk);
+                    if (chunk != null) {
+                        exploredChunks.add(chunk);
+                        block = Registrys.blocks.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                        if (block != null) {
+                            if (block.solid) {
+                                d = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                                BlockType type = Registrys.blocks.getBlockType(block.renderType);
+                                if (type != null) {
+                                    //final float spread = 0;// ySpreadIndx * 0.001f
+                                    type.getCollisionBoxes((aabb) -> {
+                                        if (aabb.intersects(myBox.box)) {
+                                            collisionData.calculateCollision(aabb, myBox.box, false);
+                                            if (collisionData.collisionNormal.y == 1 && aabb.min.y < myBox.box.min.y) { //Ceiling collision
+                                                if (handleCeilingCollision(aabb, block)) foundCeiling.set(true);
+                                            }
+                                        }
+                                    }, collisionBox, block, d, x, y, z);
+                                }
+                            }
+                        }
+                    }
+                    if(foundCeiling.get()) break outerloop;
+                }
+            }
+        }
+        myBox.box.min.y += CEILING_COLLISION_CHECK_AABB_OFFSET;
+        return foundCeiling.get();
+    }
 
+    private void processBlockCollisions(final HashSet<Chunk> exploredChunks, boolean stepUP) {
+        //int ySpreadIndx = 0;
         /**
          * Top to bottom vs bottom to top determines if we will collide with the floor of a block when jumping against a wall, or collide with the ceiling
          */
@@ -140,31 +184,20 @@ public class CollisionHandler {
                     chunk = chunks.getChunk(wcc.chunk);
                     if (chunk != null) {
                         exploredChunks.add(chunk);
-
-                        b = Registrys.blocks.getBlock(chunk.data.getBlock(
-                                wcc.chunkVoxel.x,
-                                wcc.chunkVoxel.y,
-                                wcc.chunkVoxel.z));
-                        if (b != null) {
-                            if (b.solid) {
+                        block = Registrys.blocks.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                        if (block != null) {
+                            if (block.solid) {
                                 // if (Main.specialMode2) {
                                 // TODO: chunk.getBlockData() is collision-handler memory culprit!!!
                                 // Its ALL in the hashmap...
-                                d = chunk.data.getBlockData(
-                                        wcc.chunkVoxel.x,
-                                        wcc.chunkVoxel.y,
-                                        wcc.chunkVoxel.z);
+                                d = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                                 // }
-                                BlockType type = Registrys.blocks.getBlockType(b.renderType);
-                                try {
-                                    if (type != null) {
-                                        //final float spread = 0;// ySpreadIndx * 0.001f
-                                        type.getCollisionBoxes((aabb) -> {
-                                            processBox(aabb, b, false);
-                                        }, collisionBox, b, d, x, y, z);
-                                    }
-                                } catch (Exception e) {
-                                    ErrorHandler.log(e);
+                                BlockType type = Registrys.blocks.getBlockType(block.renderType);
+                                if (type != null) {
+                                    //final float spread = 0;// ySpreadIndx * 0.001f
+                                    type.getCollisionBoxes((aabb) -> {
+                                        processBox(aabb, block, false, stepUP);
+                                    }, collisionBox, block, d, x, y, z);
                                 }
                             }
                         }
@@ -196,8 +229,13 @@ public class CollisionHandler {
 
     final float SIDE_COLLISON_CATCH_THRESHOLD = 0.15f;
     final float CEILING_COLLISON_CATCH_THRESHOLD = 0.2f;
+    final float CEILING_COLLISION_CHECK_AABB_OFFSET = 0.2f;
 
     private void processBox(AABB box, Block block, boolean isEntity) {
+        processBox(box, block, isEntity, true);
+    }
+
+    private void processBox(AABB box, Block block, boolean isEntity, boolean allowStepUp) {
         //We dont need to spread boxes out based on Y value
 //        float spread = 0.01f;
 //        if (box.min.x > myBox.box.min.x) {
@@ -218,36 +256,43 @@ public class CollisionHandler {
 
         if (box.intersects(myBox.box)) {
             if (calculateCollisionData(box, block, isEntity)) {
-                if (collisionData.collisionNormal.x != 0) {
-                    if (myBox.box.max.y - box.min.y < driver.STEP_HEIGHT) {
+
+                if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) { //Ceiling collision
+                    handleCeilingCollision(box, block);
+                } else if (collisionData.collisionNormal.y == -1) {  //Floor collision
+                    handleFloorCollision(box, block);
+                }
+
+                if (collisionData.collisionNormal.x != 0) { //Side collision
+                    if (myBox.box.max.y - box.min.y < driver.STEP_HEIGHT && allowStepUp) {
                         myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.x));
                     } else if (CollisionData.calculateZIntersection(myBox.box, box) > SIDE_COLLISON_CATCH_THRESHOLD) { //prevents the player from catching when rubbing against the wall
                         myBox.box.setX(myBox.box.min.x + (collisionData.penPerAxes.x));
                     }
-                } else if (collisionData.collisionNormal.z != 0) {
-                    if (myBox.box.max.y - box.min.y < driver.STEP_HEIGHT) {
+                } else if (collisionData.collisionNormal.z != 0) { //Side collision
+                    if (myBox.box.max.y - box.min.y < driver.STEP_HEIGHT && allowStepUp) {
                         myBox.box.setY(myBox.box.min.y - Math.abs(collisionData.penPerAxes.z));
                     } else if (CollisionData.calculateXIntersection(myBox.box, box) > SIDE_COLLISON_CATCH_THRESHOLD) {
                         myBox.box.setZ(myBox.box.min.z + (collisionData.penPerAxes.z));
                     }
                 }
 
-                if (collisionData.collisionNormal.y == 1 && box.min.y < myBox.box.min.y) { //Ceiling collision
-                    /**
-                     *If the size of the surface is small enough, cancel the collision
-                     *This solves the problem when we jump and collide with a block
-                     */
-                    if (CollisionData.calculateXIntersection(myBox.box, box) > CEILING_COLLISON_CATCH_THRESHOLD
-                            && CollisionData.calculateZIntersection(myBox.box, box) > CEILING_COLLISON_CATCH_THRESHOLD) {
-                        driver.velocity.y = 0;
-                        myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
-                    }
-
-                } else if (collisionData.collisionNormal.y == -1) {  //Floor collision
-                    handleFloorCollision(box, block);
-                }
             }
         }
+    }
+
+    private boolean handleCeilingCollision(AABB box, Block block) {
+        /**
+         *If the size of the surface is small enough, cancel the collision
+         *This solves the problem when we jump and collide with a block
+         */
+        if (CollisionData.calculateXIntersection(myBox.box, box) > CEILING_COLLISON_CATCH_THRESHOLD
+                && CollisionData.calculateZIntersection(myBox.box, box) > CEILING_COLLISON_CATCH_THRESHOLD) {
+            driver.velocity.y = 0;
+            myBox.box.setY(myBox.box.min.y + collisionData.penPerAxes.y);
+            return true;
+        }
+        return false;
     }
 
     private void handleFloorCollision(AABB box, Block block) {

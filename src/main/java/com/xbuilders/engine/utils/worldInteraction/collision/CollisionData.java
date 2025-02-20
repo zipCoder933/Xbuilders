@@ -60,12 +60,12 @@ public class CollisionData {
         Vector3f maxB = new Vector3f(minB).add(boxB.getXLength(), boxB.getYLength(), boxB.getZLength());
         penetration.put(0, Float.MAX_VALUE);
 
-        distances.put(0, (maxB.x - minA.x));// distance of box 'b' to 'left ' of 'a '.
-        distances.put(1, (maxA.x - minB.x));// distance of box 'b' to 'right ' of 'a '.
-        distances.put(2, (maxB.y - minA.y));// distance of box 'b' to 'bottom ' of 'a '.
-        distances.put(3, (maxA.y - minB.y));// distance of box 'b' to 'top ' of 'a '.
-        distances.put(4, (maxB.z - minA.z));// distance of box 'b' to 'far ' of 'a '.
-        distances.put(5, (maxA.z - minB.z)); // distance of box 'b' to 'near ' of 'a '.
+        distances.put(0, (maxB.x - minA.x));// distance of box 'block' to 'left ' of 'a '.
+        distances.put(1, (maxA.x - minB.x));// distance of box 'block' to 'right ' of 'a '.
+        distances.put(2, (maxB.y - minA.y));// distance of box 'block' to 'bottom ' of 'a '.
+        distances.put(3, (maxA.y - minB.y));// distance of box 'block' to 'top ' of 'a '.
+        distances.put(4, (maxB.z - minA.z));// distance of box 'block' to 'far ' of 'a '.
+        distances.put(5, (maxA.z - minB.z)); // distance of box 'block' to 'near ' of 'a '.
 
         for (int i = 0; i < 6; i++) {
             if (distances.get(i) < penetration.get(0)) {
