@@ -1,8 +1,11 @@
 package com.xbuilders.engine.utils;
 
 import java.io.*;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarEntry;
 
 public class ResourceLoader {
     public ResourceLoader() {
@@ -19,6 +22,26 @@ public class ResourceLoader {
         return path.replace("\\", FILE_SEPARATOR);
     }
 
+    public InputStream getResourceAsStream(String path) {
+        path = formatPath(path);
+        final InputStream in
+                = getContextClassLoader().getResourceAsStream(path);
+
+        return in == null ? getClass().getResourceAsStream(path) : in;
+    }
+
+    private static ClassLoader getContextClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
+    }
+
+    public boolean isDirectory(String resourcePath)  {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource(resourcePath);
+        if (resource.getProtocol().equals("file")) {
+            return new File(resource.getPath()).isDirectory();
+        }
+        return false;
+    }
 
     public List<String> getResourceFiles(String path) throws IOException {
         List<String> filenames = new ArrayList<>();
@@ -39,18 +62,6 @@ public class ResourceLoader {
         System.out.println("Found " + filenames.size() + " resources.");
 
         return filenames;
-    }
-
-    public InputStream getResourceAsStream(String path) {
-        path = formatPath(path);
-        final InputStream in
-                = getContextClassLoader().getResourceAsStream(path);
-
-        return in == null ? getClass().getResourceAsStream(path) : in;
-    }
-
-    private static ClassLoader getContextClassLoader() {
-        return Thread.currentThread().getContextClassLoader();
     }
 
 

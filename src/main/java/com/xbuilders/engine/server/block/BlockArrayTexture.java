@@ -108,7 +108,11 @@ public class BlockArrayTexture {
         //Add some default textures first
         BuiltinTextures.addBuiltinTextures(imageFiles, index, textureSize);
 
+        //Search all texture files within the base directory
+        System.out.println("Searching for textures...");
         addTexturesFromResource(files, imageFiles);
+        System.out.println("Texture Files: " + imageFiles.size());
+
         filePaths = new TextureRequest[imageFiles.size()];
         for (int i = 0; i < filePaths.length; i++) {
             filePaths[i] = imageFiles.get(i);
@@ -126,29 +130,35 @@ public class BlockArrayTexture {
 
     private void addTexturesFromResource(List<String> files, List<TextureRequest> imageFiles) throws IOException {
         for (String file : files) {
-            if (fileIsImage(file)) {
-                //Get the name of the file without the file extension
-                String name = file.split(ResourceLoader.FILE_SEPARATOR)[file.split(ResourceLoader.FILE_SEPARATOR).length - 1];
-                name = formatFilepath(name);
+            if (resourceLoader.isDirectory(file)) {//If this is a directory, add textures in it
+                System.out.println("Adding textures from directory: " + file);
+                addTexturesFromResource(files, imageFiles);
+            } else {
+                if (fileIsImage(file)) {
+                    System.out.println("Adding texture: " + file);
+                    //Get the name of the file without the file extension
+                    String name = file.split(ResourceLoader.FILE_SEPARATOR)[file.split(ResourceLoader.FILE_SEPARATOR).length - 1];
+                    name = formatFilepath(name);
 
-                textureMap.put(name, index.get());
-                fileMap.put(name, file);
+                    textureMap.put(name, index.get());
+                    fileMap.put(name, file);
 
 
-                BufferedImage image = ImageIO.read(resourceLoader.getResourceAsStream(file));
-                if (image.getWidth() < image.getHeight()) {//if the image is not square, split it up
-                    int lengthMultiplier = image.getHeight() / image.getWidth();
-                    for (int j = 0; j < lengthMultiplier; j++) {
-                        imageFiles.add(new TextureRequest(file, 0, j * image.getWidth(), image.getWidth(), image.getWidth()));
+                    BufferedImage image = ImageIO.read(resourceLoader.getResourceAsStream(file));
+                    if (image.getWidth() < image.getHeight()) {//if the image is not square, split it up
+                        int lengthMultiplier = image.getHeight() / image.getWidth();
+                        for (int j = 0; j < lengthMultiplier; j++) {
+                            imageFiles.add(new TextureRequest(file, 0, j * image.getWidth(), image.getWidth(), image.getWidth()));
+                            index.getAndAdd(1);
+                        }
+                        if (lengthMultiplier > MAX_BLOCK_ANIMATION_LENGTH)
+                            lengthMultiplier = MAX_BLOCK_ANIMATION_LENGTH;
+//                        System.out.println("Splitting " + name + " into " + lengthMultiplier + " pieces");
+                        animationMap.put(name, lengthMultiplier);
+                    } else {
+                        imageFiles.add(new TextureRequest(file));
                         index.getAndAdd(1);
                     }
-                    if (lengthMultiplier > MAX_BLOCK_ANIMATION_LENGTH)
-                        lengthMultiplier = MAX_BLOCK_ANIMATION_LENGTH;
-//                        System.out.println("Splitting " + name + " into " + lengthMultiplier + " pieces");
-                    animationMap.put(name, lengthMultiplier);
-                } else {
-                    imageFiles.add(new TextureRequest(file));
-                    index.getAndAdd(1);
                 }
             }
 
