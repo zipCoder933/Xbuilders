@@ -5,9 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.utils.ResourceLoader;
-import com.xbuilders.engine.utils.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +66,7 @@ public abstract class RecipeRegistry<T extends Recipe> {
 
     public final void register(String resourcePath) throws IOException {
         System.out.println("Registering " + name + " recipes...");
-        for (String path : resourceLoader.getResourceFiles(resourcePath)) {
+        for (String path : resourceLoader.listResourceFiles(resourcePath)) {
             registerFromResource(path);
         }
     }

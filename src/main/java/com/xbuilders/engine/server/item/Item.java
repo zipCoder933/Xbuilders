@@ -183,9 +183,9 @@ public class Item implements Comparable<Item> {
                 Texture icon = TextureUtils.loadTextureFromFile(blockIcon, true);
                 setIcon(icon.id);
             } else {//If there is no generated block icon, default to the texture
-                File file = textures.getTextureFile(getBlock().texture.NEG_Y_NAME);
+                String file = textures.getTextureFile(getBlock().texture.NEG_Y_NAME);
                 if (file != null) {
-                    Texture tex = TextureUtils.loadTextureFromFile(file, false);
+                    Texture tex = TextureUtils.loadTextureFromResource(file, false);
                     setIcon(tex.id);
                 } else {
                     setIcon(defaultIcon);

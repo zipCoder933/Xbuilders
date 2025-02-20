@@ -10,7 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/utils/texture/TextureUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/utils/texture/TextureUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/block/BlockArrayTexture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/block/BlockArrayTexture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/loot/LootTableRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/loot/LootTableRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/recipes/RecipeRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/recipes/RecipeRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +90,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.codeium.enabled&quot;: &quot;true&quot;,
     &quot;com.intellij.ide.FileNotInSourceRootChecker.no.check&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;block-texture-jar-Resources&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders/src/main/resources/assets/xbuilders/recipes/crafting&quot;,
@@ -111,11 +116,11 @@
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\game\vanilla" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\textures\block" />
+      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\textures\block\builtin" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\models\block" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\recipes" />
-      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\recipes\smelting" />
-      <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items\loot\block" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="com.xbuilders.engine.client.visuals.gameScene.GameScene" />
@@ -258,6 +263,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NoSuchFieldError" package="java.lang" />
+          <option name="timeStamp" value="4" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

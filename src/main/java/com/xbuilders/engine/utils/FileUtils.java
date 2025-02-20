@@ -5,10 +5,42 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.regex.Pattern;
+
 
 
 public class FileUtils {
     public final static boolean canRecycleFiles = Desktop.getDesktop().isSupported(Desktop.Action.MOVE_TO_TRASH);
+    private static final Pattern FILE_EXTENSION_PATTERN = Pattern.compile(".*\\.[\\w]+$");
+
+    public static boolean hasFileExtension(String resourcePath) {
+        return FILE_EXTENSION_PATTERN.matcher(resourcePath).matches();
+    }
+
+    /**
+     * Removes the base path from a full path, returning a relative path.
+     * This method is platform independent and works with any file type.
+     *
+     * @param basePath The base path to remove.
+     * @param fullPath The full file path.
+     * @return The relative path with the base removed.
+     * @throws IllegalArgumentException if the base path is not a prefix of the full path.
+     */
+    public static String removeBasePath(String basePath, String fullPath) {
+        // Convert both strings to Path objects
+        Path base = Paths.get(basePath).normalize();
+        Path full = Paths.get(fullPath).normalize();
+
+        if (!full.startsWith(base)) {
+            throw new IllegalArgumentException("The full path does not start with the base path.");
+        }
+
+        // Use relativize to compute the relative path
+        Path relative = base.relativize(full);
+        return relative.toString();
+    }
 
     public static ByteBuffer fileToByteBuffer(String filePath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filePath);

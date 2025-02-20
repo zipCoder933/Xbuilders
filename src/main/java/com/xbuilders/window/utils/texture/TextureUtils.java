@@ -21,6 +21,30 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+
+import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.window.utils.IOUtil;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_RGB;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_HEIGHT;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_INTERNAL_FORMAT;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WIDTH;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDeleteTextures;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glGetTexImage;
+import static org.lwjgl.opengl.GL11.glGetTexLevelParameteri;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -28,6 +52,11 @@ import static org.lwjgl.opengl.GL12.glTexImage3D;
 import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
+
+import org.lwjgl.system.MemoryStack;
+
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryUtil;
 
 /**
  * @author zipCoder933
@@ -150,7 +179,7 @@ public class TextureUtils {
                     throw new IOException("Image file [" + file + "] is null");
                 }
 
-                fullImage = stbi_load(file.filepath, w, h, channels, 4);
+                fullImage = stbi_load_from_memory(file.image, w, h, channels, 4);
                 if (fullImage == null) {
                     throw new IOException("Image file [" + file + "] not loaded: " + stbi_failure_reason());
                 }
