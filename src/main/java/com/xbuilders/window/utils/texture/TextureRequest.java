@@ -1,10 +1,8 @@
 package com.xbuilders.window.utils.texture;
 
-import com.xbuilders.engine.utils.FileUtils;
 import com.xbuilders.engine.utils.ResourceLoader;
-import com.xbuilders.engine.utils.StreamUtils;
+import com.xbuilders.window.utils.IOUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -37,7 +35,7 @@ public class TextureRequest {
     public TextureRequest(String resource,
                           int regionX, int regionY, int regionWidth, int regionHeight) throws IOException {
 
-        image = StreamUtils.toByteBuffer(resourceLoader.getResourceAsStream(resource));
+        image = IOUtil.inputStreamToByteBuffer(resourceLoader.getResourceAsStream(resource),512);
         this.regionX = regionX;
         this.regionY = regionY;
         this.regionWidth = regionWidth;
@@ -46,7 +44,7 @@ public class TextureRequest {
 
     public TextureRequest(String resource) throws IOException {
 
-        image = StreamUtils.toByteBuffer(resourceLoader.getResourceAsStream(resource));
+        image = IOUtil.inputStreamToByteBuffer(resourceLoader.getResourceAsStream(resource),512);
         regionX = -1;
         regionY = -1;
         regionWidth = -1;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import com.xbuilders.engine.utils.ResourceLoader;
-import com.xbuilders.engine.utils.StreamUtils;
+import com.xbuilders.window.utils.IOUtil;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -192,10 +192,10 @@ public class TextureUtils {
         return section;
     }
 
-    public static Texture loadTextureFromFile(ByteBuffer buffer,
-                                              int width,
-                                              int height,
-                                              boolean linearFiltering) throws IOException {
+    public static Texture loadTexture(ByteBuffer buffer,
+                                      int width,
+                                      int height,
+                                      boolean linearFiltering) throws IOException {
 
         //<editor-fold defaultstate="collapsed" desc="load the bytes of the texture to memory">
         try {
@@ -321,11 +321,11 @@ public class TextureUtils {
 
     public static Texture loadTextureFromResource(String path, boolean linearFiltering) throws IOException {
         InputStream is = resourceLoader.getResourceAsStream(path);
-        ByteBuffer buffer = StreamUtils.toByteBuffer(is);
-        return loadTextureFromFile(buffer, linearFiltering);
+        ByteBuffer buffer = IOUtil.inputStreamToByteBuffer(is, 512);
+        return loadTexture(buffer, linearFiltering);
     }
 
-    public static Texture loadTextureFromFile(ByteBuffer input, boolean linearFiltering) throws IOException {
+    public static Texture loadTexture(ByteBuffer input, boolean linearFiltering) throws IOException {
         //<editor-fold defaultstate="collapsed" desc="load the bytes of the texture to memory">
         ByteBuffer buffer;
         try (MemoryStack stack = MemoryStack.stackPush()) {

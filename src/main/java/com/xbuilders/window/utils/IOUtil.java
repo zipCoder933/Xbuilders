@@ -38,9 +38,7 @@ public final class IOUtil {
      *
      * @param resource   the resource to read
      * @param bufferSize the initial buffer size
-     *
      * @return the resource data
-     *
      * @throws IOException if an IO error occurs
      */
     public static ByteBuffer ioResourceToByteBuffer(String resource, int bufferSize) throws IOException {
@@ -49,17 +47,17 @@ public final class IOUtil {
         Path path = resource.startsWith("http") ? null : Paths.get(resource);
         if (path != null && Files.isReadable(path)) {
             try (SeekableByteChannel fc = Files.newByteChannel(path)) {
-                buffer = BufferUtils.createByteBuffer((int)fc.size() + 1);
+                buffer = BufferUtils.createByteBuffer((int) fc.size() + 1);
                 while (fc.read(buffer) != -1) {
                     ;
                 }
             }
         } else {
             try (
-                InputStream source = resource.startsWith("http")
-                    ? new URL(resource).openStream()
-                    : IOUtil.class.getClassLoader().getResourceAsStream(resource);
-                ReadableByteChannel rbc = Channels.newChannel(source)
+                    InputStream source = resource.startsWith("http")
+                            ? new URL(resource).openStream()
+                            : IOUtil.class.getClassLoader().getResourceAsStream(resource);
+                    ReadableByteChannel rbc = Channels.newChannel(source)
             ) {
                 buffer = createByteBuffer(bufferSize);
 
@@ -75,6 +73,31 @@ public final class IOUtil {
             }
         }
 
+        buffer.flip();
+        return memSlice(buffer);
+    }
+
+    /**
+     * Reads the specified resource and returns the raw data as a ByteBuffer.
+     *
+     * @param source   the resource to read
+     * @param bufferSize the initial buffer size
+     * @return the resource data
+     * @throws IOException if an IO error occurs
+     */
+    public static ByteBuffer inputStreamToByteBuffer(InputStream source, int bufferSize) throws IOException {
+        ByteBuffer buffer = createByteBuffer(bufferSize);
+        ReadableByteChannel rbc = Channels.newChannel(source);
+
+        while (true) {
+            int bytesRead = rbc.read(buffer);
+            if (bytesRead == -1) {
+                break;
+            }
+            if (buffer.remaining() == 0) {
+                buffer = resizeBuffer(buffer, buffer.capacity() * 3 / 2);
+            }
+        }
         buffer.flip();
         return memSlice(buffer);
     }
