@@ -229,7 +229,7 @@ public class CollisionHandler {
 
     final float SIDE_COLLISON_CATCH_THRESHOLD = 0.15f;
     final float CEILING_COLLISON_CATCH_THRESHOLD = 0.2f;
-    final float CEILING_COLLISION_CHECK_AABB_OFFSET = 0.2f;
+    final float CEILING_COLLISION_CHECK_AABB_OFFSET = 0.1f;
 
     private void processBox(AABB box, Block block, boolean isEntity) {
         processBox(box, block, isEntity, true);
