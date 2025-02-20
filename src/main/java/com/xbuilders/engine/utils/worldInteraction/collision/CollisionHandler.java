@@ -34,6 +34,7 @@ public class CollisionHandler {
     final EntityAABB myBox;
     final EntityAABB userControlledPlayerAABB;
     final AABB stepBox;
+    final AABB ceilingCheckBox = new AABB();
     final AABB collisionBox;
     public final CollisionData collisionData;
     boolean setFrozen = false;
@@ -104,7 +105,7 @@ public class CollisionHandler {
             setFrozen = false;
             //Process block collisions first
             exploredChunks.clear();
-            boolean foundCeiling = processBlockCollisions_OnlyCeiling(exploredChunks);
+            boolean foundCeiling = checkForCeilingCollision(exploredChunks);
             processBlockCollisions(exploredChunks, !foundCeiling);
 
             //Process entity collisions
@@ -121,16 +122,19 @@ public class CollisionHandler {
         }
     }
 
-    private boolean processBlockCollisions_OnlyCeiling(final HashSet<Chunk> exploredChunks) {
+
+    private boolean checkForCeilingCollision(final HashSet<Chunk> exploredChunks) {
         AtomicBoolean foundCeiling = new AtomicBoolean(false);
-        myBox.box.min.y -= CEILING_COLLISION_CHECK_AABB_OFFSET;
+        ceilingCheckBox.set(myBox.box);
+        ceilingCheckBox.min.y -= CEILING_COLLISION_CHECK_AABB_OFFSET;
+
         outerloop:
         for (//Top to bottom
-                int y = (int) (myBox.box.min.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS);
-                y < (myBox.box.min.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS);
+                int y = (int) (ceilingCheckBox.min.y - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS);
+                y < (ceilingCheckBox.min.y + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS);
                 y++) {
-            for (int x = (int) (myBox.box.min.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= myBox.box.max.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
-                for (int z = (int) (myBox.box.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.max.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
+            for (int x = (int) (ceilingCheckBox.min.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= ceilingCheckBox.max.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
+                for (int z = (int) (ceilingCheckBox.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= ceilingCheckBox.max.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
                     wcc.set(x, y, z);
                     chunk = chunks.getChunk(wcc.chunk);
                     if (chunk != null) {
@@ -143,10 +147,10 @@ public class CollisionHandler {
                                 if (type != null) {
                                     //final float spread = 0;// ySpreadIndx * 0.001f
                                     type.getCollisionBoxes((aabb) -> {
-                                        if (aabb.intersects(myBox.box)) {
-                                            collisionData.calculateCollision(aabb, myBox.box, false);
-                                            if (collisionData.collisionNormal.y == 1 && aabb.min.y < myBox.box.min.y) { //Ceiling collision
-                                                if (handleCeilingCollision(aabb, block)) foundCeiling.set(true);
+                                        if (aabb.intersects(ceilingCheckBox)) {
+                                            collisionData.calculateCollision(aabb, ceilingCheckBox, false);
+                                            if (collisionData.collisionNormal.y == 1 && aabb.min.y < ceilingCheckBox.min.y) { //Ceiling collision
+                                                foundCeiling.set(true);
                                             }
                                         }
                                     }, collisionBox, block, d, x, y, z);
@@ -154,11 +158,10 @@ public class CollisionHandler {
                             }
                         }
                     }
-                    if(foundCeiling.get()) break outerloop;
+                    if (foundCeiling.get()) break outerloop;
                 }
             }
         }
-        myBox.box.min.y += CEILING_COLLISION_CHECK_AABB_OFFSET;
         return foundCeiling.get();
     }
 
