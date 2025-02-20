@@ -4,6 +4,16 @@
  */
 package com.xbuilders.window.utils.texture;
 
+import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.window.utils.IOUtil;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,10 +44,11 @@ import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL11.glGetTexImage;
 import static org.lwjgl.opengl.GL11.glGetTexLevelParameteri;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
+
+import java.util.List;
+
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.glTexImage3D;
-
-import org.lwjgl.opengl.GL30;
-
 import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
@@ -52,6 +63,7 @@ import org.lwjgl.system.MemoryUtil;
  */
 public class TextureUtils {
 
+    static final ResourceLoader resourceLoader = new ResourceLoader();
     private static ArrayList<Integer> textures = new ArrayList<>();
 
     public static void saveTextureAsPNG(int textureID, File file) throws IOException {
@@ -109,6 +121,22 @@ public class TextureUtils {
      */
     public static void addTexture(int id) {
         textures.add(id);
+    }
+
+    public static Texture makeTextureArray(int imageWidth, int imageHeight, boolean linearFiltering, String... files) throws IOException {
+        TextureRequest[] textureFiles = new TextureRequest[files.length];
+        for (int i = 0; i < files.length; i++) {
+            textureFiles[i] = new TextureRequest(files[i]);
+        }
+        return makeTextureArray(imageWidth, imageHeight, linearFiltering, textureFiles);
+    }
+
+    public static Texture makeTextureArray(int imageWidth, int imageHeight, boolean linearFiltering, List<TextureRequest> files) throws IOException {
+        TextureRequest[] textureFiles = new TextureRequest[files.size()];
+        for (int i = 0; i < files.size(); i++) {
+            textureFiles[i] = files.get(i);
+        }
+        return makeTextureArray(imageWidth, imageHeight, linearFiltering, textureFiles);
     }
 
     /**
@@ -259,10 +287,9 @@ public class TextureUtils {
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
             IntBuffer channels = stack.mallocInt(1);
-            String filePath = file.getAbsolutePath();
-            buffer = STBImage.stbi_load(filePath, w, h, channels, 4);
+            buffer = STBImage.stbi_load(file.getAbsolutePath(), w, h, channels, 4);
             if (buffer == null) {
-                throw new IOException("Can't load image \"" + file.getAbsolutePath() + "\":" + "\n" + STBImage.stbi_failure_reason());
+                throw new IOException("Can't load image from " + file.getAbsolutePath() + ":" + "\n" + STBImage.stbi_failure_reason());
             }
 
             int width = w.get();
@@ -316,8 +343,6 @@ public class TextureUtils {
             throw new IOException("Unable to load texture: ", e);
         }
     }
-
-    static final ResourceLoader resourceLoader = new ResourceLoader();
 
     public static Texture loadTextureFromResource(String path, boolean linearFiltering) throws IOException {
         InputStream is = resourceLoader.getResourceAsStream(path);

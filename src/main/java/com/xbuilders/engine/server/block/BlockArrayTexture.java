@@ -114,6 +114,7 @@ public class BlockArrayTexture {
         addTexturesFromResource(blockTexturesDir, files, imageFiles);
         System.out.println("Texture Files: " + imageFiles.size());
 
+
         filePaths = new TextureRequest[imageFiles.size()];
         for (int i = 0; i < filePaths.length; i++) {
             filePaths[i] = imageFiles.get(i);

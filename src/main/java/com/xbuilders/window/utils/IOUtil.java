@@ -86,7 +86,9 @@ public final class IOUtil {
      * @throws IOException if an IO error occurs
      */
     public static ByteBuffer inputStreamToByteBuffer(InputStream source, int bufferSize) throws IOException {
+
         ByteBuffer buffer = createByteBuffer(bufferSize);
+
         ReadableByteChannel rbc = Channels.newChannel(source);
 
         while (true) {

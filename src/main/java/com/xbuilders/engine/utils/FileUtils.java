@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 
+
 public class FileUtils {
     public final static boolean canRecycleFiles = Desktop.getDesktop().isSupported(Desktop.Action.MOVE_TO_TRASH);
     private static final Pattern FILE_EXTENSION_PATTERN = Pattern.compile(".*\\.[\\w]+$");
@@ -39,6 +40,17 @@ public class FileUtils {
         // Use relativize to compute the relative path
         Path relative = base.relativize(full);
         return relative.toString();
+    }
+
+    public static ByteBuffer fileToByteBuffer(String filePath) throws IOException {
+        try (FileInputStream fis = new FileInputStream(filePath);
+             FileChannel fileChannel = fis.getChannel()) {
+
+            ByteBuffer buffer = ByteBuffer.allocate((int) fileChannel.size());
+            fileChannel.read(buffer);
+            buffer.flip(); // Prepare for reading
+            return buffer;
+        }
     }
 
     public static void moveDirectoryToTrash(File directory) throws IOException {

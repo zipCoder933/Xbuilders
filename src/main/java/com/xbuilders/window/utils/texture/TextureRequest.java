@@ -34,7 +34,6 @@ public class TextureRequest {
 
     public TextureRequest(String resource,
                           int regionX, int regionY, int regionWidth, int regionHeight) throws IOException {
-
         image = IOUtil.inputStreamToByteBuffer(resourceLoader.getResourceAsStream(resource),512);
         this.regionX = regionX;
         this.regionY = regionY;
@@ -43,7 +42,6 @@ public class TextureRequest {
     }
 
     public TextureRequest(String resource) throws IOException {
-
         image = IOUtil.inputStreamToByteBuffer(resourceLoader.getResourceAsStream(resource),512);
         regionX = -1;
         regionY = -1;
