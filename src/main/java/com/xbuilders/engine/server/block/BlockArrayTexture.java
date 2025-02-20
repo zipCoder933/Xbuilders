@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.server.block;
 
+import com.xbuilders.engine.utils.FileUtils;
 import com.xbuilders.engine.utils.ResourceLoader;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureRequest;
@@ -79,7 +80,7 @@ public class BlockArrayTexture {
         animationMap = new HashMap<>();
 
         //load the textures
-        List<String> files = resourceLoader.getResourceFiles(blockTexturesDir);
+        List<String> files = resourceLoader.listResourceFiles(blockTexturesDir);
         if (files.size() == 0) {
             throw new IOException("No textures in directory");
         }
@@ -110,7 +111,7 @@ public class BlockArrayTexture {
 
         //Search all texture files within the base directory
         System.out.println("Searching for textures...");
-        addTexturesFromResource(files, imageFiles);
+        addTexturesFromResource(blockTexturesDir, files, imageFiles);
         System.out.println("Texture Files: " + imageFiles.size());
 
         filePaths = new TextureRequest[imageFiles.size()];
@@ -128,20 +129,20 @@ public class BlockArrayTexture {
     }
 
 
-    private void addTexturesFromResource(List<String> files, List<TextureRequest> imageFiles) throws IOException {
+    private void addTexturesFromResource(String baseDir, List<String> files, List<TextureRequest> imageFiles) throws IOException {
         for (String file : files) {
             if (resourceLoader.isDirectory(file)) {//If this is a directory, add textures in it
-                System.out.println("Adding textures from directory: " + file);
-                addTexturesFromResource(files, imageFiles);
+//                System.out.println("Adding textures from directory: " + file);
+                addTexturesFromResource(baseDir, resourceLoader.listResourceFiles(file), imageFiles);
             } else {
                 if (fileIsImage(file)) {
-                    System.out.println("Adding texture: " + file);
                     //Get the name of the file without the file extension
-                    String name = file.split(ResourceLoader.FILE_SEPARATOR)[file.split(ResourceLoader.FILE_SEPARATOR).length - 1];
-                    name = formatFilepath(name);
+                    String textureKey = FileUtils.removeBasePath(baseDir, file);
+                    textureKey = formatFilepath(textureKey);
+//                    System.out.println("\tAdding texture: " + textureKey);
 
-                    textureMap.put(name, index.get());
-                    fileMap.put(name, file);
+                    textureMap.put(textureKey, index.get());
+                    fileMap.put(textureKey, file);
 
 
                     BufferedImage image = ImageIO.read(resourceLoader.getResourceAsStream(file));
@@ -154,7 +155,7 @@ public class BlockArrayTexture {
                         if (lengthMultiplier > MAX_BLOCK_ANIMATION_LENGTH)
                             lengthMultiplier = MAX_BLOCK_ANIMATION_LENGTH;
 //                        System.out.println("Splitting " + name + " into " + lengthMultiplier + " pieces");
-                        animationMap.put(name, lengthMultiplier);
+                        animationMap.put(textureKey, lengthMultiplier);
                     } else {
                         imageFiles.add(new TextureRequest(file));
                         index.getAndAdd(1);

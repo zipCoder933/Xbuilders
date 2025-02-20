@@ -3,9 +3,13 @@ package com.xbuilders.engine.utils;
 import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
+import java.util.regex.Pattern;
 
 public class ResourceLoader {
     public ResourceLoader() {
@@ -17,6 +21,7 @@ public class ResourceLoader {
      */
     public static final String FILE_SEPARATOR = "/";
 
+
     private String formatPath(String path) {
         if (!path.startsWith(FILE_SEPARATOR)) path = FILE_SEPARATOR + path;
         return path.replace("\\", FILE_SEPARATOR);
@@ -24,29 +29,56 @@ public class ResourceLoader {
 
     public InputStream getResourceAsStream(String path) {
         path = formatPath(path);
-        final InputStream in
-                = getContextClassLoader().getResourceAsStream(path);
-
+        final InputStream in = getContextClassLoader().getResourceAsStream(path);
         return in == null ? getClass().getResourceAsStream(path) : in;
+    }
+
+    public URL getResource(String path) {
+        path = formatPath(path);
+        URL url = getContextClassLoader().getResource(path);
+        return url == null ? getClass().getResource(path) : url;
     }
 
     private static ClassLoader getContextClassLoader() {
         return Thread.currentThread().getContextClassLoader();
     }
 
-    public boolean isDirectory(String resourcePath)  {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource(resourcePath);
-        if (resource.getProtocol().equals("file")) {
-            return new File(resource.getPath()).isDirectory();
-        }
-        return false;
+    /**
+     * https://stackoverflow.com/questions/20105554/is-there-a-way-to-tell-if-a-classpath-resource-is-a-file-or-a-directory
+     * Java does not really have a way to determine if a resource is a file or a directory, so we have to get a little creative
+     * 1. If there is a file extension, then it is a file, otherwise it is a directory
+     *
+     * @param path
+     * @return
+     */
+    public boolean isDirectory(String path) {
+        path = formatPath(path);
+
+        //If there is a file extension, then it is a file
+        if (FileUtils.hasFileExtension(path)) return false;
+        else return true;
+
+//        try (
+//                InputStream in = getResourceAsStream(path);
+//                BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+//            String resource;
+//
+//            while ((resource = br.readLine()) != null) {
+//                if (resource.startsWith(FILE_SEPARATOR) || path.endsWith(FILE_SEPARATOR)) resource = path + resource;
+//                else resource = path + FILE_SEPARATOR + resource;
+//                //If there is at least one valid resource, then it is a directory
+//                return getResource(resource) != null;
+//            }
+//        } catch (IOException e) {
+//        }
+//        return false;
     }
 
-    public List<String> getResourceFiles(String path) throws IOException {
+
+    public List<String> listResourceFiles(String path) {
         List<String> filenames = new ArrayList<>();
         path = formatPath(path);
-        System.out.println("Resource path: " + path);
+//        System.out.println("Resource path: " + path);
         try (
                 InputStream in = getResourceAsStream(path);
                 BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
@@ -56,10 +88,12 @@ public class ResourceLoader {
                 if (resource.startsWith(FILE_SEPARATOR) || path.endsWith(FILE_SEPARATOR)) resource = path + resource;
                 else resource = path + FILE_SEPARATOR + resource;
                 filenames.add(resource);
-                System.out.println("\tResource: " + resource);
+//                System.out.println("\tResource: " + resource);
             }
+        } catch (IOException e) {
+//            throw new RuntimeException(e);
         }
-        System.out.println("Found " + filenames.size() + " resources.");
+//        System.out.println("Found " + filenames.size() + " resources.");
 
         return filenames;
     }
@@ -98,6 +132,6 @@ public class ResourceLoader {
 
     public List<String> getResourceFiles(String path1, String path2) throws IOException {
         path1 = formatPath(path1 + FILE_SEPARATOR + path2);
-        return getResourceFiles(path1);
+        return listResourceFiles(path1);
     }
 }

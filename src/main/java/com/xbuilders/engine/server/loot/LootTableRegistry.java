@@ -1,11 +1,8 @@
 package com.xbuilders.engine.server.loot;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.xbuilders.engine.server.loot.output.LootList;
 import com.xbuilders.engine.utils.ResourceLoader;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public abstract class LootTableRegistry {
 
@@ -26,7 +23,7 @@ public abstract class LootTableRegistry {
     public abstract void registerFromResource(String path) throws IOException;
 
     public final void register(String path) throws IOException {
-        for (String file : resourceLoader.getResourceFiles(path)) {
+        for (String file : resourceLoader.listResourceFiles(path)) {
             registerFromResource(file);
         }
     }
