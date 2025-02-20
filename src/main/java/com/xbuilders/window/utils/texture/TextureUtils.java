@@ -4,6 +4,16 @@
  */
 package com.xbuilders.window.utils.texture;
 
+import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.window.utils.IOUtil;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,44 +22,12 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
 
-import com.xbuilders.engine.utils.ResourceLoader;
-import com.xbuilders.engine.utils.StreamUtils;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
-import static org.lwjgl.opengl.GL11.GL_RGB;
-import static org.lwjgl.opengl.GL11.GL_RGBA;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_HEIGHT;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_INTERNAL_FORMAT;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_WIDTH;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glDeleteTextures;
-import static org.lwjgl.opengl.GL11.glGenTextures;
-import static org.lwjgl.opengl.GL11.glGetTexImage;
-import static org.lwjgl.opengl.GL11.glGetTexLevelParameteri;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.glTexImage3D;
-
-import org.lwjgl.opengl.GL30;
-
 import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
-
-import org.lwjgl.system.MemoryStack;
-
-import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MemoryUtil;
-
-import static org.lwjgl.stb.STBImage.stbi_failure_reason;
-import static org.lwjgl.stb.STBImage.stbi_image_free;
-import static org.lwjgl.stb.STBImage.stbi_load;
+import static org.lwjgl.stb.STBImage.*;
 
 /**
  * @author zipCoder933
@@ -339,7 +317,7 @@ public class TextureUtils {
 
     public static Texture loadTextureFromResource(String path, boolean linearFiltering) throws IOException {
         InputStream is = resourceLoader.getResourceAsStream(path);
-        ByteBuffer buffer = StreamUtils.toByteBuffer(is);
+        ByteBuffer buffer = IOUtil.inputStreamToByteBuffer(is, 512);
         return loadTexture(buffer, linearFiltering);
     }
 
