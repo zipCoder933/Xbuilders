@@ -280,7 +280,7 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
 
     private void followAction() {
         if (distToPlayer < 15 && playerHasAnimalFeed()) {
-            if (getAction().getTimeSinceCreatedMS() > 500
+            if (getAction().getTimeSinceStartedMS() > 500
                     && distToPlayer > 4
                     && random.noise(4) > -0.5f) {
                 walkForward(getActionVelocity());

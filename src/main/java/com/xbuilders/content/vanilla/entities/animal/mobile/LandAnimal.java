@@ -143,8 +143,14 @@ public abstract class LandAnimal extends LivingEntity {
         }
     }
 
-    private void runAwayAndDie() {
+    public void runAwayAndDie() {
         currentAction = new AnimalAction(AnimalAction.ActionType.RUN_AWAY_DIE, 30000);
+        currentAction.velocity = maxSpeed;
+    }
+
+    public void walkAwayAndDie() {
+        currentAction = new AnimalAction(AnimalAction.ActionType.RUN_AWAY_DIE, 30000);
+        currentAction.velocity = maxSpeed / 2;
     }
 
     public void animal_move() {
@@ -175,7 +181,7 @@ public abstract class LandAnimal extends LivingEntity {
                     setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()) + random.noise(2f, -3, 3));
 
                     if (distToPlayer < 15 && playerHasAnimalFeed()) {
-                        if (currentAction.getTimeSinceCreatedMS() > 500
+                        if (currentAction.getTimeSinceStartedMS() > 500
                                 && distToPlayer > 3
                                 && random.noise(4) > -0.5f) {
 
@@ -190,21 +196,13 @@ public abstract class LandAnimal extends LivingEntity {
                         currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
                     }
                     break;
-                case RUN_AWAY:
-                    multiplayerProps.controlMode = false;
-                    setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()) + 180 + random.noise(2f, -3, 3));
-                    goForward(maxSpeed / 2, true);
-                    if (!inFrustum || distToPlayer > 40) {
-                        if (!isHostile()) destroy();
-                    }
-                    break;
                 case RUN_AWAY_DIE:
                     multiplayerProps.controlMode = false;
                     setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()) + 180 + random.noise(2f, -3, 3));
-                    goForward(maxSpeed, true);
-                    if (!inFrustum || distToPlayer > 20) {
+                    goForward(currentAction.velocity, true);
+
+                    if (distToPlayer > 20 || currentAction.getDurationLeftMS() < 5000) {
                         destroy();
-                        System.out.println("Animal destroyed!");
                     }
                     break;
                 default:

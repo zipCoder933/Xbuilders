@@ -31,10 +31,8 @@ public class AnimalAction {
         CLIMB,
         JUMP,
         FLY,
-        RUN_AWAY_DIE, RUN_AWAY, OTHER
+        RUN_AWAY_DIE, OTHER
     }
-
-    ;
 
     public static ActionType getRandomActionType(AnimalRandom random, ActionType... types) {
         int indx = random.nextInt(types.length);
@@ -80,12 +78,12 @@ public class AnimalAction {
         this.duration = (int) duration;
     }
 
-    public long getTimeSinceCreatedMS() {
+    public long getTimeSinceStartedMS() {
         return System.currentTimeMillis() - createdTimeMS;
     }
 
     public boolean pastDuration() {
-        return getTimeSinceCreatedMS() > duration;
+        return getTimeSinceStartedMS() > duration;
     }
 
     public int getDurationLeftMS() {
