@@ -18,7 +18,6 @@ public class CraftingUI_Base {
     public UI_ItemStackGrid inputGrid, outputGrid;
 
     public StorageSpace playerStorage;
-    private int output_quantity = 0;
     private CraftingRecipe recipe;
     UI_ItemWindow itemWindow;
     NkContext ctx;
@@ -42,49 +41,54 @@ public class CraftingUI_Base {
             System.out.println("dragToEvent stack: " + stack + " index: " + index + " rightClick: " + rightClick);
         };
 
+        /**
+         * When we change the input grid
+         * We set the output based on what is in the input
+         */
         inputGrid.storageSpace.changeEvent = () -> {
             inputGrid.storageSpace.getList();
-            String[] recipeMap = new String[9];
+            String[] recipeInput = new String[9];
             for (int i = 0; i < inputGrid.storageSpace.size(); i++) {
-                recipeMap[i] = inputGrid.storageSpace.get(i) == null ? null : inputGrid.storageSpace.get(i).item.id;
+                recipeInput[i] = inputGrid.storageSpace.get(i) == null ? null : inputGrid.storageSpace.get(i).item.id;
             }
-            //Print every entry in the recipeMap
-            recipe = AllRecipes.craftingRecipes.getFromInput(recipeMap);
+            //Get the recipe from the input
+            recipe = AllRecipes.craftingRecipes.getFromInput(recipeInput);
             if (recipe != null && recipe.output != null) {
-
                 //Calculate how many of the output we can craft
-                int multiplier = Integer.MAX_VALUE;
+                int output_quantity = Integer.MAX_VALUE;
                 for (int i = 0; i < inputGrid.storageSpace.size(); i++) {
                     if (inputGrid.storageSpace.get(i) != null) {
-                        multiplier = Math.min(multiplier, inputGrid.storageSpace.get(i).stackSize);
+                        output_quantity = Math.min(output_quantity, inputGrid.storageSpace.get(i).stackSize);
                     }
                 }
-                if (multiplier == Integer.MAX_VALUE || multiplier == 0) multiplier = 1;
-                output_quantity = multiplier;
+                if (output_quantity == Integer.MAX_VALUE || output_quantity == 0) output_quantity = 1;
+                System.out.println("output_quantity: " + output_quantity);
 
+                //Get the output item
                 Item item = Registrys.getItem(recipe.output);
                 if (item == null) {
                     System.err.println("Recipe output not found: " + recipe.output);
                     return;
                 }
-                outputGrid.storageSpace.set(0, new ItemStack(item, recipe.amount * multiplier));
+                outputGrid.storageSpace.set(0, new ItemStack(item, recipe.amount * output_quantity));
             } else outputGrid.storageSpace.set(0, null);
         };
 
-        outputGrid.dragFromEvent = (stack, index, rightClick) -> {
-            int take;
-            
-            if (!rightClick && outputGrid.storageSpace.get(0) == null) {
-                outputGrid.storageSpace.set(index, new ItemStack(stack.item, stack.stackSize - recipe.amount));
-                stack.stackSize = recipe.amount;
-                take = 1;
-            } else take = output_quantity;
-
+        /**
+         * When we take something from the output grid
+         */
+        outputGrid.dragFromEvent = (takingStack, index, rightClick) -> {
+            //We always take the entire stack
+            int takeAmt = takingStack.stackSize / recipe.amount;
+            //Remove the items from the crafting grid
             for (int i = 0; i < inputGrid.storageSpace.size(); i++) {
                 if (inputGrid.storageSpace.get(i) != null) {
-                    inputGrid.storageSpace.get(i).stackSize -= take;
+                    inputGrid.storageSpace.get(i).stackSize -= takeAmt;
+                    if(inputGrid.storageSpace.get(i).stackSize == 0) inputGrid.storageSpace.set(i, null);
                 }
             }
+            //Run the change event
+            inputGrid.storageSpace.changeEvent.run();
         };
         inputGrid.showButtons = false;
     }
