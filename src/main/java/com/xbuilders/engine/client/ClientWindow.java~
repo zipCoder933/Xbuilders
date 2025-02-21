@@ -13,7 +13,6 @@ import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceLoader;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.XbuildersGame;
 import com.xbuilders.window.GLFWWindow;
@@ -118,7 +117,7 @@ public class ClientWindow extends NKWindow {
 
     public static Server server;
     public static PopupMessage popupMessage;
-    public static final ResourceLoader resourceLoader = new ResourceLoader();
+
     File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
     static boolean generateIcons = false;
 
@@ -232,9 +231,9 @@ public class ClientWindow extends NKWindow {
         GLFW.glfwSetWindowFocusCallback(windowHandle, focusCallback);
 
 
-        setIcon(resourceLoader.getResourceAsStream("icon16.png"),
-                resourceLoader.getResourceAsStream("icon32.png"),
-                resourceLoader.getResourceAsStream("icon256.png"));
+        setIcon(ResourceUtils.file("icon16.png").getAbsolutePath(),
+                ResourceUtils.file("icon32.png").getAbsolutePath(),
+                ResourceUtils.file("icon256.png").getAbsolutePath());
 
         Theme.initialize(ctx);
         server.initialize(this);

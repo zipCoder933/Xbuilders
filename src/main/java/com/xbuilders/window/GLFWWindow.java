@@ -9,6 +9,7 @@ import com.xbuilders.window.utils.IOUtil;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
@@ -56,8 +57,6 @@ public abstract class GLFWWindow {
     protected GLCapabilities capabilities;
     private static Callback debugProc;
 
-    // From
-    // https://gamedev.stackexchange.com/questions/105555/setting-window-icon-using-glfw-lwjgl-3
     public void setIcon(String icon16Path, String icon32Path, String icon256Path) throws Exception {
         ByteBuffer icon16, icon32, icon256;
         try {
@@ -67,7 +66,25 @@ public abstract class GLFWWindow {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        setIcon(icon16, icon32, icon256);
+    }
 
+    public void setIcon(InputStream icon16Path, InputStream icon32Path, InputStream icon256Path) throws Exception {
+        ByteBuffer icon16, icon32, icon256;
+        try {
+            icon16 = IOUtil.inputStreamToByteBuffer(icon16Path, 2048);
+            icon32 = IOUtil.inputStreamToByteBuffer(icon32Path, 4096);
+            icon256 = IOUtil.inputStreamToByteBuffer(icon256Path, 1262144);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        setIcon(icon16, icon32, icon256);
+    }
+
+    /**
+     * from https://gamedev.stackexchange.com/questions/105555/setting-window-icon-using-glfw-lwjgl-3
+     */
+    public void setIcon(ByteBuffer icon16, ByteBuffer icon32, ByteBuffer icon256) throws Exception {
         IntBuffer w = memAllocInt(1);
         IntBuffer h = memAllocInt(1);
         IntBuffer comp = memAllocInt(1);

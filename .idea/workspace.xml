@@ -9,7 +9,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes" />
+    <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/icon128.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/icon16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/icon256.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon256.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/icon32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon32.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/wallpaper/_68c7e1e1-d25a-47c4-8064-6ddb617ec39f.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/wallpaper/_6acda606-8be5-4979-8e28-4b07f387e7a3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/wallpaper/_6af8aecc-1d0e-4e97-b231-a63f655481b5.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/wallpaper/_9014d0b6-03f0-4631-bfe9-30ee3916715a.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/wallpaper/_a57af742-bda8-4924-9c55-f79287539689.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/wallpaper/_bfd61080-1299-44c7-ace1-db72e3b49d20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/wallpaper/_e0680bbb-1d17-4238-bb37-b77892ef16c4.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,7 +98,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.codeium.enabled&quot;: &quot;true&quot;,
     &quot;com.intellij.ide.FileNotInSourceRootChecker.no.check&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;block-texture-jar-Resources&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders/src/main/resources/assets/xbuilders/recipes/crafting&quot;,
@@ -109,11 +124,11 @@
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\game\vanilla" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Local Files\github\Xbuilders\src\main\resources" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\textures\block" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\textures\block\builtin" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\models\block" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders" />
-      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\recipes" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="com.xbuilders.engine.client.visuals.gameScene.GameScene" />
