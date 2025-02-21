@@ -16,15 +16,15 @@
   },
   {
     "input": [
-      "xbuilders:wool",
-      "xbuilders:wool",
-      "xbuilders:wool",
+      "xbuilders:brown_wool",
+      "xbuilders:brown_wool",
+      "xbuilders:brown_wool",
       "xbuilders:string",
       "xbuilders:gold_ingot",
       "xbuilders:string",
-      "xbuilders:wool",
-      "xbuilders:wool",
-      "xbuilders:wool"
+      "xbuilders:brown_wool",
+      "xbuilders:brown_wool",
+      "xbuilders:brown_wool"
     ],
     "output": "xbuilders:saddle",
     "amount": 1
