@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.propagation;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask;
-import com.xbuilders.content.vanilla.items.Blocks;
+import com.xbuilders.content.vanilla.Blocks;
 
 public class LavaPropagation extends LiquidPropagationTask {
 

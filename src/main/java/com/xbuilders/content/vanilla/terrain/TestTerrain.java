@@ -10,7 +10,7 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 
 import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.content.vanilla.items.Blocks;
+import com.xbuilders.content.vanilla.Blocks;
 
 import java.util.HashMap;
 

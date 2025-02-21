@@ -10,9 +10,8 @@ import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xbuilders.content.vanilla.items.Blocks;
-import com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalAction;
-import com.xbuilders.content.vanilla.items.entities.animal.mobile.AnimalRandom;
+import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalRandom;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
@@ -21,7 +20,7 @@ import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 
-import com.xbuilders.content.vanilla.items.Items;
+import com.xbuilders.content.vanilla.Items;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 

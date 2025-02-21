@@ -4571,9 +4571,9 @@ Event: 41.029 Thread 0x0000027280256b90 nmethod 5936 0x00000272ec396b90 code [0x
 Event: 41.080 Thread 0x0000027280256b90 5937   !   4       com.xbuilders.engine.client.player.raycasting.RayCasting::traceComplexRay (1305 bytes)
 Event: 41.133 Thread 0x000002728026aac0 5938       3       com.xbuilders.engine.utils.math.MathUtils::getCircumferencePoint (49 bytes)
 Event: 41.134 Thread 0x000002728026aac0 nmethod 5938 0x00000272e501ed10 code [0x00000272e501eee0, 0x00000272e501f178]
-Event: 41.134 Thread 0x000002728026aac0 5939       3       com.xbuilders.content.vanilla.items.entities.animal.quadPedal.QuadPedalLandAnimal$$Lambda$440/0x0000027282319620::accept (12 bytes)
+Event: 41.134 Thread 0x000002728026aac0 5939       3       com.xbuilders.content.vanilla.entities.animal.quadPedal.QuadPedalLandAnimal$$Lambda$440/0x0000027282319620::accept (12 bytes)
 Event: 41.134 Thread 0x000002728026aac0 nmethod 5939 0x00000272e501e790 code [0x00000272e501e940, 0x00000272e501ebf8]
-Event: 41.134 Thread 0x000002728026aac0 5940       3       com.xbuilders.content.vanilla.items.entities.animal.quadPedal.QuadPedalLandAnimal::lambda$loadDefinitionData$0 (14 bytes)
+Event: 41.134 Thread 0x000002728026aac0 5940       3       com.xbuilders.content.vanilla.entities.animal.quadPedal.QuadPedalLandAnimal::lambda$loadDefinitionData$0 (14 bytes)
 Event: 41.134 Thread 0x000002728026aac0 nmethod 5940 0x00000272e501e410 code [0x00000272e501e5a0, 0x00000272e501e6d8]
 Event: 41.134 Thread 0x000002728026aac0 5941       3       com.xbuilders.engine.server.entity.LivingEntity::jumpIfColliding (91 bytes)
 Event: 41.135 Thread 0x000002728026aac0 nmethod 5941 0x00000272e501db90 code [0x00000272e501dd80, 0x00000272e501e268]

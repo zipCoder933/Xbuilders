@@ -4785,7 +4785,7 @@ Deoptimization events (20 events):
 Event: 24.553 Thread 0x00000240fbe98660 DEOPT PACKING pc=0x0000024087ebba2d sp=0x000000e057ffec70
 Event: 24.553 Thread 0x00000240fbe98660 DEOPT UNPACKING pc=0x000002408ef17143 sp=0x000000e057ffe240 mode 0
 Event: 34.993 Thread 0x00000240fbe98660 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000002408f92f060 relative=0x0000000000000600
-Event: 34.993 Thread 0x00000240fbe98660 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000002408f92f060 method=com.xbuilders.content.vanilla.items.entities.animal.mobile.LandAnimal.animal_move()V @ 30 c2
+Event: 34.993 Thread 0x00000240fbe98660 Uncommon trap: reason=unstable_if action=reinterpret pc=0x000002408f92f060 method=com.xbuilders.content.vanilla.entities.animal.mobile.LandAnimal.animal_move()V @ 30 c2
 Event: 34.993 Thread 0x00000240fbe98660 DEOPT PACKING pc=0x000002408f92f060 sp=0x000000e057ffef80
 Event: 34.993 Thread 0x00000240fbe98660 DEOPT UNPACKING pc=0x000002408ef169a3 sp=0x000000e057ffef48 mode 2
 Event: 40.282 Thread 0x00000240f8e766d0 Uncommon trap: trap_request=0xffffff45 fr.pc=0x000002408f9b0888 relative=0x00000000000010c8

@@ -7,7 +7,7 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.content.vanilla.items.Blocks;
+import com.xbuilders.content.vanilla.Blocks;
 import org.joml.Vector3i;
 
 import java.util.HashSet;

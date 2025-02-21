@@ -7,8 +7,8 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.content.vanilla.items.Blocks;
-import com.xbuilders.content.vanilla.items.blocks.RenderType;
+import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.content.vanilla.blocks.RenderType;
 import org.joml.Vector3i;
 
 import java.util.HashSet;

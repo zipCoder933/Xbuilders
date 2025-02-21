@@ -17,16 +17,11 @@ import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.recipes.AllRecipes;
-import com.xbuilders.engine.utils.ResourceLoader;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.content.vanilla.ui.*;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
-import com.xbuilders.content.vanilla.items.Blocks;
-import com.xbuilders.content.vanilla.items.Entities;
-import com.xbuilders.content.vanilla.items.Items;
-import com.xbuilders.content.vanilla.items.blocks.RenderType;
-import com.xbuilders.content.vanilla.items.blocks.type.*;
+import com.xbuilders.content.vanilla.blocks.RenderType;
+import com.xbuilders.content.vanilla.blocks.type.*;
 import com.xbuilders.content.vanilla.propagation.*;
 import com.xbuilders.content.vanilla.skins.FoxSkin;
 import com.xbuilders.content.vanilla.terrain.DevTerrain;
@@ -37,10 +32,8 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 

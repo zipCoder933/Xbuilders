@@ -24,7 +24,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.content.vanilla.items.Blocks;
+import com.xbuilders.content.vanilla.Blocks;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;

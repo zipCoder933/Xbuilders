@@ -1,19 +1,16 @@
 package com.xbuilders.content.vanilla.items;
 
+import com.xbuilders.content.vanilla.Items;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.crafting.CraftingRecipe;
 import com.xbuilders.engine.server.recipes.crafting.CraftingRecipeRegistry;
-import com.xbuilders.engine.utils.ResourceLoader;
 import com.xbuilders.engine.utils.ResourceUtils;
-import com.xbuilders.content.vanilla.items.blocks.RenderType;
+import com.xbuilders.content.vanilla.blocks.RenderType;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public class Recipes {

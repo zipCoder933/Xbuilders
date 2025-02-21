@@ -2,10 +2,10 @@ package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
 import com.xbuilders.engine.server.world.Terrain.GenSession;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.content.vanilla.items.Blocks;
-import com.xbuilders.content.vanilla.items.blocks.trees.BirchTreeUtils;
-import com.xbuilders.content.vanilla.items.blocks.trees.OakTreeUtils;
-import com.xbuilders.content.vanilla.items.blocks.trees.SpruceTreeUtils;
+import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.content.vanilla.blocks.trees.BirchTreeUtils;
+import com.xbuilders.content.vanilla.blocks.trees.OakTreeUtils;
+import com.xbuilders.content.vanilla.blocks.trees.SpruceTreeUtils;
 
 public class DefaultTerrainUtils {
 
