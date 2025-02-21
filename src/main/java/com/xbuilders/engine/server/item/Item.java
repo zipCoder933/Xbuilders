@@ -10,6 +10,7 @@ import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.IntMap;
 import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.utils.ResourceLoader;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.nuklear.NkImage;
@@ -94,6 +95,7 @@ public class Item implements Comparable<Item> {
     public interface OnClickEvent {
         public boolean run(CursorRay ray, ItemStack stack);
     }
+
     public OnClickEvent createClickEvent, destroyClickEvent;
 
     public Item(String id, String name) {
@@ -149,13 +151,14 @@ public class Item implements Comparable<Item> {
         return Objects.hashCode(id);
     }
 
+    public static ResourceLoader resourceLoader = new ResourceLoader();
+
     public final void init(IntMap<Block> blockMap,
                            HashMap<String, EntitySupplier> entityMap,
                            HashMap<String, Short> blockAliasToIDMap,
                            HashMap<String, Short> entityAliasToIDMap,
                            BlockArrayTexture textures,
                            File blockIconDirectory,
-                           File iconDirectory,
                            int defaultIcon) throws IOException {
 
         //If we have the aliases, get the IDs
@@ -165,15 +168,10 @@ public class Item implements Comparable<Item> {
         if (entityID != null) entity = entityMap.get(entityID);
 
         if (iconFilename != null) { //If we have a custom icon
-            File iconFile = new File(iconDirectory, iconFilename);
-            if (!iconFile.getAbsolutePath().endsWith(".png") && !iconFile.exists()) {
-                iconFile = new File(iconDirectory, iconFilename + ".png"); //Add .png if it doesn't exist
-            }
-            if (iconFile.exists()) {
-                Texture icon = TextureUtils.loadTextureFromFile(iconFile, false);
+            try {
+                Texture icon = TextureUtils.loadTextureFromResource("/assets/xbuilders/textures/item/" + iconFilename, false);
                 setIcon(icon.id);
-            } else {
-                System.err.println("Icon file not found: " + iconFile.getAbsolutePath());
+            } catch (Exception e) {
                 setIcon(defaultIcon);
             }
         } else if (getBlock() != null && getBlock().texture != null) { //If we have a block, use its texture as the icon

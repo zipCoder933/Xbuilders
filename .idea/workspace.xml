@@ -11,19 +11,547 @@
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/icon128.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon128.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/icon16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/icon256.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon256.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/icon32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/icon32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wallpaper/_68c7e1e1-d25a-47c4-8064-6ddb617ec39f.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wallpaper/_6acda606-8be5-4979-8e28-4b07f387e7a3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wallpaper/_6af8aecc-1d0e-4e97-b231-a63f655481b5.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wallpaper/_9014d0b6-03f0-4631-bfe9-30ee3916715a.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wallpaper/_a57af742-bda8-4924-9c55-f79287539689.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wallpaper/_bfd61080-1299-44c7-ace1-db72e3b49d20.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wallpaper/_e0680bbb-1d17-4238-bb37-b77892ef16c4.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/window/GLFWWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/defaultIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/animal_feed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bamboo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/banner.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/beaver egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bed/icon_1_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bed/icon_2_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bed/icon_3_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bed/icon_4_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bed/icon_5_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bed/icon_6_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bed/icon_7_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/blue_torch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/boat/acacia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/boat/birch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/boat/dark_oak.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/boat/jungle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/boat/oak.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/boat/spruce.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/camera.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/carrot_on_a_stick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/cat egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/charcoal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/cod_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/dog egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/acacia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/acaica2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/bamboo 2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/bamboo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/birch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/cladded.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/generic.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/glass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/icon_0_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/icon_13_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/icon_14_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/icon_17_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/icon_6_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/icon_7_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/icon_9_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/italian.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/jungle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/jungle2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/oval.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/party blue.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/party green.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/party magenta.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/party purple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/party red.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/party yellow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/red.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/space (1).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/space (2).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/space (3).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/space (4).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/spruce.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/warped.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/door/web.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/fire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/fish egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/flashlight.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/flint.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/flint_and_steel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/animal/apple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/animal/bread.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/animal/cake.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/animal/carrot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/animal/potato.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/apple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/baked_potato.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/beetroot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/beetroot_seeds.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/beetroot_soup.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/bread.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/cake.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/carrot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/golden_apple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/golden_carrot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/potato.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/food/wheat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/fox egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/gunpowder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/hoe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/horse egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_2_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_2_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_3_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_4_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_4_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_4_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_5_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_6_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_6_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_7_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_7_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_8_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_8_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/icon_9_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/lava_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/lava_bucket_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/milk_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/minecart/black.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/minecart/blue.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/minecart/cyan.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/minecart/green.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/minecart/red.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/minecart/white.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/minecart/yellow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/mule egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/coal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/diamond.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/emerald.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/gold_ingot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/gold_nugget.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/iron_ingot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/iron_nugget.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/lapis_lazuli.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/ores/redstone.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/parrot egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/acacia_boat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/acacia_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/acacia_sign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/armor_stand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/arrow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/barrier.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/beef.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/birch_boat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/birch_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/birch_sign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/black_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/blaze_powder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/blaze_powder_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/blaze_rod.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/blaze_rod_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/blue_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bone.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bone_meal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/book.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bow_pulling_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bow_pulling_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bow_pulling_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/bowl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/brewing_stand.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/brewing_stand_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/brick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/broken_elytra.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/brown_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/campfire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cauldron.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chainmail_boots.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chainmail_chestplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chainmail_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chainmail_leggings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/charcoal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chest_minecart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chicken.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chorus_fruit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chorus_fruit_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/chorus_fruit_popped.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clay_ball.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock.png.mcmeta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_00.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_06.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_07.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_08.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_09.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_21.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_22.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_23.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_25.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_27.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_28.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_29.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_30.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_31.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_33.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_34.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_35.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_36.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_37.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_38.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_39.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_40.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_41.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_42.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_43.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_44.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_45.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_46.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_47.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_48.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_49.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_50.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_51.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_52.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_53.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_54.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_55.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_56.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_57.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_58.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_59.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_60.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_61.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_62.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/clock_63.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cocoa_beans.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cod.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/command_block_minecart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/comparator.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_00.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_06.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_07.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_08.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_09.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_21.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_22.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_23.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_25.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_27.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_28.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_29.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_30.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/compass_31.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cooked_beef.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cooked_chicken.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cooked_cod.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cooked_mutton.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cooked_porkchop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cooked_rabbit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cooked_salmon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cookie.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/creeper_banner_pattern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crimson_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crossbow_arrow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crossbow_firework.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crossbow_nostring.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crossbow_pulling_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crossbow_pulling_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crossbow_pulling_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/crossbow_standby.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/cyan_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/dark_oak_boat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/dark_oak_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/dark_oak_sign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_axe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_axe_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_boots.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_chestplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_hoe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_hoe_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_horse_armor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_leggings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_pickaxe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_pickaxe_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_shovel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_shovel_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/diamond_sword_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/dragon_breath.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/dried_kelp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/elytra.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/elytra_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/empty_armor_slot_boots.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/empty_armor_slot_chestplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/empty_armor_slot_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/empty_armor_slot_leggings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/empty_armor_slot_shield.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/enchanted_book.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/end_crystal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/ender_eye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/ender_pearl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/experience_bottle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/experience_bottle_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/feather.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/fermented_spider_eye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/filled_map.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/filled_map_markings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/fire_charge.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/fire_charge_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/firework_rocket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/firework_star.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/firework_star_overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/fish_pufferfish_raw.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/fishing_rod.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/fishing_rod_cast.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/flower_banner_pattern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/flower_pot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/furnace_minecart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/ghast_tear.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/glass_bottle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/glistering_melon_slice.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/globe_banner_pattern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/glowstone_dust.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/glowstone_dust_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_axe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_boots.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_chestplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_hoe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_horse_armor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_leggings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_pickaxe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_shovel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/golden_sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/gray_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/green_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/gunpowder.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/heart_of_the_sea.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/honey_bottle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/honeycomb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/hopper.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/hopper_minecart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/ink_sac.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_axe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_boots.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_chestplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_hoe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_horse_armor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_leggings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_pickaxe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_shovel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/iron_sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/item_frame.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/jungle_boat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/jungle_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/jungle_sign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/kelp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/knowledge_book.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/lantern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/lantern_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/lead.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_boots.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_boots_overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_chestplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_chestplate_overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_helmet_overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_horse_armor.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_leggings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/leather_leggings_overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/light_blue_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/light_gray_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/lime_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/lingering_potion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/magenta_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/magma_cream.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/magma_cream_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/map.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/map_filled.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/map_filled_markings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/melon_seeds.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/melon_slice.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/minecart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/mojang_banner_pattern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/mushroom_stew.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_blocks.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_cat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_chirp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_far.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_mall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_mellohi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_pigstep.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_stal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_strad.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_wait.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/music_disc_ward.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/mutton.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/name_tag.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/nautilus_shell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/nether_brick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/nether_sprouts.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/nether_star.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/nether_star_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/nether_wart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_axe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_boots.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_chestplate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_hoe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_ingot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_leggings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_pickaxe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_scrap.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_shovel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/netherite_sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/oak_boat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/oak_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/oak_sign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/orange_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/painting.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/paper.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/phantom_membrane.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/piglin_banner_pattern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/pink_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/poisonous_potato.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/popped_chorus_fruit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/porkchop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/potato.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/potion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/potion_overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/prismarine_crystals.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/prismarine_crystals_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/prismarine_shard.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/pufferfish.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/pumpkin_pie.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/pumpkin_seeds.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/purple_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/quartz.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/quiver.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/rabbit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/rabbit_foot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/rabbit_hide.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/rabbit_stew.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/red_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/repeater.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/rotten_flesh.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/ruby.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/saddle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/salmon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/scute.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/sea_pickle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/seagrass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/shears.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/shulker_shell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/sign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/skull_banner_pattern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/slime_ball.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/snowball.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/soul_campfire.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/soul_lantern.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/soul_lantern_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spawn_egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spawn_egg_overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/speckled_melon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spectral_arrow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spectral_arrow_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spider_eye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/splash_potion.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spruce_boat.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spruce_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/spruce_sign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/stick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/stone_axe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/stone_hoe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/stone_pickaxe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/stone_shovel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/stone_sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/string.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/structure_void.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/sugar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/sugar_cane.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/suspicious_stew.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/sweet_berries.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/tipped_arrow_base.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/tipped_arrow_head.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/tnt_minecart.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/totem2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/totem_of_undying.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/trident.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/tropical_fish.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/turtle_egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/turtle_helmet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/warped_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/warped_fungus_on_a_stick.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/warped_fungus_on_a_stick_e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/wheat_seeds.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/white_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/wooden_axe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/wooden_hoe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/wooden_pickaxe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/wooden_shovel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/wooden_sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/writable_book.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/written_book.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pp/yellow_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/pufferfish_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/rabbit egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/saddle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/salmon_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/torch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/tropical_fish_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/turtle egg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/water removal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/items/icons/water_bucket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/animal/quadPedal/Dog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/entities/animal/quadPedal/Dog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/Registrys.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/Registrys.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/item/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/item/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/item/ItemRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/item/ItemRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,39 +603,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.Dev (Load World).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev 2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev 3.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev 4.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main Dev 2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MiscTester.executor&quot;: &quot;Run&quot;,
-    &quot;Application.NettyClient.executor&quot;: &quot;Run&quot;,
-    &quot;Application.NettyServer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.NetworkTester.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SmileTest2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.com.xbuilders.tests.fasterXML.smile.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.com.xbuilders.tests.netty.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
-    &quot;com.intellij.ide.FileNotInSourceRootChecker.no.check&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Local Files/github/Xbuilders/src/main/resources/assets/xbuilders/recipes/crafting&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.5126437&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.Dev (Load World).executor": "Run",
+    "Application.Dev 2.executor": "Run",
+    "Application.Dev 3.executor": "Run",
+    "Application.Dev 4.executor": "Run",
+    "Application.Dev.executor": "Run",
+    "Application.Main Dev 2.executor": "Run",
+    "Application.Main Dev.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.MiscTester.executor": "Run",
+    "Application.NettyClient.executor": "Run",
+    "Application.NettyServer.executor": "Run",
+    "Application.NetworkTester.executor": "Run",
+    "Application.SmileTest2.executor": "Run",
+    "Application.com.xbuilders.tests.fasterXML.smile.Main.executor": "Run",
+    "Application.com.xbuilders.tests.netty.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.codeium.enabled": "true",
+    "com.intellij.ide.FileNotInSourceRootChecker.no.check": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Local Files/github/Xbuilders/src/main/resources/assets/xbuilders/textures",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.5126437",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.xbuilders.engine.server.items.loot" />
@@ -124,11 +652,11 @@
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\game\vanilla" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\builtin" />
+      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\textures" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\textures\block" />
       <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\textures\block\builtin" />
-      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders\models\block" />
-      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\assets\xbuilders" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="com.xbuilders.engine.client.visuals.gameScene.GameScene" />

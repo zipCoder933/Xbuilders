@@ -25,7 +25,7 @@ public class ResourceUtils {
     public static File LOCAL_DIR;
 
     //Individual paths
-    public static File BLOCK_ICON_DIR, DEFAULT_ICON, ICONS_DIR, PLAYER_GLOBAL_INFO;
+    public static File BLOCK_ICON_DIR,PLAYER_GLOBAL_INFO;
 
 
     static {
@@ -38,8 +38,6 @@ public class ResourceUtils {
         System.out.println("\tResource path: " + RESOURCE_DIR);
 
         BLOCK_ICON_DIR = file("items\\blocks\\icons");
-        DEFAULT_ICON = file("items\\items\\defaultIcon.png");
-        ICONS_DIR = new File(ResourceUtils.RESOURCE_DIR + "\\items\\items\\icons");
     }
 
     public static void initialize(boolean gameDevResources, String appDataDir) {

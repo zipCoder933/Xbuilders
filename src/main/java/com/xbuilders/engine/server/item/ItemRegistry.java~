@@ -77,7 +77,9 @@ public class ItemRegistry {
                     item.initializationCallback.accept(item);
                 }
                 item.init(blockMap, entityMap, blockAliasToIDMap, entityAliasToIDMap,
-                        textures, ResourceUtils.BLOCK_ICON_DIR, defaultIcon);
+                        textures,
+                        ResourceUtils.BLOCK_ICON_DIR,
+                        ResourceUtils.ICONS_DIR, defaultIcon);
             }
         } catch (IOException ex) {
             ErrorHandler.report(ex);

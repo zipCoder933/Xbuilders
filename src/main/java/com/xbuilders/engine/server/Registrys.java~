@@ -48,7 +48,7 @@ import java.util.Objects;
  * @author zipCoder933
  */
 public class Registrys {
-    private static int DEFAULT_TEXTURE;
+    private static int DEFAULT_ICON, DEFAULT_TEXTURE;
     public static final BlockRegistry blocks = new BlockRegistry();
     public static final EntityRegistry entities = new EntityRegistry();
     public static final ItemRegistry items = new ItemRegistry();
@@ -56,13 +56,15 @@ public class Registrys {
     public static void initialize(
             List<Block> blockList, List<EntitySupplier> entityList, List<Item> toolList) throws IOException {
 
+        DEFAULT_ICON = TextureUtils.loadTextureFromResource("/builtin/defaultIcon.png", false).id;
         DEFAULT_TEXTURE = TextureUtils.loadTextureFromResource("/builtin/default.png", false).id;
 
         blocks.setup(blockList);
         entities.setup(entityList);
         items.setup(
-                DEFAULT_TEXTURE,
+                Registrys.DEFAULT_ICON,
                 blocks.textures,
+
                 blocks.getIdToBlockMap(),
                 entities.getIdMap(),
                 blocks.aliasToIDMap,
