@@ -55,25 +55,19 @@ public class GravityBlockEntity extends Entity {
         startTime = System.currentTimeMillis();
     }
 
-    public static final int WAIT_TIME = 200;
+    public static final int WAIT_TIME = 300;
 
-    private void instaPlant() {
-        //Set the block at the bottom
-        for (int y = (int) (worldPosition.y + 1); y < World.WORLD_BOTTOM_Y; y++) {
-            Block blockBelow = Server.world.getBlock((int) worldPosition.x, y, (int) worldPosition.z);
-            if (blockBelow.solid) {
-                Server.setBlock(block.id, (int) worldPosition.x, y - 1, (int) worldPosition.z);
-                destroy();
-            }
-        }
-    }
 
     public void server_update() {
     }
 
     @Override
     public void client_draw() {
-        if (inFrustum) {
+        if (positionHandler.isFrozen() || positionHandler.onGround ||
+                positionHandler.collisionHandler.collisionData.block_penPerAxes.y < 0) {
+            Server.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+            destroy();
+        } else {
             //There is actually something in the buffer
             arrayTextureShader.bind();//TODO: Allow better integration with an arrayTextureShader in Entity class
             arrayTextureShader.setSunAndTorch(sunValue, torchValue);
@@ -82,20 +76,10 @@ public class GravityBlockEntity extends Entity {
             modelMatrix.sendToShader(arrayTextureShader.getID(), arrayTextureShader.uniform_modelMatrix);
             mesh.draw(false, Registrys.blocks.textures.getTexture().id);
 
-//            box.set(aabb.box);
-//            box.draw(GameScene.projection, GameScene.view);
+            //            box.set(aabb.box);
+            //            box.draw(GameScene.projection, GameScene.view);
             if (System.currentTimeMillis() - startTime > WAIT_TIME) positionHandler.update(1);
-        } else {
-            instaPlant();
         }
-
-
-        if (positionHandler.isFrozen() ||
-                positionHandler.collisionHandler.collisionData.block_penPerAxes.y < 0) {
-            Server.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
-            destroy();
-        }
-
-
     }
 }
+

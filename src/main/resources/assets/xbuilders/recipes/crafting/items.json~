@@ -30,17 +30,6 @@
     "amount": 1
   },
   {
-    "input": [
-      "xbuilders:tnt",
-      "xbuilders:tnt",
-      "xbuilders:tnt",
-      "xbuilders:tnt"
-    ],
-    "shapeless": true,
-    "output": "xbuilders:mega_tnt",
-    "amount": 1
-  },
-  {
     "shapeless": false,
     "input": [
       "xbuilders:carrot",
