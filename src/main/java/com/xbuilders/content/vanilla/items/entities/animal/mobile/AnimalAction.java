@@ -31,7 +31,7 @@ public class AnimalAction {
         CLIMB,
         JUMP,
         FLY,
-        OTHER
+        RUN_AWAY_DIE, OTHER
     }
 
     ;

@@ -83,7 +83,7 @@ public class Item implements Comparable<Item> {
     //If this is a tool
     public float miningSpeedMultiplier = 1.0f;
     public int maxStackSize = ItemStack.MAX_STACK_SIZE;
-
+    public float attackDamage = 0f;
 
     @Override
     public int compareTo(Item o) {

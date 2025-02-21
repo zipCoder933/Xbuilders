@@ -45,6 +45,7 @@ public class GameUI {
     public static InfoText infoBox;
     public static UI_Hotbar hotbar;
     public static GameMenu baseMenu;
+    public static HUDText hudText;
     boolean drawUI = true;
 
     public GameUI(Game game, NkContext ctx, ClientWindow window) throws IOException {
@@ -53,6 +54,7 @@ public class GameUI {
         this.game = game;
         crosshair = new Crosshair(window.getWidth(), window.getHeight());
         infoBox = new InfoText(ctx, window);
+        hudText = new HUDText(ctx, window);
         hotbar = new UI_Hotbar(ctx, window);
     }
 
@@ -95,6 +97,7 @@ public class GameUI {
             initGLForUI();
             overlay.draw();
             crosshair.draw();
+            hudText.draw();
 
             try (MemoryStack stack = stackPush()) {
                 if (baseMenu.isOpen()) {
@@ -112,6 +115,7 @@ public class GameUI {
             GL30.glDepthMask(true);
         }
     }
+
 
     private void initGLForUI() {
         //Some of these parameters allow the overlay to be seen

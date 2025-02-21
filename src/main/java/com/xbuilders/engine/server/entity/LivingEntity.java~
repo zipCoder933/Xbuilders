@@ -43,7 +43,7 @@ public abstract class LivingEntity extends Entity {
     public boolean isHostile = false;
 
     //Health
-    public int maxHealth = 100;
+    public int maxHealth = 20;
     public float health = maxHealth;
     public float healthRegeneration = 0.1f;
 

@@ -131,7 +131,21 @@ public abstract class LandAnimal extends LivingEntity {
         return action;
     }
 
+    @Override
+    public void server_update() {
+        super.server_update();
+        if (health <= 0) {
+            runAwayAndDie();
+        }
+    }
+
+    private void runAwayAndDie() {
+        currentAction = new AnimalAction(AnimalAction.ActionType.RUN_AWAY_DIE, 30000);
+    }
+
     public void animal_move() {
+
+
         multiplayerProps.controlMode = false;
         if (freezeMode || multiplayerProps.controlledByAnotherPlayer) {
             return;
@@ -170,6 +184,15 @@ public abstract class LandAnimal extends LivingEntity {
                         }
                     } else {
                         currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
+                    }
+                    break;
+                case RUN_AWAY_DIE:
+                    multiplayerProps.controlMode = false;
+                    setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()) + 180 + random.noise(2f, -3, 3));
+                    goForward(maxSpeed, true);
+                    if (!inFrustum || distToPlayer > 20) {
+                        destroy();
+                        System.out.println("Animal destroyed!");
                     }
                     break;
                 default:

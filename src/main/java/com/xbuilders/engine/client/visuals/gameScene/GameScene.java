@@ -43,7 +43,10 @@ public class GameScene implements WindowEvents {
 
     public GameScene(ClientWindow window) throws Exception {
         this.window = window;
-        specialMode = true;
+    }
+
+    public static void client_hudText(String s) {
+        ui.hudText.setText(s);
     }
 
 

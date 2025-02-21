@@ -53,10 +53,11 @@ public class Dog extends QuadPedalLandAnimal {
     }
 
     Player playerWithLowestDist;
-    long lastPlayerCheckTime;
 
 
     public void animal_move() {
+
+
         if (tamed || Server.getGameMode() != GameMode.ADVENTURE) super.animal_move();
         else {
 //            if (GameScene.server.isPlayingMultiplayer()) {

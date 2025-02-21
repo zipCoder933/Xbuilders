@@ -4703,6 +4703,11 @@
     "icon": "stick.png"
   },
   {
+    "id": "xbuilders:club",
+    "name": "Club",
+    "icon": "club.png"
+  },
+  {
     "id": "xbuilders:string",
     "name": "String",
     "icon": "string.png"

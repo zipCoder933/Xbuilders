@@ -88,22 +88,27 @@ public class Items {
         itemList.add(new Shovel("wooden", 25));
         itemList.add(new Pickaxe("wooden", 25, 1.5f));
         itemList.add(new Axe("wooden", 25));
+        itemList.add(new Sword("wooden",25,1));
 
         itemList.add(new Shovel("stone", 100));
         itemList.add(new Pickaxe("stone", 100, 2));
         itemList.add(new Axe("stone", 100));
+        itemList.add(new Sword("stone",100,2));
 
         itemList.add(new Shovel("iron", 200));
         itemList.add(new Pickaxe("iron", 200, 3));
         itemList.add(new Axe("iron", 200));
+        itemList.add(new Sword("iron",200,5));
 
         itemList.add(new Shovel("golden", 400));
         itemList.add(new Pickaxe("golden", 400, 7));
         itemList.add(new Axe("golden", 400));
+        itemList.add(new Sword("golden",400,8));
 
         itemList.add(new Shovel("diamond", 4000));
         itemList.add(new Pickaxe("diamond", 4000, 6));
         itemList.add(new Axe("diamond", 4000));
+        itemList.add(new Sword("diamond",4000,20));
 //        itemList.add(new Sword("wooden"));
 //        itemList.add(new Sword("stone"));
 //        itemList.add(new Sword("iron"));
