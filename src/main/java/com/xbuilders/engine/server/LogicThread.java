@@ -83,7 +83,7 @@ public class LogicThread {
     }
 
     public void stopGameEvent() {
-        timer.cancel();
+        if (timer != null) timer.cancel();
         timer = null;
     }
 }

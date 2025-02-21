@@ -137,7 +137,11 @@ public abstract class LivingEntity extends Entity {
         if (allowVoluntaryMovement() && !freezeMode) animal_move();
         if (ClientWindow.frameCount % 10 == 0) {
             lifetime++;
+
+            //Update health
             health += healthRegeneration;
+            health = Math.min(health, maxHealth);
+
             if (
                     distToPlayer > 10
                             && !inFrustum

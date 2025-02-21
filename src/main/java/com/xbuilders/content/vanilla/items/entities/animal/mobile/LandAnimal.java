@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class LandAnimal extends LivingEntity {
+    @Override
+    public boolean run_ClickEvent() {
+        return super.run_ClickEvent();
+    }
 
     public LandAnimal(long uniqueIdentifier, ClientWindow window) {
         super(uniqueIdentifier, window);
