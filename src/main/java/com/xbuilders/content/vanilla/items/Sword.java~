@@ -24,7 +24,7 @@ public class Sword extends Item {
                 LivingEntity entity = (LivingEntity) ray.getEntity();
                 if (entity.isHostile()) {//only attack hostile entities
                     entity.damage(attackDamage);
-                } else entity.damage(attackDamage / 3);//attack non-hostile entities, but less damage
+                } else entity.damage(attackDamage / 10);//attack non-hostile entities, but less damage
                 GameScene.client_hudText(Math.max(0, Math.round(entity.health)) + " / " + entity.maxHealth);
                 return true;
             }
