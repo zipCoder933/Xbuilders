@@ -73,7 +73,6 @@ public class CraftingUI_Base {
 
         outputGrid.dragFromEvent = (stack, index, rightClick) -> {
             int take;
-            
             if (!rightClick && outputGrid.storageSpace.get(0) == null) {
                 outputGrid.storageSpace.set(index, new ItemStack(stack.item, stack.stackSize - recipe.amount));
                 stack.stackSize = recipe.amount;

@@ -181,6 +181,96 @@
   },
   {
     "input": [
+      null,
+      "xbuilders:diamond",
+      null,
+      null,
+      "xbuilders:diamond",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:diamond_sword",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "#wood",
+      null,
+      null,
+      "#wood",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:wooden_sword",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "#stone",
+      null,
+      null,
+      "#stone",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:stone_sword",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:iron_ingot",
+      null,
+      null,
+      "xbuilders:iron_ingot",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:iron_sword",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:gold_ingot",
+      null,
+      null,
+      "xbuilders:gold_ingot",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:golden_sword",
+    "amount": 1
+  },
+  {
+    "input": [
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood",
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:swatter",
+    "amount": 1
+  },
+  {
+    "input": [
       "xbuilders:stone",
       "xbuilders:andesite",
       "xbuilders:stone",
