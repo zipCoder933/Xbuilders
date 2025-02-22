@@ -18,7 +18,7 @@ import org.joml.Vector3f;
 import java.io.IOException;
 
 public class ItemDrop extends Entity {
-    public final static int DROP_LIVE_TIME = 10000;
+    public final static int DROP_LIVE_TIME = 9000;
     private static Box box;
     private byte seed;
     private int timeSinceDropped;
