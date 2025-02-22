@@ -79,7 +79,7 @@ public class Dog extends QuadPedalLandAnimal {
             playerWithLowestDist = GameScene.userPlayer;
 
             //If the player is too close, the dog will start to attack
-            if (distToPlayer < 2) {
+            if (distToPlayer < 3) {
                 GameScene.userPlayer.addHealth(-0.1f);
             }
 

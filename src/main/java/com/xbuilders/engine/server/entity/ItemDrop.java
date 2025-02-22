@@ -88,7 +88,7 @@ public class ItemDrop extends Entity {
         return block.id == BlockRegistry.BLOCK_AIR.id || !block.solid || block == camBlock;
     }
 
-    public void server_update(){
+    public void server_update() {
         playerHeadPos.set(GameScene.userPlayer.aabb.worldPosition).add(GameScene.userPlayer.aabb.offset).add(0, 0.5f, 0);
         if (ClientWindow.frameCount % 20 != 0) { //Update every 20 frames
             timeSinceDropped++;

@@ -431,6 +431,7 @@ public class CursorRay {
             } else {
                 cursorBox.setColor(1, 0, 0, 1);
             }
+            GameScene.client_hudText(boundary_aabb.getXLength() + " x " + boundary_aabb.getYLength() + " x " + boundary_aabb.getZLength());
             cursorBox.set(boundary_aabb);
             cursorBox.draw(camera.projection, camera.view);
         } else if (ClientWindow.game.drawCursor(this)) {
