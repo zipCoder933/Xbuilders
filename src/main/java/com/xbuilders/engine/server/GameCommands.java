@@ -25,7 +25,7 @@ public class GameCommands {
         commandHelp = new HashMap<>();
         commandHelp.put("msg", "Usage: msg <player/all> <message>");
         commandHelp.put("mode", "Usage (to get the current mode): mode\n" +
-                "Usage (to change mode): mode <mode>");
+                "Usage (to change mode): mode <mode> <all (optional)>");
         commandHelp.put("op", "Usage: op <true/false> <player>");
         commandHelp.put("give", "Usage: give <item> <quantity (optional)>");
         commandHelp.put("help", "Usage: help <command>");
@@ -127,17 +127,18 @@ public class GameCommands {
 
                         if (parts.length == 1) {
                             return "Game mode: " + Server.getGameMode();
-                        } else if (parts.length == 2) {
+                        } else {
                             String mode = parts[1].toUpperCase().trim().replace(" ", "_");
+                            boolean sendToAll = (parts.length >= 3 && parts[2].equalsIgnoreCase("all"));
                             try {
                                 Server.setGameMode(GameMode.valueOf(mode.toUpperCase()));
-                                if (gameScene.server.isPlayingMultiplayer())
+                                if (sendToAll && gameScene.server.isPlayingMultiplayer())
                                     gameScene.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) Server.getGameMode().ordinal()});
                                 return "Game mode changed to: " + Server.getGameMode();
                             } catch (IllegalArgumentException e) {
                                 return "Unknown game mode: " + mode;
                             }
-                        } else return commandHelp.get("mode");
+                        }
                     }
                     case "give" -> {
                         if (!Server.isOperator()) return null;

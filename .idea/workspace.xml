@@ -11,17 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/client/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/client/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/client/NettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/client/NettyClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/client/RequestDataEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/packets/requestData/RequestDataEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/client/ResponseDataDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/packets/responseData/ResponseDataDecoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/NettyServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/ProcessingHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/ServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/RequestData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/packets/requestData/RequestData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/RequestDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/packets/requestData/RequestDataDecoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/ResponseData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/packets/responseData/ResponseData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/ResponseDataEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/packets/responseData/ResponseDataEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/netty/server/SimpleProcessingHandler.java" beforeDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
