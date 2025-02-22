@@ -1,14 +1,12 @@
-package com.xbuilders.tests.netty.client;
+package com.xbuilders.tests.netty.packets.requestData;
 
-import com.xbuilders.tests.netty.server.RequestData;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 import java.nio.charset.Charset;
 
-public class RequestDataEncoder
-        extends MessageToByteEncoder<RequestData> {
+public class RequestDataEncoder extends MessageToByteEncoder<RequestData> {
 
     private final Charset charset = Charset.forName("UTF-8");
 

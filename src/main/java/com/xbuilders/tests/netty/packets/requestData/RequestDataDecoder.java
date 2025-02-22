@@ -1,4 +1,4 @@
-package com.xbuilders.tests.netty.server;
+package com.xbuilders.tests.netty.packets.requestData;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -7,7 +7,7 @@ import io.netty.handler.codec.ReplayingDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
 
-public class RequestDecoder extends ReplayingDecoder<RequestData> {
+public class RequestDataDecoder extends ReplayingDecoder<RequestData> {
 
     private final Charset charset = Charset.forName("UTF-8");
 

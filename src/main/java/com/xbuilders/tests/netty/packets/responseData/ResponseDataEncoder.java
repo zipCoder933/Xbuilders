@@ -1,4 +1,4 @@
-package com.xbuilders.tests.netty.server;
+package com.xbuilders.tests.netty.packets.responseData;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,6 +1,5 @@
-package com.xbuilders.tests.netty.client;
+package com.xbuilders.tests.netty.packets.responseData;
 
-import com.xbuilders.tests.netty.server.ResponseData;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;

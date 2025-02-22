@@ -1,5 +1,8 @@
 package com.xbuilders.tests.netty.client;
 
+import com.xbuilders.tests.netty.packets.requestData.RequestData;
+import com.xbuilders.tests.netty.packets.requestData.RequestDataEncoder;
+import com.xbuilders.tests.netty.packets.responseData.ResponseDataDecoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -32,6 +35,13 @@ public class NettyClient {
             });
 
             ChannelFuture f = b.connect(host, port).sync();
+
+//            for(int i = 0; i < 10; i++) {
+//                RequestData d = new RequestData();
+//                d.setStringValue("test");
+//                f.channel().writeAndFlush(d);
+//                Thread.sleep(1000);
+//            }
 
             f.channel().closeFuture().sync();
         } finally {
