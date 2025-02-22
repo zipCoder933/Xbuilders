@@ -1,5 +1,7 @@
 package com.xbuilders.tests.netty.server;
 
+import com.xbuilders.tests.netty.packets.requestData.RequestDataDecoder;
+import com.xbuilders.tests.netty.packets.responseData.ResponseDataEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -24,6 +26,7 @@ public class NettyServer {
     }
 
     public void run() throws Exception {
+        System.out.println("Starting server on port " + port);
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -34,9 +37,9 @@ public class NettyServer {
                         @Override
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
-                            ch.pipeline().addLast(new RequestDecoder(),
+                            ch.pipeline().addLast(new RequestDataDecoder(),
                                     new ResponseDataEncoder(),
-                                    new ProcessingHandler());
+                                    new ServerHandler());
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);

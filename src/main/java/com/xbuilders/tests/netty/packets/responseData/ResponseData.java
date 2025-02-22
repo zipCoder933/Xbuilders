@@ -1,4 +1,4 @@
-package com.xbuilders.tests.netty.server;
+package com.xbuilders.tests.netty.packets.responseData;
 
 public class ResponseData {
     private int intValue;
