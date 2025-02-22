@@ -13,6 +13,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
 
 public class RecipeDrawingUtils {
     public static UI_ItemGrid viewInputGrid, viewOutputGrid;
+    private static int titleIndex = 0;
 
     static {
         viewInputGrid = new UI_ItemGrid("Grid", false);
@@ -21,7 +22,7 @@ public class RecipeDrawingUtils {
 
     public static void drawRecipe(NkContext ctx, CraftingRecipe recipe, int height) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            nk_layout_row_dynamic(ctx, 170, 2);
+            nk_layout_row_dynamic(ctx, 170, 3);
 
             Item item = Registrys.getItem(recipe.output);
             viewInputGrid.items.clear();
@@ -31,33 +32,30 @@ public class RecipeDrawingUtils {
                 viewInputGrid.items.add(Registrys.getItem(recipe.input[i]));
             }
             viewOutputGrid.items.add(item);
-
             viewInputGrid.draw(stack, ctx, 3);
 
-            if(nk_group_begin(ctx,"output1234", 0)){
-                nk_layout_row_dynamic(ctx, 60, 1);
-                viewOutputGrid.draw(stack, ctx, 1);
-                Nuklear.nk_label(ctx, "X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
-            }
-            nk_group_end(ctx);
+            //TODO: Somehow group.end causes a crash when there are more than 1 of these recipes
+            Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
 
+            viewOutputGrid.draw(stack, ctx, 1);
         }
     }
 
     public static void drawRecipe(NkContext ctx, SmeltingRecipe recipe, int height) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            nk_layout_row_dynamic(ctx, 70, 2);
+            nk_layout_row_dynamic(ctx, 70, 3);
 
             viewInputGrid.items.clear();
             viewInputGrid.items.add(Registrys.getItem(recipe.input));
             viewInputGrid.draw(stack, ctx, 1);
 
+            Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
+
             viewInputGrid.items.clear();
             viewInputGrid.items.add(Registrys.getItem(recipe.output));
             viewInputGrid.draw(stack, ctx, 1);
 
-            nk_layout_row_dynamic(ctx, 10, 1);
-            Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
+
         }
     }
 

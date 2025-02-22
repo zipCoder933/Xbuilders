@@ -19,6 +19,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
         }
 
         nk_layout_row_dynamic(ctx, recipeView_Height, 1);
-        if (nk_group_begin(ctx, "Recipe view", 0)) {
+        if (nk_group_begin(ctx, "Recipe view", NK_WINDOW_BORDER)) {
             if (selectedItem != null && !availableRecipes.isEmpty()) {
                 nk_layout_row_dynamic(ctx, 20, availableRecipes.size());
 
@@ -123,13 +124,20 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
                  * Draw visible recipes
                  */
                 if (selectedRecipeClass != null) {
+                    //todo: THIS CAUSES A CRASH
+                    //TODO: having a group in the recipe causes a crash if the height of the pane is too great
+                    //j  org.lwjgl.nuklear.Nuklear.nnk_group_end(J)V+0
+                    //j  org.lwjgl.nuklear.Nuklear.nk_group_end(Lorg/lwjgl/nuklear/NkContext;)V+4
                     availableRecipes.get(selectedRecipeClass).forEach((recipe) -> {
+                        //  Nuklear.nk_layout_row_dynamic(ctx, 400,  1);//This will cause an immediate crash if there is a group in the recipe
+                        // Nuklear.nk_text(ctx, "Test", Nuklear.NK_TEXT_ALIGN_LEFT);
                         recipe.drawRecipe(ctx, recipeView_Height - 50);
                     });
                 }
             }
         }
         nk_group_end(ctx);
+
 
         allItems.draw(ctx, stack, Allitems_Height);
 
