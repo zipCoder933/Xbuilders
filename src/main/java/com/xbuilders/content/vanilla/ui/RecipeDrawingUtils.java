@@ -34,7 +34,7 @@ public class RecipeDrawingUtils {
             viewOutputGrid.items.add(item);
             viewInputGrid.draw(stack, ctx, 3);
 
-            //TODO: Somehow group.end causes a crash when there are more than 1 of these recipes
+            //TODO: Somehow group.end causes a crash
             Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
 
             viewOutputGrid.draw(stack, ctx, 1);
