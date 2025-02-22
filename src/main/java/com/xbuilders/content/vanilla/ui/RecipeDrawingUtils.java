@@ -34,10 +34,10 @@ public class RecipeDrawingUtils {
             viewOutputGrid.items.add(item);
             viewInputGrid.draw(stack, ctx, 3);
 
+            viewOutputGrid.draw(stack, ctx, 1);
+
             //TODO: Somehow group.end causes a crash
             Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
-
-            viewOutputGrid.draw(stack, ctx, 1);
         }
     }
 
@@ -49,11 +49,11 @@ public class RecipeDrawingUtils {
             viewInputGrid.items.add(Registrys.getItem(recipe.input));
             viewInputGrid.draw(stack, ctx, 1);
 
-            Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
-
             viewInputGrid.items.clear();
             viewInputGrid.items.add(Registrys.getItem(recipe.output));
             viewInputGrid.draw(stack, ctx, 1);
+
+            Nuklear.nk_label(ctx, "output: X" + recipe.amount, Nuklear.NK_TEXT_ALIGN_LEFT);
 
 
         }
