@@ -16,6 +16,29 @@
   },
   {
     "input": [
+      "xbuilders:coal",
+      "xbuilders:coal",
+      "xbuilders:coal",
+      "xbuilders:coal",
+      "xbuilders:coal",
+      "xbuilders:coal",
+      "xbuilders:coal",
+      "xbuilders:coal",
+      "xbuilders:coal"
+    ],
+    "output": "xbuilders:coal_block",
+    "amount": 1
+  },
+  {
+    "input": [
+      "xbuilders:coal_block"
+    ],
+    "shapeless": true,
+    "output": "xbuilders:coal",
+    "amount": 9
+  },
+  {
+    "input": [
       "xbuilders:diamond",
       "xbuilders:diamond",
       "xbuilders:diamond",

@@ -1,0 +1,96 @@
+[
+  {
+    "shapeless": true,
+    "input": [
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood"
+    ],
+    "output": "xbuilders:crafting_table",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:sand",
+      "xbuilders:gravel",
+      "xbuilders:gravel",
+      "xbuilders:gravel",
+      "xbuilders:gravel"
+    ],
+    "output": "xbuilders:concrete",
+    "amount": 32
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "xbuilders:charcoal",
+      "xbuilders:charcoal",
+      "xbuilders:charcoal",
+      "xbuilders:concrete",
+      "xbuilders:concrete",
+      "xbuilders:concrete",
+      "xbuilders:concrete",
+      "xbuilders:concrete",
+      "xbuilders:concrete"
+    ],
+    "output": "xbuilders:minecart_road_block",
+    "amount": 32
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "xbuilders:white_dye",
+      "xbuilders:white_dye",
+      "xbuilders:white_dye",
+      "xbuilders:charcoal"
+    ],
+    "output": "xbuilders:road_markings",
+    "amount": 16
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "xbuilders:yellow_dye",
+      "xbuilders:yellow_dye",
+      "xbuilders:yellow_dye",
+      "xbuilders:charcoal"
+    ],
+    "output": "xbuilders:crosswalk_paint",
+    "amount": 16
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:track",
+      null,
+      "xbuilders:track",
+      null,
+      "xbuilders:track",
+      null,
+      "xbuilders:track",
+      null
+    ],
+    "output": "xbuilders:crosstrack",
+    "amount": 8
+  },
+  {
+    "input": [
+      "xbuilders:track",
+      null,
+      "xbuilders:track",
+      null,
+      "xbuilders:track",
+      null,
+      null,
+      "xbuilders:track",
+      null
+    ],
+    "output": "xbuilders:merge_track",
+    "amount": 8
+  }
+]
