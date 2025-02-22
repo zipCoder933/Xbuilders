@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
+import com.xbuilders.content.vanilla.entities.animal.mobile.ActionAnimal;
 import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction;
 import com.xbuilders.content.vanilla.entities.animal.mobile.LandAnimal;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
@@ -19,10 +20,13 @@ public class Swatter extends Item {
             if (ray.getEntity() != null && ray.getEntity() instanceof LivingEntity) {
                 LivingEntity entity = (LivingEntity) ray.getEntity();
                 if (!entity.isHostile()) {
-                    if (entity instanceof LandAnimal) {
+                    if (entity instanceof ActionAnimal) {
                         GameScene.client_hudText("You shooed the animal away!");
-                        LandAnimal landAnimal = (LandAnimal) entity;
-                        landAnimal.walkAwayAndDie();
+                        ActionAnimal animal = (ActionAnimal) entity;
+                        animal.walkAwayAndDie();
+                    } else {
+                        entity.health = -100;
+                        GameScene.client_hudText("You swatted the critter away!");
                     }
                 }
                 return true;

@@ -73,7 +73,7 @@ public class Entities {
                 new EntitySupplier("xbuilders:dog", (uniqueIdentifier) -> new Dog(uniqueIdentifier, window)),
 
                 //Turtles
-                new EntitySupplier("xbuilders:turtle", (uniqueIdentifier) -> new Turtle(uniqueIdentifier, window)),
+                new EntitySupplier("xbuilders:sea_turtle", (uniqueIdentifier) -> new Turtle(uniqueIdentifier, window)),
 
                 //Beavers
                 new EntitySupplier("xbuilders:beaver", (uniqueIdentifier) -> new Beaver(uniqueIdentifier, window)),

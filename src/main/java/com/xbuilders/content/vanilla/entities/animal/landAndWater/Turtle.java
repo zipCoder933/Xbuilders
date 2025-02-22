@@ -7,6 +7,7 @@ package com.xbuilders.content.vanilla.entities.animal.landAndWater;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.content.vanilla.entities.animal.mobile.LandAndWaterAnimal;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;

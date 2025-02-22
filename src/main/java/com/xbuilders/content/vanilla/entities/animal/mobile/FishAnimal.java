@@ -139,7 +139,7 @@ public abstract class FishAnimal<ActionEnum> extends LivingEntity {
             worldPosition.add(vec.x, 0, vec.y);
         }
 
-        if (System.currentTimeMillis() - lastInWater > 10000) {
+        if (System.currentTimeMillis() - lastInWater > 10000 || health <= 0) {
             destroy();
         }
 

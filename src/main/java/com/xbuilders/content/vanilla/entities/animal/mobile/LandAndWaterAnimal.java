@@ -2,16 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.content.vanilla.entities.animal.landAndWater;
+package com.xbuilders.content.vanilla.entities.animal.mobile;
 
+import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.engine.server.entity.LivingEntity;
-import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction;
-import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalUtils;
 import org.joml.Vector2f;
 
 import static com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction.ActionType.*;
@@ -19,18 +16,17 @@ import static com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction.
 /**
  * @author zipCoder933
  */
-public abstract class LandAndWaterAnimal extends LivingEntity {
+public abstract class LandAndWaterAnimal extends ActionAnimal {
 
-    private float maxSpeed = 0.10f;
     private float activity = 0.8f;
     private float actionVelocity;
-    private AnimalAction action;
+
     private boolean inWater;
     private float walkAmt = 0;
     float yVelocity, rotationVelocity, forwardVelocity;
 
     public LandAndWaterAnimal(long uniqueIdentifier, ClientWindow window) {
-        super( uniqueIdentifier, window);
+        super(uniqueIdentifier, window);
     }
 
     @Override
@@ -53,15 +49,15 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
     /**
      * @return the action
      */
-    public AnimalAction getAction() {
-        return action;
+    public AnimalAction getCurrentAction() {
+        return currentAction;
     }
 
     /**
-     * @param action the action to set
+     * @param currentAction the action to set
      */
-    public void setAction(AnimalAction action) {
-        this.action = action;
+    public void setCurrentAction(AnimalAction currentAction) {
+        this.currentAction = currentAction;
     }
 
 
@@ -79,19 +75,6 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
         return activity;
     }
 
-    /**
-     * @return the maxSpeed
-     */
-    public float getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    /**
-     * @param maxSpeed the maxSpeed to set
-     */
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
 
     /**
      * @param activity the activity to set
@@ -196,25 +179,26 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
             }
         } else { //Out of Frustum movement
             if (ClientWindow.frameCount % 10 != 0) return;
-            else if (getAction() != null && getAction().type == FOLLOW) {
+            else if (getCurrentAction() != null && getCurrentAction().type == FOLLOW) {
                 return;
             } else {
-                walkForward(maxSpeed);
+                walkForward(getMaxSpeed());
                 walkAmt = 0;
             }
         }
         pos.update();
     }
 
+
     private void moveInWater() {
         pos.setGravityEnabled(false);
 
         //When we are ready to change the action
-        if (action == null || action.pastDuration()) {
-            if (getAction() == null) {
-                setAction(newRandomAction(null));
+        if (currentAction == null || currentAction.pastDuration()) {
+            if (getCurrentAction() == null) {
+                setCurrentAction(newRandomAction(null));
             } else {
-                setAction(newRandomAction(getAction().type));
+                setCurrentAction(newRandomAction(getCurrentAction().type));
             }
             rotationVelocity = computeTurnVelocity();
             forwardVelocity = (float) MathUtils.mapAndClamp(random.noise(4), -0.5f, 1, 0.01f, getMaxSpeed());
@@ -222,8 +206,8 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
         }
 
         //Perform the action
-        if (null != getAction().type) {
-            switch (getAction().type) {
+        if (null != getCurrentAction().type) {
+            switch (getCurrentAction().type) {
                 case FOLLOW:
                     followAction();
                     break;
@@ -235,6 +219,9 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
                     setRotationYDeg(getRotationYDeg() + rotationVelocity);
                     walkForward(getActionVelocity());
                     break;
+                case RUN_AWAY_DIE:
+                    runAwayAction();
+                    break;
                 default:
                     walkAmt = 0;
                     break;
@@ -243,21 +230,30 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
         worldPosition.y -= yVelocity;
     }
 
+    private void runAwayAction() {
+        multiplayerProps.controlMode = true;
+        setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()) + 180 + random.noise(2f, -3, 3));
+        goForward(currentAction.velocity, true);
+        if (distToPlayer > 20 || currentAction.getDurationLeftMS() < 5000) {
+            destroy();
+        }
+    }
+
     private void moveOnLand() {
         pos.setGravityEnabled(true);
 
         //When we are ready to change the action
-        if (getAction() == null || getAction().pastDuration()) {
-            if (getAction() == null) {
-                setAction(newRandomAction(null));
+        if (getCurrentAction() == null || getCurrentAction().pastDuration()) {
+            if (getCurrentAction() == null) {
+                setCurrentAction(newRandomAction(null));
             } else {
-                setAction(newRandomAction(getAction().type));
+                setCurrentAction(newRandomAction(getCurrentAction().type));
             }
         }
 
         //Perform the action
-        if (null != getAction().type) {
-            switch (getAction().type) {
+        if (null != getCurrentAction().type) {
+            switch (getCurrentAction().type) {
                 case FOLLOW:
                     followAction();
                     break;
@@ -271,6 +267,9 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
                     }
                     walkForward(getActionVelocity());
                     break;
+                case RUN_AWAY_DIE:
+                    runAwayAction();
+                    break;
                 default:
                     walkAmt = 0;
                     break;
@@ -280,7 +279,8 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
 
     private void followAction() {
         if (distToPlayer < 15 && playerHasAnimalFeed()) {
-            if (getAction().getTimeSinceStartedMS() > 500
+            multiplayerProps.controlMode = true;
+            if (getCurrentAction().getTimeSinceStartedMS() > 500
                     && distToPlayer > 4
                     && random.noise(4) > -0.5f) {
                 walkForward(getActionVelocity());
@@ -293,7 +293,7 @@ public abstract class LandAndWaterAnimal extends LivingEntity {
             }
             facePlayer();
         } else {
-            action = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
+            currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 500);
         }
     }
 

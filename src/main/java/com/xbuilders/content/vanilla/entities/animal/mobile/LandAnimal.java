@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class LandAnimal extends LivingEntity {
+public abstract class LandAnimal extends ActionAnimal {
     @Override
     public boolean run_ClickEvent() {
         return super.run_ClickEvent();
@@ -23,9 +23,7 @@ public abstract class LandAnimal extends LivingEntity {
         super(uniqueIdentifier, window);
     }
 
-    public AnimalAction currentAction = null;
     private float activity = 0.5f;
-    private float maxSpeed = 0.17f;
     public boolean jumpOverBlocks = true;
 
     public boolean tryToConsume(ItemStack itemStack) {
@@ -35,7 +33,7 @@ public abstract class LandAnimal extends LivingEntity {
             return true;
         } else {
             currentAction = new AnimalAction(AnimalAction.ActionType.WALK, 3000);
-            currentAction.velocity = maxSpeed;
+            currentAction.velocity = getMaxSpeed();
             return false;
         }
     }
@@ -94,7 +92,7 @@ public abstract class LandAnimal extends LivingEntity {
             action = new AnimalAction(AnimalAction.ActionType.FOLLOW);
 
             action.duration = (int) random.nextLong(4000, 25000);
-            action.velocity = maxSpeed / 2;
+            action.velocity = getMaxSpeed() / 2;
             return action;
         }
 
@@ -107,7 +105,7 @@ public abstract class LandAnimal extends LivingEntity {
             }
         } else if (newBehavior == AnimalAction.ActionType.WALK) {
             action.duration = 600 + (random.nextInt(500) - 250);
-            action.velocity = random.nextFloat(0.01f, maxSpeed);
+            action.velocity = random.nextFloat(0.01f, getMaxSpeed());
 
             if (activity < 0.66 && random.nextBoolean()) {
                 action.velocity /= 3;
@@ -135,27 +133,8 @@ public abstract class LandAnimal extends LivingEntity {
         return action;
     }
 
-    @Override
-    public void server_update() {
-        super.server_update();
-        if (health <= 0) {
-            runAwayAndDie();
-        }
-    }
-
-    public void runAwayAndDie() {
-        currentAction = new AnimalAction(AnimalAction.ActionType.RUN_AWAY_DIE, 30000);
-        currentAction.velocity = maxSpeed;
-    }
-
-    public void walkAwayAndDie() {
-        currentAction = new AnimalAction(AnimalAction.ActionType.RUN_AWAY_DIE, 30000);
-        currentAction.velocity = maxSpeed / 2;
-    }
 
     public void animal_move() {
-
-
         multiplayerProps.controlMode = false;
         if (freezeMode || multiplayerProps.controlledByAnotherPlayer) {
             return;
@@ -197,7 +176,7 @@ public abstract class LandAnimal extends LivingEntity {
                     }
                     break;
                 case RUN_AWAY_DIE:
-                    multiplayerProps.controlMode = false;
+                    multiplayerProps.controlMode = true;
                     setRotationYDeg((float) Math.toDegrees(getYDirectionToPlayer()) + 180 + random.noise(2f, -3, 3));
                     goForward(currentAction.velocity, true);
 
