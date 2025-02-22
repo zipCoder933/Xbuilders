@@ -2,11 +2,16 @@ package com.xbuilders.content.vanilla.blocks;
 
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.entity.ItemDrop;
+import com.xbuilders.engine.server.entity.LivingEntity;
+import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCi;
@@ -107,8 +112,19 @@ public class BlockEventUtils {
             for (int y = 0 - size; y < size; y++) {
                 for (int z = 0 - size; z < size; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < size) {
+
+                        Block oldBlock = Server.world.getBlock(setX + x, setY + z, setZ + y);
+                        //Place Item Drop here
+                        if (Server.getGameMode() != GameMode.FREEPLAY) {
+                            Item dropItem = Registrys.getItem(oldBlock);
+                            if (dropItem != null) Server.placeItemDrop(
+                                    new Vector3f(setX + x, setY + z, setZ + y),
+                                    new ItemStack(dropItem), false);
+                        }
+
                         chunks.add(new WCCi().set(setX + x, setY + z, setZ + y).chunk);
                         Server.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
+
                     }
                 }
             }
@@ -120,7 +136,8 @@ public class BlockEventUtils {
             if (chunk != null) {
                 for (Entity e : chunk.entities.list) {
                     if (MathUtils.dist(setX, setY, setZ, e.worldPosition.x, e.worldPosition.y, e.worldPosition.z) < size
-                        /* && !(e instanceof Animal)*/) {
+                            && !(e instanceof LivingEntity)
+                            && !(e instanceof ItemDrop)) {
                         entitiesToDelete.add(e);
                     }
                 }

@@ -25,6 +25,7 @@ public class Swatter extends Item {
                         ActionAnimal animal = (ActionAnimal) entity;
                         animal.walkAwayAndDie();
                     } else {
+                        entity.destroy();
                         entity.health = -100;
                         GameScene.client_hudText("You swatted the critter away!");
                     }
