@@ -134,9 +134,9 @@ public class BlockTools extends UI_GameMenu {
     }
 
     public void autoRevert() {
-        if (selectedTool != DEFAULT_TOOL_INDEX && !BlockTool.hasBlock()) {
-            selectDefaultTool();
-        }
+//        if (selectedTool != DEFAULT_TOOL_INDEX && !BlockTool.hasBlock()) {
+//            selectDefaultTool();
+//        }
     }
 
     public boolean clickEvent(CursorRay ray, boolean isCreationMode) {

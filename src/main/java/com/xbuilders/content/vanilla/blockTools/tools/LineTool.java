@@ -49,6 +49,8 @@ public class LineTool extends BlockTool {
         Vector3i pos = new Vector3i(ray.getHitPos());
         if (length >= 0) pos.add(ray.getHitNormalAsInt());
 
+        if(isCreationMode && getSelectedBlock() == null) return false;
+
         for (int i = 0; i <= Math.abs(length); i++) {
 
             if (isCreationMode) Server.setBlock(item.id, pos.x, pos.y, pos.z);

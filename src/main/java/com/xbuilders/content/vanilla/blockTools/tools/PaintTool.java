@@ -50,6 +50,8 @@ public class PaintTool extends BlockTool {
     public boolean setBlock(Block item, CursorRay ray, boolean isCreationMode) {
         setAABB(settingAABB, ray);
 
+        if(isCreationMode && getSelectedBlock() == null) return false;
+
         //Get block at cursor hit position
         Block replaceBlock = Server.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
         Block newBlock = isCreationMode ? getSelectedBlock() : BlockRegistry.BLOCK_AIR;

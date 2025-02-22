@@ -88,7 +88,7 @@ public class CircleTool extends BlockTool {
         setAABB(settingAABB, ray);
 
         Block block = isCreationMode ? getSelectedBlock() : BlockRegistry.BLOCK_AIR;
-        if (block == null) return false;
+        if (isCreationMode && block == null) return false;
 
         //do A BFS from the center of the box
         ArrayList<Vector3i> queue = new ArrayList<>();

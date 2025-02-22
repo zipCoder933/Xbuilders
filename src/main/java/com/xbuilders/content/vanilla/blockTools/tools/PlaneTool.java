@@ -44,8 +44,6 @@ public class PlaneTool extends BlockTool {
 
 
     private void blockBoundarySetEvent(AABB aabb, boolean created) {
-        if (!hasBlock()) return;
-
         Block block = BlockRegistry.BLOCK_AIR;
         if (created) {
             block = getSelectedBlock();

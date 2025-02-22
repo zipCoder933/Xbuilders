@@ -80,6 +80,8 @@ public class SphereTool extends BlockTool {
     public boolean setBlock(Block item, CursorRay ray, boolean isCreationMode) {
         setAABB(aabb, ray);
 
+        if(isCreationMode && getSelectedBlock() == null) return false;
+
         //Get block at cursor hit position
         Vector3i origin = getStartingPos(ray);
         Block newBlock = isCreationMode ? getSelectedBlock() : BlockRegistry.BLOCK_AIR;
