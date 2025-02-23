@@ -73,7 +73,7 @@ public class Dog extends QuadPedalLandAnimal {
 
     public void animal_move() {
         if (tamed || Server.getGameMode() != GameMode.ADVENTURE || health <= 0) super.animal_move();
-        else if (Server.getDifficulty() != Difficulty.EASY) {//If we are not in easy mode
+        else {
 //            if (Server.server.isPlayingMultiplayer()) {
 //                if (playerWithLowestDist == null || System.currentTimeMillis() - lastPlayerCheckTime > 1000) {
 //                    lastPlayerCheckTime = System.currentTimeMillis();
@@ -88,7 +88,7 @@ public class Dog extends QuadPedalLandAnimal {
 //                    System.out.println("Lowest dist: " + lowestDist + " Player: " + playerWithLowestDist);
 //                }
 //            } else
-                playerWithLowestDist = GameScene.userPlayer;
+            playerWithLowestDist = GameScene.userPlayer;
 
             //If the player is too close, the dog will start to attack
             if (distToPlayer < 3) {

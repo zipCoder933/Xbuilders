@@ -1,9 +1,12 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
+import com.xbuilders.engine.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.entity.LivingEntity;
 
-public class ActionAnimal  extends LivingEntity {
+public class ActionAnimal extends LivingEntity {
     private float maxSpeed = 0.10f;
     public AnimalAction currentAction;
 
@@ -26,6 +29,11 @@ public class ActionAnimal  extends LivingEntity {
         super.server_update();
         if (health <= 0) {
             runAwayAndDie();
+        }
+        if (isHostile()
+                && Server.getDifficulty() == Difficulty.EASY
+                && Server.getGameMode() == GameMode.ADVENTURE) {
+            destroy();
         }
     }
 
