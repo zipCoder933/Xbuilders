@@ -8,6 +8,7 @@ package com.xbuilders.engine.server.entity;
 import com.xbuilders.engine.utils.WorldCoord;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * @author zipCoder933
@@ -15,7 +16,7 @@ import java.util.Objects;
 public class EntitySupplier {
     public final String id;
     private final Supplier2 supplier;
-    public float spawnLikelyhood = 0.00001f;
+    public Supplier<Float> spawnLikelyhood = () -> 0.00001f;
 
 
     @FunctionalInterface

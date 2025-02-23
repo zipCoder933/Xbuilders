@@ -405,7 +405,7 @@ public class Chunk {
         EntitySupplier entityToSpawn = null;
         if (spawnEntities && Registrys.entities.autonomousList.size() > 0) {
             entityToSpawn = Registrys.entities.autonomousList.get(randomTick_random.nextInt(Registrys.entities.autonomousList.size()));
-            spawnLikelyhood = entityToSpawn.spawnLikelyhood;
+            spawnLikelyhood = entityToSpawn.spawnLikelyhood.get();
             if (entityToSpawn == null) spawnEntities = false;
         }
 
