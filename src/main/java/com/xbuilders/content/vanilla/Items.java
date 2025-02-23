@@ -110,7 +110,7 @@ public class Items {
         itemList.add(new Axe("diamond", 4000));
         itemList.add(new Sword("diamond", 4000, 5));
 
-        itemList.add(new Swatter(200));
+        itemList.add(new Swatter(500));
 //        itemList.add(new Sword("wooden"));
 //        itemList.add(new Sword("stone"));
 //        itemList.add(new Sword("iron"));
