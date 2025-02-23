@@ -182,7 +182,7 @@ public class GameMenu extends UI_GameMenu {
     private void goTo(float x, float y, float z) {
         if (Server.getGameMode() == GameMode.ADVENTURE) {
             Server.alertClient("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
-            GameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
+            GameScene.client_hudText("Waypoint: " + x + ",   " + y + ", " + z);
         } else {
             GameScene.userPlayer.worldPosition.set(new Vector3f(x, y, z));
             Server.alertClient("Teleported to " + x + ", " + y + ", " + z);

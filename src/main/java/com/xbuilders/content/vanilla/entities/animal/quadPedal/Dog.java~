@@ -44,10 +44,10 @@ public class Dog extends QuadPedalLandAnimal {
                     return 0.0f;
                 }
                 case NORMAL -> {
-                    return 0.00002f;
+                    return 0.000018f;
                 }
                 default -> {
-                    return 0.0002f;
+                    return 0.00005f;
                 }
             }
         };
