@@ -154,7 +154,6 @@ public class GameCommands {
                                 if (gameScene.server.isPlayingMultiplayer())
                                     gameScene.server.sendToAllClients(new byte[]{
                                             GameServer.CHANGE_DIFFICULTY, (byte) Server.getDifficulty().ordinal()});
-                                return "Difficulty changed to: " + Server.getDifficulty();
                             } catch (IllegalArgumentException e) {
                                 return "Unknown difficulty: " + mode;
                             }

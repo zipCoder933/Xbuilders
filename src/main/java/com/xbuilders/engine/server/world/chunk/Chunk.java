@@ -180,8 +180,8 @@ public class Chunk {
 
     public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
         //TODO: There is a bug where the chunk is not updating the mesh
-        if (updateAllNeighbors) ClientWindow.printlnDev("Reg mesh (all neighbors)");
-        else ClientWindow.printlnDev("Reg mesh (" + x + ", " + y + ", " + z + ")");
+//        if (updateAllNeighbors) ClientWindow.printlnDev("Reg mesh (all neighbors)");
+//        else ClientWindow.printlnDev("Reg mesh (" + x + ", " + y + ", " + z + ")");
 
 
         if (!neghbors.allFacingNeghborsLoaded) {

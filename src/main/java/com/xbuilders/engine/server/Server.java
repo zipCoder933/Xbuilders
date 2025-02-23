@@ -5,6 +5,7 @@
 package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.xbuilders.engine.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
@@ -52,13 +53,26 @@ public class Server {
 
     //Game Mode =======================================================================================================
     private static GameMode gameMode = GameMode.ADVENTURE;
+    private static Difficulty difficulty = Difficulty.NORMAL;
+
+    public static Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public static void setDifficulty(Difficulty difficulty) {
+        if(difficulty == null) difficulty = Difficulty.NORMAL;
+        Server.difficulty = difficulty;
+        alertClient("Difficulty changed to: " + getDifficulty());
+    }
 
     public static GameMode getGameMode() {
         return gameMode;
     }
 
     public static void setGameMode(GameMode gameMode) {
+        if(gameMode == null) gameMode = GameMode.ADVENTURE;
         Server.gameMode = gameMode;
+        alertClient("Game mode changed to: " + getGameMode());
     }
 
 

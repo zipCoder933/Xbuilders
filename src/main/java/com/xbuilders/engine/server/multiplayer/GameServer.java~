@@ -1,7 +1,6 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.io.Input;
-import com.xbuilders.engine.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
@@ -54,7 +53,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
     public static final byte CHANGE_GAME_MODE = -115;
     public static final byte CHANGE_PLAYER_PERMISSION = -114;
     public static final byte WORLD_CHUNK_LAST_SAVED = -113;
-    public static final byte CHANGE_DIFFICULTY = -112;
+    public static final byte CHANGE_DIFFICULTY =  -112;
 
     Server scene;
     NetworkJoinRequest req;
@@ -315,14 +314,6 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                     Server.setGameMode(gameMode);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     Server.alertClient("Unable to change game mode");
-                }
-            } else if (receivedData[0] == CHANGE_DIFFICULTY) {
-                try {
-                    int difficulty = receivedData[1];
-                    Difficulty gameDifficulty = Difficulty.values()[difficulty];
-                    Server.setDifficulty(gameDifficulty);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    Server.alertClient("Unable to change game difficulty");
                 }
             } else if (receivedData[0] == CHANGE_PLAYER_PERMISSION) {
                 try {
