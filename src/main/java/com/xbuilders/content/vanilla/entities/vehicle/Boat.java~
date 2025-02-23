@@ -117,7 +117,7 @@ public class Boat extends Vehicle {
 
     @Override
     public void vehicle_entityMoveEvent() {
-        if (posHandler != null) posHandler.setGravityEnabled(isInWater() ? false : true);
+        posHandler.setGravityEnabled(isInWater() ? false : true);
     }
 
 

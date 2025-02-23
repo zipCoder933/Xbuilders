@@ -49,7 +49,7 @@ public class Dog extends QuadPedalLandAnimal {
                     return 0.000018f;
                 }
                 default -> {
-                    return 0.00005f;
+                    return 0.0005f;
                 }
             }
         };
@@ -67,31 +67,28 @@ public class Dog extends QuadPedalLandAnimal {
         entitySupplier.isAutonomous = true;
     }
 
-    Player playerWithLowestDist;
+    Player playerWithLowestDist = GameScene.userPlayer;
     long lastPlayerCheckTime;
 
 
     public void animal_move() {
         if (tamed || Server.getGameMode() != GameMode.ADVENTURE || health <= 0) super.animal_move();
-        else if(Server.getDifficulty() != Difficulty.EASY) {//If we are not in easy mode
-//            if (GameScene.server.isPlayingMultiplayer()) {
+        else if (Server.getDifficulty() != Difficulty.EASY) {//If we are not in easy mode
+//            if (Server.server.isPlayingMultiplayer()) {
 //                if (playerWithLowestDist == null || System.currentTimeMillis() - lastPlayerCheckTime > 1000) {
-//                    currentAction = new AnimalAction(AnimalAction.ActionType.FOLLOW);
 //                    lastPlayerCheckTime = System.currentTimeMillis();
-//                    playerWithLowestDist = null;
 //                    float lowestDist = Float.MAX_VALUE;
-//                    for (PlayerClient pc : GameScene.server.clients) {
-//                        if (pc.player != null) {
-//                            float dist = pc.player.worldPosition.distance(worldPosition);
-//                            if (dist < lowestDist) {
-//                                lowestDist = dist;
-//                                playerWithLowestDist = pc.player;
-//                            }
+//                    for (Player player : Server.server.clients) {
+//                        float dist = player.worldPosition.distance(worldPosition);
+//                        if (dist < lowestDist) {
+//                            lowestDist = dist;
+//                            playerWithLowestDist = player;
 //                        }
 //                    }
+//                    System.out.println("Lowest dist: " + lowestDist + " Player: " + playerWithLowestDist);
 //                }
-//            }
-            playerWithLowestDist = GameScene.userPlayer;
+//            } else
+                playerWithLowestDist = GameScene.userPlayer;
 
             //If the player is too close, the dog will start to attack
             if (distToPlayer < 3) {

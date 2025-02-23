@@ -3,6 +3,8 @@ package com.xbuilders.content.vanilla.entities.animal.quadPedal;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction;
+import com.xbuilders.engine.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
@@ -65,30 +67,28 @@ public class Dog extends QuadPedalLandAnimal {
         entitySupplier.isAutonomous = true;
     }
 
-    Player playerWithLowestDist;
+    Player playerWithLowestDist = GameScene.userPlayer;
+    long lastPlayerCheckTime;
 
 
     public void animal_move() {
         if (tamed || Server.getGameMode() != GameMode.ADVENTURE || health <= 0) super.animal_move();
-        else {
-//            if (GameScene.server.isPlayingMultiplayer()) {
+        else if (Server.getDifficulty() != Difficulty.EASY) {//If we are not in easy mode
+//            if (Server.server.isPlayingMultiplayer()) {
 //                if (playerWithLowestDist == null || System.currentTimeMillis() - lastPlayerCheckTime > 1000) {
-//                    currentAction = new AnimalAction(AnimalAction.ActionType.FOLLOW);
 //                    lastPlayerCheckTime = System.currentTimeMillis();
-//                    playerWithLowestDist = null;
 //                    float lowestDist = Float.MAX_VALUE;
-//                    for (PlayerClient pc : GameScene.server.clients) {
-//                        if (pc.player != null) {
-//                            float dist = pc.player.worldPosition.distance(worldPosition);
-//                            if (dist < lowestDist) {
-//                                lowestDist = dist;
-//                                playerWithLowestDist = pc.player;
-//                            }
+//                    for (Player player : Server.server.clients) {
+//                        float dist = player.worldPosition.distance(worldPosition);
+//                        if (dist < lowestDist) {
+//                            lowestDist = dist;
+//                            playerWithLowestDist = player;
 //                        }
 //                    }
+//                    System.out.println("Lowest dist: " + lowestDist + " Player: " + playerWithLowestDist);
 //                }
 //            } else
-            playerWithLowestDist = GameScene.userPlayer;
+                playerWithLowestDist = GameScene.userPlayer;
 
             //If the player is too close, the dog will start to attack
             if (distToPlayer < 3) {
@@ -100,7 +100,6 @@ public class Dog extends QuadPedalLandAnimal {
                 if (worldPosition.distance(playerWithLowestDist.worldPosition) > 4) goForward(0.17f, jumpOverBlocks);
                 else goForward(0.1f, jumpOverBlocks);
             }
-
         }
     }
 
