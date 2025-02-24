@@ -5,6 +5,11 @@
     "amount": 1
   },
   {
+    "input": "xbuilders:bamboo_block",
+    "output": "xbuilders:bamboo_wood",
+    "amount": 1
+  },
+  {
     "input": "xbuilders:diorite",
     "output": "xbuilders:polished_diorite",
     "amount": 1

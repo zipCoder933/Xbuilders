@@ -188,6 +188,7 @@
   {
     "id": "xbuilders:sea_grass",
     "name": "Sea Grass",
+    "icon": "sea_grass.png",
     "block": 253
   },
   {

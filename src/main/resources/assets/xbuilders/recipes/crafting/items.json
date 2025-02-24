@@ -69,21 +69,6 @@
   },
   {
     "input": [
-      "xbuilders:stick",
-      null,
-      "xbuilders:stick",
-      "xbuilders:stick",
-      "xbuilders:stick",
-      "xbuilders:stick",
-      "xbuilders:stick",
-      null,
-      "xbuilders:stick"
-    ],
-    "output": "xbuilders:ladder",
-    "amount": 16
-  },
-  {
-    "input": [
       "xbuilders:iron_ingot",
       null,
       "xbuilders:iron_ingot",
