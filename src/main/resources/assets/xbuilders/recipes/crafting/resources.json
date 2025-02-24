@@ -82,35 +82,5 @@
     ],
     "output": "xbuilders:tnt",
     "amount": 2
-  },
-  {
-    "input": [
-      "xbuilders:polished_andesite",
-      null,
-      "xbuilders:polished_andesite",
-      null,
-      "xbuilders:polished_andesite",
-      null,
-      "xbuilders:polished_andesite",
-      null,
-      "xbuilders:polished_andesite"
-    ],
-    "output": "xbuilders:marble_tile",
-    "amount": 6
-  },
-  {
-    "input": [
-      "xbuilders:polished_diorite",
-      null,
-      "xbuilders:polished_diorite",
-      null,
-      "xbuilders:polished_diorite",
-      null,
-      "xbuilders:polished_diorite",
-      null,
-      "xbuilders:polished_diorite"
-    ],
-    "output": "xbuilders:marble_tile",
-    "amount": 6
   }
 ]
