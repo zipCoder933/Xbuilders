@@ -2885,12 +2885,12 @@
       null,
       null,
       null,
-      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul",
       "xbuilders:stick",
-      "xbuilders:lapis_lazul_block",
-      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul",
+      "xbuilders:lapis_lazul",
       "xbuilders:stick",
-      "xbuilders:lapis_lazul_block"
+      "xbuilders:lapis_lazul"
     ],
     "output": "xbuilders:lapis_lazul_fence",
     "amount": 10
@@ -2933,15 +2933,15 @@
       null,
       null,
       null,
-      "xbuilders:iron_block",
+      "xbuilders:iron_ingot",
       "xbuilders:stick",
-      "xbuilders:iron_block",
-      "xbuilders:iron_block",
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
       "xbuilders:stick",
-      "xbuilders:iron_block"
+      "xbuilders:iron_ingot"
     ],
     "output": "xbuilders:iron_fence",
-    "amount": 10
+    "amount": 12
   },
   {
     "shapeless": false,
@@ -2981,15 +2981,15 @@
       null,
       null,
       null,
-      "xbuilders:gold_block",
+      "xbuilders:gold_ingot",
       "xbuilders:stick",
-      "xbuilders:gold_block",
-      "xbuilders:gold_block",
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
       "xbuilders:stick",
-      "xbuilders:gold_block"
+      "xbuilders:gold_ingot"
     ],
     "output": "xbuilders:gold_fence",
-    "amount": 10
+    "amount": 12
   },
   {
     "shapeless": false,
@@ -3029,15 +3029,15 @@
       null,
       null,
       null,
-      "xbuilders:emerald_block",
+      "xbuilders:emerald",
       "xbuilders:stick",
-      "xbuilders:emerald_block",
-      "xbuilders:emerald_block",
+      "xbuilders:emerald",
+      "xbuilders:emerald",
       "xbuilders:stick",
-      "xbuilders:emerald_block"
+      "xbuilders:emerald"
     ],
     "output": "xbuilders:emerald_fence",
-    "amount": 10
+    "amount": 12
   },
   {
     "shapeless": false,
@@ -3077,15 +3077,15 @@
       null,
       null,
       null,
-      "xbuilders:diamond_block",
+      "xbuilders:diamond",
       "xbuilders:stick",
-      "xbuilders:diamond_block",
-      "xbuilders:diamond_block",
+      "xbuilders:diamond",
+      "xbuilders:diamond",
       "xbuilders:stick",
-      "xbuilders:diamond_block"
+      "xbuilders:diamond"
     ],
     "output": "xbuilders:diamond_fence",
-    "amount": 10
+    "amount": 12
   },
   {
     "shapeless": false,
@@ -7174,10 +7174,10 @@
       null,
       null,
       "xbuilders:stick",
-      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul",
       "xbuilders:stick",
       "xbuilders:stick",
-      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul",
       "xbuilders:stick"
     ],
     "output": "xbuilders:lapis_lazul_fence_gate",
@@ -7190,10 +7190,10 @@
       null,
       null,
       "xbuilders:stick",
-      "xbuilders:iron_block",
+      "xbuilders:iron_ingot",
       "xbuilders:stick",
       "xbuilders:stick",
-      "xbuilders:iron_block",
+      "xbuilders:iron_ingot",
       "xbuilders:stick"
     ],
     "output": "xbuilders:iron_fence_gate",
@@ -7206,10 +7206,10 @@
       null,
       null,
       "xbuilders:stick",
-      "xbuilders:gold_block",
+      "xbuilders:gold_ingot",
       "xbuilders:stick",
       "xbuilders:stick",
-      "xbuilders:gold_block",
+      "xbuilders:gold_ingot",
       "xbuilders:stick"
     ],
     "output": "xbuilders:gold_fence_gate",
@@ -7222,10 +7222,10 @@
       null,
       null,
       "xbuilders:stick",
-      "xbuilders:emerald_block",
+      "xbuilders:emerald",
       "xbuilders:stick",
       "xbuilders:stick",
-      "xbuilders:emerald_block",
+      "xbuilders:emerald",
       "xbuilders:stick"
     ],
     "output": "xbuilders:emerald_fence_gate",
@@ -7238,10 +7238,10 @@
       null,
       null,
       "xbuilders:stick",
-      "xbuilders:diamond_block",
+      "xbuilders:diamond",
       "xbuilders:stick",
       "xbuilders:stick",
-      "xbuilders:diamond_block",
+      "xbuilders:diamond",
       "xbuilders:stick"
     ],
     "output": "xbuilders:diamond_fence_gate",

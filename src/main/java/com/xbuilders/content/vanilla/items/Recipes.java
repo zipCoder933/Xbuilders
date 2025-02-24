@@ -193,7 +193,7 @@ public class Recipes {
         }
         System.out.println("Writing recipes...");
         variants.writeToFile(ResourceUtils.file("items/recipes/crafting/variants.json"));
-        doorsTrapdoors.writeToFile(ResourceUtils.file("items/recipes/crafting/doorsTrapdoors.json"));
+        doorsTrapdoors.writeToFile(ResourceUtils.file("items/recipes/crafting/doors.json"));
         System.out.println("Done synthesizing");
     }
 

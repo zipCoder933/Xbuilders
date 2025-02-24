@@ -74,7 +74,6 @@
     "name": "Sand",
     "block": 16
   },
-
   {
     "id": "xbuilders:andesite",
     "name": "Andesite",
@@ -525,7 +524,6 @@
     "name": "Palisade Stone",
     "block": 110
   },
-
   {
     "id": "xbuilders:fire_coral_block",
     "name": "Fire Coral Block",
@@ -790,7 +788,6 @@
     "name": "Potato Seeds",
     "block": 165
   },
-
   {
     "id": "xbuilders:glow_rock",
     "name": "Glow Rock",
@@ -911,7 +908,6 @@
     "name": "Prismarine Brick Stairs",
     "block": 201
   },
-
   {
     "id": "xbuilders:cave_vines_flat",
     "name": "Cave Vines Flat",
@@ -1145,7 +1141,6 @@
     "name": "Bamboo Wood Slab",
     "block": 258
   },
-
   {
     "id": "xbuilders:stone_brick_stairs",
     "name": "Stone Brick Stairs",
@@ -1281,7 +1276,6 @@
     "name": "Track Stop",
     "block": 286
   },
-
   {
     "id": "xbuilders:wool_stairs",
     "name": "Wool Stairs",
@@ -2016,13 +2010,11 @@
     "name": "Prismarine Brick Fence",
     "block": 438
   },
-
   {
     "id": "xbuilders:stone_brick_pillar",
     "name": "Stone Brick Pillar",
     "block": 440
   },
-
   {
     "id": "xbuilders:palisade_stone_pillar",
     "name": "Palisade Stone Pillar",
@@ -2053,7 +2045,6 @@
     "name": "Dragon Vines",
     "block": 447
   },
-
   {
     "id": "xbuilders:marble_pillar_block",
     "name": "Marble Pillar Block",
@@ -2105,7 +2096,6 @@
     "name": "Dark Prismarine Brick Fence",
     "block": 459
   },
-
   {
     "id": "xbuilders:orange_marble_tile",
     "name": "Orange Marble Tile",
@@ -3185,7 +3175,6 @@
       "wood"
     ]
   },
-
   {
     "id": "xbuilders:peony_bush",
     "name": "Peony Bush",
@@ -3779,78 +3768,117 @@
   {
     "id": "xbuilders:acacia_door_2",
     "name": "Acacia Door 2",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\acacia.png",
     "block": 937
   },
   {
     "id": "xbuilders:acacia_door",
     "name": "Acacia Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\acaica2.png",
     "block": 938
   },
   {
     "id": "xbuilders:bamboo_2_door",
     "name": "Bamboo 2 Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\bamboo 2.png",
     "block": 939
   },
   {
     "id": "xbuilders:bamboo_door",
     "name": "Bamboo Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\bamboo.png",
     "block": 940
   },
   {
     "id": "xbuilders:birch_door",
     "name": "Birch Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\birch.png",
     "block": 941
   },
   {
     "id": "xbuilders:cladded_blue_door",
     "name": "Cladded Blue Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\cladded.png",
     "block": 942
   },
   {
     "id": "xbuilders:cladded_green_door",
     "name": "Cladded Green Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\cladded.png",
     "block": 943
   },
   {
     "id": "xbuilders:cladded_magenta_door",
     "name": "Cladded Magenta Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\cladded.png",
     "block": 944
   },
   {
     "id": "xbuilders:cladded_door",
     "name": "Cladded Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\cladded.png",
     "block": 945
   },
   {
     "id": "xbuilders:french_bamboo_windows_door",
     "name": "French Bamboo Windows Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\generic.png",
     "block": 946
   },
   {
     "id": "xbuilders:french_bamboo_door",
     "name": "French Bamboo Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\generic.png",
     "block": 947
   },
   {
     "id": "xbuilders:french_blue_windows_door",
     "name": "French Blue Windows Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\generic.png",
     "block": 948
   },
   {
     "id": "xbuilders:french_blue_door",
     "name": "French Blue Door",
+    "tags": [
+      "door"
+    ],
     "icon": "door\\generic.png",
     "block": 949
   },
@@ -3858,276 +3886,414 @@
     "id": "xbuilders:french_green_windows_door",
     "name": "French Green Windows Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 950
   },
   {
     "id": "xbuilders:french_green_door",
     "name": "French Green Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 951
   },
   {
     "id": "xbuilders:french_magenta_windows_door",
     "name": "French Magenta Windows Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 952
   },
   {
     "id": "xbuilders:french_magenta_door",
     "name": "French Magenta Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 953
   },
   {
     "id": "xbuilders:french_windows_door",
     "name": "French Windows Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 954
   },
   {
     "id": "xbuilders:french_door",
     "name": "French Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 955
   },
   {
     "id": "xbuilders:glass_door",
     "name": "Glass Door",
     "icon": "door\\glass.png",
+    "tags": [
+      "door"
+    ],
     "block": 956
   },
   {
     "id": "xbuilders:gray_space_door",
     "name": "Gray Space Door",
     "icon": "door\\space (4).png",
+    "tags": [
+      "door"
+    ],
     "block": 957
   },
   {
     "id": "xbuilders:gray_space_control_panel_door",
     "name": "Gray Space Control_Panel Door",
     "icon": "door\\space (1).png",
+    "tags": [
+      "door"
+    ],
     "block": 958
   },
   {
     "id": "xbuilders:gray_space_door_2",
     "name": "Gray Space Door 2",
     "icon": "door\\space (1).png",
+    "tags": [
+      "door"
+    ],
     "block": 959
   },
   {
     "id": "xbuilders:italian_bamboo_windows_door",
     "name": "Italian Bamboo Windows Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 960
   },
   {
     "id": "xbuilders:italian_bamboo_door",
     "name": "Italian Bamboo Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 961
   },
   {
     "id": "xbuilders:italian_blue_windows_door",
     "name": "Italian Blue Windows Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 962
   },
   {
     "id": "xbuilders:italian_blue_door",
     "name": "Italian Blue Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 963
   },
   {
     "id": "xbuilders:italian_green_windows_door",
     "name": "Italian Green Windows Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 964
   },
   {
     "id": "xbuilders:italian_green_door",
     "name": "Italian Green Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 965
   },
   {
     "id": "xbuilders:italian_magenta_windows_door",
     "name": "Italian Magenta Windows Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 966
   },
   {
     "id": "xbuilders:italian_magenta_door",
     "name": "Italian Magenta Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 967
   },
   {
     "id": "xbuilders:italian_windows_door",
     "name": "Italian Windows Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 968
   },
   {
     "id": "xbuilders:italian_door",
     "name": "Italian Door",
     "icon": "door\\italian.png",
+    "tags": [
+      "door"
+    ],
     "block": 969
   },
   {
     "id": "xbuilders:jungle_2_door",
     "name": "Jungle 2 Door",
     "icon": "door\\jungle2.png",
+    "tags": [
+      "door"
+    ],
     "block": 970
   },
   {
     "id": "xbuilders:jungle_door",
     "name": "Jungle Door",
     "icon": "door\\jungle.png",
+    "tags": [
+      "door"
+    ],
     "block": 971
   },
   {
     "id": "xbuilders:oak_2_door",
     "name": "Oak 2 Door",
     "icon": "door\\icon_0_0.png",
+    "tags": [
+      "door"
+    ],
     "block": 972
   },
   {
     "id": "xbuilders:oak_renaissance_door",
     "name": "Oak Renaissance Door",
     "icon": "door\\icon_17_0.png",
+    "tags": [
+      "door"
+    ],
     "block": 973
   },
   {
     "id": "xbuilders:oak_door",
     "name": "Oak Door",
     "icon": "door\\icon_6_0.png",
+    "tags": [
+      "door"
+    ],
     "block": 974
   },
   {
     "id": "xbuilders:oval_bamboo_door",
     "name": "Oval Bamboo Door",
     "icon": "door\\oval.png",
+    "tags": [
+      "door"
+    ],
     "block": 975
   },
   {
     "id": "xbuilders:oval_blue_door",
     "name": "Oval Blue Door",
     "icon": "door\\oval.png",
+    "tags": [
+      "door"
+    ],
     "block": 976
   },
   {
     "id": "xbuilders:oval_green_door",
     "name": "Oval Green Door",
     "icon": "door\\oval.png",
+    "tags": [
+      "door"
+    ],
     "block": 977
   },
   {
     "id": "xbuilders:oval_magenta_door",
     "name": "Oval Magenta Door",
     "icon": "door\\oval.png",
+    "tags": [
+      "door"
+    ],
     "block": 978
   },
   {
     "id": "xbuilders:oval_door",
     "name": "Oval Door",
     "icon": "door\\oval.png",
+    "tags": [
+      "door"
+    ],
     "block": 979
   },
   {
     "id": "xbuilders:party_blue_door",
     "name": "Party Blue Door",
     "icon": "door\\party blue.png",
+    "tags": [
+      "door"
+    ],
     "block": 980
   },
   {
     "id": "xbuilders:party_green_door",
     "name": "Party Green Door",
     "icon": "door\\party green.png",
+    "tags": [
+      "door"
+    ],
     "block": 981
   },
   {
     "id": "xbuilders:party_magenta_door",
     "name": "Party Magenta Door",
     "icon": "door\\party magenta.png",
+    "tags": [
+      "door"
+    ],
     "block": 982
   },
   {
     "id": "xbuilders:party_purple_door",
     "name": "Party Purple Door",
     "icon": "door\\party purple.png",
+    "tags": [
+      "door"
+    ],
     "block": 983
   },
   {
     "id": "xbuilders:party_red_door",
     "name": "Party Red Door",
     "icon": "door\\party red.png",
+    "tags": [
+      "door"
+    ],
     "block": 984
   },
   {
     "id": "xbuilders:party_yellow_door",
     "name": "Party Yellow Door",
     "icon": "door\\party yellow.png",
+    "tags": [
+      "door"
+    ],
     "block": 985
   },
   {
     "id": "xbuilders:red_door",
     "name": "Red Door",
     "icon": "door\\red.png",
+    "tags": [
+      "door"
+    ],
     "block": 986
   },
   {
     "id": "xbuilders:spruce_2_door",
     "name": "Spruce 2 Door",
     "icon": "door\\icon_6_0.png",
+    "tags": [
+      "door"
+    ],
     "block": 987
   },
   {
     "id": "xbuilders:spruce_door",
     "name": "Spruce Door",
     "icon": "door\\spruce.png",
+    "tags": [
+      "door"
+    ],
     "block": 988
   },
   {
     "id": "xbuilders:iron_door",
     "name": "iron Door",
     "icon": "door\\icon_7_0.png",
+    "tags": [
+      "door"
+    ],
     "block": 989
   },
   {
     "id": "xbuilders:warped_door",
     "name": "Warped Door",
     "icon": "door\\warped.png",
+    "tags": [
+      "door"
+    ],
     "block": 990
   },
   {
     "id": "xbuilders:web_door",
     "name": "Web Door",
     "icon": "door\\web.png",
+    "tags": [
+      "door"
+    ],
     "block": 991
   },
   {
     "id": "xbuilders:white_space_door",
     "name": "White Space Door",
     "icon": "door\\space (2).png",
+    "tags": [
+      "door"
+    ],
     "block": 992
   },
   {
     "id": "xbuilders:white_space_control_panel_door",
     "name": "White Space Control_Panel Door",
     "icon": "door\\space (3).png",
+    "tags": [
+      "door"
+    ],
     "block": 993
   },
   {
     "id": "xbuilders:white_space_door_2",
     "name": "White Space Door 2",
     "icon": "door\\space (3).png",
+    "tags": [
+      "door"
+    ],
     "block": 994
   },
   {
     "id": "xbuilders:white_door",
     "name": "White Door",
     "icon": "door\\generic.png",
+    "tags": [
+      "door"
+    ],
     "block": 995
   },
   {
@@ -4195,7 +4361,6 @@
     "name": "Burgundy Brick Fence Gate",
     "block": 812
   },
-
   {
     "id": "xbuilders:yellow_concrete_fence_gate",
     "name": "Yellow Concrete Fence Gate",
