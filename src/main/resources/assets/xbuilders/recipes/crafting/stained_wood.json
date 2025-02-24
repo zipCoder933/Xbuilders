@@ -103,7 +103,8 @@
     "shapeless": true,
     "input": [
       "#wood",
-      "xbuilders:pink_dye"
+      "xbuilders:magenta_dye",
+      "xbuilders:white_dye"
     ],
     "output": "xbuilders:pink_stained_wood",
     "amount": 1
