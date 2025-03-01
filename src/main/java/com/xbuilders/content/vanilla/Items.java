@@ -84,6 +84,9 @@ public class Items {
     }
 
     public static ArrayList<Item> startup_getItems() {
+        /**
+         * Tools
+         */
         ArrayList<Item> itemList = new ArrayList<>();
         itemList.add(new Shovel("wooden", 25));
         itemList.add(new Pickaxe("wooden", 25, 1.5f));
@@ -111,14 +114,6 @@ public class Items {
         itemList.add(new Sword("diamond", 4000, 5));
 
         itemList.add(new Swatter(500));
-//        itemList.add(new Sword("wooden"));
-//        itemList.add(new Sword("stone"));
-//        itemList.add(new Sword("iron"));
-//        itemList.add(new Sword("golden"));
-//        itemList.add(new Sword("diamond"));
-//        itemList.add(new Sword("netherite"));
-//        itemList.add(new Sword("enderite"));
-//        itemList.add(new Sword("obsidian"));
 
         itemList.add(new Saddle());
         itemList.add(new Hoe());
@@ -126,7 +121,10 @@ public class Items {
         itemList.add(new Camera());
         itemList.add(TOOL_ANIMAL_FEED);
 
-        ItemUtils.getAllJsonItems(ResourceUtils.file("items\\items\\json")).forEach(itemList::add);
+        /**
+         * Json Items
+         */
+        ItemUtils.getAllJsonItemsFromResource("data/xbuilders/items").forEach(itemList::add);
 
         return itemList;
     }

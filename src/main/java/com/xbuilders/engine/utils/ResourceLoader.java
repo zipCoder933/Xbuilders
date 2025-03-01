@@ -85,7 +85,8 @@ public class ResourceLoader {
             String resource;
 
             while ((resource = br.readLine()) != null) {
-                if (resource.startsWith(FILE_SEPARATOR) || path.endsWith(FILE_SEPARATOR)) resource = path + resource;
+                if (resource.startsWith(FILE_SEPARATOR) || path.endsWith(FILE_SEPARATOR))
+                    resource = path + resource;
                 else resource = path + FILE_SEPARATOR + resource;
                 filenames.add(resource);
 //                System.out.println("\tResource: " + resource);
@@ -94,8 +95,12 @@ public class ResourceLoader {
 //            throw new RuntimeException(e);
         }
 //        System.out.println("Found " + filenames.size() + " resources.");
-
         return filenames;
+    }
+
+    public String getName(String path) {
+        path = formatPath(path);
+        return path.substring(path.lastIndexOf(FILE_SEPARATOR) + 1);
     }
 
 
@@ -133,5 +138,24 @@ public class ResourceLoader {
     public List<String> getResourceFiles(String path1, String path2) throws IOException {
         path1 = formatPath(path1 + FILE_SEPARATOR + path2);
         return listResourceFiles(path1);
+    }
+
+    public byte[] getResourceBytes(String path) throws IOException {
+        try (InputStream is = getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] data = new byte[1024];
+            int bytesRead;
+            try {
+                while ((bytesRead = is.read(data)) != -1) {
+                    buffer.write(data, 0, bytesRead);
+                }
+            } catch (IOException e) {
+                ErrorHandler.report(e);
+            }
+            return buffer.toByteArray();
+        }
     }
 }
