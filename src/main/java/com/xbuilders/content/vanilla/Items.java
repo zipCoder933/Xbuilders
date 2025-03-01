@@ -7,6 +7,7 @@ import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -114,6 +115,13 @@ public class Items {
         itemList.add(new Sword("diamond", 4000, 5));
 
         itemList.add(new Swatter(500));
+        itemList.add(new EntityRemovalTool((e) -> e instanceof LivingEntity,
+                "xbuilders:animal_removal_tool",
+                "Animal Removal Tool"));
+
+        itemList.add(new EntityRemovalTool((e) -> true,
+                "xbuilders:entity_removal_tool",
+                "Entity Removal Tool"));
 
         itemList.add(new Saddle());
         itemList.add(new Hoe());

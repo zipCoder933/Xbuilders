@@ -10,19 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/EntityRemovalTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/icon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/ItemClasses.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/json/animals.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/json/food.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/json/items.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/json/ores.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/json/resources.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/items/json/sandstone.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Blocks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/ItemUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/ItemUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceLoader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +23,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -109,11 +99,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xbuilders.content.vanilla" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.items.recipes" />
       <recent name="com.xbuilders.game.vanilla.terrain.defaultTerrain" />
       <recent name="com.xbuilders.engine.items.loot" />
-      <recent name="com.xbuilders.game.items.entities.animal.mobile" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\utils\json\fasterXML\animalFeedInput" />
