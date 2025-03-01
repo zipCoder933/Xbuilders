@@ -71,18 +71,16 @@ public class ItemRegistry {
         assignMapAndVerify(inputBlocks);
 
         //Initialize all items
-        try {
-            for (Item item : getList()) {
+        for (Item item : getList()) {
+            try {
                 if (item.initializationCallback != null) {
                     item.initializationCallback.accept(item);
                 }
                 item.init(blockMap, entityMap, blockAliasToIDMap, entityAliasToIDMap,
                         textures, ResourceUtils.BLOCK_ICON_DIR, defaultIcon);
+            } catch (Exception e) {
+                ErrorHandler.report("An error occured setting up item \"" + item.toString() + "\"", e);
             }
-        } catch (IOException ex) {
-            ErrorHandler.report(ex);
         }
     }
-
-
 }

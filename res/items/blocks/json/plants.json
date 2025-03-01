@@ -385,5 +385,77 @@
       0.0
     ],
     "properties": {}
+  },
+  {
+    "alias": "xbuilders:sugar_cane",
+    "id": 15,
+    "texture": {
+      "neg_y": "sugar_cane",
+      "pos_x": "sugar_cane",
+      "pos_z": "sugar_cane",
+      "neg_z": "sugar_cane",
+      "neg_x": "sugar_cane",
+      "pos_y": "sugar_cane"
+    },
+    "solid": false,
+    "opaque": false,
+    "toughness": 0.4,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:bamboo",
+    "id": 740,
+    "texture": {
+      "neg_y": "bamboo_sprite",
+      "pos_x": "bamboo_sprite",
+      "pos_z": "bamboo_sprite",
+      "neg_z": "bamboo_sprite",
+      "neg_x": "bamboo_sprite",
+      "pos_y": "bamboo_sprite"
+    },
+    "solid": false,
+    "opaque": false,
+    "toughness": 0.4,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:bamboo_sapling",
+    "id": 742,
+    "texture": {
+      "neg_y": "bamboo_stage0.png",
+      "pos_x": "bamboo_stage0.png",
+      "pos_z": "bamboo_stage0.png",
+      "neg_z": "bamboo_stage0.png",
+      "neg_x": "bamboo_stage0.png",
+      "pos_y": "bamboo_stage0.png"
+    },
+    "solid": false,
+    "opaque": false,
+    "toughness": 0.6,
+    "torch": 0,
+    "type": 3,
+    "colorInPlayerHead": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "properties": {}
   }
 ]

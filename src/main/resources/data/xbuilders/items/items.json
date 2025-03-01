@@ -65,11 +65,6 @@
     "block": 14
   },
   {
-    "id": "xbuilders:plant_bamboo",
-    "name": "Bamboo Plant",
-    "block": 15
-  },
-  {
     "id": "xbuilders:sand",
     "name": "Sand",
     "block": 16
@@ -4872,15 +4867,5 @@
     "id": "xbuilders:string",
     "name": "String",
     "icon": "string.png"
-  },
-  {
-    "id": "xbuilders:sugar_cane",
-    "name": "Sugar Cane",
-    "icon": "sugar_cane.png"
-  },
-  {
-    "id": "xbuilders:sugar",
-    "name": "Sugar",
-    "icon": "sugar.png"
   }
 ]

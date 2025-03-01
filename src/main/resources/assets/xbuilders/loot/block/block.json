@@ -1785,13 +1785,6 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:plant_bamboo": [
-    {
-      "item": "xbuilders:bamboo",
-      "chance": 1.0,
-      "maxItems": 3
-    }
-  ],
   "xbuilders:yellow_chiseled_marble_tile_pillar": [
     {
       "item": "xbuilders:yellow_chiseled_marble_tile_pillar",

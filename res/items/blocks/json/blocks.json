@@ -307,30 +307,6 @@
     "properties": {}
   },
   {
-    "alias": "xbuilders:bamboo",
-    "id": 15,
-    "texture": {
-      "neg_y": "bamboo",
-      "pos_x": "bamboo",
-      "pos_z": "bamboo",
-      "neg_z": "bamboo",
-      "neg_x": "bamboo",
-      "pos_y": "bamboo"
-    },
-    "solid": false,
-    "opaque": false,
-    "toughness": 0.4,
-    "torch": 0,
-    "type": 3,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
-  {
     "alias": "xbuilders:sand",
     "id": 16,
     "texture": {

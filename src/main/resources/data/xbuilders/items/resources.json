@@ -1,18 +1,24 @@
 [
   {
-    "id": "xbuilders:flag_block",
-    "name": "Flag Block",
-    "block": "xbuilders:flag_block"
-  },
-  {
-    "id": "xbuilders:spawn_block",
-    "name": "Spawn Block",
-    "block": "xbuilders:spawn_block"
-  },
-  {
     "id": "xbuilders:bamboo",
     "name": "Bamboo",
+    "block": "xbuilders:bamboo_sapling",
     "icon": "bamboo.png"
+  },
+  {
+    "id": "xbuilders:bamboo_stalk",
+    "name": "Bamboo Stalk",
+    "block": "xbuilders:bamboo"
+  },
+  {
+    "id": "xbuilders:sugar_cane",
+    "name": "Sugar Cane Plant",
+    "block": 15
+  },
+  {
+    "id": "xbuilders:sugar",
+    "name": "Sugar",
+    "icon": "sugar.png"
   },
   {
     "id": "xbuilders:honeycomb",

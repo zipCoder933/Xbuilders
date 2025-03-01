@@ -1,0 +1,28 @@
+{
+  "xbuilders:bamboo": [
+    {
+      "item": "xbuilders:bamboo",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "xbuilders:bamboo_sapling": [
+    {
+      "item": "xbuilders:bamboo",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ],
+  "xbuilders:sugar_cane": [
+    {
+      "item": "xbuilders:sugar_cane",
+      "chance": 1.0,
+      "maxItems": 1
+    },
+    {
+      "item": "xbuilders:sugar",
+      "chance": 1.0,
+      "maxItems": 1
+    }
+  ]
+}

@@ -10,9 +10,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/EntityRemovalTool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/loot/block/plants.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/game.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/blocks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/json/plants.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/json/plants.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/loot/block/block.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/loot/block/block.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/bamboo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/bamboo_large_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/bamboo_singleleaf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/bamboo_small_leaves.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/bamboo_stage0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/bamboo_stalk.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/resources.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/resources.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
