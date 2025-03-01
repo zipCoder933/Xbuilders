@@ -74,6 +74,10 @@ public class Registrys {
         return blocks.getBlock(blockID);
     }
 
+    public static Block getBlock(String blockID) {
+        return blocks.getBlock(blockID);
+    }
+
     public static EntitySupplier getEntity(String blockID) {
         return entities.getItem(blockID);
     }

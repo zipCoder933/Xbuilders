@@ -27,7 +27,7 @@ public class SpriteRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = false;
-            b.toughness = 0.1f;
+            b.toughness = 0f;
         };
     }
 

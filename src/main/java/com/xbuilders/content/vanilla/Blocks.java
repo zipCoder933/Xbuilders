@@ -89,12 +89,7 @@ public class Blocks {
         hard.toolsThatCanMine_tags = new String[]{"diamond"};
         hard.easierMiningTool_tag = "pickaxe";
 
-        //set toughness levels automatically
         for (Block b : Registrys.blocks.getList()) {
-            if (b.toughness <= 1 && !b.solid) {
-                if (b.renderType == RenderType.SPRITE) b.toughness = 0f;
-                else b.toughness = 0.1f;
-            }
             //Add flammable tag to various blocks
             if (isWood(b)) {
                 b.properties.put("flammable", "true");
@@ -240,6 +235,13 @@ public class Blocks {
                 Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_5),
                 Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_6),
                 Registrys.getBlock(Blocks.BLOCK_WHEAT));
+
+        PlantUtils.makeStalk(
+                Registrys.getBlock("xbuilders:bamboo"),
+                Registrys.getBlock("xbuilders:bamboo_sapling"), 15);
+
+        PlantUtils.makeStalk(
+                Registrys.getBlock("xbuilders:sugar_cane"), null, 10);
 
 
         Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).randomTickEvent = OakTreeUtils.randomTickEvent;
