@@ -13,6 +13,7 @@ import com.xbuilders.content.vanilla.blocks.trees.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.xbuilders.engine.server.ItemUtils.getAllJsonBlocks;
 import static com.xbuilders.engine.utils.math.RandomUtils.random;
@@ -116,45 +117,59 @@ public class Blocks {
                 && b.solid;
     }
 
-    private static short growPlantsOnGrass(short thisBlock, Block aboveBlock) {
-//Tall grass makes air
-        if (aboveBlock.id == Blocks.BLOCK_TALL_GRASS
+    public static final List<Short> reeds = new ArrayList<>();
+    public static final List<Short> flowers = new ArrayList<>();
+    public static final List<Short> grass = new ArrayList<>();
+
+    static {
+        //Reeds
+        reeds.add(Blocks.BLOCK_GRASS_PLANT);
+        reeds.add(Blocks.BLOCK_FERN);
+        reeds.add(Blocks.BLOCK_DEAD_BUSH);
+
+        //Flowers
+        flowers.add(Blocks.BLOCK_PANSIES);
+        flowers.add(Blocks.BLOCK_ROSES);
+        flowers.add(Blocks.BLOCK_DANDELION);
+        flowers.add(Blocks.BLOCK_AZURE_BLUET);
+        flowers.add(Blocks.BLOCK_ORANGE_TULIP);
+
+        //Grass
+        grass.add(Blocks.BLOCK_GRASS_PLANT);
+        grass.add(Blocks.BLOCK_DRY_GRASS_PLANT);
+        grass.add(Blocks.BLOCK_JUNGLE_GRASS_PLANT);
+        grass.add(Blocks.BLOCK_TALL_DRY_GRASS);
+        grass.add(Blocks.BLOCK_TALL_GRASS);
+    }
+
+
+    private static short growOrKillPlantsOnGrass(short thisBlock, Block aboveBlock) {
+        /**
+         * Remove grass
+         */
+        if (aboveBlock.id == Blocks.BLOCK_TALL_GRASS //If the above block is tall grass
                 || aboveBlock.id == Blocks.BLOCK_TALL_DRY_GRASS
-                || (random.nextFloat() < 0.7 && !aboveBlock.solid && aboveBlock.renderType == RenderType.SPRITE)
         ) {
             return Blocks.BLOCK_AIR;
-        } else if (thisBlock == Blocks.BLOCK_GRASS || thisBlock == Blocks.BLOCK_SNOW_GRASS) {
+
+        } else if (random.nextFloat() < 0.75
+                && aboveBlock.renderType == RenderType.SPRITE //If the above block is a sprite
+                && (reeds.contains(aboveBlock.id)
+                || flowers.contains(aboveBlock.id)
+                || grass.contains(aboveBlock.id)) //If the above block is a reed or flower
+        ) {
+            return Blocks.BLOCK_AIR;
+
+        }
+        /**
+         * Grow grass
+         */
+        else if (thisBlock == Blocks.BLOCK_GRASS || thisBlock == Blocks.BLOCK_SNOW_GRASS) {
             if (aboveBlock == BlockRegistry.BLOCK_AIR) {
-                if (random.nextFloat() < 0.6) {//Grass and dry reed
-                    switch (random.nextInt(3)) {
-                        case 0 -> {
-                            return Blocks.BLOCK_PLANT_GRASS;
-                        }
-                        case 1 -> {
-                            return Blocks.BLOCK_FERN;
-                        }
-                        case 2 -> {
-                            return Blocks.BLOCK_DEAD_BUSH;
-                        }
-                    }
+                if (random.nextFloat() < 0.6) {//reeds
+                    return reeds.get(random.nextInt(reeds.size()));
                 } else {//Flowers
-                    switch (random.nextInt(5)) {
-                        case 0 -> {
-                            return Blocks.BLOCK_PANSIES;
-                        }
-                        case 1 -> {
-                            return Blocks.BLOCK_ROSES;
-                        }
-                        case 2 -> {
-                            return Blocks.BLOCK_DANDELION;
-                        }
-                        case 3 -> {
-                            return Blocks.BLOCK_AZURE_BLUET;
-                        }
-                        case 4 -> {
-                            return Blocks.BLOCK_ORANGE_TULIP;
-                        }
-                    }
+                    return flowers.get(random.nextInt(flowers.size()));
                 }
             }
         } else if (thisBlock == Blocks.BLOCK_DRY_GRASS) {
@@ -186,9 +201,9 @@ public class Blocks {
                 return true;
             }
 
-            //Grow grass
-            if (random.nextFloat() < 0.3) {
-                short grassToPlant = growPlantsOnGrass(thisBlock, aboveBlock);
+            //Grow/kill grass
+            if (random.nextFloat() < 0.2) {
+                short grassToPlant = growOrKillPlantsOnGrass(thisBlock, aboveBlock);
                 if (grassToPlant != -1) {
                     Server.setBlock(grassToPlant, x, y - 1, z);
                     return true;
@@ -238,10 +253,18 @@ public class Blocks {
 
         PlantUtils.makeStalk(
                 Registrys.getBlock("xbuilders:bamboo"),
-                Registrys.getBlock("xbuilders:bamboo_sapling"), 15);
+                Registrys.getBlock("xbuilders:bamboo_sapling"),
+                15,
+                (block) -> {//Growable
+                    return PlantUtils.blockIsSandOrGravel(block) || block.id == Blocks.BLOCK_JUNGLE_GRASS;
+                });
 
         PlantUtils.makeStalk(
-                Registrys.getBlock("xbuilders:sugar_cane"), null, 10);
+                Registrys.getBlock("xbuilders:sugar_cane"), null,
+                10,
+                (block) -> {//growable
+                    return PlantUtils.blockIsSandOrGravel(block);
+                });
 
 
         Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).randomTickEvent = OakTreeUtils.randomTickEvent;
@@ -334,8 +357,9 @@ public class Blocks {
     public static short BLOCK_GRAVEL = 10;
     public static short BLOCK_OAK_LOG = 11;
     public static short BLOCK_OAK_LEAVES = 12;
-    public static short BLOCK_PLANT_GRASS = 14;
-    public static short BLOCK_BAMBOO = 15;
+    public static short BLOCK_GRASS_PLANT = 14;
+    public static short BLOCK_SUGAR_CANE = 15;
+    public static short BLOCK_BAMBOO = 740;
     public static short BLOCK_SAND = 16;
     public static short BLOCK_SANDSTONE = 17;
     public static short BLOCK_ANDESITE = 18;

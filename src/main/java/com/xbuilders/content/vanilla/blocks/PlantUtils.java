@@ -12,6 +12,8 @@ import com.xbuilders.engine.server.loot.LootTableRegistry;
 import com.xbuilders.engine.server.loot.block.BlockLootRegistry;
 import org.joml.Vector3f;
 
+import java.util.function.Predicate;
+
 public class PlantUtils {
 
 
@@ -43,9 +45,6 @@ public class PlantUtils {
         return blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z));
     }
 
-    public static boolean sandPlantable(final int x, final int y, final int z) {
-        return blockIsSandOrGravel(Server.world.getBlock(x, y + 1, z));
-    }
 
     public static boolean isGrass(short thisBlock) {
         return thisBlock == Blocks.BLOCK_GRASS ||
@@ -85,12 +84,12 @@ public class PlantUtils {
     }
 
 
-    public static void makeStalk(Block stalk, Block sapling, int maxHeight) {
+    public static void makeStalk(Block stalk, Block sapling, int maxHeight, Predicate<Block> canGrow) {
         stalk.randomTickEvent = (x, y, z) -> {
-            return growStalk(x, y, z, stalk, sapling, maxHeight);
+            return growStalk(x, y, z, stalk, sapling, maxHeight,canGrow);
         };
         if (sapling != null) sapling.randomTickEvent = (x, y, z) -> {
-            return growStalk(x, y, z, stalk, sapling, maxHeight);
+            return growStalk(x, y, z, stalk, sapling, maxHeight,canGrow);
         };
 
         //We have to manually remove blocks above the stalk and add item drops
@@ -112,8 +111,12 @@ public class PlantUtils {
         }));
     }
 
-    private static boolean growStalk(int x, int y, int z, Block stalkBlock, Block stalkSapling, int maxHeight) {
-        if (sandPlantable(x, y, z)) {//If this is the bottom of a stalk
+    private static boolean growStalk(int x, int y, int z,
+                                     Block stalkBlock, Block stalkSapling, int maxHeight,
+                                     Predicate<Block> plantable) {
+
+        Block belowBlock = (Server.world.getBlock(x, y + 1, z));
+        if (plantable.test(belowBlock)) {//If this is the bottom of a stalk
             for (int i = 0; i > -maxHeight; i--) {//Go up -20 blocks max
                 Block stalk = Server.world.getBlock(x, y + i, z);
                 if ((stalk != null && stalk.id == stalkBlock.id)) {//If this is a stalk
