@@ -183,6 +183,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 }
             }
         }
+        teleport(worldPosition.x, worldPosition.y, worldPosition.z);
+    }
+
+    public void teleport(float x, float y, float z) {
+        previous_playerBlock = null;
+        previous_CameraBlock = null;
+        worldPosition.set(x, y, z);
+        Server.alertClient("Teleported to " + x + ", " + y + ", " + z);
     }
 
     private boolean isSafeHeadPos(Block block) {
@@ -499,18 +507,18 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
 
-    Block prevCameraBlock = BlockRegistry.BLOCK_AIR;
-    Block playerBlock = BlockRegistry.BLOCK_AIR;
+    Block previous_CameraBlock = BlockRegistry.BLOCK_AIR;
+    Block previous_playerBlock = BlockRegistry.BLOCK_AIR;
 
     public void render(boolean holdMouse) {
     }
 
     public void updateAndRender(boolean holdMouse) {
         if (canMove()) camera.cursorRay.update();
-        Block prevHeadBlock = getBlockAtPlayerHead();
+        Block blockAtHead = getBlockAtPlayerHead();
         Block blockAtWaist = getBlockAtPlayerWaist();
         Block blockAtFeet = getBlockAtPlayerFeet();
-        updateHealthbars(prevHeadBlock, blockAtFeet, blockAtWaist);
+        updateHealthbars(blockAtHead, blockAtFeet, blockAtWaist);
 
 
         if (positionLock != null && (positionLock.entity == null || positionLock.entity.isDestroyMode() || dieMode)) {
@@ -519,8 +527,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
 
         Block newCameraBlock = getBlockAtCameraPos();
-        if (newCameraBlock != prevCameraBlock) {
-            prevCameraBlock = newCameraBlock;
+        if (previous_CameraBlock == null || newCameraBlock != previous_CameraBlock) {
+            previous_CameraBlock = newCameraBlock;
             if (newCameraBlock.isAir()) {//Air is always transparent
                 ClientWindow.gameScene.ui.setOverlayColor(0, 0, 0, 0);
             } else if (newCameraBlock.opaque && newCameraBlock.colorInPlayerHead[3] == 0
@@ -537,16 +545,17 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
 
 
-        if (prevHeadBlock.id != playerBlock.id) {
-            playerBlock = prevHeadBlock;
-            if (newCameraBlock.renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID) {
-                System.out.println("Water!");
+        /**
+         * Update the block at the players head, this affects player gravity
+         */
+        if (previous_playerBlock == null || blockAtHead.id != previous_playerBlock.id) {
+            previous_playerBlock = blockAtHead;
+            if (blockAtHead.renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.setVelocity(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 8,
                         PositionHandler.MAX_TERMINAL_VELOCITY / 30);
-            } else if (newCameraBlock.isAir()) {
-                System.out.println("Air!");
-                positionHandler.resetFallMedium();
+            } else if (blockAtHead.isAir()) {
+                inAirEvent();
             }
         }
 
@@ -627,7 +636,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                         worldPosition.add(0, FLY_VERTICAL_SPEED * window.smoothFrameDeltaSec, 0);
                         disableGravity();
                     }
-                } else if (playerBlock.isLiquid() && keyInputAllowed() && window.isKeyPressed(KEY_JUMP)) {
+                } else if (previous_playerBlock.isLiquid() && keyInputAllowed() && window.isKeyPressed(KEY_JUMP)) {
                     positionHandler.addVelocity(0, -0.05f, 0);
                 }
             }
@@ -677,6 +686,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             lastOrientation.set(worldPosition.x, worldPosition.y, worldPosition.z, pan);
             Server.server.sendPlayerPosition(lastOrientation);
         }
+    }
+
+    private void inAirEvent() {
+        positionHandler.resetFallMedium();
     }
 
     private boolean canRun() {

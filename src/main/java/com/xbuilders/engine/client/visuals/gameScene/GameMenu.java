@@ -184,8 +184,7 @@ public class GameMenu extends UI_GameMenu {
             Server.alertClient("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
             GameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
         } else {
-            GameScene.userPlayer.worldPosition.set(new Vector3f(x, y, z));
-            Server.alertClient("Teleported to " + x + ", " + y + ", " + z);
+            GameScene.userPlayer.teleport(x, y, z);
         }
     }
 
