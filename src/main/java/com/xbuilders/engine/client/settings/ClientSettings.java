@@ -34,7 +34,7 @@ public class ClientSettings {
 
     public ClientSettings initVariables() {
         internal_viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
-        internal_simulationDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
+        internal_simulationDistance.setBounds(World.VIEW_DIST_MIN / 2, World.VIEW_DIST_MAX);
         video_entityDistance.setBounds(20, 100);
         video_fullscreenSize.setBounds(0.5f, 1.0f);
         video_fullscreenSize.clamp();

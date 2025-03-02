@@ -6,342 +6,18 @@ import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.content.vanilla.blocks.*;
 import com.xbuilders.content.vanilla.blocks.trees.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.xbuilders.engine.server.ItemUtils.getAllJsonBlocks;
 import static com.xbuilders.engine.utils.math.RandomUtils.random;
 
 public class Blocks {
 
-
-    /**
-     * Returns a list of all blocks for initialization
-     *
-     * @return
-     */
-    public static ArrayList<Block> starup_getBlocks() {
-
-        //Load blocks from our json files
-        ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.file("\\items\\blocks\\json"));
-
-        //Add blocks
-        blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
-        blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
-        blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
-        blockList.add(new BlockStraightTrack(Blocks.BLOCK_STRAIGHT_TRACK));
-        blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN_BLOCK));
-        blockList.add(new BlockFlag(Blocks.BLOCK_FLAG_BLOCK));
-
-        if (ClientWindow.devMode) {//Make ids for dev mode
-            try {
-                ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.file("\\items\\blocks\\java"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return blockList;
-    }
-
-
-    public static void editBlocks(ClientWindow window) {
-        //Block UIs
-        ClientWindow.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
-        ClientWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
-
-
-        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
-        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
-
-
-        BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_GRASS_TOP, Blocks.BLOCK_TALL_GRASS);
-        BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_DRY_GRASS_TOP, Blocks.BLOCK_TALL_DRY_GRASS);
-
-        Block lava = Registrys.getBlock(Blocks.BLOCK_LAVA);
-        lava.liquidMaxFlow = 6;
-        lava.enterDamage = 0.5f;
-
-        Block fire = Registrys.getBlock(Blocks.BLOCK_FIRE);
-        fire.enterDamage = 0.2f;
-
-        randomTickEvents();
-
-        changeMaterialCoasting();
-
-        GravityBlock gravity = new GravityBlock(window);
-        gravity.convert(Registrys.getBlock(Blocks.BLOCK_SAND));
-        gravity.convert(Registrys.getBlock(Blocks.BLOCK_RED_SAND));
-        gravity.convert(Registrys.getBlock(Blocks.BLOCK_GRAVEL));
-        gravity.convert(Registrys.getBlock(Blocks.BLOCK_SNOW_BLOCK));
-
-        //Some blocks can only be mined with certain tools
-        Block hard = Registrys.getBlock(Blocks.BLOCK_OBSIDIAN);
-        hard.toolsThatCanMine_tags = new String[]{"diamond"}; //tags
-        hard.easierMiningTool_tag = "pickaxe";
-
-        hard = Registrys.getBlock(Blocks.BLOCK_DIAMOND_BLOCK);
-        hard.toolsThatCanMine_tags = new String[]{"diamond"};
-        hard.easierMiningTool_tag = "pickaxe";
-
-        for (Block b : Registrys.blocks.getList()) {
-            //Add flammable tag to various blocks
-            if (isWood(b)) {
-                b.properties.put("flammable", "true");
-            } else if (!b.solid && b.renderType == RenderType.SPRITE
-                    && (b.alias.contains("dead") || b.alias.contains("dry") || b.alias.contains("grass"))) {
-                b.properties.put("flammable", "true");
-            }
-
-
-            if (isWood(b)) {
-                b.easierMiningTool_tag = "axe";
-            } else if (PlantUtils.blockIsGrassSnowOrDirt(b)
-                    || b.alias.contains("sand") || b.alias.contains("gravel") || b.alias.contains("clay") || b.alias.contains("leaves")) {
-                b.easierMiningTool_tag = "shovel";
-            }
-        }
-
-    }
-
-    private static boolean isWood(Block b) {
-        return (b.alias.contains("wood") || b.alias.contains("log") || b.alias.contains("planks")
-                || b.alias.contains("birch") || b.alias.contains("jungle") || b.alias.contains("oak")
-                || b.alias.contains("spruce") || b.alias.contains("acacia"))
-                && b.solid;
-    }
-
-    public static final List<Short> reeds = new ArrayList<>();
-    public static final List<Short> flowers = new ArrayList<>();
-    public static final List<Short> grass = new ArrayList<>();
-
-    static {
-        //Reeds
-        reeds.add(Blocks.BLOCK_GRASS_PLANT);
-        reeds.add(Blocks.BLOCK_FERN);
-        reeds.add(Blocks.BLOCK_DEAD_BUSH);
-
-        //Flowers
-        flowers.add(Blocks.BLOCK_PANSIES);
-        flowers.add(Blocks.BLOCK_ROSES);
-        flowers.add(Blocks.BLOCK_DANDELION);
-        flowers.add(Blocks.BLOCK_AZURE_BLUET);
-        flowers.add(Blocks.BLOCK_ORANGE_TULIP);
-
-        //Grass
-        grass.add(Blocks.BLOCK_GRASS_PLANT);
-        grass.add(Blocks.BLOCK_DRY_GRASS_PLANT);
-        grass.add(Blocks.BLOCK_JUNGLE_GRASS_PLANT);
-        grass.add(Blocks.BLOCK_TALL_DRY_GRASS);
-        grass.add(Blocks.BLOCK_TALL_GRASS);
-    }
-
-
-    private static short growOrKillPlantsOnGrass(short thisBlock, Block aboveBlock) {
-        /**
-         * Remove grass
-         */
-        if (aboveBlock.id == Blocks.BLOCK_TALL_GRASS //If the above block is tall grass
-                || aboveBlock.id == Blocks.BLOCK_TALL_DRY_GRASS
-        ) {
-            return Blocks.BLOCK_AIR;
-
-        } else if (random.nextFloat() < 0.75
-                && aboveBlock.renderType == RenderType.SPRITE //If the above block is a sprite
-                && (reeds.contains(aboveBlock.id)
-                || flowers.contains(aboveBlock.id)
-                || grass.contains(aboveBlock.id)) //If the above block is a reed or flower
-        ) {
-            return Blocks.BLOCK_AIR;
-
-        }
-        /**
-         * Grow grass
-         */
-        else if (thisBlock == Blocks.BLOCK_GRASS || thisBlock == Blocks.BLOCK_SNOW_GRASS) {
-            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
-                if (random.nextFloat() < 0.6) {//reeds
-                    return reeds.get(random.nextInt(reeds.size()));
-                } else {//Flowers
-                    return flowers.get(random.nextInt(flowers.size()));
-                }
-            }
-        } else if (thisBlock == Blocks.BLOCK_DRY_GRASS) {
-            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
-                return Blocks.BLOCK_DRY_GRASS_PLANT;
-            } else if (aboveBlock.id == Blocks.BLOCK_DRY_GRASS_PLANT) {
-                return Blocks.BLOCK_TALL_DRY_GRASS;
-            }
-        } else if (thisBlock == Blocks.BLOCK_JUNGLE_GRASS) {
-            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
-                return Blocks.BLOCK_JUNGLE_GRASS_PLANT;
-            } else if (aboveBlock.id == Blocks.BLOCK_JUNGLE_GRASS_PLANT) {
-                return Blocks.BLOCK_TALL_GRASS;
-            }
-        }
-        return -1;
-    }
-
-    private static void randomTickEvents() {
-        Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
-            short thisBlock = Server.world.getBlockID(x, y, z);
-            Block aboveBlock = Server.world.getBlock(x, y - 1, z);
-
-            if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                Server.setBlock(PlantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
-                return true;
-            } else if (PlantUtils.isGrass(thisBlock) && aboveBlock.solid) {
-                Server.setBlock(Blocks.BLOCK_DIRT, x, y, z);
-                return true;
-            }
-
-            //Grow/kill grass
-            if (random.nextFloat() < 0.2) {
-                short grassToPlant = growOrKillPlantsOnGrass(thisBlock, aboveBlock);
-                if (grassToPlant != -1) {
-                    Server.setBlock(grassToPlant, x, y - 1, z);
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        Block dirt = Registrys.getBlock(Blocks.BLOCK_DIRT);
-        dirt.randomTickEvent = dirtGrassTickEvent;
-        Block grass = Registrys.getBlock(Blocks.BLOCK_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
-        grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
-        grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
-        grass = Registrys.getBlock(Blocks.BLOCK_SNOW_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
-
-        PlantUtils.addPlantGrowthEvents(
-                Registrys.getBlock(Blocks.BLOCK_BEETROOT_SEEDS),
-                Registrys.getBlock(Blocks.BLOCK_BEETROOT_GROWTH_1),
-                Registrys.getBlock(Blocks.BLOCK_BEETROOT_GROWTH_2),
-                Registrys.getBlock(Blocks.BLOCK_BEETS));
-
-        PlantUtils.addPlantGrowthEvents(
-                Registrys.getBlock(Blocks.BLOCK_CARROT_SEEDS),
-                Registrys.getBlock(Blocks.BLOCK_CARROT_GROWTH_1),
-                Registrys.getBlock(Blocks.BLOCK_CARROT_GROWTH_2),
-                Registrys.getBlock(Blocks.BLOCK_CARROTS));
-
-        PlantUtils.addPlantGrowthEvents(
-                Registrys.getBlock(Blocks.BLOCK_POTATO_SEEDS),
-                Registrys.getBlock(Blocks.BLOCK_POTATO_GROWTH_1),
-                Registrys.getBlock(Blocks.BLOCK_POTATO_GROWTH_2),
-                Registrys.getBlock(Blocks.BLOCK_POTATOES));
-
-        PlantUtils.addPlantGrowthEvents(
-                Registrys.getBlock(Blocks.BLOCK_WHEAT_SEEDS),
-                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_1),
-                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_2),
-                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_3),
-                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_4),
-                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_5),
-                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_6),
-                Registrys.getBlock(Blocks.BLOCK_WHEAT));
-
-        PlantUtils.makeStalk(
-                Registrys.getBlock("xbuilders:bamboo"),
-                Registrys.getBlock("xbuilders:bamboo_sapling"),
-                15,
-                (block) -> {//Growable
-                    return PlantUtils.blockIsSandOrGravel(block) || block.id == Blocks.BLOCK_JUNGLE_GRASS;
-                });
-
-        PlantUtils.makeStalk(
-                Registrys.getBlock("xbuilders:sugar_cane"), null,
-                10,
-                (block) -> {//growable
-                    return PlantUtils.blockIsSandOrGravel(block);
-                });
-
-
-        Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).randomTickEvent = OakTreeUtils.randomTickEvent;
-        Registrys.getBlock(Blocks.BLOCK_SPRUCE_SAPLING).randomTickEvent = SpruceTreeUtils.randomTickEvent;
-        Registrys.getBlock(Blocks.BLOCK_BIRCH_SAPLING).randomTickEvent = BirchTreeUtils.randomTickEvent;
-        Registrys.getBlock(Blocks.BLOCK_JUNGLE_SAPLING).randomTickEvent = JungleTreeUtils.randomTickEvent;
-        Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
-
-        Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
-            if (!Server.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
-                //Decay other blocks
-                if (!Server.world.getBlock(x, y + 1, z).solid ||
-                        Server.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
-                    Server.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
-                }
-                //Decay this block
-                Server.setBlock(Blocks.BLOCK_AIR, x, y, z);
-                return true;
-            } else {
-                boolean foundFlammable = false;
-                if (spreadIfFlammable(x + 1, y, z)) foundFlammable = true;
-                if (spreadIfFlammable(x - 1, y, z)) foundFlammable = true;
-                if (spreadIfFlammable(x, y, z + 1)) foundFlammable = true;
-                if (spreadIfFlammable(x, y, z - 1)) foundFlammable = true;
-
-                if (spreadIfFlammable(x + 1, y - 1, z)) foundFlammable = true;
-                if (spreadIfFlammable(x - 1, y - 1, z)) foundFlammable = true;
-                if (spreadIfFlammable(x, y - 1, z + 1)) foundFlammable = true;
-                if (spreadIfFlammable(x, y - 1, z - 1)) foundFlammable = true;
-
-                if (spreadIfFlammable(x + 1, y + 1, z)) foundFlammable = true;
-                if (spreadIfFlammable(x - 1, y + 1, z)) foundFlammable = true;
-                if (spreadIfFlammable(x, y + 1, z + 1)) foundFlammable = true;
-                if (spreadIfFlammable(x, y + 1, z - 1)) foundFlammable = true;
-
-                if (spreadIfFlammable(x + 1, y + 2, z)) foundFlammable = true;
-                if (spreadIfFlammable(x - 1, y + 2, z)) foundFlammable = true;
-                if (spreadIfFlammable(x, y + 2, z + 1)) foundFlammable = true;
-                if (spreadIfFlammable(x, y + 2, z - 1)) foundFlammable = true;
-
-                if (spreadIfFlammable(x, y - 1, z)) foundFlammable = true;
-                if (spreadIfFlammable(x, y + 2, z)) foundFlammable = true;
-
-                return foundFlammable;
-            }
-        };
-
-    }
-
-    private static boolean spreadIfFlammable(int x, int y, int z) {
-        if (Server.world.getBlock(x, y, z).properties.containsKey("flammable")) {
-            Server.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
-            return true;
-        }
-        return false;
-    }
-
-    private static void changeMaterialCoasting() {
-        for (Block b : Registrys.blocks.getList()) {
-            //Add coasting to all glass
-            if (b.alias.toLowerCase().contains("glass")) {
-                b.surfaceCoast = 0.95f;
-            }
-
-            //Add flammable tag to various blocks
-            String lowercaseName = b.alias.toLowerCase();
-            if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank") || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") || lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") || lowercaseName.contains("dark_oak") || lowercaseName.contains("crimson") || lowercaseName.contains("warped") || lowercaseName.contains("dry")) {
-                b.properties.put("flammable", "true");
-            }
-        }
-
-        Registrys.getBlock(Blocks.BLOCK_ICE_BLOCK).surfaceCoast = 0.995f;
-        Registrys.getBlock(Blocks.BLOCK_CACTUS).surfaceFriction = 0.5f;
-        Registrys.getBlock(Blocks.BLOCK_OAK_LOG).properties.put("flammable", "true");
-        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
-        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
-    }
 
     public static short BLOCK_AIR = 0;
     //List of all block IDs
@@ -1340,5 +1016,285 @@ public class Blocks {
     public static short BLOCK_STRAIGHT_TRACK = 155;
     public static short BLOCK_SPAWN_BLOCK = 552;
     public static short BLOCK_FLAG_BLOCK = 231;
+
+
+    /**
+     * Blocks must be initialized first, otherwise it will not work
+     * Utils
+     */
+    public static PlantBlockUtils plantUtils = new PlantBlockUtils();
+
+    /**
+     * Returns a list of all blocks for initialization
+     *
+     * @return
+     */
+    public static ArrayList<Block> starup_getBlocks() {
+
+        //Load blocks from our json files
+        ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.file("\\items\\blocks\\json"));
+
+        //Add blocks
+        blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
+        blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
+        blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
+        blockList.add(new BlockStraightTrack(Blocks.BLOCK_STRAIGHT_TRACK));
+        blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN_BLOCK));
+        blockList.add(new BlockFlag(Blocks.BLOCK_FLAG_BLOCK));
+
+        if (ClientWindow.devMode) {//Make ids for dev mode
+            try {
+                ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.file("\\items\\blocks\\java"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return blockList;
+    }
+
+
+    public static void editBlocks(ClientWindow window) {
+
+
+        //Block UIs
+        ClientWindow.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
+        ClientWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
+
+
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
+
+
+        BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_GRASS_TOP, Blocks.BLOCK_TALL_GRASS);
+        BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_DRY_GRASS_TOP, Blocks.BLOCK_TALL_DRY_GRASS);
+
+        Block lava = Registrys.getBlock(Blocks.BLOCK_LAVA);
+        lava.liquidMaxFlow = 6;
+        lava.enterDamage = 0.5f;
+
+        Block fire = Registrys.getBlock(Blocks.BLOCK_FIRE);
+        fire.enterDamage = 0.2f;
+
+        randomTickEvents();
+
+        changeMaterialCoasting();
+
+        GravityBlock gravity = new GravityBlock(window);
+        gravity.convert(Registrys.getBlock(Blocks.BLOCK_SAND));
+        gravity.convert(Registrys.getBlock(Blocks.BLOCK_RED_SAND));
+        gravity.convert(Registrys.getBlock(Blocks.BLOCK_GRAVEL));
+        gravity.convert(Registrys.getBlock(Blocks.BLOCK_SNOW_BLOCK));
+
+        //Some blocks can only be mined with certain tools
+        Block hard = Registrys.getBlock(Blocks.BLOCK_OBSIDIAN);
+        hard.toolsThatCanMine_tags = new String[]{"diamond"}; //tags
+        hard.easierMiningTool_tag = "pickaxe";
+
+        hard = Registrys.getBlock(Blocks.BLOCK_DIAMOND_BLOCK);
+        hard.toolsThatCanMine_tags = new String[]{"diamond"};
+        hard.easierMiningTool_tag = "pickaxe";
+
+        for (Block b : Registrys.blocks.getList()) {
+            //Add flammable tag to various blocks
+            if (isWood(b)) {
+                b.properties.put("flammable", "true");
+            } else if (!b.solid && b.renderType == RenderType.SPRITE
+                    && (b.alias.contains("dead") || b.alias.contains("dry") || b.alias.contains("grass"))) {
+                b.properties.put("flammable", "true");
+            }
+
+
+            if (isWood(b)) {
+                b.easierMiningTool_tag = "axe";
+            } else if (plantUtils.blockIsGrassSnowOrDirt(b)
+                    || b.alias.contains("sand") || b.alias.contains("gravel") || b.alias.contains("clay") || b.alias.contains("leaves")) {
+                b.easierMiningTool_tag = "shovel";
+            }
+        }
+
+    }
+
+    private static boolean isWood(Block b) {
+        return (b.alias.contains("wood") || b.alias.contains("log") || b.alias.contains("planks")
+                || b.alias.contains("birch") || b.alias.contains("jungle") || b.alias.contains("oak")
+                || b.alias.contains("spruce") || b.alias.contains("acacia"))
+                && b.solid;
+    }
+
+
+    private static void randomTickEvents() {
+        Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
+            short thisBlock = Server.world.getBlockID(x, y, z);
+            Block aboveBlock = Server.world.getBlock(x, y - 1, z);
+
+            if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
+                Server.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
+                return true;
+            } else if (plantUtils.isGrass(thisBlock) && aboveBlock.solid) {
+                Server.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+                return true;
+            }
+
+            //Grow grass, NOTE that the grass must have a way to decay as well
+            if (random.nextFloat() < 0.2) {
+                short grassToPlant = plantUtils.growPlants(thisBlock, aboveBlock);
+                if (grassToPlant != -1) {
+                    Server.setBlock(grassToPlant, x, y - 1, z);
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        Block dirt = Registrys.getBlock(Blocks.BLOCK_DIRT);
+        dirt.randomTickEvent = dirtGrassTickEvent;
+        Block grass = Registrys.getBlock(Blocks.BLOCK_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+        grass = Registrys.getBlock(Blocks.BLOCK_SNOW_GRASS);
+        grass.randomTickEvent = dirtGrassTickEvent;
+
+        /**
+         * Decay events
+         */
+        //All snowy/default growth has a 75% chance to disappear
+        for (short plant : plantUtils.snowyDefaultGrowth) {
+            plantUtils.addDecayTickEvent(Registrys.getBlock(plant));
+        }
+        //Grass
+        plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_GRASS_PLANT));
+        plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_DRY_GRASS_PLANT));
+        plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS_PLANT));
+        //Tall grass
+        plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_TALL_DRY_GRASS));
+        plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_TALL_GRASS));
+
+        /**
+         * Crops
+         */
+        plantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_BEETROOT_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_BEETROOT_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_BEETROOT_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_BEETS));
+
+        plantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_CARROT_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_CARROT_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_CARROT_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_CARROTS));
+
+        plantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_POTATO_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_POTATO_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_POTATO_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_POTATOES));
+
+        plantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_1),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_2),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_3),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_4),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_5),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_6),
+                Registrys.getBlock(Blocks.BLOCK_WHEAT));
+
+        plantUtils.makeStalk(
+                Registrys.getBlock("xbuilders:bamboo"),
+                Registrys.getBlock("xbuilders:bamboo_sapling"),
+                15,
+                (block) -> {//Growable
+                    return plantUtils.blockIsSandOrGravel(block) || block.id == Blocks.BLOCK_JUNGLE_GRASS;
+                });
+
+        plantUtils.makeStalk(
+                Registrys.getBlock("xbuilders:sugar_cane"), null,
+                8,
+                (block) -> {//growable
+                    return plantUtils.blockIsSandOrGravel(block);
+                });
+
+
+        Registrys.getBlock(Blocks.BLOCK_OAK_SAPLING).randomTickEvent = OakTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_SPRUCE_SAPLING).randomTickEvent = SpruceTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_BIRCH_SAPLING).randomTickEvent = BirchTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_JUNGLE_SAPLING).randomTickEvent = JungleTreeUtils.randomTickEvent;
+        Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
+
+        Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
+            if (!Server.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+                //Decay other blocks
+                if (!Server.world.getBlock(x, y + 1, z).solid ||
+                        Server.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                    Server.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
+                }
+                //Decay this block
+                Server.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                return true;
+            } else {
+                boolean foundFlammable = false;
+                if (spreadIfFlammable(x + 1, y, z)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x + 1, y - 1, z)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y - 1, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y - 1, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y - 1, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x + 1, y + 1, z)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y + 1, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 1, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 1, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x + 1, y + 2, z)) foundFlammable = true;
+                if (spreadIfFlammable(x - 1, y + 2, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 2, z + 1)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 2, z - 1)) foundFlammable = true;
+
+                if (spreadIfFlammable(x, y - 1, z)) foundFlammable = true;
+                if (spreadIfFlammable(x, y + 2, z)) foundFlammable = true;
+
+                return foundFlammable;
+            }
+        };
+
+    }
+
+    private static boolean spreadIfFlammable(int x, int y, int z) {
+        if (Server.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+            Server.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+            return true;
+        }
+        return false;
+    }
+
+    private static void changeMaterialCoasting() {
+        for (Block b : Registrys.blocks.getList()) {
+            //Add coasting to all glass
+            if (b.alias.toLowerCase().contains("glass")) {
+                b.surfaceCoast = 0.95f;
+            }
+
+            //Add flammable tag to various blocks
+            String lowercaseName = b.alias.toLowerCase();
+            if (lowercaseName.contains("leave") || lowercaseName.contains("log") || lowercaseName.contains("plank") || lowercaseName.contains("oak") || lowercaseName.contains("birch") || lowercaseName.contains("wood") || lowercaseName.contains("acacia") || lowercaseName.contains("jungle") || lowercaseName.contains("spruce") || lowercaseName.contains("dark_oak") || lowercaseName.contains("crimson") || lowercaseName.contains("warped") || lowercaseName.contains("dry")) {
+                b.properties.put("flammable", "true");
+            }
+        }
+
+        Registrys.getBlock(Blocks.BLOCK_ICE_BLOCK).surfaceCoast = 0.995f;
+        Registrys.getBlock(Blocks.BLOCK_CACTUS).surfaceFriction = 0.5f;
+        Registrys.getBlock(Blocks.BLOCK_OAK_LOG).properties.put("flammable", "true");
+        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK).bounciness = 0.7f;
+        Registrys.getBlock(Blocks.BLOCK_HONEYCOMB_BLOCK_SLAB).bounciness = 0.6f;
+    }
+
 
 }

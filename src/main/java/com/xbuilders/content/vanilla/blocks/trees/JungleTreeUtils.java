@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.blocks.PlantUtils;
+import com.xbuilders.content.vanilla.blocks.PlantBlockUtils;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class JungleTreeUtils {
     public static final Block.RandomTickEvent randomTickEvent = new Block.RandomTickEvent() {
         @Override
         public boolean run(int x, int y, int z) {
-            if (PlantUtils.plantable(x, y, z)) {
+            if (Blocks.plantUtils.plantable(x, y, z)) {
                 player_plantTree(new Random(), x, y, z);
                 return true;
             }

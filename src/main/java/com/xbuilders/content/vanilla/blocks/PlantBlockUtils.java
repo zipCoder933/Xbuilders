@@ -6,18 +6,43 @@ import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
-import com.xbuilders.engine.server.item.ItemStack;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.loot.AllLootTables;
-import com.xbuilders.engine.server.loot.LootTableRegistry;
-import com.xbuilders.engine.server.loot.block.BlockLootRegistry;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 
-public class PlantUtils {
+public class PlantBlockUtils {
+    public final List<Short> snowyDefaultGrowth = new ArrayList<>();
+    //    public final List<Short> grass = new ArrayList<>();
+    Random random = new Random();
 
+    public PlantBlockUtils() {
+        //Reeds
+        snowyDefaultGrowth.add(Blocks.BLOCK_GRASS_PLANT);
+        snowyDefaultGrowth.add(Blocks.BLOCK_FERN);
+        snowyDefaultGrowth.add(Blocks.BLOCK_DEAD_BUSH);
+        snowyDefaultGrowth.add(Blocks.BLOCK_PANSIES);
+        snowyDefaultGrowth.add(Blocks.BLOCK_ROSES);
+        snowyDefaultGrowth.add(Blocks.BLOCK_DANDELION);
+        snowyDefaultGrowth.add(Blocks.BLOCK_AZURE_BLUET);
+        snowyDefaultGrowth.add(Blocks.BLOCK_ORANGE_TULIP);
+        System.out.println("SnowDefaultGrowth: " + snowyDefaultGrowth.toString());
+    }
 
-    public static void addPlantGrowthEvents(final Block... stages) {
+    public void addDecayTickEvent(Block block) {
+        if (block == null) return;
+        block.randomTickEvent = (x, y, z) -> {
+//            System.out.println("Decaying " + block.id + " at " + x + ", " + y + ", " + z);
+            Server.setBlock(Blocks.BLOCK_AIR, x, y, z);
+            return true;
+        };
+    }
+
+    public void addPlantGrowthEvents(final Block... stages) {
         for (int i = 0; i < stages.length - 1; i++) {
             Block b = stages[i];
             final int finalI = i;
@@ -31,41 +56,41 @@ public class PlantUtils {
         }
     }
 
-    public static boolean deepPlantable(final int x, final int y, final int z) {
+    public boolean deepPlantable(final int x, final int y, final int z) {
         boolean val = blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z))
                 && blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 2, z));
         return val;
     }
 
-    public static boolean cropPlantable(final int x, final int y, final int z) {
+    public boolean cropPlantable(final int x, final int y, final int z) {
         return Server.world.getBlockID(x, y + 1, z) == Blocks.BLOCK_FARMLAND;
     }
 
-    public static boolean plantable(final int x, final int y, final int z) {
+    public boolean plantable(final int x, final int y, final int z) {
         return blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z));
     }
 
 
-    public static boolean isGrass(short thisBlock) {
+    public boolean isGrass(short thisBlock) {
         return thisBlock == Blocks.BLOCK_GRASS ||
                 thisBlock == Blocks.BLOCK_SNOW_GRASS ||
                 thisBlock == Blocks.BLOCK_JUNGLE_GRASS ||
                 thisBlock == Blocks.BLOCK_DRY_GRASS;
     }
 
-    public static boolean blockIsGrassSnowOrDirt(Block block) {
+    public boolean blockIsGrassSnowOrDirt(Block block) {
         return block.id == Blocks.BLOCK_FARMLAND
                 || block.id == Blocks.BLOCK_DIRT
                 || isGrass(block.id);
     }
 
-    public static boolean blockIsSandOrGravel(Block block) {
+    public boolean blockIsSandOrGravel(Block block) {
         return block.id == Blocks.BLOCK_SAND
                 || block.id == Blocks.BLOCK_RED_SAND
                 || block.id == Blocks.BLOCK_GRAVEL;
     }
 
-    public static short getGrassBlockOfBiome(int wx, int wy, int wz) {
+    public short getGrassBlockOfBiome(int wx, int wy, int wz) {
         int biome = Server.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case ComplexTerrain.BIOME_SNOWY -> {
@@ -84,12 +109,12 @@ public class PlantUtils {
     }
 
 
-    public static void makeStalk(Block stalk, Block sapling, int maxHeight, Predicate<Block> canGrow) {
+    public void makeStalk(Block stalk, Block sapling, int maxHeight, Predicate<Block> canGrow) {
         stalk.randomTickEvent = (x, y, z) -> {
-            return growStalk(x, y, z, stalk, sapling, maxHeight,canGrow);
+            return growStalk(x, y, z, stalk, sapling, maxHeight, canGrow);
         };
         if (sapling != null) sapling.randomTickEvent = (x, y, z) -> {
-            return growStalk(x, y, z, stalk, sapling, maxHeight,canGrow);
+            return growStalk(x, y, z, stalk, sapling, maxHeight, canGrow);
         };
 
         //We have to manually remove blocks above the stalk and add item drops
@@ -111,9 +136,9 @@ public class PlantUtils {
         }));
     }
 
-    private static boolean growStalk(int x, int y, int z,
-                                     Block stalkBlock, Block stalkSapling, int maxHeight,
-                                     Predicate<Block> plantable) {
+    private boolean growStalk(int x, int y, int z,
+                              Block stalkBlock, Block stalkSapling, int maxHeight,
+                              Predicate<Block> plantable) {
 
         Block belowBlock = (Server.world.getBlock(x, y + 1, z));
         if (plantable.test(belowBlock)) {//If this is the bottom of a stalk
@@ -130,4 +155,32 @@ public class PlantUtils {
         }
         return false;
     }
+
+
+    public short growPlants(short thisBlock, Block aboveBlock) {
+        /**
+         * Grow grass
+         */
+        if (thisBlock == Blocks.BLOCK_GRASS || thisBlock == Blocks.BLOCK_SNOW_GRASS) {
+            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
+                int indx = random.nextInt(snowyDefaultGrowth.size());
+                return snowyDefaultGrowth.get(indx);
+            }
+        } else if (thisBlock == Blocks.BLOCK_DRY_GRASS) {
+            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
+                return Blocks.BLOCK_DRY_GRASS_PLANT;
+            } else if (aboveBlock.id == Blocks.BLOCK_DRY_GRASS_PLANT) {
+                return Blocks.BLOCK_TALL_DRY_GRASS;
+            }
+        } else if (thisBlock == Blocks.BLOCK_JUNGLE_GRASS) {
+            if (aboveBlock == BlockRegistry.BLOCK_AIR) {
+                return Blocks.BLOCK_JUNGLE_GRASS_PLANT;
+            } else if (aboveBlock.id == Blocks.BLOCK_JUNGLE_GRASS_PLANT) {
+                return Blocks.BLOCK_TALL_GRASS;
+            }
+        }
+        return -1;
+    }
+
+
 }

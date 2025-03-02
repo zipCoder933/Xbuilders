@@ -14,7 +14,7 @@ public class LogicThread {
      * random tick amont (how fast plants grow, etc) is controlled by how many blocks are updated per tick.
      */
     final int TICK_RATE_MS = 50;
-    final int CHUNK_RANDOM_TICK_RATE = 10;
+    final int CHUNK_RANDOM_TICK_RATE = 40;
     private long lastTickTime = 0;
     private int ticks = 0;
     Server server;
