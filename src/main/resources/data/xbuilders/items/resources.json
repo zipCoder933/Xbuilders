@@ -13,6 +13,7 @@
   {
     "id": "xbuilders:sugar_cane",
     "name": "Sugar Cane Plant",
+    "icon": "sugar_cane.png",
     "block": 15
   },
   {

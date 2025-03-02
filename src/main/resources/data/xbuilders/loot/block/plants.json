@@ -18,11 +18,6 @@
       "item": "xbuilders:sugar_cane",
       "chance": 1.0,
       "maxItems": 1
-    },
-    {
-      "item": "xbuilders:sugar",
-      "chance": 1.0,
-      "maxItems": 1
     }
   ]
 }

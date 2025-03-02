@@ -5,14 +5,14 @@
       null,
       "xbuilders:polished_andesite",
       null,
-      "xbuilders:polished_andesite",
+      null,
       null,
       "xbuilders:polished_andesite",
       null,
       "xbuilders:polished_andesite"
     ],
     "output": "xbuilders:marble_tile",
-    "amount": 12
+    "amount": 8
   },
   {
     "input": [
@@ -20,14 +20,46 @@
       null,
       "xbuilders:polished_diorite",
       null,
-      "xbuilders:polished_diorite",
+      null,
       null,
       "xbuilders:polished_diorite",
       null,
       "xbuilders:polished_diorite"
     ],
     "output": "xbuilders:marble_tile",
-    "amount": 12
+    "amount": 8
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "xbuilders:marble_tile",
+      null,
+      "xbuilders:marble_tile",
+      null,
+      null,
+      null,
+      "xbuilders:marble_tile",
+      null,
+      "xbuilders:marble_tile"
+    ],
+    "output": "xbuilders:marble_pillar_block",
+    "amount": 4
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "xbuilders:marble_tile",
+      null,
+      "xbuilders:black_marble_tile",
+      null,
+      null,
+      null,
+      "xbuilders:black_marble_tile",
+      null,
+      "xbuilders:marble_tile"
+    ],
+    "output": "xbuilders:checkerboard_chiseled_marble",
+    "amount": 4
   },
   {
     "shapeless": true,

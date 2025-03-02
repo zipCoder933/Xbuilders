@@ -198,12 +198,12 @@ public class XbuildersGame extends Game {
         Registrys.initialize(blockList, entityList, itemList);
 
         //Load Loot
-        AllLootTables.blockLootTables.register("/assets/xbuilders/loot/block");
-        AllLootTables.animalFeedLootTables.register("/assets/xbuilders/loot/animalFeed");
+        AllLootTables.blockLootTables.register("/data/xbuilders/loot/block");
+        AllLootTables.animalFeedLootTables.register("/data/xbuilders/loot/animalFeed");
 
         //Load Recipes
-        AllRecipes.craftingRecipes.register("/assets/xbuilders/recipes/crafting");
-        AllRecipes.smeltingRecipes.register("/assets/xbuilders/recipes/smelting");
+        AllRecipes.craftingRecipes.register("/data/xbuilders/recipes/crafting");
+        AllRecipes.smeltingRecipes.register("/data/xbuilders/recipes/smelting");
 
 
         //propagations

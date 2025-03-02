@@ -275,10 +275,10 @@
   {
     "shapeless": true,
     "input": [
-      "xbuilders:tall_dry_grass",
-      "xbuilders:tall_dry_grass",
-      "xbuilders:tall_dry_grass",
-      "xbuilders:tall_dry_grass"
+      "xbuilders:sugar",
+      "xbuilders:sugar",
+      "xbuilders:sugar",
+      "xbuilders:sugar"
     ],
     "output": "xbuilders:string",
     "amount": 16
@@ -314,6 +314,17 @@
       "xbuilders:blue_dye"
     ],
     "output": "xbuilders:blue_minecart",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:sugar_cane",
+      "xbuilders:sugar_cane",
+      "xbuilders:sugar_cane",
+      "xbuilders:sugar_cane"
+    ],
+    "output": "xbuilders:sugar",
     "amount": 1
   },
   {
