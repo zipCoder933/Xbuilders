@@ -197,7 +197,7 @@ public class DefaultTerrain extends Terrain {
                     }
                 } else if (makePlants && wy < WATER_LEVEL - 2) {
                     float rand = session.random.nextFloat();
-                    if (rand > 0.99) {
+                    if (rand > 0.997) {
                         session.setBlockWorld(Blocks.BLOCK_SUGAR_CANE, wx, wy - 1, wz);
                         session.setBlockWorld(Blocks.BLOCK_SUGAR_CANE, wx, wy - 2, wz);
                         session.setBlockWorld(Blocks.BLOCK_SUGAR_CANE, wx, wy - 3, wz);
@@ -245,7 +245,7 @@ public class DefaultTerrain extends Terrain {
                         session.setBlockWorld(Blocks.BLOCK_TALL_GRASS_TOP, wx, wy - 2, wz);
                     } else if (f > 0.98) {
                         session.setBlockWorld(Blocks.BLOCK_JUNGLE_GRASS_PLANT, wx, wy - 1, wz);
-                    } else if (f > 0.94) {
+                    } else if (f > 0.94 && alpha > 0.65) {
                         session.setBlockWorld(Blocks.BLOCK_BAMBOO, wx, wy - 1, wz);
                         session.setBlockWorld(Blocks.BLOCK_BAMBOO, wx, wy - 2, wz);
                         session.setBlockWorld(Blocks.BLOCK_BAMBOO, wx, wy - 3, wz);

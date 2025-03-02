@@ -3,9 +3,7 @@ package com.xbuilders.engine.server;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
-import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class LogicThread {
     Timer timer;
@@ -53,15 +51,13 @@ public class LogicThread {
 
     public void tickEvent() {
         ticks++;
-
-
         server.livePropagationHandler.update();
-
-
         //Update chunk every N ticks
         if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
-            int chunksUpdated = 0;
+            int chunksMeshUpdated = 0;
+            //HashSet<Chunk> chunks = new HashSet<>();
             Iterator<Chunk> iterator = Server.world.chunks.values().iterator();
+
             while (iterator.hasNext()) {
                 Chunk chunk = iterator.next();
                 int simDistance = ClientWindow.settings.internal_simulationDistance.value;
@@ -75,10 +71,12 @@ public class LogicThread {
 
                     if (ClientWindow.devMode &&
                             Server.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
-                    chunksUpdated += (chunk.tick(spawnEntities) ? 1 : 0);
+                    boolean hasUpdatedMesh = chunk.tick(spawnEntities);
+                    chunksMeshUpdated += (hasUpdatedMesh ? 1 : 0);
                 }
             }
-            //System.out.println("Tick " + chunksUpdated + " chunks");
+            ClientWindow.printlnDev("Tick updated " + chunksMeshUpdated + " chunk meshes");
+            //chunks.forEach(chunk -> chunk.updateMesh(true, 0, 0, 0));
         }
     }
 
