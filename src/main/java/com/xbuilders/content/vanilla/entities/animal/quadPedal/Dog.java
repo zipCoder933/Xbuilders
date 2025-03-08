@@ -28,11 +28,11 @@ public class Dog extends QuadPedalLandAnimal {
     public QuadPedalLandAnimal_StaticData getStaticData() throws IOException {
         if (staticData == null) {
             staticData = new QuadPedalLandAnimal_StaticData(
-                    "items\\entity\\animal\\dog\\large\\body.obj",
-                    "items\\entity\\animal\\dog\\large\\sitting.obj",
-                    "items\\entity\\animal\\dog\\large\\leg.obj",
+                    "/data/xbuilders/entities/animal\\dog\\large\\body.obj",
+                    "/data/xbuilders/entities/animal\\dog\\large\\sitting.obj",
+                    "/data/xbuilders/entities/animal\\dog\\large\\leg.obj",
                     null,
-                    "items\\entity\\animal\\dog\\textures");
+                    "/data/xbuilders/entities/animal\\dog\\textures");
         }
         return staticData;
     }

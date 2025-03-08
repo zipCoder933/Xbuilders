@@ -26,6 +26,8 @@ public abstract class FishAnimal<ActionEnum> extends LivingEntity {
 
     public int textureIndex;
 
+
+
     @Override
     public void serializeDefinitionData(JsonGenerator generator) throws IOException {
         super.serializeDefinitionData(generator);

@@ -17,6 +17,7 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -40,17 +41,12 @@ public class FishB extends FishAnimal {
 
         if (body == null) {
             body = new EntityMesh();
-
-            try {
-                body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\fish\\fish_B.obj"));
-                File[] textureFiles = ResourceUtils.file("items\\entity\\animal\\fish\\textures\\fish_B").listFiles();
-                textures = new int[textureFiles.length];
-                for (int i = 0; i < textureFiles.length; i++) {
-                    textures[i] = Objects.requireNonNull(TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
-                }
-
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
+            body.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities\\animal\\fish\\fish_B.obj"));
+            List<String> textureFiles = resourceLoader.listResourceFiles("data/xbuilders/entities\\animal\\fish\\textures\\fish_B");
+            textures = new int[textureFiles.size()];
+            for (int i = 0; i < textureFiles.size(); i++) {
+                textures[i] = Objects.requireNonNull(
+                        TextureUtils.loadTextureFromResource(textureFiles.get(i), false)).id;
             }
         }
 

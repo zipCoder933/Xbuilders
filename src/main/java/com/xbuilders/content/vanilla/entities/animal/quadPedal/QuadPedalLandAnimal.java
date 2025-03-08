@@ -20,6 +20,7 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class QuadPedalLandAnimal extends LandAnimal {
@@ -49,31 +50,31 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
                 String texturesDir) throws IOException {
             //Generate body
             body = new EntityMesh();
-            body.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(bodyOBJ)));
+            body.loadFromOBJ(OBJLoader.loadModel(resourceLoader.getResourceAsStream(bodyOBJ)));
 
             //Generate sitting body
             if (sittingBodyOBJ != null) {
                 sittingBody = new EntityMesh();
-                sittingBody.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(sittingBodyOBJ)));
+                sittingBody.loadFromOBJ(OBJLoader.loadModel(resourceLoader.getResourceAsStream(sittingBodyOBJ)));
             }
 
             //Generate legs
             EntityMesh legsModel = new EntityMesh();
-            legsModel.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(legOBJ)));
+            legsModel.loadFromOBJ(OBJLoader.loadModel(resourceLoader.getResourceAsStream(legOBJ)));
             legs = new LegPair(legsModel);
 
             //Generate saddle
             if (saddleOBJ != null) {
                 saddle = new EntityMesh();
-                saddle.loadFromOBJ(OBJLoader.loadModel(ResourceUtils.file(saddleOBJ)));
+                saddle.loadFromOBJ(OBJLoader.loadModel(resourceLoader.getResourceAsStream(saddleOBJ)));
             }
 
             //Generate textures
-            File[] textureFiles = ResourceUtils.file(texturesDir).listFiles();
-            textures = new int[textureFiles.length];
-            for (int i = 0; i < textureFiles.length; i++) {
+            List<String> textureFiles = resourceLoader.listResourceFiles(texturesDir);
+            textures = new int[textureFiles.size()];
+            for (int i = 0; i < textureFiles.size(); i++) {
                 textures[i] = Objects.requireNonNull(
-                        TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
+                        TextureUtils.loadTextureFromResource(textureFiles.get(i), false)).id;
             }
         }
     }

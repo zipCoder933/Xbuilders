@@ -18,11 +18,11 @@ public class Horse extends QuadPedalLandAnimal {
     public QuadPedalLandAnimal_StaticData getStaticData() throws IOException {
         if (staticData == null) {
             staticData = new QuadPedalLandAnimal_StaticData(
-                    "items\\entity\\animal\\horse\\horse\\body.obj",
+                    "/data/xbuilders/entities/animal\\horse\\horse\\body.obj",
                     null,
-                    "items\\entity\\animal\\horse\\horse\\leg.obj",
-                    "items\\entity\\animal\\horse\\horse\\saddle.obj",
-                    "items\\entity\\animal\\horse\\horse\\textures");
+                    "/data/xbuilders/entities/animal\\horse\\horse\\leg.obj",
+                    "/data/xbuilders/entities/animal\\horse\\horse\\saddle.obj",
+                    "/data/xbuilders/entities/animal\\horse\\horse\\textures");
         }
         return staticData;
     }

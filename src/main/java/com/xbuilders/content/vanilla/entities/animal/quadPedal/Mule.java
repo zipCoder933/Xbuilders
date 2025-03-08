@@ -18,11 +18,11 @@ public class Mule extends QuadPedalLandAnimal {
     public QuadPedalLandAnimal_StaticData getStaticData() throws IOException {
         if (staticData == null) {
             staticData = new QuadPedalLandAnimal_StaticData(
-                    "items\\entity\\animal\\horse\\mule\\body.obj",
+                    "/data/xbuilders/entities/animal\\horse\\mule\\body.obj",
                     null,
-                    "items\\entity\\animal\\horse\\mule\\leg.obj",
-                    "items\\entity\\animal\\horse\\mule\\saddle.obj",
-                    "items\\entity\\animal\\horse\\mule\\textures");
+                    "/data/xbuilders/entities/animal\\horse\\mule\\leg.obj",
+                    "/data/xbuilders/entities/animal\\horse\\mule\\saddle.obj",
+                    "/data/xbuilders/entities/animal\\horse\\mule\\textures");
         }
         return staticData;
     }
