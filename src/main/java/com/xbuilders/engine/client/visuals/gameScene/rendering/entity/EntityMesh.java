@@ -12,6 +12,7 @@ import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -64,8 +65,13 @@ public class EntityMesh extends Mesh {
         GL30.glBindVertexArray(0);
     }
 
-    public void loadFromOBJ(File obj) throws IOException {
-        OBJ objModel = OBJLoader.loadModel(obj);
+    public void loadFromOBJ(File file) throws IOException {
+        OBJ objModel = OBJLoader.loadModel(file);
+        loadFromOBJ(objModel);
+    }
+
+    public void loadFromOBJ(InputStream stream) throws IOException {
+        OBJ objModel = OBJLoader.loadModel(stream);
         loadFromOBJ(objModel);
     }
 

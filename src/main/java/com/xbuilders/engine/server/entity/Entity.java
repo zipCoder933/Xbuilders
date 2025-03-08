@@ -22,6 +22,7 @@ import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.ResourceLoader;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
@@ -52,6 +53,7 @@ public abstract class Entity {
     public static EntityShader shader;
     public static EntityShader_ArrayTexture arrayTextureShader;
     public boolean sendMultiplayer;
+    public final static ResourceLoader resourceLoader = new ResourceLoader();
 
     public boolean playerIsRidingThis() {
         return GameScene.userPlayer.positionLock != null && GameScene.userPlayer.positionLock.entity == this;

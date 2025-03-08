@@ -25,6 +25,7 @@ import org.joml.Vector2f;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Vehicle extends Entity {
@@ -37,16 +38,17 @@ public abstract class Vehicle extends Entity {
 
         public Vehicle_staticData(String bodyMesh, String texturesDir) throws IOException {
             body = new EntityMesh();
-            body.loadFromOBJ(ResourceUtils.file(bodyMesh));
+
+            body.loadFromOBJ(resourceLoader.getResourceAsStream(bodyMesh));
 
             //Generate textures
-            File[] textureFiles = ResourceUtils.file(texturesDir).listFiles();
-            textures = new HashMap<>();
-            for (int i = 0; i < textureFiles.length; i++) {
-                String textureKey = textureFiles[i].getName().replace(".png", "");
+            List<String> textureRes = resourceLoader.listResourceFiles(texturesDir);
+            this.textures = new HashMap<>();
+            for (String textureResource: textureRes) {
+                String textureKey = resourceLoader.getName(textureResource).replace(".png", "");
                 int textureID = Objects.requireNonNull(
-                        TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
-                textures.put(textureKey, textureID);
+                        TextureUtils.loadTextureFromResource(textureResource, false)).id;
+                this.textures.put(textureKey, textureID);
             }
         }
     }
