@@ -204,7 +204,7 @@ public class PasteTool extends BlockTool {
                         BlockData oldData = clipboard.getBlockData(x, y, z);
                         if (oldData != null) {
                             BlockData newData = new BlockData(oldData); //Create a copy
-                            block.getRenderType().rotateBlockData(newData, false);
+                            block.getType().rotateBlockData(newData, false);
                             newClipboard.setBlockData(newX, newY, newZ, newData);
                         }
 

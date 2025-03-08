@@ -53,35 +53,35 @@ public class Recipes {
 
                     //System.out.println("Synthesizing " + nonColorName + " " + color);
 
-                    if (block.renderType == RenderType.BLOCK && block.alias.contains("glass")) {
+                    if (block.type == RenderType.BLOCK && block.alias.contains("glass")) {
                         String base = "xbuilders:glass";
                         dyed.add(new CraftingRecipe(
                                 base, base, dye,
                                 base, base, null,
                                 null, null, null,
                                 item.id, 4));
-                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("concrete")) {
+                    } else if (block.type == RenderType.BLOCK && nonColorName.contains("concrete")) {
                         String base = "xbuilders:concrete";
                         dyed.add(new CraftingRecipe(
                                 base, base, dye,
                                 base, base, null,
                                 null, null, null,
                                 item.id, 4));
-                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("wool")) {
+                    } else if (block.type == RenderType.BLOCK && nonColorName.contains("wool")) {
                         String base = "xbuilders:wool";
                         dyed.add(new CraftingRecipe(
                                 base, base, dye,
                                 base, base, null,
                                 null, null, null,
                                 item.id, 4));
-                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("stained_wood")) {
+                    } else if (block.type == RenderType.BLOCK && nonColorName.contains("stained_wood")) {
                         String base = "#wood";
                         dyed.add(new CraftingRecipe(
                                 base, base, dye,
                                 base, base, null,
                                 null, null, null,
                                 item.id, 4));
-                    } else if (block.renderType == RenderType.BLOCK && nonColorName.contains("siding")) {
+                    } else if (block.type == RenderType.BLOCK && nonColorName.contains("siding")) {
                         String base = "xbuilders:tan_siding";
                         dyed.add(new CraftingRecipe(
                                 base, base, dye,
@@ -125,49 +125,49 @@ public class Recipes {
 
                 if (baseBlock == null) continue;
 
-                if (block.renderType == RenderType.SLAB) {
+                if (block.type == RenderType.SLAB) {
                     variants.add(new CraftingRecipe(
                             null, null, null,
                             null, null, null,
                             baseBlock.id, baseBlock.id, baseBlock.id,
                             item.id, 6));
-                } else if (block.renderType == RenderType.STAIRS) {
+                } else if (block.type == RenderType.STAIRS) {
                     variants.add(new CraftingRecipe(
                             null, null, baseBlock.id,
                             null, baseBlock.id, baseBlock.id,
                             baseBlock.id, baseBlock.id, baseBlock.id,
                             item.id, 6));
-                } else if (block.renderType == RenderType.FENCE) {
+                } else if (block.type == RenderType.FENCE) {
                     variants.add(new CraftingRecipe(
                             null, null, null,
                             baseBlock.id, "xbuilders:stick", baseBlock.id,
                             baseBlock.id, "xbuilders:stick", baseBlock.id,
                             item.id, 10));
-                } else if (block.renderType == RenderType.FENCE_GATE) {
+                } else if (block.type == RenderType.FENCE_GATE) {
                     variants.add(new CraftingRecipe(
                             null, null, null,
                             "xbuilders:stick", baseBlock.id, "xbuilders:stick",
                             "xbuilders:stick", baseBlock.id, "xbuilders:stick",
                             item.id, 4));
-                } else if (block.renderType == RenderType.PILLAR) {
+                } else if (block.type == RenderType.PILLAR) {
                     variants.add(new CraftingRecipe(
                             null, baseBlock.id, null,
                             null, baseBlock.id, null,
                             null, baseBlock.id, null,
                             item.id, 4));
-                } else if (block.renderType == RenderType.DOOR_HALF) {
+                } else if (block.type == RenderType.DOOR_HALF) {
                     doorsTrapdoors.add(new CraftingRecipe(
                             baseBlock.id, baseBlock.id, null,
                             baseBlock.id, baseBlock.id, null,
                             baseBlock.id, baseBlock.id, null,
                             item.id, 3));
-                } else if (block.renderType == RenderType.TRAPDOOR) {
+                } else if (block.type == RenderType.TRAPDOOR) {
                     doorsTrapdoors.add(new CraftingRecipe(
                             null, null, null,
                             baseBlock.id, baseBlock.id, baseBlock.id,
                             baseBlock.id, baseBlock.id, baseBlock.id,
                             item.id, 6));
-                } else if (block.renderType == RenderType.PANE) {
+                } else if (block.type == RenderType.PANE) {
                     variants.add(new CraftingRecipe(
                             baseBlock.id, null, baseBlock.id,
                             baseBlock.id, null, baseBlock.id,

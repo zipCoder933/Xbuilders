@@ -550,7 +550,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
          */
         if (previous_playerBlock == null || blockAtHead.id != previous_playerBlock.id) {
             previous_playerBlock = blockAtHead;
-            if (blockAtHead.renderType == BlockRegistry.LIQUID_BLOCK_TYPE_ID) {
+            if (blockAtHead.type == BlockRegistry.LIQUID_BLOCK_TYPE_ID) {
                 positionHandler.setVelocity(0, 0, 0);
                 positionHandler.setFallMedium(PositionHandler.DEFAULT_GRAVITY / 8,
                         PositionHandler.MAX_TERMINAL_VELOCITY / 30);

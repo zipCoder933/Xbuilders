@@ -13,7 +13,6 @@ import com.xbuilders.content.vanilla.blocks.trees.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.xbuilders.engine.server.ItemUtils.getJsonBlocksFromFile;
 import static com.xbuilders.engine.server.ItemUtils.getJsonBlocksFromResource;
 import static com.xbuilders.engine.utils.math.RandomUtils.random;
 
@@ -1099,7 +1098,7 @@ public class Blocks {
             //Add flammable tag to various blocks
             if (isWood(b)) {
                 b.properties.put("flammable", "true");
-            } else if (!b.solid && b.renderType == RenderType.SPRITE
+            } else if (!b.solid && b.type == RenderType.SPRITE
                     && (b.alias.contains("dead") || b.alias.contains("dry") || b.alias.contains("grass"))) {
                 b.properties.put("flammable", "true");
             }

@@ -29,7 +29,7 @@ public class Items {
             if (i.getBlock() != null
                     && i.getBlock().texture.equals(originalBlock.texture)) {
                 for (int rt : validVariantTypes) {
-                    if (i.getBlock().renderType == rt && customPredicate.test(i.getBlock())) {
+                    if (i.getBlock().type == rt && customPredicate.test(i.getBlock())) {
                         return i;
                     }
                 }
@@ -61,7 +61,7 @@ public class Items {
 
 //            System.out.println("this: " + thisId + " \t other: " + blockId + " \t common: " + commonWorld);
             for (int rt : validBlockTypes) {
-                if (i.getBlock().renderType == rt && customPredicate.test(i.getBlock())) {
+                if (i.getBlock().type == rt && customPredicate.test(i.getBlock())) {
                     return i;
                 }
             }
@@ -212,7 +212,7 @@ public class Items {
         int x = ray.getHitPos().x;
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
-        if (!Server.world.getBlock(x, y, z).getRenderType().replaceOnSet) {
+        if (!Server.world.getBlock(x, y, z).getType().replaceOnSet) {
             x = ray.getHitPosPlusNormal().x;
             y = ray.getHitPosPlusNormal().y;
             z = ray.getHitPosPlusNormal().z;

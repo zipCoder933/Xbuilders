@@ -230,7 +230,7 @@ public class GameScene implements WindowEvents {
                         BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
-                        text += "\n" + block + " data: " + printBlockData(data) + " typeReference: " + Registrys.blocks.getBlockType(block.renderType);
+                        text += "\n" + block + " data: " + printBlockData(data) + " typeReference: " + Registrys.blocks.getBlockType(block.type);
                         text += "\nlight=" + Server.getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
                                 + "  sun=" + (sun)
                                 + "  torch=" + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);

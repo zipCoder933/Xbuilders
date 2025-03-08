@@ -165,7 +165,7 @@ public class DoorHalfRenderer extends BlockType {
     private boolean check_orientRightOrLeft(int x, int y, int z) {
         Block block = Server.world.getBlock(x, y, z);
         return block.solid
-                && block.getRenderType().isCubeShape();
+                && block.getType().isCubeShape();
     }
 
     private boolean orientRightOrLeft(BlockData data, int x, int y, int z) {

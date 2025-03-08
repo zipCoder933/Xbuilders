@@ -134,10 +134,10 @@ public class GreedyMesher extends BlockMesher<CompactVertexSet> {
                             block = Registrys.getBlock(thisPlaneVoxel.get(0));
                             block1 = Registrys.getBlock(nextPlaneVoxel.get(0));
 
-                            if (block.isAir() || block.renderType != BlockRegistry.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block.isAir() || block.type != BlockRegistry.DEFAULT_BLOCK_TYPE_ID) {
                                 thisPlaneVoxel.put(0, (short) 0);
                             }
-                            if (block1.isAir() || block1.renderType != BlockRegistry.DEFAULT_BLOCK_TYPE_ID) {
+                            if (block1.isAir() || block1.type != BlockRegistry.DEFAULT_BLOCK_TYPE_ID) {
                                 nextPlaneVoxel.put(0, (short) 0);
                             }
 

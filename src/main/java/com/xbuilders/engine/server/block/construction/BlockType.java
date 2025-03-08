@@ -169,7 +169,7 @@ public abstract class BlockType {
         if (neighbor == null) {
             return true;
         } else {
-            BlockType type = Registrys.blocks.getBlockType(neighbor.renderType);
+            BlockType type = Registrys.blocks.getBlockType(neighbor.type);
             if (!neighbor.opaque || (type == null) || !type.isCubeShape()) {
                 return true;
             }

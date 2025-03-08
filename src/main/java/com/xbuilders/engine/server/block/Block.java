@@ -18,12 +18,14 @@ import java.util.function.Consumer;
 
 public class Block {
 
-    //A block texture is a REQUIRED field
+    //Some fields should be set in the constructor
     public final short id;
     public final String alias;
     public final HashMap<String, String> properties = new HashMap<>();
     public final BlockTexture texture;
-    public final int renderType;
+    public final int type;
+
+    //Others are ok to be changed later
     public boolean solid = true;
     public boolean climbable = false;
     public boolean opaque = true;
@@ -34,20 +36,16 @@ public class Block {
     public float surfaceFriction = 0; //The "Friction" of the block
     public float bounciness = 0; //The "Bounciness" of the block
     public float toughness = 1; //The difficulty of breaking the block
+    public String easierMiningTool_tag = null; //The blocks that are easier to mine this block with (specify by item tags)
+    public String[] toolsThatCanMine_tags = null; //The tools that can mine this block (If the tool cant mine it, it wont drop loot) (specify by item tags)
+    public float enterDamage = 0; //The damage dealt when entering the block
 
     public int getLiquidSourceValue() {
         return liquidMaxFlow + 1;
     }
 
-
-
-    //TODO: implement these
-    public String easierMiningTool_tag = null; //The blocks that are easier to mine this block with (specify by item tags)
-    public String[] toolsThatCanMine_tags = null; //The tools that can mine this block (If the tool cant mine it, it wont drop loot) (specify by item tags)
-    public float enterDamage = 0; //The damage dealt when entering the block
-
-    public BlockType getRenderType() {
-        return Registrys.blocks.getBlockType(renderType);
+    public BlockType getType() {
+        return Registrys.blocks.getBlockType(type);
     }
 
     public final boolean isLuminous() {
@@ -55,7 +53,7 @@ public class Block {
     }
 
     public final boolean isLiquid() {
-        return renderType == com.xbuilders.engine.server.block.BlockRegistry.LIQUID_BLOCK_TYPE_ID;
+        return type == com.xbuilders.engine.server.block.BlockRegistry.LIQUID_BLOCK_TYPE_ID;
     }
 
 
@@ -213,7 +211,7 @@ public class Block {
 
     private void init() {
         //Run type initialization before anything else
-        BlockType type = Registrys.blocks.getBlockType(renderType);
+        BlockType type = Registrys.blocks.getBlockType(this.type);
         if (type != null) {
             Consumer<Block> typeInitCallback = type.initializationCallback;
             if (typeInitCallback != null) typeInitCallback.accept(this);
@@ -223,7 +221,7 @@ public class Block {
     public Block(int id, String alias) {
         this.id = (short) id;
         this.alias = Registrys.formatAlias(alias);
-        renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
+        type = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
         init();
     }
@@ -231,16 +229,16 @@ public class Block {
     public Block(int id, String alias, BlockTexture texture) {
         this.id = (short) id;
         this.alias = Registrys.formatAlias(alias);
-        this.renderType = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
+        this.type = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = texture;
         init();
     }
 
-    public Block(int id, String alias, BlockTexture texture, int renderType) {
+    public Block(int id, String alias, BlockTexture texture, int type) {
         this.id = (short) id;
         this.alias = Registrys.formatAlias(alias);
         this.texture = texture;
-        this.renderType = renderType;
+        this.type = type;
         init();
     }
 

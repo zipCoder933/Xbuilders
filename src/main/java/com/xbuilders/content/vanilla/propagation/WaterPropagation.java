@@ -14,7 +14,7 @@ public class WaterPropagation extends LiquidPropagationTask {
 //    public boolean isPenetrable(Block block) {
 //        return block.isAir() || (
 //                !block.solid
-//                        && block.renderType == RenderType.SPRITE
+//                        && block.type == RenderType.SPRITE
 //                        && block.toughness < 0.5f);
 //    }
 }

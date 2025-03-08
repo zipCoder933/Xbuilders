@@ -69,16 +69,16 @@ public class Banner extends Entity {
 
             if (xzOrientation == 0) {
                 againstFencepost = Server.world.getBlock(wx, wy, wz - 1)
-                        .renderType == RenderType.FENCE;
+                        .type == RenderType.FENCE;
             } else if (xzOrientation == 1) {
                 againstFencepost = Server.world.getBlock(wx + 1, wy, wz)
-                        .renderType == RenderType.FENCE;
+                        .type == RenderType.FENCE;
             } else if (xzOrientation == 2) {
                 againstFencepost = Server.world.getBlock(wx, wy, wz + 1)
-                        .renderType == RenderType.FENCE;
+                        .type == RenderType.FENCE;
             } else {
                 againstFencepost = Server.world.getBlock(wx - 1, wy, wz)
-                        .renderType == RenderType.FENCE;
+                        .type == RenderType.FENCE;
             }
         }
 

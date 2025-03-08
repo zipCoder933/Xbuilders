@@ -42,9 +42,9 @@ public class FenceRenderer extends BlockType {
     private boolean isSolid(Block block) {
         return block != null
                 && block.solid
-                && block.renderType != RenderType.FLOOR
-                && block.renderType != RenderType.WALL_ITEM
-                && block.renderType != RenderType.SPRITE;
+                && block.type != RenderType.FLOOR
+                && block.type != RenderType.WALL_ITEM
+                && block.type != RenderType.SPRITE;
     }
 
     @Override

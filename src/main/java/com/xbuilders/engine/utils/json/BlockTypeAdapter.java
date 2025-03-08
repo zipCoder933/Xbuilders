@@ -30,7 +30,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("solid", src.solid);
         jsonObject.addProperty("opaque", src.opaque);
         jsonObject.addProperty("torch", src.torchlightStartingValue);
-        jsonObject.addProperty("type", src.renderType);
+        jsonObject.addProperty("type", src.type);
         jsonObject.addProperty("toughness", src.toughness);
         if (src.colorInPlayerHead != null) {
             JsonElement colorElement = context.serialize(src.colorInPlayerHead);
