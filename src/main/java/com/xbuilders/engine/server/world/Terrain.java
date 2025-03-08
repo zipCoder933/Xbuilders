@@ -15,7 +15,7 @@ import java.util.Random;
 
 public abstract class Terrain {
 
-    public static final FastNoise noise = new FastNoise();
+    public static final FastNoise fastNoise = new FastNoise();
     public static final PerlinNoise perlinNoise = new PerlinNoise(0, 150);
     private int seed = 0;
     public final String name;
@@ -32,7 +32,7 @@ public abstract class Terrain {
     }
 
     public final void initForWorld(int seed, HashMap<String, Boolean> terrainOptions, int terrainVersion) {
-        noise.SetSeed(seed);
+        fastNoise.SetSeed(seed);
         perlinNoise.setSeed(((double) seed / Integer.MAX_VALUE) * 255);
         this.seed = seed;
         if (terrainOptions == null) terrainOptions = new HashMap<>();
@@ -90,7 +90,7 @@ public abstract class Terrain {
             random.setSeed(FastNoise.Hash3D(seed, chunk.position.x, chunk.position.y, chunk.position.z));
         }
 
-        public void setBlockWorld(short block, int x, int y, int z) {
+        public void setBlockWorld(int x, int y, int z, short block) {
             Chunk chunk = Server.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
 //            if (chunk != null && !homeChunk.position.equals(chunk.position)) {
 //                modifiedMeshedChunks.add(chunk);

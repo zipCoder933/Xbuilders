@@ -8,7 +8,6 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.blocks.PlantBlockUtils;
 import org.joml.Vector3i;
 
 import java.util.Random;
@@ -81,7 +80,7 @@ public class AcaciaTreeUtils {
     public static void terrain_plantTree(Terrain.GenSession terrain, Chunk sourceChunk, int x, int y, int z) {
         int height = randomInt(terrain.random, 3, 4);
         for (int k = 0; k < height; k++) {
-            terrain.setBlockWorld(Blocks.BLOCK_ACACIA_LOG, x, y - (height - 1) + k, z);
+            terrain.setBlockWorld(x, y - (height - 1) + k, z, Blocks.BLOCK_ACACIA_LOG);
         }
 
         int length = randomInt(terrain.random, 2, 4);
@@ -91,7 +90,7 @@ public class AcaciaTreeUtils {
             zDir = terrain.random.nextBoolean() ? -1 : 1;
         }
         Vector3i vec = TreeUtils.terrain_generateBranch(terrain, sourceChunk, x, y - height + 1, z, length, xDir, zDir, Blocks.BLOCK_ACACIA_LOG);
-        terrain.setBlockWorld(Blocks.BLOCK_ACACIA_LOG, vec.x, vec.y - 1, vec.z);
+        terrain.setBlockWorld(vec.x, vec.y - 1, vec.z, Blocks.BLOCK_ACACIA_LOG);
         terrain_treeBush(terrain, sourceChunk, vec.x, vec.y - 1, vec.z, randomInt(terrain.random, 3, 4));
 
         if (terrain.random.nextBoolean()) {
@@ -111,7 +110,7 @@ public class AcaciaTreeUtils {
         }
         length = randomInt(terrain.random, 3, 4);
         vec = TreeUtils.terrain_generateBranch(terrain, sourceChunk, x, y - height + 1, z, length, xDir, zDir, Blocks.BLOCK_ACACIA_LOG);
-        terrain.setBlockWorld(Blocks.BLOCK_ACACIA_LOG, vec.x, vec.y - 1, vec.z);
+        terrain.setBlockWorld(vec.x, vec.y - 1, vec.z, Blocks.BLOCK_ACACIA_LOG);
         terrain_treeBush(terrain, sourceChunk, vec.x, vec.y - 1, vec.z, randomInt(terrain.random, 2, 3));
     }
 

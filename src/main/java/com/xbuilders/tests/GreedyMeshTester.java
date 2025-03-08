@@ -36,7 +36,7 @@
 //    final static Mode mode = Mode.TEST_SPEED;
 //    final static int trials = 200;
 //
-//    public final static PerlinNoise noise = new PerlinNoise(0.0, 1000);
+//    public final static PerlinNoise fastNoise = new PerlinNoise(0.0, 1000);
 //    static Stopwatch watch_Nublada = new Stopwatch();
 //    static Stopwatch watch_XbuildersLight = new Stopwatch();
 //    static Stopwatch watch_Xbuilders = new Stopwatch();
@@ -55,7 +55,7 @@
 //        for (int i = 0; i < voxels.size.x; i++) {
 //            for (int j = 0; j < voxels.size.y; j++) {
 //                for (int k = 0; k < voxels.size.z; k++) {
-//                    if (noise.smoothNoise(i * 0.1f, j * 0.1f, k * 0.1f) > 0) {
+//                    if (fastNoise.smoothNoise(i * 0.1f, j * 0.1f, k * 0.1f) > 0) {
 //                        voxels.setBlock(i, j, k, MyGame.BLOCK_GRASS.id);
 //                        voxels.setSun(i, j, k, (byte) 0);
 //                    } else {
@@ -129,7 +129,7 @@
 //                    System.out.print("NUBLADA:\t" + watch_Nublada.toString());
 //                    System.out.print("\tXBUILDERS:\t" + watch_Xbuilders.toString());
 //                    System.out.print("\tXBUILDERS LIGHT:\t" + watch_XbuildersLight.toString());
-//                    System.out.println("\t\t (trial " + b + "/" + trials + ") (" + MemoryProfiler.getMemoryUsageAsString() + ") seed:" + noise.getSeed());
+//                    System.out.println("\t\t (trial " + b + "/" + trials + ") (" + MemoryProfiler.getMemoryUsageAsString() + ") seed:" + fastNoise.getSeed());
 //                }
 //            }
 //        } else {
@@ -159,7 +159,7 @@
 //                } else {
 //                    System.out.print("XBUILDERS:\t" + watch_Xbuilders.toString());
 //                }
-//                System.out.println("\t\t (trial " + b + "/" + trials + ") (" + MemoryProfiler.getMemoryUsageAsString() + ") seed:" + noise.getSeed());
+//                System.out.println("\t\t (trial " + b + "/" + trials + ") (" + MemoryProfiler.getMemoryUsageAsString() + ") seed:" + fastNoise.getSeed());
 //                long memDiff = MemoryProfiler.getMemoryUsed() - startMem;
 //                startMem = MemoryProfiler.getMemoryUsed();
 //                if (memDiff >= 0) {

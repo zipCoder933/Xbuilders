@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.content.vanilla.terrain.MoonTerrain;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
@@ -218,6 +219,7 @@ public class XbuildersGame extends Game {
         //Add terrains;
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
+//        terrainsList.add(new MoonTerrain());
         if (window.devMode) terrainsList.add(new DevTerrain());
 
 

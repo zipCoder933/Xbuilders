@@ -23,7 +23,7 @@ public class ComplexTerrain extends Terrain {
     public static final int TERRAIN_All_ROCK_POINT = World.WORLD_TOP_Y + Chunk.WIDTH * 8;
 
     public final int TERRAIN_HEIGHT = 256;
-    public final float TERRAIN_SCALE = 2.0f; //We are scaling the noise function. higher values = more packed noise
+    public final float TERRAIN_SCALE = 2.0f; //We are scaling the fastNoise function. higher values = more packed fastNoise
     public final float DRYNESS_SCALE = 0.5f;
 
     public ComplexTerrain() {

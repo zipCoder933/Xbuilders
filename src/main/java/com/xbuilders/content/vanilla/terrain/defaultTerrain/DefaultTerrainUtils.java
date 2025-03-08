@@ -12,7 +12,7 @@ public class DefaultTerrainUtils {
 
     public static void plantRandomTree(GenSession session, float alpha, final Chunk sourceChunk, final int x, final int y, final int z) {
 
-        //Noise tends to be more biased towards the center, meaning we either have to normalize the noise function
+        //Noise tends to be more biased towards the center, meaning we either have to normalize the fastNoise function
         //somehow to produce even distribution, or we have to favor the edges more
         float bias = alpha + ((session.random.nextFloat() - 0.5f) * 0.2f);
 

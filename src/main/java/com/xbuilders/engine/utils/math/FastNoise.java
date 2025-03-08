@@ -94,7 +94,7 @@ public class FastNoise {
     }
 
     /**
-     * Sets seed used for all noise types
+     * Sets seed used for all fastNoise types
      * <br>Default: 1337
      */
     public void SetSeed(int seed) {
@@ -102,7 +102,7 @@ public class FastNoise {
     }
 
     /**
-     * Sets frequency for all noise types
+     * Sets frequency for all fastNoise types
      * <br>Default: 0.01
      */
     public void SetFrequency(float frequency) {
@@ -110,7 +110,7 @@ public class FastNoise {
     }
 
     /**
-     * Changes the interpolation method used to smooth between noise values
+     * Changes the interpolation method used to smooth between fastNoise values
      * Possible interpolation methods (lowest to highest quality) :
      * <ul>
      * <li>Linear</li>
@@ -124,26 +124,26 @@ public class FastNoise {
         m_interp = interp;
     }
 
-    // Sets noise return typeReference of GetNoise(...)
+    // Sets fastNoise return typeReference of GetNoise(...)
     // Default: Simplex
     public void SetNoiseType(NoiseType noiseType) {
         m_noiseType = noiseType;
     }
 
-    // Sets octave count for all fractal noise types
+    // Sets octave count for all fractal fastNoise types
     // Default: 3
     public void SetFractalOctaves(int octaves) {
         m_octaves = octaves;
         CalculateFractalBounding();
     }
 
-    // Sets octave lacunarity for all fractal noise types
+    // Sets octave lacunarity for all fractal fastNoise types
     // Default: 2.0
     public void SetFractalLacunarity(float lacunarity) {
         m_lacunarity = lacunarity;
     }
 
-    // Sets octave gain for all fractal noise types
+    // Sets octave gain for all fractal fastNoise types
     // Default: 0.5
     public void SetFractalGain(float gain) {
         m_gain = gain;
@@ -151,28 +151,28 @@ public class FastNoise {
     }
 
     /**
-     * Sets method for combining octaves in all fractal noise types
+     * Sets method for combining octaves in all fractal fastNoise types
      * <br>Default: FBM
      */
     public void SetFractalType(FractalType fractalType) {
         m_fractalType = fractalType;
     }
 
-    // Sets return typeReference from cellular noise calculations
+    // Sets return typeReference from cellular fastNoise calculations
     // Note: NoiseLookup requires another FastNoise object be set with SetCellularNoiseLookup() to function
     // Default: CellValue
     public void SetCellularDistanceFunction(CellularDistanceFunction cellularDistanceFunction) {
         m_cellularDistanceFunction = cellularDistanceFunction;
     }
 
-    // Sets distance function used in cellular noise calculations
+    // Sets distance function used in cellular fastNoise calculations
     // Default: Euclidean
     public void SetCellularReturnType(CellularReturnType cellularReturnType) {
         m_cellularReturnType = cellularReturnType;
     }
 
     // Noise used to calculate a cell value if cellular return typeReference is NoiseLookup
-    // The lookup value is acquired through GetNoise() so ensure you SetNoiseType() on the noise lookup, value, gradient or simplex is recommended
+    // The lookup value is acquired through GetNoise() so ensure you SetNoiseType() on the fastNoise lookup, value, gradient or simplex is recommended
     public void SetCellularNoiseLookup(FastNoise noise) {
         m_cellularNoiseLookup = noise;
     }
@@ -638,7 +638,7 @@ public class FastNoise {
     }
 
     /**
-     * Gets the 3D fractal noise value from a given 3D point. The noise value is
+     * Gets the 3D fractal fastNoise value from a given 3D point. The fastNoise value is
      * in range from -1 to 1
      *
      * @param x the x coordinate

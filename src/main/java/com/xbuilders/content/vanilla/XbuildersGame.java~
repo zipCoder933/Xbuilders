@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.content.vanilla.terrain.MoonTerrain;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
@@ -191,9 +192,14 @@ public class XbuildersGame extends Game {
 
 
         System.out.println("Initializing items...");
-        ArrayList<Block> blockList = Blocks.starup_getBlocks();
-        ArrayList<EntitySupplier> entityList = Entities.startup_getEntities(window);
         ArrayList<Item> itemList = Items.startup_getItems();
+
+        System.out.println("Initializing blocks...");
+        ArrayList<Block> blockList = Blocks.starup_getBlocks();
+
+        System.out.println("Initializing entities...");
+        ArrayList<EntitySupplier> entityList = Entities.startup_getEntities(window);
+
 
         Registrys.initialize(blockList, entityList, itemList);
 
@@ -213,6 +219,7 @@ public class XbuildersGame extends Game {
         //Add terrains;
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
+        terrainsList.add(new MoonTerrain());
         if (window.devMode) terrainsList.add(new DevTerrain());
 
 

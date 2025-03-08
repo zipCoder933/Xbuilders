@@ -8,7 +8,6 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.blocks.PlantBlockUtils;
 
 import java.util.Random;
 
@@ -46,7 +45,7 @@ public class BirchTreeUtils {
     public static void terrain_plantTree(Terrain.GenSession terrain, Chunk source, int x, int y, int z) {
         int height = randomInt(terrain.random, 5, 7);
         for (int k = 0; k < height; k++) {
-            terrain.setBlockWorld(Blocks.BLOCK_BIRCH_LOG, x, y - k, z);
+            terrain.setBlockWorld(x, y - k, z, Blocks.BLOCK_BIRCH_LOG);
         }
 
         TreeUtils.terrain_roundedSquareLeavesLayer(terrain, source, x, y - height + 2, z, 2, Blocks.BLOCK_BIRCH_LEAVES);

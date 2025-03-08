@@ -133,7 +133,7 @@ public class DefaultTerrain extends Terrain {
         float f = session.random.nextFloat();
         boolean makePlants = true;
         if (f < 0.02 && wy < WATER_LEVEL - 1) {
-            session.setBlockWorld(deadBush, wx, wy - 1, wz);
+            session.setBlockWorld(wx, wy - 1, wz, deadBush);
             makePlants = false;
         }
 
@@ -144,11 +144,11 @@ public class DefaultTerrain extends Terrain {
                     if (trees && f > treeOdds) {
                         DefaultTerrainUtils.plantRandomTree(session, alpha, chunk, wx, wy, wz);
                     } else if (f > 0.95) {
-                        session.setBlockWorld(fern, wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, fern);
                     } else if (f > 0.9) {
-                        session.setBlockWorld(Blocks.BLOCK_GRASS_PLANT, wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_GRASS_PLANT);
                     } else if (f > 0.89) {
-                        session.setBlockWorld(DefaultTerrainUtils.randomFlower(session), wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, DefaultTerrainUtils.randomFlower(session));
                     }
                 }
             }
@@ -158,34 +158,34 @@ public class DefaultTerrain extends Terrain {
                     if (trees && f > treeOdds) {
                         DefaultTerrainUtils.plantRandomTree(session, alpha, chunk, wx, wy, wz);
                     } else if (f > 0.98) {
-                        session.setBlockWorld(fern, wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, fern);
                     } else if (f > 0.96) {
-                        session.setBlockWorld(Blocks.BLOCK_GRASS_PLANT, wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_GRASS_PLANT);
                     }
                 }
             }
             case BIOME_BEACH -> {
                 if (alpha > 0) {
                     chunk.data.setBlock(x, y, z, Blocks.BLOCK_SAND);
-                    session.setBlockWorld(Blocks.BLOCK_SAND, wx, wy + 1, wz);
+                    session.setBlockWorld(wx, wy + 1, wz, Blocks.BLOCK_SAND);
                 } else {
                     chunk.data.setBlock(x, y, z, Blocks.BLOCK_GRAVEL);
-                    session.setBlockWorld(Blocks.BLOCK_GRAVEL, wx, wy + 1, wz);
+                    session.setBlockWorld(wx, wy + 1, wz, Blocks.BLOCK_GRAVEL);
                 }
                 if (wy > WATER_LEVEL + 2) {
                     if (session.random.nextFloat() > 0.9) {
                         switch (session.random.nextInt(6)) {
                             case 0 -> {
-                                session.setBlockWorld(Blocks.BLOCK_FIRE_CORAL_FAN, wx, wy - 1, wz);
+                                session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_FIRE_CORAL_FAN);
                             }
                             case 1 -> {
-                                session.setBlockWorld(Blocks.BLOCK_HORN_CORAL_FAN, wx, wy - 1, wz);
+                                session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_HORN_CORAL_FAN);
                             }
                             case 2 -> {
-                                session.setBlockWorld(Blocks.BLOCK_BUBBLE_CORAL_FAN, wx, wy - 1, wz);
+                                session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_BUBBLE_CORAL_FAN);
                             }
                             case 3 -> {
-                                session.setBlockWorld(Blocks.BLOCK_TUBE_CORAL_FAN, wx, wy - 1, wz);
+                                session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_TUBE_CORAL_FAN);
                             }
                             default -> {
                                 // session.setBlockWorld(wx,wy-1,wz, MyGame.BLOCK_SEA_GRASS.id); //TODO: Add
@@ -198,27 +198,27 @@ public class DefaultTerrain extends Terrain {
                 } else if (makePlants && wy < WATER_LEVEL - 2) {
                     float rand = session.random.nextFloat();
                     if (rand > 0.997) {
-                        session.setBlockWorld(Blocks.BLOCK_SUGAR_CANE, wx, wy - 1, wz);
-                        session.setBlockWorld(Blocks.BLOCK_SUGAR_CANE, wx, wy - 2, wz);
-                        session.setBlockWorld(Blocks.BLOCK_SUGAR_CANE, wx, wy - 3, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_SUGAR_CANE);
+                        session.setBlockWorld(wx, wy - 2, wz, Blocks.BLOCK_SUGAR_CANE);
+                        session.setBlockWorld(wx, wy - 3, wz, Blocks.BLOCK_SUGAR_CANE);
                     } else if (rand > 0.98) {
-                        session.setBlockWorld(Blocks.BLOCK_MINI_CACTUS, wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_MINI_CACTUS);
                     }
                 }
             }
             case BIOME_DESERT -> {
                 if (alpha > 0) {
                     chunk.data.setBlock(x, y, z, Blocks.BLOCK_SAND);
-                    session.setBlockWorld(Blocks.BLOCK_SAND, wx, wy + 1, wz);
+                    session.setBlockWorld(wx, wy + 1, wz, Blocks.BLOCK_SAND);
                 } else {
                     chunk.data.setBlock(x, y, z, Blocks.BLOCK_RED_SAND);
-                    session.setBlockWorld(Blocks.BLOCK_RED_SAND, wx, wy + 1, wz);
+                    session.setBlockWorld(wx, wy + 1, wz, Blocks.BLOCK_RED_SAND);
                 }
                 if (makePlants) {
                     if (session.random.nextFloat() > 0.99 && y > 4 && y < 140) {
-                        session.setBlockWorld(Blocks.BLOCK_CACTUS, wx, wy - 1, wz);
-                        session.setBlockWorld(Blocks.BLOCK_CACTUS, wx, wy - 2, wz);
-                        session.setBlockWorld(Blocks.BLOCK_CACTUS, wx, wy - 3, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_CACTUS);
+                        session.setBlockWorld(wx, wy - 2, wz, Blocks.BLOCK_CACTUS);
+                        session.setBlockWorld(wx, wy - 3, wz, Blocks.BLOCK_CACTUS);
                     }
                 }
             }
@@ -228,10 +228,10 @@ public class DefaultTerrain extends Terrain {
                     if (trees && f > savannahTreeOdds) {
                         AcaciaTreeUtils.terrain_plantTree(session, chunk, wx, wy, wz);
                     } else if (f < 0.15) {
-                        session.setBlockWorld(Blocks.BLOCK_DRY_GRASS_PLANT, wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_DRY_GRASS_PLANT);
                     } else if (f > 0.99) {
-                        session.setBlockWorld(Blocks.BLOCK_TALL_DRY_GRASS, wx, wy - 1, wz);
-                        session.setBlockWorld(Blocks.BLOCK_TALL_DRY_GRASS_TOP, wx, wy - 2, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_TALL_DRY_GRASS);
+                        session.setBlockWorld(wx, wy - 2, wz, Blocks.BLOCK_TALL_DRY_GRASS_TOP);
                     }
                 }
             }
@@ -241,14 +241,14 @@ public class DefaultTerrain extends Terrain {
                     if (trees && f > jungleTreeOdds) {
                         JungleTreeUtils.terrain_plantTree(session, chunk, wx, wy, wz);
                     } else if (f < 0.15) {
-                        session.setBlockWorld(Blocks.BLOCK_TALL_GRASS, wx, wy - 1, wz);
-                        session.setBlockWorld(Blocks.BLOCK_TALL_GRASS_TOP, wx, wy - 2, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_TALL_GRASS);
+                        session.setBlockWorld(wx, wy - 2, wz, Blocks.BLOCK_TALL_GRASS_TOP);
                     } else if (f > 0.98) {
-                        session.setBlockWorld(Blocks.BLOCK_JUNGLE_GRASS_PLANT, wx, wy - 1, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_JUNGLE_GRASS_PLANT);
                     } else if (f > 0.94 && alpha > 0.65) {
-                        session.setBlockWorld(Blocks.BLOCK_BAMBOO, wx, wy - 1, wz);
-                        session.setBlockWorld(Blocks.BLOCK_BAMBOO, wx, wy - 2, wz);
-                        session.setBlockWorld(Blocks.BLOCK_BAMBOO, wx, wy - 3, wz);
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_BAMBOO);
+                        session.setBlockWorld(wx, wy - 2, wz, Blocks.BLOCK_BAMBOO);
+                        session.setBlockWorld(wx, wy - 3, wz, Blocks.BLOCK_BAMBOO);
                     }
                 }
             }
@@ -304,7 +304,7 @@ public class DefaultTerrain extends Terrain {
             return BIOME_BEACH;
         }
         //Heat will stay within 0-1 range
-        //Noise tends to be more biased towards the center, meaning we either have to normalize the noise function
+        //Noise tends to be more biased towards the center, meaning we either have to normalize the fastNoise function
         //somehow to produce even distribution, or we have to favor the edges more
 
         if (heat > 0.57f) {
@@ -323,11 +323,11 @@ public class DefaultTerrain extends Terrain {
     }
 
     private float getValueFractal(float x, float y, float z) {
-        return noise.GetValueFractal(x * getFrequency(), y * getFrequency(), z * getFrequency());
+        return fastNoise.GetValueFractal(x * getFrequency(), y * getFrequency(), z * getFrequency());
     }
 
     private float getValueFractal(float x, float y) {
-        return noise.GetValueFractal(x * getFrequency(), y * getFrequency());
+        return fastNoise.GetValueFractal(x * getFrequency(), y * getFrequency());
     }
 
 
@@ -397,7 +397,7 @@ public class DefaultTerrain extends Terrain {
                     } else if (wy == heightmap && wy > 1) {// Place sod
                         biome = getBiomeOfVoxelV2(valley, heat, heightmap, wx, wy, wz);
 
-                        //Alpha is a high frequency noise value, from -1 to 1
+                        //Alpha is a high frequency fastNoise value, from -1 to 1
                         final float alpha = getValueFractal((float) wx * 3, (float) wz * 3 - 500.0f);
                         plantSod(session, x, y, z, wx, wy, wz, alpha, biome, chunk);
                     } else if (wy > heightmap && wy < heightmap + 2) {

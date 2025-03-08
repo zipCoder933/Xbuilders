@@ -10,15 +10,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/tools.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/MoonTerrain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/barrier.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/book.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/resources.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/resources.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/loot/block/block.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/loot/block/block.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/tools.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/tools.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/XbuildersGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/XbuildersGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/AcaciaTreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/AcaciaTreeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/BirchTreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/BirchTreeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/JungleTreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/JungleTreeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/OakTreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/OakTreeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/SpruceTreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/SpruceTreeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/TreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/trees/TreeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/BasicTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/BasicTerrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/TreeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/TreeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/complexTerrain/ComplexTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/complexTerrain/ComplexTerrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/complexTerrain/TerrainSod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/complexTerrain/TerrainSod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrainUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrainUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/Terrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/math/FastNoise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/math/FastNoise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/GreedyMeshTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/GreedyMeshTester.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,11 +145,11 @@
       <recent name="com.xbuilders.engine.items.Registrys" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.content.vanilla.terrain" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.server.world.chunk.saving" />
       <recent name="com.xbuilders.engine.ui.gameScene.items" />
       <recent name="com.xbuilders.game.vanilla.ui" />
-      <recent name="com.xbuilders.game.vanilla.items.blocks" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Dev">
