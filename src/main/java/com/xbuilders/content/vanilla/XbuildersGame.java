@@ -191,9 +191,14 @@ public class XbuildersGame extends Game {
 
 
         System.out.println("Initializing items...");
-        ArrayList<Block> blockList = Blocks.starup_getBlocks();
-        ArrayList<EntitySupplier> entityList = Entities.startup_getEntities(window);
         ArrayList<Item> itemList = Items.startup_getItems();
+
+        System.out.println("Initializing blocks...");
+        ArrayList<Block> blockList = Blocks.starup_getBlocks();
+
+        System.out.println("Initializing entities...");
+        ArrayList<EntitySupplier> entityList = Entities.startup_getEntities(window);
+
 
         Registrys.initialize(blockList, entityList, itemList);
 

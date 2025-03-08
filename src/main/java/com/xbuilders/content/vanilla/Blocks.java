@@ -1034,8 +1034,6 @@ public class Blocks {
 
         //Load blocks from our json files
         ArrayList<Block> blockList = getJsonBlocksFromResource("/data/xbuilders/blocks/json");
-        System.out.println("Loaded " + blockList.toString() + " blocks");
-
         //Add blocks
         blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
         blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));

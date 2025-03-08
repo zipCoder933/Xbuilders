@@ -399,7 +399,7 @@
     },
     "solid": false,
     "opaque": false,
-    "toughness": 0.5,
+    "toughness": 2.4,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -423,7 +423,7 @@
     },
     "solid": false,
     "opaque": false,
-    "toughness": 0.5,
+    "toughness": 2.4,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [

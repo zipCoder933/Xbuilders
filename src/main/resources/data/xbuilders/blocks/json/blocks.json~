@@ -550,6 +550,8 @@
       "neg_x": "tall dry grass top",
       "pos_y": "tall dry grass top"
     },
+    "solid": true,
+    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -942,6 +944,8 @@
       "neg_x": "tall dry grass",
       "pos_y": "tall dry grass"
     },
+    "solid": true,
+    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -1080,6 +1084,8 @@
       "neg_x": "tall grass top",
       "pos_y": "tall grass top"
     },
+    "solid": false,
+    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -2533,6 +2539,8 @@
       "neg_x": "tall grass",
       "pos_y": "tall grass"
     },
+    "solid": false,
+    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [

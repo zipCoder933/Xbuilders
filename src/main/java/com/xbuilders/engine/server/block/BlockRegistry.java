@@ -114,19 +114,10 @@ public class BlockRegistry {
         assignMapAndVerify(uniqueAliases, blockArray);
         list = blockArray.toArray(new Block[0]);
 
-        //Initialize all blocks
+        //Initialize all block textures
         for (Block block : getList()) {
-            if (block.texture != null) { //ALWAYS init the texture first
+            if (block.texture != null) {
                 block.texture.init(textures);
-            }
-            //Run initialization callbacks
-            if (Registrys.blocks.getBlockType(block.renderType) != null) {
-                Consumer<Block> typeInitCallback = Registrys.blocks.getBlockType(block.renderType).initializationCallback;
-                if (typeInitCallback != null) typeInitCallback.accept(block);
-            }
-            //Run our custom initialization callback last
-            if (block.initializationCallback != null) {
-                block.initializationCallback.accept(block);
             }
         }
     }
