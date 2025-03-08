@@ -91,7 +91,7 @@ public class ResourceLoader {
                 filenames.add(resource);
 //                System.out.println("\tResource: " + resource);
             }
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
 //            throw new RuntimeException(e);
         }
 //        System.out.println("Found " + filenames.size() + " resources.");
