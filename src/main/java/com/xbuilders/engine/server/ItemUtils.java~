@@ -28,7 +28,7 @@ public class ItemUtils {
                 if (!ClientWindow.devMode && name.contains("devmode")) continue;
                 System.out.println("\t" + name);
                 String jsonString = new String(resourceLoader.getResourceBytes(path));
-                Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
+                Block[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Block[].class);
                 if (jsonBlocks2 != null) {
                     allItems.addAll(Arrays.asList(jsonBlocks2));  // append to list
                 }

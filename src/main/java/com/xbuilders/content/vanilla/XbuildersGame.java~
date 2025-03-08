@@ -205,6 +205,7 @@ public class XbuildersGame extends Game {
         AllRecipes.craftingRecipes.register("/data/xbuilders/recipes/crafting");
         AllRecipes.smeltingRecipes.register("/data/xbuilders/recipes/smelting");
 
+
         //propagations
         gameScene.livePropagationHandler.addTask(new WaterPropagation());
         gameScene.livePropagationHandler.addTask(new LavaPropagation());

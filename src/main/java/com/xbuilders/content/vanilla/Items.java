@@ -131,7 +131,7 @@ public class Items {
         /**
          * Json Items
          */
-        ItemUtils.getAllJsonItemsFromResource("data/xbuilders/items").forEach(itemList::add);
+        ItemUtils.getJsonItemsFromResource("data/xbuilders/items").forEach(itemList::add);
 
         return itemList;
     }

@@ -57,7 +57,7 @@ public class BlockArrayTexture {
         Integer key = textureMap.get(name);
 
         if (key == null) {
-            throw new NoSuchFieldError("Texture \"" + name + "\" not found! (Texture name: " + name + ")");
+            throw new NoSuchFieldError("Texture \"" + name + "\" not found!");
         }
         return key;
     }
