@@ -52,8 +52,8 @@ public class Banner extends Entity {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
         if (staticData == null) {
             staticData = new Vehicle.Vehicle_staticData(
-                    "items\\entity\\banner\\banner.obj",
-                    "items\\entity\\banner\\textures");
+                    "data/xbuilders/entities/banner\\banner.obj",
+                    "data/xbuilders/entities/banner\\textures");
         }
         if (textureFile != null) {
             texture = staticData.textures.get(textureFile);

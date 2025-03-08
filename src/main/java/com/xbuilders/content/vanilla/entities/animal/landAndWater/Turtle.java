@@ -19,6 +19,7 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -58,19 +59,19 @@ public class Turtle extends LandAndWaterAnimal {
             left_back_fin = new EntityMesh();
             right_back_fin = new EntityMesh();
             try {
-                File[] textureFiles = ResourceUtils.file("items\\entity\\animal\\turtle\\textures").listFiles();
-                textures = new int[textureFiles.length];
-                for (int i = 0; i < textureFiles.length; i++) {
+                List<String> textureFiles = resourceLoader.listResourceFiles("data/xbuilders/entities/animal\\turtle\\textures");
+                textures = new int[textureFiles.size()];
+                for (int i = 0; i < textureFiles.size(); i++) {
                     textures[i] = Objects.requireNonNull(
-                            TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
+                            TextureUtils.loadTextureFromResource(textureFiles.get(i), false)).id;
                 }
 
-                body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\body.obj"));
-                left_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\left_fin.obj"));
-                right_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\right_fin.obj"));
+                body.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\turtle\\body.obj"));
+                left_fin.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\turtle\\left_fin.obj"));
+                right_fin.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\turtle\\right_fin.obj"));
 
-                left_back_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\left_back_fin.obj"));
-                right_back_fin.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\turtle\\right_back_fin.obj"));
+                left_back_fin.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\turtle\\left_back_fin.obj"));
+                right_back_fin.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\turtle\\right_back_fin.obj"));
             } catch (IOException ex) {
                 ErrorHandler.report(ex);
             }

@@ -25,8 +25,8 @@ public class Cat extends StaticLandAnimal {
     public StaticLandAnimal_StaticData getStaticData() throws IOException {
         if (ead == null) {
             ead = new StaticLandAnimal_StaticData(
-                    "items\\entity\\animal\\cat\\body.obj",
-                    "items\\entity\\animal\\cat\\textures");
+                    "data/xbuilders/entities/animal\\cat\\body.obj",
+                    "data/xbuilders/entities/animal\\cat\\textures");
             body = ead.body;
             textures = ead.textures;
         }

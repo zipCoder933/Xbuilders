@@ -13,18 +13,19 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class StaticLandAnimal extends LandAnimal {
 
 
-    public StaticLandAnimal( long uniqueIdentifier, ClientWindow window) {
-        super( uniqueIdentifier, window);
+    public StaticLandAnimal(long uniqueIdentifier, ClientWindow window) {
+        super(uniqueIdentifier, window);
         aabb.setOffsetAndSize(0.8f, 0.9f, 0.8f, true);
         jumpOverBlocks = true;
         frustumSphereRadius = 2;
     }
-
 
     public static class StaticLandAnimal_StaticData {
         public final EntityMesh body;
@@ -32,14 +33,15 @@ public abstract class StaticLandAnimal extends LandAnimal {
 
         public StaticLandAnimal_StaticData(String bodyMesh, String texturesDir) throws IOException {
             body = new EntityMesh();
-            body.loadFromOBJ(ResourceUtils.file(bodyMesh));
-
+            body.loadFromOBJ(resourceLoader.getResourceAsStream(bodyMesh));
             //Generate textures
-            File[] textureFiles = ResourceUtils.file(texturesDir).listFiles();
-            textures = new int[textureFiles.length];
-            for (int i = 0; i < textureFiles.length; i++) {
-                textures[i] = Objects.requireNonNull(
-                        TextureUtils.loadTextureFromFile(textureFiles[i], false)).id;
+            List<String> textureList = resourceLoader.listResourceFiles(texturesDir);
+            this.textures = new int[textureList.size()];
+            for (int i = 0; i < textureList.size(); i++) {
+                int textureID = Objects.requireNonNull(
+                        TextureUtils.loadTextureFromResource(
+                                textureList.get(i), false)).id;
+                this.textures[i] = textureID;
             }
         }
     }

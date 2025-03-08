@@ -47,32 +47,26 @@ public class Beaver extends LandAndWaterAnimal {
             tail = new EntityMesh();
             legs = new EntityMesh();
             try {
-                bodyTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\body.png"),
+                bodyTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
+                        "data/xbuilders/entities/animal\\beaver\\body.png",
                         false)).id;
 
-                headTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\head.png"),
+                headTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
+                        "data/xbuilders/entities/animal\\beaver\\head.png",
                         false)).id;
 
-                tailTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\tail.png"),
+                tailTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
+                        "data/xbuilders/entities/animal\\beaver\\tail.png",
                         false)).id;
 
-                legsTexture = Objects.requireNonNull(TextureUtils.loadTextureFromFile(
-                        ResourceUtils.file("items\\entity\\animal\\beaver\\back leg.png"),
+                legsTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
+                        "data/xbuilders/entities/animal\\beaver\\back leg.png",
                         false)).id;
 
-                body.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\body.obj"));
-
-
-                head.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\head.obj"));
-
-
-                tail.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\tail.obj"));
-
-
-                legs.loadFromOBJ(ResourceUtils.file("items\\entity\\animal\\beaver\\legs.obj"));
+                body.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\body.obj"));
+                head.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\head.obj"));
+                tail.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\tail.obj"));
+                legs.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\legs.obj"));
 
 
             } catch (IOException ex) {
@@ -81,8 +75,8 @@ public class Beaver extends LandAndWaterAnimal {
         }
     }
 
-    public Beaver( long uniqueIdentifier, ClientWindow window) {
-        super( uniqueIdentifier, window);
+    public Beaver(long uniqueIdentifier, ClientWindow window) {
+        super(uniqueIdentifier, window);
         aabb.setOffsetAndSize(.8f, 1f, .8f, true);
         frustumSphereRadius = 2;
         setMaxSpeed(0.1f);

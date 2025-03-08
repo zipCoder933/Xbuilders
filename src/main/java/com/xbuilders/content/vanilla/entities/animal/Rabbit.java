@@ -33,8 +33,8 @@ public class Rabbit extends StaticLandAnimal {
     public StaticLandAnimal_StaticData getStaticData() throws IOException {
         if (ead == null) {
             ead = new StaticLandAnimal_StaticData(
-                    "items\\entity\\animal\\rabbit\\body.obj",
-                    "items\\entity\\animal\\rabbit\\textures");
+                    "data/xbuilders/entities/animal\\rabbit\\body.obj",
+                    "data/xbuilders/entities/animal\\rabbit\\textures");
             body = ead.body;
             textures = ead.textures;
         }
