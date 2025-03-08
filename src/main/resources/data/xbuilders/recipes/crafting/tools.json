@@ -514,5 +514,14 @@
     ],
     "output": "xbuilders:flashlight",
     "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:flint",
+      "xbuilders:iron_ingot"
+    ],
+    "output": "xbuilders:flint_and_steel",
+    "amount": 1
   }
 ]

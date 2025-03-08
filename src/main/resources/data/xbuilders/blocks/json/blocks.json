@@ -803,8 +803,6 @@
       "neg_x": "jungle sapling",
       "pos_y": "jungle sapling"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -2509,8 +2507,6 @@
       "neg_x": "fire coral fan",
       "pos_y": "fire coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -2601,8 +2597,6 @@
       "neg_x": "horn coral fan",
       "pos_y": "horn coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -2648,8 +2642,6 @@
       "neg_x": "mini cactus",
       "pos_y": "mini cactus"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -2671,8 +2663,6 @@
       "neg_x": "mushroom",
       "pos_y": "mushroom"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -2953,8 +2943,6 @@
       "neg_x": "tube coral fan",
       "pos_y": "tube coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -2977,8 +2965,6 @@
       "neg_x": "tube coral fan",
       "pos_y": "tube coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -3286,8 +3272,6 @@
       "neg_x": "bubble coral fan",
       "pos_y": "bubble coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -3310,8 +3294,6 @@
       "neg_x": "bubble coral fan",
       "pos_y": "bubble coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -3473,8 +3455,6 @@
       "neg_x": "oak sapling",
       "pos_y": "oak sapling"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -3496,8 +3476,6 @@
       "neg_x": "birch sapling",
       "pos_y": "birch sapling"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4117,8 +4095,6 @@
       "neg_x": "jungle grass plant",
       "pos_y": "jungle grass plant"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4486,8 +4462,6 @@
       "neg_x": "yellow candle",
       "pos_y": "yellow candle"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 15,
     "type": 3,
     "colorInPlayerHead": [
@@ -4509,8 +4483,6 @@
       "neg_x": "cave vines flat",
       "pos_y": "cave vines flat"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4532,8 +4504,6 @@
       "neg_x": "green candle",
       "pos_y": "green candle"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 15,
     "type": 3,
     "colorInPlayerHead": [
@@ -4741,8 +4711,6 @@
       "neg_x": "fire coral fan",
       "pos_y": "fire coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -4788,8 +4756,6 @@
       "neg_x": "acacia sapling",
       "pos_y": "acacia sapling"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4811,8 +4777,6 @@
       "neg_x": "brain coral fan",
       "pos_y": "brain coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -4835,8 +4799,6 @@
       "neg_x": "white rose",
       "pos_y": "white rose"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4858,8 +4820,6 @@
       "neg_x": "horn coral fan",
       "pos_y": "horn coral fan"
     },
-    "solid": true,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "toughness": 2,
@@ -4882,8 +4842,6 @@
       "neg_x": "red rose",
       "pos_y": "red rose"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4928,8 +4886,6 @@
       "neg_x": "black eye susan",
       "pos_y": "black eye susan"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4951,8 +4907,6 @@
       "neg_x": "orange tulip",
       "pos_y": "orange tulip"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -5089,8 +5043,6 @@
       "neg_x": "beets",
       "pos_y": "beets"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -9900,8 +9852,6 @@
       "neg_x": "campfire",
       "pos_y": "campfire"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 15,
     "type": 3,
     "colorInPlayerHead": [
@@ -11924,8 +11874,6 @@
       "neg_x": "sunflower front",
       "pos_y": "sunflower bottom"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 13,
     "colorInPlayerHead": [
@@ -11947,8 +11895,6 @@
       "neg_x": "sunflower stalk",
       "pos_y": "sunflower stalk"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -12499,8 +12445,6 @@
       "neg_x": "bottle",
       "pos_y": "bottle"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -12591,8 +12535,6 @@
       "neg_x": "cup",
       "pos_y": "cup"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -16181,8 +16123,6 @@
       "neg_x": "spruce sapling",
       "pos_y": "spruce sapling"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [

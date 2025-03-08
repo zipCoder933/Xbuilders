@@ -1027,6 +1027,11 @@
       "item": "xbuilders:gravel",
       "chance": 1.0,
       "maxItems": 1
+    },
+    {
+      "item": "xbuilders:flint",
+      "chance": 0.1,
+      "maxItems": 1
     }
   ],
   "xbuilders:coal_block": [

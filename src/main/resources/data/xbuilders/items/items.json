@@ -2077,12 +2077,6 @@
     "block": 456
   },
   {
-    "id": "xbuilders:fire",
-    "name": "Fire",
-    "icon": "fire.png",
-    "block": 457
-  },
-  {
     "id": "xbuilders:dark_prismarine_brick_slab",
     "name": "Dark Prismarine Brick Slab",
     "block": 458

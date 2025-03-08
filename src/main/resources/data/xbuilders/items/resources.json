@@ -103,13 +103,13 @@
     "icon": "pp/white_dye.png"
   },
   {
-    "id": "xbuilders:flint_and_steel",
-    "name": "Flint and Steel",
-    "icon": "flint_and_steel.png"
-  },
-  {
     "id": "xbuilders:gunpowder",
     "name": "Gunpowder",
     "icon": "gunpowder.png"
+  },
+  {
+    "id": "xbuilders:flint",
+    "name": "Flint",
+    "icon": "flint.png"
   }
 ]
