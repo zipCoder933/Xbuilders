@@ -1,19 +1,14 @@
 package com.xbuilders.engine.server.recipes.crafting;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.recipes.Recipe;
 import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.TagPossibilities;
 import com.xbuilders.content.vanilla.ui.RecipeDrawingUtils;
-import com.xbuilders.engine.utils.ResourceLoader;
 import org.lwjgl.nuklear.NkContext;
 
-import java.io.IOException;
 import java.util.*;
-
-import static com.xbuilders.engine.server.recipes.RecipeRegistry.resourceLoader;
 
 public class CraftingRecipe extends Recipe {
 

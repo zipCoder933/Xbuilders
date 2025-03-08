@@ -15,14 +15,12 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Vector2f;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;

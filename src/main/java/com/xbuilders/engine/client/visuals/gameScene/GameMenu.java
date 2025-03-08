@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.SettingsPage;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;

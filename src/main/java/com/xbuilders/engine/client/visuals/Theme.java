@@ -7,7 +7,7 @@ package com.xbuilders.engine.client.visuals;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.nuklear.NKFontUtils;
 import org.joml.Vector2i;
 import org.lwjgl.nuklear.*;

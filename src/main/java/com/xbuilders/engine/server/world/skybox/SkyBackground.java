@@ -3,7 +3,7 @@ package com.xbuilders.engine.server.world.skybox;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL30;

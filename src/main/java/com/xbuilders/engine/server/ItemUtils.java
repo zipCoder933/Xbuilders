@@ -4,7 +4,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.json.JsonManager;
 
 import java.io.File;

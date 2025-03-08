@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.IntMap;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 
 import java.io.IOException;
 import java.util.HashMap;

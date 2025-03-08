@@ -12,7 +12,7 @@
 //import com.xbuilders.engine.client.visuals.server.rendering.chunk.withBakedLight.GreedyMesherWithLight;
 //import com.xbuilders.engine.client.visuals.server.rendering.old.GreedyMesherNublada;
 //import com.xbuilders.engine.utils.MiscUtils;
-//import com.xbuilders.engine.utils.ResourceUtils;
+//import com.xbuilders.engine.utils.resource.ResourceUtils;
 //import com.xbuilders.engine.utils.math.PerlinNoise;
 //import com.xbuilders.window.development.MemoryProfiler;
 //import com.xbuilders.window.utils.preformance.Stopwatch;

@@ -4,13 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.recipes.RecipeRegistry;
 import com.xbuilders.engine.server.recipes.AllRecipes;
-import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipe;
-import com.xbuilders.engine.utils.ResourceUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

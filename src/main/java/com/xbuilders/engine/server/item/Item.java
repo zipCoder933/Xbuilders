@@ -10,7 +10,7 @@ import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.IntMap;
 import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.window.utils.texture.Texture;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.nuklear.NkImage;

@@ -4,7 +4,7 @@
  */
 package com.xbuilders.window.utils.texture;
 
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.window.utils.IOUtil;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -21,12 +21,6 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-
-import com.xbuilders.engine.utils.ResourceLoader;
-import com.xbuilders.window.utils.IOUtil;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_RGB;
@@ -47,16 +41,10 @@ import static org.lwjgl.opengl.GL11.glTexParameteri;
 
 import java.util.List;
 
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.glTexImage3D;
 import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D_ARRAY;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
-
-import org.lwjgl.system.MemoryStack;
-
-import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MemoryUtil;
 
 /**
  * @author zipCoder933

@@ -1,16 +1,13 @@
 package com.xbuilders.engine.server.loot.block;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xbuilders.engine.server.loot.LootTableRegistry;
 import com.xbuilders.engine.server.loot.output.LootList;
-import com.xbuilders.engine.utils.ResourceLoader;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.List;
 
 import static com.xbuilders.engine.server.loot.AllLootTables.lootMapper;
 

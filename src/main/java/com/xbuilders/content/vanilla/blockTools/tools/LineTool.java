@@ -4,7 +4,7 @@ import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;

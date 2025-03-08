@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.loot;
 
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 
 import java.io.IOException;
 

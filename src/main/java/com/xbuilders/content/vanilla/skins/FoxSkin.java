@@ -4,7 +4,7 @@ import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.client.player.Skin;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;

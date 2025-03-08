@@ -2,7 +2,7 @@ package com.xbuilders.engine.client.visuals.gameScene.rendering.entity;
 
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 
 import java.io.IOException;
 

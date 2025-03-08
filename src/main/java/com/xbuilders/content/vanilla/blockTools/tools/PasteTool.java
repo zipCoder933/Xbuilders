@@ -11,7 +11,7 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.Bloc
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;

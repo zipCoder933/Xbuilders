@@ -11,13 +11,11 @@ import com.xbuilders.content.vanilla.entities.animal.mobile.LandAndWaterAnimal;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;

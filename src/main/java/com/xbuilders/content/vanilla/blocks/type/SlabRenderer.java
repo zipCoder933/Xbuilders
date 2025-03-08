@@ -9,7 +9,6 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
