@@ -13,11 +13,11 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
+import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -57,11 +57,11 @@ public class Turtle extends LandAndWaterAnimal {
             left_back_fin = new EntityMesh();
             right_back_fin = new EntityMesh();
             try {
-                List<String> textureFiles = resourceLoader.listResourceFiles("data/xbuilders/entities/animal\\turtle\\textures");
-                textures = new int[textureFiles.size()];
-                for (int i = 0; i < textureFiles.size(); i++) {
+                String[] textureFiles = ResourceLister.listSubResources("data/xbuilders/entities/animal\\turtle\\textures");
+                textures = new int[textureFiles.length];
+                for (int i = 0; i < textureFiles.length; i++) {
                     textures[i] = Objects.requireNonNull(
-                            TextureUtils.loadTextureFromResource(textureFiles.get(i), false)).id;
+                            TextureUtils.loadTextureFromResource(textureFiles[i], false)).id;
                 }
 
                 body.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\turtle\\body.obj"));

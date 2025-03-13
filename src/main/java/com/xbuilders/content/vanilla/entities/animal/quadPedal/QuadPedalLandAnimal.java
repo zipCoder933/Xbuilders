@@ -14,6 +14,7 @@ import com.xbuilders.engine.utils.math.RandomUtils;
 import com.xbuilders.content.vanilla.entities.animal.LegPair;
 import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction;
 import com.xbuilders.content.vanilla.entities.animal.mobile.LandAnimal;
+import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
@@ -68,11 +69,11 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             }
 
             //Generate textures
-            List<String> textureFiles = resourceLoader.listResourceFiles(texturesDir);
-            textures = new int[textureFiles.size()];
-            for (int i = 0; i < textureFiles.size(); i++) {
+            String[] textureFiles = ResourceLister.listDirectSubResources(texturesDir);
+            textures = new int[textureFiles.length];
+            for (int i = 0; i < textureFiles.length; i++) {
                 textures[i] = Objects.requireNonNull(
-                        TextureUtils.loadTextureFromResource(textureFiles.get(i), false)).id;
+                        TextureUtils.loadTextureFromResource(textureFiles[i], false)).id;
             }
         }
     }

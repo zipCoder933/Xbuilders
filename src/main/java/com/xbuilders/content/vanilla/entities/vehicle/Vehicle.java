@@ -16,6 +16,7 @@ import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.window.utils.texture.TextureUtils;
@@ -23,7 +24,6 @@ import org.joml.Vector2f;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 public abstract class Vehicle extends Entity {
@@ -40,7 +40,7 @@ public abstract class Vehicle extends Entity {
             body.loadFromOBJ(resourceLoader.getResourceAsStream(bodyMesh));
 
             //Generate textures
-            List<String> textureRes = resourceLoader.listResourceFiles(texturesDir);
+            String[] textureRes = ResourceLister.listSubResources(texturesDir);
             this.textures = new HashMap<>();
             for (String textureResource: textureRes) {
                 String textureKey = resourceLoader.getName(textureResource).replace(".png", "");

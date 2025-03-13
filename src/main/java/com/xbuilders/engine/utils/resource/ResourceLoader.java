@@ -19,9 +19,14 @@ public class ResourceLoader {
     public static final String FILE_SEPARATOR = "/";
 
 
-    private String formatPath(String path) {
+    protected static String formatPath(String path) {
+        //Replace all backslashes with forward slashes
+        path = path.replace("\\", FILE_SEPARATOR);
+
+        //If the path doesn't start with a forward slash, add one
         if (!path.startsWith(FILE_SEPARATOR)) path = FILE_SEPARATOR + path;
-        return path.replace("\\", FILE_SEPARATOR);
+
+        return path;
     }
 
     public InputStream getResourceAsStream(String path) {

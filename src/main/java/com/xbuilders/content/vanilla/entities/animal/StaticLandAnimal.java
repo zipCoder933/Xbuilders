@@ -8,10 +8,10 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
 import com.xbuilders.content.vanilla.entities.animal.mobile.LandAnimal;
+import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 public abstract class StaticLandAnimal extends LandAnimal {
@@ -32,12 +32,12 @@ public abstract class StaticLandAnimal extends LandAnimal {
             body = new EntityMesh();
             body.loadFromOBJ(resourceLoader.getResourceAsStream(bodyMesh));
             //Generate textures
-            List<String> textureList = resourceLoader.listResourceFiles(texturesDir);
-            this.textures = new int[textureList.size()];
-            for (int i = 0; i < textureList.size(); i++) {
+            String[] textureList = ResourceLister.listSubResources(texturesDir);
+            this.textures = new int[textureList.length];
+            for (int i = 0; i < textureList.length; i++) {
                 int textureID = Objects.requireNonNull(
                         TextureUtils.loadTextureFromResource(
-                                textureList.get(i), false)).id;
+                                textureList[i], false)).id;
                 this.textures[i] = textureID;
             }
         }

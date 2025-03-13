@@ -4,6 +4,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.json.JsonManager;
 
@@ -22,7 +23,7 @@ public class ItemUtils {
         System.out.println("Adding all json blocks from " + jsonDirectory);
         ArrayList<Block> allItems = new ArrayList<>();
         try {
-            for (String path : resourceLoader.listResourceFiles(jsonDirectory)) {
+            for (String path : ResourceLister.listSubResources(jsonDirectory)) {
                 String name = resourceLoader.getName(path);
                 if (!name.endsWith(".json")) continue;
                 if (!ClientWindow.devMode && name.contains("devmode")) continue;
@@ -41,17 +42,16 @@ public class ItemUtils {
     }
 
 
-
-
     public static ArrayList<Item> getJsonItemsFromResource(String jsonDirectory) {
         System.out.println("Adding all json items from " + jsonDirectory);
         ArrayList<Item> allItems = new ArrayList<>();
         try {
-            for (String path : resourceLoader.listResourceFiles(jsonDirectory)) {
+            for (String path : ResourceLister.listSubResources(jsonDirectory)) {
+
                 String name = resourceLoader.getName(path);
                 if (!name.endsWith(".json")) continue;
                 if (!ClientWindow.devMode && name.contains("devmode")) continue;
-                System.out.println("\t" + name);
+
                 String jsonString = new String(resourceLoader.getResourceBytes(path));
                 Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
                 if (jsonBlocks2 != null) {

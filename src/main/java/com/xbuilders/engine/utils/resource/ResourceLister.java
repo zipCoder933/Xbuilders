@@ -2,6 +2,7 @@ package com.xbuilders.engine.utils.resource;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -32,7 +33,7 @@ public class ResourceLister {
         return path;
     }
 
-    private static String[] listAllSubResources(String path) {
+    public static String[] listSubResources(String path) {
         init();
         //Get all matching regex patterns in resourceList
         path = formatPath(path);
@@ -41,7 +42,7 @@ public class ResourceLister {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < resourceList.length; i++) {
             if (pattern.matcher(resourceList[i]).matches()) {
-                list.add(resourceList[i]);
+                list.add(ResourceLoader.formatPath(resourceList[i]));
             }
         }
         return list.toArray(new String[0]);
@@ -58,40 +59,22 @@ public class ResourceLister {
         for (int i = 0; i < resourceList.length; i++) {
             if (pattern.matcher(resourceList[i]).matches()) {
                 String direct = resourceList[i];
-                //System.out.println(direct);
-                //Truncate the beginning of the path, so that only the direct descendant is left
-                direct = direct.substring(path.length() + 1);
-                //System.out.println("\t"+direct);
 
-                //Truncate Anything after the first \, and remove the beginning \
-                int end = direct.indexOf("\\", 1);
+                direct = direct.substring(path.length() + 1);//Truncate the beginning of the path, so that only the direct descendant is left
+
+                int end = direct.indexOf("\\", 1); //Truncate Anything after the first \, and remove the beginning \
                 if (end == -1) end = direct.length();
                 direct = direct.substring(1, end);
                 list.add(direct);
             }
         }
-        return list.toArray(new String[0]);
-    }
-
-    public static String getDirectDescendant(String fullPath, String basePath) {
-        if (fullPath.startsWith(basePath)) {
-            String remainingPath = fullPath.substring(basePath.length());
-            if (remainingPath.startsWith("\\") || remainingPath.startsWith("/")) {
-                remainingPath = remainingPath.substring(1); // Remove leading separator
-            }
-
-            int separatorIndex = remainingPath.indexOf("\\");
-            if (separatorIndex == -1) {
-                separatorIndex = remainingPath.indexOf("/");
-            }
-
-            if (separatorIndex != -1) {
-                return remainingPath.substring(0, separatorIndex);
-            } else {
-                return remainingPath; // Return the entire remaining part
-            }
+        String[] reval = list.toArray(new String[0]);
+        //Add the base path back in
+        for (int i = 0; i < reval.length; i++) {
+            reval[i] = ResourceLoader.FILE_SEPARATOR + path + ResourceLoader.FILE_SEPARATOR + reval[i];
+            reval[i] = ResourceLoader.formatPath(reval[i]);
         }
-        return null; // Return null if the full path doesn't start with the base path
+        return reval;
     }
 
     /**
@@ -179,8 +162,11 @@ public class ResourceLister {
     }
 
 
-//    public static void main(final String[] args) {
-//        System.out.println(
-//                Arrays.toString(ResourceLister.listDirectSubResources("assets\\xbuilders\\models\\block")));
-//    }
+    public static void main(final String[] args) throws IOException {
+        System.out.println(
+                Arrays.toString(ResourceLister.listSubResources("assets\\xbuilders\\models\\block")));
+//        ResourceLoader resourceLoader = new ResourceLoader();
+//        String str = new String(resourceLoader.getResourceBytes("\\icon16.png"));
+//        System.out.println(str);
+    }
 }
