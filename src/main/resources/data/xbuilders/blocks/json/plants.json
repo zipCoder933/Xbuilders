@@ -10,8 +10,6 @@
       "neg_x": "wheat seeds",
       "pos_y": "wheat seeds"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -33,8 +31,6 @@
       "neg_x": "carrot seeds",
       "pos_y": "carrot seeds"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -56,8 +52,6 @@
       "neg_x": "carrot seeds",
       "pos_y": "carrot seeds"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -167,8 +161,6 @@
       "neg_x": "b1",
       "pos_y": "b1"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -190,8 +182,6 @@
       "neg_x": "b2",
       "pos_y": "b2"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -213,8 +203,6 @@
       "neg_x": "b3",
       "pos_y": "b3"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -236,8 +224,6 @@
       "neg_x": "b4",
       "pos_y": "b4"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -259,8 +245,6 @@
       "neg_x": "b5",
       "pos_y": "b5"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -282,8 +266,6 @@
       "neg_x": "b6",
       "pos_y": "b6"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -305,8 +287,6 @@
       "neg_x": "wheat",
       "pos_y": "wheat"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -328,8 +308,6 @@
       "neg_x": "carrots  plant",
       "pos_y": "carrots  plant"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -351,8 +329,6 @@
       "neg_x": "potatoes plant",
       "pos_y": "potatoes plant"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -374,8 +350,6 @@
       "neg_x": "carrot seeds",
       "pos_y": "carrot seeds"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -397,8 +371,6 @@
       "neg_x": "sugar_cane",
       "pos_y": "sugar_cane"
     },
-    "solid": false,
-    "opaque": false,
     "toughness": 0.5,
     "torch": 0,
     "type": 3,
@@ -421,8 +393,6 @@
       "neg_x": "bamboo_sprite",
       "pos_y": "bamboo_sprite"
     },
-    "solid": false,
-    "opaque": false,
     "toughness": 0.5,
     "torch": 0,
     "type": 3,
@@ -445,8 +415,6 @@
       "neg_x": "bamboo_stage0.png",
       "pos_y": "bamboo_stage0.png"
     },
-    "solid": false,
-    "opaque": false,
     "toughness": 2.6,
     "torch": 0,
     "type": 3,
