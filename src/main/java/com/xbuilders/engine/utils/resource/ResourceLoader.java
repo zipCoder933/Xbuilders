@@ -43,7 +43,7 @@ public class ResourceLoader {
     /**
      * https://stackoverflow.com/questions/20105554/is-there-a-way-to-tell-if-a-classpath-resource-is-a-file-or-a-directory
      * Java does not really have a way to determine if a resource is a file or a directory, so we have to get a little creative
-     * 1. If there is a file extension, then it is a file, otherwise it is a directory
+     * 1. IF THE PATH HAS A FILE EXTENSION, (.anything) it's a file, otherwise it's a directory
      *
      * @param path
      * @return
@@ -69,30 +69,6 @@ public class ResourceLoader {
 //        } catch (IOException e) {
 //        }
 //        return false;
-    }
-
-
-    public List<String> listResourceFiles(String path) {
-        List<String> filenames = new ArrayList<>();
-        path = formatPath(path);
-//        System.out.println("Resource path: " + path);
-        try (
-                InputStream in = getResourceAsStream(path);
-                BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-            String resource;
-
-            while ((resource = br.readLine()) != null) {
-                if (resource.startsWith(FILE_SEPARATOR) || path.endsWith(FILE_SEPARATOR))
-                    resource = path + resource;
-                else resource = path + FILE_SEPARATOR + resource;
-                filenames.add(resource);
-//                System.out.println("\tResource: " + resource);
-            }
-        } catch (IOException e) {
-//            throw new RuntimeException(e);
-        }
-//        System.out.println("Found " + filenames.size() + " resources.");
-        return filenames;
     }
 
     public String getName(String path) {
@@ -130,11 +106,6 @@ public class ResourceLoader {
     public InputStream getResourceAsStream(String path1, String path2) {
         path1 = formatPath(path1 + FILE_SEPARATOR + path2);
         return getResourceAsStream(path1);
-    }
-
-    public List<String> getResourceFiles(String path1, String path2) throws IOException {
-        path1 = formatPath(path1 + FILE_SEPARATOR + path2);
-        return listResourceFiles(path1);
     }
 
     public byte[] getResourceBytes(String path) throws IOException {
