@@ -9,7 +9,6 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.blocks.PlantBlockUtils;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -117,18 +116,18 @@ public class JungleTreeUtils {
         VineBranchPair vb = setVinesAndBranches(terrain.random, x, z, firstLayerWide);
         int h4 = (int) (height * 0.4);
         for (int k = 0; k < height; k++) {
-            terrain.setBlockWorld(Blocks.BLOCK_JUNGLE_LOG, x, y - k, z);
+            terrain.setBlockWorld(x, y - k, z, Blocks.BLOCK_JUNGLE_LOG);
             if (k < height - 1) {
                 if (k > h4) {
                     for (Vector3i branch : vb.branches) {
                         if (branch.x != x && branch.z != z) {
-                            terrain.setBlockWorld(Blocks.BLOCK_JUNGLE_LEAVES, branch.x, y - k, branch.z);
+                            terrain.setBlockWorld(branch.x, y - k, branch.z, Blocks.BLOCK_JUNGLE_LEAVES);
                         }
                     }
                 }
                 for (Vector3i vine : vb.vines) {
                     if (vine.x != x && vine.z != z) {
-                        terrain.setBlockWorld(Blocks.BLOCK_VINES, vine.x, y - k, vine.z);
+                        terrain.setBlockWorld(vine.x, y - k, vine.z, Blocks.BLOCK_VINES);
                     }
                 }
             }

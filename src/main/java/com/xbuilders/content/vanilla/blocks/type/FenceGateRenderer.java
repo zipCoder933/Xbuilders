@@ -11,7 +11,6 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -53,9 +52,9 @@ public class FenceGateRenderer extends BlockType {
                 Block block2 = Server.world.getBlock(x + 1, y, z);
                 Block block3 = Server.world.getBlock(x, y, z - 1);
                 Block block4 = Server.world.getBlock(x, y, z + 1);
-                if (block.renderType == RenderType.FENCE && block2.renderType == RenderType.FENCE) {
+                if (block.type == RenderType.FENCE && block2.type == RenderType.FENCE) {
                     bd.set(0, (byte) 0);
-                } else if (block3.renderType == RenderType.FENCE && block4.renderType == RenderType.FENCE) {
+                } else if (block3.type == RenderType.FENCE && block4.type == RenderType.FENCE) {
                     bd.set(0, (byte) 1);
                 }
             });

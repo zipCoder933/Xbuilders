@@ -6,7 +6,7 @@
 //
 //import com.xbuilders.engine.client.visuals.server.rendering.entity.EntityMesh;
 //import com.xbuilders.engine.client.visuals.server.rendering.entity.EntityShader;
-//import com.xbuilders.engine.utils.ResourceUtils;
+//import com.xbuilders.engine.utils.resource.ResourceUtils;
 //import com.xbuilders.window.developmentTools.MemoryProfiler;
 //import com.xbuilders.window.Window;
 //import com.xbuilders.window.demos.CameraNavigator;

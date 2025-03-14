@@ -10,7 +10,6 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -43,9 +42,9 @@ public class FenceRenderer extends BlockType {
     private boolean isSolid(Block block) {
         return block != null
                 && block.solid
-                && block.renderType != RenderType.FLOOR
-                && block.renderType != RenderType.WALL_ITEM
-                && block.renderType != RenderType.SPRITE;
+                && block.type != RenderType.FLOOR
+                && block.type != RenderType.WALL_ITEM
+                && block.type != RenderType.SPRITE;
     }
 
     @Override

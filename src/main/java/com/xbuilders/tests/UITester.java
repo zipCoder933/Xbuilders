@@ -8,7 +8,7 @@
 //import com.xbuilders.engine.game.model.items.ItemList;
 //import com.xbuilders.engine.game.model.items.item.blockIconRendering.BlockIconRenderer;
 //import com.xbuilders.engine.client.visuals.server.GameUI;
-//import com.xbuilders.engine.utils.ResourceUtils;
+//import com.xbuilders.engine.utils.resource.ResourceUtils;
 //import com.xbuilders.game.MyGame;
 //import com.xbuilders.window.GLFWWindow;
 //import com.xbuilders.window.NKWindow;

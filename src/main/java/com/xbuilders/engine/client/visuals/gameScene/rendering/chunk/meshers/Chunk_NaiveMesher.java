@@ -89,7 +89,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                             int oy = positiveMod(y, Chunk.HEIGHT);
                             int oz = positiveMod(z, Chunk.WIDTH);
                             block = Registrys.getBlock(out_chunk.data.getBlock(ox, oy, oz));
-                            type = Registrys.blocks.getBlockType(block.renderType);
+                            type = Registrys.blocks.getBlockType(block.type);
 
                             if (type.getGreedyMesherPermissions() == BlockType.PERMIT_GM) {
                                 assignNeighbors(out_chunk.data, ox, oy, oz, block);
@@ -99,7 +99,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                         }
                     } else { //If in bounds
                         block = Registrys.getBlock(data.getBlock(x, y, z));
-                        type = Registrys.blocks.getBlockType(block.renderType);
+                        type = Registrys.blocks.getBlockType(block.type);
 
                         if (!block.isAir() //If this block is not air
                                 && (generateAll || //If we generate all

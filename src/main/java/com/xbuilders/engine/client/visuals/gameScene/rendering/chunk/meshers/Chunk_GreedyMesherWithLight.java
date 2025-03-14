@@ -309,7 +309,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
     }
 
     private boolean useGreedyMesher(Block block, int x, int y, int z) {
-        BlockType blockType1 = Registrys.blocks.getBlockType(block.renderType);
+        BlockType blockType1 = Registrys.blocks.getBlockType(block.type);
 
         if (blockType1.getGreedyMesherPermissions() == BlockType.ALWAYS_USE_GM) {
             return true;

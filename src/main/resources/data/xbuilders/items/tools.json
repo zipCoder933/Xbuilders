@@ -1,0 +1,8 @@
+[
+  {
+    "id": "xbuilders:flint_and_steel",
+    "name": "Flint and Steel",
+    "block": "xbuilders:fire",
+    "icon": "flint_and_steel.png"
+  }
+]

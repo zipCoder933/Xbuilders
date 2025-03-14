@@ -46,7 +46,7 @@ public class Block_NaiveMesher extends BlockMesher {
 
                     block = Registrys.getBlock(data.getBlock(x, y, z));
 
-                    if (!block.isAir() && (generateAll || block.renderType != BlockRegistry.DEFAULT_BLOCK_TYPE_ID)) {
+                    if (!block.isAir() && (generateAll || block.type != BlockRegistry.DEFAULT_BLOCK_TYPE_ID)) {
 
                         if (x > 0) {
                             neighbors[BlockType.NEG_X] = Registrys.getBlock(data.getBlock(x - 1, y, z));
@@ -98,7 +98,7 @@ public class Block_NaiveMesher extends BlockMesher {
 
                         try { //Handle any exceptions
                             blockData = data.getBlockData(x, y, z);
-                            BlockType type = Registrys.blocks.getBlockType(block.renderType);
+                            BlockType type = Registrys.blocks.getBlockType(block.type);
                             if (block.opaque) {
                                 type.constructBlock(opaqueBuffers, block, blockData, neighbors, neighborData, light, null, x, y, z, false);
                             } else {

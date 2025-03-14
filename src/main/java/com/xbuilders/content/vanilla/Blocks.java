@@ -6,14 +6,14 @@ import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.blocks.*;
 import com.xbuilders.content.vanilla.blocks.trees.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.xbuilders.engine.server.ItemUtils.getAllJsonBlocks;
+import static com.xbuilders.engine.server.ItemUtils.getJsonBlocksFromResource;
 import static com.xbuilders.engine.utils.math.RandomUtils.random;
 
 public class Blocks {
@@ -1032,8 +1032,7 @@ public class Blocks {
     public static ArrayList<Block> starup_getBlocks() {
 
         //Load blocks from our json files
-        ArrayList<Block> blockList = getAllJsonBlocks(ResourceUtils.file("\\items\\blocks\\json"));
-
+        ArrayList<Block> blockList = getJsonBlocksFromResource("/data/xbuilders/blocks/json");
         //Add blocks
         blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
         blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
@@ -1099,7 +1098,7 @@ public class Blocks {
             //Add flammable tag to various blocks
             if (isWood(b)) {
                 b.properties.put("flammable", "true");
-            } else if (!b.solid && b.renderType == RenderType.SPRITE
+            } else if (!b.solid && b.type == RenderType.SPRITE
                     && (b.alias.contains("dead") || b.alias.contains("dry") || b.alias.contains("grass"))) {
                 b.properties.put("flammable", "true");
             }

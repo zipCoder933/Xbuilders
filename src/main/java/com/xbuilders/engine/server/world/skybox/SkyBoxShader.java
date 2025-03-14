@@ -5,7 +5,7 @@
 package com.xbuilders.engine.server.world.skybox;
 
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.render.Shader;
 import org.joml.Matrix4f;

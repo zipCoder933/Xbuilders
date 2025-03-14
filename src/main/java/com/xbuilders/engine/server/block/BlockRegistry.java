@@ -9,15 +9,11 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.DefaultBlockType;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidBlockType;
 import com.xbuilders.engine.utils.IntMap;
-import com.xbuilders.engine.utils.ResourceUtils;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
-
-import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
 
 /**
  * @author zipCoder933
@@ -118,19 +114,10 @@ public class BlockRegistry {
         assignMapAndVerify(uniqueAliases, blockArray);
         list = blockArray.toArray(new Block[0]);
 
-        //Initialize all blocks
+        //Initialize all block textures
         for (Block block : getList()) {
-            if (block.texture != null) { //ALWAYS init the texture first
+            if (block.texture != null) {
                 block.texture.init(textures);
-            }
-            //Run initialization callbacks
-            if (Registrys.blocks.getBlockType(block.renderType) != null) {
-                Consumer<Block> typeInitCallback = Registrys.blocks.getBlockType(block.renderType).initializationCallback;
-                if (typeInitCallback != null) typeInitCallback.accept(block);
-            }
-            //Run our custom initialization callback last
-            if (block.initializationCallback != null) {
-                block.initializationCallback.accept(block);
             }
         }
     }

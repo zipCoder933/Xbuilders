@@ -30,7 +30,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("solid", src.solid);
         jsonObject.addProperty("opaque", src.opaque);
         jsonObject.addProperty("torch", src.torchlightStartingValue);
-        jsonObject.addProperty("type", src.renderType);
+        jsonObject.addProperty("type", src.type);
         jsonObject.addProperty("toughness", src.toughness);
         if (src.colorInPlayerHead != null) {
             JsonElement colorElement = context.serialize(src.colorInPlayerHead);
@@ -59,12 +59,23 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
 
+        //Basic properties
         short id = jsonObject.get("id").getAsShort();
         String name = jsonObject.get("alias").getAsString();
         JsonObject textureProperty = jsonObject.get("texture").getAsJsonObject();
         BlockTexture texture = JsonManager.textureAdapter.deserialize(textureProperty, BlockTexture.class, context);
+        int renderType = 0;
 
-        Block block = new Block(id, name, texture);
+        if (jsonObject.has("type")) {
+            String typeStr = jsonObject.get("type").getAsString();
+            if (typeStr == null || isInteger(typeStr)) {// If the typeReference is an integer
+                renderType = jsonObject.get("type").getAsInt();
+            } else { // Otherwise it's a string
+                renderType = Registrys.blocks.getBlockType(typeStr);
+            }
+        }
+        Block block = new Block(id, name, texture, renderType);
+
         if (jsonObject.has("solid"))
             block.solid = jsonObject.get("solid").getAsBoolean();
         if (jsonObject.has("opaque"))
@@ -73,15 +84,6 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             block.torchlightStartingValue = jsonObject.get("torch").getAsByte();
         if (jsonObject.has("toughness"))
             block.toughness = jsonObject.get("toughness").getAsFloat();
-
-        if (jsonObject.has("type")) {
-            String typeStr = jsonObject.get("type").getAsString();
-            if (typeStr == null || isInteger(typeStr)) {// If the typeReference is an integer
-                block.renderType = jsonObject.get("type").getAsInt();
-            } else { // Otherwise it's a string
-                block.renderType = Registrys.blocks.getBlockType(typeStr);
-            }
-        }
 
         // Import tools that can mine
         if (jsonObject.has("toolsThatCanMine")) {
@@ -116,6 +118,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             }
             // System.out.println(" Properties: " + block.properties);
         }
+
 
         return block;
     }

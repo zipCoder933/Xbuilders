@@ -16,6 +16,7 @@ public class DefaultBlockType extends BlockType {
 
     public DefaultBlockType() {
         super();
+        name = "default";
         initializationCallback = (b) -> {
 
         };

@@ -143,7 +143,7 @@ public class CollisionHandler {
                         if (block != null) {
                             if (block.solid) {
                                 d = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                                BlockType type = Registrys.blocks.getBlockType(block.renderType);
+                                BlockType type = Registrys.blocks.getBlockType(block.type);
                                 if (type != null) {
                                     //final float spread = 0;// ySpreadIndx * 0.001f
                                     type.getCollisionBoxes((aabb) -> {
@@ -195,7 +195,7 @@ public class CollisionHandler {
                                 // Its ALL in the hashmap...
                                 d = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                                 // }
-                                BlockType type = Registrys.blocks.getBlockType(block.renderType);
+                                BlockType type = Registrys.blocks.getBlockType(block.type);
                                 if (type != null) {
                                     //final float spread = 0;// ySpreadIndx * 0.001f
                                     type.getCollisionBoxes((aabb) -> {

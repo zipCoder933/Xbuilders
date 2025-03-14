@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.loot;
 
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLister;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public abstract class LootTableRegistry {
     public abstract void registerFromResource(String path) throws IOException;
 
     public final void register(String path) throws IOException {
-        for (String file : resourceLoader.listResourceFiles(path)) {
+        for (String file : ResourceLister.listSubResources(path)) {
             registerFromResource(file);
         }
     }

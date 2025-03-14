@@ -9,15 +9,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.entities.animal.mobile.FishAnimal;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.math.RandomUtils;
+import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -42,11 +39,11 @@ public class FishB extends FishAnimal {
         if (body == null) {
             body = new EntityMesh();
             body.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities\\animal\\fish\\fish_B.obj"));
-            List<String> textureFiles = resourceLoader.listResourceFiles("data/xbuilders/entities\\animal\\fish\\textures\\fish_B");
-            textures = new int[textureFiles.size()];
-            for (int i = 0; i < textureFiles.size(); i++) {
+            String[] textureFiles = ResourceLister.listSubResources("data/xbuilders/entities\\animal\\fish\\textures\\fish_B");
+            textures = new int[textureFiles.length];
+            for (int i = 0; i < textureFiles.length; i++) {
                 textures[i] = Objects.requireNonNull(
-                        TextureUtils.loadTextureFromResource(textureFiles.get(i), false)).id;
+                        TextureUtils.loadTextureFromResource(textureFiles[i], false)).id;
             }
         }
 

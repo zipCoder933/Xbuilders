@@ -13,7 +13,6 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
@@ -166,7 +165,7 @@ public class DoorHalfRenderer extends BlockType {
     private boolean check_orientRightOrLeft(int x, int y, int z) {
         Block block = Server.world.getBlock(x, y, z);
         return block.solid
-                && block.getRenderType().isCubeShape();
+                && block.getType().isCubeShape();
     }
 
     private boolean orientRightOrLeft(BlockData data, int x, int y, int z) {

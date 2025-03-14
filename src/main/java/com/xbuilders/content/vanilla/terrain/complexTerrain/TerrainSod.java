@@ -42,7 +42,7 @@ public class TerrainSod {
 
         if (biome == ComplexTerrain.BIOME_BEACH) {
             Server.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
-            if (terrain.noise.GetValueFractal(wx, wz) >= 0) {
+            if (terrain.fastNoise.GetValueFractal(wx, wz) >= 0) {
                 Server.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
                 Server.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 2, wz);
                 Server.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 3, wz);
@@ -52,13 +52,13 @@ public class TerrainSod {
                 Server.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 3, wz);
             }
         } else if (biome == ComplexTerrain.BIOME_DESERT) {
-            if (terrain.noise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
+            if (terrain.fastNoise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
                 Server.world.setBlock(Blocks.BLOCK_CLAY, wx, wy, wz);
                 Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
                 Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
                 Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
             }
-            if (terrain.noise.GetValueFractal((float) (wx / 2), (float) (wz / 2), 1000.0f) > 0.1) {
+            if (terrain.fastNoise.GetValueFractal((float) (wx / 2), (float) (wz / 2), 1000.0f) > 0.1) {
                 Server.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
                 Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
                 Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);

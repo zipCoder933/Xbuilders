@@ -4,7 +4,8 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLister;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.json.JsonManager;
 
 import java.io.File;
@@ -16,7 +17,55 @@ import java.util.List;
 
 public class ItemUtils {
 
-    public static ArrayList<Block> getAllJsonBlocks(File jsonDirectory) {
+    static ResourceLoader resourceLoader = new ResourceLoader();
+
+    public static ArrayList<Block> getJsonBlocksFromResource(String jsonDirectory) {
+        System.out.println("Adding all json blocks from " + jsonDirectory);
+        ArrayList<Block> allItems = new ArrayList<>();
+        try {
+            for (String path : ResourceLister.listSubResources(jsonDirectory)) {
+                String name = resourceLoader.getName(path);
+                if (!name.endsWith(".json")) continue;
+                if (!ClientWindow.devMode && name.contains("devmode")) continue;
+                System.out.println("\t" + name);
+                String jsonString = new String(resourceLoader.getResourceBytes(path));
+                Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
+                if (jsonBlocks2 != null) {
+                    allItems.addAll(Arrays.asList(jsonBlocks2));  // append to list
+                }
+            }
+            return allItems;
+        } catch (IOException e) {
+            ErrorHandler.report(e);
+        }
+        return new ArrayList<>();
+    }
+
+
+    public static ArrayList<Item> getJsonItemsFromResource(String jsonDirectory) {
+        System.out.println("Adding all json items from " + jsonDirectory);
+        ArrayList<Item> allItems = new ArrayList<>();
+        try {
+            for (String path : ResourceLister.listSubResources(jsonDirectory)) {
+
+                String name = resourceLoader.getName(path);
+                if (!name.endsWith(".json")) continue;
+                if (!ClientWindow.devMode && name.contains("devmode")) continue;
+
+                String jsonString = new String(resourceLoader.getResourceBytes(path));
+                Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
+                if (jsonBlocks2 != null) {
+                    allItems.addAll(Arrays.asList(jsonBlocks2));  // append to list
+                }
+            }
+            return allItems;
+        } catch (IOException e) {
+            ErrorHandler.report(e);
+        }
+        return new ArrayList<>();
+    }
+
+    public static ArrayList<Block> getJsonBlocksFromFile(File jsonDirectory) {
         System.out.println("Adding all json blocks from " + jsonDirectory.getAbsolutePath());
         if (!jsonDirectory.exists()) jsonDirectory.mkdirs();
         ArrayList<Block> allBlocks = new ArrayList<>();
@@ -28,7 +77,6 @@ public class ItemUtils {
 
                 String jsonString = Files.readString(file.toPath());
                 Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
-
 /*
 //DANGER! This code will Change the JSON and write it back
 //                System.out.println("Read " + jsonBlocks2.length + " blocks from " + file.getName());
@@ -39,8 +87,6 @@ public class ItemUtils {
 //                String json = JsonManager.gson_blockAdapter.toJson(jsonBlocks2);
 //                Files.writeString(file.toPath(), json);
  */
-
-
                 if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
                     // append to list
                     for (Block block : jsonBlocks2) {
@@ -56,32 +102,7 @@ public class ItemUtils {
         return new ArrayList<>();
     }
 
-    static ResourceLoader resourceLoader = new ResourceLoader();
-
-    public static ArrayList<Item> getAllJsonItemsFromResource(String jsonDirectory) {
-        System.out.println("Adding all json items from " + jsonDirectory);
-        ArrayList<Item> allItems = new ArrayList<>();
-        try {
-            for (String path : resourceLoader.listResourceFiles(jsonDirectory)) {
-                String name = resourceLoader.getName(path);
-                if (!name.endsWith(".json")) continue;
-                if (!ClientWindow.devMode && name.contains("devmode")) continue;
-                System.out.println("\t" + name);
-                String jsonString = new String(resourceLoader.getResourceBytes(path));
-                Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
-                if (jsonBlocks2 != null) {
-                    allItems.addAll(Arrays.asList(jsonBlocks2));  // append to list
-                }
-            }
-            return allItems;
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
-        return new ArrayList<>();
-    }
-
-
-    public static ArrayList<Item> getAllJsonItems(File jsonDirectory) {
+    public static ArrayList<Item> getJsonItemsFromFile(File jsonDirectory) {
         System.out.println("Adding all json items from " + jsonDirectory.getAbsolutePath());
         if (!jsonDirectory.exists()) jsonDirectory.mkdirs();
         ArrayList<Item> allItems = new ArrayList<>();

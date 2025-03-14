@@ -386,8 +386,11 @@ public class Chunk {
     }
 
     private static Random randomTick_random = new Random();
+    public static float randomTickLikelyhoodMultiplier = 1;
 
-    private static final float RANDOM_TICK_LIKELIHOOD = 0.001f;//0.001f
+    public static float getRandomTickLikelihood() {
+        return randomTickLikelyhoodMultiplier * 0.001f;
+    }
 
     /**
      * Ticks the chunk
@@ -412,7 +415,7 @@ public class Chunk {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int z = 0; z < WIDTH; z++) {
 
-                    if (randomTick_random.nextFloat() <= RANDOM_TICK_LIKELIHOOD) {
+                    if (randomTick_random.nextFloat() <= getRandomTickLikelihood()) {
                         short blockID = data.getBlock(x, y, z);
                         if (blockID != BlockRegistry.BLOCK_AIR.id) {
                             Block block = Registrys.getBlock(blockID);

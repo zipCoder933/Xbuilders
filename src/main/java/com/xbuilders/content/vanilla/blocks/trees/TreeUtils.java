@@ -48,7 +48,7 @@ class TreeUtils {
         for (int x2 = lowerBoundX; x2 <= upperBoundX; x2++) {
             for (int z2 = lowerBoundZ; z2 <= upperBoundZ; z2++) {
                 if (!Server.world.getBlock(x2, y, z2).solid) {
-                    terrain.setBlockWorld(leaves, x2, y, z2);
+                    terrain.setBlockWorld(x2, y, z2, leaves);
                 }
             }
         }
@@ -87,7 +87,7 @@ class TreeUtils {
                         || (x2 == lowerBoundX && z2 == upperBoundZ)
                         || (x2 == upperBoundX && z2 == lowerBoundZ))) {
                     if (!Server.world.getBlock(x2, y, z2).solid) {
-                        terrain.setBlockWorld(leaves, x2, y, z2);
+                        terrain.setBlockWorld(x2, y, z2, leaves);
                     }
                 }
             }
@@ -135,7 +135,7 @@ class TreeUtils {
 
             if (!block.equals(leaves) && node.travel < travelDist) {
                 if (!block.solid) {
-                    terrain.setBlockWorld(leaves, node.x, node.y, node.z);
+                    terrain.setBlockWorld(node.x, node.y, node.z, leaves);
                 }
                 queue.add(new TravelNode(node.x + 1, node.y, node.z, node.travel + 1));
                 queue.add(new TravelNode(node.x, node.y, node.z + 1, node.travel + 1));
@@ -161,7 +161,7 @@ class TreeUtils {
             z += zDir;
             y--;
             if (!Server.world.getBlock(x, y, z).solid) {
-                terrain.setBlockWorld(logType, x, y, z);
+                terrain.setBlockWorld(x, y, z, logType);
             }
         }
         return new Vector3i(x, y, z);

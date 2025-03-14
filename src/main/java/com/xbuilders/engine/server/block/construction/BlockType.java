@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
@@ -169,7 +169,7 @@ public abstract class BlockType {
         if (neighbor == null) {
             return true;
         } else {
-            BlockType type = Registrys.blocks.getBlockType(neighbor.renderType);
+            BlockType type = Registrys.blocks.getBlockType(neighbor.type);
             if (!neighbor.opaque || (type == null) || !type.isCubeShape()) {
                 return true;
             }

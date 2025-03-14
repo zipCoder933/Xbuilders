@@ -5,7 +5,7 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.entity;
 
 import com.xbuilders.engine.client.visuals.gameScene.rendering.Mesh;
-import com.xbuilders.engine.utils.ResourceUtils;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;

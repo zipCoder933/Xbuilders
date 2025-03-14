@@ -56,7 +56,7 @@ public class BasicTerrain extends Terrain {
                             chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
                         }
 //                        else if (heightmap > wy) {
-//                            if (perlinNoise.noise(wx, wy , wz ) > 0.1f) {
+//                            if (perlinNoise.fastNoise(wx, wy , wz ) > 0.1f) {
 //                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
 //                            }
 //                        }

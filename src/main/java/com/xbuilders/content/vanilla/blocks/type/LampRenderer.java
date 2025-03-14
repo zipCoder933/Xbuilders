@@ -10,7 +10,6 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.utils.ResourceUtils;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -41,7 +40,7 @@ public class LampRenderer extends BlockType {
     void drawSide(int i, Block neighbor,
                   VertexSet buffers, Block block, Block[] neighbors, byte[] lightValues, int x, int y, int z) {
 
-        if (neighbor.renderType == RenderType.FENCE) {
+        if (neighbor.type == RenderType.FENCE) {
             fenceSide[i].render(buffers, block, neighbors, lightValues, x, y, z);
         } else {
             sideBlock[i].render(buffers, block, neighbors, lightValues, x, y, z);

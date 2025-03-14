@@ -11,7 +11,6 @@ import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.utils.ResourceUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -30,7 +29,7 @@ public class Items {
             if (i.getBlock() != null
                     && i.getBlock().texture.equals(originalBlock.texture)) {
                 for (int rt : validVariantTypes) {
-                    if (i.getBlock().renderType == rt && customPredicate.test(i.getBlock())) {
+                    if (i.getBlock().type == rt && customPredicate.test(i.getBlock())) {
                         return i;
                     }
                 }
@@ -62,7 +61,7 @@ public class Items {
 
 //            System.out.println("this: " + thisId + " \t other: " + blockId + " \t common: " + commonWorld);
             for (int rt : validBlockTypes) {
-                if (i.getBlock().renderType == rt && customPredicate.test(i.getBlock())) {
+                if (i.getBlock().type == rt && customPredicate.test(i.getBlock())) {
                     return i;
                 }
             }
@@ -132,7 +131,7 @@ public class Items {
         /**
          * Json Items
          */
-        ItemUtils.getAllJsonItemsFromResource("data/xbuilders/items").forEach(itemList::add);
+        ItemUtils.getJsonItemsFromResource("data/xbuilders/items").forEach(itemList::add);
 
         return itemList;
     }
@@ -213,7 +212,7 @@ public class Items {
         int x = ray.getHitPos().x;
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
-        if (!Server.world.getBlock(x, y, z).getRenderType().replaceOnSet) {
+        if (!Server.world.getBlock(x, y, z).getType().replaceOnSet) {
             x = ray.getHitPosPlusNormal().x;
             y = ray.getHitPosPlusNormal().y;
             z = ray.getHitPosPlusNormal().z;

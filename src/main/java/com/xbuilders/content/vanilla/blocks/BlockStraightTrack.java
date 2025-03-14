@@ -12,12 +12,11 @@ import java.util.ArrayList;
 public class BlockStraightTrack extends Block {
 
     public BlockStraightTrack(int id) {
-        super(id, "straight_track", new BlockTexture("track.png", "track.png", "track.png"));
+        super(id, "straight_track", new BlockTexture("track.png", "track.png", "track.png"), RenderType.FLOOR);
         solid = false;
         opaque = false;
-        renderType = RenderType.FLOOR;
 
-        localChangeEvent(false,((history, changedPosition, thisPosition) -> {
+        localChangeEvent(false, ((history, changedPosition, thisPosition) -> {
             int x = thisPosition.x;
             int y = thisPosition.y;
             int z = thisPosition.z;

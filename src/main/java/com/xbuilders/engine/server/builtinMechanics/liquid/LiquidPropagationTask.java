@@ -11,13 +11,23 @@ import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.blocks.RenderType;
 import org.joml.Vector3i;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 public class LiquidPropagationTask extends LivePropagationTask {
 
     public final Block liquidBlock;
-    public HashSet<Vector3i> nodes = new HashSet<>();
+
+    //Create a concurrent set so that we can add nodes from multiple threads
+    ConcurrentHashMap<Vector3i, Boolean> map = new ConcurrentHashMap<>();
+    private final Set<Vector3i> nodes = Collections.newSetFromMap(map);
+
 
     public LiquidPropagationTask(Block liquidBlock, int updateIntervalMS) {
         this.updateIntervalMS = updateIntervalMS;
@@ -41,7 +51,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
     }
 
     public boolean isPenetrable(Block block) {
-        return block.isAir() || (!block.solid && block.renderType == RenderType.SPRITE && block.toughness < 0.5f);
+        return block.isAir() || (!block.solid && block.type == RenderType.SPRITE && block.toughness < 0.5f);
     }
 
     public static int getFlow(BlockData thisBD, int nullFlow) {
@@ -64,11 +74,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
 
         for (Vector3i v : nodes) {
             //Get the flow from this node
-
-
             int thisFlow = getFlow(Server.world.getBlockData(v.x, v.y, v.z), 0);
-
-
             /**
              * FLOW DEPROPAGATION
              */
@@ -91,8 +97,6 @@ public class LiquidPropagationTask extends LivePropagationTask {
             ) {
                 reduceFlow(newNodes, v.x, v.y, v.z);
             }
-
-
             /**
              * FLOW PROPAGATION
              */

@@ -6,6 +6,7 @@ import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.players.Player;
+import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,7 @@ public class GameCommands {
         commandHelp.put("teleport", "Usage: teleport <player>" +
                 "\nUsage: teleport <x> <y> <z>");
         commandHelp.put("address", "Returns the server's address");
+        commandHelp.put("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>");
         if (game.getCommandHelp() != null) commandHelp.putAll(game.getCommandHelp());
     }
 
@@ -141,6 +143,13 @@ public class GameCommands {
                                 return "Unknown game mode: " + mode;
                             }
                         }
+                    }
+                    case "tickrate" -> {
+                        if (!Server.isOperator()) return null;
+                        if (parts.length == 2) {
+                            Chunk.randomTickLikelyhoodMultiplier = (float) Double.parseDouble(parts[1]);
+                            return "Tick rate changed to: " + Chunk.randomTickLikelyhoodMultiplier;
+                        } else return commandHelp.get("tickrate");
                     }
                     case "difficulty" -> {
                         System.out.println("Difficulty: " + Server.getDifficulty());

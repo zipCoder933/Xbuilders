@@ -1,6 +1,6 @@
 package com.xbuilders.window.utils.texture;
 
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.window.utils.IOUtil;
 
 import java.io.IOException;

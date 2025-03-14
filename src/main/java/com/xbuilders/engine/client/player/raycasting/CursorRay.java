@@ -304,7 +304,7 @@ public class CursorRay {
         AtomicBoolean intersects = new AtomicBoolean(false);
         BlockData initialData = block.getInitialBlockData(null, GameScene.userPlayer);
 
-        block.getRenderType().getCollisionBoxes((aabb) -> {
+        block.getType().getCollisionBoxes((aabb) -> {
             if (aabb.intersects(GameScene.userPlayer.aabb.box) &&
                     GameScene.userPlayer.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
                 intersects.set(true);
@@ -322,7 +322,7 @@ public class CursorRay {
             Block hitBlock = Server.world.getBlock(cursorRay.getHitPositionAsInt());
             Vector3i set = cursorRay.getHitPositionAsInt();
 
-            if (!hitBlock.getRenderType().replaceOnSet) {
+            if (!hitBlock.getType().replaceOnSet) {
                 set = cursorRay.getHitPosPlusNormal();
                 if (blockIntersectsPlayer(block, set)) return false;
             }
