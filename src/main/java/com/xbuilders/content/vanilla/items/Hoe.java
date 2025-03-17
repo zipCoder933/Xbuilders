@@ -3,15 +3,17 @@ package com.xbuilders.content.vanilla.items;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.utils.MiscUtils;
 import org.joml.Vector3i;
 
 public class Hoe extends Item {
 
-    public Hoe() {
-        super("xbuilders:hoe", "Hoe");
-        setIcon("hoe.png");
+    public Hoe(String material, int durability) {
+        super("xbuilders:" + material + "_hoe", MiscUtils.capitalizeWords(material) + " Hoe");
+        setIcon("pp\\"+material + "_hoe.png");
         tags.add("tool");
-        maxDurability = 100;
+        maxDurability = durability;
+        miningSpeedMultiplier = 0.01f;
 
         this.createClickEvent = (ray, stack) -> {
             Vector3i hit = ray.getHitPos();

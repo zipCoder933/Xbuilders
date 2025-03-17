@@ -18,7 +18,7 @@ public class DefaultBlockType extends BlockType {
         super();
         name = "default";
         initializationCallback = (b) -> {
-
+            b.easierMiningTool_tag = "pickaxe";
         };
     }
 

@@ -14,6 +14,7 @@ public class Sword extends Item {
         super("xbuilders:" + material + "_sword", MiscUtils.capitalizeWords(material) + " Sword");
         setIcon(material + "_sword.png");
         maxStackSize = 1;
+        miningSpeedMultiplier = 0.1f;
         tags.add("tool");
         tags.add("sword");
         tags.add(material);

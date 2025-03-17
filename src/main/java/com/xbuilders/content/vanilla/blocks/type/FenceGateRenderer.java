@@ -36,6 +36,7 @@ public class FenceGateRenderer extends BlockType {
 
         initializationCallback = (b) -> {
             b.initialBlockData = (existingData, player) -> {
+                b.easierMiningTool_tag = null;
                 BlockData bd = new BlockData(2);
                 int rotation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
                 bd.set(0, (byte) rotation);

@@ -88,30 +88,35 @@ public class Items {
          * Tools
          */
         ArrayList<Item> itemList = new ArrayList<>();
-        itemList.add(new Shovel("wooden", 25));
-        itemList.add(new Pickaxe("wooden", 25, 1.5f));
-        itemList.add(new Axe("wooden", 25));
-        itemList.add(new Sword("wooden", 25, 1));
+        itemList.add(new Shovel("wooden", 25, 0.7f));
+        itemList.add(new Pickaxe("wooden", 25, 0.7f));
+        itemList.add(new Axe("wooden", 25,0.7f));
+        itemList.add(new Sword("wooden", 25, 0.5f));
+        itemList.add(new Hoe("wooden", 5));
 
-        itemList.add(new Shovel("stone", 100));
-        itemList.add(new Pickaxe("stone", 100, 2));
-        itemList.add(new Axe("stone", 100));
-        itemList.add(new Sword("stone", 100, 1.5f));
+        itemList.add(new Shovel("stone", 100, 2f));
+        itemList.add(new Pickaxe("stone", 100, 3f));
+        itemList.add(new Axe("stone", 100,3f));
+        itemList.add(new Sword("stone", 100, 2f));
+        itemList.add(new Hoe("stone", 15));
 
-        itemList.add(new Shovel("iron", 200));
-        itemList.add(new Pickaxe("iron", 200, 3));
-        itemList.add(new Axe("iron", 200));
-        itemList.add(new Sword("iron", 200, 2));
+        itemList.add(new Shovel("iron", 200, 4.5f));
+        itemList.add(new Pickaxe("iron", 200, 4.5f));
+        itemList.add(new Axe("iron", 200,4.5f));
+        itemList.add(new Sword("iron", 200, 10f));
+        itemList.add(new Hoe("iron", 200));
 
-        itemList.add(new Shovel("golden", 400));
-        itemList.add(new Pickaxe("golden", 400, 7));
-        itemList.add(new Axe("golden", 400));
-        itemList.add(new Sword("golden", 400, 3));
+        itemList.add(new Shovel("golden", 400, 6f));
+        itemList.add(new Pickaxe("golden", 400, 10f));
+        itemList.add(new Axe("golden", 400,6f));
+        itemList.add(new Sword("golden", 400, 20f));
+        itemList.add(new Hoe("golden", 1200));
 
-        itemList.add(new Shovel("diamond", 4000));
-        itemList.add(new Pickaxe("diamond", 4000, 6));
-        itemList.add(new Axe("diamond", 4000));
-        itemList.add(new Sword("diamond", 4000, 5));
+        itemList.add(new Shovel("diamond", 4000, 10f));
+        itemList.add(new Pickaxe("diamond", 4000, 10f));
+        itemList.add(new Axe("diamond", 4000,10f));
+        itemList.add(new Sword("diamond", 4000, 40f));
+        itemList.add(new Hoe("diamond", 8000));
 
         itemList.add(new Swatter(500));
         itemList.add(new EntityRemovalTool((e) -> e instanceof LivingEntity,
@@ -123,7 +128,7 @@ public class Items {
                 "Entity Removal Tool"));
 
         itemList.add(new Saddle());
-        itemList.add(new Hoe());
+
         itemList.add(new Flashlight());
         itemList.add(new Camera());
         itemList.add(TOOL_ANIMAL_FEED);

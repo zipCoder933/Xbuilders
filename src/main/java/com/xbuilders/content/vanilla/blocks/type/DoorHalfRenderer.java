@@ -45,6 +45,7 @@ public class DoorHalfRenderer extends BlockType {
         initializationCallback = (b) -> {
             b.opaque = false;
             b.solid = true;
+            b.easierMiningTool_tag = null;
 
             b.initialBlockData = (existingData, player) -> {
                 //If we already set the block data for this block, skip making new stuff

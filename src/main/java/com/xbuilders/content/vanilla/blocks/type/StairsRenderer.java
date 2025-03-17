@@ -39,6 +39,7 @@ public class StairsRenderer extends BlockType {
                 return data;
             };
 
+            b.easierMiningTool_tag = "pickaxe";
             b.opaque = false;
             b.solid = true;
         };

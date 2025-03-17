@@ -21,6 +21,10 @@ public class BlockFlag extends Block {
                         "symbols/flag",
                         "symbols/flag",
                         "symbols/flag"));
+
+        easierMiningTool_tag = null;
+        toughness = 0.05f;
+
         setBlockEvent(false, (x, y, z) -> {
             try {
                 byte[] bytes = GameScene.userPlayer.inventory.writeToJson();

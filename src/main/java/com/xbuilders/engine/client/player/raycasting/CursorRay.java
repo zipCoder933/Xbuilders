@@ -188,15 +188,16 @@ public class CursorRay {
         selectedItem.stackSize--;
     }
 
-    private boolean toolIsEasierToMineWith(Block block, ItemStack tool) {
+    private boolean isMiningWithWrongTool(Block block, ItemStack tool) {
         if (tool != null) {
-            //if the item has a tag that makes mining easier, double the mining speed
-            if (block.easierMiningTool_tag != null
-                    && tool.item.tags.contains(block.easierMiningTool_tag)) {
-                return true;
+            //if the block specifies
+            if (block.easierMiningTool_tag != null) {
+                //If this tool doesnt match the requested one
+                return !tool.item.tags.contains(block.easierMiningTool_tag);
             }
+            return false;
         }
-        return false;
+        return true;
     }
 
     private boolean hasToolThatCanMine(Block block, ItemStack tool) {
@@ -225,9 +226,9 @@ public class CursorRay {
                 if (existingBlock.isLiquid()) return;
                 float miningSpeed = getMiningSpeed(selectedItem);
 
-                //If the block should have a tool that can mine it, and the player is using the right tool, mine faster
-                if (toolIsEasierToMineWith(existingBlock, selectedItem)) {
-                    miningSpeed *= 2.5f;
+                //If we are mining with the wrong tool, mine slower
+                if (isMiningWithWrongTool(existingBlock, selectedItem)) {
+                    miningSpeed *= 0.09f;
                 }
 
                 //If the block requires a tool to mine it, and the player doesn't have the right tool, don't mine at all

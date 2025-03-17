@@ -25,6 +25,7 @@ public class SpriteRenderer extends BlockType {
         replaceOnSet = true;
         generate3DIcon = false;
         initializationCallback = (b) -> {
+            b.easierMiningTool_tag = "shovel";
             b.opaque = false;
             b.solid = false;
             b.toughness = 0f;
