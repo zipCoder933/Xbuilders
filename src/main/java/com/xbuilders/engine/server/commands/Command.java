@@ -2,6 +2,7 @@ package com.xbuilders.engine.server.commands;
 
 import com.xbuilders.engine.server.Server;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -22,8 +23,8 @@ public class Command {
     public boolean requiresOp = false;
 
     public Command(String name, String help) {
-        this.commandName = name.toLowerCase();
-        this.commandHelp = help;
+        this.commandName = Objects.requireNonNull(name).toLowerCase();
+        this.commandHelp = Objects.requireNonNull(help);
     }
 
     protected String runCommand(String[] input) {

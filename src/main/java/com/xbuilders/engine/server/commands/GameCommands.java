@@ -11,12 +11,14 @@ import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.utils.ErrorHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,28 +47,34 @@ public class GameCommands {
 
         registerCommand(new Command("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>")
                 .requiresOP(true).executes((parts) -> {
-                    if (parts.length > 0) {
-                        Chunk.randomTickLikelyhoodMultiplier = (float) Double.parseDouble(parts[1]);
+                    if (parts.length >= 1) {
+                        Chunk.randomTickLikelyhoodMultiplier = (float) Double.parseDouble(parts[0]);
                         return "Tick rate changed to: " + Chunk.randomTickLikelyhoodMultiplier;
                     }
-                    return null;
+                    return "Tick rate is " + Chunk.randomTickLikelyhoodMultiplier;
                 }));
 
         registerCommand(new Command("mode",
                 "Usage (to get the current mode): mode\n" +
                         "Usage (to change mode): mode <mode> <all (optional)>")
                 .requiresOP(true).executes((parts) -> {
-                    if (parts.length > 0) {
+                    if (parts.length >= 1) {
                         String mode = parts[0].toUpperCase().trim().replace(" ", "_");
 
-                        boolean sendToAll = (parts.length > 1 && parts[1].equalsIgnoreCase("all"));
+                        boolean sendToAll = (parts.length >= 2 && parts[1].equalsIgnoreCase("all"));
                         try {
                             Server.setGameMode(GameMode.valueOf(mode.toUpperCase()));
                             if (sendToAll && Server.server.isPlayingMultiplayer())
                                 Server.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) Server.getGameMode().ordinal()});
                             return "Game mode changed to: " + Server.getGameMode();
-                        } catch (IllegalArgumentException | IOException e) {
-                            return "Error: " + e;
+
+                        } catch (IllegalArgumentException e) {
+
+                            return "No game mode \"" + mode + "\" Valid game modes are "
+                                    + Arrays.toString(GameMode.values());
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
                     } else {
                         return "Game mode: " + Server.getGameMode();
@@ -162,14 +170,17 @@ public class GameCommands {
                                 Server.server.sendToAllClients(new byte[]{
                                         GameServer.CHANGE_DIFFICULTY, (byte) Server.getDifficulty().ordinal()});
                             return "Difficulty changed to: " + Server.getDifficulty();
-                        } catch (IllegalArgumentException | IOException e) {
-                            return "Error: " + e;
+                        } catch (IllegalArgumentException e) {
+                            return "Invalid mode \"" + mode + "\" Valid modes are "
+                                    + Arrays.toString(Difficulty.values());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                     return "Difficulty: " + Server.getDifficulty();
                 }));
 
-        registerCommand(new Command("players",
+        registerCommand(new Command("list",
                 "Lists all connected players")
                 .requiresOP(true)
                 .executes((parts) -> {
@@ -203,22 +214,37 @@ public class GameCommands {
     }
 
     public String handleGameCommand(String inputString) {
-        String[] parts = splitWhitespacePreserveQuotes(inputString);
-        System.out.println("handleGameCommand: " + Arrays.toString(parts));
+        try {
 
-        if (parts[0].equalsIgnoreCase("help")) { //Help builtin command
-            final StringBuilder out = new StringBuilder("Commands:\n");
-            commands.forEach((key, command) -> {
-                out.append(key).append(": ").append(command.commandHelp).append("\n");
-            });
-            return out.toString();
-        } else { //Other commands
-            Command command = commands.get(parts[0].toLowerCase());
-            if (command == null) return "Unknown command. Type 'help' for a list of commands";
-            else {
-                parts = removeFirstN(parts, 1);
-                return command.runCommand(parts);
+            String[] parts = splitWhitespacePreserveQuotes(inputString);
+            System.out.println("handleGameCommand: " + Arrays.toString(parts));
+            if (parts.length == 0) return null;
+
+            if (parts[0].equalsIgnoreCase("help")) { //Help builtin command
+                if (parts.length >= 2) {
+                    Command command = commands.get(parts[1].toLowerCase());
+                    if (command == null) return "Unknown command.";
+                    else return command.commandHelp;
+                }
+                final StringBuilder out = new StringBuilder("Commands:\n");
+                commands.forEach((key, command) -> {
+                    out.append(key).append(": ").append(command.commandHelp).append("\n\n");
+                });
+                return out.toString();
+            } else { //Other commands
+                Command command = commands.get(parts[0].toLowerCase());
+                if (command == null) return "Unknown command. Type 'help' for a list of commands";
+                else {
+                    parts = removeFirstN(parts, 1);
+                    String out = command.runCommand(parts);
+                    if (out == null) return command.commandHelp;
+                    else return out;
+                }
             }
+
+        } catch (Exception e) {
+            ErrorHandler.log(e);
+            return "Error with command: " + e;
         }
     }
 
