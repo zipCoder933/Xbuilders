@@ -28,7 +28,7 @@ public class Command {
     }
 
     protected String runCommand(String[] input) {
-        if(requiresOp && !Server.isOperator()) return null;
+        if(requiresOp && !Server.isOperator()) return "You do not have the required permissions";
         if(handle!=null) return handle.apply(input);
         return null;
     }
