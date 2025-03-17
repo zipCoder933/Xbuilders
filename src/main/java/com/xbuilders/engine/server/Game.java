@@ -30,7 +30,6 @@ public abstract class Game implements GameSceneEvents {
         return false;
     }
 
-
     public Game(ClientWindow window) {
         this.window = window;
     }
@@ -47,13 +46,9 @@ public abstract class Game implements GameSceneEvents {
         return null;
     }
 
-    public void uiInit(NkContext ctx, GameUI gameUI) {
-    }
-
     public boolean uiDraw(MemoryStack stack) {
         return false;
     }
-
 
     public abstract boolean menusAreOpen();
 
@@ -62,9 +57,5 @@ public abstract class Game implements GameSceneEvents {
     public abstract boolean keyEvent(int key, int scancode, int action, int mods);
 
     public abstract boolean uiMouseButtonEvent(int button, int action, int mods);
-
-    public abstract String handleCommand(String[] parts);
-
-    public abstract Map<String, String> getCommandHelp();
 
 }

@@ -1,7 +1,7 @@
 package com.xbuilders;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.utils.ResourceLoader;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 
 import java.io.IOException;
 

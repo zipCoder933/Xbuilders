@@ -4,30 +4,30 @@
  */
 package com.xbuilders.content.vanilla;
 
-import com.xbuilders.content.vanilla.terrain.MoonTerrain;
+import com.xbuilders.content.vanilla.blockTools.BlockTools;
+import com.xbuilders.content.vanilla.blocks.RenderType;
+import com.xbuilders.content.vanilla.blocks.type.*;
+import com.xbuilders.content.vanilla.propagation.LavaPropagation;
+import com.xbuilders.content.vanilla.propagation.WaterPropagation;
+import com.xbuilders.content.vanilla.skins.FoxSkin;
+import com.xbuilders.content.vanilla.terrain.DevTerrain;
+import com.xbuilders.content.vanilla.terrain.FlatTerrain;
+import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
+import com.xbuilders.content.vanilla.ui.*;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.Game;
+import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.loot.AllLootTables;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.content.vanilla.ui.*;
-import com.xbuilders.content.vanilla.blockTools.BlockTools;
-import com.xbuilders.content.vanilla.blocks.RenderType;
-import com.xbuilders.content.vanilla.blocks.type.*;
-import com.xbuilders.content.vanilla.propagation.*;
-import com.xbuilders.content.vanilla.skins.FoxSkin;
-import com.xbuilders.content.vanilla.terrain.DevTerrain;
-import com.xbuilders.content.vanilla.terrain.FlatTerrain;
-import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
@@ -61,10 +61,6 @@ public class XbuildersGame extends Game {
         return commandHelp;
     }
 
-    @Override
-    public String handleCommand(String[] parts) {
-        return null;
-    }
 
     public boolean drawCursor(CursorRay cursorRay) {
         if (Server.getGameMode() != GameMode.FREEPLAY) return false;

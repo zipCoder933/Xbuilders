@@ -1,15 +1,12 @@
-package com.xbuilders.engine.utils;
+package com.xbuilders.engine.utils.resource;
+
+import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.FileUtils;
 
 import java.io.*;
-import java.net.JarURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.regex.Pattern;
 
 public class ResourceLoader {
     public ResourceLoader() {
@@ -22,7 +19,7 @@ public class ResourceLoader {
     public static final String FILE_SEPARATOR = "/";
 
 
-    private String formatPath(String path) {
+    protected static  String formatPath(String path) {
         if (!path.startsWith(FILE_SEPARATOR)) path = FILE_SEPARATOR + path;
         return path.replace("\\", FILE_SEPARATOR);
     }
