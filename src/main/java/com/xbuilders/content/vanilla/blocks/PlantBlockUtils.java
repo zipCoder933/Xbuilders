@@ -1,7 +1,6 @@
 package com.xbuilders.content.vanilla.blocks;
 
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.content.vanilla.Blocks;
@@ -12,6 +11,7 @@ import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -47,7 +47,14 @@ public class PlantBlockUtils {
             Block b = stages[i];
             final int finalI = i;
             b.randomTickEvent = (x, y, z) -> {
-                if (cropPlantable(x, y, z)) {
+                short below = Server.world.getBlockID(x, y + 1, z);
+
+                //If this is dry farmland, the crops will grow slower
+                if (below == Blocks.BLOCK_FARMLAND && Math.random() < 0.7) {
+                    return false;
+                }
+
+                if (below == Blocks.BLOCK_WET_FARMLAND || below == Blocks.BLOCK_FARMLAND) {
                     Server.setBlock(stages[finalI + 1].id, x, y, z);
                     return true;
                 }
@@ -56,15 +63,13 @@ public class PlantBlockUtils {
         }
     }
 
+
     public boolean deepPlantable(final int x, final int y, final int z) {
         boolean val = blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z))
                 && blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 2, z));
         return val;
     }
 
-    public boolean cropPlantable(final int x, final int y, final int z) {
-        return Server.world.getBlockID(x, y + 1, z) == Blocks.BLOCK_FARMLAND;
-    }
 
     public boolean plantable(final int x, final int y, final int z) {
         return blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z));
@@ -78,10 +83,15 @@ public class PlantBlockUtils {
                 thisBlock == Blocks.BLOCK_DRY_GRASS;
     }
 
+    public boolean isFarmland(short thisBlock) {
+        return thisBlock == Blocks.BLOCK_FARMLAND ||
+                thisBlock == Blocks.BLOCK_WET_FARMLAND;
+    }
+
     public boolean blockIsGrassSnowOrDirt(Block block) {
-        return block.id == Blocks.BLOCK_FARMLAND
-                || block.id == Blocks.BLOCK_DIRT
-                || isGrass(block.id);
+        return block.id == Blocks.BLOCK_DIRT ||
+                isFarmland(block.id) ||
+                isGrass(block.id);
     }
 
     public boolean blockIsSandOrGravel(Block block) {
@@ -157,7 +167,7 @@ public class PlantBlockUtils {
     }
 
 
-    public short growPlants(short thisBlock, Block aboveBlock) {
+    public short growGrass(short thisBlock, Block aboveBlock) {
         /**
          * Grow grass
          */

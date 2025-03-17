@@ -8,8 +8,8 @@ import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.blocks.trees.AcaciaTreeUtils;
-import com.xbuilders.content.vanilla.blocks.trees.JungleTreeUtils;
+import com.xbuilders.content.vanilla.blocks.blocks.trees.AcaciaTreeUtils;
+import com.xbuilders.content.vanilla.blocks.blocks.trees.JungleTreeUtils;
 
 import java.util.*;
 

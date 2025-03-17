@@ -1,14 +1,16 @@
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.content.vanilla.blocks.blocks.*;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.blocks.*;
-import com.xbuilders.content.vanilla.blocks.trees.*;
+import com.xbuilders.content.vanilla.blocks.blocks.trees.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -447,6 +449,7 @@ public class Blocks {
     public static short BLOCK_QUARTZ_PILLAR = 450;
     public static short BLOCK_MARBLE_PILLAR = 451;
     public static short BLOCK_FARMLAND = 452;
+    public static short BLOCK_WET_FARMLAND = 743;
     public static short BLOCK_ROAD_MARKINGS = 453;
     public static short BLOCK_GRANITE_BRICK_PILLAR = 454;
     public static short BLOCK_GRANITE_BRICK_SLAB = 455;
@@ -1040,6 +1043,8 @@ public class Blocks {
         blockList.add(new BlockStraightTrack(Blocks.BLOCK_STRAIGHT_TRACK));
         blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN_BLOCK));
         blockList.add(new BlockFlag(Blocks.BLOCK_FLAG_BLOCK));
+        blockList.add(new BlockFarmland(Blocks.BLOCK_FARMLAND));
+        blockList.add(new BlockWetFarmland(Blocks.BLOCK_WET_FARMLAND));
 
         if (ClientWindow.devMode) {//Make ids for dev mode
             try {
@@ -1137,7 +1142,7 @@ public class Blocks {
 
             //Grow grass, NOTE that the grass must have a way to decay as well
             if (random.nextFloat() < 0.2) {
-                short grassToPlant = plantUtils.growPlants(thisBlock, aboveBlock);
+                short grassToPlant = plantUtils.growGrass(thisBlock, aboveBlock);
                 if (grassToPlant != -1) {
                     Server.setBlock(grassToPlant, x, y - 1, z);
                     return true;
@@ -1171,6 +1176,8 @@ public class Blocks {
         //Tall grass
         plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_TALL_DRY_GRASS));
         plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_TALL_GRASS));
+
+
 
         /**
          * Crops
@@ -1208,7 +1215,8 @@ public class Blocks {
                 Registrys.getBlock("xbuilders:bamboo_sapling"),
                 15,
                 (block) -> {//Growable
-                    return plantUtils.blockIsSandOrGravel(block) || block.id == Blocks.BLOCK_JUNGLE_GRASS;
+                    return plantUtils.blockIsSandOrGravel(block)
+                            || plantUtils.blockIsGrassSnowOrDirt(block);
                 });
 
         plantUtils.makeStalk(

@@ -1,4 +1,4 @@
-package com.xbuilders.content.vanilla.blocks;
+package com.xbuilders.content.vanilla.blocks.blocks;
 
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;

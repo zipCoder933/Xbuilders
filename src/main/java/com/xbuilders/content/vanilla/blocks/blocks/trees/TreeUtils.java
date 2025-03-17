@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.content.vanilla.blocks.trees;
+package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;

@@ -675,7 +675,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:jungle_wood_stairs",
@@ -698,7 +700,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:honeycomb_block",
@@ -744,7 +748,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:music_box",
@@ -903,7 +909,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:red_flower",
@@ -948,7 +956,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:red_candle",
@@ -1017,7 +1027,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:jungle_leaves",
@@ -1040,7 +1052,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:jungle_log",
@@ -1086,7 +1100,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:30_hp_engine",
@@ -1224,7 +1240,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:azure_bluet",
@@ -1362,7 +1380,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:amethyst_crystal",
@@ -2764,7 +2784,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:red_stained_wood",
@@ -2810,7 +2832,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_red",
@@ -2834,7 +2858,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_pink",
@@ -2858,7 +2884,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_yellow",
@@ -2882,7 +2910,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_brown",
@@ -2906,7 +2936,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:tube_coral_block",
@@ -2998,7 +3030,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_sky_blue",
@@ -3022,7 +3056,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_dark_green",
@@ -3046,7 +3082,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_green",
@@ -3070,7 +3108,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_gray",
@@ -3094,7 +3134,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:brain_coral_block",
@@ -3212,7 +3254,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:birch_fence",
@@ -3235,7 +3279,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:bubble_coral_block",
@@ -3373,7 +3419,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_black",
@@ -3396,7 +3444,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:granite_brick_stairs",
@@ -6087,7 +6137,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_slab",
@@ -6110,7 +6162,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_gray_stairs",
@@ -6133,7 +6187,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_gray_slab",
@@ -6156,7 +6212,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_red_stairs",
@@ -6179,7 +6237,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_red_slab",
@@ -6202,7 +6262,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_pink_stairs",
@@ -6225,7 +6287,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_pink_slab",
@@ -6248,7 +6312,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_orange_stairs",
@@ -6271,7 +6337,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_orange_slab",
@@ -6294,7 +6362,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_yellow_stairs",
@@ -6317,7 +6387,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_yellow_slab",
@@ -6340,7 +6412,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_green_stairs",
@@ -6363,7 +6437,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_green_slab",
@@ -6386,7 +6462,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_dark_green_stairs",
@@ -6409,7 +6487,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_dark_green_slab",
@@ -6432,7 +6512,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_turquoise_stairs",
@@ -6455,7 +6537,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_turquoise_slab",
@@ -6478,7 +6562,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_deep_blue_stairs",
@@ -6501,7 +6587,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_deep_blue_slab",
@@ -6524,7 +6612,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_sky_blue_stairs",
@@ -6547,7 +6637,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_sky_blue_slab",
@@ -6570,7 +6662,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_brown_stairs",
@@ -6593,7 +6687,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_brown_slab",
@@ -6616,7 +6712,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_purple_stairs",
@@ -6639,7 +6737,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_purple_slab",
@@ -6662,7 +6762,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_magenta_stairs",
@@ -6685,7 +6787,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_magenta_slab",
@@ -6708,7 +6812,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_black_stairs",
@@ -6731,7 +6837,9 @@
       0.0,
       0.0
     ],
-    "properties": {"flammable": "true"}
+    "properties": {
+      "flammable": "true"
+    }
   },
   {
     "alias": "xbuilders:wool_black_slab",
@@ -9725,30 +9833,7 @@
     ],
     "properties": {}
   },
-  {
-    "alias": "xbuilders:farmland",
-    "id": 452,
-    "texture": {
-      "neg_y": "farmland",
-      "pos_x": "dirt",
-      "pos_z": "dirt",
-      "neg_z": "dirt",
-      "neg_x": "dirt",
-      "pos_y": "dirt"
-    },
-    "solid": true,
-    "opaque": true,
-    "toughness": 0.15,
-    "torch": 0,
-    "type": 0,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
+
   {
     "alias": "xbuilders:road_markings",
     "id": 453,
