@@ -16,6 +16,21 @@
   },
   {
     "input": [
+      null,
+      "#wood",
+      "#wood",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:wooden_hoe",
+    "amount": 1
+  },
+  {
+    "input": [
       "#wood",
       "#wood",
       null,
@@ -42,6 +57,21 @@
       null
     ],
     "output": "xbuilders:wooden_shovel",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:iron_ingot",
+      "xbuilders:iron_ingot",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:iron_hoe",
     "amount": 1
   },
   {
@@ -91,6 +121,21 @@
   },
   {
     "input": [
+      null,
+      "xbuilders:gold_ingot",
+      "xbuilders:gold_ingot",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:golden_hoe",
+    "amount": 1
+  },
+  {
+    "input": [
       "xbuilders:gold_ingot",
       "xbuilders:gold_ingot",
       "xbuilders:gold_ingot",
@@ -132,6 +177,21 @@
       null
     ],
     "output": "xbuilders:golden_shovel",
+    "amount": 1
+  },
+  {
+    "input": [
+      null,
+      "xbuilders:diamond",
+      "xbuilders:diamond",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:diamond_hoe",
     "amount": 1
   },
   {
