@@ -155,8 +155,8 @@ public class Minecart extends Vehicle {
         super.loadDefinitionData(hasData, parser, node);//Always call super!
         if (staticData == null) {//Only called once
             staticData = new Vehicle_staticData(
-                    "data/xbuilders/entities/minecart\\minecart.obj",
-                    "data/xbuilders/entities/minecart/textures");
+                    "assets/xbuilders/entities/minecart\\minecart.obj",
+                    "assets/xbuilders/entities/minecart/textures");
         }
         if (texture != null) {
             textureID = staticData.textures.get(texture);

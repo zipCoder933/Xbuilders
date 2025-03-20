@@ -47,25 +47,25 @@ public class Beaver extends LandAndWaterAnimal {
             legs = new EntityMesh();
             try {
                 bodyTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
-                        "data/xbuilders/entities/animal\\beaver\\body.png",
+                        "assets/xbuilders/entities/animal\\beaver\\body.png",
                         false)).id;
 
                 headTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
-                        "data/xbuilders/entities/animal\\beaver\\head.png",
+                        "assets/xbuilders/entities/animal\\beaver\\head.png",
                         false)).id;
 
                 tailTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
-                        "data/xbuilders/entities/animal\\beaver\\tail.png",
+                        "assets/xbuilders/entities/animal\\beaver\\tail.png",
                         false)).id;
 
                 legsTexture = Objects.requireNonNull(TextureUtils.loadTextureFromResource(
-                        "data/xbuilders/entities/animal\\beaver\\back leg.png",
+                        "assets/xbuilders/entities/animal\\beaver\\back leg.png",
                         false)).id;
 
-                body.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\body.obj"));
-                head.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\head.obj"));
-                tail.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\tail.obj"));
-                legs.loadFromOBJ(resourceLoader.getResourceAsStream("data/xbuilders/entities/animal\\beaver\\legs.obj"));
+                body.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/entities/animal\\beaver\\body.obj"));
+                head.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/entities/animal\\beaver\\head.obj"));
+                tail.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/entities/animal\\beaver\\tail.obj"));
+                legs.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/entities/animal\\beaver\\legs.obj"));
 
 
             } catch (IOException ex) {

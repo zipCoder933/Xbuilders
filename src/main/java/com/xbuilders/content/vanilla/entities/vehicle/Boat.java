@@ -127,8 +127,8 @@ public class Boat extends Vehicle {
 
         if (staticData == null) {//Only called once
             staticData = new Vehicle_staticData(
-                    "data/xbuilders/entities/boat/boat.obj",
-                    "data/xbuilders/entities/boat/textures");
+                    "assets/xbuilders/entities/boat/boat.obj",
+                    "assets/xbuilders/entities/boat/textures");
         }
 
         posHandler.setGravityEnabled(isInWater() ? false : true);
