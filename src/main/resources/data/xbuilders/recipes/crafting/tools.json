@@ -346,6 +346,21 @@
   },
   {
     "input": [
+      null,
+      "#stone",
+      "#stone",
+      null,
+      "xbuilders:stick",
+      null,
+      null,
+      "xbuilders:stick",
+      null
+    ],
+    "output": "xbuilders:stone_hoe",
+    "amount": 1
+  },
+  {
+    "input": [
       "#stone",
       "#stone",
       "#stone",
