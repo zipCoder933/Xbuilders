@@ -106,11 +106,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xbuilders.content.vanilla.blocks" />
       <recent name="com.xbuilders.content.vanilla" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.items.recipes" />
       <recent name="com.xbuilders.game.vanilla.terrain.defaultTerrain" />
-      <recent name="com.xbuilders.engine.items.loot" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\xbuilders\src\main\resources\data\xbuilders\blocks" />
@@ -141,7 +141,7 @@
       <recent name="com.xbuilders.game.vanilla.ui" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Dev 2">
+  <component name="RunManager" selected="Application.Dev (Load World)">
     <configuration name="Dev 2" type="Application" factoryName="Application" folderName="devs" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
       <module name="XBuilders3" />

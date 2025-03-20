@@ -356,6 +356,8 @@ public class DefaultTerrain extends Terrain {
             }
         }
 
+        short crystalBlock = selectRandomCrystal(session);
+
         while ((commonCount < commonOres.length || rareCount < rareOres.length) && !oreList.isEmpty()) {
             int index = session.random.nextInt(oreList.size()); // Randomly pick an ore
             Ore ore = oreList.get(index);
@@ -412,6 +414,17 @@ public class DefaultTerrain extends Terrain {
                         oreFractal = getValueFractal(wx * ORE_FREQUENCY, wy * ORE_FREQUENCY, wz * ORE_FREQUENCY);
                         placeStoneAndOres(chunk, session, x, y, z, wx, wy, wz, oreFractal, caveFractal, commonOres, rareOres);
 
+                        /**
+                         * Generate crystals
+                         */
+                        if (
+                                //crystalBlock > 0 && //If we should even generate crystals
+                                session.random.nextFloat() < 0.0005 &&
+                                y > 1 && //If this isnt the top of the chunk
+                                chunk.data.getBlock(x, y - 2, z) == Blocks.BLOCK_AIR) { //And the block above us is air
+                            chunk.data.setBlock(x, y - 1, z, crystalBlock);
+                        }
+
                         placeWater = false;
                     } else if (wy <= heightmap) {
                         if (wy > WATER_LEVEL && heat < -0.4f) {
@@ -426,6 +439,23 @@ public class DefaultTerrain extends Terrain {
 //                        chunk.data.setBlock(x, y, z, Blocks.BLOCK_LAVA);
 //                    }
                 }
+            }
+        }
+    }
+
+    private short selectRandomCrystal(GenSession session) {
+        switch (session.random.nextInt(4)) { //Set a random crystal
+            case 0 -> {
+                return (Blocks.BLOCK_AMETHYST_CRYSTAL);
+            }
+            case 1 -> {
+                return (Blocks.BLOCK_RUBY_CRYSTAL);
+            }
+            case 2 -> {
+                return (Blocks.BLOCK_AQUAMARINE_CRYSTAL);
+            }
+            default -> {
+                return (Blocks.BLOCK_JADE_CRYSTAL);
             }
         }
     }

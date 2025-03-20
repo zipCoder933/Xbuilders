@@ -1196,29 +1196,7 @@
       "flammable": "true"
     }
   },
-  {
-    "alias": "xbuilders:amethyst_crystal",
-    "id": 64,
-    "texture": {
-      "neg_y": "amethyst crystal",
-      "pos_x": "amethyst crystal",
-      "pos_z": "amethyst crystal",
-      "neg_z": "amethyst crystal",
-      "neg_x": "amethyst crystal",
-      "pos_y": "amethyst crystal"
-    },
-    "solid": false,
-    "opaque": false,
-    "torch": 0,
-    "type": 3,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
+
   {
     "alias": "xbuilders:clay",
     "id": 65,
@@ -5053,75 +5031,9 @@
     ],
     "properties": {}
   },
-  {
-    "alias": "xbuilders:ruby_crystal",
-    "id": 255,
-    "texture": {
-      "neg_y": "ruby crystal",
-      "pos_x": "ruby crystal",
-      "pos_z": "ruby crystal",
-      "neg_z": "ruby crystal",
-      "neg_x": "ruby crystal",
-      "pos_y": "ruby crystal"
-    },
-    "solid": false,
-    "opaque": false,
-    "torch": 0,
-    "type": 3,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
-  {
-    "alias": "xbuilders:jade_crystal",
-    "id": 256,
-    "texture": {
-      "neg_y": "jade crystal",
-      "pos_x": "jade crystal",
-      "pos_z": "jade crystal",
-      "neg_z": "jade crystal",
-      "neg_x": "jade crystal",
-      "pos_y": "jade crystal"
-    },
-    "solid": false,
-    "opaque": false,
-    "torch": 0,
-    "type": 3,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
-  {
-    "alias": "xbuilders:aquamarine_crystal",
-    "id": 257,
-    "texture": {
-      "neg_y": "aquamarine crystal",
-      "pos_x": "aquamarine crystal",
-      "pos_z": "aquamarine crystal",
-      "neg_z": "aquamarine crystal",
-      "neg_x": "aquamarine crystal",
-      "pos_y": "aquamarine crystal"
-    },
-    "solid": false,
-    "opaque": false,
-    "torch": 0,
-    "type": 3,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
+
+
+
   {
     "alias": "xbuilders:bamboo_wood_slab",
     "id": 258,

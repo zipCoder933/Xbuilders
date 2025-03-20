@@ -370,13 +370,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:jade_crystal": [
-    {
-      "item": "xbuilders:jade_crystal",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:red_sandstone_pillar": [
     {
       "item": "xbuilders:red_sandstone_pillar",
@@ -1216,13 +1210,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:ruby_crystal": [
-    {
-      "item": "xbuilders:ruby_crystal",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:french_magenta_windows_door": [
     {
       "item": "xbuilders:french_magenta_windows_door",
@@ -2568,13 +2556,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:amethyst_crystal": [
-    {
-      "item": "xbuilders:amethyst_crystal",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:brown_chiseled_marble_tile": [
     {
       "item": "xbuilders:brown_chiseled_marble_tile",
@@ -3275,13 +3257,7 @@
       "maxItems": 1
     }
   ],
-  "xbuilders:aquamarine_crystal": [
-    {
-      "item": "xbuilders:aquamarine_crystal",
-      "chance": 1.0,
-      "maxItems": 1
-    }
-  ],
+
   "xbuilders:bottle": [
     {
       "item": "xbuilders:bottle",

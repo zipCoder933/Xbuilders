@@ -292,11 +292,7 @@
     ],
     "block": 63
   },
-  {
-    "id": "xbuilders:amethyst_crystal",
-    "name": "Amethyst Crystal",
-    "block": 64
-  },
+
   {
     "id": "xbuilders:clay",
     "name": "Clay",
@@ -1116,21 +1112,6 @@
     "id": "xbuilders:blue_stained_wood",
     "name": "Blue Stained Wood",
     "block": 254
-  },
-  {
-    "id": "xbuilders:ruby_crystal",
-    "name": "Ruby Crystal",
-    "block": 255
-  },
-  {
-    "id": "xbuilders:jade_crystal",
-    "name": "Jade Crystal",
-    "block": 256
-  },
-  {
-    "id": "xbuilders:aquamarine_crystal",
-    "name": "Aquamarine Crystal",
-    "block": 257
   },
   {
     "id": "xbuilders:bamboo_wood_slab",

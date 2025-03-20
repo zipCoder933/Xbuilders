@@ -1090,6 +1090,8 @@ public class Blocks {
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_GRAVEL));
         gravity.convert(Registrys.getBlock(Blocks.BLOCK_SNOW_BLOCK));
 
+        CrystalBlockUtils.init();
+
         //Some blocks can only be mined with certain tools
         Block hard = Registrys.getBlock(Blocks.BLOCK_OBSIDIAN);
         hard.toolsThatCanMine_tags = new String[]{"diamond"}; //tags
@@ -1176,7 +1178,6 @@ public class Blocks {
         //Tall grass
         plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_TALL_DRY_GRASS));
         plantUtils.addDecayTickEvent(Registrys.getBlock(Blocks.BLOCK_TALL_GRASS));
-
 
 
         /**
