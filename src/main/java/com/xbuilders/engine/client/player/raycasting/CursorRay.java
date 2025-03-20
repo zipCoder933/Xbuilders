@@ -65,7 +65,7 @@ public class CursorRay {
         cursorBox = new Box();
         cursorBox.setPosAndSize(0, 0, 0, 1, 1, 1);
         cursorBox.setColor(DEFAULT_COLOR);
-        cursorBox.setLineWidth(3);
+        cursorBox.setLineWidth(2);
     }
 
     public final Vector4f DEFAULT_COLOR = new Vector4f(1, 1, 1, 1);
