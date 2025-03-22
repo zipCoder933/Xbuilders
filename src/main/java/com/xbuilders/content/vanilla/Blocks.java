@@ -15,6 +15,7 @@ import com.xbuilders.content.vanilla.blocks.blocks.trees.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.xbuilders.content.vanilla.blocks.PlantBlockUtils.GROW_PROBABILITY;
 import static com.xbuilders.engine.server.ItemUtils.getJsonBlocksFromResource;
 import static com.xbuilders.engine.utils.math.RandomUtils.random;
 
@@ -1130,21 +1131,21 @@ public class Blocks {
 
 
     private static void randomTickEvents() {
-        Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
-            short thisBlock = LocalServer.world.getBlockID(x, y, z);
-            Block aboveBlock = LocalServer.world.getBlock(x, y - 1, z);
-
-            if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
+        Block.RandomTickEvent dirtTickEvent = (x, y, z) -> {
+            if (!LocalServer.world.getBlock(x, y - 1, z).solid) {
                 LocalServer.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
-            } else if (plantUtils.isGrass(thisBlock) && aboveBlock.solid) {
+            }
+            return false;
+        };
+
+        Block.RandomTickEvent grassTickEvent = (x, y, z) -> {
+            Block aboveBlock = LocalServer.world.getBlock(x, y - 1, z);
+            if (aboveBlock.solid) {
                 LocalServer.setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
-            }
-
-            //Grow grass, NOTE that the grass must have a way to decay as well
-            if (random.nextFloat() < 0.2) {
-                short grassToPlant = plantUtils.growGrass(thisBlock, aboveBlock);
+            } else if (random.nextFloat() < GROW_PROBABILITY) {
+                short grassToPlant = plantUtils.growGrass(x, y, z, aboveBlock);
                 if (grassToPlant != -1) {
                     LocalServer.setBlock(grassToPlant, x, y - 1, z);
                     return true;
@@ -1154,15 +1155,16 @@ public class Blocks {
         };
 
         Block dirt = Registrys.getBlock(Blocks.BLOCK_DIRT);
-        dirt.randomTickEvent = dirtGrassTickEvent;
+        dirt.randomTickEvent = dirtTickEvent;
+
         Block grass = Registrys.getBlock(Blocks.BLOCK_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
         grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
         grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
         grass = Registrys.getBlock(Blocks.BLOCK_SNOW_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
 
         /**
          * Decay events

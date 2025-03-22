@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 
+import static com.xbuilders.engine.utils.math.RandomUtils.random;
+
 public class PlantBlockUtils {
     public final List<Short> snowyDefaultGrowth = new ArrayList<>();
     //    public final List<Short> grass = new ArrayList<>();
@@ -32,12 +34,17 @@ public class PlantBlockUtils {
         System.out.println("SnowDefaultGrowth: " + snowyDefaultGrowth.toString());
     }
 
+    public final static float GROW_PROBABILITY = 0.05f;
+    public final static float DECAY_PROBABILITY = 0.05f;
+
     public void addDecayTickEvent(Block block) {
         if (block == null) return;
         block.randomTickEvent = (x, y, z) -> {
-//            System.out.println("Decaying " + block.id + " at " + x + ", " + y + ", " + z);
-            LocalServer.setBlock(Blocks.BLOCK_AIR, x, y, z);
-            return true;
+            if (random.nextFloat() < DECAY_PROBABILITY) {
+                LocalServer.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                return true;
+            }
+            return false;
         };
     }
 
@@ -166,7 +173,8 @@ public class PlantBlockUtils {
     }
 
 
-    public short growGrass(short thisBlock, Block aboveBlock) {
+    public short growGrass(int x, int y, int z, Block aboveBlock) {
+        short thisBlock = LocalServer.world.getBlockID(x, y, z);
         /**
          * Grow grass
          */
