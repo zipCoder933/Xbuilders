@@ -1,12 +1,12 @@
 package com.xbuilders.engine.utils.network.netty.packet.message;
 
-import com.xbuilders.engine.utils.network.netty.packet.PacketWorker;
+import com.xbuilders.engine.utils.network.netty.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.List;
 
-public class Message extends PacketWorker<MessagePacket> {
+public class Message extends Packet<MessagePacket> {
 
     public Message() {
         super(2);

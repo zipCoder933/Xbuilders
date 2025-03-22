@@ -14,15 +14,16 @@ public class Test_NettyClient {
                 if (channelFuture.isSuccess()) {
                     System.out.println("Successfully connected to the localServer!");
 
-                    Channel channel = channelFuture.channel();
-                    channel.writeAndFlush(new MessagePacket("This is a test Hello World 1234567890!" +
-                            "This is a test Hello World 1234567890!" +
-                            "This is a test Hello World 1234567890!" +
-                            "This is a test Hello World 1234567890!" +
-                            "This is a test Hello World 1234567890!\n" +
-                            "This is a test Hello World 1234567890!\n" +
-                            "This is a test Hello World 1234567890!\n" +
-                            "This is a test Hello World 1234567890!\n"));
+                    while (true) {
+                        Channel channel = channelFuture.channel();
+                        channel.writeAndFlush(new MessagePacket("This is a test Hello World 1234567890!"));
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
 
 
                 } else {
