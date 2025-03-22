@@ -5,7 +5,7 @@
 package com.xbuilders.engine.server.entity;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.client.player.camera.FrustumCullingTester;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
@@ -49,7 +49,7 @@ public class ChunkEntitySet {
             entity.loadBytes = bytes;
 
             //Add to world
-            Server.world.entities.put(entity.getUniqueIdentifier(), entity);
+            LocalServer.world.entities.put(entity.getUniqueIdentifier(), entity);
             list.add(entity);
             return entity;
         }
@@ -85,9 +85,9 @@ public class ChunkEntitySet {
             Entity e = list.get(i);
             if (e == null || e.isDestroyMode()) {
                 System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
-                Server.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
+                LocalServer.server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
-                Server.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
+                LocalServer.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_initializeEntity();
@@ -106,7 +106,7 @@ public class ChunkEntitySet {
                 boolean hasMoved = e.updatePosition();
                 e.multiplayerProps.checkAndSendState();
                 if (!e.chunkPosition.chunk.equals(e.chunk.position)) { //Switch chunks
-                    Chunk toChunk = Server.world.chunks.get(e.chunkPosition.chunk);
+                    Chunk toChunk = LocalServer.world.chunks.get(e.chunkPosition.chunk);
                     if (toChunk != null && toChunk.gen_Complete()) {
                         //If the chunk exists, AND it's generated, add the entity to the new chunk
 //                        System.out.println("SWITCHING FROM " + MiscUtils.printVector(e.chunkPosition.chunk) + " TO " + toChunk);

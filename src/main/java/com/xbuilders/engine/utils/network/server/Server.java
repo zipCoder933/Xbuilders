@@ -205,7 +205,7 @@ public abstract class Server<TClient extends NetworkSocket> { //We can define cu
      * the client gets disconnected.
      *
      * @param newClient the client
-     * @return if the server should accept the client.
+     * @return if the localServer should accept the client.
      */
     public abstract boolean newClientEvent(TClient newClient);
 

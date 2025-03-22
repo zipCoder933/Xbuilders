@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.world.skybox;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import org.joml.Matrix4f;
@@ -71,7 +71,7 @@ public class SkyBackground {
                 float redDifference = (defaultSkyColor.x - defaultSkyColor.z) * 0.3f; //Choose how much % should be tinted red
                 defaultTint.set(lightness + redDifference, lightness, lightness);
             } else defaultTint.set(lightness, lightness, lightness);
-            Server.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
+            LocalServer.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
             if (Entity.shader != null) {
                 Entity.shader.setTint(defaultTint);
             }

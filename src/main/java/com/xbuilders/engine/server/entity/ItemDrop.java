@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -84,7 +84,7 @@ public class ItemDrop extends Entity {
 
 
     private boolean blockIsClear(Block camBlock, int x, int y, int z) {
-        Block block = Server.world.getBlock(x, y, z);
+        Block block = LocalServer.world.getBlock(x, y, z);
         return block.id == BlockRegistry.BLOCK_AIR.id || !block.solid || block == camBlock;
     }
 
@@ -113,7 +113,7 @@ public class ItemDrop extends Entity {
                 int y = (int) Math.floor(worldPosition.y);
                 int z = (int) Math.floor(worldPosition.z);
 
-                if (Server.world.getBlock(x, y, z).enterDamage > 0.1) {
+                if (LocalServer.world.getBlock(x, y, z).enterDamage > 0.1) {
                     System.out.println("DROPPED ONTO DAMAGING SUBSTANCE, DELETING ITEM DROP");
                     destroy();
                 }

@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -124,7 +124,7 @@ public class CircleTool extends BlockTool {
 
     private void setBlock(Vector3i origin, int x, int y, int z, Block block, float radius) {
         if (!hollow || origin.distance(x, y, z) > radius - wallThickness.getValueAsNumber()) {
-            Server.setBlock(block.id, x, y, z);
+            LocalServer.setBlock(block.id, x, y, z);
         }
     }
 
@@ -132,7 +132,7 @@ public class CircleTool extends BlockTool {
     private void propagate(Vector3i origin, int x, int y, int z, Block block,
                            ArrayList<Vector3i> queue, float radius, HashSet<Vector3i> visited) {
         if (origin.distance(x, y, z) > radius) return;
-        Block b = Server.world.getBlock(x, y, z);
+        Block b = LocalServer.world.getBlock(x, y, z);
         if ((placeOnHit || !b.solid)
                 && !visited.contains(new Vector3i(x, y, z))) {
             visited.add(new Vector3i(x, y, z));

@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -91,8 +91,8 @@ public class GreedyMesher extends BlockMesher<CompactVertexSet> {
                 q[2] = 0;
                 q[d] = 1;
 
-                Chunk forwardChunk = Server.world.getChunk(new Vector3i(chunkPosition.x + q[0], chunkPosition.y + q[1], chunkPosition.z + q[2]));
-                Chunk backChunk = Server.world.getChunk(new Vector3i(chunkPosition.x - q[0], chunkPosition.y - q[1], chunkPosition.z - q[2]));
+                Chunk forwardChunk = LocalServer.world.getChunk(new Vector3i(chunkPosition.x + q[0], chunkPosition.y + q[1], chunkPosition.z + q[2]));
+                Chunk backChunk = LocalServer.world.getChunk(new Vector3i(chunkPosition.x - q[0], chunkPosition.y - q[1], chunkPosition.z - q[2]));
 
                 if (d == 0) {
                     side = backFace ? NEG_X : POS_X;

@@ -26,7 +26,7 @@ public class NettyServer {
     }
 
     public void run() throws Exception {
-        System.out.println("Starting server on port " + port);
+        System.out.println("Starting localServer on port " + port);
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {

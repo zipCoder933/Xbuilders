@@ -3,6 +3,7 @@ package com.xbuilders.engine.server.world;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
@@ -29,10 +30,9 @@ import com.xbuilders.engine.server.world.chunk.FutureChunk;
 import java.io.IOException;
 
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.Server;
 
 import static com.xbuilders.engine.client.visuals.gameScene.GameScene.userPlayer;
-import static com.xbuilders.engine.server.Server.world;
+import static com.xbuilders.engine.server.LocalServer.world;
 
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
@@ -374,7 +374,7 @@ public class World {
                 Vector3i worldPos = entry2.getKey();
                 BlockHistory blockHist = entry2.getValue();
                 if (blockHist.previousBlock == null) { //Get the previous block if it doesn't exist
-                    blockHist.previousBlock = Server.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                    blockHist.previousBlock = LocalServer.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
                 }
                 int blockX = positiveMod(worldPos.x, Chunk.WIDTH);
                 int blockY = positiveMod(worldPos.y, Chunk.WIDTH);
@@ -781,7 +781,7 @@ public class World {
     public Entity placeEntity(EntitySupplier entity, Vector3i w, byte[] data) {
         WCCi wcc = new WCCi();
         wcc.set(w);
-        Chunk chunk = Server.world.chunks.get(wcc.chunk);
+        Chunk chunk = LocalServer.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             Entity e = chunk.entities.placeNew(w, entity, data);
             e.sendMultiplayer = false;

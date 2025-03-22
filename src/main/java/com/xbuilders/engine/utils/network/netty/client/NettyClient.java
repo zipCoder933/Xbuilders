@@ -30,7 +30,7 @@ public class NettyClient {
                         }
                     });
 
-            // Connect to server
+            // Connect to localServer
             ChannelFuture future = bootstrap.connect(host, port).sync();
             channel = future.channel();
 
@@ -51,12 +51,12 @@ public class NettyClient {
 
     public void onConnected(ChannelFuture channelFuture) {
         if (channelFuture.isSuccess()) {
-            // This block will be executed when the client is successfully connected to the server
-            System.out.println("Successfully connected to the server!");
+            // This block will be executed when the client is successfully connected to the localServer
+            System.out.println("Successfully connected to the localServer!");
             // You can schedule further events here
         } else {
             // This block will be executed if the connection fails
-            System.err.println("Failed to connect to the server: " + channelFuture.cause());
+            System.err.println("Failed to connect to the localServer: " + channelFuture.cause());
         }
     }
 

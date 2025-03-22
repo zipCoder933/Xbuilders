@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.Registrys;
@@ -33,20 +33,20 @@ public class BlockEventUtils {
         Block bottomBlock = Registrys.getBlock(id_bottom);
 
         topBlock.setBlockEvent(false, (x, y, z) -> {
-            Server.setBlock(bottomBlock.id, x, y + 1, z);
+            LocalServer.setBlock(bottomBlock.id, x, y + 1, z);
         });
         topBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (Server.world.getBlock(x, y + 1, z) == bottomBlock) {
-                Server.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
+            if (LocalServer.world.getBlock(x, y + 1, z) == bottomBlock) {
+                LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
             }
         });
 
         bottomBlock.setBlockEvent(false, (x, y, z) -> {
-            Server.setBlock(topBlock.id, x, y - 1, z);
+            LocalServer.setBlock(topBlock.id, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (Server.world.getBlock(x, y - 1, z) == topBlock) {
-                Server.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
+            if (LocalServer.world.getBlock(x, y - 1, z) == topBlock) {
+                LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
             }
         });
     }
@@ -54,11 +54,11 @@ public class BlockEventUtils {
 
     public static void setTNTEvents(Block thisBlock, final int radius, long fuseDelay) {
         thisBlock.clickEvent(true, (setX, setY, setZ) -> {
-            Server.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
+            LocalServer.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
             try {
                 Thread.sleep(fuseDelay);
-                if (Server.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
-                    Server.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
+                if (LocalServer.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
+                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                     removeEverythingWithinRadius(thisBlock, radius, new Vector3i(setX, setY, setZ));
                     float dist = GameScene.userPlayer.worldPosition.distance(setX, setY, setZ);
                     if (dist < radius) {
@@ -93,7 +93,7 @@ public class BlockEventUtils {
             for (int y = 0 - radius; y < radius; y++) {
                 for (int z = 0 - radius; z < radius; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < radius) {
-                        Block highlightedBlock = Server.world.getBlock(setX + x, setY + z, setZ + y);
+                        Block highlightedBlock = LocalServer.world.getBlock(setX + x, setY + z, setZ + y);
                         cons.accept(new Vector3i(setX + x, setY + z, setZ + y), highlightedBlock);
                     }
                 }
@@ -113,17 +113,17 @@ public class BlockEventUtils {
                 for (int z = 0 - size; z < size; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < size) {
 
-                        Block oldBlock = Server.world.getBlock(setX + x, setY + z, setZ + y);
+                        Block oldBlock = LocalServer.world.getBlock(setX + x, setY + z, setZ + y);
                         //Place Item Drop here
-                        if (Server.getGameMode() != GameMode.FREEPLAY) {
+                        if (LocalServer.getGameMode() != GameMode.FREEPLAY) {
                             Item dropItem = Registrys.getItem(oldBlock);
-                            if (dropItem != null) Server.placeItemDrop(
+                            if (dropItem != null) LocalServer.placeItemDrop(
                                     new Vector3f(setX + x, setY + z, setZ + y),
                                     new ItemStack(dropItem), false);
                         }
 
                         chunks.add(new WCCi().set(setX + x, setY + z, setZ + y).chunk);
-                        Server.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
+                        LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
 
                     }
                 }
@@ -132,7 +132,7 @@ public class BlockEventUtils {
 
         ArrayList<Entity> entitiesToDelete = new ArrayList<>();
         for (Vector3i cc : chunks) {
-            Chunk chunk = Server.world.chunks.get(cc);
+            Chunk chunk = LocalServer.world.chunks.get(cc);
             if (chunk != null) {
                 for (Entity e : chunk.entities.list) {
                     if (MathUtils.dist(setX, setY, setZ, e.worldPosition.x, e.worldPosition.y, e.worldPosition.z) < size

@@ -1,9 +1,8 @@
 package com.xbuilders.engine.server.commands;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Command {
@@ -28,7 +27,7 @@ public class Command {
     }
 
     protected String runCommand(String[] input) {
-        if(requiresOp && !Server.isOperator()) return "You do not have the required permissions";
+        if(requiresOp && !LocalServer.isOperator()) return "You do not have the required permissions";
         if(handle!=null) return handle.apply(input);
         return null;
     }

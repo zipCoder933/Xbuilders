@@ -22,7 +22,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
         buf.release();
         
         if (Arrays.equals(receivedData, PONG_MESSAGE)) {
-            System.out.println("Received PONG from server");
+            System.out.println("Received PONG from localServer");
         } else {
             handleIncomingData(receivedData);
         }

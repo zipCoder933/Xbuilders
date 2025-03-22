@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.io.Input;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import org.joml.Vector3f;
 
@@ -38,7 +38,7 @@ public class EntityMultiplayerInfo {
 //      Previously, the other player would move the entity and this method would fire,
 
     public boolean checkAndSendState() {
-        if (!Server.server.isPlayingMultiplayer() ||
+        if (!LocalServer.server.isPlayingMultiplayer() ||
                 controlledByAnotherPlayer)  //We wont send state if we are controlled by another player
             return false;
 
@@ -50,7 +50,7 @@ public class EntityMultiplayerInfo {
 //        stateCheckInterval = ownsThisEntityState() ? 20 : 1000;
 //        if (
 //                !isStateChanged()  //If the state hasn't already been changed
-//                        && GameScene.server.isPlayingMultiplayer() //And we are in multiplayer
+//                        && GameScene.localServer.isPlayingMultiplayer() //And we are in multiplayer
 //                        //We only check the state every X seconds for performance
 //                        && (System.currentTimeMillis() - lastStateCheckTime > stateCheckInterval)
 //        ) {
@@ -67,7 +67,7 @@ public class EntityMultiplayerInfo {
 
             stateChanged = false;
             lastUpdateTime = System.currentTimeMillis();
-            Server.server.addEntityChange(e, GameServer.ENTITY_UPDATED, sendStateQuickly);
+            LocalServer.server.addEntityChange(e, GameServer.ENTITY_UPDATED, sendStateQuickly);
             return false;
         }
         return false;

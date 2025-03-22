@@ -6,7 +6,7 @@ package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.SettingsPage;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
@@ -39,7 +39,7 @@ public class GameMenu extends UI_GameMenu {
         chunkDist = new NumberBox(8, 0);
         chunkDist.setMinValue(ClientWindow.settings.internal_viewDistance.min);
         chunkDist.setMaxValue(ClientWindow.settings.internal_viewDistance.max);
-        chunkDist.setValueAsNumber(Server.world.getViewDistance());
+        chunkDist.setValueAsNumber(LocalServer.world.getViewDistance());
         simDist = new NumberBox(8, 0);
 
         simDist.setMinValue(ClientWindow.settings.internal_simulationDistance.min);
@@ -47,8 +47,8 @@ public class GameMenu extends UI_GameMenu {
         simDist.setValueAsNumber(ClientWindow.settings.internal_simulationDistance.value);
 
         chunkDist.setOnChangeEvent(() -> {
-            Server.world.setViewDistance(window.settings, (int) chunkDist.getValueAsNumber());
-            chunkDist.setValueAsNumber(Server.world.getViewDistance());
+            LocalServer.world.setViewDistance(window.settings, (int) chunkDist.getValueAsNumber());
+            chunkDist.setValueAsNumber(LocalServer.world.getViewDistance());
         });
         simDist.setOnChangeEvent(() -> {
             ClientWindow.settings.internal_simulationDistance.value = (int) simDist.getValueAsNumber();
@@ -97,7 +97,7 @@ public class GameMenu extends UI_GameMenu {
     }
 
     private void openHelpPage() {
-        Server.pauseGame();
+        LocalServer.pauseGame();
         File helpHtmlPage = ResourceUtils.file("help-menu/help.html");
         if (helpHtmlPage.exists()) {
             try {
@@ -141,7 +141,7 @@ public class GameMenu extends UI_GameMenu {
     }
 
     private void waypoint(boolean save) {
-        File waypointDir = new File(Server.world.data.getDirectory(), "waypoints");
+        File waypointDir = new File(LocalServer.world.data.getDirectory(), "waypoints");
         if (!waypointDir.exists()) {
             waypointDir.mkdirs();
         }
@@ -180,8 +180,8 @@ public class GameMenu extends UI_GameMenu {
     }
 
     private void goTo(float x, float y, float z) {
-        if (Server.getGameMode() == GameMode.ADVENTURE) {
-            Server.alertClient("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
+        if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
+            LocalServer.alertClient("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
             GameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
         } else {
             GameScene.userPlayer.teleport(x, y, z);

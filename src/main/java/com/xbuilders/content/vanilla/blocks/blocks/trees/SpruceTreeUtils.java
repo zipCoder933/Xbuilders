@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -34,7 +34,7 @@ public class SpruceTreeUtils {
     public static void player_plantTree(Random rand, int x, int y, int z) {
         int height = randomInt(rand, MIN_HEIGHT, MAX_HEIGHT);
         for (int k = 0; k < height; k++) {
-            Server.setBlock(Blocks.BLOCK_SPRUCE_LOG, x, y - k, z);
+            LocalServer.setBlock(Blocks.BLOCK_SPRUCE_LOG, x, y - k, z);
         }
 
         int heightVal = 4;
@@ -73,7 +73,7 @@ public class SpruceTreeUtils {
             heightVal--;
             layerValue--;
         }
-        Server.setBlock(Blocks.BLOCK_SPRUCE_LEAVES, z, x, y - height + heightVal);
+        LocalServer.setBlock(Blocks.BLOCK_SPRUCE_LEAVES, z, x, y - height + heightVal);
     }
 
     public static void terrain_plantTree(Terrain.GenSession terrain, Chunk source, int x, int y, int z) {

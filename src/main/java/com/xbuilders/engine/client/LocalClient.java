@@ -1,5 +1,6 @@
 package com.xbuilders.engine.client;
 
+import com.xbuilders.engine.Client;
 import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-public class LocalClient {
+public class LocalClient extends Client {
     public static long GAME_VERSION;
     public static boolean LOAD_WORLD_ON_STARTUP = false;
     public static boolean FPS_TOOLS = false;

@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.entities.animal.mobile;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.LivingEntity;
 
 public class ActionAnimal extends LivingEntity {
@@ -31,8 +31,8 @@ public class ActionAnimal extends LivingEntity {
             runAwayAndDie();
         }
         if (isHostile()
-                && Server.getDifficulty() == Difficulty.EASY
-                && Server.getGameMode() == GameMode.ADVENTURE) {
+                && LocalServer.getDifficulty() == Difficulty.EASY
+                && LocalServer.getGameMode() == GameMode.ADVENTURE) {
             destroy();
         }
     }

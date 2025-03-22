@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla;
 
 import com.xbuilders.content.vanilla.items.*;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
@@ -197,12 +197,12 @@ public class Items {
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
 
-        Block hitPos = Server.world.getBlock(x, y, z);
+        Block hitPos = LocalServer.world.getBlock(x, y, z);
         System.out.println("Hit: " + hitPos);
         if (hitPos.isLiquid()) {
-            int flow = LiquidPropagationTask.getFlow(Server.world.getBlockData(x, y, z), 0);
+            int flow = LiquidPropagationTask.getFlow(LocalServer.world.getBlockData(x, y, z), 0);
             if (flow >= hitPos.liquidMaxFlow + 1) {
-                Server.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
+                LocalServer.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
 
                 if (hitPos.id == Blocks.BLOCK_WATER) {
                     stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:water_bucket"));
@@ -217,13 +217,13 @@ public class Items {
         int x = ray.getHitPos().x;
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
-        if (!Server.world.getBlock(x, y, z).getType().replaceOnSet) {
+        if (!LocalServer.world.getBlock(x, y, z).getType().replaceOnSet) {
             x = ray.getHitPosPlusNormal().x;
             y = ray.getHitPosPlusNormal().y;
             z = ray.getHitPosPlusNormal().z;
         }
 
-        Server.setBlock(stack.item.getBlock().id, x, y, z);
+        LocalServer.setBlock(stack.item.getBlock().id, x, y, z);
         stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:bucket"));
     }
 

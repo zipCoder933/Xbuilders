@@ -4,7 +4,7 @@
 
 package com.xbuilders.content.vanilla.terrain.complexTerrain;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
@@ -41,49 +41,49 @@ public class TerrainSod {
                                    float valleyLikelyhood, float dryness, float make) {
 
         if (biome == ComplexTerrain.BIOME_BEACH) {
-            Server.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
             if (terrain.fastNoise.GetValueFractal(wx, wz) >= 0) {
-                Server.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
-                Server.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 2, wz);
-                Server.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 3, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 2, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 3, wz);
             } else {
-                Server.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 1, wz);
-                Server.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 2, wz);
-                Server.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 3, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 1, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 2, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 3, wz);
             }
         } else if (biome == ComplexTerrain.BIOME_DESERT) {
             if (terrain.fastNoise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
-                Server.world.setBlock(Blocks.BLOCK_CLAY, wx, wy, wz);
-                Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
-                Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
-                Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_CLAY, wx, wy, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
             }
             if (terrain.fastNoise.GetValueFractal((float) (wx / 2), (float) (wz / 2), 1000.0f) > 0.1) {
-                Server.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
-                Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
-                Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
-                Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
+                LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
             }
-            Server.world.setBlock(Blocks.BLOCK_RED_SAND, wx, wy, wz);
-            Server.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
-            Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
-            Server.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_RED_SAND, wx, wy, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
         } else if (biome == ComplexTerrain.BIOME_SNOWY) {
-            Server.world.setBlock(Blocks.BLOCK_SNOW_GRASS, wx, wy, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_SNOW_GRASS, wx, wy, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
         } else if (biome == ComplexTerrain.BIOME_SAVANNAH) {
-            Server.world.setBlock(Blocks.BLOCK_DRY_GRASS, wx, wy, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DRY_GRASS, wx, wy, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
         } else if (biome == ComplexTerrain.BIOME_JUNGLE) {
-            Server.world.setBlock(Blocks.BLOCK_JUNGLE_GRASS, wx, wy, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_JUNGLE_GRASS, wx, wy, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
         } else {
-            Server.world.setBlock(Blocks.BLOCK_GRASS, wx, wy, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            Server.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_GRASS, wx, wy, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
             if (session.random.nextFloat() > 0.995) {
                 TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
                 session.generatedOutsideOfChunk = true;

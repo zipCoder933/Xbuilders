@@ -54,7 +54,7 @@ public class NetworkTester {
 
         /**
          * In simulation we cannot have 2 servers with the same ip adress and the same port, so in order to get around
-         * this, each server has its own port, and servers connect to each other's ports with the same IP adresss
+         * this, each localServer has its own port, and servers connect to each other's ports with the same IP adresss
          */
 
         Scanner scanner = new Scanner(System.in);

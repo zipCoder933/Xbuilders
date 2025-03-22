@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import org.joml.Vector3i;
@@ -35,7 +35,7 @@ public class EntityRemovalTool extends Item {
         System.out.println("Removing all entities at " + pos);
         try {
             // Create a snapshot of the entities to avoid concurrency issues during iteration
-            Collection<Entity> entitiesSnapshot = new ArrayList<>(Server.world.entities.values());
+            Collection<Entity> entitiesSnapshot = new ArrayList<>(LocalServer.world.entities.values());
             entitiesSnapshot.forEach(entity -> {
                 try {
                     // Check if the entity meets the criteria and is within the radius

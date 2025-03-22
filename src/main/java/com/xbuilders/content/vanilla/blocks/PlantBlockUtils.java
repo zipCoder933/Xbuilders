@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blocks;
 
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
@@ -11,7 +11,6 @@ import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -37,7 +36,7 @@ public class PlantBlockUtils {
         if (block == null) return;
         block.randomTickEvent = (x, y, z) -> {
 //            System.out.println("Decaying " + block.id + " at " + x + ", " + y + ", " + z);
-            Server.setBlock(Blocks.BLOCK_AIR, x, y, z);
+            LocalServer.setBlock(Blocks.BLOCK_AIR, x, y, z);
             return true;
         };
     }
@@ -47,7 +46,7 @@ public class PlantBlockUtils {
             Block b = stages[i];
             final int finalI = i;
             b.randomTickEvent = (x, y, z) -> {
-                short below = Server.world.getBlockID(x, y + 1, z);
+                short below = LocalServer.world.getBlockID(x, y + 1, z);
 
                 //If this is dry farmland, the crops will grow slower
                 if (below == Blocks.BLOCK_FARMLAND && Math.random() < 0.7) {
@@ -55,7 +54,7 @@ public class PlantBlockUtils {
                 }
 
                 if (below == Blocks.BLOCK_WET_FARMLAND || below == Blocks.BLOCK_FARMLAND) {
-                    Server.setBlock(stages[finalI + 1].id, x, y, z);
+                    LocalServer.setBlock(stages[finalI + 1].id, x, y, z);
                     return true;
                 }
                 return false;
@@ -65,14 +64,14 @@ public class PlantBlockUtils {
 
 
     public boolean deepPlantable(final int x, final int y, final int z) {
-        boolean val = blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z))
-                && blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 2, z));
+        boolean val = blockIsGrassSnowOrDirt(LocalServer.world.getBlock(x, y + 1, z))
+                && blockIsGrassSnowOrDirt(LocalServer.world.getBlock(x, y + 2, z));
         return val;
     }
 
 
     public boolean plantable(final int x, final int y, final int z) {
-        return blockIsGrassSnowOrDirt(Server.world.getBlock(x, y + 1, z));
+        return blockIsGrassSnowOrDirt(LocalServer.world.getBlock(x, y + 1, z));
     }
 
 
@@ -101,7 +100,7 @@ public class PlantBlockUtils {
     }
 
     public short getGrassBlockOfBiome(int wx, int wy, int wz) {
-        int biome = Server.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        int biome = LocalServer.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case ComplexTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;
@@ -130,15 +129,15 @@ public class PlantBlockUtils {
         //We have to manually remove blocks above the stalk and add item drops
         stalk.removeBlockEvent(false, ((x, y, z, history) -> {
             for (int i = 0; i < 50; i++) {
-                Block block = Server.world.getBlock(x, y - i, z);
+                Block block = LocalServer.world.getBlock(x, y - i, z);
                 if (block != null && block.id == stalk.id) {
                     //Remove the block
-                    Server.setBlock(Blocks.BLOCK_AIR, x, y - i, z);
+                    LocalServer.setBlock(Blocks.BLOCK_AIR, x, y - i, z);
 
-                    if (Server.getGameMode() == GameMode.ADVENTURE) {//Drop loot tables
+                    if (LocalServer.getGameMode() == GameMode.ADVENTURE) {//Drop loot tables
                         final int blockY = y - i;
                         AllLootTables.blockLootTables.getLoot(stalk.alias).randomItems((itemStack) -> {
-                            Server.placeItemDrop(new Vector3f(x, blockY, z), itemStack, false);
+                            LocalServer.placeItemDrop(new Vector3f(x, blockY, z), itemStack, false);
                         });
                     }
                 }
@@ -150,13 +149,13 @@ public class PlantBlockUtils {
                               Block stalkBlock, Block stalkSapling, int maxHeight,
                               Predicate<Block> plantable) {
 
-        Block belowBlock = (Server.world.getBlock(x, y + 1, z));
+        Block belowBlock = (LocalServer.world.getBlock(x, y + 1, z));
         if (plantable.test(belowBlock)) {//If this is the bottom of a stalk
             for (int i = 0; i > -maxHeight; i--) {//Go up -20 blocks max
-                Block stalk = Server.world.getBlock(x, y + i, z);
+                Block stalk = LocalServer.world.getBlock(x, y + i, z);
                 if ((stalk != null && stalk.id == stalkBlock.id)) {//If this is a stalk
                 } else if (stalk.isAir() || stalk.isLiquid() || (stalkSapling != null && stalk.id == stalkSapling.id)) {//If this is air, liquid or sapling
-                    Server.setBlock(stalkBlock.id, x, y + i, z); //Set bamboo
+                    LocalServer.setBlock(stalkBlock.id, x, y + i, z); //Set bamboo
                     return true;
                 } else {//this is not a stalk or air
                     return false;

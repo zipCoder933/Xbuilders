@@ -1,11 +1,9 @@
 package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.content.vanilla.entities.animal.mobile.ActionAnimal;
-import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction;
-import com.xbuilders.content.vanilla.entities.animal.mobile.LandAnimal;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.entity.LivingEntity;
@@ -41,7 +39,7 @@ public class Swatter extends Item {
                     Item item = Registrys.getItem(entity);
                     if (item != null) { //Remove the item and place an item drop
                         entity.destroy();
-                        Server.placeItemDrop(entity.worldPosition,
+                        LocalServer.placeItemDrop(entity.worldPosition,
                                 new ItemStack(item),
                                 false);
                         //GameScene.client_hudText("You swatted the " + item.name + " away!");

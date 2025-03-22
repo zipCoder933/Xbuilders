@@ -4,7 +4,7 @@ import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 public class GameCommands {
     private final HashMap<String, Command> commands = new HashMap<>();
-    Server gameScene;
+    LocalServer gameScene;
     Game game;
 
     public void registerCommand(Command command) {
@@ -36,7 +36,7 @@ public class GameCommands {
         return Arrays.copyOfRange(input, n, input.length);
     }
 
-    public GameCommands(Server gameScene, Game game) {
+    public GameCommands(LocalServer gameScene, Game game) {
         this.gameScene = gameScene;
         this.game = game;
 
@@ -58,10 +58,10 @@ public class GameCommands {
 
                         boolean sendToAll = (parts.length >= 2 && parts[1].equalsIgnoreCase("all"));
                         try {
-                            Server.setGameMode(GameMode.valueOf(mode.toUpperCase()));
-                            if (sendToAll && Server.server.isPlayingMultiplayer())
-                                Server.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) Server.getGameMode().ordinal()});
-                            return "Game mode changed to: " + Server.getGameMode();
+                            LocalServer.setGameMode(GameMode.valueOf(mode.toUpperCase()));
+                            if (sendToAll && LocalServer.server.isPlayingMultiplayer())
+                                LocalServer.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) LocalServer.getGameMode().ordinal()});
+                            return "Game mode changed to: " + LocalServer.getGameMode();
 
                         } catch (IllegalArgumentException e) {
 
@@ -72,17 +72,17 @@ public class GameCommands {
                             throw new RuntimeException(e);
                         }
                     } else {
-                        return "Game mode: " + Server.getGameMode();
+                        return "Game mode: " + LocalServer.getGameMode();
                     }
                 }));
 
         registerCommand(new Command("op", "Usage: op <true/false> <player>")
                 .requiresOP(true).executes((parts) -> {
-                    if (!Server.ownsGame())
+                    if (!LocalServer.ownsGame())
                         return "Only the host can change OP status"; //We cant change permissions if we arent the host
                     if (parts.length >= 2) {
                         boolean operator = Boolean.parseBoolean(parts[0]);
-                        Player target = Server.server.getPlayerByName(parts[1]);
+                        Player target = LocalServer.server.getPlayerByName(parts[1]);
                         if (target != null) {
                             try {
                                 target.sendData(new byte[]{GameServer.CHANGE_PLAYER_PERMISSION, (byte) (operator ? 1 : 0)});
@@ -97,13 +97,13 @@ public class GameCommands {
                     return null;
                 }));
 
-        registerCommand(new Command("address", "Returns the server's address")
-                .executes((parts) -> Server.server.getIpAdress() + ":" + Server.server.getPort()));
+        registerCommand(new Command("address", "Returns the localServer's address")
+                .executes((parts) -> LocalServer.server.getIpAdress() + ":" + LocalServer.server.getPort()));
 
         registerCommand(new Command("msg",
                 "Usage: msg <player/all> <message>").executes((parts) -> {
             if (parts.length >= 2) {
-                return Server.server.sendChatMessage(parts[0], parts[1]);
+                return LocalServer.server.sendChatMessage(parts[0], parts[1]);
             }
             return null;
         }));
@@ -116,16 +116,16 @@ public class GameCommands {
                 .executes((parts) -> {
                     if (parts.length >= 1) {
                         if (parts[0].equalsIgnoreCase("morning") || parts[0].equalsIgnoreCase("m")) {
-                            Server.setTimeOfDay(0.95f);
+                            LocalServer.setTimeOfDay(0.95f);
                             return null;
                         } else if (parts[0].equalsIgnoreCase("day") || parts[0].equalsIgnoreCase("d")) {
-                            Server.setTimeOfDay(0.0f);
+                            LocalServer.setTimeOfDay(0.0f);
                             return null;
                         } else if (parts[0].equalsIgnoreCase("evening") || parts[0].equalsIgnoreCase("e")) {
-                            Server.setTimeOfDay(0.25f);
+                            LocalServer.setTimeOfDay(0.25f);
                             return null;
                         } else if (parts[0].equalsIgnoreCase("night") || parts[0].equalsIgnoreCase("n")) {
-                            Server.setTimeOfDay(0.5f);
+                            LocalServer.setTimeOfDay(0.5f);
                             return null;
                         }
                     }
@@ -142,7 +142,7 @@ public class GameCommands {
                     }
 
                     if (parts.length >= 1) {
-                        Player target = Server.server.getPlayerByName(parts[0]);
+                        Player target = LocalServer.server.getPlayerByName(parts[0]);
                         if (target != null) {
                             GameScene.userPlayer.worldPosition.set(target.worldPosition);
                             return null;
@@ -160,11 +160,11 @@ public class GameCommands {
                     if (parts.length >= 1) {
                         String mode = parts[0].toUpperCase().trim().replace(" ", "_");
                         try {
-                            Server.setDifficulty(Difficulty.valueOf(mode.toUpperCase()));
-                            if (Server.server.isPlayingMultiplayer())
-                                Server.server.sendToAllClients(new byte[]{
-                                        GameServer.CHANGE_DIFFICULTY, (byte) Server.getDifficulty().ordinal()});
-                            return "Difficulty changed to: " + Server.getDifficulty();
+                            LocalServer.setDifficulty(Difficulty.valueOf(mode.toUpperCase()));
+                            if (LocalServer.server.isPlayingMultiplayer())
+                                LocalServer.server.sendToAllClients(new byte[]{
+                                        GameServer.CHANGE_DIFFICULTY, (byte) LocalServer.getDifficulty().ordinal()});
+                            return "Difficulty changed to: " + LocalServer.getDifficulty();
                         } catch (IllegalArgumentException e) {
                             return "Invalid mode \"" + mode + "\" Valid modes are "
                                     + Arrays.toString(Difficulty.values());
@@ -172,15 +172,15 @@ public class GameCommands {
                             throw new RuntimeException(e);
                         }
                     }
-                    return "Difficulty: " + Server.getDifficulty();
+                    return "Difficulty: " + LocalServer.getDifficulty();
                 }));
 
         registerCommand(new Command("list",
                 "Lists all connected players")
                 .requiresOP(true)
                 .executes((parts) -> {
-                    StringBuilder str = new StringBuilder(Server.world.players.size() + " players:\n");
-                    for (Player client : Server.world.players) {
+                    StringBuilder str = new StringBuilder(LocalServer.world.players.size() + " players:\n");
+                    for (Player client : LocalServer.world.players) {
                         str.append(client.getName()).append(";   ").append(client.getConnectionStatus()).append("\n");
                     }
                     System.out.println("\nPLAYERS:\n" + str);

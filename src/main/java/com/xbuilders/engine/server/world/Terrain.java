@@ -3,7 +3,7 @@
 // 
 package com.xbuilders.engine.server.world;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
@@ -91,7 +91,7 @@ public abstract class Terrain {
         }
 
         public void setBlockWorld(int x, int y, int z, short block) {
-            Chunk chunk = Server.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
+            Chunk chunk = LocalServer.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
 //            if (chunk != null && !homeChunk.position.equals(chunk.position)) {
 //                modifiedMeshedChunks.add(chunk);
 //            }

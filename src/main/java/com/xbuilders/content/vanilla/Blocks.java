@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla;
 import com.xbuilders.content.vanilla.blocks.blocks.*;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
@@ -1131,14 +1131,14 @@ public class Blocks {
 
     private static void randomTickEvents() {
         Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
-            short thisBlock = Server.world.getBlockID(x, y, z);
-            Block aboveBlock = Server.world.getBlock(x, y - 1, z);
+            short thisBlock = LocalServer.world.getBlockID(x, y, z);
+            Block aboveBlock = LocalServer.world.getBlock(x, y - 1, z);
 
             if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                Server.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
+                LocalServer.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
             } else if (plantUtils.isGrass(thisBlock) && aboveBlock.solid) {
-                Server.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+                LocalServer.setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
             }
 
@@ -1146,7 +1146,7 @@ public class Blocks {
             if (random.nextFloat() < 0.2) {
                 short grassToPlant = plantUtils.growGrass(thisBlock, aboveBlock);
                 if (grassToPlant != -1) {
-                    Server.setBlock(grassToPlant, x, y - 1, z);
+                    LocalServer.setBlock(grassToPlant, x, y - 1, z);
                     return true;
                 }
             }
@@ -1235,14 +1235,14 @@ public class Blocks {
         Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
 
         Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
-            if (!Server.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+            if (!LocalServer.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
                 //Decay other blocks
-                if (!Server.world.getBlock(x, y + 1, z).solid ||
-                        Server.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
-                    Server.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
+                if (!LocalServer.world.getBlock(x, y + 1, z).solid ||
+                        LocalServer.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                    LocalServer.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
                 }
                 //Decay this block
-                Server.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                LocalServer.setBlock(Blocks.BLOCK_AIR, x, y, z);
                 return true;
             } else {
                 boolean foundFlammable = false;
@@ -1276,8 +1276,8 @@ public class Blocks {
     }
 
     private static boolean spreadIfFlammable(int x, int y, int z) {
-        if (Server.world.getBlock(x, y, z).properties.containsKey("flammable")) {
-            Server.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+        if (LocalServer.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+            LocalServer.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             return true;
         }
         return false;

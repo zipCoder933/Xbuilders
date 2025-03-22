@@ -2,7 +2,7 @@ package com.xbuilders.engine.client.visuals.gameScene.items;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;
@@ -153,7 +153,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         nk_draw_image(canvas, bounds, bgImage, white);
 
         //draw quantity
-        if (!(Server.getGameMode() == GameMode.FREEPLAY && itemStack.stackSize == 1) && itemStack.item.maxStackSize > 1) {
+        if (!(LocalServer.getGameMode() == GameMode.FREEPLAY && itemStack.stackSize == 1) && itemStack.item.maxStackSize > 1) {
             bounds.set(buttonBounds);
             bounds.x(buttonBounds.x() + 5).y(buttonBounds.y() + buttonBounds.w() - 16);
             Nuklear.nk_draw_text(canvas, bounds, "" + itemStack.stackSize, Theme.font_10, white, black);

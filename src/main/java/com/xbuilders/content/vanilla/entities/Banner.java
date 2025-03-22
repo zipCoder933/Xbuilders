@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.entities.vehicle.Vehicle;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.content.vanilla.blocks.RenderType;
 
@@ -68,16 +68,16 @@ public class Banner extends Entity {
             int wz = (int) worldPosition.z;
 
             if (xzOrientation == 0) {
-                againstFencepost = Server.world.getBlock(wx, wy, wz - 1)
+                againstFencepost = LocalServer.world.getBlock(wx, wy, wz - 1)
                         .type == RenderType.FENCE;
             } else if (xzOrientation == 1) {
-                againstFencepost = Server.world.getBlock(wx + 1, wy, wz)
+                againstFencepost = LocalServer.world.getBlock(wx + 1, wy, wz)
                         .type == RenderType.FENCE;
             } else if (xzOrientation == 2) {
-                againstFencepost = Server.world.getBlock(wx, wy, wz + 1)
+                againstFencepost = LocalServer.world.getBlock(wx, wy, wz + 1)
                         .type == RenderType.FENCE;
             } else {
-                againstFencepost = Server.world.getBlock(wx - 1, wy, wz)
+                againstFencepost = LocalServer.world.getBlock(wx - 1, wy, wz)
                         .type == RenderType.FENCE;
             }
         }

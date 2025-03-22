@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.visuals.gameScene.items;
 
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -59,10 +59,10 @@ public class UI_ItemStackGrid {
 
             //Draw buttons
             if (showButtons) {
-                nk_layout_row_dynamic(ctx, 20, Server.getGameMode() == GameMode.FREEPLAY ? 2 : 1);
+                nk_layout_row_dynamic(ctx, 20, LocalServer.getGameMode() == GameMode.FREEPLAY ? 2 : 1);
                 if (nk_button_label(ctx, "Sort")) {
                     storageSpace.organize();
-                } else if (Server.getGameMode() == GameMode.FREEPLAY && nk_button_label(ctx, "Clear")) {
+                } else if (LocalServer.getGameMode() == GameMode.FREEPLAY && nk_button_label(ctx, "Clear")) {
                     for (int i = 0; i < storageSpace.size(); i++) {
                         storageSpace.set(i, null);
                     }

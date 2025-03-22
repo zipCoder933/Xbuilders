@@ -1,9 +1,10 @@
 package com.xbuilders.engine.server.players.pipeline;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -46,7 +47,7 @@ public class BlockEventPipeline {
         if (blockHist != null) {
             if (!MultiplayerPendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
                 //If there is a block event that is on a empty chunk or too far away, don't add it
-                Server.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
+                LocalServer.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
                 return;
             }
             blockChangesThisFrame++;
@@ -54,7 +55,7 @@ public class BlockEventPipeline {
                 if (events.containsKey(worldPos)) { //We need to get the original previous block
                     blockHist.previousBlock = events.get(worldPos).previousBlock;
                 } else if (blockHist.previousBlock == null) {
-                    blockHist.previousBlock = Server.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                    blockHist.previousBlock = LocalServer.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
                 }
                 if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
                     lightChangesThisFrame++;
@@ -121,8 +122,8 @@ public class BlockEventPipeline {
         if (ClientWindow.devkeyF3 && LocalClient.DEV_MODE)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
-        if (Server.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
-            int changes = Server.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
+        if (LocalServer.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
+            int changes = LocalServer.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
             });
             ClientWindow.printlnDev("Loaded " + changes + " local changes");
@@ -203,7 +204,7 @@ public class BlockEventPipeline {
 
                     //set block
                     if (!blockHist.fromNetwork)  //only send change if not from network
-                        Server.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+                        LocalServer.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
                     chunk.markAsModified();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
 
@@ -232,7 +233,7 @@ public class BlockEventPipeline {
                 }
             } else { //If both blocks are the same, just update the block data
                 if (!blockHist.fromNetwork) //only send change if not from network
-                    Server.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+                    LocalServer.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
 
                 blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
@@ -246,13 +247,13 @@ public class BlockEventPipeline {
         if (allowBlockEvents) {
             eventsCopy.forEach((worldPos, blockHist) -> {
                 if (World.inYBounds(worldPos.y)) {
-                    if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the server
+                    if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the localServer
 
                         if (//TODO: Try to check for block data changes without setting off infinite recursion
                                 blockHist.previousBlock != blockHist.newBlock //If the blocks are different
                         ) {
                             startLocalChange(worldPos, blockHist, allowBlockEvents);
-                            ClientWindow.server.livePropagationHandler.addNode(worldPos, blockHist);
+                            Main.localServer.livePropagationHandler.addNode(worldPos, blockHist);
                             blockHist.previousBlock.run_RemoveBlockEvent(eventThread, worldPos, blockHist);
                             blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
                         }
@@ -260,7 +261,7 @@ public class BlockEventPipeline {
                 }
             });
         }
-        Server.server.sendNearBlockChanges();
+        LocalServer.server.sendNearBlockChanges();
     }
 
 
@@ -282,13 +283,13 @@ public class BlockEventPipeline {
                         updateAffectedChunks(affectedChunks);
                         firstChunkUpdate.set(false);
                     } else if (time > 3000 && !longSunlight.get()) {
-                        Server.alertClient("The lighting is being calculated. This may take a while.");
+                        LocalServer.alertClient("The lighting is being calculated. This may take a while.");
                         longSunlight.set(true);
                     }
                 });
 
         if (longSunlight.get()) {
-            Server.alertClient("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
+            LocalServer.alertClient("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
         }
 
         //Resolve affected chunks
@@ -330,7 +331,7 @@ public class BlockEventPipeline {
             BlockHistory hist, //What changed
             boolean dispatchBlockEvent) {
         WCCi wcc = new WCCi().set(nx, ny, nz);
-        Chunk chunk = wcc.getChunk(Server.world);
+        Chunk chunk = wcc.getChunk(LocalServer.world);
         if (chunk != null) {
             Block nBlock = Registrys.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
             if (nBlock != null && !nBlock.isAir()) {
@@ -343,7 +344,7 @@ public class BlockEventPipeline {
 
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);
-                    ClientWindow.server.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
+                    Main.localServer.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
                     nBlock.run_LocalChangeEvent(eventThread, hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }

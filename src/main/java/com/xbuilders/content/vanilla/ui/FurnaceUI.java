@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -163,9 +163,9 @@ public class FurnaceUI extends ContainerUI {
 
     @Override
     public void dropAllStorage(int x, int y, int z) {
-        Server.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
-        Server.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
-        Server.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
+        LocalServer.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
+        LocalServer.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
+        LocalServer.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
     }
 
     @Override

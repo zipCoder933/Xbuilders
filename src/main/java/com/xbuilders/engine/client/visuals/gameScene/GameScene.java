@@ -1,9 +1,10 @@
 package com.xbuilders.engine.client.visuals.gameScene;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
@@ -99,10 +100,10 @@ public class GameScene implements WindowEvents {
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
 
         //The user player is one thing that the client has full control over
-        //The client will check into the server occasionally to see if the server has any updates for the player
+        //The client will check into the localServer occasionally to see if the localServer has any updates for the player
         userPlayer.updateAndRender(ClientWindow.gameScene.holdMouse);
         userPlayer.render(ClientWindow.gameScene.holdMouse);
-        ClientWindow.server.server.drawPlayers(GameScene.projection, GameScene.view);
+        Main.localServer.server.drawPlayers(GameScene.projection, GameScene.view);
 
         ClientWindow.gameScene.enableBackfaceCulling();
         LocalClient.frameTester.startProcess();
@@ -110,7 +111,7 @@ public class GameScene implements WindowEvents {
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        ClientWindow.server.world.drawChunks(GameScene.projection, GameScene.view, userPlayer.worldPosition);
+        Main.localServer.world.drawChunks(GameScene.projection, GameScene.view, userPlayer.worldPosition);
         LocalClient.frameTester.endProcess("Drawing chunks");
 
 
@@ -187,7 +188,7 @@ public class GameScene implements WindowEvents {
     private Vector3i rayWorldPos = new Vector3i();
 
     private void setInfoText() {
-        World world = Server.world;
+        World world = LocalServer.world;
         if (writeDebugText) {
             String text = "";
             try {
@@ -232,7 +233,7 @@ public class GameScene implements WindowEvents {
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                         text += "\n" + block + " data: " + printBlockData(data) + " typeReference: " + Registrys.blocks.getBlockType(block.type);
-                        text += "\nlight=" + Server.getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
+                        text += "\nlight=" + LocalServer.getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
                                 + "  sun=" + (sun)
                                 + "  torch=" + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }

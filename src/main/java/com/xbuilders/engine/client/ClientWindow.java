@@ -4,8 +4,9 @@
  */
 package com.xbuilders.engine.client;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.client.settings.ClientSettings;
@@ -61,7 +62,7 @@ public class ClientWindow extends NKWindow {
 
     public static void goToMenuPage() {
         isGameMode = false;
-        server.stopGameEvent(); //Close the entire game
+        Main.localServer.stopGameEvent(); //Close the entire game
     }
 
     public static boolean isInGamePage() {
@@ -90,7 +91,6 @@ public class ClientWindow extends NKWindow {
     public static TopMenu topMenu;
     public static GameScene gameScene;
 
-    public static Server server;
     public static PopupMessage popupMessage;
     public static final ResourceLoader resourceLoader = new ResourceLoader();
     File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
@@ -141,7 +141,7 @@ public class ClientWindow extends NKWindow {
         game = new XbuildersGame(this);
         popupMessage = new PopupMessage(ctx, this);
         topMenu = new TopMenu(this);
-        server = new Server(this, game);
+        Main.localServer.init(this, game);
         gameScene = new GameScene(this);
 
         setMpfUpdateInterval(1000);
@@ -177,9 +177,9 @@ public class ClientWindow extends NKWindow {
                 resourceLoader.getResourceAsStream("builtin/icon256.png"));
 
         Theme.initialize(ctx);
-        server.initialize(this);
+        Main.localServer.initialize(this);
         gameScene.initialize(this);
-        topMenu.initialize(Server.server.getIpAdress());
+        topMenu.initialize(LocalServer.server.getIpAdress());
 
         if (LocalClient.generateIcons || !blockIconsDirectory.exists()) {
             firstTimeSetup();
@@ -226,7 +226,7 @@ public class ClientWindow extends NKWindow {
 
     private void render() throws IOException {
         if (isGameMode) {
-            server.update();
+            Main.localServer.update();
             gameScene.render();
         } else {
             topMenu.render();
@@ -254,7 +254,7 @@ public class ClientWindow extends NKWindow {
         if (screenShotInitialized) {
             String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
             File saveFile = ResourceUtils.appDataFile("screenshots\\" + formattedDateTime + ".png");
-            Server.alertClient("Screenshot saved to: " + saveFile.getAbsolutePath());
+            LocalServer.alertClient("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
                 saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);

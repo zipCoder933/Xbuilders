@@ -5,7 +5,7 @@
 package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.client.visuals.RecipeDisplay;
 import com.xbuilders.engine.server.recipes.RecipeRegistry;
@@ -19,7 +19,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.nuklear.NkVec2;
-import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
 
 
     public void onOpenEvent() {
-        if (Server.getGameMode() == GameMode.SPECTATOR) setOpen(false);
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) setOpen(false);
     }
 
     public void onCloseEvent() {
@@ -96,7 +95,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) {
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) {
             setOpen(false);
         }
 
@@ -156,7 +155,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
 
         if (allItems.keyEvent(key, scancode, action, mods)) return true;
         if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_RECIPE_INDEX) {
@@ -168,7 +167,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
         allItems.mouseScrollEvent(scroll, xoffset, yoffset);
         return true;
     }

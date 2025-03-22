@@ -18,7 +18,7 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Abstract Netty-based server optimized for game servers.
+ * Abstract Netty-based localServer optimized for game servers.
  * <p>
  * This class replaces the old blocking ServerSocket implementation.
  * It uses Netty’s ServerBootstrap and pipeline:
@@ -43,7 +43,7 @@ public abstract class NettyServer {
     protected Channel serverChannel;
 
     /**
-     * Starts the Netty server on the given port.
+     * Starts the Netty localServer on the given port.
      *
      * @param port the port (must be >= 1024)
      * @throws InterruptedException if the binding is interrupted
@@ -78,7 +78,7 @@ public abstract class NettyServer {
     }
 
     /**
-     * Closes the server and all client connections.
+     * Closes the localServer and all client connections.
      */
     public void close() {
         if (serverChannel != null) {

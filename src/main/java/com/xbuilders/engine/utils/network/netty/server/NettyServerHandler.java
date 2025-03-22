@@ -11,7 +11,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import java.util.Arrays;
 
 /**
- * Internal Netty channel handler that bridges channel events to the abstract server methods.
+ * Internal Netty channel handler that bridges channel events to the abstract localServer methods.
  */
  class NettyServerHandler extends ChannelInboundHandlerAdapter {
 

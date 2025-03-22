@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.multiplayer.GameServer;
@@ -60,7 +60,7 @@ public abstract class Entity {
     }
 
     private void getLightForPosition() {
-        Chunk chunk = Server.world.getChunk(chunkPosition.chunk);
+        Chunk chunk = LocalServer.world.getChunk(chunkPosition.chunk);
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
@@ -70,7 +70,7 @@ public abstract class Entity {
                 if (light == 0) {
                     WCCi wcc = new WCCi();
                     wcc.set((int) Math.floor(worldPosition.x), (int) Math.floor(worldPosition.y - i), (int) Math.floor(worldPosition.z));
-                    chunk = Server.world.getChunk(wcc.chunk);
+                    chunk = LocalServer.world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         light = chunk.data.getPackedLight(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
@@ -223,7 +223,7 @@ public abstract class Entity {
         updatePosition();
 
         //We have to send the entity after it has been initialized
-        if (sendMultiplayer) Server.server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
+        if (sendMultiplayer) LocalServer.server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
     }
 
     /**
