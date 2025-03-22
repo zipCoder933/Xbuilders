@@ -10,17 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/Packet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/PacketDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PingEncoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PingHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PingPacket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/join/JoinEncoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/join/JoinHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/join/JoinPacket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/PacketDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/PacketDecoder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServerHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +99,7 @@
     "git-widget-placeholder": "netty-server",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/xbuilders/src/main/resources",
+    "last_opened_file_path": "D:/xbuilders/src/main/java/com/xbuilders/engine/utils/network/netty/packet/join",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.15412186",
@@ -118,11 +115,11 @@
       <recent name="com.xbuilders.game.vanilla.terrain.defaultTerrain" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xbuilders\src\main\java\com\xbuilders\engine\utils\network\netty\packet\join" />
       <recent name="D:\xbuilders\src\main\resources\data\xbuilders\blocks" />
       <recent name="D:\xbuilders\res\items" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\utils\json\fasterXML\animalFeedInput" />
       <recent name="C:\Local Files\github\Xbuilders\res\items\blocks\json" />
-      <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\items\recipes\crafting" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items" />

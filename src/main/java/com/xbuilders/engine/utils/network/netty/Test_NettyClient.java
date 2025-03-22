@@ -1,6 +1,8 @@
 package com.xbuilders.engine.utils.network.netty;
 
 import com.xbuilders.engine.utils.network.netty.client.NettyClient;
+import com.xbuilders.engine.utils.network.netty.packet.join.JoinPacket;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 
 public class Test_NettyClient {
@@ -12,7 +14,9 @@ public class Test_NettyClient {
                 if (channelFuture.isSuccess()) {
                     // This block will be executed when the client is successfully connected to the localServer
                     System.out.println("Successfully connected to the localServer!");
-                    sendData("Hello World!".getBytes());
+//                    sendData("Hello World!".getBytes());
+                    Channel channel = channelFuture.channel();
+                    channel.writeAndFlush(new JoinPacket("Bob", 1234));
                     // You can schedule further events here
                 } else {
                     // This block will be executed if the connection fails

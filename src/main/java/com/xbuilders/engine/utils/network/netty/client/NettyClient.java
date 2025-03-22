@@ -1,6 +1,8 @@
 package com.xbuilders.engine.utils.network.netty.client;
 
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
+import com.xbuilders.engine.utils.network.netty.packet.join.JoinEncoder;
+import com.xbuilders.engine.utils.network.netty.packet.join.JoinHandler;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
@@ -22,6 +24,11 @@ public class NettyClient {
     private void registerPackets(SocketChannel ch) {
         ch.pipeline().addLast(new PingPongEncoder());
         ch.pipeline().addLast(new PingPongHandler());
+
+        ch.pipeline().addLast(new JoinEncoder());
+        ch.pipeline().addLast(new JoinHandler());
+
+        ch.pipeline().addLast(new PacketDecoder());
     }
 
     public NettyClient(String host, int port) {
@@ -54,8 +61,8 @@ public class NettyClient {
 
             // Wait until connection is closed
             future.channel().closeFuture().sync();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             group.shutdownGracefully();
         }
