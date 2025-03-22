@@ -21,20 +21,10 @@ public class NettyClient {
     private EventLoopGroup group;
 
     private void registerPackets(SocketChannel ch) {
-        //This allows the entire packet to be read before decoding
-        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
-                1024,
-                0,
-                4,
-                0,
-                4)); // Max 1024 bytes, 4-byte length field
-
         ch.pipeline().addLast(new PingPongEncoder());
         ch.pipeline().addLast(new PingPongHandler());
 
         new Message().register(ch);
-
-        ch.pipeline().addLast(new PacketDecoder());
     }
 
     public NettyClient(String host, int port) {
@@ -50,6 +40,18 @@ public class NettyClient {
                         protected void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new NettyClientHandler(NettyClient.this));
 
+                            /**
+                             * Add  the decoder
+                             * 1. The LengthFieldBasedFrameDecoder decodes the length of the packet and strips the length field
+                             * 2. The PacketDecoder decodes the packet
+                             */
+                            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
+                                    1024, // Max frame size (1 KB)
+                                    0,    // Length field offset (starts at byte 0)
+                                    4,    // Length field length (4 bytes for int)
+                                    0,    // No length adjustment
+                                    4     // Strip the length field from the output
+                            ));
                             ch.pipeline().addLast(new PacketDecoder());
                             registerPackets(ch);
                         }

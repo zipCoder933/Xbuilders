@@ -8,6 +8,7 @@ public class PingPongEncoder extends MessageToByteEncoder<PingPongPacket> {
     @Override
     protected void encode(ChannelHandlerContext ctx, PingPongPacket packet, ByteBuf out) {
         System.out.println("SENDING PING: " + packet.ping);
-        out.writeByte(packet.ping ? PingPongHandler.pingPacket : PingPongHandler.pongPacket);
+        out.writeInt(1); //Write the length of the packet
+        out.writeByte(packet.ping ? PingPongHandler.pingPacket : PingPongHandler.pongPacket);//Write the packet ID
     }
 }

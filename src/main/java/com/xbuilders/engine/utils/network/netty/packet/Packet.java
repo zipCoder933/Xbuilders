@@ -46,14 +46,14 @@ public abstract class Packet<T> {
 
         @Override
         protected void encode(ChannelHandlerContext ctx, T packet, ByteBuf out) {
-//            out.writeInt(0); // Placeholder for length, updated later
-//            int startIndex = out.writerIndex(); // Mark position
+            out.writeInt(0); // Placeholder for length, updated later
+            int startIndex = out.writerIndex(); // Mark position
 
             out.writeByte(id);  // Write packet ID
             Packet.this.encode(ctx, packet, out);   // Encode packet
 
-//            int endIndex = out.writerIndex();
-//            out.setInt(0, endIndex - startIndex); // Update length at the beginning
+            int endIndex = out.writerIndex();
+            out.setInt(0, endIndex - startIndex); // Update length at the beginning
         }
     }
 }

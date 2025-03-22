@@ -43,22 +43,10 @@ public abstract class NettyServer {
     protected Channel serverChannel;
 
     private void registerPackets(Channel ch) {
-        //This allows the entire packet to be read before decoding
-        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
-                1024,
-                0,
-                4,
-                0,
-                4)); // Max 1024 bytes, 4-byte length field
-
         ch.pipeline().addLast(new PingPongEncoder());
         ch.pipeline().addLast(new PingPongHandler());
 
         new Message().register(ch);
-//        ch.pipeline().addLast(new MessageEncoder());
-//        ch.pipeline().addLast(new MessageHandler());
-
-        ch.pipeline().addLast(new PacketDecoder());
     }
 
     /**
@@ -88,11 +76,22 @@ public abstract class NettyServer {
                         // 2. ServerHandler processes connection, disconnection, ping/pong, and inbound data.
                         ch.pipeline().addLast(new IdleStateHandler(PING_INTERVAL_SECONDS, PING_INTERVAL_SECONDS, 0, TimeUnit.SECONDS));
                         ch.pipeline().addLast(new NettyServerHandler(NettyServer.this));
+
+                        /**
+                         * Add  the decoder
+                         * 1. The LengthFieldBasedFrameDecoder decodes the length of the packet and strips the length field
+                         * 2. The PacketDecoder decodes the packet
+                         */
+                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
+                                1024, // Max frame size (1 KB)
+                                0,    // Length field offset (starts at byte 0)
+                                4,    // Length field length (4 bytes for int)
+                                0,    // No length adjustment
+                                4     // Strip the length field from the output
+                        ));
                         ch.pipeline().addLast(new PacketDecoder());
                         registerPackets(ch);
                     }
-
-
                 });
 
         ChannelFuture future = bootstrap.bind(port).sync();

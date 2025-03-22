@@ -2,6 +2,7 @@ package com.xbuilders.engine.utils.network.netty;
 
 import com.xbuilders.engine.utils.network.netty.client.NettyClient;
 import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 
@@ -14,16 +15,23 @@ public class Test_NettyClient {
                 if (channelFuture.isSuccess()) {
                     System.out.println("Successfully connected to the localServer!");
 
+                    String str = "Hello";
                     while (true) {
                         Channel channel = channelFuture.channel();
-                        channel.writeAndFlush(new MessagePacket("This is a test Hello World 1234567890!"));
+                        channel.writeAndFlush(new MessagePacket(str));
+                        str += ".";
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        channel.writeAndFlush(new PingPongPacket(true));
                         try {
                             Thread.sleep(5000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                     }
-
 
 
                 } else {
