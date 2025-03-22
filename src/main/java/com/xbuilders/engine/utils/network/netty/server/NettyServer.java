@@ -1,18 +1,13 @@
 package com.xbuilders.engine.utils.network.netty.server;
 
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.message.MessageEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.message.MessageHandler;
+import com.xbuilders.engine.utils.network.netty.packet.message.Message;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -41,7 +36,7 @@ public abstract class NettyServer {
     protected final ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     // The idle interval (in seconds) for sending pings.
-    public static final long PING_INTERVAL_SECONDS = 30;
+    public static final long PING_INTERVAL_SECONDS = 5;
 
     protected EventLoopGroup bossGroup;
     protected EventLoopGroup workerGroup;
@@ -59,8 +54,9 @@ public abstract class NettyServer {
         ch.pipeline().addLast(new PingPongEncoder());
         ch.pipeline().addLast(new PingPongHandler());
 
-        ch.pipeline().addLast(new MessageEncoder());
-        ch.pipeline().addLast(new MessageHandler());
+        new Message().register(ch);
+//        ch.pipeline().addLast(new MessageEncoder());
+//        ch.pipeline().addLast(new MessageHandler());
 
         ch.pipeline().addLast(new PacketDecoder());
     }

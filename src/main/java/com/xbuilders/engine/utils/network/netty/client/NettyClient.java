@@ -1,8 +1,7 @@
 package com.xbuilders.engine.utils.network.netty.client;
 
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.message.MessageEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.message.MessageHandler;
+import com.xbuilders.engine.utils.network.netty.packet.message.Message;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
@@ -33,8 +32,7 @@ public class NettyClient {
         ch.pipeline().addLast(new PingPongEncoder());
         ch.pipeline().addLast(new PingPongHandler());
 
-        ch.pipeline().addLast(new MessageEncoder());
-        ch.pipeline().addLast(new MessageHandler());
+        new Message().register(ch);
 
         ch.pipeline().addLast(new PacketDecoder());
     }

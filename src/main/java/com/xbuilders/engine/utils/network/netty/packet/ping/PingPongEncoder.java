@@ -7,7 +7,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class PingPongEncoder extends MessageToByteEncoder<PingPongPacket> {
     @Override
     protected void encode(ChannelHandlerContext ctx, PingPongPacket packet, ByteBuf out) {
+        System.out.println("SENDING PING: " + packet.ping);
         out.writeByte(packet.ping ? PingPongHandler.pingPacket : PingPongHandler.pongPacket);
     }
-
 }
