@@ -33,7 +33,7 @@ public class LocalClient extends Client {
     }
 
     public LocalClient(String[] args, String gameVersion) {
-        ResourceLister.init();//This takes almost 10s, so it mind as well come first
+
 
         LocalClient.GAME_VERSION = versionStringToNumber(gameVersion);
         System.out.println("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

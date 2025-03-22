@@ -41,7 +41,10 @@ public class ResourceLister {
         if (baseDirs == null || baseDirs.length == 0) {
             return null;
         }
-        StringBuilder patternBuilder = new StringBuilder();
+        StringBuilder patternBuilder = new StringBuilder()
+                .append("^"); //Beginning of string
+
+        //If we are running from the IDE
         if (localPrefix) patternBuilder.append(".*").append("(").append(Pattern.quote(INIT_LOCAL_PREFIX)).append(")");
 
         //The base directory
@@ -54,8 +57,8 @@ public class ResourceLister {
         }
         patternBuilder.append(")");
 
-        //The rest of the path
-        patternBuilder.append("(.*)");
+        //Match the rest as long as it does not end in a slash (We dont want directories because they only show up on the JAR file)
+        patternBuilder.append("(.*?)(?<!/)");
         System.out.println(patternBuilder.toString());
         return patternBuilder.toString();
     }
@@ -102,7 +105,7 @@ public class ResourceLister {
         System.out.println(
                 "Resource listing init took " + stopwatch.getElapsedSeconds()
                         + "s; Running from jar: " + isRunningAsJar);
-        //for (String s : resourceList) System.out.println(s);
+//        for (String s : resourceList) System.out.println(s);
     }
 
     private static String regexPattern(String path) {
@@ -111,8 +114,10 @@ public class ResourceLister {
         if (path.startsWith(FILE_SEPARATOR)) path = path.substring(1);
         if (path.endsWith(FILE_SEPARATOR)) path = path.substring(0, path.length() - 1);
 
+        //A blank path is just /
         if (path.isBlank()) return ".*";
-        else return "\\Q" + FILE_SEPARATOR + path + FILE_SEPARATOR + "\\E(.*)";
+        //We want to get what is after the last slash. If we match with a .*, we will also match the file/folder itself
+        else return "\\Q" + FILE_SEPARATOR + path + FILE_SEPARATOR + "\\E(.+)";
     }
 
     public static String[] listSubResources(String path) {
