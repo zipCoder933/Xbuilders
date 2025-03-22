@@ -172,9 +172,9 @@ public class ClientWindow extends NKWindow {
         GLFW.glfwSetWindowFocusCallback(windowHandle, focusCallback);
 
 
-        setIcon(resourceLoader.getResourceAsStream("icon16.png"),
-                resourceLoader.getResourceAsStream("icon32.png"),
-                resourceLoader.getResourceAsStream("icon256.png"));
+        setIcon(resourceLoader.getResourceAsStream("builtin/icon16.png"),
+                resourceLoader.getResourceAsStream("builtin/icon32.png"),
+                resourceLoader.getResourceAsStream("builtin/icon256.png"));
 
         Theme.initialize(ctx);
         server.initialize(this);

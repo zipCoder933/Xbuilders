@@ -12,17 +12,16 @@
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/XBuilders3_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/XBuilders3_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XBuilders3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuilders3.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/mobile/ActionAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/mobile/ActionAnimal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/quadPedal/Dog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/quadPedal/Dog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/Difficulty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/Difficulty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ResourceList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/ResourceList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/commands/GameCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/commands/GameCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/JarResourceLister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/JarResourceLister.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/LocalClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/LocalClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/resource/ResourceLister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/resource/ResourceLister.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/icon128.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/builtin/icon128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/icon16.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/builtin/icon16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/icon256.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/builtin/icon256.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/icon32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/builtin/icon32.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,41 +73,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Dev (Load World).executor": "Run",
-    "Application.Dev 2.executor": "Run",
-    "Application.Dev 3.executor": "Run",
-    "Application.Dev 4.executor": "Run",
-    "Application.Dev.executor": "Run",
-    "Application.JarResourceLister.executor": "Run",
-    "Application.Main Dev 2.executor": "Run",
-    "Application.Main Dev.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MiscTester.executor": "Run",
-    "Application.NettyClient.executor": "Run",
-    "Application.NettyServer.executor": "Run",
-    "Application.NetworkTester.executor": "Run",
-    "Application.ResourceList.executor": "Run",
-    "Application.SmileTest2.executor": "Run",
-    "Application.com.xbuilders.tests.fasterXML.smile.Main.executor": "Run",
-    "Application.com.xbuilders.tests.netty.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.codeium.enabled": "true",
-    "com.intellij.ide.FileNotInSourceRootChecker.no.check": "true",
-    "git-widget-placeholder": "netty-server",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/xbuilders/src/main/resources",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.15412186",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Dev (Load World).executor&quot;: &quot;Run&quot;,
+    &quot;Application.Dev 2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Dev 3.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Dev 4.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JarResourceLister.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main Dev 2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MiscTester.executor&quot;: &quot;Run&quot;,
+    &quot;Application.NettyClient.executor&quot;: &quot;Run&quot;,
+    &quot;Application.NettyServer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.NetworkTester.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ResourceList.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SmileTest2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.xbuilders.tests.fasterXML.smile.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.xbuilders.tests.netty.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;com.intellij.ide.FileNotInSourceRootChecker.no.check&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;netty-server&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/xbuilders/src/main/resources&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.15412186&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.xbuilders.content.vanilla.blocks" />
@@ -125,11 +124,11 @@
       <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\items\recipes\crafting" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\builtin" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items" />
       <recent name="D:\xbuilders\src\main\resources\data\xbuilders" />
       <recent name="D:\xbuilders\res\items" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\resources\assets\xbuilders\textures\item" />
-      <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items\loot\block" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="com.xbuilders.engine.client.ClientWindow" />

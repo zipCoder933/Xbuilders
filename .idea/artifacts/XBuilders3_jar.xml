@@ -134,7 +134,6 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/lwjgl/lwjgl-ovr/3.3.2/lwjgl-ovr-3.3.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/netty/netty-buffer/4.1.116.Final/netty-buffer-4.1.116.Final.jar" path-in-jar="/" />
       <element id="module-source" name="XBuilders3" />
-      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
     </root>
   </artifact>
 </component>
