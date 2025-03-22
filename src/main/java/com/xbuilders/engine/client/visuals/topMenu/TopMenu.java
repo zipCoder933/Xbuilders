@@ -5,6 +5,7 @@
 package com.xbuilders.engine.client.visuals.topMenu;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
@@ -116,7 +117,7 @@ public class TopMenu {
 
     public void render() {
         GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-        if (firsttime && ClientWindow.loadWorldOnStartup && ClientWindow.devMode) {
+        if (firsttime && LocalClient.LOAD_WORLD_ON_STARTUP && LocalClient.DEV_MODE) {
             loadWorldOnInit__Dev();
             firsttime = false;
         }

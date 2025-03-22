@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.Registrys;
@@ -128,7 +128,7 @@ public class FurnaceUI extends ContainerUI {
     }
 
     private long getSmeltTime() {
-        if (ClientWindow.devMode) {
+        if (LocalClient.DEV_MODE) {
             return DEV_SMELT_TIME_MS;
         } else {
             return SMELT_TIME_MS;

@@ -10,6 +10,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -38,7 +39,7 @@ public class SettingsPage implements MenuPage {
         fields.clear();
         for (Field field : ClientSettings.class.getDeclaredFields()) {
             field.setAccessible(true);
-            if (!ClientWindow.devMode && field.getName().startsWith("internal_")) continue;
+            if (!LocalClient.DEV_MODE && field.getName().startsWith("internal_")) continue;
             try {
                 fields.add(new SettingsField(window, field));
             } catch (IllegalAccessException e) {

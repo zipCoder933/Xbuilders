@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import java.util.*;
@@ -69,7 +70,7 @@ public class LogicThread {
                 if (chunk.client_distToPlayer < simDistance) {
                     boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
 
-                    if (ClientWindow.devMode &&
+                    if (LocalClient.DEV_MODE &&
                             Server.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
                     boolean hasUpdatedMesh = chunk.tick(spawnEntities);
                     chunksMeshUpdated += (hasUpdatedMesh ? 1 : 0);

@@ -11,6 +11,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import org.lwjgl.nuklear.*;
@@ -50,7 +51,7 @@ public class MenuHome implements MenuPage {
             nk_style_set_font(ctx, Theme.font_9);
             nk_layout_row_dynamic(ctx, 30, 1);
             nk_label(ctx, "\n\n" + (
-                    ClientWindow.devMode ?
+                    LocalClient.DEV_MODE ?
                             "DEV MODE" :
                             ("v" + Main.GAME_VERSION)
             ) + "\n\n", NK_TEXT_CENTERED);

@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.world;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
@@ -163,7 +164,7 @@ public class World {
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
     //For testing
-    public static FrameTester frameTester = ClientWindow.frameTester;
+    public static FrameTester frameTester = LocalClient.frameTester;
 
     /**
      * This is a record of all the pending changes that need to be applied.

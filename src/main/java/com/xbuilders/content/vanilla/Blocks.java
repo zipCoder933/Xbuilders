@@ -2,12 +2,12 @@ package com.xbuilders.content.vanilla;
 
 import com.xbuilders.content.vanilla.blocks.blocks.*;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.blocks.*;
 import com.xbuilders.content.vanilla.blocks.blocks.trees.*;
@@ -1046,7 +1046,7 @@ public class Blocks {
         blockList.add(new BlockFarmland(Blocks.BLOCK_FARMLAND));
         blockList.add(new BlockWetFarmland(Blocks.BLOCK_WET_FARMLAND));
 
-        if (ClientWindow.devMode) {//Make ids for dev mode
+        if (LocalClient.DEV_MODE) {//Make ids for dev mode
             try {
                 ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.file("\\items\\blocks\\java"));
             } catch (IOException e) {

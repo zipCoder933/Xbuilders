@@ -1,6 +1,7 @@
 package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.Registrys;
@@ -76,23 +77,23 @@ public class GameScene implements WindowEvents {
 
 
     public void startGameEvent(WorldData worldData, NetworkJoinRequest req, ProgressData prog) {
-        if (ClientWindow.devMode) writeDebugText = true;
+        if (LocalClient.DEV_MODE) writeDebugText = true;
     }
 
     public void stopGameEvent() {
     }
 
     public void render() {
-        ClientWindow.frameTester.startProcess();
+        LocalClient.frameTester.startProcess();
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); //Clear not only the color but the depth buffer
 //        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         background.draw(GameScene.projection, GameScene.centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
 
-        boolean progressDay = !ClientWindow.devMode;
+        boolean progressDay = !LocalClient.DEV_MODE;
         GameScene.background.update(progressDay);
 
         holdMouse = !ui.releaseMouse() && window.windowIsFocused();
-        ClientWindow.frameTester.endProcess("Clearing buffer");
+        LocalClient.frameTester.endProcess("Clearing buffer");
 
         glEnable(GL_DEPTH_TEST);   // Enable depth test
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
@@ -104,13 +105,13 @@ public class GameScene implements WindowEvents {
         ClientWindow.server.server.drawPlayers(GameScene.projection, GameScene.view);
 
         ClientWindow.gameScene.enableBackfaceCulling();
-        ClientWindow.frameTester.startProcess();
+        LocalClient.frameTester.startProcess();
 
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         ClientWindow.server.world.drawChunks(GameScene.projection, GameScene.view, userPlayer.worldPosition);
-        ClientWindow.frameTester.endProcess("Drawing chunks");
+        LocalClient.frameTester.endProcess("Drawing chunks");
 
 
         setInfoText();

@@ -18,8 +18,6 @@ import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.XbuildersGame;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
-import com.xbuilders.window.developmentTools.FrameTester;
-import com.xbuilders.window.developmentTools.MemoryGraph;
 import com.xbuilders.window.developmentTools.MemoryProfiler;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWWindowFocusCallback;
@@ -35,9 +33,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import static com.xbuilders.Main.GAME_VERSION;
-
 public class ClientWindow extends NKWindow {
+    public static int frameCount = 0;
 
     //==================================================================================================================
     //==================================================================================================================
@@ -46,35 +43,12 @@ public class ClientWindow extends NKWindow {
     //==================================================================================================================
     //==================================================================================================================
 
-    public static long numericalVersion;
-
-    public static long versionStringToNumber(String version) {
-        String[] parts = version.split("\\.");
-        int major = Integer.parseInt(parts[0]);
-        int minor = Integer.parseInt(parts[1]);
-        int patch = Integer.parseInt(parts[2]);
-
-        // Combine parts into a single number by shifting bits or scaling by powers of 1000.
-        return (major * 1_000_000L) + (minor * 1_000L) + patch;
-    }
-
-    static {
-        numericalVersion = versionStringToNumber(GAME_VERSION);
-    }
-
-    public static boolean loadWorldOnStartup = false;
-    public static boolean fpsTools = false;
-    public static int frameCount = 0; //TODO: replace with game tick
 
     public static void printlnDev(String message) {
-        if (devMode) {
+        if (LocalClient.DEV_MODE) {
             System.out.println(message);
         }
     }
-
-    public static FrameTester frameTester = new FrameTester("Game frame tester");
-    public static FrameTester dummyTester = new FrameTester("");
-    private static MemoryGraph memoryGraph; //Make this priviate because it is null by default
 
 
     // We can still have static variables, but we want to use dependency injection,
@@ -120,46 +94,12 @@ public class ClientWindow extends NKWindow {
     public static PopupMessage popupMessage;
     public static final ResourceLoader resourceLoader = new ResourceLoader();
     File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
-    static boolean generateIcons = false;
 
+    public String windowTitleBar = "XBuilders";
 
-    public static boolean devMode = false;
-    public static String title = "XBuilders";
-
-    public ClientWindow(String args[]) {
+    public ClientWindow(String windowTitleBar) {
         super();
-        System.out.println("XBuilders (" + numericalVersion + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        System.out.println("args: " + Arrays.toString(args));
-
-        String customAppData = null;
-
-        //Process args
-        for (String arg : args) {
-            if (arg.equals("icons")) {
-                generateIcons = true;
-            } else if (arg.equals("devmode")) {
-                devMode = true;
-                System.out.println("Dev mode enabled");
-            } else if (arg.startsWith("appData")) {
-                customAppData = arg.split("=")[1];
-            } else if (arg.startsWith("name")) {
-                title = arg.split("=")[1];
-            } else if (arg.equals("loadWorldOnStartup")) {
-                loadWorldOnStartup = true;
-            }
-        }
-        if (!devMode) fpsTools = false;
-
-        dummyTester.setEnabled(false);
-        if (fpsTools) {
-            frameTester.setEnabled(true);
-            frameTester.setStarted(true);
-            frameTester.setUpdateTimeMS(1000);
-            memoryGraph = new MemoryGraph();
-        } else {
-            frameTester.setEnabled(false);
-        }
-        ResourceUtils.initialize(devMode, customAppData);
+        this.windowTitleBar = windowTitleBar;
 
         try {
             init();
@@ -173,18 +113,18 @@ public class ClientWindow extends NKWindow {
                 /* Input */
                 beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
                 startFrame();
-                frameTester.__startFrame();
+                LocalClient.frameTester.__startFrame();
                 render();
                 MemoryProfiler.update();
-                if (memoryGraph != null) memoryGraph.update();
-                frameTester.__endFrame();
+                if (LocalClient.memoryGraph != null) LocalClient.memoryGraph.update();
+                LocalClient.frameTester.__endFrame();
 
                 endFrame();//EndFrame takes the most time, becuase we have vsync turned on
                 endScreenshot();
             }
         } catch (Exception e) {
-            ErrorHandler.createPopupWindow(title + " has crashed",
-                    title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
+            ErrorHandler.createPopupWindow(windowTitleBar + " has crashed",
+                    windowTitleBar + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
                             "Stack trace:\n" +
                             String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
                             "\n\n Log saved to clipboard.");
@@ -241,7 +181,7 @@ public class ClientWindow extends NKWindow {
         gameScene.initialize(this);
         topMenu.initialize(Server.server.getIpAdress());
 
-        if (generateIcons || !blockIconsDirectory.exists()) {
+        if (LocalClient.generateIcons || !blockIconsDirectory.exists()) {
             firstTimeSetup();
         }
     }
@@ -341,7 +281,7 @@ public class ClientWindow extends NKWindow {
             playerName = " (" + GameScene.userPlayer.userInfo.name + ") ";
         } finally {
         }
-        setTitle(title + playerName + (ClientWindow.devMode ? "   " + mfpAndMemory : ""));
+        setTitle(windowTitleBar + playerName + (LocalClient.DEV_MODE ? "   " + mfpAndMemory : ""));
     }
 
     @Override
@@ -382,22 +322,22 @@ public class ClientWindow extends NKWindow {
     @Override
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-            if (devMode && key == GLFW.GLFW_KEY_F2) {
+            if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F2) {
                 System.out.println("System.GC()");
                 System.gc();
-            } else if (devMode && key == GLFW.GLFW_KEY_F3) {
+            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F3) {
                 devkeyF3 = !devkeyF3;
                 System.out.println("Special mode (F3): " + devkeyF3);
-            } else if (devMode && key == GLFW.GLFW_KEY_F4) {
+            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F4) {
                 devkeyF4 = !devkeyF4;
                 System.out.println("Special mode (F4): " + devkeyF4);
-            } else if (devMode && key == GLFW.GLFW_KEY_F1) {
+            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F1) {
                 devkeyF1 = !devkeyF1;
                 System.out.println("Special mode (F1): " + devkeyF1);
-            } else if (devMode && key == GLFW.GLFW_KEY_F12) {
+            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F12) {
                 devkeyF12 = !devkeyF12;
                 System.out.println("Light repropagation: " + devkeyF12);
-            } else if (devMode && key == GLFW.GLFW_KEY_F10) {
+            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F10) {
                 System.out.println("Forced devmode crash! (F10) key pressed");
                 System.out.println(10 / 0);
             } else if (key == GLFW.GLFW_KEY_F11) {

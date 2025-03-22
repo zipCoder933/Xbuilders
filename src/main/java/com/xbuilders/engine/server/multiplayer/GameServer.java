@@ -3,6 +3,7 @@ package com.xbuilders.engine.server.multiplayer;
 import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.engine.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
@@ -342,7 +343,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
     private void printEntityChange(Player client, int mode, EntitySupplier entity,
                                    long identifier, Vector3f currentPos,
                                    byte[] data) {
-        if (!ClientWindow.devMode) return;
+        if (!LocalClient.DEV_MODE) return;
         String modeStr;
         switch (mode) {
             case ENTITY_CREATED -> modeStr = "ENTITY CREATED";
@@ -356,7 +357,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data);
         ClientWindow.printlnDev(str);
-        if (ClientWindow.devMode) Server.alertClient(str);
+        if (LocalClient.DEV_MODE) Server.alertClient(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {

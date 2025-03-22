@@ -10,15 +10,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClientHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/LocalClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Blocks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/XbuildersGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/XbuildersGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/landAndWater/Turtle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/landAndWater/Turtle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/mobile/FishAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/mobile/FishAnimal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/mobile/LandAndWaterAnimal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/entities/animal/mobile/LandAndWaterAnimal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/Sword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/Sword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/ui/FurnaceUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/ui/FurnaceUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/RecipeDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/RecipeDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/items/UI_ItemIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/items/UI_ItemIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/MenuHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/MenuHome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/Multiplayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/Multiplayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/SettingsPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/SettingsPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/TopMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/TopMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/VersionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/VersionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/ItemUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/ItemUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/LogicThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/LogicThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/entity/ItemDrop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/entity/ItemDrop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/entity/LivingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/players/pipeline/BlockEventPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/players/pipeline/BlockEventPipeline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/skybox/SkyBackground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/skybox/SkyBackground.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/worldInteraction/collision/CollisionHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +47,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -88,8 +107,6 @@
     "Application.NetworkTester.executor": "Run",
     "Application.ResourceList.executor": "Run",
     "Application.SmileTest2.executor": "Run",
-    "Application.Test_NettyClient.executor": "Run",
-    "Application.Test_NettyServer.executor": "Run",
     "Application.com.xbuilders.tests.fasterXML.smile.Main.executor": "Run",
     "Application.com.xbuilders.tests.netty.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -130,11 +147,11 @@
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items\loot\block" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.engine.client.ClientWindow" />
+      <recent name="com.xbuilders.engine.client.LocalClient" />
       <recent name="com.xbuilders.engine.client.visuals.gameScene.GameScene" />
       <recent name="com.xbuilders.engine.gameScene.GameScene" />
       <recent name="com.xbuilders.engine.utils.math.MathUtils" />
-      <recent name="com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow" />
-      <recent name="com.xbuilders.engine.items.Registrys" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xbuilders.content.vanilla.blocks.blocks" />
@@ -144,7 +161,7 @@
       <recent name="com.xbuilders.game.vanilla.ui" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Dev">
     <configuration name="Dev 2" type="Application" factoryName="Application" folderName="devs" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
       <module name="XBuilders3" />

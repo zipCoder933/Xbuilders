@@ -15,6 +15,7 @@ import com.xbuilders.content.vanilla.terrain.FlatTerrain;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.content.vanilla.ui.*;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
@@ -216,7 +217,7 @@ public class XbuildersGame extends Game {
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
 //        terrainsList.add(new MoonTerrain());
-        if (window.devMode) terrainsList.add(new DevTerrain());
+        if (LocalClient.DEV_MODE) terrainsList.add(new DevTerrain());
 
 
         //Menus

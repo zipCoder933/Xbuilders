@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.players.pipeline;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -117,7 +118,7 @@ public class BlockEventPipeline {
     final int MAX_FRAMES_WITH_EVENTS_IN_A_ROW = 10;
 
     public void update() {
-        if (ClientWindow.devkeyF3 && ClientWindow.devMode)
+        if (ClientWindow.devkeyF3 && LocalClient.DEV_MODE)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
         if (Server.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
