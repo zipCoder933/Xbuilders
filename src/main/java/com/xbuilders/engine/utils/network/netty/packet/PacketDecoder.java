@@ -1,11 +1,8 @@
 package com.xbuilders.engine.utils.network.netty.packet;
 
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,17 +26,6 @@ public class PacketDecoder extends ByteToMessageDecoder  {
          * Packet ID
          */
         byte packetId = in.readByte();
-
-        /**
-         * Handle the ping/pong packets
-         */
-        if (packetId == PingPongHandler.pingPacket) {
-            out.add(new PingPongPacket(true));
-            return;
-        } else if (packetId == PingPongHandler.pongPacket) {
-            out.add(new PingPongPacket(false));
-            return;
-        }
 
         //Get the message ID and decode it
         Packet packetInstance = packetInstances.get((byte) packetId);

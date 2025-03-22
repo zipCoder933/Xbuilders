@@ -2,7 +2,7 @@ package com.xbuilders.engine.utils.network.netty;
 
 import com.xbuilders.engine.utils.network.netty.client.NettyClient;
 import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 
@@ -25,7 +25,7 @@ public class Test_NettyClient {
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        channel.writeAndFlush(new PingPongPacket(true));
+                        channel.writeAndFlush(new PingPacket());
                         try {
                             Thread.sleep(5000);
                         } catch (InterruptedException e) {

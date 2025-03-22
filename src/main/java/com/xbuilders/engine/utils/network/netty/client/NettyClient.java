@@ -1,10 +1,12 @@
 package com.xbuilders.engine.utils.network.netty.client;
 
+import com.xbuilders.engine.utils.network.netty.packet.Packet;
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.message.Message;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
+import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
+import com.xbuilders.engine.utils.network.netty.packet.PacketHandler;
+import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PongPacket;
 import com.xbuilders.engine.utils.network.netty.server.NettyServer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -21,10 +23,9 @@ public class NettyClient {
     private EventLoopGroup group;
 
     private void registerPackets(SocketChannel ch) {
-        ch.pipeline().addLast(new PingPongEncoder());
-        ch.pipeline().addLast(new PingPongHandler());
-
-        new Message().register(ch);
+        Packet.register(ch, new MessagePacket());
+        Packet.register(ch, new PingPacket());
+        Packet.register(ch, new PongPacket());
     }
 
     public NettyClient(String host, int port) {
@@ -53,6 +54,8 @@ public class NettyClient {
                                     4     // Strip the length field from the output
                             ));
                             ch.pipeline().addLast(new PacketDecoder());
+                            ch.pipeline().addLast(new PacketEncoder());
+                            ch.pipeline().addLast(new PacketHandler());
                             registerPackets(ch);
                         }
                     });
@@ -90,7 +93,7 @@ public class NettyClient {
     private void schedulePing() {
         channel.eventLoop().scheduleAtFixedRate(() -> {
             if (channel.isActive()) {
-                channel.writeAndFlush(new PingPongPacket(true));
+                channel.writeAndFlush(new PingPacket());
             }
         }, 10, NettyServer.PING_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }

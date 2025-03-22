@@ -1,8 +1,6 @@
 package com.xbuilders.engine.utils.network.netty.server;
 
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
-import io.netty.buffer.Unpooled;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -69,7 +67,7 @@ import io.netty.handler.timeout.IdleStateEvent;
             IdleStateEvent event = (IdleStateEvent) evt;
             // If no write occurred within the ping interval, send a PING.
             if (event.state() == IdleState.WRITER_IDLE) {
-                ctx.writeAndFlush(new PingPongPacket(true));
+                ctx.writeAndFlush(new PingPacket());
             }
         } else {
             super.userEventTriggered(ctx, evt);

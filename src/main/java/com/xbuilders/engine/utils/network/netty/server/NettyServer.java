@@ -1,9 +1,12 @@
 package com.xbuilders.engine.utils.network.netty.server;
 
+import com.xbuilders.engine.utils.network.netty.packet.Packet;
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.message.Message;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
+import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
+import com.xbuilders.engine.utils.network.netty.packet.PacketHandler;
+import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PongPacket;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -43,10 +46,9 @@ public abstract class NettyServer {
     protected Channel serverChannel;
 
     private void registerPackets(Channel ch) {
-        ch.pipeline().addLast(new PingPongEncoder());
-        ch.pipeline().addLast(new PingPongHandler());
-
-        new Message().register(ch);
+        Packet.register(ch, new MessagePacket());
+        Packet.register(ch, new PingPacket());
+        Packet.register(ch, new PongPacket());
     }
 
     /**
@@ -90,6 +92,8 @@ public abstract class NettyServer {
                                 4     // Strip the length field from the output
                         ));
                         ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(new PacketHandler());
                         registerPackets(ch);
                     }
                 });
