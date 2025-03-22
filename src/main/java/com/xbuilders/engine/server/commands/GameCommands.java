@@ -1,13 +1,10 @@
 package com.xbuilders.engine.server.commands;
 
-import com.xbuilders.engine.Difficulty;
+import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -17,8 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

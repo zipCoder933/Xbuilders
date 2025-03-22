@@ -5,7 +5,6 @@
 package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.xbuilders.engine.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;

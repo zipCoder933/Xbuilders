@@ -3,8 +3,6 @@ package com.xbuilders.content.vanilla.entities.animal.quadPedal;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction;
-import com.xbuilders.engine.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;

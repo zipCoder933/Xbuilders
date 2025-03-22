@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.io.Input;
-import com.xbuilders.engine.Difficulty;
+import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;

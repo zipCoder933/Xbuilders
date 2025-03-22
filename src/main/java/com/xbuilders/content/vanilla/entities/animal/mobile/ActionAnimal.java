@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
-import com.xbuilders.engine.Difficulty;
+import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
