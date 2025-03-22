@@ -7,31 +7,24 @@ import java.util.Arrays;
 
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     private final NettyClient client;
-    private static final byte[] PING_MESSAGE = new byte[]{0};
-    private static final byte[] PONG_MESSAGE = new byte[]{1};
     
     public NettyClientHandler(NettyClient client) {
         this.client = client;
     }
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] receivedData = new byte[buf.readableBytes()];
-        buf.readBytes(receivedData);
-        buf.release();
-        
-        if (Arrays.equals(receivedData, PONG_MESSAGE)) {
-            System.out.println("Received PONG from localServer");
-        } else {
-            handleIncomingData(receivedData);
-        }
-    }
-    
-    private void handleIncomingData(byte[] data) {
-        System.out.println("Received data: " + Arrays.toString(data));
-        // Implement any necessary processing here
-    }
+//    @Override
+//    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+//        ByteBuf buf = (ByteBuf) msg;
+//        byte[] receivedData = new byte[buf.readableBytes()];
+//        buf.readBytes(receivedData);
+//        buf.release();
+//
+//        if (Arrays.equals(receivedData, PONG_MESSAGE)) {
+//            System.out.println("Received PONG from localServer");
+//        } else {
+//            System.out.println("Received data: " + Arrays.toString(receivedData));
+//        }
+//    }
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {

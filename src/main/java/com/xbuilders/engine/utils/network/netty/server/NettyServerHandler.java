@@ -1,14 +1,13 @@
 package com.xbuilders.engine.utils.network.netty.server;
 
-import io.netty.buffer.ByteBuf;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-
-import java.util.Arrays;
 
 /**
  * Internal Netty channel handler that bridges channel events to the abstract localServer methods.
@@ -41,27 +40,27 @@ import java.util.Arrays;
         super.channelInactive(ctx);
     }
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        Channel client = ctx.channel();
-        if (msg instanceof ByteBuf) {
-            ByteBuf buf = (ByteBuf) msg;
-            byte[] receivedData = new byte[buf.readableBytes()];
-            buf.readBytes(receivedData);
-            // Handle ping/pong messages.
-            if (Arrays.equals(receivedData, NettyServer.pingMessage)) {
-                // Received a PING: send back a PONG.
-                ctx.writeAndFlush(Unpooled.wrappedBuffer(NettyServer.pongMessage));
-                System.out.println("Recieved PING from client");
-            } else if (Arrays.equals(receivedData, NettyServer.pongMessage)) {
-                // Received a PONG (could update lastPing if you track it).
-                System.out.println("Received PONG from client");
-            } else {
-                // Pass any other data to the subclass.
-                server.dataFromClientEvent(client, receivedData);
-            }
-        }
-    }
+//    @Override
+//    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+//        Channel client = ctx.channel();
+//        if (msg instanceof ByteBuf) {
+//            ByteBuf buf = (ByteBuf) msg;
+//            byte[] receivedData = new byte[buf.readableBytes()];
+//            buf.readBytes(receivedData);
+//            // Handle ping/pong messages.
+//            if (Arrays.equals(receivedData, NettyServer.pingMessage)) {
+//                // Received a PING: send back a PONG.
+//                ctx.writeAndFlush(Unpooled.wrappedBuffer(NettyServer.pongMessage));
+//                System.out.println("Recieved PING from client");
+//            } else if (Arrays.equals(receivedData, NettyServer.pongMessage)) {
+//                // Received a PONG (could update lastPing if you track it).
+//                System.out.println("Received PONG from client");
+//            } else {
+//                // Pass any other data to the subclass.
+//                server.dataFromClientEvent(client, receivedData);
+//            }
+//        }
+//    }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -70,7 +69,7 @@ import java.util.Arrays;
             IdleStateEvent event = (IdleStateEvent) evt;
             // If no write occurred within the ping interval, send a PING.
             if (event.state() == IdleState.WRITER_IDLE) {
-                ctx.writeAndFlush(Unpooled.wrappedBuffer(NettyServer.pingMessage));
+                ctx.writeAndFlush(new PingPongPacket(true));
             }
         } else {
             super.userEventTriggered(ctx, evt);

@@ -1,5 +1,9 @@
 package com.xbuilders.engine.utils.network.netty.client;
 
+import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
 import com.xbuilders.engine.utils.network.netty.server.NettyServer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -15,6 +19,11 @@ public class NettyClient {
     private Channel channel;
     private EventLoopGroup group;
 
+    private void registerPackets(SocketChannel ch) {
+        ch.pipeline().addLast(new PingPongEncoder());
+        ch.pipeline().addLast(new PingPongHandler());
+    }
+
     public NettyClient(String host, int port) {
         System.out.println("Connecting to " + host + ":" + port);
         group = new NioEventLoopGroup();
@@ -27,6 +36,9 @@ public class NettyClient {
                         @Override
                         protected void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new NettyClientHandler(NettyClient.this));
+
+                            ch.pipeline().addLast(new PacketDecoder());
+                            registerPackets(ch);
                         }
                     });
 
@@ -63,7 +75,7 @@ public class NettyClient {
     private void schedulePing() {
         channel.eventLoop().scheduleAtFixedRate(() -> {
             if (channel.isActive()) {
-                channel.writeAndFlush(Unpooled.wrappedBuffer(NettyServer.pingMessage));
+                channel.writeAndFlush(new PingPongPacket(true));
             }
         }, 10, NettyServer.PING_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }

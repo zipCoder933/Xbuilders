@@ -10,22 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/MyPacketEncoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/MyPacketHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/Packet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/PacketDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/PacketRegistry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/ping/PingPongDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/ping/PingPongEncoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/ping/PingPongHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/ping/PingPongPacket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/test/MyPacket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/test/MyPacketDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/test/MyPacketEncoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packets/test/MyPacketHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/Packet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/PacketDecoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PingEncoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PingHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PingPacket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/Test_NettyServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/client/NettyClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/server/NettyServer.java" afterDir="false" />
@@ -94,17 +85,15 @@
     "Application.Main Dev.executor": "Run",
     "Application.Main.executor": "Run",
     "Application.MiscTester.executor": "Run",
-    "Application.Netty Client.executor": "Run",
-    "Application.Netty Server.executor": "Run",
     "Application.NettyClient.executor": "Run",
     "Application.NettyServer.executor": "Run",
     "Application.NetworkTester.executor": "Run",
     "Application.ResourceList.executor": "Run",
     "Application.SmileTest2.executor": "Run",
-    "Application.Test_NettyClient.executor": "Run",
-    "Application.Test_NettyServer.executor": "Run",
     "Application.com.xbuilders.tests.fasterXML.smile.Main.executor": "Run",
     "Application.com.xbuilders.tests.netty.Main.executor": "Run",
+    "Application.netty client.executor": "Run",
+    "Application.netty server.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -113,51 +102,51 @@
     "git-widget-placeholder": "netty-server",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Local Files/github/Xbuilders/src/main/java/com/xbuilders/engine/utils/network/netty/packets",
+    "last_opened_file_path": "D:/xbuilders/src/main/resources",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.15412186",
-    "settings.editor.selected.configurable": "preferences.keymap"
+    "settings.editor.selected.configurable": "com.codeium.AppSettingsConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.xbuilders.engine.utils.network.netty.packets.ping" />
       <recent name="com.xbuilders.content.vanilla.blocks" />
       <recent name="com.xbuilders.content.vanilla" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.items.recipes" />
+      <recent name="com.xbuilders.game.vanilla.terrain.defaultTerrain" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\utils\network\netty\packets" />
       <recent name="D:\xbuilders\src\main\resources\data\xbuilders\blocks" />
       <recent name="D:\xbuilders\res\items" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\utils\json\fasterXML\animalFeedInput" />
       <recent name="C:\Local Files\github\Xbuilders\res\items\blocks\json" />
+      <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\items\recipes\crafting" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Local Files\github\Xbuilders\src\main\resources\builtin" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items" />
       <recent name="D:\xbuilders\src\main\resources\data\xbuilders" />
       <recent name="D:\xbuilders\res\items" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\resources\assets\xbuilders\textures\item" />
+      <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items\loot\block" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
-      <recent name="com.xbuilders.Main" />
       <recent name="com.xbuilders.engine.client.ClientWindow" />
       <recent name="com.xbuilders.engine.client.LocalClient" />
       <recent name="com.xbuilders.engine.client.visuals.gameScene.GameScene" />
       <recent name="com.xbuilders.engine.gameScene.GameScene" />
+      <recent name="com.xbuilders.engine.utils.math.MathUtils" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.xbuilders.engine.utils.network.netty.packets.ping" />
       <recent name="com.xbuilders.content.vanilla.blocks.blocks" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.server.world.chunk.saving" />
       <recent name="com.xbuilders.engine.ui.gameScene.items" />
+      <recent name="com.xbuilders.game.vanilla.ui" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Netty Client">
+  <component name="RunManager" selected="Compound.Netty Test">
     <configuration name="Dev 2" type="Application" factoryName="Application" folderName="devs" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
       <module name="XBuilders3" />
@@ -218,15 +207,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Netty Client" type="Application" factoryName="Application">
+    <configuration name="netty client" type="Application" factoryName="Application" folderName="netty">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.netty.Test_NettyClient" />
       <module name="XBuilders3" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Netty Server" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.xbuilders.tests.netty.server.NettyServer" />
+    <configuration name="netty server" type="Application" factoryName="Application" folderName="netty">
+      <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.netty.Test_NettyServer" />
       <module name="XBuilders3" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -245,16 +234,16 @@
       <method v="2" />
     </configuration>
     <configuration name="Netty Test" type="CompoundRunConfigurationType">
-      <toRun name="Netty Client" type="Application" />
-      <toRun name="Netty Server" type="Application" />
+      <toRun name="netty client" type="Application" />
+      <toRun name="netty server" type="Application" />
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Netty Client" />
-      <item itemvalue="Application.Netty Server" />
       <item itemvalue="Application.Dev 2" />
       <item itemvalue="Application.Dev 3" />
       <item itemvalue="Application.Dev 4" />
+      <item itemvalue="Application.netty server" />
+      <item itemvalue="Application.netty client" />
       <item itemvalue="Application.Dev" />
       <item itemvalue="Application.Dev (Load World)" />
       <item itemvalue="Application.Main" />

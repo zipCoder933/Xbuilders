@@ -5,6 +5,7 @@ import io.netty.channel.ChannelFuture;
 
 public class Test_NettyClient {
     public static void main(String[] args) throws InterruptedException {
+        Thread.sleep(5000);
         NettyClient client = new NettyClient("localhost", 8080) {
 
             public void onConnected(ChannelFuture channelFuture) {

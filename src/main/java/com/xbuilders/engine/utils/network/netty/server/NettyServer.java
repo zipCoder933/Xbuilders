@@ -1,5 +1,8 @@
 package com.xbuilders.engine.utils.network.netty.server;
 
+import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
+import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -33,14 +36,18 @@ import java.util.concurrent.TimeUnit;
 public abstract class NettyServer {
 
     protected final ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    public static final byte[] pingMessage = new byte[]{0};
-    public static final byte[] pongMessage = new byte[]{1};
+
     // The idle interval (in seconds) for sending pings.
     public static final long PING_INTERVAL_SECONDS = 30;
 
     protected EventLoopGroup bossGroup;
     protected EventLoopGroup workerGroup;
     protected Channel serverChannel;
+
+    private void registerPackets(Channel ch) {
+        ch.pipeline().addLast(new PingPongEncoder());
+        ch.pipeline().addLast(new PingPongHandler());
+    }
 
     /**
      * Starts the Netty localServer on the given port.
@@ -69,7 +76,11 @@ public abstract class NettyServer {
                         // 2. ServerHandler processes connection, disconnection, ping/pong, and inbound data.
                         ch.pipeline().addLast(new IdleStateHandler(PING_INTERVAL_SECONDS, PING_INTERVAL_SECONDS, 0, TimeUnit.SECONDS));
                         ch.pipeline().addLast(new NettyServerHandler(NettyServer.this));
+                        ch.pipeline().addLast(new PacketDecoder());
+                        registerPackets(ch);
                     }
+
+
                 });
 
         ChannelFuture future = bootstrap.bind(port).sync();
