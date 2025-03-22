@@ -9,4 +9,5 @@ public class PingPongEncoder extends MessageToByteEncoder<PingPongPacket> {
     protected void encode(ChannelHandlerContext ctx, PingPongPacket packet, ByteBuf out) {
         out.writeByte(packet.ping ? PingPongHandler.pingPacket : PingPongHandler.pongPacket);
     }
+
 }

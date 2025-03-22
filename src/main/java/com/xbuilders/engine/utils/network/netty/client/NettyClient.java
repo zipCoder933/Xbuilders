@@ -1,18 +1,18 @@
 package com.xbuilders.engine.utils.network.netty.client;
 
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.join.JoinEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.join.JoinHandler;
+import com.xbuilders.engine.utils.network.netty.packet.message.MessageEncoder;
+import com.xbuilders.engine.utils.network.netty.packet.message.MessageHandler;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongPacket;
 import com.xbuilders.engine.utils.network.netty.server.NettyServer;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,11 +22,19 @@ public class NettyClient {
     private EventLoopGroup group;
 
     private void registerPackets(SocketChannel ch) {
+        //This allows the entire packet to be read before decoding
+        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
+                1024,
+                0,
+                4,
+                0,
+                4)); // Max 1024 bytes, 4-byte length field
+
         ch.pipeline().addLast(new PingPongEncoder());
         ch.pipeline().addLast(new PingPongHandler());
 
-        ch.pipeline().addLast(new JoinEncoder());
-        ch.pipeline().addLast(new JoinHandler());
+        ch.pipeline().addLast(new MessageEncoder());
+        ch.pipeline().addLast(new MessageHandler());
 
         ch.pipeline().addLast(new PacketDecoder());
     }
@@ -87,11 +95,11 @@ public class NettyClient {
         }, 10, NettyServer.PING_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
 
-    public void sendData(byte[] data) {
-        if (channel != null && channel.isActive()) {
-            channel.writeAndFlush(Unpooled.wrappedBuffer(data));
-        }
-    }
+//    public void sendData(byte[] data) {
+//        if (channel != null && channel.isActive()) {
+//            channel.writeAndFlush(Unpooled.wrappedBuffer(data));
+//        }
+//    }
 
     public void close() {
         if (channel != null) {

@@ -1,8 +1,8 @@
 package com.xbuilders.engine.utils.network.netty.server;
 
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.join.JoinEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.join.JoinHandler;
+import com.xbuilders.engine.utils.network.netty.packet.message.MessageEncoder;
+import com.xbuilders.engine.utils.network.netty.packet.message.MessageHandler;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPongHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -17,6 +17,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
@@ -47,11 +48,19 @@ public abstract class NettyServer {
     protected Channel serverChannel;
 
     private void registerPackets(Channel ch) {
+        //This allows the entire packet to be read before decoding
+        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
+                1024,
+                0,
+                4,
+                0,
+                4)); // Max 1024 bytes, 4-byte length field
+
         ch.pipeline().addLast(new PingPongEncoder());
         ch.pipeline().addLast(new PingPongHandler());
 
-        ch.pipeline().addLast(new JoinEncoder());
-        ch.pipeline().addLast(new JoinHandler());
+        ch.pipeline().addLast(new MessageEncoder());
+        ch.pipeline().addLast(new MessageHandler());
 
         ch.pipeline().addLast(new PacketDecoder());
     }
