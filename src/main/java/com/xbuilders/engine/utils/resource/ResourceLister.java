@@ -66,10 +66,9 @@ public class ResourceLister {
     /**
      * When we load resources, if we are running from the IDE, we get something like this
      * C:/Local Files/github/Xbuilders/target/classes/assets/xbuilders/textures/item/pp/crimson_door.png
-     *
+     * <p>
      * Whereas if we are running from the JAR file, we get something like this
      * assets/xbuilders/textures/item/pp/crimson_door.png
-     *
      */
     public static void init() {
         if (resourceList != null) return;
@@ -79,7 +78,7 @@ public class ResourceLister {
         //The easiest way to test if we are running inside of a jarfile, is if the results of this are empty
         Pattern pattern = Pattern.compile(compileInitRegex(true, INIT_RESOURCE_DIRECTORIES));
         List<String> list = ResourceLister._listAllJarfileResources(pattern).stream().toList();
-        System.out.println("List size: "+list.size());
+        System.out.println("List size: " + list.size());
         boolean isRunningAsJar = list.isEmpty();
 
         //If we are runing as a jar file, try again
@@ -116,7 +115,7 @@ public class ResourceLister {
 
         //A blank path is just /
         if (path.isBlank()) return ".*";
-        //We want to get what is after the last slash. If we match with a .*, we will also match the file/folder itself
+            //We want to get what is after the last slash. If we match with a .*, we will also match the file/folder itself
         else return "\\Q" + FILE_SEPARATOR + path + FILE_SEPARATOR + "\\E(.+)";
     }
 
@@ -143,20 +142,25 @@ public class ResourceLister {
         HashSet<String> list = new HashSet<>();
         for (int i = 0; i < resourceList.length; i++) {
             if (pattern.matcher(resourceList[i]).matches()) {
-                String direct = resourceList[i];
 
-                direct = direct.substring(path.length() + 1);//Truncate the beginning of the path, so that only the direct descendant is left
+                String direct = resourceList[i]
+                        .substring(path.length() + 1);//Truncate the base path from the resource path
 
-                int end = direct.indexOf("\\", 1); //Truncate Anything after the first \, and remove the beginning \
+                int end = direct.indexOf(FILE_SEPARATOR, 1); //Truncate Anything after the first \ (get rid of any subfiles)
                 if (end == -1) end = direct.length();
-                direct = direct.substring(1, end);
+                direct = direct.substring(0, end);
+
+                //System.out.println("DIRECT: " + direct);
                 list.add(direct);
             }
         }
+
+        //Add return list
         String[] reval = list.toArray(new String[0]);
+
         //Add the base path back in
         for (int i = 0; i < reval.length; i++) {
-            reval[i] = FILE_SEPARATOR + path + FILE_SEPARATOR + reval[i];
+            reval[i] = path + FILE_SEPARATOR + reval[i];
             reval[i] = ResourceLoader.formatPath(reval[i]);
         }
         return reval;
