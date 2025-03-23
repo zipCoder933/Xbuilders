@@ -60,6 +60,9 @@ public class DoorHalfRenderer extends BlockType {
                 return bd;
             };
 
+        };
+
+        registrationCallback = (b) -> {
             if (b.properties.containsKey("vertical_pair") && b.properties.containsKey("placement")
                     && b.properties.get("placement").equals("bottom")) { // If this is the bottom of a pair
                 // System.out.println("DOOR: "+b.properties);

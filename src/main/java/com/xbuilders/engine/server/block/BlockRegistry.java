@@ -9,6 +9,7 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.DefaultBlockType;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidBlockType;
 import com.xbuilders.engine.utils.IntMap;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -114,10 +115,14 @@ public class BlockRegistry {
         assignMapAndVerify(uniqueAliases, blockArray);
         list = blockArray.toArray(new Block[0]);
 
-        //Initialize all block textures
         for (Block block : getList()) {
+            //Initialize all block textures
             if (block.texture != null) {
                 block.texture.init(textures);
+            }
+            //Block Type Registration callback
+            if (block.getType().registrationCallback != null) {
+                block.getType().registrationCallback.accept(block);
             }
         }
     }
