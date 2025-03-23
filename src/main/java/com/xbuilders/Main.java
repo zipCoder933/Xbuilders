@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class Main {
-    public static final String GAME_VERSION = "1.7.0";
+    public static final String GAME_VERSION = "1.7.1";
     public static LocalClient localClient;
     public static LocalServer localServer;
 
