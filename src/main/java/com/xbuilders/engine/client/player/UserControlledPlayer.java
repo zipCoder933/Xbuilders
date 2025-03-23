@@ -554,7 +554,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
 
         Block newCameraBlock = getBlockAtCameraPos();
-        if (previous_CameraBlock == null || newCameraBlock != previous_CameraBlock) {
+        if (dieMode) {
+            ClientWindow.gameScene.ui.setOverlayColor(0.5f, 0, 0, 0.5f);
+        } else if (previous_CameraBlock == null || newCameraBlock != previous_CameraBlock) {
             previous_CameraBlock = newCameraBlock;
             if (newCameraBlock.isAir()) {//Air is always transparent
                 ClientWindow.gameScene.ui.setOverlayColor(0, 0, 0, 0);
