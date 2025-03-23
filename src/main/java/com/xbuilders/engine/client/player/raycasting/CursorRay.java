@@ -177,13 +177,14 @@ public class CursorRay {
 
 
     private float getMiningSpeed(ItemStack selectedItem) {
-        float miningSpeed = 0.005f;
+        float miningSpeed = 0.015f;
         if (selectedItem != null) miningSpeed *= selectedItem.item.miningSpeedMultiplier;
         return miningSpeed;
     }
 
 
     private void eatFood(ItemStack selectedItem) {
+        if (GameScene.userPlayer.getHungerLevel() >= UserControlledPlayer.MAX_HUNGER * 0.9) return;
         GameScene.userPlayer.addHunger(selectedItem.item.hungerSaturation);
         selectedItem.stackSize--;
     }
@@ -228,7 +229,7 @@ public class CursorRay {
 
                 //If we are mining with the wrong tool, mine slower
                 if (isMiningWithWrongTool(existingBlock, selectedItem)) {
-                    miningSpeed *= 0.09f;
+                    miningSpeed *= 0.15f;
                 }
 
                 //If the block requires a tool to mine it, and the player doesn't have the right tool, don't mine at all

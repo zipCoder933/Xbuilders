@@ -57,9 +57,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     //Health
     private boolean dieMode;
-    public final float MAX_HEALTH = 20f;
-    public final float MAX_HUNGER = 20f;
-    public final float MAX_OXYGEN = 20f;
+    public final static float MAX_HEALTH = 20f;
+    public final static float MAX_HUNGER = 20f;
+    public final static float MAX_OXYGEN = 20f;
 
     private float status_health;
     private float status_hunger;
@@ -96,9 +96,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
         if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
 
-            if (status_hunger > 0) {
-                if (runningMode) status_hunger -= 0.0015f;
-                else status_hunger -= 0.0004f;
+            if (status_hunger > 0 && !isRidingEntity()) {
+                if (runningMode) status_hunger -= 0.0007f;
+                else status_hunger -= 0.0002f;
             }
 
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
@@ -121,6 +121,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             status_health = MathUtils.clamp(status_health, 0, MAX_HEALTH);
             status_oxygen = MathUtils.clamp(status_oxygen, 0, MAX_OXYGEN);
         }
+    }
+
+    private boolean isRidingEntity() {
+        return positionLock != null;
     }
 
     private void resetHealthStats() {
