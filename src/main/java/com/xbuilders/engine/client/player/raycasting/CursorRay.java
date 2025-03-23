@@ -327,7 +327,7 @@ public class CursorRay {
             Block hitBlock = LocalServer.world.getBlock(cursorRay.getHitPositionAsInt());
             Vector3i set = cursorRay.getHitPositionAsInt();
 
-            if (!hitBlock.getType().replaceOnSet) {
+            if (!(hitBlock.getType().replaceOnSet && !block.getType().replaceOnSet)) {
                 set = cursorRay.getHitPosPlusNormal();
                 if (blockIntersectsPlayer(block, set)) return false;
             }
