@@ -12,7 +12,7 @@
     "id": "xbuilders:bread",
     "name": "Bread",
     "icon": "food/bread.png",
-    "foodAdd": 4,
+    "foodAdd": 3,
     "tags": [
       "food"
     ]
@@ -21,7 +21,7 @@
     "id": "xbuilders:french_bread",
     "name": "French Bread",
     "block": 592,
-    "foodAdd": 5.5,
+    "foodAdd": 4.5,
     "tags": [
       "food"
     ]
@@ -47,7 +47,7 @@
     "id": "xbuilders:carrot",
     "name": "Carrot",
     "icon": "food/carrot.png",
-    "foodAdd": 2,
+    "foodAdd": 0.5,
     "tags": [
       "food"
     ]
@@ -56,7 +56,7 @@
     "id": "xbuilders:beet",
     "name": "Beet",
     "icon": "food/beetroot.png",
-    "foodAdd": 2,
+    "foodAdd": 0.5,
     "tags": [
       "food"
     ]
@@ -65,7 +65,7 @@
     "id": "xbuilders:potato",
     "name": "Potato",
     "icon": "food/potato.png",
-    "foodAdd": 4,
+    "foodAdd": 3,
     "tags": [
       "food"
     ]
@@ -74,7 +74,7 @@
     "id": "xbuilders:baked_potato",
     "name": "Baked Potato",
     "icon": "food/baked_potato.png",
-    "foodAdd": 6,
+    "foodAdd": 5,
     "tags": [
       "food"
     ]
@@ -83,7 +83,7 @@
     "id": "xbuilders:apple_pie",
     "name": "Apple Pie",
     "icon": "food/apple_pie.png",
-    "foodAdd": 7,
+    "foodAdd": 6,
     "tags": [
       "food"
     ]
@@ -92,7 +92,7 @@
     "id": "xbuilders:pumpkin_pie",
     "name": "Pumpkin Pie",
     "icon": "food/pumpkin_pie.png",
-    "foodAdd": 7,
+    "foodAdd": 6,
     "tags": [
       "food"
     ]
@@ -101,7 +101,16 @@
     "id": "xbuilders:cake",
     "name": "Cake",
     "block": 36,
-    "foodAdd": 8,
+    "foodAdd": 7,
+    "tags": [
+      "food"
+    ]
+  },
+  {
+    "id": "xbuilders:cookie",
+    "icon": "food/cookie.png",
+    "name": "Cookie",
+    "foodAdd": 4,
     "tags": [
       "food"
     ]

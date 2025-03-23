@@ -62,5 +62,21 @@
     ],
     "output": "xbuilders:pumpkin_pie",
     "amount": 2
+  },
+  {
+    "shapeless": false,
+    "input": [
+      null,
+      "xbuilders:sugar",
+      null,
+      "xbuilders:sugar",
+      "xbuilders:wheat",
+      "xbuilders:sugar",
+      null,
+      "xbuilders:sugar",
+      null
+    ],
+    "output": "xbuilders:cookie",
+    "amount": 1
   }
 ]
