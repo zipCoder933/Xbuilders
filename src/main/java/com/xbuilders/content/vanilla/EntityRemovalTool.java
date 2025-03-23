@@ -1,13 +1,19 @@
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.utils.ErrorHandler;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
+
+import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
 
 public class EntityRemovalTool extends Item {
     Predicate<Entity> predicate;
@@ -38,18 +44,39 @@ public class EntityRemovalTool extends Item {
             Collection<Entity> entitiesSnapshot = new ArrayList<>(LocalServer.world.entities.values());
             entitiesSnapshot.forEach(entity -> {
                 try {
+                    System.out.println("Checking entity " + entity);
                     // Check if the entity meets the criteria and is within the radius
-                    if (predicate.test(entity) && entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
+                    if (entity != null && predicate.test(entity) && entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
+                        System.out.println("\tRemoving entity " + entity);
                         entity.destroy();
                     }
                 } catch (Exception e) {
                     // Handle any issues that arise while processing a specific entity
-                    System.err.println("Error processing entity " + entity + ": " + e.getMessage());
+                    GameScene.alert("Error processing entity " + entity + ": " + e.getMessage());
                 }
             });
+
+            //Remove all entities in the current chunk
+            System.out.println("Removing all entities in the current chunk");
+            Chunk chunk = LocalServer.world.getChunk(
+                    new Vector3i(positiveMod(pos.x, Chunk.WIDTH), positiveMod(pos.y, Chunk.WIDTH), positiveMod(pos.z, Chunk.WIDTH)));
+            if (chunk != null) {
+                //Iterate over the list backwards
+                for (int i = chunk.entities.list.size() - 1; i >= 0; i--) {
+                    Entity entity = chunk.entities.list.get(i);
+                    // Check if the entity meets the criteria
+                    System.out.println("Checking entity " + entity);
+                    if (entity != null && predicate.test(entity)) {
+                        System.out.println("\tRemoving entity " + entity);
+                        entity.destroy();
+                        chunk.entities.list.remove(i); //Remove from the list
+                    }
+                }
+            }
+
         } catch (Exception e) {
-            // Handle errors that might occur while creating the snapshot or iterating
-            System.err.println("Error during entity deletion: " + e.getMessage());
+            GameScene.alert("Error removing entities: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
