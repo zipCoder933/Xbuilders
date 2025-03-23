@@ -184,8 +184,8 @@ public class CursorRay {
 
 
     private void eatFood(ItemStack selectedItem) {
-        if (GameScene.userPlayer.getHungerLevel() >= UserControlledPlayer.MAX_HUNGER * 0.9) return;
-        GameScene.userPlayer.addHunger(selectedItem.item.hungerSaturation);
+        if (GameScene.userPlayer.getFoodLevel() >= UserControlledPlayer.MAX_FOOD * 0.9) return;
+        GameScene.userPlayer.addFood(selectedItem.item.hungerSaturation);
         selectedItem.stackSize--;
     }
 

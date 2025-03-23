@@ -60,7 +60,7 @@ public class UI_Hotbar extends UI_GameMenu {
             if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
                 nk_layout_row_dynamic(ctx, 10, 3);
                 nk_text(ctx, "Health: " + (int) (GameScene.userPlayer.getHealth()), NK_TEXT_ALIGN_LEFT);
-                nk_text(ctx, "Hunger: " + (int) (GameScene.userPlayer.getHungerLevel()), NK_TEXT_ALIGN_LEFT);
+                nk_text(ctx, "Hunger: " + (int) (GameScene.userPlayer.getFoodLevel()), NK_TEXT_ALIGN_LEFT);
                 nk_text(ctx, "Air: " + (int) (GameScene.userPlayer.getOxygenLevel()), NK_TEXT_ALIGN_LEFT);
                 nk_layout_row_dynamic(ctx, 20, 3);
 //            ctx.style().progress().normal().data().color().set(Theme.color_red);
@@ -69,8 +69,8 @@ public class UI_Hotbar extends UI_GameMenu {
                         (int) GameScene.userPlayer.MAX_HEALTH * 10, false);
 
                 nk_prog(ctx,
-                        (long) (GameScene.userPlayer.getHungerLevel() * 10),
-                        (int) GameScene.userPlayer.MAX_HUNGER * 10, false);
+                        (long) (GameScene.userPlayer.getFoodLevel() * 10),
+                        (int) GameScene.userPlayer.MAX_FOOD * 10, false);
 
                 nk_prog(ctx,
                         (long) (GameScene.userPlayer.getOxygenLevel() * 10),

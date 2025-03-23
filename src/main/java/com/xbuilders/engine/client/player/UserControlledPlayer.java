@@ -56,13 +56,18 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     float autoJump_ticksWhileColidingWithBlock = 0;
 
     //Health
+    //TODO: Saturation is a status effect, meaning we have to implement effects before implementing saturation
     private boolean dieMode;
     public final static float MAX_HEALTH = 20f;
-    public final static float MAX_HUNGER = 20f;
+    public final static float MAX_FOOD = 20f;
     public final static float MAX_OXYGEN = 20f;
 
+    public final static float IDLE_FOOD_DEPLETION = 0.0001f;
+    public final static float MOVING_FOOD_DEPLETION = 0.0003f;
+    public final static float RUNNING_FOOD_DEPLETION = 0.0007f;
+
     private float status_health;
-    private float status_hunger;
+    private float status_food;
     private float status_oxygen;
 
     public boolean isDieMode() {
@@ -77,8 +82,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         return status_oxygen;
     }
 
-    public float getHungerLevel() {
-        return status_hunger;
+    public float getFoodLevel() {
+        return status_food;
     }
 
     public float getHealth() {
@@ -89,35 +94,53 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         status_health += damage;
     }
 
-    public void addHunger(float hungerPoints) {
-        status_hunger += hungerPoints;
+    public void addFood(float hungerPoints) {
+        status_food += hungerPoints;
     }
+
 
     private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
         if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
 
-            if (status_hunger > 0 && !isRidingEntity()) {
-                if (runningMode) status_hunger -= 0.0007f;
-                else status_hunger -= 0.0002f;
+            float multiplier = 1;
+
+            /**
+             * Food can go higher than the maximum level, but it cant go lower than zero
+             */
+            if (status_food > 0) {
+                if (isRidingEntity()) { //Dont deplete hunger if we are riding something
+                    status_food -= IDLE_FOOD_DEPLETION * multiplier; //Baseline hunger deplation
+                } else {
+                    if (runningMode) status_food -= RUNNING_FOOD_DEPLETION * multiplier; //Running
+                    else if (forwardKeyPressed() || backwardKeyPressed())
+                        status_food -= MOVING_FOOD_DEPLETION * multiplier; //Walking
+                    else status_food -= IDLE_FOOD_DEPLETION * multiplier; //Baseline hunger deplation
+                }
             }
 
+            /**
+             * Damage
+             */
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
             if (enterDamage > 0) {
                 status_health -= enterDamage;
-            } else if (status_oxygen <= 0 || status_hunger <= 0) {
-                status_health -= 0.2f;
-            } else if (status_health < MAX_HEALTH && status_hunger > 3) {//Regenerate
-                status_health += 0.004f;
+            } else if (status_oxygen <= 0 || status_food <= 0) {
+                status_health -= 0.2f * multiplier;
+            } else if (status_health < MAX_HEALTH && status_food > 3) {//Regenerate
+                status_health += 0.004f * multiplier;
             }
+
+            /**
+             * Oxygen
+             */
             if (playerHead.isLiquid()) {
-                status_oxygen -= 0.02f;
-            } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.02f;
+                status_oxygen -= 0.02f * multiplier;
+            } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.02f * multiplier;
 
 
             if (status_health <= 0) {
                 die();
             }
-            status_hunger = MathUtils.clamp(status_hunger, 0, MAX_HUNGER);
             status_health = MathUtils.clamp(status_health, 0, MAX_HEALTH);
             status_oxygen = MathUtils.clamp(status_oxygen, 0, MAX_OXYGEN);
         }
@@ -130,7 +153,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private void resetHealthStats() {
         dieMode = false;
         status_health = MAX_HEALTH;
-        status_hunger = MAX_HUNGER;
+        status_food = MAX_FOOD;
         status_oxygen = MAX_OXYGEN;
     }
 
@@ -282,7 +305,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         jsonObject.addProperty("spawnZ", (float) status_spawnPosition.z);
 
         jsonObject.addProperty("health", status_health);
-        jsonObject.addProperty("hunger", status_hunger);
+        jsonObject.addProperty("hunger", status_food);
         jsonObject.addProperty("oxygen", status_oxygen);
 
         try {
@@ -320,7 +343,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     status_spawnPosition.z = jsonObject.get("spawnZ").getAsFloat();
                 }
                 if (jsonObject.has("health")) status_health = jsonObject.get("health").getAsFloat();
-                if (jsonObject.has("hunger")) status_hunger = jsonObject.get("hunger").getAsFloat();
+                if (jsonObject.has("hunger")) status_food = jsonObject.get("hunger").getAsFloat();
                 if (jsonObject.has("oxygen")) status_oxygen = jsonObject.get("oxygen").getAsFloat();
 
                 selectedItemIndex = 0;
@@ -700,7 +723,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         return
                 LocalServer.getGameMode() == GameMode.FREEPLAY
                         || LocalServer.getGameMode() == GameMode.SPECTATOR
-                        || status_hunger > 5;
+                        || status_food > 5;
     }
 
 
