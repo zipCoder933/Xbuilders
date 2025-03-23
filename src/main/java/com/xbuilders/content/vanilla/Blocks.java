@@ -194,6 +194,9 @@ public class Blocks {
     public static short BLOCK_MAGENTA_STAINED_GLASS = 188;
     public static short BLOCK_ORANGE_STAINED_GLASS = 189;
     public static short BLOCK_PINK_STAINED_GLASS = 190;
+    public static short BLOCK_PUMPKIN = 1000;
+    public static short BLOCK_PUMPKIN_STEM = 1001;
+    public static short BLOCK_PUMPKIN_SEEDS = 1002;
     public static short BLOCK_PURPLE_STAINED_GLASS = 191;
     public static short BLOCK_RED_STAINED_GLASS = 192;
     public static short BLOCK_WHITE_STAINED_GLASS = 193;
@@ -1212,6 +1215,11 @@ public class Blocks {
                 Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_5),
                 Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_6),
                 Registrys.getBlock(Blocks.BLOCK_WHEAT));
+
+        plantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_PUMPKIN_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_PUMPKIN_STEM),
+                Registrys.getBlock(Blocks.BLOCK_PUMPKIN));
 
         plantUtils.makeStalk(
                 Registrys.getBlock("xbuilders:bamboo"),

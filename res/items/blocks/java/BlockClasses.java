@@ -954,6 +954,7 @@ public static Block BLOCK_IRON_ORE = ItemList.getBlock((short)234);
 public static Block BLOCK_GOLD_ORE = ItemList.getBlock((short)237);
 public static Block BLOCK_LAPIS_ORE = ItemList.getBlock((short)544);
 public static Block BLOCK_EMERALD_ORE = ItemList.getBlock((short)551);
+public static Block BLOCK_PUMPKIN_SEEDS = ItemList.getBlock((short)1002);
 public static Block BLOCK_WHEAT_SEEDS = ItemList.getBlock((short)162);
 public static Block BLOCK_CARROT_SEEDS = ItemList.getBlock((short)163);
 public static Block BLOCK_POTATO_SEEDS = ItemList.getBlock((short)165);

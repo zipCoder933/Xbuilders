@@ -954,6 +954,7 @@ public static short BLOCK_IRON_ORE = 234;
 public static short BLOCK_GOLD_ORE = 237;
 public static short BLOCK_LAPIS_ORE = 544;
 public static short BLOCK_EMERALD_ORE = 551;
+public static short BLOCK_PUMPKIN_SEEDS = 1002;
 public static short BLOCK_WHEAT_SEEDS = 162;
 public static short BLOCK_CARROT_SEEDS = 163;
 public static short BLOCK_POTATO_SEEDS = 165;

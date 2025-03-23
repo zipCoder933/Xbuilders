@@ -775,6 +775,16 @@
     "block": 165
   },
   {
+    "id": "xbuilders:pumpkin_seeds",
+    "name": "Pumpkin Seeds",
+    "block": "xbuilders:pumpkin_seeds"
+  },
+  {
+    "id": "xbuilders:pumpkin",
+    "name": "Pumpkin",
+    "block": "xbuilders:pumpkin"
+  },
+  {
     "id": "xbuilders:glow_rock",
     "name": "Glow Rock",
     "block": 178
@@ -4831,15 +4841,5 @@
     "id": "xbuilders:string",
     "name": "String",
     "icon": "string.png"
-  },
-  {
-    "id": "xbuilders:pumpkin",
-    "name": "Pumpkin",
-    "block": "xbuilders:pumpkin"
-  },
-  {
-    "id": "xbuilders:pumpkin_seed",
-    "name": "Pumpkin Stem",
-    "block": "xbuilders:pumpkin_seed"
   }
 ]
