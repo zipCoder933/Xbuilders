@@ -158,7 +158,7 @@ public class CursorRay {
                 }
                 //If we are not interrupting the eating process, we can eat
                 if (canEat && selectedItem.item.isFood()) {
-                    System.out.println("Eating food");
+
                     eatFood(selectedItem);
                     return true;
                 }
@@ -184,8 +184,11 @@ public class CursorRay {
 
 
     private void eatFood(ItemStack selectedItem) {
-        if (GameScene.userPlayer.getFoodLevel() >= UserControlledPlayer.MAX_FOOD * 0.9) return;
-        GameScene.userPlayer.addFood(selectedItem.item.hungerSaturation);
+        System.out.println("Eating food");
+        if (GameScene.userPlayer.getFoodLevel() >= UserControlledPlayer.MAX_FOOD * 0.9) {
+            return;
+        }
+        GameScene.userPlayer.addFood(selectedItem.item.foodAdd);
         selectedItem.stackSize--;
     }
 

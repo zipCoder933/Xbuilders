@@ -10,10 +10,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/food.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/smelting/food.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/UserControlledPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/raycasting/CursorRay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/raycasting/CursorRay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/UI_Hotbar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/UI_Hotbar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/item/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/item/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/json/ItemTypeAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/json/ItemTypeAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/attached_pumpkin_stem.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/carved_pumpkin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/pumpkin_side.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/pumpkin_stem.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/block/pp/pumpkin_top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/beef.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/bowl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/cod.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/cooked_salmon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/mutton.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/nautilus_shell.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/poisonous_potato.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/popped_chorus_fruit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/porkchop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/pufferfish.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/pumpkin_pie.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/rabbit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/rabbit_stew.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/nature.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/nature.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/food.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/food.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/resources.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/resources.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

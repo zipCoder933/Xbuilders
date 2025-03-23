@@ -143,15 +143,8 @@ public class Items {
 
 
     public static void editItems(ClientWindow window) {
-        Item item = Registrys.getItem("xbuilders:bread");
-        if (item != null) {
-            item.hungerSaturation = 1;
-        }
-        item = Registrys.getItem("xbuilders:apple");
-        if (item != null) {
-            item.hungerSaturation = 0.5f;
-        }
-        item = Registrys.getItem("xbuilders:bucket");
+
+      Item  item = Registrys.getItem("xbuilders:bucket");
         if (item != null) {
             item.createClickEvent = (ray, stack) -> {
                 fillBucket(ray, stack);
@@ -187,7 +180,7 @@ public class Items {
         item = Registrys.getItem("xbuilders:animal_apple");
         if (item != null) {
             AnimalFood.makeAnimalFood(item, null);
-            item.hungerSaturation = 0.2f;
+            item.foodAdd = 0.2f;
         }
     }
 

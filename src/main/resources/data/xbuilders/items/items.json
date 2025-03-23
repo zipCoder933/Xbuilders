@@ -161,11 +161,6 @@
     "block": 35
   },
   {
-    "id": "xbuilders:cake",
-    "name": "Cake",
-    "block": 36
-  },
-  {
     "id": "xbuilders:jungle_sapling",
     "name": "Jungle Sapling",
     "block": 37
@@ -292,7 +287,6 @@
     ],
     "block": 63
   },
-
   {
     "id": "xbuilders:clay",
     "name": "Clay",
@@ -2697,11 +2691,6 @@
     "block": 591
   },
   {
-    "id": "xbuilders:bread_block",
-    "name": "Bread",
-    "block": 592
-  },
-  {
     "id": "xbuilders:cyan_stained_wood",
     "name": "Cyan Stained Wood",
     "block": 593,
@@ -4842,5 +4831,15 @@
     "id": "xbuilders:string",
     "name": "String",
     "icon": "string.png"
+  },
+  {
+    "id": "xbuilders:pumpkin",
+    "name": "Pumpkin",
+    "block": "xbuilders:pumpkin"
+  },
+  {
+    "id": "xbuilders:pumpkin_seed",
+    "name": "Pumpkin Stem",
+    "block": "xbuilders:pumpkin_seed"
   }
 ]

@@ -123,22 +123,7 @@
     "output": "xbuilders:barrel",
     "amount": 1
   },
-  {
-    "shapeless": false,
-    "input": [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      "xbuilders:wheat",
-      "xbuilders:wheat",
-      "xbuilders:wheat"
-    ],
-    "output": "xbuilders:bread",
-    "amount": 1
-  },
+
   {
     "input": [
       "xbuilders:stick",
