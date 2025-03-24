@@ -18,6 +18,22 @@
   {
     "shapeless": false,
     "input": [
+      null,
+      null,
+      null,
+      null,
+      "xbuilders:wheat",
+      null,
+      "xbuilders:wheat",
+      null,
+      "xbuilders:wheat"
+    ],
+    "output": "xbuilders:croissant",
+    "amount": 1
+  },
+  {
+    "shapeless": false,
+    "input": [
       "xbuilders:carrot",
       "xbuilders:carrot",
       "xbuilders:carrot",

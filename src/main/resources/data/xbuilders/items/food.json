@@ -18,6 +18,15 @@
     ]
   },
   {
+    "id": "xbuilders:croissant",
+    "name": "Croissant",
+    "block": 407,
+    "foodAdd": 3,
+    "tags": [
+      "food"
+    ]
+  },
+  {
     "id": "xbuilders:french_bread",
     "name": "French Bread",
     "block": 592,

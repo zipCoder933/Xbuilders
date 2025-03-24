@@ -64,8 +64,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public final static float MAX_OXYGEN = 20f;
 
     public final static float IDLE_FOOD_DEPLETION = 0.0001f;
-    public final static float MOVING_FOOD_DEPLETION = 0.0003f;
-    public final static float RUNNING_FOOD_DEPLETION = 0.0007f;
+    public final static float MOVING_FOOD_DEPLETION = 0.0004f;
+    public final static float RUNNING_FOOD_DEPLETION = 0.0008f;
+    public final static float HEALTH_REGEN_SPEED = 0.001f;
+
 
     private float status_health;
     private float status_food;
@@ -128,7 +130,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             } else if (status_oxygen <= 0 || status_food <= 0) {
                 status_health -= 0.2f * multiplier;
             } else if (status_health < MAX_HEALTH && status_food > 3) {//Regenerate
-                status_health += 0.004f * multiplier;
+                status_health += HEALTH_REGEN_SPEED * multiplier;
             }
 
             /**
