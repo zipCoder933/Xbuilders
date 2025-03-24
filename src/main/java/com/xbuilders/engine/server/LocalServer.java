@@ -234,7 +234,7 @@ public class LocalServer extends Server {
 
     public void initialize(ClientWindow window) throws Exception {
         commands = new GameCommands(this, game);
-        GameScene.background = new SkyBackground(window,this);
+        GameScene.background = new SkyBackground(window, this);
         livePropagationHandler.tasks.clear();
 
         //Setup blocks
@@ -420,9 +420,9 @@ public class LocalServer extends Server {
         for (int x = -radius; x < radius; x++) {
             for (int z = -radius; z < radius; z++) {
                 for (int y = terrain.MIN_SURFACE_HEIGHT - 10; y < terrain.MAX_SURFACE_HEIGHT + 10; y++) {
-                    if (terrain.canSpawnHere(PLAYER_HEIGHT, world, x, y, z)) {
+                    if (terrain.canSpawnHere(world, x, y, z)) {
                         System.out.println("Found new spawn point!");
-                        worldPosition.set(x, y - PLAYER_HEIGHT - 0.5f, z);
+                        worldPosition.set(x, y - 0.5f, z);
                         return worldPosition;
                     }
                 }

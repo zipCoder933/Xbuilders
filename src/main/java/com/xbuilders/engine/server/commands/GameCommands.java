@@ -1,5 +1,7 @@
 package com.xbuilders.engine.server.commands;
 
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
@@ -77,6 +79,23 @@ public class GameCommands {
                     } else {
                         return "Game mode: " + LocalServer.getGameMode();
                     }
+                }));
+
+        registerCommand(new Command("die",
+                "Kills the current player")
+                .requiresOP(false).executes((parts) -> {
+                    GameScene.userPlayer.die();
+                    return "Player " + GameScene.userPlayer.getName() + " has died";
+                }));
+
+        registerCommand(new Command("setSpawn",
+                "Set spawnpoint for the current player")
+                .requiresOP(false).executes((parts) -> {
+                    GameScene.userPlayer.setSpawnPoint(
+                            GameScene.userPlayer.worldPosition.x,
+                            GameScene.userPlayer.worldPosition.y,
+                            GameScene.userPlayer.worldPosition.z);
+                    return "Set spawn point for " + GameScene.userPlayer.getName() + " to current position";
                 }));
 
         registerCommand(new Command("op", "Usage: op <true/false> <player>")

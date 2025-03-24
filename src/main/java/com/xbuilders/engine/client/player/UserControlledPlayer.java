@@ -18,6 +18,7 @@ import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -166,51 +167,40 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
-            teleportSafely(status_spawnPosition);
+            respawn(status_spawnPosition);
             resetHealthStats();
             dieMode = false;
         });
     }
 
-    private void teleportSafely(Vector3f target) {
-        aabb.updateBox();
-        System.out.println("Teleporting safely to " + target.x + ", " + target.y + ", " + target.z);
-        worldPosition.set(target);
-        Vector3f pos = new Vector3f();
-        while (LocalServer.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
-            aabb.updateBox();
-            System.out.println("Checking for ground: " + worldPosition.y);
-            getPlayerBoxBottom(pos);
-            if (LocalServer.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z).solid ||
-                    LocalServer.world.getBlock((int) pos.x, (int) pos.y + 1, (int) pos.z).solid) {
-                System.out.println("Found ground at " + worldPosition.y);
-                break;
-            } else {
-                worldPosition.y++;
-            }
-        }
+
+    private void respawn(Vector3f target) {
         aabb.updateBox();
 
-        System.out.println("The players head is " + getBlockAtPlayerHead());
-        if (!isSafeHeadPos(getBlockAtPlayerHead())) {
-            System.out.println("Moving up");
-            while (LocalServer.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
-                aabb.updateBox();
-                System.out.println("Checking for air: " + worldPosition.y);
-                pos.set(
-                        (int) Math.floor(worldPosition.x),
-                        (int) Math.floor(worldPosition.y),
-                        (int) Math.floor(worldPosition.z));
-                if (isSafeHeadPos(LocalServer.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z))) {
-                    System.out.println("Found air at " + worldPosition.y);
-                    break;
-                } else {
-                    worldPosition.y--;
-                    aabb.updateBox();
+        Vector3f newTarget = new Vector3f(target);
+        System.out.println("Respawning to " + newTarget.x + ", " + newTarget.y + ", " + newTarget.z);
+
+        if (!LocalServer.world.terrain.canSpawnHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)) {
+            System.out.println("Cant spawn here, Looking around");
+            //Go around the spawn point and find a safe place to spawn
+            final int HORIZONTAL_RADIUS = 10;
+            lookLoop:
+            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
+                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
+                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
+                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
+                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+                            System.out.println("Found spawn point");
+                            newTarget.set(x, y, z);
+                            break lookLoop;
+                        }
+                    }
                 }
             }
         }
-        teleport(worldPosition.x, worldPosition.y, worldPosition.z);
+
+        aabb.updateBox();
+        teleport(newTarget.x, newTarget.y, newTarget.z);
     }
 
     public void teleport(float x, float y, float z) {
