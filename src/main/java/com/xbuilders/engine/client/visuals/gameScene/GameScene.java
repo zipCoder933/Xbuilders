@@ -90,8 +90,9 @@ public class GameScene implements WindowEvents {
 //        GL11C.glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, 1.0f); //Set the background color
         background.draw(GameScene.projection, GameScene.centeredView);   //Draw the background BEFORE ANYTHING ELSE! (Anything drawn before will be overridden)
 
-        boolean progressDay = !LocalClient.DEV_MODE;
-        GameScene.background.update(progressDay);
+        if (ClientWindow.frameCount % 10 == 0) {
+            GameScene.background.update();
+        }
 
         holdMouse = !ui.releaseMouse() && window.windowIsFocused();
         LocalClient.frameTester.endProcess("Clearing buffer");

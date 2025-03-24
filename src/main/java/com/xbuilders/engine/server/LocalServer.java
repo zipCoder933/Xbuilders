@@ -234,7 +234,7 @@ public class LocalServer extends Server {
 
     public void initialize(ClientWindow window) throws Exception {
         commands = new GameCommands(this, game);
-        GameScene.background = new SkyBackground(window);
+        GameScene.background = new SkyBackground(window,this);
         livePropagationHandler.tasks.clear();
 
         //Setup blocks
@@ -388,7 +388,6 @@ public class LocalServer extends Server {
 
                     GameScene.userPlayer.newWorldEvent(world.data);
                 }
-                setTimeOfDay(world.data.data.timeOfDay);
                 game.startGameEvent(world.data);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);

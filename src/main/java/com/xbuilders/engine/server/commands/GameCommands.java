@@ -132,6 +132,22 @@ public class GameCommands {
                     return null;
                 }));
 
+        registerCommand(new Command("alwaysDay",
+                "Usage: alwaysDay true/false")
+                .requiresOP(true)
+                .executes((parts) -> {
+                    if (parts.length >= 1) {
+                        LocalServer.world.data.data.alwaysDayMode = parts[0].equalsIgnoreCase("true");
+                        try {
+                            LocalServer.world.data.save();
+                            return "Always day mode: " + LocalServer.world.data.data.alwaysDayMode;
+                        } catch (IOException e) {
+                            return "Error: " + e;
+                        }
+                    }
+                    return null;
+                }));
+
         registerCommand(new Command("teleport",
                 "Usage: teleport <player>\nUsage: teleport <x> <y> <z>")
                 .requiresOP(true)
