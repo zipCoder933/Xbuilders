@@ -59,17 +59,20 @@ public class GameCommands {
                         boolean sendToAll = (parts.length >= 2 && parts[1].equalsIgnoreCase("all"));
                         try {
                             LocalServer.setGameMode(GameMode.valueOf(mode.toUpperCase()));
-                            if (sendToAll && LocalServer.server.isPlayingMultiplayer())
-                                LocalServer.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) LocalServer.getGameMode().ordinal()});
+                            if (sendToAll) {
+                                int gameMode = LocalServer.getGameMode().ordinal();
+                                LocalServer.world.data.data.gameMode = gameMode;//Set the world data as well
+                                LocalServer.world.data.save();
+
+                                if (LocalServer.server.isPlayingMultiplayer())
+                                    LocalServer.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) gameMode});
+                            }
                             return "Game mode changed to: " + LocalServer.getGameMode();
-
                         } catch (IllegalArgumentException e) {
-
                             return "No game mode \"" + mode + "\" Valid game modes are "
                                     + Arrays.toString(GameMode.values());
-
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            return "Error: " + e;
                         }
                     } else {
                         return "Game mode: " + LocalServer.getGameMode();
