@@ -104,6 +104,7 @@ public class UI_RecipeIndex extends UI_ItemWindow implements WindowEvents {
             if (selectedItem != null && !availableRecipes.isEmpty()) {
                 nk_layout_row_dynamic(ctx, 20, availableRecipes.size());
 
+
                 /**
                  * Draw recipe classes (Crafting, smelting)
                  */

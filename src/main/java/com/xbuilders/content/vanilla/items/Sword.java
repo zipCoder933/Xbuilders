@@ -17,7 +17,7 @@ public class Sword extends Item {
         miningSpeedMultiplier = 0.1f;
         tags.add("tool");
         tags.add("sword");
-        tags.add(material);
+        //tags.add(material);
         maxDurability = durability;
         this.attackDamage = damage;
         this.miningSpeedMultiplier = 1.5f;

@@ -11,7 +11,7 @@ public class Pickaxe extends Item {
         maxStackSize = 1;
         tags.add("tool");
         tags.add("pickaxe");
-        tags.add(material);
+        //tags.add(material);
         maxDurability = durability;
         this.miningSpeedMultiplier = miningSpeedMultiplier;
     }

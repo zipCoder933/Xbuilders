@@ -12,6 +12,7 @@ public class Hoe extends Item {
         super("xbuilders:" + material + "_hoe", MiscUtils.capitalizeWords(material) + " Hoe");
         setIcon("pp\\"+material + "_hoe.png");
         tags.add("tool");
+        tags.add("hoe");
         maxDurability = durability;
         miningSpeedMultiplier = 0.01f;
 

@@ -8,6 +8,7 @@ public class AnimalFeed extends Item {
     public AnimalFeed() {
         super("xbuilders:animal_feed", "Animal Feed");
         setIcon("animal_feed.png");
+        tags.add("tool");
 
         OnClickEvent event = (ray, itemStack) -> {
             System.out.println("Animal Feed clicked");
