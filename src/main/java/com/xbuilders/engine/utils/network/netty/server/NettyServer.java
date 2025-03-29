@@ -1,15 +1,9 @@
 package com.xbuilders.engine.utils.network.netty.server;
 
-import com.xbuilders.engine.utils.network.netty.packet.Packet;
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
 import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.PacketHandler;
-import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PongPacket;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -43,13 +37,11 @@ public abstract class NettyServer {
 
     protected final EventLoopGroup bossGroup;
     protected final EventLoopGroup workerGroup;
-    protected final Channel serverChannel;
+    protected final Channel channel;
     private final ChannelFuture future;
 
-    private void registerPackets(Channel ch) {
-        Packet.register(ch, new MessagePacket());
-        Packet.register(ch, new PingPacket());
-        Packet.register(ch, new PongPacket());
+    public Channel getChannel() {
+        return channel;
     }
 
     /**
@@ -94,12 +86,11 @@ public abstract class NettyServer {
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new PacketEncoder());
                         ch.pipeline().addLast(new PacketHandler());
-                        registerPackets(ch);
                     }
                 });
 
         future = bootstrap.bind(port).sync();
-        serverChannel = future.channel();
+        channel = future.channel();
         System.out.println("Server started at " + port);
     }
 
@@ -107,8 +98,8 @@ public abstract class NettyServer {
      * Closes the localServer and all client connections.
      */
     public void close() {
-        if (serverChannel != null) {
-            serverChannel.close();
+        if (channel != null) {
+            channel.close();
         }
         clients.close();
 
@@ -120,15 +111,15 @@ public abstract class NettyServer {
         }
     }
 
-    /**
-     * Sends data to all connected clients.
-     *
-     * @param data the data to send
-     */
-    public void sendToAllClients(byte[] data) {
-        ByteBuf buf = Unpooled.wrappedBuffer(data);
-        clients.writeAndFlush(buf);
-    }
+//    /**
+//     * Sends data to all connected clients.
+//     *
+//     * @param data the data to send
+//     */
+//    public void sendToAllClients(byte[] data) {
+//        ByteBuf buf = Unpooled.wrappedBuffer(data);
+//        clients.writeAndFlush(buf);
+//    }
 
     /**
      * Called when a new client connects.
@@ -139,23 +130,11 @@ public abstract class NettyServer {
      * @return whether to accept the client
      */
     public abstract boolean newClientEvent(Channel client);
-//
-//    /**
-//     * Called when data is received from a client.
-//     *
-//     * @param client       the client's channel
-//     * @param receivedData the received bytes
-//     */
-//    public abstract void dataFromClientEvent(Channel client, byte[] receivedData);
 
     /**
      * Called when a client disconnects.
      *
      * @param client the client's channel
      */
-    public void clientDisconnectEvent(Channel client) {
-        System.out.println("Disconnected: " + client.remoteAddress());
-    }
-
-
+    public abstract void clientDisconnectEvent(Channel client);
 }

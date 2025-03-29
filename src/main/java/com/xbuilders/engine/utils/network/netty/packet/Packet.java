@@ -27,7 +27,7 @@ public abstract class Packet {
         PacketDecoder.packetInstances.put(p.id, p);
     }
 
-    public static void register(Channel ch, Packet p) {
+    public static void register(Packet p) {
         PacketDecoder.packetInstances.put(p.id, p);
     }
 }

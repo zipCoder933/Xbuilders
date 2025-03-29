@@ -1,12 +1,9 @@
 package com.xbuilders.engine.utils.network.netty.client;
 
-import com.xbuilders.engine.utils.network.netty.packet.Packet;
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
 import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.PacketHandler;
-import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PongPacket;
 import com.xbuilders.engine.utils.network.netty.server.NettyServer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -23,14 +20,8 @@ public class NettyClient {
     private final EventLoopGroup group;
     private final ChannelFuture future;
 
-    public Channel getChannel(){
+    public Channel getChannel() {
         return channel;
-    }
-
-    private void registerPackets(SocketChannel ch) {
-        Packet.register(ch, new MessagePacket());
-        Packet.register(ch, new PingPacket());
-        Packet.register(ch, new PongPacket());
     }
 
     public NettyClient(String host, int port) throws InterruptedException {
@@ -61,7 +52,6 @@ public class NettyClient {
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new PacketEncoder());
                         ch.pipeline().addLast(new PacketHandler());
-                        registerPackets(ch);
                     }
                 });
 
