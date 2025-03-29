@@ -19,7 +19,7 @@ public class PingPacket extends Packet {
     @Override
     public void handle(ChannelHandlerContext ctx, Packet packet) {
         System.out.println("Received ping, Sending pong...");
-        ctx.writeAndFlush(new PongPacket());
+        ctx.channel().writeAndFlush(new PongPacket());
     }
 
     @Override

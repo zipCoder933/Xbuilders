@@ -21,6 +21,7 @@ public class NettyClient {
 
     private Channel channel;
     private EventLoopGroup group;
+    private final ChannelFuture future;
 
     private void registerPackets(SocketChannel ch) {
         Packet.register(ch, new MessagePacket());
@@ -28,49 +29,52 @@ public class NettyClient {
         Packet.register(ch, new PongPacket());
     }
 
-    public NettyClient(String host, int port) {
+    public NettyClient(String host, int port) throws InterruptedException {
         System.out.println("Connecting to " + host + ":" + port);
         group = new NioEventLoopGroup();
+
+        Bootstrap bootstrap = new Bootstrap();
+        bootstrap.group(group)
+                .channel(NioSocketChannel.class)
+                .option(ChannelOption.SO_KEEPALIVE, true)
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel ch) {
+                        ch.pipeline().addLast(new NettyClientHandler(NettyClient.this));
+
+                        /**
+                         * Add  the decoder
+                         * 1. The LengthFieldBasedFrameDecoder decodes the length of the packet and strips the length field
+                         * 2. The PacketDecoder decodes the packet
+                         */
+                        ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
+                                1024, // Max frame size (1 KB)
+                                0,    // Length field offset (starts at byte 0)
+                                4,    // Length field length (4 bytes for int)
+                                0,    // No length adjustment
+                                4     // Strip the length field from the output
+                        ));
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(new PacketHandler());
+                        registerPackets(ch);
+                    }
+                });
+
+        // Connect to localServer
+        future = bootstrap.connect(host, port).sync();
+        channel = future.channel();
+
+        // Schedule periodic ping
+        schedulePing();
+
+        // Add a listener to the future to handle when the connection is successful
+        future.addListener((ChannelFutureListener) this::onConnected);
+    }
+
+    public void waitUntilChannelIsClosed() {
+        // Wait until connection is closed
         try {
-            Bootstrap bootstrap = new Bootstrap();
-            bootstrap.group(group)
-                    .channel(NioSocketChannel.class)
-                    .option(ChannelOption.SO_KEEPALIVE, true)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new NettyClientHandler(NettyClient.this));
-
-                            /**
-                             * Add  the decoder
-                             * 1. The LengthFieldBasedFrameDecoder decodes the length of the packet and strips the length field
-                             * 2. The PacketDecoder decodes the packet
-                             */
-                            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
-                                    1024, // Max frame size (1 KB)
-                                    0,    // Length field offset (starts at byte 0)
-                                    4,    // Length field length (4 bytes for int)
-                                    0,    // No length adjustment
-                                    4     // Strip the length field from the output
-                            ));
-                            ch.pipeline().addLast(new PacketDecoder());
-                            ch.pipeline().addLast(new PacketEncoder());
-                            ch.pipeline().addLast(new PacketHandler());
-                            registerPackets(ch);
-                        }
-                    });
-
-            // Connect to localServer
-            ChannelFuture future = bootstrap.connect(host, port).sync();
-            channel = future.channel();
-
-            // Schedule periodic ping
-            schedulePing();
-
-            // Add a listener to the future to handle when the connection is successful
-            future.addListener((ChannelFutureListener) this::onConnected);
-
-            // Wait until connection is closed
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

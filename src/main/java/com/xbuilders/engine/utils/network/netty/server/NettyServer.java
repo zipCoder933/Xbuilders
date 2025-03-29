@@ -139,14 +139,14 @@ public abstract class NettyServer {
      * @return whether to accept the client
      */
     public abstract boolean newClientEvent(Channel client);
-
-    /**
-     * Called when data is received from a client.
-     *
-     * @param client       the client's channel
-     * @param receivedData the received bytes
-     */
-    public abstract void dataFromClientEvent(Channel client, byte[] receivedData);
+//
+//    /**
+//     * Called when data is received from a client.
+//     *
+//     * @param client       the client's channel
+//     * @param receivedData the received bytes
+//     */
+//    public abstract void dataFromClientEvent(Channel client, byte[] receivedData);
 
     /**
      * Called when a client disconnects.
