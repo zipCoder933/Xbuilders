@@ -19,9 +19,13 @@ import java.util.concurrent.TimeUnit;
 
 public class NettyClient {
 
-    private Channel channel;
-    private EventLoopGroup group;
+    private final Channel channel;
+    private final EventLoopGroup group;
     private final ChannelFuture future;
+
+    public Channel getChannel(){
+        return channel;
+    }
 
     private void registerPackets(SocketChannel ch) {
         Packet.register(ch, new MessagePacket());
@@ -72,16 +76,16 @@ public class NettyClient {
         future.addListener((ChannelFutureListener) this::onConnected);
     }
 
-    public void waitUntilChannelIsClosed() {
-        // Wait until connection is closed
-        try {
-            future.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
-            group.shutdownGracefully();
-        }
-    }
+//    public void waitUntilChannelIsClosed() {
+//        // Wait until connection is closed
+//        try {
+//            future.channel().closeFuture().sync();
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            group.shutdownGracefully();
+//        }
+//    }
 
     public void onConnected(ChannelFuture channelFuture) {
         if (channelFuture.isSuccess()) {

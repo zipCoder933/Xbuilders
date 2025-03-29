@@ -3,8 +3,11 @@ package com.xbuilders.engine.utils.network.netty;
 import com.xbuilders.engine.utils.network.netty.client.NettyClient;
 import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
+import com.xbuilders.engine.utils.network.netty.server.NettyServer;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+
+import java.util.concurrent.TimeUnit;
 
 public class Test_NettyClient {
     public static void main(String[] args) throws InterruptedException {
@@ -15,23 +18,22 @@ public class Test_NettyClient {
                 if (channelFuture.isSuccess()) {
                     System.out.println("Successfully connected to the localServer!");
 
-                    String str = "Hello";
-                    while (true) {
-                        Channel channel = channelFuture.channel();
-                        channel.writeAndFlush(new MessagePacket(str));
-                        str += ".";
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
+                    //Schedule this on another thread
+                    channelFuture.channel().eventLoop().scheduleAtFixedRate(() -> {
+                        if (channelFuture.channel().isActive()) {
+                            try {
+                                Channel channel = channelFuture.channel();
+                                channel.writeAndFlush(new MessagePacket("Hello World!"));
+                                Thread.sleep(5000);
+
+                                channel.writeAndFlush(new PingPacket());
+                                Thread.sleep(5000);
+
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
-                        channel.writeAndFlush(new PingPacket());
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+                    }, 10, 5, TimeUnit.SECONDS);
 
 
                 } else {

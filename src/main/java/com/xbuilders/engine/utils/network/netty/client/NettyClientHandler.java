@@ -3,11 +3,12 @@ package com.xbuilders.engine.utils.network.netty.client;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+
 import java.util.Arrays;
 
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     private final NettyClient client;
-    
+
     public NettyClientHandler(NettyClient client) {
         this.client = client;
     }
@@ -19,13 +20,9 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
 //        buf.readBytes(receivedData);
 //        buf.release();
 //
-//        if (Arrays.equals(receivedData, PONG_MESSAGE)) {
-//            System.out.println("Received PONG from localServer");
-//        } else {
-//            System.out.println("Received data: " + Arrays.toString(receivedData));
-//        }
+//        System.out.println("Received data: " + Arrays.toString(receivedData));
 //    }
-    
+
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();

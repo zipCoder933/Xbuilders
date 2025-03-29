@@ -39,11 +39,12 @@ public abstract class NettyServer {
     protected final ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     // The idle interval (in seconds) for sending pings.
-    public static final long PING_INTERVAL_SECONDS = 5;
+    public static final long PING_INTERVAL_SECONDS = 60;
 
-    protected EventLoopGroup bossGroup;
-    protected EventLoopGroup workerGroup;
-    protected Channel serverChannel;
+    protected final EventLoopGroup bossGroup;
+    protected final EventLoopGroup workerGroup;
+    protected final Channel serverChannel;
+    private final ChannelFuture future;
 
     private void registerPackets(Channel ch) {
         Packet.register(ch, new MessagePacket());
@@ -65,7 +66,6 @@ public abstract class NettyServer {
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
-
 
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
@@ -98,7 +98,7 @@ public abstract class NettyServer {
                     }
                 });
 
-        ChannelFuture future = bootstrap.bind(port).sync();
+        future = bootstrap.bind(port).sync();
         serverChannel = future.channel();
         System.out.println("Server started at " + port);
     }

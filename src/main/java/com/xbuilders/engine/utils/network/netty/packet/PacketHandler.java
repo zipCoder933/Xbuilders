@@ -7,8 +7,6 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet packet) {
-        System.out.println("Recieved packet");
-        //Get the message ID and decode it
         packet.handle(ctx, packet);
     }
 }

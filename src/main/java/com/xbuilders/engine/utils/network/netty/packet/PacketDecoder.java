@@ -20,7 +20,7 @@ public class PacketDecoder extends ByteToMessageDecoder  {
         /**
          * Preview the packet
          */
-        previewPacket(in);
+       // previewPacket(in);
 
         /**
          * Packet ID
@@ -40,7 +40,7 @@ public class PacketDecoder extends ByteToMessageDecoder  {
         in.markReaderIndex(); // Mark reader index
         byte[] bytes = new byte[in.readableBytes()];
         in.readBytes(bytes);
-        System.out.print("Packet: \"" + new String(bytes) + "\"; " + Arrays.toString(bytes) + "; l=" + bytes.length);
+        System.out.print("Decoding Packet: \"" + new String(bytes) + "\"; " + Arrays.toString(bytes) + "; l=" + bytes.length);
         in.resetReaderIndex();
         in.markReaderIndex(); // Mark reader index
         //System.out.println("Packet length: " + in.readInt());
