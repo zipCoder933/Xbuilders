@@ -1,10 +1,10 @@
-package com.xbuilders.engine.utils.network.netty;
+package com.xbuilders.engine.utils.network;
 
 import com.xbuilders.engine.utils.network.netty.packet.Packet;
 import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PongPacket;
-import com.xbuilders.engine.utils.network.netty.server.NettyServer;
+import com.xbuilders.engine.utils.network.netty.NettyServer;
 import io.netty.channel.Channel;
 
 public class Test_NettyServer {

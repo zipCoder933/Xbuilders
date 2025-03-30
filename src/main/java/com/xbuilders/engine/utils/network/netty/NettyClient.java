@@ -1,10 +1,9 @@
-package com.xbuilders.engine.utils.network.netty.client;
+package com.xbuilders.engine.utils.network.netty;
 
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
 import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
 import com.xbuilders.engine.utils.network.netty.packet.PacketHandler;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
-import com.xbuilders.engine.utils.network.netty.server.NettyServer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -49,7 +48,7 @@ public class NettyClient {
                                 0,    // No length adjustment
                                 4     // Strip the length field from the output
                         ));
-                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new PacketDecoder(NettyClient.this));
                         ch.pipeline().addLast(new PacketEncoder());
                         ch.pipeline().addLast(new PacketHandler());
                     }

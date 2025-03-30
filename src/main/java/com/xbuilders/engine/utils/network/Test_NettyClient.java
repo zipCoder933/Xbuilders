@@ -1,22 +1,19 @@
-package com.xbuilders.engine.utils.network.netty;
+package com.xbuilders.engine.utils.network;
 
-import com.xbuilders.engine.utils.network.netty.client.NettyClient;
+import com.xbuilders.engine.utils.network.netty.NettyClient;
 import com.xbuilders.engine.utils.network.netty.packet.Packet;
 import com.xbuilders.engine.utils.network.netty.packet.message.MessagePacket;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
 import com.xbuilders.engine.utils.network.netty.packet.ping.PongPacket;
-import com.xbuilders.engine.utils.network.netty.server.NettyServer;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-
-import java.util.concurrent.TimeUnit;
 
 public class Test_NettyClient {
     public static void main(String[] args) throws InterruptedException {
 
-        Packet.register( new MessagePacket());
-        Packet.register( new PingPacket());
-        Packet.register( new PongPacket());
+        Packet.register(new MessagePacket());
+        Packet.register(new PingPacket());
+        Packet.register(new PongPacket());
 
         Thread.sleep(10000);
         NettyClient client = new NettyClient("localhost", 8080) {
@@ -25,21 +22,20 @@ public class Test_NettyClient {
                     System.out.println("Successfully connected to the localServer!");
 
                     //Schedule this on another thread
-                    channelFuture.channel().eventLoop().scheduleAtFixedRate(() -> {
-                        if (channelFuture.channel().isActive()) {
-                            try {
-                                Channel channel = channelFuture.channel();
-                                channel.writeAndFlush(new MessagePacket("Hello World!"));
-                                Thread.sleep(5000);
-
-                                channel.writeAndFlush(new PingPacket());
-                                Thread.sleep(5000);
-
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
+                    new Thread(() -> {
+                        while (true) {
+                            if (channelFuture.channel().isActive()) {
+                                try {
+                                    Channel channel = channelFuture.channel();
+                                    channel.writeAndFlush(new MessagePacket("Hello World!"));
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
                         }
-                    }, 10, 5, TimeUnit.SECONDS);
+                    }).start();
+
 
                 } else {
                     // This block will be executed if the connection fails

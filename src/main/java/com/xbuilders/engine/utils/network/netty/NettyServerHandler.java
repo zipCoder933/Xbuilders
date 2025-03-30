@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.network.netty.server;
+package com.xbuilders.engine.utils.network.netty;
 
 import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
 import io.netty.channel.Channel;

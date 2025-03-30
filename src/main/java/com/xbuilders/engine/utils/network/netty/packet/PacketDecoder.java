@@ -1,5 +1,7 @@
 package com.xbuilders.engine.utils.network.netty.packet;
 
+import com.xbuilders.engine.utils.network.netty.NettyClient;
+import com.xbuilders.engine.utils.network.netty.NettyServer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -8,11 +10,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class PacketDecoder extends ByteToMessageDecoder  {
+public class PacketDecoder extends ByteToMessageDecoder {
 
-    public final static HashMap<Byte, Packet> packetInstances = new HashMap<>();
+    public final static HashMap<Byte, Packet> PACKET_REGISTRY = new HashMap<>();
 
-    public PacketDecoder() {
+    NettyServer ns = null;
+    NettyClient nc = null;
+
+    public PacketDecoder(NettyServer ns) {
+        this.ns = ns;
+    }
+
+    public PacketDecoder(NettyClient ns) {
+        this.nc = ns;
     }
 
     @Override
@@ -20,7 +30,7 @@ public class PacketDecoder extends ByteToMessageDecoder  {
         /**
          * Preview the packet
          */
-       // previewPacket(in);
+        // previewPacket(in);
 
         /**
          * Packet ID
@@ -28,7 +38,7 @@ public class PacketDecoder extends ByteToMessageDecoder  {
         byte packetId = in.readByte();
 
         //Get the message ID and decode it
-        Packet packetInstance = packetInstances.get((byte) packetId);
+        Packet packetInstance = PACKET_REGISTRY.get((byte) packetId);
         if (packetInstance != null) {
             packetInstance.decode(ctx, in, out);
         } else {

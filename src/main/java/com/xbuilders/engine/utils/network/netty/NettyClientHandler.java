@@ -1,10 +1,7 @@
-package com.xbuilders.engine.utils.network.netty.client;
+package com.xbuilders.engine.utils.network.netty;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-
-import java.util.Arrays;
 
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     private final NettyClient client;

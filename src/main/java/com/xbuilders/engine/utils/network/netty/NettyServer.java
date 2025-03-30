@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.network.netty.server;
+package com.xbuilders.engine.utils.network.netty;
 
 import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
 import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
@@ -65,10 +65,7 @@ public abstract class NettyServer {
                 .childHandler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
-                        // Set up the pipeline:
-                        // 1. IdleStateHandler triggers an IdleStateEvent if no write for PING_INTERVAL_SECONDS.
-                        // 2. ServerHandler processes connection, disconnection, ping/pong, and inbound data.
-                        ch.pipeline().addLast(new IdleStateHandler(PING_INTERVAL_SECONDS, PING_INTERVAL_SECONDS, 0, TimeUnit.SECONDS));
+                        schedulePing(ch);
                         ch.pipeline().addLast(new NettyServerHandler(NettyServer.this));
 
                         /**
@@ -83,7 +80,7 @@ public abstract class NettyServer {
                                 0,    // No length adjustment
                                 4     // Strip the length field from the output
                         ));
-                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new PacketDecoder(NettyServer.this));
                         ch.pipeline().addLast(new PacketEncoder());
                         ch.pipeline().addLast(new PacketHandler());
                     }
@@ -109,6 +106,11 @@ public abstract class NettyServer {
         if (workerGroup != null) {
             workerGroup.shutdownGracefully();
         }
+    }
+
+    private void schedulePing(Channel ch) {
+        // 1. IdleStateHandler triggers an IdleStateEvent if no write for PING_INTERVAL_SECONDS.
+        ch.pipeline().addLast(new IdleStateHandler(PING_INTERVAL_SECONDS, PING_INTERVAL_SECONDS, 0, TimeUnit.SECONDS));
     }
 
 //    /**
