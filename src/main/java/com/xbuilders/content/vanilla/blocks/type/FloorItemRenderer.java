@@ -49,8 +49,7 @@ public class FloorItemRenderer extends BlockType {
 
     @Override
     public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
-
-        if (data == null || data.get(0) == 3) {
+        if (data == null || data.size() < 1 || data.get(0) == 3) {
             floor0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 0) {
             floor1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
