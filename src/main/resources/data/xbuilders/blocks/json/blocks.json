@@ -3178,8 +3178,6 @@
       "neg_x": "lily pad",
       "pos_y": "lily pad"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -4863,8 +4861,6 @@
       "neg_x": "curved track",
       "pos_y": "curved track"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -5670,8 +5666,6 @@
       "neg_x": "switch junction",
       "pos_y": "switch junction"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -5693,8 +5687,6 @@
       "neg_x": "track stop",
       "pos_y": "track stop"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -9157,8 +9149,6 @@
       "neg_x": "crosswalk paint",
       "pos_y": "crosswalk paint"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -9572,8 +9562,6 @@
       "neg_x": "road markings",
       "pos_y": "road markings"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -11751,8 +11739,6 @@
       "neg_x": "crosstrack",
       "pos_y": "crosstrack"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -15957,8 +15943,6 @@
       "neg_x": "merge track",
       "pos_y": "merge track"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16095,8 +16079,6 @@
       "neg_x": "yellow glazed teracotta",
       "pos_y": "yellow glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16118,8 +16100,6 @@
       "neg_x": "black glazed teracotta",
       "pos_y": "black glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16141,8 +16121,6 @@
       "neg_x": "blue glazed teracotta",
       "pos_y": "blue glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16164,8 +16142,6 @@
       "neg_x": "brown glazed teracotta",
       "pos_y": "brown glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16187,8 +16163,6 @@
       "neg_x": "cyan glazed teracotta",
       "pos_y": "cyan glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16210,8 +16184,6 @@
       "neg_x": "gray glazed teracotta",
       "pos_y": "gray glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16233,8 +16205,6 @@
       "neg_x": "green glazed teracotta",
       "pos_y": "green glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16256,8 +16226,6 @@
       "neg_x": "light blue glazed teracotta",
       "pos_y": "light blue glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16279,8 +16247,6 @@
       "neg_x": "light gray glazed teracotta",
       "pos_y": "light gray glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16302,8 +16268,6 @@
       "neg_x": "lime glazed teracotta",
       "pos_y": "lime glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16325,8 +16289,6 @@
       "neg_x": "magenta glazed teracotta",
       "pos_y": "magenta glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16348,8 +16310,6 @@
       "neg_x": "orange glazed teracotta",
       "pos_y": "orange glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16371,8 +16331,6 @@
       "neg_x": "pink glazed teracotta",
       "pos_y": "pink glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16394,8 +16352,6 @@
       "neg_x": "purple glazed teracotta",
       "pos_y": "purple glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16417,8 +16373,6 @@
       "neg_x": "red glazed teracotta",
       "pos_y": "red glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
@@ -16440,8 +16394,6 @@
       "neg_x": "white glazed teracotta",
       "pos_y": "white glazed teracotta"
     },
-    "solid": false,
-    "opaque": false,
     "torch": 0,
     "type": 10,
     "colorInPlayerHead": [
