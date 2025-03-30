@@ -105,8 +105,8 @@ public class BlockEventPipeline {
 
     public void stopGameEvent() {
         events.clear();
-        eventThread.shutdown();
-        bulkBlockThread.shutdown();
+        if (eventThread != null) eventThread.shutdown();
+        if (bulkBlockThread != null) bulkBlockThread.shutdown();
     }
 
 
