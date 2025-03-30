@@ -62,6 +62,7 @@
     "solid": false,
     "opaque": false,
     "torch": 0,
+    "toughness": 0.1,
     "type": 0,
     "colorInPlayerHead": [
       0.0,
@@ -856,6 +857,7 @@
     },
     "solid": false,
     "opaque": false,
+    "toughness": 0.1,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -4505,6 +4507,7 @@
     },
     "solid": false,
     "opaque": false,
+    "toughness": 0.1,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -15911,6 +15914,7 @@
     },
     "solid": false,
     "opaque": false,
+    "toughness": 0.1,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [

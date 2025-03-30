@@ -13,6 +13,8 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.xbuilders.engine.utils.network.netty.NettyServer.MAX_FRAME_SIZE;
+
 public class NettyClient {
 
     private final Channel channel;
@@ -42,7 +44,7 @@ public class NettyClient {
                          * 2. The PacketDecoder decodes the packet
                          */
                         ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
-                                1024, // Max frame size (1 KB)
+                                MAX_FRAME_SIZE, // Max frame size (1 KB)
                                 0,    // Length field offset (starts at byte 0)
                                 4,    // Length field length (4 bytes for int)
                                 0,    // No length adjustment

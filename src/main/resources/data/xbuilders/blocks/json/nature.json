@@ -132,6 +132,7 @@
     },
     "solid": false,
     "opaque": false,
+    "toughness": 0.1,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [

@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.xbuilders.engine.Server;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.GameSceneEvents;
@@ -63,10 +65,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public final static float MAX_FOOD = 20f;
     public final static float MAX_OXYGEN = 20f;
 
-    public final static float IDLE_FOOD_DEPLETION = 0.0001f;
-    public final static float MOVING_FOOD_DEPLETION = 0.0004f;
-    public final static float RUNNING_FOOD_DEPLETION = 0.0008f;
-    public final static float HEALTH_REGEN_SPEED = 0.001f;
+    public final static float IDLE_FOOD_DEPLETION = 0.00001f;
+    public final static float MOVING_FOOD_DEPLETION = 0.0003f;
+    public final static float RUNNING_FOOD_DEPLETION = 0.0007f;
+    public final static float HEALTH_REGEN_SPEED = 0.0002f;
 
 
     private float status_health;
@@ -111,13 +113,18 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
              * Food can go higher than the maximum level, but it cant go lower than zero
              */
             if (status_food > 0) {
+                //Scale hunger depletion based on difficulty
+                float difficulty = 1;
+                if (LocalServer.getDifficulty() == Difficulty.EASY) difficulty = 0.5f;
+                if (LocalServer.getDifficulty() == Difficulty.HARD) difficulty = 2f;
+
                 if (isRidingEntity()) { //Dont deplete hunger if we are riding something
-                    status_food -= IDLE_FOOD_DEPLETION * multiplier; //Baseline hunger deplation
+                    status_food -= IDLE_FOOD_DEPLETION * difficulty * multiplier; //Baseline hunger deplation
                 } else {
-                    if (runningMode) status_food -= RUNNING_FOOD_DEPLETION * multiplier; //Running
+                    if (runningMode) status_food -= RUNNING_FOOD_DEPLETION * difficulty * multiplier; //Running
                     else if (forwardKeyPressed() || backwardKeyPressed())
-                        status_food -= MOVING_FOOD_DEPLETION * multiplier; //Walking
-                    else status_food -= IDLE_FOOD_DEPLETION * multiplier; //Baseline hunger deplation
+                        status_food -= MOVING_FOOD_DEPLETION * difficulty * multiplier; //Walking
+                    else status_food -= IDLE_FOOD_DEPLETION * difficulty * multiplier; //Baseline hunger deplation
                 }
             }
 

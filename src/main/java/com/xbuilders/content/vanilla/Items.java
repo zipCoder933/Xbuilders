@@ -94,27 +94,27 @@ public class Items {
         itemList.add(new Sword("wooden", 25, 0.5f));
         itemList.add(new Hoe("wooden", 5));
 
-        itemList.add(new Shovel("stone", 100, 2f));
-        itemList.add(new Pickaxe("stone", 100, 3f));
-        itemList.add(new Axe("stone", 100,3f));
+        itemList.add(new Shovel("stone", 100, 1f));
+        itemList.add(new Pickaxe("stone", 100, 1.8f));
+        itemList.add(new Axe("stone", 100,1f));
         itemList.add(new Sword("stone", 100, 2f));
         itemList.add(new Hoe("stone", 15));
 
-        itemList.add(new Shovel("iron", 200, 4.5f));
-        itemList.add(new Pickaxe("iron", 200, 4.5f));
-        itemList.add(new Axe("iron", 200,4.5f));
+        itemList.add(new Shovel("iron", 200, 1f));
+        itemList.add(new Pickaxe("iron", 200, 3f));
+        itemList.add(new Axe("iron", 200,3f));
         itemList.add(new Sword("iron", 200, 10f));
         itemList.add(new Hoe("iron", 200));
 
-        itemList.add(new Shovel("golden", 400, 6f));
-        itemList.add(new Pickaxe("golden", 400, 10f));
-        itemList.add(new Axe("golden", 400,6f));
+        itemList.add(new Shovel("golden", 400, 2f));
+        itemList.add(new Pickaxe("golden", 400, 5f));
+        itemList.add(new Axe("golden", 400,4f));
         itemList.add(new Sword("golden", 400, 20f));
         itemList.add(new Hoe("golden", 1200));
 
-        itemList.add(new Shovel("diamond", 4000, 10f));
+        itemList.add(new Shovel("diamond", 4000, 6f));
         itemList.add(new Pickaxe("diamond", 4000, 10f));
-        itemList.add(new Axe("diamond", 4000,10f));
+        itemList.add(new Axe("diamond", 4000,6f));
         itemList.add(new Sword("diamond", 4000, 40f));
         itemList.add(new Hoe("diamond", 8000));
 

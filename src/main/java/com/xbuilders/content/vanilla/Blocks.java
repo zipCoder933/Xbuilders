@@ -1118,7 +1118,10 @@ public class Blocks {
             if (isWood(b)) {
                 b.easierMiningTool_tag = "axe";
             } else if (plantUtils.blockIsGrassSnowOrDirt(b)
-                    || b.alias.contains("sand") || b.alias.contains("gravel") || b.alias.contains("clay") || b.alias.contains("leaves")) {
+                    || b.alias.contains("sand")
+                    || b.alias.contains("gravel")
+                    || b.alias.contains("clay")
+                    || b.alias.contains("leaves")) {
                 b.easierMiningTool_tag = "shovel";
             }
         }

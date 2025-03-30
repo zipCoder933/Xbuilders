@@ -34,6 +34,7 @@ public abstract class NettyServer {
 
     // The idle interval (in seconds) for sending pings.
     public static final long PING_INTERVAL_SECONDS = 60;
+    public static final int MAX_FRAME_SIZE = 2048;
 
     protected final EventLoopGroup bossGroup;
     protected final EventLoopGroup workerGroup;
@@ -74,7 +75,7 @@ public abstract class NettyServer {
                          * 2. The PacketDecoder decodes the packet
                          */
                         ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(
-                                1024, // Max frame size (1 KB)
+                                MAX_FRAME_SIZE, // Max frame size (1 KB)
                                 0,    // Length field offset (starts at byte 0)
                                 4,    // Length field length (4 bytes for int)
                                 0,    // No length adjustment
