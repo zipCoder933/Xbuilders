@@ -3,12 +3,12 @@
     "alias": "xbuilders:pumpkin_seeds",
     "id": 1002,
     "texture": {
-      "neg_y": "wheat seeds",
-      "pos_x": "wheat seeds",
-      "pos_z": "wheat seeds",
-      "neg_z": "wheat seeds",
-      "neg_x": "wheat seeds",
-      "pos_y": "wheat seeds"
+      "neg_y": "pumpkin_seed",
+      "pos_x": "pumpkin_seed",
+      "pos_z": "pumpkin_seed",
+      "neg_z": "pumpkin_seed",
+      "neg_x": "pumpkin_seed",
+      "pos_y": "pumpkin_seed"
     },
     "torch": 0,
     "type": 3,
