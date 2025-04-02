@@ -1114,6 +1114,10 @@ public class Blocks {
                 b.properties.put("flammable", "true");
             }
 
+            if (b.alias.toLowerCase().contains("glass")) {
+                b.toughness = 0.3f;
+            }
+
 
             if (isWood(b)) {
                 b.easierMiningTool_tag = "axe";

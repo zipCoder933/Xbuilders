@@ -3613,6 +3613,7 @@
       "neg_x": "light gray stained glass",
       "pos_y": "light gray stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3636,6 +3637,7 @@
       "neg_x": "lime stained glass",
       "pos_y": "lime stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3659,6 +3661,7 @@
       "neg_x": "magenta stained glass",
       "pos_y": "magenta stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3682,6 +3685,7 @@
       "neg_x": "orange stained glass",
       "pos_y": "orange stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3705,6 +3709,7 @@
       "neg_x": "pink stained glass",
       "pos_y": "pink stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3728,6 +3733,7 @@
       "neg_x": "purple stained glass",
       "pos_y": "purple stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3751,6 +3757,7 @@
       "neg_x": "red stained glass",
       "pos_y": "red stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3774,6 +3781,7 @@
       "neg_x": "white stained glass",
       "pos_y": "white stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -3797,6 +3805,7 @@
       "neg_x": "yellow stained glass",
       "pos_y": "yellow stained glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -8620,6 +8629,7 @@
       "neg_x": "glass",
       "pos_y": "glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
@@ -8643,6 +8653,7 @@
       "neg_x": "glass",
       "pos_y": "glass"
     },
+    "toughness": 0.2,
     "solid": true,
     "opaque": false,
     "torch": 0,
