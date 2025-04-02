@@ -68,7 +68,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public final static float IDLE_FOOD_DEPLETION = 0.00001f;
     public final static float MOVING_FOOD_DEPLETION = 0.0003f;
     public final static float RUNNING_FOOD_DEPLETION = 0.0007f;
-    public final static float HEALTH_REGEN_SPEED = 0.0002f;
+    public final static float HEALTH_REGEN_SPEED = 0.0006f;
 
 
     private float status_health;
