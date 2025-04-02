@@ -2,11 +2,16 @@ package com.xbuilders.content.vanilla.blocks;
 
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
 import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.loot.AllLootTables;
+import com.xbuilders.engine.server.loot.LootTableRegistry;
+import com.xbuilders.engine.server.loot.block.BlockLootRegistry;
+import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -32,6 +37,29 @@ public class PlantBlockUtils {
         snowyDefaultGrowth.add(Blocks.BLOCK_AZURE_BLUET);
         snowyDefaultGrowth.add(Blocks.BLOCK_ORANGE_TULIP);
         System.out.println("SnowDefaultGrowth: " + snowyDefaultGrowth.toString());
+    }
+
+    public static Block.RemoveBlockEvent logRemovalEvent(Block log, Block leaves) {
+
+        ItemStack logStack = new ItemStack(Registrys.getItem(log), 1);
+        ItemStack leafStack = new ItemStack(Registrys.getItem(log), 1);
+
+
+        return (int x, int y, int z, BlockHistory history) -> {
+            for (int i = 0; i < 50; i++) {
+                int newY = y - i;
+                Block block = LocalServer.world.getBlock(x, newY, z);
+                //If this block is the log and there is air around it
+                if (block != null && block.id == log.id
+                        && !LocalServer.world.getBlock(x - 1, newY, z).solid
+                        && !LocalServer.world.getBlock(x + 1, newY, z).solid
+                        && !LocalServer.world.getBlock(x, newY, z - 1).solid
+                        && !LocalServer.world.getBlock(x, newY, z + 1).solid) {
+                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - i, z);
+                    AllLootTables.blockLootTables.dropLoot(log.alias, new Vector3f(x, y - i, z), false);
+                }
+            }
+        };
     }
 
     public final static float GROW_PROBABILITY = 0.05f;

@@ -223,6 +223,7 @@ public class CursorRay {
         if (isHeld) {
             if (LocalServer.getGameMode() != GameMode.FREEPLAY) {
                 if (!getHitPos().equals(lastBreakPos)) {
+                    System.out.println("Changed block");
                     breakAmt = 0;
                     lastBreakPos.set(getHitPos());
                 }
@@ -237,7 +238,9 @@ public class CursorRay {
 
                 //If the block requires a tool to mine it, and the player doesn't have the right tool, don't mine at all
                 if (!hasToolThatCanMine(existingBlock, selectedItem)) {
+                    System.out.println("No tool for block");
                     breakAmt = 0;
+                    return;
                 }
 
 
@@ -250,13 +253,10 @@ public class CursorRay {
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
                 if (breakAmt >= blockToughness) {
-                    if (AllLootTables.blockLootTables.getLoot(existingBlock.alias) != null) {
-                        AllLootTables.blockLootTables.getLoot(existingBlock.alias).randomItems((itemStack) -> {
-                            LocalServer.placeItemDrop(new Vector3f(getHitPos()), itemStack, false);
-                        });
-                    }
+                    AllLootTables.blockLootTables.dropLoot(existingBlock.alias, new Vector3f(getHitPos()), false);
                     LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                     breakAmt = 0;
+                    System.out.println("Resetting after broken block");
                 }
             }
         } else { //Click

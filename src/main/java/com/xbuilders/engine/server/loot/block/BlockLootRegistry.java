@@ -1,8 +1,12 @@
 package com.xbuilders.engine.server.loot.block;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.loot.LootTableRegistry;
+import com.xbuilders.engine.server.loot.output.Loot;
 import com.xbuilders.engine.server.loot.output.LootList;
+import org.joml.Vector3f;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,5 +47,14 @@ public class BlockLootRegistry extends LootTableRegistry {
 
     public LootList getLoot(String blockId) {
         return list.get(blockId);
+    }
+
+    public void dropLoot(String blockId, Vector3f pos, boolean droppedFromPlayer) {
+        LootList lootList = getLoot(blockId);
+        if (lootList != null) {
+            lootList.randomItems((itemStack) -> {
+                LocalServer.placeItemDrop(pos, itemStack, droppedFromPlayer);
+            });
+        }
     }
 }

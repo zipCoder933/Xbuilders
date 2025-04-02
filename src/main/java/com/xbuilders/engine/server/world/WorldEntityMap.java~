@@ -3,25 +3,20 @@ package com.xbuilders.engine.server.world;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class WorldEntityMap extends HashMap<Long, Entity> {
     public void removeAllEntitiesFromChunk(Chunk chunk) {
         try {
-            List<Entity> entitiesToRemove = new ArrayList<>();
             for (Entity e : new HashMap<>(this).values()) {
                 if (e.chunkPosition.chunk.equals(chunk.position)) {
-                    entitiesToRemove.add(e);
+                    remove(e.getUniqueIdentifier());
                 }
-            }
-            for (Entity e : entitiesToRemove) {
-                remove(e.getUniqueIdentifier());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public void addAllEntitiesFromChunk(Chunk chunk) {

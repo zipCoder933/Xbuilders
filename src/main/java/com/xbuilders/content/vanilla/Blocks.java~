@@ -1079,9 +1079,9 @@ public class Blocks {
 
 
         //Logs
-//        Block log = Registrys.getBlock(Blocks.BLOCK_OAK_LOG);
-//        log.removeBlockEvent(false,
-//                PlantBlockUtils.logRemovalEvent(log, Registrys.getBlock(Blocks.BLOCK_OAK_LEAVES)));
+        Block log = Registrys.getBlock(Blocks.BLOCK_OAK_LOG);
+        log.removeBlockEvent(false,
+                PlantBlockUtils.logRemovalEvent(log, Registrys.getBlock(Blocks.BLOCK_OAK_LEAVES)));
 
         Block lava = Registrys.getBlock(Blocks.BLOCK_LAVA);
         lava.liquidMaxFlow = 6;
