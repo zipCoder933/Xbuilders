@@ -68,6 +68,24 @@
     "amount": 4
   },
   {
+    "shapeless": true,
+    "input": [
+      "xbuilders:torch",
+      "xbuilders:blue_dye"
+    ],
+    "output": "xbuilders:blue_torch",
+    "amount": 2
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:charcoal",
+      "xbuilders:stick"
+    ],
+    "output": "xbuilders:torch",
+    "amount": 4
+  },
+  {
     "input": [
       "xbuilders:iron_ingot",
       null,
@@ -123,7 +141,6 @@
     "output": "xbuilders:barrel",
     "amount": 1
   },
-
   {
     "input": [
       "xbuilders:stick",
