@@ -388,7 +388,7 @@ public class Chunk {
     public static float randomTickLikelyhoodMultiplier = 1;
 
     public static float getRandomTickLikelihood() {
-        return randomTickLikelyhoodMultiplier * 0.001f;
+        return randomTickLikelyhoodMultiplier * 0.002f;
     }
 
     /**
