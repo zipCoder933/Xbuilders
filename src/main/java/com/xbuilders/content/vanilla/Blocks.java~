@@ -1070,9 +1070,8 @@ public class Blocks {
         ClientWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
 
 
-        short[] dontExplodeList = {Blocks.BLOCK_TNT, Blocks.BLOCK_MEGA_TNT};
-        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000, 50, dontExplodeList);
-        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000, 100, dontExplodeList);
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
 
 
         BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_GRASS_TOP, Blocks.BLOCK_TALL_GRASS);

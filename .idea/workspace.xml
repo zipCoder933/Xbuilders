@@ -10,9 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/items/FlintAndSteel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/UserControlledPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/Terrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Blocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Blocks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/blocks/BlockEventUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/blocks/BlockEventUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/tools.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/tools.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,11 +106,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xbuilders.content.vanilla.items" />
       <recent name="com.xbuilders.content.vanilla.blocks" />
       <recent name="com.xbuilders.content.vanilla" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.items.recipes" />
-      <recent name="com.xbuilders.game.vanilla.terrain.defaultTerrain" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\xbuilders\src\main\java\com\xbuilders\engine\utils\network\netty\packet\join" />

@@ -12,6 +12,7 @@ import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
+import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCi;
@@ -52,37 +53,44 @@ public class BlockEventUtils {
     }
 
 
-    public static void setTNTEvents(Block thisBlock, final int radius, long fuseDelay) {
-        thisBlock.clickEvent(true, (setX, setY, setZ) -> {
-            LocalServer.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
-            try {
-                Thread.sleep(fuseDelay);
-                if (LocalServer.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
-                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
-                    removeEverythingWithinRadius(thisBlock, radius, new Vector3i(setX, setY, setZ));
-                    float dist = GameScene.userPlayer.worldPosition.distance(setX, setY, setZ);
-                    if (dist < radius) {
-                        GameScene.userPlayer.addHealth(
-                                MathUtils.mapAndClamp(dist, radius, 0, 0, -10));
+    public static void setTNTEvents(Block thisBlock, final int radius, long fuseDelay,
+                                    final float maxToughness, final short... exceptions) {
+        thisBlock.localChangeEvent(true,
+                (BlockHistory history, Vector3i changedPosition, Vector3i thisPosition) -> {
+                    if (history.newBlock.id != Blocks.BLOCK_FIRE) return;
+                    int setX = thisPosition.x;
+                    int setY = thisPosition.y;
+                    int setZ = thisPosition.z;
+
+                    LocalServer.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
+                    try {
+                        Thread.sleep(fuseDelay);
+                        if (LocalServer.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
+                            LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
+                            removeEverythingWithinRadius(radius, new Vector3i(setX, setY, setZ), maxToughness, exceptions);
+                            float dist = GameScene.userPlayer.worldPosition.distance(setX, setY, setZ);
+                            if (dist < radius) {
+                                GameScene.userPlayer.addHealth(
+                                        MathUtils.mapAndClamp(dist, radius, 0, 0, -10));
+                            }
+
+
+                            //Move the player away
+                            Vector3f direction = new Vector3f(
+                                    GameScene.userPlayer.worldPosition.x - setX,
+                                    GameScene.userPlayer.worldPosition.y - setY,
+                                    GameScene.userPlayer.worldPosition.z - setZ).normalize();
+                            direction = direction.mul(1f / MathUtils.dist(
+                                    GameScene.userPlayer.worldPosition.x,
+                                    GameScene.userPlayer.worldPosition.y,
+                                    GameScene.userPlayer.worldPosition.z, setX, setY, setZ));
+                            direction.mul(50);
+                            GameScene.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
+                        }
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
                     }
-
-
-                    //Move the player away
-                    Vector3f direction = new Vector3f(
-                            GameScene.userPlayer.worldPosition.x - setX,
-                            GameScene.userPlayer.worldPosition.y - setY,
-                            GameScene.userPlayer.worldPosition.z - setZ).normalize();
-                    direction = direction.mul(1f / MathUtils.dist(
-                            GameScene.userPlayer.worldPosition.x,
-                            GameScene.userPlayer.worldPosition.y,
-                            GameScene.userPlayer.worldPosition.z, setX, setY, setZ));
-                    direction.mul(50);
-                    GameScene.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
-                }
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-        });
+                });
     }
 
     public static void radius(final int radius, Vector3i position, BiConsumer<Vector3i, Block> cons) {
@@ -101,7 +109,9 @@ public class BlockEventUtils {
         }
     }
 
-    public static ArrayList<Vector3i> removeEverythingWithinRadius(Block thisBlock, int size, Vector3i position) {
+    public static ArrayList<Vector3i> removeEverythingWithinRadius(
+            int size, Vector3i position, float maxToughness, short... exceptions) {
+
         int setX = position.x;
         int setY = position.y;
         int setZ = position.z;
@@ -110,10 +120,18 @@ public class BlockEventUtils {
         ArrayList<Vector3i> explosionList = new ArrayList<>();
         for (int x = 0 - size; x < size; x++) {
             for (int y = 0 - size; y < size; y++) {
+                zLoop:
                 for (int z = 0 - size; z < size; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < size) {
 
                         Block oldBlock = LocalServer.world.getBlock(setX + x, setY + z, setZ + y);
+                        //If the block is too tough, dont do it
+                        if (oldBlock.toughness > maxToughness) continue;
+                        //If we are trying to delete something on the blacklist, dont do it
+                        for (short exception : exceptions) {
+                            if (oldBlock.id == exception) continue zLoop;
+                        }
+
                         //Place Item Drop here
                         if (LocalServer.getGameMode() != GameMode.FREEPLAY) {
                             Item dropItem = Registrys.getItem(oldBlock);

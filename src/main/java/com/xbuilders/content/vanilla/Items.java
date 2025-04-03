@@ -118,6 +118,8 @@ public class Items {
         itemList.add(new Sword("diamond", 4000, 20f));
         itemList.add(new Hoe("diamond", 8000));
 
+        itemList.add(new FlintAndSteel());
+
         itemList.add(new Swatter(500));
         itemList.add(new EntityRemovalTool((e) -> e instanceof LivingEntity,
                 "xbuilders:animal_removal_tool",
@@ -182,6 +184,7 @@ public class Items {
             AnimalFood.makeAnimalFood(item, null);
             item.foodAdd = 0.2f;
         }
+
     }
 
 
