@@ -29,6 +29,7 @@ public class UI_ItemGrid {
     }
 
     public void draw(MemoryStack stack, NkContext ctx, int maxColumns) {
+
         if (nk_group_begin(ctx, title, flags)) {
             try {
                 lastTimeShown = System.currentTimeMillis();

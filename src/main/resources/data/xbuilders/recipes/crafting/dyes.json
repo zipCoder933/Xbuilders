@@ -102,7 +102,7 @@
   {
     "shapeless": true,
     "input": [
-      "xbuilders:grass"
+      "xbuilders:plant_grass"
     ],
     "output": "xbuilders:green_dye",
     "amount": 2
@@ -118,7 +118,7 @@
   {
     "shapeless": true,
     "input": [
-      "xbuilders:jungle_grass"
+      "xbuilders:jungle_grass_plant"
     ],
     "output": "xbuilders:green_dye",
     "amount": 2
