@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.commands;
 
+import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.server.LocalServer;
 
 import java.util.Objects;
@@ -27,8 +28,12 @@ public class Command {
     }
 
     protected String runCommand(String[] input) {
-        if(requiresOp && !LocalServer.isOperator()) return "You do not have the required permissions";
-        if(handle!=null) return handle.apply(input);
+        if (
+                (requiresOp
+                        && !LocalServer.isOperator()
+                        && !ClientSettings.load().internal_allowOPCommands)
+        ) return "You do not have the required permissions";
+        if (handle != null) return handle.apply(input);
         return null;
     }
 

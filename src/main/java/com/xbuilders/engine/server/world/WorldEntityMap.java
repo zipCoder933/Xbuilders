@@ -25,8 +25,8 @@ public class WorldEntityMap extends HashMap<Long, Entity> {
     }
 
     public void addAllEntitiesFromChunk(Chunk chunk) {
-        try {//TODO: IF there is unexpected behavior, check this to make sure its not causing concurrent modification exception
-            for (Entity e : chunk.entities.list) {
+        try {
+            for (Entity e : new ArrayList<>(chunk.entities.list)) {
                 put(e.getUniqueIdentifier(), e);
             }
         } catch (Exception e) {
