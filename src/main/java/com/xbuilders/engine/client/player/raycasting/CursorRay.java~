@@ -295,19 +295,13 @@ public class CursorRay {
 
             //Removal
             if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
-                lastDeletePressTime = System.currentTimeMillis();
                 ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
                 if (selectedItem == null || !selectedItem.item.isFood()) {
                     breakBlock(true, selectedItem);
                 }
-                //If its been more than 200ms since we last held the mouse, reset the progress
-                //We do this so that in case the mouse isnt holding down the whole time, we can still break the block
-            } else if (System.currentTimeMillis() - lastDeletePressTime > 300)
-                breakPercentage = 0;
+            } else breakPercentage = 0;
         }
     }
-
-    private long lastDeletePressTime;
 
     private boolean blockIntersectsPlayer(Block block, Vector3i set) {
         AABB boxAABB = new AABB();
