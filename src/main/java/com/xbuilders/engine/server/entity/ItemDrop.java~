@@ -68,8 +68,11 @@ public class ItemDrop extends Entity {
                     JsonParser parser1 = jsonNode.traverse();
                     parser1.setCodec(parser.getCodec());//This is important
                     definitionData.stack = smileObjectMapper.readValue(parser1, ItemStack.class);
+                    System.out.println("READING STACK: " + definitionData.stack.toString() + " Dropped From Player: " + definitionData.droppedFromPlayer);
                 }
-                System.out.println("READING STACK: " + definitionData.stack.toString() + " Dropped From Player: " + definitionData.droppedFromPlayer);
+
+                if (definitionData.stack == null) destroy();
+
             } catch (Exception e) {
                 ErrorHandler.log(e, "Error reading item stack");
             }
