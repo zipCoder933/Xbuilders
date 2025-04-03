@@ -172,9 +172,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         dieMode = true;
         ClientWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             if (!inventory.isEmpty()) {
-
-
-                LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+                //Make sure the flag is placed somewhere safe (where it wont displace a block)
+                Vector3f flagPos = LocalServer.world.terrain.findSuitableSpawnPoint(worldPosition);
+                LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
