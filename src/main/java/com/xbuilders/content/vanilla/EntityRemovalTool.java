@@ -44,10 +44,10 @@ public class EntityRemovalTool extends Item {
             Collection<Entity> entitiesSnapshot = new ArrayList<>(LocalServer.world.entities.values());
             entitiesSnapshot.forEach(entity -> {
                 try {
-                    if (entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
+                    if (entity != null && entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
                         System.out.println("Checking entity " + entity);
                         // Check if the entity meets the criteria and is within the radius
-                        if (entity != null && predicate.test(entity)) {
+                        if (predicate.test(entity)) {
                             System.out.println("\tRemoving entity " + entity);
                             entity.destroy();
                         }
@@ -64,11 +64,11 @@ public class EntityRemovalTool extends Item {
                 //Iterate over the list backwards
                 for (int i = chunk.entities.list.size() - 1; i >= 0; i--) {
                     Entity entity = chunk.entities.list.get(i);
-                    if (entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
-                        // Check if the entity meets the criteria
+                    if (entity == null) {
+                        chunk.entities.list.remove(i);
+                    } else if (entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
                         System.out.println("Checking entity " + entity);
-                        if (entity != null
-                                && predicate.test(entity)) {
+                        if (predicate.test(entity)) {
                             System.out.println("\tRemoving entity " + entity);
                             entity.destroy();
                             chunk.entities.list.remove(i); //Remove from the list
