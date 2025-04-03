@@ -100,7 +100,7 @@ public class FurnaceUI extends ContainerUI {
                 }
             }
 
-            //If no fuel, return
+            //no fuel
             if (furnaceData.fuel <= 0) return false;
 
 
@@ -217,14 +217,8 @@ public class FurnaceUI extends ContainerUI {
         //Smelt items that should have been smelted while the UI was closed
         if (furnaceData.lastSmeltTime == 0) return;
         long msSinceClosed = (System.currentTimeMillis() - furnaceData.lastSmeltTime);
-
-
         int rounds = (int) ((float) msSinceClosed / getSmeltTime());
-
-        //We cant smelt more than MAX_STACK_SIZE times
         rounds = (int) Math.min(rounds, ItemStack.MAX_STACK_SIZE + 10);
-
-
         System.out.println("Smelting " + rounds + " times; Time since closed: " + (msSinceClosed / 1000) + "s");
         for (int i = 0; i < rounds; i++) {
             smelt();

@@ -1043,7 +1043,7 @@ public class Blocks {
         //Add blocks
         blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
         blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
-        blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
+        blockList.add(new BlockFurnace(Blocks.BLOCK_FURNACE));
         blockList.add(new BlockStraightTrack(Blocks.BLOCK_STRAIGHT_TRACK));
         blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN_BLOCK));
         blockList.add(new BlockFlag(Blocks.BLOCK_FLAG_BLOCK));
