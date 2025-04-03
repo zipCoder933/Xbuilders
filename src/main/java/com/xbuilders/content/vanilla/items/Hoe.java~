@@ -14,7 +14,6 @@ public class Hoe extends Item {
         tags.add("tool");
         tags.add("hoe");
         maxDurability = durability;
-        maxStackSize=1;
         miningSpeedMultiplier = 0.01f;
 
         this.createClickEvent = (ray, stack) -> {
