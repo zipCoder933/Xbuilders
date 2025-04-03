@@ -8,7 +8,6 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -108,31 +107,6 @@ public abstract class Terrain {
     }
 
     protected abstract void generateChunkInner(final Chunk p0, GenSession session);
-
-
-    public Vector3f findSuitableSpawnPoint(Vector3f target) {
-        Vector3f newTarget = new Vector3f(target);
-
-        if (!LocalServer.world.terrain.canSpawnHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)) {
-            System.out.println("Cant spawn here, Looking around");
-            //Go around the spawn point and find a safe place to spawn
-            final int HORIZONTAL_RADIUS = 10;
-            lookLoop:
-            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
-                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
-                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
-                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
-                            System.out.println("Found spawn point");
-                            newTarget.set(x, y, z);
-                            break lookLoop;
-                        }
-                    }
-                }
-            }
-        }
-        return newTarget;
-    }
 
     //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
     public boolean canSpawnHere(World world,

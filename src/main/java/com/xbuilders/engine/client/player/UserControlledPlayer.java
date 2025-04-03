@@ -172,6 +172,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         dieMode = true;
         ClientWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             if (!inventory.isEmpty()) {
+
+
                 LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             }
             System.out.println("Teleporting to spawnpoint... ("
@@ -185,31 +187,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private void respawn(Vector3f target) {
         aabb.updateBox();
-
-        Vector3f newTarget = new Vector3f(target);
-        System.out.println("Respawning to " + newTarget.x + ", " + newTarget.y + ", " + newTarget.z);
-
-        if (!LocalServer.world.terrain.canSpawnHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)) {
-            System.out.println("Cant spawn here, Looking around");
-            //Go around the spawn point and find a safe place to spawn
-            final int HORIZONTAL_RADIUS = 10;
-            lookLoop:
-            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
-                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
-                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
-                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
-                            System.out.println("Found spawn point");
-                            newTarget.set(x, y, z);
-                            break lookLoop;
-                        }
-                    }
-                }
-            }
-        }
-
+        Vector3f reaspawn = LocalServer.world.terrain.findSuitableSpawnPoint(target);
         aabb.updateBox();
-        teleport(newTarget.x, newTarget.y, newTarget.z);
+        teleport(reaspawn.x, reaspawn.y, reaspawn.z);
     }
 
     public void teleport(float x, float y, float z) {
