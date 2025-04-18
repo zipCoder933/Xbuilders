@@ -419,18 +419,15 @@
     "output": "xbuilders:hoe",
     "amount": 1
   },
-
   {
     "input": [
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_block",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:torch",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_ingot",
-      "xbuilders:gold_block",
-      "xbuilders:gold_ingot"
+      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul_block",
+      "xbuilders:emerald",      "xbuilders:torch",      "xbuilders:emerald",
+      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul_block",
+      "xbuilders:lapis_lazul_block"
     ],
     "output": "xbuilders:flashlight",
     "amount": 1

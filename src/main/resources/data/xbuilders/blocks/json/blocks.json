@@ -223,8 +223,6 @@
       "neg_x": "torch",
       "pos_y": "torch"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 15,
     "type": 15,
     "colorInPlayerHead": [
@@ -8677,8 +8675,6 @@
       "neg_x": "blue torch",
       "pos_y": "blue torch"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 15,
     "type": 15,
     "colorInPlayerHead": [

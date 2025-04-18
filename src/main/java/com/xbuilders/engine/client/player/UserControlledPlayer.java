@@ -170,11 +170,13 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public void die() {
         dismount();
         dieMode = true;
+        setFlashlight(0);
         ClientWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             if (!inventory.isEmpty()) {
                 //Make sure the flag is placed somewhere safe (where it wont displace a block)
                 Vector3f flagPos = findSuitableFlagPlacement(worldPosition);
                 LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
+                GameScene.alert("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
@@ -198,22 +200,38 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         if (
                 !canPlaceFlagHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)
         ) {
-            System.out.println("Cant place flag here, Looking around");
+            System.out.println("Cant place flag here (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + "), Looking around");
             //Go around the spawn point and find a safe place to spawn
             final int HORIZONTAL_RADIUS = 10;
-            lookLoop:
+            final int VERTICAL_RADIUS = 10;
+
+
             for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
                 for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
-                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
+                    for (int y = (int) (target.y - VERTICAL_RADIUS); y < target.y + VERTICAL_RADIUS; y++) {
                         //System.out.println("x: " + x + " y: " + y + " z: " + z);
                         if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
-                            System.out.println("Found flag placement");
+                            System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
                             newTarget.set(x, y, z);
-                            break lookLoop;
+                            return newTarget;
                         }
                     }
                 }
             }
+
+//            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
+//                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
+//                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
+//                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
+//                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+//                            System.out.println("Found flag placement (Top of world)");
+//                            newTarget.set(x, y, z);
+//                            return newTarget;
+//                        }
+//                    }
+//                }
+//            }
+
         }
         return newTarget;
     }

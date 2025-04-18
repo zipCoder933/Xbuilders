@@ -55,6 +55,7 @@ public class EntityRemovalTool extends Item {
                 } catch (Exception e) {
                     // Handle any issues that arise while processing a specific entity
                     GameScene.alert("Error processing entity " + entity + ": " + e.getMessage());
+                    //System.out.println("Error processing entity " + entity + ": " + e.getMessage());
                 }
             });
 

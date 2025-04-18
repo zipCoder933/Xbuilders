@@ -12,6 +12,7 @@ public class Flashlight extends Item {
         super("xbuilders:flashlight", "Flashlight");
         setIcon("flashlight.png");
         tags.add("tool");
+        maxStackSize = 1;
         this.createClickEvent = (ray, stack) -> {
             GameScene.userPlayer.setFlashlight(on ? 0 : distance);
             on = !on;
