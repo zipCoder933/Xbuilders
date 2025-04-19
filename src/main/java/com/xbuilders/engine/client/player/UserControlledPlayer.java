@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.server.GameMode;
@@ -175,7 +176,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 //Make sure the flag is placed somewhere safe (where it wont displace a block)
                 Vector3f flagPos = findSuitableFlagPlacement(worldPosition);
                 LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
-                GameScene.alert("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
+                LocalClient.alert("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");

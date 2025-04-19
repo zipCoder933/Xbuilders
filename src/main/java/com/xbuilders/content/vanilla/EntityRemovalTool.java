@@ -1,12 +1,10 @@
 package com.xbuilders.content.vanilla;
 
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.ErrorHandler;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
@@ -54,7 +52,7 @@ public class EntityRemovalTool extends Item {
                     }
                 } catch (Exception e) {
                     // Handle any issues that arise while processing a specific entity
-                    GameScene.alert("Error processing entity " + entity + ": " + e.getMessage());
+                    LocalClient.alert("Error processing entity " + entity + ": " + e.getMessage());
                     //System.out.println("Error processing entity " + entity + ": " + e.getMessage());
                 }
             });
@@ -79,7 +77,7 @@ public class EntityRemovalTool extends Item {
             }
 
         } catch (Exception e) {
-            GameScene.alert("Error removing entities: " + e.getMessage());
+            LocalClient.alert("Error removing entities: " + e.getMessage());
             e.printStackTrace();
         }
     }

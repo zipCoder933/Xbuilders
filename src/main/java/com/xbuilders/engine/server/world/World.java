@@ -618,7 +618,7 @@ public class World {
     final Vector3f chunkShader_cursorMin = new Vector3f();
     final Vector3f chunkShader_cursorMax = new Vector3f();
 
-    public void drawChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) {
+    public void client_updateAndRenderChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) {
         // <editor-fold defaultstate="collapsed" desc="chunk updating">
         if (!lastPlayerPosition.equals(playerPosition)) {
             needsSorting.set(true);

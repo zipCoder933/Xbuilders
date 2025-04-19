@@ -42,12 +42,14 @@ public class GameScene implements WindowEvents {
     public static boolean specialMode;
     public static GameUI ui;
     private Game game;
+    World world;
     public boolean writeDebugText = false;
 
 
     public GameScene(ClientWindow window, Game game, World world) throws Exception {
         this.window = window;
         this.game = game;
+        this.world = world;
         setProjection();
 
         userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
@@ -60,15 +62,6 @@ public class GameScene implements WindowEvents {
 
     public static void client_hudText(String s) {
         ui.hudText.setText(s);
-    }
-
-
-    public static void alert(String s) {
-        ui.infoBox.addToHistory("GAME: " + s);
-    }
-
-    public static void consoleOut(String s) {
-        ui.infoBox.addToHistory(s);
     }
 
 
@@ -107,7 +100,8 @@ public class GameScene implements WindowEvents {
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        Main.localServer.world.drawChunks(GameScene.projection, GameScene.view, userPlayer.worldPosition);
+        world.client_updateAndRenderChunks(GameScene.projection, GameScene.view, userPlayer.worldPosition);
+
         LocalClient.frameTester.endProcess("Drawing chunks");
 
 
@@ -184,7 +178,6 @@ public class GameScene implements WindowEvents {
     private Vector3i rayWorldPos = new Vector3i();
 
     private void setInfoText() {
-        World world = LocalServer.world;
         if (writeDebugText) {
             String text = "";
             try {

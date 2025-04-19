@@ -3,6 +3,7 @@ package com.xbuilders.engine.client;
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.skins.FoxSkin;
 import com.xbuilders.engine.Client;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.players.SkinSupplier;
@@ -46,6 +47,10 @@ public class LocalClient extends Client {
     }
 
     public String title;
+
+    public static void alert(String s) {
+        GameScene.ui.infoBox.addToHistory("GAME: " + s);
+    }
 
 
     public  void pauseGame() {
