@@ -133,22 +133,29 @@ public class GameCommands {
         registerCommand(new GiveCommand());
 
         registerCommand(new Command("time",
-                "Usage: time <day/evening/night>")
+                "Usage: time set <day/evening/night>\n" +
+                        "Usage: time get")
                 .requiresOP(true)
                 .executes((parts) -> {
-                    if (parts.length >= 1) {
-                        if (parts[0].equalsIgnoreCase("morning") || parts[0].equalsIgnoreCase("m")) {
+                    if (parts.length >= 1 && parts[0].equalsIgnoreCase("get")) {
+                        return "Time of day: " + LocalServer.getTimeOfDay();
+                    } else if (parts.length >= 2 && parts[0].equalsIgnoreCase("set")) {
+                        if (parts[1].equalsIgnoreCase("morning") || parts[1].equalsIgnoreCase("m")) {
                             LocalServer.setTimeOfDay(0.95f);
-                            return null;
-                        } else if (parts[0].equalsIgnoreCase("day") || parts[0].equalsIgnoreCase("d")) {
+                            return "Time of day set to: " + LocalServer.getTimeOfDay();
+                        } else if (parts[1].equalsIgnoreCase("day") || parts[1].equalsIgnoreCase("d")) {
                             LocalServer.setTimeOfDay(0.0f);
-                            return null;
-                        } else if (parts[0].equalsIgnoreCase("evening") || parts[0].equalsIgnoreCase("e")) {
+                            return "Time of day set to: " + LocalServer.getTimeOfDay();
+                        } else if (parts[1].equalsIgnoreCase("evening") || parts[1].equalsIgnoreCase("e")) {
                             LocalServer.setTimeOfDay(0.25f);
-                            return null;
-                        } else if (parts[0].equalsIgnoreCase("night") || parts[0].equalsIgnoreCase("n")) {
+                            return "Time of day set to: " + LocalServer.getTimeOfDay();
+                        } else if (parts[1].equalsIgnoreCase("night") || parts[1].equalsIgnoreCase("n")) {
                             LocalServer.setTimeOfDay(0.5f);
-                            return null;
+                            return "Time of day set to: " + LocalServer.getTimeOfDay();
+                        } else {
+                            float time = Float.parseFloat(parts[1]);
+                            LocalServer.setTimeOfDay(time);
+                            return "Time of day set to: " + LocalServer.getTimeOfDay();
                         }
                     }
                     return null;

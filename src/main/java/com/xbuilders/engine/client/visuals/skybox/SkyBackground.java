@@ -89,6 +89,10 @@ public class SkyBackground {
         updateTexturePan();
     }
 
+    public float getTimeOfDay(){
+        return (float) getSkyTexturePan();
+    }
+
     private double getSkyTexturePan() {
         return world.data.data.dayTexturePan;
     }

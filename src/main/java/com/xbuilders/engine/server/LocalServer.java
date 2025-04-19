@@ -260,6 +260,10 @@ public class LocalServer extends Server {
         }
     }
 
+    public static float getTimeOfDay() {
+       return GameScene.background.getTimeOfDay();
+    }
+
 
     public void playerJoinEvent(Player client) {
         LocalServer.alertClient("A new player has joined: " + client);

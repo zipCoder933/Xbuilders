@@ -208,7 +208,15 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
             for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
                 for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
-                    for (int y = (int) (target.y - VERTICAL_RADIUS); y < target.y + VERTICAL_RADIUS; y++) {
+                    for (int y = (int) (target.y); y < target.y + VERTICAL_RADIUS; y++) {
+                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
+                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+                            System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
+                            newTarget.set(x, y, z);
+                            return newTarget;
+                        }
+                    }
+                    for (int y = (int) (target.y); y > target.y - VERTICAL_RADIUS; y--) {
                         //System.out.println("x: " + x + " y: " + y + " z: " + z);
                         if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
                             System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
@@ -218,19 +226,6 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     }
                 }
             }
-
-//            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
-//                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
-//                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
-//                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
-//                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
-//                            System.out.println("Found flag placement (Top of world)");
-//                            newTarget.set(x, y, z);
-//                            return newTarget;
-//                        }
-//                    }
-//                }
-//            }
 
         }
         return newTarget;
@@ -281,8 +276,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private Vector3f status_spawnPosition = new Vector3f();
 
     public void setSpawnPoint(float x, float y, float z) {
-        LocalServer.alertClient("Spawn set to " + x + ", " + y + ", " + z);
         status_spawnPosition.set(x, y, z);
+        LocalServer.alertClient("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
+        saveToWorld(LocalServer.world.data); //Make SURE to save the spawnpoint
     }
 
     public void getPlayerBoxTop(Vector3f playerBoxBottom) {
