@@ -9,6 +9,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -39,7 +40,6 @@ public class NewWorld implements MenuPage {
         this.window = window;
         this.menu = menu;
         name = new TextBox(20);
-        terrainSelector = new TerrainSelector(ClientWindow.game.terrainsList, ctx);
     }
 
     TextBox name;
@@ -122,7 +122,7 @@ public class NewWorld implements MenuPage {
     @Override
     public void onOpen(Page lastPage) {
         name.setValueAsString("New World");
-        terrainSelector.reset();
+        terrainSelector = new TerrainSelector(Main.game.terrainsList, ctx);
     }
 
     private boolean makeNewWorld(String name, int size, Terrain terrain, int seed) {

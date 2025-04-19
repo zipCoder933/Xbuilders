@@ -1,12 +1,16 @@
 package com.xbuilders.engine.server.players;
 
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
+
 public class PositionLock {
 
+    
     public PositionLock(Entity lock, float yOffset) {
         this.entity = lock;
         this.playerDisplacement = new Matrix4f();
@@ -16,14 +20,14 @@ public class PositionLock {
     public void setOffset(float yOffset) {
         playerDisplacement.identity().translate(
                 0,
-                yOffset - GameScene.userPlayer.aabb.size.y,
+                yOffset - PLAYER_HEIGHT,
                 0);
     }
 
     public void setOffset(float xOffset, float yOffset, float zOffset) {
         playerDisplacement.identity().translate(
                 xOffset,
-                yOffset - GameScene.userPlayer.aabb.size.y,
+                yOffset - PLAYER_HEIGHT,
                 zOffset);
     }
 

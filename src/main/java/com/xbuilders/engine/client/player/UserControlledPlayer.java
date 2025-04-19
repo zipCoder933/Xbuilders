@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.xbuilders.engine.Server;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Difficulty;
@@ -504,7 +503,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         userInfo.loadFromDisk();
     }
 
-    public void init() {
+    public void initGL() {
         camera.init();
     }
 

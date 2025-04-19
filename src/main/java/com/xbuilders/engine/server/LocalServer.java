@@ -46,8 +46,7 @@ public class LocalServer extends Server {
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     public static final World world = new World();
     public static GameServer server;
-    static ClientWindow window;
-    private static Game game;
+    private final Game game;
     public static GameCommands commands;
     public static BlockEventPipeline eventPipeline;
     public static LogicThread tickThread;
@@ -98,17 +97,24 @@ public class LocalServer extends Server {
     }
 
 
-    public LocalServer() {
+    public LocalServer(Game game) {
+        this.game = game;
     }
 
-    public void init(ClientWindow window, Game myGame) throws IOException {
-        game = myGame;
-        this.window = window;
-        GameScene.userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
-        server = new GameServer(this, GameScene.userPlayer);
+    public void initialize(UserControlledPlayer player) throws Exception {
+        commands = new GameCommands(this, game);
+
+        //init world
+        world.init(GameScene.userPlayer, Registrys.blocks.textures);
+
+        //Everything else
+        server = new GameServer(this, player);
+        eventPipeline = new BlockEventPipeline(world, player);
         livePropagationHandler = new LivePropagationHandler();
-        eventPipeline = new BlockEventPipeline(world);
         tickThread = new LogicThread(this);
+
+        //Setup the game
+        game.setupServer(this);
     }
 
     // Getters
@@ -232,18 +238,6 @@ public class LocalServer extends Server {
     }
 
 
-    public void initialize(ClientWindow window) throws Exception {
-        commands = new GameCommands(this, game);
-        GameScene.background = new SkyBackground(window, world);
-        livePropagationHandler.tasks.clear();
-
-        //Setup blocks
-        game.setup(this, window.ctx, ClientWindow.gameScene.ui);
-        //init player
-        GameScene.userPlayer.init();
-        //init world
-        world.init(GameScene.userPlayer, Registrys.blocks.textures);
-    }
 
 
     public static void alertClient(String s) {
@@ -264,11 +258,6 @@ public class LocalServer extends Server {
         } catch (IOException e) {
             ErrorHandler.report(e);
         }
-    }
-
-    public static void pauseGame() {
-        if (window.isFullscreen()) window.minimizeWindow();
-        ClientWindow.gameScene.ui.baseMenu.setOpen(true);
     }
 
 

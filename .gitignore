@@ -7,3 +7,5 @@ error logs
 .idea/workspace.xml
 /.idea
 *.json~
+*.java~
+*.java~

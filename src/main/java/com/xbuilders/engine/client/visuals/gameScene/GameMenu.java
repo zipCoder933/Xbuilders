@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
@@ -97,7 +98,7 @@ public class GameMenu extends UI_GameMenu {
     }
 
     private void openHelpPage() {
-        LocalServer.pauseGame();
+        Main.localClient.pauseGame();
         File helpHtmlPage = ResourceUtils.file("help-menu/help.html");
         if (helpHtmlPage.exists()) {
             try {

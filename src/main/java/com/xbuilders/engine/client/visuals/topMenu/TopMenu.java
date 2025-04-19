@@ -17,6 +17,7 @@ import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -91,10 +92,9 @@ public class TopMenu {
 
     public TopMenu(ClientWindow window) throws IOException {
         this.window = window;
-    }
 
+        String ipAdress = InetAddress.getLocalHost().getHostAddress();
 
-    public void initialize(String ipAdress) throws IOException {
         menuHome = new MenuHome(window.ctx, window, this);
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
@@ -109,6 +109,7 @@ public class TopMenu {
         VersionInfo versionInfo = new VersionInfo(window);
         versionInfo.createUpdatePrompt(ClientWindow.popupMessage);
     }
+
 
     boolean firsttime = true;
 

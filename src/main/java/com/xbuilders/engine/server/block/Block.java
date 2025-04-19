@@ -53,7 +53,7 @@ public class Block {
     }
 
     public final boolean isLiquid() {
-        return type == com.xbuilders.engine.server.block.BlockRegistry.LIQUID_BLOCK_TYPE_ID;
+        return type == BlockRegistry.LIQUID_BLOCK_TYPE_ID;
     }
 
 
@@ -209,9 +209,8 @@ public class Block {
         return false;
     }
 
-    private void init() {
-        //Run type initialization before anything else
-        BlockType type = Registrys.blocks.getBlockType(this.type);
+    private void initPropertiesFromBlockType(BlockType type) {
+        //Initialize properties of this block, in its block type
         if (type != null) {
             Consumer<Block> typeInitCallback = type.initializationCallback;
             if (typeInitCallback != null) typeInitCallback.accept(this);
@@ -223,7 +222,6 @@ public class Block {
         this.alias = Registrys.formatAlias(alias);
         type = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = null;
-        init();
     }
 
     public Block(int id, String alias, BlockTexture texture) {
@@ -231,7 +229,6 @@ public class Block {
         this.alias = Registrys.formatAlias(alias);
         this.type = BlockRegistry.DEFAULT_BLOCK_TYPE_ID;
         this.texture = texture;
-        init();
     }
 
     public Block(int id, String alias, BlockTexture texture, int type) {
@@ -239,7 +236,7 @@ public class Block {
         this.alias = Registrys.formatAlias(alias);
         this.texture = texture;
         this.type = type;
-        init();
+        initPropertiesFromBlockType(Registrys.blocks.getBlockType(type));
     }
 
 

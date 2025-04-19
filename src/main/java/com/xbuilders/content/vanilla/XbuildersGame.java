@@ -45,16 +45,7 @@ import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsu
 public class XbuildersGame extends Game {
 
 
-    public XbuildersGame(ClientWindow window) {
-        super(window);
-
-        //add skins
-        availableSkins.put(0, (p) -> new FoxSkin(p, "red"));
-        availableSkins.put(1, (p) -> new FoxSkin(p, "yellow"));
-        availableSkins.put(2, (p) -> new FoxSkin(p, "blue"));
-        availableSkins.put(3, (p) -> new FoxSkin(p, "green"));
-        availableSkins.put(4, (p) -> new FoxSkin(p, "magenta"));
-
+    public XbuildersGame() {
     }
 
     public HashMap<String, String> getCommandHelp() {
@@ -169,7 +160,9 @@ public class XbuildersGame extends Game {
 
 
     @Override
-    public void setup(LocalServer gameScene, NkContext ctx, GameUI gameUI) throws Exception {
+    public void setupClient(ClientWindow window, NkContext ctx, GameUI gameUI) throws Exception {
+
+
         //Add block types FIRST. We need them to be able to setup blocks properly
         Registrys.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
         Registrys.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
@@ -208,10 +201,6 @@ public class XbuildersGame extends Game {
         AllRecipes.craftingRecipes.register("/data/xbuilders/recipes/crafting");
         AllRecipes.smeltingRecipes.register("/data/xbuilders/recipes/smelting");
 
-        //propagations
-        gameScene.livePropagationHandler.addTask(new WaterPropagation());
-        gameScene.livePropagationHandler.addTask(new LavaPropagation());
-
 
         //Add terrains;
         terrainsList.add(new DefaultTerrain());
@@ -238,6 +227,13 @@ public class XbuildersGame extends Game {
         //blocks after everything else is done
         Blocks.editBlocks(window);
         Items.editItems(window);
+    }
+
+    @Override
+    public void setupServer(LocalServer server) {
+        //propagations
+        server.livePropagationHandler.addTask(new WaterPropagation());
+        server.livePropagationHandler.addTask(new LavaPropagation());
     }
 
 

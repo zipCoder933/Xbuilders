@@ -46,6 +46,7 @@ public class BlockRegistry {
 
 
     //Predefined Blocks
+    //NOTE We must be sure that when we initialize block, that it doesnt depend on the registry before the registry has been initialized
     public final static Block BLOCK_AIR = new BlockAir();
 
     public BlockRegistry() {

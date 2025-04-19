@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
@@ -27,7 +28,7 @@ public class CraftingTable extends Block {
             }
             WCCi wcc = new WCCi().set(x, y, z);
             Chunk chunk = LocalServer.world.getChunk(wcc.chunk);
-            ClientWindow.game.craftingUI.setOpen(true);
+            Main.game.craftingUI.setOpen(true);
         });
     }
 }

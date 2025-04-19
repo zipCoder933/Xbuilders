@@ -21,19 +21,18 @@ import java.util.HashMap;
  */
 public abstract class Game implements GameSceneEvents {
 
-    public final ClientWindow window;
     public final ArrayList<Terrain> terrainsList = new ArrayList<>();
-    public final HashMap<Integer, SkinSupplier> availableSkins = new HashMap<>();
+
 
     public boolean releaseMouse() {
         return false;
     }
 
-    public Game(ClientWindow window) {
-        this.window = window;
-    }
+    public Game(){}
 
-    public abstract void setup(LocalServer gameScene, NkContext ctx, GameUI gameUI) throws Exception;
+    public abstract void setupClient(ClientWindow window,  NkContext ctx, GameUI gameUI) throws Exception;
+
+    public abstract void setupServer(LocalServer server);
 
     public final Terrain getTerrainFromInfo(WorldData info) {
         for (Terrain terrain : terrainsList) {

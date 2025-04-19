@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.blocks.blocks.*;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
@@ -1066,8 +1067,8 @@ public class Blocks {
 
 
         //Block UIs
-        ClientWindow.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
-        ClientWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
+        Main.game.barrelUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_BARREL));
+        Main.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
 
 
         short[] dontExplodeList = {Blocks.BLOCK_TNT, Blocks.BLOCK_MEGA_TNT};

@@ -6,6 +6,7 @@ package com.xbuilders.engine.client;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
@@ -13,6 +14,7 @@ import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
@@ -87,7 +89,7 @@ public class ClientWindow extends NKWindow {
     }
 
     private static boolean isGameMode = false;
-    public static XbuildersGame game;
+
     public static TopMenu topMenu;
     public static GameScene gameScene;
 
@@ -117,27 +119,19 @@ public class ClientWindow extends NKWindow {
         }
     }
 
-    public void init() throws Exception {
+    public void init(Game game, World world) throws Exception {
         GLFWWindow.initGLFW();
         settings = ClientSettings.load();
-
-        game = new XbuildersGame(this);
-        popupMessage = new PopupMessage(ctx, this);
-        topMenu = new TopMenu(this);
-        Main.localServer.init(this, game);
-        gameScene = new GameScene(this);
 
         setMpfUpdateInterval(1000);
         MemoryProfiler.setIntervalMS(500);
 
-        //Get the actual size of the screen
+        /**
+         * Create the window
+         */
         int windowWidth = settings.internal_smallWindow ? 680 : 920;
         int windowHeight = settings.internal_smallWindow ? 600 : 720;
-
-
         createWindow("XBuilders", windowWidth, windowHeight);
-
-
         GLFW.glfwSwapInterval(settings.video_vsync ? 1 : 0);
 
         //If a fullscreen window is created, we need to set the focus callback so that the user can exit fullscreen if they lose focus
@@ -159,10 +153,19 @@ public class ClientWindow extends NKWindow {
                 resourceLoader.getResourceAsStream("builtin/icon32.png"),
                 resourceLoader.getResourceAsStream("builtin/icon256.png"));
 
+        /**
+         * Anything involving OpenGL must be done after the window has been created
+         */
+
         Theme.initialize(ctx);
-        Main.localServer.initialize(this);
-        gameScene.initialize(this);
-        topMenu.initialize(LocalServer.server.getIpAdress());
+        gameScene = new GameScene(this, game, world);
+        game.setupClient(this, ctx, gameScene.ui);
+        popupMessage = new PopupMessage(ctx, this);
+        topMenu = new TopMenu(this);
+
+
+        Main.localServer.initialize(gameScene.userPlayer);
+
 
         if (LocalClient.generateIcons || !blockIconsDirectory.exists()) {
             firstTimeSetup();

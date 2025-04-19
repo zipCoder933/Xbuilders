@@ -4,6 +4,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -36,26 +37,29 @@ public class GameScene implements WindowEvents {
     public static boolean drawBoundingBoxes;
     public static UserControlledPlayer userPlayer;
     public static SkyBackground background;
-    static ClientWindow window;
+    private final ClientWindow window;
     public boolean holdMouse;
     public static boolean specialMode;
     public static GameUI ui;
+    private Game game;
     public boolean writeDebugText = false;
 
 
-    public GameScene(ClientWindow window) throws Exception {
+    public GameScene(ClientWindow window, Game game, World world) throws Exception {
         this.window = window;
+        this.game = game;
+        setProjection();
+
+        userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
+        GameScene.userPlayer.initGL();
+
+        background = new SkyBackground(window, world);
+
+        ui = new GameUI(game, window.ctx, window, userPlayer);
     }
 
     public static void client_hudText(String s) {
         ui.hudText.setText(s);
-    }
-
-
-    public void initialize(ClientWindow window) throws Exception {
-        setProjection();
-        ui = new GameUI(ClientWindow.game, window.ctx, window);
-        ui.init();
     }
 
 
@@ -65,15 +69,6 @@ public class GameScene implements WindowEvents {
 
     public static void consoleOut(String s) {
         ui.infoBox.addToHistory(s);
-    }
-
-    public static void pauseGame() {
-        if (window.isFullscreen()) window.minimizeWindow();
-        ui.baseMenu.setOpen(true);
-    }
-
-    public static void unpauseGame() {
-        if (window.isFullscreen()) ClientWindow.restoreWindow();
     }
 
 
@@ -136,7 +131,7 @@ public class GameScene implements WindowEvents {
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
         if (ui.keyEvent(key, scancode, action, mods)) {
-        } else if (ClientWindow.game.keyEvent(key, scancode, action, mods)) {
+        } else if (game.keyEvent(key, scancode, action, mods)) {
         } else {
             userPlayer.keyEvent(key, scancode, action, mods);
         }
@@ -163,7 +158,7 @@ public class GameScene implements WindowEvents {
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (ui.anyMenuOpen() && ui.mouseScrollEvent(scroll, xoffset, yoffset)) {
         } else if (userPlayer.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else if (ClientWindow.game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else if (game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
         } else {
             ui.hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
         }

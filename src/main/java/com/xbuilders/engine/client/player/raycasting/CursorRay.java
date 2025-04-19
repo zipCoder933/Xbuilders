@@ -1,5 +1,6 @@
 package com.xbuilders.engine.client.player.raycasting;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
@@ -108,7 +109,7 @@ public class CursorRay {
         ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
         if (!hitTarget()) return false;
 
-        if (ClientWindow.game.clickEvent(this, creationMode)) { //Game click event
+        if (Main.game.clickEvent(this, creationMode)) { //Game click event
             return true;
         } else if (useBoundary) { //Boundary click event
             boundaryClickEvent(creationMode);
@@ -445,7 +446,7 @@ public class CursorRay {
             GameScene.client_hudText(boundary_aabb.getXLength() + " x " + boundary_aabb.getYLength() + " x " + boundary_aabb.getZLength());
             cursorBox.set(boundary_aabb);
             cursorBox.draw(camera.projection, camera.view);
-        } else if (ClientWindow.game.drawCursor(this)) {
+        } else if (Main.game.drawCursor(this)) {
         } else if (hitTarget()) {
             if (cursorRay.entity != null) {
                 cursorBox.set(cursorRay.entity.aabb.box);

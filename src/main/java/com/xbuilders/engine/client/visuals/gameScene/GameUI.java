@@ -10,6 +10,7 @@ package com.xbuilders.engine.client.visuals.gameScene;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.client.visuals.FileDialog;
 import com.xbuilders.engine.client.visuals.RectOverlay;
@@ -48,17 +49,15 @@ public class GameUI {
     public static HUDText hudText;
     boolean drawUI = true;
 
-    public GameUI(Game game, NkContext ctx, ClientWindow window) throws IOException {
+    public GameUI(Game game, NkContext ctx, ClientWindow window, UserControlledPlayer player) throws IOException {
         this.ctx = ctx;
         this.window = window;
         this.game = game;
         crosshair = new Crosshair(window.getWidth(), window.getHeight());
         infoBox = new InfoText(ctx, window);
         hudText = new HUDText(ctx, window);
-        hotbar = new UI_Hotbar(ctx, window);
-    }
+        hotbar = new UI_Hotbar(ctx, window, player);
 
-    public void init() {
         baseMenu = new GameMenu(ctx, window);
         fileDialog = new FileDialog(ctx, window);
         overlay = new RectOverlay();

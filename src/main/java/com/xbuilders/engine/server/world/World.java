@@ -31,6 +31,7 @@ import java.io.IOException;
 
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
+import static com.xbuilders.Main.game;
 import static com.xbuilders.engine.client.visuals.gameScene.GameScene.userPlayer;
 import static com.xbuilders.engine.server.LocalServer.world;
 
@@ -309,7 +310,7 @@ public class World {
 
         entities.clear();
         //Get the terrain from worldInfo
-        this.terrain = ClientWindow.game.getTerrainFromInfo(info);
+        this.terrain = game.getTerrainFromInfo(info);
         if (terrain == null) {
             ErrorHandler.report("Error", "Terrain " + info.getTerrain() + " not found");
             return false;

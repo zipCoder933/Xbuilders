@@ -38,9 +38,9 @@ public class BlockEventPipeline {
     UserControlledPlayer player;
     final Object eventClearLock = new Object();
 
-    public BlockEventPipeline(World world) {
+    public BlockEventPipeline(World world, UserControlledPlayer player) {
         this.world = world;
-        this.player = GameScene.userPlayer;
+        this.player = player;
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {

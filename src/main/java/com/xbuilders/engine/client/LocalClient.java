@@ -1,7 +1,11 @@
 package com.xbuilders.engine.client;
 
+import com.xbuilders.Main;
+import com.xbuilders.content.vanilla.skins.FoxSkin;
 import com.xbuilders.engine.Client;
+import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.players.SkinSupplier;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
@@ -11,6 +15,9 @@ import com.xbuilders.window.developmentTools.MemoryGraph;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
+
+import static com.xbuilders.engine.client.ClientWindow.gameScene;
 
 public class LocalClient extends Client {
     public static long GAME_VERSION;
@@ -26,6 +33,9 @@ public class LocalClient extends Client {
     public static World world = LocalServer.world;
 
 
+
+
+
     public static long versionStringToNumber(String version) {
         String[] parts = version.split("\\.");
         int major = Integer.parseInt(parts[0]);
@@ -37,7 +47,13 @@ public class LocalClient extends Client {
 
     public String title;
 
-    public LocalClient(String[] args, String gameVersion) throws Exception {
+
+    public  void pauseGame() {
+        if (window.isFullscreen()) window.minimizeWindow();
+        gameScene.ui.baseMenu.setOpen(true);
+    }
+
+    public LocalClient(String[] args, String gameVersion, Game game) throws Exception {
         LocalClient.GAME_VERSION = versionStringToNumber(gameVersion);
         System.out.println("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
@@ -61,6 +77,8 @@ public class LocalClient extends Client {
         }
         ResourceUtils.initialize(DEV_MODE, appDataDir);
 
+
+
         /**
          * Testers
          */
@@ -76,6 +94,6 @@ public class LocalClient extends Client {
         }
 
         window = new ClientWindow(title);
-        window.init();
+        window.init(game, LocalServer.world);
     }
 }

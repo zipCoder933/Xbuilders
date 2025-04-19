@@ -23,7 +23,6 @@ public class LivePropagationHandler extends Thread {
     }
 
     public LivePropagationHandler() {
-
     }
 
     public void update() {
