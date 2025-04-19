@@ -25,7 +25,7 @@ import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.server.world.skybox.SkyBackground;
+import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.engine.utils.bytes.ByteUtils;
@@ -234,7 +234,7 @@ public class LocalServer extends Server {
 
     public void initialize(ClientWindow window) throws Exception {
         commands = new GameCommands(this, game);
-        GameScene.background = new SkyBackground(window, this);
+        GameScene.background = new SkyBackground(window, world);
         livePropagationHandler.tasks.clear();
 
         //Setup blocks

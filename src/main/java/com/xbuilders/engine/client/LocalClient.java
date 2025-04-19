@@ -1,6 +1,8 @@
 package com.xbuilders.engine.client;
 
 import com.xbuilders.engine.Client;
+import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
@@ -21,6 +23,7 @@ public class LocalClient extends Client {
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
     public final ClientWindow window;
+    public static World world = LocalServer.world;
 
 
     public static long versionStringToNumber(String version) {
@@ -32,16 +35,16 @@ public class LocalClient extends Client {
         return (major * 1_000_000L) + (minor * 1_000L) + patch;
     }
 
-    public LocalClient(String[] args, String gameVersion) {
+    public String title;
 
-
+    public LocalClient(String[] args, String gameVersion) throws Exception {
         LocalClient.GAME_VERSION = versionStringToNumber(gameVersion);
         System.out.println("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         //Process args
         System.out.println("args: " + Arrays.toString(args));
         String appDataDir = null;
-        String windowTitleBar = "XBuilders";
+        title = "XBuilders";
 
         for (String arg : args) {
             if (arg.equals("icons")) {
@@ -51,7 +54,7 @@ public class LocalClient extends Client {
             } else if (arg.startsWith("appData")) {
                 appDataDir = arg.split("=")[1];
             } else if (arg.startsWith("name")) {
-                windowTitleBar = arg.split("=")[1];
+                title = arg.split("=")[1];
             } else if (arg.equals("loadWorldOnStartup")) {
                 LocalClient.LOAD_WORLD_ON_STARTUP = true;
             }
@@ -72,6 +75,7 @@ public class LocalClient extends Client {
             frameTester.setEnabled(false);
         }
 
-        window = new ClientWindow(windowTitleBar);
+        window = new ClientWindow(title);
+        window.init();
     }
 }

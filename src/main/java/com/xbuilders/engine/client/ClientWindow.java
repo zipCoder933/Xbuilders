@@ -94,47 +94,30 @@ public class ClientWindow extends NKWindow {
     public static PopupMessage popupMessage;
     public static final ResourceLoader resourceLoader = new ResourceLoader();
     File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
+    String title;
 
-    public String windowTitleBar = "XBuilders";
-
-    public ClientWindow(String windowTitleBar) {
+    public ClientWindow(String title) {
         super();
-        this.windowTitleBar = windowTitleBar;
+        this.title = title;
+    }
 
-        try {
-            init();
-            if (settings.video_fullscreen) {
-                enableFullscreen(settings.video_fullscreenSize.value);
-            }
-            saveAndApplySettings();   //DO THIS LAST Apply settings just in case the settings were not already applied
-            showWindow();
+    public void startWindowThread() throws IOException {
+        while (!windowShouldClose()) {
+            /* Input */
+            beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
+            startFrame();
+            LocalClient.frameTester.__startFrame();
+            render();
+            MemoryProfiler.update();
+            if (LocalClient.memoryGraph != null) LocalClient.memoryGraph.update();
+            LocalClient.frameTester.__endFrame();
 
-            while (!windowShouldClose()) {
-                /* Input */
-                beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
-                startFrame();
-                LocalClient.frameTester.__startFrame();
-                render();
-                MemoryProfiler.update();
-                if (LocalClient.memoryGraph != null) LocalClient.memoryGraph.update();
-                LocalClient.frameTester.__endFrame();
-
-                endFrame();//EndFrame takes the most time, becuase we have vsync turned on
-                endScreenshot();
-            }
-        } catch (Exception e) {
-            ErrorHandler.createPopupWindow(windowTitleBar + " has crashed",
-                    windowTitleBar + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
-                            "Stack trace:\n" +
-                            String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
-                            "\n\n Log saved to clipboard.");
-            ErrorHandler.log(e, "Fatal Error");
-        } finally {
-            destroyWindow();
+            endFrame();//EndFrame takes the most time, becuase we have vsync turned on
+            endScreenshot();
         }
     }
 
-    private void init() throws Exception {
+    public void init() throws Exception {
         GLFWWindow.initGLFW();
         settings = ClientSettings.load();
 
@@ -184,6 +167,12 @@ public class ClientWindow extends NKWindow {
         if (LocalClient.generateIcons || !blockIconsDirectory.exists()) {
             firstTimeSetup();
         }
+
+        if (settings.video_fullscreen) {
+            enableFullscreen(settings.video_fullscreenSize.value);
+        }
+        saveAndApplySettings();   //DO THIS LAST Apply settings just in case the settings were not already applied
+        showWindow();
     }
 
     public static void createPopupWindow(String title, String str) {
@@ -281,7 +270,7 @@ public class ClientWindow extends NKWindow {
             playerName = " (" + GameScene.userPlayer.userInfo.name + ") ";
         } finally {
         }
-        setTitle(windowTitleBar + playerName + (LocalClient.DEV_MODE ? "   " + mfpAndMemory : ""));
+        setTitle(title + playerName + (LocalClient.DEV_MODE ? "   " + mfpAndMemory : ""));
     }
 
     @Override

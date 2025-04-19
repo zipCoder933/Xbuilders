@@ -1,8 +1,8 @@
-package com.xbuilders.engine.server.world.skybox;
+package com.xbuilders.engine.client.visuals.skybox;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -24,11 +24,11 @@ public class SkyBackground {
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
     ClientWindow mainWindow;
-    LocalServer server;
+    World world;
 
-    public SkyBackground(ClientWindow mainWindow, LocalServer server) throws IOException {
+    public SkyBackground(ClientWindow mainWindow, World world) throws IOException {
         skyBoxMesh = new SkyBoxMesh();
-        this.server = server;
+        this.world = world;
         this.mainWindow = mainWindow;
         skyBoxMesh.loadFromOBJ(ResourceUtils.file("weather\\skybox.obj"));
 
@@ -50,7 +50,7 @@ public class SkyBackground {
 
     public void update() {
         //Move the sky texture
-        if (LocalServer.world.data.data.alwaysDayMode) setSkyTexturePan(0);
+        if (world.data.data.alwaysDayMode) setSkyTexturePan(0);
         else updateTexturePan();
 
         //Calculate the light level
@@ -67,7 +67,7 @@ public class SkyBackground {
             float redDifference = (defaultSkyColor.x - defaultSkyColor.z) * 0.3f; //Choose how much % should be tinted red
             defaultTint.set(lightness + redDifference, lightness, lightness);
         } else defaultTint.set(lightness, lightness, lightness);
-        LocalServer.world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
+        world.chunkShader.setTintAndFogColor(defaultSkyColor, defaultTint);
         if (Entity.shader != null) {
             Entity.shader.setTint(defaultTint);
         }
@@ -90,12 +90,12 @@ public class SkyBackground {
     }
 
     private double getSkyTexturePan() {
-        return LocalServer.world.data.data.dayTexturePan;
+        return world.data.data.dayTexturePan;
     }
 
     private void setSkyTexturePan(double val) {
         //By writing and reading directly from world data, we never have to worry about loading/saving
-        LocalServer.world.data.data.dayTexturePan = val;
+        world.data.data.dayTexturePan = val;
     }
 
     public void draw(Matrix4f projection, Matrix4f view) {
