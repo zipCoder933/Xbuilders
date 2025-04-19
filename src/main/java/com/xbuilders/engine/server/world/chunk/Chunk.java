@@ -1,7 +1,6 @@
 package com.xbuilders.engine.server.world.chunk;
 
-import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -157,7 +156,7 @@ public class Chunk {
             }
 
             //Load all entities to the world
-            Server.world.entities.addAllEntitiesFromChunk(this);
+            LocalServer.world.entities.addAllEntitiesFromChunk(this);
 
             // Loading a chunk includes loading sunlight
             setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED); //TODO: The world updates sunlight in pillars, therefore setting light to sun_loaded makes no difference because the pillar doesnt know how if a chunk doesnt have sunlight
@@ -273,7 +272,7 @@ public class Chunk {
                     World.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
 
-                        if (Server.world.data == null) return null; // Quick fix. TODO: remove this line
+                        if (LocalServer.world.data == null) return null; // Quick fix. TODO: remove this line
 
                         meshes.compute();
                         setGenerationStatus(GEN_COMPLETE);
@@ -389,7 +388,7 @@ public class Chunk {
     public static float randomTickLikelyhoodMultiplier = 1;
 
     public static float getRandomTickLikelihood() {
-        return randomTickLikelyhoodMultiplier * 0.001f;
+        return randomTickLikelyhoodMultiplier * 0.005f;
     }
 
     /**
@@ -430,7 +429,7 @@ public class Chunk {
                             && randomTick_random.nextFloat() <= spawnLikelyhood &&
                             entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
                         Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
-                        Entity e = Server.placeEntity(entityToSpawn, pos, null);
+                        Entity e = LocalServer.placeEntity(entityToSpawn, pos, null);
                         e.spawnedNaturally = true;
                     }
 

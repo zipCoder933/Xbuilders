@@ -10,14 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/ResourceList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/JarResourceLister.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/XBuilders3_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/XBuilders3_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/XBuilders3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuilders3.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/ResourceLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/EntityRemovalTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/EntityRemovalTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/UserControlledPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/player/UserControlledPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/ores.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/ores.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/tools.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/tools.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/variants.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/variants.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +27,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -89,35 +89,37 @@
     &quot;Application.SmileTest2.executor&quot;: &quot;Run&quot;,
     &quot;Application.com.xbuilders.tests.fasterXML.smile.Main.executor&quot;: &quot;Run&quot;,
     &quot;Application.com.xbuilders.tests.netty.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.netty client.executor&quot;: &quot;Run&quot;,
+    &quot;Application.netty server.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.codeium.enabled&quot;: &quot;true&quot;,
     &quot;com.intellij.ide.FileNotInSourceRootChecker.no.check&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;&lt;unknown&gt;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;netty-server&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Patron/Documents/GitHub/Xbuilders&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/xbuilders/src/main/java/com/xbuilders/engine/utils/network/netty/packet/join&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.15412186&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.codeium.AppSettingsConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xbuilders.content.vanilla.items" />
       <recent name="com.xbuilders.content.vanilla.blocks" />
       <recent name="com.xbuilders.content.vanilla" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.items.recipes" />
-      <recent name="com.xbuilders.game.vanilla.terrain.defaultTerrain" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xbuilders\src\main\java\com\xbuilders\engine\utils\network\netty\packet\join" />
       <recent name="D:\xbuilders\src\main\resources\data\xbuilders\blocks" />
       <recent name="D:\xbuilders\res\items" />
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\src\main\java\com\xbuilders\engine\utils\json\fasterXML\animalFeedInput" />
       <recent name="C:\Local Files\github\Xbuilders\res\items\blocks\json" />
-      <recent name="C:\Local Files\github\Xbuilders\src\main\java\com\xbuilders\engine\items\recipes\crafting" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items" />
@@ -127,21 +129,21 @@
       <recent name="C:\Users\Patron\Documents\GitHub\Xbuilders\res\items\loot\block" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.engine.client.ClientWindow" />
+      <recent name="com.xbuilders.engine.client.LocalClient" />
       <recent name="com.xbuilders.engine.client.visuals.gameScene.GameScene" />
       <recent name="com.xbuilders.engine.gameScene.GameScene" />
       <recent name="com.xbuilders.engine.utils.math.MathUtils" />
-      <recent name="com.xbuilders.engine.ui.gameScene.items.UI_ItemWindow" />
-      <recent name="com.xbuilders.engine.items.Registrys" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.engine.utils.network.netty.packet.ping" />
       <recent name="com.xbuilders.content.vanilla.blocks.blocks" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.server.world.chunk.saving" />
       <recent name="com.xbuilders.engine.ui.gameScene.items" />
-      <recent name="com.xbuilders.game.vanilla.ui" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Dev (Load World)">
+  <component name="RunManager" selected="Application.Dev">
     <configuration name="Dev 2" type="Application" factoryName="Application" folderName="devs" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main" />
       <module name="XBuilders3" />
@@ -202,6 +204,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="netty client" type="Application" factoryName="Application" folderName="netty">
+      <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.Test_NettyClient" />
+      <module name="XBuilders3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="netty server" type="Application" factoryName="Application" folderName="netty">
+      <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.Test_NettyServer" />
+      <module name="XBuilders3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Multiplayer Test 4P" type="CompoundRunConfigurationType">
       <toRun name="Dev" type="Application" />
       <toRun name="Dev 2" type="Application" />
@@ -214,14 +230,22 @@
       <toRun name="Dev 2" type="Application" />
       <method v="2" />
     </configuration>
+    <configuration name="Netty Test" type="CompoundRunConfigurationType">
+      <toRun name="netty client" type="Application" />
+      <toRun name="netty server" type="Application" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Dev 2" />
       <item itemvalue="Application.Dev 3" />
       <item itemvalue="Application.Dev 4" />
+      <item itemvalue="Application.netty server" />
+      <item itemvalue="Application.netty client" />
       <item itemvalue="Application.Dev" />
       <item itemvalue="Application.Dev (Load World)" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.MiscTester" />
+      <item itemvalue="Compound.Netty Test" />
       <item itemvalue="Compound.Multiplayer Test 4P" />
       <item itemvalue="Compound.Multiplayer Test" />
     </list>

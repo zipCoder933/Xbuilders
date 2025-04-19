@@ -12,7 +12,7 @@ public class Shovel extends Item {
         this.miningSpeedMultiplier = miningSpeedMultiplier;
         tags.add("shovel");
         tags.add("tool");
-        tags.add(material);
+        //tags.add(material);
         maxDurability = durability;
     }
 }

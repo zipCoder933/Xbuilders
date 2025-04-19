@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -104,9 +104,9 @@ public class SphereTool extends BlockTool {
         if (!newBlock.isAir() && hollow &&
                 origin.distance(x, y, z) < radius - wallThickness.getValueAsNumber()) return; //Make the sphere hollow
 
-        Block prevBlock = Server.world.getBlock(x, y, z);
+        Block prevBlock = LocalServer.world.getBlock(x, y, z);
         if (prevBlock != newBlock && (!prevBlock.solid || newBlock.isAir())) {
-            Server.setBlock(newBlock.id, x, y, z);
+            LocalServer.setBlock(newBlock.id, x, y, z);
         }
     }
 

@@ -4,7 +4,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
@@ -102,7 +102,7 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
         breakAmt = 0;
         breakPercentage = 0;
         ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
@@ -117,8 +117,8 @@ public class CursorRay {
 
 
         if (creationMode &&
-                Server.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
-                        .run_ClickEvent(Server.eventPipeline.clickEventThread, getHitPos())) { //Block click event
+                LocalServer.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
+                        .run_ClickEvent(LocalServer.eventPipeline.clickEventThread, getHitPos())) { //Block click event
             return true;
         }
 
@@ -158,7 +158,7 @@ public class CursorRay {
                 }
                 //If we are not interrupting the eating process, we can eat
                 if (canEat && selectedItem.item.isFood()) {
-                    System.out.println("Eating food");
+
                     eatFood(selectedItem);
                     return true;
                 }
@@ -177,14 +177,18 @@ public class CursorRay {
 
 
     private float getMiningSpeed(ItemStack selectedItem) {
-        float miningSpeed = 0.005f;
+        float miningSpeed = 0.015f;
         if (selectedItem != null) miningSpeed *= selectedItem.item.miningSpeedMultiplier;
         return miningSpeed;
     }
 
 
     private void eatFood(ItemStack selectedItem) {
-        GameScene.userPlayer.addHunger(selectedItem.item.hungerSaturation);
+        System.out.println("Eating food");
+        if (GameScene.userPlayer.getFoodLevel() >= UserControlledPlayer.MAX_FOOD * 0.9) {
+            return;
+        }
+        GameScene.userPlayer.addFood(selectedItem.item.foodAdd);
         selectedItem.stackSize--;
     }
 
@@ -214,26 +218,29 @@ public class CursorRay {
     }
 
     private void breakBlock(boolean isHeld, ItemStack selectedItem) {
-        if (!Server.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
+        if (!LocalServer.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
 
         if (isHeld) {
-            if (Server.getGameMode() != GameMode.FREEPLAY) {
+            if (LocalServer.getGameMode() != GameMode.FREEPLAY) {
                 if (!getHitPos().equals(lastBreakPos)) {
+                    System.out.println("Changed block");
                     breakAmt = 0;
                     lastBreakPos.set(getHitPos());
                 }
-                Block existingBlock = Server.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
+                Block existingBlock = LocalServer.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
                 if (existingBlock.isLiquid()) return;
                 float miningSpeed = getMiningSpeed(selectedItem);
 
                 //If we are mining with the wrong tool, mine slower
                 if (isMiningWithWrongTool(existingBlock, selectedItem)) {
-                    miningSpeed *= 0.09f;
+                    miningSpeed *= 0.15f;
                 }
 
                 //If the block requires a tool to mine it, and the player doesn't have the right tool, don't mine at all
                 if (!hasToolThatCanMine(existingBlock, selectedItem)) {
+                    System.out.println("No tool for block");
                     breakAmt = 0;
+                    return;
                 }
 
 
@@ -246,21 +253,18 @@ public class CursorRay {
                     if (selectedItem.durability <= 0) selectedItem.destroy();
                 }
                 if (breakAmt >= blockToughness) {
-                    if (AllLootTables.blockLootTables.getLoot(existingBlock.alias) != null) {
-                        AllLootTables.blockLootTables.getLoot(existingBlock.alias).randomItems((itemStack) -> {
-                            Server.placeItemDrop(new Vector3f(getHitPos()), itemStack, false);
-                        });
-                    }
-                    Server.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                    AllLootTables.blockLootTables.dropLoot(existingBlock.alias, new Vector3f(getHitPos()), false);
+                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                     breakAmt = 0;
+                    System.out.println("Resetting after broken block");
                 }
             }
         } else { //Click
-            if (Server.getGameMode() == GameMode.FREEPLAY) {
+            if (LocalServer.getGameMode() == GameMode.FREEPLAY) {
                 if (getEntity() != null) {
                     getEntity().destroy();
                 } else {
-                    Server.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                 }
             }
         }
@@ -271,7 +275,7 @@ public class CursorRay {
     final int AUTO_CLICK_INTERVAL = 250;
 
     public void update() {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return;
 
         if (!ClientWindow.gameScene.ui.anyMenuOpen()) {
             //Auto click
@@ -281,7 +285,7 @@ public class CursorRay {
                     autoClick_lastClicked = System.currentTimeMillis();
                     camera.cursorRay.clickEvent(true);
                 }
-            } else if (Server.getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+            } else if (LocalServer.getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
                 if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
                         System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
                     autoClick_lastClicked = System.currentTimeMillis();
@@ -291,13 +295,19 @@ public class CursorRay {
 
             //Removal
             if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+                lastDeletePressTime = System.currentTimeMillis();
                 ItemStack selectedItem = GameScene.userPlayer.getSelectedItem();
                 if (selectedItem == null || !selectedItem.item.isFood()) {
                     breakBlock(true, selectedItem);
                 }
-            } else breakPercentage = 0;
+                //If its been more than 200ms since we last held the mouse, reset the progress
+                //We do this so that in case the mouse isnt holding down the whole time, we can still break the block
+            } else if (System.currentTimeMillis() - lastDeletePressTime > 300)
+                breakPercentage = 0;
         }
     }
+
+    private long lastDeletePressTime;
 
     private boolean blockIntersectsPlayer(Block block, Vector3i set) {
         AABB boxAABB = new AABB();
@@ -320,20 +330,20 @@ public class CursorRay {
 
         if (stack.stackSize <= 0) return false;
         if (block != null) {
-            Block hitBlock = Server.world.getBlock(cursorRay.getHitPositionAsInt());
+            Block hitBlock = LocalServer.world.getBlock(cursorRay.getHitPositionAsInt());
             Vector3i set = cursorRay.getHitPositionAsInt();
 
-            if (!hitBlock.getType().replaceOnSet) {
+            if (!(hitBlock.getType().replaceOnSet && !block.getType().replaceOnSet)) {
                 set = cursorRay.getHitPosPlusNormal();
                 if (blockIntersectsPlayer(block, set)) return false;
             }
-            if (Server.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
-            Server.setBlock(block.id, set.x, set.y, set.z);
+            if (LocalServer.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
+            LocalServer.setBlock(block.id, set.x, set.y, set.z);
             return true;
         } else if (entity != null) {
             Vector3f pos = new Vector3f(cursorRay.getHitPosPlusNormal());
-            if (Server.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
-            Server.placeEntity(entity, pos, null);
+            if (LocalServer.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
+            LocalServer.placeEntity(entity, pos, null);
             return true;
         }
         return false;
@@ -349,7 +359,7 @@ public class CursorRay {
                     boundaryConsumer.accept(boundary_aabb, create);
                 makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
                 boundary_isStartNodeSet = false;
-            } else Server.alertClient("Boundary is too large");
+            } else LocalServer.alertClient("Boundary is too large");
         }
     }
 
@@ -403,7 +413,7 @@ public class CursorRay {
 
 
     public boolean boundaryIsWithinArea() {
-        int maxWidth = Server.world.getDeletionViewDistance() - Chunk.WIDTH;
+        int maxWidth = LocalServer.world.getDeletionViewDistance() - Chunk.WIDTH;
         return boundary_aabb.getXLength() < maxWidth &&
                 boundary_aabb.getZLength() < maxWidth
                 &&
@@ -415,7 +425,7 @@ public class CursorRay {
     }
 
     public void drawRay() {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return;
 
         if (hitTarget() && useBoundary) {
             if (!boundary_isStartNodeSet) {

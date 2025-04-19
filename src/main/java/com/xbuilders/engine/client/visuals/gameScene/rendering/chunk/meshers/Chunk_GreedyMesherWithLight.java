@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
@@ -130,9 +130,9 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                 normal[2] = 0;
                 normal[d] = backFace ? -1 : 1;
 
-                Chunk forwardChunk = Server.world
+                Chunk forwardChunk = LocalServer.world
                         .getChunk(new Vector3i(chunkPosition.x + q[0], chunkPosition.y + q[1], chunkPosition.z + q[2]));
-                Chunk backChunk = Server.world
+                Chunk backChunk = LocalServer.world
                         .getChunk(new Vector3i(chunkPosition.x - q[0], chunkPosition.y - q[1], chunkPosition.z - q[2]));
 
                 if (d == 0) {
@@ -517,7 +517,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
         if (Chunk.inBounds(pos[0], pos[1], pos[2])) {// Center
             return data.getPackedLight(pos[0], pos[1], pos[2]);
         } else {
-            Chunk chunk = WCCi.getNeighboringChunk(Server.world, chunkPosition, pos[0], pos[1], pos[2]);
+            Chunk chunk = WCCi.getNeighboringChunk(LocalServer.world, chunkPosition, pos[0], pos[1], pos[2]);
             if (chunk != null) {
                 return chunk.data.getPackedLight(
                         MathUtils.positiveMod(pos[0], Chunk.WIDTH),

@@ -16,7 +16,6 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import com.xbuilders.engine.utils.json.JsonManager;
 
-import java.awt.Image;
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
@@ -28,11 +27,8 @@ import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
 public class WorldData {
 
-    public final int LATEST_TERRAIN_VERSION = 1;
     private File directory;
-    final String IMAGE_FILE = "image.png";
     final String INFO_FILENAME = "info.json";
-    Image image;
     private String name;
     private static final Gson gson = new JsonManager().gson_itemAdapter;
     public DataFile data;
@@ -62,17 +58,6 @@ public class WorldData {
         return this.name;
     }
 
-    public Image getImage() {
-        return this.image;
-    }
-
-    public boolean hasImage() {
-        return new File(this.getDirectory(), IMAGE_FILE).exists();
-    }
-
-    public int getTerrainVersion() {
-        return this.data.terrainVersion;
-    }
 
     public Vector3f getSpawnPoint() {
         if (this.data.spawnX == -1.0) {
@@ -137,7 +122,6 @@ public class WorldData {
         if (!getDirectory().exists()) {
             getDirectory().mkdirs();
         }
-        data.timeOfDay = GameScene.background.getTimeOfDay();
         data.lastSaved = System.currentTimeMillis();
         String json = gson.toJson(data);
         Files.writeString(Paths.get(getDirectory() + "\\" + INFO_FILENAME), json);
@@ -184,8 +168,9 @@ public class WorldData {
         public String terrain;
         public int seed;
         public int gameMode;
-        public double timeOfDay;
         public HashMap<String, Boolean> terrainOptions = new HashMap<>();
+        public boolean alwaysDayMode;
+        public double dayTexturePan = 0;
 
         public DataFile() {
             this.spawnX = -1.0f;
@@ -194,6 +179,7 @@ public class WorldData {
             this.terrainVersion = 0;
             this.gameMode = GameMode.FREEPLAY.ordinal();
             isJoinedMultiplayerWorld = false;
+            alwaysDayMode = false;
         }
 
     }

@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.xbuilders.engine.Server;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.GameSceneEvents;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
@@ -18,6 +20,7 @@ import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -56,13 +59,20 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     float autoJump_ticksWhileColidingWithBlock = 0;
 
     //Health
+    //TODO: Saturation is a status effect, meaning we have to implement effects before implementing saturation
     private boolean dieMode;
-    public final float MAX_HEALTH = 20f;
-    public final float MAX_HUNGER = 20f;
-    public final float MAX_OXYGEN = 20f;
+    public final static float MAX_HEALTH = 20f;
+    public final static float MAX_FOOD = 20f;
+    public final static float MAX_OXYGEN = 20f;
+
+    public final static float IDLE_FOOD_DEPLETION = 0.00001f;
+    public final static float MOVING_FOOD_DEPLETION = 0.0003f;
+    public final static float RUNNING_FOOD_DEPLETION = 0.0007f;
+    public final static float HEALTH_REGEN_SPEED = 0.0006f;
+
 
     private float status_health;
-    private float status_hunger;
+    private float status_food;
     private float status_oxygen;
 
     public boolean isDieMode() {
@@ -77,8 +87,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         return status_oxygen;
     }
 
-    public float getHungerLevel() {
-        return status_hunger;
+    public float getFoodLevel() {
+        return status_food;
     }
 
     public float getHealth() {
@@ -89,108 +99,177 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         status_health += damage;
     }
 
-    public void addHunger(float hungerPoints) {
-        status_hunger += hungerPoints;
+    public void addFood(float hungerPoints) {
+        status_food += hungerPoints;
     }
 
-    private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
-        if (Server.getGameMode() == GameMode.ADVENTURE) {
 
-            if (status_hunger > 0) {
-                if (runningMode) status_hunger -= 0.0015f;
-                else status_hunger -= 0.0004f;
+    private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
+        if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
+
+            float multiplier = 1;
+
+            /**
+             * Food can go higher than the maximum level, but it cant go lower than zero
+             */
+            if (status_food > 0) {
+                //Scale hunger depletion based on difficulty
+                float difficulty = 1;
+                if (LocalServer.getDifficulty() == Difficulty.EASY) difficulty = 0.5f;
+                if (LocalServer.getDifficulty() == Difficulty.HARD) difficulty = 2f;
+
+                if (isRidingEntity()) { //Dont deplete hunger if we are riding something
+                    status_food -= IDLE_FOOD_DEPLETION * difficulty * multiplier; //Baseline hunger deplation
+                } else {
+                    if (runningMode) status_food -= RUNNING_FOOD_DEPLETION * difficulty * multiplier; //Running
+                    else if (forwardKeyPressed() || backwardKeyPressed())
+                        status_food -= MOVING_FOOD_DEPLETION * difficulty * multiplier; //Walking
+                    else status_food -= IDLE_FOOD_DEPLETION * difficulty * multiplier; //Baseline hunger deplation
+                }
             }
 
+            /**
+             * Damage
+             */
             float enterDamage = Math.max(Math.max(playerHead.enterDamage, playerFeet.enterDamage), playerWaist.enterDamage);
             if (enterDamage > 0) {
                 status_health -= enterDamage;
-            } else if (status_oxygen <= 0 || status_hunger <= 0) {
-                status_health -= 0.2f;
-            } else if (status_health < MAX_HEALTH && status_hunger > 3) {//Regenerate
-                status_health += 0.004f;
+            } else if (status_oxygen <= 0 || status_food <= 0) {
+                status_health -= 0.2f * multiplier;
+            } else if (status_health < MAX_HEALTH && status_food > 3) {//Regenerate
+                status_health += HEALTH_REGEN_SPEED * multiplier;
             }
+
+            /**
+             * Oxygen
+             */
             if (playerHead.isLiquid()) {
-                status_oxygen -= 0.02f;
-            } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.02f;
+                status_oxygen -= 0.02f * multiplier;
+            } else if (status_oxygen < MAX_OXYGEN) status_oxygen += 0.02f * multiplier;
 
 
             if (status_health <= 0) {
                 die();
             }
-            status_hunger = MathUtils.clamp(status_hunger, 0, MAX_HUNGER);
             status_health = MathUtils.clamp(status_health, 0, MAX_HEALTH);
             status_oxygen = MathUtils.clamp(status_oxygen, 0, MAX_OXYGEN);
         }
     }
 
+    private boolean isRidingEntity() {
+        return positionLock != null;
+    }
+
     private void resetHealthStats() {
         dieMode = false;
         status_health = MAX_HEALTH;
-        status_hunger = MAX_HUNGER;
+        status_food = MAX_FOOD;
         status_oxygen = MAX_OXYGEN;
     }
 
     public void die() {
         dismount();
         dieMode = true;
+        setFlashlight(0);
         ClientWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             if (!inventory.isEmpty()) {
-                Server.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+                //Make sure the flag is placed somewhere safe (where it wont displace a block)
+                Vector3f flagPos = findSuitableFlagPlacement(worldPosition);
+                LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
+                GameScene.alert("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
-            teleportSafely(status_spawnPosition);
+            respawn(status_spawnPosition);
             resetHealthStats();
             dieMode = false;
         });
     }
 
-    private void teleportSafely(Vector3f target) {
-        aabb.updateBox();
-        System.out.println("Teleporting safely to " + target.x + ", " + target.y + ", " + target.z);
-        worldPosition.set(target);
-        Vector3f pos = new Vector3f();
-        while (Server.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
-            aabb.updateBox();
-            System.out.println("Checking for ground: " + worldPosition.y);
-            getPlayerBoxBottom(pos);
-            if (Server.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z).solid ||
-                    Server.world.getBlock((int) pos.x, (int) pos.y + 1, (int) pos.z).solid) {
-                System.out.println("Found ground at " + worldPosition.y);
-                break;
-            } else {
-                worldPosition.y++;
-            }
-        }
-        aabb.updateBox();
 
-        System.out.println("The players head is " + getBlockAtPlayerHead());
-        if (!isSafeHeadPos(getBlockAtPlayerHead())) {
-            System.out.println("Moving up");
-            while (Server.world.inBounds((int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z)) {
-                aabb.updateBox();
-                System.out.println("Checking for air: " + worldPosition.y);
-                pos.set(
-                        (int) Math.floor(worldPosition.x),
-                        (int) Math.floor(worldPosition.y),
-                        (int) Math.floor(worldPosition.z));
-                if (isSafeHeadPos(Server.world.getBlock((int) pos.x, (int) pos.y, (int) pos.z))) {
-                    System.out.println("Found air at " + worldPosition.y);
-                    break;
-                } else {
-                    worldPosition.y--;
-                    aabb.updateBox();
+    private void respawn(Vector3f target) {
+        aabb.updateBox();
+        Vector3f reaspawn = findSuitableSpawnPoint(target);
+        aabb.updateBox();
+        teleport(reaspawn.x, reaspawn.y, reaspawn.z);
+    }
+
+    public Vector3f findSuitableFlagPlacement(Vector3f target) {
+        Vector3f newTarget = new Vector3f(target);
+
+        if (
+                !canPlaceFlagHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)
+        ) {
+            System.out.println("Cant place flag here (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + "), Looking around");
+            //Go around the spawn point and find a safe place to spawn
+            final int HORIZONTAL_RADIUS = 10;
+            final int VERTICAL_RADIUS = 10;
+
+
+            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
+                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
+                    for (int y = (int) (target.y - VERTICAL_RADIUS); y < target.y + VERTICAL_RADIUS; y++) {
+                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
+                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+                            System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
+                            newTarget.set(x, y, z);
+                            return newTarget;
+                        }
+                    }
+                }
+            }
+
+//            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
+//                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
+//                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
+//                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
+//                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+//                            System.out.println("Found flag placement (Top of world)");
+//                            newTarget.set(x, y, z);
+//                            return newTarget;
+//                        }
+//                    }
+//                }
+//            }
+
+        }
+        return newTarget;
+    }
+
+    private boolean canPlaceFlagHere(World world, int x, int y, int z) {
+        return world.getBlock(x, y, z).isAir()
+                && LocalServer.world.terrain.canSpawnHere(world, x, y, z);
+    }
+
+    public Vector3f findSuitableSpawnPoint(Vector3f target) {
+        Vector3f newTarget = new Vector3f(target);
+
+        if (!LocalServer.world.terrain.canSpawnHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)) {
+            System.out.println("Cant spawn here, Looking around");
+            //Go around the spawn point and find a safe place to spawn
+            final int HORIZONTAL_RADIUS = 10;
+            lookLoop:
+            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
+                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
+                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
+                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
+                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+                            System.out.println("Found spawn point");
+                            newTarget.set(x, y, z);
+                            break lookLoop;
+                        }
+                    }
                 }
             }
         }
-        teleport(worldPosition.x, worldPosition.y, worldPosition.z);
+        return newTarget;
     }
 
     public void teleport(float x, float y, float z) {
         previous_playerBlock = null;
         previous_CameraBlock = null;
         worldPosition.set(x, y, z);
-        Server.alertClient("Teleported to " + x + ", " + y + ", " + z);
+        LocalServer.alertClient("Teleported to " + x + ", " + y + ", " + z);
     }
 
     private boolean isSafeHeadPos(Block block) {
@@ -202,7 +281,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private Vector3f status_spawnPosition = new Vector3f();
 
     public void setSpawnPoint(float x, float y, float z) {
-        Server.alertClient("Spawn set to " + x + ", " + y + ", " + z);
+        LocalServer.alertClient("Spawn set to " + x + ", " + y + ", " + z);
         status_spawnPosition.set(x, y, z);
     }
 
@@ -278,7 +357,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         jsonObject.addProperty("spawnZ", (float) status_spawnPosition.z);
 
         jsonObject.addProperty("health", status_health);
-        jsonObject.addProperty("hunger", status_hunger);
+        jsonObject.addProperty("hunger", status_food);
         jsonObject.addProperty("oxygen", status_oxygen);
 
         try {
@@ -316,7 +395,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     status_spawnPosition.z = jsonObject.get("spawnZ").getAsFloat();
                 }
                 if (jsonObject.has("health")) status_health = jsonObject.get("health").getAsFloat();
-                if (jsonObject.has("hunger")) status_hunger = jsonObject.get("hunger").getAsFloat();
+                if (jsonObject.has("hunger")) status_food = jsonObject.get("hunger").getAsFloat();
                 if (jsonObject.has("oxygen")) status_oxygen = jsonObject.get("oxygen").getAsFloat();
 
                 selectedItemIndex = 0;
@@ -390,7 +469,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     private void jump() {
-        if (Server.getGameMode() == GameMode.SPECTATOR) {
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) {
         } else {
             dismount();
             if (positionHandler.isGravityEnabled()) {
@@ -414,7 +493,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         this.view = view;
         inventory = new StorageSpace(33);
         camera = new Camera(this, window, projection, view, centeredView);
-        positionHandler = new PositionHandler(window, Server.world, aabb, aabb);
+        positionHandler = new PositionHandler(window, LocalServer.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 3) {
                 float damage = MathUtils.map(fallDistance, 3, 15, 0, MAX_HEALTH);
@@ -430,7 +509,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void setFlashlight(float distance) {
-        Server.world.chunkShader.setFlashlightDistance(distance);
+        LocalServer.world.chunkShader.setFlashlightDistance(distance);
     }
 
     /**
@@ -446,7 +525,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         autoForward = false;
         isFlyingMode = true;
         loadFromWorld(world);
-        gameModeChangedEvent(Server.getGameMode());
+        gameModeChangedEvent(LocalServer.getGameMode());
     }
 
     public void stopGameEvent() {
@@ -470,28 +549,28 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public Block getBlockAtPlayerHead() {
-        return Server.world.getBlock(
+        return LocalServer.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerFeet() {
-        return Server.world.getBlock(
+        return LocalServer.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerWaist() {
-        return Server.world.getBlock(
+        return LocalServer.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()) - 1,
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtCameraPos() {
-        return Server.world.getBlock(
+        return LocalServer.world.getBlock(
                 (int) Math.floor(camera.position.x),
                 (int) Math.floor(camera.position.y),
                 (int) Math.floor(camera.position.z));
@@ -500,7 +579,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public boolean isInsideOfLadder() {
         return getBlockAtPlayerHead().climbable
                 ||
-                Server.world.getBlock(
+                LocalServer.world.getBlock(
                         (int) Math.floor(worldPosition.x),
                         (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                         (int) Math.floor(worldPosition.z)).climbable;
@@ -527,7 +606,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         }
 
         Block newCameraBlock = getBlockAtCameraPos();
-        if (previous_CameraBlock == null || newCameraBlock != previous_CameraBlock) {
+        if (dieMode) {
+            ClientWindow.gameScene.ui.setOverlayColor(0.5f, 0, 0, 0.5f);
+        } else if (previous_CameraBlock == null || newCameraBlock != previous_CameraBlock) {
             previous_CameraBlock = newCameraBlock;
             if (newCameraBlock.isAir()) {//Air is always transparent
                 ClientWindow.gameScene.ui.setOverlayColor(0, 0, 0, 0);
@@ -684,7 +765,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 || lastOrientation.z != worldPosition.z
                 || lastOrientation.w != pan) {
             lastOrientation.set(worldPosition.x, worldPosition.y, worldPosition.z, pan);
-            Server.server.sendPlayerPosition(lastOrientation);
+            LocalServer.server.sendPlayerPosition(lastOrientation);
         }
     }
 
@@ -694,14 +775,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private boolean canRun() {
         return
-                Server.getGameMode() == GameMode.FREEPLAY
-                        || Server.getGameMode() == GameMode.SPECTATOR
-                        || status_hunger > 5;
+                LocalServer.getGameMode() == GameMode.FREEPLAY
+                        || LocalServer.getGameMode() == GameMode.SPECTATOR
+                        || status_food > 5;
     }
 
 
     private boolean downKeyPressed() {
-        if (Server.getGameMode() == GameMode.SPECTATOR)
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR)
             return window.isKeyPressed(KEY_FLY_DOWN) || window.isKeyPressed(KEY_JUMP);
         return window.isKeyPressed(KEY_FLY_DOWN);
     }
@@ -709,7 +790,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private boolean isFlyingMode = true;
 
     public void enableFlying() {
-        if (Server.getGameMode() == GameMode.FREEPLAY || Server.getGameMode() == GameMode.SPECTATOR) {
+        if (LocalServer.getGameMode() == GameMode.FREEPLAY || LocalServer.getGameMode() == GameMode.SPECTATOR) {
             isFlyingMode = true;
             positionHandler.setGravityEnabled(false);
             positionHandler.collisionsEnabled = false;
@@ -733,7 +814,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 camera.cursorRay.clickEvent(false);
                 return true;
             } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-                GameUI.hotbar.pickItem(camera.cursorRay, Server.getGameMode() == GameMode.FREEPLAY);
+                GameUI.hotbar.pickItem(camera.cursorRay, LocalServer.getGameMode() == GameMode.FREEPLAY);
                 return true;
             }
         }
@@ -751,7 +832,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 case KEY_FLY_UP -> enableFlying();
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (key == KEY_CHANGE_RAYCAST_MODE && Server.getGameMode() == GameMode.FREEPLAY) {
+            if (key == KEY_CHANGE_RAYCAST_MODE && LocalServer.getGameMode() == GameMode.FREEPLAY) {
                 camera.cursorRay.angelPlacementMode = !camera.cursorRay.angelPlacementMode;
             }
             switch (key) {
@@ -778,7 +859,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         Vector3f pos = new Vector3f().set(GameScene.userPlayer.worldPosition);
         Vector3f addition = new Vector3f().set(GameScene.userPlayer.camera.look.x, 0, GameScene.userPlayer.camera.look.z).mul(1.5f);
         pos.add(addition);
-        return Server.placeItemDrop(
+        return LocalServer.placeItemDrop(
                 pos,
                 itemStack,
                 true);

@@ -5,7 +5,7 @@
 package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
@@ -42,7 +42,7 @@ public class UI_Hotbar extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return;
         NkRect windowDims2 = NkRect.malloc(stack);
 
         ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
@@ -55,12 +55,12 @@ public class UI_Hotbar extends UI_GameMenu {
         int y = window.getHeight() - menuHeight - 20;
 
         //Draw healthbars
-        if (Server.getGameMode() == GameMode.ADVENTURE) {
+        if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
             nk_rect(x, y - 60, menuWidth, menuHeight + 2, windowDims2);
             if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
                 nk_layout_row_dynamic(ctx, 10, 3);
                 nk_text(ctx, "Health: " + (int) (GameScene.userPlayer.getHealth()), NK_TEXT_ALIGN_LEFT);
-                nk_text(ctx, "Hunger: " + (int) (GameScene.userPlayer.getHungerLevel()), NK_TEXT_ALIGN_LEFT);
+                nk_text(ctx, "Hunger: " + (int) (GameScene.userPlayer.getFoodLevel()), NK_TEXT_ALIGN_LEFT);
                 nk_text(ctx, "Air: " + (int) (GameScene.userPlayer.getOxygenLevel()), NK_TEXT_ALIGN_LEFT);
                 nk_layout_row_dynamic(ctx, 20, 3);
 //            ctx.style().progress().normal().data().color().set(Theme.color_red);
@@ -69,8 +69,8 @@ public class UI_Hotbar extends UI_GameMenu {
                         (int) GameScene.userPlayer.MAX_HEALTH * 10, false);
 
                 nk_prog(ctx,
-                        (long) (GameScene.userPlayer.getHungerLevel() * 10),
-                        (int) GameScene.userPlayer.MAX_HUNGER * 10, false);
+                        (long) (GameScene.userPlayer.getFoodLevel() * 10),
+                        (int) GameScene.userPlayer.MAX_FOOD * 10, false);
 
                 nk_prog(ctx,
                         (long) (GameScene.userPlayer.getOxygenLevel() * 10),
@@ -142,14 +142,14 @@ public class UI_Hotbar extends UI_GameMenu {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
 
         changeSelectedIndex(-scroll.y());
         return true;
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
 
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
@@ -172,7 +172,7 @@ public class UI_Hotbar extends UI_GameMenu {
                 Entity entity = ray.getEntity();
                 stack = new ItemStack(Registrys.getItem(entity), 1);
             } else {
-                Block block = Server.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
+                Block block = LocalServer.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
                 Item item = Registrys.getItem(block);
                 if (item != null) stack = new ItemStack(item, 1);
             }

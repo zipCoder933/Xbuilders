@@ -9,6 +9,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.world.data.WorldData;
@@ -156,7 +157,7 @@ public class LoadWorld implements MenuPage {
         ProgressData prog = new ProgressData(title);
         menu.progress.enable(prog, () -> {//update
             try {
-                ClientWindow.server.startGameUpdateEvent(world, prog, req);
+                Main.localServer.startGameUpdateEvent(world, prog, req);
             } catch (Exception ex) {
                 ErrorHandler.report(ex);
                 prog.abort();
@@ -166,7 +167,7 @@ public class LoadWorld implements MenuPage {
             menu.setPage(Page.HOME);
         }, () -> {//canceled
             System.out.println("Canceled");
-            ClientWindow.server.stopGameEvent(); //Stop the game
+            Main.localServer.stopGameEvent(); //Stop the game
             menu.setPage(Page.HOME);
         });
     }

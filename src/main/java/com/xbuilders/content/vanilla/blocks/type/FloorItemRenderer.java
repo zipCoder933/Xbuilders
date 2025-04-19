@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
@@ -24,8 +24,8 @@ public class FloorItemRenderer extends BlockType {
 
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return !Server.world.getBlock(worldX, worldY + 1, worldZ).isLiquid()
-                && !Server.world.getBlock(worldX, worldY + 1, worldZ).isAir();
+        return !LocalServer.world.getBlock(worldX, worldY + 1, worldZ).isLiquid()
+                && !LocalServer.world.getBlock(worldX, worldY + 1, worldZ).isAir();
     }
 
     public FloorItemRenderer() throws IOException {
@@ -49,8 +49,7 @@ public class FloorItemRenderer extends BlockType {
 
     @Override
     public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
-
-        if (data == null || data.get(0) == 3) {
+        if (data == null || data.size() < 1 || data.get(0) == 3) {
             floor0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
         } else if (data.get(0) == 0) {
             floor1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);

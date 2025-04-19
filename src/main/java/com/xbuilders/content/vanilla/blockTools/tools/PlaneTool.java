@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -52,7 +52,7 @@ public class PlaneTool extends BlockTool {
         for (int x = (int) aabb.min.x; x < (int) aabb.max.x; x++) {
             for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
                 for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
-                    Server.setBlock(block.id, x, y, z);
+                    LocalServer.setBlock(block.id, x, y, z);
                 }
             }
         }

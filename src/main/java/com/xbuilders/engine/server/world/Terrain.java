@@ -3,15 +3,18 @@
 // 
 package com.xbuilders.engine.server.world;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.server.world.chunk.Chunk;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
 import java.util.Random;
+
+import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
 
 public abstract class Terrain {
 
@@ -91,7 +94,7 @@ public abstract class Terrain {
         }
 
         public void setBlockWorld(int x, int y, int z, short block) {
-            Chunk chunk = Server.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
+            Chunk chunk = LocalServer.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
 //            if (chunk != null && !homeChunk.position.equals(chunk.position)) {
 //                modifiedMeshedChunks.add(chunk);
 //            }
@@ -106,16 +109,32 @@ public abstract class Terrain {
 
     protected abstract void generateChunkInner(final Chunk p0, GenSession session);
 
-    //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
-    public boolean canSpawnHere(float PLAYER_HEIGHT,
-                                World world,
-                                int playerFeetX, int playerFeetY, int playerFeetZ) {
 
-        Block footBlock = world.getBlock(playerFeetX, playerFeetY, playerFeetZ);
-        return footBlock.solid
-                && !world.getBlock(playerFeetX, playerFeetY - 1, playerFeetZ).solid
-                && !world.getBlock(playerFeetX, playerFeetY - 2, playerFeetZ).solid
-                && !world.getBlock(playerFeetX, playerFeetY - 3, playerFeetZ).solid;
+
+
+    //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
+    public boolean canSpawnHere(World world,
+                                int playerWorldPosX,
+                                int playerWorldPosY,
+                                int playerWorldPosZ) {
+
+        //We are looking at the player foot
+        int playerFeetY = (int) (playerWorldPosY + PLAYER_HEIGHT);
+
+        Block footBlock = world.getBlock(playerWorldPosX, playerFeetY, playerWorldPosZ);
+        Block bodyBlock1 = world.getBlock(playerWorldPosX, playerFeetY - 1, playerWorldPosZ);
+        Block bodyBlock2 = world.getBlock(playerWorldPosX, playerFeetY - 2, playerWorldPosZ);
+        Block bodyBlock3 = world.getBlock(playerWorldPosX, playerFeetY - 3, playerWorldPosZ);
+
+        return footBlock.solid //Ground is solid
+                && !bodyBlock1.solid //The player can move
+                && !bodyBlock2.solid
+                && !bodyBlock3.solid
+                //The ground and air is safe to stand in
+                && footBlock.enterDamage < 0.01
+                && bodyBlock1.enterDamage < 0.01
+                && bodyBlock2.enterDamage < 0.01
+                && bodyBlock3.enterDamage < 0.01;
     }
 
     @Override

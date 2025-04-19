@@ -3,7 +3,7 @@
 //
 package com.xbuilders.content.vanilla.terrain.complexTerrain;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.Terrain;
@@ -89,7 +89,7 @@ public class ComplexTerrain extends Terrain {
 
                         if (makeTerrain > 0.5f) {
                             boolean placeSod =
-                                    Server.world.getBlockID(wx, wy - 1, wz) == BlockRegistry.BLOCK_AIR.id;
+                                    LocalServer.world.getBlockID(wx, wy - 1, wz) == BlockRegistry.BLOCK_AIR.id;
                             if (placeSod) {
                                 //Terrain dryness from 0 to 1
                                 final float dryness = (float) perlinNoise.noise(wx * DRYNESS_SCALE, 0, wz * DRYNESS_SCALE) + 1;

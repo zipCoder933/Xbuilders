@@ -72,13 +72,13 @@ public class Item implements Comparable<Item> {
 
 
     public boolean isFood() {
-        return hungerSaturation > 0;
+        return foodAdd > 0;
     }
 
     public int maxDurability = 0;
 
     //If this is a food (>0 means it is)
-    public float hungerSaturation = 0;
+    public float foodAdd = 0;
 
     //If this is a tool
     public float miningSpeedMultiplier = 1.0f;

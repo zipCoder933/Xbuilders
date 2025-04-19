@@ -10,6 +10,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -53,7 +54,7 @@ public class Multiplayer implements MenuPage {
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
-        if (ClientWindow.devMode) {
+        if (LocalClient.DEV_MODE) {
             if (hosting) {
                 fromPortBox.setValueAsNumber(8081);
             } else {
@@ -97,7 +98,7 @@ public class Multiplayer implements MenuPage {
                 ipAdressBox.render(ctx);
             }
 
-            if (ClientWindow.devMode) {
+            if (LocalClient.DEV_MODE) {
                 row(ctx, "From Port:", 2);
                 fromPortBox.render(ctx);
             }
@@ -122,7 +123,7 @@ public class Multiplayer implements MenuPage {
             if (nk_button_label(ctx, "CONTINUE")) {
                 int fromPortVal = (int) fromPortBox.getValueAsNumber();
                 int portVal = (int) portBox.getValueAsNumber();
-                if (!ClientWindow.devMode) fromPortVal = portVal;
+                if (!LocalClient.DEV_MODE) fromPortVal = portVal;
                 String ipAdress = this.ipAdressBox.getValueAsString();
                 NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.userInfo.name, ipAdress);
                 System.out.println(req.toString());
@@ -138,7 +139,7 @@ public class Multiplayer implements MenuPage {
         if (hosting) {
             ipAdressBox.setValueAsString(ipAdress);
         } else {
-            if (ClientWindow.devMode) {
+            if (LocalClient.DEV_MODE) {
                 ipAdressBox.setValueAsString(ipAdress);
             }
         }

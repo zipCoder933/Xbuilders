@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -100,7 +100,7 @@ public class FurnaceUI extends ContainerUI {
                 }
             }
 
-            //no fuel
+            //If no fuel, return
             if (furnaceData.fuel <= 0) return false;
 
 
@@ -128,16 +128,16 @@ public class FurnaceUI extends ContainerUI {
     }
 
     private long getSmeltTime() {
-        if (ClientWindow.devMode) {
+        if (LocalClient.DEV_MODE) {
             return DEV_SMELT_TIME_MS;
         } else {
             return SMELT_TIME_MS;
         }
     }
 
-    final float FUEL_CONSUMPTION = 0.33f;
+    final float FUEL_CONSUMPTION = 0.3f;
     final long DEV_SMELT_TIME_MS = 1000;
-    final long SMELT_TIME_MS = 10000;
+    final long SMELT_TIME_MS = 8000;
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
@@ -163,9 +163,9 @@ public class FurnaceUI extends ContainerUI {
 
     @Override
     public void dropAllStorage(int x, int y, int z) {
-        Server.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
-        Server.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
-        Server.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
+        LocalServer.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
+        LocalServer.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
+        LocalServer.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
     }
 
     @Override
@@ -217,12 +217,15 @@ public class FurnaceUI extends ContainerUI {
         //Smelt items that should have been smelted while the UI was closed
         if (furnaceData.lastSmeltTime == 0) return;
         long msSinceClosed = (System.currentTimeMillis() - furnaceData.lastSmeltTime);
+
+
         int rounds = (int) ((float) msSinceClosed / getSmeltTime());
 
-        int availableFuel = fuelGrid.storageSpace.get(0) == null ? 0 : fuelGrid.storageSpace.get(0).stackSize;
-        rounds = (int) Math.min(rounds, availableFuel * FUEL_CONSUMPTION);
+        //We cant smelt more than MAX_STACK_SIZE times
+        rounds = (int) Math.min(rounds, ItemStack.MAX_STACK_SIZE + 10);
 
-        System.out.println("Smelting " + rounds + " times; ms since closed: " + msSinceClosed);
+
+        System.out.println("Smelting " + rounds + " times; Time since closed: " + (msSinceClosed / 1000) + "s");
         for (int i = 0; i < rounds; i++) {
             smelt();
         }

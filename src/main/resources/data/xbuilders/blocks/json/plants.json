@@ -1,5 +1,20 @@
 [
   {
+    "alias": "xbuilders:pumpkin_seeds",
+    "id": 1002,
+    "texture": {
+      "neg_y": "pumpkin_seed",
+      "pos_x": "pumpkin_seed",
+      "pos_z": "pumpkin_seed",
+      "neg_z": "pumpkin_seed",
+      "neg_x": "pumpkin_seed",
+      "pos_y": "pumpkin_seed"
+    },
+    "torch": 0,
+    "type": 3,
+    "properties": {}
+  },
+  {
     "alias": "xbuilders:wheat_seeds",
     "id": 162,
     "texture": {
@@ -90,7 +105,6 @@
     "type": 3,
     "properties": {}
   },
-
   {
     "alias": "xbuilders:carrot_growth_1",
     "id": 549,
@@ -119,8 +133,6 @@
     "type": 3,
     "properties": {}
   },
-
-
   {
     "alias": "xbuilders:beetroot_growth_1",
     "id": 738,
@@ -149,7 +161,6 @@
     "type": 3,
     "properties": {}
   },
-
   {
     "alias": "xbuilders:wheat_growth_1",
     "id": 168,

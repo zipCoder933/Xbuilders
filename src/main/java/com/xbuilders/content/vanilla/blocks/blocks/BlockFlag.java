@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.item.StorageSpace;
@@ -30,7 +30,7 @@ public class BlockFlag extends Block {
                 byte[] bytes = GameScene.userPlayer.inventory.writeToJson();
                 BlockData data = new BlockData(bytes);
                 System.out.println("Flag placed " + new String(bytes));
-                Server.setBlockData(data, x, y, z);
+                LocalServer.setBlockData(data, x, y, z);
                 GameScene.userPlayer.inventory.clear();
             } catch (IOException e) {
                 ErrorHandler.report(e);
@@ -52,7 +52,7 @@ public class BlockFlag extends Block {
                         if (GameScene.userPlayer.inventory.acquireItem(storage.get(i)) == -1) {
                             System.out.println("\tDropped " + storage.get(i));
                             //Drop item if inventory is full.
-                            Server.placeItemDrop(new Vector3f(x, y, z), storage.get(i), false);
+                            LocalServer.placeItemDrop(new Vector3f(x, y, z), storage.get(i), false);
                         }
                     }
                 }

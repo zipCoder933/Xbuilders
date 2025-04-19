@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
@@ -13,7 +13,6 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.Bloc
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
@@ -31,7 +30,7 @@ public class GravityBlockEntity extends Entity {
 
     public GravityBlockEntity(long uniqueIdentifier, ClientWindow window) {
         super(uniqueIdentifier);
-        positionHandler = new PositionHandler(window, Server.world, aabb, null);
+        positionHandler = new PositionHandler(window, LocalServer.world, aabb, null);
         aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         frustumSphereRadius = 1;
     }
@@ -65,7 +64,7 @@ public class GravityBlockEntity extends Entity {
     public void client_draw() {
         if (positionHandler.isFrozen() || positionHandler.onGround ||
                 positionHandler.collisionHandler.collisionData.block_penPerAxes.y < 0) {
-            Server.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+            LocalServer.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             destroy();
         } else {
             //There is actually something in the buffer

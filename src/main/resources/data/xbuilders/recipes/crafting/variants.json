@@ -2885,12 +2885,12 @@
       null,
       null,
       null,
-      "xbuilders:lapis_lazul",
+      "xbuilders:lapis_lazuli",
       "xbuilders:stick",
-      "xbuilders:lapis_lazul",
-      "xbuilders:lapis_lazul",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
       "xbuilders:stick",
-      "xbuilders:lapis_lazul"
+      "xbuilders:lapis_lazuli"
     ],
     "output": "xbuilders:lapis_lazul_fence",
     "amount": 10
@@ -7174,10 +7174,10 @@
       null,
       null,
       "xbuilders:stick",
-      "xbuilders:lapis_lazul",
+      "xbuilders:lapis_lazuli",
       "xbuilders:stick",
       "xbuilders:stick",
-      "xbuilders:lapis_lazul",
+      "xbuilders:lapis_lazuli",
       "xbuilders:stick"
     ],
     "output": "xbuilders:lapis_lazul_fence_gate",

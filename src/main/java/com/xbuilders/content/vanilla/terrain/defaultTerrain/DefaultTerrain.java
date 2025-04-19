@@ -157,6 +157,8 @@ public class DefaultTerrain extends Terrain {
                 if (makePlants) {
                     if (trees && f > treeOdds) {
                         DefaultTerrainUtils.plantRandomTree(session, alpha, chunk, wx, wy, wz);
+                    } else if (f > 0.9999 && alpha > 0.5) {
+                        session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_PUMPKIN);
                     } else if (f > 0.98) {
                         session.setBlockWorld(wx, wy - 1, wz, fern);
                     } else if (f > 0.96) {
@@ -197,7 +199,7 @@ public class DefaultTerrain extends Terrain {
                     }
                 } else if (makePlants && wy < WATER_LEVEL - 2) {
                     float rand = session.random.nextFloat();
-                    if (rand > 0.997) {
+                    if (rand > 0.999 && alpha > 0.5) {
                         session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_SUGAR_CANE);
                         session.setBlockWorld(wx, wy - 2, wz, Blocks.BLOCK_SUGAR_CANE);
                         session.setBlockWorld(wx, wy - 3, wz, Blocks.BLOCK_SUGAR_CANE);
@@ -418,10 +420,10 @@ public class DefaultTerrain extends Terrain {
                          * Generate crystals
                          */
                         if (
-                                //crystalBlock > 0 && //If we should even generate crystals
+                            //crystalBlock > 0 && //If we should even generate crystals
                                 session.random.nextFloat() < 0.0005 &&
-                                y > 1 && //If this isnt the top of the chunk
-                                chunk.data.getBlock(x, y - 2, z) == Blocks.BLOCK_AIR) { //And the block above us is air
+                                        y > 1 && //If this isnt the top of the chunk
+                                        chunk.data.getBlock(x, y - 2, z) == Blocks.BLOCK_AIR) { //And the block above us is air
                             chunk.data.setBlock(x, y - 1, z, crystalBlock);
                         }
 

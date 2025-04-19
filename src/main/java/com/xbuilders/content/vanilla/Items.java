@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla;
 
 import com.xbuilders.content.vanilla.items.*;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
@@ -94,29 +94,31 @@ public class Items {
         itemList.add(new Sword("wooden", 25, 0.5f));
         itemList.add(new Hoe("wooden", 5));
 
-        itemList.add(new Shovel("stone", 100, 2f));
-        itemList.add(new Pickaxe("stone", 100, 3f));
-        itemList.add(new Axe("stone", 100,3f));
-        itemList.add(new Sword("stone", 100, 2f));
+        itemList.add(new Shovel("stone", 100, 1f));
+        itemList.add(new Pickaxe("stone", 100, 1.8f));
+        itemList.add(new Axe("stone", 100,1f));
+        itemList.add(new Sword("stone", 100, 1f));
         itemList.add(new Hoe("stone", 15));
 
-        itemList.add(new Shovel("iron", 200, 4.5f));
-        itemList.add(new Pickaxe("iron", 200, 4.5f));
-        itemList.add(new Axe("iron", 200,4.5f));
-        itemList.add(new Sword("iron", 200, 10f));
+        itemList.add(new Shovel("iron", 200, 1f));
+        itemList.add(new Pickaxe("iron", 200, 2f));
+        itemList.add(new Axe("iron", 200,2f));
+        itemList.add(new Sword("iron", 200, 5f));
         itemList.add(new Hoe("iron", 200));
 
-        itemList.add(new Shovel("golden", 400, 6f));
-        itemList.add(new Pickaxe("golden", 400, 10f));
-        itemList.add(new Axe("golden", 400,6f));
-        itemList.add(new Sword("golden", 400, 20f));
+        itemList.add(new Shovel("golden", 400, 2f));
+        itemList.add(new Pickaxe("golden", 400, 3f));
+        itemList.add(new Axe("golden", 400,3f));
+        itemList.add(new Sword("golden", 400, 10f));
         itemList.add(new Hoe("golden", 1200));
 
-        itemList.add(new Shovel("diamond", 4000, 10f));
-        itemList.add(new Pickaxe("diamond", 4000, 10f));
-        itemList.add(new Axe("diamond", 4000,10f));
-        itemList.add(new Sword("diamond", 4000, 40f));
+        itemList.add(new Shovel("diamond", 4000, 6f));
+        itemList.add(new Pickaxe("diamond", 4000, 6f));
+        itemList.add(new Axe("diamond", 4000,6f));
+        itemList.add(new Sword("diamond", 4000, 20f));
         itemList.add(new Hoe("diamond", 8000));
+
+        itemList.add(new FlintAndSteel());
 
         itemList.add(new Swatter(500));
         itemList.add(new EntityRemovalTool((e) -> e instanceof LivingEntity,
@@ -143,15 +145,8 @@ public class Items {
 
 
     public static void editItems(ClientWindow window) {
-        Item item = Registrys.getItem("xbuilders:bread");
-        if (item != null) {
-            item.hungerSaturation = 1;
-        }
-        item = Registrys.getItem("xbuilders:apple");
-        if (item != null) {
-            item.hungerSaturation = 0.5f;
-        }
-        item = Registrys.getItem("xbuilders:bucket");
+
+      Item  item = Registrys.getItem("xbuilders:bucket");
         if (item != null) {
             item.createClickEvent = (ray, stack) -> {
                 fillBucket(ray, stack);
@@ -187,8 +182,9 @@ public class Items {
         item = Registrys.getItem("xbuilders:animal_apple");
         if (item != null) {
             AnimalFood.makeAnimalFood(item, null);
-            item.hungerSaturation = 0.2f;
+            item.foodAdd = 0.2f;
         }
+
     }
 
 
@@ -197,12 +193,12 @@ public class Items {
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
 
-        Block hitPos = Server.world.getBlock(x, y, z);
+        Block hitPos = LocalServer.world.getBlock(x, y, z);
         System.out.println("Hit: " + hitPos);
         if (hitPos.isLiquid()) {
-            int flow = LiquidPropagationTask.getFlow(Server.world.getBlockData(x, y, z), 0);
+            int flow = LiquidPropagationTask.getFlow(LocalServer.world.getBlockData(x, y, z), 0);
             if (flow >= hitPos.liquidMaxFlow + 1) {
-                Server.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
+                LocalServer.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
 
                 if (hitPos.id == Blocks.BLOCK_WATER) {
                     stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:water_bucket"));
@@ -217,13 +213,13 @@ public class Items {
         int x = ray.getHitPos().x;
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
-        if (!Server.world.getBlock(x, y, z).getType().replaceOnSet) {
+        if (!LocalServer.world.getBlock(x, y, z).getType().replaceOnSet) {
             x = ray.getHitPosPlusNormal().x;
             y = ray.getHitPosPlusNormal().y;
             z = ray.getHitPosPlusNormal().z;
         }
 
-        Server.setBlock(stack.item.getBlock().id, x, y, z);
+        LocalServer.setBlock(stack.item.getBlock().id, x, y, z);
         stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:bucket"));
     }
 

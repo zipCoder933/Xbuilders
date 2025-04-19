@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
@@ -49,7 +49,7 @@ public class InfoText extends UI_GameMenu {
 
     private void submitCommand(String valueAsString) {
         addToHistory("< " + valueAsString);
-        String str = Server.commands.handleGameCommand(valueAsString);
+        String str = LocalServer.commands.handleGameCommand(valueAsString);
         if (str != null) {
             addToHistory("> " + str);
         }

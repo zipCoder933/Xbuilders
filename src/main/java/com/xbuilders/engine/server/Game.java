@@ -15,7 +15,6 @@ import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author zipCoder933
@@ -34,7 +33,7 @@ public abstract class Game implements GameSceneEvents {
         this.window = window;
     }
 
-    public abstract void setup(Server gameScene, NkContext ctx, GameUI gameUI) throws Exception;
+    public abstract void setup(LocalServer gameScene, NkContext ctx, GameUI gameUI) throws Exception;
 
     public final Terrain getTerrainFromInfo(WorldData info) {
         for (Terrain terrain : terrainsList) {

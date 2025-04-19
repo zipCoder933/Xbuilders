@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server;
 
-import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -26,7 +26,7 @@ public class ItemUtils {
             for (String path : ResourceLister.listSubResources(jsonDirectory)) {
                 String name = resourceLoader.getName(path);
                 if (!name.endsWith(".json")) continue;
-                if (!ClientWindow.devMode && name.contains("devmode")) continue;
+                if (!LocalClient.DEV_MODE && name.contains("devmode")) continue;
                 System.out.println("\t" + name);
                 String jsonString = new String(resourceLoader.getResourceBytes(path));
                 Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
@@ -50,7 +50,7 @@ public class ItemUtils {
 
                 String name = resourceLoader.getName(path);
                 if (!name.endsWith(".json")) continue;
-                if (!ClientWindow.devMode && name.contains("devmode")) continue;
+                if (!LocalClient.DEV_MODE && name.contains("devmode")) continue;
 
                 String jsonString = new String(resourceLoader.getResourceBytes(path));
                 Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
@@ -73,7 +73,7 @@ public class ItemUtils {
             for (File file : jsonDirectory.listFiles()) {
 
                 if (!file.getName().endsWith(".json")) continue;
-                if (!ClientWindow.devMode && file.getName().contains("devmode")) continue;
+                if (!LocalClient.DEV_MODE && file.getName().contains("devmode")) continue;
 
                 String jsonString = Files.readString(file.toPath());
                 Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
@@ -109,7 +109,7 @@ public class ItemUtils {
         try {
             for (File file : jsonDirectory.listFiles()) {
                 if (!file.getName().endsWith(".json")) continue;
-                if (!ClientWindow.devMode && file.getName().contains("devmode")) continue;
+                if (!LocalClient.DEV_MODE && file.getName().contains("devmode")) continue;
                 System.out.println("\t" + file.getName());
                 String jsonString = Files.readString(file.toPath());
                 Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);

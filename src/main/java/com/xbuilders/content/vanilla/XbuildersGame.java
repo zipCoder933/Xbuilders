@@ -15,13 +15,14 @@ import com.xbuilders.content.vanilla.terrain.FlatTerrain;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.content.vanilla.ui.*;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.Item;
@@ -63,7 +64,7 @@ public class XbuildersGame extends Game {
 
 
     public boolean drawCursor(CursorRay cursorRay) {
-        if (Server.getGameMode() != GameMode.FREEPLAY) return false;
+        if (LocalServer.getGameMode() != GameMode.FREEPLAY) return false;
         return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
     }
 
@@ -168,7 +169,7 @@ public class XbuildersGame extends Game {
 
 
     @Override
-    public void setup(Server gameScene, NkContext ctx, GameUI gameUI) throws Exception {
+    public void setup(LocalServer gameScene, NkContext ctx, GameUI gameUI) throws Exception {
         //Add block types FIRST. We need them to be able to setup blocks properly
         Registrys.blocks.addBlockType("sprite", RenderType.SPRITE, new SpriteRenderer());
         Registrys.blocks.addBlockType("floor", RenderType.FLOOR, new FloorItemRenderer());
@@ -216,7 +217,7 @@ public class XbuildersGame extends Game {
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
 //        terrainsList.add(new MoonTerrain());
-        if (window.devMode) terrainsList.add(new DevTerrain());
+        if (LocalClient.DEV_MODE) terrainsList.add(new DevTerrain());
 
 
         //Menus

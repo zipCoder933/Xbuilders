@@ -12,7 +12,7 @@ public class Axe extends Item {
         this.miningSpeedMultiplier = miningSpeedMultiplier;
         tags.add("tool");
         tags.add("axe");
-        tags.add(material);
+        //tags.add(material);
         maxDurability = durability;
     }
 }

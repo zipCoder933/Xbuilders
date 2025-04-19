@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.Entity;
@@ -179,7 +179,7 @@ public class PasteTool extends BlockTool {
             for (int y = 0; y < clipboard.size.y; y++) {
                 for (int z = 0; z < clipboard.size.z; z++) {
                     if (clipboard.getBlock(x, y, z) != BlockRegistry.BLOCK_AIR.id || !additionMode) {
-                        Server.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
+                        LocalServer.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
                     }
                 }
             }

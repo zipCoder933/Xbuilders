@@ -1,11 +1,12 @@
 package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.io.Input;
-import com.xbuilders.engine.Difficulty;
+import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -38,7 +39,7 @@ import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
 public class GameServer extends com.xbuilders.engine.utils.network.server.Server<Player> {
 
-    //All server message headers
+    //All localServer message headers
     public static final byte PLAYER_INFO = -128;
     public static final byte WORLD_INFO = -127;
     public static final byte PLAYER_POSITION = -126;
@@ -56,7 +57,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
     public static final byte WORLD_CHUNK_LAST_SAVED = -113;
     public static final byte CHANGE_DIFFICULTY = -112;
 
-    Server scene;
+    LocalServer scene;
     NetworkJoinRequest req;
     UserControlledPlayer client_userPlayer;
     private WorldData worldInfo;
@@ -64,7 +65,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
     boolean worldReady = false;
     Player hostClient;
 
-    public GameServer(Server scene, UserControlledPlayer player) {
+    public GameServer(LocalServer scene, UserControlledPlayer player) {
         super(Player::new);
         this.client_userPlayer = player;
         this.scene = scene;
@@ -107,7 +108,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
     public void startJoiningWorld() throws IOException, InterruptedException {
         if (req != null && !req.hosting) {
-            start(req.fromPortVal); //Start the server
+            start(req.fromPortVal); //Start the localServer
             /**
              * We cant send our information until the host has accepted us and started listening for messages.
              * To get around this, we need to either wait, or only send our information when the host sends a welcome message
@@ -123,7 +124,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
     public void startHostingWorld() throws IOException {
         if (req != null && req.hosting) {
-            start(req.fromPortVal); //Start the server
+            start(req.fromPortVal); //Start the localServer
             worldReady = true;
         }
     }
@@ -162,12 +163,12 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
     private void sendWorldToClient(Player client) throws IOException {
         //Save the world first to ensure that all changes are on the disk
-        Server.world.save();
+        LocalServer.world.save();
 
         //Send the world info to the client
-        System.out.println("Sending world to client: " + Server.world.data.getName() + "\n" + Server.world.data.toJson());
+        System.out.println("Sending world to client: " + LocalServer.world.data.getName() + "\n" + LocalServer.world.data.toJson());
         client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
-                Server.world.data.getName() + "\n" + Server.world.data.toJson()));
+                LocalServer.world.data.getName() + "\n" + LocalServer.world.data.toJson()));
 
         new Thread(() -> {  //Load every file of the chunk
             try {
@@ -240,7 +241,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
             } else if (receivedData[0] == PLAYER_CHAT) {
                 String message = new String(NetworkUtils.getMessage(receivedData));
                 String playerName = client.userInfo.name;
-                Server.consoleOut(playerName + ":  \"" + message + "\"");
+                LocalServer.consoleOut(playerName + ":  \"" + message + "\"");
             } else if (receivedData[0] == PLAYER_POSITION) {
                 float x = ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
                 float y = ByteUtils.bytesToFloat(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
@@ -254,10 +255,10 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
                 MultiplayerPendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
                     if (MultiplayerPendingBlockChanges.changeCanBeLoaded(client_userPlayer, pos)) {//If change is within reach
-                        Server.eventPipeline.addEvent(pos, blockHist);
+                        LocalServer.eventPipeline.addEvent(pos, blockHist);
                         inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
-                        Server.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
+                        LocalServer.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
                         outOfReachChanges.incrementAndGet();
                     }
                 });
@@ -272,18 +273,18 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                         if (mode == ENTITY_CREATED) {
                             setEntity(entity, identifier, currentPos, data);
                         } else if (mode == ENTITY_DELETED) {
-                            Entity e = Server.world.entities.get(identifier);
+                            Entity e = LocalServer.world.entities.get(identifier);
                             if (e != null) {
                                 e.destroy();
                             }
                         } else if (mode == ENTITY_UPDATED) {
-                            Entity e = Server.world.entities.get(identifier);
+                            Entity e = LocalServer.world.entities.get(identifier);
                             if (e != null) {
                                 e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
                             }
                         }
                     } else {//Cache changes if they are out of bounds
-                        Server.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
+                        LocalServer.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
                     }
                 });
             } else if (receivedData[0] == READY_TO_START) { //New world
@@ -312,24 +313,24 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 try {
                     int mode = receivedData[1];
                     GameMode gameMode = GameMode.values()[mode];
-                    Server.setGameMode(gameMode);
+                    LocalServer.setGameMode(gameMode);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    Server.alertClient("Unable to change game mode");
+                    LocalServer.alertClient("Unable to change game mode");
                 }
             } else if (receivedData[0] == CHANGE_DIFFICULTY) {
                 try {
                     int difficulty = receivedData[1];
                     Difficulty gameDifficulty = Difficulty.values()[difficulty];
-                    Server.setDifficulty(gameDifficulty);
+                    LocalServer.setDifficulty(gameDifficulty);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    Server.alertClient("Unable to change game difficulty");
+                    LocalServer.alertClient("Unable to change game difficulty");
                 }
             } else if (receivedData[0] == CHANGE_PLAYER_PERMISSION) {
                 try {
                     boolean permission = receivedData[1] == 1;
-                    Server.setOperator(permission);
+                    LocalServer.setOperator(permission);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    Server.alertClient("Unable to change player permission");
+                    LocalServer.alertClient("Unable to change player permission");
                 }
             }
 
@@ -342,7 +343,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
     private void printEntityChange(Player client, int mode, EntitySupplier entity,
                                    long identifier, Vector3f currentPos,
                                    byte[] data) {
-        if (!ClientWindow.devMode) return;
+        if (!LocalClient.DEV_MODE) return;
         String modeStr;
         switch (mode) {
             case ENTITY_CREATED -> modeStr = "ENTITY CREATED";
@@ -356,13 +357,13 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data);
         ClientWindow.printlnDev(str);
-        if (ClientWindow.devMode) Server.alertClient(str);
+        if (LocalClient.DEV_MODE) LocalServer.alertClient(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(worldPosition);
-        Chunk chunk = Server.world.chunks.get(wcc.chunk);
+        Chunk chunk = LocalServer.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModified();
             return chunk.entities.placeNew(worldPosition, identifier, entity, data);

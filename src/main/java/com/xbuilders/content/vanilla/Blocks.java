@@ -2,12 +2,12 @@ package com.xbuilders.content.vanilla;
 
 import com.xbuilders.content.vanilla.blocks.blocks.*;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.blocks.*;
 import com.xbuilders.content.vanilla.blocks.blocks.trees.*;
@@ -15,6 +15,7 @@ import com.xbuilders.content.vanilla.blocks.blocks.trees.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.xbuilders.content.vanilla.blocks.PlantBlockUtils.GROW_PROBABILITY;
 import static com.xbuilders.engine.server.ItemUtils.getJsonBlocksFromResource;
 import static com.xbuilders.engine.utils.math.RandomUtils.random;
 
@@ -193,6 +194,9 @@ public class Blocks {
     public static short BLOCK_MAGENTA_STAINED_GLASS = 188;
     public static short BLOCK_ORANGE_STAINED_GLASS = 189;
     public static short BLOCK_PINK_STAINED_GLASS = 190;
+    public static short BLOCK_PUMPKIN = 1000;
+    public static short BLOCK_PUMPKIN_STEM = 1001;
+    public static short BLOCK_PUMPKIN_SEEDS = 1002;
     public static short BLOCK_PURPLE_STAINED_GLASS = 191;
     public static short BLOCK_RED_STAINED_GLASS = 192;
     public static short BLOCK_WHITE_STAINED_GLASS = 193;
@@ -1039,14 +1043,14 @@ public class Blocks {
         //Add blocks
         blockList.add(new BlockBarrel(Blocks.BLOCK_BARREL, "barrel"));
         blockList.add(new CraftingTable(Blocks.BLOCK_CRAFTING_TABLE));
-        blockList.add(new Furnace(Blocks.BLOCK_FURNACE));
+        blockList.add(new BlockFurnace(Blocks.BLOCK_FURNACE));
         blockList.add(new BlockStraightTrack(Blocks.BLOCK_STRAIGHT_TRACK));
         blockList.add(new BlockSpawn(Blocks.BLOCK_SPAWN_BLOCK));
         blockList.add(new BlockFlag(Blocks.BLOCK_FLAG_BLOCK));
         blockList.add(new BlockFarmland(Blocks.BLOCK_FARMLAND));
         blockList.add(new BlockWetFarmland(Blocks.BLOCK_WET_FARMLAND));
 
-        if (ClientWindow.devMode) {//Make ids for dev mode
+        if (LocalClient.DEV_MODE) {//Make ids for dev mode
             try {
                 ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.file("\\items\\blocks\\java"));
             } catch (IOException e) {
@@ -1066,12 +1070,19 @@ public class Blocks {
         ClientWindow.game.smeltingUI.assignToBlock(Registrys.getBlock(Blocks.BLOCK_FURNACE));
 
 
-        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000);
-        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000);
+        short[] dontExplodeList = {Blocks.BLOCK_TNT, Blocks.BLOCK_MEGA_TNT};
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_TNT), 5, 2000, 50, dontExplodeList);
+        BlockEventUtils.setTNTEvents(Registrys.getBlock(Blocks.BLOCK_MEGA_TNT), 10, 5000, 100, dontExplodeList);
 
 
         BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_GRASS_TOP, Blocks.BLOCK_TALL_GRASS);
         BlockEventUtils.makeVerticalPairedBlock(Blocks.BLOCK_TALL_DRY_GRASS_TOP, Blocks.BLOCK_TALL_DRY_GRASS);
+
+
+        //Logs
+//        Block log = Registrys.getBlock(Blocks.BLOCK_OAK_LOG);
+//        log.removeBlockEvent(false,
+//                PlantBlockUtils.logRemovalEvent(log, Registrys.getBlock(Blocks.BLOCK_OAK_LEAVES)));
 
         Block lava = Registrys.getBlock(Blocks.BLOCK_LAVA);
         lava.liquidMaxFlow = 6;
@@ -1110,11 +1121,18 @@ public class Blocks {
                 b.properties.put("flammable", "true");
             }
 
+            if (b.alias.toLowerCase().contains("glass")) {
+                b.toughness = 0.2f;
+            }
+
 
             if (isWood(b)) {
                 b.easierMiningTool_tag = "axe";
             } else if (plantUtils.blockIsGrassSnowOrDirt(b)
-                    || b.alias.contains("sand") || b.alias.contains("gravel") || b.alias.contains("clay") || b.alias.contains("leaves")) {
+                    || b.alias.contains("sand")
+                    || b.alias.contains("gravel")
+                    || b.alias.contains("clay")
+                    || b.alias.contains("leaves")) {
                 b.easierMiningTool_tag = "shovel";
             }
         }
@@ -1130,23 +1148,23 @@ public class Blocks {
 
 
     private static void randomTickEvents() {
-        Block.RandomTickEvent dirtGrassTickEvent = (x, y, z) -> {
-            short thisBlock = Server.world.getBlockID(x, y, z);
-            Block aboveBlock = Server.world.getBlock(x, y - 1, z);
-
-            if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                Server.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
-                return true;
-            } else if (plantUtils.isGrass(thisBlock) && aboveBlock.solid) {
-                Server.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+        Block.RandomTickEvent dirtTickEvent = (x, y, z) -> {
+            if (!LocalServer.world.getBlock(x, y - 1, z).solid) {
+                LocalServer.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
             }
+            return false;
+        };
 
-            //Grow grass, NOTE that the grass must have a way to decay as well
-            if (random.nextFloat() < 0.2) {
-                short grassToPlant = plantUtils.growGrass(thisBlock, aboveBlock);
+        Block.RandomTickEvent grassTickEvent = (x, y, z) -> {
+            Block aboveBlock = LocalServer.world.getBlock(x, y - 1, z);
+            if (aboveBlock.solid) {
+                LocalServer.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+                return true;
+            } else if (random.nextFloat() < GROW_PROBABILITY) {
+                short grassToPlant = plantUtils.growGrass(x, y, z, aboveBlock);
                 if (grassToPlant != -1) {
-                    Server.setBlock(grassToPlant, x, y - 1, z);
+                    LocalServer.setBlock(grassToPlant, x, y - 1, z);
                     return true;
                 }
             }
@@ -1154,15 +1172,16 @@ public class Blocks {
         };
 
         Block dirt = Registrys.getBlock(Blocks.BLOCK_DIRT);
-        dirt.randomTickEvent = dirtGrassTickEvent;
+        dirt.randomTickEvent = dirtTickEvent;
+
         Block grass = Registrys.getBlock(Blocks.BLOCK_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
         grass = Registrys.getBlock(Blocks.BLOCK_DRY_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
         grass = Registrys.getBlock(Blocks.BLOCK_JUNGLE_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
         grass = Registrys.getBlock(Blocks.BLOCK_SNOW_GRASS);
-        grass.randomTickEvent = dirtGrassTickEvent;
+        grass.randomTickEvent = grassTickEvent;
 
         /**
          * Decay events
@@ -1211,6 +1230,11 @@ public class Blocks {
                 Registrys.getBlock(Blocks.BLOCK_WHEAT_GROWTH_6),
                 Registrys.getBlock(Blocks.BLOCK_WHEAT));
 
+        plantUtils.addPlantGrowthEvents(
+                Registrys.getBlock(Blocks.BLOCK_PUMPKIN_SEEDS),
+                Registrys.getBlock(Blocks.BLOCK_PUMPKIN_STEM),
+                Registrys.getBlock(Blocks.BLOCK_PUMPKIN));
+
         plantUtils.makeStalk(
                 Registrys.getBlock("xbuilders:bamboo"),
                 Registrys.getBlock("xbuilders:bamboo_sapling"),
@@ -1235,14 +1259,14 @@ public class Blocks {
         Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
 
         Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
-            if (!Server.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+            if (!LocalServer.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
                 //Decay other blocks
-                if (!Server.world.getBlock(x, y + 1, z).solid ||
-                        Server.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
-                    Server.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
+                if (!LocalServer.world.getBlock(x, y + 1, z).solid ||
+                        LocalServer.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                    LocalServer.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
                 }
                 //Decay this block
-                Server.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                LocalServer.setBlock(Blocks.BLOCK_AIR, x, y, z);
                 return true;
             } else {
                 boolean foundFlammable = false;
@@ -1276,8 +1300,8 @@ public class Blocks {
     }
 
     private static boolean spreadIfFlammable(int x, int y, int z) {
-        if (Server.world.getBlock(x, y, z).properties.containsKey("flammable")) {
-            Server.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+        if (LocalServer.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+            LocalServer.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             return true;
         }
         return false;

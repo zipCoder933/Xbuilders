@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 
 import java.awt.*;
@@ -54,7 +55,7 @@ public class VersionInfo {
     public String changesToString() {
         String changes = "";
         for (VersionChanges version : releases) {
-            if (version.version > ClientWindow.numericalVersion) changes += version.toString();
+            if (version.version > LocalClient.GAME_VERSION) changes += version.toString();
         }
         return changes;
     }
@@ -83,7 +84,7 @@ public class VersionInfo {
     }
 
     public boolean isNewerVersionAvailable() {
-        if (latestVersion > ClientWindow.numericalVersion) {
+        if (latestVersion > LocalClient.GAME_VERSION) {
             return true;
         } else return false;
     }

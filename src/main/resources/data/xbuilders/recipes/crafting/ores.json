@@ -113,5 +113,29 @@
     ],
     "output": "xbuilders:iron_ingot",
     "amount": 9
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli",
+      "xbuilders:lapis_lazuli"
+    ],
+    "output": "xbuilders:lapis_lazul_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:lapis_lazul_block"
+    ],
+    "output": "xbuilders:lapis_lazuli",
+    "amount": 9
   }
 ]

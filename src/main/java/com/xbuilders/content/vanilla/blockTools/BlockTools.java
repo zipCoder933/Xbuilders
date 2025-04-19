@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.blockTools;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -49,7 +49,7 @@ public class BlockTools extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
-        if (Server.getGameMode() == GameMode.FREEPLAY) {
+        if (LocalServer.getGameMode() == GameMode.FREEPLAY) {
             NkRect windowDims = NkRect.malloc(stack);
 
             Theme.resetEntireButtonStyle(ctx);
@@ -98,7 +98,7 @@ public class BlockTools extends UI_GameMenu {
      * @return true if the event was consumed
      */
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (Server.getGameMode() == GameMode.FREEPLAY) {
+        if (LocalServer.getGameMode() == GameMode.FREEPLAY) {
             if (pallete.keyEvent(key, scancode, action, mods)) {
             } else {
                 if (action == GLFW.GLFW_RELEASE || action == GLFW.GLFW_PRESS) {
@@ -142,12 +142,12 @@ public class BlockTools extends UI_GameMenu {
     public boolean clickEvent(CursorRay ray, boolean isCreationMode) {
         autoRevert();
         Block block = BlockTool.getSelectedBlock();
-        if (Server.getGameMode() != GameMode.FREEPLAY || block == null) return false;
+        if (LocalServer.getGameMode() != GameMode.FREEPLAY || block == null) return false;
         return getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 
     public boolean UIMouseButtonEvent(int button, int action, int mods) {
-        if (Server.getGameMode() != GameMode.FREEPLAY) return false;
+        if (LocalServer.getGameMode() != GameMode.FREEPLAY) return false;
         return tools.get(selectedTool).mouseButtonEvent(button, action, mods);
     }
 

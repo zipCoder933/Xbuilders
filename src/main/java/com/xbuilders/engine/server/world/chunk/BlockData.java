@@ -73,6 +73,9 @@ public class BlockData {
 //    }
     public byte get(int i) {
 //        return buff.get(i);
+        if(buff.length <= i) {
+            return 0;
+        }
         return buff[i];
     }
 

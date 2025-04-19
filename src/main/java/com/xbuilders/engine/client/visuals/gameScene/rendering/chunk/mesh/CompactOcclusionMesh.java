@@ -1,7 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling.BoundingBoxMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling.EmptyShader;
 import com.xbuilders.window.render.MVP;

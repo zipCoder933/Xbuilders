@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.propagation;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.LivePropagationTask;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
@@ -47,16 +47,16 @@ public class GrassPropagation extends LivePropagationTask {
             Vector3i node = entry.getKey();
             long setTime = entry.getValue();
 
-            short thisBlock = Server.world.getBlockID(node.x, node.y, node.z);
-            Block aboveBlock = Server.world.getBlock(node.x, node.y - 1, node.z);
+            short thisBlock = LocalServer.world.getBlockID(node.x, node.y, node.z);
+            Block aboveBlock = LocalServer.world.getBlock(node.x, node.y - 1, node.z);
 
             if (System.currentTimeMillis() - setTime > UPDATE_INTERVAL / 2) { //If it's been 10 seconds since we last set the block
                 if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                    Server.setBlock(
+                    LocalServer.setBlock(
                             getGrassBlockOfBiome(node.x, node.y, node.z),
                             node.x, node.y, node.z);
                 } else if (isGrass(thisBlock) && aboveBlock.solid) {
-                    Server.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
+                    LocalServer.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
                 }
                 iterator.remove(); // remove the entry from the map
             }
@@ -64,7 +64,7 @@ public class GrassPropagation extends LivePropagationTask {
     }
 
     private short getGrassBlockOfBiome(int wx, int wy, int wz) {
-        int biome = Server.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        int biome = LocalServer.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case ComplexTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;

@@ -28,6 +28,7 @@ public abstract class BlockType {
     public static final int NEG_Y = 5;
 
     public Consumer<Block> initializationCallback = null;
+    public Consumer<Block> registrationCallback = null;
     public boolean generate3DIcon = true;
     public boolean replaceOnSet = false;
     public final static ResourceLoader resourceLoader = new ResourceLoader();

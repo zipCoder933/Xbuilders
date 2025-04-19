@@ -132,6 +132,7 @@
     },
     "solid": false,
     "opaque": false,
+    "toughness": 0.1,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -187,6 +188,42 @@
       0.0,
       0.0
     ],
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:pumpkin",
+    "id": 1000,
+    "texture": {
+      "neg_y": "pumpkin_top",
+      "pos_x": "pumpkin_side.png",
+      "pos_z": "pumpkin_side.png",
+      "neg_z": "pumpkin_side.png",
+      "neg_x": "pumpkin_side.png",
+      "pos_y": "pumpkin_top"
+    },
+    "toughness": 0.8,
+    "solid": true,
+    "opaque": true,
+    "torch": 0,
+    "type": 0,
+    "properties": {}
+  },
+  {
+    "alias": "xbuilders:pumpkin_seed",
+    "id": 1001,
+    "texture": {
+      "neg_y": "pumpkin_stem.png",
+      "pos_x": "pumpkin_stem.png",
+      "pos_z": "pumpkin_stem.png",
+      "neg_z": "pumpkin_stem.png",
+      "neg_x": "pumpkin_stem.png",
+      "pos_y": "pumpkin_stem.png"
+    },
+    "toughness": 0.3,
+    "solid": false,
+    "opaque": false,
+    "torch": 0,
+    "type": 3,
     "properties": {}
   }
 ]

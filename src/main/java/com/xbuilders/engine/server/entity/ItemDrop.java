@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -68,8 +68,9 @@ public class ItemDrop extends Entity {
                     JsonParser parser1 = jsonNode.traverse();
                     parser1.setCodec(parser.getCodec());//This is important
                     definitionData.stack = smileObjectMapper.readValue(parser1, ItemStack.class);
+                    //System.out.println("READING STACK: " + definitionData.stack.toString() + " Dropped From Player: " + definitionData.droppedFromPlayer);
                 }
-                System.out.println("READING STACK: " + definitionData.stack.toString() + " Dropped From Player: " + definitionData.droppedFromPlayer);
+                if (definitionData.stack == null) destroy();
             } catch (Exception e) {
                 ErrorHandler.log(e, "Error reading item stack");
             }
@@ -84,7 +85,7 @@ public class ItemDrop extends Entity {
 
 
     private boolean blockIsClear(Block camBlock, int x, int y, int z) {
-        Block block = Server.world.getBlock(x, y, z);
+        Block block = LocalServer.world.getBlock(x, y, z);
         return block.id == BlockRegistry.BLOCK_AIR.id || !block.solid || block == camBlock;
     }
 
@@ -93,10 +94,10 @@ public class ItemDrop extends Entity {
         if (ClientWindow.frameCount % 20 != 0) { //Update every 20 frames
             timeSinceDropped++;
             if (timeSinceDropped > DROP_LIVE_TIME) {
-                System.out.println("TIMEOUT, DELETING ITEM DROP");
+                //System.out.println("TIMEOUT, DELETING ITEM DROP");
                 destroy();
             } else if (definitionData.stack == null) {
-                System.out.println("STACK IS NULL, DELETING ITEM DROP");
+                //System.out.println("STACK IS NULL, DELETING ITEM DROP");
                 destroy();
             }
             canGet = (timeSinceDropped > 100 || !definitionData.droppedFromPlayer) && GameScene.userPlayer.inventory.hasRoomForItem(definitionData.stack);
@@ -113,7 +114,7 @@ public class ItemDrop extends Entity {
                 int y = (int) Math.floor(worldPosition.y);
                 int z = (int) Math.floor(worldPosition.z);
 
-                if (Server.world.getBlock(x, y, z).enterDamage > 0.1) {
+                if (LocalServer.world.getBlock(x, y, z).enterDamage > 0.1) {
                     System.out.println("DROPPED ONTO DAMAGING SUBSTANCE, DELETING ITEM DROP");
                     destroy();
                 }
@@ -139,7 +140,7 @@ public class ItemDrop extends Entity {
         if (worldPosition.distance(playerHeadPos) < 0.1 && canGet) {
             System.out.println("CONSUMED BY: " + GameScene.userPlayer.userInfo.name);
             GameScene.userPlayer.acquireItem(definitionData.stack);
-            System.out.println("DELETING ITEM DROP");
+           // System.out.println("DELETING ITEM DROP");
             destroy();
         }
     }

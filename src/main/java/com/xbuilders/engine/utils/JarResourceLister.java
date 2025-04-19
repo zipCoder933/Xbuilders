@@ -1,7 +1,5 @@
 package com.xbuilders.engine.utils;
 
-import com.xbuilders.engine.ResourceList;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

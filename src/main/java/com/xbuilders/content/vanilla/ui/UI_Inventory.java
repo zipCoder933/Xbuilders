@@ -6,7 +6,7 @@ package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -65,7 +65,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     public void onOpenEvent() {
         craftingGrid.onCloseEvent();
 
-        if (Server.getGameMode() == GameMode.SPECTATOR) setOpen(false);
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) setOpen(false);
         if (drawAllInventory()) menuDimensions.y = Allitems_Height + playerInv_height;
         else menuDimensions.y = playerInv_height;
     }
@@ -76,7 +76,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) {
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) {
             setOpen(false);
         }
 
@@ -95,7 +95,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     private boolean drawAllInventory() {
-        return Server.getGameMode() == GameMode.FREEPLAY;
+        return LocalServer.getGameMode() == GameMode.FREEPLAY;
     }
 
 
@@ -105,7 +105,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
 
         if (allItems.keyEvent(key, scancode, action, mods)) return true;
         if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
@@ -117,7 +117,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (Server.getGameMode() == GameMode.SPECTATOR) return false;
+        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
         allItems.mouseScrollEvent(scroll, xoffset, yoffset);
         return true;
     }

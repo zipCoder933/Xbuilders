@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.utils.math.MatrixUtils;
 import org.joml.Matrix4f;
@@ -31,29 +31,29 @@ public class AnimalUtils {
     }
 
     public static boolean inWater(Entity entity) {
-        if (Server.world.getBlock(
+        if (LocalServer.world.getBlock(
                 (int) entity.worldPosition.x,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z
         ).isLiquid()
-                || Server.world.getBlock(
+                || LocalServer.world.getBlock(
                 (int) entity.worldPosition.x - 1,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z
         ).isLiquid()
-                || Server.world.getBlock(
+                || LocalServer.world.getBlock(
                 (int) entity.worldPosition.x + 1,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z
         ).isLiquid()
-                || Server.world.getBlock(
+                || LocalServer.world.getBlock(
                 (int) entity.worldPosition.x,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z - 1
         ).isLiquid()) {
             return true;
         }
-        return (Server.world.getBlock(
+        return (LocalServer.world.getBlock(
                 (int) entity.worldPosition.x,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z + 1

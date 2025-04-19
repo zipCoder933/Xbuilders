@@ -30,6 +30,7 @@ public class ClientSettings {
     public boolean internal_experimentalFeatures = false;
     public long internal_blockBoundaryAreaLimit = 1000000;
     public BoundedInt video_entityDistance = new BoundedInt(100);
+    public boolean internal_allowOPCommands = false;
 
 
     public ClientSettings initVariables() {

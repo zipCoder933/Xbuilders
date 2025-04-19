@@ -161,11 +161,6 @@
     "block": 35
   },
   {
-    "id": "xbuilders:cake",
-    "name": "Cake",
-    "block": 36
-  },
-  {
     "id": "xbuilders:jungle_sapling",
     "name": "Jungle Sapling",
     "block": 37
@@ -292,7 +287,6 @@
     ],
     "block": 63
   },
-
   {
     "id": "xbuilders:clay",
     "name": "Clay",
@@ -779,6 +773,16 @@
     "id": "xbuilders:potato_seeds",
     "name": "Potato Seeds",
     "block": 165
+  },
+  {
+    "id": "xbuilders:pumpkin_seeds",
+    "name": "Pumpkin Seeds",
+    "block": "xbuilders:pumpkin_seeds"
+  },
+  {
+    "id": "xbuilders:pumpkin",
+    "name": "Pumpkin",
+    "block": "xbuilders:pumpkin"
   },
   {
     "id": "xbuilders:glow_rock",
@@ -1827,11 +1831,6 @@
     "block": 406
   },
   {
-    "id": "xbuilders:croissant",
-    "name": "Croissant",
-    "block": 407
-  },
-  {
     "id": "xbuilders:minecart_road_slab",
     "name": "Minecart Road Slab",
     "block": 408
@@ -2695,11 +2694,6 @@
     "id": "xbuilders:black_marble_tile_pillar",
     "name": "Black Marble Tile Pillar",
     "block": 591
-  },
-  {
-    "id": "xbuilders:bread_block",
-    "name": "Bread",
-    "block": 592
   },
   {
     "id": "xbuilders:cyan_stained_wood",
