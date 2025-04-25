@@ -17,6 +17,8 @@ import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
+import com.xbuilders.window.nuklear.NKUtils;
+import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
 
 import java.io.IOException;
@@ -94,16 +96,18 @@ public class NewWorld implements MenuPage {
                 row(ctx, "World Options", 1);
                 nk_layout_row_dynamic(ctx, 20, 1);
                 terrain.options.forEach((key, value) -> {
-                    ByteBuffer active = stack.malloc(1);
+
 
                     if (value instanceof Boolean) {
                         boolean b = (boolean) value;
+                        ByteBuffer active = stack.malloc(1);
                         active.put(0, b ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
                         if (nk_checkbox_label(ctx, " " + key, active)) {
                             terrain.options.put(key, !b);
                             System.out.println(terrain.options);
                         }
                     }
+
 
                 });
             }
