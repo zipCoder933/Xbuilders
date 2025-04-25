@@ -1,5 +1,8 @@
 package com.xbuilders.content.vanilla.terrain;
 
+import com.xbuilders.engine.client.settings.BoundedFloat;
+import com.xbuilders.engine.client.settings.BoundedInt;
+
 import java.util.HashMap;
 
 public class TerrainOptions extends HashMap<String, Object> {
@@ -19,27 +22,27 @@ public class TerrainOptions extends HashMap<String, Object> {
         return false;
     }
 
-    public int getInt(String key) {
+    public BoundedInt getInt(String key) {
         Object o = get(key);
-        if (o instanceof Integer) return (Integer) o;
-        return 0;
+        if (o instanceof BoundedInt) return (BoundedInt) o;
+        return null;
     }
 
-    public float getFloat(String key) {
+    public BoundedFloat getFloat(String key) {
         Object o = get(key);
-        if (o instanceof Float) return (Float) o;
-        return 0;
+        if (o instanceof BoundedFloat) return (BoundedFloat) o;
+        return null;
     }
 
     public void setBoolean(String key, Boolean value) {
         put(key, value);
     }
 
-    public void setInt(String key, int value) {
+    public void setInt(String key, BoundedInt value) {
         put(key, value);
     }
 
-    public void setFloat(String key, float value) {
+    public void setFloat(String key, BoundedFloat value) {
         put(key, value);
     }
 }
