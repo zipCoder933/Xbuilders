@@ -3,12 +3,12 @@
 // 
 package com.xbuilders.engine.server.world;
 
+import com.xbuilders.content.vanilla.terrain.TerrainOptions;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
 import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -27,18 +27,18 @@ public abstract class Terrain {
     public int MIN_SURFACE_HEIGHT = -100;
     public int TERRAIN_MIN_GEN_HEIGHT = 0;  //Anything above this is considered air
 
-    public HashMap<String, Boolean> options = new HashMap<>();
+    public TerrainOptions options = new TerrainOptions();
     public int version = 0;
 
     public Terrain(String name) {
         this.name = name;
     }
 
-    public final void initForWorld(int seed, HashMap<String, Boolean> terrainOptions, int terrainVersion) {
+    public final void initForWorld(int seed, TerrainOptions terrainOptions, int terrainVersion) {
         fastNoise.SetSeed(seed);
         perlinNoise.setSeed(((double) seed / Integer.MAX_VALUE) * 255);
         this.seed = seed;
-        if (terrainOptions == null) terrainOptions = new HashMap<>();
+        if (terrainOptions == null) terrainOptions = new TerrainOptions();
         this.options = terrainOptions;
         this.version = terrainVersion;
         loadWorld(options, version);
@@ -48,7 +48,7 @@ public abstract class Terrain {
         return 0;
     }
 
-    public abstract void loadWorld(HashMap<String, Boolean> options, int version);
+    public abstract void loadWorld(TerrainOptions options, int version);
 
     public boolean isBelowMinHeight(Vector3i position, int offset) {
         //If the bottom of the chunk is below the minimum height, we need to generate the terrain

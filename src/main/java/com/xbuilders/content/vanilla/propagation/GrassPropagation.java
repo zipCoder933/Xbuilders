@@ -1,12 +1,12 @@
 package com.xbuilders.content.vanilla.propagation;
 
+import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.LivePropagationTask;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
 import org.joml.Vector3i;
 
 import java.util.*;
@@ -66,13 +66,13 @@ public class GrassPropagation extends LivePropagationTask {
     private short getGrassBlockOfBiome(int wx, int wy, int wz) {
         int biome = LocalServer.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
-            case ComplexTerrain.BIOME_SNOWY -> {
+            case DefaultTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;
             }
-            case ComplexTerrain.BIOME_JUNGLE -> {
+            case DefaultTerrain.BIOME_JUNGLE -> {
                 return Blocks.BLOCK_JUNGLE_GRASS;
             }
-            case ComplexTerrain.BIOME_SAVANNAH, ComplexTerrain.BIOME_DESERT -> {
+            case DefaultTerrain.BIOME_SAVANNAH, DefaultTerrain.BIOME_DESERT -> {
                 return Blocks.BLOCK_DRY_GRASS;
             }
             default -> {

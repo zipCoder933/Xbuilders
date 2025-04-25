@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
+import com.xbuilders.content.vanilla.terrain.TerrainOptions;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -14,11 +15,16 @@ import com.xbuilders.content.vanilla.blocks.blocks.trees.JungleTreeUtils;
 import java.util.*;
 
 import static com.xbuilders.engine.server.world.World.WORLD_BOTTOM_Y;
-import static com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain.*;
 
 public class DefaultTerrain extends Terrain {
 
 
+    public final static int BIOME_BEACH = 0;
+    public final static int BIOME_DESERT = 1;
+    public final static int BIOME_SAVANNAH = 2;
+    public final static int BIOME_SNOWY = 3;
+    public final static int BIOME_JUNGLE = 4;
+    public final static int BIOME_DEFAULT = 5;
     final static int WORLD_HEIGHT_OFFSET = 138;
     final static int OCEAN_LEVEL = 25; //Used to deepen lakes in heightmap generation
     final static int WATER_LEVEL = WORLD_HEIGHT_OFFSET + (OCEAN_LEVEL - 5); //5 blocks above ocean level
@@ -94,15 +100,15 @@ public class DefaultTerrain extends Terrain {
     }
 
     @Override
-    public void loadWorld(HashMap<String, Boolean> options, int version) {
+    public void loadWorld(TerrainOptions options, int version) {
         if (options.containsKey("Generate Caves")) {
-            caves = options.get("Generate Caves");
+            caves = options.getBoolean("Generate Caves");
         }
-        if (options.containsKey("Generate Trees")) {
-            trees = options.get("Generate Trees");
+        if (options.containsKey("Generate Trees") && options.get("Generate Trees") instanceof Boolean) {
+            trees = options.getBoolean("Generate Trees");
         }
-        if (options.containsKey("Generate Mountains")) {
-            mountains = options.get("Generate Mountains");
+        if (options.containsKey("Generate Mountains") && options.get("Generate Mountains") instanceof Boolean) {
+            mountains = options.getBoolean("Generate Mountains");
         }
         setTerrainBounds(mountains ? 0 : 100);
     }

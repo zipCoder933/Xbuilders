@@ -1,16 +1,14 @@
 package com.xbuilders.content.vanilla.blocks;
 
+import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.loot.AllLootTables;
-import com.xbuilders.engine.server.loot.LootTableRegistry;
-import com.xbuilders.engine.server.loot.block.BlockLootRegistry;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import org.joml.Vector3f;
 
@@ -18,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
-
-import static com.xbuilders.engine.utils.math.RandomUtils.random;
 
 public class PlantBlockUtils {
     public final List<Short> snowyDefaultGrowth = new ArrayList<>();
@@ -137,13 +133,13 @@ public class PlantBlockUtils {
     public short getGrassBlockOfBiome(int wx, int wy, int wz) {
         int biome = LocalServer.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
-            case ComplexTerrain.BIOME_SNOWY -> {
+            case DefaultTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;
             }
-            case ComplexTerrain.BIOME_JUNGLE -> {
+            case DefaultTerrain.BIOME_JUNGLE -> {
                 return Blocks.BLOCK_JUNGLE_GRASS;
             }
-            case ComplexTerrain.BIOME_SAVANNAH, ComplexTerrain.BIOME_DESERT -> {
+            case DefaultTerrain.BIOME_SAVANNAH, DefaultTerrain.BIOME_DESERT -> {
                 return Blocks.BLOCK_DRY_GRASS;
             }
             default -> {

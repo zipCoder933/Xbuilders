@@ -3,6 +3,7 @@
 // 
 package com.xbuilders.engine.server.world.data;
 
+import com.xbuilders.content.vanilla.terrain.TerrainOptions;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -132,7 +133,7 @@ public class WorldData {
         this.data.size = size;
         this.data.terrain = terrain.name;
         this.data.terrainVersion = terrain.version;
-        this.data.terrainOptions = new HashMap<>(terrain.options);
+        this.data.terrainOptions = new TerrainOptions(terrain.options);
         this.data.seed = seed == 0 ? (int) (Math.random() * Integer.MAX_VALUE) : seed;
         this.directory = WorldsHandler.worldFile(name);
     }
@@ -168,7 +169,7 @@ public class WorldData {
         public String terrain;
         public int seed;
         public int gameMode;
-        public HashMap<String, Boolean> terrainOptions = new HashMap<>();
+        public TerrainOptions terrainOptions = new TerrainOptions();
         public boolean alwaysDayMode;
         public double dayTexturePan = 0;
 

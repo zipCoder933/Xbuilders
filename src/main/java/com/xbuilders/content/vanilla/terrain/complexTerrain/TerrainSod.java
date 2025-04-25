@@ -4,6 +4,7 @@
 
 package com.xbuilders.content.vanilla.terrain.complexTerrain;
 
+import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -40,7 +41,7 @@ public class TerrainSod {
                                    int biome,
                                    float valleyLikelyhood, float dryness, float make) {
 
-        if (biome == ComplexTerrain.BIOME_BEACH) {
+        if (biome == DefaultTerrain.BIOME_BEACH) {
             LocalServer.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
             if (terrain.fastNoise.GetValueFractal(wx, wz) >= 0) {
                 LocalServer.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
@@ -51,7 +52,7 @@ public class TerrainSod {
                 LocalServer.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 2, wz);
                 LocalServer.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 3, wz);
             }
-        } else if (biome == ComplexTerrain.BIOME_DESERT) {
+        } else if (biome == DefaultTerrain.BIOME_DESERT) {
             if (terrain.fastNoise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
                 LocalServer.world.setBlock(Blocks.BLOCK_CLAY, wx, wy, wz);
                 LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
@@ -68,15 +69,15 @@ public class TerrainSod {
             LocalServer.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
-        } else if (biome == ComplexTerrain.BIOME_SNOWY) {
+        } else if (biome == DefaultTerrain.BIOME_SNOWY) {
             LocalServer.world.setBlock(Blocks.BLOCK_SNOW_GRASS, wx, wy, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
-        } else if (biome == ComplexTerrain.BIOME_SAVANNAH) {
+        } else if (biome == DefaultTerrain.BIOME_SAVANNAH) {
             LocalServer.world.setBlock(Blocks.BLOCK_DRY_GRASS, wx, wy, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
-        } else if (biome == ComplexTerrain.BIOME_JUNGLE) {
+        } else if (biome == DefaultTerrain.BIOME_JUNGLE) {
             LocalServer.world.setBlock(Blocks.BLOCK_JUNGLE_GRASS, wx, wy, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
             LocalServer.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);

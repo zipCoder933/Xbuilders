@@ -26,7 +26,7 @@ public class BasicTerrain extends Terrain {
     }
 
     @Override
-    public void loadWorld(HashMap<String, Boolean> options, int version) {
+    public void loadWorld(TerrainOptions options, int version) {
 
     }
 

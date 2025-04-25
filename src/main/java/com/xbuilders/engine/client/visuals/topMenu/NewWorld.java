@@ -95,11 +95,16 @@ public class NewWorld implements MenuPage {
                 nk_layout_row_dynamic(ctx, 20, 1);
                 terrain.options.forEach((key, value) -> {
                     ByteBuffer active = stack.malloc(1);
-                    active.put(0, value ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
-                    if (nk_checkbox_label(ctx, " " + key, active)) {
-                        terrain.options.put(key, !value);
-                        System.out.println(terrain.options);
+
+                    if (value instanceof Boolean) {
+                        boolean b = (boolean) value;
+                        active.put(0, b ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
+                        if (nk_checkbox_label(ctx, " " + key, active)) {
+                            terrain.options.put(key, !b);
+                            System.out.println(terrain.options);
+                        }
                     }
+
                 });
             }
 

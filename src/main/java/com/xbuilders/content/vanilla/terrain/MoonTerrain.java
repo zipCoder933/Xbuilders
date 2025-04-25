@@ -27,9 +27,9 @@ public class MoonTerrain extends Terrain {
     }
 
     @Override
-    public void loadWorld(HashMap<String, Boolean> options, int version) {
+    public void loadWorld(TerrainOptions options, int version) {
         if (options.containsKey("Deep")) {
-            deep = options.get("Deep");
+            deep = options.getBoolean("Deep");
         }
         height = deep ? 100 : 240;
     }

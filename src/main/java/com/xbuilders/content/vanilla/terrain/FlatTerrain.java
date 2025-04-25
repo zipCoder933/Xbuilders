@@ -4,12 +4,10 @@
  */
 package com.xbuilders.content.vanilla.terrain;
 
+import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.content.vanilla.terrain.complexTerrain.ComplexTerrain;
-
-import java.util.HashMap;
 
 import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 
@@ -25,7 +23,7 @@ public class FlatTerrain extends Terrain {
     }
 
     @Override
-    public void loadWorld(HashMap<String, Boolean> options, int version) {
+    public void loadWorld(TerrainOptions options, int version) {
 
     }
 
@@ -33,15 +31,15 @@ public class FlatTerrain extends Terrain {
         if (heat > 0.55f) {// 0.6 - 1
             // We lower down the minimum temperature of desert to compensate for it only
             // being at the bottom of the terrain
-            return ComplexTerrain.BIOME_DESERT;
+            return DefaultTerrain.BIOME_DESERT;
         } else if (heat > 0.2f) {// 0.2 - 0.6
-            return ComplexTerrain.BIOME_SAVANNAH;
+            return DefaultTerrain.BIOME_SAVANNAH;
         } else if (heat > -0.2f) {// -0.2 - 0.2
-            return ComplexTerrain.BIOME_DEFAULT;
+            return DefaultTerrain.BIOME_DEFAULT;
         } else if (heat > -0.6f) {// -0.6 - -0.2
-            return ComplexTerrain.BIOME_JUNGLE;
+            return DefaultTerrain.BIOME_JUNGLE;
         } else {// -1 - -0.6
-            return ComplexTerrain.BIOME_SNOWY;
+            return DefaultTerrain.BIOME_SNOWY;
         }
     }
 
