@@ -11,11 +11,13 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.item.ItemStack;
+import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.players.Player;
@@ -128,6 +130,7 @@ public class LocalServer extends Server {
     }
 
     //Set block ===============================================================================
+
     public void setBlock(short block, int worldX, int worldY, int worldZ) {
         setBlock(block, new WCCi().set(worldX, worldY, worldZ));
     }

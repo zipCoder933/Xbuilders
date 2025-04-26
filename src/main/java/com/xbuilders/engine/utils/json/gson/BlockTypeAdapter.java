@@ -33,6 +33,7 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
         jsonObject.addProperty("torch", src.torchlightStartingValue);
         jsonObject.addProperty("type", src.type);
         jsonObject.addProperty("toughness", src.toughness);
+        jsonObject.addProperty("climbable", src.climbable);
         if (src.colorInPlayerHead != null) {
             JsonElement colorElement = context.serialize(src.colorInPlayerHead);
             jsonObject.add("colorInPlayerHead", colorElement);
@@ -85,6 +86,8 @@ public class BlockTypeAdapter implements JsonSerializer<Block>, JsonDeserializer
             block.torchlightStartingValue = jsonObject.get("torch").getAsByte();
         if (jsonObject.has("toughness"))
             block.toughness = jsonObject.get("toughness").getAsFloat();
+        if (jsonObject.has("climbable"))
+            block.climbable = jsonObject.get("climbable").getAsBoolean();
 
         // Import tools that can mine
         if (jsonObject.has("toolsThatCanMine")) {

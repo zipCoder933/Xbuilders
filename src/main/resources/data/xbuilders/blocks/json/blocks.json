@@ -107,7 +107,9 @@
       "pos_y": "vines"
     },
     "solid": false,
+    "climbable": true,
     "opaque": false,
+    "climbable": true,
     "torch": 0,
     "type": 3,
     "colorInPlayerHead": [
@@ -4010,6 +4012,7 @@
       "pos_y": "cave vines flat"
     },
     "solid": false,
+    "climbable": true,
     "opaque": false,
     "torch": 0,
     "type": 7,
@@ -4288,6 +4291,7 @@
     },
     "solid": true,
     "opaque": false,
+    "climbable": true,
     "torch": 0,
     "type": 7,
     "colorInPlayerHead": [
@@ -4331,6 +4335,7 @@
       "pos_y": "cave vines flat"
     },
     "torch": 0,
+    "climbable": true,
     "type": 3,
     "colorInPlayerHead": [
       0.0,
@@ -4419,6 +4424,7 @@
       "pos_y": "red vines flat"
     },
     "solid": false,
+    "climbable": true,
     "opaque": false,
     "torch": 0,
     "type": 3,
@@ -4442,6 +4448,7 @@
       "pos_y": "vines"
     },
     "solid": true,
+    "climbable": true,
     "opaque": false,
     "torch": 0,
     "type": 7,
@@ -9429,6 +9436,7 @@
       "pos_y": "flat dragon vines"
     },
     "solid": true,
+    "climbable": true,
     "opaque": false,
     "torch": 0,
     "type": 7,
@@ -9452,6 +9460,7 @@
       "pos_y": "flat dragon vines"
     },
     "solid": false,
+    "climbable": true,
     "opaque": false,
     "torch": 0,
     "type": 3,

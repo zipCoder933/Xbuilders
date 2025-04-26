@@ -4,7 +4,6 @@ import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.blocks.blocks.*;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
@@ -1258,6 +1257,43 @@ public class Blocks {
         Registrys.getBlock(Blocks.BLOCK_BIRCH_SAPLING).randomTickEvent = BirchTreeUtils.randomTickEvent;
         Registrys.getBlock(Blocks.BLOCK_JUNGLE_SAPLING).randomTickEvent = JungleTreeUtils.randomTickEvent;
         Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
+
+        Registrys.getBlock(Blocks.BLOCK_OAK_LOG).removeBlockEvent(false,
+                TreeUtils.logRemovalEvent(
+                        Registrys.getBlock(Blocks.BLOCK_OAK_LOG),
+                        Registrys.getBlock(Blocks.BLOCK_OAK_LEAVES)));
+
+        Registrys.getBlock(Blocks.BLOCK_SPRUCE_LOG).removeBlockEvent(false,
+                TreeUtils.logRemovalEvent(
+                        Registrys.getBlock(Blocks.BLOCK_SPRUCE_LOG),
+                        Registrys.getBlock(Blocks.BLOCK_SPRUCE_LEAVES)));
+
+        Registrys.getBlock(Blocks.BLOCK_BIRCH_LOG).removeBlockEvent(false,
+                TreeUtils.logRemovalEvent(
+                        Registrys.getBlock(Blocks.BLOCK_BIRCH_LOG),
+                        Registrys.getBlock(Blocks.BLOCK_BIRCH_LEAVES)));
+
+        Registrys.getBlock(Blocks.BLOCK_JUNGLE_LOG).removeBlockEvent(false,
+                TreeUtils.logRemovalEvent(
+                        Registrys.getBlock(Blocks.BLOCK_JUNGLE_LOG),
+                        Registrys.getBlock(Blocks.BLOCK_JUNGLE_LEAVES)));
+
+        Registrys.getBlock(Blocks.BLOCK_ACACIA_LOG).removeBlockEvent(false,
+                TreeUtils.logRemovalEvent(
+                        Registrys.getBlock(Blocks.BLOCK_ACACIA_LOG),
+                        Registrys.getBlock(Blocks.BLOCK_ACACIA_LEAVES)));
+
+        //Leaves
+        Registrys.getBlock(Blocks.BLOCK_OAK_LEAVES).randomTickEvent = TreeUtils.leafTickEvent(Registrys.getBlock(Blocks.BLOCK_OAK_LEAVES));
+        Registrys.getBlock(Blocks.BLOCK_SPRUCE_LEAVES).randomTickEvent = TreeUtils.leafTickEvent(Registrys.getBlock(Blocks.BLOCK_SPRUCE_LEAVES));
+        Registrys.getBlock(Blocks.BLOCK_BIRCH_LEAVES).randomTickEvent = TreeUtils.leafTickEvent(Registrys.getBlock(Blocks.BLOCK_BIRCH_LEAVES));
+        Registrys.getBlock(Blocks.BLOCK_JUNGLE_LEAVES).randomTickEvent = TreeUtils.leafTickEvent(Registrys.getBlock(Blocks.BLOCK_JUNGLE_LEAVES));
+        Registrys.getBlock(Blocks.BLOCK_ACACIA_LEAVES).randomTickEvent = TreeUtils.leafTickEvent(Registrys.getBlock(Blocks.BLOCK_ACACIA_LEAVES));
+        //Vines
+        TreeUtils.vineEvents(Registrys.getBlock(Blocks.BLOCK_VINES), Blocks.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.vineEvents(Registrys.getBlock(Blocks.BLOCK_CAVE_VINES), Blocks.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.vineEvents(Registrys.getBlock(Blocks.BLOCK_DRAGON_VINES), Blocks.BLOCK_JUNGLE_LEAVES);
+        TreeUtils.vineEvents(Registrys.getBlock(Blocks.BLOCK_RED_VINES), Blocks.BLOCK_JUNGLE_LEAVES);
 
         Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
             if (!LocalClient.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {

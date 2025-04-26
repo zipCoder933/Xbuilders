@@ -13,10 +13,9 @@ import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class PlantBlockUtils {
@@ -37,28 +36,7 @@ public class PlantBlockUtils {
         System.out.println("SnowDefaultGrowth: " + snowyDefaultGrowth.toString());
     }
 
-    public static Block.RemoveBlockEvent logRemovalEvent(Block log, Block leaves) {
 
-        ItemStack logStack = new ItemStack(Registrys.getItem(log), 1);
-        ItemStack leafStack = new ItemStack(Registrys.getItem(log), 1);
-
-
-        return (int x, int y, int z, BlockHistory history) -> {
-            for (int i = 0; i < 50; i++) {
-                int newY = y - i;
-                Block block = LocalClient.world.getBlock(x, newY, z);
-                //If this block is the log and there is air around it
-                if (block != null && block.id == log.id
-                        && !LocalClient.world.getBlock(x - 1, newY, z).solid
-                        && !LocalClient.world.getBlock(x + 1, newY, z).solid
-                        && !LocalClient.world.getBlock(x, newY, z - 1).solid
-                        && !LocalClient.world.getBlock(x, newY, z + 1).solid) {
-                    Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y - i, z);
-                    AllLootTables.blockLootTables.dropLoot(log.alias, new Vector3f(x, y - i, z), false);
-                }
-            }
-        };
-    }
 
     public final static float GROW_PROBABILITY = 0.05f;
     public final static float DECAY_PROBABILITY = 0.05f;

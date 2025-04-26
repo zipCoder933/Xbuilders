@@ -76,7 +76,7 @@ public class LogicThread {
                     chunksMeshUpdated += (hasUpdatedMesh ? 1 : 0);
                 }
             }
-            ClientWindow.printlnDev("Tick updated " + chunksMeshUpdated + " chunk meshes");
+//            ClientWindow.printlnDev("Tick updated " + chunksMeshUpdated + " chunk meshes");
             //chunks.forEach(chunk -> chunk.updateMesh(true, 0, 0, 0));
         }
     }

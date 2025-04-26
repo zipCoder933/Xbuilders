@@ -2,6 +2,7 @@ package com.xbuilders.engine.server.loot.block;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.xbuilders.Main;
+import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.loot.LootTableRegistry;
@@ -50,7 +51,13 @@ public class BlockLootRegistry extends LootTableRegistry {
         return list.get(blockId);
     }
 
-    public void dropLoot(String blockId, Vector3f pos, boolean droppedFromPlayer) {
+    public void dropLoot(String blockId, Vector3f pos) {
+        dropLoot(blockId, pos, false, true);
+    }
+
+    public void dropLoot(String blockId, Vector3f pos, boolean droppedFromPlayer, boolean cancelUnlessInAdventureMode) {
+        if (cancelUnlessInAdventureMode && Main.getServer().getGameMode() != GameMode.ADVENTURE) return;
+
         LootList lootList = getLoot(blockId);
         if (lootList != null) {
             lootList.randomItems((itemStack) -> {

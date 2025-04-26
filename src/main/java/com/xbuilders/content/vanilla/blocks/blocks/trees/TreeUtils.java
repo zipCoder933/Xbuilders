@@ -5,23 +5,28 @@
 package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
 import com.xbuilders.Main;
+import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.loot.AllLootTables;
+import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.BFS.TravelNode;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.utils.math.MathUtils;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
+import static com.xbuilders.engine.server.block.BlockRegistry.BLOCK_AIR;
+
 /**
  * @author zipCoder933
  */
-class TreeUtils {
-
+public class TreeUtils {
 
 
     public static int randomInt(Random rand, int min, int max) {
@@ -168,4 +173,172 @@ class TreeUtils {
         }
         return new Vector3i(x, y, z);
     }
+
+    public static void vineEvents(Block vine, int leaf) {
+        vine.localChangeEvent(false, (history, changedPos, thisPos) -> eraseVine(thisPos.x, thisPos.y, thisPos.z, vine, leaf));
+        vine.randomTickEvent = (int x, int y, int z) -> eraseVine(x, y, z, vine, leaf);
+    }
+
+    private static boolean eraseVine(int x, int y, int z, Block vine, int leaf) {
+        Block above = LocalClient.world.getBlock(x, y - 1, z);
+        if (
+                !above.solid
+                        && above.id != vine.id
+                        && above.id != leaf) {//If there is nothing above us
+
+            for (int i = 0; i < 50; i++) {
+                if (LocalClient.world.getBlockID(x, y + i, z) == vine.id) {
+                    //Drop loot and erase the vine
+                    AllLootTables.blockLootTables.dropLoot(vine.alias, new Vector3f(x, y + i, z));
+                    LocalClient.world.setBlock(BLOCK_AIR.id, x, y + i, z);
+                } else break;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static Block.RandomTickEvent leafTickEvent(Block leaf) {
+        return (int x, int y, int z) -> {
+            if (!isLeafOrLog(LocalClient.world.getBlock(x, y + 1, z), leaf.id)) {//If there are no leaves/logs below us
+
+                int connections = 0;
+                //Direct
+                connections += isLeafOrLog(LocalClient.world.getBlock(x - 1, y, z), leaf.id) ? 1 : 0;
+                connections += isLeafOrLog(LocalClient.world.getBlock(x + 1, y, z), leaf.id) ? 1 : 0;
+                connections += isLeafOrLog(LocalClient.world.getBlock(x, y, z - 1), leaf.id) ? 1 : 0;
+                connections += isLeafOrLog(LocalClient.world.getBlock(x, y, z + 1), leaf.id) ? 1 : 0;
+                if (connections > 2)
+                    return false; //If there are more than 2 direct facing connections, don't remove the leaf
+
+                //Diagonals
+                connections += LocalClient.world.getBlockID(x + 1, y, z + 1) == leaf.id ? 1 : 0;
+                connections += LocalClient.world.getBlockID(x - 1, y, z - 1) == leaf.id ? 1 : 0;
+                connections += LocalClient.world.getBlockID(x - 1, y, z + 1) == leaf.id ? 1 : 0;
+                connections += LocalClient.world.getBlockID(x + 1, y, z - 1) == leaf.id ? 1 : 0;
+                if (connections > 3) return false; //If there are more than 3 connections, don't remove the leaf
+
+                //Drop loot and erase the block
+                AllLootTables.blockLootTables.dropLoot(leaf.alias, new Vector3f(x, y, z));
+                LocalClient.world.setBlock(BLOCK_AIR.id, x, y, z);
+                return true;
+            }
+            return false;
+        };
+    }
+
+
+    private static boolean isLeafOrLog(Block block, int leaf) {
+        return block.solid || block.id == leaf;
+    }
+
+    public static Block.RemoveBlockEvent logRemovalEvent(Block log, Block leaves) {
+        return (int x, int y, int z, BlockHistory history) -> {
+            System.out.println("Removing log at " + x + ", " + y + ", " + z);
+
+            if (LocalClient.world.getBlockID(x, y - 1, z) != log.id //If there are no logs below, above or around
+                    && LocalClient.world.getBlockID(x - 1, y, z) != log.id
+                    && LocalClient.world.getBlockID(x + 1, y, z) != log.id
+                    && LocalClient.world.getBlockID(x, y, z - 1) != log.id
+                    && LocalClient.world.getBlockID(x, y, z + 1) != log.id
+                    && LocalClient.world.getBlockID(x - 1, y, z - 1) != log.id
+                    && LocalClient.world.getBlockID(x + 1, y, z + 1) != log.id
+                    && LocalClient.world.getBlockID(x - 1, y, z + 1) != log.id
+                    && LocalClient.world.getBlockID(x + 1, y, z - 1) != log.id
+            ) {
+                if ( //And there are leaves around it
+                        LocalClient.world.getBlockID(x - 1, y, z) == leaves.id
+                                || LocalClient.world.getBlockID(x + 1, y, z) == leaves.id
+                                || LocalClient.world.getBlockID(x, y, z - 1) == leaves.id
+                                || LocalClient.world.getBlockID(x, y, z + 1) == leaves.id
+                ) {
+                    final int radius = 10;
+
+                    if (findAnotherLog(x, y, z, leaves.id, log.id, radius)) {
+                        System.out.println("Found another log");
+                        return;
+                    }
+
+
+                    System.out.println("Removing surrounding leaves");
+                    HashSet<Vector3i> nodes = new HashSet();
+                    addLeafNode(x + 1, y, z, leaves.id, nodes);
+                    addLeafNode(x - 1, y, z, leaves.id, nodes);
+                    addLeafNode(x, y - 1, z, leaves.id, nodes);
+                    addLeafNode(x, y + 1, z, leaves.id, nodes);
+                    addLeafNode(x, y, z + 1, leaves.id, nodes);
+                    addLeafNode(x, y, z - 1, leaves.id, nodes);
+
+
+                    while (!nodes.isEmpty()) {
+                        Vector3i node = nodes.iterator().next();
+                        nodes.remove(node);
+                        if (MathUtils.dist(x, y, z, node.x, node.y, node.z) > radius) continue;
+                        //If this is a leaf, remove it and add leaves around it
+                        if (LocalClient.world.getBlockID(node.x, node.y, node.z) == leaves.id) {
+
+                            //Drop loot and erase the block
+                            AllLootTables.blockLootTables.dropLoot(leaves.alias, new Vector3f(node.x, node.y, node.z));
+                            Main.getServer().setBlock(Blocks.BLOCK_AIR, node.x, node.y, node.z);
+
+                            addLeafNode(node.x + 1, node.y, node.z, leaves.id, nodes);
+                            addLeafNode(node.x - 1, node.y, node.z, leaves.id, nodes);
+                            addLeafNode(node.x, node.y - 1, node.z, leaves.id, nodes);
+                            addLeafNode(node.x, node.y + 1, node.z, leaves.id, nodes);
+                            addLeafNode(node.x, node.y, node.z + 1, leaves.id, nodes);
+                            addLeafNode(node.x, node.y, node.z - 1, leaves.id, nodes);
+                        }
+                    }
+
+                }
+
+            }
+
+        };
+    }
+
+    private static boolean findAnotherLog(int x, int y, int z, short leafBlock, short logBlock, int maxRadius) {
+        HashSet<Vector3i> nodes = new HashSet();
+        HashSet<Vector3i> searchedNodes = new HashSet();
+        addCheckLogNode(x + 1, y, z, leafBlock, 0, nodes, searchedNodes);
+        addCheckLogNode(x - 1, y, z, leafBlock, 0, nodes, searchedNodes);
+        addCheckLogNode(x, y, z + 1, leafBlock, 0, nodes, searchedNodes);
+        addCheckLogNode(x, y, z - 1, leafBlock, 0, nodes, searchedNodes);
+
+        while (!nodes.isEmpty()) {
+            Vector3i node = nodes.iterator().next();
+            nodes.remove(node);
+            if (MathUtils.dist(x, y, z, node.x, node.y, node.z) > maxRadius) continue;
+            if (LocalClient.world.getBlockID(node.x, node.y, node.z) == leafBlock) {
+                searchedNodes.add(node);
+                addCheckLogNode(node.x + 1, node.y, node.z, leafBlock, logBlock, nodes, searchedNodes);
+                addCheckLogNode(node.x - 1, node.y, node.z, leafBlock, logBlock, nodes, searchedNodes);
+                addCheckLogNode(node.x, node.y - 1, node.z, leafBlock, logBlock, nodes, searchedNodes);
+                addCheckLogNode(node.x, node.y + 1, node.z, leafBlock, logBlock, nodes, searchedNodes);
+                addCheckLogNode(node.x, node.y, node.z + 1, leafBlock, logBlock, nodes, searchedNodes);
+                addCheckLogNode(node.x, node.y, node.z - 1, leafBlock, logBlock, nodes, searchedNodes);
+            } else if (LocalClient.world.getBlockID(node.x, node.y, node.z) == logBlock) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void addCheckLogNode(int x, int y, int z,
+                                        int leafBlock, int logBlock,
+                                        HashSet<Vector3i> nodes, HashSet<Vector3i> searchedNodes) {
+        Vector3i v = new Vector3i(x, y, z);
+        if ((LocalClient.world.getBlockID(x, y, z) == leafBlock ||
+                LocalClient.world.getBlockID(x, y, z) == logBlock)
+                && !searchedNodes.contains(v)) {
+            nodes.add(v);
+        }
+    }
+
+    private static void addLeafNode(int x, int y, int z, short leafBlock, HashSet<Vector3i> nodes) {
+        if (LocalClient.world.getBlockID(x, y, z) == leafBlock) {
+            nodes.add(new Vector3i(x, y, z));
+        }
+    }
+
 }
