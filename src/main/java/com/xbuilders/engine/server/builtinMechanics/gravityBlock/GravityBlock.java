@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.builtinMechanics.gravityBlock;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
@@ -50,7 +51,7 @@ public class GravityBlock {
         Block blockBelow = LocalClient.world.getBlock(thisPosition.x, thisPosition.y + 1, thisPosition.z);
         if (!blockBelow.solid
                 && LocalClient.world.getBlockID(thisPosition.x, thisPosition.y, thisPosition.z) == block.id) {
-            LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
+            Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, thisPosition.x, thisPosition.y, thisPosition.z);
 
             //Under certain conditions, we immediately move the block to the bottom
             if (thisPosition.distance(
@@ -62,7 +63,7 @@ public class GravityBlock {
                 for (int y = thisPosition.y + 1; y < World.WORLD_BOTTOM_Y; y++) {
                     blockBelow = LocalClient.world.getBlock(thisPosition.x, y, thisPosition.z);
                     if (blockBelow.solid) {
-                        LocalServer.setBlock(block.id, thisPosition.x, y - 1, thisPosition.z);
+                        Main.getServer().setBlock(block.id, thisPosition.x, y - 1, thisPosition.z);
                         break;
                     }
                 }

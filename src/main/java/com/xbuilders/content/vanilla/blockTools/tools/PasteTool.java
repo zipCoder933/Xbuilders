@@ -1,22 +1,21 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.block.BlockRegistry;
-import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockMeshBundle;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import com.xbuilders.content.vanilla.blockTools.PrefabUtils;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockMeshBundle;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
+import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.entity.Entity;
+import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
@@ -179,7 +178,7 @@ public class PasteTool extends BlockTool {
             for (int y = 0; y < clipboard.size.y; y++) {
                 for (int z = 0; z < clipboard.size.z; z++) {
                     if (clipboard.getBlock(x, y, z) != BlockRegistry.BLOCK_AIR.id || !additionMode) {
-                        LocalServer.setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
+                        Main.getServer().setBlock(clipboard.getBlock(x, y, z), clipboard.getBlockData(x, y, z), x + offset.x, y + offset.y, z + offset.z);
                     }
                 }
             }

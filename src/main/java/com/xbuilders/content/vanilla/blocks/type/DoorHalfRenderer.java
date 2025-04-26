@@ -4,19 +4,19 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.utils.math.MathUtils;
 
 import java.io.IOException;
 
@@ -71,18 +71,18 @@ public class DoorHalfRenderer extends BlockType {
                 Block bottomBlock = b;
 
                 topBlock.setBlockEvent(false, (x, y, z) -> { //KEEP THIS!
-                    LocalServer.setBlock(bottomBlock.id, x, y + 1, z);
+                    Main.getServer().setBlock(bottomBlock.id, x, y + 1, z);
                 });
 
                 topBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (LocalClient.world.getBlock(x, y + 1, z) == bottomBlock) {
-                        LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
+                        Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
                     }
                 });
 
                 bottomBlock.setBlockEvent(false, (x, y, z) -> {
                     BlockData data = LocalClient.world.getBlockData(x, y, z);
-                    LocalServer.setBlock(topBlock.id, x, y - 1, z);
+                    Main.getServer().setBlock(topBlock.id, x, y - 1, z);
                     boolean right = orientRightOrLeft(data, x, y, z);
                     //We cant change right/left here because that will get overridden when initial block data gets written
                     //A solution to this is when the initialBlockData is called, it returns the existing data if it is already set
@@ -91,7 +91,7 @@ public class DoorHalfRenderer extends BlockType {
 
                 bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
                     if (LocalClient.world.getBlock(x, y - 1, z) == topBlock) {
-                        LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
+                        Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
                     }
                 });
 

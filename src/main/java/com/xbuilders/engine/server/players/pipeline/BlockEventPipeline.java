@@ -3,27 +3,26 @@ package com.xbuilders.engine.server.players.pipeline;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.multiplayer.MultiplayerPendingBlockChanges;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
-import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.light.SunlightUtils;
 import com.xbuilders.engine.server.world.light.TorchUtils;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.utils.BFS.ChunkNode;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import org.joml.Vector3i;
 
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BlockEventPipeline {
@@ -203,7 +202,7 @@ public class BlockEventPipeline {
 
                     //set block
                     if (!blockHist.fromNetwork)  //only send change if not from network
-                        LocalServer.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+                        Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
                     chunk.markAsModified();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
 
@@ -232,7 +231,7 @@ public class BlockEventPipeline {
                 }
             } else { //If both blocks are the same, just update the block data
                 if (!blockHist.fromNetwork) //only send change if not from network
-                    LocalServer.server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+                    Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
 
                 blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
@@ -246,13 +245,13 @@ public class BlockEventPipeline {
         if (allowBlockEvents) {
             eventsCopy.forEach((worldPos, blockHist) -> {
                 if (World.inYBounds(worldPos.y)) {
-                    if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the localServer
+                    if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the Main.getServer()
 
                         if (//TODO: Try to check for block data changes without setting off infinite recursion
                                 blockHist.previousBlock != blockHist.newBlock //If the blocks are different
                         ) {
                             startLocalChange(worldPos, blockHist, allowBlockEvents);
-                            LocalClient.localServer.livePropagationHandler.addNode(worldPos, blockHist);
+                            Main.getServer().livePropagationHandler.addNode(worldPos, blockHist);
                             blockHist.previousBlock.run_RemoveBlockEvent(eventThread, worldPos, blockHist);
                             blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
                         }
@@ -260,7 +259,7 @@ public class BlockEventPipeline {
                 }
             });
         }
-        LocalServer.server.sendNearBlockChanges();
+        Main.getServer().server.sendNearBlockChanges();
     }
 
 
@@ -343,7 +342,7 @@ public class BlockEventPipeline {
 
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);
-                    LocalClient.localServer.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
+                    Main.getServer().livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
                     nBlock.run_LocalChangeEvent(eventThread, hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }

@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.GameMode;
@@ -49,7 +50,7 @@ public class BlockTools extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
-        if (LocalServer.getGameMode() == GameMode.FREEPLAY) {
+        if (Main.getServer().getGameMode() == GameMode.FREEPLAY) {
             NkRect windowDims = NkRect.malloc(stack);
 
             Theme.resetEntireButtonStyle(ctx);
@@ -98,7 +99,7 @@ public class BlockTools extends UI_GameMenu {
      * @return true if the event was consumed
      */
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (LocalServer.getGameMode() == GameMode.FREEPLAY) {
+        if (Main.getServer().getGameMode() == GameMode.FREEPLAY) {
             if (pallete.keyEvent(key, scancode, action, mods)) {
             } else {
                 if (action == GLFW.GLFW_RELEASE || action == GLFW.GLFW_PRESS) {
@@ -142,12 +143,12 @@ public class BlockTools extends UI_GameMenu {
     public boolean clickEvent(CursorRay ray, boolean isCreationMode) {
         autoRevert();
         Block block = BlockTool.getSelectedBlock();
-        if (LocalServer.getGameMode() != GameMode.FREEPLAY || block == null) return false;
+        if (Main.getServer().getGameMode() != GameMode.FREEPLAY || block == null) return false;
         return getSelectedTool().setBlock(block, ray, isCreationMode);
     }
 
     public boolean UIMouseButtonEvent(int button, int action, int mods) {
-        if (LocalServer.getGameMode() != GameMode.FREEPLAY) return false;
+        if (Main.getServer().getGameMode() != GameMode.FREEPLAY) return false;
         return tools.get(selectedTool).mouseButtonEvent(button, action, mods);
     }
 

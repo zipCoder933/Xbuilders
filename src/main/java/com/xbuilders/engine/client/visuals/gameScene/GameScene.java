@@ -4,8 +4,8 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.server.Game;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
@@ -14,7 +14,6 @@ import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.engine.utils.MiscUtils;
@@ -45,8 +44,8 @@ public class GameScene implements WindowEvents {
     public boolean writeDebugText = false;
 
 
-    public GameScene(ClientWindow window, Game game, World world) throws Exception {
-        this.window = window;
+    public GameScene(LocalClient client, Game game, World world) throws Exception {
+        this.window = client.window;
         this.game = game;
         this.world = world;
         setProjection();
@@ -56,7 +55,7 @@ public class GameScene implements WindowEvents {
 
         background = new SkyBackground(window, world);
 
-        ui = new GameUI(game, window.ctx, window, LocalClient.userPlayer, world);
+        ui = new GameUI(game, window.ctx, client, LocalClient.userPlayer, world);
     }
 
     public void client_hudText(String s) {
@@ -88,10 +87,10 @@ public class GameScene implements WindowEvents {
         glDepthFunc(GL_LESS); // Accept fragment if it closer to the camera than the former one
 
         //The user player is one thing that the client has full control over
-        //The client will check into the localServer occasionally to see if the localServer has any updates for the player
+        //The client will check into the Main.getServer() occasionally to see if the Main.getServer() has any updates for the player
         LocalClient.userPlayer.updateAndRender(holdMouse);
         LocalClient.userPlayer.render(holdMouse);
-        LocalClient.localServer.server.drawPlayers(GameScene.projection, GameScene.view);
+        Main.getServer().server.drawPlayers(GameScene.projection, GameScene.view);
 
         enableBackfaceCulling();
         LocalClient.frameTester.startProcess();
@@ -221,7 +220,7 @@ public class GameScene implements WindowEvents {
 
                         byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                         text += "\n" + block + " data: " + printBlockData(data) + " typeReference: " + Registrys.blocks.getBlockType(block.type);
-                        text += "\nlight=" + LocalServer.getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
+                        text += "\nlight=" + Main.getServer().getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
                                 + "  sun=" + (sun)
                                 + "  torch=" + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }

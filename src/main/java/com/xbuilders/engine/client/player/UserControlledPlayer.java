@@ -5,36 +5,36 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.Main;
+import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.player.camera.Camera;
+import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.GameSceneEvents;
-import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
+import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
-import com.xbuilders.engine.client.player.camera.Camera;
-import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.gson.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.server.item.StorageSpace;
-import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.content.vanilla.Blocks;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -105,7 +105,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     private void updateHealthbars(Block playerHead, Block playerFeet, Block playerWaist) {
-        if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
+        if (Main.getServer().getGameMode() == GameMode.ADVENTURE) {
 
             float multiplier = 1;
 
@@ -115,8 +115,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             if (status_food > 0) {
                 //Scale hunger depletion based on difficulty
                 float difficulty = 1;
-                if (LocalServer.getDifficulty() == Difficulty.EASY) difficulty = 0.5f;
-                if (LocalServer.getDifficulty() == Difficulty.HARD) difficulty = 2f;
+                if (Main.getServer().getDifficulty() == Difficulty.EASY) difficulty = 0.5f;
+                if (Main.getServer().getDifficulty() == Difficulty.HARD) difficulty = 2f;
 
                 if (isRidingEntity()) { //Dont deplete hunger if we are riding something
                     status_food -= IDLE_FOOD_DEPLETION * difficulty * multiplier; //Baseline hunger deplation
@@ -175,7 +175,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             if (!inventory.isEmpty()) {
                 //Make sure the flag is placed somewhere safe (where it wont displace a block)
                 Vector3f flagPos = findSuitableFlagPlacement(worldPosition);
-                LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
+                Main.getServer().setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
                 Main.getClient().consoleOut("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
             }
             System.out.println("Teleporting to spawnpoint... ("
@@ -465,7 +465,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
 
     private void jump() {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) {
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) {
         } else {
             dismount();
             if (positionHandler.isGravityEnabled()) {
@@ -521,7 +521,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         autoForward = false;
         isFlyingMode = true;
         loadFromWorld(world);
-        gameModeChangedEvent(LocalServer.getGameMode());
+        gameModeChangedEvent(Main.getServer().getGameMode());
     }
 
     public void stopGameEvent() {
@@ -761,7 +761,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 || lastOrientation.z != worldPosition.z
                 || lastOrientation.w != pan) {
             lastOrientation.set(worldPosition.x, worldPosition.y, worldPosition.z, pan);
-            LocalServer.server.sendPlayerPosition(lastOrientation);
+            Main.getServer().server.sendPlayerPosition(lastOrientation);
         }
     }
 
@@ -771,14 +771,14 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private boolean canRun() {
         return
-                LocalServer.getGameMode() == GameMode.FREEPLAY
-                        || LocalServer.getGameMode() == GameMode.SPECTATOR
+                Main.getServer().getGameMode() == GameMode.FREEPLAY
+                        || Main.getServer().getGameMode() == GameMode.SPECTATOR
                         || status_food > 5;
     }
 
 
     private boolean downKeyPressed() {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR)
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR)
             return window.isKeyPressed(KEY_FLY_DOWN) || window.isKeyPressed(KEY_JUMP);
         return window.isKeyPressed(KEY_FLY_DOWN);
     }
@@ -786,7 +786,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private boolean isFlyingMode = true;
 
     public void enableFlying() {
-        if (LocalServer.getGameMode() == GameMode.FREEPLAY || LocalServer.getGameMode() == GameMode.SPECTATOR) {
+        if (Main.getServer().getGameMode() == GameMode.FREEPLAY || Main.getServer().getGameMode() == GameMode.SPECTATOR) {
             isFlyingMode = true;
             positionHandler.setGravityEnabled(false);
             positionHandler.collisionsEnabled = false;
@@ -810,7 +810,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 camera.cursorRay.clickEvent(false);
                 return true;
             } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-                GameUI.hotbar.pickItem(camera.cursorRay, LocalServer.getGameMode() == GameMode.FREEPLAY);
+                GameUI.hotbar.pickItem(camera.cursorRay, Main.getServer().getGameMode() == GameMode.FREEPLAY);
                 return true;
             }
         }
@@ -828,7 +828,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 case KEY_FLY_UP -> enableFlying();
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (key == KEY_CHANGE_RAYCAST_MODE && LocalServer.getGameMode() == GameMode.FREEPLAY) {
+            if (key == KEY_CHANGE_RAYCAST_MODE && Main.getServer().getGameMode() == GameMode.FREEPLAY) {
                 camera.cursorRay.angelPlacementMode = !camera.cursorRay.angelPlacementMode;
             }
             switch (key) {
@@ -855,7 +855,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         Vector3f pos = new Vector3f().set(LocalClient.userPlayer.worldPosition);
         Vector3f addition = new Vector3f().set(LocalClient.userPlayer.camera.look.x, 0, LocalClient.userPlayer.camera.look.z).mul(1.5f);
         pos.add(addition);
-        return LocalServer.placeItemDrop(
+        return Main.getServer().placeItemDrop(
                 pos,
                 itemStack,
                 true);

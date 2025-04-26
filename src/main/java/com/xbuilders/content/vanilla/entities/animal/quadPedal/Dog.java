@@ -2,6 +2,7 @@ package com.xbuilders.content.vanilla.entities.animal.quadPedal;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
@@ -39,7 +40,7 @@ public class Dog extends QuadPedalLandAnimal {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnLikelyhood = () -> {
-            switch (LocalServer.getDifficulty()) {
+            switch (Main.getServer().getDifficulty()) {
                 case EASY -> {
                     return 0.0f;
                 }
@@ -52,7 +53,7 @@ public class Dog extends QuadPedalLandAnimal {
             }
         };
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (LocalServer.getLightLevel(x, y, z) > 6) return false; //If it's too bright, don't spawn
+            if (Main.getServer().getLightLevel(x, y, z) > 6) return false; //If it's too bright, don't spawn
 
             Block floor = LocalClient.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
             if (floor.solid && LocalClient.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
@@ -70,7 +71,7 @@ public class Dog extends QuadPedalLandAnimal {
 
 
     public void animal_move() {
-        if (tamed || LocalServer.getGameMode() != GameMode.ADVENTURE || health <= 0) super.animal_move();
+        if (tamed || Main.getServer().getGameMode() != GameMode.ADVENTURE || health <= 0) super.animal_move();
         else {
 //            if (Server.localServer.isPlayingMultiplayer()) {
 //                if (playerWithLowestDist == null || System.currentTimeMillis() - lastPlayerCheckTime > 1000) {

@@ -2,6 +2,7 @@ package com.xbuilders.engine.server.builtinMechanics.gravityBlock;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
@@ -65,7 +66,7 @@ public class GravityBlockEntity extends Entity {
     public void client_draw() {
         if (positionHandler.isFrozen() || positionHandler.onGround ||
                 positionHandler.collisionHandler.collisionData.block_penPerAxes.y < 0) {
-            LocalServer.setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
+            Main.getServer().setBlock(block.id, (int) worldPosition.x, (int) worldPosition.y, (int) worldPosition.z);
             destroy();
         } else {
             //There is actually something in the buffer

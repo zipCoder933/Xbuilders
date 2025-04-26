@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -106,7 +107,7 @@ public class SphereTool extends BlockTool {
 
         Block prevBlock = LocalClient.world.getBlock(x, y, z);
         if (prevBlock != newBlock && (!prevBlock.solid || newBlock.isAir())) {
-            LocalServer.setBlock(newBlock.id, x, y, z);
+            Main.getServer().setBlock(newBlock.id, x, y, z);
         }
     }
 

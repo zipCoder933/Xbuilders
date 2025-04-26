@@ -14,23 +14,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
+import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.multiplayer.GameServer;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
+import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.server.world.wcc.WCCf;
+import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
 import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
+import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
-import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.wcc.WCCf;
-
-import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3f;
 
@@ -223,7 +222,7 @@ public abstract class Entity {
         updatePosition();
 
         //We have to send the entity after it has been initialized
-        if (sendMultiplayer) LocalServer.server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
+        if (sendMultiplayer) Main.getServer().server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
     }
 
     /**

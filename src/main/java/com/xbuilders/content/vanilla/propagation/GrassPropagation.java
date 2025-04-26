@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.propagation;
 
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
@@ -53,11 +54,11 @@ public class GrassPropagation extends LivePropagationTask {
 
             if (System.currentTimeMillis() - setTime > UPDATE_INTERVAL / 2) { //If it's been 10 seconds since we last set the block
                 if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
-                    LocalServer.setBlock(
+                    Main.getServer().setBlock(
                             getGrassBlockOfBiome(node.x, node.y, node.z),
                             node.x, node.y, node.z);
                 } else if (isGrass(thisBlock) && aboveBlock.solid) {
-                    LocalServer.setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
+                    Main.getServer().setBlock(Blocks.BLOCK_DIRT, node.x, node.y, node.z);
                 }
                 iterator.remove(); // remove the entry from the map
             }

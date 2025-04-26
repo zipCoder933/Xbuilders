@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
@@ -31,8 +32,8 @@ public class ActionAnimal extends LivingEntity {
             runAwayAndDie();
         }
         if (isHostile()
-                && LocalServer.getDifficulty() == Difficulty.EASY
-                && LocalServer.getGameMode() == GameMode.ADVENTURE) {
+                && Main.getServer().getDifficulty() == Difficulty.EASY
+                && Main.getServer().getGameMode() == GameMode.ADVENTURE) {
             destroy();
         }
     }

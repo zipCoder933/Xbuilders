@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blocks;
 
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.GameMode;
@@ -52,7 +53,7 @@ public class PlantBlockUtils {
                         && !LocalClient.world.getBlock(x + 1, newY, z).solid
                         && !LocalClient.world.getBlock(x, newY, z - 1).solid
                         && !LocalClient.world.getBlock(x, newY, z + 1).solid) {
-                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - i, z);
+                    Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y - i, z);
                     AllLootTables.blockLootTables.dropLoot(log.alias, new Vector3f(x, y - i, z), false);
                 }
             }
@@ -66,7 +67,7 @@ public class PlantBlockUtils {
         if (block == null) return;
         block.randomTickEvent = (x, y, z) -> {
             if (random.nextFloat() < DECAY_PROBABILITY) {
-                LocalServer.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_AIR, x, y, z);
                 return true;
             }
             return false;
@@ -86,7 +87,7 @@ public class PlantBlockUtils {
                 }
 
                 if (below == Blocks.BLOCK_WET_FARMLAND || below == Blocks.BLOCK_FARMLAND) {
-                    LocalServer.setBlock(stages[finalI + 1].id, x, y, z);
+                    Main.getServer().setBlock(stages[finalI + 1].id, x, y, z);
                     return true;
                 }
                 return false;
@@ -164,12 +165,12 @@ public class PlantBlockUtils {
                 Block block = LocalClient.world.getBlock(x, y - i, z);
                 if (block != null && block.id == stalk.id) {
                     //Remove the block
-                    LocalServer.setBlock(Blocks.BLOCK_AIR, x, y - i, z);
+                    Main.getServer().setBlock(Blocks.BLOCK_AIR, x, y - i, z);
 
-                    if (LocalServer.getGameMode() == GameMode.ADVENTURE) {//Drop loot tables
+                    if (Main.getServer().getGameMode() == GameMode.ADVENTURE) {//Drop loot tables
                         final int blockY = y - i;
                         AllLootTables.blockLootTables.getLoot(stalk.alias).randomItems((itemStack) -> {
-                            LocalServer.placeItemDrop(new Vector3f(x, blockY, z), itemStack, false);
+                            Main.getServer().placeItemDrop(new Vector3f(x, blockY, z), itemStack, false);
                         });
                     }
                 }
@@ -187,7 +188,7 @@ public class PlantBlockUtils {
                 Block stalk = LocalClient.world.getBlock(x, y + i, z);
                 if ((stalk != null && stalk.id == stalkBlock.id)) {//If this is a stalk
                 } else if (stalk.isAir() || stalk.isLiquid() || (stalkSapling != null && stalk.id == stalkSapling.id)) {//If this is air, liquid or sapling
-                    LocalServer.setBlock(stalkBlock.id, x, y + i, z); //Set bamboo
+                    Main.getServer().setBlock(stalkBlock.id, x, y + i, z); //Set bamboo
                     return true;
                 } else {//this is not a stalk or air
                     return false;

@@ -4,13 +4,16 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.*;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
@@ -35,9 +38,11 @@ public class InfoText extends UI_GameMenu {
     private String text;
     final int commandBoxHeight = 450;
     final int sidePadding = 50;
+    LocalClient client;
 
-    public InfoText(NkContext ctx, NKWindow window) {
+    public InfoText(NkContext ctx, NKWindow window, LocalClient client) {
         super(ctx, window);
+        this.client = client;
         box = new TextBox(100);
         box.setOnChangeEvent(() -> {
             submitCommand(box.getValueAsString());
@@ -49,7 +54,7 @@ public class InfoText extends UI_GameMenu {
 
     private void submitCommand(String valueAsString) {
         addToHistory("< " + valueAsString);
-        String str = LocalServer.commands.handleGameCommand(valueAsString);
+        String str = client.commands.handleGameCommand(valueAsString);
         if (str != null) {
             addToHistory("> " + str);
         }

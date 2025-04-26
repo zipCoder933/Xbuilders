@@ -2,7 +2,6 @@ package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.entity.Entity;
@@ -35,7 +34,7 @@ public class BlockSpawn extends Block {
                         }
                     }
                     Main.getClient().consoleOut("Time set to day");
-                    LocalServer.setTimeOfDay(0);
+                    Main.getServer().setTimeOfDay(0);
                 } else {
                     Main.getClient().consoleOut("You can only sleep at night");
                 }
@@ -49,7 +48,8 @@ public class BlockSpawn extends Block {
 
 
     public boolean isDarkOutside() {
-        return LocalServer.getTimeOfDay() > 0.36 && LocalServer.getTimeOfDay() < 0.62;
+        return Main.getServer().getTimeOfDay() > 0.36
+                && Main.getServer().getTimeOfDay() < 0.62;
     }
 
 }

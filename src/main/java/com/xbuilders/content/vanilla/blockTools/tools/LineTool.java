@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -54,8 +55,8 @@ public class LineTool extends BlockTool {
 
         for (int i = 0; i <= Math.abs(length); i++) {
 
-            if (isCreationMode) LocalServer.setBlock(item.id, pos.x, pos.y, pos.z);
-            else LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, pos.x, pos.y, pos.z);
+            if (isCreationMode) Main.getServer().setBlock(item.id, pos.x, pos.y, pos.z);
+            else Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, pos.x, pos.y, pos.z);
 
             if (length < 0) pos.sub(ray.getHitNormalAsInt());
             else {

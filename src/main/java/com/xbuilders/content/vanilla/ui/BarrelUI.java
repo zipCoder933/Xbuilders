@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.StorageSpace;
@@ -44,7 +45,7 @@ public class BarrelUI extends ContainerUI {
     public void dropAllStorage(int x, int y, int z) {
         for (int i = 0; i < barrelStorage.size(); i++) {
             if (barrelStorage.get(i) == null) continue;
-            LocalServer.placeItemDrop(new Vector3f(x, y, z), barrelStorage.get(i), false);
+            Main.getServer().placeItemDrop(new Vector3f(x, y, z), barrelStorage.get(i), false);
         }
     }
 

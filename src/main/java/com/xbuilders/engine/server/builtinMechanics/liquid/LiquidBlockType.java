@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.builtinMechanics.liquid;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
@@ -70,7 +71,7 @@ public class LiquidBlockType extends BlockType {
                                 neighboringWater++;
                                 if (neighboringWater > 3) {
                                     ClientWindow.printlnDev("replacing liquid: " + x + " " + y + " " + z);
-                                    LocalServer.setBlock(b.id, history.previousBlockData, x, y, z);
+                                    Main.getServer().setBlock(b.id, history.previousBlockData, x, y, z);
                                     return;
                                 }
                             }

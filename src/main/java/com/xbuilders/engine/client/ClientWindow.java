@@ -152,7 +152,7 @@ public class ClientWindow extends NKWindow {
          */
 
         Theme.initialize(ctx);
-        gameScene = new GameScene(this, game, world);
+        gameScene = new GameScene(client, game, world);
         game.setupClient(this, ctx, gameScene.ui);
         popupMessage = new PopupMessage(ctx, this);
         topMenu = new TopMenu(client);

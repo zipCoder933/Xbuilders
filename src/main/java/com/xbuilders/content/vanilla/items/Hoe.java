@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
@@ -25,7 +26,7 @@ public class Hoe extends Item {
                     LocalClient.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_DRY_GRASS ||
                     LocalClient.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_JUNGLE_GRASS ||
                     LocalClient.world.getBlockID(hit.x, hit.y, hit.z) == Blocks.BLOCK_SNOW_GRASS) {
-                LocalServer.setBlock(Blocks.BLOCK_FARMLAND, hit.x, hit.y, hit.z);
+                Main.getServer().setBlock(Blocks.BLOCK_FARMLAND, hit.x, hit.y, hit.z);
                 stack.durability--;
             }
             return true;

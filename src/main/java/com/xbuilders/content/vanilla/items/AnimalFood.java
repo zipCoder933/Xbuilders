@@ -25,7 +25,7 @@ public class AnimalFood {
                     LootList lootList = AllLootTables.animalFeedLootTables.getLoot(animal.getId(), food.id);
                     if (lootList.isEmpty()) System.out.println("No loot for " + animal);
                     lootList.randomItems((stack) -> {
-                        LocalServer.placeItemDrop(dropPos, stack, false);
+                        Main.getServer().placeItemDrop(dropPos, stack, false);
                     });
                 }
                 return true;

@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
@@ -97,12 +98,12 @@ class TreeUtils {
 
     public static void player_setBlock(short id, int x, int y, int z) {
         if (!LocalClient.world.getBlock(x, y, z).solid) {
-            LocalServer.setBlock(id, x, y, z);
+            Main.getServer().setBlock(id, x, y, z);
         }
     }
 
     public static void player_setBlockAndOverride(short id, int x, int y, int z) {
-        LocalServer.setBlock(id, x, y, z);
+        Main.getServer().setBlock(id, x, y, z);
     }
 
     //Terrain generators create terrains in world space,

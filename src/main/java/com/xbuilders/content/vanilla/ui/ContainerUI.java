@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
@@ -60,7 +61,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
 //        System.out.println("Writing data to world " + System.currentTimeMillis());
         data = new BlockData(writeContainerData());
         //using localServer to set block data ensures it is set in the world and the client
-        LocalServer.setBlockData(data, target.x, target.y, target.z);
+        Main.getServer().setBlockData(data, target.x, target.y, target.z);
     }
 
     public void onCloseEvent() {

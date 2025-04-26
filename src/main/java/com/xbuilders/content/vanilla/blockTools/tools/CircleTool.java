@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -124,7 +125,7 @@ public class CircleTool extends BlockTool {
 
     private void setBlock(Vector3i origin, int x, int y, int z, Block block, float radius) {
         if (!hollow || origin.distance(x, y, z) > radius - wallThickness.getValueAsNumber()) {
-            LocalServer.setBlock(block.id, x, y, z);
+            Main.getServer().setBlock(block.id, x, y, z);
         }
     }
 

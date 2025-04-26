@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.items.*;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
@@ -199,7 +200,7 @@ public class Items {
         if (hitPos.isLiquid()) {
             int flow = LiquidPropagationTask.getFlow(LocalClient.world.getBlockData(x, y, z), 0);
             if (flow >= hitPos.liquidMaxFlow + 1) {
-                LocalServer.setBlock(Blocks.BLOCK_AIR, null, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_AIR, null, x, y, z);
 
                 if (hitPos.id == Blocks.BLOCK_WATER) {
                     stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:water_bucket"));
@@ -220,7 +221,7 @@ public class Items {
             z = ray.getHitPosPlusNormal().z;
         }
 
-        LocalServer.setBlock(stack.item.getBlock().id, x, y, z);
+        Main.getServer().setBlock(stack.item.getBlock().id, x, y, z);
         stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:bucket"));
     }
 

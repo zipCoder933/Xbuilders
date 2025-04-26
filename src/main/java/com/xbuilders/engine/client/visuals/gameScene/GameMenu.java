@@ -7,10 +7,9 @@ package com.xbuilders.engine.client.visuals.gameScene;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.SettingsPage;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
@@ -186,7 +185,7 @@ public class GameMenu extends UI_GameMenu {
     }
 
     private void goTo(float x, float y, float z) {
-        if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
+        if (Main.getServer().getGameMode() == GameMode.ADVENTURE) {
             Main.getClient().consoleOut("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
             Main.getClient().window.gameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
         } else {

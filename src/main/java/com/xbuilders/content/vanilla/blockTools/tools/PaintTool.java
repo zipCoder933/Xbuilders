@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -67,7 +68,7 @@ public class PaintTool extends BlockTool {
         while (!queue.isEmpty() && System.currentTimeMillis() - start < 5000) {
             Vector3i pos = queue.remove(0);
 
-            LocalServer.setBlock(newBlock.id, pos.x, pos.y, pos.z);
+            Main.getServer().setBlock(newBlock.id, pos.x, pos.y, pos.z);
             //MainWindow.printlnDev("Painting: " + MiscUtils.printVector(pos));
 
             propagate(origin, pos.x + 1, pos.y, pos.z, newBlock, replaceBlock, queue);
@@ -91,7 +92,7 @@ public class PaintTool extends BlockTool {
 
         Block existingBlock = LocalClient.world.getBlock(x, y, z);
         if (existingBlock.id == blockToReplace.id) {
-            LocalServer.setBlock(newBlock.id, x, y, z);
+            Main.getServer().setBlock(newBlock.id, x, y, z);
 
             //Check again just in case
             existingBlock = LocalClient.world.getBlock(x, y, z);

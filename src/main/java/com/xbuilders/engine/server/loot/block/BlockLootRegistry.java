@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.loot.block;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.loot.LootTableRegistry;
@@ -53,7 +54,7 @@ public class BlockLootRegistry extends LootTableRegistry {
         LootList lootList = getLoot(blockId);
         if (lootList != null) {
             lootList.randomItems((itemStack) -> {
-                LocalServer.placeItemDrop(pos, itemStack, droppedFromPlayer);
+                Main.getServer().placeItemDrop(pos, itemStack, droppedFromPlayer);
             });
         }
     }

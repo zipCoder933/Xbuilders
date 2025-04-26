@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.world.chunk;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
@@ -430,7 +431,7 @@ public class Chunk {
                             && randomTick_random.nextFloat() <= spawnLikelyhood &&
                             entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
                         Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
-                        Entity e = LocalServer.placeEntity(entityToSpawn, pos, null);
+                        Entity e = Main.getServer().placeEntity(entityToSpawn, pos, null);
                         e.spawnedNaturally = true;
                     }
 

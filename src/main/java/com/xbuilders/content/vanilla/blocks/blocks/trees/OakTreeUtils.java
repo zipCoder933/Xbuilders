@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
@@ -33,7 +34,7 @@ public class OakTreeUtils {
     public static void player_plantTree(Random rand, int x, int y, int z) {
         int height = randomInt(rand, 5, 7);
         for (int k = 0; k < height; k++) {
-            LocalServer.setBlock(Blocks.BLOCK_OAK_LOG, x, y - k, z);
+            Main.getServer().setBlock(Blocks.BLOCK_OAK_LOG, x, y - k, z);
         }
 
         TreeUtils.player_roundedSquareLeavesLayer(x, y - height + 2, z, 2, Blocks.BLOCK_OAK_LEAVES);

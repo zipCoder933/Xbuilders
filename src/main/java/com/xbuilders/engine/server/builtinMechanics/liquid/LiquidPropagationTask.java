@@ -1,15 +1,15 @@
 package com.xbuilders.engine.server.builtinMechanics.liquid;
 
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.LivePropagationTask;
-import com.xbuilders.engine.server.block.BlockRegistry;
-import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.blocks.RenderType;
+import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.server.LivePropagationTask;
+import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.server.world.chunk.BlockData;
 import org.joml.Vector3i;
 
 import java.util.Collections;
@@ -85,7 +85,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
             ) {
                 Block below = LocalClient.world.getBlock(v.x, v.y + 1, v.z);
                 if (below.solid) reduceFlow(newNodes, v.x, v.y, v.z);
-                else LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, v.x, v.y, v.z);
+                else Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, v.x, v.y, v.z);
                 continue;
             } else if (thisFlow < liquidBlock.liquidMaxFlow && //If we are flowing sideways
                     !(getFlow(LocalClient.world.getBlockData(v.x - 1, v.y, v.z), 0) > thisFlow || //and there is no neighboring value higher than us
@@ -122,11 +122,11 @@ public class LiquidPropagationTask extends LivePropagationTask {
         Block existingBlock = LocalClient.world.getBlock(x, y, z);
 
         if (existingBlock.id == Blocks.BLOCK_LAVA && liquidBlock.id == Blocks.BLOCK_WATER) { //If that is lava and we are water
-            LocalServer.setBlock(Blocks.BLOCK_COBBLESTONE, x, y, z);
+            Main.getServer().setBlock(Blocks.BLOCK_COBBLESTONE, x, y, z);
         } else if (existingBlock.id == liquidBlock.id || isPenetrable(existingBlock)) {
             int existingFlow = getFlow(LocalClient.world.getBlockData(x, y, z), 0);
             flow = Math.max(flow, existingFlow); //We dont want to set something lower than the existing flow
-            LocalServer.setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
+            Main.getServer().setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
             return true;
         }
         return !existingBlock.solid;
@@ -142,7 +142,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
                 if (bd != null && bd.size() > 0) {   //set the flow down 1
                     bd.set(0, (byte) (flow - 1));
                 } else bd = new BlockData(new byte[]{(byte) (flow - 1)});
-                LocalServer.setBlock(liquidBlock.id, bd, x, y, z);
+                Main.getServer().setBlock(liquidBlock.id, bd, x, y, z);
 
 /**
  *     the block event pipeline doesnt key local events for block data changes,so we need to add the nodes from
@@ -156,7 +156,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
 
                 return true;
             } else {
-                LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
+                Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y, z);
             }
         }
         return false;

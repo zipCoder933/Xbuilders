@@ -1151,7 +1151,7 @@ public class Blocks {
     private static void randomTickEvents() {
         Block.RandomTickEvent dirtTickEvent = (x, y, z) -> {
             if (!LocalClient.world.getBlock(x, y - 1, z).solid) {
-                LocalServer.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
+                Main.getServer().setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
             }
             return false;
@@ -1160,12 +1160,12 @@ public class Blocks {
         Block.RandomTickEvent grassTickEvent = (x, y, z) -> {
             Block aboveBlock = LocalClient.world.getBlock(x, y - 1, z);
             if (aboveBlock.solid) {
-                LocalServer.setBlock(Blocks.BLOCK_DIRT, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
             } else if (random.nextFloat() < GROW_PROBABILITY) {
                 short grassToPlant = plantUtils.growGrass(x, y, z, aboveBlock);
                 if (grassToPlant != -1) {
-                    LocalServer.setBlock(grassToPlant, x, y - 1, z);
+                    Main.getServer().setBlock(grassToPlant, x, y - 1, z);
                     return true;
                 }
             }
@@ -1264,10 +1264,10 @@ public class Blocks {
                 //Decay other blocks
                 if (!LocalClient.world.getBlock(x, y + 1, z).solid ||
                         LocalClient.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
-                    LocalServer.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
+                    Main.getServer().setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
                 }
                 //Decay this block
-                LocalServer.setBlock(Blocks.BLOCK_AIR, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_AIR, x, y, z);
                 return true;
             } else {
                 boolean foundFlammable = false;
@@ -1302,7 +1302,7 @@ public class Blocks {
 
     private static boolean spreadIfFlammable(int x, int y, int z) {
         if (LocalClient.world.getBlock(x, y, z).properties.containsKey("flammable")) {
-            LocalServer.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
+            Main.getServer().setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             return true;
         }
         return false;

@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
@@ -10,7 +11,7 @@ public class FlintAndSteel extends Item {
         setIcon("flint_and_steel.png");
         maxDurability = 200;
         createClickEvent = (ray, stack) -> {
-            LocalServer.setBlock(
+            Main.getServer().setBlock(
                     Registrys.getBlock("xbuilders:fire").id,
                     ray.getHitPosPlusNormal().x,
                     ray.getHitPosPlusNormal().y,

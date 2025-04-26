@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
@@ -162,9 +163,9 @@ public class FurnaceUI extends ContainerUI {
 
     @Override
     public void dropAllStorage(int x, int y, int z) {
-        LocalServer.placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
-        LocalServer.placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
-        LocalServer.placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
+        Main.getServer().placeItemDrop(new Vector3f(x, y, z), inputGrid.storageSpace.get(0), false);
+        Main.getServer().placeItemDrop(new Vector3f(x, y, z), fuelGrid.storageSpace.get(0), false);
+        Main.getServer().placeItemDrop(new Vector3f(x, y, z), outputGrid.storageSpace.get(0), false);
     }
 
     @Override

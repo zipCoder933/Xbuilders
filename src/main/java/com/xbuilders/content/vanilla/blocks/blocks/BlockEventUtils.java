@@ -1,22 +1,22 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
 
+import com.xbuilders.Main;
+import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.block.BlockRegistry;
-import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.engine.utils.math.MathUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -34,20 +34,20 @@ public class BlockEventUtils {
         Block bottomBlock = Registrys.getBlock(id_bottom);
 
         topBlock.setBlockEvent(false, (x, y, z) -> {
-            LocalServer.setBlock(bottomBlock.id, x, y + 1, z);
+            Main.getServer().setBlock(bottomBlock.id, x, y + 1, z);
         });
         topBlock.removeBlockEvent(false, (x, y, z, history) -> {
             if (LocalClient.world.getBlock(x, y + 1, z) == bottomBlock) {
-                LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
+                Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
             }
         });
 
         bottomBlock.setBlockEvent(false, (x, y, z) -> {
-            LocalServer.setBlock(topBlock.id, x, y - 1, z);
+            Main.getServer().setBlock(topBlock.id, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
             if (LocalClient.world.getBlock(x, y - 1, z) == topBlock) {
-                LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
+                Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
             }
         });
     }
@@ -62,11 +62,11 @@ public class BlockEventUtils {
                     int setY = thisPosition.y;
                     int setZ = thisPosition.z;
 
-                    LocalServer.setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
+                    Main.getServer().setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
                     try {
                         Thread.sleep(fuseDelay);
                         if (LocalClient.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
-                            LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
+                            Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                             removeEverythingWithinRadius(radius, new Vector3i(setX, setY, setZ), maxToughness, exceptions);
                             float dist = LocalClient.userPlayer.worldPosition.distance(setX, setY, setZ);
                             if (dist < radius) {
@@ -133,15 +133,15 @@ public class BlockEventUtils {
                         }
 
                         //Place Item Drop here
-                        if (LocalServer.getGameMode() != GameMode.FREEPLAY) {
+                        if (Main.getServer().getGameMode() != GameMode.FREEPLAY) {
                             Item dropItem = Registrys.getItem(oldBlock);
-                            if (dropItem != null) LocalServer.placeItemDrop(
+                            if (dropItem != null) Main.getServer().placeItemDrop(
                                     new Vector3f(setX + x, setY + z, setZ + y),
                                     new ItemStack(dropItem), false);
                         }
 
                         chunks.add(new WCCi().set(setX + x, setY + z, setZ + y).chunk);
-                        LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
+                        Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, setX + x, setY + z, setZ + y);
 
                     }
                 }

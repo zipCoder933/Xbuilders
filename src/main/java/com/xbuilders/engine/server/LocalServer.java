@@ -11,7 +11,6 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.commands.GameCommands;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -29,8 +28,8 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import org.joml.Vector3f;
@@ -46,18 +45,17 @@ public class LocalServer extends Server {
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     private final World world;
-    public static GameServer server;
     private final Game game;
-    public static GameCommands commands;
-    public static BlockEventPipeline eventPipeline;
-    public static LogicThread tickThread;
+    public final GameServer server;
+
+    public final BlockEventPipeline eventPipeline;
+    public final LogicThread tickThread;
 
 
     public LocalServer(Game game, World world, UserControlledPlayer player) {
         this.game = game;
         this.world = world;
 
-        commands = new GameCommands(this, game);
 
         //Everything else
         server = new GameServer(this, player);
@@ -72,22 +70,22 @@ public class LocalServer extends Server {
     //Game Mode =======================================================================================================
 
 
-    public static Difficulty getDifficulty() {
+    public Difficulty getDifficulty() {
         return LocalClient.world.data.data.difficulty;
     }
 
-    public static void setDifficulty(Difficulty difficulty) throws IOException {
+    public void setDifficulty(Difficulty difficulty) throws IOException {
         if (difficulty == null) difficulty = Difficulty.NORMAL;
         LocalClient.world.data.data.difficulty = difficulty;
         LocalClient.world.data.save();
         Main.getClient().consoleOut("Difficulty changed to: " + getDifficulty());
     }
 
-    public static GameMode getGameMode() {
+    public GameMode getGameMode() {
         return LocalClient.world.data.data.gameMode;
     }
 
-    public static void setGameMode(GameMode gameMode) throws IOException {
+    public void setGameMode(GameMode gameMode) throws IOException {
         if (gameMode == null) gameMode = GameMode.ADVENTURE;
         LocalClient.world.data.data.gameMode = gameMode;
         LocalClient.world.data.save();
@@ -96,13 +94,13 @@ public class LocalServer extends Server {
 
 
     //Permissions =======================================================================================================
-    private static boolean isOperator;
+    private boolean isOperator;
 
-    public static boolean isOperator() {
+    public boolean isOperator() {
         return isOperator;
     }
 
-    public static boolean setOperator(boolean isOperator2) {
+    public boolean setOperator(boolean isOperator2) {
         if (ownsGame()) return false;
         else {
             isOperator = isOperator2;
@@ -111,14 +109,13 @@ public class LocalServer extends Server {
         return true;
     }
 
-    public static boolean ownsGame() {
+    public boolean ownsGame() {
         return (server.isPlayingMultiplayer() && LocalClient.userPlayer.isHost) || !server.isPlayingMultiplayer();
     }
 
 
-
     // Getters
-    public static int getLightLevel(int worldX, int worldY, int worldZ) {
+    public int getLightLevel(int worldX, int worldY, int worldZ) {
         WCCi wcc = new WCCi().set(worldX, worldY, worldZ);
         Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
@@ -131,19 +128,19 @@ public class LocalServer extends Server {
     }
 
     //Set block ===============================================================================
-    public static void setBlock(short block, int worldX, int worldY, int worldZ) {
+    public void setBlock(short block, int worldX, int worldY, int worldZ) {
         setBlock(block, new WCCi().set(worldX, worldY, worldZ));
     }
 
-    public static void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
+    public void setBlock(short block, BlockData data, int worldX, int worldY, int worldZ) {
         setBlock(block, data, new WCCi().set(worldX, worldY, worldZ));
     }
 
-    public static void setBlockData(BlockData data, int worldX, int worldY, int worldZ) {
+    public void setBlockData(BlockData data, int worldX, int worldY, int worldZ) {
         setBlockData(data, new WCCi().set(worldX, worldY, worldZ));
     }
 
-    public static void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
+    public void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
         if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
@@ -161,7 +158,7 @@ public class LocalServer extends Server {
         }
     }
 
-    public static void setBlock(short newBlock, WCCi wcc) {
+    public void setBlock(short newBlock, WCCi wcc) {
         if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
@@ -176,7 +173,7 @@ public class LocalServer extends Server {
         }
     }
 
-    public static void setBlockData(BlockData blockData, WCCi wcc) {
+    public void setBlockData(BlockData blockData, WCCi wcc) {
         if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
@@ -194,7 +191,7 @@ public class LocalServer extends Server {
     }
 
     //Set entity =================================================================================
-    public static Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
+    public Entity placeItemDrop(Vector3f position, ItemStack item, boolean droppedFromPlayer) {
         Entity e = placeEntity(EntityRegistry.ENTITY_ITEM_DROP, position, null);
 
         ItemDrop drop = (ItemDrop) e;
@@ -209,7 +206,7 @@ public class LocalServer extends Server {
      * @param simpleGen the JSON to inject into the entity
      * @return the entity that was placed
      */
-    public static Entity placeEntity(EntitySupplier entity, Vector3f w, JsonManager.SimpleJsonGenerator simpleGen) {
+    public Entity placeEntity(EntitySupplier entity, Vector3f w, JsonManager.SimpleJsonGenerator simpleGen) {
         byte[] entityBytes = null;
         if (simpleGen != null) {
             //Write the entity input as binary data
@@ -238,7 +235,7 @@ public class LocalServer extends Server {
     }
 
 
-    public static void setTimeOfDay(double v) {
+    public void setTimeOfDay(double v) {
         try {
             System.out.println("Setting time of day to " + v);
             GameScene.background.setTimeOfDay(v);
@@ -249,7 +246,7 @@ public class LocalServer extends Server {
         }
     }
 
-    public static float getTimeOfDay() {
+    public float getTimeOfDay() {
         return GameScene.background.getTimeOfDay();
     }
 
@@ -428,11 +425,11 @@ public class LocalServer extends Server {
     private GameMode lastGameMode;
 
     public void update() throws IOException {
-        if (lastGameMode == null || lastGameMode != LocalServer.getGameMode()) {
-            lastGameMode = LocalServer.getGameMode(); //Gane mode changed
+        if (lastGameMode == null || lastGameMode != getGameMode()) {
+            lastGameMode = getGameMode(); //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
             LocalClient.userPlayer.gameModeChangedEvent(getGameMode());
-            Main.getClient().consoleOut("Game mode changed to: " + LocalServer.getGameMode());
+            Main.getClient().consoleOut("Game mode changed to: " + getGameMode());
         }
         //draw other players
         server.updatePlayers();

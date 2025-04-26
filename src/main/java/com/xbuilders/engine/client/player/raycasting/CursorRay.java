@@ -5,7 +5,6 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
@@ -103,7 +102,7 @@ public class CursorRay {
      * @return if the event was consumed
      */
     public boolean clickEvent(boolean creationMode) {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return false;
         breakAmt = 0;
         breakPercentage = 0;
         ItemStack selectedItem = LocalClient.userPlayer.getSelectedItem();
@@ -119,7 +118,7 @@ public class CursorRay {
 
         if (creationMode &&
                 LocalClient.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
-                        .run_ClickEvent(LocalServer.eventPipeline.clickEventThread, getHitPos())) { //Block click event
+                        .run_ClickEvent(Main.getServer().eventPipeline.clickEventThread, getHitPos())) { //Block click event
             return true;
         }
 
@@ -222,7 +221,7 @@ public class CursorRay {
         if (!LocalClient.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
 
         if (isHeld) {
-            if (LocalServer.getGameMode() != GameMode.FREEPLAY) {
+            if (Main.getServer().getGameMode() != GameMode.FREEPLAY) {
                 if (!getHitPos().equals(lastBreakPos)) {
                     System.out.println("Changed block");
                     breakAmt = 0;
@@ -255,17 +254,17 @@ public class CursorRay {
                 }
                 if (breakAmt >= blockToughness) {
                     AllLootTables.blockLootTables.dropLoot(existingBlock.alias, new Vector3f(getHitPos()), false);
-                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                    Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                     breakAmt = 0;
                     System.out.println("Resetting after broken block");
                 }
             }
         } else { //Click
-            if (LocalServer.getGameMode() == GameMode.FREEPLAY) {
+            if (Main.getServer().getGameMode() == GameMode.FREEPLAY) {
                 if (getEntity() != null) {
                     getEntity().destroy();
                 } else {
-                    LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
+                    Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, new WCCi().set(getHitPos()));
                 }
             }
         }
@@ -276,7 +275,7 @@ public class CursorRay {
     final int AUTO_CLICK_INTERVAL = 250;
 
     public void update() {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return;
 
         if (!Main.getClient().window.gameScene.ui.anyMenuOpen()) {
             //Auto click
@@ -286,7 +285,7 @@ public class CursorRay {
                     autoClick_lastClicked = System.currentTimeMillis();
                     camera.cursorRay.clickEvent(true);
                 }
-            } else if (LocalServer.getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+            } else if (Main.getServer().getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
                 if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
                         System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
                     autoClick_lastClicked = System.currentTimeMillis();
@@ -338,13 +337,13 @@ public class CursorRay {
                 set = cursorRay.getHitPosPlusNormal();
                 if (blockIntersectsPlayer(block, set)) return false;
             }
-            if (LocalServer.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
-            LocalServer.setBlock(block.id, set.x, set.y, set.z);
+            if (Main.getServer().getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
+            Main.getServer().setBlock(block.id, set.x, set.y, set.z);
             return true;
         } else if (entity != null) {
             Vector3f pos = new Vector3f(cursorRay.getHitPosPlusNormal());
-            if (LocalServer.getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
-            LocalServer.placeEntity(entity, pos, null);
+            if (Main.getServer().getGameMode() != GameMode.FREEPLAY) stack.stackSize--;
+            Main.getServer().placeEntity(entity, pos, null);
             return true;
         }
         return false;
@@ -426,7 +425,7 @@ public class CursorRay {
     }
 
     public void drawRay() {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return;
 
         if (hitTarget() && useBoundary) {
             if (!boundary_isStartNodeSet) {

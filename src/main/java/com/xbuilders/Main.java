@@ -28,6 +28,10 @@ public class Main {
         return localClient;
     }
 
+    public static LocalServer getServer() {
+        return LocalClient.localServer;
+    }
+
 
     public static void main(String[] args) throws Exception {
         System.out.println("Client started: " + VERSION);
@@ -38,9 +42,6 @@ public class Main {
 
         localClient = new LocalClient(args, VERSION, game);
         LocalClient.localServer = new LocalServer(game, getClient().world, LocalClient.userPlayer);
-
-
-
 
 
         try {

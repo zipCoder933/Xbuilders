@@ -4,20 +4,22 @@
  */
 package com.xbuilders.content.vanilla.ui;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_Hotbar;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemIndex;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.item.Item;
+import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.WindowEvents;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.*;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -65,7 +67,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     public void onOpenEvent() {
         craftingGrid.onCloseEvent();
 
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) setOpen(false);
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) setOpen(false);
         if (drawAllInventory()) menuDimensions.y = Allitems_Height + playerInv_height;
         else menuDimensions.y = playerInv_height;
     }
@@ -76,7 +78,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) {
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) {
             setOpen(false);
         }
 
@@ -95,7 +97,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     private boolean drawAllInventory() {
-        return LocalServer.getGameMode() == GameMode.FREEPLAY;
+        return Main.getServer().getGameMode() == GameMode.FREEPLAY;
     }
 
 
@@ -105,7 +107,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return false;
 
         if (allItems.keyEvent(key, scancode, action, mods)) return true;
         if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
@@ -117,7 +119,7 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
 
     @Override
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return false;
         allItems.mouseScrollEvent(scroll, xoffset, yoffset);
         return true;
     }

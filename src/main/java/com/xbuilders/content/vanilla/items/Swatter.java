@@ -40,7 +40,7 @@ public class Swatter extends Item {
                     Item item = Registrys.getItem(entity);
                     if (item != null) { //Remove the item and place an item drop
                         entity.destroy();
-                        LocalServer.placeItemDrop(entity.worldPosition,
+                        Main.getServer().placeItemDrop(entity.worldPosition,
                                 new ItemStack(item),
                                 false);
                         //GameScene.client_hudText("You swatted the " + item.name + " away!");

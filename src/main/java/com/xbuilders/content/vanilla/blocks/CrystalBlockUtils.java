@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blocks;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
@@ -13,7 +14,7 @@ public class CrystalBlockUtils {
         return (x, y, z) -> {
             Block above = LocalClient.world.getBlock(x, y - 1, z);
             if (above.isAir() || above.isLiquid()) {
-                LocalServer.setBlock(crystal, x, y - 1, z);
+                Main.getServer().setBlock(crystal, x, y - 1, z);
                 return true;
             }
             return false;

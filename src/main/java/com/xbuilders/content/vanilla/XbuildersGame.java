@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import com.xbuilders.content.vanilla.blocks.RenderType;
 import com.xbuilders.content.vanilla.blocks.type.*;
@@ -54,7 +55,7 @@ public class XbuildersGame extends Game {
 
 
     public boolean drawCursor(CursorRay cursorRay) {
-        if (LocalServer.getGameMode() != GameMode.FREEPLAY) return false;
+        if (Main.getServer().getGameMode() != GameMode.FREEPLAY) return false;
         return blockTools.getSelectedTool().drawCursor(cursorRay, GameScene.projection, GameScene.view);
     }
 

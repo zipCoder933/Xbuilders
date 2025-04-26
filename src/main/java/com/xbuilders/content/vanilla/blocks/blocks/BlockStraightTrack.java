@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.blocks.RenderType;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
@@ -75,51 +76,51 @@ public class BlockStraightTrack extends Block {
         if (!trackNeighbors.isEmpty()) {
             if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 3);
-                LocalServer.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z - 1)) {
                 orientation.set(0, (byte) 0);
-                LocalServer.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 2);
-                LocalServer.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } else if (isTrackAtPos2(trackNeighbors, x + 1, y, z) && isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                LocalServer.setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_CURVED_TRACK, orientation, x, y, z);
                 curvedTrack = true;
                 return;
             } //=====================
             else if (isTrackAtPos2(trackNeighbors, x - 1, y, z) || isTrackAtPos2(trackNeighbors, x + 1, y, z)) {
                 orientation.set(0, (byte) 2);
                 straightTrack = true;
-                LocalServer.setBlock(this.id, orientation, x, y, z);
+                Main.getServer().setBlock(this.id, orientation, x, y, z);
             } else if (isTrackAtPos2(trackNeighbors, x, y, z - 1) || isTrackAtPos2(trackNeighbors, x, y, z + 1)) {
                 orientation.set(0, (byte) 1);
-                LocalServer.setBlock(this.id, orientation, x, y, z);
+                Main.getServer().setBlock(this.id, orientation, x, y, z);
                 straightTrack = true;
             }
         }
         if (!curvedTrack) {
             if (isTrackAtPos(trackNeighbors, x + 1, y - 1, z)) {
                 orientation.set(0, (byte) 2);
-                LocalServer.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x - 1, y - 1, z)) {
                 orientation.set(0, (byte) 0);
-                LocalServer.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z + 1)) {
                 orientation.set(0, (byte) 3);
-                LocalServer.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             } else if (isTrackAtPos(trackNeighbors, x, y - 1, z - 1)) {
                 orientation.set(0, (byte) 1);
-                LocalServer.setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
+                Main.getServer().setBlock(Blocks.BLOCK_RAISED_TRACK, orientation, x, y, z);
                 return;
             }
         }

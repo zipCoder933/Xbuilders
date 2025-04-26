@@ -256,7 +256,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
                 MultiplayerPendingBlockChanges.readBlockChange(receivedData, (pos, blockHist) -> {
                     if (MultiplayerPendingBlockChanges.changeCanBeLoaded(client_userPlayer, pos)) {//If change is within reach
-                        LocalServer.eventPipeline.addEvent(pos, blockHist);
+                        Main.getServer().eventPipeline.addEvent(pos, blockHist);
                         inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
                         LocalClient.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
@@ -314,7 +314,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 try {
                     int mode = receivedData[1];
                     GameMode gameMode = GameMode.values()[mode];
-                    LocalServer.setGameMode(gameMode);
+                    Main.getServer().setGameMode(gameMode);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     Main.getClient().consoleOut("Unable to change game mode");
                 }
@@ -322,14 +322,14 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 try {
                     int difficulty = receivedData[1];
                     Difficulty gameDifficulty = Difficulty.values()[difficulty];
-                    LocalServer.setDifficulty(gameDifficulty);
+                    Main.getServer().setDifficulty(gameDifficulty);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     Main.getClient().consoleOut("Unable to change game difficulty");
                 }
             } else if (receivedData[0] == CHANGE_PLAYER_PERMISSION) {
                 try {
                     boolean permission = receivedData[1] == 1;
-                    LocalServer.setOperator(permission);
+                    Main.getServer().setOperator(permission);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     Main.getClient().consoleOut("Unable to change player permission");
                 }

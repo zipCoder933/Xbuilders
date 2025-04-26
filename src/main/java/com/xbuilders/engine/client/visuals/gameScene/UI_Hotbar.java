@@ -4,23 +4,26 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.server.item.StorageSpace;
-import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.nuklear.*;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.nuklear.NkVec2;
+import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
@@ -46,7 +49,7 @@ public class UI_Hotbar extends UI_GameMenu {
 
     @Override
     public void draw(MemoryStack stack) {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return;
         NkRect windowDims2 = NkRect.malloc(stack);
 
         ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
@@ -59,7 +62,7 @@ public class UI_Hotbar extends UI_GameMenu {
         int y = window.getHeight() - menuHeight - 20;
 
         //Draw healthbars
-        if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
+        if (Main.getServer().getGameMode() == GameMode.ADVENTURE) {
             nk_rect(x, y - 60, menuWidth, menuHeight + 2, windowDims2);
             if (nk_begin(ctx, "health", windowDims2, NK_WINDOW_NO_SCROLLBAR | NK_WINDOW_BORDER)) {
                 nk_layout_row_dynamic(ctx, 10, 3);
@@ -146,14 +149,14 @@ public class UI_Hotbar extends UI_GameMenu {
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return false;
 
         changeSelectedIndex(-scroll.y());
         return true;
     }
 
     public boolean keyEvent(int key, int scancode, int action, int mods) {
-        if (LocalServer.getGameMode() == GameMode.SPECTATOR) return false;
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return false;
 
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_COMMA) {
