@@ -1150,7 +1150,7 @@ public class Blocks {
 
     private static void randomTickEvents() {
         Block.RandomTickEvent dirtTickEvent = (x, y, z) -> {
-            if (!LocalServer.world.getBlock(x, y - 1, z).solid) {
+            if (!LocalClient.world.getBlock(x, y - 1, z).solid) {
                 LocalServer.setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
             }
@@ -1158,7 +1158,7 @@ public class Blocks {
         };
 
         Block.RandomTickEvent grassTickEvent = (x, y, z) -> {
-            Block aboveBlock = LocalServer.world.getBlock(x, y - 1, z);
+            Block aboveBlock = LocalClient.world.getBlock(x, y - 1, z);
             if (aboveBlock.solid) {
                 LocalServer.setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
@@ -1260,10 +1260,10 @@ public class Blocks {
         Registrys.getBlock(Blocks.BLOCK_ACACIA_SAPLING).randomTickEvent = AcaciaTreeUtils.randomTickEvent;
 
         Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
-            if (!LocalServer.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+            if (!LocalClient.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
                 //Decay other blocks
-                if (!LocalServer.world.getBlock(x, y + 1, z).solid ||
-                        LocalServer.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                if (!LocalClient.world.getBlock(x, y + 1, z).solid ||
+                        LocalClient.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
                     LocalServer.setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
                 }
                 //Decay this block
@@ -1301,7 +1301,7 @@ public class Blocks {
     }
 
     private static boolean spreadIfFlammable(int x, int y, int z) {
-        if (LocalServer.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+        if (LocalClient.world.getBlock(x, y, z).properties.containsKey("flammable")) {
             LocalServer.setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             return true;
         }

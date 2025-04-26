@@ -9,7 +9,6 @@ import com.xbuilders.content.vanilla.blocks.RenderType;
 import com.xbuilders.content.vanilla.blocks.type.*;
 import com.xbuilders.content.vanilla.propagation.LavaPropagation;
 import com.xbuilders.content.vanilla.propagation.WaterPropagation;
-import com.xbuilders.content.vanilla.skins.FoxSkin;
 import com.xbuilders.content.vanilla.terrain.DevTerrain;
 import com.xbuilders.content.vanilla.terrain.FlatTerrain;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
@@ -127,7 +126,7 @@ public class XbuildersGame extends Game {
     }
 
     public void gameModeChangedEvent(GameMode gameMode) {
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
         blockTools.selectDefaultTool();
     }
 
@@ -216,7 +215,7 @@ public class XbuildersGame extends Game {
         smeltingUI = new FurnaceUI(ctx, window);
         recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
         inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
-        blockTools = new BlockTools(ctx, window, GameScene.userPlayer.camera.cursorRay);
+        blockTools = new BlockTools(ctx, window, LocalClient.userPlayer.camera.cursorRay);
         gameMenus.menus.add(barrelUI);
         gameMenus.menus.add(craftingUI);
         gameMenus.menus.add(smeltingUI);

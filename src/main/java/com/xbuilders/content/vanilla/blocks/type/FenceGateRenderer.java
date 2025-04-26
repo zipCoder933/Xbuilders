@@ -4,8 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
@@ -38,7 +37,7 @@ public class FenceGateRenderer extends BlockType {
             b.initialBlockData = (existingData, player) -> {
                 b.easierMiningTool_tag = null;
                 BlockData bd = new BlockData(2);
-                int rotation = GameScene.userPlayer.camera.simplifiedPanTilt.x;
+                int rotation = LocalClient.userPlayer.camera.simplifiedPanTilt.x;
                 bd.set(0, (byte) rotation);
                 bd.set(1, (byte) 1); // (xz orientation), (0 = open, 1 = closed)
                 return bd;
@@ -47,12 +46,12 @@ public class FenceGateRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
             b.setBlockEvent(false, (x, y, z) -> {
-                BlockData bd = LocalServer.world.getBlockData(x, y, z);
+                BlockData bd = LocalClient.world.getBlockData(x, y, z);
                 // Get blocks at neighboring block locaitons
-                Block block = LocalServer.world.getBlock(x - 1, y, z);
-                Block block2 = LocalServer.world.getBlock(x + 1, y, z);
-                Block block3 = LocalServer.world.getBlock(x, y, z - 1);
-                Block block4 = LocalServer.world.getBlock(x, y, z + 1);
+                Block block = LocalClient.world.getBlock(x - 1, y, z);
+                Block block2 = LocalClient.world.getBlock(x + 1, y, z);
+                Block block3 = LocalClient.world.getBlock(x, y, z - 1);
+                Block block4 = LocalClient.world.getBlock(x, y, z + 1);
                 if (block.type == RenderType.FENCE && block2.type == RenderType.FENCE) {
                     bd.set(0, (byte) 0);
                 } else if (block3.type == RenderType.FENCE && block4.type == RenderType.FENCE) {
@@ -60,7 +59,7 @@ public class FenceGateRenderer extends BlockType {
                 }
             });
             b.clickEvent(false, (x, y, z) -> {
-                BlockData bd = LocalServer.world.getBlockData(x, y, z);
+                BlockData bd = LocalClient.world.getBlockData(x, y, z);
                 bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
             });
         };

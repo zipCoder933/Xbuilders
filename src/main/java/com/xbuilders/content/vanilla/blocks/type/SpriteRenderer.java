@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.Block;
@@ -53,7 +53,7 @@ public class SpriteRenderer extends BlockType {
 
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        Block belowBlock = LocalServer.world.getBlock(worldX, worldY + 1, worldZ);
+        Block belowBlock = LocalClient.world.getBlock(worldX, worldY + 1, worldZ);
         return !belowBlock.isAir() && !belowBlock.isLiquid();
     }
 

@@ -28,7 +28,7 @@ public class CollisionHandler {
 
     // Collision handler variables
     final private PositionHandler driver;
-    final World chunks;
+    final World world;
     final WCCi wcc = new WCCi();
 
     final EntityAABB myBox;
@@ -64,11 +64,11 @@ public class CollisionHandler {
         }
     }
 
-    public CollisionHandler(World chunks, PositionHandler driver, EntityAABB entityBox,
+    public CollisionHandler(World world, PositionHandler driver, EntityAABB entityBox,
                             EntityAABB userControlledPlayerAABB) {
 
         this.userControlledPlayerAABB = userControlledPlayerAABB;
-        this.chunks = chunks;
+        this.world = world;
         this.myBox = entityBox;
         this.driver = driver;
         collisionData = new CollisionData();
@@ -136,7 +136,7 @@ public class CollisionHandler {
             for (int x = (int) (ceilingCheckBox.min.x - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); x <= ceilingCheckBox.max.x + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; x++) {
                 for (int z = (int) (ceilingCheckBox.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= ceilingCheckBox.max.z + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
                     wcc.set(x, y, z);
-                    chunk = chunks.getChunk(wcc.chunk);
+                    chunk = world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         exploredChunks.add(chunk);
                         block = Registrys.blocks.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
@@ -184,7 +184,7 @@ public class CollisionHandler {
                 for (int z = (int) (myBox.box.min.z - BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS); z <= myBox.box.max.z
                         + BLOCK_COLLISION_CANDIDATE_CHECK_RADIUS; z++) {
                     wcc.set(x, y, z);
-                    chunk = chunks.getChunk(wcc.chunk);
+                    chunk = world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         exploredChunks.add(chunk);
                         block = Registrys.blocks.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));

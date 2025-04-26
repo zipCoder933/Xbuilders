@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
@@ -59,7 +60,7 @@ public class LineTool extends BlockTool {
             if (length < 0) pos.sub(ray.getHitNormalAsInt());
             else {
                 pos.add(ray.getHitNormalAsInt());
-                if (isCreationMode && LocalServer.world.getBlock(pos.x, pos.y, pos.z).solid) break;
+                if (isCreationMode && LocalClient.world.getBlock(pos.x, pos.y, pos.z).solid) break;
             }
         }
         return true;

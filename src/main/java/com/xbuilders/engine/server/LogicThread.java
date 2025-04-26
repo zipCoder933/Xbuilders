@@ -57,7 +57,7 @@ public class LogicThread {
         if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
             int chunksMeshUpdated = 0;
             //HashSet<Chunk> chunks = new HashSet<>();
-            Iterator<Chunk> iterator = LocalServer.world.chunks.values().iterator();
+            Iterator<Chunk> iterator = LocalClient.world.chunks.values().iterator();
 
             while (iterator.hasNext()) {
                 Chunk chunk = iterator.next();
@@ -71,7 +71,7 @@ public class LogicThread {
                     boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
 
                     if (LocalClient.DEV_MODE &&
-                            LocalServer.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
+                            LocalClient.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
                     boolean hasUpdatedMesh = chunk.tick(spawnEntities);
                     chunksMeshUpdated += (hasUpdatedMesh ? 1 : 0);
                 }

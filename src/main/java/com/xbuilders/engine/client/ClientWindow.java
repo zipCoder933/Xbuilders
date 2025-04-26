@@ -8,7 +8,6 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
@@ -25,8 +24,6 @@ import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.nuklear.NkVec2;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -92,7 +89,7 @@ public class ClientWindow extends NKWindow {
 
     public static PopupMessage popupMessage;
     public static final ResourceLoader resourceLoader = new ResourceLoader();
-    File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
+
     String title;
 
     public ClientWindow(String title) {
@@ -161,12 +158,8 @@ public class ClientWindow extends NKWindow {
         topMenu = new TopMenu(this);
 
 
-        Main.localServer.initialize(gameScene.userPlayer);
-
-
-        if (LocalClient.generateIcons || !blockIconsDirectory.exists()) {
-            firstTimeSetup();
-        }
+        //init world
+        world.init(LocalClient.userPlayer, Registrys.blocks.textures);
 
         if (settings.video_fullscreen) {
             enableFullscreen(settings.video_fullscreenSize.value);
@@ -175,43 +168,9 @@ public class ClientWindow extends NKWindow {
         showWindow();
     }
 
-    public static void createPopupWindow(String title, String str) {
-        final JFrame parent = new JFrame();
-        JLabel label = new JLabel("");
-        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
-        label.setFont(label.getFont().deriveFont(12f));
-        label.setVerticalAlignment(JLabel.TOP);
-        parent.add(label);
-        parent.pack();
-        parent.getContentPane().setBackground(Color.white);
-        parent.setVisible(true);
-        parent.pack();
-        parent.setTitle(title);
-        parent.setLocationRelativeTo(null);
-        parent.setAlwaysOnTop(true);
-        parent.setVisible(true);
-        parent.setSize(350, 200);
-    }
 
-    private void firstTimeSetup() throws InterruptedException {
-        //Minimize the window
-        GLFW.glfwHideWindow(getWindow());
 
-        createPopupWindow("First time setup",
-                "XBuilders is setting up. Please standby...");
-        BlockIconRenderer iconRenderer = new BlockIconRenderer(
-                Registrys.blocks.textures,
-                blockIconsDirectory);
 
-        iconRenderer.saveAllIcons();//Generate all icons
-
-        new ClientSettings().save();
-
-        createPopupWindow("Finished",
-                "XBuilders has finished setting up. Please restart the game to play.");
-        Thread.sleep(5000);
-        System.exit(0);
-    }
 
     private void render() throws IOException {
         if (isGameMode) {
@@ -267,7 +226,7 @@ public class ClientWindow extends NKWindow {
 
         String playerName = "";
         try {
-            playerName = " (" + GameScene.userPlayer.userInfo.name + ") ";
+            playerName = " (" + LocalClient.userPlayer.userInfo.name + ") ";
         } finally {
         }
         setTitle(title + playerName + (LocalClient.DEV_MODE ? "   " + mfpAndMemory : ""));

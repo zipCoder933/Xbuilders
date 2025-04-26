@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
@@ -26,11 +26,11 @@ public class LampRenderer extends BlockType {
 
     @Override
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return sideIsSolid(LocalServer.world.getBlock(worldX, worldY + 1, worldZ)) ||
-                sideIsSolid(LocalServer.world.getBlock(worldX + 1, worldY, worldZ)) ||
-                sideIsSolid(LocalServer.world.getBlock(worldX - 1, worldY, worldZ)) ||
-                sideIsSolid(LocalServer.world.getBlock(worldX, worldY, worldZ + 1)) ||
-                sideIsSolid(LocalServer.world.getBlock(worldX, worldY, worldZ - 1));
+        return sideIsSolid(LocalClient.world.getBlock(worldX, worldY + 1, worldZ)) ||
+                sideIsSolid(LocalClient.world.getBlock(worldX + 1, worldY, worldZ)) ||
+                sideIsSolid(LocalClient.world.getBlock(worldX - 1, worldY, worldZ)) ||
+                sideIsSolid(LocalClient.world.getBlock(worldX, worldY, worldZ + 1)) ||
+                sideIsSolid(LocalClient.world.getBlock(worldX, worldY, worldZ - 1));
     }
     
     boolean sideIsSolid(Block block) {

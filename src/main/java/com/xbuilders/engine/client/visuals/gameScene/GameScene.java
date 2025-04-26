@@ -35,7 +35,6 @@ public class GameScene implements WindowEvents {
     public final static Matrix4f centeredView = new Matrix4f();
     public static boolean drawWireframe;
     public static boolean drawBoundingBoxes;
-    public static UserControlledPlayer userPlayer;
     public static SkyBackground background;
     private final ClientWindow window;
     public boolean holdMouse;
@@ -52,12 +51,12 @@ public class GameScene implements WindowEvents {
         this.world = world;
         setProjection();
 
-        userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
-        GameScene.userPlayer.initGL();
+        LocalClient.userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
+        LocalClient.userPlayer.initGL();
 
         background = new SkyBackground(window, world);
 
-        ui = new GameUI(game, window.ctx, window, userPlayer, world);
+        ui = new GameUI(game, window.ctx, window, LocalClient.userPlayer, world);
     }
 
     public static void client_hudText(String s) {
@@ -90,8 +89,8 @@ public class GameScene implements WindowEvents {
 
         //The user player is one thing that the client has full control over
         //The client will check into the localServer occasionally to see if the localServer has any updates for the player
-        userPlayer.updateAndRender(ClientWindow.gameScene.holdMouse);
-        userPlayer.render(ClientWindow.gameScene.holdMouse);
+        LocalClient.userPlayer.updateAndRender(ClientWindow.gameScene.holdMouse);
+        LocalClient.userPlayer.render(ClientWindow.gameScene.holdMouse);
         Main.localServer.server.drawPlayers(GameScene.projection, GameScene.view);
 
         ClientWindow.gameScene.enableBackfaceCulling();
@@ -100,7 +99,7 @@ public class GameScene implements WindowEvents {
         glEnable(GL_BLEND); //Enable transparency
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        world.client_updateAndRenderChunks(GameScene.projection, GameScene.view, userPlayer.worldPosition);
+        world.client_updateAndRenderChunks(GameScene.projection, GameScene.view, LocalClient.userPlayer.worldPosition);
 
         LocalClient.frameTester.endProcess("Drawing chunks");
 
@@ -127,7 +126,7 @@ public class GameScene implements WindowEvents {
         if (ui.keyEvent(key, scancode, action, mods)) {
         } else if (game.keyEvent(key, scancode, action, mods)) {
         } else {
-            userPlayer.keyEvent(key, scancode, action, mods);
+            LocalClient.userPlayer.keyEvent(key, scancode, action, mods);
         }
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
@@ -144,14 +143,14 @@ public class GameScene implements WindowEvents {
     public boolean mouseButtonEvent(int button, int action, int mods) {
         ui.mouseButtonEvent(button, action, mods);
         if (!ui.anyMenuOpen()) {
-            userPlayer.mouseButtonEvent(button, action, mods);
+            LocalClient.userPlayer.mouseButtonEvent(button, action, mods);
         }
         return true;
     }
 
     public boolean mouseScrollEvent(NkVec2 scroll, double xoffset, double yoffset) {
         if (ui.anyMenuOpen() && ui.mouseScrollEvent(scroll, xoffset, yoffset)) {
-        } else if (userPlayer.mouseScrollEvent(scroll, xoffset, yoffset)) {
+        } else if (LocalClient.userPlayer.mouseScrollEvent(scroll, xoffset, yoffset)) {
         } else if (game.uiMouseScrollEvent(scroll, xoffset, yoffset)) {
         } else {
             ui.hotbar.mouseScrollEvent(scroll, xoffset, yoffset);
@@ -182,29 +181,29 @@ public class GameScene implements WindowEvents {
             String text = "";
             try {
                 WCCf playerWCC = new WCCf();
-                playerWCC.set(userPlayer.worldPosition);
+                playerWCC.set(LocalClient.userPlayer.worldPosition);
                 text += ClientWindow.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
                 text += "Saved " + world.getTimeSinceLastSave() + "ms ago\n";
                 text += "PLAYER pos: " +
-                        ((int) userPlayer.worldPosition.x) + ", " +
-                        ((int) userPlayer.worldPosition.y) + ", " +
-                        ((int) userPlayer.worldPosition.z) +
-                        "    velocity: " + MiscUtils.printVector(userPlayer.positionHandler.getVelocity());
-                text += "\n\tcamera: " + userPlayer.camera.toString();
+                        ((int) LocalClient.userPlayer.worldPosition.x) + ", " +
+                        ((int) LocalClient.userPlayer.worldPosition.y) + ", " +
+                        ((int) LocalClient.userPlayer.worldPosition.z) +
+                        "    velocity: " + MiscUtils.printVector(LocalClient.userPlayer.positionHandler.getVelocity());
+                text += "\n\tcamera: " + LocalClient.userPlayer.camera.toString();
 
-                if (userPlayer.camera.cursorRay.hitTarget() || userPlayer.camera.cursorRay.angelPlacementMode) {
+                if (LocalClient.userPlayer.camera.cursorRay.hitTarget() || LocalClient.userPlayer.camera.cursorRay.angelPlacementMode) {
                     if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-                        rayWCC.set(userPlayer.camera.cursorRay.getHitPosPlusNormal());
-                        rayWorldPos.set(userPlayer.camera.cursorRay.getHitPosPlusNormal());
-                        text += "\nRAY (+normal) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                        rayWCC.set(LocalClient.userPlayer.camera.cursorRay.getHitPosPlusNormal());
+                        rayWorldPos.set(LocalClient.userPlayer.camera.cursorRay.getHitPosPlusNormal());
+                        text += "\nRAY (+normal) (Q): \n\t" + LocalClient.userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     } else {
-                        rayWCC.set(userPlayer.camera.cursorRay.getHitPos());
-                        rayWorldPos.set(userPlayer.camera.cursorRay.getHitPos());
-                        text += "\nRAY (hit) (Q): \n\t" + userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
+                        rayWCC.set(LocalClient.userPlayer.camera.cursorRay.getHitPos());
+                        rayWorldPos.set(LocalClient.userPlayer.camera.cursorRay.getHitPos());
+                        text += "\nRAY (hit) (Q): \n\t" + LocalClient.userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";
                     }
 
-                    if (userPlayer.camera.cursorRay.getEntity() != null) {
-                        Entity e = userPlayer.camera.cursorRay.getEntity();
+                    if (LocalClient.userPlayer.camera.cursorRay.getEntity() != null) {
+                        Entity e = LocalClient.userPlayer.camera.cursorRay.getEntity();
                         text += "\nENTITY: " + e.toString() + "\n" +
                                 "\tcontrolledByAnotherPlayer: " + e.multiplayerProps.controlledByAnotherPlayer;
                     }

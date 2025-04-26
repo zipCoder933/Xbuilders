@@ -3,6 +3,7 @@ package com.xbuilders.engine.server.builtinMechanics.gravityBlock;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
@@ -30,7 +31,7 @@ public class GravityBlockEntity extends Entity {
 
     public GravityBlockEntity(long uniqueIdentifier, ClientWindow window) {
         super(uniqueIdentifier);
-        positionHandler = new PositionHandler(window, LocalServer.world, aabb, null);
+        positionHandler = new PositionHandler(window, LocalClient.world, aabb, null);
         aabb.setOffsetAndSize(0, 0, 0, 1, 1, 1);
         frustumSphereRadius = 1;
     }

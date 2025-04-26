@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.builtinMechanics.liquid;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
@@ -60,11 +61,11 @@ public class LiquidBlockType extends BlockType {
                         WaterPropagation.getFlow(history.previousBlockData, defaultFlow) == defaultFlow) {
 
                     //If there is no water above us
-                    if (LocalServer.world.getBlockID(x, y - 1, z) != b.id) {
+                    if (LocalClient.world.getBlockID(x, y - 1, z) != b.id) {
                         //If there is at least X neighboring source water, put us back
                         int neighboringWater = 0;
                         for (Vector3i n : waterEraseNeighbors) {
-                            if (LocalServer.world.getBlockID(x + n.x, y + n.y, z + n.z) == b.id &&
+                            if (LocalClient.world.getBlockID(x + n.x, y + n.y, z + n.z) == b.id &&
                                     WaterPropagation.getFlow(history.previousBlockData, defaultFlow) == defaultFlow) {
                                 neighboringWater++;
                                 if (neighboringWater > 3) {
@@ -221,7 +222,7 @@ public class LiquidBlockType extends BlockType {
 
             if (neighbors[NEG_X] == block) {
                 //If the block above this one is also a liquid block, than the flow should be maxFlow
-                if (LocalServer.world.getBlockID(worldX - 1, worldY - 1, worldZ) == block.id) {
+                if (LocalClient.world.getBlockID(worldX - 1, worldY - 1, worldZ) == block.id) {
                     negXFlow = fullFlowHeight;
                 } else negXFlow = getHeightOfFlow(neighborData[NEG_X], block.liquidMaxFlow, chunkY);
 
@@ -229,7 +230,7 @@ public class LiquidBlockType extends BlockType {
                 y01WithLiquid++;
             }
             if (neighbors[POS_X] == block) {
-                if (LocalServer.world.getBlockID(worldX + 1, worldY - 1, worldZ) == block.id) {
+                if (LocalClient.world.getBlockID(worldX + 1, worldY - 1, worldZ) == block.id) {
                     posXFlow = fullFlowHeight;
                 } else posXFlow = getHeightOfFlow(neighborData[POS_X], block.liquidMaxFlow, chunkY);
 
@@ -237,7 +238,7 @@ public class LiquidBlockType extends BlockType {
                 y11WithLiquid++;
             }
             if (neighbors[NEG_Z] == block) {
-                if (LocalServer.world.getBlockID(worldX, worldY - 1, worldZ - 1) == block.id) {
+                if (LocalClient.world.getBlockID(worldX, worldY - 1, worldZ - 1) == block.id) {
                     negZFlow = fullFlowHeight;
                 } else negZFlow = getHeightOfFlow(neighborData[NEG_Z], block.liquidMaxFlow, chunkY);
 
@@ -245,7 +246,7 @@ public class LiquidBlockType extends BlockType {
                 y10WithLiquid++;
             }
             if (neighbors[POS_Z] == block) {
-                if (LocalServer.world.getBlockID(worldX, worldY - 1, worldZ + 1) == block.id) {
+                if (LocalClient.world.getBlockID(worldX, worldY - 1, worldZ + 1) == block.id) {
                     posZFlow = fullFlowHeight;
                 } else posZFlow = getHeightOfFlow(neighborData[POS_Z], block.liquidMaxFlow, chunkY);
 
@@ -259,35 +260,35 @@ public class LiquidBlockType extends BlockType {
             float posXposZFlow = zeroFlowHeight;
 
 
-            if (LocalServer.world.getBlockID(worldX - 1, worldY, worldZ - 1) == block.id) {
-                if (LocalServer.world.getBlockID(worldX - 1, worldY - 1, worldZ - 1) == block.id) {
+            if (LocalClient.world.getBlockID(worldX - 1, worldY, worldZ - 1) == block.id) {
+                if (LocalClient.world.getBlockID(worldX - 1, worldY - 1, worldZ - 1) == block.id) {
                     negXnegZFlow = fullFlowHeight;
                 } else
-                    negXnegZFlow = getHeightOfFlow(LocalServer.world.getBlockData(worldX - 1, worldY, worldZ - 1), block.liquidMaxFlow, chunkY);
+                    negXnegZFlow = getHeightOfFlow(LocalClient.world.getBlockData(worldX - 1, worldY, worldZ - 1), block.liquidMaxFlow, chunkY);
 
                 y00WithLiquid++;
             }
-            if (LocalServer.world.getBlockID(worldX - 1, worldY, worldZ + 1) == block.id) {
-                if (LocalServer.world.getBlockID(worldX - 1, worldY - 1, worldZ + 1) == block.id) {
+            if (LocalClient.world.getBlockID(worldX - 1, worldY, worldZ + 1) == block.id) {
+                if (LocalClient.world.getBlockID(worldX - 1, worldY - 1, worldZ + 1) == block.id) {
                     negXposZFlow = fullFlowHeight;
                 } else
-                    negXposZFlow = getHeightOfFlow(LocalServer.world.getBlockData(worldX - 1, worldY, worldZ + 1), block.liquidMaxFlow, chunkY);
+                    negXposZFlow = getHeightOfFlow(LocalClient.world.getBlockData(worldX - 1, worldY, worldZ + 1), block.liquidMaxFlow, chunkY);
 
                 y01WithLiquid++;
             }
-            if (LocalServer.world.getBlockID(worldX + 1, worldY, worldZ - 1) == block.id) {
-                if (LocalServer.world.getBlockID(worldX + 1, worldY - 1, worldZ - 1) == block.id) {
+            if (LocalClient.world.getBlockID(worldX + 1, worldY, worldZ - 1) == block.id) {
+                if (LocalClient.world.getBlockID(worldX + 1, worldY - 1, worldZ - 1) == block.id) {
                     posXnegZFlow = fullFlowHeight;
                 } else
-                    posXnegZFlow = getHeightOfFlow(LocalServer.world.getBlockData(worldX + 1, worldY, worldZ - 1), block.liquidMaxFlow, chunkY);
+                    posXnegZFlow = getHeightOfFlow(LocalClient.world.getBlockData(worldX + 1, worldY, worldZ - 1), block.liquidMaxFlow, chunkY);
 
                 y10WithLiquid++;
             }
-            if (LocalServer.world.getBlockID(worldX + 1, worldY, worldZ + 1) == block.id) {
-                if (LocalServer.world.getBlockID(worldX + 1, worldY - 1, worldZ + 1) == block.id) {
+            if (LocalClient.world.getBlockID(worldX + 1, worldY, worldZ + 1) == block.id) {
+                if (LocalClient.world.getBlockID(worldX + 1, worldY - 1, worldZ + 1) == block.id) {
                     posXposZFlow = fullFlowHeight;
                 } else
-                    posXposZFlow = getHeightOfFlow(LocalServer.world.getBlockData(worldX + 1, worldY, worldZ + 1), block.liquidMaxFlow, chunkY);
+                    posXposZFlow = getHeightOfFlow(LocalClient.world.getBlockData(worldX + 1, worldY, worldZ + 1), block.liquidMaxFlow, chunkY);
 
                 y11WithLiquid++;
             }

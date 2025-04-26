@@ -1,5 +1,6 @@
 package com.xbuilders.engine.server.builtinMechanics.liquid;
 
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.LivePropagationTask;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -40,7 +41,7 @@ public class LiquidPropagationTask extends LivePropagationTask {
     }
 
     private boolean addNode(HashSet<Vector3i> nodes, Vector3i worldPos) {
-        if (LocalServer.world.getBlockID(worldPos.x, worldPos.y, worldPos.z) == liquidBlock.id) {
+        if (LocalClient.world.getBlockID(worldPos.x, worldPos.y, worldPos.z) == liquidBlock.id) {
             nodes.add(worldPos);
             return true;
         }
@@ -71,26 +72,26 @@ public class LiquidPropagationTask extends LivePropagationTask {
 
         for (Vector3i v : nodes) {
             //Get the flow from this node
-            int thisFlow = getFlow(LocalServer.world.getBlockData(v.x, v.y, v.z), 0);
+            int thisFlow = getFlow(LocalClient.world.getBlockData(v.x, v.y, v.z), 0);
             /**
              * FLOW DEPROPAGATION
              */
             if (thisFlow == liquidBlock.liquidMaxFlow && //If we are 100% flowing
-                    LocalServer.world.getBlockID(v.x, v.y - 1, v.z) != liquidBlock.id && //and there is nothing above
-                    getFlow(LocalServer.world.getBlockData(v.x - 1, v.y, v.z), 0) != SOURCE_FLOW &&//and there is no neighboring source
-                    getFlow(LocalServer.world.getBlockData(v.x + 1, v.y, v.z), 0) != SOURCE_FLOW &&
-                    getFlow(LocalServer.world.getBlockData(v.x, v.y, v.z - 1), 0) != SOURCE_FLOW &&
-                    getFlow(LocalServer.world.getBlockData(v.x, v.y, v.z + 1), 0) != SOURCE_FLOW
+                    LocalClient.world.getBlockID(v.x, v.y - 1, v.z) != liquidBlock.id && //and there is nothing above
+                    getFlow(LocalClient.world.getBlockData(v.x - 1, v.y, v.z), 0) != SOURCE_FLOW &&//and there is no neighboring source
+                    getFlow(LocalClient.world.getBlockData(v.x + 1, v.y, v.z), 0) != SOURCE_FLOW &&
+                    getFlow(LocalClient.world.getBlockData(v.x, v.y, v.z - 1), 0) != SOURCE_FLOW &&
+                    getFlow(LocalClient.world.getBlockData(v.x, v.y, v.z + 1), 0) != SOURCE_FLOW
             ) {
-                Block below = LocalServer.world.getBlock(v.x, v.y + 1, v.z);
+                Block below = LocalClient.world.getBlock(v.x, v.y + 1, v.z);
                 if (below.solid) reduceFlow(newNodes, v.x, v.y, v.z);
                 else LocalServer.setBlock(BlockRegistry.BLOCK_AIR.id, v.x, v.y, v.z);
                 continue;
             } else if (thisFlow < liquidBlock.liquidMaxFlow && //If we are flowing sideways
-                    !(getFlow(LocalServer.world.getBlockData(v.x - 1, v.y, v.z), 0) > thisFlow || //and there is no neighboring value higher than us
-                            getFlow(LocalServer.world.getBlockData(v.x + 1, v.y, v.z), 0) > thisFlow ||
-                            getFlow(LocalServer.world.getBlockData(v.x, v.y, v.z - 1), 0) > thisFlow ||
-                            getFlow(LocalServer.world.getBlockData(v.x, v.y, v.z + 1), 0) > thisFlow)
+                    !(getFlow(LocalClient.world.getBlockData(v.x - 1, v.y, v.z), 0) > thisFlow || //and there is no neighboring value higher than us
+                            getFlow(LocalClient.world.getBlockData(v.x + 1, v.y, v.z), 0) > thisFlow ||
+                            getFlow(LocalClient.world.getBlockData(v.x, v.y, v.z - 1), 0) > thisFlow ||
+                            getFlow(LocalClient.world.getBlockData(v.x, v.y, v.z + 1), 0) > thisFlow)
             ) {
                 reduceFlow(newNodes, v.x, v.y, v.z);
             }
@@ -118,12 +119,12 @@ public class LiquidPropagationTask extends LivePropagationTask {
      * @return if we were able to set the water
      */
     public boolean setWater(int x, int y, int z, int flow) {
-        Block existingBlock = LocalServer.world.getBlock(x, y, z);
+        Block existingBlock = LocalClient.world.getBlock(x, y, z);
 
         if (existingBlock.id == Blocks.BLOCK_LAVA && liquidBlock.id == Blocks.BLOCK_WATER) { //If that is lava and we are water
             LocalServer.setBlock(Blocks.BLOCK_COBBLESTONE, x, y, z);
         } else if (existingBlock.id == liquidBlock.id || isPenetrable(existingBlock)) {
-            int existingFlow = getFlow(LocalServer.world.getBlockData(x, y, z), 0);
+            int existingFlow = getFlow(LocalClient.world.getBlockData(x, y, z), 0);
             flow = Math.max(flow, existingFlow); //We dont want to set something lower than the existing flow
             LocalServer.setBlock(liquidBlock.id, new BlockData(new byte[]{(byte) flow}), x, y, z);
             return true;
@@ -132,9 +133,9 @@ public class LiquidPropagationTask extends LivePropagationTask {
     }
 
     private boolean reduceFlow(HashSet<Vector3i> nodes, int x, int y, int z) {
-        short block = LocalServer.world.getBlockID(x, y, z);
+        short block = LocalClient.world.getBlockID(x, y, z);
         if (block == liquidBlock.id) {
-            BlockData bd = LocalServer.world.getBlockData(x, y, z);
+            BlockData bd = LocalClient.world.getBlockData(x, y, z);
             int flow = getFlow(bd, 0);
 
             if (flow > 0) {

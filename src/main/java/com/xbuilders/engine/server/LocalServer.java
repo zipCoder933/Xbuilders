@@ -44,7 +44,7 @@ public class LocalServer extends Server {
 
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
-    public static World world = LocalClient.world;
+    private final World world;
     public static GameServer server;
     private final Game game;
     public static GameCommands commands;
@@ -52,33 +52,44 @@ public class LocalServer extends Server {
     public static LogicThread tickThread;
 
 
-    public LocalServer(Game game, World world) {
+    public LocalServer(Game game, World world, UserControlledPlayer player) {
         this.game = game;
         this.world = world;
+
+        commands = new GameCommands(this, game);
+
+        //Everything else
+        server = new GameServer(this, player);
+        eventPipeline = new BlockEventPipeline(world, player);
+        livePropagationHandler = new LivePropagationHandler();
+        tickThread = new LogicThread(this);
+
+        //Setup the game
+        game.setupServer(this);
     }
 
     //Game Mode =======================================================================================================
 
 
     public static Difficulty getDifficulty() {
-        return world.data.data.difficulty;
+        return LocalClient.world.data.data.difficulty;
     }
 
     public static void setDifficulty(Difficulty difficulty) throws IOException {
         if (difficulty == null) difficulty = Difficulty.NORMAL;
-        world.data.data.difficulty = difficulty;
-        LocalServer.world.data.save();
+        LocalClient.world.data.data.difficulty = difficulty;
+        LocalClient.world.data.save();
         LocalClient.alertClient("Difficulty changed to: " + getDifficulty());
     }
 
     public static GameMode getGameMode() {
-        return world.data.data.gameMode;
+        return LocalClient.world.data.data.gameMode;
     }
 
     public static void setGameMode(GameMode gameMode) throws IOException {
         if (gameMode == null) gameMode = GameMode.ADVENTURE;
-        world.data.data.gameMode = gameMode;
-        LocalServer.world.data.save();
+        LocalClient.world.data.data.gameMode = gameMode;
+        LocalClient.world.data.save();
         LocalClient.alertClient("Game mode changed to: " + getGameMode());
     }
 
@@ -100,30 +111,15 @@ public class LocalServer extends Server {
     }
 
     public static boolean ownsGame() {
-        return (server.isPlayingMultiplayer() && GameScene.userPlayer.isHost) || !server.isPlayingMultiplayer();
+        return (server.isPlayingMultiplayer() && LocalClient.userPlayer.isHost) || !server.isPlayingMultiplayer();
     }
 
 
-    public void initialize(UserControlledPlayer player) throws Exception {
-        commands = new GameCommands(this, game);
-
-        //init world
-        world.init(GameScene.userPlayer, Registrys.blocks.textures);
-
-        //Everything else
-        server = new GameServer(this, player);
-        eventPipeline = new BlockEventPipeline(world, player);
-        livePropagationHandler = new LivePropagationHandler();
-        tickThread = new LogicThread(this);
-
-        //Setup the game
-        game.setupServer(this);
-    }
 
     // Getters
     public static int getLightLevel(int worldX, int worldY, int worldZ) {
         WCCi wcc = new WCCi().set(worldX, worldY, worldZ);
-        Chunk chunk = world.getChunk(wcc.chunk);
+        Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
             int sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             int torch = chunk.data.getTorch(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
@@ -148,7 +144,7 @@ public class LocalServer extends Server {
 
     public static void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
         if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
-        Chunk chunk = world.getChunk(wcc.chunk);
+        Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
             short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
@@ -166,7 +162,7 @@ public class LocalServer extends Server {
 
     public static void setBlock(short newBlock, WCCi wcc) {
         if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
-        Chunk chunk = world.getChunk(wcc.chunk);
+        Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
             short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
@@ -181,7 +177,7 @@ public class LocalServer extends Server {
 
     public static void setBlockData(BlockData blockData, WCCi wcc) {
         if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
-        Chunk chunk = world.getChunk(wcc.chunk);
+        Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
             short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
@@ -230,7 +226,7 @@ public class LocalServer extends Server {
 
         WCCf wcc = new WCCf();
         wcc.set(w);
-        Chunk chunk = world.chunks.get(wcc.chunk);
+        Chunk chunk = LocalClient.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModified();
             Entity e = chunk.entities.placeNew(w, entity, entityBytes);
@@ -260,14 +256,14 @@ public class LocalServer extends Server {
     public void playerJoinEvent(Player client) {
         LocalClient.alertClient("A new player has joined: " + client);
         System.out.println("JOIN EVENT: " + client.getName());
-        System.out.println("Players: " + world.players);
-        world.players.add(client);
-        System.out.println("Players: " + world.players);
+        System.out.println("Players: " + LocalClient.world.players);
+        LocalClient.world.players.add(client);
+        System.out.println("Players: " + LocalClient.world.players);
     }
 
     public void playerLeaveEvent(Player client) {
         LocalClient.alertClient(client.getName() + " has left");
-        world.players.remove(client);
+        LocalClient.world.players.remove(client);
 
         if (client.isHost) {
             ClientWindow.goToMenuPage();
@@ -281,8 +277,8 @@ public class LocalServer extends Server {
     public void stopGameEvent() {
         try {
             System.out.println("Closing World...");
-            GameScene.userPlayer.stopGameEvent();
-            if (world.data != null) world.stopGameEvent();
+            LocalClient.userPlayer.stopGameEvent();
+            if (LocalClient.world.data != null) LocalClient.world.stopGameEvent();
             tickThread.stopGameEvent();
             eventPipeline.stopGameEvent();
             livePropagationHandler.stopGameEvent();
@@ -298,9 +294,9 @@ public class LocalServer extends Server {
     public void startGameUpdateEvent(WorldData worldData, ProgressData prog, NetworkJoinRequest req) throws Exception {
         switch (prog.stage) {
             case 0 -> {
-                world.data = worldData;
+                LocalClient.world.data = worldData;
                 if (req != null) {
-                    server.initNewGame(world.data, req);
+                    server.initNewGame(LocalClient.world.data, req);
                     prog.setTask("Joining game...");
                     server.startJoiningWorld();
                 }
@@ -310,23 +306,23 @@ public class LocalServer extends Server {
                 if (req != null && !req.hosting) { //If we are not hosting, we need to get the world
                     prog.setTask("Received " + server.loadedChunks + " chunks");
                     if (server.getWorldInfo() != null) {
-                        world.data = server.getWorldInfo();//Reassign the world info to the one we got from the host
+                        LocalClient.world.data = server.getWorldInfo();//Reassign the world info to the one we got from the host
                         prog.stage++;
                     }
                 } else prog.stage++;
             }
             case 2 -> {
                 prog.setTask("Starting game...");
-                if (world.data.getSpawnPoint() == null) { //Create spawn point
-                    GameScene.userPlayer.worldPosition.set(0, 0, 0);
-                    boolean ok = world.startGame(prog, world.data, new Vector3f(0, 0, 0));
+                if (LocalClient.world.data.getSpawnPoint() == null) { //Create spawn point
+                    LocalClient.userPlayer.worldPosition.set(0, 0, 0);
+                    boolean ok = LocalClient.world.startGame(prog, LocalClient.world.data, new Vector3f(0, 0, 0));
                     if (!ok) {
                         prog.abort();
                         ClientWindow.goToMenuPage();
                     }
                 } else {//Load spawn point
-                    GameScene.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
-                    world.startGame(prog, world.data, GameScene.userPlayer.worldPosition);
+                    LocalClient.userPlayer.worldPosition.set(LocalClient.world.data.getSpawnPoint().x, LocalClient.world.data.getSpawnPoint().y, LocalClient.world.data.getSpawnPoint().z);
+                    LocalClient.world.startGame(prog, LocalClient.world.data, LocalClient.userPlayer.worldPosition);
                 }
                 prog.stage++;
             }
@@ -342,14 +338,14 @@ public class LocalServer extends Server {
                 if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING) {
                     prog.setTask("Preparing chunks");
                     AtomicInteger finishedChunks = new AtomicInteger();
-                    world.chunks.forEach((vec, c) -> { //For simplicity, We call the same prepare method the same as in world class
-                        c.prepare(world.terrain, 0, true);
+                    LocalClient.world.chunks.forEach((vec, c) -> { //For simplicity, We call the same prepare method the same as in world class
+                        c.prepare(LocalClient.world.terrain, 0, true);
                         if (c.gen_Complete()) {
                             finishedChunks.getAndIncrement();
                         }
                     });
 
-                    prog.bar.setProgress(finishedChunks.get(), world.chunks.size() / 2);
+                    prog.bar.setProgress(finishedChunks.get(), LocalClient.world.chunks.size() / 2);
                     if (finishedChunks.get() != completeChunks) {
                         completeChunks = finishedChunks.get();
                         framesWithCompleteChunkValue = 0;
@@ -363,19 +359,19 @@ public class LocalServer extends Server {
             }
             default -> {
                 lastGameMode = getGameMode();
-                if (world.data.getSpawnPoint() == null) {
+                if (LocalClient.world.data.getSpawnPoint() == null) {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
-                    Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
-                    GameScene.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
-                    GameScene.userPlayer.worldPosition.set(spawnPoint);
+                    Vector3f spawnPoint = getInitialSpawnPoint(LocalClient.world.terrain);
+                    LocalClient.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+                    LocalClient.userPlayer.worldPosition.set(spawnPoint);
 
-                    GameScene.userPlayer.newWorldEvent(world.data);
+                    LocalClient.userPlayer.newWorldEvent(LocalClient.world.data);
                 }
-                game.startGameEvent(world.data);
+                game.startGameEvent(LocalClient.world.data);
                 isOperator = ownsGame();
                 System.out.println("Starting game... Operator: " + isOperator);
-                startGameEvent(world.data, req);
+                startGameEvent(LocalClient.world.data, req);
 
                 prog.finish();
 
@@ -387,13 +383,13 @@ public class LocalServer extends Server {
     NetworkJoinRequest req;
 
     public void startGameEvent(WorldData worldData, NetworkJoinRequest req) {
-        world.data = worldData;
+        LocalClient.world.data = worldData;
         this.req = req;
         livePropagationHandler.startGameEvent(worldData);
         eventPipeline.startGameEvent(worldData);
-        world.startGameEvent(worldData);
+        LocalClient.world.startGameEvent(worldData);
         tickThread.startGameEvent();
-        GameScene.userPlayer.startGameEvent(world.data);
+        LocalClient.userPlayer.startGameEvent(LocalClient.world.data);
         ClientWindow.gameScene.setProjection();
     }
 
@@ -404,7 +400,7 @@ public class LocalServer extends Server {
         for (int x = -radius; x < radius; x++) {
             for (int z = -radius; z < radius; z++) {
                 for (int y = terrain.minSurfaceHeight - 10; y < terrain.maxSurfaceHeight + 10; y++) {
-                    if (terrain.canSpawnHere(world, x, y, z)) {
+                    if (terrain.canSpawnHere(LocalClient.world, x, y, z)) {
                         System.out.println("Found new spawn point!");
                         worldPosition.set(x, y - 0.5f, z);
                         return worldPosition;
@@ -419,11 +415,11 @@ public class LocalServer extends Server {
 
 
     private void waitForTasksToComplete(ProgressData prog) {
-        if (world.newGameTasks.get() < prog.bar.getMax()) {
-            prog.bar.setProgress(world.newGameTasks.get());
+        if (LocalClient.world.newGameTasks.get() < prog.bar.getMax()) {
+            prog.bar.setProgress(LocalClient.world.newGameTasks.get());
         } else {
             prog.stage++;
-            world.newGameTasks.set(0);
+            LocalClient.world.newGameTasks.set(0);
         }
     }
 
@@ -434,7 +430,7 @@ public class LocalServer extends Server {
         if (lastGameMode == null || lastGameMode != LocalServer.getGameMode()) {
             lastGameMode = LocalServer.getGameMode(); //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
-            GameScene.userPlayer.gameModeChangedEvent(getGameMode());
+            LocalClient.userPlayer.gameModeChangedEvent(getGameMode());
             LocalClient.alertClient("Game mode changed to: " + LocalServer.getGameMode());
         }
         //draw other players

@@ -1,7 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
@@ -63,7 +62,7 @@ public class FurnaceUI extends ContainerUI {
         };
 
 
-        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.userPlayer.inventory, this, true);
+        playerGrid = new UI_ItemStackGrid(window, "Player", LocalClient.userPlayer.inventory, this, true);
     }
 
     private void smeltWhenReady() {

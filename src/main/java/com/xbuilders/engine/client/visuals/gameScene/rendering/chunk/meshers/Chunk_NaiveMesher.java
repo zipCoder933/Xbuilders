@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.construction.BlockType;
@@ -62,17 +62,17 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[i] = null;
         }
 
-        negXChunk = LocalServer.world
+        negXChunk = LocalClient.world
                 .getChunk(new Vector3i(chunkPosition.x - 1, chunkPosition.y, chunkPosition.z));
-        posXChunk = LocalServer.world
+        posXChunk = LocalClient.world
                 .getChunk(new Vector3i(chunkPosition.x + 1, chunkPosition.y, chunkPosition.z));
-        negYChunk = LocalServer.world
+        negYChunk = LocalClient.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y - 1, chunkPosition.z));
-        posYChunk = LocalServer.world
+        posYChunk = LocalClient.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y + 1, chunkPosition.z));
-        negZChunk = LocalServer.world
+        negZChunk = LocalClient.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y, chunkPosition.z - 1));
-        posZChunk = LocalServer.world
+        posZChunk = LocalClient.world
                 .getChunk(new Vector3i(chunkPosition.x, chunkPosition.y, chunkPosition.z + 1));
 
         for (int x = -1; x < data.size.x + 1; ++x) {
@@ -83,7 +83,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
 
                     //If out of bounds
                     if (x < 0 || y < 0 || z < 0 || x >= data.size.x || y >= data.size.y || z >= data.size.z) {
-                        Chunk out_chunk = WCCi.getNeighboringChunk(LocalServer.world, chunkPosition, x, y, z);
+                        Chunk out_chunk = WCCi.getNeighboringChunk(LocalClient.world, chunkPosition, x, y, z);
                         if (out_chunk != null) {
                             int ox = positiveMod(x, Chunk.WIDTH);
                             int oy = positiveMod(y, Chunk.HEIGHT);

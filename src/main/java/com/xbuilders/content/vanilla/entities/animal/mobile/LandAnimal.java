@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -41,8 +41,8 @@ public abstract class LandAnimal extends ActionAnimal {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            Block floor = LocalServer.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
-            if (floor.solid && LocalServer.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
+            Block floor = LocalClient.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
+            if (floor.solid && LocalClient.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
             return false;
         };
         entitySupplier.isAutonomous = true;

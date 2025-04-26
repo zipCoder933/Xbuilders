@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
@@ -198,7 +197,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         Vector3f newTarget = new Vector3f(target);
 
         if (
-                !canPlaceFlagHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)
+                !canPlaceFlagHere(LocalClient.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)
         ) {
             System.out.println("Cant place flag here (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + "), Looking around");
             //Go around the spawn point and find a safe place to spawn
@@ -210,7 +209,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
                     for (int y = (int) (target.y); y < target.y + VERTICAL_RADIUS; y++) {
                         //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+                        if (LocalClient.world.terrain.canSpawnHere(LocalClient.world, x, y, z)) {
                             System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
                             newTarget.set(x, y, z);
                             return newTarget;
@@ -218,7 +217,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                     }
                     for (int y = (int) (target.y); y > target.y - VERTICAL_RADIUS; y--) {
                         //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+                        if (LocalClient.world.terrain.canSpawnHere(LocalClient.world, x, y, z)) {
                             System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
                             newTarget.set(x, y, z);
                             return newTarget;
@@ -233,13 +232,13 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private boolean canPlaceFlagHere(World world, int x, int y, int z) {
         return world.getBlock(x, y, z).isAir()
-                && LocalServer.world.terrain.canSpawnHere(world, x, y, z);
+                && LocalClient.world.terrain.canSpawnHere(world, x, y, z);
     }
 
     public Vector3f findSuitableSpawnPoint(Vector3f target) {
         Vector3f newTarget = new Vector3f(target);
 
-        if (!LocalServer.world.terrain.canSpawnHere(LocalServer.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)) {
+        if (!LocalClient.world.terrain.canSpawnHere(LocalClient.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)) {
             System.out.println("Cant spawn here, Looking around");
             //Go around the spawn point and find a safe place to spawn
             final int HORIZONTAL_RADIUS = 10;
@@ -248,7 +247,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
                     for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
                         //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalServer.world.terrain.canSpawnHere(LocalServer.world, x, y, z)) {
+                        if (LocalClient.world.terrain.canSpawnHere(LocalClient.world, x, y, z)) {
                             System.out.println("Found spawn point");
                             newTarget.set(x, y, z);
                             break lookLoop;
@@ -278,23 +277,23 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public void setSpawnPoint(float x, float y, float z) {
         status_spawnPosition.set(x, y, z);
         LocalClient.alertClient("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
-        saveToWorld(LocalServer.world.data); //Make SURE to save the spawnpoint
+        saveToWorld(LocalClient.world.data); //Make SURE to save the spawnpoint
     }
 
     public void getPlayerBoxTop(Vector3f playerBoxBottom) {
         aabb.updateBox();
         playerBoxBottom.set(
-                (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
-                GameScene.userPlayer.aabb.box.min.y,
-                (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2);
+                (LocalClient.userPlayer.aabb.box.min.x + LocalClient.userPlayer.aabb.box.max.x) / 2,
+                LocalClient.userPlayer.aabb.box.min.y,
+                (LocalClient.userPlayer.aabb.box.min.z + LocalClient.userPlayer.aabb.box.max.z) / 2);
     }
 
     public void getPlayerBoxBottom(Vector3f playerBoxTop) {
         aabb.updateBox();
         playerBoxTop.set(
-                (GameScene.userPlayer.aabb.box.min.x + GameScene.userPlayer.aabb.box.max.x) / 2,
-                GameScene.userPlayer.aabb.box.max.y,
-                (GameScene.userPlayer.aabb.box.min.z + GameScene.userPlayer.aabb.box.max.z) / 2
+                (LocalClient.userPlayer.aabb.box.min.x + LocalClient.userPlayer.aabb.box.max.x) / 2,
+                LocalClient.userPlayer.aabb.box.max.y,
+                (LocalClient.userPlayer.aabb.box.min.z + LocalClient.userPlayer.aabb.box.max.z) / 2
         );
     }
 
@@ -489,7 +488,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         this.view = view;
         inventory = new StorageSpace(33);
         camera = new Camera(this, window, projection, view, centeredView);
-        positionHandler = new PositionHandler(window, LocalServer.world, aabb, aabb);
+        positionHandler = new PositionHandler(window, LocalClient.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 3) {
                 float damage = MathUtils.map(fallDistance, 3, 15, 0, MAX_HEALTH);
@@ -505,7 +504,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void setFlashlight(float distance) {
-        LocalServer.world.chunkShader.setFlashlightDistance(distance);
+        LocalClient.world.chunkShader.setFlashlightDistance(distance);
     }
 
     /**
@@ -545,28 +544,28 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public Block getBlockAtPlayerHead() {
-        return LocalServer.world.getBlock(
+        return LocalClient.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerFeet() {
-        return LocalServer.world.getBlock(
+        return LocalClient.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerWaist() {
-        return LocalServer.world.getBlock(
+        return LocalClient.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()) - 1,
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtCameraPos() {
-        return LocalServer.world.getBlock(
+        return LocalClient.world.getBlock(
                 (int) Math.floor(camera.position.x),
                 (int) Math.floor(camera.position.y),
                 (int) Math.floor(camera.position.z));
@@ -575,7 +574,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     public boolean isInsideOfLadder() {
         return getBlockAtPlayerHead().climbable
                 ||
-                LocalServer.world.getBlock(
+                LocalClient.world.getBlock(
                         (int) Math.floor(worldPosition.x),
                         (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                         (int) Math.floor(worldPosition.z)).climbable;
@@ -852,8 +851,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public Entity dropItem(ItemStack itemStack) {
-        Vector3f pos = new Vector3f().set(GameScene.userPlayer.worldPosition);
-        Vector3f addition = new Vector3f().set(GameScene.userPlayer.camera.look.x, 0, GameScene.userPlayer.camera.look.z).mul(1.5f);
+        Vector3f pos = new Vector3f().set(LocalClient.userPlayer.worldPosition);
+        Vector3f addition = new Vector3f().set(LocalClient.userPlayer.camera.look.x, 0, LocalClient.userPlayer.camera.look.z).mul(1.5f);
         pos.add(addition);
         return LocalServer.placeItemDrop(
                 pos,

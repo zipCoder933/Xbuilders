@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
@@ -27,11 +27,11 @@ public class BlockFlag extends Block {
 
         setBlockEvent(false, (x, y, z) -> {
             try {
-                byte[] bytes = GameScene.userPlayer.inventory.writeToJson();
+                byte[] bytes = LocalClient.userPlayer.inventory.writeToJson();
                 BlockData data = new BlockData(bytes);
                 System.out.println("Flag placed " + new String(bytes));
                 LocalServer.setBlockData(data, x, y, z);
-                GameScene.userPlayer.inventory.clear();
+                LocalClient.userPlayer.inventory.clear();
             } catch (IOException e) {
                 ErrorHandler.report(e);
             }
@@ -42,14 +42,14 @@ public class BlockFlag extends Block {
                 BlockData data = hist.previousBlockData;
                 if (data == null) return;
                 System.out.println("Flag removed " + new String(data.toByteArray()));
-                StorageSpace storage = new StorageSpace(GameScene.userPlayer.inventory.size());
+                StorageSpace storage = new StorageSpace(LocalClient.userPlayer.inventory.size());
                 storage.loadFromJson(data.toByteArray());
 
 
                 //Add items to inventory.
                 for (int i = 0; i < storage.size(); i++) {
                     if (storage.get(i) != null) {
-                        if (GameScene.userPlayer.inventory.acquireItem(storage.get(i)) == -1) {
+                        if (LocalClient.userPlayer.inventory.acquireItem(storage.get(i)) == -1) {
                             System.out.println("\tDropped " + storage.get(i));
                             //Drop item if inventory is full.
                             LocalServer.placeItemDrop(new Vector3f(x, y, z), storage.get(i), false);

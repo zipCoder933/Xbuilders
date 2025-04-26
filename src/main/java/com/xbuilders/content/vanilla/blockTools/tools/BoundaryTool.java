@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
@@ -40,10 +40,10 @@ public class BoundaryTool extends BlockTool {
 
     @Override
     public void activate() {
-        GameScene.userPlayer.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
+        LocalClient.userPlayer.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
             blockBoundarySetEvent(aabb, created);
         });
-        GameScene.userPlayer.camera.cursorRay.boundary_lockToPlane = false;
+        LocalClient.userPlayer.camera.cursorRay.boundary_lockToPlane = false;
     }
 
 
@@ -61,7 +61,7 @@ public class BoundaryTool extends BlockTool {
             for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
                 for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
                     LocalServer.setBlock(block.id, x, y, z);
-                    foundChunks.add(wcc.set(x, y, z).getChunk(LocalServer.world));
+                    foundChunks.add(wcc.set(x, y, z).getChunk(LocalClient.world));
                 }
             }
         }

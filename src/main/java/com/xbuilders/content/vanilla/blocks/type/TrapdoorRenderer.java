@@ -4,8 +4,8 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
@@ -42,7 +42,7 @@ public class TrapdoorRenderer extends BlockType {
             b.opaque = false;
             b.solid = true;
             b.clickEvent(false, (x, y, z) -> {
-                BlockData bd = LocalServer.world.getBlockData(x, y, z);
+                BlockData bd = LocalClient.world.getBlockData(x, y, z);
                 bd.set(1, (byte) (bd.get(1) == 1 ? 0 : 1));
             });
         };

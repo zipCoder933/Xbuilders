@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
@@ -24,8 +24,8 @@ public class FloorItemRenderer extends BlockType {
 
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return !LocalServer.world.getBlock(worldX, worldY + 1, worldZ).isLiquid()
-                && !LocalServer.world.getBlock(worldX, worldY + 1, worldZ).isAir();
+        return !LocalClient.world.getBlock(worldX, worldY + 1, worldZ).isLiquid()
+                && !LocalClient.world.getBlock(worldX, worldY + 1, worldZ).isAir();
     }
 
     public FloorItemRenderer() throws IOException {

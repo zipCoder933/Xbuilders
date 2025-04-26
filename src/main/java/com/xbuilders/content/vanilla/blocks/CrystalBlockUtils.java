@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blocks;
 
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -10,7 +11,7 @@ public class CrystalBlockUtils {
 
     private static Block.RandomTickEvent randomTickEvent(short crystal) {
         return (x, y, z) -> {
-            Block above = LocalServer.world.getBlock(x, y - 1, z);
+            Block above = LocalClient.world.getBlock(x, y - 1, z);
             if (above.isAir() || above.isLiquid()) {
                 LocalServer.setBlock(crystal, x, y - 1, z);
                 return true;

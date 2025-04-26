@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.BFS.TravelNode;
@@ -47,7 +48,7 @@ class TreeUtils {
 
         for (int x2 = lowerBoundX; x2 <= upperBoundX; x2++) {
             for (int z2 = lowerBoundZ; z2 <= upperBoundZ; z2++) {
-                if (!LocalServer.world.getBlock(x2, y, z2).solid) {
+                if (!LocalClient.world.getBlock(x2, y, z2).solid) {
                     terrain.setBlockWorld(x2, y, z2, leaves);
                 }
             }
@@ -86,7 +87,7 @@ class TreeUtils {
                         || (x2 == upperBoundX && z2 == upperBoundZ)
                         || (x2 == lowerBoundX && z2 == upperBoundZ)
                         || (x2 == upperBoundX && z2 == lowerBoundZ))) {
-                    if (!LocalServer.world.getBlock(x2, y, z2).solid) {
+                    if (!LocalClient.world.getBlock(x2, y, z2).solid) {
                         terrain.setBlockWorld(x2, y, z2, leaves);
                     }
                 }
@@ -95,7 +96,7 @@ class TreeUtils {
     }
 
     public static void player_setBlock(short id, int x, int y, int z) {
-        if (!LocalServer.world.getBlock(x, y, z).solid) {
+        if (!LocalClient.world.getBlock(x, y, z).solid) {
             LocalServer.setBlock(id, x, y, z);
         }
     }
@@ -131,7 +132,7 @@ class TreeUtils {
 
         while (!queue.isEmpty()) {
             TravelNode node = queue.remove(0);
-            Block block = LocalServer.world.getBlock(node.x, node.y, node.z);
+            Block block = LocalClient.world.getBlock(node.x, node.y, node.z);
 
             if (!block.equals(leaves) && node.travel < travelDist) {
                 if (!block.solid) {
@@ -160,7 +161,7 @@ class TreeUtils {
             x += xDir;
             z += zDir;
             y--;
-            if (!LocalServer.world.getBlock(x, y, z).solid) {
+            if (!LocalClient.world.getBlock(x, y, z).solid) {
                 terrain.setBlockWorld(x, y, z, logType);
             }
         }

@@ -30,10 +30,13 @@ public class Main {
 
         skins = new SkinRegistry();
         game = new XbuildersGame();
-        localServer = new LocalServer(game, localClient.world);
+
         localClient = new LocalClient(args, GAME_VERSION, game);
+        localServer = new LocalServer(game, localClient.world, LocalClient.userPlayer);
 
-
+        if (localClient.generateIcons || !localClient.blockIconsDirectory.exists()) {
+            localClient.firstTimeSetup();
+        }
 
 
         try {

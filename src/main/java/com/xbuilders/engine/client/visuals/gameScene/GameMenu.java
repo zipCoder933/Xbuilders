@@ -158,16 +158,16 @@ public class GameMenu extends UI_GameMenu {
                 save, "wp", (file) -> {
                     if (file != null) {
                         if (save) {
-                            String waypoint = GameScene.userPlayer.worldPosition.x
-                                    + "," + GameScene.userPlayer.worldPosition.y
-                                    + "," + GameScene.userPlayer.worldPosition.z;
+                            String waypoint = LocalClient.userPlayer.worldPosition.x
+                                    + "," + LocalClient.userPlayer.worldPosition.y
+                                    + "," + LocalClient.userPlayer.worldPosition.z;
                             try {
                                 Files.write(file.toPath(), waypoint.getBytes());
                             } catch (IOException e) {
                                 ClientWindow.popupMessage.message("Error saving waypoint: ", e.getMessage());
                             }
                         } else {
-                            Vector3f originalPosition = GameScene.userPlayer.worldPosition;
+                            Vector3f originalPosition = LocalClient.userPlayer.worldPosition;
                             try {
                                 String waypoint = new String(Files.readAllBytes(file.toPath()));
                                 String[] split = waypoint.split(",");
@@ -190,7 +190,7 @@ public class GameMenu extends UI_GameMenu {
             LocalClient.alertClient("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
             GameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
         } else {
-            GameScene.userPlayer.teleport(x, y, z);
+            LocalClient.userPlayer.teleport(x, y, z);
         }
     }
 

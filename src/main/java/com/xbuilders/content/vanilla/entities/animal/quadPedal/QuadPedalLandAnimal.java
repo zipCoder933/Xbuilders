@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
@@ -19,7 +19,6 @@ import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 public abstract class QuadPedalLandAnimal extends LandAnimal {
@@ -134,15 +133,15 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     public void animal_move() {
         if (playerIsRidingThis()) {
             float rotSpeed = 0.5f;
-            if (GameScene.userPlayer.forwardKeyPressed()) {
+            if (LocalClient.userPlayer.forwardKeyPressed()) {
                 goForward(0.2f, true);
                 rotSpeed = 3;
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
             } else if (allowVoluntaryMovement()) super.animal_move();
 
-            if (GameScene.userPlayer.leftKeyPressed()) {
+            if (LocalClient.userPlayer.leftKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() - rotSpeed);
-            } else if (GameScene.userPlayer.rightKeyPressed()) {
+            } else if (LocalClient.userPlayer.rightKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() + rotSpeed);
             }
         } else if (allowVoluntaryMovement() && inFrustum) super.animal_move();
@@ -190,10 +189,10 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
         if (!tamed) return false;
 
         if (canRide()) {
-            GameScene.userPlayer.positionLock = lock;
+            LocalClient.userPlayer.positionLock = lock;
         } else if (
-                ClientWindow.gameScene.userPlayer.holdingItem(Registrys.items.getItem("xbuilders:saddle"))) {
-            ClientWindow.gameScene.userPlayer.getSelectedItem().stackSize--;
+                LocalClient.userPlayer.holdingItem(Registrys.items.getItem("xbuilders:saddle"))) {
+            LocalClient.userPlayer.getSelectedItem().stackSize--;
             isSaddled = true;
         } else if (canSit()) {//Sit command
             if (currentAction.type == AnimalAction.ActionType.IDLE) {

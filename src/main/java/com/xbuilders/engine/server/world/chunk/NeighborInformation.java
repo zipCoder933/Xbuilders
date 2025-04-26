@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.world.chunk;
 
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.server.world.World;
 import org.joml.Vector3i;
@@ -118,7 +118,7 @@ public class NeighborInformation {
                 if (thisChunkCoordinates.y == World.TOP_Y_CHUNK && NEIGHBOR_VECTORS[i].y == -1) continue;
                 else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK && NEIGHBOR_VECTORS[i].y == 1) continue;
 
-                Chunk chunk = LocalServer.world.getChunk(neighborChunkPositions[i]);
+                Chunk chunk = LocalClient.world.getChunk(neighborChunkPositions[i]);
                 if (chunk == null) {
                     allChunksCreated2 = false;
                     allNeghborsLoaded2 = false;

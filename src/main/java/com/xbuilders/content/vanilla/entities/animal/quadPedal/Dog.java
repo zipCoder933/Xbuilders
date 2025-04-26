@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
@@ -54,8 +54,8 @@ public class Dog extends QuadPedalLandAnimal {
         entitySupplier.spawnCondition = (x, y, z) -> {
             if (LocalServer.getLightLevel(x, y, z) > 6) return false; //If it's too bright, don't spawn
 
-            Block floor = LocalServer.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
-            if (floor.solid && LocalServer.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
+            Block floor = LocalClient.world.getBlock(x, (int) (y + Math.ceil(aabb.box.getYLength())), z);
+            if (floor.solid && LocalClient.world.getBlockID(x, y, z) == Blocks.BLOCK_AIR) return true;
             return false;
         };
         //TODO: There is no way to club dogs, so we have to tame them, however when they are tamed they dont despawn, so we have to despawn ALL dogs
@@ -65,7 +65,7 @@ public class Dog extends QuadPedalLandAnimal {
         entitySupplier.isAutonomous = true;
     }
 
-    Player playerWithLowestDist = GameScene.userPlayer;
+    Player playerWithLowestDist = LocalClient.userPlayer;
     long lastPlayerCheckTime;
 
 
@@ -86,11 +86,11 @@ public class Dog extends QuadPedalLandAnimal {
 //                    System.out.println("Lowest dist: " + lowestDist + " Player: " + playerWithLowestDist);
 //                }
 //            } else
-            playerWithLowestDist = GameScene.userPlayer;
+            playerWithLowestDist = LocalClient.userPlayer;
 
             //If the player is too close, the dog will start to attack
             if (distToPlayer < 3) {
-                GameScene.userPlayer.addHealth(-0.1f);
+                LocalClient.userPlayer.addHealth(-0.1f);
             }
 
             if (playerWithLowestDist != null) {

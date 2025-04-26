@@ -8,7 +8,6 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import org.lwjgl.glfw.GLFW;
@@ -100,9 +99,9 @@ public class TopMenu {
         loadWorld = new LoadWorld(window.ctx, window, this);
         newWorld = new NewWorld(window.ctx, window, this);
         progress = new ProgressMenu(window.ctx, window, this);
-        hostMultiplayer = new Multiplayer(window.ctx, window, this, GameScene.userPlayer, true, ipAdress, loadWorld);
-        joinMultiplayer = new Multiplayer(window.ctx, window, this, GameScene.userPlayer, false, ipAdress, loadWorld);
-        customizePlayer = new CustomizePlayer(window.ctx, window, this, GameScene.userPlayer);
+        hostMultiplayer = new Multiplayer(window.ctx, window, this, LocalClient.userPlayer, true, ipAdress, loadWorld);
+        joinMultiplayer = new Multiplayer(window.ctx, window, this, LocalClient.userPlayer, false, ipAdress, loadWorld);
+        customizePlayer = new CustomizePlayer(window.ctx, window, this, LocalClient.userPlayer);
         settings = new SettingsPage(window.ctx, window, () -> {
             goBack();
         });

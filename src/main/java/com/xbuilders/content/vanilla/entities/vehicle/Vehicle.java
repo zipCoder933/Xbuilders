@@ -10,9 +10,8 @@ import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -69,8 +68,8 @@ public abstract class Vehicle extends Entity {
         int x = Math.round(worldPosition.x);
         int y = Math.round(worldPosition.y);
         int z = Math.round(worldPosition.z);
-        short b1 = LocalServer.world.getBlockID(x, y, z);
-        short b2 = LocalServer.world.getBlockID(x, y + 1, z);
+        short b1 = LocalClient.world.getBlockID(x, y, z);
+        short b2 = LocalClient.world.getBlockID(x, y + 1, z);
 
         return b1 == (Blocks.BLOCK_MINECART_ROAD_BLOCK) || b1 == (Blocks.BLOCK_MINECART_ROAD_SLAB)
                 || b2 == (Blocks.BLOCK_MINECART_ROAD_BLOCK) || b2 == (Blocks.BLOCK_MINECART_ROAD_SLAB);
@@ -88,7 +87,7 @@ public abstract class Vehicle extends Entity {
     public Vehicle(ClientWindow window, long uniqueIdentifier) {
         super(uniqueIdentifier);
         this.window = window;
-        this.player = GameScene.userPlayer;
+        this.player = LocalClient.userPlayer;
     }
 
     /**
@@ -106,7 +105,7 @@ public abstract class Vehicle extends Entity {
     }
 
     public float getAngleToPlayer() {
-        UserControlledPlayer userControlledPlayer = GameScene.userPlayer;
+        UserControlledPlayer userControlledPlayer = LocalClient.userPlayer;
         return MathUtils.getAngleOfPoints(worldPosition.x, worldPosition.z,
                 userControlledPlayer.worldPosition.x,
                 userControlledPlayer.worldPosition.z);
@@ -153,7 +152,7 @@ public abstract class Vehicle extends Entity {
     public abstract void vehicle_entityMoveEvent();
 
     public UserControlledPlayer getPlayer() {
-        return GameScene.userPlayer;
+        return LocalClient.userPlayer;
     }
 
 
@@ -165,7 +164,7 @@ public abstract class Vehicle extends Entity {
 
     @Override
     public void loadDefinitionData(boolean hasData, JsonParser parser, JsonNode node) throws IOException {
-        posHandler = new PositionHandler(window, LocalServer.world, aabb, player.aabb);
+        posHandler = new PositionHandler(window, LocalClient.world, aabb, player.aabb);
     }
 
 

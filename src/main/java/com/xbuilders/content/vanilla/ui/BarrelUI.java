@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.ui;
 
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
@@ -24,7 +24,7 @@ public class BarrelUI extends ContainerUI {
         barrelStorage = new StorageSpace(33);
         menuDimensions.y = 550;
         barrelGrid = new UI_ItemStackGrid(window, "Barrel", barrelStorage, this, true);
-        playerGrid = new UI_ItemStackGrid(window, "Player", GameScene.userPlayer.inventory, this, true);
+        playerGrid = new UI_ItemStackGrid(window, "Player", LocalClient.userPlayer.inventory, this, true);
 
         barrelStorage.changeEvent = () -> {
             writeDataToWorld();

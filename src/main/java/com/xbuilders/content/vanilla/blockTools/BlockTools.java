@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
@@ -121,7 +121,7 @@ public class BlockTools extends UI_GameMenu {
     public void selectTool(int i) {
         tools.get(selectedTool).deactivate();
         selectedTool = i;
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
         tools.get(selectedTool).activate();
         autoRevert();
     }
@@ -129,7 +129,7 @@ public class BlockTools extends UI_GameMenu {
     public void selectDefaultTool() {
         tools.get(selectedTool).deactivate();
         selectedTool = DEFAULT_TOOL_INDEX;
-        GameScene.userPlayer.camera.cursorRay.disableBoundaryMode();
+        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
         tools.get(selectedTool).activate();
     }
 

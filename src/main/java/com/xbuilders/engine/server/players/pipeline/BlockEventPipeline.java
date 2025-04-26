@@ -46,7 +46,7 @@ public class BlockEventPipeline {
         if (blockHist != null) {
             if (!MultiplayerPendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
                 //If there is a block event that is on a empty chunk or too far away, don't add it
-                LocalServer.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
+                LocalClient.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
                 return;
             }
             blockChangesThisFrame++;
@@ -54,7 +54,7 @@ public class BlockEventPipeline {
                 if (events.containsKey(worldPos)) { //We need to get the original previous block
                     blockHist.previousBlock = events.get(worldPos).previousBlock;
                 } else if (blockHist.previousBlock == null) {
-                    blockHist.previousBlock = LocalServer.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                    blockHist.previousBlock = LocalClient.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
                 }
                 if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
                     lightChangesThisFrame++;
@@ -121,8 +121,8 @@ public class BlockEventPipeline {
         if (ClientWindow.devkeyF3 && LocalClient.DEV_MODE)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
-        if (LocalServer.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
-            int changes = LocalServer.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
+        if (LocalClient.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
+            int changes = LocalClient.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
             });
             ClientWindow.printlnDev("Loaded " + changes + " local changes");
@@ -330,7 +330,7 @@ public class BlockEventPipeline {
             BlockHistory hist, //What changed
             boolean dispatchBlockEvent) {
         WCCi wcc = new WCCi().set(nx, ny, nz);
-        Chunk chunk = wcc.getChunk(LocalServer.world);
+        Chunk chunk = wcc.getChunk(LocalClient.world);
         if (chunk != null) {
             Block nBlock = Registrys.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
             if (nBlock != null && !nBlock.isAir()) {

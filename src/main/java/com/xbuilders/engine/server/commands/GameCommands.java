@@ -1,9 +1,7 @@
 package com.xbuilders.engine.server.commands;
 
-import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Difficulty;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
@@ -81,18 +79,18 @@ public class GameCommands {
         registerCommand(new Command("die",
                 "Kills the current player")
                 .requiresOP(false).executes((parts) -> {
-                    GameScene.userPlayer.die();
-                    return "Player " + GameScene.userPlayer.getName() + " has died";
+                    LocalClient.userPlayer.die();
+                    return "Player " + LocalClient.userPlayer.getName() + " has died";
                 }));
 
         registerCommand(new Command("setSpawn",
                 "Set spawnpoint for the current player")
                 .requiresOP(false).executes((parts) -> {
-                    GameScene.userPlayer.setSpawnPoint(
-                            GameScene.userPlayer.worldPosition.x,
-                            GameScene.userPlayer.worldPosition.y,
-                            GameScene.userPlayer.worldPosition.z);
-                    return "Set spawn point for " + GameScene.userPlayer.getName() + " to current position";
+                    LocalClient.userPlayer.setSpawnPoint(
+                            LocalClient.userPlayer.worldPosition.x,
+                            LocalClient.userPlayer.worldPosition.y,
+                            LocalClient.userPlayer.worldPosition.z);
+                    return "Set spawn point for " + LocalClient.userPlayer.getName() + " to current position";
                 }));
 
         registerCommand(new Command("op", "Usage: op <true/false> <player>")
@@ -163,10 +161,10 @@ public class GameCommands {
                 .requiresOP(true)
                 .executes((parts) -> {
                     if (parts.length >= 1) {
-                        LocalServer.world.data.data.alwaysDayMode = parts[0].equalsIgnoreCase("true");
+                        LocalClient.world.data.data.alwaysDayMode = parts[0].equalsIgnoreCase("true");
                         try {
-                            LocalServer.world.data.save();
-                            return "Always day mode: " + LocalServer.world.data.data.alwaysDayMode;
+                            LocalClient.world.data.save();
+                            return "Always day mode: " + LocalClient.world.data.data.alwaysDayMode;
                         } catch (IOException e) {
                             return "Error: " + e;
                         }
@@ -179,14 +177,14 @@ public class GameCommands {
                 .requiresOP(true)
                 .executes((parts) -> {
                     if (parts.length >= 3) {
-                        GameScene.userPlayer.worldPosition.set(Float.parseFloat(parts[0]), Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+                        LocalClient.userPlayer.worldPosition.set(Float.parseFloat(parts[0]), Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
                         return null;
                     }
 
                     if (parts.length >= 1) {
                         Player target = LocalServer.server.getPlayerByName(parts[0]);
                         if (target != null) {
-                            GameScene.userPlayer.worldPosition.set(target.worldPosition);
+                            LocalClient.userPlayer.worldPosition.set(target.worldPosition);
                             return null;
                         } else {
                             return "Player not found";
@@ -221,8 +219,8 @@ public class GameCommands {
                 "Lists all connected players")
                 .requiresOP(true)
                 .executes((parts) -> {
-                    StringBuilder str = new StringBuilder(LocalServer.world.players.size() + " players:\n");
-                    for (Player client : LocalServer.world.players) {
+                    StringBuilder str = new StringBuilder(LocalClient.world.players.size() + " players:\n");
+                    for (Player client : LocalClient.world.players) {
                         str.append(client.getName()).append(";   ").append(client.getConnectionStatus()).append("\n");
                     }
                     System.out.println("\nPLAYERS:\n" + str);

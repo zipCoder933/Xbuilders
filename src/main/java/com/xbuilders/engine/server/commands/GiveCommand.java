@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.commands;
 
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -18,7 +18,7 @@ public class GiveCommand extends Command {
                             int quantity = parts.length >= 2 ? Integer.parseInt(parts[1].trim()) : 1;
                             Item item = Registrys.getItem(itemID);
                             if (item == null) return "Unknown item: " + itemID;
-                            else GameScene.userPlayer.inventory.acquireItem(new ItemStack(item, quantity));
+                            else LocalClient.userPlayer.inventory.acquireItem(new ItemStack(item, quantity));
                             return "Given " + quantity + " " + item.name;
                         } catch (Exception e) {
                             return "Invalid";

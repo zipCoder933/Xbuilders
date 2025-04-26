@@ -100,7 +100,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
     public void initNewGame(WorldData worldInfo, NetworkJoinRequest req) {
         this.req = req;
-        GameScene.userPlayer.isHost = req.hosting;
+        LocalClient.userPlayer.isHost = req.hosting;
         loadedChunks = 0;
         this.worldInfo = worldInfo;
         worldReady = false;
@@ -163,12 +163,12 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
 
     private void sendWorldToClient(Player client) throws IOException {
         //Save the world first to ensure that all changes are on the disk
-        LocalServer.world.save();
+        LocalClient.world.save();
 
         //Send the world info to the client
-        System.out.println("Sending world to client: " + LocalServer.world.data.getName() + "\n" + LocalServer.world.data.toJson());
+        System.out.println("Sending world to client: " + LocalClient.world.data.getName() + "\n" + LocalClient.world.data.toJson());
         client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
-                LocalServer.world.data.getName() + "\n" + LocalServer.world.data.toJson()));
+                LocalClient.world.data.getName() + "\n" + LocalClient.world.data.toJson()));
 
         new Thread(() -> {  //Load every file of the chunk
             try {
@@ -258,7 +258,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                         LocalServer.eventPipeline.addEvent(pos, blockHist);
                         inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
-                        LocalServer.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
+                        LocalClient.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
                         outOfReachChanges.incrementAndGet();
                     }
                 });
@@ -273,18 +273,18 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                         if (mode == ENTITY_CREATED) {
                             setEntity(entity, identifier, currentPos, data);
                         } else if (mode == ENTITY_DELETED) {
-                            Entity e = LocalServer.world.entities.get(identifier);
+                            Entity e = LocalClient.world.entities.get(identifier);
                             if (e != null) {
                                 e.destroy();
                             }
                         } else if (mode == ENTITY_UPDATED) {
-                            Entity e = LocalServer.world.entities.get(identifier);
+                            Entity e = LocalClient.world.entities.get(identifier);
                             if (e != null) {
                                 e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
                             }
                         }
                     } else {//Cache changes if they are out of bounds
-                        LocalServer.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
+                        LocalClient.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
                     }
                 });
             } else if (receivedData[0] == READY_TO_START) { //New world
@@ -363,7 +363,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(worldPosition);
-        Chunk chunk = LocalServer.world.chunks.get(wcc.chunk);
+        Chunk chunk = LocalClient.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModified();
             return chunk.entities.placeNew(worldPosition, identifier, entity, data);
