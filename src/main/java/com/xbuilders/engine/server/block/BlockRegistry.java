@@ -4,12 +4,18 @@
  */
 package com.xbuilders.engine.server.block;
 
+import com.xbuilders.Main;
+import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.DefaultBlockType;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidBlockType;
+import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.utils.IntMap;
+import com.xbuilders.engine.utils.resource.ResourceUtils;
+import org.lwjgl.glfw.GLFW;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -107,6 +113,25 @@ public class BlockRegistry {
         return highestId;
     }
 
+    public final File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
+
+    private void generateBlock3DIcons(Block[] blocks) {
+        if (!blockIconsDirectory.exists()) {
+            System.out.println("========================================\n" +
+                    "Generating 3d block icons to disk..." +
+                    "\n========================================");
+            BlockIconRenderer iconRenderer = new BlockIconRenderer(
+                    Registrys.blocks.textures, blocks,
+                    blockIconsDirectory);
+
+            iconRenderer.saveAllIcons();//Generate all icons
+            new ClientSettings().save();
+            System.out.println("==========================================\n" +
+                    "Icon generation complete." +
+                    "\n==========================================");
+        }
+    }
+
     public void setup(List<Block> blockArray) throws IOException {
         HashSet<String> uniqueAliases = new HashSet<>();
         textures = new BlockArrayTexture("/assets/xbuilders/textures/block/");
@@ -126,6 +151,9 @@ public class BlockRegistry {
                 block.getType().registrationCallback.accept(block);
             }
         }
+
+        //Generate the 3D icons AFTER the blocks are registered but BEFORE the items are registered
+        generateBlock3DIcons(list);
     }
 
 

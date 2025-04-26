@@ -39,9 +39,8 @@ public class Main {
         localClient = new LocalClient(args, VERSION, game);
         LocalClient.localServer = new LocalServer(game, getClient().world, LocalClient.userPlayer);
 
-        if (getClient().generateIcons || !getClient().blockIconsDirectory.exists()) {
-            getClient().firstTimeSetup();
-        }
+
+
 
 
         try {

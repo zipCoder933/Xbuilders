@@ -8,6 +8,7 @@ import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
+import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.world.Terrain;
@@ -38,8 +39,7 @@ public class LocalClient extends Client {
     public static boolean DEV_MODE = false;
     public static UserControlledPlayer userPlayer;
     public static LocalServer localServer;
-    public boolean generateIcons = false;
-    public final File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
+
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
@@ -76,9 +76,7 @@ public class LocalClient extends Client {
         title = "XBuilders";
 
         for (String arg : args) {
-            if (arg.equals("icons")) {
-                generateIcons = true;
-            } else if (arg.equals("devmode")) {
+            if (arg.equals("devmode")) {
                 DEV_MODE = true;
             } else if (arg.startsWith("appData")) {
                 appDataDir = arg.split("=")[1];
@@ -109,22 +107,7 @@ public class LocalClient extends Client {
         window.init(game, world, this);
     }
 
-    public void firstTimeSetup() throws InterruptedException {
-        //Minimize the window
-        GLFW.glfwHideWindow(window.getWindow());
-        createPopupWindow("First time setup",
-                "XBuilders is setting up. Please standby...");
-        BlockIconRenderer iconRenderer = new BlockIconRenderer(
-                Registrys.blocks.textures,
-                blockIconsDirectory);
 
-        iconRenderer.saveAllIcons();//Generate all icons
-        new ClientSettings().save();
-        createPopupWindow("Finished",
-                "XBuilders has finished setting up. Please restart the game to play.");
-        Thread.sleep(5000);
-        System.exit(0);
-    }
 
     public static void createPopupWindow(String title, String str) {
         final JFrame parent = new JFrame();

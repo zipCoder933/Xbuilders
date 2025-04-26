@@ -5,9 +5,9 @@
 package com.xbuilders.engine.server.item.blockIconRendering;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
+import com.xbuilders.engine.server.block.BlockAir;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.IconGenShader;
@@ -78,7 +78,7 @@ public class BlockIconRenderer {
     public int renderedTexture;
     SimpleWaitLock lock;
 
-    public BlockIconRenderer(BlockArrayTexture textures, File exportDirectory) throws InterruptedException {
+    public BlockIconRenderer(BlockArrayTexture textures, Block[] list, File exportDirectory) {
         lock = new SimpleWaitLock();
         thread1 = new Thread(() -> {
             System.out.println("Generating icons... Image size: " + imageSize + "x" + imageSize);
@@ -133,7 +133,6 @@ public class BlockIconRenderer {
                 mesh.setTextureID(textures.createNewArrayTexture());
                 // </editor-fold>
 
-                Block[] list = Registrys.blocks.getList();
                 exportDirectory.mkdirs();
                 for (int i = 0; !glfwWindowShouldClose(window1); i++) {
                     GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, framebuffer);
@@ -156,18 +155,19 @@ public class BlockIconRenderer {
         });
     }
 
-    public void saveAllIcons() throws InterruptedException {
+    public void saveAllIcons() {
         System.out.println("\n\n\nGENERATING ALL BLOCK ICONS");
         thread1.start();
-        lock.lock();
+        try {
+            lock.lock();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean shouldMakeIcon(Block block) {
         BlockType type = Registrys.blocks.getBlockType(block.type);
-        if (type == null || !type.generate3DIcon || block.texture == null) {
-            return false;
-        }
-        return true;
+        return type != null && type.generate3DIcon && block.texture != null;
     }
 
     private void generateAndSaveIcon(Block block, File baseFile, int renderedTexture) throws IOException {
@@ -182,18 +182,20 @@ public class BlockIconRenderer {
         }
     }
 
+    public final static Block BLOCK_AIR = new BlockAir();
+
     private boolean makeBlockMesh(Block block) {
         TraditionalVertexSet buffers = new TraditionalVertexSet();
         BlockType type = Registrys.blocks.getBlockType(block.type);
         if (type == null) {
             return false;
         }
-        Block[] blockNeghbors = new Block[] { BlockRegistry.BLOCK_AIR,
-                BlockRegistry.BLOCK_AIR,
-                BlockRegistry.BLOCK_AIR,
-                BlockRegistry.BLOCK_AIR,
-                BlockRegistry.BLOCK_AIR,
-                BlockRegistry.BLOCK_AIR };
+        Block[] blockNeghbors = new Block[] { BLOCK_AIR,
+                BLOCK_AIR,
+                BLOCK_AIR,
+                BLOCK_AIR,
+                BLOCK_AIR,
+                BLOCK_AIR };
         byte[] lightNeghbors = new byte[] { 15, 15, 15, 15, 15, 15 };
         BlockData[] neighborData = new BlockData[6];
 

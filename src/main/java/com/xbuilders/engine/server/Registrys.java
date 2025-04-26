@@ -60,7 +60,7 @@ public class Registrys {
 
         blocks.setup(blockList);
         entities.setup(entityList);
-        items.setup(
+        items.setup(//Items must be registered last
                 DEFAULT_TEXTURE,
                 blocks.textures,
                 blocks.getIdToBlockMap(),
