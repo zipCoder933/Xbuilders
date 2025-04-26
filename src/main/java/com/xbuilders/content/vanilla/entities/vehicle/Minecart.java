@@ -6,6 +6,7 @@ package com.xbuilders.content.vanilla.entities.vehicle;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
@@ -73,9 +74,9 @@ public class Minecart extends Vehicle {
             resetKeyEvent();
             onTrack = alignToNearestTrack();
             if (onTrack) {
-                LocalClient.alertClient("Press the forward and backward keys to toggle minecart direction.");
+                Main.getClient().consoleOut("Press the forward and backward keys to toggle minecart direction.");
             } else {
-                LocalClient.alertClient("Use WASD or arrow keys to navigate on minecart roads");
+                Main.getClient().consoleOut("Use WASD or arrow keys to navigate on minecart roads");
             }
         }
         return true; //If it was consumed

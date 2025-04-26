@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
-import static com.xbuilders.MainClient.game;
+import static com.xbuilders.Main.game;
 import static com.xbuilders.engine.client.LocalClient.userPlayer;
 import static com.xbuilders.engine.client.LocalClient.world;
 

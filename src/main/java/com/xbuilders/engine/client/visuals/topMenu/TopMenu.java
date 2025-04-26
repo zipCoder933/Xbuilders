@@ -65,6 +65,7 @@ public class TopMenu {
     public ProgressMenu progress;
     public CustomizePlayer customizePlayer;
     private Page page = Page.HOME;
+    LocalClient localClient;
     private Page lastPage = null;
 
     public void setPage(Page page) {
@@ -90,17 +91,18 @@ public class TopMenu {
     }
 
 
-    public TopMenu(ClientWindow window) throws IOException {
-        this.window = window;
+    public TopMenu(LocalClient client) throws IOException {
+        this.window = client.window;
+        this.localClient = client;
 
         String ipAdress = InetAddress.getLocalHost().getHostAddress();
 
-        menuHome = new MenuHome(window.ctx, window, this);
-        loadWorld = new LoadWorld(window.ctx, window, this);
-        newWorld = new NewWorld(window.ctx, window, this);
+        menuHome = new MenuHome(window.ctx, client.window, this);
+        loadWorld = new LoadWorld(window.ctx, client, this);
+        newWorld = new NewWorld(window.ctx, client, this);
         progress = new ProgressMenu(window.ctx, window, this);
-        hostMultiplayer = new Multiplayer(window.ctx, window, this, LocalClient.userPlayer, true, ipAdress, loadWorld);
-        joinMultiplayer = new Multiplayer(window.ctx, window, this, LocalClient.userPlayer, false, ipAdress, loadWorld);
+        hostMultiplayer = new Multiplayer(window.ctx, client, this, LocalClient.userPlayer, true, ipAdress, loadWorld);
+        joinMultiplayer = new Multiplayer(window.ctx, client, this, LocalClient.userPlayer, false, ipAdress, loadWorld);
         customizePlayer = new CustomizePlayer(window.ctx, window, this, LocalClient.userPlayer);
         settings = new SettingsPage(window.ctx, window, () -> {
             goBack();
@@ -168,7 +170,7 @@ public class TopMenu {
             ArrayList<WorldData> worlds = new ArrayList<>();
             WorldsHandler.listWorlds(worlds);
             if (!worlds.isEmpty()) {
-                loadWorld.loadWorld(worlds.get(0), null);
+                localClient.loadWorld(worlds.get(0), null);
             }
         } catch (IOException ex) {
             Logger.getLogger(TopMenu.class.getName()).log(Level.SEVERE, null, ex);

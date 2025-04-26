@@ -5,6 +5,7 @@
 package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.xbuilders.Main;
 import com.xbuilders.engine.Server;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
@@ -79,7 +80,7 @@ public class LocalServer extends Server {
         if (difficulty == null) difficulty = Difficulty.NORMAL;
         LocalClient.world.data.data.difficulty = difficulty;
         LocalClient.world.data.save();
-        LocalClient.alertClient("Difficulty changed to: " + getDifficulty());
+        Main.getClient().consoleOut("Difficulty changed to: " + getDifficulty());
     }
 
     public static GameMode getGameMode() {
@@ -90,7 +91,7 @@ public class LocalServer extends Server {
         if (gameMode == null) gameMode = GameMode.ADVENTURE;
         LocalClient.world.data.data.gameMode = gameMode;
         LocalClient.world.data.save();
-        LocalClient.alertClient("Game mode changed to: " + getGameMode());
+        Main.getClient().consoleOut("Game mode changed to: " + getGameMode());
     }
 
 
@@ -105,7 +106,7 @@ public class LocalServer extends Server {
         if (ownsGame()) return false;
         else {
             isOperator = isOperator2;
-            LocalClient.alertClient("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
+            Main.getClient().consoleOut("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
         }
         return true;
     }
@@ -254,7 +255,7 @@ public class LocalServer extends Server {
 
 
     public void playerJoinEvent(Player client) {
-        LocalClient.alertClient("A new player has joined: " + client);
+        Main.getClient().consoleOut("A new player has joined: " + client);
         System.out.println("JOIN EVENT: " + client.getName());
         System.out.println("Players: " + LocalClient.world.players);
         LocalClient.world.players.add(client);
@@ -262,7 +263,7 @@ public class LocalServer extends Server {
     }
 
     public void playerLeaveEvent(Player client) {
-        LocalClient.alertClient(client.getName() + " has left");
+        Main.getClient().consoleOut(client.getName() + " has left");
         LocalClient.world.players.remove(client);
 
         if (client.isHost) {
@@ -390,7 +391,7 @@ public class LocalServer extends Server {
         LocalClient.world.startGameEvent(worldData);
         tickThread.startGameEvent();
         LocalClient.userPlayer.startGameEvent(LocalClient.world.data);
-        ClientWindow.gameScene.setProjection();
+        Main.getClient().window.gameScene.setProjection();
     }
 
     public Vector3f getInitialSpawnPoint(Terrain terrain) {
@@ -431,7 +432,7 @@ public class LocalServer extends Server {
             lastGameMode = LocalServer.getGameMode(); //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
             LocalClient.userPlayer.gameModeChangedEvent(getGameMode());
-            LocalClient.alertClient("Game mode changed to: " + LocalServer.getGameMode());
+            Main.getClient().consoleOut("Game mode changed to: " + LocalServer.getGameMode());
         }
         //draw other players
         server.updatePlayers();

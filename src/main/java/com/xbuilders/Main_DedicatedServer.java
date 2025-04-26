@@ -5,9 +5,9 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.world.World;
 
-import static com.xbuilders.MainClient.VERSION;
+import static com.xbuilders.Main.VERSION;
 
-public class MainServer {
+public class Main_DedicatedServer {
 
     public static LocalServer localServer;
     public static XbuildersGame game;

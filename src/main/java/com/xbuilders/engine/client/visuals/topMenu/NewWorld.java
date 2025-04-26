@@ -9,20 +9,18 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.MainClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.WorldsHandler;
-import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.IOException;
 import java.nio.IntBuffer;
 
 import static com.xbuilders.engine.client.visuals.topMenu.TopMenu.*;
@@ -34,9 +32,10 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class NewWorld implements MenuPage {
 
-    public NewWorld(NkContext ctx, ClientWindow window, TopMenu menu) {
+    public NewWorld(NkContext ctx, LocalClient localClient, TopMenu menu) {
         this.ctx = ctx;
-        this.window = window;
+        this.localClient = localClient;
+        this.window = localClient.window;
         this.menu = menu;
         name = new TextBox(20);
     }
@@ -45,6 +44,7 @@ public class NewWorld implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     ClientWindow window;
+    LocalClient localClient;
     TerrainSelector terrainSelector;
 
     final int boxWidth = WIDTH_3;
@@ -105,7 +105,7 @@ public class NewWorld implements MenuPage {
                 menu.setPage(Page.HOME);
             }
             if (nk_button_label(ctx, "CREATE")) {
-                if (makeNewWorld(name.getValueAsString(), 0, terrain, 0, gameMode)) {
+                if (localClient.makeNewWorld(name.getValueAsString(), 0, terrain, 0, gameMode)) {
                     menu.setPage(Page.LOAD_WORLD);
                 }
             }
@@ -117,23 +117,9 @@ public class NewWorld implements MenuPage {
     @Override
     public void onOpen(Page lastPage) {
         name.setValueAsString("New World");
-        terrainSelector = new TerrainSelector(MainClient.game.terrainsList, ctx);
+        terrainSelector = new TerrainSelector(Main.game.terrainsList, ctx);
     }
 
-    private boolean makeNewWorld(String name, int size, Terrain terrain, int seed, GameMode gameMode) {
-        try {
-            WorldData info = new WorldData();
-            info.makeNew(name, size, terrain, seed);
-            info.data.gameMode = gameMode;
-            if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
-                ClientWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
-                return false;
-            } else WorldsHandler.makeNewWorld(info);
-        } catch (IOException ex) {
-            ClientWindow.popupMessage.message("Error", ex.getMessage());
-            return false;
-        }
-        return true;
-    }
+
 
 }

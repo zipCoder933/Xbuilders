@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Difficulty;
@@ -175,7 +176,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 //Make sure the flag is placed somewhere safe (where it wont displace a block)
                 Vector3f flagPos = findSuitableFlagPlacement(worldPosition);
                 LocalServer.setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
-                LocalClient.alert("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
+                Main.getClient().consoleOut("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
@@ -263,7 +264,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         previous_playerBlock = null;
         previous_CameraBlock = null;
         worldPosition.set(x, y, z);
-        LocalClient.alertClient("Teleported to " + x + ", " + y + ", " + z);
+        Main.getClient().consoleOut("Teleported to " + x + ", " + y + ", " + z);
     }
 
     private boolean isSafeHeadPos(Block block) {
@@ -276,7 +277,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public void setSpawnPoint(float x, float y, float z) {
         status_spawnPosition.set(x, y, z);
-        LocalClient.alertClient("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
+        Main.getClient().consoleOut("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
         saveToWorld(LocalClient.world.data); //Make SURE to save the spawnpoint
     }
 
@@ -433,7 +434,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     private boolean keyInputAllowed() {
-        return !ClientWindow.gameScene.ui.anyMenuOpen() && canMove();
+        return !Main.getClient().window.gameScene.ui.anyMenuOpen() && canMove();
     }
 
     public boolean leftKeyPressed() {
@@ -602,17 +603,17 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
         Block newCameraBlock = getBlockAtCameraPos();
         if (dieMode) {
-            ClientWindow.gameScene.ui.setOverlayColor(0.5f, 0, 0, 0.5f);
+            Main.getClient().window.gameScene.ui.setOverlayColor(0.5f, 0, 0, 0.5f);
         } else if (previous_CameraBlock == null || newCameraBlock != previous_CameraBlock) {
             previous_CameraBlock = newCameraBlock;
             if (newCameraBlock.isAir()) {//Air is always transparent
-                ClientWindow.gameScene.ui.setOverlayColor(0, 0, 0, 0);
+                Main.getClient().window.gameScene.ui.setOverlayColor(0, 0, 0, 0);
             } else if (newCameraBlock.opaque && newCameraBlock.colorInPlayerHead[3] == 0
                     && positionHandler.collisionsEnabled && positionLock == null
                     && camera.getThirdPersonDist() == 0) { //If we are opaque, don't have a color and we are not in passthrough mode
-                ClientWindow.gameScene.ui.setOverlayColor(0, 0, 0, 1);
+                Main.getClient().window.gameScene.ui.setOverlayColor(0, 0, 0, 1);
             } else {
-                ClientWindow.gameScene.ui.setOverlayColor(
+                Main.getClient().window.gameScene.ui.setOverlayColor(
                         newCameraBlock.colorInPlayerHead[0],
                         newCameraBlock.colorInPlayerHead[1],
                         newCameraBlock.colorInPlayerHead[2],

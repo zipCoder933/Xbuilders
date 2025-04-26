@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
 
@@ -15,7 +15,7 @@ public class AnimalFeed extends Item {
             if (ray.getEntity() != null && ray.getEntity() instanceof LivingEntity animal) {
                 itemStack.stackSize--;
                 animal.tamed = true;
-                LocalClient.alertClient("You have tamed an animal!");
+                Main.getClient().consoleOut("You have tamed an animal!");
                 animal.markAsModifiedByUser();
             }
             return true;

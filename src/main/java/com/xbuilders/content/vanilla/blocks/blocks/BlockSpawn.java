@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
@@ -28,17 +29,17 @@ public class BlockSpawn extends Block {
                         if (e instanceof LivingEntity) {
                             LivingEntity le = (LivingEntity) e;
                             if (le.isHostile() && le.worldPosition.distance(x, y, z) < 20) {
-                                LocalClient.alert("You cannot sleep here, there are enemies nearby!");
+                                Main.getClient().consoleOut("You cannot sleep here, there are enemies nearby!");
                                 return;
                             }
                         }
                     }
-                    LocalClient.alert("Time set to day");
+                    Main.getClient().consoleOut("Time set to day");
                     LocalServer.setTimeOfDay(0);
                 } else {
-                    LocalClient.alert("You can only sleep at night");
+                    Main.getClient().consoleOut("You can only sleep at night");
                 }
-            } else LocalClient.alert("You are too far from spawn block to sleep");
+            } else Main.getClient().consoleOut("You are too far from spawn block to sleep");
         });
 
         torchlightStartingValue = 10;

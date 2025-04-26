@@ -1,10 +1,9 @@
 package com.xbuilders.engine.client.player.raycasting;
 
-import com.xbuilders.MainClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
@@ -110,7 +109,7 @@ public class CursorRay {
         ItemStack selectedItem = LocalClient.userPlayer.getSelectedItem();
         if (!hitTarget()) return false;
 
-        if (MainClient.game.clickEvent(this, creationMode)) { //Game click event
+        if (Main.game.clickEvent(this, creationMode)) { //Game click event
             return true;
         } else if (useBoundary) { //Boundary click event
             boundaryClickEvent(creationMode);
@@ -279,7 +278,7 @@ public class CursorRay {
     public void update() {
         if (LocalServer.getGameMode() == GameMode.SPECTATOR) return;
 
-        if (!ClientWindow.gameScene.ui.anyMenuOpen()) {
+        if (!Main.getClient().window.gameScene.ui.anyMenuOpen()) {
             //Auto click
             if (window.isMouseButtonPressed(UserControlledPlayer.getCreateMouseButton())) {
                 if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
@@ -361,7 +360,7 @@ public class CursorRay {
                     boundaryConsumer.accept(boundary_aabb, create);
                 makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
                 boundary_isStartNodeSet = false;
-            } else LocalClient.alertClient("Boundary is too large");
+            } else Main.getClient().consoleOut("Boundary is too large");
         }
     }
 
@@ -444,10 +443,10 @@ public class CursorRay {
             } else {
                 cursorBox.setColor(1, 0, 0, 1);
             }
-            GameScene.client_hudText(boundary_aabb.getXLength() + " x " + boundary_aabb.getYLength() + " x " + boundary_aabb.getZLength());
+            Main.getClient().window.gameScene.client_hudText(boundary_aabb.getXLength() + " x " + boundary_aabb.getYLength() + " x " + boundary_aabb.getZLength());
             cursorBox.set(boundary_aabb);
             cursorBox.draw(camera.projection, camera.view);
-        } else if (MainClient.game.drawCursor(this)) {
+        } else if (Main.game.drawCursor(this)) {
         } else if (hitTarget()) {
             if (cursorRay.entity != null) {
                 cursorBox.set(cursorRay.entity.aabb.box);

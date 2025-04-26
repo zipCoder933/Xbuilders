@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client;
 
-import com.xbuilders.MainClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
@@ -58,7 +58,7 @@ public class ClientWindow extends NKWindow {
 
     public static void goToMenuPage() {
         isGameMode = false;
-        MainClient.localServer.stopGameEvent(); //Close the entire game
+        LocalClient.localServer.stopGameEvent(); //Close the entire game
     }
 
     public static boolean isInGamePage() {
@@ -84,8 +84,8 @@ public class ClientWindow extends NKWindow {
 
     private static boolean isGameMode = false;
 
-    public static TopMenu topMenu;
-    public static GameScene gameScene;
+    public TopMenu topMenu;
+    public GameScene gameScene;
 
     public static PopupMessage popupMessage;
     public static final ResourceLoader resourceLoader = new ResourceLoader();
@@ -113,7 +113,7 @@ public class ClientWindow extends NKWindow {
         }
     }
 
-    public void init(Game game, World world) throws Exception {
+    public void init(Game game, World world, LocalClient client) throws Exception {
         GLFWWindow.initGLFW();
         settings = ClientSettings.load();
 
@@ -155,7 +155,7 @@ public class ClientWindow extends NKWindow {
         gameScene = new GameScene(this, game, world);
         game.setupClient(this, ctx, gameScene.ui);
         popupMessage = new PopupMessage(ctx, this);
-        topMenu = new TopMenu(this);
+        topMenu = new TopMenu(client);
 
 
         //init world
@@ -174,7 +174,7 @@ public class ClientWindow extends NKWindow {
 
     private void render() throws IOException {
         if (isGameMode) {
-            MainClient.localServer.update();
+            LocalClient.localServer.update();
             gameScene.render();
         } else {
             topMenu.render();
@@ -202,7 +202,7 @@ public class ClientWindow extends NKWindow {
         if (screenShotInitialized) {
             String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
             File saveFile = ResourceUtils.appDataFile("screenshots\\" + formattedDateTime + ".png");
-            LocalClient.alertClient("Screenshot saved to: " + saveFile.getAbsolutePath());
+            Main.getClient().consoleOut("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
                 saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);

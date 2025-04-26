@@ -3,11 +3,19 @@ package com.xbuilders.engine.client;
 import com.xbuilders.engine.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.settings.ClientSettings;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.server.Game;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
+import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
+import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.server.world.WorldsHandler;
+import com.xbuilders.engine.server.world.data.WorldData;
+import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
@@ -16,11 +24,11 @@ import org.lwjgl.glfw.GLFW;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import static com.xbuilders.engine.client.ClientWindow.gameScene;
 
 public class LocalClient extends Client {
     public static final World world = new World();
@@ -29,6 +37,7 @@ public class LocalClient extends Client {
     public static boolean FPS_TOOLS = false;
     public static boolean DEV_MODE = false;
     public static UserControlledPlayer userPlayer;
+    public static LocalServer localServer;
     public boolean generateIcons = false;
     public final File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
     public static FrameTester frameTester = new FrameTester("Game frame tester");
@@ -48,22 +57,13 @@ public class LocalClient extends Client {
 
     public String title;
 
-    public static void alert(String s) {
-        GameScene.ui.infoBox.addToHistory("GAME: " + s);
+    public void consoleOut(String s) {
+        window.gameScene.ui.infoBox.addToHistory(s);
     }
-
-    public static void alertClient(String s) {
-        gameScene.ui.infoBox.addToHistory("GAME: " + s);
-    }
-
-    public static void consoleOut(String s) {
-        gameScene.ui.infoBox.addToHistory(s);
-    }
-
 
     public void pauseGame() {
         if (window.isFullscreen()) window.minimizeWindow();
-        gameScene.ui.baseMenu.setOpen(true);
+        window.gameScene.ui.baseMenu.setOpen(true);
     }
 
     public LocalClient(String[] args, String gameVersion, Game game) throws Exception {
@@ -106,7 +106,7 @@ public class LocalClient extends Client {
         }
 
         window = new ClientWindow(title);
-        window.init(game, world);
+        window.init(game, world, this);
     }
 
     public void firstTimeSetup() throws InterruptedException {
@@ -144,4 +144,39 @@ public class LocalClient extends Client {
         parent.setSize(350, 200);
     }
 
+    public boolean makeNewWorld(String name, int size, Terrain terrain, int seed, GameMode gameMode) {
+        try {
+            WorldData info = new WorldData();
+            info.makeNew(name, size, terrain, seed);
+            info.data.gameMode = gameMode;
+            if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
+                ClientWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
+                return false;
+            } else WorldsHandler.makeNewWorld(info);
+        } catch (IOException ex) {
+            ClientWindow.popupMessage.message("Error", ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public void loadWorld(final WorldData world, NetworkJoinRequest req) {
+        String title = "Loading World...";
+        ProgressData prog = new ProgressData(title);
+        window.topMenu.progress.enable(prog, () -> {//update
+            try {
+                LocalClient.localServer.startGameUpdateEvent(world, prog, req);
+            } catch (Exception ex) {
+                ErrorHandler.report(ex);
+                prog.abort();
+            }
+        }, () -> {//finished
+            ClientWindow.goToGamePage();
+            window.topMenu.setPage(Page.HOME);
+        }, () -> {//canceled
+            System.out.println("Canceled");
+            LocalClient.localServer.stopGameEvent(); //Stop the game
+            window.topMenu.setPage(Page.HOME);
+        });
+    }
 }

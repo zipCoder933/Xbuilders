@@ -36,14 +36,16 @@ public class Multiplayer implements MenuPage {
 
     final String ipAdress;
     LoadWorld loadWorld;
+    LocalClient localClient;
 
-    public Multiplayer(NkContext ctx, ClientWindow window, TopMenu menu,
+    public Multiplayer(NkContext ctx, LocalClient localClient, TopMenu menu,
                        UserControlledPlayer player, boolean hosting,
                        String ipAdress, LoadWorld loadWorld) {
         this.loadWorld = loadWorld;
         this.ipAdress = ipAdress;
         this.ctx = ctx;
-        this.window = window;
+        this.localClient = localClient;
+        this.window = localClient.window;
         this.menu = menu;
         portBox = new NumberBox(4, 0);
         fromPortBox = new NumberBox(4, 0);
@@ -127,7 +129,7 @@ public class Multiplayer implements MenuPage {
                 String ipAdress = this.ipAdressBox.getValueAsString();
                 NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.userInfo.name, ipAdress);
                 System.out.println(req.toString());
-                loadWorld.loadWorld(loadWorld.currentWorld, req);
+                localClient.loadWorld(loadWorld.currentWorld, req);
             }
         }
         nk_end(ctx);

@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.entity.LivingEntity;
@@ -27,7 +28,7 @@ public class Sword extends Item {
                 if (entity.isHostile() || LocalClient.DEV_MODE) {//only attack hostile entities
                     entity.damage(attackDamage);
                 } else entity.damage(attackDamage / 3); //attack non-hostile entities, but less damage
-                GameScene.client_hudText(Math.max(0, Math.round(entity.health)) + " / " + entity.maxHealth);
+                Main.getClient().window.gameScene.client_hudText(Math.max(0, Math.round(entity.health)) + " / " + entity.maxHealth);
                 return true;
             }
             return false;

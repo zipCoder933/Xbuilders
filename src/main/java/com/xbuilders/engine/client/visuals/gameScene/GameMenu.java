@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.MainClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.GameMode;
@@ -103,7 +103,7 @@ public class GameMenu extends UI_GameMenu {
     }
 
     private void openHelpPage() {
-        MainClient.localClient.pauseGame();
+        Main.getClient().pauseGame();
         File helpHtmlPage = ResourceUtils.file("help-menu/help.html");
         if (helpHtmlPage.exists()) {
             try {
@@ -153,7 +153,7 @@ public class GameMenu extends UI_GameMenu {
         }
         //Close game menu
         setOpen(false);
-        ClientWindow.gameScene.ui.fileDialog.show(
+        Main.getClient().window.gameScene.ui.fileDialog.show(
                 waypointDir,
                 save, "wp", (file) -> {
                     if (file != null) {
@@ -187,8 +187,8 @@ public class GameMenu extends UI_GameMenu {
 
     private void goTo(float x, float y, float z) {
         if (LocalServer.getGameMode() == GameMode.ADVENTURE) {
-            LocalClient.alertClient("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
-            GameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
+            Main.getClient().consoleOut("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
+            Main.getClient().window.gameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
         } else {
             LocalClient.userPlayer.teleport(x, y, z);
         }

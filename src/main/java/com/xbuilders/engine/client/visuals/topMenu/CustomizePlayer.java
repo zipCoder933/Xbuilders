@@ -9,7 +9,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.MainClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.Skin;
@@ -91,7 +91,7 @@ public class CustomizePlayer implements MenuPage {
     private void goToNextSkin() {
         chosenSkin++;
         //Go to the next skin
-        LocalClient.userPlayer.userInfo.setSkin(chosenSkin % MainClient.skins.size());
+        LocalClient.userPlayer.userInfo.setSkin(chosenSkin % Main.skins.size());
         LocalClient.userPlayer.userInfo.saveToDisk();
     }
 

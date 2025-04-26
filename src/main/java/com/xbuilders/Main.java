@@ -14,15 +14,20 @@ import java.util.Arrays;
  * The server contains everything ONLY on the server
  * the Main class contains everything shared by both
  */
-public class MainClient {
+public class Main {
 
 
     public static final String VERSION = "1.7.2";
 
-    public static LocalClient localClient;
-    public static LocalServer localServer;
+    private static LocalClient localClient;
     public static XbuildersGame game;
     public static SkinRegistry skins;
+
+
+    public static LocalClient getClient() {
+        return localClient;
+    }
+
 
     public static void main(String[] args) throws Exception {
         System.out.println("Client started: " + VERSION);
@@ -32,25 +37,25 @@ public class MainClient {
         game = new XbuildersGame();
 
         localClient = new LocalClient(args, VERSION, game);
-        localServer = new LocalServer(game, localClient.world, LocalClient.userPlayer);
+        LocalClient.localServer = new LocalServer(game, getClient().world, LocalClient.userPlayer);
 
-        if (localClient.generateIcons || !localClient.blockIconsDirectory.exists()) {
-            localClient.firstTimeSetup();
+        if (getClient().generateIcons || !getClient().blockIconsDirectory.exists()) {
+            getClient().firstTimeSetup();
         }
 
 
         try {
-            localClient.window.startWindowThread();
+            getClient().window.startWindowThread();
         } catch (Exception e) {
             ErrorHandler.createPopupWindow(
-                    localClient.title + " has crashed",
-                    localClient.title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
+                    getClient().title + " has crashed",
+                    getClient().title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
                             "Stack trace:\n" +
                             String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
                             "\n\n Log saved to clipboard.");
             ErrorHandler.log(e, "Fatal Error");
         } finally {
-            localClient.window.destroyWindow();
+            getClient().window.destroyWindow();
         }
 
     }

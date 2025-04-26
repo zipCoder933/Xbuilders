@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.Item;
@@ -16,11 +16,11 @@ public class AnimalFood {
                 itemStack.stackSize--;
 
                 if (!animal.tamed) {
-                    LocalClient.alertClient("Animal is not tamed");
+                    Main.getClient().consoleOut("Animal is not tamed");
                     return true;
                 } else if (animal.tryToConsume(itemStack)) {
                     animal.markAsModifiedByUser();
-                    LocalClient.alertClient("Food consumed");
+                    Main.getClient().consoleOut("Food consumed");
                     Vector3f dropPos = new Vector3f(animal.worldPosition.x, animal.worldPosition.y, animal.worldPosition.z);
                     LootList lootList = AllLootTables.animalFeedLootTables.getLoot(animal.getId(), food.id);
                     if (lootList.isEmpty()) System.out.println("No loot for " + animal);

@@ -1,5 +1,6 @@
 package com.xbuilders.content.vanilla;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
@@ -51,7 +52,7 @@ public class EntityRemovalTool extends Item {
                     }
                 } catch (Exception e) {
                     // Handle any issues that arise while processing a specific entity
-                    LocalClient.alert("Error processing entity " + entity + ": " + e.getMessage());
+                    Main.getClient().consoleOut("Error processing entity " + entity + ": " + e.getMessage());
                     //System.out.println("Error processing entity " + entity + ": " + e.getMessage());
                 }
             });
@@ -76,7 +77,7 @@ public class EntityRemovalTool extends Item {
             }
 
         } catch (Exception e) {
-            LocalClient.alert("Error removing entities: " + e.getMessage());
+            Main.getClient().consoleOut("Error removing entities: " + e.getMessage());
             e.printStackTrace();
         }
     }

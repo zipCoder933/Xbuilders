@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.MainClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
@@ -39,7 +39,7 @@ public class GameScene implements WindowEvents {
     private final ClientWindow window;
     public boolean holdMouse;
     public static boolean specialMode;
-    public static GameUI ui;
+    public GameUI ui;
     private Game game;
     World world;
     public boolean writeDebugText = false;
@@ -59,7 +59,7 @@ public class GameScene implements WindowEvents {
         ui = new GameUI(game, window.ctx, window, LocalClient.userPlayer, world);
     }
 
-    public static void client_hudText(String s) {
+    public void client_hudText(String s) {
         ui.hudText.setText(s);
     }
 
@@ -89,11 +89,11 @@ public class GameScene implements WindowEvents {
 
         //The user player is one thing that the client has full control over
         //The client will check into the localServer occasionally to see if the localServer has any updates for the player
-        LocalClient.userPlayer.updateAndRender(ClientWindow.gameScene.holdMouse);
-        LocalClient.userPlayer.render(ClientWindow.gameScene.holdMouse);
-        MainClient.localServer.server.drawPlayers(GameScene.projection, GameScene.view);
+        LocalClient.userPlayer.updateAndRender(holdMouse);
+        LocalClient.userPlayer.render(holdMouse);
+        LocalClient.localServer.server.drawPlayers(GameScene.projection, GameScene.view);
 
-        ClientWindow.gameScene.enableBackfaceCulling();
+        enableBackfaceCulling();
         LocalClient.frameTester.startProcess();
 
         glEnable(GL_BLEND); //Enable transparency
@@ -130,7 +130,7 @@ public class GameScene implements WindowEvents {
         }
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_F3 -> ClientWindow.gameScene.writeDebugText = !ClientWindow.gameScene.writeDebugText;
+                case GLFW.GLFW_KEY_F3 -> Main.getClient().window.gameScene.writeDebugText = !Main.getClient().window.gameScene.writeDebugText;
                 case GLFW.GLFW_KEY_F5 -> specialMode = !specialMode;
                 case GLFW.GLFW_KEY_F6 -> drawWireframe = !drawWireframe;
                 case GLFW.GLFW_KEY_F7 -> drawBoundingBoxes = !drawBoundingBoxes;

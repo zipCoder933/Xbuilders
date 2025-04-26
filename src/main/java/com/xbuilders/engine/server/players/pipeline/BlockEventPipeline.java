@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.players.pipeline;
 
-import com.xbuilders.MainClient;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
@@ -252,7 +252,7 @@ public class BlockEventPipeline {
                                 blockHist.previousBlock != blockHist.newBlock //If the blocks are different
                         ) {
                             startLocalChange(worldPos, blockHist, allowBlockEvents);
-                            MainClient.localServer.livePropagationHandler.addNode(worldPos, blockHist);
+                            LocalClient.localServer.livePropagationHandler.addNode(worldPos, blockHist);
                             blockHist.previousBlock.run_RemoveBlockEvent(eventThread, worldPos, blockHist);
                             blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
                         }
@@ -282,13 +282,13 @@ public class BlockEventPipeline {
                         updateAffectedChunks(affectedChunks);
                         firstChunkUpdate.set(false);
                     } else if (time > 3000 && !longSunlight.get()) {
-                        LocalClient.alertClient("The lighting is being calculated. This may take a while.");
+                        Main.getClient().consoleOut("The lighting is being calculated. This may take a while.");
                         longSunlight.set(true);
                     }
                 });
 
         if (longSunlight.get()) {
-            LocalClient.alertClient("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
+            Main.getClient().consoleOut("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
         }
 
         //Resolve affected chunks
@@ -343,7 +343,7 @@ public class BlockEventPipeline {
 
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);
-                    MainClient.localServer.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
+                    LocalClient.localServer.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
                     nBlock.run_LocalChangeEvent(eventThread, hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }
