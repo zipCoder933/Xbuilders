@@ -1,6 +1,6 @@
 package com.xbuilders.engine.utils.network.netty;
 
-import com.xbuilders.engine.utils.network.ChannelFutureBase;
+import com.xbuilders.engine.utils.network.ChannelBase;
 import com.xbuilders.engine.utils.network.ClientBase;
 import com.xbuilders.engine.utils.network.packet.PacketDecoder;
 import com.xbuilders.engine.utils.network.packet.PacketEncoder;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.xbuilders.engine.utils.network.netty.NettyServer.MAX_FRAME_SIZE;
 
-public class NettyClient extends ClientBase {
+public abstract class NettyClient extends ClientBase {
 
     private final Channel channel;
     private final EventLoopGroup group;
@@ -66,7 +66,7 @@ public class NettyClient extends ClientBase {
         schedulePing();
 
         // Add a listener to the future to handle when the connection is successful
-        future.addListener((ChannelFutureListener) this::onConnected);
+        future.addListener((ChannelFutureListener) this::nettyServerConnectEvent);
     }
 
 //    public void waitUntilChannelIsClosed() {
@@ -80,16 +80,14 @@ public class NettyClient extends ClientBase {
 //        }
 //    }
 
-    public void onConnected(ChannelFuture channelFuture) {
-        if (channelFuture.isSuccess()) {
-            // This block will be executed when the client is successfully connected to the localServer
-            System.out.println("Successfully connected to the localServer!");
-            // You can schedule further events here
-        } else {
-            // This block will be executed if the connection fails
-            System.err.println("Failed to connect to the localServer: " + channelFuture.cause());
-        }
+    private void nettyServerConnectEvent(ChannelFuture channelFuture) {
+        onConnected(
+                channelFuture.isSuccess(),
+                channelFuture.cause(),
+                new NettyChannel(channelFuture.channel()));
     }
+
+    public abstract void onConnected(boolean success, Throwable cause, ChannelBase channel);
 
     private void schedulePing() {
         channel.eventLoop().scheduleAtFixedRate(() -> {

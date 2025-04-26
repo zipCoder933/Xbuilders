@@ -1,5 +1,6 @@
 package com.xbuilders.engine.utils.network.fake;
 
+import com.xbuilders.engine.utils.network.ChannelBase;
 import com.xbuilders.engine.utils.network.ClientBase;
 import com.xbuilders.engine.utils.network.packet.Packet;
 
@@ -16,13 +17,13 @@ public abstract class FakeClient extends ClientBase {
     private void connect() {
         this.channel = new FakeChannel(server, this, true); // client-side channel
         server.connect(this); // Still register with server
-        onConnected(channel);
+        onConnected(true, null, channel);
     }
 
-    public abstract void onConnected(FakeChannel channel);
+    public abstract void onConnected(boolean success, Throwable cause, ChannelBase channel);
 
-    public void receive(Packet packet) {
-        System.out.println("Client received: " + packet);
+    protected void receive(Packet packet) {
+        //System.out.println("Client received: " + packet);
         packet.handle(channel, packet);
     }
 
@@ -30,7 +31,7 @@ public abstract class FakeClient extends ClientBase {
         return channel != null && channel.isActive();
     }
 
-    public void close(){
+    public void close() {
         channel.close();
     }
 }

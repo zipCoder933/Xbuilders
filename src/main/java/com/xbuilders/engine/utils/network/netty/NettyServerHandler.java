@@ -1,5 +1,6 @@
 package com.xbuilders.engine.utils.network.netty;
 
+import com.xbuilders.engine.utils.network.ChannelBase;
 import com.xbuilders.engine.utils.network.packet.ping.PingPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,8 +22,9 @@ import io.netty.handler.timeout.IdleStateEvent;
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel client = ctx.channel();
+        ChannelBase channel = new NettyChannel(client);
         // Decide whether to accept the new connection.
-        if (!server.newClientEvent(client)) {
+        if (!server.newClientEvent(channel)) {
             client.close();
             return;
         }
@@ -34,7 +36,8 @@ import io.netty.handler.timeout.IdleStateEvent;
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         Channel client = ctx.channel();
         server.clients.remove(client);
-        server.clientDisconnectEvent(client);
+        ChannelBase channel = new NettyChannel(client);
+        server.clientDisconnectEvent(channel);
         super.channelInactive(ctx);
     }
 

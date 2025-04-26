@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class FakeChannel extends ChannelBase{
+public class FakeChannel extends ChannelBase {
     private final FakeServer server;
     private final FakeClient client;
     private final boolean isClientSide;
@@ -32,7 +32,8 @@ public class FakeChannel extends ChannelBase{
                         client.receive(packet);
                     }
                 }
-            } catch (InterruptedException ignored) { }
+            } catch (InterruptedException ignored) {
+            }
         }).start();
     }
 
@@ -47,9 +48,5 @@ public class FakeChannel extends ChannelBase{
     public void close() {
         active.set(false);
         server.clientDisconnectEvent(this);
-    }
-
-    public String remoteAddress() {
-        return "fake:/memory-" + hashCode();
     }
 }

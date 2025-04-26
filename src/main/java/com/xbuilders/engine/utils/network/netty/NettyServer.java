@@ -1,5 +1,6 @@
 package com.xbuilders.engine.utils.network.netty;
 
+import com.xbuilders.engine.utils.network.ChannelBase;
 import com.xbuilders.engine.utils.network.ServerBase;
 import com.xbuilders.engine.utils.network.packet.PacketDecoder;
 import com.xbuilders.engine.utils.network.packet.PacketEncoder;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class NettyServer extends ServerBase {
 
-    protected final ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+   protected final ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     // The idle interval (in seconds) for sending pings.
     public static final long PING_INTERVAL_SECONDS = 60;
@@ -133,12 +134,12 @@ public abstract class NettyServer extends ServerBase {
      * @param client the client's channel
      * @return whether to accept the client
      */
-    public abstract boolean newClientEvent(Channel client);
+    public abstract boolean newClientEvent(ChannelBase client);
 
     /**
      * Called when a client disconnects.
      *
      * @param client the client's channel
      */
-    public abstract void clientDisconnectEvent(Channel client);
+    public abstract void clientDisconnectEvent(ChannelBase client);
 }
