@@ -1,6 +1,6 @@
 package com.xbuilders.engine.utils.network.netty;
 
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
+import com.xbuilders.engine.utils.network.packet.ping.PingPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

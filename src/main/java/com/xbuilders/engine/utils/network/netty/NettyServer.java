@@ -1,8 +1,9 @@
 package com.xbuilders.engine.utils.network.netty;
 
-import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.PacketHandler;
+import com.xbuilders.engine.utils.network.ServerBase;
+import com.xbuilders.engine.utils.network.packet.PacketDecoder;
+import com.xbuilders.engine.utils.network.packet.PacketEncoder;
+import com.xbuilders.engine.utils.network.packet.PacketHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * Subclasses should implement the abstract {@code newClientEvent(Channel)} and
  * {@code dataFromClientEvent(Channel, byte[])} methods.
  */
-public abstract class NettyServer {
+public abstract class NettyServer extends ServerBase {
 
     protected final ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 

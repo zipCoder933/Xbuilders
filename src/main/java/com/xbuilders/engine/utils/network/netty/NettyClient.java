@@ -1,9 +1,11 @@
 package com.xbuilders.engine.utils.network.netty;
 
-import com.xbuilders.engine.utils.network.netty.packet.PacketDecoder;
-import com.xbuilders.engine.utils.network.netty.packet.PacketEncoder;
-import com.xbuilders.engine.utils.network.netty.packet.PacketHandler;
-import com.xbuilders.engine.utils.network.netty.packet.ping.PingPacket;
+import com.xbuilders.engine.utils.network.ChannelFutureBase;
+import com.xbuilders.engine.utils.network.ClientBase;
+import com.xbuilders.engine.utils.network.packet.PacketDecoder;
+import com.xbuilders.engine.utils.network.packet.PacketEncoder;
+import com.xbuilders.engine.utils.network.packet.PacketHandler;
+import com.xbuilders.engine.utils.network.packet.ping.PingPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.xbuilders.engine.utils.network.netty.NettyServer.MAX_FRAME_SIZE;
 
-public class NettyClient {
+public class NettyClient extends ClientBase {
 
     private final Channel channel;
     private final EventLoopGroup group;

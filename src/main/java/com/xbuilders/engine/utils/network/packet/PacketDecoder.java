@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.network.netty.packet;
+package com.xbuilders.engine.utils.network.packet;
 
 import com.xbuilders.engine.utils.network.netty.NettyClient;
 import com.xbuilders.engine.utils.network.netty.NettyServer;

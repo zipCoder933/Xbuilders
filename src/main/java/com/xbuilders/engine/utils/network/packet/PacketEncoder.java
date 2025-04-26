@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.network.netty.packet;
+package com.xbuilders.engine.utils.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,7 +1,9 @@
-package com.xbuilders.engine.utils.network.netty.packet.message;
+package com.xbuilders.engine.utils.network.packet.message;
 
-import com.xbuilders.engine.utils.network.netty.packet.Packet;
+import com.xbuilders.engine.utils.network.ChannelBase;
+import com.xbuilders.engine.utils.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class MessagePacket extends Packet {
     }
 
     @Override
-    public void handle(ChannelHandlerContext ctx, Packet packet) {
+    public void handle(ChannelBase ctx, Packet packet) {
         MessagePacket packetInstance = (MessagePacket) packet;
         System.out.println("Messsage: " + packetInstance.message);
     }

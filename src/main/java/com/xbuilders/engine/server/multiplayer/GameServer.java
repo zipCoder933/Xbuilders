@@ -16,7 +16,7 @@ import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.network.server.NetworkUtils;
+import com.xbuilders.engine.utils.network.testing.server.NetworkUtils;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.server.world.chunk.BlockData;
@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
-public class GameServer extends com.xbuilders.engine.utils.network.server.Server<Player> {
+public class GameServer extends com.xbuilders.engine.utils.network.testing.server.Server<Player> {
 
     //All localServer message headers
     public static final byte PLAYER_INFO = -128;

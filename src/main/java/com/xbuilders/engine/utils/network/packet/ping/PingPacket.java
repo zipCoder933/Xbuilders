@@ -1,7 +1,9 @@
-package com.xbuilders.engine.utils.network.netty.packet.ping;
+package com.xbuilders.engine.utils.network.packet.ping;
 
-import com.xbuilders.engine.utils.network.netty.packet.Packet;
+import com.xbuilders.engine.utils.network.ChannelBase;
+import com.xbuilders.engine.utils.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.List;
@@ -17,9 +19,9 @@ public class PingPacket extends Packet {
     }
 
     @Override
-    public void handle(ChannelHandlerContext ctx, Packet packet) {
+    public void handle(ChannelBase ctx, Packet packet) {
         System.out.println("Received ping, Sending pong...");
-        ctx.channel().writeAndFlush(new PongPacket());
+        ctx.writeAndFlush(new PongPacket());
     }
 
     @Override

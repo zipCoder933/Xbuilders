@@ -7,7 +7,7 @@ import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.network.server.NetworkSocket;
+import com.xbuilders.engine.utils.network.testing.server.NetworkSocket;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCi;

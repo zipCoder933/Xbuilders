@@ -10,14 +10,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/ChannelBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/ChannelFutureBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/ClientBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/ServerBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/fake/FakeChannel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/fake/FakeClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/fake/FakeServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/NettyChannel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/RuntimeServerClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/SimulatedServerClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main_DedicatedServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main_DedicatedServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/ClientWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/LocalClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/LocalClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/LocalServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/LocalServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/MultiplayerPendingBlockChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/MultiplayerPendingBlockChanges.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/MultiplayerPendingEntityChanges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/MultiplayerPendingEntityChanges.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/players/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/players/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/Test_NettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/Test_NettyClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/Test_NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/Test_NettyServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/NettyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/NettyClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/NettyServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/NettyServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/NettyServerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/packet/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/PacketDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/packet/PacketDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/PacketEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/packet/PacketEncoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/PacketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/packet/PacketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/message/MessagePacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/packet/message/MessagePacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PingPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/packet/ping/PingPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/netty/packet/ping/PongPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/packet/ping/PongPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/server/NetworkSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/server/NetworkSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/server/NetworkUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/server/NetworkUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/NetworkTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/tests/NetworkTester.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,51 +92,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.Dedicated Server.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev (Load World).executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev 2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev 3.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev 4.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Dev.executor&quot;: &quot;Run&quot;,
-    &quot;Application.JarResourceLister.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main Dev 2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main Dev.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MiscTester.executor&quot;: &quot;Run&quot;,
-    &quot;Application.NettyClient.executor&quot;: &quot;Run&quot;,
-    &quot;Application.NettyServer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.NetworkTester.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ResourceList.executor&quot;: &quot;Run&quot;,
-    &quot;Application.SmileTest2.executor&quot;: &quot;Run&quot;,
-    &quot;Application.com.xbuilders.tests.fasterXML.smile.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.com.xbuilders.tests.netty.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.netty client.executor&quot;: &quot;Run&quot;,
-    &quot;Application.netty server.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
-    &quot;com.intellij.ide.FileNotInSourceRootChecker.no.check&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/xbuilders/src/main/java/com/xbuilders/engine/utils/network/netty/packet/join&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.15412186&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.codeium.AppSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.Dedicated Server.executor": "Run",
+    "Application.Dev (Load World).executor": "Run",
+    "Application.Dev 2.executor": "Run",
+    "Application.Dev 3.executor": "Run",
+    "Application.Dev 4.executor": "Run",
+    "Application.Dev.executor": "Run",
+    "Application.JarResourceLister.executor": "Run",
+    "Application.Main Dev 2.executor": "Run",
+    "Application.Main Dev.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.MiscTester.executor": "Run",
+    "Application.NettyClient.executor": "Run",
+    "Application.NettyServer.executor": "Run",
+    "Application.NetworkTester.executor": "Run",
+    "Application.ResourceList.executor": "Run",
+    "Application.SimulatedServerClient.executor": "Run",
+    "Application.SmileTest2.executor": "Run",
+    "Application.com.xbuilders.tests.fasterXML.smile.Main.executor": "Run",
+    "Application.com.xbuilders.tests.netty.Main.executor": "Run",
+    "Application.netty client.executor": "Run",
+    "Application.netty server.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.codeium.enabled": "true",
+    "com.intellij.ide.FileNotInSourceRootChecker.no.check": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/xbuilders/src/main/java/com/xbuilders/engine/utils/network/netty/packet/join",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.15412186",
+    "settings.editor.selected.configurable": "com.codeium.AppSettingsConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xbuilders.engine.utils.network" />
       <recent name="com.xbuilders.content.vanilla.terrain" />
       <recent name="com.xbuilders.content.vanilla.blocks" />
       <recent name="com.xbuilders.content.vanilla" />
       <recent name="com.xbuilders.engine.server.items.loot" />
-      <recent name="com.xbuilders.engine.items.recipes" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\xbuilders\src\main\java\com\xbuilders\engine\utils\network\netty\packet\join" />
@@ -144,7 +168,7 @@
       <recent name="com.xbuilders.engine.ui.gameScene.items" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Dev">
+  <component name="RunManager">
     <configuration name="Dedicated Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.xbuilders.Main_DedicatedServer" />
       <module name="XBuilders3" />
@@ -213,14 +237,14 @@
       </method>
     </configuration>
     <configuration name="netty client" type="Application" factoryName="Application" folderName="netty">
-      <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.Test_NettyClient" />
+      <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.testing.Test_NettyClient" />
       <module name="XBuilders3" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="netty server" type="Application" factoryName="Application" folderName="netty">
-      <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.Test_NettyServer" />
+      <option name="MAIN_CLASS_NAME" value="com.xbuilders.engine.utils.network.testing.Test_NettyServer" />
       <module name="XBuilders3" />
       <method v="2">
         <option name="Make" enabled="true" />

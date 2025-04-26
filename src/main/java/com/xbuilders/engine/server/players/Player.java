@@ -10,7 +10,7 @@ import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.players.data.UserInfo;
 import com.xbuilders.engine.server.multiplayer.MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.server.multiplayer.MultiplayerPendingEntityChanges;
-import com.xbuilders.engine.utils.network.server.NetworkSocket;
+import com.xbuilders.engine.utils.network.testing.server.NetworkSocket;
 import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
