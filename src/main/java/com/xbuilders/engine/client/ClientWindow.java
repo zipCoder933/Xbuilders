@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client;
 
-import com.xbuilders.Main;
+import com.xbuilders.MainClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
@@ -58,7 +58,7 @@ public class ClientWindow extends NKWindow {
 
     public static void goToMenuPage() {
         isGameMode = false;
-        Main.localServer.stopGameEvent(); //Close the entire game
+        MainClient.localServer.stopGameEvent(); //Close the entire game
     }
 
     public static boolean isInGamePage() {
@@ -174,7 +174,7 @@ public class ClientWindow extends NKWindow {
 
     private void render() throws IOException {
         if (isGameMode) {
-            Main.localServer.update();
+            MainClient.localServer.update();
             gameScene.render();
         } else {
             topMenu.render();

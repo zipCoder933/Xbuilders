@@ -1,6 +1,6 @@
 package com.xbuilders.engine.utils.resource;
 
-import com.xbuilders.Main;
+import com.xbuilders.MainClient;
 import com.xbuilders.window.utils.preformance.Stopwatch;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class ResourceLister {
 
     private static String getPathToJar() throws URISyntaxException {
         // Get the path of the JAR file
-        String jarPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+        String jarPath = new File(MainClient.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
         return jarPath;
     }
 

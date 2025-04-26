@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.Main;
+import com.xbuilders.MainClient;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
@@ -91,7 +91,7 @@ public class GameScene implements WindowEvents {
         //The client will check into the localServer occasionally to see if the localServer has any updates for the player
         LocalClient.userPlayer.updateAndRender(ClientWindow.gameScene.holdMouse);
         LocalClient.userPlayer.render(ClientWindow.gameScene.holdMouse);
-        Main.localServer.server.drawPlayers(GameScene.projection, GameScene.view);
+        MainClient.localServer.server.drawPlayers(GameScene.projection, GameScene.view);
 
         ClientWindow.gameScene.enableBackfaceCulling();
         LocalClient.frameTester.startProcess();

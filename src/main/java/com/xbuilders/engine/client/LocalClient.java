@@ -1,18 +1,13 @@
 package com.xbuilders.engine.client;
 
-import com.xbuilders.Main;
-import com.xbuilders.content.vanilla.skins.FoxSkin;
 import com.xbuilders.engine.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
-import com.xbuilders.engine.server.players.SkinSupplier;
 import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.utils.resource.ResourceLister;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
@@ -24,7 +19,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import static com.xbuilders.engine.client.ClientWindow.gameScene;
 
@@ -35,17 +29,12 @@ public class LocalClient extends Client {
     public static boolean FPS_TOOLS = false;
     public static boolean DEV_MODE = false;
     public static UserControlledPlayer userPlayer;
-    public  boolean generateIcons = false;
-
-  public final  File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
+    public boolean generateIcons = false;
+    public final File blockIconsDirectory = ResourceUtils.file("items\\blocks\\icons");
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
     public final ClientWindow window;
-
-
-
-
 
 
     public static long versionStringToNumber(String version) {
@@ -72,7 +61,7 @@ public class LocalClient extends Client {
     }
 
 
-    public  void pauseGame() {
+    public void pauseGame() {
         if (window.isFullscreen()) window.minimizeWindow();
         gameScene.ui.baseMenu.setOpen(true);
     }
@@ -100,7 +89,6 @@ public class LocalClient extends Client {
             }
         }
         ResourceUtils.initialize(DEV_MODE, appDataDir);
-
 
 
         /**

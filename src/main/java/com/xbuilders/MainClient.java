@@ -14,10 +14,10 @@ import java.util.Arrays;
  * The server contains everything ONLY on the server
  * the Main class contains everything shared by both
  */
-public class Main {
+public class MainClient {
 
 
-    public static final String GAME_VERSION = "1.7.2";
+    public static final String VERSION = "1.7.2";
 
     public static LocalClient localClient;
     public static LocalServer localServer;
@@ -25,13 +25,13 @@ public class Main {
     public static SkinRegistry skins;
 
     public static void main(String[] args) throws Exception {
-        System.out.println(GAME_VERSION);
+        System.out.println("Client started: " + VERSION);
         ResourceLister.init();//This takes almost 10s, so it mind as well come first
 
         skins = new SkinRegistry();
         game = new XbuildersGame();
 
-        localClient = new LocalClient(args, GAME_VERSION, game);
+        localClient = new LocalClient(args, VERSION, game);
         localServer = new LocalServer(game, localClient.world, LocalClient.userPlayer);
 
         if (localClient.generateIcons || !localClient.blockIconsDirectory.exists()) {

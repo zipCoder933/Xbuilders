@@ -9,7 +9,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.Main;
+import com.xbuilders.MainClient;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -117,7 +117,7 @@ public class NewWorld implements MenuPage {
     @Override
     public void onOpen(Page lastPage) {
         name.setValueAsString("New World");
-        terrainSelector = new TerrainSelector(Main.game.terrainsList, ctx);
+        terrainSelector = new TerrainSelector(MainClient.game.terrainsList, ctx);
     }
 
     private boolean makeNewWorld(String name, int size, Terrain terrain, int seed, GameMode gameMode) {

@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.players.pipeline;
 
-import com.xbuilders.Main;
+import com.xbuilders.MainClient;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.LocalServer;
@@ -252,7 +252,7 @@ public class BlockEventPipeline {
                                 blockHist.previousBlock != blockHist.newBlock //If the blocks are different
                         ) {
                             startLocalChange(worldPos, blockHist, allowBlockEvents);
-                            Main.localServer.livePropagationHandler.addNode(worldPos, blockHist);
+                            MainClient.localServer.livePropagationHandler.addNode(worldPos, blockHist);
                             blockHist.previousBlock.run_RemoveBlockEvent(eventThread, worldPos, blockHist);
                             blockHist.newBlock.run_SetBlockEvent(eventThread, worldPos);
                         }
@@ -343,7 +343,7 @@ public class BlockEventPipeline {
 
                 } else if (dispatchBlockEvent) {
                     BlockHistory nhist = new BlockHistory(nBlock, nBlock);
-                    Main.localServer.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
+                    MainClient.localServer.livePropagationHandler.addNode(new Vector3i(nx, ny, nz), nhist);
                     nBlock.run_LocalChangeEvent(eventThread, hist, originPos, new Vector3i(nx, ny, nz));
                 }
             }

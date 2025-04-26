@@ -9,7 +9,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
-import com.xbuilders.Main;
+import com.xbuilders.MainClient;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
@@ -53,7 +53,7 @@ public class MenuHome implements MenuPage {
             nk_label(ctx, "\n\n" + (
                     LocalClient.DEV_MODE ?
                             "DEV MODE" :
-                            ("v" + Main.GAME_VERSION)
+                            ("v" + MainClient.VERSION)
             ) + "\n\n", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);
