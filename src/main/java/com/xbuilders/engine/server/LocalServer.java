@@ -51,26 +51,27 @@ public class LocalServer extends Server {
     public static LogicThread tickThread;
 
     //Game Mode =======================================================================================================
-    private static GameMode gameMode = GameMode.ADVENTURE;
-    private static Difficulty difficulty = Difficulty.NORMAL;
+
 
     public static Difficulty getDifficulty() {
-        return difficulty;
+        return world.data.data.difficulty;
     }
 
-    public static void setDifficulty(Difficulty difficulty) {
+    public static void setDifficulty(Difficulty difficulty) throws IOException {
         if (difficulty == null) difficulty = Difficulty.NORMAL;
-        LocalServer.difficulty = difficulty;
+        world.data.data.difficulty = difficulty;
+        LocalServer.world.data.save();
         alertClient("Difficulty changed to: " + getDifficulty());
     }
 
     public static GameMode getGameMode() {
-        return gameMode;
+        return world.data.data.gameMode;
     }
 
-    public static void setGameMode(GameMode gameMode) {
+    public static void setGameMode(GameMode gameMode) throws IOException {
         if (gameMode == null) gameMode = GameMode.ADVENTURE;
-        LocalServer.gameMode = gameMode;
+        world.data.data.gameMode = gameMode;
+        LocalServer.world.data.save();
         alertClient("Game mode changed to: " + getGameMode());
     }
 
@@ -324,7 +325,6 @@ public class LocalServer extends Server {
             }
             case 2 -> {
                 prog.setTask("Starting game...");
-                gameMode = (GameMode.values()[world.data.data.gameMode]);
                 if (world.data.getSpawnPoint() == null) { //Create spawn point
                     GameScene.userPlayer.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, world.data, new Vector3f(0, 0, 0));
@@ -370,7 +370,7 @@ public class LocalServer extends Server {
                 } else prog.stage++;
             }
             default -> {
-                lastGameMode = gameMode;
+                lastGameMode = getGameMode();
                 if (world.data.getSpawnPoint() == null) {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
@@ -438,13 +438,12 @@ public class LocalServer extends Server {
 
     private GameMode lastGameMode;
 
-
     public void update() throws IOException {
-        if (lastGameMode == null || lastGameMode != gameMode) {
-            lastGameMode = gameMode; //Gane mode changed
+        if (lastGameMode == null || lastGameMode != LocalServer.getGameMode()) {
+            lastGameMode = LocalServer.getGameMode(); //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
             GameScene.userPlayer.gameModeChangedEvent(getGameMode());
-            LocalServer.alertClient("Game mode changed to: " + gameMode);
+            LocalServer.alertClient("Game mode changed to: " + LocalServer.getGameMode());
         }
         //draw other players
         server.updatePlayers();

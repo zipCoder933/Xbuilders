@@ -63,9 +63,6 @@ public class GameCommands {
                             LocalServer.setGameMode(GameMode.valueOf(mode.toUpperCase()));
                             if (sendToAll) {
                                 int gameMode = LocalServer.getGameMode().ordinal();
-                                LocalServer.world.data.data.gameMode = gameMode;//Set the world data as well
-                                LocalServer.world.data.save();
-
                                 if (LocalServer.server.isPlayingMultiplayer())
                                     LocalServer.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) gameMode});
                             }

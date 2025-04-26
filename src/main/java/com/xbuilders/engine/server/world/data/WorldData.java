@@ -3,6 +3,7 @@
 // 
 package com.xbuilders.engine.server.world.data;
 
+import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.utils.option.OptionsList;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.utils.ErrorHandler;
@@ -103,6 +104,8 @@ public class WorldData {
         this.name = directory.getName();
         try {
             this.data = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), DataFile.class);
+            if (data.gameMode == null) data.gameMode = GameMode.ADVENTURE;
+            if (data.difficulty == null) data.difficulty = Difficulty.NORMAL;
         } catch (Exception ex) {
             ErrorHandler.report(
                     "Failed to load world info for world \"" + name + "\"", ex);
@@ -146,10 +149,12 @@ public class WorldData {
         try {
             return "Name: " + name + "\n"
                     + (data.isJoinedMultiplayerWorld ? "(Joined World)" : "") + "\n"
-                    + "\nType: " + data.terrain + "\n"
-                    + "\nGame: " + GameMode.values()[data.gameMode] + "\n"
-                    + "Last played:\n" + formatTime(getLastSaved()) + "\n"
-                    + "Seed: " + data.seed;
+                    + "\nType: " + data.terrain
+                    + "\nGame: " + data.gameMode.toString()
+                    + "\nDifficulty: " + data.difficulty.toString()
+                    + "\nSeed: " + data.seed
+                    + "\n\nLast played:\n" + formatTime(getLastSaved());
+
         } catch (Exception ex) {
             return "Error getting world details";
         }
@@ -166,8 +171,9 @@ public class WorldData {
         public long lastSaved;
         public String terrain;
         public int seed;
-        public int gameMode;
-        public OptionsList terrainOptions = new OptionsList();
+        public GameMode gameMode;
+        public Difficulty difficulty;
+        public OptionsList terrainOptions;
         public boolean alwaysDayMode;
         public double dayTexturePan = 0;
 
@@ -176,9 +182,11 @@ public class WorldData {
             this.spawnY = -1.0f;
             this.spawnZ = -1.0f;
             this.terrainVersion = 0;
-            this.gameMode = GameMode.FREEPLAY.ordinal();
+            terrainOptions = new OptionsList();
             isJoinedMultiplayerWorld = false;
             alwaysDayMode = false;
+            gameMode = GameMode.FREEPLAY;
+            difficulty = Difficulty.NORMAL;
         }
 
     }

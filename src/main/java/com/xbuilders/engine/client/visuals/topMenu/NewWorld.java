@@ -105,7 +105,7 @@ public class NewWorld implements MenuPage {
                 menu.setPage(Page.HOME);
             }
             if (nk_button_label(ctx, "CREATE")) {
-                if (makeNewWorld(name.getValueAsString(), 0, terrain, 0)) {
+                if (makeNewWorld(name.getValueAsString(), 0, terrain, 0, gameMode)) {
                     menu.setPage(Page.LOAD_WORLD);
                 }
             }
@@ -120,11 +120,11 @@ public class NewWorld implements MenuPage {
         terrainSelector = new TerrainSelector(Main.game.terrainsList, ctx);
     }
 
-    private boolean makeNewWorld(String name, int size, Terrain terrain, int seed) {
+    private boolean makeNewWorld(String name, int size, Terrain terrain, int seed, GameMode gameMode) {
         try {
             WorldData info = new WorldData();
             info.makeNew(name, size, terrain, seed);
-            info.data.gameMode = gameMode.ordinal();
+            info.data.gameMode = gameMode;
             if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
                 ClientWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
                 return false;
