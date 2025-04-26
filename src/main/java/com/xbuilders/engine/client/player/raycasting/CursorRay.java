@@ -2,6 +2,7 @@ package com.xbuilders.engine.client.player.raycasting;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
@@ -360,7 +361,7 @@ public class CursorRay {
                     boundaryConsumer.accept(boundary_aabb, create);
                 makeAABBFrom2Points(boundary_startNode, boundary_endNode, boundary_aabb);
                 boundary_isStartNodeSet = false;
-            } else LocalServer.alertClient("Boundary is too large");
+            } else LocalClient.alertClient("Boundary is too large");
         }
     }
 

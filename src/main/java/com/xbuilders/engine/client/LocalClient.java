@@ -31,7 +31,7 @@ public class LocalClient extends Client {
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
     public final ClientWindow window;
-    public static World world = LocalServer.world;
+    public static final World world = new World();
 
 
 
@@ -50,6 +50,14 @@ public class LocalClient extends Client {
 
     public static void alert(String s) {
         GameScene.ui.infoBox.addToHistory("GAME: " + s);
+    }
+
+    public static void alertClient(String s) {
+        gameScene.ui.infoBox.addToHistory("GAME: " + s);
+    }
+
+    public static void consoleOut(String s) {
+        gameScene.ui.infoBox.addToHistory(s);
     }
 
 
@@ -99,6 +107,6 @@ public class LocalClient extends Client {
         }
 
         window = new ClientWindow(title);
-        window.init(game, LocalServer.world);
+        window.init(game, world);
     }
 }

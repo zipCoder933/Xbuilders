@@ -7,7 +7,6 @@ package com.xbuilders.engine.client;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.client.settings.ClientSettings;
@@ -18,7 +17,6 @@ import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.resource.ResourceLoader;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
-import com.xbuilders.content.vanilla.XbuildersGame;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.MemoryProfiler;
@@ -34,7 +32,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class ClientWindow extends NKWindow {
     public static int frameCount = 0;
@@ -246,7 +243,7 @@ public class ClientWindow extends NKWindow {
         if (screenShotInitialized) {
             String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss"));
             File saveFile = ResourceUtils.appDataFile("screenshots\\" + formattedDateTime + ".png");
-            LocalServer.alertClient("Screenshot saved to: " + saveFile.getAbsolutePath());
+            LocalClient.alertClient("Screenshot saved to: " + saveFile.getAbsolutePath());
             try {
                 saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);

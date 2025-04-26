@@ -7,6 +7,7 @@ package com.xbuilders.engine.server;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.engine.Server;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.commands.GameCommands;
@@ -43,12 +44,18 @@ public class LocalServer extends Server {
 
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
-    public static final World world = new World();
+    public static World world = LocalClient.world;
     public static GameServer server;
     private final Game game;
     public static GameCommands commands;
     public static BlockEventPipeline eventPipeline;
     public static LogicThread tickThread;
+
+
+    public LocalServer(Game game, World world) {
+        this.game = game;
+        this.world = world;
+    }
 
     //Game Mode =======================================================================================================
 
@@ -61,7 +68,7 @@ public class LocalServer extends Server {
         if (difficulty == null) difficulty = Difficulty.NORMAL;
         world.data.data.difficulty = difficulty;
         LocalServer.world.data.save();
-        alertClient("Difficulty changed to: " + getDifficulty());
+        LocalClient.alertClient("Difficulty changed to: " + getDifficulty());
     }
 
     public static GameMode getGameMode() {
@@ -72,7 +79,7 @@ public class LocalServer extends Server {
         if (gameMode == null) gameMode = GameMode.ADVENTURE;
         world.data.data.gameMode = gameMode;
         LocalServer.world.data.save();
-        alertClient("Game mode changed to: " + getGameMode());
+        LocalClient.alertClient("Game mode changed to: " + getGameMode());
     }
 
 
@@ -87,7 +94,7 @@ public class LocalServer extends Server {
         if (ownsGame()) return false;
         else {
             isOperator = isOperator2;
-            alertClient("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
+            LocalClient.alertClient("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
         }
         return true;
     }
@@ -96,10 +103,6 @@ public class LocalServer extends Server {
         return (server.isPlayingMultiplayer() && GameScene.userPlayer.isHost) || !server.isPlayingMultiplayer();
     }
 
-
-    public LocalServer(Game game) {
-        this.game = game;
-    }
 
     public void initialize(UserControlledPlayer player) throws Exception {
         commands = new GameCommands(this, game);
@@ -238,17 +241,6 @@ public class LocalServer extends Server {
     }
 
 
-
-
-    public static void alertClient(String s) {
-        ClientWindow.gameScene.ui.infoBox.addToHistory("GAME: " + s);
-    }
-
-    public static void consoleOut(String s) {
-        ClientWindow.gameScene.ui.infoBox.addToHistory(s);
-    }
-
-
     public static void setTimeOfDay(double v) {
         try {
             System.out.println("Setting time of day to " + v);
@@ -261,12 +253,12 @@ public class LocalServer extends Server {
     }
 
     public static float getTimeOfDay() {
-       return GameScene.background.getTimeOfDay();
+        return GameScene.background.getTimeOfDay();
     }
 
 
     public void playerJoinEvent(Player client) {
-        LocalServer.alertClient("A new player has joined: " + client);
+        LocalClient.alertClient("A new player has joined: " + client);
         System.out.println("JOIN EVENT: " + client.getName());
         System.out.println("Players: " + world.players);
         world.players.add(client);
@@ -274,7 +266,7 @@ public class LocalServer extends Server {
     }
 
     public void playerLeaveEvent(Player client) {
-        LocalServer.alertClient(client.getName() + " has left");
+        LocalClient.alertClient(client.getName() + " has left");
         world.players.remove(client);
 
         if (client.isHost) {
@@ -443,7 +435,7 @@ public class LocalServer extends Server {
             lastGameMode = LocalServer.getGameMode(); //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
             GameScene.userPlayer.gameModeChangedEvent(getGameMode());
-            LocalServer.alertClient("Game mode changed to: " + LocalServer.getGameMode());
+            LocalClient.alertClient("Game mode changed to: " + LocalServer.getGameMode());
         }
         //draw other players
         server.updatePlayers();

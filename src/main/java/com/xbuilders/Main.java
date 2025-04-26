@@ -30,10 +30,10 @@ public class Main {
 
         skins = new SkinRegistry();
         game = new XbuildersGame();
-
-        localServer = new LocalServer(game);
-
+        localServer = new LocalServer(game, localClient.world);
         localClient = new LocalClient(args, GAME_VERSION, game);
+
+
 
 
         try {

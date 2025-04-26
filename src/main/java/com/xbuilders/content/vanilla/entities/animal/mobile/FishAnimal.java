@@ -21,7 +21,6 @@ public abstract class FishAnimal<ActionEnum> extends LivingEntity {
         super( uniqueIdentifier, window);
         pos.aabb.setOffsetAndSize(.5f, .5f, .5f, false);
         lastInWater = System.currentTimeMillis();
-        inWater = inWater();
     }
 
     public int textureIndex;

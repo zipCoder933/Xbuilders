@@ -57,7 +57,7 @@ public class GameScene implements WindowEvents {
 
         background = new SkyBackground(window, world);
 
-        ui = new GameUI(game, window.ctx, window, userPlayer);
+        ui = new GameUI(game, window.ctx, window, userPlayer, world);
     }
 
     public static void client_hudText(String s) {

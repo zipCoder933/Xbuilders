@@ -264,7 +264,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         previous_playerBlock = null;
         previous_CameraBlock = null;
         worldPosition.set(x, y, z);
-        LocalServer.alertClient("Teleported to " + x + ", " + y + ", " + z);
+        LocalClient.alertClient("Teleported to " + x + ", " + y + ", " + z);
     }
 
     private boolean isSafeHeadPos(Block block) {
@@ -277,7 +277,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     public void setSpawnPoint(float x, float y, float z) {
         status_spawnPosition.set(x, y, z);
-        LocalServer.alertClient("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
+        LocalClient.alertClient("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
         saveToWorld(LocalServer.world.data); //Make SURE to save the spawnpoint
     }
 

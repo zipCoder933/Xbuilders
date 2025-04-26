@@ -14,6 +14,7 @@ import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.client.visuals.FileDialog;
 import com.xbuilders.engine.client.visuals.RectOverlay;
+import com.xbuilders.engine.server.world.World;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
@@ -49,7 +50,7 @@ public class GameUI {
     public static HUDText hudText;
     boolean drawUI = true;
 
-    public GameUI(Game game, NkContext ctx, ClientWindow window, UserControlledPlayer player) throws IOException {
+    public GameUI(Game game, NkContext ctx, ClientWindow window, UserControlledPlayer player, World world) throws IOException {
         this.ctx = ctx;
         this.window = window;
         this.game = game;
@@ -58,7 +59,7 @@ public class GameUI {
         hudText = new HUDText(ctx, window);
         hotbar = new UI_Hotbar(ctx, window, player);
 
-        baseMenu = new GameMenu(ctx, window);
+        baseMenu = new GameMenu(ctx, window, world);
         fileDialog = new FileDialog(ctx, window);
         overlay = new RectOverlay();
         overlay.setColor(0, 0, 0, 0);

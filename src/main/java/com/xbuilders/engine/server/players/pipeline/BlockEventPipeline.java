@@ -3,7 +3,6 @@ package com.xbuilders.engine.server.players.pipeline;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
@@ -283,13 +282,13 @@ public class BlockEventPipeline {
                         updateAffectedChunks(affectedChunks);
                         firstChunkUpdate.set(false);
                     } else if (time > 3000 && !longSunlight.get()) {
-                        LocalServer.alertClient("The lighting is being calculated. This may take a while.");
+                        LocalClient.alertClient("The lighting is being calculated. This may take a while.");
                         longSunlight.set(true);
                     }
                 });
 
         if (longSunlight.get()) {
-            LocalServer.alertClient("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
+            LocalClient.alertClient("Sunlight calculation finished " + (elapsedMS / 1000) + "s");
         }
 
         //Resolve affected chunks

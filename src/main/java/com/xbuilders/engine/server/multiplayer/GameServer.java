@@ -241,7 +241,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
             } else if (receivedData[0] == PLAYER_CHAT) {
                 String message = new String(NetworkUtils.getMessage(receivedData));
                 String playerName = client.userInfo.name;
-                LocalServer.consoleOut(playerName + ":  \"" + message + "\"");
+                LocalClient.consoleOut(playerName + ":  \"" + message + "\"");
             } else if (receivedData[0] == PLAYER_POSITION) {
                 float x = ByteUtils.bytesToFloat(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
                 float y = ByteUtils.bytesToFloat(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
@@ -315,7 +315,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                     GameMode gameMode = GameMode.values()[mode];
                     LocalServer.setGameMode(gameMode);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    LocalServer.alertClient("Unable to change game mode");
+                    LocalClient.alertClient("Unable to change game mode");
                 }
             } else if (receivedData[0] == CHANGE_DIFFICULTY) {
                 try {
@@ -323,14 +323,14 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                     Difficulty gameDifficulty = Difficulty.values()[difficulty];
                     LocalServer.setDifficulty(gameDifficulty);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    LocalServer.alertClient("Unable to change game difficulty");
+                    LocalClient.alertClient("Unable to change game difficulty");
                 }
             } else if (receivedData[0] == CHANGE_PLAYER_PERMISSION) {
                 try {
                     boolean permission = receivedData[1] == 1;
                     LocalServer.setOperator(permission);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    LocalServer.alertClient("Unable to change player permission");
+                    LocalClient.alertClient("Unable to change player permission");
                 }
             }
 
@@ -357,7 +357,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.server.Server
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data);
         ClientWindow.printlnDev(str);
-        if (LocalClient.DEV_MODE) LocalServer.alertClient(str);
+        if (LocalClient.DEV_MODE) LocalClient.alertClient(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {
