@@ -1,4 +1,4 @@
-package com.xbuilders.engine.utils.json;
+package com.xbuilders.engine.utils.json.gson;
 
 import com.google.gson.*;
 import com.xbuilders.engine.server.block.construction.BlockTexture;

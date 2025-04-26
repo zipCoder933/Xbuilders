@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.*;
+import org.lwjgl.system.MemoryStack;
 
 import static org.lwjgl.nuklear.Nuklear.*;
 
@@ -54,7 +55,7 @@ public class LoadWorld implements MenuPage {
     TopMenu menu;
     ClientWindow window;
     final int BOX_DEFAULT_WIDTH = TopMenu.WIDTH_4;
-    final int BOX_DEFAULT_HEIGHT = 550;
+    final int BOX_DEFAULT_HEIGHT = TopMenu.HEIGHT_4;
     ArrayList<WorldData> worlds;
     WorldData currentWorld;
 //    NkImage image;

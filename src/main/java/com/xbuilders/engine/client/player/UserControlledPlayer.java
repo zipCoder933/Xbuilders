@@ -22,7 +22,7 @@ import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.json.ItemStackTypeAdapter;
+import com.xbuilders.engine.utils.json.gson.ItemStackTypeAdapter;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.server.item.StorageSpace;

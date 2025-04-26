@@ -1,6 +1,8 @@
 package com.xbuilders.engine.client.settings;
 
 import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.utils.option.BoundedFloat;
+import com.xbuilders.engine.utils.option.BoundedInt;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.Chunk;

@@ -3,8 +3,7 @@
 // 
 package com.xbuilders.engine.server.world.data;
 
-import com.xbuilders.content.vanilla.terrain.TerrainOptions;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.utils.option.OptionsList;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.server.world.Terrain;
@@ -20,7 +19,6 @@ import com.xbuilders.engine.utils.json.JsonManager;
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 
 import org.joml.Vector3i;
 
@@ -31,7 +29,7 @@ public class WorldData {
     private File directory;
     final String INFO_FILENAME = "info.json";
     private String name;
-    private static final Gson gson = new JsonManager().gson_itemAdapter;
+    private static final Gson gson = JsonManager.gson_classes_adapter;
     public DataFile data;
 
     public File getChunkFile(Vector3i position) {
@@ -133,7 +131,7 @@ public class WorldData {
         this.data.size = size;
         this.data.terrain = terrain.name;
         this.data.terrainVersion = terrain.version;
-        this.data.terrainOptions = new TerrainOptions(terrain.options);
+        this.data.terrainOptions = terrain.getOptionsCopy();
         this.data.seed = seed == 0 ? (int) (Math.random() * Integer.MAX_VALUE) : seed;
         this.directory = WorldsHandler.worldFile(name);
     }
@@ -169,7 +167,7 @@ public class WorldData {
         public String terrain;
         public int seed;
         public int gameMode;
-        public TerrainOptions terrainOptions = new TerrainOptions();
+        public OptionsList terrainOptions = new OptionsList();
         public boolean alwaysDayMode;
         public double dayTexturePan = 0;
 

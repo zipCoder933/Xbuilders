@@ -29,7 +29,7 @@ public class ItemUtils {
                 if (!LocalClient.DEV_MODE && name.contains("devmode")) continue;
                 System.out.println("\t" + name);
                 String jsonString = new String(resourceLoader.getResourceBytes(path));
-                Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
+                Block[] jsonBlocks2 = JsonManager.gson_classes_adapter.fromJson(jsonString, Block[].class);
                 if (jsonBlocks2 != null) {
                     allItems.addAll(Arrays.asList(jsonBlocks2));  // append to list
                 }
@@ -53,7 +53,7 @@ public class ItemUtils {
                 if (!LocalClient.DEV_MODE && name.contains("devmode")) continue;
 
                 String jsonString = new String(resourceLoader.getResourceBytes(path));
-                Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
+                Item[] jsonBlocks2 = JsonManager.gson_classes_adapter.fromJson(jsonString, Item[].class);
                 if (jsonBlocks2 != null) {
                     allItems.addAll(Arrays.asList(jsonBlocks2));  // append to list
                 }
@@ -76,7 +76,7 @@ public class ItemUtils {
                 if (!LocalClient.DEV_MODE && file.getName().contains("devmode")) continue;
 
                 String jsonString = Files.readString(file.toPath());
-                Block[] jsonBlocks2 = JsonManager.gson_blockAdapter.fromJson(jsonString, Block[].class);
+                Block[] jsonBlocks2 = JsonManager.gson_classes_adapter.fromJson(jsonString, Block[].class);
 /*
 //DANGER! This code will Change the JSON and write it back
 //                System.out.println("Read " + jsonBlocks2.length + " blocks from " + file.getName());
@@ -112,7 +112,7 @@ public class ItemUtils {
                 if (!LocalClient.DEV_MODE && file.getName().contains("devmode")) continue;
                 System.out.println("\t" + file.getName());
                 String jsonString = Files.readString(file.toPath());
-                Item[] jsonBlocks2 = JsonManager.gson_itemAdapter.fromJson(jsonString, Item[].class);
+                Item[] jsonBlocks2 = JsonManager.gson_classes_adapter.fromJson(jsonString, Item[].class);
                 if (jsonBlocks2 != null && jsonBlocks2.length > 0) {
                     // append to list
                     for (Item block : jsonBlocks2) {
@@ -187,7 +187,7 @@ public class ItemUtils {
     public static void exportBlocksToJson(List<Block> list, File out) {
         //Save list as json
         try {
-            String jsonString = JsonManager.gson_blockAdapter.toJson(list);
+            String jsonString = JsonManager.gson_classes_adapter.toJson(list);
             Files.writeString(out.toPath(), jsonString);
             System.out.println("Saved " + list.size() + " blocks to " + out.getAbsolutePath());
         } catch (IOException e) {

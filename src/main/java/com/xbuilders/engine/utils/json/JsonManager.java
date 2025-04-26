@@ -8,6 +8,10 @@ package com.xbuilders.engine.utils.json;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.xbuilders.engine.utils.option.OptionsList;
+import com.xbuilders.engine.utils.json.gson.*;
+import com.xbuilders.engine.utils.option.BoundedFloat;
+import com.xbuilders.engine.utils.option.BoundedInt;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
@@ -23,20 +27,22 @@ public class JsonManager {
     }
 
     public static final String SMILE_HEADER = ":)\n";
+    public static final BlockTextureTypeAdapter textureAdapter = new BlockTextureTypeAdapter();
 
-    public static BlockTextureTypeAdapter textureAdapter = new BlockTextureTypeAdapter();
-    public static Gson gson_itemAdapter = new GsonBuilder()
+    /**
+     * One GSON instance for all classes, this helps simplify serialization
+     */
+    public static Gson gson_classes_adapter = new GsonBuilder()
             .registerTypeHierarchyAdapter(Item.class, new ItemTypeAdapter())
-            .create();
-
-    public static Gson gson_itemStackAdapter = new GsonBuilder()
-            .registerTypeHierarchyAdapter(Item.class, new ItemStackTypeAdapter())
-            .create();
-
-    public static Gson gson_blockAdapter = new GsonBuilder()
+            .registerTypeHierarchyAdapter(BoundedFloat.class, new BoundedFloatTypeAdapter())
+            .registerTypeHierarchyAdapter(BoundedInt.class, new BoundedIntTypeAdapter())
             .registerTypeHierarchyAdapter(Block.class, new BlockTypeAdapter())
             .registerTypeAdapter(BlockTexture.class, textureAdapter)
+            .registerTypeAdapter(BlockTexture.class, new OptionTypeAdapter())
+            .registerTypeAdapter(OptionsList.class, new OptionsListTypeAdapter())
+            .setPrettyPrinting()
             .create();
+
 
     public static String printSmileData(byte[] data) {
         return (data.length + " bytes\t " + new String(data).replaceAll("\n", ""));

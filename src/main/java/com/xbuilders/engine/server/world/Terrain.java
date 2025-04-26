@@ -3,7 +3,8 @@
 // 
 package com.xbuilders.engine.server.world;
 
-import com.xbuilders.content.vanilla.terrain.TerrainOptions;
+import com.xbuilders.engine.utils.option.NuklearField;
+import com.xbuilders.engine.utils.option.OptionsList;
 import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.utils.math.FastNoise;
@@ -11,7 +12,7 @@ import com.xbuilders.engine.utils.math.PerlinNoise;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import org.joml.Vector3i;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
@@ -22,41 +23,66 @@ public abstract class Terrain {
     public static final PerlinNoise perlinNoise = new PerlinNoise(0, 150);
     private int seed = 0;
     public final String name;
-
-    public int MAX_SURFACE_HEIGHT = 10;
-    public int MIN_SURFACE_HEIGHT = -100;
-    public int TERRAIN_MIN_GEN_HEIGHT = 0;  //Anything above this is considered air
-
-    public TerrainOptions options = new TerrainOptions();
+    private OptionsList options;
     public int version = 0;
+    public int maxSurfaceHeight = 10;
+    public int minSurfaceHeight = -100;
+    public int terrainMinGenHeight = 0;  //Anything above this is considered air
 
     public Terrain(String name) {
         this.name = name;
+        resetOptions();
     }
 
-    public final void initForWorld(int seed, TerrainOptions terrainOptions, int terrainVersion) {
-        fastNoise.SetSeed(seed);
+    public final void initForWorld(int seed, OptionsList options, int version) {
+        fastNoise.SetSeed(seed);//set seed
         perlinNoise.setSeed(((double) seed / Integer.MAX_VALUE) * 255);
         this.seed = seed;
-        if (terrainOptions == null) terrainOptions = new TerrainOptions();
-        this.options = terrainOptions;
-        this.version = terrainVersion;
-        loadWorld(options, version);
+
+        this.version = version;
+
+        resetOptions(); //Pre-initialize options to get default values
+        this.options.putAll(options); //Set the values of terrainOptions to the options map
+
+        loadWorld(this.options, this.version);
     }
 
     public int getBiomeOfVoxel(int x, int y, int z) {
         return 0;
     }
 
-    public abstract void loadWorld(TerrainOptions options, int version);
+    public abstract void initOptions(OptionsList optionsList);
+
+    public abstract void loadWorld(OptionsList options, int version);
 
     public boolean isBelowMinHeight(Vector3i position, int offset) {
         //If the bottom of the chunk is below the minimum height, we need to generate the terrain
-        return (position.y * Chunk.HEIGHT) + Chunk.HEIGHT >= TERRAIN_MIN_GEN_HEIGHT + offset;
+        return (position.y * Chunk.HEIGHT) + Chunk.HEIGHT >= terrainMinGenHeight + offset;
     }
 
-    public void initOptions() {
+    public void resetOptions() {
+        options = new OptionsList();
+        initOptions(options);
+    }
 
+    public ArrayList<NuklearField> options_resetAndGetNKOptionList() {
+        options = new OptionsList();//Reset the options first
+        initOptions(options); //Init the temporary options
+        ArrayList<NuklearField> optionFields = new ArrayList<>();
+        options.forEach((key, value) -> {
+            optionFields.add(new NuklearField(key, value, (v) -> {
+                options.put(key, v);
+            }));
+        });
+        return optionFields;
+    }
+
+    public boolean hasOptions() {
+        return !options.isEmpty();
+    }
+
+    public OptionsList getOptionsCopy() {
+        return new OptionsList(options);
     }
 
     public class GenSession {
@@ -108,8 +134,6 @@ public abstract class Terrain {
     }
 
     protected abstract void generateChunkInner(final Chunk p0, GenSession session);
-
-
 
 
     //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);

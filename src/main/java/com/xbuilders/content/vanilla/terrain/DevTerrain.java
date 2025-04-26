@@ -11,8 +11,7 @@ import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 import com.xbuilders.engine.utils.MiscUtils;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.content.vanilla.Blocks;
-
-import java.util.HashMap;
+import com.xbuilders.engine.utils.option.OptionsList;
 
 /**
  * @author zipCoder933
@@ -21,12 +20,17 @@ public class DevTerrain extends Terrain {
 
     public DevTerrain() {
         super("Dev Terrain");
-        MIN_SURFACE_HEIGHT = 195;
-        MAX_SURFACE_HEIGHT = 201;
+        minSurfaceHeight = 195;
+        maxSurfaceHeight = 201;
     }
 
     @Override
-    public void loadWorld(TerrainOptions options, int version) {
+    public void initOptions(OptionsList optionsList) {
+
+    }
+
+    @Override
+    public void loadWorld(OptionsList options, int version) {
 
     }
 

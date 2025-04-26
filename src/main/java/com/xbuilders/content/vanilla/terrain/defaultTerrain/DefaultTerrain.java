@@ -1,6 +1,7 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
-import com.xbuilders.content.vanilla.terrain.TerrainOptions;
+import com.xbuilders.engine.utils.option.OptionsList;
+import com.xbuilders.engine.utils.option.BoundedFloat;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -46,14 +47,10 @@ public class DefaultTerrain extends Terrain {
     static final short EMERALD_ORE = 551;
     static final short DIAMOND_ORE = 105;
 
-    boolean caves;
-    boolean trees;
-    boolean mountains;
-
     private void setTerrainBounds(int minSurfaceHeight) {
-        MIN_SURFACE_HEIGHT = minSurfaceHeight;
-        MAX_SURFACE_HEIGHT = 230;
-        TERRAIN_MIN_GEN_HEIGHT = minSurfaceHeight;
+        this.minSurfaceHeight = minSurfaceHeight;
+        maxSurfaceHeight = 230;
+        terrainMinGenHeight = minSurfaceHeight;
     }
 
     public DefaultTerrain() {
@@ -86,29 +83,42 @@ public class DefaultTerrain extends Terrain {
         ORES.add(diamond);
     }
 
-    public void initOptions() {
+    //Properties
+    float frequency;
+    boolean caves;
+    boolean trees;
+    boolean mountains;
+
+    public void initOptions(OptionsList options) {
         setTerrainBounds(100);
-        //Default setup
+        /*
+        Default values, these are set when there is no config
+         */
         version = 1;//The latest version
         caves = false;
         trees = false;
         mountains = false;
+        frequency = 0.9f;
 
         options.put("Generate Caves", caves);
         options.put("Generate Trees", trees);
         options.put("Generate Mountains", mountains);
+        options.put("Frequency", new BoundedFloat(frequency, 0.1f, 10.0f));
     }
 
     @Override
-    public void loadWorld(TerrainOptions options, int version) {
+    public void loadWorld(OptionsList options, int version) {
         if (options.containsKey("Generate Caves")) {
             caves = options.getBoolean("Generate Caves");
         }
-        if (options.containsKey("Generate Trees") && options.get("Generate Trees") instanceof Boolean) {
+        if (options.containsKey("Generate Trees")) {
             trees = options.getBoolean("Generate Trees");
         }
-        if (options.containsKey("Generate Mountains") && options.get("Generate Mountains") instanceof Boolean) {
+        if (options.containsKey("Generate Mountains")) {
             mountains = options.getBoolean("Generate Mountains");
+        }
+        if (options.containsKey("Frequency")) {
+            frequency = options.getBoundedFloat("Frequency").value;
         }
         setTerrainBounds(mountains ? 0 : 100);
     }
@@ -327,7 +337,7 @@ public class DefaultTerrain extends Terrain {
     }
 
     private float getFrequency() {
-        return 0.9f;
+        return frequency;
     }
 
     private float getValueFractal(float x, float y, float z) {

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.client.settings;
+package com.xbuilders.engine.utils.option;
 
 public class BoundedInt {
 
@@ -8,6 +8,12 @@ public class BoundedInt {
 
     public BoundedInt(int value) {
         this.value = value;
+    }
+
+    public BoundedInt(int value, int min, int max) {
+        this.value = value;
+        this.min = min;
+        this.max = max;
     }
 
     public void setBounds(int min, int max) {

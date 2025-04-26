@@ -25,7 +25,6 @@ import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.engine.utils.bytes.ByteUtils;
@@ -412,7 +411,7 @@ public class LocalServer extends Server {
         int radius = Chunk.WIDTH;
         for (int x = -radius; x < radius; x++) {
             for (int z = -radius; z < radius; z++) {
-                for (int y = terrain.MIN_SURFACE_HEIGHT - 10; y < terrain.MAX_SURFACE_HEIGHT + 10; y++) {
+                for (int y = terrain.minSurfaceHeight - 10; y < terrain.maxSurfaceHeight + 10; y++) {
                     if (terrain.canSpawnHere(world, x, y, z)) {
                         System.out.println("Found new spawn point!");
                         worldPosition.set(x, y - 0.5f, z);
@@ -422,7 +421,7 @@ public class LocalServer extends Server {
             }
         }
         System.out.println("Spawn point not found!");
-        worldPosition.set(0, terrain.MIN_SURFACE_HEIGHT - PLAYER_HEIGHT - 0.5f, 0);
+        worldPosition.set(0, terrain.minSurfaceHeight - PLAYER_HEIGHT - 0.5f, 0);
         return worldPosition;
     }
 

@@ -1,9 +1,9 @@
-package com.xbuilders.engine.utils.json;
+package com.xbuilders.engine.utils.json.gson;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.xbuilders.engine.client.settings.BoundedInt;
+import com.xbuilders.engine.utils.option.BoundedInt;
 
 import java.io.IOException;
 

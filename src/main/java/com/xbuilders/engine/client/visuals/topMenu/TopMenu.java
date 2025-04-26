@@ -33,9 +33,10 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 public class TopMenu {
 
     public static final int WIDTH_1 = 350;
-    public static final int WIDTH_2 = 450;
     public static final int WIDTH_3 = 550;
     public static final int WIDTH_4 = 750;
+
+    public static final int HEIGHT_4 = 550;
 
     /**
      * @return the page

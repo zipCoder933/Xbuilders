@@ -6,8 +6,11 @@ package com.xbuilders.content.vanilla.terrain;
 
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.server.world.Terrain;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.engine.utils.option.BoundedInt;
+import com.xbuilders.engine.utils.option.OptionsList;
 
 import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 
@@ -18,13 +21,20 @@ public class FlatTerrain extends Terrain {
 
     public FlatTerrain() {
         super("Flat Terrain");
-        MIN_SURFACE_HEIGHT = 220;
-        MAX_SURFACE_HEIGHT = 220;
+        minSurfaceHeight = 220;
+        maxSurfaceHeight = 220;
+    }
+
+    public void initOptions(OptionsList options) {
+        options.put("Land Start", new BoundedInt(220, World.WORLD_TOP_Y + 2, World.WORLD_BOTTOM_Y - 2));
     }
 
     @Override
-    public void loadWorld(TerrainOptions options, int version) {
-
+    public void loadWorld(OptionsList options, int version) {
+        if (options.containsKey("Land Start")) {
+            maxSurfaceHeight = options.getBoundedInt("Land Start").value;
+            minSurfaceHeight = options.getBoundedInt("Land Start").value;
+        }
     }
 
     private int getBiomeOfVoxel(float heat) {
@@ -76,19 +86,19 @@ public class FlatTerrain extends Terrain {
 //                        }
 
 
-                        int wy = cy + (chunk.position.y * Chunk.WIDTH);
-                        if (wy == MAX_SURFACE_HEIGHT) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
-                        } else if (wy > MAX_SURFACE_HEIGHT + 100) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_BEDROCK);
-                        } else if (wy > MAX_SURFACE_HEIGHT + 10) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
-                        } else if (wy > MAX_SURFACE_HEIGHT) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
-                        }
+                    int wy = cy + (chunk.position.y * Chunk.WIDTH);
+                    if (wy == maxSurfaceHeight) {
+                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
+                    } else if (wy > maxSurfaceHeight + 100) {
+                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_BEDROCK);
+                    } else if (wy > maxSurfaceHeight + 10) {
+                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
+                    } else if (wy > maxSurfaceHeight) {
+                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
                     }
                 }
             }
         }
-
     }
+
+}

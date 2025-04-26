@@ -14,15 +14,18 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.utils.option.NuklearField;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.lang.reflect.Field;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
+import static com.xbuilders.engine.client.visuals.topMenu.TopMenu.HEIGHT_4;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -40,8 +43,14 @@ public class SettingsPage implements MenuPage {
         for (Field field : ClientSettings.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (!LocalClient.DEV_MODE && field.getName().startsWith("internal_")) continue;
+
+            Consumer<Object> saveCallback = (v) -> {
+                ClientWindow.settings.save();
+            };
+
             try {
-                fields.add(new SettingsField(window, field));
+                NuklearField sf = new NuklearField(field, ClientWindow.settings, saveCallback);
+                fields.add(sf);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -54,7 +63,7 @@ public class SettingsPage implements MenuPage {
     ClientWindow window;
 
     final int BOX_DEFAULT_WIDTH = TopMenu.WIDTH_4;
-    final int BOX_DEFAULT_HEIGHT = 500;
+    final int BOX_DEFAULT_HEIGHT = HEIGHT_4;
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
@@ -84,8 +93,8 @@ public class SettingsPage implements MenuPage {
             NKUtils.wrapText(ctx, "Note that some changes will only take effect after the game is restarted", windowDims.w() - 20);
             nk_layout_row_static(ctx, 30, 1, 2);
 
-            for (SettingsField field : fields) {
-                field.layout(ctx, stack, windowDims);
+            for (NuklearField field : fields) {
+                field.layout2(ctx, stack);
             }
 
             //Back button
@@ -102,7 +111,7 @@ public class SettingsPage implements MenuPage {
         nk_end(ctx);
     }
 
-    ArrayList<SettingsField> fields = new ArrayList<>();
+    ArrayList<NuklearField> fields = new ArrayList<>();
 
     @Override
     public void onOpen(Page lastPage) {

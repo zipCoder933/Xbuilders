@@ -2,7 +2,7 @@
 // Decompiled by Procyon v0.5.36
 // 
 
-package com.xbuilders.content.vanilla.terrain.complexTerrain;
+package com.xbuilders.content.vanilla.terrain.experemental;
 
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.server.LocalServer;

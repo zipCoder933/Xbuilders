@@ -8,6 +8,7 @@ import com.xbuilders.engine.server.world.Terrain;
 
 import java.util.ArrayList;
 
+import com.xbuilders.engine.utils.option.NuklearField;
 import org.lwjgl.nuklear.NkContext;
 
 import static org.lwjgl.nuklear.Nuklear.nk_button_label;
@@ -27,6 +28,7 @@ public class TerrainSelector {
     private NkContext ctx;
     private ArrayList<Terrain> terrainList;
     private int selectedTerrain;
+    public ArrayList<NuklearField> optionFields = new ArrayList<>();
 
     public Terrain getSelectedTerrain() {
         return terrainList.get(selectedTerrain);
@@ -48,6 +50,6 @@ public class TerrainSelector {
 
     private void initSelectedTerrain() {
         Terrain terrain = terrainList.get(selectedTerrain);
-        terrain.initOptions();
+        optionFields = terrain.options_resetAndGetNKOptionList();
     }
 }

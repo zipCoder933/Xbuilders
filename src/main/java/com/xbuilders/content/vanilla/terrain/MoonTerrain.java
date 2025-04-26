@@ -5,8 +5,7 @@ package com.xbuilders.content.vanilla.terrain;
 
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-
-import java.util.HashMap;
+import com.xbuilders.engine.utils.option.OptionsList;
 
 import static com.xbuilders.content.vanilla.Blocks.BLOCK_ANDESITE;
 import static com.xbuilders.content.vanilla.Blocks.BLOCK_BEDROCK;
@@ -18,20 +17,22 @@ public class MoonTerrain extends Terrain {
 
     public MoonTerrain() {
         super("Moon Terrain");
-        MIN_SURFACE_HEIGHT = 100;
-        MAX_SURFACE_HEIGHT = 300;
+        minSurfaceHeight = 100;
+        maxSurfaceHeight = 300;
     }
 
-    public void initOptions() {
-        options.put("Deep", true);
+    public void initOptions(OptionsList optionsList) {
+//        OptionsList options = new OptionsList();
+//        options.put("Deep", true);
+//        return options;
     }
 
     @Override
-    public void loadWorld(TerrainOptions options, int version) {
-        if (options.containsKey("Deep")) {
-            deep = options.getBoolean("Deep");
-        }
-        height = deep ? 100 : 240;
+    public void loadWorld(OptionsList options, int version) {
+//        if (options.containsKey("Deep")) {
+//            deep = options.getBoolean("Deep");
+//        }
+//        height = deep ? 100 : 240;
     }
 
     @Override

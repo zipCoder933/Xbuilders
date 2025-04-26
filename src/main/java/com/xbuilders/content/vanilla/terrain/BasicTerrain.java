@@ -11,8 +11,7 @@ import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.content.vanilla.Blocks;
-
-import java.util.HashMap;
+import com.xbuilders.engine.utils.option.OptionsList;
 
 /**
  * @author zipCoder933
@@ -21,19 +20,22 @@ public class BasicTerrain extends Terrain {
 
     public BasicTerrain() {
         super("Basic Terrain");
-        MIN_SURFACE_HEIGHT = 70;
-        MAX_SURFACE_HEIGHT = 140;
+        minSurfaceHeight = 70;
+        maxSurfaceHeight = 140;
     }
 
     @Override
-    public void loadWorld(TerrainOptions options, int version) {
+    public void initOptions(OptionsList optionsList) {
+    }
 
+    @Override
+    public void loadWorld(OptionsList options, int version) {
     }
 
     @Override
     protected void generateChunkInner(Chunk chunk, GenSession session) {
         boolean genOutsideBoundary = false;
-        if ((chunk.position.y * Chunk.WIDTH) + Chunk.WIDTH > MIN_SURFACE_HEIGHT - 2) {
+        if ((chunk.position.y * Chunk.WIDTH) + Chunk.WIDTH > minSurfaceHeight - 2) {
             for (int cx = 0; cx < WIDTH; cx++) {
                 for (int cy = 0; cy < WIDTH; cy++) {
                     for (int cz = 0; cz < WIDTH; cz++) {
@@ -44,7 +46,7 @@ public class BasicTerrain extends Terrain {
 
                         int heightmap = (int) MathUtils.map(
                                 (float) perlinNoise.noise(wx * 0.3f, wz * 0.3f),
-                                -1, 1, MAX_SURFACE_HEIGHT, MIN_SURFACE_HEIGHT);
+                                -1, 1, maxSurfaceHeight, minSurfaceHeight);
 
                         if (wy == heightmap) {
                             chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);

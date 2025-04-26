@@ -11,24 +11,21 @@ package com.xbuilders.engine.client.visuals.topMenu;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
-import com.xbuilders.window.nuklear.NKUtils;
-import com.xbuilders.window.nuklear.components.NumberBox;
+import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.world.Terrain;
+import com.xbuilders.engine.server.world.WorldsHandler;
+import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.window.nuklear.components.TextBox;
+import org.lwjgl.nuklear.NkContext;
+import org.lwjgl.nuklear.NkRect;
+import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import org.lwjgl.nuklear.*;
-import org.lwjgl.system.*;
-
-import static com.xbuilders.engine.client.visuals.topMenu.TopMenu.row;
+import static com.xbuilders.engine.client.visuals.topMenu.TopMenu.*;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -50,8 +47,8 @@ public class NewWorld implements MenuPage {
     ClientWindow window;
     TerrainSelector terrainSelector;
 
-    final int boxWidth = menu.WIDTH_2;
-    final int boxHeight = 500;
+    final int boxWidth = WIDTH_3;
+    final int boxHeight = HEIGHT_4;
     GameMode gameMode = GameMode.ADVENTURE;
 
 
@@ -92,36 +89,25 @@ public class NewWorld implements MenuPage {
 
             Terrain terrain = terrainSelector.getSelectedTerrain();
 
-            if (!terrain.options.isEmpty()) { //Start the terrain properties
+            if (terrain.hasOptions()) { //Start the terrain properties
                 row(ctx, "World Options", 1);
-                nk_layout_row_dynamic(ctx, 20, 1);
-                terrain.options.forEach((key, value) -> {
+                nk_layout_row_dynamic(ctx, 15, 1);
 
-
-                    if (value instanceof Boolean) {
-                        boolean b = (boolean) value;
-                        ByteBuffer active = stack.malloc(1);
-                        active.put(0, b ? (byte) 0 : 1); //For some reason the boolean needs to be flipped
-                        if (nk_checkbox_label(ctx, " " + key, active)) {
-                            terrain.options.put(key, !b);
-                            System.out.println(terrain.options);
-                        }
-                    }
-
-
-                });
+                //Add the fields
+                nk_style_set_font(ctx, Theme.font_10);
+                terrainSelector.optionFields.forEach(field -> field.layout2(ctx, stack));
             }
 
             nk_style_set_font(ctx, Theme.font_12);
-            nk_layout_row_static(ctx, 20, 1, 1);
-            nk_layout_row_dynamic(ctx, 40, 1);
+            nk_layout_row_static(ctx, 30, 1, 1);
+            nk_layout_row_dynamic(ctx, 40, 2);
+            if (nk_button_label(ctx, "BACK")) {
+                menu.setPage(Page.HOME);
+            }
             if (nk_button_label(ctx, "CREATE")) {
                 if (makeNewWorld(name.getValueAsString(), 0, terrain, 0)) {
                     menu.setPage(Page.LOAD_WORLD);
                 }
-            }
-            if (nk_button_label(ctx, "BACK")) {
-                menu.setPage(Page.HOME);
             }
         }
         nk_end(ctx);

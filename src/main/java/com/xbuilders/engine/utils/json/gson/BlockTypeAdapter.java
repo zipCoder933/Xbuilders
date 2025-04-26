@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.xbuilders.engine.utils.json;
+package com.xbuilders.engine.utils.json.gson;
 
 /**
  * @author zipCoder933
@@ -12,6 +12,7 @@ import com.google.gson.*;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
+import com.xbuilders.engine.utils.json.JsonManager;
 
 import java.lang.reflect.Type;
 import java.util.Map;
