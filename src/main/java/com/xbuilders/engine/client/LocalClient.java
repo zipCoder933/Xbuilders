@@ -3,14 +3,11 @@ package com.xbuilders.engine.client;
 import com.xbuilders.Main;
 import com.xbuilders.engine.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.server.*;
-import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.commands.Command;
 import com.xbuilders.engine.server.commands.GameCommands;
 import com.xbuilders.engine.server.commands.GiveCommand;
-import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.players.Player;
@@ -24,11 +21,9 @@ import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
-import org.lwjgl.glfw.GLFW;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +31,7 @@ import java.util.Arrays;
 
 
 public class LocalClient extends Client {
+    //The world never changes objects
     public static final World world = new World();
     public static long GAME_VERSION;
     public static boolean LOAD_WORLD_ON_STARTUP = false;
@@ -48,6 +44,7 @@ public class LocalClient extends Client {
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
     public final ClientWindow window;
+    private final Game game;
 
 
     public static long versionStringToNumber(String version) {
@@ -72,6 +69,7 @@ public class LocalClient extends Client {
 
     public LocalClient(String[] args, String gameVersion, Game game) throws Exception {
         LocalClient.GAME_VERSION = versionStringToNumber(gameVersion);
+        this.game = game;
         System.out.println("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         //Process args
@@ -109,8 +107,8 @@ public class LocalClient extends Client {
             frameTester.setEnabled(false);
         }
 
-        window = new ClientWindow(title);
-        window.init(game, world, this);
+        window = new ClientWindow(title, this);
+        window.init(game, world);
     }
 
     private void registerCommands() {
@@ -337,23 +335,44 @@ public class LocalClient extends Client {
         return true;
     }
 
-    public void loadWorld(final WorldData world, NetworkJoinRequest req) {
+    public void loadWorld(final WorldData worldData, NetworkJoinRequest req) {
         String title = "Loading World...";
         ProgressData prog = new ProgressData(title);
+
+        localServer = new LocalServer(game, world, userPlayer, this);
+
         window.topMenu.progress.enable(prog, () -> {//update
             try {
-                LocalClient.localServer.startGameUpdateEvent(world, prog, req);
+                localServer.startGameUpdateEvent(worldData, prog, req);
             } catch (Exception ex) {
                 ErrorHandler.report(ex);
                 prog.abort();
             }
         }, () -> {//finished
-            ClientWindow.goToGamePage();
+            window.goToGamePage();
             window.topMenu.setPage(Page.HOME);
         }, () -> {//canceled
             System.out.println("Canceled");
-            LocalClient.localServer.stopGameEvent(); //Stop the game
+
+            /**
+             * Stop the server and erase it
+             */
+            stopGame();
             window.topMenu.setPage(Page.HOME);
         });
+    }
+
+    public void stopGame() {
+        try {
+            System.out.println("Closing World...");
+            userPlayer.stopGameEvent();
+            //If we have a local server
+            if (localServer != null) localServer.close();
+        } catch (Exception e) {
+            ErrorHandler.report(e);
+        } finally {
+            localServer = null;
+            System.gc();
+        }
     }
 }

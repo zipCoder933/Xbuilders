@@ -37,8 +37,10 @@ public class GameMenu extends UI_GameMenu {
     final int BUTTON_HEIGHT = 35;
     final World world;
 
-    public GameMenu(NkContext ctx, ClientWindow window, World world) {
-        super(ctx, window);
+    public GameMenu(NkContext ctx, LocalClient client, World world) {
+        super(ctx, client.window);
+        ClientWindow window = client.window;
+        this.client = client;
 
         this.world = world;
         chunkDist = new NumberBox(8, 0);
@@ -75,6 +77,7 @@ public class GameMenu extends UI_GameMenu {
     GameMenuPage page = GameMenuPage.HOME;
     NumberBox chunkDist, simDist;
     SettingsPage allSettings;
+    LocalClient client;
 
     @Override
     public void draw(MemoryStack stack) {
@@ -139,7 +142,7 @@ public class GameMenu extends UI_GameMenu {
             }
             nk_layout_row_dynamic(ctx, BUTTON_HEIGHT, 1);
             if (nk_button_label(ctx, "Save and Quit")) {
-                ClientWindow.goToMenuPage();
+                client.window.goToMenuPage();
             }
         }
         nk_end(ctx);

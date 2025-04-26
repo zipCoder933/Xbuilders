@@ -60,7 +60,7 @@ public class GameUI {
         hudText = new HUDText(ctx, window);
         hotbar = new UI_Hotbar(ctx, window, player);
 
-        baseMenu = new GameMenu(ctx, window, world);
+        baseMenu = new GameMenu(ctx, client, world);
         fileDialog = new FileDialog(ctx, window);
         overlay = new RectOverlay();
         overlay.setColor(0, 0, 0, 0);

@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ClientWindow extends NKWindow {
     public static int frameCount = 0;
+    LocalClient client;
 
     //==================================================================================================================
     //==================================================================================================================
@@ -52,13 +53,13 @@ public class ClientWindow extends NKWindow {
     // and make all classes ask for the object instead of directly acsessing it
     // In summary, we want ALL classes to be easily seprable, to make the code more
     // flexible.
-    public static void goToGamePage() {
+    public void goToGamePage() {
         isGameMode = true;
     }
 
-    public static void goToMenuPage() {
+    public void goToMenuPage() {
         isGameMode = false;
-        LocalClient.localServer.stopGameEvent(); //Close the entire game
+        client.stopGame(); //Close the entire game
     }
 
     public static boolean isInGamePage() {
@@ -92,8 +93,9 @@ public class ClientWindow extends NKWindow {
 
     String title;
 
-    public ClientWindow(String title) {
+    public ClientWindow(String title, LocalClient client) {
         super();
+        this.client = client;
         this.title = title;
     }
 
@@ -113,7 +115,7 @@ public class ClientWindow extends NKWindow {
         }
     }
 
-    public void init(Game game, World world, LocalClient client) throws Exception {
+    public void init(Game game, World world) throws Exception {
         GLFWWindow.initGLFW();
         settings = ClientSettings.load();
 

@@ -15,6 +15,6 @@ public class Main_DedicatedServer {
     public static void main(String[] args) {
         System.out.println("Server started: " + VERSION);
         game = new XbuildersGame();
-        localServer = new LocalServer(game, new World(), LocalClient.userPlayer);
+//        localServer = new LocalServer(game, new World(), LocalClient.userPlayer);
     }
 }

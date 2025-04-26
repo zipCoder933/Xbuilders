@@ -41,7 +41,7 @@ public class Main {
         game = new XbuildersGame();
 
         localClient = new LocalClient(args, VERSION, game);
-        LocalClient.localServer = new LocalServer(game, getClient().world, LocalClient.userPlayer);
+
 
 
         try {
