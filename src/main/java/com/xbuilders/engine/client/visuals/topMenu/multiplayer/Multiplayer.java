@@ -70,7 +70,6 @@ public class Multiplayer implements MenuPage {
         });
 
 
-
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
@@ -132,7 +131,6 @@ public class Multiplayer implements MenuPage {
         nk_style_set_font(ctx, Theme.font_10);
         nk_layout_row_dynamic(ctx, 30, 1);
         presetBox.render(ctx);
-
         nk_layout_row_dynamic(ctx, 30, 2);//this sets the height of the subsequent elements
         if (nk_button_label(ctx, "+ Add")) {
             if (!presetBox.getValueAsString().isEmpty()) {
@@ -153,12 +151,14 @@ public class Multiplayer implements MenuPage {
             }
         }
         nk_layout_row_static(ctx, 10, 1, 1);
+        nk_layout_row_dynamic(ctx, BOX_DEFAULT_HEIGHT, 1);
+        nk_group_begin(ctx, "Presets scroll", 0);
         nk_layout_row_dynamic(ctx, 30, 1);
         ctx.style().button().text_alignment(NK_TEXT_ALIGN_LEFT);
         for (ServerEntry server : ClientWindow.settings.internal_serverList) { // Adjust the number of buttons
             if (selectedServerPreset == server) {
                 ctx.style().button().normal().data().color().set(Theme.color_blue);
-                ctx.style().button().active().data().color().set(Theme.color_blue);
+                ctx.style().button().hover().data().color().set(Theme.color_blue);
             } else {
                 ctx.style().button().normal().data().color().set(Theme.color_buttonColor);
                 ctx.style().button().hover().data().color().set(Theme.color_buttonHover);
@@ -171,6 +171,8 @@ public class Multiplayer implements MenuPage {
         }
         ctx.style().button().normal().data().color().set(Theme.color_buttonColor);
         ctx.style().button().hover().data().color().set(Theme.color_buttonHover);
+
+        nk_group_end(ctx);
     }
 
 

@@ -54,7 +54,7 @@ public class InfoText extends UI_GameMenu {
 
     private void submitCommand(String valueAsString) {
         addToHistory("< " + valueAsString);
-        String str = client.commands.handleGameCommand(valueAsString);
+        String str = client.commands.handleCommand(valueAsString);
         if (str != null) {
             addToHistory("> " + str);
         }

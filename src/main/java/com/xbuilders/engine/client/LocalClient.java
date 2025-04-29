@@ -1,15 +1,13 @@
 package com.xbuilders.engine.client;
 
-import com.xbuilders.Main;
 import com.xbuilders.engine.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.common.network.ClientBase;
 import com.xbuilders.engine.server.*;
 import com.xbuilders.engine.server.commands.Command;
-import com.xbuilders.engine.server.commands.GameCommands;
+import com.xbuilders.engine.server.commands.CommandRegistry;
 import com.xbuilders.engine.server.commands.GiveCommand;
-import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.world.Terrain;
@@ -22,6 +20,7 @@ import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
+import org.joml.Vector3f;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +30,9 @@ import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
 
 
 public class LocalClient extends Client {
@@ -42,7 +44,7 @@ public class LocalClient extends Client {
     public static boolean DEV_MODE = false;
     public static UserControlledPlayer userPlayer;
     public static LocalServer localServer;
-    public final GameCommands commands;
+    public final CommandRegistry commands;
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
@@ -94,7 +96,7 @@ public class LocalClient extends Client {
         }
         ResourceUtils.initialize(DEV_MODE, appDataDir);
 
-        commands = new GameCommands();
+        commands = new CommandRegistry();
         registerCommands();
 
         /**
@@ -195,14 +197,14 @@ public class LocalClient extends Client {
                         localHost = InetAddress.getLocalHost();
                         return localHost.getHostAddress();
                     } catch (UnknownHostException e) {
-                       return "error";
+                        return "error";
                     }
                 }));
 
         commands.registerCommand(new Command("msg",
                 "Usage: msg <player/all> <message>").executes((parts) -> {
             if (parts.length >= 2) {
-               // return localServer.server.sendChatMessage(parts[0], parts[1]);
+                // return localServer.server.sendChatMessage(parts[0], parts[1]);
             }
             return null;
         }));
@@ -310,25 +312,6 @@ public class LocalClient extends Client {
                 }));
     }
 
-
-    public static void createPopupWindow(String title, String str) {
-        final JFrame parent = new JFrame();
-        JLabel label = new JLabel("");
-        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
-        label.setFont(label.getFont().deriveFont(12f));
-        label.setVerticalAlignment(JLabel.TOP);
-        parent.add(label);
-        parent.pack();
-        parent.getContentPane().setBackground(Color.white);
-        parent.setVisible(true);
-        parent.pack();
-        parent.setTitle(title);
-        parent.setLocationRelativeTo(null);
-        parent.setAlwaysOnTop(true);
-        parent.setVisible(true);
-        parent.setSize(350, 200);
-    }
-
     public boolean makeNewWorld(String name, int size, Terrain terrain, int seed, GameMode gameMode) {
         try {
             WorldData info = new WorldData();
@@ -345,31 +328,133 @@ public class LocalClient extends Client {
         return true;
     }
 
-    public void loadWorld(final WorldData worldData, NetworkJoinRequest req) {
-        String title = "Loading World...";
+    public void loadWorld(final WorldData singleplayerWorld, final NetworkJoinRequest remoteWorld) {
+        boolean singleplayer = remoteWorld == null;
+        String title = "Joining " + (singleplayer ? "Singleplayer" : "Multiplayer") + " World...";
         ProgressData prog = new ProgressData(title);
 
-        localServer = new LocalServer(game, world, userPlayer, this);
+        if (singleplayer) { //Spin up a local server
+            world.data = singleplayerWorld; //set the world data
 
-        window.topMenu.progress.enable(prog, () -> {//update
-            try {
-                localServer.startGameUpdateEvent(worldData, prog, req);
-            } catch (Exception ex) {
-                ErrorHandler.report(ex);
-                prog.abort();
+            //The server must have a separate world even if it's a single-player game
+            //In singleplayer, the chunks are shared by both client and server to save memory
+            World serverWorld = new World(world.chunks);
+            localServer = new LocalServer(game, serverWorld, userPlayer);
+            window.topMenu.progress.enable(prog, () -> {//update
+                try {
+                    joinGameUpdate(prog, remoteWorld);
+                } catch (Exception ex) {
+                    ErrorHandler.report(ex);
+                    prog.abort();
+                }
+            }, () -> {//finished
+                window.goToGamePage();
+                window.topMenu.setPage(Page.HOME);
+            }, () -> {//canceled
+                stopGame();
+                window.topMenu.setPage(Page.HOME);
+            });
+        } else { //Connect to a remote server
+
+        }
+
+    }
+
+
+    private void waitForTasksToComplete(ProgressData prog) {
+        if (world.newGameTasks.get() < prog.bar.getMax()) {
+            prog.bar.setProgress(world.newGameTasks.get());
+        } else {
+            prog.stage++;
+            world.newGameTasks.set(0);
+        }
+    }
+
+
+    int completeChunks, framesWithCompleteChunkValue;
+    final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_JOINING = true;
+
+    public void joinGameUpdate(ProgressData prog, NetworkJoinRequest req) throws Exception {
+        switch (prog.stage) {
+            case 0 -> {
+                prog.setTask("Joining game...");
+                boolean ok;
+                if (world.data.getSpawnPoint() == null) { //Create spawn point
+                    LocalClient.userPlayer.worldPosition.set(0, 0, 0);
+                    ok = world.init(prog, new Vector3f(0, 0, 0));
+                } else {//Load spawn point
+                    LocalClient.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
+                    ok = world.init(prog, LocalClient.userPlayer.worldPosition);
+                }
+                if (!ok) {
+                    prog.abort();
+                    window.goToMenuPage();
+                }
+                prog.stage++;
             }
-        }, () -> {//finished
-            window.goToGamePage();
-            window.topMenu.setPage(Page.HOME);
-        }, () -> {//canceled
-            System.out.println("Canceled");
+            case 1 -> {
+                waitForTasksToComplete(prog);
+            }
+            case 2 -> { //Prepare chunks
+                if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_JOINING) {
+                    prog.setTask("Preparing chunks");
+                    AtomicInteger finishedChunks = new AtomicInteger();
+                    world.chunks.forEach((vec, c) -> { //For simplicity, We call the same prepare method the same as in world class
+                        c.prepare(world.terrain, 0, true);
+                        if (c.gen_Complete()) {
+                            finishedChunks.getAndIncrement();
+                        }
+                    });
 
-            /**
-             * Stop the server and erase it
-             */
-            stopGame();
-            window.topMenu.setPage(Page.HOME);
-        });
+                    prog.bar.setProgress(finishedChunks.get(), world.chunks.size() / 2);
+                    if (finishedChunks.get() != completeChunks) {
+                        completeChunks = finishedChunks.get();
+                        framesWithCompleteChunkValue = 0;
+                    } else {
+                        framesWithCompleteChunkValue++; //We cant easily determine how many chunks can be loaded, so we just wait
+                        if (framesWithCompleteChunkValue > 50) {
+                            prog.stage++;
+                        }
+                    }
+                } else prog.stage++;
+            }
+            default -> {
+                //The client controls the player and so it should decide where to spawn
+                if (world.data.getSpawnPoint() == null) {
+                    //Find spawn point
+                    //new World Event runs for the first time in a new world
+                    Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
+                    LocalClient.userPlayer.worldPosition.set(spawnPoint);
+                    System.out.println("Spawn point: " + spawnPoint.x + ", " + spawnPoint.y + ", " + spawnPoint.z);
+                    LocalClient.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+                    LocalClient.userPlayer.newWorldEvent(world.data);
+                }
+                game.startGameEvent(world.data);
+                localServer.startGameEvent(req);
+                prog.finish();
+            }
+        }
+    }
+
+
+    public Vector3f getInitialSpawnPoint(Terrain terrain) {
+        Vector3f worldPosition = new Vector3f();
+        System.out.println("Setting new spawn point...");
+        int radius = Chunk.WIDTH + 2;
+        for (int x = -radius; x < radius; x++) {
+            for (int z = -radius; z < radius; z++) {
+                for (int y = terrain.minSurfaceHeight - 10; y < terrain.maxSurfaceHeight + 10; y++) {
+                    if (terrain.canSpawnHere(world, x, y, z)) {
+                        System.out.println("Found new spawn point!");
+                        worldPosition.set(x, y - 0.5f, z);
+                        return worldPosition;
+                    }
+                }
+            }
+        }
+        System.out.println("Spawn point not found!");
+        worldPosition.set(0, terrain.minSurfaceHeight - PLAYER_HEIGHT - 0.5f, 0);
+        return worldPosition;
     }
 
     public void stopGame() {
@@ -384,5 +469,24 @@ public class LocalClient extends Client {
             localServer = null;
             System.gc();
         }
+    }
+
+
+    public static void createWindowedMessage(String title, String str) {
+        final JFrame parent = new JFrame();
+        JLabel label = new JLabel("");
+        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
+        label.setFont(label.getFont().deriveFont(12f));
+        label.setVerticalAlignment(JLabel.TOP);
+        parent.add(label);
+        parent.pack();
+        parent.getContentPane().setBackground(Color.white);
+        parent.setVisible(true);
+        parent.pack();
+        parent.setTitle(title);
+        parent.setLocationRelativeTo(null);
+        parent.setAlwaysOnTop(true);
+        parent.setVisible(true);
+        parent.setSize(350, 200);
     }
 }

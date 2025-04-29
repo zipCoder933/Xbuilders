@@ -120,7 +120,6 @@ public class World {
     }
 
 
-
     // World boundaries
     // chunk boundaries
     // These are the boundaries of the world. We can set int.min and int.max if we want them to be infinite
@@ -148,14 +147,14 @@ public class World {
     }
 
     //Model properties
-    public final Map<Vector3i, Chunk> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
+    public final Map<Vector3i, Chunk> chunks; //Important if we want to use this in multiple threads
     public final WorldEntityMap entities = new WorldEntityMap(); // <chunkPos, entity>
     public final List<Player> players = new ArrayList<>();
     public WorldData data;
     public Terrain terrain;
 
     //Client properties
-    private final AtomicBoolean needsSorting; // Atomic variables are thread update
+    private final AtomicBoolean needsSorting = new AtomicBoolean(true);
     private final Vector3f lastPlayerPosition = new Vector3f();
     private SortByDistanceToPlayer sortByDistance;
     private final List<Chunk> unusedChunks = new ArrayList<>();
@@ -163,13 +162,25 @@ public class World {
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
 
+    public World() {
+        chunks = new ConcurrentHashMap<>();
+    }
+
+    /**
+     * For a local server, where we want to share chunks in memory to save space and improve performance
+     * The local server has a different world but shares chunks with the client
+     * @param chunks
+     */
+    public World(Map<Vector3i, Chunk> chunks) {
+        this.chunks = chunks;
+    }
+
     /**
      * This is a record of all the pending changes that need to be applied.
      * Before we load the world, all of the pending block changes must be applied to the world
      */
     public Local_MultiplayerPendingBlockChanges multiplayerPendingBlockChanges;
     public Local_MultiplayerPendingEntityChanges multiplayerPendingEntityChanges;
-
 
 
     /**
@@ -231,10 +242,6 @@ public class World {
         return thread;
     });
 
-    public World() {
-        this.needsSorting = new AtomicBoolean(true);
-
-    }
 
     public void init(UserControlledPlayer player, BlockArrayTexture textures) throws IOException {
         multiplayerPendingBlockChanges = new Local_MultiplayerPendingBlockChanges(player);
@@ -287,28 +294,19 @@ public class World {
     }
     // </editor-fold>
 
-    public void startGameEvent(WorldData info){
-        players.clear();
-        players.add(LocalClient.userPlayer);
-    }
-
-    public boolean startGame(ProgressData prog, WorldData info, Vector3f playerPosition) {
-        System.out.println("\n\nStarting new game: " + info.getName());
+    public boolean init(ProgressData prog, Vector3f playerPosition) {
+        System.out.println("\n\nStarting new game: " + data.getName());
         prog.setTask("Starting new game");
-
+        players.clear();
         this.chunks.clear();
         this.unusedChunks.clear();
         this.futureChunks.clear(); // Important!
-
         newGameTasks.set(0);
-
-        this.data = info;
-
         entities.clear();
         //Get the terrain from worldInfo
-        this.terrain = game.getTerrainFromInfo(info);
+        this.terrain = game.getTerrainFromInfo(data);
         if (terrain == null) {
-            ErrorHandler.report("Error", "Terrain " + info.getTerrain() + " not found");
+            ErrorHandler.report("Error", "Terrain " + data.getTerrain() + " not found");
             return false;
         } else System.out.println("Terrain: " + this.terrain);
 

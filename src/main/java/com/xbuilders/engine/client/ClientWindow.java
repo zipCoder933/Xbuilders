@@ -24,6 +24,8 @@ import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.nuklear.NkVec2;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;

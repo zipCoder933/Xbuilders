@@ -8,9 +8,21 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GameCommands {
-    private final HashMap<String, Command> commands = new HashMap<>();
+/**
+ * Commands are registered on the client and server
+ * If a command is registered on just the server, the client cant handle it
+ * If a command is just registered on the client, its ok as long as its just a client side command
+ * When a command is executed
+ * - the client executes code
+ * - sends the command string to the server
+ * - the server executes code
+ */
+public class CommandRegistry {
 
+    public CommandRegistry() {
+    }
+
+    private final HashMap<String, Command> commands = new HashMap<>();
 
     public void registerCommand(Command command) {
         commands.put(command.commandName.toLowerCase(), command);
@@ -24,9 +36,6 @@ public class GameCommands {
             return new String[0]; // If n is greater than or equal to the length, return an empty array
         }
         return Arrays.copyOfRange(input, n, input.length);
-    }
-
-    public GameCommands() {
     }
 
     private static String[] splitWhitespacePreserveQuotes(String input) {
@@ -48,9 +57,8 @@ public class GameCommands {
         return parts.toArray(new String[0]);
     }
 
-    public String handleGameCommand(String inputString) {
+    public String handleCommand(String inputString) {
         try {
-
             String[] parts = splitWhitespacePreserveQuotes(inputString);
             System.out.println("handleGameCommand: " + Arrays.toString(parts));
             if (parts.length == 0) return null;
@@ -76,12 +84,9 @@ public class GameCommands {
                     else return out;
                 }
             }
-
         } catch (Exception e) {
             ErrorHandler.log(e);
             return "Error with command: " + e;
         }
     }
-
-
 }
