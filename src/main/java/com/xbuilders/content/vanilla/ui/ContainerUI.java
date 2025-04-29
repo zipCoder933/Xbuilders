@@ -1,8 +1,7 @@
 package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.server.world.chunk.BlockData;
@@ -26,7 +25,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
             return new BlockData(1);
         };
         block.clickEvent(false, (x, y, z) -> {
-            BlockData data = LocalClient.world.getBlockData(x, y, z);
+            BlockData data = Client.world.getBlockData(x, y, z);
             if (data == null) data = new BlockData(new byte[0]);
             this.data = data;
             target.set(x, y, z);
@@ -44,7 +43,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
         //We constantly check if the block data has changed
-        BlockData data = LocalClient.world.getBlockData(target.x, target.y, target.z);
+        BlockData data = Client.world.getBlockData(target.x, target.y, target.z);
         if (data != null && !data.equals(this.data)) {
             //Update data
             readContainerData(data.toByteArray());

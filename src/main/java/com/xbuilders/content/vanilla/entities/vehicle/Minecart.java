@@ -7,8 +7,8 @@ package com.xbuilders.content.vanilla.entities.vehicle;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.Main;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
@@ -67,9 +67,9 @@ public class Minecart extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        UserControlledPlayer userControlledPlayer = LocalClient.userPlayer;
+        UserControlledPlayer userControlledPlayer = Client.userPlayer;
         if (userControlledPlayer.positionLock == null) {
-            LocalClient.userPlayer.positionLock = positionLock;
+            Client.userPlayer.positionLock = positionLock;
             forwardBackDir = 0;
             resetKeyEvent();
             onTrack = alignToNearestTrack();
@@ -179,7 +179,7 @@ public class Minecart extends Vehicle {
         getFixedPosition();
         Vector3i currentTrackPiece = getNearestTrackPiece(fixedPosition.x, fixedPosition.y, fixedPosition.z);
         if (currentTrackPiece != null) {
-            BlockData orientation = LocalClient.world.getBlockData(currentTrackPiece.x, currentTrackPiece.y, currentTrackPiece.z);
+            BlockData orientation = Client.world.getBlockData(currentTrackPiece.x, currentTrackPiece.y, currentTrackPiece.z);
             if (getOrientationModified(orientation) == 0 || getOrientationModified(orientation) == 2) {
                 worldPosition.x = currentTrackPiece.x;
                 this.setRotationYDeg((float) 0);
@@ -266,20 +266,20 @@ public class Minecart extends Vehicle {
         float speed = forwardBackDir > 0 ? FORWARD_SPEED : -FORWARD_SPEED;
         posHandler.setGravityEnabled(true);
 
-        Block b = LocalClient.world.getBlock(pos.x, pos.y, pos.z);
-        Block bup = LocalClient.world.getBlock(pos.x, pos.y - 1, pos.z);
-        Block bdown = LocalClient.world.getBlock(pos.x, pos.y + 1, pos.z);
+        Block b = Client.world.getBlock(pos.x, pos.y, pos.z);
+        Block bup = Client.world.getBlock(pos.x, pos.y - 1, pos.z);
+        Block bdown = Client.world.getBlock(pos.x, pos.y + 1, pos.z);
 
 
         if (forwardBackDir == 0) {//If we are stopped
             if (b.id == Blocks.BLOCK_SWITCH_JUNCTION) {
-                if (LocalClient.userPlayer.leftKeyPressed()) {
+                if (Client.userPlayer.leftKeyPressed()) {
                     if (switchJunctionKeyEvent) {
                         float rotationY1 = getRotationYDeg() + 90;
                         this.setRotationYDeg(rotationY1);
                         switchJunctionKeyEvent = false;
                     }
-                } else if (LocalClient.userPlayer.rightKeyPressed()) {
+                } else if (Client.userPlayer.rightKeyPressed()) {
                     if (switchJunctionKeyEvent) {
                         float rotationY1 = getRotationYDeg() - 90;
                         this.setRotationYDeg(rotationY1);
@@ -343,11 +343,11 @@ public class Minecart extends Vehicle {
 
                     int orientation = -1;
                     if (b.id == Blocks.BLOCK_RAISED_TRACK) {
-                        orientation = getOrientation(LocalClient.world.getBlockData(pos.x, pos.y, pos.z));
+                        orientation = getOrientation(Client.world.getBlockData(pos.x, pos.y, pos.z));
                     } else if (bdown.id == Blocks.BLOCK_RAISED_TRACK) {
-                        orientation = getOrientation(LocalClient.world.getBlockData(pos.x, pos.y + 1, pos.z));
+                        orientation = getOrientation(Client.world.getBlockData(pos.x, pos.y + 1, pos.z));
                     } else if (bup.id == Blocks.BLOCK_RAISED_TRACK) {
-                        orientation = getOrientation(LocalClient.world.getBlockData(pos.x, pos.y - 1, pos.z));
+                        orientation = getOrientation(Client.world.getBlockData(pos.x, pos.y - 1, pos.z));
                     }
 
                     trackIsGoingUp = true;
@@ -386,7 +386,7 @@ public class Minecart extends Vehicle {
                 else if (onTrack) {
                     posHandler.setGravityEnabled(true);
                     upOrDownState = 0;
-                    BlockData orientation = LocalClient.world.getBlockData(pos.x, pos.y, pos.z);
+                    BlockData orientation = Client.world.getBlockData(pos.x, pos.y, pos.z);
                     if (orientation != null) {
                         if (getOrientationModified(orientation) == 0
                                 || getOrientationModified(orientation) == 2) {
@@ -449,7 +449,7 @@ public class Minecart extends Vehicle {
 
 
     public static int assignForwardOrBackward(int direction) {
-        if (LocalClient.userPlayer.forwardKeyPressed()) {
+        if (Client.userPlayer.forwardKeyPressed()) {
             if (keyEvent) {
                 if (direction == 0) {
                     direction = 1;
@@ -458,7 +458,7 @@ public class Minecart extends Vehicle {
                 }
                 keyEvent = false;
             }
-        } else if (LocalClient.userPlayer.backwardKeyPressed()) {
+        } else if (Client.userPlayer.backwardKeyPressed()) {
             if (keyEvent) {
                 if (direction == 0) {
                     direction = -1;
@@ -474,13 +474,13 @@ public class Minecart extends Vehicle {
     }
 
     public static boolean isTrack(int x, int y, int z) {
-        Block block = LocalClient.world.getBlock(x, y, z);
+        Block block = Client.world.getBlock(x, y, z);
         return isTrack(block.id);
 
     }
 
     public static boolean mergeTrackShouldTurnLeft(Vector3i lastPos, Vector3i pos) {
-        BlockData orientation = LocalClient.world.getBlockData(pos.x, pos.y, pos.z);
+        BlockData orientation = Client.world.getBlockData(pos.x, pos.y, pos.z);
         int o = getOrientation(orientation);
 
         boolean b = false;
@@ -494,7 +494,7 @@ public class Minecart extends Vehicle {
     }
 
     public static boolean curvedTrackIsPointingLeft(Vector3i lastPos, Vector3i pos) {
-        BlockData orientation = LocalClient.world.getBlockData(pos.x, pos.y, pos.z);
+        BlockData orientation = Client.world.getBlockData(pos.x, pos.y, pos.z);
         boolean b = false;
         if (lastPos != null && orientation != null) {
             int o = getOrientation(orientation);

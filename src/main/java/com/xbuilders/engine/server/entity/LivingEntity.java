@@ -12,8 +12,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalRandom;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.common.math.MathUtils;
@@ -92,7 +92,7 @@ public abstract class LivingEntity extends Entity {
 
 
     public boolean playerHasAnimalFeed() {
-        ItemStack heldItem = LocalClient.userPlayer.getSelectedItem();
+        ItemStack heldItem = Client.userPlayer.getSelectedItem();
         return heldItem != null && heldItem.item.equals(Items.TOOL_ANIMAL_FEED);
     }
 
@@ -103,7 +103,7 @@ public abstract class LivingEntity extends Entity {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (LocalClient.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            if (Client.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
             return false;
         };
         entitySupplier.despawnCondition = (e) -> {
@@ -120,8 +120,8 @@ public abstract class LivingEntity extends Entity {
         super(uniqueId);
         this.window = window;
         random = new AnimalRandom();
-        this.player = LocalClient.userPlayer;
-        this.pos = new PositionHandler(window, LocalClient.world, aabb, player.aabb);
+        this.player = Client.userPlayer;
+        this.pos = new PositionHandler(window, Client.world, aabb, player.aabb);
         pos.setGravityEnabled(true);
         random.setSeed((int) getUniqueIdentifier());
         health = maxHealth;
@@ -204,7 +204,7 @@ public abstract class LivingEntity extends Entity {
     }
 
     public float getYDirectionToPlayer() {
-        return getYDirectionToPlayer(LocalClient.userPlayer);
+        return getYDirectionToPlayer(Client.userPlayer);
     }
 
 

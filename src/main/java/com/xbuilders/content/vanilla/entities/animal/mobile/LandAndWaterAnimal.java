@@ -5,8 +5,8 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
 import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.common.math.MathUtils;
 import org.joml.Vector2f;
@@ -33,7 +33,7 @@ public abstract class LandAndWaterAnimal extends ActionAnimal {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (LocalClient.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            if (Client.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
             return false;
         };
         entitySupplier.isAutonomous = true;

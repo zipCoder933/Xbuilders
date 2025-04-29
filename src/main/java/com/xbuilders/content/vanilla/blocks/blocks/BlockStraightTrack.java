@@ -2,8 +2,7 @@ package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.blocks.RenderType;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.world.chunk.BlockData;
@@ -31,7 +30,7 @@ public class BlockStraightTrack extends Block {
     }
 
     private void addNeighbor(ArrayList<Vector3i> trackPositions, int x2, int y2, int z2) {
-        Block b = LocalClient.world.getBlock(x2, y2, z2);
+        Block b = Client.world.getBlock(x2, y2, z2);
         if (isTrack(b)) {
             trackPositions.add(new Vector3i(x2, y2, z2));
         }

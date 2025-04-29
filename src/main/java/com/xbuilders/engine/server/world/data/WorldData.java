@@ -96,27 +96,31 @@ public class WorldData {
         data = new DataFile();
     }
 
+    /**
+     * Create a deep clone of the worldData
+     * @param other
+     */
+    public WorldData(WorldData other) {
+        this.directory = other.directory;
+        this.name = directory.getName();
+        //Load directly from json
+        this.data = gson.fromJson(other.toJson(), DataFile.class);
+        data.initFields();
+    }
+
     public void load(final File directory) throws IOException {
         if (!directory.exists()) {
             throw new IOException("Directory does not exist");
         }
         this.directory = directory;
         this.name = directory.getName();
-        try {
-            this.data = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), DataFile.class);
-            if (data.gameMode == null) data.gameMode = GameMode.ADVENTURE;
-            if (data.difficulty == null) data.difficulty = Difficulty.NORMAL;
-        } catch (Exception ex) {
-            ErrorHandler.report(
-                    "Failed to load world info for world \"" + name + "\"", ex);
-        }
+        this.data = gson.fromJson(Files.readString(new File(directory, INFO_FILENAME).toPath()), DataFile.class);
+        data.initFields();
     }
-
 
     public String toJson() {
         return gson.toJson(data);
     }
-
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
@@ -189,6 +193,10 @@ public class WorldData {
             difficulty = Difficulty.NORMAL;
         }
 
+        public void initFields() {
+            if (gameMode == null) gameMode = GameMode.ADVENTURE;
+            if (difficulty == null) difficulty = Difficulty.NORMAL;
+        }
     }
 
     public String toString() {

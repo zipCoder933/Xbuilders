@@ -4,9 +4,7 @@
  */
 package com.xbuilders.engine.server.players;
 
-import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.players.data.PlayerInfo;
 import com.xbuilders.engine.common.network.old.server.NetworkSocket;
 import com.xbuilders.engine.common.worldInteraction.collision.EntityAABB;
@@ -33,11 +31,11 @@ public class Player extends NetworkSocket {
     }
 
     public boolean isWithinReach(float worldX, float worldY, float worldZ) {
-        return worldPosition.distance(worldX, worldY, worldZ) < LocalClient.world.getViewDistance();
+        return worldPosition.distance(worldX, worldY, worldZ) < Client.world.getViewDistance();
     }
 
     public boolean isWithinReach(Player otherPlayer) {
-        return worldPosition.distance(otherPlayer.worldPosition) < LocalClient.world.getViewDistance();
+        return worldPosition.distance(otherPlayer.worldPosition) < Client.world.getViewDistance();
     }
 
 
@@ -69,7 +67,7 @@ public class Player extends NetworkSocket {
         } else if (getSocket() != null) name = getHostAddress();
 
         if (isHost) name += " (Host)";
-        if (this == LocalClient.userPlayer) name += " (Me)";
+        if (this == Client.userPlayer) name += " (Me)";
         return name;
     }
 

@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.world;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
@@ -27,8 +27,8 @@ import java.io.IOException;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import static com.xbuilders.Main.game;
-import static com.xbuilders.engine.client.LocalClient.userPlayer;
-import static com.xbuilders.engine.client.LocalClient.world;
+import static com.xbuilders.engine.client.Client.userPlayer;
+import static com.xbuilders.engine.client.Client.world;
 
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
@@ -167,7 +167,7 @@ public class World {
      */
     public World(Map<Vector3i, Chunk> chunks, WorldData data) {
         this.chunks = chunks;
-        this.data = data;
+        this.data = new WorldData(data); //Everything except for the chunks is its own instance
     }
 
 
@@ -204,7 +204,7 @@ public class World {
             CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
             3L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-        LocalClient.frameTester.count("Mesh threads", 1);
+        Client.frameTester.count("Mesh threads", 1);
         Thread thread = new Thread(r, "Mesh Thread");
         thread.setDaemon(true);
         thread.setPriority(1);
@@ -223,7 +223,7 @@ public class World {
             PLAYER_CHUNK_MESH_THREADS, PLAYER_CHUNK_MESH_THREADS,
             1L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
             new LinkedBlockingQueue<Runnable>(), r -> {
-        LocalClient.frameTester.count("Player Mesh threads", 1);
+        Client.frameTester.count("Player Mesh threads", 1);
         Thread thread = new Thread(r, "Player Mesh Thread");
         thread.setDaemon(true);
         thread.setPriority(10);
@@ -237,7 +237,7 @@ public class World {
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
         setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
-        sortByDistance = new SortByDistanceToPlayer(LocalClient.userPlayer.worldPosition);
+        sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
         entities.clear();
     }
 
@@ -451,11 +451,11 @@ public class World {
         chunksToUnload.forEach(chunk -> {
             removeChunk(chunk.position);
         });
-        LocalClient.frameTester.set("all chunks", unusedChunks.size() + chunks.size());
-        LocalClient.frameTester.set("in-use chunks", chunks.size());
-        LocalClient.frameTester.set("chunksToRender", sortedChunksToRender.size());
-        LocalClient.frameTester.set("unused chunks", unusedChunks.size());
-        LocalClient.frameTester.set("world entities", world.entities.size());
+        Client.frameTester.set("all chunks", unusedChunks.size() + chunks.size());
+        Client.frameTester.set("in-use chunks", chunks.size());
+        Client.frameTester.set("chunksToRender", sortedChunksToRender.size());
+        Client.frameTester.set("unused chunks", unusedChunks.size());
+        Client.frameTester.set("world entities", world.entities.size());
     }
 
     final Vector3f chunkShader_cursorMin = new Vector3f();
@@ -469,9 +469,9 @@ public class World {
         }
 
         if (ClientWindow.frameCount % 10 == 0) {
-            LocalClient.frameTester.startProcess();
+            Client.frameTester.startProcess();
             world.fillChunksAroundPlayer(playerPosition, false);
-            LocalClient.frameTester.endProcess("Fill chunks around player");
+            Client.frameTester.endProcess("Fill chunks around player");
         }
 
         /*
@@ -509,7 +509,7 @@ public class World {
         // }
         // }
         // </editor-fold>
-        LocalClient.frameTester.endProcess("Sort chunks if needed");
+        Client.frameTester.endProcess("Sort chunks if needed");
         // </editor-fold>
 
         /*
@@ -625,7 +625,7 @@ public class World {
     public Entity placeEntity(EntitySupplier entity, Vector3i w, byte[] data) {
         WCCi wcc = new WCCi();
         wcc.set(w);
-        Chunk chunk = LocalClient.world.chunks.get(wcc.chunk);
+        Chunk chunk = Client.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             Entity e = chunk.entities.placeNew(w, entity, data);
             e.sendMultiplayer = false;

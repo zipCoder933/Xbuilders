@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.world.chunk.BlockData;
@@ -20,13 +20,13 @@ public class CraftingTable extends Block {
         easierMiningTool_tag = "axe";
 
         clickEvent(false, (x, y, z) -> {
-            BlockData data = LocalClient.world.getBlockData(x, y, z);
+            BlockData data = Client.world.getBlockData(x, y, z);
             if (data == null) {
                 data = new BlockData(0);
-                LocalClient.world.setBlockData(data, x, y, z);
+                Client.world.setBlockData(data, x, y, z);
             }
             WCCi wcc = new WCCi().set(x, y, z);
-            Chunk chunk = LocalClient.world.getChunk(wcc.chunk);
+            Chunk chunk = Client.world.getChunk(wcc.chunk);
             Main.game.craftingUI.setOpen(true);
         });
     }

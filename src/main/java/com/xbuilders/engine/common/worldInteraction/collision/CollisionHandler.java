@@ -1,6 +1,6 @@
 package com.xbuilders.engine.common.worldInteraction.collision;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -48,7 +48,7 @@ public class CollisionHandler {
     static Box renderingBox;
 
     private static void drawTestBox(AABB aabb, int color) {
-        if (LocalClient.DEV_MODE) {
+        if (Client.DEV_MODE) {
             if (renderingBox == null) {
                 renderingBox = new Box();
                 renderingBox.setLineWidth(3);

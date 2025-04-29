@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -39,7 +39,7 @@ public class EntityRemovalTool extends Item {
         System.out.println("Removing all entities at " + pos);
         try {
             // Create a snapshot of the entities to avoid concurrency issues during iteration
-            Collection<Entity> entitiesSnapshot = new ArrayList<>(LocalClient.world.entities.values());
+            Collection<Entity> entitiesSnapshot = new ArrayList<>(Client.world.entities.values());
             entitiesSnapshot.forEach(entity -> {
                 try {
                     if (entity != null && entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
@@ -59,7 +59,7 @@ public class EntityRemovalTool extends Item {
 
             //Remove all entities in ALL chunks
             System.out.println("Removing all entities in the current chunk");
-            for (Chunk chunk : LocalClient.world.chunks.values()) {
+            for (Chunk chunk : Client.world.chunks.values()) {
                 //Iterate over the list backwards
                 for (int i = chunk.entities.list.size() - 1; i >= 0; i--) {
                     Entity entity = chunk.entities.list.get(i);

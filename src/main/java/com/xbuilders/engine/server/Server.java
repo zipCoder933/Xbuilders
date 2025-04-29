@@ -6,16 +6,14 @@ package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.Main;
-import com.xbuilders.engine.Server;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.common.utils.ErrorHandler;
-import com.xbuilders.engine.common.utils.bytes.ByteUtils;
+import com.xbuilders.engine.common.commands.CommandRegistry;
 import com.xbuilders.engine.common.json.JsonManager;
 import com.xbuilders.engine.common.network.ServerBase;
-import com.xbuilders.engine.common.commands.CommandRegistry;
+import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.bytes.ByteUtils;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -34,7 +32,8 @@ import org.joml.Vector3f;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class LocalServer extends Server {
+public class Server {
+    public final static int version = 1;
     public LivePropagationHandler livePropagationHandler;
     private final World world;
     private final Game game;
@@ -44,7 +43,7 @@ public class LocalServer extends Server {
     ServerBase endpoint;
     private boolean alive = true;
 
-    public LocalServer(Game game, World world, UserControlledPlayer player) {
+    public Server(Game game, World world, UserControlledPlayer player) {
         this.game = game;
         this.world = world;
         eventPipeline = new BlockEventPipeline(world, player);

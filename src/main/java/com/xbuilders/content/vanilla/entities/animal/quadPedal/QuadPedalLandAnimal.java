@@ -3,8 +3,8 @@ package com.xbuilders.content.vanilla.entities.animal.quadPedal;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
@@ -133,15 +133,15 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
     public void animal_move() {
         if (playerIsRidingThis()) {
             float rotSpeed = 0.5f;
-            if (LocalClient.userPlayer.forwardKeyPressed()) {
+            if (Client.userPlayer.forwardKeyPressed()) {
                 goForward(0.2f, true);
                 rotSpeed = 3;
                 currentAction = new AnimalAction(AnimalAction.ActionType.IDLE, 1000);
             } else if (allowVoluntaryMovement()) super.animal_move();
 
-            if (LocalClient.userPlayer.leftKeyPressed()) {
+            if (Client.userPlayer.leftKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() - rotSpeed);
-            } else if (LocalClient.userPlayer.rightKeyPressed()) {
+            } else if (Client.userPlayer.rightKeyPressed()) {
                 setRotationYDeg(getRotationYDeg() + rotSpeed);
             }
         } else if (allowVoluntaryMovement() && inFrustum) super.animal_move();
@@ -189,10 +189,10 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
         if (!tamed) return false;
 
         if (canRide()) {
-            LocalClient.userPlayer.positionLock = lock;
+            Client.userPlayer.positionLock = lock;
         } else if (
-                LocalClient.userPlayer.holdingItem(Registrys.items.getItem("xbuilders:saddle"))) {
-            LocalClient.userPlayer.getSelectedItem().stackSize--;
+                Client.userPlayer.holdingItem(Registrys.items.getItem("xbuilders:saddle"))) {
+            Client.userPlayer.getSelectedItem().stackSize--;
             isSaddled = true;
         } else if (canSit()) {//Sit command
             if (currentAction.type == AnimalAction.ActionType.IDLE) {

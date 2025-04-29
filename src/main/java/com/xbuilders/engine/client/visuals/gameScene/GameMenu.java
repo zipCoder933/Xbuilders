@@ -5,8 +5,8 @@
 package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.Main;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.SettingsPage;
 import com.xbuilders.engine.server.GameMode;
@@ -37,7 +37,7 @@ public class GameMenu extends UI_GameMenu {
     final int BUTTON_HEIGHT = 35;
     final World world;
 
-    public GameMenu(NkContext ctx, LocalClient client, World world) {
+    public GameMenu(NkContext ctx, Client client, World world) {
         super(ctx, client.window);
         ClientWindow window = client.window;
         this.client = client;
@@ -77,7 +77,7 @@ public class GameMenu extends UI_GameMenu {
     GameMenuPage page = GameMenuPage.HOME;
     NumberBox chunkDist, simDist;
     SettingsPage allSettings;
-    LocalClient client;
+    Client client;
 
     @Override
     public void draw(MemoryStack stack) {
@@ -160,16 +160,16 @@ public class GameMenu extends UI_GameMenu {
                 save, "wp", (file) -> {
                     if (file != null) {
                         if (save) {
-                            String waypoint = LocalClient.userPlayer.worldPosition.x
-                                    + "," + LocalClient.userPlayer.worldPosition.y
-                                    + "," + LocalClient.userPlayer.worldPosition.z;
+                            String waypoint = Client.userPlayer.worldPosition.x
+                                    + "," + Client.userPlayer.worldPosition.y
+                                    + "," + Client.userPlayer.worldPosition.z;
                             try {
                                 Files.write(file.toPath(), waypoint.getBytes());
                             } catch (IOException e) {
                                 ClientWindow.popupMessage.message("Error saving waypoint: ", e.getMessage());
                             }
                         } else {
-                            Vector3f originalPosition = LocalClient.userPlayer.worldPosition;
+                            Vector3f originalPosition = Client.userPlayer.worldPosition;
                             try {
                                 String waypoint = new String(Files.readAllBytes(file.toPath()));
                                 String[] split = waypoint.split(",");
@@ -192,7 +192,7 @@ public class GameMenu extends UI_GameMenu {
             Main.getClient().consoleOut("You cannot teleport here, but the waypoint is: " + x + ",   " + y + ",   " + z);
             Main.getClient().window.gameScene.client_hudText("Waypoint: " + x + ", " + y + ", " + z);
         } else {
-            LocalClient.userPlayer.teleport(x, y, z);
+            Client.userPlayer.teleport(x, y, z);
         }
     }
 

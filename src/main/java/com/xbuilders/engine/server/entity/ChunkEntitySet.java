@@ -4,8 +4,8 @@
  */
 package com.xbuilders.engine.server.entity;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.camera.FrustumCullingTester;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.common.math.MathUtils;
@@ -47,7 +47,7 @@ public class ChunkEntitySet {
             entity.loadBytes = bytes;
 
             //Add to world
-            LocalClient.world.entities.put(entity.getUniqueIdentifier(), entity);
+            Client.world.entities.put(entity.getUniqueIdentifier(), entity);
             list.add(entity);
             return entity;
         }
@@ -85,7 +85,7 @@ public class ChunkEntitySet {
                 System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
 //                Main.getServer().server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
-                LocalClient.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
+                Client.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_initializeEntity();
@@ -104,7 +104,7 @@ public class ChunkEntitySet {
                 boolean hasMoved = e.updatePosition();
                 e.multiplayerProps.checkAndSendState();
                 if (!e.chunkPosition.chunk.equals(e.chunk.position)) { //Switch chunks
-                    Chunk toChunk = LocalClient.world.chunks.get(e.chunkPosition.chunk);
+                    Chunk toChunk = Client.world.chunks.get(e.chunkPosition.chunk);
                     if (toChunk != null && toChunk.gen_Complete()) {
                         //If the chunk exists, AND it's generated, add the entity to the new chunk
 //                        System.out.println("SWITCHING FROM " + MiscUtils.printVector(e.chunkPosition.chunk) + " TO " + toChunk);

@@ -1,25 +1,25 @@
 package com.xbuilders.engine.client;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Page;
-import com.xbuilders.engine.common.network.ClientBase;
-import com.xbuilders.engine.server.*;
 import com.xbuilders.engine.common.commands.CommandRegistry;
+import com.xbuilders.engine.common.network.ClientBase;
 import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
+import com.xbuilders.engine.common.progress.ProgressData;
+import com.xbuilders.engine.common.resource.ResourceUtils;
+import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.server.Game;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.common.utils.ErrorHandler;
-import com.xbuilders.engine.common.progress.ProgressData;
-import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import org.joml.Vector3f;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -31,7 +31,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
 
 
-public class LocalClient extends Client {
+public class Client {
+    public final static int version = 1;
     //The world never changes objects
     public static final World world = new World();
     public static long GAME_VERSION;
@@ -68,8 +69,8 @@ public class LocalClient extends Client {
         window.gameScene.ui.baseMenu.setOpen(true);
     }
 
-    public LocalClient(String[] args, String gameVersion, Game game) throws Exception {
-        LocalClient.GAME_VERSION = versionStringToNumber(gameVersion);
+    public Client(String[] args, String gameVersion, Game game) throws Exception {
+        Client.GAME_VERSION = versionStringToNumber(gameVersion);
         this.game = game;
         System.out.println("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
@@ -86,7 +87,7 @@ public class LocalClient extends Client {
             } else if (arg.startsWith("name")) {
                 title = arg.split("=")[1];
             } else if (arg.equals("loadWorldOnStartup")) {
-                LocalClient.LOAD_WORLD_ON_STARTUP = true;
+                Client.LOAD_WORLD_ON_STARTUP = true;
             }
         }
         ResourceUtils.initialize(DEV_MODE, appDataDir);
@@ -97,9 +98,9 @@ public class LocalClient extends Client {
         /**
          * Testers
          */
-        if (!LocalClient.DEV_MODE) LocalClient.FPS_TOOLS = false;
+        if (!Client.DEV_MODE) Client.FPS_TOOLS = false;
         dummyTester.setEnabled(false);
-        if (LocalClient.FPS_TOOLS) {
+        if (Client.FPS_TOOLS) {
             frameTester.setEnabled(true);
             frameTester.setStarted(true);
             frameTester.setUpdateTimeMS(1000);
@@ -324,7 +325,7 @@ public class LocalClient extends Client {
     }
 
 
-    public LocalServer localServer; //The only thing we need to keep this for is to STOP the server
+    public Server localServer; //The only thing we need to keep this for is to STOP the server
 
 
     public void loadWorld(final WorldData singleplayerWorld, final NetworkJoinRequest remoteWorld) {
@@ -342,7 +343,7 @@ public class LocalClient extends Client {
             //In singleplayer, the chunks are shared by both client and server to save memory
             World serverWorld = new World(world.chunks, world.data);
 
-            localServer = new LocalServer(game, serverWorld, userPlayer); //Create our server
+            localServer = new Server(game, serverWorld, userPlayer); //Create our server
             new Thread(() -> { //Start the server on another thread
                 localServer.run();
             }).start();
@@ -387,11 +388,11 @@ public class LocalClient extends Client {
                 prog.setTask("Joining game...");
                 boolean ok;
                 if (world.data.getSpawnPoint() == null) { //Create spawn point
-                    LocalClient.userPlayer.worldPosition.set(0, 0, 0);
+                    Client.userPlayer.worldPosition.set(0, 0, 0);
                     ok = world.init(prog, new Vector3f(0, 0, 0));
                 } else {//Load spawn point
-                    LocalClient.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
-                    ok = world.init(prog, LocalClient.userPlayer.worldPosition);
+                    Client.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
+                    ok = world.init(prog, Client.userPlayer.worldPosition);
                 }
                 if (!ok) {
                     prog.abort();
@@ -431,9 +432,9 @@ public class LocalClient extends Client {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
                     Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
-                    LocalClient.userPlayer.worldPosition.set(spawnPoint);
+                    Client.userPlayer.worldPosition.set(spawnPoint);
                     System.out.println("Spawn point: " + spawnPoint.x + ", " + spawnPoint.y + ", " + spawnPoint.z);
-                    LocalClient.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+                    Client.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
                 }
                 userPlayer.loadFromWorld(world.data);
                 game.startGameEvent(world.data);

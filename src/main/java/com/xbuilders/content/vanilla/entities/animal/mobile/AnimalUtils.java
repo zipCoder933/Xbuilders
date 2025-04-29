@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.math.MatrixUtils;
 import org.joml.Matrix4f;
@@ -18,7 +18,7 @@ public class AnimalUtils {
 
     public static void rotateToFacePlayer(Matrix4f matrix) {
         Vector3f entityHeadPos = MatrixUtils.getPositionFromMatrix(matrix);
-        Vector3f playerHeadPos = LocalClient.userPlayer.camera.position;
+        Vector3f playerHeadPos = Client.userPlayer.camera.position;
 
         //If the head twists more than 1.7 radians, then don't rotate
         //if (Math.abs(calculateYaw(playerHeadPos, entityHeadPos)) < 1.7f) {
@@ -30,29 +30,29 @@ public class AnimalUtils {
     }
 
     public static boolean inWater(Entity entity) {
-        if (LocalClient.world.getBlock(
+        if (Client.world.getBlock(
                 (int) entity.worldPosition.x,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z
         ).isLiquid()
-                || LocalClient.world.getBlock(
+                || Client.world.getBlock(
                 (int) entity.worldPosition.x - 1,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z
         ).isLiquid()
-                || LocalClient.world.getBlock(
+                || Client.world.getBlock(
                 (int) entity.worldPosition.x + 1,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z
         ).isLiquid()
-                || LocalClient.world.getBlock(
+                || Client.world.getBlock(
                 (int) entity.worldPosition.x,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z - 1
         ).isLiquid()) {
             return true;
         }
-        return (LocalClient.world.getBlock(
+        return (Client.world.getBlock(
                 (int) entity.worldPosition.x,
                 (int) entity.worldPosition.y,
                 (int) entity.worldPosition.z + 1

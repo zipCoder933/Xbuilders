@@ -3,10 +3,7 @@ package com.xbuilders.engine.server.loot.block;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.xbuilders.Main;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.loot.LootTableRegistry;
-import com.xbuilders.engine.server.loot.output.Loot;
 import com.xbuilders.engine.server.loot.output.LootList;
 import org.joml.Vector3f;
 

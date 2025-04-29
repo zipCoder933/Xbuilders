@@ -6,13 +6,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.GameSceneEvents;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
@@ -178,7 +177,7 @@ public class UserControlledPlayer extends Player {
             if (!inventory.isEmpty()) {
                 //Make sure the flag is placed somewhere safe (where it wont displace a block)
                 System.out.println("Placing flag...");
-                Vector3f flagPos = findSuitablePlacement(worldPosition, (v) -> LocalClient.world.terrain.canSpawnHere(LocalClient.world, v.x, v.y, v.z));
+                Vector3f flagPos = findSuitablePlacement(worldPosition, (v) -> Client.world.terrain.canSpawnHere(Client.world, v.x, v.y, v.z));
                 Main.getServer().setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
                 Main.getClient().consoleOut("Flag placed at (" + (int) (flagPos.x) + ", " + (int) flagPos.y + ", " + (int) flagPos.z + ")");
             }
@@ -195,7 +194,7 @@ public class UserControlledPlayer extends Player {
         aabb.updateBox();
         Vector3f reaspawn = findSuitablePlacement(
                 target,
-                (v) -> LocalClient.world.terrain.canSpawnHere(LocalClient.world, v.x, v.y, v.z));
+                (v) -> Client.world.terrain.canSpawnHere(Client.world, v.x, v.y, v.z));
         aabb.updateBox();
         teleport(reaspawn.x, reaspawn.y, reaspawn.z);
     }
@@ -240,9 +239,9 @@ public class UserControlledPlayer extends Player {
          * Preform a backup test where we JUST check for air
          */
         test = (v) -> {
-            short b = LocalClient.world.getBlockID(v.x, v.y, v.z);
-            short b1 = LocalClient.world.getBlockID(v.x, v.y - 1, v.z);
-            short b2 = LocalClient.world.getBlockID(v.x, v.y - 2, v.z);
+            short b = Client.world.getBlockID(v.x, v.y, v.z);
+            short b1 = Client.world.getBlockID(v.x, v.y - 1, v.z);
+            short b2 = Client.world.getBlockID(v.x, v.y - 2, v.z);
             return b == BLOCK_AIR
                     && b1 == BLOCK_AIR
                     && b2 == BLOCK_AIR;
@@ -308,23 +307,23 @@ public class UserControlledPlayer extends Player {
     public void setSpawnPoint(float x, float y, float z) {
         status_spawnPosition.set(x, y, z);
         Main.getClient().consoleOut("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
-        saveToWorld(LocalClient.world.data); //Make SURE to save the spawnpoint
+        saveToWorld(Client.world.data); //Make SURE to save the spawnpoint
     }
 
     public void getPlayerBoxTop(Vector3f playerBoxBottom) {
         aabb.updateBox();
         playerBoxBottom.set(
-                (LocalClient.userPlayer.aabb.box.min.x + LocalClient.userPlayer.aabb.box.max.x) / 2,
-                LocalClient.userPlayer.aabb.box.min.y,
-                (LocalClient.userPlayer.aabb.box.min.z + LocalClient.userPlayer.aabb.box.max.z) / 2);
+                (Client.userPlayer.aabb.box.min.x + Client.userPlayer.aabb.box.max.x) / 2,
+                Client.userPlayer.aabb.box.min.y,
+                (Client.userPlayer.aabb.box.min.z + Client.userPlayer.aabb.box.max.z) / 2);
     }
 
     public void getPlayerBoxBottom(Vector3f playerBoxTop) {
         aabb.updateBox();
         playerBoxTop.set(
-                (LocalClient.userPlayer.aabb.box.min.x + LocalClient.userPlayer.aabb.box.max.x) / 2,
-                LocalClient.userPlayer.aabb.box.max.y,
-                (LocalClient.userPlayer.aabb.box.min.z + LocalClient.userPlayer.aabb.box.max.z) / 2
+                (Client.userPlayer.aabb.box.min.x + Client.userPlayer.aabb.box.max.x) / 2,
+                Client.userPlayer.aabb.box.max.y,
+                (Client.userPlayer.aabb.box.min.z + Client.userPlayer.aabb.box.max.z) / 2
         );
     }
 
@@ -524,7 +523,7 @@ public class UserControlledPlayer extends Player {
         this.view = view;
         inventory = new StorageSpace(33);
         camera = new Camera(this, window, projection, view, centeredView);
-        positionHandler = new PositionHandler(window, LocalClient.world, aabb, aabb);
+        positionHandler = new PositionHandler(window, Client.world, aabb, aabb);
         positionHandler.callback_onGround = (fallDistance) -> {
             if (fallDistance > 3) {
                 float damage = MathUtils.map(fallDistance, 3, 15, 0, MAX_HEALTH);
@@ -540,7 +539,7 @@ public class UserControlledPlayer extends Player {
     }
 
     public void setFlashlight(float distance) {
-        LocalClient.world.chunkShader.setFlashlightDistance(distance);
+        Client.world.chunkShader.setFlashlightDistance(distance);
     }
 
 
@@ -563,28 +562,28 @@ public class UserControlledPlayer extends Player {
     }
 
     public Block getBlockAtPlayerHead() {
-        return LocalClient.world.getBlock(
+        return Client.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerFeet() {
-        return LocalClient.world.getBlock(
+        return Client.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtPlayerWaist() {
-        return LocalClient.world.getBlock(
+        return Client.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y + aabb.box.getYLength()) - 1,
                 (int) Math.floor(worldPosition.z));
     }
 
     public Block getBlockAtCameraPos() {
-        return LocalClient.world.getBlock(
+        return Client.world.getBlock(
                 (int) Math.floor(camera.position.x),
                 (int) Math.floor(camera.position.y),
                 (int) Math.floor(camera.position.z));
@@ -593,7 +592,7 @@ public class UserControlledPlayer extends Player {
     public boolean isInsideOfLadder() {
         return getBlockAtPlayerHead().climbable
                 ||
-                LocalClient.world.getBlock(
+                Client.world.getBlock(
                         (int) Math.floor(worldPosition.x),
                         (int) Math.floor(worldPosition.y + aabb.box.getYLength()),
                         (int) Math.floor(worldPosition.z)).climbable;
@@ -870,8 +869,8 @@ public class UserControlledPlayer extends Player {
     }
 
     public Entity dropItem(ItemStack itemStack) {
-        Vector3f pos = new Vector3f().set(LocalClient.userPlayer.worldPosition);
-        Vector3f addition = new Vector3f().set(LocalClient.userPlayer.camera.look.x, 0, LocalClient.userPlayer.camera.look.z).mul(1.5f);
+        Vector3f pos = new Vector3f().set(Client.userPlayer.worldPosition);
+        Vector3f addition = new Vector3f().set(Client.userPlayer.camera.look.x, 0, Client.userPlayer.camera.look.z).mul(1.5f);
         pos.add(addition);
         return Main.getServer().placeItemDrop(
                 pos,

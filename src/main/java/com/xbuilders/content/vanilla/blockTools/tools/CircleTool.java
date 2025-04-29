@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -79,7 +79,7 @@ public class CircleTool extends BlockTool {
 
     @Override
     public void activate() {
-        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Client.userPlayer.camera.cursorRay.disableBoundaryMode();
     }
 
 
@@ -132,7 +132,7 @@ public class CircleTool extends BlockTool {
     private void propagate(Vector3i origin, int x, int y, int z, Block block,
                            ArrayList<Vector3i> queue, float radius, HashSet<Vector3i> visited) {
         if (origin.distance(x, y, z) > radius) return;
-        Block b = LocalClient.world.getBlock(x, y, z);
+        Block b = Client.world.getBlock(x, y, z);
         if ((placeOnHit || !b.solid)
                 && !visited.contains(new Vector3i(x, y, z))) {
             visited.add(new Vector3i(x, y, z));

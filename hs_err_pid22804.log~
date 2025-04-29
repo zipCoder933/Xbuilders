@@ -39,7 +39,7 @@ j  com.xbuilders.engine.client.visuals.FileDialog.<init>(Lorg/lwjgl/nuklear/NkCo
 j  com.xbuilders.engine.client.visuals.gameScene.GameUI.<init>(Lcom/xbuilders/engine/server/Game;Lorg/lwjgl/nuklear/NkContext;Lcom/xbuilders/engine/client/ClientWindow;Lcom/xbuilders/engine/client/player/UserControlledPlayer;)V+100
 j  com.xbuilders.engine.client.visuals.gameScene.GameScene.<init>(Lcom/xbuilders/engine/client/ClientWindow;Lcom/xbuilders/engine/server/Game;)V+84
 j  com.xbuilders.engine.client.ClientWindow.init(Lcom/xbuilders/engine/server/Game;)V+142
-j  com.xbuilders.engine.client.Client.<init>([Ljava/lang/String;Ljava/lang/String;Lcom/xbuilders/engine/server/Game;)V+283
+j  com.xbuilders.engine.client.LocalClient.<init>([Ljava/lang/String;Ljava/lang/String;Lcom/xbuilders/engine/server/Game;)V+283
 j  com.xbuilders.Main.main([Ljava/lang/String;)V+54
 v  ~StubRoutines::call_stub
 

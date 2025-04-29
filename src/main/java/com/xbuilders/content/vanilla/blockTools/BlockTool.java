@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -27,7 +27,7 @@ public abstract class BlockTool {
     }
 
     public static Block getSelectedBlock() {
-        ItemStack selectedItem = LocalClient.userPlayer.getSelectedItem();
+        ItemStack selectedItem = Client.userPlayer.getSelectedItem();
         if (selectedItem == null || selectedItem.item == null) return BlockRegistry.BLOCK_AIR;
         if (selectedItem.item.getBlock() == null) return BlockRegistry.BLOCK_AIR;
         Block b = selectedItem.item.getBlock();
@@ -36,7 +36,7 @@ public abstract class BlockTool {
     }
 
     public static boolean hasBlock() {
-        ItemStack selectedItem = LocalClient.userPlayer.getSelectedItem();
+        ItemStack selectedItem = Client.userPlayer.getSelectedItem();
         if (selectedItem == null || selectedItem.item == null) return false;
         if (selectedItem.item.getBlock() == null) return false;
         Block b = selectedItem.item.getBlock();

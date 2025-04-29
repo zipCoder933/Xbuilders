@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.server.world.chunk.pillar;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.common.utils.BFS.ChunkNode;
@@ -28,7 +28,7 @@ public class ChunkSunlightGenerator {
                 return true;
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x - 1, chunk.position.y, chunk.position.z));
             if (neghboringChunk != null && neghboringChunk.data.getSun(neghboringChunk.data.size.x - 1, y, z) == 0) {
                 return true;
@@ -39,7 +39,7 @@ public class ChunkSunlightGenerator {
                 return true;
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x + 1, chunk.position.y, chunk.position.z));
             if (neghboringChunk != null && neghboringChunk.data.getSun(0, y, z) == 0) {
                 return true;
@@ -50,7 +50,7 @@ public class ChunkSunlightGenerator {
                 return true;
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x, chunk.position.y, chunk.position.z - 1));
             if (neghboringChunk != null && neghboringChunk.data.getSun(x, y, neghboringChunk.data.size.z - 1) == 0) {
                 return true;
@@ -61,7 +61,7 @@ public class ChunkSunlightGenerator {
                 return true;
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x, chunk.position.y, chunk.position.z + 1));
             if (neghboringChunk != null && neghboringChunk.data.getSun(x, y, 0) == 0) {
                 return true;
@@ -78,7 +78,7 @@ public class ChunkSunlightGenerator {
                 addNodeToQueue(queue, chunk, x - 1, y, z);
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x - 1, chunk.position.y, chunk.position.z));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(neghboringChunk.data.size.x - 1, y, z) > 0) {
                 addNodeToInitialQueue(queue, neghboringChunk, neghboringChunk.data.size.x - 1, y, z, neghboringChunk);
@@ -91,7 +91,7 @@ public class ChunkSunlightGenerator {
                 addNodeToQueue(queue, chunk, x + 1, y, z);
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x + 1, chunk.position.y, chunk.position.z));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(0, y, z) > 0) {
                 addNodeToInitialQueue(queue, neghboringChunk, 0, y, z, neghboringChunk);
@@ -104,7 +104,7 @@ public class ChunkSunlightGenerator {
                 addNodeToQueue(queue, chunk, x, y, z - 1);
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x, chunk.position.y, chunk.position.z - 1));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(x, y, neghboringChunk.data.size.z - 1) > 0) {
                 addNodeToInitialQueue(queue, neghboringChunk, x, y, neghboringChunk.data.size.z - 1, neghboringChunk);
@@ -117,7 +117,7 @@ public class ChunkSunlightGenerator {
                 addNodeToQueue(queue, chunk, x, y, z + 1);
             }
         } else {
-            Chunk neghboringChunk = LocalClient.world
+            Chunk neghboringChunk = Client.world
                     .getChunk(new Vector3i(chunk.position.x, chunk.position.y, chunk.position.z + 1));
             if (neghboringChunk != null && neghboringChunk.gen_sunLoaded() && neghboringChunk.data.getSun(x, y, 0) > 0) {
                 addNodeToInitialQueue(queue, neghboringChunk, x, y, 0, neghboringChunk);
@@ -257,7 +257,7 @@ public class ChunkSunlightGenerator {
             final Vector3i neighboringChunk = new Vector3i();
             WCCi.getNeighboringChunk(neighboringChunk, chunk.position, x, y, z);
 
-            chunk = LocalClient.world.getChunk(neighboringChunk);
+            chunk = Client.world.getChunk(neighboringChunk);
             if (chunk != null) {
                 x = MathUtils.positiveMod(x, Chunk.WIDTH);
                 y = MathUtils.positiveMod(y, Chunk.WIDTH);

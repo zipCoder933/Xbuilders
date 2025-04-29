@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.world.light;
 
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.common.math.MathUtils;
@@ -61,7 +61,7 @@ public class TorchUtils {
     private static void findNeg2(Chunk chunk, int x, int y, int z, final List<TorchNode> queue) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = wcc.getChunk(LocalClient.world);
+            chunk = wcc.getChunk(Client.world);
             if (chunk == null) {
                 return;
             }
@@ -99,7 +99,7 @@ public class TorchUtils {
                                           final List<TorchNode> queue, HashSet<Chunk> affectedChunks) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = wcc.getChunk(LocalClient.world);
+            chunk = wcc.getChunk(Client.world);
             if (chunk == null) {
                 return;
             }
@@ -141,7 +141,7 @@ public class TorchUtils {
                                            final List<TorchNode> queue, final HashSet<TorchNode> repropagation) {
         if (!Chunk.inBounds(x, y, z)) {//Correct coordinates if out of bounds
             final WCCi wcc = new WCCi().setNeighboring(chunk.position, x, y, z);
-            chunk = wcc.getChunk(LocalClient.world);
+            chunk = wcc.getChunk(Client.world);
             if (chunk == null) {
                 return;
             }

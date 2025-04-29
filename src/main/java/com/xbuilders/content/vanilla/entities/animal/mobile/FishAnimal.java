@@ -1,8 +1,8 @@
 package com.xbuilders.content.vanilla.entities.animal.mobile;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.common.math.MathUtils;
@@ -36,7 +36,7 @@ public abstract class FishAnimal<ActionEnum> extends LivingEntity {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (LocalClient.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            if (Client.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
             return false;
         };
         entitySupplier.isAutonomous = true;
@@ -71,7 +71,7 @@ public abstract class FishAnimal<ActionEnum> extends LivingEntity {
     long actionDuration;
 
     public boolean inWater() {
-        inWater = LocalClient.world.getBlock(
+        inWater = Client.world.getBlock(
                 (int) Math.floor(worldPosition.x),
                 (int) Math.floor(worldPosition.y),
                 (int) Math.floor(worldPosition.z)).isLiquid();
@@ -98,7 +98,7 @@ public abstract class FishAnimal<ActionEnum> extends LivingEntity {
             if (isPendingDestruction()) {
                 setRotationYDeg(getRotationYDeg() + rotationVelocity / 3);
             } else if (distToPlayer < 10 && playerHasAnimalFeed()) {
-                float playerY = LocalClient.userPlayer.worldPosition.y;
+                float playerY = Client.userPlayer.worldPosition.y;
                 float playerPos = playerY + random.noise(1, -2, 2);
                 worldPosition.y = (float) MathUtils.curve(worldPosition.y, playerPos, 0.05f);
                 facePlayer();
@@ -148,7 +148,7 @@ public abstract class FishAnimal<ActionEnum> extends LivingEntity {
 
 
     public boolean playerIsInSameMediumAsFish() {
-        return inWater == LocalClient.userPlayer.getBlockAtCameraPos().isLiquid();
+        return inWater == Client.userPlayer.getBlockAtCameraPos().isLiquid();
     }
 
     @Override

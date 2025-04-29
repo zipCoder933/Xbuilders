@@ -32,7 +32,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ClientWindow extends NKWindow {
     public static int frameCount = 0;
-    LocalClient client;
+    Client client;
 
     //==================================================================================================================
     //==================================================================================================================
@@ -43,7 +43,7 @@ public class ClientWindow extends NKWindow {
 
 
     public static void printlnDev(String message) {
-        if (LocalClient.DEV_MODE) {
+        if (Client.DEV_MODE) {
             System.out.println(message);
         }
     }
@@ -93,7 +93,7 @@ public class ClientWindow extends NKWindow {
 
     String title;
 
-    public ClientWindow(String title, LocalClient client) {
+    public ClientWindow(String title, Client client) {
         super();
         this.client = client;
         this.title = title;
@@ -104,11 +104,11 @@ public class ClientWindow extends NKWindow {
             /* Input */
             beginScreenshot(); //If we want the frameTester to capture the entire frame length, we need to include startFrame() and endFrame()
             startFrame();
-            LocalClient.frameTester.__startFrame();
+            Client.frameTester.__startFrame();
             render();
             MemoryProfiler.update();
-            if (LocalClient.memoryGraph != null) LocalClient.memoryGraph.update();
-            LocalClient.frameTester.__endFrame();
+            if (Client.memoryGraph != null) Client.memoryGraph.update();
+            Client.frameTester.__endFrame();
 
             endFrame();//EndFrame takes the most time, becuase we have vsync turned on
             endScreenshot();
@@ -161,7 +161,7 @@ public class ClientWindow extends NKWindow {
 
 
         //init world
-        world.init(LocalClient.userPlayer, Registrys.blocks.textures);
+        world.init(Client.userPlayer, Registrys.blocks.textures);
 
         if (settings.video_fullscreen) {
             enableFullscreen(settings.video_fullscreenSize.value);
@@ -227,10 +227,10 @@ public class ClientWindow extends NKWindow {
 
         String playerName = "";
         try {
-            playerName = " (" + LocalClient.userPlayer.userInfo.name + ") ";
+            playerName = " (" + Client.userPlayer.userInfo.name + ") ";
         } finally {
         }
-        setTitle(title + playerName + (LocalClient.DEV_MODE ? "   " + mfpAndMemory : ""));
+        setTitle(title + playerName + (Client.DEV_MODE ? "   " + mfpAndMemory : ""));
     }
 
     @Override
@@ -271,22 +271,22 @@ public class ClientWindow extends NKWindow {
     @Override
     public void keyEvent(int key, int scancode, int action, int mods) {
         if (action == GLFW.GLFW_RELEASE) {
-            if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F2) {
+            if (Client.DEV_MODE && key == GLFW.GLFW_KEY_F2) {
                 System.out.println("System.GC()");
                 System.gc();
-            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F3) {
+            } else if (Client.DEV_MODE && key == GLFW.GLFW_KEY_F3) {
                 devkeyF3 = !devkeyF3;
                 System.out.println("Special mode (F3): " + devkeyF3);
-            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F4) {
+            } else if (Client.DEV_MODE && key == GLFW.GLFW_KEY_F4) {
                 devkeyF4 = !devkeyF4;
                 System.out.println("Special mode (F4): " + devkeyF4);
-            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F1) {
+            } else if (Client.DEV_MODE && key == GLFW.GLFW_KEY_F1) {
                 devkeyF1 = !devkeyF1;
                 System.out.println("Special mode (F1): " + devkeyF1);
-            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F12) {
+            } else if (Client.DEV_MODE && key == GLFW.GLFW_KEY_F12) {
                 devkeyF12 = !devkeyF12;
                 System.out.println("Light repropagation: " + devkeyF12);
-            } else if (LocalClient.DEV_MODE && key == GLFW.GLFW_KEY_F10) {
+            } else if (Client.DEV_MODE && key == GLFW.GLFW_KEY_F10) {
                 System.out.println("Forced devmode crash! (F10) key pressed");
                 System.out.println(10 / 0);
             } else if (key == GLFW.GLFW_KEY_F11) {

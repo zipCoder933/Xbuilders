@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceUtils;
@@ -89,14 +89,14 @@ public class CopyTool extends BlockTool {
                             (int) (x - aabb.min.x),
                             (int) (y - aabb.min.y),
                             (int) (z - aabb.min.z),
-                            LocalClient.world.getBlockID(x, y, z));
+                            Client.world.getBlockID(x, y, z));
                     //Set block data
-                    if (LocalClient.world.getBlockData(x, y, z) != null) {
+                    if (Client.world.getBlockData(x, y, z) != null) {
                         PasteTool.clipboard.setBlockData(
                                 (int) (x - aabb.min.x),
                                 (int) (y - aabb.min.y),
                                 (int) (z - aabb.min.z),
-                                LocalClient.world.getBlockData(x, y, z));
+                                Client.world.getBlockData(x, y, z));
                     }
                 }
             }

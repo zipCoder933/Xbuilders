@@ -3,8 +3,7 @@ package com.xbuilders.content.vanilla.propagation;
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.LivePropagationTask;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
@@ -49,8 +48,8 @@ public class GrassPropagation extends LivePropagationTask {
             Vector3i node = entry.getKey();
             long setTime = entry.getValue();
 
-            short thisBlock = LocalClient.world.getBlockID(node.x, node.y, node.z);
-            Block aboveBlock = LocalClient.world.getBlock(node.x, node.y - 1, node.z);
+            short thisBlock = Client.world.getBlockID(node.x, node.y, node.z);
+            Block aboveBlock = Client.world.getBlock(node.x, node.y - 1, node.z);
 
             if (System.currentTimeMillis() - setTime > UPDATE_INTERVAL / 2) { //If it's been 10 seconds since we last set the block
                 if (thisBlock == Blocks.BLOCK_DIRT && !aboveBlock.solid) {
@@ -66,7 +65,7 @@ public class GrassPropagation extends LivePropagationTask {
     }
 
     private short getGrassBlockOfBiome(int wx, int wy, int wz) {
-        int biome = LocalClient.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        int biome = Client.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case DefaultTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;

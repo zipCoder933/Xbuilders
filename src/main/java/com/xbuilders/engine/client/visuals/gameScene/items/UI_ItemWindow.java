@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.visuals.gameScene.items;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;
 import com.xbuilders.engine.server.GameMode;
@@ -107,7 +107,7 @@ public abstract class UI_ItemWindow extends UI_GameMenu {
         if (action == GLFW.GLFW_RELEASE) {
             if (!inBounds(windowDims) && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
                 if (draggingItem != null) {
-                    LocalClient.userPlayer.dropItem(draggingItem);
+                    Client.userPlayer.dropItem(draggingItem);
                     draggingItem = null;
                 } else setOpen(false);
                 return true;

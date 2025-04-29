@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -42,7 +42,7 @@ public class PaintTool extends BlockTool {
 
     @Override
     public void activate() {
-        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Client.userPlayer.camera.cursorRay.disableBoundaryMode();
     }
 
 
@@ -53,7 +53,7 @@ public class PaintTool extends BlockTool {
         if(isCreationMode && getSelectedBlock() == null) return false;
 
         //Get block at cursor hit position
-        Block replaceBlock = LocalClient.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
+        Block replaceBlock = Client.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
         Block newBlock = isCreationMode ? getSelectedBlock() : BlockRegistry.BLOCK_AIR;
         if (newBlock == null || newBlock == replaceBlock) return false;
 
@@ -89,12 +89,12 @@ public class PaintTool extends BlockTool {
         float radius = settingAABB.getXLength() / 2;
         if (origin.distance(x, y, z) > radius) return;
 
-        Block existingBlock = LocalClient.world.getBlock(x, y, z);
+        Block existingBlock = Client.world.getBlock(x, y, z);
         if (existingBlock.id == blockToReplace.id) {
             Main.getServer().setBlock(newBlock.id, x, y, z);
 
             //Check again just in case
-            existingBlock = LocalClient.world.getBlock(x, y, z);
+            existingBlock = Client.world.getBlock(x, y, z);
             if (existingBlock.id == newBlock.id) {
                 queue.add(new Vector3i(x, y, z));
             }

@@ -5,7 +5,7 @@
 package com.xbuilders.content.vanilla.terrain.experemental;
 
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
@@ -42,49 +42,49 @@ public class TerrainSod {
                                    float valleyLikelyhood, float dryness, float make) {
 
         if (biome == DefaultTerrain.BIOME_BEACH) {
-            LocalClient.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
+            Client.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
             if (terrain.fastNoise.GetValueFractal(wx, wz) >= 0) {
-                LocalClient.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 2, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 3, wz);
+                Client.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
+                Client.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 2, wz);
+                Client.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 3, wz);
             } else {
-                LocalClient.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 1, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 2, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 3, wz);
+                Client.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 1, wz);
+                Client.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 2, wz);
+                Client.world.setBlock(Blocks.BLOCK_GRAVEL, wx, wy + 3, wz);
             }
         } else if (biome == DefaultTerrain.BIOME_DESERT) {
             if (terrain.fastNoise.GetValueFractal((float) (wx * 4), (float) (wz * 4)) < -0.25f) {
-                LocalClient.world.setBlock(Blocks.BLOCK_CLAY, wx, wy, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
+                Client.world.setBlock(Blocks.BLOCK_CLAY, wx, wy, wz);
+                Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
+                Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
+                Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
             }
             if (terrain.fastNoise.GetValueFractal((float) (wx / 2), (float) (wz / 2), 1000.0f) > 0.1) {
-                LocalClient.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
-                LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
+                Client.world.setBlock(Blocks.BLOCK_SAND, wx, wy, wz);
+                Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 1, wz);
+                Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
+                Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
             }
-            LocalClient.world.setBlock(Blocks.BLOCK_RED_SAND, wx, wy, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
+            Client.world.setBlock(Blocks.BLOCK_RED_SAND, wx, wy, wz);
+            Client.world.setBlock(Blocks.BLOCK_SANDSTONE, wx, wy + 1, wz);
+            Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 2, wz);
+            Client.world.setBlock(Blocks.BLOCK_RED_SANDSTONE, wx, wy + 3, wz);
         } else if (biome == DefaultTerrain.BIOME_SNOWY) {
-            LocalClient.world.setBlock(Blocks.BLOCK_SNOW_GRASS, wx, wy, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            Client.world.setBlock(Blocks.BLOCK_SNOW_GRASS, wx, wy, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
         } else if (biome == DefaultTerrain.BIOME_SAVANNAH) {
-            LocalClient.world.setBlock(Blocks.BLOCK_DRY_GRASS, wx, wy, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            Client.world.setBlock(Blocks.BLOCK_DRY_GRASS, wx, wy, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
         } else if (biome == DefaultTerrain.BIOME_JUNGLE) {
-            LocalClient.world.setBlock(Blocks.BLOCK_JUNGLE_GRASS, wx, wy, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            Client.world.setBlock(Blocks.BLOCK_JUNGLE_GRASS, wx, wy, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
         } else {
-            LocalClient.world.setBlock(Blocks.BLOCK_GRASS, wx, wy, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
-            LocalClient.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
+            Client.world.setBlock(Blocks.BLOCK_GRASS, wx, wy, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 1, wz);
+            Client.world.setBlock(Blocks.BLOCK_DIRT, wx, wy + 2, wz);
             if (session.random.nextFloat() > 0.995) {
                 TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
                 session.generatedOutsideOfChunk = true;

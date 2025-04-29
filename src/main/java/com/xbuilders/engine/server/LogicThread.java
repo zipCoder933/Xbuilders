@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import java.util.*;
@@ -16,9 +16,9 @@ public class LogicThread {
     final int CHUNK_RANDOM_TICK_RATE = 40;
     private long lastTickTime = 0;
     private int ticks = 0;
-    LocalServer server;
+    Server server;
 
-    public LogicThread(LocalServer server) {
+    public LogicThread(Server server) {
         this.server = server;
     }
 
@@ -57,7 +57,7 @@ public class LogicThread {
         if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
             int chunksMeshUpdated = 0;
             //HashSet<Chunk> chunks = new HashSet<>();
-            Iterator<Chunk> iterator = LocalClient.world.chunks.values().iterator();
+            Iterator<Chunk> iterator = Client.world.chunks.values().iterator();
 
             while (iterator.hasNext()) {
                 Chunk chunk = iterator.next();
@@ -70,8 +70,8 @@ public class LogicThread {
                 if (chunk.client_distToPlayer < simDistance) {
                     boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
 
-                    if (LocalClient.DEV_MODE &&
-                            LocalClient.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
+                    if (Client.DEV_MODE &&
+                            Client.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
                     boolean hasUpdatedMesh = chunk.tick(spawnEntities);
                     chunksMeshUpdated += (hasUpdatedMesh ? 1 : 0);
                 }

@@ -6,8 +6,8 @@ package com.xbuilders.content.vanilla.entities.vehicle;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.common.math.MathUtils;
 
@@ -33,11 +33,11 @@ public class Boat extends Vehicle {
         int wx = (int) worldPosition.x;
         int wy = (int) worldPosition.y;
         int wz = (int) worldPosition.z;
-        boolean belowBLockLiquid = LocalClient.world.getBlock(wx, wy + 1, wz).isLiquid()
+        boolean belowBLockLiquid = Client.world.getBlock(wx, wy + 1, wz).isLiquid()
                 && worldPosition.y > wy + 0.85f;//We dont have to stand by strict block coordinates
 
-        isInWater = LocalClient.world.getBlock(wx, wy, wz).isLiquid()
-                || LocalClient.world.getBlock(wx, wy - 1, wz).isLiquid()
+        isInWater = Client.world.getBlock(wx, wy, wz).isLiquid()
+                || Client.world.getBlock(wx, wy - 1, wz).isLiquid()
                 || belowBLockLiquid;
 
         return isInWater;
@@ -64,7 +64,7 @@ public class Boat extends Vehicle {
 
         if (playerIsRidingThis()) {
             if (isInWater) {
-                if (LocalClient.world.getBlock(wx, wy - 1, wz).isLiquid()) {
+                if (Client.world.getBlock(wx, wy - 1, wz).isLiquid()) {
                     rise = true;
                 }
             } else {
@@ -143,7 +143,7 @@ public class Boat extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        LocalClient.userPlayer.positionLock = new PositionLock(this, 0);
+        Client.userPlayer.positionLock = new PositionLock(this, 0);
         return true;
     }
 

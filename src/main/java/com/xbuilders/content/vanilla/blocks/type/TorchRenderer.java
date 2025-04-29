@@ -4,7 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
@@ -28,11 +28,11 @@ public class TorchRenderer extends BlockType {
 
     @Override
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
-        return sideIsSolid(LocalClient.world.getBlock(worldX, worldY + 1, worldZ)) ||
-                sideIsSolid(LocalClient.world.getBlock(worldX + 1, worldY, worldZ)) ||
-                sideIsSolid(LocalClient.world.getBlock(worldX - 1, worldY, worldZ)) ||
-                sideIsSolid(LocalClient.world.getBlock(worldX, worldY, worldZ + 1)) ||
-                sideIsSolid(LocalClient.world.getBlock(worldX, worldY, worldZ - 1));
+        return sideIsSolid(Client.world.getBlock(worldX, worldY + 1, worldZ)) ||
+                sideIsSolid(Client.world.getBlock(worldX + 1, worldY, worldZ)) ||
+                sideIsSolid(Client.world.getBlock(worldX - 1, worldY, worldZ)) ||
+                sideIsSolid(Client.world.getBlock(worldX, worldY, worldZ + 1)) ||
+                sideIsSolid(Client.world.getBlock(worldX, worldY, worldZ - 1));
     }
 
 

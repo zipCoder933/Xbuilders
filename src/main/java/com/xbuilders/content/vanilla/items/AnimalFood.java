@@ -2,7 +2,6 @@ package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.server.entity.LivingEntity;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.loot.output.LootList;

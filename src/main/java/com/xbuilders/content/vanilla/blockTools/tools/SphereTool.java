@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -72,7 +72,7 @@ public class SphereTool extends BlockTool {
 
     @Override
     public void activate() {
-        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Client.userPlayer.camera.cursorRay.disableBoundaryMode();
     }
 
 
@@ -104,7 +104,7 @@ public class SphereTool extends BlockTool {
         if (!newBlock.isAir() && hollow &&
                 origin.distance(x, y, z) < radius - wallThickness.getValueAsNumber()) return; //Make the sphere hollow
 
-        Block prevBlock = LocalClient.world.getBlock(x, y, z);
+        Block prevBlock = Client.world.getBlock(x, y, z);
         if (prevBlock != newBlock && (!prevBlock.solid || newBlock.isAir())) {
             Main.getServer().setBlock(newBlock.id, x, y, z);
         }

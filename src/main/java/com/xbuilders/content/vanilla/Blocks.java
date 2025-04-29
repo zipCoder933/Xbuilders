@@ -2,8 +2,8 @@ package com.xbuilders.content.vanilla;
 
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.blocks.blocks.*;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
@@ -1050,7 +1050,7 @@ public class Blocks {
         blockList.add(new BlockFarmland(Blocks.BLOCK_FARMLAND));
         blockList.add(new BlockWetFarmland(Blocks.BLOCK_WET_FARMLAND));
 
-        if (LocalClient.DEV_MODE) {//Make ids for dev mode
+        if (Client.DEV_MODE) {//Make ids for dev mode
             try {
                 ItemUtils.block_makeClassJavaFiles(blockList, ResourceUtils.file("\\items\\blocks\\java"));
             } catch (IOException e) {
@@ -1149,7 +1149,7 @@ public class Blocks {
 
     private static void randomTickEvents() {
         Block.RandomTickEvent dirtTickEvent = (x, y, z) -> {
-            if (!LocalClient.world.getBlock(x, y - 1, z).solid) {
+            if (!Client.world.getBlock(x, y - 1, z).solid) {
                 Main.getServer().setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
             }
@@ -1157,7 +1157,7 @@ public class Blocks {
         };
 
         Block.RandomTickEvent grassTickEvent = (x, y, z) -> {
-            Block aboveBlock = LocalClient.world.getBlock(x, y - 1, z);
+            Block aboveBlock = Client.world.getBlock(x, y - 1, z);
             if (aboveBlock.solid) {
                 Main.getServer().setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
@@ -1296,10 +1296,10 @@ public class Blocks {
         TreeUtils.vineEvents(Registrys.getBlock(Blocks.BLOCK_RED_VINES), Blocks.BLOCK_JUNGLE_LEAVES);
 
         Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
-            if (!LocalClient.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+            if (!Client.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
                 //Decay other blocks
-                if (!LocalClient.world.getBlock(x, y + 1, z).solid ||
-                        LocalClient.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                if (!Client.world.getBlock(x, y + 1, z).solid ||
+                        Client.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
                     Main.getServer().setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
                 }
                 //Decay this block
@@ -1337,7 +1337,7 @@ public class Blocks {
     }
 
     private static boolean spreadIfFlammable(int x, int y, int z) {
-        if (LocalClient.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+        if (Client.world.getBlock(x, y, z).properties.containsKey("flammable")) {
             Main.getServer().setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             return true;
         }

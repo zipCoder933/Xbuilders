@@ -14,14 +14,14 @@ import com.xbuilders.content.vanilla.terrain.DevTerrain;
 import com.xbuilders.content.vanilla.terrain.FlatTerrain;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.content.vanilla.ui.*;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -127,7 +127,7 @@ public class XbuildersGame extends Game {
     }
 
     public void gameModeChangedEvent(GameMode gameMode) {
-        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Client.userPlayer.camera.cursorRay.disableBoundaryMode();
         blockTools.selectDefaultTool();
     }
 
@@ -206,7 +206,7 @@ public class XbuildersGame extends Game {
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
 //        terrainsList.add(new MoonTerrain());
-        if (LocalClient.DEV_MODE) terrainsList.add(new DevTerrain());
+        if (Client.DEV_MODE) terrainsList.add(new DevTerrain());
 
 
         //Menus
@@ -216,7 +216,7 @@ public class XbuildersGame extends Game {
         smeltingUI = new FurnaceUI(ctx, window);
         recipeIndexUI = new UI_RecipeIndex(ctx, Registrys.items.getList(), window);
         inventoryUI = new UI_Inventory(ctx, Registrys.items.getList(), window, GameUI.hotbar);
-        blockTools = new BlockTools(ctx, window, LocalClient.userPlayer.camera.cursorRay);
+        blockTools = new BlockTools(ctx, window, Client.userPlayer.camera.cursorRay);
         gameMenus.menus.add(barrelUI);
         gameMenus.menus.add(craftingUI);
         gameMenus.menus.add(smeltingUI);
@@ -230,7 +230,7 @@ public class XbuildersGame extends Game {
     }
 
     @Override
-    public void setupServer(LocalServer server) {
+    public void setupServer(Server server) {
         //propagations
         server.livePropagationHandler.addTask(new WaterPropagation());
         server.livePropagationHandler.addTask(new LavaPropagation());

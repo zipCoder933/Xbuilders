@@ -1,8 +1,8 @@
 package com.xbuilders.engine.client.player.raycasting;
 
 import com.xbuilders.Main;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.block.Block;
@@ -105,7 +105,7 @@ public class CursorRay {
         if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return false;
         breakAmt = 0;
         breakPercentage = 0;
-        ItemStack selectedItem = LocalClient.userPlayer.getSelectedItem();
+        ItemStack selectedItem = Client.userPlayer.getSelectedItem();
         if (!hitTarget()) return false;
 
         if (Main.game.clickEvent(this, creationMode)) { //Game click event
@@ -117,7 +117,7 @@ public class CursorRay {
 
 
         if (creationMode &&
-                LocalClient.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
+                Client.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
                         .run_ClickEvent(Main.getServer().eventPipeline.clickEventThread, getHitPos())) { //Block click event
             return true;
         }
@@ -185,10 +185,10 @@ public class CursorRay {
 
     private void eatFood(ItemStack selectedItem) {
         System.out.println("Eating food");
-        if (LocalClient.userPlayer.getFoodLevel() >= UserControlledPlayer.MAX_FOOD * 0.9) {
+        if (Client.userPlayer.getFoodLevel() >= UserControlledPlayer.MAX_FOOD * 0.9) {
             return;
         }
-        LocalClient.userPlayer.addFood(selectedItem.item.foodAdd);
+        Client.userPlayer.addFood(selectedItem.item.foodAdd);
         selectedItem.stackSize--;
     }
 
@@ -218,7 +218,7 @@ public class CursorRay {
     }
 
     private void breakBlock(boolean isHeld, ItemStack selectedItem) {
-        if (!LocalClient.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
+        if (!Client.world.inBounds(getHitPos().x, getHitPos().y, getHitPos().z)) return;
 
         if (isHeld) {
             if (Main.getServer().getGameMode() != GameMode.FREEPLAY) {
@@ -227,7 +227,7 @@ public class CursorRay {
                     breakAmt = 0;
                     lastBreakPos.set(getHitPos());
                 }
-                Block existingBlock = LocalClient.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
+                Block existingBlock = Client.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z);
                 if (existingBlock.isLiquid()) return;
                 float miningSpeed = getMiningSpeed(selectedItem);
 
@@ -296,7 +296,7 @@ public class CursorRay {
             //Removal
             if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
                 lastDeletePressTime = System.currentTimeMillis();
-                ItemStack selectedItem = LocalClient.userPlayer.getSelectedItem();
+                ItemStack selectedItem = Client.userPlayer.getSelectedItem();
                 if (selectedItem == null || !selectedItem.item.isFood()) {
                     breakBlock(true, selectedItem);
                 }
@@ -313,11 +313,11 @@ public class CursorRay {
         AABB boxAABB = new AABB();
         //If the block is too close to the player, don't place
         AtomicBoolean intersects = new AtomicBoolean(false);
-        BlockData initialData = block.getInitialBlockData(null, LocalClient.userPlayer);
+        BlockData initialData = block.getInitialBlockData(null, Client.userPlayer);
 
         block.getType().getCollisionBoxes((aabb) -> {
-            if (aabb.intersects(LocalClient.userPlayer.aabb.box) &&
-                    LocalClient.userPlayer.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
+            if (aabb.intersects(Client.userPlayer.aabb.box) &&
+                    Client.userPlayer.aabb.box.max.y > aabb.min.y + 0.1f) //small padding to help with placing
                 intersects.set(true);
         }, boxAABB, block, initialData, set.x, set.y, set.z);
 
@@ -330,7 +330,7 @@ public class CursorRay {
 
         if (stack.stackSize <= 0) return false;
         if (block != null) {
-            Block hitBlock = LocalClient.world.getBlock(cursorRay.getHitPositionAsInt());
+            Block hitBlock = Client.world.getBlock(cursorRay.getHitPositionAsInt());
             Vector3i set = cursorRay.getHitPositionAsInt();
 
             if (!(hitBlock.getType().replaceOnSet && !block.getType().replaceOnSet)) {
@@ -413,7 +413,7 @@ public class CursorRay {
 
 
     public boolean boundaryIsWithinArea() {
-        int maxWidth = LocalClient.world.getDeletionViewDistance() - Chunk.WIDTH;
+        int maxWidth = Client.world.getDeletionViewDistance() - Chunk.WIDTH;
         return boundary_aabb.getXLength() < maxWidth &&
                 boundary_aabb.getZLength() < maxWidth
                 &&
@@ -471,7 +471,7 @@ public class CursorRay {
 
     public void cast(Vector3f position, Vector3f cursorRaycastLook, World world) {
 
-        Vector2i simplifiedPanTilt = LocalClient.userPlayer.camera.simplifiedPanTilt;
+        Vector2i simplifiedPanTilt = Client.userPlayer.camera.simplifiedPanTilt;
 
 
         int distance = getRayDistance();

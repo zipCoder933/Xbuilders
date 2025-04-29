@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -62,7 +62,7 @@ public class FurnaceUI extends ContainerUI {
         };
 
 
-        playerGrid = new UI_ItemStackGrid(window, "Player", LocalClient.userPlayer.inventory, this, true);
+        playerGrid = new UI_ItemStackGrid(window, "Player", Client.userPlayer.inventory, this, true);
     }
 
     private void smeltWhenReady() {
@@ -127,7 +127,7 @@ public class FurnaceUI extends ContainerUI {
     }
 
     private long getSmeltTime() {
-        if (LocalClient.DEV_MODE) {
+        if (Client.DEV_MODE) {
             return DEV_SMELT_TIME_MS;
         } else {
             return SMELT_TIME_MS;

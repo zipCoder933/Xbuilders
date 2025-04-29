@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
@@ -38,9 +38,9 @@ public class InfoText extends UI_GameMenu {
     private String text;
     final int commandBoxHeight = 450;
     final int sidePadding = 50;
-    LocalClient client;
+    Client client;
 
-    public InfoText(NkContext ctx, NKWindow window, LocalClient client) {
+    public InfoText(NkContext ctx, NKWindow window, Client client) {
         super(ctx, window);
         this.client = client;
         box = new TextBox(100);

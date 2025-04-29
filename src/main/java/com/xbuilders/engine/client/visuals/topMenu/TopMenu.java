@@ -4,8 +4,8 @@
  */
 package com.xbuilders.engine.client.visuals.topMenu;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.multiplayer.Multiplayer;
@@ -67,7 +67,7 @@ public class TopMenu {
     public ProgressMenu progress;
     public CustomizePlayer customizePlayer;
     private Page page = Page.HOME;
-    LocalClient localClient;
+    Client localClient;
     private Page lastPage = null;
 
     public void setPage(Page page) {
@@ -93,7 +93,7 @@ public class TopMenu {
     }
 
 
-    public TopMenu(LocalClient client) throws IOException {
+    public TopMenu(Client client) throws IOException {
         this.window = client.window;
         this.localClient = client;
 
@@ -103,9 +103,9 @@ public class TopMenu {
         loadWorld = new LoadWorld(window.ctx, client, this);
         newWorld = new NewWorld(window.ctx, client, this);
         progress = new ProgressMenu(window.ctx, window, this);
-        hostMultiplayer = new Multiplayer(window.ctx, client, this, LocalClient.userPlayer, true, ipAdress, loadWorld);
-        joinMultiplayer = new Multiplayer(window.ctx, client, this, LocalClient.userPlayer, false, ipAdress, loadWorld);
-        customizePlayer = new CustomizePlayer(window.ctx, window, this, LocalClient.userPlayer);
+        hostMultiplayer = new Multiplayer(window.ctx, client, this, Client.userPlayer, true, ipAdress, loadWorld);
+        joinMultiplayer = new Multiplayer(window.ctx, client, this, Client.userPlayer, false, ipAdress, loadWorld);
+        customizePlayer = new CustomizePlayer(window.ctx, window, this, Client.userPlayer);
         settings = new SettingsPage(window.ctx, window, () -> {
             goBack();
         });
@@ -122,7 +122,7 @@ public class TopMenu {
 
     public void render() {
         GLFW.glfwSetInputMode(window.getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
-        if (firsttime && LocalClient.LOAD_WORLD_ON_STARTUP && LocalClient.DEV_MODE) {
+        if (firsttime && Client.LOAD_WORLD_ON_STARTUP && Client.DEV_MODE) {
             loadWorldOnInit__Dev();
             firsttime = false;
         }

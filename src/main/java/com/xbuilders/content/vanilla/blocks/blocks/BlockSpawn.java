@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.entity.Entity;
@@ -19,12 +19,12 @@ public class BlockSpawn extends Block {
                         "symbols/destination"));
 
         clickEvent(false, (x, y, z) -> {
-            LocalClient.userPlayer.setSpawnPoint(x, y, z);
+            Client.userPlayer.setSpawnPoint(x, y, z);
 
-            if (LocalClient.userPlayer.worldPosition.distance(x, y, z) < 3) {
+            if (Client.userPlayer.worldPosition.distance(x, y, z) < 3) {
                 if (isDarkOutside()) {
                     //Check for nearby hostile mobs
-                    for (Entity e : LocalClient.world.entities.values()) {
+                    for (Entity e : Client.world.entities.values()) {
                         if (e instanceof LivingEntity) {
                             LivingEntity le = (LivingEntity) e;
                             if (le.isHostile() && le.worldPosition.distance(x, y, z) < 20) {

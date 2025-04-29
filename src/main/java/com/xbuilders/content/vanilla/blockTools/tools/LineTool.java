@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -60,7 +60,7 @@ public class LineTool extends BlockTool {
             if (length < 0) pos.sub(ray.getHitNormalAsInt());
             else {
                 pos.add(ray.getHitNormalAsInt());
-                if (isCreationMode && LocalClient.world.getBlock(pos.x, pos.y, pos.z).solid) break;
+                if (isCreationMode && Client.world.getBlock(pos.x, pos.y, pos.z).solid) break;
             }
         }
         return true;

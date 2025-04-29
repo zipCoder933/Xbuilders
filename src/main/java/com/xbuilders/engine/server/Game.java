@@ -5,7 +5,6 @@
 package com.xbuilders.engine.server;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.players.SkinSupplier;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.data.WorldData;
@@ -14,7 +13,6 @@ import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * @author zipCoder933
@@ -32,7 +30,7 @@ public abstract class Game implements GameSceneEvents {
 
     public abstract void setupClient(ClientWindow window,  NkContext ctx, GameUI gameUI) throws Exception;
 
-    public abstract void setupServer(LocalServer server);
+    public abstract void setupServer(Server server);
 
     public final Terrain getTerrainFromInfo(WorldData info) {
         for (Terrain terrain : terrainsList) {
