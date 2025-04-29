@@ -6,9 +6,9 @@ package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk;
 
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.resource.ResourceUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.render.Shader;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

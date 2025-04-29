@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.xbuilders.engine.server.loot.animalFeed.AnimalFeedLootRegistry;
 import com.xbuilders.engine.server.loot.block.BlockLootRegistry;
 import com.xbuilders.engine.server.loot.output.Loot;
-import com.xbuilders.engine.utils.json.fasterXML.loot.LootDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.loot.LootSerializer;
+import com.xbuilders.engine.common.json.fasterXML.loot.LootDeserializer;
+import com.xbuilders.engine.common.json.fasterXML.loot.LootSerializer;
 
 public class AllLootTables {
     public static BlockLootRegistry blockLootTables = new BlockLootRegistry();

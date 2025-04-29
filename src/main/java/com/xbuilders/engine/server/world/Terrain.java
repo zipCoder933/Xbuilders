@@ -4,11 +4,11 @@
 package com.xbuilders.engine.server.world;
 
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.utils.option.NuklearField;
-import com.xbuilders.engine.utils.option.OptionsList;
+import com.xbuilders.engine.common.option.NuklearField;
+import com.xbuilders.engine.common.option.OptionsList;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.utils.math.FastNoise;
-import com.xbuilders.engine.utils.math.PerlinNoise;
+import com.xbuilders.engine.common.math.FastNoise;
+import com.xbuilders.engine.common.math.PerlinNoise;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import org.joml.Vector3i;
 

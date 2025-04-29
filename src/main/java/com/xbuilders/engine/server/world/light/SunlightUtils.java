@@ -4,11 +4,11 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.math.AABB;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
+import com.xbuilders.engine.common.BFS.ChunkNode;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import org.joml.Vector3i;
 
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
-import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.server.world.wcc.WCCi.chunkDiv;
 
 /**

@@ -4,8 +4,8 @@
  */
 package com.xbuilders.tests;
 
-import com.xbuilders.engine.utils.network.testing.server.NetworkSocket;
-import com.xbuilders.engine.utils.network.testing.server.Server;
+import com.xbuilders.engine.common.network.testing.server.NetworkSocket;
+import com.xbuilders.engine.common.network.testing.server.Server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

@@ -8,10 +8,10 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.engine.utils.option.OptionsList;
+import com.xbuilders.engine.common.option.OptionsList;
 
 /**
  * @author zipCoder933

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 
 public class EntityRemovalTool extends Item {
     Predicate<Entity> predicate;

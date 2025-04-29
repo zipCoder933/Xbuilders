@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.players.PositionLock;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 
 import java.io.IOException;
 

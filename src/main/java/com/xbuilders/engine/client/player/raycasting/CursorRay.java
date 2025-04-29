@@ -12,9 +12,9 @@ import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.client.player.camera.Camera;
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.math.AABB;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.BlockData;
@@ -421,7 +421,7 @@ public class CursorRay {
                         boundary_aabb.getXLength() *
                                 boundary_aabb.getZLength() *
                                 boundary_aabb.getYLength() <
-                                ClientWindow.settings.internal_blockBoundaryAreaLimit);
+                                ClientWindow.settings.dev_blockBoundaryAreaLimit);
     }
 
     public void drawRay() {

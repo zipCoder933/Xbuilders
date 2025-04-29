@@ -1,8 +1,8 @@
 package com.xbuilders.engine.client.player.raycasting;
 
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.math.AABB;
 
 import java.util.List;
 

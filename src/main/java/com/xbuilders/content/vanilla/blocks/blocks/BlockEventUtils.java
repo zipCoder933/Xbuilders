@@ -16,7 +16,7 @@ import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 

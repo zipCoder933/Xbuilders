@@ -8,13 +8,13 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.RandomUtils;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.math.RandomUtils;
 import com.xbuilders.content.vanilla.entities.animal.LegPair;
 import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalAction;
 import com.xbuilders.content.vanilla.entities.animal.mobile.LandAnimal;
-import com.xbuilders.engine.utils.resource.ResourceLister;
+import com.xbuilders.engine.common.resource.ResourceLister;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.texture.TextureUtils;
 

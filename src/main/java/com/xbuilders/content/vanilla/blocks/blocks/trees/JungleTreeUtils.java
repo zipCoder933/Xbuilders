@@ -5,7 +5,6 @@
 package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -15,7 +14,7 @@ import org.joml.Vector3i;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.xbuilders.engine.utils.math.RandomUtils.randInt;
+import static com.xbuilders.engine.common.math.RandomUtils.randInt;
 
 /**
  * @author zipCoder933

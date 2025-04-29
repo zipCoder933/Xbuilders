@@ -3,10 +3,10 @@ package com.xbuilders.engine.server;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.resource.ResourceLister;
-import com.xbuilders.engine.utils.resource.ResourceLoader;
-import com.xbuilders.engine.utils.json.JsonManager;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.resource.ResourceLister;
+import com.xbuilders.engine.common.resource.ResourceLoader;
+import com.xbuilders.engine.common.json.JsonManager;
 
 import java.io.File;
 import java.io.IOException;

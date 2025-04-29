@@ -11,13 +11,11 @@ package com.xbuilders.engine.client.visuals.topMenu;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.progress.ProgressData;
+import com.xbuilders.engine.common.ErrorHandler;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.io.IOException;
@@ -58,7 +56,7 @@ public class LoadWorld implements MenuPage {
     final int BOX_DEFAULT_WIDTH = TopMenu.WIDTH_4;
     final int BOX_DEFAULT_HEIGHT = TopMenu.HEIGHT_4;
     ArrayList<WorldData> worlds;
-    WorldData currentWorld;
+    public WorldData currentWorld;
 //    NkImage image;
 
     @Override
@@ -113,7 +111,7 @@ public class LoadWorld implements MenuPage {
                     if (nk_button_label(ctx, "LOAD WORLD")) {
                         localClient.loadWorld(currentWorld, null);
                     }
-                    if (nk_button_label(ctx, "HOST AS MULTIPLAYER")) {
+                    if (nk_button_label(ctx, "HOST SERVER")) {
                         menu.setPage(Page.HOST_MULTIPLAYER);
                     }
                 }

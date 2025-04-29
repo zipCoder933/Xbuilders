@@ -4,6 +4,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Page;
+import com.xbuilders.engine.common.network.ClientBase;
 import com.xbuilders.engine.server.*;
 import com.xbuilders.engine.server.commands.Command;
 import com.xbuilders.engine.server.commands.GameCommands;
@@ -16,15 +17,17 @@ import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.progress.ProgressData;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.progress.ProgressData;
+import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -45,6 +48,7 @@ public class LocalClient extends Client {
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
     public final ClientWindow window;
     private final Game game;
+    private ClientBase endpoint;
 
 
     public static long versionStringToNumber(String version) {
@@ -133,8 +137,6 @@ public class LocalClient extends Client {
                             localServer.setGameMode(GameMode.valueOf(mode.toUpperCase()));
                             if (sendToAll) {
                                 int gameMode = localServer.getGameMode().ordinal();
-                                if (localServer.server.isPlayingMultiplayer())
-                                    localServer.server.sendToAllClients(new byte[]{GameServer.CHANGE_GAME_MODE, (byte) gameMode});
                             }
                             return "Game mode changed to: " + localServer.getGameMode();
                         } catch (IllegalArgumentException e) {
@@ -167,32 +169,40 @@ public class LocalClient extends Client {
 
         commands.registerCommand(new Command("op", "Usage: op <true/false> <player>")
                 .requiresOP(true).executes((parts) -> {
-                    if (!Main.getServer().ownsGame())
-                        return "Only the host can change OP status"; //We cant change permissions if we arent the host
-                    if (parts.length >= 2) {
-                        boolean operator = Boolean.parseBoolean(parts[0]);
-                        Player target = localServer.server.getPlayerByName(parts[1]);
-                        if (target != null) {
-                            try {
-                                target.sendData(new byte[]{GameServer.CHANGE_PLAYER_PERMISSION, (byte) (operator ? 1 : 0)});
-                            } catch (IOException e) {
-                                return "Error: " + e;
-                            }
-                            return "Player " + target.userInfo.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
-                        } else {
-                            return "Player not found";
-                        }
-                    }
+//                    if (!Main.getServer().ownsGame())
+//                        return "Only the host can change OP status"; //We cant change permissions if we arent the host
+//                    if (parts.length >= 2) {
+//                        boolean operator = Boolean.parseBoolean(parts[0]);
+//                        Player target = localServer.server.getPlayerByName(parts[1]);
+//                        if (target != null) {
+//                            try {
+//                                target.sendData(new byte[]{GameServer.CHANGE_PLAYER_PERMISSION, (byte) (operator ? 1 : 0)});
+//                            } catch (IOException e) {
+//                                return "Error: " + e;
+//                            }
+//                            return "Player " + target.userInfo.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
+//                        } else {
+//                            return "Player not found";
+//                        }
+//                    }
                     return null;
                 }));
 
-        commands.registerCommand(new Command("address", "Returns the localServer's address")
-                .executes((parts) -> localServer.server.getIpAdress() + ":" + localServer.server.getPort()));
+        commands.registerCommand(new Command("address", "Returns your local IP address")
+                .executes((parts) -> {
+                    InetAddress localHost = null;
+                    try {
+                        localHost = InetAddress.getLocalHost();
+                        return localHost.getHostAddress();
+                    } catch (UnknownHostException e) {
+                       return "error";
+                    }
+                }));
 
         commands.registerCommand(new Command("msg",
                 "Usage: msg <player/all> <message>").executes((parts) -> {
             if (parts.length >= 2) {
-                return localServer.server.sendChatMessage(parts[0], parts[1]);
+               // return localServer.server.sendChatMessage(parts[0], parts[1]);
             }
             return null;
         }));
@@ -254,13 +264,13 @@ public class LocalClient extends Client {
                     }
 
                     if (parts.length >= 1) {
-                        Player target = localServer.server.getPlayerByName(parts[0]);
-                        if (target != null) {
-                            LocalClient.userPlayer.worldPosition.set(target.worldPosition);
-                            return null;
-                        } else {
-                            return "Player not found";
-                        }
+//                        Player target = localServer.server.getPlayerByName(parts[0]);
+//                        if (target != null) {
+//                            LocalClient.userPlayer.worldPosition.set(target.worldPosition);
+//                            return null;
+//                        } else {
+//                            return "Player not found";
+//                        }
                     }
                     return null;
                 }));
@@ -273,9 +283,9 @@ public class LocalClient extends Client {
                         String mode = parts[0].toUpperCase().trim().replace(" ", "_");
                         try {
                             localServer.setDifficulty(Difficulty.valueOf(mode.toUpperCase()));
-                            if (localServer.server.isPlayingMultiplayer())
-                                localServer.server.sendToAllClients(new byte[]{
-                                        GameServer.CHANGE_DIFFICULTY, (byte) localServer.getDifficulty().ordinal()});
+//                            if (localServer.server.isPlayingMultiplayer())
+//                                localServer.server.sendToAllClients(new byte[]{
+//                                        GameServer.CHANGE_DIFFICULTY, (byte) localServer.getDifficulty().ordinal()});
                             return "Difficulty changed to: " + localServer.getDifficulty();
                         } catch (IllegalArgumentException e) {
                             return "Invalid mode \"" + mode + "\" Valid modes are "

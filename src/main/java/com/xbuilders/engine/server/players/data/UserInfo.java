@@ -4,7 +4,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.client.player.Skin;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
+import com.xbuilders.engine.common.resource.ResourceUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla.entities.animal.mobile;
 
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.utils.math.MatrixUtils;
+import com.xbuilders.engine.common.math.MatrixUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

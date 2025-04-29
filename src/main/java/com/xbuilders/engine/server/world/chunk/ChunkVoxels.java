@@ -7,7 +7,7 @@ import com.xbuilders.engine.server.Registrys;
 
 import java.util.HashMap;
 
-import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.common.MiscUtils;
 import org.joml.Vector3i;
 
 /**

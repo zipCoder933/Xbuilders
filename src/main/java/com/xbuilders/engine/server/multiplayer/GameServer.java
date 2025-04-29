@@ -13,10 +13,10 @@ import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.utils.bytes.ByteUtils;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.network.testing.server.NetworkUtils;
+import com.xbuilders.engine.common.bytes.ByteUtils;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.network.testing.server.NetworkUtils;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.server.world.chunk.BlockData;
@@ -36,9 +36,9 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.utils.MiscUtils.formatTime;
+import static com.xbuilders.engine.common.MiscUtils.formatTime;
 
-public class GameServer extends com.xbuilders.engine.utils.network.testing.server.Server<Player> {
+public class GameServer extends com.xbuilders.engine.common.network.testing.server.Server<Player> {
 
     //All localServer message headers
     public static final byte PLAYER_INFO = -128;

@@ -8,7 +8,7 @@ import com.xbuilders.engine.server.world.Terrain;
 
 import java.util.ArrayList;
 
-import com.xbuilders.engine.utils.option.NuklearField;
+import com.xbuilders.engine.common.option.NuklearField;
 import org.lwjgl.nuklear.NkContext;
 
 import static org.lwjgl.nuklear.Nuklear.nk_button_label;

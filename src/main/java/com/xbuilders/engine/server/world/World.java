@@ -16,13 +16,13 @@ import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.settings.ClientSettings;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
-import com.xbuilders.engine.utils.math.AABB;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.progress.ProgressData;
-import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
-import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
-import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.LowValueComparator;
+import com.xbuilders.engine.common.BFS.ChunkNode;
+import com.xbuilders.engine.common.math.AABB;
+import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.progress.ProgressData;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.LowValueComparator;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.FutureChunk;
 
@@ -37,9 +37,9 @@ import static com.xbuilders.engine.client.LocalClient.world;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
-import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.common.ErrorHandler;
 
-import static com.xbuilders.engine.utils.math.MathUtils.positiveMod;
+import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 
 import static com.xbuilders.engine.server.world.wcc.WCCi.chunkDiv;
 

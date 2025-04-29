@@ -57,13 +57,14 @@ public class MenuHome implements MenuPage {
             ) + "\n\n", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);
+            ctx.style().button().text_alignment(NK_TEXT_ALIGN_CENTERED | NK_TEXT_ALIGN_MIDDLE);
             if (button(ctx, "NEW WORLD")) {
                 menu.setPage(Page.NEW_WORLD);
             }
             if (button(ctx, "LOAD WORLD")) {
                 menu.setPage(Page.LOAD_WORLD);
             }
-            if (button(ctx, "JOIN MULTIPLAYER")) {
+            if (button(ctx, "JOIN SERVER")) {
                 menu.setPage(Page.JOIN_MULTIPLAYER);
             }
             if (button(ctx, "CUSTOMIZE PLAYER")) {

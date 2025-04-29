@@ -11,7 +11,7 @@ import com.xbuilders.engine.client.player.camera.FrustumCullingTester;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -85,7 +85,7 @@ public class ChunkEntitySet {
             Entity e = list.get(i);
             if (e == null || e.isDestroyMode()) {
                 System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
-                Main.getServer().server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
+//                Main.getServer().server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
                 LocalClient.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
             } else {

@@ -12,7 +12,7 @@ import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.common.math.AABB;
 
 import java.io.IOException;
 

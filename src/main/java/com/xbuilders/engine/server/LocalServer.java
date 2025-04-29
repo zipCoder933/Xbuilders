@@ -11,13 +11,12 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.common.network.ServerBase;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.players.Player;
@@ -30,10 +29,10 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.bytes.ByteUtils;
-import com.xbuilders.engine.utils.json.JsonManager;
-import com.xbuilders.engine.utils.progress.ProgressData;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.bytes.ByteUtils;
+import com.xbuilders.engine.common.json.JsonManager;
+import com.xbuilders.engine.common.progress.ProgressData;
 import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
@@ -48,17 +47,15 @@ public class LocalServer extends Server {
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
     private final World world;
     private final Game game;
-    public final GameServer server;
     public final BlockEventPipeline eventPipeline;
     public final LogicThread tickThread;
     private final LocalClient localClient; //TODO: REPLACE all communication between server and client with packets
+    ServerBase endpoint;
 
     public LocalServer(Game game, World world, UserControlledPlayer player, LocalClient localClient) {
         this.game = game;
         this.world = world;
         this.localClient = localClient;
-        //Everything else
-        server = new GameServer(this, player);
         eventPipeline = new BlockEventPipeline(world, player);
         livePropagationHandler = new LivePropagationHandler();
         tickThread = new LogicThread(this);
@@ -110,7 +107,7 @@ public class LocalServer extends Server {
     }
 
     public boolean ownsGame() {
-        return (server.isPlayingMultiplayer() && LocalClient.userPlayer.isHost) || !server.isPlayingMultiplayer();
+        return false;
     }
 
 
@@ -237,14 +234,12 @@ public class LocalServer extends Server {
 
 
     public void setTimeOfDay(double v) {
-        try {
-            System.out.println("Setting time of day to " + v);
-            GameScene.background.setTimeOfDay(v);
-            byte[] timeFloat = ByteUtils.floatToBytes((float) v);
-            server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
-        } catch (IOException e) {
-            ErrorHandler.report(e);
-        }
+
+        System.out.println("Setting time of day to " + v);
+        GameScene.background.setTimeOfDay(v);
+        byte[] timeFloat = ByteUtils.floatToBytes((float) v);
+        //  server.sendToAllClients(new byte[]{GameServer.SET_TIME, timeFloat[0], timeFloat[1], timeFloat[2], timeFloat[3]});
+
     }
 
     public float getTimeOfDay() {
@@ -281,19 +276,19 @@ public class LocalServer extends Server {
             case 0 -> {
                 world.data = worldData;
                 if (req != null) {
-                    server.initNewGame(world.data, req);
+                    // server.initNewGame(world.data, req);
                     prog.setTask("Joining game...");
-                    server.startJoiningWorld();
+                    //  server.startJoiningWorld();
                 }
                 prog.stage++;
             }
             case 1 -> {
                 if (req != null && !req.hosting) { //If we are not hosting, we need to get the world
-                    prog.setTask("Received " + server.loadedChunks + " chunks");
-                    if (server.getWorldInfo() != null) {
-                        world.data = server.getWorldInfo();//Reassign the world info to the one we got from the host
-                        prog.stage++;
-                    }
+                    //  prog.setTask("Received " + server.loadedChunks + " chunks");
+                    // if (server.getWorldInfo() != null) {
+                    //      world.data = server.getWorldInfo();//Reassign the world info to the one we got from the host
+                    prog.stage++;
+                    //  }
                 } else prog.stage++;
             }
             case 2 -> {
@@ -316,7 +311,7 @@ public class LocalServer extends Server {
             }
             case 4 -> { //After we have loaded all chunks, THAN host
                 prog.setTask("Hosting game...");
-                server.startHostingWorld();
+                //  server.startHostingWorld();
                 prog.stage++;
             }
             case 5 -> { //Prepare chunks
@@ -419,7 +414,7 @@ public class LocalServer extends Server {
             Main.getClient().consoleOut("Game mode changed to: " + getGameMode());
         }
         //draw other players
-        server.updatePlayers();
+        // server.updatePlayers();
         //TODO: move all this into tick thread
         eventPipeline.update(); //Todo: change event pipeline to have client and localServer parts
     }
@@ -429,6 +424,6 @@ public class LocalServer extends Server {
         tickThread.stopGameEvent();
         eventPipeline.stopGameEvent();
         livePropagationHandler.stopGameEvent();
-        server.stopGameEvent();
+        //  server.stopGameEvent();
     }
 }

@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling;
 
-import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.common.math.AABB;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;

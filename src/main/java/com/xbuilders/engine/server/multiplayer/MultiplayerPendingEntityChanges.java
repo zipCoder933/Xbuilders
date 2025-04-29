@@ -6,8 +6,8 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.utils.bytes.SimpleKyro;
-import com.xbuilders.engine.utils.network.testing.server.NetworkSocket;
+import com.xbuilders.engine.common.bytes.SimpleKyro;
+import com.xbuilders.engine.common.network.testing.server.NetworkSocket;
 import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;

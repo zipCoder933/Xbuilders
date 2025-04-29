@@ -7,7 +7,7 @@ package com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh_ArrayTexture;
-import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.common.ErrorHandler;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;

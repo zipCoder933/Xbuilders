@@ -7,9 +7,9 @@ package com.xbuilders.content.vanilla.entities.animal.mobile;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.xbuilders.engine.utils.math.FastNoise;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.CustomRandom;
+import com.xbuilders.engine.common.math.FastNoise;
+import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.math.CustomRandom;
 
 /**
  * @author zipCoder933

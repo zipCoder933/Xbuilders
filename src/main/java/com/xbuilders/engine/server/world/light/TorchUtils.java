@@ -4,7 +4,7 @@ package com.xbuilders.engine.server.world.light;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 

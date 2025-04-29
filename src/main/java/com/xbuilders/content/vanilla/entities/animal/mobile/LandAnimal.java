@@ -5,7 +5,7 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.content.vanilla.Blocks;
 
 import java.io.ByteArrayOutputStream;

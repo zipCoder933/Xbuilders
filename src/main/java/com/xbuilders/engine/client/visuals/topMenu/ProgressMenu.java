@@ -7,7 +7,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.utils.progress.ProgressData;
+import com.xbuilders.engine.common.progress.ProgressData;
 
 import java.nio.IntBuffer;
 import org.lwjgl.PointerBuffer;

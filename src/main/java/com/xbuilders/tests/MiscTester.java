@@ -1,7 +1,7 @@
 package com.xbuilders.tests;
 
 
-import com.xbuilders.engine.utils.BooleanBuffer;
+import com.xbuilders.engine.common.BooleanBuffer;
 import org.lwjgl.system.MemoryStack;
 
 public class MiscTester {

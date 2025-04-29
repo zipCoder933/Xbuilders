@@ -3,15 +3,15 @@ package com.xbuilders.engine.server.world.chunk.saving;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.bytes.ByteUtils;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.bytes.ByteUtils;
 import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.utils.bytes.ByteUtils.bytesToInt;
-import static com.xbuilders.engine.utils.bytes.ByteUtils.bytesToShort;
+import static com.xbuilders.engine.common.bytes.ByteUtils.bytesToInt;
+import static com.xbuilders.engine.common.bytes.ByteUtils.bytesToShort;
 
 public class ChunkFile_V1 {
 

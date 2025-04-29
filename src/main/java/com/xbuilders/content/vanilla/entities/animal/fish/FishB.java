@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.entities.animal.mobile.FishAnimal;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.math.RandomUtils;
-import com.xbuilders.engine.utils.resource.ResourceLister;
+import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.math.RandomUtils;
+import com.xbuilders.engine.common.resource.ResourceLister;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;

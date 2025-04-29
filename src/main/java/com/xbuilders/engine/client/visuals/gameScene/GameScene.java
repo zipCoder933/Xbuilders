@@ -16,8 +16,8 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.progress.ProgressData;
+import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
@@ -90,7 +90,7 @@ public class GameScene implements WindowEvents {
         //The client will check into the Main.getServer() occasionally to see if the Main.getServer() has any updates for the player
         LocalClient.userPlayer.updateAndRender(holdMouse);
         LocalClient.userPlayer.render(holdMouse);
-        Main.getServer().server.drawPlayers(GameScene.projection, GameScene.view);
+//        Main.getServer().server.drawPlayers(GameScene.projection, GameScene.view);
 
         enableBackfaceCulling();
         LocalClient.frameTester.startProcess();

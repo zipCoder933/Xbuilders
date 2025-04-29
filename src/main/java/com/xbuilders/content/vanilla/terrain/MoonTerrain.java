@@ -5,7 +5,7 @@ package com.xbuilders.content.vanilla.terrain;
 
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.utils.option.OptionsList;
+import com.xbuilders.engine.common.option.OptionsList;
 
 import static com.xbuilders.content.vanilla.Blocks.BLOCK_ANDESITE;
 import static com.xbuilders.content.vanilla.Blocks.BLOCK_BEDROCK;

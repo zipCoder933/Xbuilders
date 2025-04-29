@@ -5,7 +5,7 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

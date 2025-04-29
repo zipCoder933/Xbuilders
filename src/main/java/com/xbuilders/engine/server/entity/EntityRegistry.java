@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.xbuilders.engine.utils.ArrayUtils.combineArrays;
+import static com.xbuilders.engine.common.ArrayUtils.combineArrays;
 
 /**
  * @author zipCoder933

@@ -4,9 +4,9 @@
 package com.xbuilders.engine.server.world.data;
 
 import com.xbuilders.engine.server.Difficulty;
-import com.xbuilders.engine.utils.option.OptionsList;
+import com.xbuilders.engine.common.option.OptionsList;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.common.ErrorHandler;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import org.joml.Vector3f;
@@ -15,7 +15,7 @@ import java.nio.file.Files;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-import com.xbuilders.engine.utils.json.JsonManager;
+import com.xbuilders.engine.common.json.JsonManager;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.joml.Vector3i;
 
-import static com.xbuilders.engine.utils.MiscUtils.formatTime;
+import static com.xbuilders.engine.common.MiscUtils.formatTime;
 
 public class WorldData {
 

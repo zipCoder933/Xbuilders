@@ -7,8 +7,8 @@ import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
+import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackDeserializer;
+import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.tests.fasterXML.smile.custom.RecordDeserializer;
 import com.xbuilders.tests.fasterXML.smile.custom.RecordSerializer;
 

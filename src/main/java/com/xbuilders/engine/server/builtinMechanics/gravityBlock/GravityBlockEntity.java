@@ -6,7 +6,6 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
@@ -14,7 +13,7 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockVertexSet;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
+import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;

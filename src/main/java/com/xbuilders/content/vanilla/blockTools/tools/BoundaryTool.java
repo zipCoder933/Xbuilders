@@ -2,12 +2,11 @@ package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
-import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.common.resource.ResourceUtils;
+import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;

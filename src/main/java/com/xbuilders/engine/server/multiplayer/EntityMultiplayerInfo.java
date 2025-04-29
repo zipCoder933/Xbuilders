@@ -39,36 +39,16 @@ public class EntityMultiplayerInfo {
 //      Previously, the other player would move the entity and this method would fire,
 
     public boolean checkAndSendState() {
-        if (!Main.getServer().server.isPlayingMultiplayer() ||
-                controlledByAnotherPlayer)  //We wont send state if we are controlled by another player
-            return false;
-
-//        if (lastWorldPos.distance(e.worldPosition) > 0.05f) { //We need a little space, because otherwise we will be sending the state all the time
-//            lastWorldPos.set(e.worldPosition);
-//            markStateChanged();
-//        }
-//        //Check if the state has changed by comparing the last state bytes to the current state bytes
-//        stateCheckInterval = ownsThisEntityState() ? 20 : 1000;
-//        if (
-//                !isStateChanged()  //If the state hasn't already been changed
-//                        && GameScene.localServer.isPlayingMultiplayer() //And we are in multiplayer
-//                        //We only check the state every X seconds for performance
-//                        && (System.currentTimeMillis() - lastStateCheckTime > stateCheckInterval)
-//        ) {
-//            lastStateCheckTime = System.currentTimeMillis();
-//            byte[] newState = e.stateToBytes();
-//            if (!Arrays.equals(lastState, newState)) markStateChanged();
-//            lastState = newState;
-//        }
-////            wasChangedByThisPlayer = false;
-////        }
+//        if (!Main.getServer().server.isPlayingMultiplayer() ||
+//                controlledByAnotherPlayer)  //We wont send state if we are controlled by another player
+//            return false;
 
         if (stateChanged) {
             boolean sendStateQuickly = e.distToPlayer < 8 || controlledByUs();
 
             stateChanged = false;
             lastUpdateTime = System.currentTimeMillis();
-            Main.getServer().server.addEntityChange(e, GameServer.ENTITY_UPDATED, sendStateQuickly);
+//            Main.getServer().server.addEntityChange(e, GameServer.ENTITY_UPDATED, sendStateQuickly);
             return false;
         }
         return false;

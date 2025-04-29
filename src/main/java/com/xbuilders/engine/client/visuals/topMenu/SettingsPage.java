@@ -14,7 +14,7 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.utils.option.NuklearField;
+import com.xbuilders.engine.common.option.NuklearField;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.lang.reflect.Field;
@@ -42,7 +42,8 @@ public class SettingsPage implements MenuPage {
         fields.clear();
         for (Field field : ClientSettings.class.getDeclaredFields()) {
             field.setAccessible(true);
-            if (!LocalClient.DEV_MODE && field.getName().startsWith("internal_")) continue;
+            if (!LocalClient.DEV_MODE && field.getName().startsWith("dev_")) continue;
+            if (field.getName().startsWith("internal_")) continue;
 
             Consumer<Object> saveCallback = (v) -> {
                 ClientWindow.settings.save();

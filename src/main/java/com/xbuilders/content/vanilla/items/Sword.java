@@ -2,10 +2,9 @@ package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.common.MiscUtils;
 
 public class Sword extends Item {
 

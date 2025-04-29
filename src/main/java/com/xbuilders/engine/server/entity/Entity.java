@@ -25,11 +25,11 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackDeserializer;
-import com.xbuilders.engine.utils.json.fasterXML.itemStack.ItemStackSerializer;
-import com.xbuilders.engine.utils.resource.ResourceLoader;
-import com.xbuilders.engine.utils.worldInteraction.collision.EntityAABB;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackDeserializer;
+import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackSerializer;
+import com.xbuilders.engine.common.resource.ResourceLoader;
+import com.xbuilders.engine.common.worldInteraction.collision.EntityAABB;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3f;
 
@@ -37,7 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
 
-import static com.xbuilders.engine.utils.json.JsonManager.SMILE_HEADER;
+import static com.xbuilders.engine.common.json.JsonManager.SMILE_HEADER;
 
 /**
  * @author zipCoder933
@@ -222,7 +222,7 @@ public abstract class Entity {
         updatePosition();
 
         //We have to send the entity after it has been initialized
-        if (sendMultiplayer) Main.getServer().server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
+//        if (sendMultiplayer) Main.getServer().server.addEntityChange(this, GameServer.ENTITY_CREATED, true);
     }
 
     /**

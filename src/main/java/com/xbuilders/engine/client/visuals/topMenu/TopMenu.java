@@ -8,6 +8,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.client.visuals.topMenu.multiplayer.Multiplayer;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import org.lwjgl.glfw.GLFW;
@@ -33,7 +34,7 @@ public class TopMenu {
 
     public static final int WIDTH_1 = 350;
     public static final int WIDTH_3 = 550;
-    public static final int WIDTH_4 = 750;
+    public static final int WIDTH_4 = 800;
 
     public static final int HEIGHT_4 = 550;
 

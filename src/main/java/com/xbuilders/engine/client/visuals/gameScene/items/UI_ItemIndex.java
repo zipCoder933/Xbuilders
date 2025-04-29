@@ -2,7 +2,7 @@ package com.xbuilders.engine.client.visuals.gameScene.items;
 
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.nuklear.NkContext;

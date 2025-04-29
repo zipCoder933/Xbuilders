@@ -3,9 +3,8 @@ package com.xbuilders.content.vanilla.items;
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.common.MiscUtils;
 import org.joml.Vector3i;
 
 public class Hoe extends Item {

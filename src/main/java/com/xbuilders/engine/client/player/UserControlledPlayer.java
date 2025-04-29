@@ -21,12 +21,11 @@ import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
-import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.json.gson.ItemStackTypeAdapter;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.json.gson.ItemStackTypeAdapter;
+import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -792,7 +791,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 || lastOrientation.z != worldPosition.z
                 || lastOrientation.w != pan) {
             lastOrientation.set(worldPosition.x, worldPosition.y, worldPosition.z, pan);
-            Main.getServer().server.sendPlayerPosition(lastOrientation);
+//            Main.getServer().server.sendPlayerPosition(lastOrientation);
         }
     }
 

@@ -16,9 +16,9 @@ import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.light.SunlightUtils;
 import com.xbuilders.engine.server.world.light.TorchUtils;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.utils.BFS.ChunkNode;
-import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
-import com.xbuilders.engine.utils.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
+import com.xbuilders.engine.common.BFS.ChunkNode;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import org.joml.Vector3i;
 
 import java.util.*;
@@ -201,8 +201,8 @@ public class BlockEventPipeline {
                         && type.allowExistence(blockHist.newBlock, worldPos.x, worldPos.y, worldPos.z)) {
 
                     //set block
-                    if (!blockHist.fromNetwork)  //only send change if not from network
-                        Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+//                    if (!blockHist.fromNetwork)  //only send change if not from network
+//                        Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
                     chunk.markAsModified();
                     chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
 
@@ -231,7 +231,7 @@ public class BlockEventPipeline {
                 }
             } else { //If both blocks are the same, just update the block data
                 if (!blockHist.fromNetwork) //only send change if not from network
-                    Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
+//                    Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
 
                 blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
@@ -259,7 +259,7 @@ public class BlockEventPipeline {
                 }
             });
         }
-        Main.getServer().server.sendNearBlockChanges();
+//        Main.getServer().server.sendNearBlockChanges();
     }
 
 

@@ -11,7 +11,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.nuklear.NKUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;

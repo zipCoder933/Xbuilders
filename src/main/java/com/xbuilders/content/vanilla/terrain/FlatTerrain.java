@@ -9,8 +9,8 @@ import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.engine.utils.option.BoundedInt;
-import com.xbuilders.engine.utils.option.OptionsList;
+import com.xbuilders.engine.common.option.BoundedInt;
+import com.xbuilders.engine.common.option.OptionsList;
 
 import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
 

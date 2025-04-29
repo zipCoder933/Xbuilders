@@ -1,16 +1,7 @@
 package com.xbuilders.engine.server.commands;
 
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.Difficulty;
-import com.xbuilders.engine.server.Game;
-import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.multiplayer.GameServer;
-import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.common.ErrorHandler;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

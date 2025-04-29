@@ -1,11 +1,11 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
-import com.xbuilders.engine.utils.option.OptionsList;
-import com.xbuilders.engine.utils.option.BoundedFloat;
+import com.xbuilders.engine.common.option.OptionsList;
+import com.xbuilders.engine.common.option.BoundedFloat;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;

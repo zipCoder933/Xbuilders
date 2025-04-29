@@ -2,7 +2,7 @@ package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
+import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import org.lwjgl.glfw.GLFW;

@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.utils.MiscUtils;
+import com.xbuilders.engine.common.MiscUtils;
 
 public class Axe extends Item {
 

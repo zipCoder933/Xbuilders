@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
+import com.xbuilders.engine.common.resource.ResourceUtils;
 
 import java.awt.*;
 import java.io.IOException;

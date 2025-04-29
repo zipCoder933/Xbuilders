@@ -8,8 +8,8 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.Compac
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling.BoundingBoxMesh;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 

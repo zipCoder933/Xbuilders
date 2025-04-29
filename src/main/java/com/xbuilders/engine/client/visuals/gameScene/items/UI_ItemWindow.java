@@ -6,7 +6,7 @@ import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector2d;
 import org.joml.Vector2i;

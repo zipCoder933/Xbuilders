@@ -2,10 +2,9 @@ package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.utils.ErrorHandler;
+import com.xbuilders.engine.common.ErrorHandler;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3f;
 import org.lwjgl.nuklear.NkContext;

@@ -10,10 +10,10 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.engine.utils.BFS.TravelNode;
+import com.xbuilders.engine.common.BFS.TravelNode;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 

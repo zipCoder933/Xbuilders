@@ -5,7 +5,6 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.entity;
 
 import com.xbuilders.engine.client.visuals.gameScene.rendering.Mesh;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJLoader;
 import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
@@ -13,9 +12,7 @@ import com.xbuilders.window.utils.obj.buffers.OBJBufferSet;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
-import com.xbuilders.window.utils.texture.TextureUtils;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.GL_FILL;

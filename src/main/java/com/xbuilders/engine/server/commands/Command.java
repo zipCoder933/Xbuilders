@@ -31,7 +31,7 @@ public class Command {
         if (
                 (requiresOp
                         && !Main.getServer().isOperator()
-                        && !ClientSettings.load().internal_allowOPCommands)
+                        && !ClientSettings.load().dev_allowOPCommands)
         ) return "You do not have the required permissions";
         if (handle != null) return handle.apply(input);
         return null;

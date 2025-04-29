@@ -11,7 +11,7 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.BlockMesher;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import org.joml.Vector2f;

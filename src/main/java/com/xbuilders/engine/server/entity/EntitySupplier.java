@@ -5,7 +5,7 @@
 package com.xbuilders.engine.server.entity;
 
 
-import com.xbuilders.engine.utils.WorldCoord;
+import com.xbuilders.engine.common.WorldCoord;
 
 import java.util.Objects;
 import java.util.function.Supplier;

@@ -2,7 +2,6 @@ package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -10,8 +9,8 @@ import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3f;
 import org.lwjgl.nuklear.NkContext;

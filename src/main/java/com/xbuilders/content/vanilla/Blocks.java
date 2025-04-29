@@ -8,7 +8,7 @@ import com.xbuilders.engine.server.builtinMechanics.gravityBlock.GravityBlock;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.utils.resource.ResourceUtils;
+import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.blocks.*;
 import com.xbuilders.content.vanilla.blocks.blocks.trees.*;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import static com.xbuilders.content.vanilla.blocks.PlantBlockUtils.GROW_PROBABILITY;
 import static com.xbuilders.engine.server.ItemUtils.getJsonBlocksFromResource;
-import static com.xbuilders.engine.utils.math.RandomUtils.random;
+import static com.xbuilders.engine.common.math.RandomUtils.random;
 
 public class Blocks {
 

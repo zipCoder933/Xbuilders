@@ -9,9 +9,9 @@ import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.player.raycasting.Ray;
 import com.xbuilders.engine.client.player.raycasting.RayCasting;
-import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.MiscUtils;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 
 import java.awt.*;

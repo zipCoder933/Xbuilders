@@ -17,7 +17,7 @@ import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
-import com.xbuilders.engine.utils.math.MathUtils;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;

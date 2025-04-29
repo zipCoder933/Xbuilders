@@ -5,7 +5,7 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.utils.math.AABB;
+import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import com.xbuilders.engine.server.world.chunk.BlockData;

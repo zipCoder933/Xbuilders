@@ -16,8 +16,8 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.utils.math.MathUtils;
-import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
+import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
 
 import com.xbuilders.content.vanilla.Items;
 import org.joml.Vector2f;
