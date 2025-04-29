@@ -4,11 +4,13 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
+import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.construction.BlockType;
-import com.xbuilders.engine.server.multiplayer.MultiplayerPendingBlockChanges;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -16,9 +18,6 @@ import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.light.SunlightUtils;
 import com.xbuilders.engine.server.world.light.TorchUtils;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.common.utils.BFS.ChunkNode;
-import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
-import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import org.joml.Vector3i;
 
 import java.util.*;
@@ -43,11 +42,11 @@ public class BlockEventPipeline {
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
         if (blockHist != null) {
-            if (!MultiplayerPendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
-                //If there is a block event that is on a empty chunk or too far away, don't add it
-                LocalClient.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
-                return;
-            }
+//            if (!MultiplayerPendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
+//                //If there is a block event that is on a empty chunk or too far away, don't add it
+////                LocalClient.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
+//                return;
+//            }
             blockChangesThisFrame++;
             synchronized (eventClearLock) {
                 if (events.containsKey(worldPos)) { //We need to get the original previous block
@@ -120,12 +119,12 @@ public class BlockEventPipeline {
         if (ClientWindow.devkeyF3 && LocalClient.DEV_MODE)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
-        if (LocalClient.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
-            int changes = LocalClient.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
-                addEvent(worldPos, history);
-            });
-            ClientWindow.printlnDev("Loaded " + changes + " local changes");
-        }
+//        if (LocalClient.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
+//            int changes = LocalClient.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
+//                addEvent(worldPos, history);
+//            });
+//            ClientWindow.printlnDev("Loaded " + changes + " local changes");
+//        }
 
         if (events.isEmpty()) {
             framesThatHadEvents = 0;

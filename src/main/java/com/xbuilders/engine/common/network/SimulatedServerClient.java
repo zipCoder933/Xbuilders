@@ -1,6 +1,5 @@
-package com.xbuilders.engine.common.network.testing;
+package com.xbuilders.engine.common.network;
 
-import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.fake.FakeClient;
 import com.xbuilders.engine.common.network.fake.FakeServer;
 import com.xbuilders.engine.common.network.packet.Packet;

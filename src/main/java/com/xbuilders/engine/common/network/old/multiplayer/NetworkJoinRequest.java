@@ -1,4 +1,4 @@
-package com.xbuilders.engine.server.multiplayer;
+package com.xbuilders.engine.common.network.old.multiplayer;
 
 public class NetworkJoinRequest {
     public boolean hosting;

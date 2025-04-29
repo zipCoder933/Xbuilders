@@ -8,15 +8,11 @@ import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.server.multiplayer.Local_MultiplayerPendingBlockChanges;
-import com.xbuilders.engine.server.multiplayer.Local_MultiplayerPendingEntityChanges;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.player.camera.Camera;
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.settings.ClientSettings;
-import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.progress.ProgressData;
@@ -52,8 +48,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.server.world.light.SunlightUtils;
-import com.xbuilders.engine.server.world.light.TorchUtils;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import org.joml.*;
 
@@ -176,13 +170,6 @@ public class World {
         this.data = data;
     }
 
-    /**
-     * This is a record of all the pending changes that need to be applied.
-     * Before we load the world, all of the pending block changes must be applied to the world
-     */
-    public Local_MultiplayerPendingBlockChanges multiplayerPendingBlockChanges;
-    public Local_MultiplayerPendingEntityChanges multiplayerPendingEntityChanges;
-
 
     /**
      * = new ScheduledThreadPoolExecutor(1, r -> { ... });: This line creates an
@@ -245,9 +232,6 @@ public class World {
 
 
     public void init(UserControlledPlayer player, BlockArrayTexture textures) throws IOException {
-        multiplayerPendingBlockChanges = new Local_MultiplayerPendingBlockChanges(player);
-        multiplayerPendingEntityChanges = new Local_MultiplayerPendingEntityChanges(player);
-
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
@@ -311,145 +295,9 @@ public class World {
             return false;
         } else System.out.println("Terrain: " + this.terrain);
 
-        //Load pending blocks
-        loadPendingMultiplayerChanges(prog);
-
         prog.setTask("Generating chunks");
         prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
         return true;
-    }
-
-    private void loadPendingMultiplayerChanges(ProgressData prog) {
-        prog.setTask("Applying multiplayer changes");
-
-        multiplayerPendingBlockChanges.load(data);
-        System.out.println("Block changes from other players: " + multiplayerPendingBlockChanges.blockChanges.size());
-        multiplayerPendingEntityChanges.load(data);//TODO: Implement local entity multiplayer changes
-        System.out.println("Entity changes from other players: " + 0);
-
-        //Create lists of sorted changes
-        HashMap<Vector2i, PendingPillarMultiplayerChanges> pillarSortedChanges = new HashMap<>();
-
-
-        //Sort block changes
-        for (Map.Entry<Vector3i, BlockHistory> entry : multiplayerPendingBlockChanges.blockChanges.entrySet()) {
-            Vector3i worldPos = entry.getKey();
-            BlockHistory blockHistory = entry.getValue();
-
-            int chunkX = WCCi.chunkDiv(worldPos.x);
-            int chunkZ = WCCi.chunkDiv(worldPos.z);
-            Vector2i chunkCoords = new Vector2i(chunkX, chunkZ);
-            if (!pillarSortedChanges.containsKey(chunkCoords)) {
-                pillarSortedChanges.put(chunkCoords, new PendingPillarMultiplayerChanges());
-            }
-            pillarSortedChanges.get(chunkCoords).blockChanges.put(worldPos, blockHistory);
-        }
-        prog.bar.setMax(pillarSortedChanges.size());
-
-
-        HashSet<Chunk> affectedChunks = new HashSet<>();
-        ArrayList<ChunkNode> sunNode_OpaqueToTrans = new ArrayList<>();
-        ArrayList<ChunkNode> sunNode_transToOpaque = new ArrayList<>();
-
-        //Iterate over the sorted changes
-        for (Map.Entry<Vector2i, PendingPillarMultiplayerChanges> entry : new HashMap<>(pillarSortedChanges).entrySet()) {
-            Vector2i pillarCoords = entry.getKey();
-            PendingPillarMultiplayerChanges pillarChanges = entry.getValue();
-            System.out.println("\tPillar: (" + pillarCoords.x + ", " + pillarCoords.y + "); block changes: " + pillarChanges.blockChanges.size());
-            prog.bar.setProgress(prog.bar.getIncrements() + 1);
-
-            //Load the pillar and its neighbors
-            for (int x = -1; x <= 1; x++) {
-                for (int z = -1; z <= 1; z++) {
-                    addChunkPillar(pillarCoords.x + x, pillarCoords.y + z, null);
-                }
-            }
-
-            //Apply the block changes
-            for (Map.Entry<Vector3i, BlockHistory> entry2 : pillarChanges.blockChanges.entrySet()) {
-                Vector3i worldPos = entry2.getKey();
-                BlockHistory blockHist = entry2.getValue();
-                if (blockHist.previousBlock == null) { //Get the previous block if it doesn't exist
-                    blockHist.previousBlock = LocalClient.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
-                }
-                int blockX = positiveMod(worldPos.x, Chunk.WIDTH);
-                int blockY = positiveMod(worldPos.y, Chunk.WIDTH);
-                int blockZ = positiveMod(worldPos.z, Chunk.WIDTH);
-                Vector3i chunkPos = new Vector3i(pillarCoords.x, chunkDiv(worldPos.y), pillarCoords.y);
-
-                //Set the block
-                Chunk chunk = getChunk(chunkPos);
-                chunk.data.setBlock(blockX, blockY, blockZ, blockHist.newBlock.id);
-                if (blockHist.updateBlockData && blockHist.newBlockData != null) {
-                    chunk.data.setBlockData(blockX, blockY, blockZ, blockHist.newBlockData);
-                }
-
-                affectedChunks.add(chunk);
-                // <editor-fold defaultstate="collapsed" desc="update torchlight and add nodes for sunlight">
-                if (blockHist.previousBlock.opaque && !blockHist.newBlock.opaque) {
-                    SunlightUtils.addNodeForPropagation(sunNode_OpaqueToTrans, chunk, blockX, blockY, blockZ);
-                    TorchUtils.opaqueToTransparent(affectedChunks, chunk, blockX, blockY, blockZ);
-                } else if (!blockHist.previousBlock.opaque && blockHist.newBlock.opaque) {
-                    SunlightUtils.addNodeForErasure(sunNode_transToOpaque, chunk, blockX, blockY, blockZ);
-                    TorchUtils.transparentToOpaque(affectedChunks, chunk, blockX, blockY, blockZ);
-                }
-
-                if (!blockHist.previousBlock.isLuminous() && blockHist.newBlock.isLuminous()) {
-                    TorchUtils.setTorch(affectedChunks, chunk, blockX, blockY, blockZ,
-                            blockHist.newBlock.torchlightStartingValue);
-                } else if (blockHist.previousBlock.isLuminous() && !blockHist.newBlock.isLuminous()) {
-                    TorchUtils.removeTorch(affectedChunks, chunk, blockX, blockY, blockZ);
-                }
-                // </editor-fold>
-            }
-
-            //Update sunlight for the pillar
-            SunlightUtils.updateFromQueue(
-                    sunNode_OpaqueToTrans,
-                    sunNode_transToOpaque,
-                    affectedChunks,
-                    (time) -> {
-                        System.out.println("\t\tUpdating sunlight... " + time);
-                    });
-            for (Chunk chunk : affectedChunks) { //Mark the chunks as modified
-                chunk.markAsModified();
-            }
-            affectedChunks.clear();
-            sunNode_OpaqueToTrans.clear();
-            sunNode_transToOpaque.clear();
-
-            //Remove the records from the list
-            pillarSortedChanges.remove(pillarCoords);
-
-            //Save and remove any pillars that are no longer needed
-            new HashMap<>(chunks).forEach((coords, chunk) -> {
-                int chunksThatAreUnfinished = 0;
-                for (int x = -1; x <= 1; x++) {
-                    for (int z = -1; z <= 1; z++) {
-                        if (pillarSortedChanges.containsKey(new Vector2i(coords.x + x, coords.z + z))) {
-                            chunksThatAreUnfinished++;
-                        }
-                    }
-                }
-                //If the chunk pillar and all its neighbors are finished, save and remove it
-                if (chunksThatAreUnfinished == 0) {
-                    removeChunk(coords);
-                }
-            });
-            System.out.println("\tChunks: " + chunks.size() + "; unused chunks: " + unusedChunks.size());
-        }
-
-        prog.bar.setMax(multiplayerPendingBlockChanges.blockChanges.size());
-
-        chunks.clear();
-        unusedChunks.clear();
-        System.gc();
-
-        //Do this last, (If an error occurs, the code shouldnt be able to reach this point)
-        multiplayerPendingEntityChanges.clear();
-        multiplayerPendingBlockChanges.clear();
-        multiplayerPendingEntityChanges.save(data);
-        multiplayerPendingBlockChanges.save(data);
     }
 
     public void stopGameEvent() {
@@ -920,10 +768,6 @@ public class World {
 
         //Save player info
         userPlayer.saveToWorld(data);
-
-        //Save multiplayer pending block changes
-        multiplayerPendingBlockChanges.save(data);
-        multiplayerPendingEntityChanges.save(data);
     }
 
     public FutureChunk newFutureChunk(Vector3i pos) {

@@ -14,11 +14,10 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.topMenu.LoadWorld;
 import com.xbuilders.engine.client.visuals.topMenu.MenuPage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
-import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
+import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.Page;
-import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import com.xbuilders.window.nuklear.components.TextBox;
 

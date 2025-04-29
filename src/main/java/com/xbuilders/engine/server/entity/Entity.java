@@ -18,7 +18,7 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.multiplayer.EntityMultiplayerInfo;
+import com.xbuilders.engine.common.network.old.multiplayer.EntityMultiplayerInfo;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.server.world.wcc.WCCf;

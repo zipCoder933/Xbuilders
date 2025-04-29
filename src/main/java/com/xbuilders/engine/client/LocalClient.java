@@ -7,7 +7,7 @@ import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.common.network.ClientBase;
 import com.xbuilders.engine.server.*;
 import com.xbuilders.engine.common.commands.CommandRegistry;
-import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
+import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.WorldsHandler;
