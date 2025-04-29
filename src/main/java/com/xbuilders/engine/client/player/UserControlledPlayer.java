@@ -29,6 +29,7 @@ import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.engine.utils.worldInteraction.collision.PositionHandler;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkVec2;
@@ -36,8 +37,11 @@ import org.lwjgl.nuklear.NkVec2;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 
+import static com.xbuilders.content.vanilla.Blocks.BLOCK_AIR;
 import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 
 public class UserControlledPlayer extends Player implements GameSceneEvents {
@@ -174,9 +178,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         ClientWindow.popupMessage.message("Game Over!", "Press OK to teleport to spawnpoint", () -> {
             if (!inventory.isEmpty()) {
                 //Make sure the flag is placed somewhere safe (where it wont displace a block)
-                Vector3f flagPos = findSuitableFlagPlacement(worldPosition);
+                System.out.println("Placing flag...");
+                Vector3f flagPos = findSuitablePlacement(worldPosition, (v) -> LocalClient.world.terrain.canSpawnHere(LocalClient.world, v.x, v.y, v.z));
                 Main.getServer().setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
-                Main.getClient().consoleOut("Flag placed at (" + flagPos.x + ", " + flagPos.y + ", " + flagPos.z + ")");
+                Main.getClient().consoleOut("Flag placed at (" + (int) (flagPos.x) + ", " + (int) flagPos.y + ", " + (int) flagPos.z + ")");
             }
             System.out.println("Teleporting to spawnpoint... ("
                     + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z + ")");
@@ -189,76 +194,102 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private void respawn(Vector3f target) {
         aabb.updateBox();
-        Vector3f reaspawn = findSuitableSpawnPoint(target);
+        Vector3f reaspawn = findSuitablePlacement(
+                target,
+                (v) -> LocalClient.world.terrain.canSpawnHere(LocalClient.world, v.x, v.y, v.z));
         aabb.updateBox();
         teleport(reaspawn.x, reaspawn.y, reaspawn.z);
     }
 
-    public Vector3f findSuitableFlagPlacement(Vector3f target) {
-        Vector3f newTarget = new Vector3f(target);
 
+    private Vector3f findSuitablePlacement(Vector3f target, Predicate<Vector3i> test) {
+        Vector3f newTarget = new Vector3f(target);
         if (
-                !canPlaceFlagHere(LocalClient.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)
+                !test.test(new Vector3i((int) target.x, (int) target.y, (int) target.z))
         ) {
-            System.out.println("Cant place flag here (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + "), Looking around");
+            System.out.println("Cant spawn here (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + "), Looking around");
             //Go around the spawn point and find a safe place to spawn
-            final int HORIZONTAL_RADIUS = 10;
-            final int VERTICAL_RADIUS = 10;
+            final int RADIUS = 20;
+            HashSet<Vector3i> checked = new HashSet<>();
+            HashSet<Vector3i> nodes = new HashSet<>();
+            nodes.add(new Vector3i((int) target.x, (int) target.y, (int) target.z));
 
-
-            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
-                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
-                    for (int y = (int) (target.y); y < target.y + VERTICAL_RADIUS; y++) {
-                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalClient.world.terrain.canSpawnHere(LocalClient.world, x, y, z)) {
-                            System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
-                            newTarget.set(x, y, z);
-                            return newTarget;
-                        }
-                    }
-                    for (int y = (int) (target.y); y > target.y - VERTICAL_RADIUS; y--) {
-                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalClient.world.terrain.canSpawnHere(LocalClient.world, x, y, z)) {
-                            System.out.println("Found flag placement (near player) (" + x + ", " + y + ", " + z + ")");
-                            newTarget.set(x, y, z);
-                            return newTarget;
-                        }
-                    }
+            while (!nodes.isEmpty()) {
+                Vector3i node = nodes.iterator().next();
+                nodes.remove(node);
+                //If we have already checked this node or it is too far away, skip
+                if (checked.contains(node) || target.distance(node.x, node.y, node.z) > RADIUS) continue;
+                checked.add(node);
+                if (test.test(node)) {
+                    //LocalClient.world.terrain.canSpawnHere(LocalClient.world, node.x, node.y, node.z)
+                    newTarget = new Vector3f(node.x, node.y, node.z);
+                    System.out.println("\tFound spawn point (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + ")");
+                    return newTarget;
                 }
+                checkSpawnNode(nodes, checked, node.x, node.y - 1, node.z);
+                checkSpawnNode(nodes, checked, node.x - 1, node.y, node.z);
+                checkSpawnNode(nodes, checked, node.x + 1, node.y, node.z);
+                checkSpawnNode(nodes, checked, node.x, node.y, node.z - 1);
+                checkSpawnNode(nodes, checked, node.x, node.y, node.z + 1);
+                checkSpawnNode(nodes, checked, node.x, node.y + 1, node.z);
             }
 
         }
-        return newTarget;
-    }
 
-    private boolean canPlaceFlagHere(World world, int x, int y, int z) {
-        return world.getBlock(x, y, z).isAir()
-                && LocalClient.world.terrain.canSpawnHere(world, x, y, z);
-    }
-
-    public Vector3f findSuitableSpawnPoint(Vector3f target) {
-        Vector3f newTarget = new Vector3f(target);
-
-        if (!LocalClient.world.terrain.canSpawnHere(LocalClient.world, (int) newTarget.x, (int) newTarget.y, (int) newTarget.z)) {
-            System.out.println("Cant spawn here, Looking around");
+        System.out.println("\tCould not find spawn point Trying backup test.");
+        /**
+         * Preform a backup test where we JUST check for air
+         */
+        test = (v) -> {
+            short b = LocalClient.world.getBlockID(v.x, v.y, v.z);
+            short b1 = LocalClient.world.getBlockID(v.x, v.y - 1, v.z);
+            short b2 = LocalClient.world.getBlockID(v.x, v.y - 2, v.z);
+            return b == BLOCK_AIR
+                    && b1 == BLOCK_AIR
+                    && b2 == BLOCK_AIR;
+        };
+        if (
+                !test.test(new Vector3i((int) target.x, (int) target.y, (int) target.z))
+        ) {
             //Go around the spawn point and find a safe place to spawn
-            final int HORIZONTAL_RADIUS = 10;
-            lookLoop:
-            for (int x = (int) (target.x - HORIZONTAL_RADIUS); x < target.x + HORIZONTAL_RADIUS; x++) {
-                for (int z = (int) (target.z - HORIZONTAL_RADIUS); z < target.z + HORIZONTAL_RADIUS; z++) {
-                    for (int y = (int) (World.WORLD_TOP_Y - PLAYER_HEIGHT); y < World.WORLD_BOTTOM_Y; y++) {
-                        //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                        if (LocalClient.world.terrain.canSpawnHere(LocalClient.world, x, y, z)) {
-                            System.out.println("Found spawn point");
-                            newTarget.set(x, y, z);
-                            break lookLoop;
-                        }
-                    }
+            final int RADIUS = 40;
+            HashSet<Vector3i> checked = new HashSet<>();
+            HashSet<Vector3i> nodes = new HashSet<>();
+            nodes.add(new Vector3i((int) target.x, (int) target.y, (int) target.z));
+
+            while (!nodes.isEmpty()) {
+                Vector3i node = nodes.iterator().next();
+                nodes.remove(node);
+                //If we have already checked this node or it is too far away, skip
+                if (checked.contains(node) || target.distance(node.x, node.y, node.z) > RADIUS) continue;
+                checked.add(node);
+                if (test.test(node)) {
+                    //LocalClient.world.terrain.canSpawnHere(LocalClient.world, node.x, node.y, node.z)
+                    newTarget = new Vector3f(node.x, node.y, node.z);
+                    System.out.println("\t\tFound spawn point (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + ")");
+                    return newTarget;
                 }
+                checkSpawnNode(nodes, checked, node.x, node.y - 1, node.z);
+                checkSpawnNode(nodes, checked, node.x - 1, node.y, node.z);
+                checkSpawnNode(nodes, checked, node.x + 1, node.y, node.z);
+                checkSpawnNode(nodes, checked, node.x, node.y, node.z - 1);
+                checkSpawnNode(nodes, checked, node.x, node.y, node.z + 1);
+                checkSpawnNode(nodes, checked, node.x, node.y + 1, node.z);
             }
         }
+
+        System.out.println("\tCould not find spawn point, defaulting to (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + ")");
         return newTarget;
     }
+
+    private void checkSpawnNode(HashSet<Vector3i> nodes,
+                                HashSet<Vector3i> checked,
+                                int x, int y, int z) {
+        if (!checked.contains(new Vector3i(x, y, z))) {
+            nodes.add(new Vector3i(x, y, z));
+        }
+    }
+
 
     public void teleport(float x, float y, float z) {
         previous_playerBlock = null;

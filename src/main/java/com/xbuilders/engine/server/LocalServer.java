@@ -348,9 +348,9 @@ public class LocalServer extends Server {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
                     Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
-                    LocalClient.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
                     LocalClient.userPlayer.worldPosition.set(spawnPoint);
-
+                    System.out.println("Spawn point: " + spawnPoint.x + ", " + spawnPoint.y + ", " + spawnPoint.z);
+                    LocalClient.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
                     LocalClient.userPlayer.newWorldEvent(world.data);
                 }
                 game.startGameEvent(world.data);
@@ -381,7 +381,7 @@ public class LocalServer extends Server {
     public Vector3f getInitialSpawnPoint(Terrain terrain) {
         Vector3f worldPosition = new Vector3f();
         System.out.println("Setting new spawn point...");
-        int radius = Chunk.WIDTH;
+        int radius = Chunk.WIDTH + 2;
         for (int x = -radius; x < radius; x++) {
             for (int z = -radius; z < radius; z++) {
                 for (int y = terrain.minSurfaceHeight - 10; y < terrain.maxSurfaceHeight + 10; y++) {

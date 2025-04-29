@@ -49,7 +49,12 @@ public class LiquidPropagationTask extends LivePropagationTask {
     }
 
     public boolean isPenetrable(Block block) {
-        return block.isAir() || (!block.solid && block.type == RenderType.SPRITE && block.toughness < 0.5f);
+        return block.isAir() ||
+                (!block.solid
+                        && (
+                        block.type == RenderType.SPRITE
+                                || block.type == RenderType.WALL_ITEM)
+                        && block.toughness < 1f);
     }
 
     public static int getFlow(BlockData thisBD, int nullFlow) {

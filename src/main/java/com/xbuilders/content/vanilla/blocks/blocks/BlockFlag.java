@@ -2,12 +2,11 @@ package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.item.StorageSpace;
-import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.utils.ErrorHandler;
 import org.joml.Vector3f;
 
 import java.io.IOException;
@@ -24,7 +23,10 @@ public class BlockFlag extends Block {
                         "symbols/flag"));
 
         easierMiningTool_tag = null;
+        solid = true;
+        opaque = true;
         toughness = 0.05f;
+        torchlightStartingValue = 15;
 
         setBlockEvent(false, (x, y, z) -> {
             try {
@@ -41,7 +43,10 @@ public class BlockFlag extends Block {
         removeBlockEvent(false, (x, y, z, hist) -> {
             try {
                 BlockData data = hist.previousBlockData;
-                if (data == null) return;
+                if (data == null || data.toByteArray() == null || data.toByteArray().length == 0) {
+                    System.out.println("Flag is empty");
+                    return;
+                }
                 System.out.println("Flag removed " + new String(data.toByteArray()));
                 StorageSpace storage = new StorageSpace(LocalClient.userPlayer.inventory.size());
                 storage.loadFromJson(data.toByteArray());
@@ -61,9 +66,6 @@ public class BlockFlag extends Block {
                 ErrorHandler.report(e);
             }
         });
-        torchlightStartingValue = 15;
-        solid = false;
-        opaque = false;
     }
 
 }
