@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common.network.packet.message;
+package com.xbuilders.engine.common.packets.message;
 
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.packet.Packet;

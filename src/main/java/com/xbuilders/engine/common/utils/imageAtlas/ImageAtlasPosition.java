@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common.imageAtlas;
+package com.xbuilders.engine.common.utils.imageAtlas;
 
 public class ImageAtlasPosition {
 

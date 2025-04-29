@@ -1,6 +1,6 @@
-package com.xbuilders.engine.server.commands;
+package com.xbuilders.engine.common.commands;
 
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Commands are registered on the client and server
- * If a command is registered on just the server, the client cant handle it
+ * If a command is registered on just the server, the client cant serverExecute it
  * If a command is just registered on the client, its ok as long as its just a client side command
  * When a command is executed
  * - the client executes code

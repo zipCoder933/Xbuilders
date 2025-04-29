@@ -1,7 +1,7 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.common.BFS;
+package com.xbuilders.engine.common.utils.BFS;
 
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.Chunk;

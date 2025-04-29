@@ -5,8 +5,8 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.engine.common.bytes.ByteUtils;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.bytes.ByteUtils;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.network.testing.server.NetworkSocket;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.Chunk;
@@ -20,8 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
 import static com.xbuilders.engine.server.world.chunk.saving.ChunkSavingLoadingUtils.BLOCK_DATA_MAX_BYTES;
-import static com.xbuilders.engine.common.bytes.ByteUtils.bytesToShort;
-import static com.xbuilders.engine.common.bytes.ByteUtils.shortToBytes;
+import static com.xbuilders.engine.common.utils.bytes.ByteUtils.bytesToShort;
+import static com.xbuilders.engine.common.utils.bytes.ByteUtils.shortToBytes;
 
 public class MultiplayerPendingBlockChanges {
 

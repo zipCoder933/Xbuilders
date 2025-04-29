@@ -4,11 +4,11 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.common.BFS.ChunkNode;
+import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import org.joml.Vector3i;
 

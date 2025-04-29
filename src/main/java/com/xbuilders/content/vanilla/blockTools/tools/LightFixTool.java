@@ -4,7 +4,7 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.common.BFS.ChunkNode;
+import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.chunk.Chunk;

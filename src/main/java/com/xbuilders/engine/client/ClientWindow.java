@@ -13,7 +13,7 @@ import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
 import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceLoader;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.GLFWWindow;
@@ -24,8 +24,6 @@ import org.lwjgl.glfw.GLFWWindowFocusCallback;
 import org.lwjgl.nuklear.NkVec2;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -133,7 +131,7 @@ public class ClientWindow extends NKWindow {
         GLFW.glfwSwapInterval(settings.video_vsync ? 1 : 0);
 
         //If a fullscreen window is created, we need to set the focus callback so that the user can exit fullscreen if they lose focus
-        // Get the current GLFW window handle
+        // Get the current GLFW window serverExecute
         long windowHandle = GLFW.glfwGetCurrentContext();
         // Create a new window focus callback
         GLFWWindowFocusCallback focusCallback = new GLFWWindowFocusCallback() {
@@ -178,7 +176,6 @@ public class ClientWindow extends NKWindow {
 
     private void render() throws IOException {
         if (isGameMode) {
-            LocalClient.localServer.update();
             gameScene.render();
         } else {
             topMenu.render();

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.server.commands;
+package com.xbuilders.engine.common.commands;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.settings.ClientSettings;
@@ -19,7 +19,7 @@ public class Command {
         // but the core requirement of a functional interface is a single abstract method.
     }
 
-    public CommandFunction handle;
+    public CommandFunction serverExecute;
     public boolean requiresOp = false;
 
     public Command(String name, String help) {
@@ -33,14 +33,15 @@ public class Command {
                         && !Main.getServer().isOperator()
                         && !ClientSettings.load().dev_allowOPCommands)
         ) return "You do not have the required permissions";
-        if (handle != null) return handle.apply(input);
+        if (serverExecute != null) return serverExecute.apply(input);
         return null;
     }
 
-    public Command executes(CommandFunction handle) {
-        this.handle = handle;
+    public Command executesServerSide(CommandFunction handle) {
+        this.serverExecute = handle;
         return this;
     }
+
 
     public Command requiresOP(boolean requiresOp) {
         this.requiresOp = requiresOp;

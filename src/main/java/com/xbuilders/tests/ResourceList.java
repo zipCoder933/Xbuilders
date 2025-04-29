@@ -1,6 +1,6 @@
 package com.xbuilders.tests;
 
-import com.xbuilders.engine.common.JarResourceLister;
+import com.xbuilders.engine.common.utils.JarResourceLister;
 
 import java.util.List;
 

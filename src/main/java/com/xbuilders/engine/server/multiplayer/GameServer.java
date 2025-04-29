@@ -13,9 +13,9 @@ import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.common.bytes.ByteUtils;
-import com.xbuilders.engine.common.ErrorHandler;
-import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.utils.bytes.ByteUtils;
+import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.network.testing.server.NetworkUtils;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
@@ -36,7 +36,7 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.engine.common.MiscUtils.formatTime;
+import static com.xbuilders.engine.common.utils.MiscUtils.formatTime;
 
 public class GameServer extends com.xbuilders.engine.common.network.testing.server.Server<Player> {
 

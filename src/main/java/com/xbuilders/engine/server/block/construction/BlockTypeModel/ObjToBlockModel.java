@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.server.block.construction.BlockTypeModel;
 
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJ.Face;
 import com.xbuilders.window.utils.obj.OBJLoader;

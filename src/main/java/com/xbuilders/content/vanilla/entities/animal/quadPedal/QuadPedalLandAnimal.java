@@ -8,7 +8,7 @@ import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.math.RandomUtils;
 import com.xbuilders.content.vanilla.entities.animal.LegPair;

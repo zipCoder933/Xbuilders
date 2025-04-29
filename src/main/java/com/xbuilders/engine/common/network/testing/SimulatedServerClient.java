@@ -4,7 +4,7 @@ import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.fake.FakeClient;
 import com.xbuilders.engine.common.network.fake.FakeServer;
 import com.xbuilders.engine.common.network.packet.Packet;
-import com.xbuilders.engine.common.network.packet.message.MessagePacket;
+import com.xbuilders.engine.common.packets.message.MessagePacket;
 import com.xbuilders.engine.common.network.packet.ping.PingPacket;
 import com.xbuilders.engine.common.network.packet.ping.PongPacket;
 

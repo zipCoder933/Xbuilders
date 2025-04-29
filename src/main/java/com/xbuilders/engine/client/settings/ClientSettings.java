@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.settings;
 
 import com.xbuilders.engine.client.visuals.topMenu.multiplayer.ServerEntry;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.option.BoundedFloat;
 import com.xbuilders.engine.common.option.BoundedInt;
 import com.xbuilders.engine.common.resource.ResourceUtils;

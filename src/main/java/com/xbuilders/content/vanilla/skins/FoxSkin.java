@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.skins;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.client.player.Skin;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 

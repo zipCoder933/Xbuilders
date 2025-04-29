@@ -194,7 +194,7 @@ public class PositionHandler {
             aabb.worldPosition.z = aabb.box.min.z - aabb.offset.z;
             aabb.clamp(false);
         } catch (Exception e) {
-            e.printStackTrace(); //Safely handle any exceptions
+            e.printStackTrace(); //Safely serverExecute any exceptions
         }
     }
 

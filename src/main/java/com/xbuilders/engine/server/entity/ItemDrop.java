@@ -11,7 +11,7 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.math.MathUtils;
 import org.joml.Vector3f;
 

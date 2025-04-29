@@ -16,7 +16,7 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;

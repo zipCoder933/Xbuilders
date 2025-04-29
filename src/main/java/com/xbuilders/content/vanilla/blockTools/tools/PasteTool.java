@@ -14,7 +14,7 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;

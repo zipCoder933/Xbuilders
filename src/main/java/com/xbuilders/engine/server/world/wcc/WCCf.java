@@ -3,7 +3,7 @@
 // 
 package com.xbuilders.engine.server.world.wcc;
 
-import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.utils.MiscUtils;
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.server.world.wcc.WCCi.chunkDiv;
 import com.xbuilders.engine.server.world.chunk.Chunk;

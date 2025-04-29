@@ -140,7 +140,7 @@
 //         * Placing nodes:
 //         * - We cant add neghbors of dark nodes because we dont know what chunks or parts of a chunk have been lighted.
 //         *   - We could leave sun at 15 by default and darken it
-//         *      - if we add nodes that are 15 but should be darker, it doesnt matter because we are only propagating existing light, and another chunk should handle its own light
+//         *      - if we add nodes that are 15 but should be darker, it doesnt matter because we are only propagating existing light, and another chunk should serverExecute its own light
 //         *     TODO: - If we add a light node on an uninitialized light chunk, that chunk should own that node, not us.
 //         *      - Only fix this if we see a problem
 //         */

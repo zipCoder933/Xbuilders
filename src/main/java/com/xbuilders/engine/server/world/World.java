@@ -16,7 +16,7 @@ import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.settings.ClientSettings;
-import com.xbuilders.engine.common.BFS.ChunkNode;
+import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.progress.ProgressData;
@@ -37,7 +37,7 @@ import static com.xbuilders.engine.client.LocalClient.world;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 
@@ -171,8 +171,9 @@ public class World {
      * The local server has a different world but shares chunks with the client
      * @param chunks
      */
-    public World(Map<Vector3i, Chunk> chunks) {
+    public World(Map<Vector3i, Chunk> chunks, WorldData data) {
         this.chunks = chunks;
+        this.data = data;
     }
 
     /**

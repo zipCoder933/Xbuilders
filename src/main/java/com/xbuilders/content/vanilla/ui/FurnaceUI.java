@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipe;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3f;

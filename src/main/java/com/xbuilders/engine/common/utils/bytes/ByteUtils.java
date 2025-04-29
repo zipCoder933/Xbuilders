@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common.bytes;
+package com.xbuilders.engine.common.utils.bytes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

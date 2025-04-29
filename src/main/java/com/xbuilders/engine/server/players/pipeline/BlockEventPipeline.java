@@ -16,7 +16,7 @@ import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.light.SunlightUtils;
 import com.xbuilders.engine.server.world.light.TorchUtils;
 import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.common.BFS.ChunkNode;
+import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import org.joml.Vector3i;

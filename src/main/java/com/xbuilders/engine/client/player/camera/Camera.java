@@ -9,8 +9,8 @@ import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.player.raycasting.Ray;
 import com.xbuilders.engine.client.player.raycasting.RayCasting;
-import com.xbuilders.engine.common.ErrorHandler;
-import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 

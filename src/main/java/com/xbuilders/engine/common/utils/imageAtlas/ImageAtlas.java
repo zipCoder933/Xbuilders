@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common.imageAtlas;
+package com.xbuilders.engine.common.utils.imageAtlas;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.world.chunk;
 
 import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.common.MiscUtils;
+import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.server.world.World;
 import org.joml.Vector3i;
 

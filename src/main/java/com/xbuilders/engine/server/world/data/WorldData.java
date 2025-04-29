@@ -6,7 +6,7 @@ package com.xbuilders.engine.server.world.data;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.common.option.OptionsList;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import org.joml.Vector3f;
@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.joml.Vector3i;
 
-import static com.xbuilders.engine.common.MiscUtils.formatTime;
+import static com.xbuilders.engine.common.utils.MiscUtils.formatTime;
 
 public class WorldData {
 

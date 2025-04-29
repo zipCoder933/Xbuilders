@@ -1,7 +1,7 @@
 package com.xbuilders.engine.common.resource;
 
-import com.xbuilders.engine.common.ErrorHandler;
-import com.xbuilders.engine.common.FileUtils;
+import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.FileUtils;
 
 import java.io.*;
 import java.net.URL;

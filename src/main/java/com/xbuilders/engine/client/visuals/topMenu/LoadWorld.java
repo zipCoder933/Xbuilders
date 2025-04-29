@@ -15,7 +15,7 @@ import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.io.IOException;

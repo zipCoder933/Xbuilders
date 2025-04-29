@@ -11,16 +11,16 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.common.ErrorHandler;
-import com.xbuilders.engine.common.bytes.ByteUtils;
+import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.bytes.ByteUtils;
 import com.xbuilders.engine.common.json.JsonManager;
 import com.xbuilders.engine.common.network.ServerBase;
+import com.xbuilders.engine.common.commands.CommandRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
@@ -30,6 +30,7 @@ import com.xbuilders.engine.server.world.chunk.Chunk;
 import com.xbuilders.engine.server.world.wcc.WCCf;
 import com.xbuilders.engine.server.world.wcc.WCCi;
 import org.joml.Vector3f;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -39,7 +40,9 @@ public class LocalServer extends Server {
     private final Game game;
     public final BlockEventPipeline eventPipeline;
     public final LogicThread tickThread;
+    public final CommandRegistry commands = new CommandRegistry();
     ServerBase endpoint;
+    private boolean alive = true;
 
     public LocalServer(Game game, World world, UserControlledPlayer player) {
         this.game = game;
@@ -47,9 +50,28 @@ public class LocalServer extends Server {
         eventPipeline = new BlockEventPipeline(world, player);
         livePropagationHandler = new LivePropagationHandler();
         tickThread = new LogicThread(this);
+    }
+
+    public void run() {
+        livePropagationHandler.startGameEvent(world.data);
+        eventPipeline.startGameEvent(world.data);
+        tickThread.startGameEvent();
 
         //Setup the game
         game.setupServer(this);
+
+        while (alive) {
+            eventPipeline.update();
+        }
+    }
+
+
+    public void stop() throws IOException {
+        alive = false;
+        if (world.data != null) world.stopGameEvent();
+        tickThread.stopGameEvent();
+        eventPipeline.stopGameEvent();
+        livePropagationHandler.stopGameEvent();
     }
 
     //Game Mode =======================================================================================================
@@ -255,42 +277,7 @@ public class LocalServer extends Server {
     }
 
 
-
-    NetworkJoinRequest req;
-
-    public void startGameEvent(NetworkJoinRequest req) {
-        this.req = req;
-        livePropagationHandler.startGameEvent(world.data);
-        eventPipeline.startGameEvent(world.data);
-        tickThread.startGameEvent();
-        LocalClient.userPlayer.startGameEvent(world.data);
-        Main.getClient().window.gameScene.setProjection();
-    }
-
-
-
-
-
     private GameMode lastGameMode;
 
-    public void update() throws IOException {
-        if (lastGameMode == null || lastGameMode != getGameMode()) {
-            lastGameMode = getGameMode(); //Gane mode changed
-            game.gameModeChangedEvent(getGameMode());
-            LocalClient.userPlayer.gameModeChangedEvent(getGameMode());
-            Main.getClient().consoleOut("Game mode changed to: " + getGameMode());
-        }
-        //draw other players
-        // server.updatePlayers();
-        //TODO: move all this into tick thread
-        eventPipeline.update(); //Todo: change event pipeline to have client and localServer parts
-    }
 
-    public void close() throws IOException {
-        if (world.data != null) world.stopGameEvent();
-        tickThread.stopGameEvent();
-        eventPipeline.stopGameEvent();
-        livePropagationHandler.stopGameEvent();
-        //  server.stopGameEvent();
-    }
 }

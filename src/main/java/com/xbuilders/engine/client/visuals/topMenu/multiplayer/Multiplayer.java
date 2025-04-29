@@ -93,7 +93,7 @@ public class Multiplayer implements MenuPage {
     NumberBox fromPortBox, portBox;
     TextBox ipAdressBox, presetBox;
 
-    final int BOX_DEFAULT_HEIGHT = menu.HEIGHT_4;
+    final int BOX_DEFAULT_HEIGHT = menu.HEIGHT_3;
 
     @Override
     public void layout(MemoryStack stack, NkRect windowDims, IntBuffer titleYEnd) {
@@ -105,9 +105,10 @@ public class Multiplayer implements MenuPage {
         nk_rect((window.getWidth() / 2) - (boxWidth / 2), titleYEnd.get(0),
                 boxWidth, BOX_DEFAULT_HEIGHT, windowDims);
 
-        if (nk_begin(ctx, (hosting ? "Host" : "Join") + " Multiplayer World", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
+        if (nk_begin(ctx, (hosting ? "Host" : "Join") + " Server", windowDims, NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
             nk_style_set_font(ctx, Theme.font_10);
             if (hosting) {
+                nk_layout_row_static(ctx, 20, 1, 1);
                 addressGroup(ctx, true);
             } else {
                 //Include the address menu and presets
@@ -151,7 +152,7 @@ public class Multiplayer implements MenuPage {
             }
         }
         nk_layout_row_static(ctx, 10, 1, 1);
-        nk_layout_row_dynamic(ctx, BOX_DEFAULT_HEIGHT, 1);
+        nk_layout_row_dynamic(ctx, BOX_DEFAULT_HEIGHT - (200), 1);
         nk_group_begin(ctx, "Presets scroll", 0);
         nk_layout_row_dynamic(ctx, 30, 1);
         ctx.style().button().text_alignment(NK_TEXT_ALIGN_LEFT);
@@ -200,13 +201,7 @@ public class Multiplayer implements MenuPage {
     private void addressGroup(NkContext ctx, boolean column2) {
         ctx.style().button().text_alignment(NK_TEXT_ALIGN_CENTERED | NK_TEXT_ALIGN_MIDDLE);
         nk_style_set_font(ctx, Theme.font_10);
-        nk_layout_row_dynamic(ctx, 20, 1);
-        NKUtils.text(ctx, "All computers wanting to join must enter " + (hosting ? "this" : "the host's") + "\n"
-                + "IP adress and port to proceed:", 10, NK_TEXT_ALIGN_LEFT);
-        nk_layout_row_static(ctx, 30, 1, 1);
-
-
-        row(ctx, "IP Adress:", column2 ? 2 : 1);
+        row(ctx, "IP Address:", column2 ? 2 : 1);
         if (!column2) nk_layout_row_dynamic(ctx, 30, 1);
         if (hosting) {
             nk_label(ctx, ipAdressBox.getValueAsString(), NK_TEXT_ALIGN_LEFT);

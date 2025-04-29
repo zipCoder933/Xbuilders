@@ -8,7 +8,7 @@ package com.xbuilders.engine.common.network.testing.server;
  * @author zipCoder933
  */
 
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 
 import java.io.IOException;
 import java.net.InetAddress;

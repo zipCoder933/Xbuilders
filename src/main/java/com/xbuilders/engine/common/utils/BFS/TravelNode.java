@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common.BFS;
+package com.xbuilders.engine.common.utils.BFS;
 
 public class TravelNode {
 

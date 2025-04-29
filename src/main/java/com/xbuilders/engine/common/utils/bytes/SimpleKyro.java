@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common.bytes;
+package com.xbuilders.engine.common.utils.bytes;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;

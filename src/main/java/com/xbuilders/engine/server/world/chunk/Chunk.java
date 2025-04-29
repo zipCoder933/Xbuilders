@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.Terrain.GenSession;

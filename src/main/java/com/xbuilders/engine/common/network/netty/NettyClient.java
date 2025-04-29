@@ -65,7 +65,7 @@ public abstract class NettyClient extends ClientBase {
         // Schedule periodic ping
         schedulePing();
 
-        // Add a listener to the future to handle when the connection is successful
+        // Add a listener to the future to serverExecute when the connection is successful
         future.addListener((ChannelFutureListener) this::nettyServerConnectEvent);
     }
 

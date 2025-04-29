@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class StorageSpace {
-    //Items needs to be private so that we can properly handle changes
+    //Items needs to be private so that we can properly serverExecute changes
     private final ItemStack[] list;
 
     private final static Object changeEventLock = new Object();

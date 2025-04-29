@@ -11,7 +11,7 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.world.chunk.BlockData;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 
 import com.xbuilders.engine.server.world.chunk.ChunkVoxels;

@@ -36,6 +36,7 @@ public class TopMenu {
     public static final int WIDTH_3 = 550;
     public static final int WIDTH_4 = 800;
 
+    public static final int HEIGHT_3 = 500;
     public static final int HEIGHT_4 = 550;
 
     /**

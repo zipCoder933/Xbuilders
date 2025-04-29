@@ -4,7 +4,7 @@ import com.xbuilders.content.vanilla.XbuildersGame;
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.SkinRegistry;
 import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceLister;
 
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class Main {
     }
 
     public static LocalServer getServer() {
-        return LocalClient.localServer;
+        return localClient.localServer;
     }
 
 

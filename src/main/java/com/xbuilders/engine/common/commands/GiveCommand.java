@@ -1,4 +1,4 @@
-package com.xbuilders.engine.server.commands;
+package com.xbuilders.engine.common.commands;
 
 import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.Registrys;
@@ -11,7 +11,7 @@ public class GiveCommand extends Command {
                 "Usage: give <item> <quantity (optional)>");
 
         requiresOP(true)
-                .executes((parts) -> {
+                .executesServerSide((parts) -> {
                     if (parts.length >= 1) {
                         try {
                             String itemID = formatGetItemID(parts[0]);

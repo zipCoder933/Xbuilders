@@ -22,7 +22,7 @@ import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.common.ErrorHandler;
+import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.json.gson.ItemStackTypeAdapter;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
@@ -43,7 +43,7 @@ import java.util.function.Predicate;
 import static com.xbuilders.content.vanilla.Blocks.BLOCK_AIR;
 import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 
-public class UserControlledPlayer extends Player implements GameSceneEvents {
+public class UserControlledPlayer extends Player {
 
 
     public Camera camera;
@@ -394,6 +394,11 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     }
 
     public void loadFromWorld(WorldData worldData) {
+        autoForward = false;
+        isFlyingMode = true;
+        resetHealthStats();
+        gameModeChangedEvent(Main.getServer().getGameMode());
+
         File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
         inventory.clear();
         if (playerFile.exists()) {
@@ -538,25 +543,8 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         LocalClient.world.chunkShader.setFlashlightDistance(distance);
     }
 
-    /**
-     * Called at the beginning of a new world
-     *
-     * @param worldInfo
-     */
-    public void newWorldEvent(WorldData worldInfo) {
-        resetHealthStats();
-    }
 
-    public void startGameEvent(WorldData world) {
-        autoForward = false;
-        isFlyingMode = true;
-        loadFromWorld(world);
-        gameModeChangedEvent(Main.getServer().getGameMode());
-    }
 
-    public void stopGameEvent() {
-
-    }
 
     public void gameModeChangedEvent(GameMode gameMode) {
         resetHealthStats();
@@ -708,7 +696,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             }
             runningMode = window.isKeyPressed(KEY_SPRINT);
 //            /**
-//             * We have to handle some keys in a separate way, due to some keyboards having key rollover
+//             * We have to serverExecute some keys in a separate way, due to some keyboards having key rollover
 //             * https://en.wikipedia.org/wiki/Rollover_(key)
 //             */
 //            if (window.isKeyPressed(KEY_JUMP)) {

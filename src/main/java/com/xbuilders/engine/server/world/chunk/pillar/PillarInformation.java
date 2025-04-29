@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server.world.chunk.pillar;
 
-import com.xbuilders.engine.common.BFS.ChunkNode;
+import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.data.WorldData;

@@ -10,7 +10,7 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.DefaultBlockType;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidBlockType;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
-import com.xbuilders.engine.common.IntMap;
+import com.xbuilders.engine.common.utils.IntMap;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 
 import java.io.File;
@@ -179,7 +179,7 @@ public class BlockRegistry {
     public Block getBlock(short blockID) {
         Block block = idToBlockMap.get(blockID);
         if (block == null)
-            block = BLOCK_AIR; // Important to prevent bugs with proceses not knowing how to handle null blocks
+            block = BLOCK_AIR; // Important to prevent bugs with proceses not knowing how to serverExecute null blocks
         return block;
     }
 

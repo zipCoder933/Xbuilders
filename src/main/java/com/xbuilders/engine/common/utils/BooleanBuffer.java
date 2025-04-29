@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common;
+package com.xbuilders.engine.common.utils;
 
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;

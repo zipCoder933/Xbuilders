@@ -213,7 +213,7 @@ public class BlockIconRenderer {
     }
 
     public static int makeBlankTexture(int width, int height) {
-        int tex = GL11.glGenTextures(); // Generate the texture and return its handle
+        int tex = GL11.glGenTextures(); // Generate the texture and return its serverExecute
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex);// "Bind" the newly created texture: all future texture
         // functions will modify this texture
 

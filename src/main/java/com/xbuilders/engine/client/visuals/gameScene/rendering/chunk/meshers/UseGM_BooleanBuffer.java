@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
-import com.xbuilders.engine.common.BooleanBuffer;
+import com.xbuilders.engine.common.utils.BooleanBuffer;
 import com.xbuilders.engine.server.world.chunk.Chunk;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;

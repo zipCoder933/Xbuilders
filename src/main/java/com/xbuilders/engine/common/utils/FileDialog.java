@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common;
+package com.xbuilders.engine.common.utils;
 
 import javax.swing.*;
 import java.io.File;

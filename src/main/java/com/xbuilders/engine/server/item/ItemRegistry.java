@@ -7,8 +7,8 @@ package com.xbuilders.engine.server.item;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.EntitySupplier;
-import com.xbuilders.engine.common.ErrorHandler;
-import com.xbuilders.engine.common.IntMap;
+import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.IntMap;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 
 import java.util.HashMap;
