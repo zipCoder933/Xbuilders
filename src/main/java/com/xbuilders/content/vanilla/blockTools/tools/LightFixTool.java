@@ -6,10 +6,10 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.common.resource.ResourceUtils;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.light.SunlightUtils;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.light.SunlightUtils;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import org.joml.Matrix4f;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
+import static com.xbuilders.engine.common.world.chunk.Chunk.WIDTH;
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class LightFixTool extends BlockTool {

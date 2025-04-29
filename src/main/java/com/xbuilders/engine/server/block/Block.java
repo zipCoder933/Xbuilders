@@ -6,11 +6,11 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -92,14 +92,14 @@ public class Block {
     private SetBlockEvent clickEvent = null;
     public InitialBlockData initialBlockData = null;
 
-    public BlockData getInitialBlockData(BlockData existingData, UserControlledPlayer player) {
-        if (initialBlockData != null) return initialBlockData.get(existingData, player);
+    public BlockData getInitialBlockData(BlockData existingData) {
+        if (initialBlockData != null) return initialBlockData.get(existingData);
         return null;
     }
 
     @FunctionalInterface
     public interface InitialBlockData {
-        BlockData get(BlockData existingData, UserControlledPlayer player);
+        BlockData get(BlockData existingData);
     }
 
     public RandomTickEvent randomTickEvent = null;

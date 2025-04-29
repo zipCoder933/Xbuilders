@@ -4,14 +4,15 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.common.math.AABB;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import java.io.IOException;
 
@@ -25,8 +26,8 @@ public class WallItemRenderer extends BlockType {
     public WallItemRenderer() throws IOException {
         initializationCallback = (b) -> {
 
-            b.initialBlockData = (existingData, player) -> {
-                return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
+            b.initialBlockData = (existingData) -> {
+                return Main.getClient().userPlayer.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
             };
 
             b.opaque = false;

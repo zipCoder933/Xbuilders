@@ -9,7 +9,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.camera.FrustumCullingTester;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

@@ -7,7 +7,7 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
-import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.common.world.World;
 import org.joml.Vector3i;
 
 

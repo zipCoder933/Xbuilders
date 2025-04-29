@@ -12,7 +12,7 @@ import com.xbuilders.engine.client.player.raycasting.RayCasting;
 import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.BlockData;
 
 import java.awt.*;
 import java.lang.Math;

@@ -6,16 +6,16 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.Terrain;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.blocks.blocks.trees.AcaciaTreeUtils;
 import com.xbuilders.content.vanilla.blocks.blocks.trees.JungleTreeUtils;
 
 import java.util.*;
 
-import static com.xbuilders.engine.server.world.World.WORLD_BOTTOM_Y;
+import static com.xbuilders.engine.common.world.World.WORLD_BOTTOM_Y;
 
 public class DefaultTerrain extends Terrain {
 

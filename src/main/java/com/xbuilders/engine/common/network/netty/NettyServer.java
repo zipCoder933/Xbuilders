@@ -85,7 +85,7 @@ public abstract class NettyServer extends ServerBase {
                         ));
                         ch.pipeline().addLast(new PacketDecoder(NettyServer.this));
                         ch.pipeline().addLast(new PacketEncoder());
-                        ch.pipeline().addLast(new PacketHandler());
+                        ch.pipeline().addLast(new PacketHandler(false));
                     }
                 });
 

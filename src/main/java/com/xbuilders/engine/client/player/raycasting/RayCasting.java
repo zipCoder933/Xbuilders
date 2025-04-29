@@ -6,10 +6,10 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.math.AABB;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.wcc.WCCi;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import java.util.ArrayList;
 import java.util.HashSet;

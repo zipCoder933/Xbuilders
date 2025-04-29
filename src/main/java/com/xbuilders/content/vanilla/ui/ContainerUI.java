@@ -4,7 +4,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
-import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3i;
 import org.lwjgl.nuklear.NkContext;
@@ -21,7 +21,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
     }
 
     public void assignToBlock(Block block) {
-        block.initialBlockData = (data, player) -> {
+        block.initialBlockData = (data) -> {
             return new BlockData(1);
         };
         block.clickEvent(false, (x, y, z) -> {

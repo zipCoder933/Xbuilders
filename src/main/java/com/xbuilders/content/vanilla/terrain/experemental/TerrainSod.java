@@ -6,8 +6,8 @@ package com.xbuilders.content.vanilla.terrain.experemental;
 
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.engine.client.Client;
-import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.Terrain;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.terrain.TreeUtils;
 

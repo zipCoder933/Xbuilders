@@ -5,14 +5,14 @@
 package com.xbuilders.content.vanilla.terrain;
 
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
-import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.Terrain;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.common.option.BoundedInt;
 import com.xbuilders.engine.common.option.OptionsList;
 
-import static com.xbuilders.engine.server.world.chunk.Chunk.WIDTH;
+import static com.xbuilders.engine.common.world.chunk.Chunk.WIDTH;
 
 /**
  * @author zipCoder933

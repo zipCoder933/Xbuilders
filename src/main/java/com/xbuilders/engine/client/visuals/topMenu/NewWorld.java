@@ -15,7 +15,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.world.Terrain;
+import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.window.nuklear.components.TextBox;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;

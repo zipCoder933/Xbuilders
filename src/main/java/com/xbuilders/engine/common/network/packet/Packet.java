@@ -22,7 +22,9 @@ public abstract class Packet {
 
     public abstract void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out);
 
-    public abstract void handle(ChannelBase ctx, Packet packet);
+    public abstract void handleClientSide(ChannelBase ctx, Packet packet);
+    public abstract void handleServerSide(ChannelBase ctx, Packet packet);
+
 
     public static void register(SocketChannel ch, Packet p) {
         PacketDecoder.PACKET_REGISTRY.put(p.id, p);

@@ -2,7 +2,7 @@ package com.xbuilders.engine.server.players.pipeline;
 
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.BlockData;
 
 public class BlockHistory {
     public Block previousBlock;

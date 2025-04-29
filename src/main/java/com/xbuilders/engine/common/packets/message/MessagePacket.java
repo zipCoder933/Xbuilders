@@ -1,5 +1,6 @@
 package com.xbuilders.engine.common.packets.message;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
@@ -28,9 +29,21 @@ public class MessagePacket extends Packet {
     }
 
     @Override
-    public void handle(ChannelBase ctx, Packet packet) {
+    public void handleClientSide(ChannelBase ctx, Packet packet) {
         MessagePacket packetInstance = (MessagePacket) packet;
-        System.out.println("Messsage: " + packetInstance.message);
+        Main.getClient().consoleOut("server: " + packetInstance.message);
+        System.out.println("Message from server: " + packetInstance.message);
+    }
+
+    @Override
+    public void handleServerSide(ChannelBase ctx, Packet packet) {
+        MessagePacket packetInstance = (MessagePacket) packet;
+        System.out.println("Command from client: " + packetInstance.message);
+        String out = Main.getServer().commands.handleCommand(packetInstance.message);
+        if (out != null) {
+            System.out.println("Sending response to the client: " + out);
+            ctx.writeAndFlush(new MessagePacket(out));
+        }
     }
 
     @Override

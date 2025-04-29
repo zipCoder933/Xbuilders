@@ -20,7 +20,7 @@ import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
-import com.xbuilders.engine.server.world.data.WorldData;
+import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.json.gson.ItemStackTypeAdapter;
 import com.xbuilders.engine.common.math.MathUtils;
@@ -543,8 +543,6 @@ public class UserControlledPlayer extends Player {
     }
 
 
-
-
     public void gameModeChangedEvent(GameMode gameMode) {
         resetHealthStats();
         if (gameMode == GameMode.SPECTATOR) {
@@ -602,10 +600,7 @@ public class UserControlledPlayer extends Player {
     Block previous_CameraBlock = BlockRegistry.BLOCK_AIR;
     Block previous_playerBlock = BlockRegistry.BLOCK_AIR;
 
-    public void render(boolean holdMouse) {
-    }
-
-    public void updateAndRender(boolean holdMouse) {
+    public void update() {
         if (canMove()) camera.cursorRay.update();
         Block blockAtHead = getBlockAtPlayerHead();
         Block blockAtWaist = getBlockAtPlayerWaist();
@@ -694,19 +689,6 @@ public class UserControlledPlayer extends Player {
                         camera.right.z * speed * window.smoothFrameDeltaSec);
             }
             runningMode = window.isKeyPressed(KEY_SPRINT);
-//            /**
-//             * We have to serverExecute some keys in a separate way, due to some keyboards having key rollover
-//             * https://en.wikipedia.org/wiki/Rollover_(key)
-//             */
-//            if (window.isKeyPressed(KEY_JUMP)) {
-//                System.out.println("JUMP");
-//                if (!jumpKeyPressed) {
-//                    jumpKeyPressed = true;
-//                    jump();
-//                }
-//            } else jumpKeyPressed = false;
-
-
             if (isInsideOfLadder()) {
                 if (keyInputAllowed() && window.isKeyPressed(KEY_JUMP)) {
                     isClimbing = true;
@@ -761,24 +743,28 @@ public class UserControlledPlayer extends Player {
             }
         }
 
-        // The key to preventing shaking during collision is to update the camera AFTER
-        // the position handler is done its job
-
-        camera.update(holdMouse);
-        this.pan = camera.pan;
-        this.tilt = camera.tilt;
-
-        camera.cursorRay.drawRay();
-        if (camera.getThirdPersonDist() != 0.0f) {
-            userInfo.getSkin().super_render(projection, view);
-        }
-
         if (lastOrientation.x != worldPosition.x
                 || lastOrientation.y != worldPosition.y
                 || lastOrientation.z != worldPosition.z
                 || lastOrientation.w != pan) {
             lastOrientation.set(worldPosition.x, worldPosition.y, worldPosition.z, pan);
 //            Main.getServer().server.sendPlayerPosition(lastOrientation);
+        }
+    }
+
+    public void render(boolean holdMouse){
+        // The key to preventing shaking during collision is to update the camera AFTER
+        // the position handler is done its job
+        camera.update(holdMouse);
+        this.pan = camera.pan;
+        this.tilt = camera.tilt;
+
+        camera.cursorRay.drawRay();
+        /**
+         * The user player is responsible for rendering its own skin
+         *  */
+        if (camera.getThirdPersonDist() != 0.0f) {
+            userInfo.getSkin().super_render(projection, view);
         }
     }
 

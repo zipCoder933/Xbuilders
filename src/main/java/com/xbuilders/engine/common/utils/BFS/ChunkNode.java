@@ -3,12 +3,12 @@
 // 
 package com.xbuilders.engine.common.utils.BFS;
 
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import java.util.Objects;
 
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 
 public class ChunkNode {
 

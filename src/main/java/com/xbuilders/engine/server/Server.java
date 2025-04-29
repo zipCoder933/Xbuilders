@@ -9,7 +9,11 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.common.commands.CommandRegistry;
+import com.xbuilders.engine.common.network.ChannelBase;
+import com.xbuilders.engine.common.network.fake.FakeServer;
+import com.xbuilders.engine.common.network.netty.NettyServer;
+import com.xbuilders.engine.common.packets.message.MessagePacket;
+import com.xbuilders.engine.server.commands.CommandRegistry;
 import com.xbuilders.engine.common.json.JsonManager;
 import com.xbuilders.engine.common.network.ServerBase;
 import com.xbuilders.engine.common.utils.ErrorHandler;
@@ -22,11 +26,11 @@ import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.wcc.WCCf;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.wcc.WCCf;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
@@ -37,35 +41,98 @@ public class Server {
     public LivePropagationHandler livePropagationHandler;
     private final World world;
     private final Game game;
-    public final BlockEventPipeline eventPipeline;
-    public final LogicThread tickThread;
-    public final CommandRegistry commands = new CommandRegistry();
-    ServerBase endpoint;
+    public BlockEventPipeline eventPipeline;
+    public LogicThread tickThread;
+    public CommandRegistry commands = new CommandRegistry();
+    public final ServerBase endpoint;
     private boolean alive = true;
+    private int port = -1;
 
-    public Server(Game game, World world, UserControlledPlayer player) {
+    public final boolean runningLocally() {
+        return port == -1;
+    }
+
+
+    //Constructors
+    public Server(Game game, World world) {
         this.game = game;
         this.world = world;
-        eventPipeline = new BlockEventPipeline(world, player);
-        livePropagationHandler = new LivePropagationHandler();
-        tickThread = new LogicThread(this);
+        endpoint = new FakeServer() {
+            @Override
+            public boolean newClientEvent(ChannelBase client) {
+                return Server.this.newClientEvent(client);
+            }
+
+            @Override
+            public void clientDisconnectEvent(ChannelBase client) {
+                Server.this.clientDisconnectEvent(client);
+            }
+
+            @Override
+            public void close() {
+                Server.this.stop();
+            }
+        };
+    }
+
+    public Server(int port, Game game, World world) throws InterruptedException {
+        this.world = world;
+        this.game = game;
+        this.port = port;
+        endpoint = new NettyServer(port) {
+            @Override
+            public boolean newClientEvent(ChannelBase client) {
+                return Server.this.newClientEvent(client);
+            }
+
+            @Override
+            public void clientDisconnectEvent(ChannelBase client) {
+                Server.this.clientDisconnectEvent(client);
+            }
+
+            @Override
+            public void close() {
+                Server.this.stop();
+            }
+        };
+    }
+
+
+    //Server events
+    public boolean newClientEvent(ChannelBase client) {
+        System.out.println("New client connected: " + client);
+        client.writeAndFlush(new MessagePacket("Hello from server!"));
+        return false;
+    }
+
+
+    public void clientDisconnectEvent(ChannelBase client) {
     }
 
     public void run() {
-        livePropagationHandler.startGameEvent(world.data);
-        eventPipeline.startGameEvent(world.data);
-        tickThread.startGameEvent();
+        try {
+            eventPipeline = new BlockEventPipeline(world);
+            livePropagationHandler = new LivePropagationHandler();
+            tickThread = new LogicThread(this);
+            livePropagationHandler.startGameEvent(world.data);
+            eventPipeline.startGameEvent(world.data);
+            tickThread.startGameEvent();
 
-        //Setup the game
-        game.setupServer(this);
+            //Setup the game
+            game.setupServer(this);
 
-        while (alive) {
-            eventPipeline.update();
+            while (alive) {
+                eventPipeline.update();
+            }
+        } catch (Exception e) {
+            ErrorHandler.report(e);
+        } finally {
+            stop();
         }
     }
 
 
-    public void stop() throws IOException {
+    public void stop() {
         alive = false;
         if (world.data != null) world.stopGameEvent();
         tickThread.stopGameEvent();

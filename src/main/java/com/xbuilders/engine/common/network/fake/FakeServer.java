@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class FakeServer extends ServerBase {
     private final List<FakeChannel> clients = new CopyOnWriteArrayList<>();
 
+    //Whenever we receive a connection from a client
     protected FakeChannel connect(FakeClient client) {
         FakeChannel channel = new FakeChannel(this, client, false);
         clients.add(channel);
@@ -26,7 +27,7 @@ public abstract class FakeServer extends ServerBase {
 
     protected void receive(FakeChannel client, Packet packet) {
         //System.out.println("Server received: " + packet);
-        packet.handle(client, packet);
+        packet.handleServerSide(client, packet);
     }
 
     public void close(){

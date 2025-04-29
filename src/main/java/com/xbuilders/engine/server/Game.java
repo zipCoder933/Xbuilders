@@ -6,8 +6,8 @@ package com.xbuilders.engine.server;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
-import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.data.WorldData;
+import com.xbuilders.engine.common.world.Terrain;
+import com.xbuilders.engine.common.world.data.WorldData;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
 import org.lwjgl.system.MemoryStack;

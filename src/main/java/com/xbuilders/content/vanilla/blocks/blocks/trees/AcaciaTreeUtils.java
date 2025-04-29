@@ -5,8 +5,8 @@
 package com.xbuilders.content.vanilla.blocks.blocks.trees;
 
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.Terrain;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
 import org.joml.Vector3i;
 

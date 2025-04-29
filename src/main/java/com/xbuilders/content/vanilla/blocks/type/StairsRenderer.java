@@ -4,14 +4,15 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
 import com.xbuilders.engine.common.math.AABB;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import java.io.IOException;
 
@@ -27,12 +28,12 @@ public class StairsRenderer extends BlockType {
     public StairsRenderer() throws IOException {
         initializationCallback = (b) -> {
 
-            b.initialBlockData = (existingData, player) -> {
+            b.initialBlockData = (existingData) -> {
                 BlockData data = new BlockData(2);
-                player.camera.simplifiedPanTiltAsBlockData(data);
+                Main.getClient().userPlayer.camera.simplifiedPanTiltAsBlockData(data);
                 if (data.get(1) == (byte) 0
-                        && (Math.abs(player.camera.cursorRay.getHitNormalAsInt().x) != 0
-                        || Math.abs(player.camera.cursorRay.getHitNormalAsInt().z) != 0)) {
+                        && (Math.abs(Main.getClient().userPlayer.camera.cursorRay.getHitNormalAsInt().x) != 0
+                        || Math.abs(Main.getClient().userPlayer.camera.cursorRay.getHitNormalAsInt().z) != 0)) {
                     data.set(1, (byte) 3);
                 }
                 return data;

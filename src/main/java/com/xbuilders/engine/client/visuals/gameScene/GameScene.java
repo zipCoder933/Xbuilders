@@ -10,12 +10,12 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.server.world.wcc.WCCf;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.wcc.WCCf;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.window.WindowEvents;
@@ -88,9 +88,8 @@ public class GameScene implements WindowEvents {
 
         //The user player is one thing that the client has full control over
         //The client will check into the Main.getServer() occasionally to see if the Main.getServer() has any updates for the player
-        Client.userPlayer.updateAndRender(holdMouse);
+        Client.userPlayer.update();
         Client.userPlayer.render(holdMouse);
-//        Main.getServer().server.drawPlayers(GameScene.projection, GameScene.view);
 
         enableBackfaceCulling();
         Client.frameTester.startProcess();

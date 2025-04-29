@@ -14,6 +14,10 @@ public abstract class FakeClient extends ClientBase {
         connect();
     }
 
+    public ChannelBase getChannel() {
+        return channel;
+    }
+
     private void connect() {
         this.channel = new FakeChannel(server, this, true); // client-side channel
         server.connect(this); // Still register with server
@@ -24,7 +28,7 @@ public abstract class FakeClient extends ClientBase {
 
     protected void receive(Packet packet) {
         //System.out.println("Client received: " + packet);
-        packet.handle(channel, packet);
+        packet.handleClientSide(channel, packet);
     }
 
     public boolean isConnected() {

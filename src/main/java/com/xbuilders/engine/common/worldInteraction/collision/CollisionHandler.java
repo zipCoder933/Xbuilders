@@ -6,12 +6,12 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.construction.BlockType;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.common.math.AABB;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicBoolean;

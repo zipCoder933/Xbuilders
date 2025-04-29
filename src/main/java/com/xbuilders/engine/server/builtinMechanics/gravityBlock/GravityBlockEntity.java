@@ -14,7 +14,7 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.Bloc
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers.Block_NaiveMesher;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
 import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
-import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 

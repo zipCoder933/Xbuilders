@@ -48,16 +48,16 @@ public class Player extends NetworkSocket {
     }
 
 
-    public void update(Matrix4f projection, Matrix4f view) {
-        if (userInfo.getSkin() != null) userInfo.getSkin().super_render(projection, view);
+    public void render(Matrix4f projection, Matrix4f view) {
+        if (inRangeOfUser) {
+            if (userInfo.getSkin() != null) userInfo.getSkin().super_render(projection, view);
+        }
     }
 
 
     /* Network related stuff ----------------------------------------------------------- */
-    public boolean wasWithinReach = false;
     public boolean isHost = false;
     boolean inRangeOfUser;
-
 
 
     public String getName() {
@@ -75,12 +75,4 @@ public class Player extends NetworkSocket {
     public String toString() {
         return "Player " + getName();
     }
-
-
-    public void drawPlayer(Matrix4f projection, Matrix4f view) {
-        if (inRangeOfUser) {
-            update(projection, view);
-        }
-    }
-
 }

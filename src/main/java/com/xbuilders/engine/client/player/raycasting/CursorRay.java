@@ -16,10 +16,10 @@ import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -313,7 +313,7 @@ public class CursorRay {
         AABB boxAABB = new AABB();
         //If the block is too close to the player, don't place
         AtomicBoolean intersects = new AtomicBoolean(false);
-        BlockData initialData = block.getInitialBlockData(null, Client.userPlayer);
+        BlockData initialData = block.getInitialBlockData(null);
 
         block.getType().getCollisionBoxes((aabb) -> {
             if (aabb.intersects(Client.userPlayer.aabb.box) &&

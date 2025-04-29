@@ -13,7 +13,7 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.players.PositionLock;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.content.vanilla.Blocks;
 import org.joml.Vector3f;
 import org.joml.Vector3i;

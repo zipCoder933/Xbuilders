@@ -13,8 +13,8 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModel;
 import com.xbuilders.engine.server.block.construction.BlockTypeModel.BlockModelLoader;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
 
@@ -47,7 +47,7 @@ public class DoorHalfRenderer extends BlockType {
             b.solid = true;
             b.easierMiningTool_tag = null;
 
-            b.initialBlockData = (existingData, player) -> {
+            b.initialBlockData = (existingData) -> {
                 //If we already set the block data for this block, skip making new stuff
                 if (existingData != null && existingData.size() == 3) return existingData;
 

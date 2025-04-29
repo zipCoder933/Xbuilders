@@ -6,7 +6,7 @@ import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.math.AABB;
-import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import com.xbuilders.content.vanilla.blockTools.PrefabUtils;

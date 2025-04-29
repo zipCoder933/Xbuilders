@@ -19,10 +19,10 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShad
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.common.network.old.multiplayer.EntityMultiplayerInfo;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.server.world.wcc.WCCf;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
+import com.xbuilders.engine.common.world.wcc.WCCf;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackDeserializer;
 import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackSerializer;

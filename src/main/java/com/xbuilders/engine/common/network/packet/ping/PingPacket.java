@@ -18,9 +18,13 @@ public class PingPacket extends Packet {
     }
 
     @Override
-    public void handle(ChannelBase ctx, Packet packet) {
+    public void handleClientSide(ChannelBase ctx, Packet packet) {
         System.out.println("Received ping, Sending pong...");
         ctx.writeAndFlush(new PongPacket());
+    }
+    @Override
+    public void handleServerSide(ChannelBase ctx, Packet packet) {
+        handleClientSide(ctx, packet);
     }
 
     @Override

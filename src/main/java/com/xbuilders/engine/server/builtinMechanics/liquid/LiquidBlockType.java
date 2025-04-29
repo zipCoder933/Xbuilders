@@ -8,8 +8,8 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.propagation.WaterPropagation;
 import org.joml.Vector3i;
 
@@ -46,7 +46,7 @@ public class LiquidBlockType extends BlockType {
             b.solid = false;
             b.liquidMaxFlow = 7;
 
-            b.initialBlockData = (existingData, player) -> {
+            b.initialBlockData = (existingData) -> {
                 BlockData bd = new BlockData(1);
                 //The source block is block max flow + 1
                 bd.set(0, (byte) b.getLiquidSourceValue());

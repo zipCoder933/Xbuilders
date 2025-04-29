@@ -6,6 +6,7 @@ package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.common.packets.message.MessagePacket;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -52,12 +53,10 @@ public class InfoText extends UI_GameMenu {
         commandRect = NkRect.create().x(0).y(40).w(window.getWidth()).h(commandBoxHeight);
     }
 
-    private void submitCommand(String valueAsString) {
-        addToHistory("< " + valueAsString);
-        String str = client.commands.handleCommand(valueAsString);
-        if (str != null) {
-            addToHistory("> " + str);
-        }
+    private void submitCommand(String commandStr) {
+        if (commandStr == null || commandStr.isEmpty()) return;
+        addToHistory("< " + commandStr);
+        client.endpoint.getChannel().writeAndFlush(new MessagePacket(commandStr));
     }
 
     String infoPanelText = "info panel";
@@ -79,7 +78,7 @@ public class InfoText extends UI_GameMenu {
                 box.render(ctx);
 
                 Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
-                drawChatHistory(ctx, true , 0);
+                drawChatHistory(ctx, true, 0);
             }
             nk_end(ctx);
         } else {
@@ -114,7 +113,7 @@ public class InfoText extends UI_GameMenu {
     }
 
     private void drawChatHistory(NkContext ctx, boolean alwaysShow, int maxMessages) {
-        for (int i = 0; i < chatHistory.size(); i ++) {
+        for (int i = 0; i < chatHistory.size(); i++) {
 
             if (maxMessages > 0 && i > maxMessages) {
                 break;

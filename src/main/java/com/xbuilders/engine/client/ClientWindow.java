@@ -12,7 +12,7 @@ import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
-import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceLoader;
 import com.xbuilders.engine.common.resource.ResourceUtils;

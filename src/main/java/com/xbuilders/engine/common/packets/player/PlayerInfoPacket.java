@@ -41,7 +41,8 @@ public class PlayerInfoPacket extends Packet {
     }
 
     @Override
-    public void handle(ChannelBase ctx, Packet packet) {
+    public void handleClientSide(ChannelBase ctx, Packet packet) {}
 
-    }
+    @Override
+    public void handleServerSide(ChannelBase ctx, Packet packet) {}
 }

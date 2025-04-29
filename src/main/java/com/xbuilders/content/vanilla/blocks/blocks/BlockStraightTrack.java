@@ -5,7 +5,7 @@ import com.xbuilders.content.vanilla.blocks.RenderType;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
-import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.content.vanilla.Blocks;
 import org.joml.Vector3i;
 

@@ -11,8 +11,8 @@ package com.xbuilders.engine.client.visuals.topMenu;
 
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.server.world.WorldsHandler;
+import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.common.utils.ErrorHandler;

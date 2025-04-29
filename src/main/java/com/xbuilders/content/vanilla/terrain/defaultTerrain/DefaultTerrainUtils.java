@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.terrain.defaultTerrain;
 
-import com.xbuilders.engine.server.world.Terrain.GenSession;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.Terrain.GenSession;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.blocks.blocks.trees.BirchTreeUtils;
 import com.xbuilders.content.vanilla.blocks.blocks.trees.OakTreeUtils;

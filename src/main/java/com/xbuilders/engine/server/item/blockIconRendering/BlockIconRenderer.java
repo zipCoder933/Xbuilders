@@ -13,7 +13,7 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.IconGenShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
-import com.xbuilders.engine.server.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.render.MVP;
 import com.xbuilders.window.utils.preformance.SimpleWaitLock;

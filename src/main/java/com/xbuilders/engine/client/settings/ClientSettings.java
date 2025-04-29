@@ -5,8 +5,8 @@ import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.option.BoundedFloat;
 import com.xbuilders.engine.common.option.BoundedInt;
 import com.xbuilders.engine.common.resource.ResourceUtils;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import java.io.File;
 import java.lang.reflect.Field;

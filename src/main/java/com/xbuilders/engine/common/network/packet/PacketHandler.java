@@ -6,8 +6,14 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 
+    final boolean isClientSide;
+
+    public PacketHandler(boolean isClientSide) {
+        this.isClientSide = isClientSide;
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet packet) {
-        packet.handle(new NettyChannel(ctx.channel()), packet);
+        packet.handleClientSide(new NettyChannel(ctx.channel()), packet);
     }
 }

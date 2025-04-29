@@ -15,7 +15,7 @@ import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.client.visuals.FileDialog;
 import com.xbuilders.engine.client.visuals.RectOverlay;
-import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.common.world.World;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;

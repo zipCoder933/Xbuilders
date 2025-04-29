@@ -3,23 +3,26 @@ package com.xbuilders.engine.client;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Page;
-import com.xbuilders.engine.common.commands.CommandRegistry;
+import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.ClientBase;
+import com.xbuilders.engine.common.network.fake.FakeClient;
+import com.xbuilders.engine.common.network.fake.FakeServer;
 import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.world.Terrain;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.WorldsHandler;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.server.world.Terrain;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.WorldsHandler;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import org.joml.Vector3f;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -40,13 +43,12 @@ public class Client {
     public static boolean FPS_TOOLS = false;
     public static boolean DEV_MODE = false;
     public static UserControlledPlayer userPlayer;
-    public final CommandRegistry commands = new CommandRegistry();
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
     public final ClientWindow window;
     private final Game game;
-    private ClientBase endpoint;
+    public ClientBase endpoint;
 
 
     public static long versionStringToNumber(String version) {
@@ -325,8 +327,8 @@ public class Client {
     }
 
 
-    public Server localServer; //The only thing we need to keep this for is to STOP the server
-
+    public void onConnected(boolean success, Throwable cause, ChannelBase channel) {
+    }
 
     public void loadWorld(final WorldData singleplayerWorld, final NetworkJoinRequest remoteWorld) {
         boolean singleplayer = remoteWorld == null;
@@ -343,10 +345,22 @@ public class Client {
             //In singleplayer, the chunks are shared by both client and server to save memory
             World serverWorld = new World(world.chunks, world.data);
 
-            localServer = new Server(game, serverWorld, userPlayer); //Create our server
+            Main.setServer(new Server(game, serverWorld)); //Create our server
             new Thread(() -> { //Start the server on another thread
-                localServer.run();
+                try {
+                    Main.getServer().run();
+                } finally {
+                    stopGame();
+                }
             }).start();
+
+            //Start up our endpoint
+            endpoint = new FakeClient((FakeServer) Main.getServer().endpoint) {
+                @Override
+                public void onConnected(boolean success, Throwable cause, ChannelBase channel) {
+                    Client.this.onConnected(success, cause, channel);
+                }
+            };
 
             window.topMenu.progress.enable(prog, () -> {//update
                 try {
@@ -466,11 +480,11 @@ public class Client {
 
     public void stopGame() {
         try {
-            if (localServer != null) localServer.stop();  //If we have a local server
+            if (Main.getServer() != null) Main.getServer().stop();  //If we have a local server
         } catch (Exception e) {
             ErrorHandler.report(e);
         } finally {
-            localServer = null;
+            Main.setServer(null);
             System.gc();
         }
     }

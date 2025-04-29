@@ -10,14 +10,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class FakeChannel extends ChannelBase {
     private final FakeServer server;
     private final FakeClient client;
-    private final boolean isClientSide;
+    private final boolean sendMessagesToServer;
     private final BlockingQueue<Object> incoming = new LinkedBlockingQueue<>();
     private final AtomicBoolean active = new AtomicBoolean(true);
 
-    public FakeChannel(FakeServer server, FakeClient client, boolean isClientSide) {
+    public FakeChannel(FakeServer server, FakeClient client, boolean sendMessagesToServer) {
         this.server = server;
         this.client = client;
-        this.isClientSide = isClientSide;
+        this.sendMessagesToServer = sendMessagesToServer;
         startProcessing();
     }
 
@@ -26,7 +26,7 @@ public class FakeChannel extends ChannelBase {
             try {
                 while (active.get()) {
                     Packet packet = (Packet) incoming.take();
-                    if (isClientSide) {
+                    if (sendMessagesToServer) {
                         server.receive(this, packet);
                     } else {
                         client.receive(packet);

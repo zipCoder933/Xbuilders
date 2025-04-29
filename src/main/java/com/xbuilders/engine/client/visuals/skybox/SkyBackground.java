@@ -2,7 +2,7 @@ package com.xbuilders.engine.client.visuals.skybox;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

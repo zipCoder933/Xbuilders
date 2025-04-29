@@ -20,11 +20,12 @@ import static com.xbuilders.engine.common.network.netty.NettyServer.MAX_FRAME_SI
 public abstract class NettyClient extends ClientBase {
 
     private final Channel channel;
+    private final ChannelBase channelBase;
     private final EventLoopGroup group;
     private final ChannelFuture future;
 
-    public Channel getChannel() {
-        return channel;
+    public ChannelBase getChannel() {
+        return channelBase;
     }
 
     public NettyClient(String host, int port) throws InterruptedException {
@@ -54,13 +55,14 @@ public abstract class NettyClient extends ClientBase {
                         ));
                         ch.pipeline().addLast(new PacketDecoder(NettyClient.this));
                         ch.pipeline().addLast(new PacketEncoder());
-                        ch.pipeline().addLast(new PacketHandler());
+                        ch.pipeline().addLast(new PacketHandler(true));
                     }
                 });
 
         // Connect to localServer
         future = bootstrap.connect(host, port).sync();
         channel = future.channel();
+        channelBase = new NettyChannel(channel);
 
         // Schedule periodic ping
         schedulePing();

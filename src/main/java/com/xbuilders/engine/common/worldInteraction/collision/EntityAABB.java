@@ -6,7 +6,7 @@ package com.xbuilders.engine.common.worldInteraction.collision;
 
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.server.world.World;
+import com.xbuilders.engine.common.world.World;
 import org.joml.Vector3f;
 
 /**

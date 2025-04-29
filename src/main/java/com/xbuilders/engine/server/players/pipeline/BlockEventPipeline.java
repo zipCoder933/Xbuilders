@@ -11,13 +11,13 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.construction.BlockType;
-import com.xbuilders.engine.server.world.World;
-import com.xbuilders.engine.server.world.chunk.BlockData;
-import com.xbuilders.engine.server.world.chunk.Chunk;
-import com.xbuilders.engine.server.world.data.WorldData;
-import com.xbuilders.engine.server.world.light.SunlightUtils;
-import com.xbuilders.engine.server.world.light.TorchUtils;
-import com.xbuilders.engine.server.world.wcc.WCCi;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.light.SunlightUtils;
+import com.xbuilders.engine.common.world.light.TorchUtils;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.Vector3i;
 
 import java.util.*;
@@ -32,12 +32,10 @@ public class BlockEventPipeline {
 
     WCCi wcc = new WCCi();
     World world;
-    UserControlledPlayer player;
     final Object eventClearLock = new Object();
 
-    public BlockEventPipeline(World world, UserControlledPlayer player) {
+    public BlockEventPipeline(World world) {
         this.world = world;
-        this.player = player;
     }
 
     public void addEvent(Vector3i worldPos, BlockHistory blockHist) {
@@ -138,7 +136,7 @@ public class BlockEventPipeline {
         ArrayList<ChunkNode> sunNode_OpaqueToTrans = new ArrayList<>();
         ArrayList<ChunkNode> sunNode_transToOpaque = new ArrayList<>();
 
-        resolveQueue(allowBlockEvents, framesThatHadEvents, player,
+        resolveQueue(allowBlockEvents, framesThatHadEvents,
                 affectedChunks, sunNode_OpaqueToTrans, sunNode_transToOpaque);
 
         boolean multiThreadedMode = blockChangesThisFrame > 100 || lightChangesThisFrame > 20 ||
@@ -166,7 +164,7 @@ public class BlockEventPipeline {
     }
 
 
-    private void resolveQueue(boolean allowBlockEvents, int framesInARow, UserControlledPlayer player,
+    private void resolveQueue(boolean allowBlockEvents, int framesInARow,
                               final HashSet<Chunk> affectedChunks,
                               final List<ChunkNode> sunNode_OpaqueToTrans,
                               final List<ChunkNode> sunNode_transToOpaque
@@ -191,7 +189,7 @@ public class BlockEventPipeline {
                 newBlockData = blockHist.newBlockData;
             } else {
                 newBlockData = blockHist.newBlock.getInitialBlockData(
-                        chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z), player);
+                        chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
             }
             blockHist.newBlockData = newBlockData; //Store the new block data so that we can use it later
 
