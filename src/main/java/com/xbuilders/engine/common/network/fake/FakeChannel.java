@@ -10,9 +10,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class FakeChannel extends ChannelBase {
     private final FakeServer server;
     private final FakeClient client;
-    private final boolean sendMessagesToServer;
+    public final boolean sendMessagesToServer;
     private final BlockingQueue<Object> incoming = new LinkedBlockingQueue<>();
     private final AtomicBoolean active = new AtomicBoolean(true);
+
+    FakeChannel reverseChannel;
 
     public FakeChannel(FakeServer server, FakeClient client, boolean sendMessagesToServer) {
         this.server = server;
@@ -21,13 +23,19 @@ public class FakeChannel extends ChannelBase {
         startProcessing();
     }
 
+    public void makeReverseChannel() {
+        reverseChannel = new FakeChannel(server, client, !sendMessagesToServer);
+        reverseChannel.reverseChannel = this;
+    }
+
     private void startProcessing() {
         new Thread(() -> {
+            System.out.println("FakeChannel started " + this);
             try {
                 while (active.get()) {
                     Packet packet = (Packet) incoming.take();
                     if (sendMessagesToServer) {
-                        server.receive(this, packet);
+                        server.receive(reverseChannel, packet);
                     } else {
                         client.receive(packet);
                     }
@@ -48,5 +56,11 @@ public class FakeChannel extends ChannelBase {
     public void close() {
         active.set(false);
         server.clientDisconnectEvent(this);
+    }
+
+    public String toString() {
+        return "FakeChannel{" +
+                "sendMessagesToServer=" + sendMessagesToServer +
+                '}';
     }
 }

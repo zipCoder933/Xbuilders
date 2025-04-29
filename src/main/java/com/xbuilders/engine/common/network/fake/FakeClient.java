@@ -20,7 +20,11 @@ public abstract class FakeClient extends ClientBase {
 
     private void connect() {
         this.channel = new FakeChannel(server, this, true); // client-side channel
-        server.connect(this); // Still register with server
+        this.channel.makeReverseChannel();
+
+        FakeChannel serverChannel = new FakeChannel(server, this, false);
+        server.connect(serverChannel); // Still register with server
+
         onConnected(true, null, channel);
     }
 

@@ -20,9 +20,9 @@ public class CommandRegistry {
     public CommandRegistry() {
     }
 
-    private final HashMap<String, Command> commands = new HashMap<>();
+    private static final HashMap<String, Command> commands = new HashMap<>();
 
-    public void registerCommand(Command command) {
+    public static void registerCommand(Command command) {
         commands.put(command.commandName.toLowerCase(), command);
     }
 
@@ -58,7 +58,7 @@ public class CommandRegistry {
     public String handleCommand(String inputString) {
         try {
             String[] parts = splitWhitespacePreserveQuotes(inputString);
-            System.out.println("handleGameCommand: " + Arrays.toString(parts));
+            System.out.println("handling command: " + Arrays.toString(parts));
             if (parts.length == 0) return null;
 
             if (parts[0].equalsIgnoreCase("help")) { //Help builtin command
@@ -72,9 +72,9 @@ public class CommandRegistry {
                     out.append(key).append(": ").append(command.commandHelp).append("\n\n");
                 });
                 return out.toString();
-            } else { //Other commands
+            } else { //Other commandRegistry
                 Command command = commands.get(parts[0].toLowerCase());
-                if (command == null) return "Unknown command. Type 'help' for a list of commands";
+                if (command == null) return "Unknown command. Type 'help' for a list of commandRegistry";
                 else {
                     parts = removeFirstN(parts, 1);
                     String out = command.runCommand(parts);

@@ -2,6 +2,7 @@ package com.xbuilders.engine.common.packets.message;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.common.network.ChannelBase;
+import com.xbuilders.engine.common.network.fake.FakeChannel;
 import com.xbuilders.engine.common.network.packet.Packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -39,9 +40,9 @@ public class MessagePacket extends Packet {
     public void handleServerSide(ChannelBase ctx, Packet packet) {
         MessagePacket packetInstance = (MessagePacket) packet;
         System.out.println("Command from client: " + packetInstance.message);
-        String out = Main.getServer().commands.handleCommand(packetInstance.message);
+        String out = Main.getServer().commandRegistry.handleCommand(packetInstance.message);
         if (out != null) {
-            System.out.println("Sending response to the client: " + out);
+            System.out.println("Sending response to the client: " + out + ", \t\t SEND to server: " + ((FakeChannel) ctx).sendMessagesToServer);
             ctx.writeAndFlush(new MessagePacket(out));
         }
     }

@@ -7,17 +7,18 @@ package com.xbuilders.engine.server;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.fake.FakeServer;
 import com.xbuilders.engine.common.network.netty.NettyServer;
 import com.xbuilders.engine.common.packets.message.MessagePacket;
+import com.xbuilders.engine.server.commands.Command;
 import com.xbuilders.engine.server.commands.CommandRegistry;
 import com.xbuilders.engine.common.json.JsonManager;
 import com.xbuilders.engine.common.network.ServerBase;
 import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
+import com.xbuilders.engine.server.commands.GiveCommand;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -35,6 +36,7 @@ import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Server {
     public final static int version = 1;
@@ -43,10 +45,191 @@ public class Server {
     private final Game game;
     public BlockEventPipeline eventPipeline;
     public LogicThread tickThread;
-    public CommandRegistry commands = new CommandRegistry();
+    public static final CommandRegistry commandRegistry = new CommandRegistry();
     public final ServerBase endpoint;
     private boolean alive = true;
     private int port = -1;
+
+    private static void registerCommands() {
+        CommandRegistry.registerCommand(new Command("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>")
+                .requiresOP(true).executesServerSide((parts) -> {
+                    if (parts.length >= 1) {
+                        Chunk.randomTickLikelyhoodMultiplier = (float) Double.parseDouble(parts[0]);
+                        return "Tick rate changed to: " + Chunk.randomTickLikelyhoodMultiplier;
+                    }
+                    return "Tick rate is " + Chunk.randomTickLikelyhoodMultiplier;
+                }));
+
+        CommandRegistry.registerCommand(new Command("mode",
+                "Usage (to get the current mode): mode\n" +
+                        "Usage (to change mode): mode <mode> <all (optional)>")
+                .requiresOP(true).executesServerSide((parts) -> {
+                    if (parts.length >= 1) {
+                        String mode = parts[0].toUpperCase().trim().replace(" ", "_");
+
+                        boolean sendToAll = (parts.length >= 2 && parts[1].equalsIgnoreCase("all"));
+                        try {
+                            Main.getServer().setGameMode(GameMode.valueOf(mode.toUpperCase()));
+                            return "Game mode changed to: " + Main.getServer().getGameMode();
+                        } catch (IllegalArgumentException e) {
+                            return "No game mode \"" + mode + "\" Valid game modes are "
+                                    + Arrays.toString(GameMode.values());
+                        } catch (IOException e) {
+                            return "Error: " + e;
+                        }
+                    } else {
+                        return "Game mode: " + Main.getServer().getGameMode();
+                    }
+                }));
+
+//        CommandRegistry.registerCommand(new Command("die",
+//                "Kills the current player")
+//                .requiresOP(false).executesServerSide((parts) -> {
+//                    LocalClient.userPlayer.die();
+//                    return "Player " + LocalClient.userPlayer.getName() + " has died";
+//                }));
+//
+//        CommandRegistry.registerCommand(new Command("setSpawn",
+//                "Set spawnpoint for the current player")
+//                .requiresOP(false).executesServerSide((parts) -> {
+//                    LocalClient.userPlayer.setSpawnPoint(
+//                            LocalClient.userPlayer.worldPosition.x,
+//                            LocalClient.userPlayer.worldPosition.y,
+//                            LocalClient.userPlayer.worldPosition.z);
+//                    return "Set spawn point for " + LocalClient.userPlayer.getName() + " to current position";
+//                }));
+
+        CommandRegistry.registerCommand(new Command("op", "Usage: op <true/false> <player>")
+                .requiresOP(true).executesServerSide((parts) -> {
+//                    if (!Main.getServer().ownsGame())
+//                        return "Only the host can change OP status"; //We cant change permissions if we arent the host
+//                    if (parts.length >= 2) {
+//                        boolean operator = Boolean.parseBoolean(parts[0]);
+//                        Player target = Main.getServer().server.getPlayerByName(parts[1]);
+//                        if (target != null) {
+//                            try {
+//                                target.sendData(new byte[]{GameServer.CHANGE_PLAYER_PERMISSION, (byte) (operator ? 1 : 0)});
+//                            } catch (IOException e) {
+//                                return "Error: " + e;
+//                            }
+//                            return "Player " + target.userInfo.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
+//                        } else {
+//                            return "Player not found";
+//                        }
+//                    }
+                    return null;
+                }));
+
+        CommandRegistry.registerCommand(new Command("msg",
+                "Usage: msg <player/all> <message>").executesServerSide((parts) -> {
+            if (parts.length >= 2) {
+                // return Main.getServer().server.sendChatMessage(parts[0], parts[1]);
+            }
+            return null;
+        }));
+
+        CommandRegistry.registerCommand(new GiveCommand());
+
+        CommandRegistry.registerCommand(new Command("time",
+                "Usage: time set <day/evening/night>\n" +
+                        "Usage: time get")
+                .requiresOP(true)
+                .executesServerSide((parts) -> {
+                    if (parts.length >= 1 && parts[0].equalsIgnoreCase("get")) {
+                        return "Time of day: " + Main.getServer().getTimeOfDay();
+                    } else if (parts.length >= 2 && parts[0].equalsIgnoreCase("set")) {
+                        if (parts[1].equalsIgnoreCase("morning") || parts[1].equalsIgnoreCase("m")) {
+                            Main.getServer().setTimeOfDay(0.95f);
+                            return "Time of day set to: " + Main.getServer().getTimeOfDay();
+                        } else if (parts[1].equalsIgnoreCase("day") || parts[1].equalsIgnoreCase("d")) {
+                            Main.getServer().setTimeOfDay(0.0f);
+                            return "Time of day set to: " + Main.getServer().getTimeOfDay();
+                        } else if (parts[1].equalsIgnoreCase("evening") || parts[1].equalsIgnoreCase("e")) {
+                            Main.getServer().setTimeOfDay(0.25f);
+                            return "Time of day set to: " + Main.getServer().getTimeOfDay();
+                        } else if (parts[1].equalsIgnoreCase("night") || parts[1].equalsIgnoreCase("n")) {
+                            Main.getServer().setTimeOfDay(0.5f);
+                            return "Time of day set to: " + Main.getServer().getTimeOfDay();
+                        } else {
+                            float time = Float.parseFloat(parts[1]);
+                            Main.getServer().setTimeOfDay(time);
+                            return "Time of day set to: " + Main.getServer().getTimeOfDay();
+                        }
+                    }
+                    return null;
+                }));
+
+//        CommandRegistry.registerCommand(new Command("alwaysDay",
+//                "Usage: alwaysDay true/false")
+//                .requiresOP(true)
+//                .executesServerSide((parts) -> {
+//                    if (parts.length >= 1) {
+//                        LocalClient.world.data.data.alwaysDayMode = parts[0].equalsIgnoreCase("true");
+//                        try {
+//                            LocalClient.world.data.save();
+//                            return "Always day mode: " + LocalClient.world.data.data.alwaysDayMode;
+//                        } catch (IOException e) {
+//                            return "Error: " + e;
+//                        }
+//                    }
+//                    return null;
+//                }));
+
+//        CommandRegistry.registerCommand(new Command("teleport",
+//                "Usage: teleport <player>\nUsage: teleport <x> <y> <z>")
+//                .requiresOP(true)
+//                .executesServerSide((parts) -> {
+//                    if (parts.length >= 3) {
+//                        LocalClient.userPlayer.worldPosition.set(Float.parseFloat(parts[0]), Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+//                        return null;
+//                    }
+//
+//                    if (parts.length >= 1) {
+////                        Player target = Main.getServer().server.getPlayerByName(parts[0]);
+////                        if (target != null) {
+////                            LocalClient.userPlayer.worldPosition.set(target.worldPosition);
+////                            return null;
+////                        } else {
+////                            return "Player not found";
+////                        }
+//                    }
+//                    return null;
+//                }));
+
+        CommandRegistry.registerCommand(new Command("difficulty",
+                "Usage: difficulty <easy/normal/hard>")
+                .requiresOP(true)
+                .executesServerSide((parts) -> {
+                    if (parts.length >= 1) {
+                        String mode = parts[0].toUpperCase().trim().replace(" ", "_");
+                        try {
+                            Main.getServer().setDifficulty(Difficulty.valueOf(mode.toUpperCase()));
+//                            if (Main.getServer().server.isPlayingMultiplayer())
+//                                Main.getServer().server.sendToAllClients(new byte[]{
+//                                        GameServer.CHANGE_DIFFICULTY, (byte) Main.getServer().getDifficulty().ordinal()});
+                            return "Difficulty changed to: " + Main.getServer().getDifficulty();
+                        } catch (IllegalArgumentException e) {
+                            return "Invalid mode \"" + mode + "\" Valid modes are "
+                                    + Arrays.toString(Difficulty.values());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    return "Difficulty: " + Main.getServer().getDifficulty();
+                }));
+
+//        CommandRegistry.registerCommand(new Command("list",
+//                "Lists all connected players")
+//                .requiresOP(true)
+//                .executesServerSide((parts) -> {
+//                    StringBuilder str = new StringBuilder(LocalClient.world.players.size() + " players:\n");
+//                    for (Player client : LocalClient.world.players) {
+//                        str.append(client.getName()).append(";   ").append(client.getConnectionStatus()).append("\n");
+//                    }
+//                    System.out.println("\nPLAYERS:\n" + str);
+//                    return str.toString();
+//                }));
+    }
 
     public final boolean runningLocally() {
         return port == -1;
@@ -111,6 +294,7 @@ public class Server {
 
     public void run() {
         try {
+            registerCommands();
             eventPipeline = new BlockEventPipeline(world);
             livePropagationHandler = new LivePropagationHandler();
             tickThread = new LogicThread(this);

@@ -11,8 +11,7 @@ public abstract class FakeServer extends ServerBase {
     private final List<FakeChannel> clients = new CopyOnWriteArrayList<>();
 
     //Whenever we receive a connection from a client
-    protected FakeChannel connect(FakeClient client) {
-        FakeChannel channel = new FakeChannel(this, client, false);
+    protected FakeChannel connect(FakeChannel channel) {
         clients.add(channel);
         boolean accepted = newClientEvent(channel);
         if (!accepted) {

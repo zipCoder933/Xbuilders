@@ -27,11 +27,11 @@ public class ClientSettings {
     public boolean video_vsync = true;
     public BoundedInt video_entityDistance = new BoundedInt(100);
 
-    //Dev commands
+    //Dev commandRegistry
     public long dev_blockBoundaryAreaLimit = 1000000;
     public boolean dev_allowOPCommands = false;
 
-    //Internal commands (These wont ever be seen by the user, or shown in the UI)
+    //Internal commandRegistry (These wont ever be seen by the user, or shown in the UI)
     public ArrayList<ServerEntry> internal_serverList = new ArrayList<>();
     public boolean internal_smallWindow = false;
     public final BoundedInt internal_viewDistance = new BoundedInt(Chunk.WIDTH * 5);
