@@ -3,9 +3,11 @@ package com.xbuilders.engine.common.network.fake;
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.packet.Packet;
 
+import java.net.SocketAddress;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 public class FakeChannel extends ChannelBase {
     private final FakeServer server;
@@ -13,7 +15,12 @@ public class FakeChannel extends ChannelBase {
     public final boolean sendMessagesToServer;
     private final BlockingQueue<Object> incoming = new LinkedBlockingQueue<>();
     private final AtomicBoolean active = new AtomicBoolean(true);
-
+    private final SocketAddress fakeAddress = new SocketAddress() {
+        public String toString() {
+            return "FakeAddress-" + hashCode();
+        }
+    };
+    private Thread processingThread;
     FakeChannel reverseChannel;
 
     public FakeChannel(FakeServer server, FakeClient client, boolean sendMessagesToServer) {
@@ -29,7 +36,7 @@ public class FakeChannel extends ChannelBase {
     }
 
     private void startProcessing() {
-        new Thread(() -> {
+        processingThread = new Thread(() -> {
             System.out.println("FakeChannel started " + this);
             try {
                 while (active.get()) {
@@ -41,8 +48,11 @@ public class FakeChannel extends ChannelBase {
                     }
                 }
             } catch (InterruptedException ignored) {
+                ignored.printStackTrace();
+                close();
             }
-        }).start();
+        });
+        processingThread.start();
     }
 
     public void writeAndFlush(Packet packet) {
@@ -54,8 +64,14 @@ public class FakeChannel extends ChannelBase {
     }
 
     public void close() {
+        System.out.println("FakeChannel closed " + this);
         active.set(false);
         server.clientDisconnectEvent(this);
+        processingThread.interrupt();
+    }
+
+    public SocketAddress remoteAddress() {
+        return fakeAddress;
     }
 
     public String toString() {

@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.players.PositionLock;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.common.players.PositionLock;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.content.vanilla.Blocks;
@@ -67,7 +67,7 @@ public class Minecart extends Vehicle {
 
     @Override
     public boolean run_ClickEvent() {
-        UserControlledPlayer userControlledPlayer = Client.userPlayer;
+        LocalPlayer userControlledPlayer = Client.userPlayer;
         if (userControlledPlayer.positionLock == null) {
             Client.userPlayer.positionLock = positionLock;
             forwardBackDir = 0;

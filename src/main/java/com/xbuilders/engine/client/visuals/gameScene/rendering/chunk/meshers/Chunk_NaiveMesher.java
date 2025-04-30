@@ -11,7 +11,7 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
@@ -19,6 +19,9 @@ import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
 
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 
 /**
@@ -117,7 +120,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                                             neighbors, neighborData, lightNeghbors, chunk, x, y, z, isUsingGreedyMesher);
                                 }
                             } catch (Exception e) {
-                                ErrorHandler.report("Error rendering block", e);
+                                LOGGER.log(Level.INFO,"error", e);
                             }
                         }
                     }

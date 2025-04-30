@@ -15,7 +15,7 @@ import static com.xbuilders.engine.common.utils.ArrayUtils.combineArrays;
  */
 public class EntityRegistry {
 
-    //Predefined entities
+    //Predefined allEntities
     public static EntitySupplier ENTITY_ITEM_DROP;
 
     final HashMap<String, EntitySupplier> idMap = new HashMap<>();
@@ -47,7 +47,7 @@ public class EntityRegistry {
 
         verifyEntityIds(inputEntities);
         list = inputEntities.toArray(new EntitySupplier[0]);
-        //Now make a list of autonomous entities
+        //Now make a list of autonomous allEntities
         autonomousList = new java.util.ArrayList<>();
         for (EntitySupplier entity : list) {
             if (entity.isAutonomous) {

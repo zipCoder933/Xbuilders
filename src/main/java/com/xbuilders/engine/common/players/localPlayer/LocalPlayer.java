@@ -1,4 +1,4 @@
-package com.xbuilders.engine.client.player;
+package com.xbuilders.engine.common.players.localPlayer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,7 +8,7 @@ import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.camera.Camera;
+import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.server.GameMode;
@@ -18,10 +18,10 @@ import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
-import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.server.players.PositionLock;
+import com.xbuilders.engine.common.players.Player;
+import com.xbuilders.engine.common.players.PositionLock;
 import com.xbuilders.engine.common.world.data.WorldData;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.json.gson.ItemStackTypeAdapter;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
@@ -38,11 +38,13 @@ import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.content.vanilla.Blocks.BLOCK_AIR;
 import static com.xbuilders.engine.client.visuals.gameScene.GameUI.printKeyConsumption;
 
-public class UserControlledPlayer extends Player {
+public class LocalPlayer extends Player {
 
 
     public Camera camera;
@@ -370,6 +372,7 @@ public class UserControlledPlayer extends Player {
     public void saveToWorld(WorldData worldData) {
         File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
 
+
         JsonObject jsonObject = new JsonObject();
         // Serialize playerStuff and other data
         jsonObject.add("inventory", pdGson.toJsonTree(inventory.getList()));
@@ -397,6 +400,7 @@ public class UserControlledPlayer extends Player {
         isFlyingMode = true;
         resetHealthStats();
         gameModeChangedEvent(Main.getServer().getGameMode());
+
 
         File playerFile = new File(worldData.getDirectory(), PLAYER_DATA_FILE);
         inventory.clear();
@@ -430,7 +434,7 @@ public class UserControlledPlayer extends Player {
 
                 selectedItemIndex = 0;
             } catch (Exception e) {
-                ErrorHandler.report(e);
+                LOGGER.log(Level.INFO,"error", e);
             }
         }
     }
@@ -512,11 +516,21 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    private boolean jumpKeyPressed = false;
+    public void loadUserInfo(){
+        //Load data from the settings
+        setName(ClientWindow.settings.internal_playerName);
+        setSkin(ClientWindow.settings.internal_skinID);
+    }
 
-    public UserControlledPlayer(ClientWindow window,
-                                Matrix4f projection, Matrix4f view,
-                                Matrix4f centeredView) throws IOException {
+    public void saveUserInfo(){
+        //Save data to settings
+        ClientWindow.settings.internal_playerName = getName();//Save name in settings for
+        ClientWindow.settings.internal_skinID = getSkinID();//Save name in settings for
+    }
+
+    public LocalPlayer(ClientWindow window,
+                       Matrix4f projection, Matrix4f view,
+                       Matrix4f centeredView) throws IOException {
         super();
         this.window = window;
         this.projection = projection;
@@ -531,7 +545,7 @@ public class UserControlledPlayer extends Player {
             }
             //System.out.println("onGround: " + fallDistance);
         };
-        userInfo.loadFromDisk();
+
     }
 
     public void initGL() {
@@ -752,7 +766,7 @@ public class UserControlledPlayer extends Player {
         }
     }
 
-    public void render(boolean holdMouse){
+    public void render(boolean holdMouse) {
         // The key to preventing shaking during collision is to update the camera AFTER
         // the position handler is done its job
         camera.update(holdMouse);
@@ -764,7 +778,7 @@ public class UserControlledPlayer extends Player {
          * The user player is responsible for rendering its own skin
          *  */
         if (camera.getThirdPersonDist() != 0.0f) {
-            userInfo.getSkin().super_render(projection, view);
+            getSkin().super_render(projection, view);
         }
     }
 
@@ -806,10 +820,10 @@ public class UserControlledPlayer extends Player {
         if (isDieMode()) return false;
 
         if (action == GLFW.GLFW_PRESS) {
-            if (button == UserControlledPlayer.getCreateMouseButton()) {
+            if (button == LocalPlayer.getCreateMouseButton()) {
                 camera.cursorRay.clickEvent(true);
                 return true;
-            } else if (button == UserControlledPlayer.getDeleteMouseButton()) {
+            } else if (button == LocalPlayer.getDeleteMouseButton()) {
                 camera.cursorRay.clickEvent(false);
                 return true;
             } else if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {

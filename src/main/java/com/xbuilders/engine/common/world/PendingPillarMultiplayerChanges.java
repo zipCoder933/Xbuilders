@@ -1,6 +1,6 @@
 package com.xbuilders.engine.common.world;
 
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import org.joml.Vector3i;
 
 import java.util.HashMap;

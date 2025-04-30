@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server;
 
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import org.joml.Vector3i;
 
 public abstract class LivePropagationTask {

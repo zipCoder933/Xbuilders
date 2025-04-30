@@ -4,7 +4,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3f;
 import org.lwjgl.nuklear.NkContext;
@@ -12,7 +12,9 @@ import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class BarrelUI extends ContainerUI {
@@ -63,7 +65,7 @@ public class BarrelUI extends ContainerUI {
         try {
             return (barrelStorage.writeToJson());
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "Error",e);
             return new byte[0];
         }
     }

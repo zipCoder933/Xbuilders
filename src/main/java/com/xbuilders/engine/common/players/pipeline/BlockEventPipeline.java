@@ -1,9 +1,8 @@
-package com.xbuilders.engine.server.players.pipeline;
+package com.xbuilders.engine.common.players.pipeline;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.HighValueComparator;
 import com.xbuilders.engine.common.utils.BFS.ChunkNode;

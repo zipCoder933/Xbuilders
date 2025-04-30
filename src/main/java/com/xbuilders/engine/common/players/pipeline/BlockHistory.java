@@ -1,4 +1,4 @@
-package com.xbuilders.engine.server.players.pipeline;
+package com.xbuilders.engine.common.players.pipeline;
 
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;

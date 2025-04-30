@@ -6,8 +6,8 @@ package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemWindow;
 import com.xbuilders.engine.server.GameMode;
@@ -38,9 +38,9 @@ public class UI_Hotbar extends UI_GameMenu {
     final int ELEMENTS = 11;
     int pushValue;
     public static StorageSpace playerStorage;
-    UserControlledPlayer userPlayer;
+    LocalPlayer userPlayer;
 
-    public UI_Hotbar(NkContext ctx, NKWindow window, UserControlledPlayer userPlayer) {
+    public UI_Hotbar(NkContext ctx, NKWindow window, LocalPlayer userPlayer) {
         super(ctx, window);
         this.userPlayer = userPlayer;
         playerStorage = userPlayer.inventory;

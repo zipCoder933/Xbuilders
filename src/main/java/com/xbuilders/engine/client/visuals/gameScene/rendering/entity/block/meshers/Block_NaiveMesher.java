@@ -4,17 +4,22 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.meshers;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
 
 import org.joml.Vector3i;
 import org.lwjgl.system.MemoryStack;
+
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 /**
  * This one is designed for static block rendering, (but can technically still be used for chunk rendering)
@@ -105,7 +110,7 @@ public class Block_NaiveMesher extends BlockMesher {
                                 type.constructBlock(transparentBuffers, block, blockData, neighbors, neighborData, light, null, x, y, z, false);
                             }
                         } catch (Exception e) {
-                            ErrorHandler.report("Error rendering block", e);
+                            LOGGER.log(Level.INFO,"error", e);
                         }
                     }
                 }

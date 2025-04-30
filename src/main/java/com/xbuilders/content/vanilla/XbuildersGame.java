@@ -16,7 +16,7 @@ import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
 import com.xbuilders.content.vanilla.ui.*;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.GameUI;
 import com.xbuilders.engine.server.Game;
@@ -187,7 +187,7 @@ public class XbuildersGame extends Game {
         System.out.println("Initializing blocks...");
         ArrayList<Block> blockList = Blocks.starup_getBlocks();
 
-        System.out.println("Initializing entities...");
+        System.out.println("Initializing allEntities...");
         ArrayList<EntitySupplier> entityList = Entities.startup_getEntities(window);
 
 

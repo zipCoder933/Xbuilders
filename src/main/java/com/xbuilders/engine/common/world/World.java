@@ -2,14 +2,13 @@ package com.xbuilders.engine.common.world;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
-import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.player.camera.Camera;
+import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.settings.ClientSettings;
@@ -26,6 +25,7 @@ import java.io.IOException;
 
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.Main.game;
 import static com.xbuilders.engine.client.Client.userPlayer;
 import static com.xbuilders.engine.client.Client.world;
@@ -33,7 +33,7 @@ import static com.xbuilders.engine.client.Client.world;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 
@@ -46,13 +46,14 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
 import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.*;
 
 /**
- * The world is the main class that manages the chunks and entities in the game.
+ * The world is the main class that manages the chunks and allEntities in the game.
  * It is the model for the game world and everything in it.
  */
 public class World {
@@ -142,8 +143,7 @@ public class World {
 
     //Model properties
     public final Map<Vector3i, Chunk> chunks; //Important if we want to use this in multiple threads
-    public final WorldEntityMap entities = new WorldEntityMap(); // <chunkPos, entity>
-    public final List<Player> players = new ArrayList<>();
+    public final WorldEntityMap allEntities = new WorldEntityMap(); // <chunkPos, entity>
     public WorldData data;
     public Terrain terrain;
 
@@ -231,14 +231,14 @@ public class World {
     });
 
 
-    public void init(UserControlledPlayer player, BlockArrayTexture textures) throws IOException {
+    public void init(LocalPlayer player, BlockArrayTexture textures) throws IOException {
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
         setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
         sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
-        entities.clear();
+        allEntities.clear();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Chunk operations">
@@ -272,7 +272,7 @@ public class World {
     public void removeChunk(final Vector3i coords) {
         if (hasChunk(coords)) {
             Chunk chunk = this.chunks.remove(coords);
-            entities.removeAllEntitiesFromChunk(chunk);
+            allEntities.removeAllEntitiesFromChunk(chunk);
             chunk.save(data);
             unusedChunks.add(chunk);
         }
@@ -282,16 +282,15 @@ public class World {
     public boolean init(ProgressData prog, Vector3f playerPosition) {
         System.out.println("\n\nStarting new game: " + data.getName());
         prog.setTask("Starting new game");
-        players.clear();
         this.chunks.clear();
         this.unusedChunks.clear();
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
-        entities.clear();
+        allEntities.clear();
         //Get the terrain from worldInfo
         this.terrain = game.getTerrainFromInfo(data);
         if (terrain == null) {
-            ErrorHandler.report("Error", "Terrain " + data.getTerrain() + " not found");
+            LOGGER.log(Level.SEVERE, "Terrain not found");
             return false;
         } else System.out.println("Terrain: " + this.terrain);
 
@@ -315,7 +314,7 @@ public class World {
             chunk.dispose();
         });
 
-        entities.clear();
+        allEntities.clear();
         chunks.clear();
         unusedChunks.clear();
         sortedChunksToRender.clear();
@@ -455,7 +454,7 @@ public class World {
         Client.frameTester.set("in-use chunks", chunks.size());
         Client.frameTester.set("chunksToRender", sortedChunksToRender.size());
         Client.frameTester.set("unused chunks", unusedChunks.size());
-        Client.frameTester.set("world entities", world.entities.size());
+        Client.frameTester.set("world allEntities", world.allEntities.size());
     }
 
     final Vector3f chunkShader_cursorMin = new Vector3f();
@@ -582,8 +581,8 @@ public class World {
         });
         CompactOcclusionMesh.endInvisible();
 
-        //Draw entities
-        //The entities must be drawn BEFORE the transparent meshes, otherwise they will not be visible over the transparent meshes
+        //Draw allEntities
+        //The allEntities must be drawn BEFORE the transparent meshes, otherwise they will not be visible over the transparent meshes
         ChunkEntitySet.startDraw(projection, view);
         sortedChunksToRender.forEach(chunk -> {
             if (chunkIsVisible(chunk, playerPosition)) {
@@ -601,10 +600,7 @@ public class World {
             }
         });
 
-        //Render players
-        players.forEach((p)->{
-            p.render(projection, view);
-        });
+
     }
 
     private void initShaderUniforms(Chunk chunk) {
@@ -768,7 +764,7 @@ public class World {
             data.setSpawnPoint(playerPos);
             data.save();
         } catch (IOException ex) {
-            ErrorHandler.report(ex);
+            LOGGER.log(Level.INFO, "World \"" + data.getName() + "\" could not be saved", ex);
         }
 
         //Save player info

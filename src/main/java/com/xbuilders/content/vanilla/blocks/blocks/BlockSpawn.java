@@ -24,7 +24,7 @@ public class BlockSpawn extends Block {
             if (Client.userPlayer.worldPosition.distance(x, y, z) < 3) {
                 if (isDarkOutside()) {
                     //Check for nearby hostile mobs
-                    for (Entity e : Client.world.entities.values()) {
+                    for (Entity e : Client.world.allEntities.values()) {
                         if (e instanceof LivingEntity) {
                             LivingEntity le = (LivingEntity) e;
                             if (le.isHostile() && le.worldPosition.distance(x, y, z) < 20) {

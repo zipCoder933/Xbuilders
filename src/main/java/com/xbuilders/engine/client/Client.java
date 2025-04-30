@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.ClientBase;
@@ -10,7 +10,7 @@ import com.xbuilders.engine.common.network.fake.FakeServer;
 import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.resource.ResourceUtils;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.WorldsHandler;
@@ -19,19 +19,26 @@ import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
+import com.xbuilders.engine.common.players.Player;
 import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import org.joml.Vector3f;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
+import static com.xbuilders.Main.LOGGER;
+import static com.xbuilders.engine.common.players.Player.PLAYER_HEIGHT;
 
 
 public class Client {
@@ -42,13 +49,18 @@ public class Client {
     public static boolean LOAD_WORLD_ON_STARTUP = false;
     public static boolean FPS_TOOLS = false;
     public static boolean DEV_MODE = false;
-    public static UserControlledPlayer userPlayer;
+    public static LocalPlayer userPlayer;
+    public final ArrayList<Player> players = new ArrayList<>();
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
     static MemoryGraph memoryGraph; //Make this priviate because it is null by default
     public final ClientWindow window;
     private final Game game;
     public ClientBase endpoint;
+
+
+
+
 
 
     public static long versionStringToNumber(String version) {
@@ -71,11 +83,10 @@ public class Client {
         window.gameScene.ui.baseMenu.setOpen(true);
     }
 
-    public Client(String[] args, String gameVersion, Game game) throws Exception {
+    public Client(String[] args, String gameVersion, Game game, Logger LOGGER) throws Exception {
         Client.GAME_VERSION = versionStringToNumber(gameVersion);
         this.game = game;
-        System.out.println("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-
+        LOGGER.finest("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         //Process args
         System.out.println("args: " + Arrays.toString(args));
         String appDataDir = null;
@@ -110,6 +121,7 @@ public class Client {
 
         window = new ClientWindow(title, this);
         window.init(game, world);
+        LOGGER.addHandler(new LoggingUtils.SevereErrorHandler(window));
     }
 
 
@@ -168,8 +180,8 @@ public class Client {
             window.topMenu.progress.enable(prog, () -> {//update
                 try {
                     joinGameUpdate(prog, remoteWorld);
-                } catch (Exception ex) {
-                    ErrorHandler.report(ex);
+                } catch (Exception e) {
+                    LOGGER.log(Level.INFO,"error", e);
                     prog.abort();
                 }
             }, () -> {//finished
@@ -285,29 +297,11 @@ public class Client {
         try {
             if (Main.getServer() != null) Main.getServer().stop();  //If we have a local server
         } catch (Exception e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO,"error", e);
         } finally {
             Main.setServer(null);
             System.gc();
         }
     }
 
-
-    public static void createWindowedMessage(String title, String str) {
-        final JFrame parent = new JFrame();
-        JLabel label = new JLabel("");
-        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
-        label.setFont(label.getFont().deriveFont(12f));
-        label.setVerticalAlignment(JLabel.TOP);
-        parent.add(label);
-        parent.pack();
-        parent.getContentPane().setBackground(Color.white);
-        parent.setVisible(true);
-        parent.pack();
-        parent.setTitle(title);
-        parent.setLocationRelativeTo(null);
-        parent.setAlwaysOnTop(true);
-        parent.setVisible(true);
-        parent.setSize(350, 200);
-    }
 }

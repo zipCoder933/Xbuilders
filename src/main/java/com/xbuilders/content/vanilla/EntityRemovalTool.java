@@ -36,10 +36,10 @@ public class EntityRemovalTool extends Item {
 
 
     private void deleteEntitiesAtPos(Vector3i pos, int radius) {
-        System.out.println("Removing all entities at " + pos);
+        System.out.println("Removing all allEntities at " + pos);
         try {
-            // Create a snapshot of the entities to avoid concurrency issues during iteration
-            Collection<Entity> entitiesSnapshot = new ArrayList<>(Client.world.entities.values());
+            // Create a snapshot of the allEntities to avoid concurrency issues during iteration
+            Collection<Entity> entitiesSnapshot = new ArrayList<>(Client.world.allEntities.values());
             entitiesSnapshot.forEach(entity -> {
                 try {
                     if (entity != null && entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
@@ -57,8 +57,8 @@ public class EntityRemovalTool extends Item {
                 }
             });
 
-            //Remove all entities in ALL chunks
-            System.out.println("Removing all entities in the current chunk");
+            //Remove all allEntities in ALL chunks
+            System.out.println("Removing all allEntities in the current chunk");
             for (Chunk chunk : Client.world.chunks.values()) {
                 //Iterate over the list backwards
                 for (int i = chunk.entities.list.size() - 1; i >= 0; i--) {
@@ -77,7 +77,7 @@ public class EntityRemovalTool extends Item {
             }
 
         } catch (Exception e) {
-            Main.getClient().consoleOut("Error removing entities: " + e.getMessage());
+            Main.getClient().consoleOut("Error removing allEntities: " + e.getMessage());
             e.printStackTrace();
         }
     }

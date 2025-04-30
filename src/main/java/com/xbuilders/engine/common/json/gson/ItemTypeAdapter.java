@@ -46,7 +46,7 @@ public class ItemTypeAdapter implements JsonSerializer<Item>, JsonDeserializer<I
     }
 
     /**
-     * This should be called AFTER blocks and entities are loaded
+     * This should be called AFTER blocks and allEntities are loaded
      *
      * @param json
      * @param typeOfT

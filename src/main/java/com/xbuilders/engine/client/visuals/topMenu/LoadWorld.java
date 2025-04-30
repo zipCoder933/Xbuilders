@@ -15,7 +15,7 @@ import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.common.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.io.IOException;
@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import org.lwjgl.nuklear.*;
 import org.lwjgl.system.MemoryStack;
 
+import static com.xbuilders.Main.LOGGER;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 /**
@@ -144,8 +145,8 @@ public class LoadWorld implements MenuPage {
             }
             try {
                 WorldsHandler.listWorlds(worlds);
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
+            } catch (IOException e) {
+                LOGGER.log(Level.INFO,"error",e);
             }
             currentWorld = null;
 

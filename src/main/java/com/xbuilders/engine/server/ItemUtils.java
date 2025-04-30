@@ -3,7 +3,7 @@ package com.xbuilders.engine.server;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.Item;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceLister;
 import com.xbuilders.engine.common.resource.ResourceLoader;
 import com.xbuilders.engine.common.json.JsonManager;
@@ -14,6 +14,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class ItemUtils {
 
@@ -36,7 +39,7 @@ public class ItemUtils {
             }
             return allItems;
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "error", e);
         }
         return new ArrayList<>();
     }
@@ -60,7 +63,7 @@ public class ItemUtils {
             }
             return allItems;
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "error", e);
         }
         return new ArrayList<>();
     }
@@ -97,7 +100,7 @@ public class ItemUtils {
 
             return allBlocks;
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "error", e);
         }
         return new ArrayList<>();
     }
@@ -122,7 +125,7 @@ public class ItemUtils {
             }
             return allItems;
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "error", e);
         }
         return new ArrayList<>();
     }
@@ -162,7 +165,7 @@ public class ItemUtils {
     }
 
 //    public static void synthesizeItems(ArrayList<Block> blocks,
-//                                       ArrayList<EntitySupplier> entities, File outputFile) throws IOException {
+//                                       ArrayList<EntitySupplier> allEntities, File outputFile) throws IOException {
 //        ArrayList<Item> items = new ArrayList<>();
 //        for (Block block : blocks) {
 //            if (block == null) continue;
@@ -171,7 +174,7 @@ public class ItemUtils {
 //            item.setBlock(block.id);
 //            items.add(item);
 //        }
-//        for (EntitySupplier entity : entities) {
+//        for (EntitySupplier entity : allEntities) {
 //            if (entity == null) continue;
 //            if (entity.name.toLowerCase().contains("hidden")) continue;
 //            System.out.println(entity.name);
@@ -209,13 +212,13 @@ public class ItemUtils {
 //
 //                    public static void initItems(
 //                            IntMap<Block> blocks,
-//                            IntMap<EntitySupplier> entities) {
+//                            IntMap<EntitySupplier> allEntities) {
 //                """);
 //        for (Item item : items) {
 //            if (item.getBlock() != null) {
 //                itemClasses.append(nameToJavaName("item", item.name) + ".block = blocks.get(" + item.getBlock().id + ");\n");
 //            } else if (item.getEntity() != null) {
-//                itemClasses.append(nameToJavaName("item", item.name) + ".entity = entities.get(" + item.getEntity().id + ");\n");
+//                itemClasses.append(nameToJavaName("item", item.name) + ".entity = allEntities.get(" + item.getEntity().id + ");\n");
 //            }
 //        }
 //

@@ -38,8 +38,8 @@ public class FishB extends FishAnimal {
 
         if (body == null) {
             body = new EntityMesh();
-            body.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/entities\\animal\\fish\\fish_B.obj"));
-            String[] textureFiles = ResourceLister.listSubResources("assets/xbuilders/entities\\animal\\fish\\textures\\fish_B");
+            body.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/allEntities\\animal\\fish\\fish_B.obj"));
+            String[] textureFiles = ResourceLister.listSubResources("assets/xbuilders/allEntities\\animal\\fish\\textures\\fish_B");
             textures = new int[textureFiles.length];
             for (int i = 0; i < textureFiles.length; i++) {
                 textures[i] = Objects.requireNonNull(

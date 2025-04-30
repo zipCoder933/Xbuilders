@@ -5,7 +5,7 @@ import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_GameMenu;
 import com.xbuilders.content.vanilla.blockTools.tools.*;

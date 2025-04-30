@@ -1,9 +1,9 @@
-package com.xbuilders.engine.client.player.raycasting;
+package com.xbuilders.engine.common.players.localPlayer.raycasting;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -11,7 +11,7 @@ import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.loot.AllLootTables;
-import com.xbuilders.engine.client.player.camera.Camera;
+import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
 import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
@@ -185,7 +185,7 @@ public class CursorRay {
 
     private void eatFood(ItemStack selectedItem) {
         System.out.println("Eating food");
-        if (Client.userPlayer.getFoodLevel() >= UserControlledPlayer.MAX_FOOD * 0.9) {
+        if (Client.userPlayer.getFoodLevel() >= LocalPlayer.MAX_FOOD * 0.9) {
             return;
         }
         Client.userPlayer.addFood(selectedItem.item.foodAdd);
@@ -279,13 +279,13 @@ public class CursorRay {
 
         if (!Main.getClient().window.gameScene.ui.anyMenuOpen()) {
             //Auto click
-            if (window.isMouseButtonPressed(UserControlledPlayer.getCreateMouseButton())) {
+            if (window.isMouseButtonPressed(LocalPlayer.getCreateMouseButton())) {
                 if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
                         System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
                     autoClick_lastClicked = System.currentTimeMillis();
                     camera.cursorRay.clickEvent(true);
                 }
-            } else if (Main.getServer().getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+            } else if (Main.getServer().getGameMode() == GameMode.FREEPLAY && window.isMouseButtonPressed(LocalPlayer.getDeleteMouseButton())) {
                 if (System.currentTimeMillis() - autoClick_timeSinceReleased > AUTO_CLICK_INTERVAL * 1.5 &&
                         System.currentTimeMillis() - autoClick_lastClicked > AUTO_CLICK_INTERVAL) {
                     autoClick_lastClicked = System.currentTimeMillis();
@@ -294,7 +294,7 @@ public class CursorRay {
             } else autoClick_timeSinceReleased = System.currentTimeMillis();
 
             //Removal
-            if (window.isMouseButtonPressed(UserControlledPlayer.getDeleteMouseButton())) {
+            if (window.isMouseButtonPressed(LocalPlayer.getDeleteMouseButton())) {
                 lastDeletePressTime = System.currentTimeMillis();
                 ItemStack selectedItem = Client.userPlayer.getSelectedItem();
                 if (selectedItem == null || !selectedItem.item.isFood()) {

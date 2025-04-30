@@ -4,10 +4,15 @@ import com.xbuilders.content.vanilla.XbuildersGame;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.SkinRegistry;
 import com.xbuilders.engine.server.Server;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceLister;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The client contains everything ONLY on the client
@@ -24,6 +29,18 @@ public class Main {
 
     public static XbuildersGame game;
     public static SkinRegistry skins;
+
+
+    public static final Logger LOGGER = Logger.getLogger(Client.class.getName());
+
+    static {
+        try {
+            FileHandler fileHandler = new FileHandler("latest.log", true);
+            LOGGER.addHandler(fileHandler);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error setting up file handler", e);
+        }
+    }
 
 
     public static Client getClient() {
@@ -46,20 +63,18 @@ public class Main {
         skins = new SkinRegistry();
         game = new XbuildersGame();
 
-        localClient = new Client(args, VERSION, game);
-
+        localClient = new Client(args, VERSION, game, LOGGER);
 
 
         try {
             getClient().window.startWindowThread();
         } catch (Exception e) {
-            ErrorHandler.createPopupWindow(
+            LoggingUtils.createPopupWindow(
                     getClient().title + " has crashed",
                     getClient().title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
                             "Stack trace:\n" +
                             String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
                             "\n\n Log saved to clipboard.");
-            ErrorHandler.log(e, "Fatal Error");
         } finally {
             getClient().window.destroyWindow();
         }

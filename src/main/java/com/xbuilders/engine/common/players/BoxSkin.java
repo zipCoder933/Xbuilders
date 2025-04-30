@@ -1,8 +1,7 @@
-package com.xbuilders.engine.client.player;
+package com.xbuilders.engine.common.players;
 
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.server.players.Player;
 import org.joml.Vector3i;
 import org.joml.Vector4f;
 

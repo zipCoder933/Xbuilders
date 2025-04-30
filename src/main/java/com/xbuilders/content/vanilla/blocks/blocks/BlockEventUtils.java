@@ -13,7 +13,7 @@ import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.wcc.WCCi;
 import com.xbuilders.engine.common.math.MathUtils;

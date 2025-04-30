@@ -7,7 +7,7 @@
 //
 ////This WILL be another class for 2 reasons
 ////1) It is less complicated this way
-////2) the blockPipeline does not need to know anything aout syncing local entities
+////2) the blockPipeline does not need to know anything aout syncing local allEntities
 //public class Local_MultiplayerPendingEntityChanges extends MultiplayerPendingEntityChanges {
 //
 //    private boolean needsSaving = false;

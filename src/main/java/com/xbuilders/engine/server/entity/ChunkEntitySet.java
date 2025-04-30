@@ -6,7 +6,7 @@ package com.xbuilders.engine.server.entity;
 
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.camera.FrustumCullingTester;
+import com.xbuilders.engine.common.players.localPlayer.camera.FrustumCullingTester;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.world.chunk.Chunk;
@@ -47,7 +47,7 @@ public class ChunkEntitySet {
             entity.loadBytes = bytes;
 
             //Add to world
-            Client.world.entities.put(entity.getUniqueIdentifier(), entity);
+            Client.world.allEntities.put(entity.getUniqueIdentifier(), entity);
             list.add(entity);
             return entity;
         }
@@ -85,7 +85,7 @@ public class ChunkEntitySet {
                 System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
 //                Main.getServer().server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
-                Client.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world
+                Client.world.allEntities.remove(e.getUniqueIdentifier(), e); //remove from world
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_initializeEntity();

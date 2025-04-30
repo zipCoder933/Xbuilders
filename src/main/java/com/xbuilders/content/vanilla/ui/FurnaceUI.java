@@ -2,15 +2,14 @@ package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.recipes.AllRecipes;
 import com.xbuilders.engine.server.recipes.smelting.SmeltingRecipe;
-import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemStackGrid;
-import com.xbuilders.engine.common.utils.ErrorHandler;
-import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.NKWindow;
 import org.joml.Vector3f;
 import org.lwjgl.nuklear.NkContext;
@@ -19,7 +18,9 @@ import org.lwjgl.system.MemoryStack;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static org.lwjgl.nuklear.Nuklear.*;
 
 public class FurnaceUI extends ContainerUI {
@@ -121,7 +122,7 @@ public class FurnaceUI extends ContainerUI {
             furnaceData.lastSmeltTime = System.currentTimeMillis();
             return true;
         } catch (Exception e) {
-            ErrorHandler.log(e);
+            LOGGER.log(Level.INFO, "Error saving container data", e);
             return false;
         }
     }
@@ -184,7 +185,7 @@ public class FurnaceUI extends ContainerUI {
                 outputGrid.storageSpace.set(0, furnaceData.outputGrid);
 
             } catch (IOException e) {
-                ErrorHandler.log(e);
+                LOGGER.log(Level.INFO, "Error reading container data", e);
             }
         } else {
             furnaceData = new FurnaceData();
@@ -204,7 +205,7 @@ public class FurnaceUI extends ContainerUI {
 
             return baos.toByteArray();
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "Error saving container data", e);
             return new byte[0];
         }
     }

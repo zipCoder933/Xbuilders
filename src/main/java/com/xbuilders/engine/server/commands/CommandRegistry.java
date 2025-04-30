@@ -1,6 +1,7 @@
 package com.xbuilders.engine.server.commands;
 
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.players.Player;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,9 +21,9 @@ public class CommandRegistry {
     public CommandRegistry() {
     }
 
-    private static final HashMap<String, Command> commands = new HashMap<>();
+    private  final HashMap<String, Command> commands = new HashMap<>();
 
-    public static void registerCommand(Command command) {
+    public  void registerCommand(Command command) {
         commands.put(command.commandName.toLowerCase(), command);
     }
 
@@ -55,7 +56,7 @@ public class CommandRegistry {
         return parts.toArray(new String[0]);
     }
 
-    public String handleCommand(String inputString) {
+    public String handleCommand(String inputString, Player player) {
         try {
             String[] parts = splitWhitespacePreserveQuotes(inputString);
             System.out.println("handling command: " + Arrays.toString(parts));
@@ -77,13 +78,12 @@ public class CommandRegistry {
                 if (command == null) return "Unknown command. Type 'help' for a list of commandRegistry";
                 else {
                     parts = removeFirstN(parts, 1);
-                    String out = command.runCommand(parts);
+                    String out = command.runCommand(parts,player);
                     if (out == null) return command.commandHelp;
                     else return out;
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.log(e);
             return "Error with command: " + e;
         }
     }

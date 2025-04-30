@@ -1,13 +1,17 @@
 package com.xbuilders.content.vanilla.skins;
 
-import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.client.player.Skin;
+import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.players.Player;
+import com.xbuilders.engine.common.players.Skin;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class FoxSkin extends Skin {
 
@@ -29,7 +33,7 @@ public class FoxSkin extends Skin {
                             ResourceUtils.file("skins\\fox\\" + texture + ".png"),
                     false).id;
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "Error", e);
         }
     }
 

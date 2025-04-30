@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.players.PositionLock;
+import com.xbuilders.engine.common.players.PositionLock;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.math.RandomUtils;
 import com.xbuilders.content.vanilla.entities.animal.LegPair;
@@ -20,6 +20,9 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public abstract class QuadPedalLandAnimal extends LandAnimal {
     //This animal specific
@@ -101,7 +104,7 @@ public abstract class QuadPedalLandAnimal extends LandAnimal {
             this.saddle = ead.saddle;
             this.textures = ead.textures;
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO, "Error", e);
         }
 
         if (hasData) {

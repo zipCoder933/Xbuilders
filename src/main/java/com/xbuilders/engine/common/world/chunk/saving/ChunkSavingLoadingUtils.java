@@ -5,21 +5,25 @@
 package com.xbuilders.engine.common.world.chunk.saving;
 
 import com.esotericsoftware.kryo.io.Output;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.bytes.SimpleKyro;
 import com.xbuilders.engine.common.math.MathUtils;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import org.lwjgl.system.MemoryStack;
+
+import static com.xbuilders.Main.LOGGER;
 
 
 public class ChunkSavingLoadingUtils {
@@ -91,8 +95,8 @@ public class ChunkSavingLoadingUtils {
                 }
             }
 
-            //Write entities last
-            //By making these last, there is less trouble if we dont know when to stop reading entities
+            //Write allEntities last
+            //By making these last, there is less trouble if we dont know when to stop reading allEntities
             for (int i = 0; i < chunk.entities.list.size(); i++) {
                 Entity entity = chunk.entities.list.get(i);
                 out.writeString(entity.getId()); //write entity id
@@ -115,8 +119,8 @@ public class ChunkSavingLoadingUtils {
             out.write(ENDING_OF_CHUNK_FILE);
             out.close();
 
-        } catch (Exception ex) {
-            ErrorHandler.report(ex);
+        } catch (Exception e) {
+            LOGGER.log(Level.INFO, "Error", e);
             return false;
         }
         // }
@@ -236,11 +240,9 @@ public class ChunkSavingLoadingUtils {
                     } else throw new IllegalStateException("File is empty past metadata!");
                 } catch (Exception ex) {
                     File backupFile = backupFile(f);
-                    ErrorHandler.report("Error reading chunk " + chunk
-                                    + " \nFile Read Correctly: " + fileReadCorrectly
-                                    + " \nBackup File Exists: " + backupFile.exists()
-                            , ex);
-
+                    LOGGER.log(Level.WARNING, "Error reading chunk " + chunk
+                            + " \nFile Read Correctly: " + fileReadCorrectly
+                            + " \nBackup File Exists: " + backupFile.exists(), ex);
                     if (!fileReadCorrectly) {
                         //Load from backup
                         if (backupFile.exists()) {
@@ -252,7 +254,7 @@ public class ChunkSavingLoadingUtils {
                     return false;
                 }
             } catch (FileNotFoundException ex) {
-                ErrorHandler.report("No Chunk file found! " + chunk, ex);
+                LOGGER.log(Level.INFO, "No Chunk file found! " + chunk, ex);
 
                 //Load from backup
                 File backupFile = backupFile(f);
@@ -270,7 +272,7 @@ public class ChunkSavingLoadingUtils {
                 if (hasDetectedIfFileWasReadCorrectly) {
                     errorMessage += " \nFile Read Correctly: " + fileReadCorrectly;
                 }
-                ErrorHandler.report(errorMessage, ex);
+                LOGGER.log(Level.WARNING, errorMessage, ex);
 
                 //Load from backup
                 if (backupFile.exists()) {

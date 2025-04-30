@@ -9,7 +9,7 @@ import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.Terrain.GenSession;
@@ -28,6 +28,7 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.engine.common.world.World.*;
 
 public class Chunk {
@@ -155,13 +156,13 @@ public class Chunk {
                 needsSunGeneration = true;
             }
 
-            //Load all entities to the world
-            Client.world.entities.addAllEntitiesFromChunk(this);
+            //Load all allEntities to the world
+            Client.world.allEntities.addAllEntitiesFromChunk(this);
 
             // Loading a chunk includes loading sunlight
             setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED); //TODO: The world updates sunlight in pillars, therefore setting light to sun_loaded makes no difference because the pillar doesnt know how if a chunk doesnt have sunlight
         } catch (Exception ex) {//For some reason we have to catch incoming errors otherwise they wont be visible
-            ErrorHandler.report("Error loading chunk", ex);
+            LOGGER.log(Level.WARNING, "error loading chunk", ex);
         }
     }
 

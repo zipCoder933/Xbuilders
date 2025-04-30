@@ -1,4 +1,4 @@
-package com.xbuilders.engine.client.player.raycasting;
+package com.xbuilders.engine.common.players.localPlayer.raycasting;
 
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.utils.MiscUtils;

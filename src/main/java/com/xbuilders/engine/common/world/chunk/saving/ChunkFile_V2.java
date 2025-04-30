@@ -45,11 +45,11 @@ public class ChunkFile_V2 {
             }
 
 
-            while (true) {  //Load the entities
+            while (true) {  //Load the allEntities
                 int currentPosition = input.position(); // Save the current position
-                //If there are no bytes to read or, if the next byte is the end of the entities flag
-                if (input.available() == 0 || input.readByte() == DONE_READING_ENTITIES) { //This flags the end of the entities
-                    //System.out.println("End of entities");
+                //If there are no bytes to read or, if the next byte is the end of the allEntities flag
+                if (input.available() == 0 || input.readByte() == DONE_READING_ENTITIES) { //This flags the end of the allEntities
+                    //System.out.println("End of allEntities");
                     break;
                 } else input.setPosition(currentPosition); // Restore the position
 

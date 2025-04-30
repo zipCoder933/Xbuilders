@@ -4,7 +4,7 @@ import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.window.utils.texture.TextureUtils;
 import org.joml.Matrix4f;
 import org.lwjgl.nuklear.NkContext;

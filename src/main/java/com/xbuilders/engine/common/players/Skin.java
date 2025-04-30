@@ -1,8 +1,7 @@
-package com.xbuilders.engine.client.player;
+package com.xbuilders.engine.common.players;
 
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
-import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.common.worldInteraction.collision.EntityAABB;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;

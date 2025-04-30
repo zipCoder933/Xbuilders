@@ -1,7 +1,8 @@
 package com.xbuilders.engine.client.settings;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.topMenu.multiplayer.ServerEntry;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.option.BoundedFloat;
 import com.xbuilders.engine.common.option.BoundedInt;
 import com.xbuilders.engine.common.resource.ResourceUtils;
@@ -12,7 +13,9 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.engine.client.settings.EngineSettingsUtils.gson;
 
 public class ClientSettings {
@@ -78,7 +81,7 @@ public class ClientSettings {
             // Save to JSON
             Files.write(settingsFile.toPath(), gson.toJson(this).getBytes());
         } catch (Exception e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO,"error", e);
         }
     }
 

@@ -1,15 +1,18 @@
 package com.xbuilders.engine.common.world.chunk.saving;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
 import org.joml.Vector3f;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.engine.common.utils.bytes.ByteUtils.bytesToInt;
 import static com.xbuilders.engine.common.utils.bytes.ByteUtils.bytesToShort;
 
@@ -24,9 +27,9 @@ public class ChunkFile_V1 {
     static void readChunk(final Chunk chunk, byte[] bytes) throws IOException {
         final AtomicInteger start = new AtomicInteger(0);
 
-        //Load the entities
+        //Load the allEntities
         while (true) {
-            if (bytes[start.get()] == START_READING_VOXELS) { //This flags the end of the entities
+            if (bytes[start.get()] == START_READING_VOXELS) { //This flags the end of the allEntities
                 start.set(start.get() + 1);
                 break;
             }
@@ -86,7 +89,7 @@ public class ChunkFile_V1 {
         byte[] entityData = readEntityData(bytes, start);//Read entity data
 
         //        EntitySupplier link = Registrys.getEntity(entityID);
-//         chunk.entities.placeNew(link, identifier,
+//         chunk.allEntities.placeNew(link, identifier,
 //                chunkVox.x + chunk.position.x * Chunk.WIDTH,
 //                chunkVox.y + chunk.position.y * Chunk.WIDTH,
 //                chunkVox.z + chunk.position.z * Chunk.WIDTH,
@@ -105,7 +108,7 @@ public class ChunkFile_V1 {
             start.set(start.get() + length);
             return new BlockData(data);
         } catch (IndexOutOfBoundsException e) {
-            ErrorHandler.log(e);
+            LOGGER.log(Level.INFO, "Error", e);
             return null; //Catch the error just to be safe
         }
     }

@@ -7,7 +7,7 @@ package com.xbuilders.engine.server.item;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.EntitySupplier;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.engine.common.utils.IntMap;
 import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.resource.ResourceLoader;

@@ -23,7 +23,7 @@ import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.common.world.wcc.WCCf;
 import com.xbuilders.engine.common.world.wcc.WCCi;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackDeserializer;
 import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.engine.common.resource.ResourceLoader;
@@ -43,7 +43,7 @@ import static com.xbuilders.engine.common.json.JsonManager.SMILE_HEADER;
 public abstract class Entity {
 
     /**
-     * We are choosing to have 1 shader for all entities
+     * We are choosing to have 1 shader for all allEntities
      * Just want to make sure we keep the uniforms down so we dont have to update so many every frame
      * https://stackoverflow.com/questions/69664014/should-every-object-have-its-own-shader
      */
@@ -212,7 +212,6 @@ public abstract class Entity {
             if (parser != null) parser.close();
 
         } catch (Exception e) {
-            ErrorHandler.log(e);
             destroy();
         }
 

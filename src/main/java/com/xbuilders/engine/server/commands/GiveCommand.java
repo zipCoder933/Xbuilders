@@ -11,7 +11,7 @@ public class GiveCommand extends Command {
                 "Usage: give <item> <quantity (optional)>");
 
         requiresOP(true)
-                .executesServerSide((parts) -> {
+                .executesServerSide((parts, p) -> {
                     if (parts.length >= 1) {
                         try {
                             String itemID = formatGetItemID(parts[0]);

@@ -11,11 +11,14 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.math.MathUtils;
 import org.joml.Vector3f;
 
 import java.io.IOException;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class ItemDrop extends Entity {
     public final static int DROP_LIVE_TIME = 9000;
@@ -72,7 +75,7 @@ public class ItemDrop extends Entity {
                 }
                 if (definitionData.stack == null) destroy();
             } catch (Exception e) {
-                ErrorHandler.log(e, "Error reading item stack");
+                LOGGER.log(Level.INFO,"error",e);
             }
         }
     }
@@ -138,9 +141,8 @@ public class ItemDrop extends Entity {
         }
 
         if (worldPosition.distance(playerHeadPos) < 0.1 && canGet) {
-            System.out.println("CONSUMED BY: " + Client.userPlayer.userInfo.name);
+            System.out.println("CONSUMED BY: " + Client.userPlayer.toString());
             Client.userPlayer.acquireItem(definitionData.stack);
-           // System.out.println("DELETING ITEM DROP");
             destroy();
         }
     }

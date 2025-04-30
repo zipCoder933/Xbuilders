@@ -11,7 +11,7 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.LivingEntity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 
 import java.util.ArrayList;
 import java.util.Objects;

@@ -1,7 +1,5 @@
-package com.xbuilders.engine.server.players;
+package com.xbuilders.engine.common.players;
 
-
-import com.xbuilders.engine.client.player.Skin;
 
 @FunctionalInterface
 public interface SkinSupplier {

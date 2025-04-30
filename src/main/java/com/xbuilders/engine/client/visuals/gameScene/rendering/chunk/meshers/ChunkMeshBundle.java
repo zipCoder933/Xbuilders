@@ -4,19 +4,23 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling.BoundingBoxMesh;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.lwjgl.system.MemoryStack;
+
+import static com.xbuilders.Main.LOGGER;
 
 /**
  * @author zipCoder933
@@ -133,9 +137,8 @@ public class ChunkMeshBundle {
                 transBuffer.makeVertexSet();
 
             }
-        } catch (Exception ex) {
-            ErrorHandler.log(ex);
-            ex.printStackTrace();
+        } catch (Exception e) {
+            LOGGER.log(Level.INFO,"error", e);
         }
     }
 

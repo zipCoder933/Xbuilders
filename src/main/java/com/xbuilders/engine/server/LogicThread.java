@@ -64,7 +64,7 @@ public class LogicThread {
                 int simDistance = ClientWindow.settings.internal_simulationDistance.value;
 
                 int spawnDistance = (int) Math.min(Chunk.WIDTH * 2, ClientWindow.settings.internal_simulationDistance.value * 0.6f);
-                spawnDistance = Math.min(ClientWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which entities are spawned
+                spawnDistance = Math.min(ClientWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which allEntities are spawned
                 //System.out.println("Chunk " + chunk.client_distToPlayer + " " + simDistance + " " + spawnDistance);
 
                 if (chunk.client_distToPlayer < simDistance) {

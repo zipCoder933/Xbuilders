@@ -1,10 +1,14 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.entity;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 
 import java.io.IOException;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class EntityShader_ArrayTexture extends EntityShader {
 
@@ -24,7 +28,7 @@ public class EntityShader_ArrayTexture extends EntityShader {
                     ResourceUtils.localFile("/res/shaders/entityShader/array texture.vs"),
                     ResourceUtils.localFile("/res/shaders/entityShader/array texture.fs"));
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO,"error", e);
         }
     }
 }

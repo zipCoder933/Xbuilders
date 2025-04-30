@@ -6,7 +6,7 @@ package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.fake.FakeServer;
@@ -16,7 +16,7 @@ import com.xbuilders.engine.server.commands.Command;
 import com.xbuilders.engine.server.commands.CommandRegistry;
 import com.xbuilders.engine.common.json.JsonManager;
 import com.xbuilders.engine.common.network.ServerBase;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
 import com.xbuilders.engine.server.commands.GiveCommand;
 import com.xbuilders.engine.server.entity.Entity;
@@ -24,9 +24,9 @@ import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.players.Player;
-import com.xbuilders.engine.server.players.pipeline.BlockEventPipeline;
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.players.Player;
+import com.xbuilders.engine.common.players.pipeline.BlockEventPipeline;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
@@ -37,22 +37,28 @@ import org.joml.Vector3f;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class Server {
     public final static int version = 1;
-    public LivePropagationHandler livePropagationHandler;
+    public final LivePropagationHandler livePropagationHandler = new LivePropagationHandler();
     private final World world;
     private final Game game;
     public BlockEventPipeline eventPipeline;
     public LogicThread tickThread;
     public static final CommandRegistry commandRegistry = new CommandRegistry();
+    public HashMap<ChannelBase, Player> players = new HashMap<>();
     public final ServerBase endpoint;
     private boolean alive = true;
     private int port = -1;
 
-    private static void registerCommands() {
-        CommandRegistry.registerCommand(new Command("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>")
-                .requiresOP(true).executesServerSide((parts) -> {
+    private void registerCommands() {
+        commandRegistry.registerCommand(new Command("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>")
+                .requiresOP(true).executesServerSide((parts, player) -> {
                     if (parts.length >= 1) {
                         Chunk.randomTickLikelyhoodMultiplier = (float) Double.parseDouble(parts[0]);
                         return "Tick rate changed to: " + Chunk.randomTickLikelyhoodMultiplier;
@@ -60,10 +66,10 @@ public class Server {
                     return "Tick rate is " + Chunk.randomTickLikelyhoodMultiplier;
                 }));
 
-        CommandRegistry.registerCommand(new Command("mode",
+        commandRegistry.registerCommand(new Command("mode",
                 "Usage (to get the current mode): mode\n" +
                         "Usage (to change mode): mode <mode> <all (optional)>")
-                .requiresOP(true).executesServerSide((parts) -> {
+                .requiresOP(true).executesServerSide((parts, player) -> {
                     if (parts.length >= 1) {
                         String mode = parts[0].toUpperCase().trim().replace(" ", "_");
 
@@ -82,16 +88,16 @@ public class Server {
                     }
                 }));
 
-//        CommandRegistry.registerCommand(new Command("die",
+//        commandRegistry.registerCommand(new Command("die",
 //                "Kills the current player")
-//                .requiresOP(false).executesServerSide((parts) -> {
+//                .requiresOP(false).executesServerSide((parts,player) -> {
 //                    LocalClient.userPlayer.die();
 //                    return "Player " + LocalClient.userPlayer.getName() + " has died";
 //                }));
 //
-//        CommandRegistry.registerCommand(new Command("setSpawn",
+//        commandRegistry.registerCommand(new Command("setSpawn",
 //                "Set spawnpoint for the current player")
-//                .requiresOP(false).executesServerSide((parts) -> {
+//                .requiresOP(false).executesServerSide((parts,player) -> {
 //                    LocalClient.userPlayer.setSpawnPoint(
 //                            LocalClient.userPlayer.worldPosition.x,
 //                            LocalClient.userPlayer.worldPosition.y,
@@ -99,42 +105,36 @@ public class Server {
 //                    return "Set spawn point for " + LocalClient.userPlayer.getName() + " to current position";
 //                }));
 
-        CommandRegistry.registerCommand(new Command("op", "Usage: op <true/false> <player>")
-                .requiresOP(true).executesServerSide((parts) -> {
-//                    if (!Main.getServer().ownsGame())
-//                        return "Only the host can change OP status"; //We cant change permissions if we arent the host
-//                    if (parts.length >= 2) {
-//                        boolean operator = Boolean.parseBoolean(parts[0]);
-//                        Player target = Main.getServer().server.getPlayerByName(parts[1]);
-//                        if (target != null) {
-//                            try {
-//                                target.sendData(new byte[]{GameServer.CHANGE_PLAYER_PERMISSION, (byte) (operator ? 1 : 0)});
-//                            } catch (IOException e) {
-//                                return "Error: " + e;
-//                            }
-//                            return "Player " + target.userInfo.name + " has been " + (operator ? "given" : "removed") + " operator privileges";
-//                        } else {
-//                            return "Player not found";
-//                        }
-//                    }
+        commandRegistry.registerCommand(new Command("op", "Usage: op <player> <true/false>")
+                .requiresOP(true).executesServerSide((parts, player) -> {
+                    if (parts.length >= 2) {
+                        boolean operator = Boolean.parseBoolean(parts[1]);
+                        Player target = getPlayerByName(parts[0]);
+                        if (target != null) {
+                            target.setOperator(operator);
+                            return "Player " + target.toString() + " has been " + (operator ? "given" : "removed") + " operator privileges";
+                        } else {
+                            return "Player not found";
+                        }
+                    }
                     return null;
                 }));
 
-        CommandRegistry.registerCommand(new Command("msg",
-                "Usage: msg <player/all> <message>").executesServerSide((parts) -> {
+        commandRegistry.registerCommand(new Command("msg",
+                "Usage: msg <player/all> <message>").executesServerSide((parts, player) -> {
             if (parts.length >= 2) {
                 // return Main.getServer().server.sendChatMessage(parts[0], parts[1]);
             }
             return null;
         }));
 
-        CommandRegistry.registerCommand(new GiveCommand());
+        commandRegistry.registerCommand(new GiveCommand());
 
-        CommandRegistry.registerCommand(new Command("time",
+        commandRegistry.registerCommand(new Command("time",
                 "Usage: time set <day/evening/night>\n" +
                         "Usage: time get")
                 .requiresOP(true)
-                .executesServerSide((parts) -> {
+                .executesServerSide((parts, player) -> {
                     if (parts.length >= 1 && parts[0].equalsIgnoreCase("get")) {
                         return "Time of day: " + Main.getServer().getTimeOfDay();
                     } else if (parts.length >= 2 && parts[0].equalsIgnoreCase("set")) {
@@ -159,7 +159,7 @@ public class Server {
                     return null;
                 }));
 
-//        CommandRegistry.registerCommand(new Command("alwaysDay",
+//        commandRegistry.registerCommand(new Command("alwaysDay",
 //                "Usage: alwaysDay true/false")
 //                .requiresOP(true)
 //                .executesServerSide((parts) -> {
@@ -175,7 +175,7 @@ public class Server {
 //                    return null;
 //                }));
 
-//        CommandRegistry.registerCommand(new Command("teleport",
+//        commandRegistry.registerCommand(new Command("teleport",
 //                "Usage: teleport <player>\nUsage: teleport <x> <y> <z>")
 //                .requiresOP(true)
 //                .executesServerSide((parts) -> {
@@ -196,10 +196,10 @@ public class Server {
 //                    return null;
 //                }));
 
-        CommandRegistry.registerCommand(new Command("difficulty",
+        commandRegistry.registerCommand(new Command("difficulty",
                 "Usage: difficulty <easy/normal/hard>")
                 .requiresOP(true)
-                .executesServerSide((parts) -> {
+                .executesServerSide((parts, player) -> {
                     if (parts.length >= 1) {
                         String mode = parts[0].toUpperCase().trim().replace(" ", "_");
                         try {
@@ -218,17 +218,24 @@ public class Server {
                     return "Difficulty: " + Main.getServer().getDifficulty();
                 }));
 
-//        CommandRegistry.registerCommand(new Command("list",
-//                "Lists all connected players")
-//                .requiresOP(true)
-//                .executesServerSide((parts) -> {
-//                    StringBuilder str = new StringBuilder(LocalClient.world.players.size() + " players:\n");
-//                    for (Player client : LocalClient.world.players) {
-//                        str.append(client.getName()).append(";   ").append(client.getConnectionStatus()).append("\n");
-//                    }
-//                    System.out.println("\nPLAYERS:\n" + str);
-//                    return str.toString();
-//                }));
+        commandRegistry.registerCommand(new Command("list",
+                "Lists all connected players")
+                .requiresOP(true)
+                .executesServerSide((parts, p) -> {
+                    StringBuilder str = new StringBuilder(players.size() + " players:\n");
+                    for (Player player : players.values()) {
+                        str.append(player.toString()).append(";   ").append(player.getConnectionStatus()).append("\n");
+                    }
+                    System.out.println("\nPLAYERS:\n" + str);
+                    return str.toString();
+                }));
+    }
+
+    private Player getPlayerByName(String part) {
+        for (Player player : players.values()) {
+            if (player.getName().equalsIgnoreCase(part)) return player;
+        }
+        return null;
     }
 
     public final boolean runningLocally() {
@@ -238,6 +245,7 @@ public class Server {
 
     //Constructors
     public Server(Game game, World world) {
+        LOGGER.finest("Server started! -- v" + version);
         this.game = game;
         this.world = world;
         endpoint = new FakeServer() {
@@ -248,6 +256,7 @@ public class Server {
 
             @Override
             public void clientDisconnectEvent(ChannelBase client) {
+                System.out.println("Client disconnected: " + client.remoteAddress());
                 Server.this.clientDisconnectEvent(client);
             }
 
@@ -283,6 +292,7 @@ public class Server {
 
     //Server events
     public boolean newClientEvent(ChannelBase client) {
+        players.put(client, new Player());
         System.out.println("New client connected: " + client);
         client.writeAndFlush(new MessagePacket("Hello from server!"));
         return false;
@@ -290,13 +300,15 @@ public class Server {
 
 
     public void clientDisconnectEvent(ChannelBase client) {
+        players.remove(client);
+        System.out.println("Client disconnected: " + client);
     }
 
     public void run() {
         try {
             registerCommands();
             eventPipeline = new BlockEventPipeline(world);
-            livePropagationHandler = new LivePropagationHandler();
+
             tickThread = new LogicThread(this);
             livePropagationHandler.startGameEvent(world.data);
             eventPipeline.startGameEvent(world.data);
@@ -309,7 +321,7 @@ public class Server {
                 eventPipeline.update();
             }
         } catch (Exception e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.SEVERE, "Error", e);
         } finally {
             stop();
         }
@@ -348,28 +360,6 @@ public class Server {
         world.data.save();
         Main.getClient().consoleOut("Game mode changed to: " + getGameMode());
     }
-
-
-    //Permissions =======================================================================================================
-    private boolean isOperator;
-
-    public boolean isOperator() {
-        return isOperator;
-    }
-
-    public boolean setOperator(boolean isOperator2) {
-        if (ownsGame()) return false;
-        else {
-            isOperator = isOperator2;
-            Main.getClient().consoleOut("Operator privileges have been " + (isOperator ? "granted" : "revoked"));
-        }
-        return true;
-    }
-
-    public boolean ownsGame() {
-        return false;
-    }
-
 
     // Getters
     public int getLightLevel(int worldX, int worldY, int worldZ) {
@@ -475,7 +465,7 @@ public class Server {
                 generator.writeEndObject(); // End root object
                 generator.close();
             } catch (IOException e) {
-                ErrorHandler.report(e);
+                LOGGER.log(Level.INFO, "Error saving container data", e);
             }
             entityBytes = baos.toByteArray();
         }
@@ -505,29 +495,6 @@ public class Server {
     public float getTimeOfDay() {
         return GameScene.background.getTimeOfDay();
     }
-
-
-    public void playerJoinEvent(Player client) {
-        Main.getClient().consoleOut("A new player has joined: " + client);
-        System.out.println("JOIN EVENT: " + client.getName());
-        System.out.println("Players: " + world.players);
-        world.players.add(client);
-        System.out.println("Players: " + world.players);
-    }
-
-    public void playerLeaveEvent(Player player) {
-        Main.getClient().consoleOut(player.getName() + " has left");
-        world.players.remove(player);
-
-        if (player.isHost) {
-            ClientWindow.popupMessage.message(
-                    "Host has left the game",
-                    "Last ping from host " + player.getSecSinceLastPing() + "s ago");
-        }
-    }
-
-
-    private GameMode lastGameMode;
 
 
 }

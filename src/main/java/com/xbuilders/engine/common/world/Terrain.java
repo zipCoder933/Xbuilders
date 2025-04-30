@@ -15,7 +15,7 @@ import org.joml.Vector3i;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
+import static com.xbuilders.engine.common.players.Player.PLAYER_HEIGHT;
 
 public abstract class Terrain {
 

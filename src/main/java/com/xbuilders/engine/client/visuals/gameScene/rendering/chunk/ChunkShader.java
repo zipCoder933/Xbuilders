@@ -4,9 +4,10 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.CompactVertexSet;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.window.render.Shader;
@@ -16,6 +17,9 @@ import org.joml.Vector4f;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 /**
  * @author zipCoder933
@@ -67,7 +71,7 @@ public class ChunkShader extends Shader {
             init(ResourceUtils.localFile(CHUNK_SHADER_DIR + "/vertex.glsl"),
                     fragShader);
         } catch (IOException e) {
-            ErrorHandler.report(e);
+            LOGGER.log(Level.INFO,"error", e);
         }
         mvpUniform = getUniformLocation("MVP");
         maxMult12bitsUniform = getUniformLocation("maxMult12bits");

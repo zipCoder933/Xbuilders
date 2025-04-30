@@ -11,11 +11,11 @@ package com.xbuilders.engine.client.visuals.topMenu.multiplayer;
 
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.topMenu.LoadWorld;
 import com.xbuilders.engine.client.visuals.topMenu.MenuPage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
 import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.window.nuklear.components.NumberBox;
@@ -41,7 +41,7 @@ public class Multiplayer implements MenuPage {
 
 
     public Multiplayer(NkContext ctx, Client localClient, TopMenu menu,
-                       UserControlledPlayer player, boolean hosting,
+                       LocalPlayer player, boolean hosting,
                        String ipAdress, LoadWorld loadWorld) {
         this.loadWorld = loadWorld;
         this.ipAdress = ipAdress;
@@ -85,7 +85,7 @@ public class Multiplayer implements MenuPage {
     }
 
     boolean hosting;
-    UserControlledPlayer player;
+    LocalPlayer player;
     NkContext ctx;
     TopMenu menu;
     ClientWindow window;
@@ -237,7 +237,7 @@ public class Multiplayer implements MenuPage {
             int portVal = (int) portBox.getValueAsNumber();
             if (!Client.DEV_MODE) fromPortVal = portVal;
             String ipAdress = this.ipAdressBox.getValueAsString();
-            NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.userInfo.name, ipAdress);
+            NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.getName(), ipAdress);
             System.out.println(req.toString());
             localClient.loadWorld(loadWorld.currentWorld, req);
         }

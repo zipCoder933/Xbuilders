@@ -1,11 +1,10 @@
 package com.xbuilders.engine.server.block;
 
 import com.xbuilders.engine.client.Client;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.block.construction.BlockType;
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;

@@ -8,9 +8,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.entities.animal.mobile.LandAndWaterAnimal;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.math.RandomUtils;
 import com.xbuilders.engine.common.resource.ResourceLister;
@@ -19,6 +20,9 @@ import com.xbuilders.window.utils.texture.TextureUtils;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 /**
  * @author zipCoder933
@@ -70,8 +74,8 @@ public class Turtle extends LandAndWaterAnimal {
 
                 left_back_fin.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/entities/animal\\turtle\\left_back_fin.obj"));
                 right_back_fin.loadFromOBJ(resourceLoader.getResourceAsStream("assets/xbuilders/entities/animal\\turtle\\right_back_fin.obj"));
-            } catch (IOException ex) {
-                ErrorHandler.report(ex);
+            } catch (IOException e) {
+                LOGGER.log(Level.INFO, "Error", e);
             }
         }
 

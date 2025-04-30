@@ -1,15 +1,15 @@
-package com.xbuilders.engine.client.player.camera;
+package com.xbuilders.engine.common.players.localPlayer.camera;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.player.raycasting.Ray;
-import com.xbuilders.engine.client.player.raycasting.RayCasting;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.Ray;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.RayCasting;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.world.chunk.BlockData;
@@ -17,10 +17,13 @@ import com.xbuilders.engine.common.world.chunk.BlockData;
 import java.awt.*;
 import java.lang.Math;
 import java.nio.IntBuffer;
+import java.util.logging.Level;
 
 import org.joml.*;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryUtil;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class Camera {
 
@@ -43,7 +46,7 @@ public class Camera {
     private Point mouse = new Point(0, 0);
     private final IntBuffer windowX, windowY;
     private Robot robot;
-    private final UserControlledPlayer player;
+    private final LocalPlayer player;
     private final ClientWindow window;
 
     public final Matrix4f view, centeredView, projection;
@@ -104,7 +107,7 @@ public class Camera {
     }
 
 
-    public Camera(UserControlledPlayer player,
+    public Camera(LocalPlayer player,
                   ClientWindow window,
                   Matrix4f projection, Matrix4f view, Matrix4f centeredView) {
         cursorRay = new CursorRay(this,window);
@@ -120,8 +123,8 @@ public class Camera {
 
         try {
             robot = new Robot();
-        } catch (AWTException ex) {
-            ErrorHandler.report(ex);
+        } catch (AWTException e) {
+            LOGGER.log(Level.INFO,"error", e);
         }
 
         target = new Vector3f();

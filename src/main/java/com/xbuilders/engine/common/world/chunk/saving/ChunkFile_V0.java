@@ -24,7 +24,7 @@ public class ChunkFile_V0 {
     static void readChunk(final Chunk chunk, byte[] bytes) throws IOException {
         AtomicInteger start = new AtomicInteger(0);
 
-        //Load the entities
+        //Load the allEntities
         boolean hasEntities = false;
         while (bytes[start.get()] == ENTITY_BYTE) {
             makeEntity(chunk, bytes, start);
@@ -92,7 +92,7 @@ public class ChunkFile_V0 {
 //        if (bytes[start.get()] != ENTITY_BYTE) {
 //            start.set(start.get() - 1);
 //        }
-//        return chunk.entities.placeNew(link, 0,
+//        return chunk.allEntities.placeNew(link, 0,
 //                chunkVox.x + chunk.position.x * Chunk.WIDTH,
 //                chunkVox.y + chunk.position.y * Chunk.WIDTH,
 //                chunkVox.z + chunk.position.z * Chunk.WIDTH,

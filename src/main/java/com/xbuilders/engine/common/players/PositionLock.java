@@ -1,12 +1,10 @@
-package com.xbuilders.engine.server.players;
+package com.xbuilders.engine.common.players;
 
-import com.xbuilders.engine.client.player.UserControlledPlayer;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.entity.Entity;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
+import static com.xbuilders.engine.common.players.Player.PLAYER_HEIGHT;
 
 public class PositionLock {
 

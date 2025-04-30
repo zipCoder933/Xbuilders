@@ -3,7 +3,7 @@ package com.xbuilders.engine.client.visuals.gameScene;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
@@ -35,7 +35,7 @@ public class GameScene implements WindowEvents {
     public static boolean drawWireframe;
     public static boolean drawBoundingBoxes;
     public static SkyBackground background;
-    private final ClientWindow window;
+    public final Client client;
     public boolean holdMouse;
     public static boolean specialMode;
     public GameUI ui;
@@ -45,17 +45,17 @@ public class GameScene implements WindowEvents {
 
 
     public GameScene(Client client, Game game, World world) throws Exception {
-        this.window = client.window;
+        this.client = client;
         this.game = game;
         this.world = world;
         setProjection();
 
-        Client.userPlayer = new UserControlledPlayer(window, GameScene.projection, GameScene.view, GameScene.centeredView);
+        Client.userPlayer = new LocalPlayer(client.window, GameScene.projection, GameScene.view, GameScene.centeredView);
         Client.userPlayer.initGL();
 
-        background = new SkyBackground(window, world);
+        background = new SkyBackground(client.window, world);
 
-        ui = new GameUI(game, window.ctx, client, Client.userPlayer, world);
+        ui = new GameUI(game, client.window.ctx, client, Client.userPlayer, world);
     }
 
     public void client_hudText(String s) {
@@ -80,7 +80,7 @@ public class GameScene implements WindowEvents {
             GameScene.background.update();
         }
 
-        holdMouse = !ui.releaseMouse() && window.windowIsFocused();
+        holdMouse = !ui.releaseMouse() && client.window.windowIsFocused();
         Client.frameTester.endProcess("Clearing buffer");
 
         glEnable(GL_DEPTH_TEST);   // Enable depth test
@@ -98,6 +98,9 @@ public class GameScene implements WindowEvents {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         world.client_updateAndRenderChunks(GameScene.projection, GameScene.view, Client.userPlayer.worldPosition);
+        client.players.forEach((p)->{
+            p.render(projection, view);
+        });
 
         Client.frameTester.endProcess("Drawing chunks");
 
@@ -107,7 +110,7 @@ public class GameScene implements WindowEvents {
     }
 
     public void windowUnfocusEvent() {
-        if (window.isFullscreen()) ui.baseMenu.setOpen(true);
+        if (client.window.isFullscreen()) ui.baseMenu.setOpen(true);
         else if (!ui.anyMenuOpen()) {
             ui.baseMenu.setOpen(true);
         }
@@ -166,7 +169,7 @@ public class GameScene implements WindowEvents {
 
     public void setProjection() {
         projection.identity().perspective((float) Math.toRadians(70.0f), //Fov
-                (float) window.getWidth() / (float) window.getHeight(), //screen ratio
+                (float) client.window.getWidth() / (float) client.window.getHeight(), //screen ratio
                 0.1f, 10000.0f); //display range (clipping planes)
     }
 
@@ -180,7 +183,7 @@ public class GameScene implements WindowEvents {
             try {
                 WCCf playerWCC = new WCCf();
                 playerWCC.set(Client.userPlayer.worldPosition);
-                text += ClientWindow.mfpAndMemory + "   smoothDelta=" + window.smoothFrameDeltaSec + "\n";
+                text += ClientWindow.mfpAndMemory + "   smoothDelta=" + client.window.smoothFrameDeltaSec + "\n";
                 text += "Saved " + world.getTimeSinceLastSave() + "ms ago\n";
                 text += "PLAYER pos: " +
                         ((int) Client.userPlayer.worldPosition.x) + ", " +
@@ -190,7 +193,7 @@ public class GameScene implements WindowEvents {
                 text += "\n\tcamera: " + Client.userPlayer.camera.toString();
 
                 if (Client.userPlayer.camera.cursorRay.hitTarget() || Client.userPlayer.camera.cursorRay.angelPlacementMode) {
-                    if (window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
+                    if (client.window.isKeyPressed(GLFW.GLFW_KEY_Q)) {
                         rayWCC.set(Client.userPlayer.camera.cursorRay.getHitPosPlusNormal());
                         rayWorldPos.set(Client.userPlayer.camera.cursorRay.getHitPosPlusNormal());
                         text += "\nRAY (+normal) (Q): \n\t" + Client.userPlayer.camera.cursorRay.toString() + "\n\t" + rayWCC.toString() + "\n";

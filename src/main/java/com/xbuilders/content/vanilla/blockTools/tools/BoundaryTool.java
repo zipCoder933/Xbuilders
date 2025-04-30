@@ -4,7 +4,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.world.chunk.Chunk;
@@ -65,10 +65,10 @@ public class BoundaryTool extends BlockTool {
                 }
             }
         }
-        //Deleate all entities within aabb
-        //We should delete entities within boundary wether we are creating or not
+        //Deleate all allEntities within aabb
+        //We should delete allEntities within boundary wether we are creating or not
 //        for (Chunk chunk : foundChunks) { //TODO: Fix this
-//            for (Entity entity : chunk.entities.list) {
+//            for (Entity entity : chunk.allEntities.list) {
 //                if (entity.worldPosition.x >= aabb.min.x && entity.worldPosition.x <= aabb.max.x
 //                        && entity.worldPosition.y >= aabb.min.y && entity.worldPosition.y <= aabb.max.y
 //                        && entity.worldPosition.z >= aabb.min.z && entity.worldPosition.z <= aabb.max.z) {

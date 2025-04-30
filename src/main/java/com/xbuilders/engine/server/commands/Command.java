@@ -2,6 +2,7 @@ package com.xbuilders.engine.server.commands;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.settings.ClientSettings;
+import com.xbuilders.engine.common.players.Player;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -11,12 +12,13 @@ public class Command {
     public final String commandHelp;
 
     @FunctionalInterface
-    public interface CommandFunction extends Function<String[], String> {
+    public interface CommandFunction {
         // No need to declare the abstract method apply(T t) here
         // because Function already declares it and this interface inherits it.
 
         // You can add default or static methods if needed,
         // but the core requirement of a functional interface is a single abstract method.
+        public String apply(String[] command, Player askingPlayer);
     }
 
     public CommandFunction serverExecute;
@@ -27,13 +29,13 @@ public class Command {
         this.commandHelp = Objects.requireNonNull(help);
     }
 
-    protected String runCommand(String[] input) {
+    protected String runCommand(String[] input, Player player) {
         if (
                 (requiresOp
-                        && !Main.getServer().isOperator()
+                        && !player.isOperator()
                         && !ClientSettings.load().dev_allowOPCommands)
         ) return "You do not have the required permissions";
-        if (serverExecute != null) return serverExecute.apply(input);
+        if (serverExecute != null) return serverExecute.apply(input, player);
         return null;
     }
 

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.client.player.raycasting;
+package com.xbuilders.engine.common.players.localPlayer.raycasting;
 
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
@@ -159,7 +159,7 @@ public class RayCasting {
     }
 
     /**
-     * Trace a simple ray (don't account for block shape or entities)
+     * Trace a simple ray (don't account for block shape or allEntities)
      *
      * @param ray
      * @param origin      the origin vector
@@ -395,7 +395,7 @@ public class RayCasting {
 
                     Chunk chunk = chunks.getChunk(wcc.chunk);
                     if (!traversedChunks.contains(chunk)) {
-                        //Add entities in chunk
+                        //Add allEntities in chunk
                         for (int i = 0; i < chunk.entities.list.size(); i++) {
                             Entity entity = chunk.entities.list.get(i);
                             entityAABBList.add(new AABBNode(entity.aabb.box, entity));

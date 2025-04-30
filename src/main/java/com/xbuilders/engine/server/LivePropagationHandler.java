@@ -1,13 +1,13 @@
 package com.xbuilders.engine.server;
 
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import com.xbuilders.engine.common.world.data.WorldData;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LivePropagationHandler extends Thread {
+public class LivePropagationHandler {
     List<LivePropagationTask> tasks = new ArrayList<>();
 
 

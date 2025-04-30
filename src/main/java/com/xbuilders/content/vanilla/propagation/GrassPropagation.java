@@ -6,7 +6,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.LivePropagationTask;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import com.xbuilders.content.vanilla.Blocks;
 import org.joml.Vector3i;
 

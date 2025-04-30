@@ -6,10 +6,13 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.common.world.chunk.BlockData;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import org.joml.Vector3f;
 
 import java.io.IOException;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class BlockFlag extends Block {
     public BlockFlag(short id) {
@@ -36,7 +39,7 @@ public class BlockFlag extends Block {
                 Main.getServer().setBlockData(data, x, y, z);
                 Client.userPlayer.inventory.clear();
             } catch (IOException e) {
-                ErrorHandler.report(e);
+                LOGGER.log(Level.INFO, "Error", e);
             }
         });
 
@@ -63,7 +66,7 @@ public class BlockFlag extends Block {
                     }
                 }
             } catch (IOException e) {
-                ErrorHandler.report(e);
+                LOGGER.log(Level.INFO, "Error", e);
             }
         });
     }

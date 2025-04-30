@@ -1,7 +1,8 @@
 package com.xbuilders.content.vanilla.blockTools;
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.FileDialog;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.world.chunk.BlockData;
@@ -11,7 +12,9 @@ import org.joml.Vector3i;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils.BLOCK_DATA_MAX_BYTES;
 import static com.xbuilders.engine.common.utils.bytes.ByteUtils.bytesToShort;
 import static com.xbuilders.engine.common.utils.bytes.ByteUtils.shortToBytes;
@@ -26,7 +29,7 @@ public class PrefabUtils {
         }
 
         if (data.size() > BLOCK_DATA_MAX_BYTES) {
-            ErrorHandler.report(new Throwable("Block data too large: " + data.size()));
+            LOGGER.info("Block data too large: " + data.size());
             out.write(new byte[]{0, 0});//Just write 0 for the length
             return;
         }
@@ -50,7 +53,7 @@ public class PrefabUtils {
             start.set(start.get() + length);
             return new BlockData(data);
         } catch (IndexOutOfBoundsException e) {
-            ErrorHandler.log(e);
+            LOGGER.log(Level.INFO, "error", e);
             return null; //Catch the error just to be safe
         }
     }
@@ -137,7 +140,7 @@ public class PrefabUtils {
             try {
                 return loadPrefabFromFile(outFile);
             } catch (IOException e) {
-                ErrorHandler.report(e);
+                LOGGER.log(Level.INFO,"error",e);
             }
         }
         return new ChunkVoxels(0, 0, 0);
@@ -167,7 +170,7 @@ public class PrefabUtils {
             try {
                 PrefabUtils.savePrefabToFile(data, file);
             } catch (IOException e) {
-                ErrorHandler.report(e);
+                LOGGER.log(Level.INFO,"error",e);
             }
         });
     }

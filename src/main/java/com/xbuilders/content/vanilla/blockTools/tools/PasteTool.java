@@ -4,7 +4,8 @@ import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
 import com.xbuilders.content.vanilla.blockTools.BlockTools;
 import com.xbuilders.content.vanilla.blockTools.PrefabUtils;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
+import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.block.BlockMeshBundle;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
@@ -14,7 +15,7 @@ import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Matrix4f;
@@ -29,7 +30,9 @@ import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class PasteTool extends BlockTool {
@@ -53,7 +56,7 @@ public class PasteTool extends BlockTool {
                         try {
                             PasteTool.clipboard = PrefabUtils.loadPrefabFromFile(file);
                         } catch (IOException e) {
-                            ErrorHandler.report(e);
+                            LOGGER.log(Level.INFO,"error", e);
                         }
                         System.out.println(PasteTool.clipboard.toString());
                         PasteTool.updateMesh();
@@ -79,7 +82,7 @@ public class PasteTool extends BlockTool {
     public static ChunkVoxels clipboard = new ChunkVoxels(16, 16, 16);
 
 
-    public static ArrayList<Entity> clipboard_entities = new ArrayList<>(); //TODO: Add clipboard entities
+    public static ArrayList<Entity> clipboard_entities = new ArrayList<>(); //TODO: Add clipboard allEntities
     private final static EntityShader_ArrayTexture blockShader = new EntityShader_ArrayTexture();
     static BlockMeshBundle mesh = new BlockMeshBundle();
     static Box box = new Box();

@@ -24,9 +24,9 @@ public class Sword extends Item {
         destroyClickEvent = (ray, itemStack) -> {
             if (ray.getEntity() != null && ray.getEntity() instanceof LivingEntity) {
                 LivingEntity entity = (LivingEntity) ray.getEntity();
-                if (entity.isHostile() || Client.DEV_MODE) {//only attack hostile entities
+                if (entity.isHostile() || Client.DEV_MODE) {//only attack hostile allEntities
                     entity.damage(attackDamage);
-                } else entity.damage(attackDamage / 3); //attack non-hostile entities, but less damage
+                } else entity.damage(attackDamage / 3); //attack non-hostile allEntities, but less damage
                 Main.getClient().window.gameScene.client_hudText(Math.max(0, Math.round(entity.health)) + " / " + entity.maxHealth);
                 return true;
             }

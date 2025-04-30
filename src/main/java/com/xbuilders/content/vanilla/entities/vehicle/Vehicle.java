@@ -11,9 +11,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityMesh;
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.resource.ResourceLister;
 import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
@@ -81,7 +81,7 @@ public abstract class Vehicle extends Entity {
     public boolean jumpWithSideCollision = false;
     public PositionHandler posHandler;
     ClientWindow window;
-    UserControlledPlayer player;
+    LocalPlayer player;
 
 
     public Vehicle(ClientWindow window, long uniqueIdentifier) {
@@ -105,7 +105,7 @@ public abstract class Vehicle extends Entity {
     }
 
     public float getAngleToPlayer() {
-        UserControlledPlayer userControlledPlayer = Client.userPlayer;
+        LocalPlayer userControlledPlayer = Client.userPlayer;
         return MathUtils.getAngleOfPoints(worldPosition.x, worldPosition.z,
                 userControlledPlayer.worldPosition.x,
                 userControlledPlayer.worldPosition.z);
@@ -151,7 +151,7 @@ public abstract class Vehicle extends Entity {
 
     public abstract void vehicle_entityMoveEvent();
 
-    public UserControlledPlayer getPlayer() {
+    public LocalPlayer getPlayer() {
         return Client.userPlayer;
     }
 

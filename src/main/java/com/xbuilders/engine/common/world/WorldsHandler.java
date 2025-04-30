@@ -3,7 +3,8 @@
 // 
 package com.xbuilders.engine.common.world;
 
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.FileUtils;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.world.data.WorldData;
@@ -11,6 +12,9 @@ import com.xbuilders.engine.common.world.data.WorldData;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class WorldsHandler {
 
@@ -47,7 +51,7 @@ public class WorldsHandler {
                     info.load(subDir);
                     worlds.add(info);
                 } catch (IOException ex) {
-                    ErrorHandler.report("World \"" + formatWorldName(subDir.getName()) + "\" could not be loaded", ex);
+                    LOGGER.log(Level.WARNING, "World \"" + formatWorldName(subDir.getName()) + "\" could not be loaded", ex);
                 }
             }
         }

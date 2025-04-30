@@ -7,12 +7,15 @@ package com.xbuilders.engine.server.item;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.EntitySupplier;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.IntMap;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 /**
  * @author zipCoder933
@@ -78,7 +81,7 @@ public class ItemRegistry {
                 item.init(blockMap, entityMap, blockAliasToIDMap, entityAliasToIDMap,
                         textures, ResourceUtils.BLOCK_ICON_DIR, defaultIcon);
             } catch (Exception e) {
-                ErrorHandler.report("An error occured setting up item \"" + item.toString() + "\"", e);
+                LOGGER.log(Level.INFO, "An error occured setting up item \"" + item.toString() + "\"", e);
             }
         }
     }

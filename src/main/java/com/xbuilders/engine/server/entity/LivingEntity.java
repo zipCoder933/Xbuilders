@@ -15,7 +15,7 @@ import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalRandom;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.players.Player;
+import com.xbuilders.engine.common.players.Player;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.worldInteraction.collision.PositionHandler;
 

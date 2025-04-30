@@ -274,12 +274,12 @@
 //                        if (mode == ENTITY_CREATED) {
 //                            setEntity(entity, identifier, currentPos, data);
 //                        } else if (mode == ENTITY_DELETED) {
-//                            Entity e = LocalClient.world.entities.get(identifier);
+//                            Entity e = LocalClient.world.allEntities.get(identifier);
 //                            if (e != null) {
 //                                e.destroy();
 //                            }
 //                        } else if (mode == ENTITY_UPDATED) {
-//                            Entity e = LocalClient.world.entities.get(identifier);
+//                            Entity e = LocalClient.world.allEntities.get(identifier);
 //                            if (e != null) {
 //                                e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
 //                            }
@@ -367,7 +367,7 @@
 //        Chunk chunk = LocalClient.world.chunks.get(wcc.chunk);
 //        if (chunk != null) {
 //            chunk.markAsModified();
-//            return chunk.entities.placeNew(worldPosition, identifier, entity, data);
+//            return chunk.allEntities.placeNew(worldPosition, identifier, entity, data);
 //        }
 //        return null;
 //    }

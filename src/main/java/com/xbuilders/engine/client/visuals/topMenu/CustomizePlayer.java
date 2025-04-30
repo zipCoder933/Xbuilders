@@ -12,8 +12,8 @@ package com.xbuilders.engine.client.visuals.topMenu;
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.player.Skin;
-import com.xbuilders.engine.client.player.UserControlledPlayer;
+import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
+import com.xbuilders.engine.common.players.Skin;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -33,20 +33,20 @@ public class CustomizePlayer implements MenuPage {
 
 
     public CustomizePlayer(NkContext ctx, ClientWindow window, TopMenu menu,
-                           UserControlledPlayer player) {
+                           LocalPlayer player) {
 
         this.ctx = ctx;
         this.window = window;
         this.menu = menu;
         nameBox = new TextBox(20);
         nameBox.setOnChangeEvent(() -> {
-            player.userInfo.name = nameBox.getValueAsString();
-            player.userInfo.saveToDisk();
+            player.setName(nameBox.getValueAsString());
+            player.saveUserInfo();
         });
         this.player = player;
     }
 
-    UserControlledPlayer player;
+    LocalPlayer player;
     NkContext ctx;
     TopMenu menu;
     ClientWindow window;
@@ -71,7 +71,7 @@ public class CustomizePlayer implements MenuPage {
 
             TopMenu.row(ctx, "Player Type:", 2);
 
-            Skin playerSkin = Client.userPlayer.userInfo.getSkin();
+            Skin playerSkin = Client.userPlayer.getSkin();
             if (nk_button_label(ctx,
                     playerSkin == null ? "none" : playerSkin.name)) {
                 goToNextSkin();
@@ -91,13 +91,13 @@ public class CustomizePlayer implements MenuPage {
     private void goToNextSkin() {
         chosenSkin++;
         //Go to the next skin
-        Client.userPlayer.userInfo.setSkin(chosenSkin % Main.skins.size());
-        Client.userPlayer.userInfo.saveToDisk();
+        Client.userPlayer.setSkin(chosenSkin % Main.skins.size());
+        Client.userPlayer.loadUserInfo();
     }
 
     @Override
     public void onOpen(Page lastPage) {
-        nameBox.setValueAsString(player.userInfo.name);
+        nameBox.setValueAsString(player.getName());
     }
 
 

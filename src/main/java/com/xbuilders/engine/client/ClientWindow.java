@@ -5,17 +5,16 @@
 package com.xbuilders.engine.client;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.Game;
-import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
-import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.common.utils.ErrorHandler;
 import com.xbuilders.engine.common.resource.ResourceLoader;
 import com.xbuilders.engine.common.resource.ResourceUtils;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.server.Game;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.window.GLFWWindow;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.developmentTools.MemoryProfiler;
@@ -29,6 +28,10 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
+
 
 public class ClientWindow extends NKWindow {
     public static int frameCount = 0;
@@ -171,9 +174,6 @@ public class ClientWindow extends NKWindow {
     }
 
 
-
-
-
     private void render() throws IOException {
         if (isGameMode) {
             gameScene.render();
@@ -208,7 +208,7 @@ public class ClientWindow extends NKWindow {
                 saveFile.getParentFile().mkdirs();
                 ImageIO.write(readPixelsOfWindow(), "png", saveFile);
             } catch (IOException e) {
-                ErrorHandler.report("Could not save screenshot", e);
+                LOGGER.log(Level.INFO, "Could not save screenshot", e);
             }
             screenShotInitialized = false;
             screenshot = false;
@@ -227,7 +227,7 @@ public class ClientWindow extends NKWindow {
 
         String playerName = "";
         try {
-            playerName = " (" + Client.userPlayer.userInfo.name + ") ";
+            playerName = " (" + Client.userPlayer.getName() + ") ";
         } finally {
         }
         setTitle(title + playerName + (Client.DEV_MODE ? "   " + mfpAndMemory : ""));

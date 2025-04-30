@@ -4,7 +4,7 @@
  */
 package com.xbuilders.engine.server.block.construction.BlockTypeModel;
 
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.window.utils.obj.OBJ;
 import com.xbuilders.window.utils.obj.OBJ.Face;
 import com.xbuilders.window.utils.obj.OBJLoader;
@@ -15,6 +15,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 /**
  * @author zipCoder933
@@ -173,7 +176,7 @@ public class ObjToBlockModel {
             Files.writeString(outputFile.toPath(), str);
             System.out.println("\tSaved to: " + outputFile.toString());
         } catch (Exception ex) {
-            ErrorHandler.report(ex);
+            LOGGER.log(Level.INFO, "Error", ex);
         }
     }
 

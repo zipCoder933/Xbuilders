@@ -2,8 +2,8 @@ package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
-import com.xbuilders.engine.client.player.raycasting.CursorRay;
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
@@ -17,7 +17,9 @@ import org.lwjgl.nuklear.Nuklear;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
+import static com.xbuilders.Main.LOGGER;
 import static org.lwjgl.nuklear.Nuklear.nk_layout_row_dynamic;
 
 public class CopyTool extends BlockTool {
@@ -41,7 +43,7 @@ public class CopyTool extends BlockTool {
                         try {
                             PasteTool.clipboard = PrefabUtils.loadPrefabFromFile(file);
                         } catch (IOException e) {
-                            ErrorHandler.report(e);
+                            LOGGER.log(Level.INFO, "Error", e);
                         }
                         System.out.println(PasteTool.clipboard.toString());
                         PasteTool.updateMesh();
@@ -54,7 +56,7 @@ public class CopyTool extends BlockTool {
                         try {
                             PrefabUtils.savePrefabToFile(PasteTool.clipboard, file);
                         } catch (IOException e) {
-                            ErrorHandler.report(e);
+                            LOGGER.log(Level.INFO, "Error", e);
                         }
                     });
         }

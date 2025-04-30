@@ -1,12 +1,16 @@
 package com.xbuilders.engine.common.resource;
 
-import com.xbuilders.engine.common.utils.ErrorHandler;
+import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.FileUtils;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
+import static com.xbuilders.Main.LOGGER;
 
 public class ResourceLoader {
     public ResourceLoader() {
@@ -151,7 +155,7 @@ public class ResourceLoader {
                     buffer.write(data, 0, bytesRead);
                 }
             } catch (IOException e) {
-                ErrorHandler.report(e);
+                LOGGER.log(Level.INFO,"error", e);
             }
             return buffer.toByteArray();
         }
