@@ -35,7 +35,10 @@ import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.engine.utils.MiscUtils.formatTime;
 
 public class GameServer extends com.xbuilders.engine.utils.network.testing.server.Server<Player> {
@@ -298,6 +301,10 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
                 long lastSaved = ChunkSavingLoadingUtils.getLastSaved(chunkFile);
                 client.sendData(ByteUtils.longToBytes(lastSaved));
             } else if (receivedData[0] == WORLD_CHUNK) {
+                if(worldInfo == null){
+                    LOGGER.log(Level.SEVERE,"No world info");
+                    System.exit(0);
+                }
                 int x = ByteUtils.bytesToInt(receivedData[1], receivedData[2], receivedData[3], receivedData[4]);
                 int y = ByteUtils.bytesToInt(receivedData[5], receivedData[6], receivedData[7], receivedData[8]);
                 int z = ByteUtils.bytesToInt(receivedData[9], receivedData[10], receivedData[11], receivedData[12]);
@@ -374,9 +381,10 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
 
 
     private void getWorldInformationFromHost(byte[] receivedData) throws IOException {
+        System.out.println("Received world info from host " + new String(receivedData));
         String value = new String(NetworkUtils.getMessage(receivedData));
         String name = value.split("\n")[0];
-        String json = value.split("\n")[1];
+        String json = value.substring(name.length() + 1);
 
         WorldData hostsWorldInfo = new WorldData();
         hostsWorldInfo.makeNew(name, json);

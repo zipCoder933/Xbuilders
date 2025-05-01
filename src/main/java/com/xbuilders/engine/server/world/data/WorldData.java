@@ -140,6 +140,7 @@ public class WorldData {
     }
 
     public void makeNew(String name, String json) {
+        System.out.println("Making new world from json: " + json);
         this.data = gson.fromJson(json, DataFile.class);
         this.name = name;
         this.directory = WorldsHandler.worldFile(name);
