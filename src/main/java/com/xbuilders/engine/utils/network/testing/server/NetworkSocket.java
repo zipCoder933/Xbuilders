@@ -140,17 +140,20 @@ public class NetworkSocket {
     public byte[] receiveData() throws IOException {
         int originalTimeout = socket.getSoTimeout(); // Save the current timeout
         try {
-            int length = inputStream.readInt(); // Read the length of data
-            byte[] data = new byte[length];
+            try {
 
-            socket.setSoTimeout(10000); // Set timeout for readFully()
-            inputStream.readFully(data); // This will throw SocketTimeoutException if it takes too long
-            return data;
+                int length = inputStream.readInt(); // Read the length of data
+                byte[] data = new byte[length];
+                socket.setSoTimeout(10000); // Set timeout for readFully()
+                inputStream.readFully(data); // This will throw SocketTimeoutException if it takes too long
+                return data;
+
+            }catch (NegativeArraySizeException e) {
+                Main.LOGGER.log(Level.SEVERE, "Negative array size", e);
+                return new byte[]{0};
+            }
         } catch (SocketTimeoutException e) {
             Main.LOGGER.log(Level.SEVERE, "Timeout: readFully took too long", e);
-            return new byte[]{0};
-        } catch (NegativeArraySizeException e) {
-            Main.LOGGER.log(Level.SEVERE, "Negative array size", e);
             return new byte[]{0};
         } finally {
             socket.setSoTimeout(originalTimeout); // Restore the original timeout

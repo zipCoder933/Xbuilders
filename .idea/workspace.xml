@@ -10,9 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blockTools/tools/TerraformTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/multiplayer/GameServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/data/WorldData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/server/world/data/WorldData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/LampRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/LampRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/TorchRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/TorchRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/server/NetworkSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/server/NetworkSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,11 +135,11 @@
       <recent name="com.xbuilders.engine.gameScene.GameScene" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xbuilders.content.vanilla.blockTools.tools" />
       <recent name="com.xbuilders.engine.utils.network.netty.packet.ping" />
       <recent name="com.xbuilders.content.vanilla.blocks.blocks" />
       <recent name="com.xbuilders.engine.server.items.loot" />
       <recent name="com.xbuilders.engine.server.world.chunk.saving" />
-      <recent name="com.xbuilders.engine.ui.gameScene.items" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">

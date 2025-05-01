@@ -109,7 +109,7 @@ public class LampRenderer extends BlockType {
         }
         initializationCallback = (b) -> {
             b.opaque = false;
-            b.solid = true;
+            b.solid = false;
         };
     }
 

@@ -11205,8 +11205,6 @@
       "neg_x": "lamp",
       "pos_y": "lamp"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 15,
     "type": 8,
     "colorInPlayerHead": [
@@ -11228,8 +11226,6 @@
       "neg_x": "blue lamp",
       "pos_y": "blue lamp"
     },
-    "solid": true,
-    "opaque": true,
     "torch": 15,
     "type": 8,
     "colorInPlayerHead": [

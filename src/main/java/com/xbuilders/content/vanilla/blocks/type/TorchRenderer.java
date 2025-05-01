@@ -40,7 +40,7 @@ public class TorchRenderer extends BlockType {
         generate3DIcon = false;
         initializationCallback = (b) -> {
             b.opaque = false;
-            b.solid = true;
+            b.solid = false;
             b.toughness = 0.1f;
         };
         // ObjToBlockModel.parseFile(null, false,
