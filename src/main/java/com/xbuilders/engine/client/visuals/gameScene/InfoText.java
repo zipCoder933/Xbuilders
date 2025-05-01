@@ -91,15 +91,14 @@ public class InfoText extends UI_GameMenu {
                 float scrollPanelHeight = Math.max(10, commandRect.h() - 40 - 20);
                 Nuklear.nk_layout_row_dynamic(ctx, scrollPanelHeight, 1);
                 ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
-                nk_group_begin(ctx, commandPanelScroll, 0);
-                try {
-                    Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
-                    drawChatHistory(ctx, true, 0);
-                } finally {
-                    nk_group_end(ctx);
+                if (nk_group_begin(ctx, commandPanelScroll, 0)) {
+                    try {
+                        Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
+                        drawChatHistory(ctx, true, 0);
+                    } finally {
+                        nk_group_end(ctx);
+                    }
                 }
-
-
             }
             nk_end(ctx);
         } else {
