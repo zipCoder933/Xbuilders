@@ -4,6 +4,8 @@
  */
 package com.xbuilders.engine.utils.network.testing.server;
 
+import com.xbuilders.Main;
+
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.logging.Level;
 
 /**
  * @author zipCoder933
@@ -144,7 +147,10 @@ public class NetworkSocket {
             inputStream.readFully(data); // This will throw SocketTimeoutException if it takes too long
             return data;
         } catch (SocketTimeoutException e) {
-            System.out.println("Timeout: readFully took too long");
+            Main.LOGGER.log(Level.SEVERE, "Timeout: readFully took too long", e);
+            return new byte[]{0};
+        } catch (NegativeArraySizeException e) {
+            Main.LOGGER.log(Level.SEVERE, "Negative array size", e);
             return new byte[]{0};
         } finally {
             socket.setSoTimeout(originalTimeout); // Restore the original timeout

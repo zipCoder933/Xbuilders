@@ -8,6 +8,7 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.resource.ResourceLister;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 /**
  * The client contains everything ONLY on the client
@@ -22,6 +23,7 @@ public class Main {
     private static Client localClient;
     public static XbuildersGame game;
     public static SkinRegistry skins;
+    public static Logger LOGGER = Logger.getLogger(Main.class.getName());
 
 
     public static Client getClient() {
