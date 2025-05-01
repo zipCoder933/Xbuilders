@@ -1,10 +1,13 @@
 package com.xbuilders.engine.common.network;
 
 import com.xbuilders.engine.common.network.packet.Packet;
+import com.xbuilders.engine.common.players.Player;
+import io.netty.util.AttributeKey;
+import io.netty.util.AttributeMap;
 
 import java.net.SocketAddress;
 
-public abstract class ChannelBase {
+public abstract class ChannelBase implements AttributeMap {
     public abstract void writeAndFlush(Packet packet);
 
     public abstract boolean isActive();
@@ -14,4 +17,12 @@ public abstract class ChannelBase {
     }
 
     public abstract void close();
+
+
+    //Custom methods
+    public static final AttributeKey<Player> PLAYER_KEY = AttributeKey.valueOf("player");
+
+    public abstract void setPlayer(Player player);
+
+    public abstract Player getPlayer();
 }

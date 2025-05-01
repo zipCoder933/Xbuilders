@@ -22,8 +22,6 @@ import java.util.logging.Logger;
 public class Main {
 
 
-    public static final String VERSION = "1.7.2";
-
     private static Client localClient;
     private static Server localServer;
 
@@ -57,13 +55,12 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Client started: " + VERSION);
         ResourceLister.init();//This takes almost 10s, so it mind as well come first
 
         skins = new SkinRegistry();
         game = new XbuildersGame();
 
-        localClient = new Client(args, VERSION, game, LOGGER);
+        localClient = new Client(args, game, LOGGER);
 
 
         try {
@@ -79,6 +76,16 @@ public class Main {
             getClient().window.destroyWindow();
         }
 
+    }
+
+
+    public static long versionStringToNumber(String version) {
+        String[] parts = version.split("\\.");
+        int major = Integer.parseInt(parts[0]);
+        int minor = Integer.parseInt(parts[1]);
+        int patch = Integer.parseInt(parts[2]);
+        // Combine parts into a single number by shifting bits or scaling by powers of 1000.
+        return (major * 1_000_000L) + (minor * 1_000L) + patch;
     }
 
 }

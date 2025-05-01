@@ -2,11 +2,17 @@ package com.xbuilders.engine.common.network.fake;
 
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.packet.Packet;
+import com.xbuilders.engine.common.players.Player;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
+import io.netty.util.DefaultAttributeMap;
 
 import java.net.SocketAddress;
+import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FakeChannel extends ChannelBase {
@@ -22,6 +28,8 @@ public class FakeChannel extends ChannelBase {
     };
     private Thread processingThread;
     FakeChannel reverseChannel;
+    //Attribute map (based on netty attribute map)
+    DefaultAttributeMap attributeMap = new DefaultAttributeMap();
 
     public FakeChannel(FakeServer server, FakeClient client, boolean sendMessagesToServer) {
         this.server = server;
@@ -30,9 +38,14 @@ public class FakeChannel extends ChannelBase {
         startProcessing();
     }
 
+    /**
+     * The reverse channel is basically the server channel, It is used for the server to communicate to the client
+     * The reverse channel should not share attributes with the client as that would cross client/server barriers
+     */
     public void makeReverseChannel() {
         reverseChannel = new FakeChannel(server, client, !sendMessagesToServer);
-        reverseChannel.reverseChannel = this;
+        //reverseChannel.reverseChannel = this;
+        //reverseChannel.attributeMap = this.attributeMap; //We MUST share attribute map
     }
 
     private void startProcessing() {
@@ -48,8 +61,7 @@ public class FakeChannel extends ChannelBase {
                     }
                 }
             } catch (InterruptedException ignored) {
-                ignored.printStackTrace();
-                close();
+                Logger.getLogger(FakeChannel.class.getName()).log(Level.SEVERE, "FakeChannel interrupted!", ignored);
             }
         });
         processingThread.start();
@@ -76,7 +88,31 @@ public class FakeChannel extends ChannelBase {
 
     public String toString() {
         return "FakeChannel{" +
+                "server=" + server +
+                ", client=" + client +
                 "sendMessagesToServer=" + sendMessagesToServer +
                 '}';
+    }
+
+    //Attributes
+    @Override
+    public <T> Attribute<T> attr(AttributeKey<T> key) {
+        return attributeMap.attr(key);
+    }
+
+    @Override
+    public <T> boolean hasAttr(AttributeKey<T> key) {
+        return attributeMap.hasAttr(key);
+    }
+
+
+    //Custom methods
+    //TODO: Replace this with a real variable if we need performance boost
+    public void setPlayer(Player player) {
+        attr(PLAYER_KEY).set(player);
+    }
+
+    public Player getPlayer() {
+        return attr(PLAYER_KEY).get();
     }
 }

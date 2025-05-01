@@ -20,10 +20,11 @@ public abstract class FakeClient extends ClientBase {
 
     private void connect() {
         this.channel = new FakeChannel(server, this, true); // client-side channel
-        this.channel.makeReverseChannel();
+        this.channel.makeReverseChannel(); //A reverse channel so that the server can send us packets
 
-        FakeChannel serverChannel = new FakeChannel(server, this, false);
-        server.connect(serverChannel); // Still register with server
+        //Get the server where send message to server is FALSE
+        FakeChannel serverChannel = channel.reverseChannel;
+        server.connect(serverChannel); //Make a server-side channel that the server can send us packets
 
         onConnected(true, null, channel);
     }

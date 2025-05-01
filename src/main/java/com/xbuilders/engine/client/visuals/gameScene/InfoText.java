@@ -71,14 +71,15 @@ public class InfoText extends UI_GameMenu {
             commandRect.h(Math.min(commandBoxHeight, window.getHeight() - 150));
             ctx.style().window().fixed_background().data().color().set(Theme.color_darkTransparent);
             if (nk_begin(ctx, commandPanelText, commandRect, 0)) {
-                Nuklear.nk_layout_row_dynamic(ctx, 30, 1);
+                Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
                 nk_text(ctx, "Enter command:", NK_LEFT);
-
                 Nuklear.nk_layout_row_dynamic(ctx, 40, 1);
                 box.render(ctx);
 
-                Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
-                drawChatHistory(ctx, true, 0);
+                nk_group_begin(ctx, "output", 0);
+                    Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
+                    drawChatHistory(ctx, true, 0);
+                nk_group_end(ctx);
             }
             nk_end(ctx);
         } else {

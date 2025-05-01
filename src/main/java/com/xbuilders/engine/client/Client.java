@@ -24,28 +24,26 @@ import com.xbuilders.window.developmentTools.FrameTester;
 import com.xbuilders.window.developmentTools.MemoryGraph;
 import org.joml.Vector3f;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.xbuilders.Main.LOGGER;
+import static com.xbuilders.Main.versionStringToNumber;
 import static com.xbuilders.engine.common.players.Player.PLAYER_HEIGHT;
 
 
 public class Client {
-    public final static int version = 1;
+    public static String CLIENT_VERSION_STRING = "1.8.0";
+    public static long CLIENT_VERSION = versionStringToNumber(CLIENT_VERSION_STRING);
+
     //The world never changes objects
     public static final World world = new World();
-    public static long GAME_VERSION;
     public static boolean LOAD_WORLD_ON_STARTUP = false;
     public static boolean FPS_TOOLS = false;
     public static boolean DEV_MODE = false;
@@ -59,19 +57,6 @@ public class Client {
     public ClientBase endpoint;
 
 
-
-
-
-
-    public static long versionStringToNumber(String version) {
-        String[] parts = version.split("\\.");
-        int major = Integer.parseInt(parts[0]);
-        int minor = Integer.parseInt(parts[1]);
-        int patch = Integer.parseInt(parts[2]);
-        // Combine parts into a single number by shifting bits or scaling by powers of 1000.
-        return (major * 1_000_000L) + (minor * 1_000L) + patch;
-    }
-
     public String title;
 
     public void consoleOut(String s) {
@@ -83,10 +68,9 @@ public class Client {
         window.gameScene.ui.baseMenu.setOpen(true);
     }
 
-    public Client(String[] args, String gameVersion, Game game, Logger LOGGER) throws Exception {
-        Client.GAME_VERSION = versionStringToNumber(gameVersion);
+    public Client(String[] args, Game game, Logger LOGGER) throws Exception {
         this.game = game;
-        LOGGER.finest("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        LOGGER.finest("XBuilders Client (" + CLIENT_VERSION_STRING + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         //Process args
         System.out.println("args: " + Arrays.toString(args));
         String appDataDir = null;

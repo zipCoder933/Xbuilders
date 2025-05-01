@@ -55,7 +55,7 @@ public class VersionInfo {
     public String changesToString() {
         String changes = "";
         for (VersionChanges version : releases) {
-            if (version.version > Client.GAME_VERSION) changes += version.toString();
+            if (version.version > Client.CLIENT_VERSION) changes += version.toString();
         }
         return changes;
     }
@@ -84,7 +84,7 @@ public class VersionInfo {
     }
 
     public boolean isNewerVersionAvailable() {
-        if (latestVersion > Client.GAME_VERSION) {
+        if (latestVersion > Client.CLIENT_VERSION) {
             return true;
         } else return false;
     }

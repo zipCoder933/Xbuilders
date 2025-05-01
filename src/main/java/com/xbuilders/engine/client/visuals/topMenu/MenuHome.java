@@ -53,7 +53,7 @@ public class MenuHome implements MenuPage {
             nk_label(ctx, "\n\n" + (
                     Client.DEV_MODE ?
                             "DEV MODE" :
-                            ("v" + Main.VERSION)
+                            ("v" + Client.CLIENT_VERSION_STRING)
             ) + "\n\n", NK_TEXT_CENTERED);
 
             nk_style_set_font(ctx, Theme.font_12);

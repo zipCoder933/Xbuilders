@@ -6,52 +6,51 @@ package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.common.json.JsonManager;
 import com.xbuilders.engine.common.network.ChannelBase;
+import com.xbuilders.engine.common.network.ServerBase;
 import com.xbuilders.engine.common.network.fake.FakeServer;
 import com.xbuilders.engine.common.network.netty.NettyServer;
 import com.xbuilders.engine.common.packets.message.MessagePacket;
+import com.xbuilders.engine.common.players.Player;
+import com.xbuilders.engine.common.players.pipeline.BlockEventPipeline;
+import com.xbuilders.engine.common.players.pipeline.BlockHistory;
+import com.xbuilders.engine.common.utils.bytes.ByteUtils;
+import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.BlockData;
+import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.wcc.WCCf;
+import com.xbuilders.engine.common.world.wcc.WCCi;
 import com.xbuilders.engine.server.commands.Command;
 import com.xbuilders.engine.server.commands.CommandRegistry;
-import com.xbuilders.engine.common.json.JsonManager;
-import com.xbuilders.engine.common.network.ServerBase;
-import com.xbuilders.engine.common.utils.LoggingUtils;
-import com.xbuilders.engine.common.utils.bytes.ByteUtils;
 import com.xbuilders.engine.server.commands.GiveCommand;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.common.players.Player;
-import com.xbuilders.engine.common.players.pipeline.BlockEventPipeline;
-import com.xbuilders.engine.common.players.pipeline.BlockHistory;
-import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.common.world.chunk.BlockData;
-import com.xbuilders.engine.common.world.chunk.Chunk;
-import com.xbuilders.engine.common.world.wcc.WCCf;
-import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.xbuilders.Main.LOGGER;
+import static com.xbuilders.Main.versionStringToNumber;
 
 public class Server {
-    public final static int version = 1;
+    public final static String SERVER_VERSION_STRING = "1.0.0";
+    public final static long SERVER_VERSION = versionStringToNumber(SERVER_VERSION_STRING);
     public final LivePropagationHandler livePropagationHandler = new LivePropagationHandler();
     private final World world;
     private final Game game;
     public BlockEventPipeline eventPipeline;
     public LogicThread tickThread;
     public static final CommandRegistry commandRegistry = new CommandRegistry();
-    public HashMap<ChannelBase, Player> players = new HashMap<>();
+    public ArrayList<ChannelBase> players = new ArrayList<>();
     public final ServerBase endpoint;
     private boolean alive = true;
     private int port = -1;
@@ -91,8 +90,8 @@ public class Server {
 //        commandRegistry.registerCommand(new Command("die",
 //                "Kills the current player")
 //                .requiresOP(false).executesServerSide((parts,player) -> {
-//                    LocalClient.userPlayer.die();
-//                    return "Player " + LocalClient.userPlayer.getName() + " has died";
+//                    player.die();
+//                    return "Player " + player.getName() + " has died";
 //                }));
 //
 //        commandRegistry.registerCommand(new Command("setSpawn",
@@ -220,11 +219,13 @@ public class Server {
 
         commandRegistry.registerCommand(new Command("list",
                 "Lists all connected players")
-                .requiresOP(true)
                 .executesServerSide((parts, p) -> {
                     StringBuilder str = new StringBuilder(players.size() + " players:\n");
-                    for (Player player : players.values()) {
-                        str.append(player.toString()).append(";   ").append(player.getConnectionStatus()).append("\n");
+                    for (ChannelBase channel : players) {
+                        Player player = channel.getPlayer();
+                        if (player == null) str.append("null player").append("\n");
+                        else
+                            str.append(player.toString()).append(";   ").append(player.getConnectionStatus()).append("\n");
                     }
                     System.out.println("\nPLAYERS:\n" + str);
                     return str.toString();
@@ -232,8 +233,9 @@ public class Server {
     }
 
     private Player getPlayerByName(String part) {
-        for (Player player : players.values()) {
-            if (player.getName().equalsIgnoreCase(part)) return player;
+        for (ChannelBase channel : players) {
+            Player player = channel.getPlayer();
+            if (player != null && player.getName().equalsIgnoreCase(part)) return player;
         }
         return null;
     }
@@ -245,7 +247,7 @@ public class Server {
 
     //Constructors
     public Server(Game game, World world) {
-        LOGGER.finest("Server started! -- v" + version);
+        LOGGER.finest("Server started! (" + SERVER_VERSION_STRING + ")");
         this.game = game;
         this.world = world;
         endpoint = new FakeServer() {
@@ -292,10 +294,11 @@ public class Server {
 
     //Server events
     public boolean newClientEvent(ChannelBase client) {
-        players.put(client, new Player());
+        players.add(client);
+        client.setPlayer(new Player(client));
         System.out.println("New client connected: " + client);
         client.writeAndFlush(new MessagePacket("Hello from server!"));
-        return false;
+        return true;
     }
 
 

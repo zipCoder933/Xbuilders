@@ -38,6 +38,11 @@ public class Player {
 
     public ChannelBase channel;
 
+    public Player(ChannelBase channel) {
+        this();
+        this.channel = channel;
+    }
+
     public Player() {
         setName(System.getProperty("user.name"));
         aabb = new EntityAABB();
