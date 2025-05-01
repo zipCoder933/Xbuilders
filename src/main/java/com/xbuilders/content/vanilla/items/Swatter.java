@@ -2,9 +2,7 @@ package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.entities.animal.mobile.ActionAnimal;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.entity.LivingEntity;

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xbuilders.content.vanilla.entities.vehicle.Vehicle;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.content.vanilla.blocks.RenderType;
 
@@ -61,22 +61,22 @@ public class Banner extends Entity {
             if (node.has("XZ")) xzOrientation = node.get("XZ").asInt();
             if (node.has("fencepost")) againstFencepost = node.get("fencepost").asBoolean();
         } else {
-            xzOrientation = LocalClient.userPlayer.camera.simplifiedPanTilt.x;
+            xzOrientation = Client.userPlayer.camera.simplifiedPanTilt.x;
             int wx = (int) worldPosition.x;
             int wy = (int) worldPosition.y;
             int wz = (int) worldPosition.z;
 
             if (xzOrientation == 0) {
-                againstFencepost = LocalClient.world.getBlock(wx, wy, wz - 1)
+                againstFencepost = Client.world.getBlock(wx, wy, wz - 1)
                         .type == RenderType.FENCE;
             } else if (xzOrientation == 1) {
-                againstFencepost = LocalClient.world.getBlock(wx + 1, wy, wz)
+                againstFencepost = Client.world.getBlock(wx + 1, wy, wz)
                         .type == RenderType.FENCE;
             } else if (xzOrientation == 2) {
-                againstFencepost = LocalClient.world.getBlock(wx, wy, wz + 1)
+                againstFencepost = Client.world.getBlock(wx, wy, wz + 1)
                         .type == RenderType.FENCE;
             } else {
-                againstFencepost = LocalClient.world.getBlock(wx - 1, wy, wz)
+                againstFencepost = Client.world.getBlock(wx - 1, wy, wz)
                         .type == RenderType.FENCE;
             }
         }

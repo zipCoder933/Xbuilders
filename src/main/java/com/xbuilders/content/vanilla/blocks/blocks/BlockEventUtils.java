@@ -3,7 +3,7 @@ package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -37,7 +37,7 @@ public class BlockEventUtils {
             Main.getServer().setBlock(bottomBlock.id, x, y + 1, z);
         });
         topBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (LocalClient.world.getBlock(x, y + 1, z) == bottomBlock) {
+            if (Client.world.getBlock(x, y + 1, z) == bottomBlock) {
                 Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
             }
         });
@@ -46,7 +46,7 @@ public class BlockEventUtils {
             Main.getServer().setBlock(topBlock.id, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (LocalClient.world.getBlock(x, y - 1, z) == topBlock) {
+            if (Client.world.getBlock(x, y - 1, z) == topBlock) {
                 Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
             }
         });
@@ -65,27 +65,27 @@ public class BlockEventUtils {
                     Main.getServer().setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
                     try {
                         Thread.sleep(fuseDelay);
-                        if (LocalClient.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
+                        if (Client.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
                             Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                             removeEverythingWithinRadius(radius, new Vector3i(setX, setY, setZ), maxToughness, exceptions);
-                            float dist = LocalClient.userPlayer.worldPosition.distance(setX, setY, setZ);
+                            float dist = Client.userPlayer.worldPosition.distance(setX, setY, setZ);
                             if (dist < radius) {
-                                LocalClient.userPlayer.addHealth(
+                                Client.userPlayer.addHealth(
                                         MathUtils.mapAndClamp(dist, radius, 0, 0, -10));
                             }
 
 
                             //Move the player away
                             Vector3f direction = new Vector3f(
-                                    LocalClient.userPlayer.worldPosition.x - setX,
-                                    LocalClient.userPlayer.worldPosition.y - setY,
-                                    LocalClient.userPlayer.worldPosition.z - setZ).normalize();
+                                    Client.userPlayer.worldPosition.x - setX,
+                                    Client.userPlayer.worldPosition.y - setY,
+                                    Client.userPlayer.worldPosition.z - setZ).normalize();
                             direction = direction.mul(1f / MathUtils.dist(
-                                    LocalClient.userPlayer.worldPosition.x,
-                                    LocalClient.userPlayer.worldPosition.y,
-                                    LocalClient.userPlayer.worldPosition.z, setX, setY, setZ));
+                                    Client.userPlayer.worldPosition.x,
+                                    Client.userPlayer.worldPosition.y,
+                                    Client.userPlayer.worldPosition.z, setX, setY, setZ));
                             direction.mul(50);
-                            LocalClient.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
+                            Client.userPlayer.positionHandler.addVelocity(direction.x, direction.y, direction.z);
                         }
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
@@ -101,7 +101,7 @@ public class BlockEventUtils {
             for (int y = 0 - radius; y < radius; y++) {
                 for (int z = 0 - radius; z < radius; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < radius) {
-                        Block highlightedBlock = LocalClient.world.getBlock(setX + x, setY + z, setZ + y);
+                        Block highlightedBlock = Client.world.getBlock(setX + x, setY + z, setZ + y);
                         cons.accept(new Vector3i(setX + x, setY + z, setZ + y), highlightedBlock);
                     }
                 }
@@ -124,7 +124,7 @@ public class BlockEventUtils {
                 for (int z = 0 - size; z < size; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < size) {
 
-                        Block oldBlock = LocalClient.world.getBlock(setX + x, setY + z, setZ + y);
+                        Block oldBlock = Client.world.getBlock(setX + x, setY + z, setZ + y);
                         //If the block is too tough, dont do it
                         if (oldBlock.toughness > maxToughness) continue;
                         //If we are trying to delete something on the blacklist, dont do it
@@ -150,7 +150,7 @@ public class BlockEventUtils {
 
         ArrayList<Entity> entitiesToDelete = new ArrayList<>();
         for (Vector3i cc : chunks) {
-            Chunk chunk = LocalClient.world.chunks.get(cc);
+            Chunk chunk = Client.world.chunks.get(cc);
             if (chunk != null) {
                 for (Entity e : chunk.entities.list) {
                     if (MathUtils.dist(setX, setY, setZ, e.worldPosition.x, e.worldPosition.y, e.worldPosition.z) < size

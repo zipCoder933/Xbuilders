@@ -1,8 +1,7 @@
 package com.xbuilders.engine.server.world.chunk;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -14,7 +13,6 @@ import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.server.world.Terrain;
 import com.xbuilders.engine.server.world.Terrain.GenSession;
-import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.server.world.chunk.saving.ChunkSavingLoadingUtils;
@@ -125,9 +123,9 @@ public class Chunk {
         this.client_distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
 
-        LocalClient.frameTester.startProcess();
+        Client.frameTester.startProcess();
         load();
-        LocalClient.frameTester.endProcess("Load chunk");
+        Client.frameTester.endProcess("Load chunk");
     }
 
     public void load() {
@@ -158,7 +156,7 @@ public class Chunk {
             }
 
             //Load all entities to the world
-            LocalClient.world.entities.addAllEntitiesFromChunk(this);
+            Client.world.entities.addAllEntitiesFromChunk(this);
 
             // Loading a chunk includes loading sunlight
             setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED); //TODO: The world updates sunlight in pillars, therefore setting light to sun_loaded makes no difference because the pillar doesnt know how if a chunk doesnt have sunlight
@@ -271,36 +269,36 @@ public class Chunk {
             if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {
                 if (neghbors.allNeghborsLoaded) {
                     loadFuture = null;
-                    LocalClient.frameTester.startProcess();
+                    Client.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
 
-                        if (LocalClient.world.data == null) return null; // Quick fix. TODO: remove this line
+                        if (Client.world.data == null) return null; // Quick fix. TODO: remove this line
 
                         meshes.compute();
                         setGenerationStatus(GEN_COMPLETE);
                         return meshes;
                     });
-                    LocalClient.frameTester.endProcess("red Compute meshes");
+                    Client.frameTester.endProcess("red Compute meshes");
                 } else {
                     /**
                      * The cacheNeighbors is still a bottleneck. I have kind of fixed it
                      * by only calling it every 10th frame
                      */
-                    LocalClient.frameTester.startProcess();
+                    Client.frameTester.startProcess();
                     if (frame % 20 == 0 || isSettingUpWorld) {
                         neghbors.cacheNeighbors();
                     }
-                    LocalClient.frameTester.endProcess("red Cache Neghbors");
+                    Client.frameTester.endProcess("red Cache Neghbors");
                 }
             }
         }
 
         // send mesh to GPU
         if (inFrustum || isSettingUpWorld) {
-            LocalClient.frameTester.startProcess();
+            Client.frameTester.startProcess();
             entities.chunkUpdatedMesh = true;
             sendMeshToGPU();
-            LocalClient.frameTester.endProcess("Send mesh to GPU");
+            Client.frameTester.endProcess("Send mesh to GPU");
         }
     }
 

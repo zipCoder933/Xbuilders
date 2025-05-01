@@ -6,18 +6,15 @@ package com.xbuilders.engine.server;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.xbuilders.Main;
-import com.xbuilders.engine.Server;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
-import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntityRegistry;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.entity.ItemDrop;
 import com.xbuilders.engine.server.item.ItemStack;
-import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.multiplayer.GameServer;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.players.Player;
@@ -42,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xbuilders.engine.server.players.Player.PLAYER_HEIGHT;
 
-public class LocalServer extends Server {
+public class Server {
 
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
@@ -51,9 +48,9 @@ public class LocalServer extends Server {
     public final GameServer server;
     public final BlockEventPipeline eventPipeline;
     public final LogicThread tickThread;
-    private final LocalClient localClient; //TODO: REPLACE all communication between server and client with packets
+    private final Client localClient; //TODO: REPLACE all communication between server and client with packets
 
-    public LocalServer(Game game, World world, UserControlledPlayer player, LocalClient localClient) {
+    public Server(Game game, World world, UserControlledPlayer player, Client localClient) {
         this.game = game;
         this.world = world;
         this.localClient = localClient;
@@ -110,7 +107,7 @@ public class LocalServer extends Server {
     }
 
     public boolean ownsGame() {
-        return (server.isPlayingMultiplayer() && LocalClient.userPlayer.isHost) || !server.isPlayingMultiplayer();
+        return (server.isPlayingMultiplayer() && Client.userPlayer.isHost) || !server.isPlayingMultiplayer();
     }
 
 
@@ -299,15 +296,15 @@ public class LocalServer extends Server {
             case 2 -> {
                 prog.setTask("Starting game...");
                 if (world.data.getSpawnPoint() == null) { //Create spawn point
-                    LocalClient.userPlayer.worldPosition.set(0, 0, 0);
+                    Client.userPlayer.worldPosition.set(0, 0, 0);
                     boolean ok = world.startGame(prog, world.data, new Vector3f(0, 0, 0));
                     if (!ok) {
                         prog.abort();
                         localClient.window.goToMenuPage();
                     }
                 } else {//Load spawn point
-                    LocalClient.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
-                    world.startGame(prog, world.data, LocalClient.userPlayer.worldPosition);
+                    Client.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
+                    world.startGame(prog, world.data, Client.userPlayer.worldPosition);
                 }
                 prog.stage++;
             }
@@ -348,10 +345,10 @@ public class LocalServer extends Server {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
                     Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
-                    LocalClient.userPlayer.worldPosition.set(spawnPoint);
+                    Client.userPlayer.worldPosition.set(spawnPoint);
                     System.out.println("Spawn point: " + spawnPoint.x + ", " + spawnPoint.y + ", " + spawnPoint.z);
-                    LocalClient.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
-                    LocalClient.userPlayer.newWorldEvent(world.data);
+                    Client.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
+                    Client.userPlayer.newWorldEvent(world.data);
                 }
                 game.startGameEvent(world.data);
                 isOperator = ownsGame();
@@ -374,7 +371,7 @@ public class LocalServer extends Server {
         eventPipeline.startGameEvent(worldData);
         world.startGameEvent(worldData);
         tickThread.startGameEvent();
-        LocalClient.userPlayer.startGameEvent(world.data);
+        Client.userPlayer.startGameEvent(world.data);
         Main.getClient().window.gameScene.setProjection();
     }
 
@@ -415,7 +412,7 @@ public class LocalServer extends Server {
         if (lastGameMode == null || lastGameMode != getGameMode()) {
             lastGameMode = getGameMode(); //Gane mode changed
             game.gameModeChangedEvent(getGameMode());
-            LocalClient.userPlayer.gameModeChangedEvent(getGameMode());
+            Client.userPlayer.gameModeChangedEvent(getGameMode());
             Main.getClient().consoleOut("Game mode changed to: " + getGameMode());
         }
         //draw other players

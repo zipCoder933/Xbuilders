@@ -9,8 +9,8 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -36,9 +36,9 @@ public class Multiplayer implements MenuPage {
 
     final String ipAdress;
     LoadWorld loadWorld;
-    LocalClient localClient;
+    Client localClient;
 
-    public Multiplayer(NkContext ctx, LocalClient localClient, TopMenu menu,
+    public Multiplayer(NkContext ctx, Client localClient, TopMenu menu,
                        UserControlledPlayer player, boolean hosting,
                        String ipAdress, LoadWorld loadWorld) {
         this.loadWorld = loadWorld;
@@ -56,7 +56,7 @@ public class Multiplayer implements MenuPage {
         fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
-        if (LocalClient.DEV_MODE) {
+        if (Client.DEV_MODE) {
             if (hosting) {
                 fromPortBox.setValueAsNumber(8081);
             } else {
@@ -100,7 +100,7 @@ public class Multiplayer implements MenuPage {
                 ipAdressBox.render(ctx);
             }
 
-            if (LocalClient.DEV_MODE) {
+            if (Client.DEV_MODE) {
                 row(ctx, "From Port:", 2);
                 fromPortBox.render(ctx);
             }
@@ -125,7 +125,7 @@ public class Multiplayer implements MenuPage {
             if (nk_button_label(ctx, "CONTINUE")) {
                 int fromPortVal = (int) fromPortBox.getValueAsNumber();
                 int portVal = (int) portBox.getValueAsNumber();
-                if (!LocalClient.DEV_MODE) fromPortVal = portVal;
+                if (!Client.DEV_MODE) fromPortVal = portVal;
                 String ipAdress = this.ipAdressBox.getValueAsString();
                 NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.userInfo.name, ipAdress);
                 System.out.println(req.toString());
@@ -141,7 +141,7 @@ public class Multiplayer implements MenuPage {
         if (hosting) {
             ipAdressBox.setValueAsString(ipAdress);
         } else {
-            if (LocalClient.DEV_MODE) {
+            if (Client.DEV_MODE) {
                 ipAdressBox.setValueAsString(ipAdress);
             }
         }

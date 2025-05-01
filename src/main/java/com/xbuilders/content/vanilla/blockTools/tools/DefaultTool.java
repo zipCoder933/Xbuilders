@@ -1,6 +1,6 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
 import com.xbuilders.content.vanilla.blockTools.BlockTool;
@@ -27,6 +27,6 @@ public class DefaultTool extends BlockTool {
 
     @Override
     public void activate() {
-        LocalClient.userPlayer.camera.cursorRay.disableBoundaryMode();
+        Client.userPlayer.camera.cursorRay.disableBoundaryMode();
     }
 }

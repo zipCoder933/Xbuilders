@@ -4,7 +4,6 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.entity.LivingEntity;
 
 public class ActionAnimal extends LivingEntity {

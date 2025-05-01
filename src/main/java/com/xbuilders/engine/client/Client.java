@@ -1,7 +1,6 @@
 package com.xbuilders.engine.client;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.server.*;
@@ -30,7 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 
-public class LocalClient extends Client {
+public class Client {
     //The world never changes objects
     public static final World world = new World();
     public static long GAME_VERSION;
@@ -38,7 +37,7 @@ public class LocalClient extends Client {
     public static boolean FPS_TOOLS = false;
     public static boolean DEV_MODE = false;
     public static UserControlledPlayer userPlayer;
-    public static LocalServer localServer;
+    public static Server localServer;
     public final GameCommands commands;
     public static FrameTester frameTester = new FrameTester("Game frame tester");
     public static FrameTester dummyTester = new FrameTester("");
@@ -67,8 +66,8 @@ public class LocalClient extends Client {
         window.gameScene.ui.baseMenu.setOpen(true);
     }
 
-    public LocalClient(String[] args, String gameVersion, Game game) throws Exception {
-        LocalClient.GAME_VERSION = versionStringToNumber(gameVersion);
+    public Client(String[] args, String gameVersion, Game game) throws Exception {
+        Client.GAME_VERSION = versionStringToNumber(gameVersion);
         this.game = game;
         System.out.println("XBuilders (" + GAME_VERSION + ") started on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
@@ -85,7 +84,7 @@ public class LocalClient extends Client {
             } else if (arg.startsWith("name")) {
                 title = arg.split("=")[1];
             } else if (arg.equals("loadWorldOnStartup")) {
-                LocalClient.LOAD_WORLD_ON_STARTUP = true;
+                Client.LOAD_WORLD_ON_STARTUP = true;
             }
         }
         ResourceUtils.initialize(DEV_MODE, appDataDir);
@@ -96,9 +95,9 @@ public class LocalClient extends Client {
         /**
          * Testers
          */
-        if (!LocalClient.DEV_MODE) LocalClient.FPS_TOOLS = false;
+        if (!Client.DEV_MODE) Client.FPS_TOOLS = false;
         dummyTester.setEnabled(false);
-        if (LocalClient.FPS_TOOLS) {
+        if (Client.FPS_TOOLS) {
             frameTester.setEnabled(true);
             frameTester.setStarted(true);
             frameTester.setUpdateTimeMS(1000);
@@ -151,18 +150,18 @@ public class LocalClient extends Client {
         commands.registerCommand(new Command("die",
                 "Kills the current player")
                 .requiresOP(false).executes((parts) -> {
-                    LocalClient.userPlayer.die();
-                    return "Player " + LocalClient.userPlayer.getName() + " has died";
+                    Client.userPlayer.die();
+                    return "Player " + Client.userPlayer.getName() + " has died";
                 }));
 
         commands.registerCommand(new Command("setSpawn",
                 "Set spawnpoint for the current player")
                 .requiresOP(false).executes((parts) -> {
-                    LocalClient.userPlayer.setSpawnPoint(
-                            LocalClient.userPlayer.worldPosition.x,
-                            LocalClient.userPlayer.worldPosition.y,
-                            LocalClient.userPlayer.worldPosition.z);
-                    return "Set spawn point for " + LocalClient.userPlayer.getName() + " to current position";
+                    Client.userPlayer.setSpawnPoint(
+                            Client.userPlayer.worldPosition.x,
+                            Client.userPlayer.worldPosition.y,
+                            Client.userPlayer.worldPosition.z);
+                    return "Set spawn point for " + Client.userPlayer.getName() + " to current position";
                 }));
 
         commands.registerCommand(new Command("op", "Usage: op <true/false> <player>")
@@ -233,10 +232,10 @@ public class LocalClient extends Client {
                 .requiresOP(true)
                 .executes((parts) -> {
                     if (parts.length >= 1) {
-                        LocalClient.world.data.data.alwaysDayMode = parts[0].equalsIgnoreCase("true");
+                        Client.world.data.data.alwaysDayMode = parts[0].equalsIgnoreCase("true");
                         try {
-                            LocalClient.world.data.save();
-                            return "Always day mode: " + LocalClient.world.data.data.alwaysDayMode;
+                            Client.world.data.save();
+                            return "Always day mode: " + Client.world.data.data.alwaysDayMode;
                         } catch (IOException e) {
                             return "Error: " + e;
                         }
@@ -249,14 +248,14 @@ public class LocalClient extends Client {
                 .requiresOP(true)
                 .executes((parts) -> {
                     if (parts.length >= 3) {
-                        LocalClient.userPlayer.worldPosition.set(Float.parseFloat(parts[0]), Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
+                        Client.userPlayer.worldPosition.set(Float.parseFloat(parts[0]), Float.parseFloat(parts[1]), Float.parseFloat(parts[2]));
                         return null;
                     }
 
                     if (parts.length >= 1) {
                         Player target = localServer.server.getPlayerByName(parts[0]);
                         if (target != null) {
-                            LocalClient.userPlayer.worldPosition.set(target.worldPosition);
+                            Client.userPlayer.worldPosition.set(target.worldPosition);
                             return null;
                         } else {
                             return "Player not found";
@@ -291,8 +290,8 @@ public class LocalClient extends Client {
                 "Lists all connected players")
                 .requiresOP(true)
                 .executes((parts) -> {
-                    StringBuilder str = new StringBuilder(LocalClient.world.players.size() + " players:\n");
-                    for (Player client : LocalClient.world.players) {
+                    StringBuilder str = new StringBuilder(Client.world.players.size() + " players:\n");
+                    for (Player client : Client.world.players) {
                         str.append(client.getName()).append(";   ").append(client.getConnectionStatus()).append("\n");
                     }
                     System.out.println("\nPLAYERS:\n" + str);
@@ -339,7 +338,7 @@ public class LocalClient extends Client {
         String title = "Loading World...";
         ProgressData prog = new ProgressData(title);
 
-        localServer = new LocalServer(game, world, userPlayer, this);
+        localServer = new Server(game, world, userPlayer, this);
 
         window.topMenu.progress.enable(prog, () -> {//update
             try {

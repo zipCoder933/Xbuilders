@@ -9,15 +9,13 @@ package com.xbuilders.engine.client.visuals.topMenu;
  * License terms: https://www.lwjgl.org/license
  */
 
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.server.world.WorldsHandler;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.utils.ErrorHandler;
-import com.xbuilders.engine.utils.progress.ProgressData;
 import com.xbuilders.window.nuklear.NKUtils;
 
 import java.io.IOException;
@@ -37,7 +35,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class LoadWorld implements MenuPage {
 
-    public LoadWorld(NkContext ctx, LocalClient localClient,TopMenu menu) throws IOException {
+    public LoadWorld(NkContext ctx, Client localClient, TopMenu menu) throws IOException {
         this.ctx = ctx;
         this.localClient = localClient;
         this.window = localClient.window;
@@ -53,7 +51,7 @@ public class LoadWorld implements MenuPage {
     // Texture texture;
     NkContext ctx;
     TopMenu menu;
-    LocalClient localClient;
+    Client localClient;
     ClientWindow window;
     final int BOX_DEFAULT_WIDTH = TopMenu.WIDTH_4;
     final int BOX_DEFAULT_HEIGHT = TopMenu.HEIGHT_4;

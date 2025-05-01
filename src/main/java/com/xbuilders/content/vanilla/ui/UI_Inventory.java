@@ -5,7 +5,7 @@
 package com.xbuilders.content.vanilla.ui;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.UI_Hotbar;
 import com.xbuilders.engine.client.visuals.gameScene.items.UI_ItemIndex;
@@ -45,8 +45,8 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         };
 
 
-        craftingGrid = new CraftingUI_Base(ctx, window, this, LocalClient.userPlayer.inventory, 4);
-        playerInventory = new UI_ItemStackGrid(window, "Inventory", LocalClient.userPlayer.inventory, this, true);
+        craftingGrid = new CraftingUI_Base(ctx, window, this, Client.userPlayer.inventory, 4);
+        playerInventory = new UI_ItemStackGrid(window, "Inventory", Client.userPlayer.inventory, this, true);
         // We have to create the window initially
         nk_begin(ctx, title, NkRect.create(), windowFlags);
         nk_end(ctx);

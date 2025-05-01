@@ -1,8 +1,7 @@
 package com.xbuilders.content.vanilla.blockTools.tools;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
@@ -36,11 +35,11 @@ public class PlaneTool extends BlockTool {
 
     @Override
     public void activate() {
-        LocalClient.userPlayer.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
+        Client.userPlayer.camera.cursorRay.enableBoundaryMode((aabb, created) -> {
 
             blockBoundarySetEvent(aabb, created);
         });
-        LocalClient.userPlayer.camera.cursorRay.boundary_lockToPlane = true;
+        Client.userPlayer.camera.cursorRay.boundary_lockToPlane = true;
     }
 
 

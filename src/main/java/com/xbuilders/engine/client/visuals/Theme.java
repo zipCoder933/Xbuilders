@@ -49,7 +49,7 @@ public class Theme {
 
         try (MemoryStack stack = stackPush()) {
             color_transparent = createColor(0, 0, 0, 0);
-            color_darkTransparent = createColor(0, 0, 0, 70);
+            color_darkTransparent = createColor(0, 0, 0, 100);
             color_backgroundColor = createColor(40, 40, 40, 255);
 
             color_buttonColor = createColor(20, 20, 20, 255);

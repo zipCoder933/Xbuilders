@@ -1,8 +1,8 @@
 package com.xbuilders.engine.server.players.pipeline;
 
 import com.xbuilders.Main;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -45,7 +45,7 @@ public class BlockEventPipeline {
         if (blockHist != null) {
             if (!MultiplayerPendingBlockChanges.changeCanBeLoaded(player, worldPos)) {
                 //If there is a block event that is on a empty chunk or too far away, don't add it
-                LocalClient.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
+                Client.world.multiplayerPendingBlockChanges.addBlockChange(worldPos, blockHist);
                 return;
             }
             blockChangesThisFrame++;
@@ -53,7 +53,7 @@ public class BlockEventPipeline {
                 if (events.containsKey(worldPos)) { //We need to get the original previous block
                     blockHist.previousBlock = events.get(worldPos).previousBlock;
                 } else if (blockHist.previousBlock == null) {
-                    blockHist.previousBlock = LocalClient.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
+                    blockHist.previousBlock = Client.world.getBlock(worldPos.x, worldPos.y, worldPos.z);
                 }
                 if (blockHist.previousBlock.opaque != blockHist.newBlock.opaque) {
                     lightChangesThisFrame++;
@@ -117,11 +117,11 @@ public class BlockEventPipeline {
     final int MAX_FRAMES_WITH_EVENTS_IN_A_ROW = 10;
 
     public void update() {
-        if (ClientWindow.devkeyF3 && LocalClient.DEV_MODE)
+        if (ClientWindow.devkeyF3 && Client.DEV_MODE)
             return;//Check to see if the block pipeline could be causing problems, It could also the the threads?
 
-        if (LocalClient.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
-            int changes = LocalClient.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
+        if (Client.world.multiplayerPendingBlockChanges.periodicRangeSendCheck(5000)) {
+            int changes = Client.world.multiplayerPendingBlockChanges.readApplicableChanges((worldPos, history) -> {
                 addEvent(worldPos, history);
             });
             ClientWindow.printlnDev("Loaded " + changes + " local changes");
@@ -329,7 +329,7 @@ public class BlockEventPipeline {
             BlockHistory hist, //What changed
             boolean dispatchBlockEvent) {
         WCCi wcc = new WCCi().set(nx, ny, nz);
-        Chunk chunk = wcc.getChunk(LocalClient.world);
+        Chunk chunk = wcc.getChunk(Client.world);
         if (chunk != null) {
             Block nBlock = Registrys.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
             if (nBlock != null && !nBlock.isAir()) {

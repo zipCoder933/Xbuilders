@@ -5,7 +5,7 @@
 package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.client.player.raycasting.CursorRay;
 import com.xbuilders.engine.client.visuals.Theme;
@@ -179,7 +179,7 @@ public class UI_Hotbar extends UI_GameMenu {
                 Entity entity = ray.getEntity();
                 stack = new ItemStack(Registrys.getItem(entity), 1);
             } else {
-                Block block = LocalClient.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
+                Block block = Client.world.getBlock(ray.getHitPos().x, ray.getHitPos().y, ray.getHitPos().z);
                 Item item = Registrys.getItem(block);
                 if (item != null) stack = new ItemStack(item, 1);
             }

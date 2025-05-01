@@ -10,7 +10,7 @@ package com.xbuilders.engine.client.visuals.gameScene;
  */
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.player.UserControlledPlayer;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.client.visuals.FileDialog;
@@ -51,7 +51,7 @@ public class GameUI {
     public static HUDText hudText;
     boolean drawUI = true;
 
-    public GameUI(Game game, NkContext ctx, LocalClient client, UserControlledPlayer player, World world) throws IOException {
+    public GameUI(Game game, NkContext ctx, Client client, UserControlledPlayer player, World world) throws IOException {
         this.ctx = ctx;
         this.window = client.window;
         this.game = game;

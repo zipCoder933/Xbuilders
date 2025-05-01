@@ -2,12 +2,12 @@ package com.xbuilders.engine.server.multiplayer;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.xbuilders.Main;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -58,7 +58,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
     public static final byte WORLD_CHUNK_LAST_SAVED = -113;
     public static final byte CHANGE_DIFFICULTY = -112;
 
-    LocalServer scene;
+    Server scene;
     NetworkJoinRequest req;
     UserControlledPlayer client_userPlayer;
     private WorldData worldInfo;
@@ -66,7 +66,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
     boolean worldReady = false;
     Player hostClient;
 
-    public GameServer(LocalServer scene, UserControlledPlayer player) {
+    public GameServer(Server scene, UserControlledPlayer player) {
         super(Player::new);
         this.client_userPlayer = player;
         this.scene = scene;
@@ -101,7 +101,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
 
     public void initNewGame(WorldData worldInfo, NetworkJoinRequest req) {
         this.req = req;
-        LocalClient.userPlayer.isHost = req.hosting;
+        Client.userPlayer.isHost = req.hosting;
         loadedChunks = 0;
         this.worldInfo = worldInfo;
         worldReady = false;
@@ -164,12 +164,12 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
 
     private void sendWorldToClient(Player client) throws IOException {
         //Save the world first to ensure that all changes are on the disk
-        LocalClient.world.save();
+        Client.world.save();
 
         //Send the world info to the client
-        System.out.println("Sending world to client: " + LocalClient.world.data.getName() + "\n" + LocalClient.world.data.toJson());
+        System.out.println("Sending world to client: " + Client.world.data.getName() + "\n" + Client.world.data.toJson());
         client.sendData(NetworkUtils.formatMessage(WORLD_INFO,
-                LocalClient.world.data.getName() + "\n" + LocalClient.world.data.toJson()));
+                Client.world.data.getName() + "\n" + Client.world.data.toJson()));
 
         new Thread(() -> {  //Load every file of the chunk
             try {
@@ -259,7 +259,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
                         Main.getServer().eventPipeline.addEvent(pos, blockHist);
                         inReachChanges.incrementAndGet();
                     } else {//Cache changes if they are out of bounds
-                        LocalClient.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
+                        Client.world.multiplayerPendingBlockChanges.addBlockChange(pos, blockHist);
                         outOfReachChanges.incrementAndGet();
                     }
                 });
@@ -274,18 +274,18 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
                         if (mode == ENTITY_CREATED) {
                             setEntity(entity, identifier, currentPos, data);
                         } else if (mode == ENTITY_DELETED) {
-                            Entity e = LocalClient.world.entities.get(identifier);
+                            Entity e = Client.world.entities.get(identifier);
                             if (e != null) {
                                 e.destroy();
                             }
                         } else if (mode == ENTITY_UPDATED) {
-                            Entity e = LocalClient.world.entities.get(identifier);
+                            Entity e = Client.world.entities.get(identifier);
                             if (e != null) {
                                 e.multiplayerProps.updateState(data, currentPos, isControlledByAnotherPlayer);
                             }
                         }
                     } else {//Cache changes if they are out of bounds
-                        LocalClient.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
+                        Client.world.multiplayerPendingEntityChanges.addEntityChange(mode, entity, identifier, currentPos, data);
                     }
                 });
             } else if (receivedData[0] == READY_TO_START) { //New world
@@ -344,7 +344,7 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
     private void printEntityChange(Player client, int mode, EntitySupplier entity,
                                    long identifier, Vector3f currentPos,
                                    byte[] data) {
-        if (!LocalClient.DEV_MODE) return;
+        if (!Client.DEV_MODE) return;
         String modeStr;
         switch (mode) {
             case ENTITY_CREATED -> modeStr = "ENTITY CREATED";
@@ -358,13 +358,13 @@ public class GameServer extends com.xbuilders.engine.utils.network.testing.serve
                 ", pos=" + MiscUtils.printVector(currentPos) +
                 ", data=" + Arrays.toString(data);
         ClientWindow.printlnDev(str);
-        if (LocalClient.DEV_MODE) Main.getClient().consoleOut(str);
+        if (Client.DEV_MODE) Main.getClient().consoleOut(str);
     }
 
     public Entity setEntity(EntitySupplier entity, long identifier, Vector3f worldPosition, byte[] data) {
         WCCf wcc = new WCCf();
         wcc.set(worldPosition);
-        Chunk chunk = LocalClient.world.chunks.get(wcc.chunk);
+        Chunk chunk = Client.world.chunks.get(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModified();
             return chunk.entities.placeNew(worldPosition, identifier, entity, data);

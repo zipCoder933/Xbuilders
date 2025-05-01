@@ -1,7 +1,7 @@
 package com.xbuilders.content.vanilla.blocks.blocks;
 
 import com.xbuilders.content.vanilla.Blocks;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
 
@@ -18,15 +18,15 @@ public class BlockWetFarmland extends Block {
                         "mud"));
 
         randomTickEvent = (x, y, z) -> {
-            if (LocalClient.world.getBlockID(x, y + 1, z) == Blocks.BLOCK_WATER ||
+            if (Client.world.getBlockID(x, y + 1, z) == Blocks.BLOCK_WATER ||
                     //
-                    LocalClient.world.getBlockID(x + 1, y, z) == Blocks.BLOCK_WATER ||
-                    LocalClient.world.getBlockID(x - 1, y, z) == Blocks.BLOCK_WATER ||
-                    LocalClient.world.getBlockID(x, y, z + 1) == Blocks.BLOCK_WATER ||
-                    LocalClient.world.getBlockID(x, y, z - 1) == Blocks.BLOCK_WATER) {
+                    Client.world.getBlockID(x + 1, y, z) == Blocks.BLOCK_WATER ||
+                    Client.world.getBlockID(x - 1, y, z) == Blocks.BLOCK_WATER ||
+                    Client.world.getBlockID(x, y, z + 1) == Blocks.BLOCK_WATER ||
+                    Client.world.getBlockID(x, y, z - 1) == Blocks.BLOCK_WATER) {
                 return false;
             } else { //If we are not directly touching water, switch back
-                LocalClient.world.setBlock(Blocks.BLOCK_FARMLAND, x, y, z);
+                Client.world.setBlock(Blocks.BLOCK_FARMLAND, x, y, z);
                 return true;
             }
         };

@@ -1,7 +1,7 @@
 package com.xbuilders.engine.client.player.camera;
 
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -222,7 +222,7 @@ public class Camera {
                                 block != forbiddenBlock
                                 && (block2.solid || block2.opaque);
                     })
-                    , LocalClient.world);
+                    , Client.world);
             look.mul(MathUtils.clamp(cameraViewRay.distanceTraveled, 2, thirdPersonDist2) - 1.5f);
 
 
@@ -235,7 +235,7 @@ public class Camera {
             }
 
         }
-        cursorRay.cast(position, cursorRaycastLook, LocalClient.world);
+        cursorRay.cast(position, cursorRaycastLook, Client.world);
         view.identity().lookAt(position, target, up);
 
         if (getThirdPersonDist() > 0) {

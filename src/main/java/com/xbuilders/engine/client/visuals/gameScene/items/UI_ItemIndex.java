@@ -1,6 +1,6 @@
 package com.xbuilders.engine.client.visuals.gameScene.items;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.utils.math.MathUtils;
 import com.xbuilders.window.NKWindow;
@@ -103,7 +103,7 @@ public class UI_ItemIndex {
 
         if (hoveredItem != null) {
             String tooltip = " " + hoveredItem.name;
-            if (LocalClient.DEV_MODE) tooltip = " " + hoveredItem.id;
+            if (Client.DEV_MODE) tooltip = " " + hoveredItem.id;
             Nuklear.nk_tooltip(ctx, tooltip);
         }
     }

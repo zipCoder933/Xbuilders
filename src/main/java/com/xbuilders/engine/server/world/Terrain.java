@@ -3,7 +3,7 @@
 // 
 package com.xbuilders.engine.server.world;
 
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.utils.option.NuklearField;
 import com.xbuilders.engine.utils.option.OptionsList;
 import com.xbuilders.engine.server.block.Block;
@@ -120,7 +120,7 @@ public abstract class Terrain {
         }
 
         public void setBlockWorld(int x, int y, int z, short block) {
-            Chunk chunk = LocalClient.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
+            Chunk chunk = Client.world.setBlock(block, x, y, z);//The world.setBlock automatically sets the block on a future chunk if it doesnt exist
 //            if (chunk != null && !homeChunk.position.equals(chunk.position)) {
 //                modifiedMeshedChunks.add(chunk);
 //            }

@@ -1,9 +1,9 @@
 package com.xbuilders;
 
 import com.xbuilders.content.vanilla.XbuildersGame;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.SkinRegistry;
-import com.xbuilders.engine.server.LocalServer;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.resource.ResourceLister;
 
@@ -17,19 +17,19 @@ import java.util.Arrays;
 public class Main {
 
 
-    public static final String VERSION = "1.7.2";
+    public static final String VERSION = "1.8.0";
 
-    private static LocalClient localClient;
+    private static Client localClient;
     public static XbuildersGame game;
     public static SkinRegistry skins;
 
 
-    public static LocalClient getClient() {
+    public static Client getClient() {
         return localClient;
     }
 
-    public static LocalServer getServer() {
-        return LocalClient.localServer;
+    public static Server getServer() {
+        return Client.localServer;
     }
 
 
@@ -40,7 +40,7 @@ public class Main {
         skins = new SkinRegistry();
         game = new XbuildersGame();
 
-        localClient = new LocalClient(args, VERSION, game);
+        localClient = new Client(args, VERSION, game);
 
 
 

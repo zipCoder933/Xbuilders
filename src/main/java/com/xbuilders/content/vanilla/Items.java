@@ -2,9 +2,8 @@ package com.xbuilders.content.vanilla;
 
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.items.*;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
@@ -195,10 +194,10 @@ public class Items {
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
 
-        Block hitPos = LocalClient.world.getBlock(x, y, z);
+        Block hitPos = Client.world.getBlock(x, y, z);
         System.out.println("Hit: " + hitPos);
         if (hitPos.isLiquid()) {
-            int flow = LiquidPropagationTask.getFlow(LocalClient.world.getBlockData(x, y, z), 0);
+            int flow = LiquidPropagationTask.getFlow(Client.world.getBlockData(x, y, z), 0);
             if (flow >= hitPos.liquidMaxFlow + 1) {
                 Main.getServer().setBlock(Blocks.BLOCK_AIR, null, x, y, z);
 
@@ -215,7 +214,7 @@ public class Items {
         int x = ray.getHitPos().x;
         int y = ray.getHitPos().y;
         int z = ray.getHitPos().z;
-        if (!LocalClient.world.getBlock(x, y, z).getType().replaceOnSet) {
+        if (!Client.world.getBlock(x, y, z).getType().replaceOnSet) {
             x = ray.getHitPosPlusNormal().x;
             y = ray.getHitPosPlusNormal().y;
             z = ray.getHitPosPlusNormal().z;

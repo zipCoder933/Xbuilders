@@ -2,18 +2,13 @@ package com.xbuilders.content.vanilla.blocks;
 
 import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.server.LocalServer;
-import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.server.block.BlockRegistry;
-import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.loot.AllLootTables;
-import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import org.joml.Vector3f;
-import org.joml.Vector3i;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -57,7 +52,7 @@ public class PlantBlockUtils {
             Block b = stages[i];
             final int finalI = i;
             b.randomTickEvent = (x, y, z) -> {
-                short below = LocalClient.world.getBlockID(x, y + 1, z);
+                short below = Client.world.getBlockID(x, y + 1, z);
 
                 //If this is dry farmland, the crops will grow slower
                 if (below == Blocks.BLOCK_FARMLAND && Math.random() < 0.7) {
@@ -75,14 +70,14 @@ public class PlantBlockUtils {
 
 
     public boolean deepPlantable(final int x, final int y, final int z) {
-        boolean val = blockIsGrassSnowOrDirt(LocalClient.world.getBlock(x, y + 1, z))
-                && blockIsGrassSnowOrDirt(LocalClient.world.getBlock(x, y + 2, z));
+        boolean val = blockIsGrassSnowOrDirt(Client.world.getBlock(x, y + 1, z))
+                && blockIsGrassSnowOrDirt(Client.world.getBlock(x, y + 2, z));
         return val;
     }
 
 
     public boolean plantable(final int x, final int y, final int z) {
-        return blockIsGrassSnowOrDirt(LocalClient.world.getBlock(x, y + 1, z));
+        return blockIsGrassSnowOrDirt(Client.world.getBlock(x, y + 1, z));
     }
 
 
@@ -111,7 +106,7 @@ public class PlantBlockUtils {
     }
 
     public short getGrassBlockOfBiome(int wx, int wy, int wz) {
-        int biome = LocalClient.world.terrain.getBiomeOfVoxel(wx, wy, wz);
+        int biome = Client.world.terrain.getBiomeOfVoxel(wx, wy, wz);
         switch (biome) {
             case DefaultTerrain.BIOME_SNOWY -> {
                 return Blocks.BLOCK_SNOW_GRASS;
@@ -140,7 +135,7 @@ public class PlantBlockUtils {
         //We have to manually remove blocks above the stalk and add item drops
         stalk.removeBlockEvent(false, ((x, y, z, history) -> {
             for (int i = 0; i < 50; i++) {
-                Block block = LocalClient.world.getBlock(x, y - i, z);
+                Block block = Client.world.getBlock(x, y - i, z);
                 if (block != null && block.id == stalk.id) {
                     //Remove the block
                     Main.getServer().setBlock(Blocks.BLOCK_AIR, x, y - i, z);
@@ -160,10 +155,10 @@ public class PlantBlockUtils {
                               Block stalkBlock, Block stalkSapling, int maxHeight,
                               Predicate<Block> plantable) {
 
-        Block belowBlock = (LocalClient.world.getBlock(x, y + 1, z));
+        Block belowBlock = (Client.world.getBlock(x, y + 1, z));
         if (plantable.test(belowBlock)) {//If this is the bottom of a stalk
             for (int i = 0; i > -maxHeight; i--) {//Go up -20 blocks max
-                Block stalk = LocalClient.world.getBlock(x, y + i, z);
+                Block stalk = Client.world.getBlock(x, y + i, z);
                 if ((stalk != null && stalk.id == stalkBlock.id)) {//If this is a stalk
                 } else if (stalk.isAir() || stalk.isLiquid() || (stalkSapling != null && stalk.id == stalkSapling.id)) {//If this is air, liquid or sapling
                     Main.getServer().setBlock(stalkBlock.id, x, y + i, z); //Set bamboo
@@ -178,7 +173,7 @@ public class PlantBlockUtils {
 
 
     public short growGrass(int x, int y, int z, Block aboveBlock) {
-        short thisBlock = LocalClient.world.getBlockID(x, y, z);
+        short thisBlock = Client.world.getBlockID(x, y, z);
         /**
          * Grow grass
          */

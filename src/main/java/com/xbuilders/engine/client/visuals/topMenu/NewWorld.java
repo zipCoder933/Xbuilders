@@ -10,8 +10,8 @@ package com.xbuilders.engine.client.visuals.topMenu;
  */
 
 import com.xbuilders.Main;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.client.LocalClient;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.server.GameMode;
@@ -32,7 +32,7 @@ import static org.lwjgl.nuklear.Nuklear.*;
  */
 public class NewWorld implements MenuPage {
 
-    public NewWorld(NkContext ctx, LocalClient localClient, TopMenu menu) {
+    public NewWorld(NkContext ctx, Client localClient, TopMenu menu) {
         this.ctx = ctx;
         this.localClient = localClient;
         this.window = localClient.window;
@@ -44,7 +44,7 @@ public class NewWorld implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     ClientWindow window;
-    LocalClient localClient;
+    Client localClient;
     TerrainSelector terrainSelector;
 
     final int boxWidth = WIDTH_3;

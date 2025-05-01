@@ -1,7 +1,6 @@
 package com.xbuilders.content.vanilla.items;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.server.LocalServer;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.item.Item;
 

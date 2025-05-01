@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.LocalClient;
+import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
 import com.xbuilders.engine.server.item.ItemStack;
@@ -55,11 +55,11 @@ public abstract class Entity {
     public final static ResourceLoader resourceLoader = new ResourceLoader();
 
     public boolean playerIsRidingThis() {
-        return LocalClient.userPlayer.positionLock != null && LocalClient.userPlayer.positionLock.entity == this;
+        return Client.userPlayer.positionLock != null && Client.userPlayer.positionLock.entity == this;
     }
 
     private void getLightForPosition() {
-        Chunk chunk = LocalClient.world.getChunk(chunkPosition.chunk);
+        Chunk chunk = Client.world.getChunk(chunkPosition.chunk);
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
@@ -69,7 +69,7 @@ public abstract class Entity {
                 if (light == 0) {
                     WCCi wcc = new WCCi();
                     wcc.set((int) Math.floor(worldPosition.x), (int) Math.floor(worldPosition.y - i), (int) Math.floor(worldPosition.z));
-                    chunk = LocalClient.world.getChunk(wcc.chunk);
+                    chunk = Client.world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         light = chunk.data.getPackedLight(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
