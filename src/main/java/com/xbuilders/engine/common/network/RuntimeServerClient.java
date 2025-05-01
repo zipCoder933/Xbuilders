@@ -3,9 +3,9 @@ package com.xbuilders.engine.common.network;
 import com.xbuilders.engine.common.network.netty.NettyClient;
 import com.xbuilders.engine.common.network.netty.NettyServer;
 import com.xbuilders.engine.common.network.packet.Packet;
-import com.xbuilders.engine.common.packets.message.MessagePacket;
-import com.xbuilders.engine.common.network.packet.ping.PingPacket;
-import com.xbuilders.engine.common.network.packet.ping.PongPacket;
+import com.xbuilders.engine.common.packets.MessagePacket;
+import com.xbuilders.engine.common.network.netty.ping.PingPacket;
+import com.xbuilders.engine.common.network.netty.ping.PongPacket;
 
 public class RuntimeServerClient {
 

@@ -6,7 +6,7 @@ package com.xbuilders.engine.client.visuals.gameScene;
 
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.Theme;
-import com.xbuilders.engine.common.packets.message.MessagePacket;
+import com.xbuilders.engine.common.packets.MessagePacket;
 import com.xbuilders.window.NKWindow;
 import com.xbuilders.window.nuklear.NKUtils;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -37,9 +37,13 @@ public class InfoText extends UI_GameMenu {
     private NkRect commandRect;
     TextBox box;
     private String text;
-    final int commandBoxHeight = 450;
+    final int commandBoxHeight = 600;
     final int sidePadding = 50;
     Client client;
+
+    final String infoPanelText = "info panel";
+    final String commandPanelText = "command panel";
+    final String commandPanelScroll = "command scroll";
 
     public InfoText(NkContext ctx, NKWindow window, Client client) {
         super(ctx, window);
@@ -47,6 +51,7 @@ public class InfoText extends UI_GameMenu {
         box = new TextBox(100);
         box.setOnChangeEvent(() -> {
             submitCommand(box.getValueAsString());
+            nk_group_set_scroll(ctx, commandPanelScroll, 0, 0);
             box.setValueAsString("");
         });
         infoTextRect = NkRect.create().x(0).y(40).w(window.getWidth()).h(400);
@@ -59,8 +64,10 @@ public class InfoText extends UI_GameMenu {
         client.endpoint.getChannel().writeAndFlush(new MessagePacket(commandStr));
     }
 
-    String infoPanelText = "info panel";
-    String commandPanelText = "command panel";
+    public void newGameEvent(){
+        commandHistory.clear();
+    }
+
 
     @Override
     public void draw(MemoryStack stack) {
@@ -70,15 +77,18 @@ public class InfoText extends UI_GameMenu {
             commandRect.w(window.getWidth() - (sidePadding * 2));
             commandRect.h(Math.min(commandBoxHeight, window.getHeight() - 150));
             ctx.style().window().fixed_background().data().color().set(Theme.color_darkTransparent);
-            if (nk_begin(ctx, commandPanelText, commandRect, 0)) {
-                Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
-                nk_text(ctx, "Enter command:", NK_LEFT);
+            if (nk_begin(ctx, commandPanelText, commandRect, NK_WINDOW_NO_SCROLLBAR)) {
+//                Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
+//                nk_text(ctx, "Enter command:", NK_LEFT);
                 Nuklear.nk_layout_row_dynamic(ctx, 40, 1);
                 box.render(ctx);
 
-                nk_group_begin(ctx, "output", 0);
-                    Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
-                    drawChatHistory(ctx, true, 0);
+                Nuklear.nk_layout_row_dynamic(ctx, commandRect.h() - 40 - 20, 1);
+                ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
+                nk_group_begin(ctx, commandPanelScroll, 0);
+                Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
+                drawChatHistory(ctx, true, 0);
+                Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
                 nk_group_end(ctx);
             }
             nk_end(ctx);
@@ -104,26 +114,26 @@ public class InfoText extends UI_GameMenu {
         return true;
     }
 
-    ArrayList<ChatMessage> chatHistory = new ArrayList<>();
+    ArrayList<ChatMessage> commandHistory = new ArrayList<>();
 
     public void addToHistory(String text) {
-        chatHistory.add(0, new ChatMessage(text));
-        if (chatHistory.size() > 30) {
-            chatHistory.remove(chatHistory.size() - 1);
+        commandHistory.add(0, new ChatMessage(text));
+        if (commandHistory.size() > 30) {
+            commandHistory.remove(commandHistory.size() - 1);
         }
     }
 
     private void drawChatHistory(NkContext ctx, boolean alwaysShow, int maxMessages) {
-        for (int i = 0; i < chatHistory.size(); i++) {
+        for (int i = 0; i < commandHistory.size(); i++) {
 
             if (maxMessages > 0 && i > maxMessages) {
                 break;
             }
 
-            String line = chatHistory.get(i).value;
+            String line = commandHistory.get(i).value;
 
             Nuklear.nk_layout_row_dynamic(ctx, 10, 1);
-            if (alwaysShow || System.currentTimeMillis() - chatHistory.get(i).time < 10000) {
+            if (alwaysShow || System.currentTimeMillis() - commandHistory.get(i).time < 10000) {
                 if (line.startsWith("<")) {
                     NKUtils.text(ctx, line, 9, NK_TEXT_ALIGN_RIGHT);
                 } else NKUtils.text(ctx, line, 9, NK_TEXT_ALIGN_LEFT);

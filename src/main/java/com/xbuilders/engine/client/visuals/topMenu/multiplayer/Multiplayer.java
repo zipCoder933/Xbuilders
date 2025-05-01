@@ -50,14 +50,14 @@ public class Multiplayer implements MenuPage {
         this.window = localClient.window;
         this.menu = menu;
         portBox = new NumberBox(4, 0);
-        fromPortBox = new NumberBox(4, 0);
+//        fromPortBox = new NumberBox(4, 0);
         ipAdressBox = new TextBox(20);
         ipAdressBox.setValueAsString("192.168.0.");
         presetBox = new TextBox(20);
 
-        fromPortBox.setOnSelectEvent(() -> {
-            selectedServerPreset = null;
-        });
+//        fromPortBox.setOnSelectEvent(() -> {
+//            selectedServerPreset = null;
+//        });
         portBox.setOnSelectEvent(() -> {
             selectedServerPreset = null;
         });
@@ -69,16 +69,16 @@ public class Multiplayer implements MenuPage {
         });
 
 
-        fromPortBox.setValueAsNumber(8080);
+//        fromPortBox.setValueAsNumber(8080);
         portBox.setValueAsNumber(8080);
 
-        if (Client.DEV_MODE) {
-            if (hosting) {
-                fromPortBox.setValueAsNumber(8081);
-            } else {
-                portBox.setValueAsNumber(8081);
-            }
-        }
+//        if (Client.DEV_MODE) {
+//            if (hosting) {
+//                fromPortBox.setValueAsNumber(8081);
+//            } else {
+//                portBox.setValueAsNumber(8081);
+//            }
+//        }
 
         this.player = player;
         this.hosting = hosting;
@@ -89,7 +89,7 @@ public class Multiplayer implements MenuPage {
     NkContext ctx;
     TopMenu menu;
     ClientWindow window;
-    NumberBox fromPortBox, portBox;
+    NumberBox portBox;
     TextBox ipAdressBox, presetBox;
 
     final int BOX_DEFAULT_HEIGHT = menu.HEIGHT_3;
@@ -208,11 +208,11 @@ public class Multiplayer implements MenuPage {
             ipAdressBox.render(ctx);
         }
 
-        if (Client.DEV_MODE) {
-            row(ctx, "From Port:", column2 ? 2 : 1);
-            if (!column2) nk_layout_row_dynamic(ctx, 30, 1);
-            fromPortBox.render(ctx);
-        }
+//        if (Client.DEV_MODE) {
+//            row(ctx, "From Port:", column2 ? 2 : 1);
+//            if (!column2) nk_layout_row_dynamic(ctx, 30, 1);
+//            fromPortBox.render(ctx);
+//        }
 
         row(ctx, "Port:", column2 ? 2 : 1);
         if (!column2) nk_layout_row_dynamic(ctx, 30, 1);
@@ -233,11 +233,11 @@ public class Multiplayer implements MenuPage {
             } else menu.setPage(Page.HOME);
         }
         if (nk_button_label(ctx, "CONTINUE")) {
-            int fromPortVal = (int) fromPortBox.getValueAsNumber();
+//            int fromPortVal = (int) fromPortBox.getValueAsNumber();
             int portVal = (int) portBox.getValueAsNumber();
-            if (!Client.DEV_MODE) fromPortVal = portVal;
+//            if (!Client.DEV_MODE) fromPortVal = portVal;
             String ipAdress = this.ipAdressBox.getValueAsString();
-            NetworkJoinRequest req = new NetworkJoinRequest(hosting, fromPortVal, portVal, player.getName(), ipAdress);
+            NetworkJoinRequest req = new NetworkJoinRequest(hosting, portVal, player.getName(), ipAdress);
             System.out.println(req.toString());
             localClient.loadWorld(loadWorld.currentWorld, req);
         }

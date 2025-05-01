@@ -9,19 +9,14 @@ import java.util.List;
 
 public abstract class Packet {
 
-    private final static int MIN_PACKET_ID = 2;
     public final byte id;
 
     public Packet(int id) {
-        if (id < MIN_PACKET_ID) throw new IllegalArgumentException("Packet id must be greater than " + MIN_PACKET_ID);
         this.id = (byte) id;
     }
 
-
     public abstract void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out);
-
     public abstract void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out);
-
     public abstract void handleClientSide(ChannelBase ctx, Packet packet);
     public abstract void handleServerSide(ChannelBase ctx, Packet packet);
 

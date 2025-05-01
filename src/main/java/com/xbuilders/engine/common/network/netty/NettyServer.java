@@ -2,9 +2,12 @@ package com.xbuilders.engine.common.network.netty;
 
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.ServerBase;
+import com.xbuilders.engine.common.network.packet.Packet;
 import com.xbuilders.engine.common.network.packet.PacketDecoder;
 import com.xbuilders.engine.common.network.packet.PacketEncoder;
 import com.xbuilders.engine.common.network.packet.PacketHandler;
+import com.xbuilders.engine.common.network.netty.ping.PingPacket;
+import com.xbuilders.engine.common.network.netty.ping.PongPacket;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
@@ -35,7 +38,7 @@ public abstract class NettyServer extends ServerBase {
    protected final ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     // The idle interval (in seconds) for sending pings.
-    public static final long PING_INTERVAL_SECONDS = 60;
+    public static final long PING_INTERVAL_SECONDS = 120;
     public static final int MAX_FRAME_SIZE = 2048;
 
     protected final EventLoopGroup bossGroup;
@@ -45,6 +48,16 @@ public abstract class NettyServer extends ServerBase {
 
     public Channel getChannel() {
         return channel;
+    }
+
+    /**
+     * Register the ping and pong packets
+     */
+    public static final int PING_PACKET = 0;
+    public static final int PONG_PACKET = 1;
+    static{
+        Packet.register(new PingPacket());
+        Packet.register(new PongPacket());
     }
 
     /**

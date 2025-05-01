@@ -63,11 +63,9 @@ public class GameScene implements WindowEvents {
     }
 
 
-    public void startGameEvent(WorldData worldData, NetworkJoinRequest req, ProgressData prog) {
+    public void newGameEvent() {
         if (Client.DEV_MODE) writeDebugText = true;
-    }
-
-    public void stopGameEvent() {
+        ui.newGameEvent();
     }
 
     public void render() {

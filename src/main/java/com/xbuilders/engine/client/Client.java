@@ -1,6 +1,9 @@
 package com.xbuilders.engine.client;
 
 import com.xbuilders.Main;
+import com.xbuilders.engine.common.network.netty.NettyClient;
+import com.xbuilders.engine.common.packets.AllPackets;
+import com.xbuilders.engine.common.packets.ClientEntrancePacket;
 import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.common.network.ChannelBase;
@@ -55,9 +58,11 @@ public class Client {
     public final ClientWindow window;
     private final Game game;
     public ClientBase endpoint;
-
-
     public String title;
+
+    static {
+        AllPackets.registerPackets();
+    }
 
     public void consoleOut(String s) {
         window.gameScene.ui.infoBox.addToHistory(s);
@@ -127,45 +132,15 @@ public class Client {
 
 
     public void onConnected(boolean success, Throwable cause, ChannelBase channel) {
-    }
+        prog = new ProgressData(title);
 
-    public void loadWorld(final WorldData singleplayerWorld, final NetworkJoinRequest remoteWorld) {
-        boolean singleplayer = remoteWorld == null;
-        String title = "Joining " + (singleplayer ? "Singleplayer" : "Multiplayer") + " World...";
-        ProgressData prog = new ProgressData(title);
-        Main.getClient().window.gameScene.setProjection();
-
-
-        if (singleplayer) { //Spin up a local server
-            world.data = singleplayerWorld; //set the world data
-
-
-            //The server must have a separate world even if it's a single-player game
-            //In singleplayer, the chunks are shared by both client and server to save memory
-            World serverWorld = new World(world.chunks, world.data);
-
-            Main.setServer(new Server(game, serverWorld)); //Create our server
-            new Thread(() -> { //Start the server on another thread
-                try {
-                    Main.getServer().run();
-                } finally {
-                    stopGame();
-                }
-            }).start();
-
-            //Start up our endpoint
-            endpoint = new FakeClient((FakeServer) Main.getServer().endpoint) {
-                @Override
-                public void onConnected(boolean success, Throwable cause, ChannelBase channel) {
-                    Client.this.onConnected(success, cause, channel);
-                }
-            };
-
+        if (success) {
+            System.out.println("Connected to " + channel.remoteAddress());
             window.topMenu.progress.enable(prog, () -> {//update
                 try {
-                    joinGameUpdate(prog, remoteWorld);
+                    joinGameUpdate(prog, channel);
                 } catch (Exception e) {
-                    LOGGER.log(Level.INFO,"error", e);
+                    LOGGER.log(Level.INFO, "error", e);
                     prog.abort();
                 }
             }, () -> {//finished
@@ -175,12 +150,68 @@ public class Client {
                 stopGame();
                 window.topMenu.setPage(Page.HOME);
             });
-        } else { //Connect to a remote server
-
+        } else {
+            prog.abort();
+            Logger.getLogger(Client.class.getName()).log(Level.WARNING, "Connection refused", cause);
         }
-
     }
 
+
+    public void loadWorld(final WorldData singleplayerWorld, final NetworkJoinRequest remoteWorld) {
+        boolean hostingWorld = remoteWorld != null && remoteWorld.hosting;
+        String title = (hostingWorld ? "Hosting " : "Joining ") + " World...";
+
+
+        Main.getClient().window.gameScene.setProjection();
+
+        if (singleplayerWorld != null) { //Spin up a local server
+            world.data = singleplayerWorld; //set the world data
+            //The server must have a separate world even if it's a single-player game
+            //In singleplayer, the chunks are shared by both client and server to save memory
+            World serverWorld = new World(world.chunks, world.data);
+
+            try {
+                if (remoteWorld != null)
+                    Main.setServer(new Server(game, serverWorld, remoteWorld.port)); //Create a server with a real endpoint
+                else Main.setServer(new Server(game, serverWorld)); //Create a server with a fake endpoint
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.WARNING, "Error starting server", e);
+                return;
+            }
+
+            new Thread(() -> { //Start the server on another thread
+                try {
+                    Main.getServer().run();
+                } finally {
+                    stopGame();
+                }
+            }).start();
+        }
+
+        if (remoteWorld != null) { //Start up real endpoint
+            System.out.println("Starting endpoint...");
+            try {
+                endpoint = new NettyClient(remoteWorld.address, remoteWorld.port) {
+                    @Override
+                    public void onConnected(boolean success, Throwable cause, ChannelBase channel) {
+                        Client.this.onConnected(success, cause, channel);
+                    }
+                };
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.WARNING, "Error starting endpoint", e);
+                return;
+            }
+        } else { //Start up fake endpoint
+            endpoint = new FakeClient((FakeServer) Main.getServer().endpoint) {
+                @Override
+                public void onConnected(boolean success, Throwable cause, ChannelBase channel) {
+                    Client.this.onConnected(success, cause, channel);
+                }
+            };
+        }
+
+
+    }
 
     private void waitForTasksToComplete(ProgressData prog) {
         if (world.newGameTasks.get() < prog.bar.getMax()) {
@@ -191,14 +222,34 @@ public class Client {
         }
     }
 
+    private void terminateIfTimeout(long maxWaitMS, ProgressData prog) {
+        long now = System.currentTimeMillis();
+        if (now - lastProgressTime > maxWaitMS) {
+            prog.abort("Request timed out");
+        }
+    }
 
+    ProgressData prog;
+    long lastProgressTime;
     int completeChunks, framesWithCompleteChunkValue;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_JOINING = true;
 
-    public void joinGameUpdate(ProgressData prog, NetworkJoinRequest req) throws Exception {
+
+    public void joinGameUpdate(ProgressData prog, ChannelBase channel){
         switch (prog.stage) {
             case 0 -> {
-                prog.setTask("Joining game...");
+                completeChunks = 0;
+                framesWithCompleteChunkValue = 0;
+                prog.setTask("Requesting entrance...");
+                channel.writeAndFlush(new ClientEntrancePacket(userPlayer));
+                lastProgressTime = System.currentTimeMillis();
+                prog.stage++;
+            }
+            case 1 -> {
+                //waiting for incoming serverGatekeeperPacket to update the progress
+                terminateIfTimeout(30000, prog);
+            }
+            case 2 -> {
                 boolean ok;
                 if (world.data.getSpawnPoint() == null) { //Create spawn point
                     Client.userPlayer.worldPosition.set(0, 0, 0);
@@ -213,10 +264,10 @@ public class Client {
                 }
                 prog.stage++;
             }
-            case 1 -> {
+            case 3 -> {
                 waitForTasksToComplete(prog);
             }
-            case 2 -> { //Prepare chunks
+            case 4 -> { //Prepare chunks
                 if (WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_JOINING) {
                     prog.setTask("Preparing chunks");
                     AtomicInteger finishedChunks = new AtomicInteger();
@@ -256,6 +307,10 @@ public class Client {
         }
     }
 
+    public ProgressData getJoinProgressData() {
+        return prog;
+    }
+
 
     public Vector3f getInitialSpawnPoint(Terrain terrain) {
         Vector3f worldPosition = new Vector3f();
@@ -281,7 +336,7 @@ public class Client {
         try {
             if (Main.getServer() != null) Main.getServer().stop();  //If we have a local server
         } catch (Exception e) {
-            LOGGER.log(Level.INFO,"error", e);
+            LOGGER.log(Level.INFO, "error", e);
         } finally {
             Main.setServer(null);
             System.gc();

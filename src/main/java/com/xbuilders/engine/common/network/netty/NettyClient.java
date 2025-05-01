@@ -2,10 +2,12 @@ package com.xbuilders.engine.common.network.netty;
 
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.ClientBase;
+import com.xbuilders.engine.common.network.packet.Packet;
 import com.xbuilders.engine.common.network.packet.PacketDecoder;
 import com.xbuilders.engine.common.network.packet.PacketEncoder;
 import com.xbuilders.engine.common.network.packet.PacketHandler;
-import com.xbuilders.engine.common.network.packet.ping.PingPacket;
+import com.xbuilders.engine.common.network.netty.ping.PingPacket;
+import com.xbuilders.engine.common.network.netty.ping.PongPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -23,6 +25,14 @@ public abstract class NettyClient extends ClientBase {
     private final ChannelBase channelBase;
     private final EventLoopGroup group;
     private final ChannelFuture future;
+
+    /**
+     * Register the ping and pong packets
+     */
+    static{
+        Packet.register(new PingPacket());
+        Packet.register(new PongPacket());
+    }
 
     public ChannelBase getChannel() {
         return channelBase;

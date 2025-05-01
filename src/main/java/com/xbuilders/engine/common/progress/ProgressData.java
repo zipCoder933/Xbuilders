@@ -61,8 +61,8 @@ public class ProgressData {
         taskAborted = true;
     }
 
-    public void abort(String title, String message) {
-        ClientWindow.popupMessage.message(title, message,() ->  taskAborted = true);
+    public void abort(String message) {
+        ClientWindow.popupMessage.message(title + " Failed", message, () -> taskAborted = true);
     }
 
 

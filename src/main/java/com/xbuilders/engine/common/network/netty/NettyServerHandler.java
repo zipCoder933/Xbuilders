@@ -1,7 +1,7 @@
 package com.xbuilders.engine.common.network.netty;
 
 import com.xbuilders.engine.common.network.ChannelBase;
-import com.xbuilders.engine.common.network.packet.ping.PingPacket;
+import com.xbuilders.engine.common.network.netty.ping.PingPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

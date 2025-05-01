@@ -41,7 +41,7 @@
 //public class GameServer extends com.xbuilders.engine.common.network.testing.server.Server<Player> {
 //
 //    //All localServer message headers
-//    public static final byte PLAYER_INFO = -128;
+//    public static final byte CLIENT_ENTRANCE = -128;
 //    public static final byte WORLD_INFO = -127;
 //    public static final byte PLAYER_POSITION = -126;
 //    public static final byte PLAYER_CHAT = -125;
@@ -115,8 +115,8 @@
 //             * To get around this, we need to either wait, or only send our information when the host sends a welcome message
 //             */
 //            //Join the host
-//            System.out.println("Joining as " + req.hostIpAdress);
-//            hostClient = connectToServer(new InetSocketAddress(req.hostIpAdress, req.toPortVal));
+//            System.out.println("Joining as " + req.address);
+//            hostClient = connectToServer(new InetSocketAddress(req.address, req.port));
 //            hostClient.isHost = true;
 //            Thread.sleep(1000);
 //            hostClient.sendData(client_userPlayer.userInfo.toBytes());
@@ -216,7 +216,7 @@
 //        try {
 //            if (receivedData.length == 0) return;
 //
-//            if (receivedData[0] == PLAYER_INFO) { //Given when the player updates his info
+//            if (receivedData[0] == CLIENT_ENTRANCE) { //Given when the player updates his info
 //                //Update player information first
 //                client.userInfo.fromBytes(receivedData);
 //                //If the player has not joined yet, add him

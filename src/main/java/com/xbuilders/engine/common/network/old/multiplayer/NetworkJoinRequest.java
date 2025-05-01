@@ -2,26 +2,24 @@ package com.xbuilders.engine.common.network.old.multiplayer;
 
 public class NetworkJoinRequest {
     public boolean hosting;
-    public int toPortVal;
+    public int port;
     public String playerName;
-    public int fromPortVal;
-    public String hostIpAdress;
+    public String address;
 
-    public NetworkJoinRequest(boolean hosting, int fromPortVal, int portVal, String playerName, String ipAdress) {
+    public NetworkJoinRequest(boolean hosting, int portVal, String playerName, String ipAdress) {
         this.hosting = hosting;
-        this.fromPortVal = fromPortVal;
-        this.toPortVal = portVal;
+        this.port = portVal;
         this.playerName = playerName;
-        this.hostIpAdress = ipAdress;
+        this.address = ipAdress;
     }
 
     @Override
     public String toString() {
         return "NetworkJoin{" +
                 "hosting=" + hosting +
-                ", portVal=" + toPortVal +
+                ", portVal=" + port +
                 ", playerName='" + playerName + '\'' +
-                ", ipAdress='" + hostIpAdress + '\'' +
+                ", ipAdress='" + address + '\'' +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.xbuilders.engine.common.packets.message;
+package com.xbuilders.engine.common.packets;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.common.network.ChannelBase;
@@ -15,12 +15,12 @@ public class MessagePacket extends Packet {
     String message;
 
     public MessagePacket(String message) {
-        super(2);
+        super(AllPackets.MESSAGE);
         this.message = message;
     }
 
     public MessagePacket() {
-        super(2);
+        super(AllPackets.MESSAGE);
     }
 
     @Override

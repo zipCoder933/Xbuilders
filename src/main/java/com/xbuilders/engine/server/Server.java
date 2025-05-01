@@ -12,7 +12,8 @@ import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.ServerBase;
 import com.xbuilders.engine.common.network.fake.FakeServer;
 import com.xbuilders.engine.common.network.netty.NettyServer;
-import com.xbuilders.engine.common.packets.message.MessagePacket;
+import com.xbuilders.engine.common.network.packet.Packet;
+import com.xbuilders.engine.common.packets.AllPackets;
 import com.xbuilders.engine.common.players.Player;
 import com.xbuilders.engine.common.players.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.common.players.pipeline.BlockHistory;
@@ -34,8 +35,10 @@ import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.logging.Level;
 
 import static com.xbuilders.Main.LOGGER;
@@ -52,8 +55,13 @@ public class Server {
     public static final CommandRegistry commandRegistry = new CommandRegistry();
     public ArrayList<ChannelBase> players = new ArrayList<>();
     public final ServerBase endpoint;
+    public int maxPlayers = 10;
     private boolean alive = true;
     private int port = -1;
+
+    static{
+        AllPackets.registerPackets();
+    }
 
     private void registerCommands() {
         commandRegistry.registerCommand(new Command("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>")
@@ -269,7 +277,7 @@ public class Server {
         };
     }
 
-    public Server(int port, Game game, World world) throws InterruptedException {
+    public Server(Game game, World world, int port) throws InterruptedException {
         this.world = world;
         this.game = game;
         this.port = port;
@@ -294,10 +302,13 @@ public class Server {
 
     //Server events
     public boolean newClientEvent(ChannelBase client) {
+        for(ChannelBase c : players) { //Only 1 player per IP
+            if(c.remoteAddress().equals(client.remoteAddress())) {
+                System.out.println("Player already connected from " + c.remoteAddress());
+                return false;
+            }
+        }
         players.add(client);
-        client.setPlayer(new Player(client));
-        System.out.println("New client connected: " + client);
-        client.writeAndFlush(new MessagePacket("Hello from server!"));
         return true;
     }
 

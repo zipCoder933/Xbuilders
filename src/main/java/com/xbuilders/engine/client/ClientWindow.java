@@ -58,6 +58,7 @@ public class ClientWindow extends NKWindow {
     // flexible.
     public void goToGamePage() {
         isGameMode = true;
+        gameScene.newGameEvent();
     }
 
     public void goToMenuPage() {
