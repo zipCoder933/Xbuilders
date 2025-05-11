@@ -169,7 +169,7 @@ public class ClientWindow extends NKWindow {
 
 
         //init world
-        world.init(Client.userPlayer, Registrys.blocks.textures);
+        world.init(Registrys.blocks.textures);
 
         if (settings.video_fullscreen) {
             enableFullscreen(settings.video_fullscreenSize.value);

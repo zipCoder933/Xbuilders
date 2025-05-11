@@ -42,7 +42,7 @@ public class ChunkRequestPacket extends Packet {
     public void handleServerSide(ChannelBase ctx, Packet packet) {
         ChunkRequestPacket packetInstance = (ChunkRequestPacket) packet;
         Server server = Main.getServer();
-        Chunk chunk = server.world.getChunk(packetInstance.requestedCoordinates);
+        Chunk chunk = server.world.makeOrGetChunk(packetInstance.requestedCoordinates);
         ctx.writeAndFlush(new ChunkDataPacket(chunk));
     }
 }
