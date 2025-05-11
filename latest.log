@@ -69,3 +69,19 @@ com.esotericsoftware.kryo.io.KryoBufferUnderflowException: Buffer underflow.
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 
+May 11, 2025 4:02:18 PM com.xbuilders.engine.client.Client lambda$onConnected$0
+INFO: error
+java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle.init(com.xbuilders.engine.common.math.AABB)" because "this.meshes" is null
+	at com.xbuilders.engine.common.world.chunk.Chunk.init_common(Chunk.java:127)
+	at com.xbuilders.engine.common.world.ClientWorld.addChunk(ClientWorld.java:80)
+	at com.xbuilders.engine.common.world.World.addChunkPillar(World.java:306)
+	at com.xbuilders.engine.common.world.ClientWorld.fillChunksAroundPlayer(ClientWorld.java:144)
+	at com.xbuilders.engine.common.world.ClientWorld.init(ClientWorld.java:107)
+	at com.xbuilders.engine.client.Client.joinGameUpdate(Client.java:256)
+	at com.xbuilders.engine.client.Client.lambda$onConnected$0(Client.java:138)
+	at com.xbuilders.engine.client.visuals.topMenu.ProgressMenu.layout(ProgressMenu.java:88)
+	at com.xbuilders.engine.client.visuals.topMenu.TopMenu.render(TopMenu.java:155)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:186)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:116)
+	at com.xbuilders.Main.main(Main.java:69)
+

@@ -5,19 +5,16 @@ import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
+import com.xbuilders.engine.common.world.ClientWorld;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
-import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
-import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.common.world.wcc.WCCf;
 import com.xbuilders.engine.common.world.wcc.WCCi;
 import com.xbuilders.engine.common.utils.MiscUtils;
-import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.window.WindowEvents;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
@@ -40,11 +37,11 @@ public class GameScene implements WindowEvents {
     public static boolean specialMode;
     public GameUI ui;
     private Game game;
-    World world;
+    ClientWorld world;
     public boolean writeDebugText = false;
 
 
-    public GameScene(Client client, Game game, World world) throws Exception {
+    public GameScene(Client client, Game game, ClientWorld world) throws Exception {
         this.client = client;
         this.game = game;
         this.world = world;

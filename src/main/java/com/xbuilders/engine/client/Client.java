@@ -14,11 +14,8 @@ import com.xbuilders.engine.common.network.old.multiplayer.NetworkJoinRequest;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.engine.common.utils.LoggingUtils;
-import com.xbuilders.engine.common.world.Terrain;
-import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.common.world.WorldsHandler;
+import com.xbuilders.engine.common.world.*;
 import com.xbuilders.engine.common.world.chunk.Chunk;
-import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.server.Server;
@@ -46,7 +43,7 @@ public class Client {
     public static long CLIENT_VERSION = versionStringToNumber(CLIENT_VERSION_STRING);
 
     //The world never changes objects
-    public static final World world = new World();
+    public static final ClientWorld world = new ClientWorld();
     public static boolean LOAD_WORLD_ON_STARTUP = false;
     public static boolean FPS_TOOLS = false;
     public static boolean DEV_MODE = false;
@@ -168,7 +165,7 @@ public class Client {
             world.data = singleplayerWorld; //set the world data
             //The server must have a separate world even if it's a single-player game
             //In singleplayer, the chunks are shared by both client and server to save memory
-            World serverWorld = new World(world);
+            ServerWorld serverWorld = new ServerWorld(world);
 
             try {
                 if (remoteWorld != null)

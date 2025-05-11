@@ -13,7 +13,7 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
-import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.WorldData;
 import com.xbuilders.engine.common.world.light.SunlightUtils;
 import com.xbuilders.engine.common.world.light.TorchUtils;
 import com.xbuilders.engine.common.world.wcc.WCCi;
@@ -177,7 +177,7 @@ public class BlockEventPipeline {
         }
 
         eventsCopy.forEach((worldPos, blockHist) -> {
-            if (!World.inYBounds(worldPos.y)) return;
+            if (!world.inYBounds(worldPos.y)) return;
             wcc.set(worldPos);
             Chunk chunk = world.chunks.get(wcc.chunk);
             if (chunk == null) return;
@@ -240,7 +240,7 @@ public class BlockEventPipeline {
         //Block events
         if (allowBlockEvents) {
             eventsCopy.forEach((worldPos, blockHist) -> {
-                if (World.inYBounds(worldPos.y)) {
+                if (world.inYBounds(worldPos.y)) {
                     if (!blockHist.fromNetwork) {//Dont do block events if the block was set by the Main.getServer()
 
                         if (//TODO: Try to check for block data changes without setting off infinite recursion

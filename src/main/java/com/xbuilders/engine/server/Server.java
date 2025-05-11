@@ -18,6 +18,7 @@ import com.xbuilders.engine.common.players.Player;
 import com.xbuilders.engine.common.players.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
+import com.xbuilders.engine.common.world.ServerWorld;
 import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
@@ -48,7 +49,7 @@ public class Server {
     public final static String SERVER_VERSION_STRING = "1.0.0";
     public final static long SERVER_VERSION = versionStringToNumber(SERVER_VERSION_STRING);
     public final LivePropagationHandler livePropagationHandler = new LivePropagationHandler();
-    public final World world;
+    public final ServerWorld world;
     private final Game game;
     public BlockEventPipeline eventPipeline;
     public LogicThread tickThread;
@@ -254,7 +255,7 @@ public class Server {
 
 
     //Constructors
-    public Server(Game game, World world) {
+    public Server(Game game, ServerWorld world) {
         LOGGER.finest("Server started! (" + SERVER_VERSION_STRING + ")");
         this.game = game;
         this.world = world;
@@ -277,7 +278,7 @@ public class Server {
         };
     }
 
-    public Server(Game game, World world, int port) throws InterruptedException {
+    public Server(Game game, ServerWorld world, int port) throws InterruptedException {
         this.world = world;
         this.game = game;
         this.port = port;
@@ -403,7 +404,7 @@ public class Server {
     }
 
     public void setBlock(short newBlock, BlockData blockData, WCCi wcc) {
-        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
+        if (!world.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
@@ -421,7 +422,7 @@ public class Server {
     }
 
     public void setBlock(short newBlock, WCCi wcc) {
-        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
+        if (!world.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
@@ -436,7 +437,7 @@ public class Server {
     }
 
     public void setBlockData(BlockData blockData, WCCi wcc) {
-        if (!World.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
+        if (!world.inYBounds((wcc.chunk.y * Chunk.WIDTH) + wcc.chunkVoxel.y)) return;
         Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block

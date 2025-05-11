@@ -10,9 +10,12 @@ import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
+import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.resource.ResourceLoader;
 import com.xbuilders.engine.common.resource.ResourceUtils;
+import com.xbuilders.engine.common.world.ClientWorld;
 import com.xbuilders.engine.common.world.World;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.window.GLFWWindow;
@@ -103,6 +106,7 @@ public class ClientWindow extends NKWindow {
         this.title = title;
     }
 
+
     public void startWindowThread() throws IOException {
         while (!windowShouldClose()) {
             /* Input */
@@ -119,7 +123,7 @@ public class ClientWindow extends NKWindow {
         }
     }
 
-    public void init(Game game, World world) throws Exception {
+    public void init(Game game, ClientWorld world) throws Exception {
         GLFWWindow.initGLFW();
         settings = ClientSettings.load();
 

@@ -3,7 +3,7 @@ package com.xbuilders.engine.common.world.chunk.pillar;
 import com.xbuilders.engine.common.utils.BFS.ChunkNode;
 import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.WorldData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class PillarInformation {
     public void loadChunks(Terrain terrain, WorldData info) {
         generationService.submit(chunks[0].client_distToPlayer, () -> {
             for (Chunk c : chunks) {
-                c.loadChunk(info, terrain, null);
+                c.loadChunk(null);
             }
         });
     }

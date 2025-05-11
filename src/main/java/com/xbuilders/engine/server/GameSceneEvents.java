@@ -1,6 +1,6 @@
 package com.xbuilders.engine.server;
 
-import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.WorldData;
 
 public interface GameSceneEvents {
 

@@ -1,18 +1,11 @@
 package com.xbuilders.engine.common.world;
 
-import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.Client;
-import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
-import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.settings.ClientSettings;
-import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
@@ -21,19 +14,13 @@ import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparato
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
 
-import java.io.IOException;
-
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.Main.game;
-import static com.xbuilders.engine.client.Client.userPlayer;
-import static com.xbuilders.engine.client.Client.world;
 
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.block.BlockArrayTexture;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 
@@ -41,43 +28,34 @@ import static com.xbuilders.engine.common.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
 
-import java.lang.Math;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
-import com.xbuilders.engine.common.world.data.WorldData;
 import com.xbuilders.engine.common.world.wcc.WCCi;
 import org.joml.*;
 
-/**
- * The world is the main class that manages the chunks and allEntities in the game.
- * It is the model for the game world and everything in it.
+/*
+ *
+ * Valkyre:
+ * Chunk Load distance: 5
+ * Load distance in voxels: 160
+ * (Minecraft has a default chunk distance of 160 blocks.)
+ *
+ * In valkyre,With the standard chunk distanceThe FPS sometimes dips when
+ * loading lots of stuff, but not very often.
+ * (But This issue is resolved when vsync is disabled.)
+ *
+ * COMPARING PERFORMANCE
+ * - When comparing the two side by side, with the same chunk distance, my
+ * preformance with that chunk distance is actually
+ * at the exact same level as valkyre.
+ * - Also note that valkyre has half the chunk height as my game.
+ * - When valkyre loads chunks at 288 voxels away, things start getting choppy
+ * just like my game does.
  */
-public class World {
-
-
-    /*
-     *
-     * Valkyre:
-     * Chunk Load distance: 5
-     * Load distance in voxels: 160
-     * (Minecraft has a default chunk distance of 160 blocks.)
-     *
-     * In valkyre,With the standard chunk distanceThe FPS sometimes dips when
-     * loading lots of stuff, but not very often.
-     * (But This issue is resolved when vsync is disabled.)
-     *
-     * COMPARING PERFORMANCE
-     * - When comparing the two side by side, with the same chunk distance, my
-     * preformance with that chunk distance is actually
-     * at the exact same level as valkyre.
-     * - Also note that valkyre has half the chunk height as my game.
-     * - When valkyre loads chunks at 288 voxels away, things start getting choppy
-     * just like my game does.
-     */
+public abstract class World {
     public static final int CHUNK_LOAD_THREADS = 12; //Redicing the number of threads helps performance
     public static final int CHUNK_LIGHT_THREADS = 1;
     public static final int CHUNK_MESH_THREADS = 1;
@@ -86,18 +64,15 @@ public class World {
     public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
     public static int VIEW_DIST_MAX = Chunk.WIDTH * 16; //Allowing higher view distances increases flexibility
 
-    private int maxChunksForViewDistance;
-    private final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
+    protected int maxChunksForViewDistance;
+    protected final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
-    public ChunkShader chunkShader;
-
 
     public void setViewDistance(ClientSettings settings, int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
         settings.internal_viewDistance.value = viewDistance.get();
         settings.save();
-        chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
         maxChunksForViewDistance = Integer.MAX_VALUE;
     }
 
@@ -130,7 +105,7 @@ public class World {
     public static final int WORLD_BOTTOM_Y = (BOTTOM_Y_CHUNK * Chunk.WIDTH) + Chunk.WIDTH; // down (+Y)
     public static final int WORLD_SIZE_POS_Z = 32000; // +Z
 
-    public static boolean inYBounds(int y) {
+    public boolean inYBounds(int y) {
         return y > WORLD_TOP_Y && y < WORLD_BOTTOM_Y - 1;
     }
 
@@ -145,25 +120,9 @@ public class World {
     public final WorldEntityMap allEntities = new WorldEntityMap(); // <chunkPos, entity>
     public WorldData data;
     public Terrain terrain;
-    private final AtomicBoolean needsSorting = new AtomicBoolean(true);
     private final Vector3f lastPlayerPosition = new Vector3f();
-    private SortByDistanceToPlayer sortByDistance;
-    private final List<Chunk> unusedChunks;
-    private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
-    private final List<Chunk> sortedChunksToRender = new ArrayList<>();
-    private int blockTextureID;
-
-    public World() {
-        unusedChunks = new ArrayList<>();
-    }
-
-    /**
-     * For a local server, we just want to share unused chunks for memory manegment
-     */
-    public World(World otherWorld) {
-        this.unusedChunks = otherWorld.unusedChunks;
-        this.data = new WorldData(otherWorld.data); //Everything except for the chunks is its own instance
-    }
+    protected List<Chunk> unusedChunks = new ArrayList<>();
+    protected final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
 
 
     /**
@@ -226,17 +185,6 @@ public class World {
     });
 
 
-    public void init(LocalPlayer player, BlockArrayTexture textures) throws IOException {
-        blockTextureID = textures.getTexture().id;
-        // Prepare for game
-        chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
-
-        setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
-        sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
-        allEntities.clear();
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="Chunk operations">
     public boolean hasChunk(final Vector3i coords) {
         return this.chunks.containsKey(coords);
     }
@@ -245,25 +193,21 @@ public class World {
         return this.chunks.get(coords);
     }
 
-    public Chunk makeNew(){
-        return new Chunk(blockTextureID, data, terrain);
-    }
-
     public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
         Chunk chunk = null;
         if (!unusedChunks.isEmpty()) {
             chunk = unusedChunks.remove(unusedChunks.size() - 1);
         } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = new Chunk(blockTextureID, data, terrain);
+            chunk = new Chunk(data, terrain);
         }
         if (chunk != null) {
             float distToPlayer = MathUtils.dist(
                     coords.x, coords.y, coords.z,
                     lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
-            chunk.init(coords, futureChunks.remove(coords), distToPlayer, isTopLevel);
+            //We need to init chunks since we are recycling them
+            chunk.init_common(coords, futureChunks.remove(coords), distToPlayer, isTopLevel);
             this.chunks.put(coords, chunk);
-            this.sortedChunksToRender.remove(chunk);
-            needsSorting.set(true);
+
         }
         return chunk;
     }
@@ -299,8 +243,6 @@ public class World {
     }
 
     public void stopGameEvent() {
-        save();
-
         // We may or may not actually need to shutdown the services, since chunks cancel
         // all tasks when they are disposed
         ExecutorServiceUtils.cancelAllTasks(generationService);
@@ -316,8 +258,6 @@ public class World {
         allEntities.clear();
         chunks.clear();
         unusedChunks.clear();
-        sortedChunksToRender.clear();
-        chunksToUnload.clear();
         futureChunks.clear(); // Important!
 
         System.gc();
@@ -331,7 +271,7 @@ public class World {
      * This is so that the chunks dont end up being deleted and than recreated over
      * and over again
      */
-    private boolean chunkIsWithinRange_XZ(Vector3f player, Vector3i chunk, float viewDistance) {
+    protected boolean chunkIsWithinRange_XZ(Vector3f player, Vector3i chunk, float viewDistance) {
         return MathUtils.dist(
                 player.x,
                 player.z,
@@ -340,7 +280,7 @@ public class World {
     }
 
 
-    private boolean chunkIsWithinRange_XYZ(Vector3f player, Vector3i chunk, int viewDistance) {
+    protected boolean chunkIsWithinRange_XYZ(Vector3f player, Vector3i chunk, int viewDistance) {
         return MathUtils.dist(
                 player.x,
                 player.y,
@@ -412,206 +352,6 @@ public class World {
         return chunksGenerated;
     }
 
-    private final List<Chunk> chunksToUnload = new ArrayList<>();
-    private long lastSaveMS;
-
-    private void updateChunksToRenderList(Vector3f playerPosition) {
-        chunksToUnload.clear();
-
-        int removalViewDistance = getDeletionViewDistance();
-
-        chunks.forEach((coords, chunk) -> {
-            //This is used for 1) chunk task prioritization and 2) chunk ticking distance
-            chunk.client_distToPlayer = MathUtils.dist(
-                    coords.x * Chunk.WIDTH,
-                    coords.y * Chunk.HEIGHT,
-                    coords.z * Chunk.WIDTH,
-                    playerPosition.x,
-                    playerPosition.y,
-                    playerPosition.z);
-
-            if (!chunkIsWithinRange_XZ(playerPosition, coords, removalViewDistance)) {
-                chunksToUnload.add(chunk);
-                sortedChunksToRender.remove(chunk);
-            } else {
-                // frameTester.startProcess();
-                if (needsSorting.get()) {
-                    //Dont add chunk unless it is within the view distance
-                    if (chunkIsWithinRange_XYZ(playerPosition, chunk.position, viewDistance.get() + Chunk.HALF_WIDTH)) {
-                        sortedChunksToRender.add(chunk);
-                    }
-                }
-                chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
-                // frameTester.endProcess("UCTRL: sorting and frustum check");
-                chunk.prepare(terrain, ClientWindow.frameCount, false);
-            }
-        });
-        chunksToUnload.forEach(chunk -> {
-            removeChunk(chunk.position);
-        });
-        Client.frameTester.set("all chunks", unusedChunks.size() + chunks.size());
-        Client.frameTester.set("in-use chunks", chunks.size());
-        Client.frameTester.set("chunksToRender", sortedChunksToRender.size());
-        Client.frameTester.set("unused chunks", unusedChunks.size());
-        Client.frameTester.set("world allEntities", world.allEntities.size());
-    }
-
-    final Vector3f chunkShader_cursorMin = new Vector3f();
-    final Vector3f chunkShader_cursorMax = new Vector3f();
-
-    public void client_updateAndRenderChunks(Matrix4f projection, Matrix4f view, Vector3f playerPosition) {
-        // <editor-fold defaultstate="collapsed" desc="chunk updating">
-        if (!lastPlayerPosition.equals(playerPosition)) {
-            needsSorting.set(true);
-            lastPlayerPosition.set(playerPosition);
-        }
-
-        if (ClientWindow.frameCount % 10 == 0) {
-            Client.frameTester.startProcess();
-            world.fillChunksAroundPlayer(playerPosition, false);
-            Client.frameTester.endProcess("Fill chunks around player");
-        }
-
-        /*
-         * If the chunks need sorting, newGame the render list
-         */
-        if (needsSorting.get()) {
-            sortedChunksToRender.clear();
-        }
-
-        if (System.currentTimeMillis() - lastSaveMS > 25000) {
-            lastSaveMS = System.currentTimeMillis();
-            // Save chunks
-            generationService.submit(0.0f, () -> {
-                save();
-            });
-        }
-
-        updateChunksToRenderList(playerPosition);
-        if (needsSorting.get()) {
-            sortedChunksToRender.sort(sortByDistance);
-            needsSorting.set(false);
-        }
-        // <editor-fold defaultstate="collapsed" desc="For testing sorted chunk distance
-        // (KEEP THIS!)">
-        // int i = 0; //For testing sorted chunk distance (KEEP THIS!)
-        // for (Chunk chunk : sortedChunksToRender) {
-        // if (chunk.getGenerationStatus() == Chunk.GEN_COMPLETE) {
-        // chunk.updateMVP(projection, view); // we must update the MVP within each
-        // model;
-        // chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-        // chunk.meshes.opaqueMesh.draw(true);
-        // chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
-        // i++;
-        // if (i > 0) break;
-        // }
-        // }
-        // </editor-fold>
-        Client.frameTester.endProcess("Sort chunks if needed");
-        // </editor-fold>
-
-        /*
-         * The basic layout for query occlusion culling is:
-         *
-         * 1. Create the query (or queries).
-         * 2. Render loop:
-         * a. Do AI / physics etc...
-         * b. Rendering:
-         * i. Check the query result from the previous frame.
-         * ii. Issue query begin:
-         * 1. If the object was visible in the last frame:
-         * a. Enable rendering to screen.
-         * b. Enable or disable writing to depth buffer (depends on whether the object
-         * is translucent or opaque).
-         * c. Render the object itself.
-         * 2. If the object wasn't visible in the last frame:
-         * a. Disable rendering to screen.
-         * b. Disable writing to depth buffer.
-         * c. "Render" the object's bounding box.
-         * iii. (End query)
-         * iv. (Repeat for every object in scene.)
-         * c. Swap buffers.
-         * (End of render loop)
-         */
-
-
-        if (userPlayer.camera.cursorRay.hitTarget()) {
-            chunkShader_cursorMin.set(userPlayer.camera.cursorRay.getHitPos());
-            chunkShader_cursorMax.set(chunkShader_cursorMin).add(1, 1, 1);
-
-            List<AABB> cursorBoxes = userPlayer.camera.cursorRay.cursorRay.cursorBoxes;
-            if (cursorBoxes != null && !cursorBoxes.isEmpty()) {
-                chunkShader_cursorMin.set(cursorBoxes.get(0).min);
-                chunkShader_cursorMax.set(cursorBoxes.get(0).max);
-                for (AABB aabb : cursorBoxes) {
-                    chunkShader_cursorMin.set(Math.min(chunkShader_cursorMin.x, aabb.min.x), Math.min(chunkShader_cursorMin.y, aabb.min.y), Math.min(chunkShader_cursorMin.z, aabb.min.z));
-                    chunkShader_cursorMax.set(Math.max(chunkShader_cursorMax.x, aabb.max.x), Math.max(chunkShader_cursorMax.y, aabb.max.y), Math.max(chunkShader_cursorMax.z, aabb.max.z));
-                }
-            }
-            chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMax);
-            chunkShader.setBlockBreakPercentage(userPlayer.camera.cursorRay.breakPercentage);
-        } else {
-            chunkShader.setBlockBreakPercentage(0);
-            chunkShader_cursorMin.set(0, 0, 0);
-            chunkShader.setCursorPosition(chunkShader_cursorMin, chunkShader_cursorMin);
-        }
-
-        // Render visible opaque meshes
-        chunkShader.bind();
-        chunkShader.tickAnimation();
-        sortedChunksToRender.forEach(chunk -> {
-            if (chunkIsVisible(chunk, playerPosition)) {
-                chunk.updateMVP(projection, view); // we must update the MVP within each model;
-                initShaderUniforms(chunk);
-                chunk.meshes.opaqueMesh.getQueryResult();
-                chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
-
-                if (GameScene.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
-
-            }
-        });
-        // Render invisible opaque meshes
-        CompactOcclusionMesh.startInvisible();
-        sortedChunksToRender.forEach(chunk -> {
-            if (chunkIsVisible(chunk, playerPosition)) {
-                // chunkShader.setChunkPosition(chunk.position);
-                chunk.meshes.opaqueMesh.drawInvisible();
-            }
-        });
-        CompactOcclusionMesh.endInvisible();
-
-        //Draw allEntities
-        //The allEntities must be drawn BEFORE the transparent meshes, otherwise they will not be visible over the transparent meshes
-        ChunkEntitySet.startDraw(projection, view);
-        sortedChunksToRender.forEach(chunk -> {
-            if (chunkIsVisible(chunk, playerPosition)) {
-                chunk.entities.draw(Camera.frustum, playerPosition);
-            }
-        });
-
-        //Draw transparent meshes
-        sortedChunksToRender.forEach(chunk -> {
-            if (!chunk.meshes.transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
-                if (chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty()) {
-                    initShaderUniforms(chunk);
-                    chunk.meshes.transMesh.draw(GameScene.drawWireframe);
-                }
-            }
-        });
-
-
-    }
-
-    private void initShaderUniforms(Chunk chunk) {
-        chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
-        chunkShader.setChunkPosition(chunk.position);
-    }
-
-    private boolean chunkIsVisible(Chunk chunk, Vector3f playerPosition) {
-        return chunk.inFrustum
-                && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
-                && chunkIsWithinRange_XYZ(playerPosition, chunk.position, getViewDistance());
-    }
 
     // <editor-fold defaultstate="collapsed" desc="block operations">
 
@@ -690,22 +430,14 @@ public class World {
         return chunk;
     }
 
-    public Chunk updateMesh(boolean updateAllNeighbors, boolean markAsModified,
-                            int worldX, int worldY, int worldZ) {
-        int blockX = positiveMod(worldX, Chunk.WIDTH);
-        int blockY = positiveMod(worldY, Chunk.WIDTH);
-        int blockZ = positiveMod(worldZ, Chunk.WIDTH);
-
-        int chunkX = chunkDiv(worldX);
-        int chunkY = chunkDiv(worldY);
-        int chunkZ = chunkDiv(worldZ);
-        Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
-        Chunk chunk = getChunk(pos);
-        if (chunk != null) {
-            if (markAsModified) chunk.markAsModified();
-            chunk.updateMesh(updateAllNeighbors, blockX, blockY, blockZ);
+    public FutureChunk newFutureChunk(Vector3i pos) {
+        FutureChunk futureChunk = futureChunks.get(pos);
+        if (futureChunk == null) {
+            futureChunk = new FutureChunk(pos);
+            futureChunks.put(new Vector3i(pos), futureChunk);// We have to create a new vector, because chunk vector can
+            // change when it is repurposed
         }
-        return chunk;
+        return futureChunk;
     }
 
     public Chunk markAsModified(int worldX, int worldY, int worldZ) {
@@ -743,41 +475,4 @@ public class World {
         return chunk.data.getBlockData(blockX, blockY, blockZ);
     }
     // </editor-fold>
-
-    public long getTimeSinceLastSave() {
-        return System.currentTimeMillis() - lastSaveMS;
-    }
-
-    public void save() {
-        Vector3f playerPos = userPlayer.worldPosition;
-        ClientWindow.printlnDev("Saving world...");
-        // Save all modified chunks
-        Iterator<Chunk> iterator = chunks.values().iterator();
-        while (iterator.hasNext()) {
-            Chunk chunk = iterator.next();
-            chunk.save(data);
-        }
-
-        //Save world info
-        try {
-            data.setSpawnPoint(playerPos);
-            data.save();
-        } catch (IOException ex) {
-            LOGGER.log(Level.INFO, "World \"" + data.getName() + "\" could not be saved", ex);
-        }
-
-        //Save player info
-        userPlayer.saveToWorld(data);
-    }
-
-    public FutureChunk newFutureChunk(Vector3i pos) {
-        FutureChunk futureChunk = futureChunks.get(pos);
-        if (futureChunk == null) {
-            futureChunk = new FutureChunk(pos);
-            futureChunks.put(new Vector3i(pos), futureChunk);// We have to create a new vector, because chunk vector can
-            // change when it is repurposed
-        }
-        return futureChunk;
-    }
-
 }

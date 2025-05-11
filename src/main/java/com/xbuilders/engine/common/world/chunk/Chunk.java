@@ -9,11 +9,10 @@ import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.Terrain.GenSession;
-import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.WorldData;
 import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.window.render.MVP;
@@ -80,24 +79,26 @@ public class Chunk {
     public final ChunkVoxels data;
     public final ChunkEntitySet entities;
     public final Vector3i position;
-    public final Matrix4f modelMatrix;
     public final MVP mvp;
     public boolean inFrustum;
     public float client_distToPlayer;
-    public final ChunkMeshBundle meshes;
     public final AABB aabb;
     public final NeighborInformation neghbors;
     public boolean isTopChunk;
     public PillarInformation pillarInformation;
-    Terrain terrain;
-    WorldData info;
+    final Terrain terrain;
+    final WorldData info;
     FutureChunk futureChunk;
 
-    public Chunk(int texture, WorldData info, Terrain terrain) {
+    //Client sided only
+    public ChunkMeshBundle meshes;
+    public final Matrix4f modelMatrix;
+
+    public Chunk(WorldData info, Terrain terrain) {
         this.position = new Vector3i();
         mvp = new MVP();
         data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
-        meshes = new ChunkMeshBundle(texture, this, terrain);
+
         modelMatrix = new Matrix4f();
         aabb = new AABB();
         neghbors = new NeighborInformation();
@@ -106,7 +107,14 @@ public class Chunk {
         this.terrain = terrain;
     }
 
-    public void init(Vector3i position, FutureChunk futureChunk, float distToPlayer, boolean isTopChunk) {
+    public void init_client(int texture) {
+        //Init the meshes (Client side only)
+        meshes = new ChunkMeshBundle(texture, this, terrain);
+        meshes.init(aabb);
+    }
+
+    public void init_common(Vector3i position, FutureChunk futureChunk,
+                            float distToPlayer, boolean isTopChunk) {
         entities.clear();
         data.reset();
         generationStatus = 0;//The only time we can reset the generation status
@@ -117,9 +125,8 @@ public class Chunk {
         this.position.set(position);
         modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
         aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
-        meshes.init(aabb);
-        neghbors.init(position);
 
+        neghbors.init(position);
 
         this.client_distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
@@ -132,7 +139,7 @@ public class Chunk {
     public void load() {
         loadFuture = generationService.submit(client_distToPlayer, () -> {
             try {
-                loadChunk(info, terrain, futureChunk);
+                loadChunk(futureChunk);
                 return false;
             } finally {
                 newGameTasks.incrementAndGet();
@@ -140,9 +147,8 @@ public class Chunk {
         });
     }
 
-    public void loadChunk(WorldData info, Terrain terrain, FutureChunk futureChunk) {
+    public void loadChunk(FutureChunk futureChunk) {
         File f = info.getChunkFile(position);
-
         try {
             boolean needsSunGeneration = true;
             if (f.exists()) {

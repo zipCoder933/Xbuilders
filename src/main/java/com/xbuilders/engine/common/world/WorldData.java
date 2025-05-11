@@ -1,13 +1,11 @@
 // 
 // Decompiled by Procyon v0.5.36
 // 
-package com.xbuilders.engine.common.world.data;
+package com.xbuilders.engine.common.world;
 
 import com.xbuilders.engine.server.Difficulty;
 import com.xbuilders.engine.common.option.OptionsList;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.common.world.Terrain;
-import com.xbuilders.engine.common.world.WorldsHandler;
 import org.joml.Vector3f;
 
 import java.nio.file.Files;

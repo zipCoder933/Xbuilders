@@ -1,6 +1,7 @@
 package com.xbuilders.engine.client.visuals.skybox;
 
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.common.world.ClientWorld;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.resource.ResourceUtils;
@@ -24,9 +25,9 @@ public class SkyBackground {
     SkyBoxShader skyBoxShader;
     BufferedImage skyImage;
     ClientWindow mainWindow;
-    World world;
+    ClientWorld world;
 
-    public SkyBackground(ClientWindow mainWindow, World world) throws IOException {
+    public SkyBackground(ClientWindow mainWindow, ClientWorld world) throws IOException {
         skyBoxMesh = new SkyBoxMesh();
         this.world = world;
         this.mainWindow = mainWindow;

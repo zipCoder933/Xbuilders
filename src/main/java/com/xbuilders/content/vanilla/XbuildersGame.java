@@ -28,7 +28,7 @@ import com.xbuilders.engine.server.entity.EntitySupplier;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.server.loot.AllLootTables;
 import com.xbuilders.engine.server.recipes.AllRecipes;
-import com.xbuilders.engine.common.world.data.WorldData;
+import com.xbuilders.engine.common.world.WorldData;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkVec2;
