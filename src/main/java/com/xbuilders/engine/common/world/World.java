@@ -193,6 +193,26 @@ public abstract class World {
         return this.chunks.get(coords);
     }
 
+    public Chunk makeOrGetChunk(final Vector3i coords, boolean topChunk) {
+
+        //Get the chunk
+        if(hasChunk(coords)) return getChunk(coords);
+
+        //Make the chunk
+        Chunk chunk = null;
+        if (!unusedChunks.isEmpty()) {
+            chunk = unusedChunks.remove(unusedChunks.size() - 1);
+        } else if (chunks.size() < maxChunksForViewDistance) {
+            chunk = new Chunk(data, terrain);
+        }
+        if (chunk != null) {
+            //We need to init chunks since we are recycling them
+            chunk.reset(coords, topChunk);
+            this.chunks.put(coords, chunk);
+        }
+        return chunk;
+    }
+
     public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
         Chunk chunk = null;
         if (!unusedChunks.isEmpty()) {

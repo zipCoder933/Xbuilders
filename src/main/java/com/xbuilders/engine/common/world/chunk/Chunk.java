@@ -92,19 +92,36 @@ public class Chunk {
 
     //Client sided only
     public ChunkMeshBundle meshes;
-    public final Matrix4f modelMatrix;
+    public final Matrix4f client_modelMatrix;
 
+    /**
+     * A chunk is a reusable class
+     * @param info
+     * @param terrain
+     */
     public Chunk(WorldData info, Terrain terrain) {
         this.position = new Vector3i();
         mvp = new MVP();
         data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
-
-        modelMatrix = new Matrix4f();
+        client_modelMatrix = new Matrix4f();
         aabb = new AABB();
         neghbors = new NeighborInformation();
         entities = new ChunkEntitySet(this);
         this.info = info;
         this.terrain = terrain;
+    }
+
+    public void reset(Vector3i position, boolean isTopChunk) {
+        this.isTopChunk = isTopChunk;
+        entities.clear();
+        data.reset();
+        generationStatus = 0;//The only time we can reset the generation status
+        loadFuture = null;
+        mesherFuture = null;
+        pillarInformation = null;
+        this.position.set(position);
+        client_modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
+        aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
     }
 
     public void init_client(int texture) {
@@ -113,21 +130,8 @@ public class Chunk {
         meshes.init(aabb);
     }
 
-    public void init_common(Vector3i position, FutureChunk futureChunk,
-                            float distToPlayer, boolean isTopChunk) {
-        entities.clear();
-        data.reset();
-        generationStatus = 0;//The only time we can reset the generation status
-        loadFuture = null;
-        mesherFuture = null;
-        pillarInformation = null;
-        this.isTopChunk = isTopChunk;
-        this.position.set(position);
-        modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
-        aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
-
+    public void init_common(FutureChunk futureChunk, float distToPlayer) {
         neghbors.init(position);
-
         this.client_distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
 
@@ -181,7 +185,7 @@ public class Chunk {
     }
 
     public void updateMVP(Matrix4f projection, Matrix4f view) {
-        mvp.update(projection, view, modelMatrix);
+        mvp.update(projection, view, client_modelMatrix);
     }
 
     public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
