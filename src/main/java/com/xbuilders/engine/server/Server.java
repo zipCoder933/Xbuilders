@@ -48,7 +48,7 @@ public class Server {
     public final static String SERVER_VERSION_STRING = "1.0.0";
     public final static long SERVER_VERSION = versionStringToNumber(SERVER_VERSION_STRING);
     public final LivePropagationHandler livePropagationHandler = new LivePropagationHandler();
-    private final World world;
+    public final World world;
     private final Game game;
     public BlockEventPipeline eventPipeline;
     public LogicThread tickThread;

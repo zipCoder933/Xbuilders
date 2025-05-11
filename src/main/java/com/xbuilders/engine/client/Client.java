@@ -168,7 +168,7 @@ public class Client {
             world.data = singleplayerWorld; //set the world data
             //The server must have a separate world even if it's a single-player game
             //In singleplayer, the chunks are shared by both client and server to save memory
-            World serverWorld = new World(world.chunks, world.data);
+            World serverWorld = new World(world);
 
             try {
                 if (remoteWorld != null)

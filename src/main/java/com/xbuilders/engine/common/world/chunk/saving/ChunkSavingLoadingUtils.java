@@ -15,6 +15,8 @@ import com.xbuilders.engine.common.math.MathUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -66,8 +68,18 @@ public class ChunkSavingLoadingUtils {
         //try (MemoryStack stack = MemoryStack.stackPush()) {
         //Rename the existing file to a backup if it exists
         if (f.exists()) renameToBackup(chunk, f);
-        try (FileOutputStream fos = new FileOutputStream(f); GZIPOutputStream outStream = new GZIPOutputStream(fos)) {
 
+        //Write the chunk
+        try (FileOutputStream fos = new FileOutputStream(f)) {
+            return writeChunk(chunk, fos);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to write chunk to file", e);
+            return false;
+        }
+    }
+
+    public static boolean writeChunk(final Chunk chunk, OutputStream fos) {
+        try (GZIPOutputStream outStream = new GZIPOutputStream(fos)) {
             //Write metadata
             outStream.write(LATEST_FILE_VERSION);//Write the version of the file
             outStream.write(ByteUtils.longToBytes(chunk.lastModifiedTime));//Write Last modified time
@@ -204,12 +216,57 @@ public class ChunkSavingLoadingUtils {
         }
     }
 
+
     public static boolean readChunkFromFile(final Chunk chunk, final File f) {
-        boolean fileReadCorrectly = false;
-        boolean hasDetectedIfFileWasReadCorrectly = false;
+        AtomicBoolean fileReadCorrectly = new AtomicBoolean(false);
+        AtomicBoolean hasDetectedIfFileWasReadCorrectly = new AtomicBoolean(false);
+
+        try (FileInputStream fis = new FileInputStream(f)) {
+            return readChunk(chunk, fis,
+                    fileReadCorrectly,
+                    hasDetectedIfFileWasReadCorrectly);
+
+        } catch (ChunkReadingException ex) {
+            File backupFile = backupFile(f);
+
+            //Create the log
+            LOGGER.log(Level.WARNING, "Error occurred reading chunk: " + chunk +
+                    " \nBackup File Exists: " + backupFile.exists() +
+                    (hasDetectedIfFileWasReadCorrectly.get() ? " \nFile Read Correctly: " + fileReadCorrectly : ""), ex);
+
+            if (!fileReadCorrectly.get()) {
+                //Load from backup
+                if (backupFile.exists()) {
+                    System.out.println("Loading " + chunk + " from backup");
+                    chunk.data.reset();
+                    return readChunkFromFile(chunk, backupFile);
+                }
+            }
+            return false;
+        } catch (IOException ex) {
+            File backupFile = backupFile(f);
+
+            //Create the log
+            LOGGER.log(Level.WARNING, "Error occurred reading chunk: " + chunk +
+                    " \nBackup File Exists: " + backupFile.exists() +
+                    (hasDetectedIfFileWasReadCorrectly.get() ? " \nFile Read Correctly: " + fileReadCorrectly : ""), ex);
+
+            //Load from backup
+            if (backupFile.exists()) {
+                System.out.println("Loading " + chunk + " from backup");
+                chunk.data.reset();
+                return readChunkFromFile(chunk, backupFile);
+            }
+            return false;
+        }
+    }
+
+    public static boolean readChunk(final Chunk chunk, final InputStream fis,
+                                    AtomicBoolean fileReadCorrectly,
+                                    AtomicBoolean hasDetectedIfFileWasReadCorrectly) throws IOException, ChunkReadingException {
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            try (FileInputStream fis = new FileInputStream(f); GZIPInputStream input = new GZIPInputStream(fis)) {
+            try (GZIPInputStream input = new GZIPInputStream(fis)) {
                 //Read metadata
                 int fileVersion = input.read(); //Read the file version
                 chunk.lastModifiedTime = ByteUtils.bytesToLong(input.readNBytes(Long.BYTES)); //Read the last modified time
@@ -226,8 +283,8 @@ public class ChunkSavingLoadingUtils {
                 final byte[] bytes = input.readAllBytes();
 
                 //Read all ending bytes to see if the file was read correctly
-                fileReadCorrectly = fileVersion < 2 || hasEnding(bytes);
-                hasDetectedIfFileWasReadCorrectly = true;
+                fileReadCorrectly.set(fileVersion < 2 || hasEnding(bytes));
+                hasDetectedIfFileWasReadCorrectly.set(true);
 
                 try {
                     if (bytes.length > 0) {
@@ -239,48 +296,8 @@ public class ChunkSavingLoadingUtils {
                         }
                     } else throw new IllegalStateException("File is empty past metadata!");
                 } catch (Exception ex) {
-                    File backupFile = backupFile(f);
-                    LOGGER.log(Level.WARNING, "Error reading chunk " + chunk
-                            + " \nFile Read Correctly: " + fileReadCorrectly
-                            + " \nBackup File Exists: " + backupFile.exists(), ex);
-                    if (!fileReadCorrectly) {
-                        //Load from backup
-                        if (backupFile.exists()) {
-                            System.out.println("Loading " + chunk + " from backup");
-                            chunk.data.reset();
-                            return readChunkFromFile(chunk, backupFile);
-                        }
-                    }
-                    return false;
+                    throw new ChunkReadingException(ex);
                 }
-            } catch (FileNotFoundException ex) {
-                LOGGER.log(Level.INFO, "No Chunk file found! " + chunk, ex);
-
-                //Load from backup
-                File backupFile = backupFile(f);
-                if (backupFile.exists()) {
-                    System.out.println("Loading " + chunk + " from backup");
-                    chunk.data.reset();
-                    return readChunkFromFile(chunk, backupFile);
-                }
-
-                return false;
-            } catch (IOException ex) {
-                File backupFile = backupFile(f);
-                String errorMessage = "IO error occurred reading chunk: " + chunk +
-                        " \nBackup File Exists: " + backupFile.exists();
-                if (hasDetectedIfFileWasReadCorrectly) {
-                    errorMessage += " \nFile Read Correctly: " + fileReadCorrectly;
-                }
-                LOGGER.log(Level.WARNING, errorMessage, ex);
-
-                //Load from backup
-                if (backupFile.exists()) {
-                    System.out.println("Loading " + chunk + " from backup");
-                    chunk.data.reset();
-                    return readChunkFromFile(chunk, backupFile);
-                }
-                return false;
             }
         }
         return true;

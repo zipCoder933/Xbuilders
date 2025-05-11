@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 
+import javax.imageio.stream.IIOByteBuffer;
 import java.util.List;
 
 public abstract class Packet {
@@ -16,8 +17,17 @@ public abstract class Packet {
     }
 
     public abstract void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out);
-    public abstract void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out);
+
+    /**
+     *
+     * @param ctx         the channel
+     * @param in          the packet buffer
+     * @param packetsRead the packets that have been read from the buffer
+     */
+    public abstract void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> packetsRead);
+
     public abstract void handleClientSide(ChannelBase ctx, Packet packet);
+
     public abstract void handleServerSide(ChannelBase ctx, Packet packet);
 
 

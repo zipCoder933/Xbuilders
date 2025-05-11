@@ -1,92 +1,71 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-</log>
+May 11, 2025 2:13:11 PM com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils readChunkFromFile
+WARNING: Error reading chunk Chunk{0,3,-2} 
+File Read Correctly: true 
+Backup File Exists: false
+com.esotericsoftware.kryo.io.KryoBufferUnderflowException: Buffer underflow.
+	at com.esotericsoftware.kryo.io.Input.require(Input.java:221)
+	at com.esotericsoftware.kryo.io.Input.readShort(Input.java:777)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkFile_V2.readChunk(ChunkFile_V2.java:32)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils.readChunkFromFile(ChunkSavingLoadingUtils.java:238)
+	at com.xbuilders.engine.common.world.chunk.Chunk.loadChunk(Chunk.java:149)
+	at com.xbuilders.engine.common.world.chunk.Chunk.lambda$load$0(Chunk.java:135)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor$1.call(PriorityThreadPoolExecutor.java:151)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityFuture.run(PriorityFuture.java:43)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+May 11, 2025 2:13:11 PM com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils readChunkFromFile
+WARNING: Error reading chunk Chunk{-1,3,-2} 
+File Read Correctly: true 
+Backup File Exists: false
+com.esotericsoftware.kryo.io.KryoBufferUnderflowException: Buffer underflow.
+	at com.esotericsoftware.kryo.io.Input.require(Input.java:221)
+	at com.esotericsoftware.kryo.io.Input.readShort(Input.java:777)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkFile_V2.readChunk(ChunkFile_V2.java:32)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils.readChunkFromFile(ChunkSavingLoadingUtils.java:238)
+	at com.xbuilders.engine.common.world.chunk.Chunk.loadChunk(Chunk.java:149)
+	at com.xbuilders.engine.common.world.chunk.Chunk.lambda$load$0(Chunk.java:135)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor$1.call(PriorityThreadPoolExecutor.java:151)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityFuture.run(PriorityFuture.java:43)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+May 11, 2025 2:13:11 PM com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils readChunkFromFile
+WARNING: Error reading chunk Chunk{0,2,-3} 
+File Read Correctly: true 
+Backup File Exists: false
+java.lang.NegativeArraySizeException: -4096
+	at com.xbuilders.engine.common.utils.bytes.SimpleKyro.readByteArrayShort(SimpleKyro.java:19)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkFile_V2.readChunk(ChunkFile_V2.java:38)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils.readChunkFromFile(ChunkSavingLoadingUtils.java:238)
+	at com.xbuilders.engine.common.world.chunk.Chunk.loadChunk(Chunk.java:149)
+	at com.xbuilders.engine.common.world.chunk.Chunk.lambda$load$0(Chunk.java:135)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor$1.call(PriorityThreadPoolExecutor.java:151)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityFuture.run(PriorityFuture.java:43)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+May 11, 2025 2:13:11 PM com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils readChunkFromFile
+WARNING: Error reading chunk Chunk{0,6,-3} 
+File Read Correctly: true 
+Backup File Exists: false
+com.esotericsoftware.kryo.io.KryoBufferUnderflowException: Buffer underflow.
+	at com.esotericsoftware.kryo.io.Input.require(Input.java:221)
+	at com.esotericsoftware.kryo.io.Input.readShort(Input.java:777)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkFile_V2.readChunk(ChunkFile_V2.java:32)
+	at com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils.readChunkFromFile(ChunkSavingLoadingUtils.java:238)
+	at com.xbuilders.engine.common.world.chunk.Chunk.loadChunk(Chunk.java:149)
+	at com.xbuilders.engine.common.world.chunk.Chunk.lambda$load$0(Chunk.java:135)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor$1.call(PriorityThreadPoolExecutor.java:151)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityFuture.run(PriorityFuture.java:43)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+

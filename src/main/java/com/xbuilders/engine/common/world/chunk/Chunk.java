@@ -216,7 +216,7 @@ public class Chunk {
     }
 
     /*
-     * CHUNK GENERATION
+     * CHUNK_DATA GENERATION
      * - We first generate the terrain
      * - Mesh generation is the last step
      */

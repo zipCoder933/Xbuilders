@@ -10,3 +10,5 @@ error logs
 *.java~
 *.java~
 *.xml~
+*.log
+*.lck

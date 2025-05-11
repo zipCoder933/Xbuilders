@@ -60,7 +60,6 @@ public class World {
 
 
     /*
-     * CHUNK GENERATION PERFORMANCE
      *
      * Valkyre:
      * Chunk Load distance: 5
@@ -142,32 +141,28 @@ public class World {
     }
 
     //Model properties
-    public final Map<Vector3i, Chunk> chunks; //Important if we want to use this in multiple threads
+    public final Map<Vector3i, Chunk> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
     public final WorldEntityMap allEntities = new WorldEntityMap(); // <chunkPos, entity>
     public WorldData data;
     public Terrain terrain;
-
-    //Client properties
     private final AtomicBoolean needsSorting = new AtomicBoolean(true);
     private final Vector3f lastPlayerPosition = new Vector3f();
     private SortByDistanceToPlayer sortByDistance;
-    private final List<Chunk> unusedChunks = new ArrayList<>();
+    private final List<Chunk> unusedChunks;
     private final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     private int blockTextureID;
 
     public World() {
-        chunks = new ConcurrentHashMap<>();
+        unusedChunks = new ArrayList<>();
     }
 
     /**
-     * For a local server, where we want to share chunks in memory to save space and improve performance
-     * The local server has a different world but shares chunks with the client
-     * @param chunks
+     * For a local server, we just want to share unused chunks for memory manegment
      */
-    public World(Map<Vector3i, Chunk> chunks, WorldData data) {
-        this.chunks = chunks;
-        this.data = new WorldData(data); //Everything except for the chunks is its own instance
+    public World(World otherWorld) {
+        this.unusedChunks = otherWorld.unusedChunks;
+        this.data = new WorldData(otherWorld.data); //Everything except for the chunks is its own instance
     }
 
 
@@ -250,6 +245,10 @@ public class World {
         return this.chunks.get(coords);
     }
 
+    public Chunk makeNew(){
+        return new Chunk(blockTextureID, data, terrain);
+    }
+
     public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
         Chunk chunk = null;
         if (!unusedChunks.isEmpty()) {
@@ -279,7 +278,7 @@ public class World {
     }
     // </editor-fold>
 
-    public boolean init(ProgressData prog, Vector3f playerPosition) {
+    public boolean init(ProgressData prog, Vector3f spawnPosition) {
         System.out.println("\n\nStarting new game: " + data.getName());
         prog.setTask("Starting new game");
         this.chunks.clear();
@@ -295,7 +294,7 @@ public class World {
         } else System.out.println("Terrain: " + this.terrain);
 
         prog.setTask("Generating chunks");
-        prog.bar.setMax(fillChunksAroundPlayer(playerPosition, true));
+        prog.bar.setMax(fillChunksAroundPlayer(spawnPosition, true));
         return true;
     }
 
