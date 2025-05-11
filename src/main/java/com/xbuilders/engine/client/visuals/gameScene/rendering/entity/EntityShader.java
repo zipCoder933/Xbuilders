@@ -35,7 +35,7 @@ public class EntityShader extends Shader {
     public EntityShader() {
         loadShader();
         uniform_projViewMatrix = getUniformLocation("projViewMatrix");
-        uniform_modelMatrix = getUniformLocation("client_modelMatrix");
+        uniform_modelMatrix = getUniformLocation("modelMatrix");
         uniform_sun = getUniformLocation("sun");
         uniform_torch = getUniformLocation("torch");
         uniform_tint = getUniformLocation("tint");
