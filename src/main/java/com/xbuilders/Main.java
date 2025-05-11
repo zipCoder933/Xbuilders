@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * The client contains everything ONLY on the client
@@ -34,6 +35,7 @@ public class Main {
     static {
         try {
             FileHandler fileHandler = new FileHandler("latest.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(fileHandler);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error setting up file handler", e);

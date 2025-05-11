@@ -64,7 +64,7 @@ public class InfoText extends UI_GameMenu {
         client.endpoint.getChannel().writeAndFlush(new MessagePacket(commandStr));
     }
 
-    public void newGameEvent(){
+    public void newGameEvent() {
         commandHistory.clear();
     }
 
@@ -85,11 +85,17 @@ public class InfoText extends UI_GameMenu {
 
                 Nuklear.nk_layout_row_dynamic(ctx, commandRect.h() - 40 - 20, 1);
                 ctx.style().window().fixed_background().data().color().set(Theme.color_transparent);
-                nk_group_begin(ctx, commandPanelScroll, 0);
-                Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
-                drawChatHistory(ctx, true, 0);
-                Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
-                nk_group_end(ctx);
+
+                if (nk_group_begin(ctx, commandPanelScroll, 0)) { //Group begin
+                    try {
+                        Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
+                        drawChatHistory(ctx, true, 0);
+                        Nuklear.nk_layout_row_static(ctx, 30, window.getWidth(), 1);
+                    } finally {
+                        nk_group_end(ctx);
+                    }
+                } //Group end
+
             }
             nk_end(ctx);
         } else {
