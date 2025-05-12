@@ -86,7 +86,7 @@ public class ChunkDataPacket extends Packet {
         AtomicBoolean hasDetectedIfFileWasReadCorrectly = new AtomicBoolean(false);
 
         //Create or get the chunk first
-        Chunk chunk = Main.getClient().world.makeOrGetChunk(packetInstance.chunkPosition, false);
+        Chunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition, false);
 
         //Load the data into the chunks on the client
         try {

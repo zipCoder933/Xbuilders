@@ -12,6 +12,7 @@ import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import org.joml.Matrix4f;
@@ -34,7 +35,7 @@ import static com.xbuilders.engine.common.world.wcc.WCCi.chunkDiv;
  * The world is the main class that manages the chunks and allEntities in the game.
  * It is the model for the game world and everything in it.
  */
-public class ClientWorld extends World {
+public class ClientWorld extends World<ClientChunk> {
 
     public ChunkShader chunkShader;
     private final AtomicBoolean needsSorting = new AtomicBoolean(true);
@@ -42,6 +43,12 @@ public class ClientWorld extends World {
     private SortByDistanceToPlayer sortByDistance;
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
     public int blockTextureID;
+
+
+    @Override
+    protected ClientChunk createChunk() {
+        return new ClientChunk(data, terrain);
+    }
 
 
     public ClientWorld() {
@@ -55,7 +62,8 @@ public class ClientWorld extends World {
     }
 
 
-    public void init(LocalPlayer player, BlockArrayTexture textures) throws IOException {
+
+    public void init(BlockArrayTexture textures) throws IOException {
         blockTextureID = textures.getTexture().id;
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
@@ -70,7 +78,7 @@ public class ClientWorld extends World {
         if (!unusedChunks.isEmpty()) {
             chunk = unusedChunks.remove(unusedChunks.size() - 1);
         } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = new Chunk(data, terrain);
+            chunk = createChunk();
         }
         if (chunk != null) {
             float distToPlayer = MathUtils.dist(

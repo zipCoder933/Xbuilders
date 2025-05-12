@@ -55,7 +55,7 @@ import org.joml.*;
  * - When valkyre loads chunks at 288 voxels away, things start getting choppy
  * just like my game does.
  */
-public abstract class World {
+public abstract class World<T extends Chunk> {
     public static final int CHUNK_LOAD_THREADS = 12; //Redicing the number of threads helps performance
     public static final int CHUNK_LIGHT_THREADS = 1;
     public static final int CHUNK_MESH_THREADS = 1;
@@ -193,32 +193,18 @@ public abstract class World {
         return this.chunks.get(coords);
     }
 
-    public Chunk makeOrGetChunk(final Vector3i coords, boolean topChunk) {
-
-        //Get the chunk
-        if(hasChunk(coords)) return getChunk(coords);
-
-        //Make the chunk
-        Chunk chunk = null;
-        if (!unusedChunks.isEmpty()) {
-            chunk = unusedChunks.remove(unusedChunks.size() - 1);
-        } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = new Chunk(data, terrain);
-        }
-        if (chunk != null) {
-            //We need to init chunks since we are recycling them
-            chunk.reset(coords, topChunk);
-            this.chunks.put(coords, chunk);
-        }
-        return chunk;
-    }
+    protected abstract T createChunk();
 
     public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
-        Chunk chunk = null;
+        //Get the chunk if it exists
+        Chunk chunk = getChunk(coords);
+        if (chunk == null) return chunk;
+
+        //make the chunk
         if (!unusedChunks.isEmpty()) {
             chunk = unusedChunks.remove(unusedChunks.size() - 1);
         } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = new Chunk(data, terrain);
+            chunk = createChunk();
         }
         if (chunk != null) {
             float distToPlayer = MathUtils.dist(
@@ -385,7 +371,7 @@ public abstract class World {
     public Entity placeEntity(EntitySupplier entity, Vector3i w, byte[] data) {
         WCCi wcc = new WCCi();
         wcc.set(w);
-        Chunk chunk = Client.world.chunks.get(wcc.chunk);
+        Chunk chunk = chunks.get(wcc.chunk);
         if (chunk != null) {
             Entity e = chunk.entities.placeNew(w, entity, data);
             e.sendMultiplayer = false;

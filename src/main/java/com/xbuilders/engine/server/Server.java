@@ -487,7 +487,7 @@ public class Server {
 
         WCCf wcc = new WCCf();
         wcc.set(w);
-        Chunk chunk = world.chunks.get(wcc.chunk);
+        Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
             chunk.markAsModified();
             Entity e = chunk.entities.placeNew(w, entity, entityBytes);

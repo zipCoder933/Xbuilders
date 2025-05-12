@@ -179,7 +179,7 @@ public class BlockEventPipeline {
         eventsCopy.forEach((worldPos, blockHist) -> {
             if (!world.inYBounds(worldPos.y)) return;
             wcc.set(worldPos);
-            Chunk chunk = world.chunks.get(wcc.chunk);
+            Chunk chunk = world.getChunk(wcc.chunk);
             if (chunk == null) return;
 
             BlockType type = Registrys.blocks.getBlockType(blockHist.newBlock.type);

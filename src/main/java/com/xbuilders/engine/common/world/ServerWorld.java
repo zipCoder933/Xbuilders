@@ -1,5 +1,7 @@
 package com.xbuilders.engine.common.world;
 
+import com.xbuilders.engine.common.world.chunk.Chunk;
+
 public class ServerWorld extends World {
 
     /**
@@ -10,4 +12,8 @@ public class ServerWorld extends World {
         this.data = new WorldData(otherWorld.data); //Everything except for the chunks is its own instance
     }
 
+    @Override
+    protected Chunk createChunk() {
+        return new Chunk(data, terrain);
+    }
 }
