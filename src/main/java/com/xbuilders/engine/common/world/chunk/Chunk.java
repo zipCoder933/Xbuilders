@@ -95,7 +95,9 @@ public class Chunk {
     public final Matrix4f client_modelMatrix;
 
     /**
-     * A chunk is a reusable class
+     * The chunk is a reusable class but we have different types of chunk so we have to reuse the most important data
+     * and throw away everything else
+     *
      * @param info
      * @param terrain
      */

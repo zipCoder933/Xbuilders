@@ -121,7 +121,9 @@ public abstract class World<T extends Chunk> {
     public WorldData data;
     public Terrain terrain;
     private final Vector3f lastPlayerPosition = new Vector3f();
-    protected List<Chunk> unusedChunks = new ArrayList<>();
+
+    public static final List<Chunk> unusedChunks = new ArrayList<>();
+
     protected final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
 
 
