@@ -84,10 +84,12 @@ public class Chunk {
     public float client_distToPlayer;
     public final AABB aabb;
     public final NeighborInformation neghbors;
-    public boolean isTopChunk;
+    public final boolean isTopChunk;
+    private final Terrain terrain;
+    private final WorldData info;
+
     public PillarInformation pillarInformation;
-    final Terrain terrain;
-    final WorldData info;
+
     FutureChunk futureChunk;
 
     //Client sided only
@@ -101,44 +103,73 @@ public class Chunk {
      * @param info
      * @param terrain
      */
-    public Chunk(WorldData info, Terrain terrain) {
-        this.position = new Vector3i();
-        mvp = new MVP();
-        data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
-        client_modelMatrix = new Matrix4f();
-        aabb = new AABB();
-        neghbors = new NeighborInformation();
-        entities = new ChunkEntitySet(this);
+    public Chunk(Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer,
+                 WorldData info, Terrain terrain) {
+        this.position = new Vector3i(position);
+        this.mvp = new MVP();
+        this.isTopChunk = isTopChunk;
+        this.data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
+        this.client_modelMatrix = new Matrix4f();
+        this.aabb = new AABB();
         this.info = info;
         this.terrain = terrain;
-        meshes = new ChunkMeshBundle(Main.getClient().world.blockTextureID, this, terrain);
+        this.neghbors = new NeighborInformation();
+        this.entities = new ChunkEntitySet(this);
+        this.meshes = new ChunkMeshBundle(Main.getClient().world.blockTextureID, this, terrain);
+
+        initVariables(futureChunk, distToPlayer);
     }
 
-    public void reset(Vector3i position, boolean isTopChunk) {
+    /**
+     * This method is how we reuse chunks
+     * We take the data from the other chunk and use that in our new chunk
+     *
+     * @param other
+     */
+    public Chunk(Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer,
+                 Chunk other) {
+        //New variables
+        this.position = new Vector3i(position);
+        this.mvp = new MVP();
         this.isTopChunk = isTopChunk;
-        entities.clear();
-        data.reset();
-        generationStatus = 0;//The only time we can reset the generation status
-        loadFuture = null;
-        mesherFuture = null;
-        pillarInformation = null;
-        this.position.set(position);
-        client_modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
-        aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
+        this.client_modelMatrix = new Matrix4f();
+        this.aabb = new AABB();
+        this.loadFuture = null;
+        this.mesherFuture = null;
+        this.pillarInformation = null;
+        this.generationStatus = 0;
+
+        //Recyclied variables
+        this.data = other.data;
+        this.data.reset();
+
+        this.neghbors = other.neghbors;
+
+
+        this.entities = other.entities;
+        this.entities.clear();
+
+        this.info = other.info;
+        this.terrain = other.terrain;
+        this.meshes = other.meshes;
+
+        initVariables(futureChunk, distToPlayer);
     }
 
-    public void init_common(FutureChunk futureChunk, float distToPlayer) {
+    //A unified place for all variables to be initialized
+    private void initVariables(FutureChunk futureChunk, float distToPlayer) {
+        this.aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
+        this.client_modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
         neghbors.init(position);
-        this.client_distToPlayer = distToPlayer;   // Load the chunk
-        this.futureChunk = futureChunk;
         meshes.init(aabb);
 
-        Client.frameTester.startProcess();
-        load();
-        Client.frameTester.endProcess("Load chunk");
+        this.client_distToPlayer = distToPlayer;   // Load the chunk
+        this.futureChunk = futureChunk;
     }
 
+
     public void load() {
+        Client.frameTester.startProcess();
         loadFuture = generationService.submit(client_distToPlayer, () -> {
             try {
                 loadChunk(futureChunk);
@@ -147,6 +178,7 @@ public class Chunk {
                 newGameTasks.incrementAndGet();
             }
         });
+        Client.frameTester.endProcess("Load chunk");
     }
 
     public void loadChunk(FutureChunk futureChunk) {

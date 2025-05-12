@@ -85,3 +85,17 @@ java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.client.visua
 	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:116)
 	at com.xbuilders.Main.main(Main.java:69)
 
+May 12, 2025 9:38:58 AM com.xbuilders.engine.client.Client lambda$onConnected$0
+INFO: error
+java.lang.NullPointerException: Cannot assign field "pillarInformation" because "chunk" is null
+	at com.xbuilders.engine.common.world.World.addChunkPillar(World.java:321)
+	at com.xbuilders.engine.common.world.ClientWorld.fillChunksAroundPlayer(ClientWorld.java:153)
+	at com.xbuilders.engine.common.world.ClientWorld.init(ClientWorld.java:116)
+	at com.xbuilders.engine.client.Client.joinGameUpdate(Client.java:256)
+	at com.xbuilders.engine.client.Client.lambda$onConnected$0(Client.java:138)
+	at com.xbuilders.engine.client.visuals.topMenu.ProgressMenu.layout(ProgressMenu.java:88)
+	at com.xbuilders.engine.client.visuals.topMenu.TopMenu.render(TopMenu.java:155)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:186)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:116)
+	at com.xbuilders.Main.main(Main.java:69)
+

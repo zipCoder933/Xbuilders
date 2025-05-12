@@ -1,6 +1,9 @@
 package com.xbuilders.engine.common.world;
 
 import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.ClientChunk;
+import com.xbuilders.engine.common.world.chunk.FutureChunk;
+import org.joml.Vector3i;
 
 public class ServerWorld extends World {
 
@@ -12,7 +15,8 @@ public class ServerWorld extends World {
     }
 
     @Override
-    protected Chunk createChunk() {
-        return new Chunk(data, terrain);
+    protected Chunk createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer) {
+        if (recycleChunk != null) return new Chunk(coords, isTopLevel, futureChunk, distToPlayer, recycleChunk);
+        else return new Chunk(coords, isTopLevel, futureChunk, distToPlayer, data, terrain);
     }
 }

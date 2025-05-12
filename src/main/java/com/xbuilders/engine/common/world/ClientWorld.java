@@ -8,11 +8,11 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ClientChunk;
+import com.xbuilders.engine.common.world.chunk.FutureChunk;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import org.joml.Matrix4f;
@@ -46,8 +46,9 @@ public class ClientWorld extends World<ClientChunk> {
 
 
     @Override
-    protected ClientChunk createChunk() {
-        return new ClientChunk(data, terrain);
+    protected ClientChunk createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer) {
+        if (recycleChunk != null) return new ClientChunk(coords, isTopLevel, futureChunk, distToPlayer, recycleChunk);
+        else return new ClientChunk(coords, isTopLevel, futureChunk, distToPlayer, data, terrain);
     }
 
 
@@ -62,7 +63,6 @@ public class ClientWorld extends World<ClientChunk> {
     }
 
 
-
     public void init(BlockArrayTexture textures) throws IOException {
         blockTextureID = textures.getTexture().id;
         // Prepare for game
@@ -74,20 +74,23 @@ public class ClientWorld extends World<ClientChunk> {
     }
 
     public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
-        Chunk chunk = null;
-        if (!unusedChunks.isEmpty()) {
-            chunk = unusedChunks.remove(unusedChunks.size() - 1);
-        } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = createChunk();
-        }
-        if (chunk != null) {
-            float distToPlayer = MathUtils.dist(
-                    coords.x, coords.y, coords.z,
-                    lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
-            //We need to init chunks since we are recycling them
-            chunk.reset(coords, isTopLevel);
-            chunk.init_common(futureChunks.remove(coords), distToPlayer);
+        //Return an existing chunk if it exists
+        Chunk chunk = getChunk(coords);
+        if (chunk != null) return chunk;
 
+        //make the chunk
+        float distToPlayer = MathUtils.dist(coords.x, coords.y, coords.z,
+                lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
+
+        if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
+            Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
+            chunk = createChunk(recycleChunk, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+        } else if (chunks.size() < maxChunksForViewDistance) { //Create a new chunk from scratch
+            chunk = createChunk(null, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+        }
+
+        if (chunk != null) {
+            chunk.load();
             this.chunks.put(coords, chunk);
             this.sortedChunksToRender.remove(chunk);
             needsSorting.set(true);

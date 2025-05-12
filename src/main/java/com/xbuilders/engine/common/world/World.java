@@ -195,27 +195,27 @@ public abstract class World<T extends Chunk> {
         return this.chunks.get(coords);
     }
 
-    protected abstract T createChunk();
+    protected abstract T createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer);
 
     public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
-        //Get the chunk if it exists
+        //Return an existing chunk if it exists
         Chunk chunk = getChunk(coords);
-        if (chunk == null) return chunk;
+        if (chunk != null) return chunk;
 
         //make the chunk
-        if (!unusedChunks.isEmpty()) {
-            chunk = unusedChunks.remove(unusedChunks.size() - 1);
-        } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = createChunk();
-        }
-        if (chunk != null) {
-            float distToPlayer = MathUtils.dist(
-                    coords.x, coords.y, coords.z,
-                    lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
-            //We need to init chunks since we are recycling them
-            chunk.init_common(futureChunks.remove(coords), distToPlayer);
-            this.chunks.put(coords, chunk);
+        float distToPlayer = MathUtils.dist(coords.x, coords.y, coords.z,
+                lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
 
+        if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
+            Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
+            chunk = createChunk(recycleChunk, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+        } else if (chunks.size() < maxChunksForViewDistance) { //Create a new chunk from scratch
+            chunk = createChunk(null, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+        }
+
+        if (chunk != null) {
+            chunk.load();
+            this.chunks.put(coords, chunk);
         }
         return chunk;
     }
