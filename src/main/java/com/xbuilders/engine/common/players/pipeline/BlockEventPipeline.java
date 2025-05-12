@@ -296,7 +296,7 @@ public class BlockEventPipeline {
         for (Chunk chunk : affectedChunks) {
             //If a block was set next to something else, we have to acount for that in the mesh update
             //TODO: This mesh updating could be optimized by only updating the affected chunks
-            chunk.updateMesh(true, 0, 0, 0);
+           // chunk.updateMesh(true, 0, 0, 0);
         }
     }
 

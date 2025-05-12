@@ -7,7 +7,10 @@ import org.joml.Vector3i;
 
 public class NeighborInformation {
 
-    public NeighborInformation() {
+    World world;
+    
+    public NeighborInformation(World world) {
+        this.world = world;
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
             neighborChunkPositions[i] = new Vector3i();
         }
@@ -118,7 +121,7 @@ public class NeighborInformation {
                 if (thisChunkCoordinates.y == World.TOP_Y_CHUNK && NEIGHBOR_VECTORS[i].y == -1) continue;
                 else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK && NEIGHBOR_VECTORS[i].y == 1) continue;
 
-                Chunk chunk = Client.world.getChunk(neighborChunkPositions[i]);
+                Chunk chunk = world.getChunk(neighborChunkPositions[i]);
                 if (chunk == null) {
                     allChunksCreated2 = false;
                     allNeghborsLoaded2 = false;

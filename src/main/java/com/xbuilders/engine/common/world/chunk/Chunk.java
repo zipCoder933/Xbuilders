@@ -2,6 +2,7 @@ package com.xbuilders.engine.common.world.chunk;
 
 import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.BlockRegistry;
@@ -85,37 +86,27 @@ public class Chunk {
     public final AABB aabb;
     public final NeighborInformation neghbors;
     public final boolean isTopChunk;
-    private final Terrain terrain;
-    private final WorldData info;
+    public final World world;
 
     public PillarInformation pillarInformation;
 
     FutureChunk futureChunk;
 
-    //Client sided only
-    public final ChunkMeshBundle meshes;
-    public final Matrix4f client_modelMatrix;
-
     /**
      * The chunk is a reusable class but we have different types of chunk so we have to reuse the most important data
      * and throw away everything else
-     *
-     * @param info
-     * @param terrain
      */
-    public Chunk(Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer,
-                 WorldData info, Terrain terrain) {
+    public Chunk(Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer, World world) {
         this.position = new Vector3i(position);
         this.mvp = new MVP();
         this.isTopChunk = isTopChunk;
         this.data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
-        this.client_modelMatrix = new Matrix4f();
+
         this.aabb = new AABB();
-        this.info = info;
-        this.terrain = terrain;
-        this.neghbors = new NeighborInformation();
+        this.world = world;
+        this.neghbors = new NeighborInformation(world);
         this.entities = new ChunkEntitySet(this);
-        this.meshes = new ChunkMeshBundle(Main.getClient().world.blockTextureID, this, terrain);
+
 
         initVariables(futureChunk, distToPlayer);
     }
@@ -123,19 +114,16 @@ public class Chunk {
     /**
      * This method is how we reuse chunks
      * We take the data from the other chunk and use that in our new chunk
-     *
-     * @param other
      */
-    public Chunk(Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer,
-                 Chunk other) {
+    public Chunk(Chunk other, Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer) {
         //New variables
         this.position = new Vector3i(position);
         this.mvp = new MVP();
         this.isTopChunk = isTopChunk;
-        this.client_modelMatrix = new Matrix4f();
+
         this.aabb = new AABB();
         this.loadFuture = null;
-        this.mesherFuture = null;
+        this.world = other.world;
         this.pillarInformation = null;
         this.generationStatus = 0;
 
@@ -145,9 +133,6 @@ public class Chunk {
         this.neghbors = other.neghbors;
         this.entities = other.entities;
         this.entities.clear();
-        this.info = other.info;
-        this.terrain = other.terrain;
-        this.meshes = other.meshes;
 
         initVariables(futureChunk, distToPlayer);
     }
@@ -155,9 +140,9 @@ public class Chunk {
     //A unified place for all variables to be initialized
     private void initVariables(FutureChunk futureChunk, float distToPlayer) {
         this.aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
-        this.client_modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
+
         neghbors.init(position);
-        meshes.init(aabb);
+
 
         this.client_distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
@@ -178,14 +163,14 @@ public class Chunk {
     }
 
     public void loadChunk(FutureChunk futureChunk) {
-        File f = info.getChunkFile(position);
+        File f = world.data.getChunkFile(position);
         try {
             boolean needsSunGeneration = true;
             if (f.exists()) {
                 ChunkSavingLoadingUtils.readChunkFromFile(this, f);
                 needsSunGeneration = false;
-            } else if (terrain.isBelowMinHeight(this.position, 0)) {
-                GenSession createTerrainOnChunk = terrain.createTerrainOnChunk(this);
+            } else if (world.terrain.isBelowMinHeight(this.position, 0)) {
+                GenSession createTerrainOnChunk = world.terrain.createTerrainOnChunk(this);
             }
             if (futureChunk != null) {
                 futureChunk.setBlocksInChunk(this);
@@ -210,54 +195,13 @@ public class Chunk {
         }
     }
 
-    public void updateMVP(Matrix4f projection, Matrix4f view) {
-        mvp.update(projection, view, client_modelMatrix);
-    }
 
-    public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
-        //TODO: There is a bug where the chunk is not updating the mesh
-//        if (updateAllNeighbors) ClientWindow.printlnDev("Reg mesh (all neighbors)");
-//        else ClientWindow.printlnDev("Reg mesh (" + x + ", " + y + ", " + z + ")");
-
-
-        if (!neghbors.allFacingNeghborsLoaded) {
-            neghbors.cacheNeighbors();
-        }
-        generateMesh(true);
-        if (neghbors.allFacingNeghborsLoaded) {
-            if (x == 0 || updateAllNeighbors) {
-                if (neghbors.neighbors[neghbors.NEG_X_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.NEG_X_NEIGHBOR].generateMesh(true);
-            } else if (x == Chunk.WIDTH - 1 || updateAllNeighbors) {
-                if (neghbors.neighbors[neghbors.POS_X_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.POS_X_NEIGHBOR].generateMesh(true);
-            }
-
-            if (y == 0 || updateAllNeighbors) {
-                if (neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR].generateMesh(true);
-            } else if (y == Chunk.WIDTH - 1 || updateAllNeighbors) {
-                if (neghbors.neighbors[neghbors.POS_Y_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.POS_Y_NEIGHBOR].generateMesh(true);
-            }
-
-            if (z == 0 || updateAllNeighbors) {
-                if (neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR].generateMesh(true);
-            } else if (z == Chunk.WIDTH - 1 || updateAllNeighbors) {
-                if (neghbors.neighbors[neghbors.POS_Z_NEIGHBOR] != null)
-                    neghbors.neighbors[neghbors.POS_Z_NEIGHBOR].generateMesh(true);
-            }
-        }
-    }
 
     /*
      * CHUNK_DATA GENERATION
      * - We first generate the terrain
      * - Mesh generation is the last step
      */
-    private Future<ChunkMeshBundle> mesherFuture;
-    // public Future<Boolean> lightFuture;
     public Future<Boolean> loadFuture;
 
     private int generationStatus = 0;
@@ -295,85 +239,8 @@ public class Chunk {
     // }
 
 
-    public void prepare(Terrain terrain, long frame, boolean isSettingUpWorld) {
-        if (loadFuture != null && loadFuture.isDone()) {
 
-            if (isTopChunk && pillarInformation != null && !pillarInformation.pillarLightLoaded && pillarInformation.isPillarLoaded()) {
-                pillarInformation.initLighting(null, terrain, client_distToPlayer);
-                pillarInformation.pillarLightLoaded = true;
-            }
 
-            if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {
-                if (neghbors.allNeghborsLoaded) {
-                    loadFuture = null;
-                    Client.frameTester.startProcess();
-                    mesherFuture = meshService.submit(() -> {
-
-                        if (Client.world.data == null) return null; // Quick fix. TODO: remove this line
-
-                        meshes.compute();
-                        setGenerationStatus(GEN_COMPLETE);
-                        return meshes;
-                    });
-                    Client.frameTester.endProcess("red Compute meshes");
-                } else {
-                    /**
-                     * The cacheNeighbors is still a bottleneck. I have kind of fixed it
-                     * by only calling it every 10th frame
-                     */
-                    Client.frameTester.startProcess();
-                    if (frame % 20 == 0 || isSettingUpWorld) {
-                        neghbors.cacheNeighbors();
-                    }
-                    Client.frameTester.endProcess("red Cache Neghbors");
-                }
-            }
-        }
-
-        // send mesh to GPU
-        if (inFrustum || isSettingUpWorld) {
-            Client.frameTester.startProcess();
-            entities.chunkUpdatedMesh = true;
-            sendMeshToGPU();
-            Client.frameTester.endProcess("Send mesh to GPU");
-        }
-    }
-
-    /**
-     * Queues a task to mesh the chunk
-     */
-    public void generateMesh(boolean isPlayerUpdate) {
-        setGenerationStatus(GEN_COMPLETE);
-        if (mesherFuture != null) {
-            mesherFuture.cancel(true);
-            mesherFuture = null;
-        }
-
-        if (isPlayerUpdate) mesherFuture = playerUpdating_meshService.submit(() -> {
-            meshes.compute();
-            return meshes;
-        });
-        else mesherFuture = meshService.submit(() -> {
-            meshes.compute();
-            return meshes;
-        });
-    }
-
-    /**
-     * sends the mesh to the GPU after meshing
-     */
-    public void sendMeshToGPU() {
-        // Send mesh to GPU if mesh thread is finished
-        if (mesherFuture != null && mesherFuture.isDone() && gen_Complete()) {
-            try {
-                mesherFuture.get().sendToGPU();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                mesherFuture = null;
-            }
-        }
-    }
 
     Object saveLock = new Object();
 

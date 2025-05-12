@@ -51,34 +51,34 @@ public class LogicThread {
 
 
     public void tickEvent() {
-        ticks++;
-        server.livePropagationHandler.update();
-        //Update chunk every N ticks
-        if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
-            int chunksMeshUpdated = 0;
-            //HashSet<Chunk> chunks = new HashSet<>();
-            Iterator<Chunk> iterator = Client.world.chunks.values().iterator();
-
-            while (iterator.hasNext()) {
-                Chunk chunk = iterator.next();
-                int simDistance = ClientWindow.settings.internal_simulationDistance.value;
-
-                int spawnDistance = (int) Math.min(Chunk.WIDTH * 2, ClientWindow.settings.internal_simulationDistance.value * 0.6f);
-                spawnDistance = Math.min(ClientWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which allEntities are spawned
-                //System.out.println("Chunk " + chunk.client_distToPlayer + " " + simDistance + " " + spawnDistance);
-
-                if (chunk.client_distToPlayer < simDistance) {
-                    boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
-
-                    if (Client.DEV_MODE &&
-                            Client.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
-                    boolean hasUpdatedMesh = chunk.tick(spawnEntities);
-                    chunksMeshUpdated += (hasUpdatedMesh ? 1 : 0);
-                }
-            }
-//            ClientWindow.printlnDev("Tick updated " + chunksMeshUpdated + " chunk meshes");
-            //chunks.forEach(chunk -> chunk.updateMesh(true, 0, 0, 0));
-        }
+//        ticks++;
+//        server.livePropagationHandler.update();
+//        //Update chunk every N ticks
+//        if (ticks % CHUNK_RANDOM_TICK_RATE == 0) {
+//            int chunksMeshUpdated = 0;
+//            //HashSet<Chunk> chunks = new HashSet<>();
+//            Iterator<Chunk> iterator = Client.world.chunks.values().iterator();
+//
+//            while (iterator.hasNext()) {
+//                Chunk chunk = iterator.next();
+//                int simDistance = ClientWindow.settings.internal_simulationDistance.value;
+//
+//                int spawnDistance = (int) Math.min(Chunk.WIDTH * 2, ClientWindow.settings.internal_simulationDistance.value * 0.6f);
+//                spawnDistance = Math.min(ClientWindow.settings.video_entityDistance.value, spawnDistance);//Spawn distance is the distance at which allEntities are spawned
+//                //System.out.println("Chunk " + chunk.client_distToPlayer + " " + simDistance + " " + spawnDistance);
+//
+//                if (chunk.client_distToPlayer < simDistance) {
+//                    boolean spawnEntities = chunk.client_distToPlayer < spawnDistance;//
+//
+//                    if (Client.DEV_MODE &&
+//                            Client.world.terrain.name.toLowerCase().contains("dev")) spawnEntities = false;
+//                    boolean hasUpdatedMesh = chunk.tick(spawnEntities);
+//                    chunksMeshUpdated += (hasUpdatedMesh ? 1 : 0);
+//                }
+//            }
+////            ClientWindow.printlnDev("Tick updated " + chunksMeshUpdated + " chunk meshes");
+//            //chunks.forEach(chunk -> chunk.updateMesh(true, 0, 0, 0));
+//        }
     }
 
     public void stopGameEvent() {

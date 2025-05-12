@@ -1,11 +1,11 @@
 package com.xbuilders.engine.common.world;
 
 import com.xbuilders.engine.common.world.chunk.Chunk;
-import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
+import com.xbuilders.engine.common.world.chunk.ServerChunk;
 import org.joml.Vector3i;
 
-public class ServerWorld extends World {
+public class ServerWorld extends World<ServerChunk> {
 
     /**
      * For a local server, we just want to share unused chunks for memory manegment
@@ -15,8 +15,8 @@ public class ServerWorld extends World {
     }
 
     @Override
-    protected Chunk createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer) {
-        if (recycleChunk != null) return new Chunk(coords, isTopLevel, futureChunk, distToPlayer, recycleChunk);
-        else return new Chunk(coords, isTopLevel, futureChunk, distToPlayer, data, terrain);
+    protected ServerChunk createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer) {
+        if (recycleChunk != null) return new ServerChunk(recycleChunk, coords, isTopLevel, futureChunk, distToPlayer);
+        else return new ServerChunk(coords, isTopLevel, futureChunk, distToPlayer, this);
     }
 }

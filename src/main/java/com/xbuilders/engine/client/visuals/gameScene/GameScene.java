@@ -6,6 +6,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.common.world.ClientWorld;
+import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
@@ -204,7 +205,7 @@ public class GameScene implements WindowEvents {
                                 "\tcontrolledByAnotherPlayer: " + e.multiplayerProps.controlledByAnotherPlayer;
                     }
 
-                    Chunk chunk = world.getChunk(rayWCC.chunk);
+                    ClientChunk chunk = world.getChunk(rayWCC.chunk);
                     if (chunk != null) {
                         text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                         text += "\nchunk neighbors: " + chunk.neghbors.toString();

@@ -166,11 +166,11 @@ public class Block {
             if (clickEvent_isMultithreaded) {
                 eventThread.submit(System.currentTimeMillis(), () -> {
                     clickEvent.run(worldPos.x, worldPos.y, worldPos.z);
-                    chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                 //   chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                 });
             } else {
                 clickEvent.run(worldPos.x, worldPos.y, worldPos.z);
-                chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+             //   chunk.updateMesh(false, wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             }
         }
         return !clickThrough();

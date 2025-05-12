@@ -41,14 +41,14 @@ public class ClientWorld extends World<ClientChunk> {
     private final AtomicBoolean needsSorting = new AtomicBoolean(true);
     private final Vector3f lastPlayerPosition = new Vector3f();
     private SortByDistanceToPlayer sortByDistance;
-    private final List<Chunk> sortedChunksToRender = new ArrayList<>();
+    private final List<ClientChunk> sortedChunksToRender = new ArrayList<>();
     public int blockTextureID;
 
 
     @Override
     protected ClientChunk createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer) {
-        if (recycleChunk != null) return new ClientChunk(coords, isTopLevel, futureChunk, distToPlayer, recycleChunk);
-        else return new ClientChunk(coords, isTopLevel, futureChunk, distToPlayer, data, terrain);
+        if (recycleChunk != null) return new ClientChunk(recycleChunk, coords, isTopLevel, futureChunk, distToPlayer,  blockTextureID);
+        else return new ClientChunk(coords, isTopLevel, futureChunk, distToPlayer, this, blockTextureID);
     }
 
 
@@ -73,9 +73,9 @@ public class ClientWorld extends World<ClientChunk> {
         allEntities.clear();
     }
 
-    public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
+    public ClientChunk addChunk(final Vector3i coords, boolean isTopLevel) {
         //Return an existing chunk if it exists
-        Chunk chunk = getChunk(coords);
+        ClientChunk chunk = getChunk(coords);
         if (chunk != null) return chunk;
 
         //make the chunk
@@ -160,7 +160,7 @@ public class ClientWorld extends World<ClientChunk> {
     }
 
     private final List<Chunk> chunksToUnload = new ArrayList<>();
-    private long lastSaveMS;
+
 
     private void updateChunksToRenderList(Vector3f playerPosition) {
         chunksToUnload.clear();
@@ -226,13 +226,7 @@ public class ClientWorld extends World<ClientChunk> {
             sortedChunksToRender.clear();
         }
 
-        if (System.currentTimeMillis() - lastSaveMS > 25000) {
-            lastSaveMS = System.currentTimeMillis();
-            // Save chunks
-            generationService.submit(0.0f, () -> {
-                save();
-            });
-        }
+        periodicallySave();
 
         updateChunksToRenderList(playerPosition);
         if (needsSorting.get()) {
@@ -349,6 +343,16 @@ public class ClientWorld extends World<ClientChunk> {
 
     }
 
+    private void periodicallySave() {
+        if (System.currentTimeMillis() - lastSaveMS > 25000) {
+            lastSaveMS = System.currentTimeMillis();
+            // Save chunks
+            generationService.submit(0.0f, () -> {
+                save();
+            });
+        }
+    }
+
     private void initShaderUniforms(Chunk chunk) {
         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);
         chunkShader.setChunkPosition(chunk.position);
@@ -371,7 +375,7 @@ public class ClientWorld extends World<ClientChunk> {
         int chunkY = chunkDiv(worldY);
         int chunkZ = chunkDiv(worldZ);
         Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
-        Chunk chunk = getChunk(pos);
+        ClientChunk chunk = getChunk(pos);
         if (chunk != null) {
             if (markAsModified) chunk.markAsModified();
             chunk.updateMesh(updateAllNeighbors, blockX, blockY, blockZ);
@@ -379,30 +383,5 @@ public class ClientWorld extends World<ClientChunk> {
         return chunk;
     }
 
-    public long getTimeSinceLastSave() {
-        return System.currentTimeMillis() - lastSaveMS;
-    }
-
-    public void save() {
-        Vector3f playerPos = userPlayer.worldPosition;
-        ClientWindow.printlnDev("Saving world...");
-        // Save all modified chunks
-        Iterator<Chunk> iterator = chunks.values().iterator();
-        while (iterator.hasNext()) {
-            Chunk chunk = iterator.next();
-            chunk.save(data);
-        }
-
-        //Save world info
-        try {
-            data.setSpawnPoint(playerPos);
-            data.save();
-        } catch (IOException ex) {
-            LOGGER.log(Level.INFO, "World \"" + data.getName() + "\" could not be saved", ex);
-        }
-
-        //Save player info
-        userPlayer.saveToWorld(data);
-    }
 
 }

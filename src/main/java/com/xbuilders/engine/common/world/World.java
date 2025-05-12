@@ -1,6 +1,7 @@
 package com.xbuilders.engine.common.world;
 
 import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.entity.EntitySupplier;
@@ -22,12 +23,14 @@ import static com.xbuilders.Main.game;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.block.Block;
 
+import static com.xbuilders.engine.client.Client.userPlayer;
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 
 import static com.xbuilders.engine.common.world.wcc.WCCi.chunkDiv;
 
 import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -116,7 +119,7 @@ public abstract class World<T extends Chunk> {
     }
 
     //Model properties
-    public final Map<Vector3i, Chunk> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
+    public final Map<Vector3i, T> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
     public final WorldEntityMap allEntities = new WorldEntityMap(); // <chunkPos, entity>
     public WorldData data;
     public Terrain terrain;
@@ -191,15 +194,15 @@ public abstract class World<T extends Chunk> {
         return this.chunks.containsKey(coords);
     }
 
-    public Chunk getChunk(final Vector3i coords) {
+    public T getChunk(final Vector3i coords) {
         return this.chunks.get(coords);
     }
 
     protected abstract T createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer);
 
-    public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
+    public T addChunk(final Vector3i coords, boolean isTopLevel) {
         //Return an existing chunk if it exists
-        Chunk chunk = getChunk(coords);
+        T chunk = getChunk(coords);
         if (chunk != null) return chunk;
 
         //make the chunk
@@ -234,7 +237,7 @@ public abstract class World<T extends Chunk> {
         System.out.println("\n\nStarting new game: " + data.getName());
         prog.setTask("Starting new game");
         this.chunks.clear();
-        this.unusedChunks.clear();
+        unusedChunks.clear();
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
         allEntities.clear();
@@ -448,15 +451,6 @@ public abstract class World<T extends Chunk> {
         return futureChunk;
     }
 
-    public Chunk markAsModified(int worldX, int worldY, int worldZ) {
-        int chunkX = chunkDiv(worldX);
-        int chunkY = chunkDiv(worldY);
-        int chunkZ = chunkDiv(worldZ);
-        Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
-        Chunk chunk = getChunk(pos);
-        if (chunk != null) chunk.markAsModified();
-        return chunk;
-    }
 
     public Block getBlock(int worldX, int worldY, int worldZ) {
         Block block = Registrys.getBlock(getBlockID(worldX, worldY, worldZ));
@@ -483,4 +477,45 @@ public abstract class World<T extends Chunk> {
         return chunk.data.getBlockData(blockX, blockY, blockZ);
     }
     // </editor-fold>
+
+
+    public Chunk markAsModified(int worldX, int worldY, int worldZ) {
+        int chunkX = chunkDiv(worldX);
+        int chunkY = chunkDiv(worldY);
+        int chunkZ = chunkDiv(worldZ);
+        Vector3i pos = new Vector3i(chunkX, chunkY, chunkZ);
+        Chunk chunk = getChunk(pos);
+        if (chunk != null) chunk.markAsModified();
+        return chunk;
+    }
+
+
+    public long getTimeSinceLastSave() {
+        return System.currentTimeMillis() - lastSaveMS;
+    }
+
+    protected long lastSaveMS;
+
+    public void save() {
+        Vector3f playerPos = userPlayer.worldPosition;
+        ClientWindow.printlnDev("Saving world...");
+        // Save all modified chunks
+        Iterator<T> iterator = chunks.values().iterator();
+        while (iterator.hasNext()) {
+            Chunk chunk = iterator.next();
+            chunk.save(data);
+        }
+
+        //Save world info
+        try {
+            data.setSpawnPoint(playerPos);
+            data.save();
+        } catch (IOException ex) {
+            LOGGER.log(Level.INFO, "World \"" + data.getName() + "\" could not be saved", ex);
+        }
+
+        //Save player info
+        userPlayer.saveToWorld(data);
+    }
+
 }
