@@ -41,21 +41,11 @@ public class ClientWorld extends World {
     private final Vector3f lastPlayerPosition = new Vector3f();
     private SortByDistanceToPlayer sortByDistance;
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
-    public int blockTextureID;
+    private int blockTextureID;
 
 
     public ClientWorld() {
         super();
-    }
-
-
-    public void init(BlockArrayTexture textures) throws IOException {
-        blockTextureID = textures.getTexture().id;
-        // Prepare for game
-        chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
-        setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
-        sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
-        allEntities.clear();
     }
 
 
@@ -65,6 +55,15 @@ public class ClientWorld extends World {
     }
 
 
+    public void init(LocalPlayer player, BlockArrayTexture textures) throws IOException {
+        blockTextureID = textures.getTexture().id;
+        // Prepare for game
+        chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
+
+        setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
+        sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
+        allEntities.clear();
+    }
 
     public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
         Chunk chunk = null;
@@ -79,9 +78,8 @@ public class ClientWorld extends World {
                     lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
             //We need to init chunks since we are recycling them
             chunk.reset(coords, isTopLevel);
-            chunk.init_client(blockTextureID);
             chunk.init_common(futureChunks.remove(coords), distToPlayer);
-
+            chunk.init_client(blockTextureID);
 
             this.chunks.put(coords, chunk);
             this.sortedChunksToRender.remove(chunk);

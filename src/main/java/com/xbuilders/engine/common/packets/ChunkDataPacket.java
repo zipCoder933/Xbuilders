@@ -39,7 +39,6 @@ public class ChunkDataPacket extends Packet {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ChunkSavingLoadingUtils.writeChunk(chunk, out);
         this.chunkBytes = out.toByteArray();
-        this.chunkPosition = chunk.position;
     }
 
     public ChunkDataPacket(Vector3i chunkPosition, byte[] chunkBytes) {
@@ -68,7 +67,7 @@ public class ChunkDataPacket extends Packet {
         int x = in.readInt();
         int y = in.readInt();
         int z = in.readInt();
-        Vector3i chunkPosition = new Vector3i(x, y, z);
+        Vector3i chunkPosition = new Vector3i(x, y, z));
 
         //Read the chunk data
         int length = in.readInt();
@@ -87,7 +86,7 @@ public class ChunkDataPacket extends Packet {
         AtomicBoolean hasDetectedIfFileWasReadCorrectly = new AtomicBoolean(false);
 
         //Create or get the chunk first
-        Chunk chunk = Main.getClient().world.makeOrGetChunk(packetInstance.chunkPosition);
+        Chunk chunk = Main.getClient().world.makeOrGetChunk(packetInstance.chunkPosition, false);
 
         //Load the data into the chunks on the client
         try {
